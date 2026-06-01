@@ -1,0 +1,38 @@
+# Generated Xcode project — produced by `xcodegen generate`. Source of
+# truth is project.yml, not the binary .xcodeproj.
+Basir.xcodeproj/
+Basir.xcworkspace/
+
+# Build artifacts
+build/
+DerivedData/
+*.ipa
+*.xcarchive
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+
+# CocoaPods (if ever added)
+Pods/
+*.podspec
+
+# Xcode user-specific files
+**/xcuserdata/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Codemagic local cache
+.codemagic/
+
+# Environment / secrets — must never reach the repo
+.env
+.env.*
+*.env
+credentials.json
+*.p12
+*.cer
+*.mobileprovision
+.credentials

@@ -26,7 +26,7 @@ workflows:
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
-      xcode: 15.4
+      xcode: latest
 
     triggering:
       events:
@@ -62,7 +62,7 @@ workflows:
             -project Basir.xcodeproj \
             -scheme Basir \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             -configuration Debug \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
@@ -103,7 +103,7 @@ workflows:
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
-      xcode: 15.4
+      xcode: latest
 
     # Build the real iPhone (arm64) .ipa automatically on every push to
     # the main branches — same trigger policy as the simulator build, so
@@ -187,7 +187,7 @@ workflows:
   #   integrations:
   #     app_store_connect: Basir App Store Connect API
   #   environment:
-  #     xcode: 15.4
+  #     xcode: latest
   #     ios_signing:
   #       distribution_type: app_store
   #       bundle_identifier: com.basir.ai

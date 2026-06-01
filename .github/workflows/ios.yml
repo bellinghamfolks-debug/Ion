@@ -1,0 +1,61 @@
+# iOS CI for the Basir app.
+#
+# Why this file exists / replaces GitHub's "Swift" starter workflow:
+#   GitHub auto-suggests a generic `swift.yml` that runs `swift build`
+#   on ubuntu — i.e. it assumes a Swift Package Manager *library*. Basir
+#   is a SwiftUI **iOS app**: it needs UIKit/SwiftUI/PDFKit/AVFoundation
+#   which only exist in the iOS SDK on macOS, and it has no Package.swift.
+#   So the default workflow can never compile and always fails.
+#
+#   This workflow does the correct thing: on a macOS runner it generates
+#   the Xcode project from project.yml (XcodeGen) and builds for the iOS
+#   Simulator — unsigned, just to prove the code compiles. Device IPA and
+#   signing stay in Codemagic (see codemagic.yaml).
+#
+# If GitHub created a `.github/workflows/swift.yml`, delete it — this
+# file is its replacement.
+
+name: iOS CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+
+# Don't pile up redundant runs on rapid pushes to the same ref.
+concurrency:
+  group: ios-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build (iOS Simulator)
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select latest stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build for iOS Simulator (unsigned)
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project Basir.xcodeproj \
+            -scheme Basir \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            COMPILER_INDEX_STORE_ENABLE=NO \
+            ONLY_ACTIVE_ARCH=YES

@@ -170,6 +170,95 @@ workflows:
           failure: true
 
   # ---------------------------------------------------------------------
+  # Sideload IPA — for installing on a REAL iPhone with a FREE Apple ID
+  # (the 7-day personal-team signature) using Sideloadly / AltStore /
+  # SideStore. No paid Apple Developer Program needed.
+  #
+  # Why this is a separate, stripped build:
+  #   • Free Apple IDs CANNOT host App Groups, and the Share Extension
+  #     needs "group.com.basir.shared" — so we DROP the embedded
+  #     extension here, leaving a single bundle id that a free account
+  #     signs cleanly.
+  #   • One bundle id also fits the free-account limit of 3 sideloaded
+  #     apps / 10 App IDs per 7 days far more comfortably.
+  #   • The IPA stays UNSIGNED on purpose — Sideloadly/AltStore re-sign
+  #     it on YOUR machine/phone with YOUR Apple ID at install time.
+  #     (Codemagic cannot mint the free 7-day signature; that is always
+  #     a client-side step on the device's owner's Apple ID.)
+  #
+  # See INSTALL-iPhone-7days.md for the full step-by-step.
+  # ---------------------------------------------------------------------
+  ios-sideload-ipa:
+    name: Basir iOS — sideload IPA (free Apple ID, 7-day install)
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      xcode: latest
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "main"
+          include: true
+        - pattern: "master"
+          include: true
+        - pattern: "develop"
+          include: true
+        - pattern: "feature/**"
+          include: true
+
+    scripts:
+      - name: Install XcodeGen
+        script: brew install xcodegen
+
+      - name: Generate Xcode project
+        script: xcodegen generate
+
+      - name: Archive (unsigned)
+        script: |
+          xcodebuild archive \
+            -project Basir.xcodeproj \
+            -scheme Basir \
+            -configuration Release \
+            -archivePath build/Basir.xcarchive \
+            -destination 'generic/platform=iOS' \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            | xcpretty || exit 1
+
+      - name: Strip Share Extension and wrap into sideload .ipa
+        # Remove embedded app extensions (PlugIns/*.appex) so the IPA
+        # carries ONLY the main app bundle id. This is what makes a
+        # free Apple ID able to sign it via Sideloadly / AltStore.
+        script: |
+          cd build
+          APP="Basir.xcarchive/Products/Applications/Basir.app"
+          if [ -d "$APP/PlugIns" ]; then
+            echo "Removing embedded extensions for free-account signing:"
+            ls "$APP/PlugIns"
+            rm -rf "$APP/PlugIns"
+          fi
+          mkdir -p Payload
+          cp -r "$APP" Payload/
+          zip -qr Basir-sideload.ipa Payload
+          rm -rf Payload
+          echo "✅ Produced sideload IPA:"
+          du -sh Basir-sideload.ipa
+
+    artifacts:
+      - build/Basir-sideload.ipa
+
+    publishing:
+      email:
+        recipients:
+          - ubdallahalrashdee@gmail.com
+        notify:
+          success: true
+          failure: true
+
+  # ---------------------------------------------------------------------
   # Real distribution build. DISABLED until you upload an Apple
   # Developer account to Codemagic. To enable:
   #

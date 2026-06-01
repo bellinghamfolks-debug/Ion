@@ -123,15 +123,17 @@ build instances. Free tier: 500 build minutes/month.
 
 1. Sign in at [codemagic.io](https://codemagic.io) with GitHub.
 2. **Add application** → select this repository.
-3. Codemagic auto-detects `codemagic.yaml` and offers 3 workflows:
+3. Codemagic auto-detects `codemagic.yaml` and offers these workflows:
    - `ios-simulator-build` (auto-triggered on push to main/master/develop/feature/**)
    - `ios-unsigned-ipa` (auto-triggered on push — builds the iPhone arm64 `.ipa`)
+   - `ios-sideload-ipa` (auto-triggered on push — IPA for **free Apple ID 7-day install**, Share Extension stripped; see [`INSTALL-iPhone-7days.md`](INSTALL-iPhone-7days.md))
    - `ios-app-store-build` (commented out — uncomment after uploading Apple Developer credentials)
 4. First run will take 4-6 minutes. Subsequent runs cache better.
 
 Artifacts:
 - Simulator build → `Basir.app` (for iOS Simulator only)
 - Unsigned IPA → `Basir-unsigned.ipa` (proves Release links for arm64)
+- Sideload IPA → `Basir-sideload.ipa` (install on a real iPhone with a free Apple ID via Sideloadly/AltStore — valid 7 days)
 - Signed IPA (App Store workflow) → TestFlight upload
 
 ---

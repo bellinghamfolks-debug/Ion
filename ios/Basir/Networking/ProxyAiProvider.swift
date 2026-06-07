@@ -30,7 +30,10 @@ import Foundation
 
 struct ProxyAiProvider: AiProvider {
     let settings: BasirSettings
-    init(settings: BasirSettings = .shared) { self.settings = settings }
+    // No `= .shared` default: that expression is @MainActor-isolated and
+    // referencing it from this nonisolated init is an error under Swift 6.
+    // AiProviderFactory (which IS @MainActor) passes `.shared` explicitly.
+    init(settings: BasirSettings) { self.settings = settings }
 
     func ask(task: TaskKind,
              input: String,

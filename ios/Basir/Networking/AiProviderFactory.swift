@@ -16,11 +16,11 @@ enum AiProviderFactory {
     /// main actor and returns the corresponding provider.
     @MainActor
     static func current() -> AiProvider {
-        let mode = BasirSettings.shared.aiMode
-        if mode == "proxy" {
-            return ProxyAiProvider()
+        let settings = BasirSettings.shared
+        if settings.aiMode == "proxy" {
+            return ProxyAiProvider(settings: settings)
         }
-        return GeminiAiProvider()
+        return GeminiAiProvider(settings: settings)
     }
 
     /// True when the chosen mode has a usable key / URL. Mirrors

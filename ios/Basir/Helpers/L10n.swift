@@ -35,6 +35,17 @@ enum AppLanguage: String, CaseIterable, Identifiable, Codable {
         case .english: return Locale(identifier: "en_US")
         }
     }
+
+    /// Nonisolated read of the persisted language straight from
+    /// UserDefaults — same key (`language_raw`) that BasirSettings'
+    /// @AppStorage writes. This lets localization helpers run from
+    /// nonisolated contexts without touching the @MainActor
+    /// BasirSettings singleton (required under the Swift 6 toolchain).
+    static var current: AppLanguage {
+        let raw = UserDefaults.standard.string(forKey: "language_raw")
+            ?? AppLanguage.arabic.rawValue
+        return AppLanguage(rawValue: raw) ?? .arabic
+    }
 }
 
 enum L10n {
@@ -42,7 +53,7 @@ enum L10n {
     /// language. Static so it can be called from SwiftUI bodies without
     /// environment dependency injection.
     static func t(_ arabic: String, _ english: String) -> String {
-        BasirSettings.shared.language == .arabic ? arabic : english
+        AppLanguage.current == .arabic ? arabic : english
     }
 
     /// 20-language BCP-47 → display name lookup used by TranslateView's
@@ -74,6 +85,6 @@ enum L10n {
     static func languageName(_ code: String) -> String {
         let entry = supportedTranslationLanguages.first { $0.code == code }
         guard let entry else { return code }
-        return BasirSettings.shared.language == .arabic ? entry.ar : entry.en
+        return AppLanguage.current == .arabic ? entry.ar : entry.en
     }
 }

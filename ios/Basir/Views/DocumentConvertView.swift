@@ -541,6 +541,8 @@ struct DocumentConvertView: View {
                     text: resultText,
                     summary: String(resultText.prefix(140))
                 ))
+                // Cache for "Ask about the latest document" (Documents tab).
+                LastDocumentStore.shared.set(text: resultText, sourceName: sourceName)
                 UIAccessibility.post(notification: .announcement,
                                       argument: L10n.t("اكتملت المعالجة. راجع النتيجة قبل استخدامها.",
                                                         "Processing is complete. Review the result before using it."))

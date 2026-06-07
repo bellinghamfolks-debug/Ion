@@ -16,7 +16,7 @@ struct VisionView: View {
                     SectionHeader(L10n.t("الصور والمشاهد", "Images and scenes"))
 
                     NavigationLink {
-                        DescribeImageView(mode: .detailed)
+                        DescribeHubView()
                     } label: {
                         BasirCard(
                             icon: "📷",

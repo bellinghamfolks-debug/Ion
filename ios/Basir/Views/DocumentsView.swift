@@ -5,6 +5,8 @@
 import SwiftUI
 
 struct DocumentsView: View {
+    @ObservedObject private var lastDoc = LastDocumentStore.shared
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -28,6 +30,27 @@ struct DocumentsView: View {
                         )
                     }
                     .buttonStyle(.plain)
+
+                    // Shown only after a document has been converted, like
+                    // Android's conditional "Ask about the latest document".
+                    if lastDoc.hasDocument {
+                        NavigationLink {
+                            DocumentQAView()
+                        } label: {
+                            BasirCard(
+                                icon: "❓",
+                                title: L10n.t("اسأل عن آخر مستند",
+                                              "Ask about the latest document"),
+                                description: lastDoc.sourceName.map { name in
+                                    L10n.t("اسأل عن: ", "Ask about: ") + name
+                                } ?? L10n.t(
+                                    "اطرح أي سؤال عن المستند الذي حوّلته للتو.",
+                                    "Ask any question about the document you just converted."
+                                )
+                            )
+                        }
+                        .buttonStyle(.plain)
+                    }
 
                     SectionHeader(L10n.t("اللغة", "Language"))
 

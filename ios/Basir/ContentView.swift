@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var settings: BasirSettings
+    @EnvironmentObject var shareInbox: ShareInbox
     @State private var selectedTab: AppTab = .talk
 
     var body: some View {
@@ -53,6 +54,10 @@ struct ContentView: View {
                 notification: .announcement,
                 argument: newTab.spokenName
             )
+        }
+        // Present content shared into Basir from other apps.
+        .sheet(item: $shareInbox.pending) { item in
+            SharedItemView(incoming: item)
         }
     }
 }

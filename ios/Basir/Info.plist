@@ -24,8 +24,35 @@
 
     <key>LSRequiresIPhoneOS</key>
     <true/>
+
+    <!-- A NON-EMPTY UILaunchScreen is what tells iOS to render at the
+         device's native full resolution. An empty <dict/> is sometimes
+         ignored, which makes iOS run the app letterboxed at a smaller
+         legacy size (black bars top/bottom, "doesn't fit the screen").
+         Giving it a background colour forces it to register. -->
     <key>UILaunchScreen</key>
-    <dict/>
+    <dict>
+        <key>UIColorName</key>
+        <string>LaunchBackground</string>
+        <key>UIImageRespectsSafeAreaInsets</key>
+        <true/>
+    </dict>
+
+    <!-- Custom URL scheme used by the Share Extension to hand a shared
+         file back to the app: basir://share/<task>?file=<name> -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>com.basir.ai.share</string>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>basir</string>
+            </array>
+        </dict>
+    </array>
 
     <key>UISupportedInterfaceOrientations</key>
     <array>

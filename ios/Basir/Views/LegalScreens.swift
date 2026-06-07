@@ -5,39 +5,62 @@ import SwiftUI
 
 struct TermsView: View {
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 14) {
-                Text(L10n.t("الإصدار القانوني 3 — ساري من 5 يونيو 2026",
-                            "Legal version 3 — Effective 5 June 2026"))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                Text(L10n.t(termsArabic, termsEnglish))
-                    .font(.body)
-                    .textSelection(.enabled)
-                    .accessibilityLabel(L10n.t("نص الشروط والأحكام", "Terms and Conditions text"))
-            }
-            .padding(20)
-        }
+        LegalDocument(
+            versionNote: L10n.t("الإصدار القانوني 3 — ساري من 5 يونيو 2026",
+                                "Legal version 3 — Effective 5 June 2026"),
+            content: L10n.t(termsArabic, termsEnglish)
+        )
         .navigationTitle(L10n.t("الشروط والأحكام", "Terms and Conditions"))
     }
 }
 
 struct PrivacyView: View {
     var body: some View {
+        LegalDocument(
+            versionNote: L10n.t("الإصدار القانوني 3 — سارية من 5 يونيو 2026",
+                                "Legal version 3 — Effective 5 June 2026"),
+            content: L10n.t(privacyArabic, privacyEnglish)
+        )
+        .navigationTitle(L10n.t("سياسة الخصوصية", "Privacy Policy"))
+    }
+}
+
+/// Renders a long legal document accessibly.
+///
+/// The previous version put the whole document into ONE `Text` and then
+/// applied `.accessibilityLabel("Terms text")` — which REPLACES the
+/// readable content, so VoiceOver announced only the label and never the
+/// document (it felt like an unreadable image). Here we keep each
+/// paragraph as its own native `Text` (no label override), so VoiceOver
+/// reads the real content and the user can navigate paragraph-by-paragraph.
+private struct LegalDocument: View {
+    let versionNote: String
+    let content: String
+
+    private var paragraphs: [String] {
+        content
+            .components(separatedBy: "\n\n")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+    }
+
+    var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
-                Text(L10n.t("الإصدار القانوني 3 — سارية من 5 يونيو 2026",
-                            "Legal version 3 — Effective 5 June 2026"))
+                Text(versionNote)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
-                Text(L10n.t(privacyArabic, privacyEnglish))
-                    .font(.body)
-                    .textSelection(.enabled)
-                    .accessibilityLabel(L10n.t("نص سياسة الخصوصية", "Privacy Policy text"))
+
+                ForEach(Array(paragraphs.enumerated()), id: \.offset) { _, paragraph in
+                    Text(paragraph)
+                        .font(.body)
+                        .textSelection(.enabled)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("سياسة الخصوصية", "Privacy Policy"))
     }
 }
 

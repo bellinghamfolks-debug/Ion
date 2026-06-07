@@ -12,6 +12,7 @@ import SwiftUI
 @main
 struct BasirApp: App {
     @StateObject private var settings = BasirSettings.shared
+    @StateObject private var shareInbox = ShareInbox.shared
 
     // Mirrors the Android resetScreen "title is heading, focus on mount"
     // behaviour: every NavigationStack root sets its title as accessibility
@@ -28,12 +29,17 @@ struct BasirApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(settings)
+                .environmentObject(shareInbox)
                 // Apply RTL when Arabic is selected. iOS picks layout
                 // direction from the locale by default, but our app
                 // keeps its own language preference independent of the
                 // system locale so users can override it.
                 .environment(\.layoutDirection,
                              settings.language == .arabic ? .rightToLeft : .leftToRight)
+                // Content shared from other apps arrives as
+                // basir://share/<task>?file=<name>. ShareInbox loads it
+                // out of the App Group container; ContentView presents it.
+                .onOpenURL { shareInbox.handle($0) }
         }
     }
 }

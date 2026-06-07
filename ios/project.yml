@@ -58,6 +58,8 @@ targets:
         # App icon lives in Basir/Assets.xcassets/AppIcon.appiconset
         # (single 1024×1024 universal icon; iOS downscales the rest).
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        # App Group entitlement so the Share Extension can hand off files.
+        CODE_SIGN_ENTITLEMENTS: Basir/Basir.entitlements
         DEVELOPMENT_TEAM: ""
         CODE_SIGN_STYLE: Automatic
 
@@ -91,9 +93,9 @@ targets:
         PRODUCT_NAME: BasirShare
         TARGETED_DEVICE_FAMILY: "1,2"
         IPHONEOS_DEPLOYMENT_TARGET: "17.0"
-        # The Share Extension needs the SAME app group as the host app
-        # so it can hand files off. Configure the group in Xcode →
-        # Capabilities → App Groups → "group.com.basir.shared" on BOTH
-        # targets after the first generate.
+        # The Share Extension needs the SAME app group as the host app so
+        # it can hand files off — declared in BasirShare.entitlements
+        # (matches Basir/Basir.entitlements: group.com.basir.shared).
+        CODE_SIGN_ENTITLEMENTS: ShareExtension/BasirShare.entitlements
         DEVELOPMENT_TEAM: ""
         CODE_SIGN_STYLE: Automatic

@@ -179,31 +179,38 @@ workflows:
             | xcpretty || exit 1
 
       - name: Wrap .app into unsigned .ipa
-        # An unsigned IPA cannot install on a stock iPhone without
-        # further signing. It DOES install via AltStore, Sideloadly, or
-        # by re-signing with an Apple Developer certificate in Xcode's
-        # "Archives" → "Distribute App" → "Custom" pipeline. The
-        # ios-app-store-build workflow further down replaces this once
-        # a developer account is connected.
+        # Creates a real .ipa file and copies it to a guaranteed export
+        # folder so Codemagic shows it under Build artifacts.
         script: |
-          cd $XCODE_PROJECT_DIR/build
-          mkdir -p Payload
-          cp -r Basir.xcarchive/Products/Applications/Basir.app Payload/
-          # Name the IPA after the commit SHA so successive builds
-          # don't overwrite each other when downloaded into the same
-          # folder.
-          SHORT_SHA=$(git -C .. rev-parse --short HEAD)
-          IPA_NAME="Basir-${SHORT_SHA}-unsigned.ipa"
-          zip -qr "$IPA_NAME" Payload
-          du -sh "$IPA_NAME"
+          set -euo pipefail
+          cd "$CM_BUILD_DIR/$XCODE_PROJECT_DIR/build"
+
+          APP_PATH="Basir.xcarchive/Products/Applications/Basir.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "❌ Missing app bundle: $APP_PATH"
+            find . -maxdepth 5 -type d -name "*.app" -print
+            exit 1
+          fi
+
           rm -rf Payload
-          # Also drop a stable-named symlink so the artifacts: glob
-          # picks the latest build without needing the SHA.
+          mkdir -p Payload
+          cp -R "$APP_PATH" Payload/
+
+          SHORT_SHA=$(git -C "$CM_BUILD_DIR" rev-parse --short HEAD)
+          IPA_NAME="Basir-${SHORT_SHA}-unsigned.ipa"
+          /usr/bin/zip -qry "$IPA_NAME" Payload
           cp "$IPA_NAME" Basir-unsigned.ipa
 
+          mkdir -p "$CM_BUILD_DIR/artifacts"
+          cp "$IPA_NAME" "$CM_BUILD_DIR/artifacts/"
+          cp Basir-unsigned.ipa "$CM_BUILD_DIR/artifacts/"
+
+          echo "✅ IPA files ready:"
+          ls -lh "$CM_BUILD_DIR/artifacts"/*.ipa
+          rm -rf Payload
+
     artifacts:
-      - ios/build/Basir-unsigned.ipa
-      - ios/build/Basir-*-unsigned.ipa
+      - artifacts/*.ipa
       - ios/build/Basir.xcarchive
 
     publishing:

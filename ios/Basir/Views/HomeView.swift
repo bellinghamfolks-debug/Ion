@@ -1,5 +1,6 @@
 // HomeView.swift  (Talk tab)
-// Lists the conversational entry points.
+// Mirrors Android renderTalkTab(): section "Questions and conversation"
+// with Ask Basir + Continuous voice conversation.
 
 import SwiftUI
 
@@ -9,13 +10,15 @@ struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     Hero()
+
                     SectionHeader(L10n.t("الأسئلة والمحادثة",
                                           "Questions and conversation"))
+
                     NavigationLink {
                         AskBasirView()
                     } label: {
                         BasirCard(
-                            icon: "bubble.left.and.bubble.right.fill",
+                            icon: "💬",
                             title: L10n.t("اسأل بصير", "Ask Basir"),
                             description: L10n.t(
                                 "اكتب سؤالك أو استخدم الإملاء الصوتي. راجع المعلومات المهمة قبل الاعتماد عليها.",
@@ -26,14 +29,15 @@ struct HomeView: View {
                     .buttonStyle(.plain)
 
                     NavigationLink {
-                        TranslateView()
+                        VoiceConversationView()
                     } label: {
                         BasirCard(
-                            icon: "globe",
-                            title: L10n.t("ترجمة وشرح", "Translate and explain"),
+                            icon: "🎙️",
+                            title: L10n.t("محادثة صوتية مستمرة",
+                                          "Continuous voice conversation"),
                             description: L10n.t(
-                                "ترجم النصوص بين اللغات المدعومة، مع توضيح المعنى والنبرة والسياق عند طلبك.",
-                                "Translate text across supported languages, with tone and context notes when requested."
+                                "ابدأ محادثة صوتية متتابعة، واستمع إلى الإجابة قبل الانتقال تلقائيًا إلى السؤال التالي.",
+                                "Start a continuous voice conversation and hear each answer before the next question begins automatically."
                             )
                         )
                     }
@@ -41,7 +45,7 @@ struct HomeView: View {
                 }
                 .padding(20)
             }
-            .navigationTitle(L10n.t("بصير", "Basir"))
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
@@ -88,6 +92,7 @@ struct SectionHeader: View {
 }
 
 struct BasirCard: View {
+    /// An emoji glyph, matching the Android cards (addRichCard icon).
     let icon: String
     let title: String
     let description: String
@@ -98,9 +103,8 @@ struct BasirCard: View {
                 Circle()
                     .fill(Color.accentColor.opacity(0.15))
                     .frame(width: 48, height: 48)
-                Image(systemName: icon)
+                Text(icon)
                     .font(.title2)
-                    .foregroundStyle(Color.accentColor)
             }
             .accessibilityHidden(true)
 
@@ -130,6 +134,6 @@ struct BasirCard: View {
         )
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(title). \(description)")
-        .accessibilityAddTraits(.isHeader)
+        .accessibilityAddTraits(.isButton)
     }
 }

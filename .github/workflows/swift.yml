@@ -27,6 +27,12 @@ jobs:
     name: Build (iOS Simulator)
     runs-on: macos-14
 
+    # The Xcode project lives under ios/ (v3.3 monorepo layout), so run
+    # every shell step from there.
+    defaults:
+      run:
+        working-directory: ios
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -1,5 +1,7 @@
 # Generated Xcode project — produced by `xcodegen generate`. Source of
-# truth is project.yml, not the binary .xcodeproj.
+# truth is ios/project.yml, not the binary .xcodeproj.
+ios/Basir.xcodeproj/
+ios/Basir.xcworkspace/
 Basir.xcodeproj/
 Basir.xcworkspace/
 

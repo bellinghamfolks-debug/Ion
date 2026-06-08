@@ -24,7 +24,11 @@ final class BasirSettings: ObservableObject {
     @AppStorage("speech_enabled") var speechEnabled: Bool = true
     @AppStorage("vibration_enabled") var vibrationEnabled: Bool = true
     @AppStorage("tts_rate") var ttsRate: Double = 1.0       // 0.5 .. 1.5
-    @AppStorage("font_step") var fontStep: Int = 0          // 0 .. 5
+    @AppStorage("font_step") var fontStep: Int = 0          // 0 .. 4
+
+    // MARK: - Appearance
+    // "system" | "light" | "dark"
+    @AppStorage("appearance") var appearance: String = "system"
 
     // MARK: - Privacy
     @AppStorage("privacy_mode") var privacyMode: Bool = false
@@ -73,8 +77,17 @@ final class BasirSettings: ObservableObject {
         // selected quality — navigation latency beats Pro-level fidelity
         // (matches Android LiveWalkingController's QUALITY_BALANCED pick).
         if task == .liveScene { return modelForQuality("balanced") }
+        // Cost control: ordinary vision + text tasks run on the quick
+        // preset (Flash by default), which is plenty for description,
+        // alt text, screenshots, currency, and reading tasks. Only the
+        // genuinely quality-sensitive jobs (document conversion, doc Q&A,
+        // math extraction) fall through to the document preset (Pro).
+        // This cuts the cost of the most-used features ~10x vs Pro with
+        // no meaningful quality loss.
         let quick: Set<TaskKind> = [.ask, .translate, .reply, .quick, .health,
-                                     .medicalText, .legalText, .tableRead]
+                                     .medicalText, .legalText, .tableRead,
+                                     .describeImage, .altText, .screenshot,
+                                     .currencyOrReceipt]
         let preset = quick.contains(task) ? quickQuality : docQuality
         return modelForQuality(preset)
     }

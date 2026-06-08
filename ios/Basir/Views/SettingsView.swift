@@ -7,19 +7,45 @@ struct SettingsView: View {
     @EnvironmentObject var settings: BasirSettings
     @State private var apiKey: String = ""
     @State private var showSavedToast = false
+    @State private var pendingLanguage: AppLanguage?
+    @State private var showLanguageConfirm = false
+    @State private var showDeleteConfirm = false
+    @State private var showDeletedToast = false
 
     var body: some View {
         Form {
             Section(L10n.t("اللغة", "Language")) {
+                // Confirm before switching, since it re-lays out the whole
+                // app (RTL/LTR) — a deliberate confirmation step.
                 Picker(L10n.t("لغة التطبيق", "App language"),
                        selection: Binding(
                         get: { settings.language },
-                        set: { settings.language = $0 }
+                        set: { newValue in
+                            if newValue != settings.language {
+                                pendingLanguage = newValue
+                                showLanguageConfirm = true
+                            }
+                        }
                        )) {
                     ForEach(AppLanguage.allCases) { lang in
                         Text(lang.displayName).tag(lang)
                     }
                 }
+            }
+
+            Section {
+                Picker(L10n.t("المظهر", "Appearance"), selection: $settings.appearance) {
+                    Text(L10n.t("حسب النظام", "Match system")).tag("system")
+                    Text(L10n.t("فاتح", "Light")).tag("light")
+                    Text(L10n.t("داكن", "Dark")).tag("dark")
+                }
+                Stepper(value: $settings.fontStep, in: 0...4) {
+                    Text(L10n.t("حجم الخط", "Text size") + ": \(settings.fontStep)/4")
+                }
+                .accessibilityLabel(L10n.t("حجم الخط، المستوى \(settings.fontStep) من 4",
+                                           "Text size, level \(settings.fontStep) of 4"))
+            } header: {
+                Text(L10n.t("المظهر والخط", "Appearance and text"))
             }
 
             Section(L10n.t("الصوت والاهتزاز", "Voice and vibration")) {
@@ -151,6 +177,23 @@ struct SettingsView: View {
                     "Basir does not send a message automatically. It opens the messaging app so you can review the recipient and text and then tap Send yourself."
                 ))
             }
+
+            Section {
+                Button(role: .destructive) {
+                    showDeleteConfirm = true
+                } label: {
+                    Label(L10n.t("حذف جميع البيانات المحلية",
+                                 "Delete all local data"),
+                          systemImage: "trash")
+                }
+            } header: {
+                Text(L10n.t("البيانات المحلية", "Local data"))
+            } footer: {
+                Text(L10n.t(
+                    "يحذف المحفوظات والنتائج وسجل النشاط والمستند الأخير والملفات المؤقتة من هذا الجهاز. لا يحذف مفتاح Gemini ولا الملفات التي صدّرتها إلى تطبيق الملفات.",
+                    "Deletes saved items, results, activity history, the last document, and temporary files from this device. It does not delete the Gemini key or files you exported to the Files app."
+                ))
+            }
         }
         .navigationTitle(L10n.t("الإعدادات", "Settings"))
         .toolbar(.hidden, for: .tabBar)
@@ -159,6 +202,51 @@ struct SettingsView: View {
         } message: {
             Text(L10n.t("حُفظ المفتاح في iOS Keychain على هذا الجهاز.",
                         "The key was saved in the iOS Keychain on this device."))
+        }
+        .confirmationDialog(
+            L10n.t("تغيير لغة التطبيق؟", "Change app language?"),
+            isPresented: $showLanguageConfirm, titleVisibility: .visible
+        ) {
+            Button(L10n.t("تغيير", "Change")) {
+                if let lang = pendingLanguage { settings.language = lang }
+                pendingLanguage = nil
+            }
+            Button(L10n.t("إلغاء", "Cancel"), role: .cancel) { pendingLanguage = nil }
+        } message: {
+            Text(L10n.t("ستُعاد تهيئة اتجاه الواجهة ونصوصها باللغة الجديدة.",
+                        "The interface direction and text will be reloaded in the new language."))
+        }
+        .confirmationDialog(
+            L10n.t("حذف جميع البيانات المحلية؟", "Delete all local data?"),
+            isPresented: $showDeleteConfirm, titleVisibility: .visible
+        ) {
+            Button(L10n.t("حذف", "Delete"), role: .destructive) {
+                ArchiveStore.shared.clearAll()
+                LastDocumentStore.shared.text = nil
+                LastDocumentStore.shared.sourceName = nil
+                clearTempFiles()
+                showDeletedToast = true
+            }
+            Button(L10n.t("إلغاء", "Cancel"), role: .cancel) {}
+        } message: {
+            Text(L10n.t("لا يمكن التراجع عن هذا الإجراء.",
+                        "This action cannot be undone."))
+        }
+        .alert(L10n.t("تم الحذف", "Deleted"), isPresented: $showDeletedToast) {
+            Button(L10n.t("حسنًا", "OK"), role: .cancel) {}
+        } message: {
+            Text(L10n.t("حُذفت البيانات المحلية من هذا الجهاز.",
+                        "Local data was deleted from this device."))
+        }
+    }
+
+    /// Best-effort cleanup of the app's temporary directory.
+    private func clearTempFiles() {
+        let fm = FileManager.default
+        let tmp = fm.temporaryDirectory
+        if let items = try? fm.contentsOfDirectory(at: tmp,
+                                                   includingPropertiesForKeys: nil) {
+            for url in items { try? fm.removeItem(at: url) }
         }
     }
 }

@@ -25,6 +25,24 @@ struct BasirApp: App {
         KeychainStore.migrateLegacyKeyIfNeeded()
     }
 
+    private var preferredScheme: ColorScheme? {
+        switch settings.appearance {
+        case "light": return .light
+        case "dark":  return .dark
+        default:      return nil   // follow the system
+        }
+    }
+
+    private var dynamicType: DynamicTypeSize {
+        switch settings.fontStep {
+        case 1:  return .xLarge
+        case 2:  return .xxLarge
+        case 3:  return .xxxLarge
+        case 4:  return .accessibility2
+        default: return .large
+        }
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -36,6 +54,10 @@ struct BasirApp: App {
                 // system locale so users can override it.
                 .environment(\.layoutDirection,
                              settings.language == .arabic ? .rightToLeft : .leftToRight)
+                // User-selected appearance (system / light / dark).
+                .preferredColorScheme(preferredScheme)
+                // User-selected text size bump (0–4).
+                .dynamicTypeSize(dynamicType)
                 // Content shared from other apps arrives as
                 // basir://share/<task>?file=<name>. ShareInbox loads it
                 // out of the App Group container; ContentView presents it.

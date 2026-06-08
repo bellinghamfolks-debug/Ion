@@ -63,10 +63,30 @@ struct DescribeImageView: View {
     @State private var resultText: String = ""
     @State private var isLoading = false
     @State private var errorMessage: String?
+    @State private var showCamera = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
+                // Capture a NEW photo with the camera — what blind users
+                // most often want. Hidden on devices/simulators without a
+                // camera.
+                if CameraPicker.isAvailable {
+                    Button {
+                        showCamera = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "camera.fill")
+                            Text(L10n.t("التقاط بالكاميرا", "Take a photo"))
+                                .fontWeight(.semibold)
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 56)
+                        .background(Color.accentColor)
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+                }
+
                 PhotosPicker(
                     selection: $pickerItem,
                     matching: .images,
@@ -74,12 +94,13 @@ struct DescribeImageView: View {
                 ) {
                     HStack {
                         Image(systemName: "photo.on.rectangle.angled")
-                        Text(L10n.t("اختر أو التقط صورة", "Pick or take a photo"))
+                        Text(L10n.t("اختر من المعرض", "Choose from library"))
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity, minHeight: 56)
-                    .background(Color.accentColor)
-                    .foregroundStyle(.white)
+                    .background(CameraPicker.isAvailable
+                                ? Color(.secondarySystemBackground) : Color.accentColor)
+                    .foregroundStyle(CameraPicker.isAvailable ? Color.primary : .white)
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
 
@@ -118,17 +139,32 @@ struct DescribeImageView: View {
             guard let item else { return }
             Task { await runDescribe(item: item) }
         }
+        .fullScreenCover(isPresented: $showCamera) {
+            CameraPicker { data in
+                showCamera = false
+                if let data { Task { await analyze(rawData: data) } }
+            }
+            .ignoresSafeArea()
+        }
     }
 
     private func runDescribe(item: PhotosPickerItem) async {
+        do {
+            guard let data = try await item.loadTransferable(type: Data.self) else {
+                throw GeminiError.decode("could not read image")
+            }
+            await analyze(rawData: data)
+        } catch {
+            errorMessage = UserFriendlyErrorMapper.map(error)
+        }
+    }
+
+    private func analyze(rawData data: Data) async {
         isLoading = true
         errorMessage = nil
         resultText = ""
         defer { isLoading = false }
         do {
-            guard let data = try await item.loadTransferable(type: Data.self) else {
-                throw GeminiError.decode("could not read image")
-            }
             // Same 1600-px JPEG-85 compression used by MathExtractView.
             let compressed = UIImage(data: data).flatMap { img -> Data? in
                 let maxLongEdge: CGFloat = 1600

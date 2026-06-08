@@ -155,6 +155,16 @@ final class ArchiveStore: ObservableObject {
         save()
     }
 
+    /// Wipe all locally stored data (saved items, results, history).
+    func clearAll() {
+        people.removeAll()
+        products.removeAll()
+        places.removeAll()
+        results.removeAll()
+        logs.removeAll()
+        save()
+    }
+
     func clearAll() {
         people.removeAll()
         products.removeAll()

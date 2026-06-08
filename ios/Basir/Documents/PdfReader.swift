@@ -34,7 +34,7 @@ enum PdfReadError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .couldNotOpen:
-            return L10n.t("تعذّر فتح ملف PDF.", "Could not open the PDF file.")
+            return L10n.t("تعذّر فتح ملف PDF؛ قد يكون محميًا أو تالفًا.", "The PDF could not be opened. It may be protected or damaged.")
         case .empty:
             return L10n.t("هذا الملف لا يحتوي على نص قابل للاستخراج. قد يكون صورة ممسوحة.",
                           "This PDF has no extractable text. It may be a scanned image.")

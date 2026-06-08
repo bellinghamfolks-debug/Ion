@@ -106,13 +106,13 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
         let key = KeychainStore.geminiKey()
         guard !key.isEmpty else {
             errorMessage = arabic
-                ? "يجب إعداد مفتاح Gemini قبل تشغيل الوصف المباشر."
-                : "A Gemini key must be configured before live scene guidance can start."
+                ? "أضف مفتاح Gemini من الإعدادات قبل بدء الوصف المباشر."
+                : "Add your Gemini key in Settings before starting live scene guidance."
             return
         }
         isRunning = true
         errorMessage = nil
-        lastStatus = arabic ? "جارٍ تهيئة الكاميرا..." : "Preparing camera..."
+        lastStatus = arabic ? "أفتح الكاميرا..." : "Opening camera..."
         if useGps { Task { await self.fetchLocationOnce() } }
         sessionQueue.async { [weak self] in self?.configureAndStartSession() }
     }
@@ -134,7 +134,7 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
         lastSpokenPath = ""
         lastSceneSpokenAt = .distantPast
         hazardLevel = "none"
-        lastStatus = arabic ? "متوقف." : "Stopped."
+        lastStatus = arabic ? "توقف الوصف المباشر." : "Live description stopped."
     }
 
     // ───── AVCaptureSession setup ─────
@@ -193,7 +193,7 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
     }
 
     private func startCaptureTimer() {
-        lastStatus = arabic ? "بدأ المسح..." : "Scanning started..."
+        lastStatus = arabic ? "الوصف المباشر يعمل الآن." : "Live description is running."
         captureTimer?.invalidate()
         // Fire immediately, then every captureInterval.
         triggerCapture()
@@ -269,8 +269,8 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
             // session — the next one in 2 seconds usually succeeds.
             let mapped = UserFriendlyErrorMapper.map(error)
             lastStatus = (arabic
-                          ? "تخطّي إطار: "
-                          : "Skipped frame: ") + Self.shortError(mapped)
+                          ? "تعذّر تحليل لقطة: "
+                          : "Could not analyze frame: ") + Self.shortError(mapped)
         }
     }
 
@@ -328,8 +328,8 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
 
         self.hazardLevel = level
         let statusText = arabic
-            ? "آخر مسح: " + (path.isEmpty ? "—" : path)
-            : "Last scan: " + (path.isEmpty ? "—" : path)
+            ? "آخر وصف: " + (path.isEmpty ? "—" : path)
+            : "Last description: " + (path.isEmpty ? "—" : path)
         self.lastStatus = statusText
         if let spoken = toSpeak {
             self.lastLine = spoken
@@ -433,7 +433,7 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
                           loc.coordinate.latitude, loc.coordinate.longitude)
         }()
         locationLabel = label
-        lastStatus = (arabic ? "تم تحديد الموقع: " : "Location set: ") + label
+        lastStatus = (arabic ? "أُضيف الموقع إلى الوصف: " : "Location added to descriptions: ") + label
     }
 
     // ───── Helpers ─────
@@ -452,16 +452,18 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
         switch code {
         case "camera_denied":
             errorMessage = arabic
-                ? "إذن الكاميرا مرفوض. فعّله من الإعدادات."
-                : "Camera permission is denied. Enable it in Settings."
+                ? "لم يُسمح بالوصول إلى الكاميرا. فعّل الإذن من إعدادات iPhone."
+                : "Camera access is not allowed. Enable it in iPhone Settings."
         case "camera_open_failed":
             errorMessage = arabic
-                ? "تعذّر فتح الكاميرا على هذا الجهاز."
-                : "Could not open the camera on this device."
+                ? "لم أتمكن من فتح الكاميرا على هذا الجهاز."
+                : "I couldn't open the camera on this device."
         default:
-            errorMessage = arabic ? "حدث خطأ غير معروف." : "Unknown error."
+            errorMessage = arabic
+                ? "تعذّر تشغيل الوصف المباشر. أغلق الشاشة وافتحها، ثم أعد المحاولة."
+                : "Live description could not start. Close this screen, reopen it, and try again."
         }
-        lastStatus = arabic ? "متوقف بسبب خطأ." : "Stopped due to an error."
+        lastStatus = arabic ? "توقف الوصف بسبب خطأ." : "Live description stopped because of an error."
     }
 
     private static func shortError(_ s: String) -> String {

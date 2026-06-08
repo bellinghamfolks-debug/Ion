@@ -16,7 +16,7 @@ struct AskAboutResultLink: View {
         NavigationLink {
             ResultChatView(contextText: text, imageData: imageData)
         } label: {
-            Label(L10n.t("اسأل عن النتيجة", "Ask about the result"),
+            Label(L10n.t("اسأل عن هذه النتيجة", "Ask about this result"),
                   systemImage: "bubble.left.and.text.bubble.right.fill")
                 .font(.callout.weight(.medium))
         }
@@ -37,8 +37,8 @@ struct ResultChatView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text(L10n.t(
-                    "اطرح سؤالًا أو ناقش النتيجة السابقة. تأتي الإجابة من محتوى النتيجة.",
-                    "Ask a question or discuss the previous result. Answers come from the result's content."
+                    "اطرح سؤالًا عن النتيجة السابقة. سيجيب بصير اعتمادًا على محتواها فقط.",
+                    "Ask a question about the previous result. Basir answers using only that content."
                 ))
                 .font(.callout)
                 .foregroundStyle(.secondary)
@@ -50,16 +50,16 @@ struct ResultChatView: View {
                     .background(Color(.tertiarySystemBackground))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(.tertiary))
-                    .accessibilityLabel(L10n.t("اكتب سؤالك عن النتيجة",
-                                                "Type your question about the result"))
+                    .accessibilityLabel(L10n.t("اكتب سؤالك عن هذه النتيجة",
+                                                "Type your question about this result"))
 
                 Button {
                     Task { await ask() }
                 } label: {
                     HStack {
                         if isLoading { ProgressView().tint(.white) }
-                        Text(isLoading ? L10n.t("جارٍ المعالجة...", "Processing...")
-                                       : L10n.t("اسأل", "Ask"))
+                        Text(isLoading ? L10n.t("أجهّز الإجابة...", "Preparing your answer...")
+                                       : L10n.t("إرسال السؤال", "Send question"))
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity, minHeight: 54)
@@ -91,7 +91,7 @@ struct ResultChatView: View {
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("اسأل عن النتيجة", "Ask about the result"))
+        .navigationTitle(L10n.t("اسأل عن هذه النتيجة", "Ask about this result"))
     }
 
     private func ask() async {
@@ -132,7 +132,7 @@ struct ResultChatView: View {
             question = ""        // clear the box once the answer arrives
             ProcessingFeedback.done()
             UIAccessibility.post(notification: .announcement,
-                                 argument: L10n.t("أصبحت الإجابة جاهزة.", "Answer ready."))
+                                 argument: L10n.t("الإجابة جاهزة.", "Your answer is ready."))
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
             ProcessingFeedback.failed()

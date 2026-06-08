@@ -11,8 +11,8 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     Hero()
 
-                    SectionHeader(L10n.t("الأسئلة والمحادثة",
-                                          "Questions and conversation"))
+                    SectionHeader(L10n.t("تحدث مع بصير",
+                                          "Talk with Basir"))
 
                     NavigationLink {
                         AskBasirView()
@@ -21,8 +21,8 @@ struct HomeView: View {
                             icon: "💬",
                             title: L10n.t("اسأل بصير", "Ask Basir"),
                             description: L10n.t(
-                                "اكتب سؤالك أو استخدم الإملاء الصوتي. راجع المعلومات المهمة قبل الاعتماد عليها.",
-                                "Type your question or use voice dictation. Verify important information before relying on it."
+                                "اكتب سؤالك أو انطقه بصوتك، ثم راجع المعلومات المهمة قبل استخدام الإجابة.",
+                                "Type your question or say it aloud, then verify important information before using the answer."
                             )
                         )
                     }
@@ -33,11 +33,11 @@ struct HomeView: View {
                     } label: {
                         BasirCard(
                             icon: "🎙️",
-                            title: L10n.t("محادثة صوتية مستمرة",
-                                          "Continuous voice conversation"),
+                            title: L10n.t("محادثة صوتية",
+                                          "Voice conversation"),
                             description: L10n.t(
-                                "ابدأ محادثة صوتية متتابعة، واستمع إلى الإجابة قبل الانتقال تلقائيًا إلى السؤال التالي.",
-                                "Start a continuous voice conversation and hear each answer before the next question begins automatically."
+                                "تحدث دون كتابة. يستمع بصير لسؤالك، يجيب بصوت، ثم يستعد تلقائيًا للسؤال التالي.",
+                                "Talk without typing. Basir listens, answers aloud, then gets ready for your next question."
                             )
                         )
                     }
@@ -60,8 +60,8 @@ struct Hero: View {
                 .foregroundStyle(.white)
                 .accessibilityAddTraits(.isHeader)
             Text(L10n.t(
-                "مساعد وصول ذكي للصور والمستندات والترجمة والمحادثة",
-                "An AI accessibility assistant for images, documents, translation, and conversation"
+                "افهم الصور والمستندات، ترجم النصوص، وتحدث بصوتك",
+                "Understand images and documents, translate text, and ask by voice"
             ))
             .font(.body)
             .foregroundStyle(.white.opacity(0.85))

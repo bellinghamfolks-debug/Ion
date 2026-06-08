@@ -16,19 +16,19 @@ struct AboutView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text(L10n.t(
-                    "بصير مساعد وصول ذكي للمكفوفين وضعاف البصر. يساعد في وصف الصور، وقراءة النصوص والمستندات، والترجمة، والمحادثة، وتنظيم النتائج المحفوظة.",
-                    "Basir is an AI accessibility assistant for blind and low-vision users. It helps describe images, read text and documents, translate content, support conversation, and organize saved results."
+                    "بصير مساعد ذكي صُمّم للمكفوفين وضعاف البصر. يصف الصور، ويقرأ المستندات، ويترجم النصوص، ويدعم المحادثة الصوتية، ويحفظ النتائج التي تختارها.",
+                    "Basir is an AI assistant designed for blind and low-vision users. It describes images, reads documents, translates text, supports voice conversation, and saves the results you choose."
                 ))
 
                 Text(L10n.t(
-                    "تنبيه سلامة: بصير أداة مساعدة، ولا يحل محل العصا البيضاء أو الكلب المرشد أو المرافق البشري أو المختص أو خدمات الطوارئ. راجع المعلومات المهمة قبل الاعتماد عليها.",
-                    "Safety notice: Basir is assistive only. It does not replace a white cane, guide dog, human guide, qualified professional, or official emergency services. Verify important information before relying on it."
+                    "للسلامة: بصير أداة مساعدة، ولا يحل محل العصا البيضاء أو الكلب المرشد أو المرافق أو المختص أو خدمات الطوارئ. راجع المعلومات المهمة قبل الاعتماد عليها.",
+                    "For safety, Basir is an assistive tool. It does not replace a white cane, guide dog, human guide, qualified professional, or emergency services. Verify important information before relying on it."
                 ))
                 .foregroundStyle(.secondary)
 
                 Text(L10n.t(
-                    "الخصوصية: لا يلزم إنشاء حساب لدى المطوّر ولا توجد إعلانات. عند استخدام الذكاء الاصطناعي، يُرسل المحتوى الذي تختاره مباشرة إلى Google Gemini. راجع سياسة الخصوصية لمعرفة التخزين المحلي ومعالجة Google للخدمات المجانية والمدفوعة.",
-                    "Privacy: No Developer account is required and there are no ads. When AI is used, content you choose is sent directly to Google Gemini. Review the Privacy Policy for local storage and Google's handling of unpaid and paid services."
+                    "الخصوصية: لا يتطلب بصير حسابًا لدى المطوّر، ولا يعرض إعلانات. عند استخدام ميزة تعتمد على الذكاء الاصطناعي، يُرسل المحتوى الذي اخترته إلى Google Gemini أو إلى الخادم الوسيط الذي أعددته. راجع سياسة الخصوصية للتفاصيل.",
+                    "Privacy: Basir does not require a developer account and contains no ads. When you use an AI feature, the content you choose is sent to Google Gemini or to the proxy server you configured. See the Privacy Policy for details."
                 ))
                 .foregroundStyle(.secondary)
 
@@ -49,7 +49,7 @@ struct AboutView: View {
                 } label: {
                     HStack {
                         Image(systemName: "envelope.fill")
-                        Text(L10n.t("مراسلة المطوّر", "Email the developer"))
+                        Text(L10n.t("التواصل مع المطوّر", "Contact the developer"))
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity, minHeight: 56)

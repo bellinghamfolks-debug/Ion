@@ -17,8 +17,8 @@ struct EmergencyView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text(L10n.t(
-                    "تنبيه: لا يرسل بصير أي رسالة تلقائيًا ولا يتصل بخدمات الطوارئ. سيُفتح تطبيق الرسائل لتراجع المستلم والنص والموقع ثم تضغط إرسال بنفسك.",
-                    "Notice: Basir does not send any message automatically or contact emergency services. The messaging app opens so you can review the recipient, text, and location and then tap Send yourself."
+                    "لن يرسل بصير أي رسالة تلقائيًا، ولن يتصل بخدمات الطوارئ. سيفتح تطبيق الرسائل لتراجع المستلم والنص والموقع قبل الإرسال.",
+                    "Basir never sends a message automatically and does not contact emergency services. The Messages app opens so you can review the recipient, text, and location before sending."
                 ))
                 .font(.callout)
                 .foregroundStyle(.secondary)
@@ -28,8 +28,8 @@ struct EmergencyView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
 
                 if settings.emergencyContact.isEmpty {
-                    Label(L10n.t("لم تُحفظ جهة مساعدة. أضف رقمًا من الإعدادات أولًا.",
-                                  "No help contact is saved. Add a number in Settings first."),
+                    Label(L10n.t("لا توجد جهة مساعدة محفوظة. أضف رقمًا من الإعدادات قبل المتابعة.",
+                                  "No help contact is saved. Add a number in Settings before continuing."),
                            systemImage: "exclamationmark.triangle.fill")
                         .padding(12)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -45,7 +45,7 @@ struct EmergencyView: View {
                 Button {
                     Task { await prepareHelpRequest() }
                 } label: {
-                    Label(L10n.t("فتح رسالة طلب مساعدة", "Open a help message"),
+                    Label(L10n.t("إنشاء رسالة مساعدة", "Create help message"),
                           systemImage: "sos.circle.fill")
                         .fontWeight(.semibold)
                         .frame(maxWidth: .infinity, minHeight: 64)
@@ -54,14 +54,14 @@ struct EmergencyView: View {
                 .tint(.red)
                 .disabled(settings.emergencyContact.isEmpty)
                 .accessibilityHint(L10n.t(
-                    "يحاول إضافة موقع تقريبي ثم يفتح تطبيق الرسائل. لا يتم الإرسال تلقائيًا.",
-                    "Attempts to add an approximate location, then opens Messages. Nothing is sent automatically."
+                    "يحاول إضافة موقعك التقريبي إلى رسالة جديدة، ثم يفتح تطبيق الرسائل لتراجع النص والموقع قبل الإرسال.",
+                    "Attempts to add your approximate location to a new message, then opens the Messages app so you can review the text and location before sending."
                 ))
 
                 Button {
                     playLocatorSound()
                 } label: {
-                    Label(L10n.t("تشغيل نداء صوتي ثلاث مرات", "Play a locator call three times"),
+                    Label(L10n.t("تشغيل نداء صوتي للمساعدة", "Play an audible help call"),
                           systemImage: "speaker.wave.3.fill")
                         .frame(maxWidth: .infinity, minHeight: 56)
                 }
@@ -70,7 +70,7 @@ struct EmergencyView: View {
                 Button {
                     Task { await prepareLocationMessage() }
                 } label: {
-                    Label(L10n.t("فتح رسالة بموقعي التقريبي", "Open a message with my approximate location"),
+                    Label(L10n.t("إضافة موقعي إلى رسالة", "Add my location to a message"),
                           systemImage: "location.fill")
                         .frame(maxWidth: .infinity, minHeight: 56)
                 }
@@ -79,7 +79,7 @@ struct EmergencyView: View {
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("طلب المساعدة", "Help request"))
+        .navigationTitle(L10n.t("طلب مساعدة", "Get help"))
         .sheet(isPresented: $showMessageComposer) {
             if MFMessageComposeViewController.canSendText() {
                 MessageComposer(
@@ -94,7 +94,7 @@ struct EmergencyView: View {
     }
 
     private func playLocatorSound() {
-        let line = L10n.t("أنا هنا وأحتاج إلى مساعدة.", "I am here and need help.")
+        let line = L10n.t("أحتاج إلى مساعدة، أنا هنا.", "I need help. I am here.")
         for _ in 0..<3 { tts.speak(line, utteranceId: "locator") }
         UINotificationFeedbackGenerator().notificationOccurred(.warning)
     }
@@ -113,7 +113,7 @@ struct EmergencyView: View {
     private func prepareLocationMessage() async {
         let coord = await location.fetchOnce()?.coordinate
         let mapsLink = coord.map { LocationService.mapsLink(for: $0) }
-        smsBody = L10n.t("هذا موقعي التقريبي: ", "This is my approximate location: ")
+        smsBody = L10n.t("موقعي التقريبي: ", "My approximate location: ")
             + (mapsLink ?? L10n.t("الموقع غير متاح حاليًا.",
                                    "Location is currently unavailable."))
         smsRecipients = [settings.emergencyContact]

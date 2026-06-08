@@ -13,17 +13,17 @@ struct VisionView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     Hero()
 
-                    SectionHeader(L10n.t("الصور والمشاهد", "Images and scenes"))
+                    SectionHeader(L10n.t("الصور والتنقل", "Images and mobility"))
 
                     NavigationLink {
                         DescribeHubView()
                     } label: {
                         BasirCard(
                             icon: "📷",
-                            title: L10n.t("وصف صورة أو مشهد", "Describe an image or scene"),
+                            title: L10n.t("وصف صورة", "Describe an image"),
                             description: L10n.t(
-                                "التقط صورة أو اخترها من الجهاز للحصول على وصف منظم لما يظهر فيها، مع قراءة النصوص الظاهرة عند الإمكان.",
-                                "Take or choose an image to receive a structured description of what is visible, including readable text when possible."
+                                "التقط صورة أو اخترها من مكتبة الصور، وسيصف بصير محتواها ويقرأ النص الظاهر فيها عند الإمكان.",
+                                "Take a photo or choose one from your library. Basir describes it and reads visible text when possible."
                             )
                         )
                     }
@@ -34,10 +34,10 @@ struct VisionView: View {
                     } label: {
                         BasirCard(
                             icon: "🚶",
-                            title: L10n.t("وضع المشي", "Walking mode"),
+                            title: L10n.t("وصف سريع لما أمامك", "Quick look ahead"),
                             description: L10n.t(
-                                "التقط صورة واحدة لما أمامك واستمع إلى وصف موجز. هذه الميزة مساعدة وليست وسيلة تنقل مستقلة.",
-                                "Capture one image of what is ahead and hear a brief description. This is an aid, not an independent mobility tool."
+                                "التقط صورة واحدة لما أمامك واستمع إلى وصف موجز. استخدم دائمًا وسيلة التنقل المعتادة.",
+                                "Capture one image of what is ahead and hear a brief description. Always use your usual mobility aid."
                             )
                         )
                     }
@@ -48,11 +48,11 @@ struct VisionView: View {
                     } label: {
                         BasirCard(
                             icon: "🟢",
-                            title: L10n.t("الوصف المباشر أثناء التنقل",
-                                          "Live scene guidance"),
+                            title: L10n.t("الوصف المباشر",
+                                          "Live scene description"),
                             description: L10n.t(
-                                "يحلل بصير صورًا متتابعة للمشهد وينطق التغييرات المهمة. لا تعتمد عليه وحده لعبور الطرق أو تجنب الأخطار.",
-                                "Basir analyzes a sequence of scene images and announces important changes. Never rely on it alone to cross roads or avoid hazards."
+                                "يلتقط صورًا متتابعة وينطق التغييرات المهمة. هذه أداة مساعدة وليست بديلًا عن العصا أو وسيلة التنقل.",
+                                "Captures a sequence of images and announces important changes. This is an aid, not a replacement for a cane or mobility tool."
                             )
                         )
                     }

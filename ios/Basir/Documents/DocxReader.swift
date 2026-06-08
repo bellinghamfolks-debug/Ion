@@ -32,7 +32,7 @@ enum DocxReadError: Error, LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .malformed:           return L10n.t("ملف Word تالف.", "The Word file is malformed.")
+        case .malformed:           return L10n.t("تعذّر فتح ملف Word؛ قد يكون تالفًا أو غير مكتمل.", "The Word file could not be opened. It may be damaged or incomplete.")
         case .missingDocumentXml:  return L10n.t("لا يحتوي ملف Word على محتوى نصي قابل للقراءة.",
                                                  "The Word file has no readable body content.")
         }

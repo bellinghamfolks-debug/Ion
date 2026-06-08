@@ -45,13 +45,13 @@ struct SettingsView: View {
                 .accessibilityLabel(L10n.t("حجم الخط، المستوى \(settings.fontStep) من 4",
                                            "Text size, level \(settings.fontStep) of 4"))
             } header: {
-                Text(L10n.t("المظهر والخط", "Appearance and text"))
+                Text(L10n.t("المظهر وحجم النص", "Appearance and text size"))
             }
 
             Section(L10n.t("الصوت والاهتزاز", "Voice and vibration")) {
-                Toggle(L10n.t("نطق النتائج والتنبيهات", "Speak results and alerts"),
+                Toggle(L10n.t("نطق النتائج والتنبيهات تلقائيًا", "Speak results and alerts automatically"),
                        isOn: $settings.speechEnabled)
-                Toggle(L10n.t("الاهتزاز للتأكيد والتنبيه", "Vibration for confirmation and alerts"),
+                Toggle(L10n.t("اهتزاز عند اكتمال العملية أو حدوث تنبيه", "Vibrate when a task finishes or an alert occurs"),
                        isOn: $settings.vibrationEnabled)
                 HStack {
                     Text(L10n.t("سرعة النطق", "Speech rate"))
@@ -63,35 +63,35 @@ struct SettingsView: View {
             }
 
             Section {
-                Toggle(L10n.t("عدم حفظ سجل النشاط", "Don't save activity history"),
+                Toggle(L10n.t("عدم تسجيل النشاط", "Do not record activity"),
                        isOn: $settings.privacyMode)
-                Toggle(L10n.t("حفظ نتائج التحليل تلقائيًا", "Automatically save analysis results"),
+                Toggle(L10n.t("حفظ النتائج الجديدة تلقائيًا", "Automatically save new results"),
                        isOn: $settings.autoSaveResults)
             } header: {
                 Text(L10n.t("الخصوصية والتخزين المحلي", "Privacy and local storage"))
             } footer: {
                 Text(L10n.t(
-                    "الخيار الأول يمنع إضافة عمليات جديدة إلى سجل النشاط، ولا يحذف السجل السابق. الخيار الثاني يتحكم في إضافة النتائج الجديدة إلى المحفوظات المحلية. لا يمنع أي منهما إرسال المحتوى إلى Gemini عند تشغيل ميزة تعتمد عليه.",
-                    "The first option prevents new activity-log entries but does not delete existing history. The second controls whether new results are added to the local archive. Neither option prevents content from being sent to Gemini when you use an AI-powered feature."
+                    "منع تسجيل النشاط يوقف إضافة عمليات جديدة فقط، ولا يحذف السجل السابق. الحفظ التلقائي يضيف النتائج الجديدة إلى قسم النتائج المحفوظة. لا يغيّر أي من الخيارين طريقة إرسال المحتوى عند استخدام ميزات الذكاء الاصطناعي.",
+                    "Disabling activity recording stops new log entries but does not delete existing history. Automatic saving adds new results to Saved Results. Neither setting changes how content is sent when you use AI features."
                 ))
             }
 
             Section {
                 Picker(L10n.t("وضع الاتصال", "Connection mode"),
                        selection: $settings.aiMode) {
-                    Text(L10n.t("اتصال مباشر بـ Gemini",
-                                 "Direct connection to Gemini")).tag("direct")
+                    Text(L10n.t("مباشر باستخدام مفتاحي",
+                                 "Direct with my API key")).tag("direct")
                     Text(L10n.t("عبر خادم وسيط",
                                  "Through a proxy server")).tag("proxy")
                 }
                 .pickerStyle(.segmented)
             } header: {
-                Text(L10n.t("وضع الاتصال بالذكاء الاصطناعي",
-                             "AI connection mode"))
+                Text(L10n.t("الاتصال بخدمة الذكاء الاصطناعي",
+                             "AI service connection"))
             } footer: {
                 Text(L10n.t(
-                    "الاتصال المباشر يرسل طلباتك إلى Google Gemini مباشرة باستخدام مفتاحك. الخادم الوسيط يحتفظ بالمفتاح في خادمك أو خادم منظمتك، فلا تكتب أنت أي مفتاح على الجهاز.",
-                    "Direct mode sends your requests to Google Gemini using your own key. Proxy mode keeps the key on a server you or your organization run, so you do not enter any key on this device."
+                    "في الاتصال المباشر، يرسل بصير الطلب إلى Google Gemini باستخدام مفتاحك المحفوظ على الجهاز. أما الخادم الوسيط فيحتفظ بالمفتاح على خادمك أو خادم منظمتك، فلا تحتاج إلى إدخاله هنا.",
+                    "With a direct connection, Basir sends requests to Google Gemini using the key saved on this device. A proxy keeps the key on your server or your organization's server, so you do not enter it here."
                 ))
             }
 
@@ -105,14 +105,14 @@ struct SettingsView: View {
                             "حقل مفتاح Gemini API. الأحرف مخفية.",
                             "Gemini API key field. Characters are hidden."
                         ))
-                    Button(L10n.t("حفظ المفتاح على هذا الجهاز", "Save key on this device")) {
+                    Button(L10n.t("حفظ المفتاح بأمان", "Save key securely")) {
                         KeychainStore.setGeminiKey(apiKey.trimmingCharacters(in: .whitespacesAndNewlines))
                         showSavedToast = true
                         apiKey = ""
                     }
                     .disabled(apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 } header: {
-                    Text(L10n.t("إعداد Google Gemini", "Google Gemini setup"))
+                    Text(L10n.t("مفتاح Google Gemini", "Google Gemini API key"))
                 } footer: {
                     Text(L10n.t(
                         "تشترط Google حاليًا أن يكون استخدام Gemini API لمن بلغ 18 عامًا ولأغراض مهنية أو تجارية مسموحة. وقد تستخدم محتوى الخدمات غير المدفوعة لتحسين منتجاتها ويجوز أن يراجعه أشخاص مخولون. لا ترسل معلومات شخصية أو سرية قبل مراجعة سياسة الخصوصية وشروط مشروعك.",
@@ -136,45 +136,45 @@ struct SettingsView: View {
                     Text(L10n.t("إعداد الخادم الوسيط", "Proxy server setup"))
                 } footer: {
                     Text(L10n.t(
-                        "يجب أن يكون العنوان على بروتوكول HTTPS لمنع التنصت. إذا فعّل مشغل الخادم رمزًا مشتركًا فأدخله هنا؛ يُرسَل ضمن الترويسة X-Basir-Client-Token. بصير لا يصادق هوية الخادم أو سياسته — أنت مسؤول عن اختيار خادم تثق به.",
-                        "The URL must be HTTPS to prevent eavesdropping. If your server requires a shared token, paste it here; it is sent in the X-Basir-Client-Token header. Basir does not authenticate the server's identity or policy — you are responsible for choosing a server you trust."
+                        "يجب أن يبدأ العنوان بـ HTTPS. إذا كان الخادم يتطلب رمزًا مشتركًا، فأدخله في الحقل المخصص. استخدم خادمًا تثق به، لأن بصير لا يستطيع التحقق من سياساته أو طريقة حفظه للبيانات.",
+                        "The address must use HTTPS. If the server requires a shared token, enter it in the field above. Use a server you trust, because Basir cannot verify its policies or data-handling practices."
                     ))
                 }
             }
 
             Section {
-                Picker(L10n.t("جودة المهام السريعة", "Quick-task quality"),
+                Picker(L10n.t("جودة الصور والأسئلة", "Image and question quality"),
                        selection: $settings.quickQuality) {
-                    Text(L10n.t("أسرع · Flash Lite", "Fastest · Flash Lite")).tag("fast")
+                    Text(L10n.t("الأسرع · Flash Lite", "Fastest · Flash Lite")).tag("fast")
                     Text(L10n.t("متوازن · Flash", "Balanced · Flash")).tag("balanced")
-                    Text(L10n.t("أعلى جودة · Pro", "Best quality · Pro")).tag("best")
+                    Text(L10n.t("الأدق · Pro", "Most accurate · Pro")).tag("best")
                 }
-                Picker(L10n.t("جودة معالجة المستندات", "Document-processing quality"),
+                Picker(L10n.t("جودة المستندات", "Document quality"),
                        selection: $settings.docQuality) {
-                    Text(L10n.t("أسرع · Flash Lite", "Fastest · Flash Lite")).tag("fast")
+                    Text(L10n.t("الأسرع · Flash Lite", "Fastest · Flash Lite")).tag("fast")
                     Text(L10n.t("متوازن · Flash", "Balanced · Flash")).tag("balanced")
-                    Text(L10n.t("أعلى جودة · Pro", "Best quality · Pro")).tag("best")
+                    Text(L10n.t("الأدق · Pro", "Most accurate · Pro")).tag("best")
                 }
             } header: {
-                Text(L10n.t("جودة النموذج", "Model quality"))
+                Text(L10n.t("سرعة وجودة النتائج", "Speed and result quality"))
             } footer: {
                 Text(L10n.t(
-                    "في الوضع المباشر يحدد هذا الخيار الموديل الذي يطلبه بصير من Gemini. في وضع الخادم الوسيط، يحدد مشغل الخادم الموديل الفعلي وقد يتجاهل هذا الاختيار.",
-                    "In Direct mode this controls which Gemini model Basir requests. In Proxy mode the server operator decides which model is actually called and may ignore this preference."
+                    "عند استخدام الاتصال المباشر، يحدد هذا الاختيار توازن السرعة والدقة والتكلفة. أما في وضع الخادم الوسيط، فقد يحدد مشغل الخادم نموذجًا مختلفًا.",
+                    "With a direct connection, this controls the balance of speed, accuracy, and cost. In proxy mode, the server operator may choose a different model."
                 ))
             }
 
             Section {
-                TextField(L10n.t("رقم جهة المساعدة، مثال: +9665XXXXXXXX",
-                                  "Help contact number, e.g. +9665XXXXXXXX"),
+                TextField(L10n.t("رقم شخص موثوق، مثال: +9665XXXXXXXX",
+                                  "Trusted contact number, e.g. +9665XXXXXXXX"),
                           text: $settings.emergencyContact)
                     .keyboardType(.phonePad)
             } header: {
-                Text(L10n.t("جهة طلب المساعدة", "Help contact"))
+                Text(L10n.t("جهة موثوقة للمساعدة", "Trusted help contact"))
             } footer: {
                 Text(L10n.t(
-                    "لا يرسل بصير الرسالة تلقائيًا. يفتح تطبيق الرسائل لتراجع المستلم والنص ثم تضغط إرسال بنفسك.",
-                    "Basir does not send a message automatically. It opens the messaging app so you can review the recipient and text and then tap Send yourself."
+                    "يستخدم بصير هذا الرقم عند إنشاء رسالة مساعدة. سيفتح تطبيق الرسائل لتراجع المستلم والنص، ولن يتم الإرسال تلقائيًا.",
+                    "Basir uses this number when creating a help message. The Messages app opens so you can review the recipient and text; nothing is sent automatically."
                 ))
             }
 
@@ -187,24 +187,24 @@ struct SettingsView: View {
                           systemImage: "trash")
                 }
             } header: {
-                Text(L10n.t("البيانات المحلية", "Local data"))
+                Text(L10n.t("إدارة البيانات المحلية", "Manage local data"))
             } footer: {
                 Text(L10n.t(
-                    "يحذف المحفوظات والنتائج وسجل النشاط والمستند الأخير والملفات المؤقتة من هذا الجهاز. لا يحذف مفتاح Gemini ولا الملفات التي صدّرتها إلى تطبيق الملفات.",
-                    "Deletes saved items, results, activity history, the last document, and temporary files from this device. It does not delete the Gemini key or files you exported to the Files app."
+                    "يحذف الملاحظات والنتائج المحفوظة وسجل النشاط والمستند الأخير والملفات المؤقتة من هذا الجهاز. لن يحذف مفتاح Gemini أو الملفات التي حفظتها في تطبيق الملفات.",
+                    "Deletes notes, saved results, activity history, the last document, and temporary files from this device. It does not delete your Gemini key or files saved in the Files app."
                 ))
             }
         }
         .navigationTitle(L10n.t("الإعدادات", "Settings"))
         .toolbar(.hidden, for: .tabBar)
-        .alert(L10n.t("تم حفظ المفتاح", "Key saved"), isPresented: $showSavedToast) {
+        .alert(L10n.t("حُفظ المفتاح", "Key saved"), isPresented: $showSavedToast) {
             Button(L10n.t("حسنًا", "OK"), role: .cancel) {}
         } message: {
-            Text(L10n.t("حُفظ المفتاح في iOS Keychain على هذا الجهاز.",
-                        "The key was saved in the iOS Keychain on this device."))
+            Text(L10n.t("حُفظ المفتاح بأمان في سلسلة مفاتيح iPhone على هذا الجهاز.",
+                        "The key was saved securely in the iPhone Keychain on this device."))
         }
         .confirmationDialog(
-            L10n.t("تغيير لغة التطبيق؟", "Change app language?"),
+            L10n.t("تغيير لغة بصير؟", "Change Basir language?"),
             isPresented: $showLanguageConfirm, titleVisibility: .visible
         ) {
             Button(L10n.t("تغيير", "Change")) {
@@ -213,11 +213,11 @@ struct SettingsView: View {
             }
             Button(L10n.t("إلغاء", "Cancel"), role: .cancel) { pendingLanguage = nil }
         } message: {
-            Text(L10n.t("ستُعاد تهيئة اتجاه الواجهة ونصوصها باللغة الجديدة.",
-                        "The interface direction and text will be reloaded in the new language."))
+            Text(L10n.t("ستتغير نصوص الواجهة واتجاهها فورًا إلى اللغة الجديدة.",
+                        "The interface text and direction will switch immediately to the new language."))
         }
         .confirmationDialog(
-            L10n.t("حذف جميع البيانات المحلية؟", "Delete all local data?"),
+            L10n.t("حذف البيانات المحفوظة على هذا الجهاز؟", "Delete data saved on this device?"),
             isPresented: $showDeleteConfirm, titleVisibility: .visible
         ) {
             Button(L10n.t("حذف", "Delete"), role: .destructive) {
@@ -229,14 +229,14 @@ struct SettingsView: View {
             }
             Button(L10n.t("إلغاء", "Cancel"), role: .cancel) {}
         } message: {
-            Text(L10n.t("لا يمكن التراجع عن هذا الإجراء.",
-                        "This action cannot be undone."))
+            Text(L10n.t("سيُحذف السجل والملاحظات والنتائج المحلية نهائيًا، ولا يمكن التراجع عن ذلك.",
+                        "Local history, notes, and saved results will be permanently deleted. This cannot be undone."))
         }
-        .alert(L10n.t("تم الحذف", "Deleted"), isPresented: $showDeletedToast) {
+        .alert(L10n.t("اكتمل الحذف", "Deletion complete"), isPresented: $showDeletedToast) {
             Button(L10n.t("حسنًا", "OK"), role: .cancel) {}
         } message: {
-            Text(L10n.t("حُذفت البيانات المحلية من هذا الجهاز.",
-                        "Local data was deleted from this device."))
+            Text(L10n.t("حُذفت البيانات المحلية المحفوظة على هذا الجهاز.",
+                        "Data saved locally on this device was deleted."))
         }
     }
 

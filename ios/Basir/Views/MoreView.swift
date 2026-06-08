@@ -12,34 +12,34 @@ struct MoreView: View {
                     Hero()
 
                     // MARK: Quick help
-                    SectionHeader(L10n.t("مساعدة سريعة", "Quick help"))
+                    SectionHeader(L10n.t("السلامة والمساعدة", "Safety and help"))
 
                     NavigationLink {
                         EmergencyView()
                     } label: {
                         BasirCard(
                             icon: "🆘",
-                            title: L10n.t("الطوارئ والمساعدة", "Emergency and help"),
+                            title: L10n.t("طلب مساعدة", "Get help"),
                             description: L10n.t(
-                                "جهّز رسالة طلب مساعدة لجهة محفوظة، مع موقع تقريبي عند السماح. ستراجع الرسالة وتؤكد إرسالها بنفسك.",
-                                "Prepare a help message for a saved contact, with approximate location when permitted. You review and send it yourself."
+                                "أنشئ رسالة لجهة موثوقة، ويمكن إضافة موقعك التقريبي. لن تُرسل الرسالة إلا بعد مراجعتك.",
+                                "Create a message for a trusted contact and optionally add your approximate location. Nothing is sent until you review it."
                             )
                         )
                     }
                     .buttonStyle(.plain)
 
                     // MARK: Tools
-                    SectionHeader(L10n.t("الأدوات", "Tools"))
+                    SectionHeader(L10n.t("أدوات إضافية", "More tools"))
 
                     NavigationLink {
                         AdvancedToolsView()
                     } label: {
                         BasirCard(
                             icon: "🛠",
-                            title: L10n.t("أدوات متقدمة", "Advanced tools"),
+                            title: L10n.t("أدوات الكتابة والدراسة", "Writing and study tools"),
                             description: L10n.t(
-                                "أنشئ وصفًا بديلًا، واقرأ لقطات الشاشة والجداول والعملات والنصوص الطبية والقانونية، وحلّل أوراق الرياضيات.",
-                                "Create alt text; read screenshots, tables, currency, and medical or legal text; and analyze math sheets."
+                                "حوّل النصوص إلى بطاقات مراجعة، واقترح ردودًا مناسبة، واجعل الجداول أسهل للقراءة بقارئ الشاشة.",
+                                "Turn text into study cards, draft suitable replies, and make tables easier to read with a screen reader."
                             )
                         )
                     }
@@ -50,10 +50,10 @@ struct MoreView: View {
                     } label: {
                         BasirCard(
                             icon: "🧠",
-                            title: L10n.t("محفوظاتي الخاصة", "My saved items"),
+                            title: L10n.t("ملاحظاتي", "My notes"),
                             description: L10n.t(
-                                "نظّم ملاحظات محلية عن الأشخاص والمنتجات والأدوية والأماكن للرجوع إليها لاحقًا.",
-                                "Organize local notes about people, products, medications, and places for later reference."
+                                "احفظ ملاحظات عن الأشخاص والمنتجات والأدوية والأماكن على هذا الجهاز فقط.",
+                                "Save notes about people, products, medications, and places on this device only."
                             )
                         )
                     }
@@ -64,10 +64,10 @@ struct MoreView: View {
                     } label: {
                         BasirCard(
                             icon: "📚",
-                            title: L10n.t("المحفوظات", "Archive"),
+                            title: L10n.t("النتائج المحفوظة", "Saved results"),
                             description: L10n.t(
-                                "استعرض النتائج التي اخترت حفظها محليًا على هذا الجهاز.",
-                                "Review results you chose to save locally on this device."
+                                "ارجع إلى الأوصاف والترجمات والإجابات التي حفظتها على هذا الجهاز.",
+                                "Return to descriptions, translations, and answers you saved on this device."
                             )
                         )
                     }
@@ -83,8 +83,8 @@ struct MoreView: View {
                             icon: "⚙️",
                             title: L10n.t("الإعدادات", "Settings"),
                             description: L10n.t(
-                                "اللغة، الصوت، المظهر، الخصوصية، وإعداد Gemini.",
-                                "Language, voice, appearance, privacy, and Gemini setup."
+                                "خصّص اللغة والصوت والمظهر والخصوصية وطريقة الاتصال بالذكاء الاصطناعي.",
+                                "Customize language, voice, appearance, privacy, and how the app connects to AI."
                             )
                         )
                     }
@@ -97,15 +97,15 @@ struct MoreView: View {
                             icon: "ℹ️",
                             title: L10n.t("حول التطبيق", "About"),
                             description: L10n.t(
-                                "معلومات عن بصير وطرق التواصل مع المطوّر.",
-                                "About Basir and how to contact the developer."
+                                "تعرّف على بصير، وإصدار التطبيق، ووسيلة التواصل مع المطوّر.",
+                                "Learn about Basir, the app version, and how to contact the developer."
                             )
                         )
                     }
                     .buttonStyle(.plain)
 
                     // MARK: Legal
-                    SectionHeader(L10n.t("سياسات قانونية", "Legal"))
+                    SectionHeader(L10n.t("الشروط والخصوصية", "Terms and privacy"))
 
                     NavigationLink {
                         TermsView()
@@ -114,8 +114,8 @@ struct MoreView: View {
                             icon: "📜",
                             title: L10n.t("الشروط والأحكام", "Terms and Conditions"),
                             description: L10n.t(
-                                "شروط استخدام بصير ومسؤوليات المستخدم.",
-                                "Basir terms of use and user responsibilities."
+                                "اقرأ ضوابط استخدام بصير وحدود الخدمة ومسؤوليات المستخدم.",
+                                "Read the rules for using Basir, service limitations, and user responsibilities."
                             )
                         )
                     }
@@ -128,8 +128,8 @@ struct MoreView: View {
                             icon: "🔒",
                             title: L10n.t("سياسة الخصوصية", "Privacy Policy"),
                             description: L10n.t(
-                                "اعرف ما يُحفظ محليًا وما يُرسل إلى Google Gemini.",
-                                "Learn what is stored locally and what is sent to Google Gemini."
+                                "اعرف ما يبقى على جهازك، وما يُرسل عند استخدام ميزات الذكاء الاصطناعي.",
+                                "See what stays on your device and what is sent when you use AI features."
                             )
                         )
                     }
@@ -139,7 +139,7 @@ struct MoreView: View {
                     NavigationLink {
                         AppStatusView()
                     } label: {
-                        Text(L10n.t("حالة التطبيق", "App status"))
+                        Text(L10n.t("حالة التطبيق والاتصال", "App and connection status"))
                             .fontWeight(.semibold)
                             .frame(maxWidth: .infinity, minHeight: 50)
                             .overlay(

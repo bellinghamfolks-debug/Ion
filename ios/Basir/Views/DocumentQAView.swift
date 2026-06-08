@@ -17,14 +17,14 @@ struct DocumentQAView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 if let name = store.sourceName, !name.isEmpty {
-                    Text(L10n.t("المستند: ", "Document: ") + name)
+                    Text(L10n.t("الملف: ", "File: ") + name)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
 
                 Text(L10n.t(
-                    "اطرح سؤالًا عن المستند الذي حوّلته للتو. تأتي الإجابة من نص المستند فقط.",
-                    "Ask a question about the document you just converted. Answers come only from the document text."
+                    "اسأل عن محتوى المستند الأخير. سيجيب بصير اعتمادًا على النص المستخرج منه فقط.",
+                    "Ask about your last document. Basir answers using only the text extracted from it."
                 ))
                 .font(.callout)
                 .foregroundStyle(.secondary)
@@ -36,16 +36,16 @@ struct DocumentQAView: View {
                     .background(Color(.tertiarySystemBackground))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(.tertiary))
-                    .accessibilityLabel(L10n.t("اكتب سؤالك عن المستند",
-                                                "Type your question about the document"))
+                    .accessibilityLabel(L10n.t("اكتب سؤالك عن الملف",
+                                                "Type your question about the file"))
 
                 Button {
                     Task { await ask() }
                 } label: {
                     HStack {
                         if isLoading { ProgressView().tint(.white) }
-                        Text(isLoading ? L10n.t("جارٍ المعالجة...", "Processing...")
-                                       : L10n.t("اسأل", "Ask"))
+                        Text(isLoading ? L10n.t("أجهّز الإجابة...", "Preparing your answer...")
+                                       : L10n.t("إرسال السؤال", "Send question"))
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity, minHeight: 54)
@@ -77,7 +77,7 @@ struct DocumentQAView: View {
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("اسأل عن آخر مستند", "Ask about the latest document"))
+        .navigationTitle(L10n.t("اسأل عن المستند الأخير", "Ask about your last document"))
     }
 
     private func ask() async {
@@ -104,7 +104,7 @@ struct DocumentQAView: View {
             question = ""        // clear the box once the answer arrives
             ProcessingFeedback.done()
             UIAccessibility.post(notification: .announcement,
-                                 argument: L10n.t("أصبحت الإجابة جاهزة.", "Answer ready."))
+                                 argument: L10n.t("الإجابة جاهزة.", "Your answer is ready."))
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
             ProcessingFeedback.failed()

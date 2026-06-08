@@ -6,8 +6,8 @@ import SwiftUI
 struct TermsView: View {
     var body: some View {
         LegalDocument(
-            versionNote: L10n.t("الإصدار القانوني 3 — ساري من 5 يونيو 2026",
-                                "Legal version 3 — Effective 5 June 2026"),
+            versionNote: L10n.t("الإصدار القانوني 3، ساري منذ 5 يونيو 2026",
+                                "Legal version 3, effective 5 June 2026"),
             content: L10n.t(termsArabic, termsEnglish)
         )
         .navigationTitle(L10n.t("الشروط والأحكام", "Terms and Conditions"))
@@ -17,8 +17,8 @@ struct TermsView: View {
 struct PrivacyView: View {
     var body: some View {
         LegalDocument(
-            versionNote: L10n.t("الإصدار القانوني 3 — سارية من 5 يونيو 2026",
-                                "Legal version 3 — Effective 5 June 2026"),
+            versionNote: L10n.t("الإصدار القانوني 3، ساري منذ 5 يونيو 2026",
+                                "Legal version 3, effective 5 June 2026"),
             content: L10n.t(privacyArabic, privacyEnglish)
         )
         .navigationTitle(L10n.t("سياسة الخصوصية", "Privacy Policy"))

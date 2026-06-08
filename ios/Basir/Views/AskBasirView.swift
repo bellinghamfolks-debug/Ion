@@ -13,8 +13,8 @@ struct AskBasirView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text(L10n.t("اكتب سؤالك أو استخدم الإملاء الصوتي. قد تخطئ الإجابة، لذلك تحقّق من المعلومات المهمة.",
-                             "Type your question or use voice dictation. The answer may be wrong, so verify important information."))
+                Text(L10n.t("اكتب سؤالك أو استخدم الإملاء الصوتي. قد تتضمن الإجابة أخطاءً، فتحقّق من المعلومات المهمة.",
+                             "Type your question or use voice dictation. The answer may contain errors, so verify important information."))
                     .font(.callout)
                     .foregroundStyle(.secondary)
 
@@ -27,8 +27,8 @@ struct AskBasirView: View {
                     .overlay(
                         RoundedRectangle(cornerRadius: 12).stroke(.tertiary)
                     )
-                    .accessibilityLabel(L10n.t("اكتب سؤالك هنا",
-                                                "Type your question here"))
+                    .accessibilityLabel(L10n.t("اكتب سؤالك",
+                                                "Type your question"))
 
                 Button {
                     Task { await submit() }
@@ -36,9 +36,9 @@ struct AskBasirView: View {
                     HStack {
                         if isLoading { ProgressView().tint(.white) }
                         Text(isLoading
-                             ? L10n.t("جارٍ الاتصال بـ Gemini...",
-                                       "Connecting to Gemini...")
-                             : L10n.t("إرسال", "Send"))
+                             ? L10n.t("أجهّز الإجابة...",
+                                       "Preparing your answer...")
+                             : L10n.t("إرسال السؤال", "Send question"))
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity, minHeight: 56)
@@ -51,7 +51,7 @@ struct AskBasirView: View {
                 Button {
                     Task { await dictate() }
                 } label: {
-                    Label(L10n.t("إملاء صوتي", "Voice dictation"),
+                    Label(L10n.t("إملاء السؤال", "Dictate question"),
                           systemImage: "mic.fill")
                         .frame(maxWidth: .infinity, minHeight: 48)
                 }
@@ -60,7 +60,7 @@ struct AskBasirView: View {
 
                 if !answer.isEmpty {
                     Divider().padding(.vertical, 8)
-                    Text(L10n.t("إجابة بصير", "Basir's answer"))
+                    Text(L10n.t("الإجابة", "Answer"))
                         .font(.headline)
                         .accessibilityAddTraits(.isHeader)
                     Text(answer)
@@ -113,7 +113,7 @@ struct AskBasirView: View {
             // Announce completion to VoiceOver. Equivalent to the Android
             // announceForAccessibility call.
             UIAccessibility.post(notification: .announcement,
-                                  argument: L10n.t("أصبحت الإجابة جاهزة.", "Answer ready."))
+                                  argument: L10n.t("الإجابة جاهزة.", "Your answer is ready."))
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
             ProcessingFeedback.failed()
@@ -126,8 +126,8 @@ struct AskBasirView: View {
         let auth = await SpeechRecognizer.shared.requestAuthorization()
         guard auth == .granted else {
             errorMessage = L10n.t(
-                "يجب السماح بإذن الميكروفون والتعرّف الصوتي من إعدادات iOS.",
-                "Microphone and speech-recognition permission are required in iOS Settings."
+                "فعّل إذنَي الميكروفون والتعرّف على الكلام من إعدادات iPhone لاستخدام الإملاء.",
+                "Enable Microphone and Speech Recognition in iPhone Settings to use dictation."
             )
             return
         }

@@ -10,25 +10,25 @@ struct AdvancedToolsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text(L10n.t(
-                    "أدوات تعتمد على Gemini للدراسة والكتابة وتنظيم المعلومات. راجع الناتج قبل نسخه أو إرساله.",
-                    "Gemini-powered tools for study, writing, and information organization. Review the output before copying or sending it."
+                    "أدوات للكتابة والدراسة وتنظيم النصوص. راجع النتيجة قبل نسخها أو مشاركتها.",
+                    "Tools for writing, studying, and organizing text. Review the result before copying or sharing it."
                 ))
                 .font(.callout)
                 .foregroundStyle(.secondary)
 
                 NavigationLink {
                     TextTaskView(
-                        title: L10n.t("بطاقات مذاكرة", "Study cards"),
-                        hint: L10n.t("الصق النص هنا.", "Paste the text here."),
+                        title: L10n.t("بطاقات مراجعة", "Study cards"),
+                        hint: L10n.t("ألصق النص الذي تريد مراجعته.", "Paste the text you want to study."),
                         instruction: "Turn the text into direct Q&A study cards suitable for audio review."
                     )
                 } label: {
                     BasirCard(
                         icon: "🗂",
-                        title: L10n.t("إنشاء بطاقات مذاكرة", "Create study cards"),
+                        title: L10n.t("إنشاء بطاقات مراجعة", "Create study cards"),
                         description: L10n.t(
-                            "حوّل النص إلى أسئلة وأجوبة منظمة للمراجعة.",
-                            "Turn text into organized questions and answers for review."
+                            "يحوّل النص إلى أسئلة وأجوبة مباشرة وسهلة للمراجعة الصوتية.",
+                            "Turns text into direct questions and answers that are easy to review aloud."
                         )
                     )
                 }
@@ -36,17 +36,17 @@ struct AdvancedToolsView: View {
 
                 NavigationLink {
                     TextTaskView(
-                        title: L10n.t("رد مناسب", "Suggested reply"),
-                        hint: L10n.t("الصق الرسالة هنا.", "Paste the message here."),
+                        title: L10n.t("مساعدة في الرد", "Reply assistant"),
+                        hint: L10n.t("ألصق الرسالة التي تريد الرد عليها.", "Paste the message you want to reply to."),
                         instruction: "Explain the message tone and suggest a polite reply. Give Arabic and English versions."
                     )
                 } label: {
                     BasirCard(
                         icon: "✍️",
-                        title: L10n.t("صياغة رد مهذب", "Draft a polite reply"),
+                        title: L10n.t("اقتراح رد مناسب", "Suggest a reply"),
                         description: L10n.t(
-                            "اقترح ردًا مناسبًا للسياق والنبرة بالعربية أو الإنجليزية.",
-                            "Suggest a reply that matches the context and tone in Arabic or English."
+                            "يفهم نبرة الرسالة ويقترح ردًا مناسبًا بالعربية والإنجليزية.",
+                            "Understands the message tone and suggests a suitable reply in Arabic and English."
                         )
                     )
                 }
@@ -54,17 +54,17 @@ struct AdvancedToolsView: View {
 
                 NavigationLink {
                     TextTaskView(
-                        title: L10n.t("قراءة جدول", "Table reading"),
-                        hint: L10n.t("الصق نص الجدول هنا.", "Paste the table text here."),
+                        title: L10n.t("تحويل جدول إلى نص", "Turn a table into text"),
+                        hint: L10n.t("ألصق بيانات الجدول هنا.", "Paste the table data here."),
                         instruction: "Convert the table-like text into clear plain-text rows with labels for each value."
                     )
                 } label: {
                     BasirCard(
                         icon: "🧾",
-                        title: L10n.t("قراءة جدول كنص", "Read a table as text"),
+                        title: L10n.t("تبسيط جدول لقارئ الشاشة", "Make a table screen-reader friendly"),
                         description: L10n.t(
-                            "حوّل الجداول المعقدة إلى نص واضح ومناسب لقارئات الشاشة.",
-                            "Convert complex tables into clear, screen-reader-friendly text."
+                            "يرتب كل صف مع عناوينه ليصبح الجدول واضحًا عند الاستماع إليه.",
+                            "Pairs each row with its headers so the table is clear when read aloud."
                         )
                     )
                 }
@@ -72,6 +72,6 @@ struct AdvancedToolsView: View {
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("أدوات متقدمة", "Advanced tools"))
+        .navigationTitle(L10n.t("أدوات الكتابة والدراسة", "Writing and study tools"))
     }
 }

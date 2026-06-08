@@ -15,7 +15,7 @@ struct ArchiveView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Picker(L10n.t("التصفية", "Filter"), selection: $filter) {
+            Picker(L10n.t("نوع النتيجة", "Result type"), selection: $filter) {
                 Text(L10n.t("الكل", "All")).tag("all")
                 Text(L10n.t("ترجمة", "Translation")).tag("translate")
                 Text(L10n.t("وصف صورة", "Image description")).tag("describe_image")
@@ -27,12 +27,12 @@ struct ArchiveView: View {
 
             if filtered.isEmpty {
                 ContentUnavailableView(
-                    L10n.t("لا توجد نتائج محفوظة بعد.",
-                           "No saved results yet."),
+                    L10n.t("لا توجد نتائج محفوظة.",
+                           "No saved results."),
                     systemImage: "tray",
                     description: Text(L10n.t(
-                        "تظهر هنا النتائج التي تحفظها يدويًا، والنتائج الجديدة التي يحفظها التطبيق تلقائيًا عند تفعيل ذلك من الإعدادات.",
-                        "Results you save manually appear here, along with new results saved automatically when that option is enabled in Settings."
+                        "عندما تحفظ وصفًا أو ترجمة أو إجابة، ستجدها هنا. ويمكنك تفعيل الحفظ التلقائي من الإعدادات.",
+                        "Descriptions, translations, and answers you save appear here. Automatic saving can be enabled in Settings."
                     ))
                 )
             } else {
@@ -65,7 +65,7 @@ struct ArchiveView: View {
                 }
             }
         }
-        .navigationTitle(L10n.t("أرشيف النتائج", "Results archive"))
+        .navigationTitle(L10n.t("النتائج المحفوظة", "Saved results"))
     }
 }
 
@@ -88,7 +88,7 @@ private struct ArchivedResultDetail: View {
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("نتيجة محفوظة", "Saved result"))
+        .navigationTitle(L10n.t("تفاصيل النتيجة", "Result details"))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 ShareLink(item: result.text) {

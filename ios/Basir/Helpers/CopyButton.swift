@@ -15,12 +15,12 @@ struct CopyButton: View {
             UIPasteboard.general.string = text
             copied = true
             UIAccessibility.post(notification: .announcement,
-                                 argument: L10n.t("تم النسخ", "Copied"))
+                                 argument: L10n.t("نُسخ النص", "Text copied"))
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { copied = false }
         } label: {
-            Label(copied ? L10n.t("تم النسخ", "Copied") : L10n.t("نسخ", "Copy"),
+            Label(copied ? L10n.t("نُسخ النص", "Text copied") : L10n.t("نسخ النص", "Copy text"),
                   systemImage: copied ? "checkmark" : "doc.on.doc")
         }
-        .accessibilityLabel(L10n.t("نسخ النتيجة", "Copy result"))
+        .accessibilityLabel(L10n.t("نسخ النتيجة إلى الحافظة", "Copy result to clipboard"))
     }
 }

@@ -47,7 +47,7 @@ struct VoiceConversationView: View {
             }
 
             if !transcript.isEmpty {
-                Text(L10n.t("سؤالك:", "Your question:"))
+                Text(L10n.t("سؤالك", "Your question"))
                     .font(.subheadline.bold())
                     .foregroundStyle(.secondary)
                 Text(transcript).textSelection(.enabled)
@@ -55,7 +55,7 @@ struct VoiceConversationView: View {
 
             if !lastResponse.isEmpty {
                 Divider()
-                Text(L10n.t("الإجابة:", "Answer:"))
+                Text(L10n.t("الإجابة", "Answer"))
                     .font(.subheadline.bold())
                     .foregroundStyle(.secondary)
                 Text(lastResponse)
@@ -87,7 +87,7 @@ struct VoiceConversationView: View {
                 Button {
                     Task { await startLoop() }
                 } label: {
-                    Text(L10n.t("بدء المحادثة الصوتية", "Start voice conversation"))
+                    Text(L10n.t("بدء محادثة صوتية", "Start voice conversation"))
                         .fontWeight(.semibold)
                         .frame(maxWidth: .infinity, minHeight: 56)
                 }
@@ -127,11 +127,11 @@ struct VoiceConversationView: View {
 
     private var phaseLabel: String {
         switch phase {
-        case .idle:      return L10n.t("جاهز", "Ready")
-        case .listening: return L10n.t("جارٍ الاستماع...", "Listening...")
-        case .thinking:  return L10n.t("جارٍ إعداد الإجابة...", "Preparing answer...")
-        case .speaking:  return L10n.t("جارٍ النطق...", "Speaking...")
-        case .error:     return L10n.t("خطأ", "Error")
+        case .idle:      return L10n.t("مستعد للاستماع", "Ready to listen")
+        case .listening: return L10n.t("أستمع الآن...", "Listening now...")
+        case .thinking:  return L10n.t("أجهّز الإجابة...", "Preparing your answer...")
+        case .speaking:  return L10n.t("أقرأ الإجابة...", "Reading the answer...")
+        case .error:     return L10n.t("تعذّر المتابعة", "Unable to continue")
         }
     }
 
@@ -141,8 +141,8 @@ struct VoiceConversationView: View {
         let auth = await asr.requestAuthorization()
         guard auth == .granted else {
             errorMessage = L10n.t(
-                "يجب السماح بإذن الميكروفون والتعرّف الصوتي من إعدادات iOS لاستخدام المحادثة الصوتية.",
-                "Microphone and speech-recognition permission are required from iOS Settings to use voice conversation."
+                "فعّل إذنَي الميكروفون والتعرّف على الكلام من إعدادات iPhone لاستخدام المحادثة الصوتية.",
+                "Enable Microphone and Speech Recognition in iPhone Settings to use voice conversation."
             )
             phase = .error
             return
@@ -168,7 +168,7 @@ struct VoiceConversationView: View {
         }
         if !ok {
             errorMessage = L10n.t(
-                "التعرّف الصوتي غير متاح على هذا الجهاز.",
+                "التعرّف على الكلام غير متاح على هذا الجهاز.",
                 "Speech recognition is not available on this device."
             )
             phase = .error

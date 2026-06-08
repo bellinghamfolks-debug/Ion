@@ -13,14 +13,14 @@ enum DescribeImageMode {
 
     var title: String {
         switch self {
-        case .detailed:           return L10n.t("وصف صورة أو مشهد", "Describe an image or scene")
-        case .altText:            return L10n.t("الوصف البديل", "Alt text")
-        case .screenshot:         return L10n.t("قراءة لقطة شاشة", "Screenshot reading")
+        case .detailed:           return L10n.t("وصف الصورة", "Image description")
+        case .altText:            return L10n.t("إنشاء وصف بديل", "Create alt text")
+        case .screenshot:         return L10n.t("قراءة لقطة شاشة", "Read a screenshot")
         case .currencyOrReceipt:  return L10n.t("قارئ العملات والفواتير",
                                                  "Currency and receipt reader")
-        case .medical:            return L10n.t("قراءة نص طبي", "Read medical text")
-        case .legal:              return L10n.t("قراءة نص قانوني", "Read legal text")
-        case .table:              return L10n.t("قراءة جدول", "Read a table")
+        case .medical:            return L10n.t("قراءة مستند طبي", "Read a medical document")
+        case .legal:              return L10n.t("قراءة مستند قانوني", "Read a legal document")
+        case .table:              return L10n.t("تحويل جدول إلى نص", "Turn a table into text")
         }
     }
 
@@ -89,7 +89,7 @@ struct DescribeImageView: View {
                     } label: {
                         HStack {
                             Image(systemName: "camera.fill")
-                            Text(L10n.t("التقاط بالكاميرا", "Take a photo"))
+                            Text(L10n.t("التقاط صورة", "Take a photo"))
                                 .fontWeight(.semibold)
                         }
                         .frame(maxWidth: .infinity, minHeight: 56)
@@ -106,7 +106,7 @@ struct DescribeImageView: View {
                 ) {
                     HStack {
                         Image(systemName: "photo.on.rectangle.angled")
-                        Text(L10n.t("اختر من المعرض", "Choose from library"))
+                        Text(L10n.t("اختيار صورة", "Choose a photo"))
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity, minHeight: 56)
@@ -122,8 +122,8 @@ struct DescribeImageView: View {
                     } label: {
                         HStack {
                             Image(systemName: "doc.badge.plus")
-                            Text(L10n.t("اختر مستندًا (PDF أو Word)",
-                                        "Choose a document (PDF or Word)"))
+                            Text(L10n.t("اختيار مستند",
+                                        "Choose document"))
                                 .fontWeight(.semibold)
                         }
                         .frame(maxWidth: .infinity, minHeight: 52)
@@ -136,8 +136,8 @@ struct DescribeImageView: View {
                 if isLoading {
                     HStack {
                         ProgressView()
-                        Text(L10n.t("جارٍ تحليل الصورة عبر Gemini...",
-                                     "Analyzing via Gemini..."))
+                        Text(L10n.t("أحلّل المحتوى...",
+                                     "Analyzing content..."))
                     }
                 }
 
@@ -186,8 +186,8 @@ struct DescribeImageView: View {
                     if let text, !text.isEmpty {
                         await analyzeText(text)
                     } else {
-                        errorMessage = L10n.t("تعذّر قراءة نص من هذا المستند.",
-                                              "Couldn't read text from this document.")
+                        errorMessage = L10n.t("لم أتمكن من استخراج نص قابل للقراءة من هذا الملف.",
+                                              "I couldn't extract readable text from this file.")
                     }
                 }
             }

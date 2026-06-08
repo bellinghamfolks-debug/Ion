@@ -30,7 +30,7 @@ struct SharedItemView: View {
                         HStack {
                             if isLoading { ProgressView().tint(.white) }
                             Text(isLoading
-                                 ? L10n.t("جارٍ المعالجة...", "Processing...")
+                                 ? L10n.t("أجهّز النتيجة...", "Preparing your result...")
                                  : actionTitle)
                                 .fontWeight(.semibold)
                         }
@@ -63,7 +63,7 @@ struct SharedItemView: View {
                 }
                 .padding(20)
             }
-            .navigationTitle(L10n.t("مشاركة إلى بصير", "Share to Basir"))
+            .navigationTitle(L10n.t("فتح في بصير", "Open in Basir"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(L10n.t("إغلاق", "Close")) { dismiss() }
@@ -81,7 +81,7 @@ struct SharedItemView: View {
                 .frame(maxHeight: 260)
                 .frame(maxWidth: .infinity)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
-                .accessibilityLabel(L10n.t("الصورة المُشارَكة", "Shared image"))
+                .accessibilityLabel(L10n.t("الصورة المستلمة", "Received image"))
         } else if isText, let text = String(data: incoming.data, encoding: .utf8) {
             Text(text)
                 .font(.body)
@@ -91,8 +91,8 @@ struct SharedItemView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
         } else {
             Label(
-                L10n.t("تم استلام ملف \(incoming.fileExtension.uppercased()). افتح تبويب المستندات لتحويله.",
-                       "Received a \(incoming.fileExtension.uppercased()) file. Open the Documents tab to convert it."),
+                L10n.t("وصل ملف بصيغة \(incoming.fileExtension.uppercased()). افتح قسم المستندات لمعالجته.",
+                       "A \(incoming.fileExtension.uppercased()) file was received. Open Documents to process it."),
                 systemImage: "doc.fill"
             )
             .font(.callout)
@@ -101,9 +101,9 @@ struct SharedItemView: View {
     }
 
     private var actionTitle: String {
-        if isImage { return L10n.t("صف الصورة", "Describe image") }
+        if isImage { return L10n.t("وصف الصورة", "Describe image") }
         if isText { return L10n.t("اسأل بصير", "Ask Basir") }
-        return L10n.t("معالجة", "Process")
+        return L10n.t("طريقة معالجة الملف", "How to process this file")
     }
 
     private func run() async {
@@ -126,12 +126,12 @@ struct SharedItemView: View {
                     imageData: nil, mimeType: nil)
             } else {
                 errorMessage = L10n.t(
-                    "هذا النوع من الملفات يُفتح من تبويب المستندات.",
-                    "This file type is handled from the Documents tab.")
+                    "يمكن معالجة هذا النوع من الملفات من قسم المستندات.",
+                    "This file type can be processed from the Documents section.")
                 return
             }
             UIAccessibility.post(notification: .announcement,
-                                 argument: L10n.t("أصبحت النتيجة جاهزة.", "Result ready."))
+                                 argument: L10n.t("النتيجة جاهزة.", "Your result is ready."))
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
         }

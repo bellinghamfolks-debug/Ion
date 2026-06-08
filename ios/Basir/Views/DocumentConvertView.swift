@@ -116,27 +116,27 @@ struct DocumentConvertView: View {
                                           total: Double(progress.total))
                                 .progressViewStyle(.linear)
                             Text(L10n.t(
-                                "جارٍ المعالجة — الدفعة \(progress.done) من \(progress.total)…",
-                                "Processing — batch \(progress.done) of \(progress.total)…"
+                                "أعالج الجزء \(progress.done) من \(progress.total)…",
+                                "Processing part \(progress.done) of \(progress.total)…"
                             ))
                                 .font(.callout)
                                 .accessibilityAddTraits(.updatesFrequently)
                         } else {
                             HStack {
                                 ProgressView()
-                                Text(L10n.t("جارٍ تنفيذ الطلب عبر Gemini...",
-                                             "Processing the request with Gemini..."))
+                                Text(L10n.t("أحلّل المستند...",
+                                             "Analyzing the document..."))
                             }
                         }
                         Button(role: .destructive) {
                             cancelRequested = true
                         } label: {
-                            Label(L10n.t("إيقاف", "Cancel"),
+                            Label(L10n.t("إيقاف المعالجة", "Stop processing"),
                                   systemImage: "stop.circle")
                         }
                         .accessibilityHint(L10n.t(
-                            "يوقف المعالجة بعد إنهاء الدفعة الحالية ويحفظ ما تم.",
-                            "Stops after the current batch finishes and keeps what was produced."))
+                            "يتوقف بعد اكتمال الجزء الحالي، مع الاحتفاظ بالنتائج التي انتهت معالجتها.",
+                            "Stops after the current part finishes and keeps all completed results."))
                     }
                     .padding(12)
                     .background(Color(.secondarySystemBackground))
@@ -153,8 +153,8 @@ struct DocumentConvertView: View {
                         ShareLink(item: resultText) {
                             Image(systemName: "square.and.arrow.up")
                         }
-                        .accessibilityLabel(L10n.t("مشاركة كنص",
-                                                     "Share as text"))
+                        .accessibilityLabel(L10n.t("مشاركة النص",
+                                                     "Share text"))
                         CopyButton(text: resultText)
                         AskAboutResultLink(text: resultText)
                     }
@@ -177,8 +177,8 @@ struct DocumentConvertView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
                         .accessibilityHint(L10n.t(
-                            "ينشئ ملف Word ويفتح ورقة المشاركة لحفظه أو إرساله.",
-                            "Builds a Word file and opens the share sheet to save or send it."))
+                            "ينشئ ملف Word من النتيجة، ثم يفتح خيارات الحفظ والمشاركة.",
+                            "Creates a Word file from the result, then opens the save and share options."))
                     } else {
                         Button {
                             buildDocxFile()
@@ -193,8 +193,8 @@ struct DocumentConvertView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
                         .accessibilityHint(L10n.t(
-                            "يحوّل النتيجة إلى ملف Word قابل للمشاركة.",
-                            "Converts the result into a shareable Word file."))
+                            "يحوّل النتيجة الحالية إلى ملف Word يمكنك حفظه أو مشاركته.",
+                            "Turns the current result into a Word file you can save or share."))
                     }
                 }
 
@@ -211,8 +211,8 @@ struct DocumentConvertView: View {
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("قراءة مستند وترجمته",
-                                 "Read and translate a document"))
+        .navigationTitle(L10n.t("قراءة مستند ومعالجته",
+                                 "Read and process a document"))
         .sheet(isPresented: $showPicker) {
             DocumentPicker(types: Self.allowedTypes) { url in
                 if let url { handlePicked(url: url) }
@@ -228,13 +228,13 @@ struct DocumentConvertView: View {
                 HStack {
                     Image(systemName: "doc.fill.badge.plus")
                         .font(.title)
-                    Text(L10n.t("اختر مستندًا (PDF أو Word أو PowerPoint أو نص)",
-                                  "Choose a document (PDF, Word, PowerPoint, or text)"))
+                    Text(L10n.t("اختيار مستند",
+                                  "Choose document"))
                         .font(.title3.bold())
                 }
                 Text(L10n.t(
-                    "يدعم PDF حتى 500 صفحة، وملفات Word (DOCX) وPowerPoint (PPTX) وTXT وCSV. يُستخرج النص محليًا، ثم يعالجه بصير عبر Gemini على دفعات ثمان صفحات لكل دفعة مع تقدّم حي. اترك التطبيق مفتوحًا أثناء التشغيل. النتيجة نص قابل للمشاركة، ويمكنك أيضًا إنشاء ملف Word منه.",
-                    "Supports PDFs of up to 500 pages, Word (DOCX) and PowerPoint (PPTX) files, plus TXT and CSV. Text is extracted on-device, then Basir processes it through Gemini in eight-page batches with live progress. Keep the app open while it runs. The result is shareable text — and you can also build a Word file from it."
+                    "يدعم PDF حتى 500 صفحة، إضافة إلى Word وPowerPoint وTXT وCSV. يستخرج بصير النص على جهازك، ثم يعالجه على أجزاء مع عرض التقدم. اترك التطبيق مفتوحًا حتى تنتهي العملية. يمكنك مشاركة النتيجة كنص أو إنشاء ملف Word.",
+                    "Supports PDFs up to 500 pages, plus Word, PowerPoint, TXT, and CSV. Basir extracts text on your device, then processes it in parts with live progress. Keep the app open until processing finishes. You can share the result as text or create a Word file."
                 ))
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -265,18 +265,18 @@ struct DocumentConvertView: View {
     /// choice persists, matching Android's document-quality control.
     private var modelPicker: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(L10n.t("نموذج معالجة الملف والمسح الضوئي",
-                        "File-processing & scan model"))
+            Text(L10n.t("جودة معالجة المستند",
+                        "Document processing quality"))
                 .font(.subheadline.bold())
-            Picker(L10n.t("النموذج", "Model"), selection: $settings.docQuality) {
-                Text(L10n.t("أسرع · Flash Lite", "Fastest · Flash Lite")).tag("fast")
+            Picker(L10n.t("مستوى الجودة", "Quality level"), selection: $settings.docQuality) {
+                Text(L10n.t("الأسرع · Flash Lite", "Fastest · Flash Lite")).tag("fast")
                 Text(L10n.t("متوازن · Flash", "Balanced · Flash")).tag("balanced")
-                Text(L10n.t("أعلى جودة · Pro", "Best quality · Pro")).tag("best")
+                Text(L10n.t("الأدق · Pro", "Most accurate · Pro")).tag("best")
             }
             .pickerStyle(.segmented)
             Text(L10n.t(
-                "يحدد موديل Gemini المستخدم لتحويل هذا الملف وللتعرّف الضوئي (OCR) على الملفات الممسوحة. الأعلى جودة (Pro) أدق لكنه أبطأ وأغلى — للمسح الضوئي الكثيف يُفضّل Flash. يُحفظ اختيارك.",
-                "Sets the Gemini model used to convert this file AND to OCR scanned files. Best (Pro) is more accurate but slower and costlier — for bulk scanning Flash is recommended. Your choice is saved."
+                "يحدد سرعة المعالجة ودقتها، ويُستخدم أيضًا لاستخراج النص من الصفحات الممسوحة. خيار Pro أدق لكنه أبطأ وقد تكون تكلفته أعلى. يُحفظ اختيارك تلقائيًا.",
+                "Controls processing speed and accuracy and is also used to extract text from scanned pages. Pro is more accurate but slower and may cost more. Your choice is saved automatically."
             ))
             .font(.caption)
             .foregroundStyle(.secondary)
@@ -289,7 +289,7 @@ struct DocumentConvertView: View {
             Text(L10n.t("اختياري: ترجمة النص المستخرج",
                          "Optional: translate the extracted text"))
                 .font(.subheadline.bold())
-            Picker(L10n.t("لغة الترجمة", "Translation target"),
+            Picker(L10n.t("الترجمة إلى", "Translate to"),
                     selection: $translateTo) {
                 Text(L10n.t("تنظيم النص دون ترجمة",
                              "Structure the text without translation")).tag("")
@@ -310,8 +310,8 @@ struct DocumentConvertView: View {
             HStack {
                 if isLoading { ProgressView().tint(.white) }
                 Text(isLoading
-                     ? L10n.t("جارٍ المعالجة...", "Processing...")
-                     : L10n.t("بدء المعالجة", "Start processing"))
+                     ? L10n.t("أعالج المستند...", "Processing document...")
+                     : L10n.t("معالجة المستند", "Process document"))
                     .fontWeight(.semibold)
             }
             .frame(maxWidth: .infinity, minHeight: 56)
@@ -333,8 +333,8 @@ struct DocumentConvertView: View {
                              "Convert math inside the document"))
                     .font(.callout.bold())
                 Text(L10n.t(
-                    "فعّل هذا الخيار عند معالجة مستند يحتوي على معادلات. عند تشغيله ينطق كل معادلة بالعربية ويرفق LaTeX للمراجعة.",
-                    "Turn on when processing a document with equations. Each equation is spoken in your language and tagged with [LaTeX:] for review."
+                    "استخدمه للمستندات التي تتضمن معادلات. سيحوّل بصير كل معادلة إلى وصف قابل للقراءة، مع إرفاق صيغة LaTeX للمراجعة.",
+                    "Use this for documents that contain equations. Basir will turn each equation into readable text and include its LaTeX form for review."
                 ))
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -356,8 +356,8 @@ struct DocumentConvertView: View {
                     Image(systemName: "exclamationmark.triangle.fill")
                         .foregroundStyle(.orange)
                     Text(L10n.t(
-                        "فشلت \(failed.count) من \(batches.count) دفعة",
-                        "\(failed.count) of \(batches.count) batches failed"))
+                        "الأجزاء غير المكتملة: \(failed.count) من \(batches.count)",
+                        "Unfinished parts: \(failed.count) of \(batches.count)"))
                         .font(.subheadline.bold())
                 }
                 ForEach(failed) { batch in
@@ -374,8 +374,8 @@ struct DocumentConvertView: View {
                 } label: {
                     HStack {
                         Image(systemName: "arrow.clockwise")
-                        Text(L10n.t("إعادة محاولة الدفعات الفاشلة فقط",
-                                     "Retry failed batches only"))
+                        Text(L10n.t("إعادة معالجة الأجزاء غير المكتملة",
+                                     "Retry unfinished parts"))
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity, minHeight: 48)
@@ -384,8 +384,8 @@ struct DocumentConvertView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
                 .accessibilityHint(L10n.t(
-                    "يُعيد محاولة الدفعات الفاشلة فقط دون لمس النتائج الناجحة.",
-                    "Re-runs only the failed batches and keeps the successful results."))
+                    "يعيد معالجة الأجزاء التي لم تكتمل فقط، ويحتفظ بالنتائج الناجحة كما هي.",
+                    "Retries only the unfinished parts and keeps completed results unchanged."))
             }
             .padding(12)
             .background(Color.orange.opacity(0.08))
@@ -477,7 +477,7 @@ struct DocumentConvertView: View {
                 resultText = pages.joined(separator: "\n\n")
                 lastDocxURL = nil
                 ArchiveStore.shared.addResult(ArchivedResult(
-                    title: L10n.t("مسح ضوئي: ", "Scanned: ") + url.lastPathComponent,
+                    title: L10n.t("اكتمل استخراج النص من: ", "Text extracted from: ") + url.lastPathComponent,
                     kind: "convert",
                     text: resultText,
                     summary: String(resultText.prefix(140))
@@ -591,7 +591,7 @@ struct DocumentConvertView: View {
             let failedCount = batches.filter(\.isFailed).count
             if failedCount == 0 {
                 ArchiveStore.shared.addResult(ArchivedResult(
-                    title: L10n.t("معالجة: ", "Processed: ") + sourceName,
+                    title: L10n.t("اكتملت معالجة الملف: ", "Processed document: ") + sourceName,
                     kind: translateTo.isEmpty ? "convert" : "translate_doc",
                     text: resultText,
                     summary: String(resultText.prefix(140))
@@ -604,8 +604,8 @@ struct DocumentConvertView: View {
             } else {
                 UIAccessibility.post(notification: .announcement,
                                       argument: L10n.t(
-                                          "اكتملت المعالجة مع \(failedCount) دفعة فاشلة. يمكنك إعادة المحاولة.",
-                                          "Processing finished with \(failedCount) failed batches. You can retry them."))
+                                          "اكتملت المعالجة، لكن تعذّر إنهاء \(failedCount) أجزاء. يمكنك إعادة محاولتها.",
+                                          "Processing finished, but \(failedCount) parts did not complete. You can retry them."))
             }
         }
     }
@@ -681,8 +681,8 @@ struct DocumentConvertView: View {
             lastDocxURL = outURL
             UIAccessibility.post(notification: .announcement,
                                   argument: L10n.t(
-                                      "تم إنشاء ملف Word. استخدم زر المشاركة لحفظه.",
-                                      "Word file created. Use the share button to save it."))
+                                      "ملف Word جاهز. استخدم زر المشاركة لحفظه أو إرساله.",
+                                      "Your Word file is ready. Use Share to save or send it."))
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
         }

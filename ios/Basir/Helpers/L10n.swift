@@ -59,7 +59,7 @@ enum L10n {
     /// 20-language BCP-47 → display name lookup used by TranslateView's
     /// language picker. Mirrors AiClient.bcp47Name on Android.
     static let supportedTranslationLanguages: [(code: String, ar: String, en: String)] = [
-        ("auto", "تلقائي: اكتشاف اللغة", "Auto-detect language"),
+        ("auto", "اكتشاف اللغة تلقائيًا", "Detect language automatically"),
         ("ar",   "العربية",              "Arabic"),
         ("en",   "الإنجليزية",            "English"),
         ("fr",   "الفرنسية",              "French"),

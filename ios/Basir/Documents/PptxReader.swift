@@ -23,10 +23,10 @@ enum PptxReadError: Error, LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .malformed:  return L10n.t("ملف PowerPoint تالف.",
-                                         "The PowerPoint file is malformed.")
-        case .noSlides:   return L10n.t("لا تحتوي الشرائح على نص قابل للقراءة.",
-                                         "Slides have no readable text.")
+        case .malformed:  return L10n.t("تعذّر فتح ملف PowerPoint؛ قد يكون تالفًا أو غير مكتمل.",
+                                         "The PowerPoint file could not be opened. It may be damaged or incomplete.")
+        case .noSlides:   return L10n.t("لم أجد نصًا قابلًا للقراءة في الشرائح.",
+                                         "I couldn\'t find readable text in the slides.")
         }
     }
 }

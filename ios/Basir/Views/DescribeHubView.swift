@@ -9,8 +9,8 @@ struct DescribeHubView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text(L10n.t(
-                    "اختر صورة من المعرض، أو التقط صورة جديدة، أو اكتب وصفًا للمشهد.",
-                    "Choose an image from the gallery, take a new photo, or type a scene description."
+                    "اختر ما تريد فهمه، ثم التقط صورة أو اخترها من مكتبة الصور.",
+                    "Choose what you want to understand, then take a photo or select one from your library."
                 ))
                 .font(.callout)
                 .foregroundStyle(.secondary)
@@ -20,10 +20,10 @@ struct DescribeHubView: View {
                 } label: {
                     BasirCard(
                         icon: "📝",
-                        title: L10n.t("وصف تفصيلي للصورة", "Detailed image description"),
+                        title: L10n.t("وصف الصورة بالتفصيل", "Describe an image in detail"),
                         description: L10n.t(
-                            "وصف يبدأ بالخلاصة، ثم الأشخاص والأشياء وترتيبها والنص الظاهر والتفاصيل العملية.",
-                            "A description that starts with a summary, then covers people, objects, layout, visible text, and practical details."
+                            "يبدأ بخلاصة واضحة، ثم يذكر الأشخاص والأشياء ومواقعها والنصوص الظاهرة والتفاصيل المفيدة.",
+                            "Starts with a clear summary, then covers people, objects, positions, visible text, and useful details."
                         )
                     )
                 }
@@ -34,10 +34,10 @@ struct DescribeHubView: View {
                 } label: {
                     BasirCard(
                         icon: "🖼",
-                        title: L10n.t("إنشاء وصف بديل للصورة", "Generate image alt text"),
+                        title: L10n.t("إنشاء وصف بديل", "Create alt text"),
                         description: L10n.t(
-                            "أنشئ وصفًا بديلًا مركزًا يشرح الغرض والمحتوى المهم دون حشو أو تخمين.",
-                            "Create focused alt text that explains the purpose and important content without filler or guesswork."
+                            "ينشئ وصفًا موجزًا ودقيقًا مناسبًا للنشر وقارئات الشاشة، بلا حشو أو افتراضات.",
+                            "Creates concise, accurate alt text for publishing and screen readers, without filler or assumptions."
                         )
                     )
                 }
@@ -50,8 +50,8 @@ struct DescribeHubView: View {
                         icon: "🖥",
                         title: L10n.t("قراءة لقطة شاشة", "Read a screenshot"),
                         description: L10n.t(
-                            "اقرأ النص الظاهر وأسماء الأزرار والرسائل، واشرح الخطوة التالية اعتمادًا على ما يظهر فقط.",
-                            "Read visible text, button names, and messages, and explain the next step using only what is shown."
+                            "يقرأ النصوص والأزرار والتنبيهات الظاهرة، ثم يشرح الخطوة التالية بناءً على الشاشة نفسها.",
+                            "Reads visible text, buttons, and alerts, then explains the next step based only on the screenshot."
                         )
                     )
                 }
@@ -62,10 +62,10 @@ struct DescribeHubView: View {
                 } label: {
                     BasirCard(
                         icon: "💵",
-                        title: L10n.t("قراءة العملات والفواتير", "Read currency and receipts"),
+                        title: L10n.t("قراءة عملة أو فاتورة", "Read currency or a receipt"),
                         description: L10n.t(
-                            "التقط صورة واضحة للعملة أو الفاتورة لقراءة الفئة أو الإجمالي. تحقّق من الرقم قبل الدفع أو التسليم.",
-                            "Take a clear photo of currency or a receipt to read the denomination or total. Verify the amount before paying or handing it over."
+                            "يتعرّف على فئة الورقة النقدية أو إجمالي الفاتورة من صورة واضحة. تحقّق من المبلغ قبل الدفع أو التسليم.",
+                            "Identifies a banknote denomination or receipt total from a clear photo. Verify the amount before paying or handing it over."
                         )
                     )
                 }
@@ -76,10 +76,10 @@ struct DescribeHubView: View {
                 } label: {
                     BasirCard(
                         icon: "🧮",
-                        title: L10n.t("تحليل ورقة رياضيات", "Analyze a math sheet"),
+                        title: L10n.t("قراءة معادلات من صورة", "Read equations from an image"),
                         description: L10n.t(
-                            "التقط صورة لمعادلات أو سبورة أو صفحة كتاب. يحاول بصير استخراج الصيغ بصيغة منطوقة مع LaTeX للمراجعة؛ قارِن الناتج بالصورة قبل اعتماده.",
-                            "Photograph equations, a whiteboard, or a textbook page. Basir attempts to extract spoken math with LaTeX for review; compare the result with the image before relying on it."
+                            "يلتقط المعادلات من ورقة أو سبورة أو كتاب، ويعرضها بصيغة منطوقة مع LaTeX للمراجعة.",
+                            "Extracts equations from a page, whiteboard, or textbook and presents spoken math with LaTeX for review."
                         )
                     )
                 }
@@ -87,21 +87,21 @@ struct DescribeHubView: View {
 
                 NavigationLink {
                     TextTaskView(
-                        title: L10n.t("وصف المشهد", "Scene description"),
+                        title: L10n.t("إرشادات مكانية من وصفك", "Guidance from your description"),
                         hint: L10n.t(
-                            "اكتب ما تعرفه عن المكان للحصول على تلخيص للعوائق والاتجاهات والخطوة التالية، دون اعتباره وصفًا حيًا للمشهد.",
-                            "Write what you know about the place to get a summary of obstacles, directions, and a next step; this is not live scene recognition."
+                            "اكتب ما تعرفه عن المكان، وسيُلخّص بصير العوائق والاتجاهات ويقترح خطوة عملية دون اختراع تفاصيل.",
+                            "Describe what you know about the place. Basir summarizes obstacles and directions and suggests one practical step without inventing details."
                         ),
                         instruction: "From the user's written description of a place, summarize obstacles, directions, and a single practical next step. This is not live scene recognition; do not invent details that were not described."
                     )
                 } label: {
                     BasirCard(
                         icon: "🧭",
-                        title: L10n.t("تحويل وصف مكتوب إلى إرشادات",
-                                      "Turn written scene details into guidance"),
+                        title: L10n.t("تحويل وصف المكان إلى إرشادات",
+                                      "Turn place details into guidance"),
                         description: L10n.t(
-                            "حوّل وصفك المكتوب للمكان إلى تلخيص للعوائق والاتجاهات والخطوة التالية.",
-                            "Turn your written description of a place into a summary of obstacles, directions, and a next step."
+                            "اكتب تفاصيل المكان لتحصل على تلخيص واضح للعوائق والاتجاهات والخطوة التالية.",
+                            "Enter place details to receive a clear summary of obstacles, directions, and the next step."
                         )
                     )
                 }
@@ -109,6 +109,6 @@ struct DescribeHubView: View {
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("وصف صورة أو مشهد", "Describe an image or scene"))
+        .navigationTitle(L10n.t("فهم صورة أو مشهد", "Understand an image or scene"))
     }
 }

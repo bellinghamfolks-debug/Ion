@@ -20,8 +20,8 @@ struct MathExtractView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text(L10n.t(
-                    "صوّر معادلات أو سبورة أو صفحة كتاب. سيحاول بصير استخراج الصيغ بصيغة منطوقة مع LaTeX للمراجعة.",
-                    "Photograph equations, a whiteboard, or a textbook page. Basir will attempt to extract spoken expressions with LaTeX for review."
+                    "صوّر معادلات من ورقة أو سبورة أو كتاب. سيعرضها بصير بصيغة منطوقة، ويضيف LaTeX للمراجعة.",
+                    "Photograph equations on a page, whiteboard, or textbook. Basir presents them in spoken form and adds LaTeX for review."
                 ))
                 .font(.callout)
                 .foregroundStyle(.secondary)
@@ -43,22 +43,22 @@ struct MathExtractView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
                 .accessibilityLabel(L10n.t(
-                    "اختيار صورة لتحليل المعادلات",
-                    "Pick an image to analyse math"
+                    "اختيار صورة لقراءة المعادلات",
+                    "Choose an image to analyze equations"
                 ))
 
                 if isLoading {
                     HStack {
                         ProgressView()
-                        Text(L10n.t("جارٍ تحليل المعادلات...",
-                                     "Analysing equations..."))
+                        Text(L10n.t("أقرأ المعادلات...",
+                                     "Reading equations..."))
                     }
                     .padding(.top, 8)
                 }
 
                 if !resultText.isEmpty {
                     Divider().padding(.vertical, 8)
-                    Text(L10n.t("الناتج", "Result"))
+                    Text(L10n.t("النتيجة", "Result"))
                         .font(.headline)
                         .accessibilityAddTraits(.isHeader)
                     Text(resultText)
@@ -80,7 +80,7 @@ struct MathExtractView: View {
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("تحليل ورقة رياضيات", "Analyze a math sheet"))
+        .navigationTitle(L10n.t("قراءة معادلات من صورة", "Read equations from an image"))
         .onChange(of: pickerItem) { _, item in
             guard let item else { return }
             Task { await runExtraction(item: item) }
@@ -95,8 +95,8 @@ struct MathExtractView: View {
         do {
             guard let data = try await item.loadTransferable(type: Data.self) else {
                 throw GeminiError.decode(L10n.t(
-                    "تعذّرت قراءة الصورة.",
-                    "Could not read the image."
+                    "لم أتمكن من فتح الصورة.",
+                    "I couldn't open the image."
                 ))
             }
             // Compress to ~1600px long edge + JPEG quality 85 — matches

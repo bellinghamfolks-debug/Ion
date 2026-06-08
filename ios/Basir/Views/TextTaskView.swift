@@ -30,7 +30,7 @@ struct TextTaskView: View {
                 Button {
                     showDocPicker = true
                 } label: {
-                    Label(L10n.t("إدراج نص من مستند", "Insert text from a document"),
+                    Label(L10n.t("إضافة نص من مستند", "Add text from a document"),
                           systemImage: "doc.badge.plus")
                         .frame(maxWidth: .infinity, minHeight: 48)
                 }
@@ -52,8 +52,8 @@ struct TextTaskView: View {
                     HStack {
                         if isLoading { ProgressView().tint(.white) }
                         Text(isLoading
-                             ? L10n.t("جارٍ المعالجة...", "Processing...")
-                             : L10n.t("إرسال", "Send"))
+                             ? L10n.t("أجهّز النتيجة...", "Preparing your result...")
+                             : L10n.t("إنشاء النتيجة", "Generate result"))
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity, minHeight: 54)
@@ -104,8 +104,8 @@ struct TextTaskView: View {
                     if let text, !text.isEmpty {
                         input = text
                     } else {
-                        errorMessage = L10n.t("تعذّر قراءة نص من هذا المستند.",
-                                              "Couldn't read text from this document.")
+                        errorMessage = L10n.t("لم أتمكن من استخراج نص قابل للقراءة من هذا الملف.",
+                                              "I couldn't extract readable text from this file.")
                     }
                 }
             }
@@ -131,7 +131,7 @@ struct TextTaskView: View {
             )
             ProcessingFeedback.done()
             UIAccessibility.post(notification: .announcement,
-                                 argument: L10n.t("أصبحت النتيجة جاهزة.", "Result ready."))
+                                 argument: L10n.t("النتيجة جاهزة.", "Your result is ready."))
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
             ProcessingFeedback.failed()

@@ -13,19 +13,19 @@ struct DocumentsView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     Hero()
 
-                    SectionHeader(L10n.t("المستندات والتحويل",
-                                          "Documents and conversion"))
+                    SectionHeader(L10n.t("قراءة المستندات ومعالجتها",
+                                          "Read and process documents"))
 
                     NavigationLink {
                         DocumentConvertView()
                     } label: {
                         BasirCard(
                             icon: "📄",
-                            title: L10n.t("قراءة وتحويل المستندات",
-                                          "Read and convert documents"),
+                            title: L10n.t("فتح مستند ومعالجته",
+                                          "Open and process a document"),
                             description: L10n.t(
-                                "استخرج النص من PDF حتى 500 صفحة، أو من ملف Word (DOCX) أو PowerPoint (PPTX) أو نص، ثم نظّمه أو ترجمه عبر Gemini على دفعات. يمكنك إنشاء ملف Word من النتيجة. اترك التطبيق مفتوحًا أثناء التشغيل.",
-                                "Extract text from a PDF of up to 500 pages, a Word (DOCX) file, a PowerPoint (PPTX) file, or a text file, then structure or translate it with Gemini in batches. You can build a Word file from the result. Keep the app open while it runs."
+                                "افتح PDF أو Word أو PowerPoint أو ملفًا نصيًا، ثم نظّم محتواه أو ترجمه وصدّر النتيجة إلى Word.",
+                                "Open a PDF, Word, PowerPoint, or text file, then organize or translate its content and export the result to Word."
                             )
                         )
                     }
@@ -39,30 +39,30 @@ struct DocumentsView: View {
                         } label: {
                             BasirCard(
                                 icon: "❓",
-                                title: L10n.t("اسأل عن آخر مستند",
-                                              "Ask about the latest document"),
+                                title: L10n.t("اسأل عن المستند الأخير",
+                                              "Ask about your last document"),
                                 description: lastDoc.sourceName.map { name in
-                                    L10n.t("اسأل عن: ", "Ask about: ") + name
+                                    L10n.t("المستند: ", "Document: ") + name
                                 } ?? L10n.t(
-                                    "اطرح أي سؤال عن المستند الذي حوّلته للتو.",
-                                    "Ask any question about the document you just converted."
+                                    "اطرح سؤالًا عن محتوى المستند الذي عالجته مؤخرًا.",
+                                    "Ask a question about the document you processed most recently."
                                 )
                             )
                         }
                         .buttonStyle(.plain)
                     }
 
-                    SectionHeader(L10n.t("اللغة", "Language"))
+                    SectionHeader(L10n.t("الترجمة", "Translation"))
 
                     NavigationLink {
                         TranslateView()
                     } label: {
                         BasirCard(
                             icon: "🌐",
-                            title: L10n.t("ترجمة وشرح", "Translate and explain"),
+                            title: L10n.t("ترجمة النصوص", "Translate text"),
                             description: L10n.t(
-                                "ترجم النصوص أو المستندات، مع توضيح المعنى والنبرة والسياق عند طلبك.",
-                                "Translate text or documents, with explanations of meaning, tone, and context when requested."
+                                "ترجم نصًا أو مستندًا، واطلب شرح المعنى أو النبرة أو المصطلحات عند الحاجة.",
+                                "Translate text or a document, and ask for clarification of meaning, tone, or terminology when needed."
                             )
                         )
                     }

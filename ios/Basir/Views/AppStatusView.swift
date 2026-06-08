@@ -15,35 +15,35 @@ struct AppStatusView: View {
 
     private var connectionMode: String {
         // The current iOS release uses a direct connection to Gemini.
-        L10n.t("اتصال مباشر بـ Gemini", "Direct connection to Gemini")
+        L10n.t("اتصال مباشر بخدمة Gemini", "Direct Gemini connection")
     }
 
     private var keyState: String {
         settings.isConfigured
-            ? L10n.t("مُعد", "Configured")
-            : L10n.t("غير مُعد", "Not configured")
+            ? L10n.t("جاهز", "Ready")
+            : L10n.t("يحتاج إلى إعداد", "Setup needed")
     }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
                 Text(L10n.t(
-                    "ملخص حالة التطبيق وإعداده على هذا الجهاز.",
-                    "A summary of the app's status and configuration on this device."
+                    "معلومات سريعة تساعدك على معرفة إعداد التطبيق وطريقة اتصاله على هذا الجهاز.",
+                    "A quick overview of the app setup and connection on this device."
                 ))
                 .font(.callout)
                 .foregroundStyle(.secondary)
 
                 statusRow(L10n.t("التطبيق", "App"), "بصير — Basir")
                 statusRow(L10n.t("الإصدار", "Version"), version)
-                statusRow(L10n.t("نمط الاتصال", "Connection mode"), connectionMode)
-                statusRow(L10n.t("مفتاح Gemini", "Gemini key"), keyState)
+                statusRow(L10n.t("طريقة الاتصال", "Connection method"), connectionMode)
+                statusRow(L10n.t("مفتاح Gemini", "Gemini API key"), keyState)
                 statusRow(L10n.t("اللغة", "Language"),
                           settings.language == .arabic ? "العربية" : "English")
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("حالة التطبيق", "App status"))
+        .navigationTitle(L10n.t("حالة التطبيق والاتصال", "App and connection status"))
     }
 
     @ViewBuilder

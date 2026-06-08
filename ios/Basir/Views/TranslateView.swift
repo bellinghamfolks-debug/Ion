@@ -26,8 +26,8 @@ struct TranslateView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text(L10n.t(
-                    "اختر اللغة المصدر واللغة الهدف، ثم اكتب النص أو الصقه. راجع الأسماء والأرقام والمصطلحات المتخصصة قبل استخدام الترجمة.",
-                    "Choose the source and target languages, then type or paste text. Check names, numbers, and specialized terms before using the translation."
+                    "اختر لغة النص واللغة المطلوبة، ثم اكتب النص أو ألصقه. راجع الأسماء والأرقام والمصطلحات المتخصصة قبل الاعتماد على الترجمة.",
+                    "Choose the source and target languages, then type or paste your text. Verify names, numbers, and specialist terms before relying on the translation."
                 ))
                 .font(.callout)
                 .foregroundStyle(.secondary)
@@ -36,7 +36,7 @@ struct TranslateView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(L10n.t("اللغة المصدر", "Source language"))
                         .font(.subheadline.bold())
-                    Picker(L10n.t("اختر اللغة المصدر", "Choose source language"),
+                    Picker(L10n.t("اختيار لغة النص", "Choose source language"),
                             selection: $settings.translateSource) {
                         ForEach(allLanguages, id: \.code) { lang in
                             Text(BasirSettings.shared.language == .arabic ? lang.ar : lang.en)
@@ -54,7 +54,7 @@ struct TranslateView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(L10n.t("اللغة الهدف", "Target language"))
                         .font(.subheadline.bold())
-                    Picker(L10n.t("اختر اللغة الهدف", "Choose target language"),
+                    Picker(L10n.t("اختيار لغة الترجمة", "Choose target language"),
                             selection: $settings.translateTarget) {
                         ForEach(targetLanguages, id: \.code) { lang in
                             Text(BasirSettings.shared.language == .arabic ? lang.ar : lang.en)
@@ -75,16 +75,16 @@ struct TranslateView: View {
                     if oldSrc == "auto" {
                         UIAccessibility.post(notification: .announcement,
                                               argument: L10n.t(
-                                                "لا يمكن تبديل اللغة مع الاكتشاف التلقائي.",
-                                                "Cannot swap with auto-detect."
+                                                "اختر لغةً محددة للنص قبل تبديل اللغتين.",
+                                                "Choose a specific source language before swapping."
                                               ))
                         return
                     }
                     settings.translateSource = oldTgt
                     settings.translateTarget = oldSrc
                     UIAccessibility.post(notification: .announcement,
-                                          argument: L10n.t("تم تبديل اللغتين.",
-                                                            "Languages swapped."))
+                                          argument: L10n.t("تبدّلت لغة النص ولغة الترجمة.",
+                                                            "Source and target languages swapped."))
                 } label: {
                     HStack {
                         Image(systemName: "arrow.up.arrow.down")
@@ -98,7 +98,7 @@ struct TranslateView: View {
                 Button {
                     showDocPicker = true
                 } label: {
-                    Label(L10n.t("ترجمة نص من مستند", "Translate text from a document"),
+                    Label(L10n.t("إدراج نص من مستند", "Insert text from a document"),
                           systemImage: "doc.badge.plus")
                         .frame(maxWidth: .infinity, minHeight: 48)
                 }
@@ -127,8 +127,8 @@ struct TranslateView: View {
                     HStack {
                         if isLoading { ProgressView().tint(.white) }
                         Text(isLoading
-                             ? L10n.t("جارٍ الترجمة...", "Translating...")
-                             : L10n.t("ترجمة", "Translate"))
+                             ? L10n.t("أترجم النص...", "Translating text...")
+                             : L10n.t("ترجمة النص", "Translate text"))
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity, minHeight: 56)
@@ -141,7 +141,7 @@ struct TranslateView: View {
                 // Output
                 if !translation.isEmpty {
                     Divider().padding(.vertical, 8)
-                    Text(L10n.t("الترجمة", "Translation"))
+                    Text(L10n.t("النص المترجم", "Translated text"))
                         .font(.headline)
                         .accessibilityAddTraits(.isHeader)
                     Text(translation)
@@ -162,7 +162,7 @@ struct TranslateView: View {
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("ترجمة وشرح", "Translate and explain"))
+        .navigationTitle(L10n.t("الترجمة", "Translation"))
         .sheet(isPresented: $showDocPicker) {
             DocumentPicker(types: DocumentText.importTypes) { url in
                 guard let url else { return }
@@ -174,8 +174,8 @@ struct TranslateView: View {
                     if let text, !text.isEmpty {
                         inputText = text
                     } else {
-                        errorMessage = L10n.t("تعذّر قراءة نص من هذا المستند.",
-                                              "Couldn't read text from this document.")
+                        errorMessage = L10n.t("لم أتمكن من استخراج نص قابل للترجمة من هذا الملف.",
+                                              "I couldn't extract text to translate from this file.")
                     }
                 }
             }

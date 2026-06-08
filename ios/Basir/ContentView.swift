@@ -17,26 +17,26 @@ struct ContentView: View {
             HomeView()
                 .tabItem {
                     Image(systemName: "bubble.left.and.bubble.right.fill")
-                    Text(L10n.t("محادثة", "Talk"))
+                    Text(L10n.t("اسأل", "Ask"))
                 }
                 .tag(AppTab.talk)
-                .accessibilityLabel(L10n.t("محادثة", "Talk"))
+                .accessibilityLabel(L10n.t("اسأل", "Ask"))
 
             VisionView()
                 .tabItem {
                     Image(systemName: "eye.fill")
-                    Text(L10n.t("رؤية", "Vision"))
+                    Text(L10n.t("الصور", "Images"))
                 }
                 .tag(AppTab.vision)
-                .accessibilityLabel(L10n.t("رؤية", "Vision"))
+                .accessibilityLabel(L10n.t("الصور", "Images"))
 
             DocumentsView()
                 .tabItem {
                     Image(systemName: "doc.text.fill")
-                    Text(L10n.t("مستندات", "Documents"))
+                    Text(L10n.t("المستندات", "Documents"))
                 }
                 .tag(AppTab.documents)
-                .accessibilityLabel(L10n.t("مستندات", "Documents"))
+                .accessibilityLabel(L10n.t("المستندات", "Documents"))
 
             MoreView()
                 .tabItem {
@@ -67,9 +67,9 @@ enum AppTab: Hashable {
 
     var spokenName: String {
         switch self {
-        case .talk:      return L10n.t("محادثة", "Talk")
-        case .vision:    return L10n.t("رؤية", "Vision")
-        case .documents: return L10n.t("مستندات", "Documents")
+        case .talk:      return L10n.t("اسأل", "Ask")
+        case .vision:    return L10n.t("الصور", "Images")
+        case .documents: return L10n.t("المستندات", "Documents")
         case .more:      return L10n.t("المزيد", "More")
         }
     }

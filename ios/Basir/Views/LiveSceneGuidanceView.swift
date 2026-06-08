@@ -25,8 +25,8 @@ struct LiveSceneGuidanceView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text(L10n.t(
-                    "تنبيه: هذه أداة مساعدة، لا تُغني عن العصا أو الكلب المرشد. لا تستخدمها وحدها لعبور الطرق أو السلالم. قد يتأخر الوصف أو يخطئ.",
-                    "Note: this is an aid, not a substitute for a cane or guide dog. Do not use it alone to cross streets or stairs. Descriptions may be delayed or wrong."
+                    "هذه أداة مساعدة فقط، وليست بديلًا عن العصا أو الكلب المرشد. لا تستخدمها وحدها لعبور الطرق أو السلالم، فقد يتأخر الوصف أو يخطئ.",
+                    "This is an aid only, not a replacement for a cane or guide dog. Never use it alone to cross roads or stairs, because descriptions may be delayed or wrong."
                 ))
                 .font(.callout)
                 .foregroundStyle(.secondary)
@@ -54,16 +54,16 @@ struct LiveSceneGuidanceView: View {
                 primaryButton
 
                 Text(L10n.t(
-                    "بصير على iPhone يعمل فقط أثناء وجود التطبيق في المقدمة وفتح الشاشة. حين يدخل التطبيق إلى الخلفية تُغلق الجلسة تلقائيًا.",
-                    "Live scene guidance on iPhone runs only while the app is in the foreground with the screen on. The session ends automatically if the app is backgrounded."
+                    "يعمل الوصف المباشر ما دام بصير ظاهرًا على الشاشة. عند قفل الشاشة أو الانتقال إلى تطبيق آخر، تتوقف الجلسة تلقائيًا.",
+                    "Live description runs only while Basir is visible on screen. The session stops automatically when the screen locks or you switch apps."
                 ))
                 .font(.footnote)
                 .foregroundStyle(.tertiary)
             }
             .padding(20)
         }
-        .navigationTitle(L10n.t("الوصف المباشر أثناء التنقل",
-                                  "Live scene guidance"))
+        .navigationTitle(L10n.t("الوصف المباشر",
+                                  "Live scene description"))
         .onChange(of: scenePhase) { _, phase in
             // iOS prohibits camera in background. Tear down so the OS
             // doesn't kill us with a black-frame warning and so the
@@ -100,8 +100,8 @@ struct LiveSceneGuidanceView: View {
     @ViewBuilder
     private var lastLineCard: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(L10n.t("آخر تنبيه منطوق",
-                         "Last spoken alert"))
+            Text(L10n.t("آخر وصف منطوق",
+                         "Last spoken description"))
                 .font(.subheadline.bold())
                 .foregroundStyle(.secondary)
             Text(controller.lastLine.isEmpty ? "—" : controller.lastLine)
@@ -121,7 +121,7 @@ struct LiveSceneGuidanceView: View {
             Button(role: .destructive) {
                 controller.stop()
             } label: {
-                Text(L10n.t("إيقاف", "Stop"))
+                Text(L10n.t("إيقاف الوصف", "Stop description"))
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, minHeight: 60)
                     .background(Color.red)
@@ -148,7 +148,7 @@ struct LiveSceneGuidanceView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 14))
             }
             .accessibilityHint(L10n.t(
-                "يبدأ التقاط صورة كل ثانيتين ووصف ما أمامك بصوت.",
+                "يلتقط صورة كل ثانيتين ويصف ما أمامك بصوت.",
                 "Captures one frame every two seconds and speaks a description."))
         }
     }

@@ -20,8 +20,8 @@ struct MemoryView: View {
         List {
             Section(L10n.t("الأشخاص", "People")) {
                 if store.people.isEmpty {
-                    Text(L10n.t("لا يوجد أشخاص محفوظون حتى الآن.",
-                                 "No people saved yet."))
+                    Text(L10n.t("لم تُضف أشخاصًا بعد.",
+                                 "You haven't added any people yet."))
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(store.people) { person in
@@ -53,8 +53,8 @@ struct MemoryView: View {
             Section(L10n.t("المنتجات والأدوية",
                             "Products and medications")) {
                 if store.products.isEmpty {
-                    Text(L10n.t("لا توجد منتجات محفوظة حتى الآن.",
-                                 "No products saved yet."))
+                    Text(L10n.t("لم تُضف منتجًا أو دواءً بعد.",
+                                 "You haven't added any products or medications yet."))
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(store.products) { p in
@@ -84,8 +84,8 @@ struct MemoryView: View {
 
             Section(L10n.t("الأماكن", "Places")) {
                 if store.places.isEmpty {
-                    Text(L10n.t("لا توجد أماكن محفوظة حتى الآن.",
-                                 "No places saved yet."))
+                    Text(L10n.t("لم تُضف مكانًا بعد.",
+                                 "You haven't added any places yet."))
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(store.places) { p in
@@ -112,7 +112,7 @@ struct MemoryView: View {
                 }
             }
         }
-        .navigationTitle(L10n.t("محفوظاتي الخاصة", "My saved items"))
+        .navigationTitle(L10n.t("ملاحظاتي", "My notes"))
         .sheet(item: $newSection) { kind in
             NewEntrySheetView(kind: kind, store: store)
         }
@@ -140,7 +140,7 @@ private struct NewEntrySheetView: View {
                     TextField(secondaryFieldLabel, text: $secondary)
                 }
                 Section(L10n.t("ملاحظات", "Notes")) {
-                    TextField(L10n.t("ملاحظات (اختياري)", "Notes (optional)"),
+                    TextField(L10n.t("أضف ملاحظة اختيارية", "Add an optional note"),
                               text: $notes, axis: .vertical)
                         .lineLimit(3, reservesSpace: true)
                 }
@@ -171,9 +171,9 @@ private struct NewEntrySheetView: View {
 
     private var secondaryFieldLabel: String {
         switch kind {
-        case .person:  return L10n.t("العلاقة", "Relationship")
+        case .person:  return L10n.t("صلة الشخص بك", "Relationship to you")
         case .product: return L10n.t("الباركود", "Barcode")
-        case .place:   return L10n.t("الوصف", "Description")
+        case .place:   return L10n.t("وصف المكان", "Place description")
         }
     }
 

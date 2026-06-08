@@ -5,6 +5,7 @@
 
 import Foundation
 import UniformTypeIdentifiers
+import PDFKit
 
 enum DocumentText {
 
@@ -101,12 +102,23 @@ enum DocumentText {
     @MainActor
     static func ocrPdf(from url: URL, maxPages: Int = 500,
                        onProgress: ((Int, Int) -> Void)? = nil) async -> String? {
-        let images = PdfReader.renderPageImages(from: url, maxPages: maxPages)
-        guard !images.isEmpty else { return nil }
-        onProgress?(0, images.count)
+        guard let doc = PDFDocument(url: url) else { return nil }
+        let total = min(doc.pageCount, maxPages)
+        guard total > 0 else { return nil }
+        // Show the progress bar from the very first page (the previous
+        // build rendered every page before any OCR began, so the bar
+        // never appeared and memory spiked).
+        onProgress?(0, total)
         let lang = BasirSettings.shared.language
         var sb = ""
-        for (i, image) in images.enumerated() {
+        for i in 0..<total {
+            // Render ONE page, transcribe it, then let it deallocate
+            // before moving on — peak memory stays at a single page.
+            guard let page = doc.page(at: i),
+                  let image = PdfReader.jpegData(for: page) else {
+                onProgress?(i + 1, total)
+                continue
+            }
             // Use the .convert task so OCR follows the user-selected
             // document-processing model (docQuality) — the file model
             // picker / Settings genuinely control which Gemini model
@@ -122,7 +134,7 @@ enum DocumentText {
                 mimeType: "image/jpeg")) ?? ""
             let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
             if !trimmed.isEmpty { sb += "\n[Page \(i + 1)]\n" + trimmed + "\n" }
-            onProgress?(i + 1, images.count)
+            onProgress?(i + 1, total)
         }
         return sb.isEmpty ? nil : sb
     }

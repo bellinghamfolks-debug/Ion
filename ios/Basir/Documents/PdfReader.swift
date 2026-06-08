@@ -104,19 +104,22 @@ struct PdfReader {
         PDFDocument(url: url)?.pageCount ?? 0
     }
 
-    /// Render the first `maxPages` pages to JPEG data, for OCR via Gemini
-    /// vision when a PDF is a scan with no text layer (matches Android's
-    /// PdfRenderer → Gemini path).
-    static func renderPageImages(from url: URL,
-                                 maxPages: Int = 40,
-                                 longEdge: CGFloat = 1600) -> [Data] {
-        guard let doc = PDFDocument(url: url) else { return [] }
-        var out: [Data] = []
-        let count = min(doc.pageCount, maxPages)
-        for i in 0..<count {
-            guard let page = doc.page(at: i) else { continue }
+    /// Render a SINGLE page to JPEG data, for OCR via Gemini vision when
+    /// a PDF is a scan with no text layer (matches Android's PdfRenderer →
+    /// Gemini path).
+    ///
+    /// Rendering one page at a time — instead of building an array of
+    /// every page up front — is essential: a long scanned PDF rendered
+    /// all at once holds hundreds of MB of bitmaps/JPEGs simultaneously
+    /// and iOS terminates the app (a freeze-then-crash). The caller
+    /// (DocumentText.ocrPdf) opens the document once and walks pages,
+    /// transcribing and releasing each before rendering the next. The
+    /// autoreleasepool frees the bitmap promptly between pages.
+    static func jpegData(for page: PDFPage,
+                         longEdge: CGFloat = 1600) -> Data? {
+        autoreleasepool {
             let bounds = page.bounds(for: .mediaBox)
-            guard bounds.width > 0, bounds.height > 0 else { continue }
+            guard bounds.width > 0, bounds.height > 0 else { return nil }
             let scale = min(1.0, longEdge / max(bounds.width, bounds.height))
             let size = CGSize(width: bounds.width * scale, height: bounds.height * scale)
             let renderer = UIGraphicsImageRenderer(size: size)
@@ -127,8 +130,7 @@ struct PdfReader {
                 ctx.cgContext.scaleBy(x: scale, y: -scale)
                 page.draw(with: .mediaBox, to: ctx.cgContext)
             }
-            if let data = img.jpegData(compressionQuality: 0.7) { out.append(data) }
+            return img.jpegData(compressionQuality: 0.7)
         }
-        return out
     }
 }

@@ -108,6 +108,7 @@ struct AskBasirView: View {
                 mimeType: nil
             )
             answer = response
+            question = ""        // clear the box once the answer arrives
             ProcessingFeedback.done()
             // Announce completion to VoiceOver. Equivalent to the Android
             // announceForAccessibility call.

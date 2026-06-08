@@ -24,28 +24,41 @@ enum DocumentText {
         return types
     }
 
-    /// Extract text from a picked document URL. Copies the security-scoped
-    /// file into our sandbox first (reading PDFs/Office files straight from
-    /// a scoped URL is unreliable), then extracts by extension. Returns nil
-    /// only if the file genuinely can't be read.
+    /// Extract text from a picked document URL. Handles iCloud files that
+    /// aren't downloaded yet (the ☁️ ones) by triggering a download and
+    /// reading through NSFileCoordinator, then copying into our sandbox
+    /// before extracting. Returns nil only if it truly can't be read.
     static func extract(from url: URL) -> String? {
         let scoped = url.startAccessingSecurityScopedResource()
         defer { if scoped { url.stopAccessingSecurityScopedResource() } }
 
-        // Work from a local copy so subsequent reads need no scope.
+        // Ask iCloud to materialize the file if it lives only in the cloud.
+        try? FileManager.default.startDownloadingUbiquitousItem(at: url)
+
         let dest = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString + "-" + url.lastPathComponent)
-        let working: URL
-        do {
+        var copied = false
+
+        // A coordinated read blocks until iCloud has the bytes locally.
+        let coordinator = NSFileCoordinator()
+        var coordError: NSError?
+        coordinator.coordinate(readingItemAt: url, options: [], error: &coordError) { readURL in
             try? FileManager.default.removeItem(at: dest)
-            try FileManager.default.copyItem(at: url, to: dest)
-            working = dest
-        } catch {
-            working = url   // fall back to the original URL
+            do {
+                try FileManager.default.copyItem(at: readURL, to: dest)
+                copied = true
+            } catch {
+                // Fall back to reading bytes directly into the temp file.
+                if let data = try? Data(contentsOf: readURL) {
+                    copied = (try? data.write(to: dest)) != nil
+                }
+            }
         }
+
+        let working = copied ? dest : url
         defer { try? FileManager.default.removeItem(at: dest) }
 
-        let ext = working.pathExtension.lowercased()
+        let ext = url.pathExtension.lowercased()
         do {
             switch ext {
             case "pdf":  return try PdfReader.extractText(from: working)

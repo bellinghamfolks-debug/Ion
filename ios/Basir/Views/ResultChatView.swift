@@ -129,6 +129,7 @@ struct ResultChatView: View {
                 imageData: image,
                 mimeType: image != nil ? "image/jpeg" : nil
             )
+            question = ""        // clear the box once the answer arrives
             ProcessingFeedback.done()
             UIAccessibility.post(notification: .announcement,
                                  argument: L10n.t("أصبحت الإجابة جاهزة.", "Answer ready."))

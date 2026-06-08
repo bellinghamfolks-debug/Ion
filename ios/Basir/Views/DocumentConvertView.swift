@@ -69,6 +69,11 @@ struct DocumentConvertView: View {
     /// using the spoken-math + LaTeX format the math card uses.
     /// Mirrors the toggle on Android's convert screen.
     @AppStorage("convert_math_mode") private var mathMode: Bool = false
+    /// When ON, Basir renders each page with vision so Gemini can also
+    /// describe any photos / figures / charts inside the document (the
+    /// iOS counterpart to Android's "full" convert mode). OFF by default
+    /// because text-only extraction is much cheaper.
+    @AppStorage("convert_describe_images") private var describeImages: Bool = false
 
     /// Document types iOS now extracts on-device. DOCX and PPTX go
     /// through DocxReader / PptxReader (the iOS equivalents of
@@ -109,6 +114,7 @@ struct DocumentConvertView: View {
                     Section {
                         modelPicker
                         translationPicker
+                        describeImagesToggle
                         mathToggle
                         runButton
                     }
@@ -329,6 +335,27 @@ struct DocumentConvertView: View {
         .disabled(isLoading)
     }
 
+    /// Opt-in image description for the convert flow. When OFF (default)
+    /// Basir reads only the text layer — fast and cheap. When ON, each page
+    /// is sent to Gemini vision so photos, figures, charts, and diagrams in
+    /// the document are described inline (marked [صورة: …] / [Image: …]).
+    private var describeImagesToggle: some View {
+        Toggle(isOn: $describeImages) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(L10n.t("وصف الصور داخل المستند",
+                             "Describe images inside the document"))
+                    .font(.callout.bold())
+                Text(L10n.t(
+                    "عند التفعيل، يصف بصير الصور والرسوم والمخططات داخل الملف ويُدرج وصفها مع النص. هذا الخيار أبطأ وأعلى تكلفة لأنه يحلّل كل صفحة بصريًا؛ اتركه متوقفًا إذا أردت النص فقط.",
+                    "When on, Basir describes photos, figures, and charts in the file and inserts the descriptions alongside the text. This is slower and costs more because every page is analyzed visually; leave it off if you only need the text."
+                ))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }
+        }
+        .disabled(isLoading)
+    }
+
     /// v3.3 — opt-in math extraction directive for the convert flow.
     /// Hidden by default because most documents are prose; turning it
     /// on instructs Gemini to render every equation as spoken text +
@@ -452,19 +479,33 @@ struct DocumentConvertView: View {
             var fromOCR = false
             switch url.pathExtension.lowercased() {
             case "pdf":
-                do {
-                    pages = try PdfReader.extractPages(from: url)
-                } catch PdfReadError.empty {
-                    // Scanned PDF (no text layer): OCR each page via Gemini
-                    // vision, then process the transcription like any text.
-                    // Report per-page scan progress to the progress bar.
+                if describeImages {
+                    // User wants images described → analyze every page with
+                    // vision (even if a text layer exists), so figures and
+                    // charts are captured, not just the text.
                     isScanning = true
-                    let ocr = await DocumentText.ocrPdf(from: url) { done, total in
+                    let vision = await DocumentText.ocrPdf(
+                        from: url, describeImages: true) { done, total in
                         progress = (done: done, total: total)
                     } ?? ""
                     isScanning = false
-                    pages = Self.splitByCharBudget(ocr)
+                    pages = Self.splitByCharBudget(vision)
                     fromOCR = true
+                } else {
+                    do {
+                        pages = try PdfReader.extractPages(from: url)
+                    } catch PdfReadError.empty {
+                        // Scanned PDF (no text layer): OCR each page via Gemini
+                        // vision, then process the transcription like any text.
+                        // Report per-page scan progress to the progress bar.
+                        isScanning = true
+                        let ocr = await DocumentText.ocrPdf(from: url) { done, total in
+                            progress = (done: done, total: total)
+                        } ?? ""
+                        isScanning = false
+                        pages = Self.splitByCharBudget(ocr)
+                        fromOCR = true
+                    }
                 }
             case "docx":
                 // Split DOCX/PPTX text by an empty-line heuristic so
@@ -481,7 +522,8 @@ struct DocumentConvertView: View {
                 // Image file (photo/scan) picked from Files → OCR via
                 // Gemini vision, then process the transcription as text.
                 isScanning = true
-                let ocr = await DocumentText.ocrImage(from: url) { done, total in
+                let ocr = await DocumentText.ocrImage(
+                    from: url, describeImages: describeImages) { done, total in
                     progress = (done: done, total: total)
                 } ?? ""
                 isScanning = false

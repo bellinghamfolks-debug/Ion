@@ -61,16 +61,17 @@ enum DocumentText {
     /// callback shape as ocrPdf so the convert screen can show a bar.
     @MainActor
     static func ocrImage(from url: URL,
+                         describeImages: Bool = false,
                          onProgress: ((Int, Int) -> Void)? = nil) async -> String? {
         guard let jpeg = imageData(from: url) else { return nil }
         onProgress?(0, 1)
+        let lang = BasirSettings.shared.language
         let text = (try? await AiProviderFactory.current().ask(
             task: .convert,
             input: "",
-            instruction: "Transcribe ALL text in this image EXACTLY as written, "
-                + "preserving reading order, line breaks, numbers, and table layout as plain text. "
-                + "Output only the transcribed text with no commentary.",
-            language: BasirSettings.shared.language,
+            instruction: visionInstruction(describeImages: describeImages,
+                                            arabic: lang == .arabic),
+            language: lang,
             imageData: jpeg,
             mimeType: "image/jpeg")) ?? ""
         onProgress?(1, 1)
@@ -156,8 +157,29 @@ enum DocumentText {
     /// with (0, pageCount) once the pages are rendered, then after each
     /// page is transcribed — so the convert screen can show a real OCR
     /// progress bar instead of an indeterminate spinner.
+    /// Vision instruction for a page/image. When `describeImages` is on we
+    /// additionally ask the model to describe any photos, figures, charts,
+    /// or diagrams inline — the iOS equivalent of Android's "full" convert
+    /// mode (which can see images because it uploads the whole PDF). Off by
+    /// default to stay economical (text-only is far cheaper).
+    private static func visionInstruction(describeImages: Bool, arabic: Bool) -> String {
+        let base = "Transcribe ALL text on this page EXACTLY as written, "
+            + "preserving reading order, line breaks, numbers, and table layout as plain text. "
+        if !describeImages {
+            return base + "Output only the transcribed text with no commentary."
+        }
+        let tag = arabic ? "[صورة: …]" : "[Image: …]"
+        return base
+            + "ALSO, wherever the page contains a photo, figure, chart, diagram, logo, "
+            + "or illustration, insert a concise, useful description of it — written for a "
+            + "blind reader — at the position where it appears, wrapped like \(tag). "
+            + "For charts and diagrams, describe what they show (trend, axes, key values). "
+            + "Do NOT invent images that are not present. No other commentary."
+    }
+
     @MainActor
     static func ocrPdf(from url: URL, maxPages: Int = 500,
+                       describeImages: Bool = false,
                        onProgress: ((Int, Int) -> Void)? = nil) async -> String? {
         guard let doc = PDFDocument(url: url) else { return nil }
         let total = min(doc.pageCount, maxPages)
@@ -167,6 +189,8 @@ enum DocumentText {
         // never appeared and memory spiked).
         onProgress?(0, total)
         let lang = BasirSettings.shared.language
+        let instruction = visionInstruction(describeImages: describeImages,
+                                             arabic: lang == .arabic)
         var sb = ""
         for i in 0..<total {
             // Render ONE page, transcribe it, then let it deallocate
@@ -183,9 +207,7 @@ enum DocumentText {
             let text = (try? await AiProviderFactory.current().ask(
                 task: .convert,
                 input: "",
-                instruction: "Transcribe ALL text in this scanned document page EXACTLY as written, "
-                    + "preserving reading order, line breaks, numbers, and table layout as plain text. "
-                    + "Output only the transcribed text with no commentary.",
+                instruction: instruction,
                 language: lang,
                 imageData: image,
                 mimeType: "image/jpeg")) ?? ""

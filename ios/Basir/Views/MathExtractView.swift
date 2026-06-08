@@ -1,11 +1,12 @@
 // MathExtractView.swift
-// Math extraction — the v2.9 feature. Photograph a textbook page, a
-// whiteboard, or handwritten equations; Basir returns each expression
-// in spoken Arabic / English followed by the LaTeX source.
+// Math extraction. Photograph a textbook page, a whiteboard, or
+// handwritten equations; Basir returns each expression in spoken
+// Arabic / English followed by the LaTeX source.
 //
-// This uses the FULL mathExtractionInstruction prompt that ports
-// directly from AiClient.mathExtractionInstruction on Android, with
-// the same 8 worked examples + full Arabic / English vocabulary.
+// Economical pipeline (ports Android v3.0): Gemini emits ONLY compact
+// LaTeX (small output, deterministic, cheaper) and the spoken Arabic /
+// English form is rendered on-device by LatexToSpeech. See
+// GeminiPrompts.mathLatexInstruction + LatexToSpeech.renderDocument.
 
 import SwiftUI
 import PhotosUI
@@ -101,7 +102,10 @@ struct MathExtractView: View {
             let compressed = compressForAi(data: data) ?? data
             let mime = "image/jpeg"
             let isEnglish = BasirSettings.shared.language == .english
-            let instruction = GeminiPrompts.mathExtractionInstruction(english: isEnglish)
+            // Economical: the model returns ONLY compact LaTeX; we render
+            // the spoken Arabic / English on-device with LatexToSpeech.
+            // Smaller output tokens + a deterministic local read.
+            let instruction = GeminiPrompts.mathLatexInstruction(english: isEnglish)
             let response = try await AiProviderFactory.current().ask(
                 task: .mathExtract,
                 input: "",
@@ -110,7 +114,8 @@ struct MathExtractView: View {
                 imageData: compressed,
                 mimeType: mime
             )
-            resultText = response
+            resultText = LatexToSpeech.renderDocument(
+                response, arabic: !isEnglish)
             UIAccessibility.post(notification: .announcement,
                                   argument: L10n.t("اكتمل تحليل الرياضيات.",
                                                     "Math analysis complete."))

@@ -211,6 +211,48 @@ enum GeminiPrompts {
         """
     }
 
+    // MARK: - Math extraction (LaTeX-only, economical)
+
+    /// v3.0-style ECONOMICAL math prompt. Instead of asking the model to
+    /// produce a verbose spoken description AND LaTeX (≈2× the output
+    /// tokens, and easy for the model to get wrong), we ask it for ONLY
+    /// compact LaTeX. The natural spoken Arabic / English is then rendered
+    /// on-device by LatexToSpeech — free, deterministic, never truncated.
+    /// Far cheaper output, and a cheaper model can handle it.
+    static func mathLatexInstruction(english: Bool) -> String {
+        if english {
+            return """
+            Read this image of mathematics (textbook page, whiteboard, or \
+            handwriting) and transcribe it in reading order.
+
+            RULES:
+            - Wrap EVERY mathematical expression in LaTeX delimiters: use \
+            $...$ for inline math and $$...$$ for displayed equations.
+            - Output ONLY LaTeX for the math itself — do NOT spell equations \
+            out in words; the app reads them aloud on its own.
+            - Keep surrounding prose (problem statements, steps, definitions, \
+            theorems) as plain text, and preserve numbering exactly \
+            (Problem 1, Step 3, Theorem 2.4).
+            - Transcribe every expression faithfully; do not skip, simplify, \
+            or solve anything. Accuracy over brevity.
+            - No commentary, no markdown headings — just the transcription.
+            """
+        }
+        return """
+        اقرأ صورة الرياضيات هذه (صفحة كتاب، أو سبورة، أو خط يد) وانسخ محتواها بترتيب القراءة.
+
+        القواعد:
+        - ضع كل تعبير رياضي بين فواصل LaTeX: استخدم $...$ للرياضيات داخل السطر، \
+        و$$...$$ للمعادلات المعروضة.
+        - أخرِج LaTeX فقط للرياضيات نفسها — لا تكتب المعادلات بالكلمات؛ \
+        فالتطبيق ينطقها بنفسه.
+        - أبقِ النص المحيط (نص المسائل، الخطوات، التعريفات، النظريات) نصًّا عاديًّا، \
+        مع الحفاظ على الترقيم تمامًا (مسألة ١، خطوة ٣، نظرية ٢٫٤).
+        - انسخ كل تعبير بأمانة؛ لا تتجاوز أو تبسّط أو تحلّ شيئًا. الدقة أهم من الاختصار.
+        - بلا تعليقات ولا عناوين Markdown — النسخ فقط.
+        """
+    }
+
     // MARK: - Live scene guidance (v3.2 parity)
 
     /// Per-frame prompt for the Live Scene Guidance loop. Mirrors the

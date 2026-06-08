@@ -70,7 +70,12 @@ struct DocumentConvertView: View {
     /// Android's DocxExtractor / PptxExtractor); PDF goes through
     /// PdfReader; CSV / TXT are read as plain text.
     private static let allowedTypes: [UTType] = {
-        var types: [UTType] = [.pdf, .commaSeparatedText, .plainText]
+        // Be generous so files aren't greyed out in the Files picker
+        // (including from cloud providers that report broad UTIs). We
+        // validate/extract by extension after picking, so an unsupported
+        // pick just yields a clear error instead of being unselectable.
+        var types: [UTType] = [.pdf, .plainText, .commaSeparatedText,
+                               .text, .rtf, .content]
         // DOCX / PPTX are declared by their MIME types so we work
         // even on iOS releases that haven't promoted them to a
         // first-class UTType identifier.

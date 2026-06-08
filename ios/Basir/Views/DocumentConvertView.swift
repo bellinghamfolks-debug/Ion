@@ -41,6 +41,7 @@ struct ConvertBatch: Identifiable {
 }
 
 struct DocumentConvertView: View {
+    @EnvironmentObject var settings: BasirSettings
     @State private var pickedURL: URL?
     @State private var pageCount: Int = 0
     @State private var resultText: String = ""
@@ -101,6 +102,7 @@ struct DocumentConvertView: View {
 
                 if pickedURL != nil {
                     Section {
+                        modelPicker
                         translationPicker
                         mathToggle
                         runButton
@@ -263,6 +265,30 @@ struct DocumentConvertView: View {
             .clipShape(RoundedRectangle(cornerRadius: 16))
         }
         .buttonStyle(.plain)
+    }
+
+    /// Per-file model control. Bound to settings.docQuality, which is the
+    /// preset the .convert task actually uses (see modelFor), so changing
+    /// it here genuinely changes the model that processes this file. The
+    /// choice persists, matching Android's document-quality control.
+    private var modelPicker: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(L10n.t("نموذج معالجة الملف", "File-processing model"))
+                .font(.subheadline.bold())
+            Picker(L10n.t("النموذج", "Model"), selection: $settings.docQuality) {
+                Text(L10n.t("أسرع · Flash Lite", "Fastest · Flash Lite")).tag("fast")
+                Text(L10n.t("متوازن · Flash", "Balanced · Flash")).tag("balanced")
+                Text(L10n.t("أعلى جودة · Pro", "Best quality · Pro")).tag("best")
+            }
+            .pickerStyle(.segmented)
+            Text(L10n.t(
+                "يحدد موديل Gemini المستخدم لتحويل هذا الملف. الأعلى جودة (Pro) أدق لكنه أبطأ وأغلى. يُحفظ اختيارك.",
+                "Sets the Gemini model used to convert this file. Best (Pro) is more accurate but slower and costlier. Your choice is saved."
+            ))
+            .font(.caption)
+            .foregroundStyle(.secondary)
+        }
+        .disabled(isLoading)
     }
 
     private var translationPicker: some View {

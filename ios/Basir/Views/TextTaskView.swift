@@ -96,11 +96,17 @@ struct TextTaskView: View {
         .fileImporter(isPresented: $showDocPicker,
                       allowedContentTypes: DocumentText.importTypes,
                       allowsMultipleSelection: false) { res in
-            if case let .success(urls) = res, let url = urls.first,
-               let text = DocumentText.extract(from: url) {
-                input = text
-            } else if case .failure = res {
-                errorMessage = L10n.t("تعذّر قراءة المستند.", "Could not read the document.")
+            switch res {
+            case .success(let urls):
+                if let url = urls.first,
+                   let text = DocumentText.extract(from: url), !text.isEmpty {
+                    input = text
+                } else {
+                    errorMessage = L10n.t("تعذّر قراءة نص من هذا المستند.",
+                                          "Couldn't read text from this document.")
+                }
+            case .failure:
+                errorMessage = L10n.t("تعذّر فتح المستند.", "Couldn't open the document.")
             }
         }
     }

@@ -21,6 +21,7 @@ struct WalkingModeView: View {
     @StateObject private var tts = SpeechSynthesizer.shared
     @State private var ttsSubscription: AnyCancellable?
     @State private var openPickerAfterTts = false
+    @State private var showCamera = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -55,22 +56,39 @@ struct WalkingModeView: View {
 
             Spacer()
 
+            // Primary action: capture a NEW photo of what's ahead.
+            if CameraPicker.isAvailable {
+                Button {
+                    showCamera = true
+                } label: {
+                    VStack {
+                        Image(systemName: "camera.fill")
+                            .font(.system(size: 50))
+                        Text(L10n.t("التقاط ووصف ما أمامي",
+                                     "Capture and describe what is ahead"))
+                            .fontWeight(.bold)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 120)
+                    .background(Color.accentColor)
+                    .foregroundStyle(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 18))
+                }
+                .disabled(isLoading)
+            }
+
+            // Secondary: pick an existing photo from the library.
             PhotosPicker(
                 selection: $pickerItem,
                 matching: .images,
                 photoLibrary: .shared()
             ) {
-                VStack {
-                    Image(systemName: "camera.fill")
-                        .font(.system(size: 50))
-                    Text(L10n.t("التقاط ووصف ما أمامي",
-                                 "Capture and describe what is ahead"))
-                        .fontWeight(.bold)
-                }
-                .frame(maxWidth: .infinity, minHeight: 120)
-                .background(Color.accentColor)
-                .foregroundStyle(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 18))
+                Label(L10n.t("اختر صورة من المعرض", "Choose a photo from the library"),
+                      systemImage: "photo.on.rectangle.angled")
+                    .frame(maxWidth: .infinity, minHeight: CameraPicker.isAvailable ? 48 : 120)
+                    .background(CameraPicker.isAvailable
+                                ? Color(.secondarySystemBackground) : Color.accentColor)
+                    .foregroundStyle(CameraPicker.isAvailable ? Color.primary : .white)
+                    .clipShape(RoundedRectangle(cornerRadius: CameraPicker.isAvailable ? 12 : 18))
             }
             .disabled(isLoading)
 
@@ -81,31 +99,39 @@ struct WalkingModeView: View {
         }
         .padding(20)
         .navigationTitle(L10n.t("وضع المشي", "Walking mode"))
+        .fullScreenCover(isPresented: $showCamera) {
+            CameraPicker { data in
+                showCamera = false
+                if let data { Task { await describe(rawData: data) } }
+            }
+            .ignoresSafeArea()
+        }
         .onAppear {
             ttsSubscription = tts.didFinish.sink { id in
                 guard id == "walking" else { return }
-                if autoReopen && openPickerAfterTts {
+                // Re-open the camera for the next scene once speech ends.
+                if autoReopen && openPickerAfterTts && CameraPicker.isAvailable {
                     openPickerAfterTts = false
-                    // Trigger a system event so the picker remembers to
-                    // reopen. PhotosPicker takes care of the rest when
-                    // the user picks another shot.
+                    showCamera = true
                 }
             }
         }
         .onChange(of: pickerItem) { _, item in
             guard let item else { return }
-            Task { await describe(item: item) }
+            Task {
+                if let data = try? await item.loadTransferable(type: Data.self) {
+                    await describe(rawData: data)
+                }
+            }
         }
     }
 
-    private func describe(item: PhotosPickerItem) async {
+    private func describe(rawData data: Data) async {
         isLoading = true
         errorMessage = nil
+        ProcessingFeedback.start()
         defer { isLoading = false }
         do {
-            guard let data = try await item.loadTransferable(type: Data.self) else {
-                throw GeminiError.decode("could not read image")
-            }
             // 1600-px JPEG-85 compression — same wire-saving pass that
             // the Android version uses.
             let compressed = compressForAi(data: data) ?? data
@@ -118,6 +144,7 @@ struct WalkingModeView: View {
                 mimeType: "image/jpeg"
             )
             lastDescription = response
+            ProcessingFeedback.done()
             // Auto-speak the description so a walking user doesn't need
             // to read the screen.
             openPickerAfterTts = autoReopen
@@ -126,6 +153,7 @@ struct WalkingModeView: View {
                                            content: response)
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
+            ProcessingFeedback.failed()
         }
     }
 

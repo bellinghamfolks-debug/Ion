@@ -35,6 +35,10 @@ final class SpeechRecognizer: ObservableObject {
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private var recognizer: SFSpeechRecognizer?
+    /// Fires after a pause in speech to finalize one-shot dictation,
+    /// because a live mic never produces result.isFinal on its own.
+    private var silenceWork: DispatchWorkItem?
+    private var finalized = false
 
     private init() {}
 
@@ -82,6 +86,7 @@ final class SpeechRecognizer: ObservableObject {
         // Tear down any previous session.
         stop()
         transcript = ""
+        finalized = false
 
         do {
             // Audio session configured for recording while TTS may
@@ -112,16 +117,15 @@ final class SpeechRecognizer: ObservableObject {
                 Task { @MainActor in
                     if let result {
                         self.transcript = result.bestTranscription.formattedString
+                        // A live mic rarely sets isFinal, so arm a silence
+                        // timer that finalizes ~1.8s after the last words.
+                        self.armSilenceTimer(onFinal: onFinal)
                         if result.isFinal {
-                            let text = self.transcript
-                            self.stop()
-                            onFinal(text)
+                            self.finishOnce(onFinal)
                         }
                     }
-                    if let _ = error {
-                        let text = self.transcript
-                        self.stop()
-                        if !text.isEmpty { onFinal(text) }
+                    if error != nil {
+                        self.finishOnce(onFinal)
                     }
                 }
             }
@@ -132,7 +136,30 @@ final class SpeechRecognizer: ObservableObject {
         }
     }
 
+    /// Restart the silence countdown; if no new speech arrives within the
+    /// window, deliver whatever has been transcribed so far.
+    private func armSilenceTimer(onFinal: @escaping (String) -> Void) {
+        silenceWork?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self, !self.transcript.isEmpty else { return }
+            self.finishOnce(onFinal)
+        }
+        silenceWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.8, execute: work)
+    }
+
+    /// Deliver the result exactly once, then tear down.
+    private func finishOnce(_ onFinal: @escaping (String) -> Void) {
+        guard !finalized else { return }
+        finalized = true
+        let text = transcript
+        stop()
+        if !text.isEmpty { onFinal(text) }
+    }
+
     func stop() {
+        silenceWork?.cancel()
+        silenceWork = nil
         recognitionTask?.cancel()
         recognitionTask = nil
 

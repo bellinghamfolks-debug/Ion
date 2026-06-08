@@ -6,12 +6,15 @@
 import SwiftUI
 
 /// Reusable "Ask about the result" link placed under a result on any
-/// screen. Opens ResultChatView grounded in that result text.
+/// screen. Opens ResultChatView grounded in that result text. If image
+/// data is supplied, follow-up questions re-examine the image (so the
+/// user can ask about details the first description didn't mention).
 struct AskAboutResultLink: View {
     let text: String
+    var imageData: Data? = nil
     var body: some View {
         NavigationLink {
-            ResultChatView(contextText: text)
+            ResultChatView(contextText: text, imageData: imageData)
         } label: {
             Label(L10n.t("اسأل عن النتيجة", "Ask about the result"),
                   systemImage: "bubble.left.and.text.bubble.right.fill")
@@ -22,6 +25,7 @@ struct AskAboutResultLink: View {
 
 struct ResultChatView: View {
     let contextText: String
+    var imageData: Data? = nil
 
     @State private var question = ""
     @State private var answer = ""
@@ -100,16 +104,30 @@ struct ResultChatView: View {
         ProcessingFeedback.start()
         defer { isLoading = false }
         do {
-            let instruction = "Answer the user's question using ONLY the following content "
-                + "that Basir produced earlier. If the answer is not in it, say so plainly.\n\nCONTENT:\n"
-                + content
+            // If we still have the source image, let the model RE-EXAMINE
+            // it for the follow-up (e.g. "what's written on their shirt?")
+            // instead of being limited to the earlier text. Otherwise stay
+            // grounded in the produced text.
+            let instruction: String
+            let image: Data?
+            if let imageData {
+                instruction = "The user is asking a follow-up about the SAME image, "
+                    + "described earlier as:\n\(content)\n\nRe-examine the image and answer "
+                    + "the question directly. If it truly isn't visible, say so."
+                image = imageData
+            } else {
+                instruction = "Answer the user's question using ONLY the following content "
+                    + "that Basir produced earlier. If the answer is not in it, say so plainly.\n\nCONTENT:\n"
+                    + content
+                image = nil
+            }
             answer = try await AiProviderFactory.current().ask(
                 task: .ask,
                 input: q,
                 instruction: instruction,
                 language: BasirSettings.shared.language,
-                imageData: nil,
-                mimeType: nil
+                imageData: image,
+                mimeType: image != nil ? "image/jpeg" : nil
             )
             ProcessingFeedback.done()
             UIAccessibility.post(notification: .announcement,

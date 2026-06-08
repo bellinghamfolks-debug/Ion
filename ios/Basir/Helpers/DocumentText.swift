@@ -24,22 +24,39 @@ enum DocumentText {
         return types
     }
 
-    /// Extract text from a picked document URL. Handles the security-scoped
-    /// access the Files picker hands back. Returns nil if unreadable.
+    /// Extract text from a picked document URL. Copies the security-scoped
+    /// file into our sandbox first (reading PDFs/Office files straight from
+    /// a scoped URL is unreliable), then extracts by extension. Returns nil
+    /// only if the file genuinely can't be read.
     static func extract(from url: URL) -> String? {
         let scoped = url.startAccessingSecurityScopedResource()
         defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-        let ext = url.pathExtension.lowercased()
+
+        // Work from a local copy so subsequent reads need no scope.
+        let dest = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString + "-" + url.lastPathComponent)
+        let working: URL
+        do {
+            try? FileManager.default.removeItem(at: dest)
+            try FileManager.default.copyItem(at: url, to: dest)
+            working = dest
+        } catch {
+            working = url   // fall back to the original URL
+        }
+        defer { try? FileManager.default.removeItem(at: dest) }
+
+        let ext = working.pathExtension.lowercased()
         do {
             switch ext {
-            case "pdf":  return try PdfReader.extractText(from: url)
-            case "docx": return try DocxReader.extractText(from: url)
-            case "pptx": return try PptxReader.extractText(from: url)
-            default:     return try String(contentsOf: url, encoding: .utf8)
+            case "pdf":  return try PdfReader.extractText(from: working)
+            case "docx": return try DocxReader.extractText(from: working)
+            case "pptx": return try PptxReader.extractText(from: working)
+            default:
+                if let s = try? String(contentsOf: working, encoding: .utf8) { return s }
+                return try String(contentsOf: working, encoding: .isoLatin1)
             }
         } catch {
-            // Last resort for odd text encodings.
-            return (try? String(contentsOf: url, encoding: .utf8))
+            return (try? String(contentsOf: working, encoding: .utf8))
         }
     }
 }

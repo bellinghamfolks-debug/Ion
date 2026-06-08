@@ -66,6 +66,9 @@ struct DescribeImageView: View {
     @State private var errorMessage: String?
     @State private var showCamera = false
     @State private var showDocPicker = false
+    /// Last analyzed image (compressed), kept so "Ask about the result"
+    /// can re-examine it for follow-up questions.
+    @State private var lastImageData: Data?
 
     /// Reading modes where attaching a document (not just an image) makes
     /// sense — matches Android's medical/legal/table document support.
@@ -147,7 +150,7 @@ struct DescribeImageView: View {
                         .textSelection(.enabled)
                         .accessibilityLabel(resultText)
                     CopyButton(text: resultText)
-                    AskAboutResultLink(text: resultText)
+                    AskAboutResultLink(text: resultText, imageData: lastImageData)
                 }
 
                 if let errorMessage {
@@ -176,11 +179,17 @@ struct DescribeImageView: View {
         .fileImporter(isPresented: $showDocPicker,
                       allowedContentTypes: DocumentText.importTypes,
                       allowsMultipleSelection: false) { res in
-            if case let .success(urls) = res, let url = urls.first,
-               let text = DocumentText.extract(from: url), !text.isEmpty {
-                Task { await analyzeText(text) }
-            } else if case .failure = res {
-                errorMessage = L10n.t("تعذّر قراءة المستند.", "Could not read the document.")
+            switch res {
+            case .success(let urls):
+                if let url = urls.first,
+                   let text = DocumentText.extract(from: url), !text.isEmpty {
+                    Task { await analyzeText(text) }
+                } else {
+                    errorMessage = L10n.t("تعذّر قراءة نص من هذا المستند.",
+                                          "Couldn't read text from this document.")
+                }
+            case .failure:
+                errorMessage = L10n.t("تعذّر فتح المستند.", "Couldn't open the document.")
             }
         }
     }
@@ -191,6 +200,7 @@ struct DescribeImageView: View {
         isLoading = true
         errorMessage = nil
         resultText = ""
+        lastImageData = nil   // document path: no image to re-examine
         ProcessingFeedback.start()
         defer { isLoading = false }
         do {
@@ -242,6 +252,7 @@ struct DescribeImageView: View {
                     img.draw(in: CGRect(origin: .zero, size: newSize))
                 }.jpegData(compressionQuality: 0.85)
             } ?? data
+            lastImageData = compressed
 
             let response = try await AiProviderFactory.current().ask(
                 task: mode.task,

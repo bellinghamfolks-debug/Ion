@@ -179,11 +179,16 @@ struct DescribeImageView: View {
         .sheet(isPresented: $showDocPicker) {
             DocumentPicker(types: DocumentText.importTypes) { url in
                 guard let url else { return }
-                if let text = DocumentText.extract(from: url), !text.isEmpty {
-                    Task { await analyzeText(text) }
-                } else {
-                    errorMessage = L10n.t("تعذّر قراءة نص من هذا المستند.",
-                                          "Couldn't read text from this document.")
+                Task {
+                    isLoading = true
+                    let text = await DocumentText.extractTextAsync(from: url)
+                    isLoading = false
+                    if let text, !text.isEmpty {
+                        await analyzeText(text)
+                    } else {
+                        errorMessage = L10n.t("تعذّر قراءة نص من هذا المستند.",
+                                              "Couldn't read text from this document.")
+                    }
                 }
             }
         }

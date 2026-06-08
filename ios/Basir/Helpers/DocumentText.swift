@@ -72,4 +72,46 @@ enum DocumentText {
             return (try? String(contentsOf: working, encoding: .utf8))
         }
     }
+
+    /// Async extraction that adds an OCR fallback for scanned PDFs (no
+    /// text layer): renders pages to images and transcribes them with
+    /// Gemini vision, like the Android PdfRenderer → Gemini path.
+    @MainActor
+    static func extractTextAsync(from url: URL) async -> String? {
+        if url.pathExtension.lowercased() == "pdf" {
+            // A PDF with a real text layer extracts instantly and free.
+            if let t = try? PdfReader.extractText(from: url),
+               !t.replacingOccurrences(of: "[Page", with: "")
+                  .trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return t
+            }
+            // Scanned PDF → OCR via Gemini vision.
+            return await ocrPdf(from: url)
+        }
+        return extract(from: url)
+    }
+
+    /// OCR every rendered page of a scanned PDF through Gemini vision and
+    /// join the transcriptions. Uses the cheap (Flash) screenshot task.
+    @MainActor
+    static func ocrPdf(from url: URL, maxPages: Int = 40) async -> String? {
+        let images = PdfReader.renderPageImages(from: url, maxPages: maxPages)
+        guard !images.isEmpty else { return nil }
+        let lang = BasirSettings.shared.language
+        var sb = ""
+        for (i, image) in images.enumerated() {
+            let text = (try? await AiProviderFactory.current().ask(
+                task: .screenshot,
+                input: "",
+                instruction: "Transcribe ALL text in this scanned document page EXACTLY as written, "
+                    + "preserving reading order, line breaks, numbers, and table layout as plain text. "
+                    + "Output only the transcribed text with no commentary.",
+                language: lang,
+                imageData: image,
+                mimeType: "image/jpeg")) ?? ""
+            let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmed.isEmpty { sb += "\n[Page \(i + 1)]\n" + trimmed + "\n" }
+        }
+        return sb.isEmpty ? nil : sb
+    }
 }

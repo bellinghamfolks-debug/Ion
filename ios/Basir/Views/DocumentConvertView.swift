@@ -437,7 +437,14 @@ struct DocumentConvertView: View {
             let pages: [String]
             switch url.pathExtension.lowercased() {
             case "pdf":
-                pages = try PdfReader.extractPages(from: url)
+                do {
+                    pages = try PdfReader.extractPages(from: url)
+                } catch PdfReadError.empty {
+                    // Scanned PDF (no text layer): OCR each page via Gemini
+                    // vision, then process the transcription like any text.
+                    let ocr = await DocumentText.ocrPdf(from: url) ?? ""
+                    pages = Self.splitByCharBudget(ocr)
+                }
             case "docx":
                 // Split DOCX/PPTX text by an empty-line heuristic so
                 // a long Word doc still chunks into Gemini-sized bites.

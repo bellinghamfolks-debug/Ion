@@ -96,11 +96,17 @@ struct TextTaskView: View {
         .sheet(isPresented: $showDocPicker) {
             DocumentPicker(types: DocumentText.importTypes) { url in
                 guard let url else { return }
-                if let text = DocumentText.extract(from: url), !text.isEmpty {
-                    input = text
-                } else {
-                    errorMessage = L10n.t("تعذّر قراءة نص من هذا المستند.",
-                                          "Couldn't read text from this document.")
+                Task {
+                    isLoading = true
+                    errorMessage = nil
+                    let text = await DocumentText.extractTextAsync(from: url)
+                    isLoading = false
+                    if let text, !text.isEmpty {
+                        input = text
+                    } else {
+                        errorMessage = L10n.t("تعذّر قراءة نص من هذا المستند.",
+                                              "Couldn't read text from this document.")
+                    }
                 }
             }
         }

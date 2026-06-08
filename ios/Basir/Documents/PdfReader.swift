@@ -103,4 +103,32 @@ struct PdfReader {
     static func pageCount(of url: URL) -> Int {
         PDFDocument(url: url)?.pageCount ?? 0
     }
+
+    /// Render the first `maxPages` pages to JPEG data, for OCR via Gemini
+    /// vision when a PDF is a scan with no text layer (matches Android's
+    /// PdfRenderer → Gemini path).
+    static func renderPageImages(from url: URL,
+                                 maxPages: Int = 40,
+                                 longEdge: CGFloat = 1600) -> [Data] {
+        guard let doc = PDFDocument(url: url) else { return [] }
+        var out: [Data] = []
+        let count = min(doc.pageCount, maxPages)
+        for i in 0..<count {
+            guard let page = doc.page(at: i) else { continue }
+            let bounds = page.bounds(for: .mediaBox)
+            guard bounds.width > 0, bounds.height > 0 else { continue }
+            let scale = min(1.0, longEdge / max(bounds.width, bounds.height))
+            let size = CGSize(width: bounds.width * scale, height: bounds.height * scale)
+            let renderer = UIGraphicsImageRenderer(size: size)
+            let img = renderer.image { ctx in
+                UIColor.white.set()
+                ctx.fill(CGRect(origin: .zero, size: size))
+                ctx.cgContext.translateBy(x: 0, y: size.height)
+                ctx.cgContext.scaleBy(x: scale, y: -scale)
+                page.draw(with: .mediaBox, to: ctx.cgContext)
+            }
+            if let data = img.jpegData(compressionQuality: 0.7) { out.append(data) }
+        }
+        return out
+    }
 }

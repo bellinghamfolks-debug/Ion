@@ -28,7 +28,7 @@ struct SelectableText: View {
     /// Characters shown inline before we truncate the *preview*. The
     /// full string is still copyable/shareable; this only bounds what
     /// we lay out on screen so a 500-page result can never lock the UI.
-    private let previewLimit = 20_000
+    private let previewLimit = 12_000
 
     private var isTruncated: Bool { text.count > previewLimit }
 
@@ -57,6 +57,12 @@ struct SelectableText: View {
 /// UITextView-backed text: non-editable but selectable, sizes to its
 /// content so it flows inside a SwiftUI ScrollView, follows Dynamic
 /// Type, and respects the app's RTL/LTR layout direction.
+///
+/// CRITICAL: with `isScrollEnabled = false` a UITextView has no bounded
+/// width during SwiftUI's layout pass, so for a large result it tries to
+/// lay the text out as ONE enormous line and the layout hangs. We pin the
+/// width to SwiftUI's proposed width via `sizeThatFits`, which forces the
+/// text to wrap and report a correct finite height — no hang.
 private struct SelectableTextViewRepresentable: UIViewRepresentable {
     let text: String
 
@@ -68,10 +74,14 @@ private struct SelectableTextViewRepresentable: UIViewRepresentable {
         tv.backgroundColor = .clear
         tv.textContainerInset = .zero
         tv.textContainer.lineFragmentPadding = 0
+        tv.textContainer.lineBreakMode = .byWordWrapping
         tv.adjustsFontForContentSizeCategory = true
         tv.font = UIFont.preferredFont(forTextStyle: .body)
         tv.dataDetectorTypes = []
-        // Hug content vertically; expand to the available width.
+        // Allow the view to be compressed/expanded horizontally to the
+        // width SwiftUI gives it; resist vertical compression so the full
+        // (wrapped) height is shown.
+        tv.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         tv.setContentCompressionResistancePriority(.required, for: .vertical)
         tv.setContentHuggingPriority(.required, for: .vertical)
         return tv
@@ -79,5 +89,18 @@ private struct SelectableTextViewRepresentable: UIViewRepresentable {
 
     func updateUIView(_ tv: UITextView, context: Context) {
         if tv.text != text { tv.text = text }
+    }
+
+    /// Bound the width to SwiftUI's proposal so the text wraps and the
+    /// height is computed against that finite width (prevents the
+    /// single-giant-line layout hang on large results).
+    func sizeThatFits(_ proposal: ProposedViewSize,
+                      uiView: UITextView,
+                      context: Context) -> CGSize? {
+        let width = proposal.width ?? UIScreen.main.bounds.width
+        guard width > 0, width.isFinite else { return nil }
+        let fitting = uiView.sizeThatFits(
+            CGSize(width: width, height: .greatestFiniteMagnitude))
+        return CGSize(width: width, height: ceil(fitting.height))
     }
 }

@@ -66,6 +66,7 @@ struct AskBasirView: View {
                     Text(answer)
                         .textSelection(.enabled)
                         .accessibilityLabel(answer)
+                    CopyButton(text: answer)
                 }
 
                 if let errorMessage {

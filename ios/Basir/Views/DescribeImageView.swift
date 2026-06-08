@@ -99,6 +99,7 @@ struct DescribeImageView: View {
                     Text(resultText)
                         .textSelection(.enabled)
                         .accessibilityLabel(resultText)
+                    CopyButton(text: resultText)
                 }
 
                 if let errorMessage {

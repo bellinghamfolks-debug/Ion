@@ -57,6 +57,7 @@ struct TextTaskView: View {
                             .font(.headline)
                             .accessibilityAddTraits(.isHeader)
                         Spacer()
+                        CopyButton(text: result)
                         ShareLink(item: result) {
                             Label(L10n.t("مشاركة", "Share"), systemImage: "square.and.arrow.up")
                         }

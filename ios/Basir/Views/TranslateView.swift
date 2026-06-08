@@ -134,6 +134,7 @@ struct TranslateView: View {
                     Text(translation)
                         .textSelection(.enabled)
                         .accessibilityLabel(translation)
+                    CopyButton(text: translation)
                 }
 
                 if let errorMessage {

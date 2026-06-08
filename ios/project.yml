@@ -35,9 +35,6 @@ targets:
     platform: iOS
     deploymentTarget: "17.0"
 
-    info:
-      path: Basir/Info.plist
-
     sources:
       - path: Basir
         excludes:
@@ -55,6 +52,13 @@ targets:
         SUPPORTS_MACCATALYST: NO
         ENABLE_PREVIEWS: YES
         SWIFT_EMIT_LOC_STRINGS: YES
+        # Use our hand-written Info.plist as-is. Do NOT let Xcode generate
+        # one: GENERATE_INFOPLIST_FILE=YES would drop our privacy usage
+        # strings (camera/mic/speech/location), UILaunchScreen, and the
+        # basir:// URL scheme — which crashed mic/camera features and
+        # letterboxed the app.
+        INFOPLIST_FILE: Basir/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
         # App icon lives in Basir/Assets.xcassets/AppIcon.appiconset
         # (single 1024×1024 universal icon; iOS downscales the rest).
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
@@ -81,11 +85,10 @@ targets:
     platform: iOS
     deploymentTarget: "17.0"
 
-    info:
-      path: ShareExtension/Info.plist
-
     sources:
       - path: ShareExtension
+        excludes:
+          - Info.plist
 
     settings:
       base:
@@ -93,6 +96,10 @@ targets:
         PRODUCT_NAME: BasirShare
         TARGETED_DEVICE_FAMILY: "1,2"
         IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        # Use the extension's real Info.plist (its NSExtension config),
+        # not an Xcode-generated blank one.
+        INFOPLIST_FILE: ShareExtension/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
         # The Share Extension needs the SAME app group as the host app so
         # it can hand files off — declared in BasirShare.entitlements
         # (matches Basir/Basir.entitlements: group.com.basir.shared).

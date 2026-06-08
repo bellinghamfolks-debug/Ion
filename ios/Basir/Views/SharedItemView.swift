@@ -49,6 +49,7 @@ struct SharedItemView: View {
                         Text(result)
                             .textSelection(.enabled)
                             .accessibilityLabel(result)
+                        CopyButton(text: result)
                     }
 
                     if let errorMessage {

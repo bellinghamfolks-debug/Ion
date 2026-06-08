@@ -12,12 +12,11 @@ enum UserFriendlyErrorMapper {
     /// Map any thrown error to a localised "we tried, here's what happened"
     /// sentence, followed by a truncated technical trailer for developers.
     static func map(_ error: Error) -> String {
+        // Show the user only the clear, human message. The raw technical
+        // string (English HTTP/SDK text) looked robotic inside an Arabic
+        // UI, so it's no longer appended.
         let raw = rawString(from: error)
-        let friendly = friendlyMessage(for: raw, error: error)
-        let tail = truncate(raw, max: 280)
-        return tail.isEmpty
-            ? friendly
-            : "\(friendly)\n\n\(L10n.t("التفاصيل التقنية: ", "Technical details: "))\(tail)"
+        return friendlyMessage(for: raw, error: error)
     }
 
     static func friendlyMessage(for raw: String, error: Error) -> String {

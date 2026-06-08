@@ -176,20 +176,15 @@ struct DescribeImageView: View {
             }
             .ignoresSafeArea()
         }
-        .fileImporter(isPresented: $showDocPicker,
-                      allowedContentTypes: DocumentText.importTypes,
-                      allowsMultipleSelection: false) { res in
-            switch res {
-            case .success(let urls):
-                if let url = urls.first,
-                   let text = DocumentText.extract(from: url), !text.isEmpty {
+        .sheet(isPresented: $showDocPicker) {
+            DocumentPicker(types: DocumentText.importTypes) { url in
+                guard let url else { return }
+                if let text = DocumentText.extract(from: url), !text.isEmpty {
                     Task { await analyzeText(text) }
                 } else {
                     errorMessage = L10n.t("تعذّر قراءة نص من هذا المستند.",
                                           "Couldn't read text from this document.")
                 }
-            case .failure:
-                errorMessage = L10n.t("تعذّر فتح المستند.", "Couldn't open the document.")
             }
         }
     }

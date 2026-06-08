@@ -213,18 +213,9 @@ struct DocumentConvertView: View {
         }
         .navigationTitle(L10n.t("قراءة مستند وترجمته",
                                  "Read and translate a document"))
-        .fileImporter(
-            isPresented: $showPicker,
-            allowedContentTypes: Self.allowedTypes,
-            allowsMultipleSelection: false
-        ) { result in
-            switch result {
-            case .success(let urls):
-                if let url = urls.first {
-                    handlePicked(url: url)
-                }
-            case .failure(let error):
-                errorMessage = UserFriendlyErrorMapper.map(error)
+        .sheet(isPresented: $showPicker) {
+            DocumentPicker(types: Self.allowedTypes) { url in
+                if let url { handlePicked(url: url) }
             }
         }
     }

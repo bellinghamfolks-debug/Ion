@@ -436,6 +436,7 @@ struct DocumentConvertView: View {
 
         do {
             let pages: [String]
+            var fromOCR = false
             switch url.pathExtension.lowercased() {
             case "pdf":
                 do {
@@ -445,6 +446,7 @@ struct DocumentConvertView: View {
                     // vision, then process the transcription like any text.
                     let ocr = await DocumentText.ocrPdf(from: url) ?? ""
                     pages = Self.splitByCharBudget(ocr)
+                    fromOCR = true
                 }
             case "docx":
                 // Split DOCX/PPTX text by an empty-line heuristic so
@@ -465,6 +467,27 @@ struct DocumentConvertView: View {
                               userInfo: [NSLocalizedDescriptionKey:
                                 L10n.t("لم يُعثر على نص قابل للقراءة في الملف.",
                                        "No readable text was found in the file.")])
+            }
+
+            // Smart: a scanned PDF was already transcribed by Gemini OCR.
+            // If the user only wants to read/convert it (no translation,
+            // no math), the OCR text IS the result — skip a second,
+            // wasteful Gemini pass over the same content.
+            if fromOCR && translateTo.isEmpty && !mathMode {
+                resultText = pages.joined(separator: "\n\n")
+                lastDocxURL = nil
+                ArchiveStore.shared.addResult(ArchivedResult(
+                    title: L10n.t("مسح ضوئي: ", "Scanned: ") + url.lastPathComponent,
+                    kind: "convert",
+                    text: resultText,
+                    summary: String(resultText.prefix(140))
+                ))
+                LastDocumentStore.shared.set(text: resultText,
+                                             sourceName: url.lastPathComponent)
+                UIAccessibility.post(notification: .announcement,
+                                     argument: L10n.t("اكتملت المعالجة. راجع النتيجة قبل استخدامها.",
+                                                       "Processing is complete. Review the result before using it."))
+                return
             }
 
             // Batch pages into Gemini-sized chunks and seed state.

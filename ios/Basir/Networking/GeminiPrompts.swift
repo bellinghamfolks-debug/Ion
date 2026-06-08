@@ -54,6 +54,80 @@ enum GeminiPrompts {
         return s
     }
 
+    // MARK: - Structured document conversion (Android parity)
+
+    /// Per-page structured-conversion prompt. Ports Android's
+    /// buildChunkedDocPrompt: the model SEES the actual page image and
+    /// returns a SINGLE JSON object describing it as ordered sections —
+    /// crucially, every table is returned as real 2-D cell data so the
+    /// Word file becomes a genuine, navigable table (the old iOS path
+    /// extracted plain text locally and destroyed all table structure).
+    ///
+    /// - includeImages: when false (economical "text only"), image
+    ///   descriptions are skipped.
+    /// - translateToName: non-nil → translate every text leaf to that
+    ///   language while preserving structure.
+    /// - math: append the spoken-math + LaTeX directive.
+    static func documentPageInstruction(langName: String,
+                                        pageNumber: Int,
+                                        totalPages: Int,
+                                        isFirst: Bool,
+                                        includeImages: Bool,
+                                        translateToName: String?,
+                                        math: Bool) -> String {
+        var p = ""
+        p += "You are converting ONE page of a document for a blind user.\n"
+        p += "Respond strictly in \(langName).\n"
+        if let tgt = translateToName {
+            p += "TRANSLATION MODE. Translate EVERY textual element into \(tgt): "
+            p += "headings, paragraphs, list items, every table cell (including header "
+            p += "rows), image descriptions, captions. Keep the STRUCTURE exactly as in "
+            p += "the source — only the language changes. Output the translation only.\n"
+        } else if includeImages {
+            p += "Include all text, tables, and detailed image descriptions.\n"
+        } else {
+            p += "Output the text and tables only; skip image descriptions.\n"
+        }
+        if math {
+            p += "MATH: render every mathematical expression as a SPOKEN form in the "
+            p += "response language followed by [LaTeX: ...]. Apply only to real math.\n"
+        }
+        p += "\nThis is page \(pageNumber) of \(totalPages). Process ONLY this page.\n"
+        p += "Return a SINGLE JSON object (no markdown, no code fences):\n"
+        p += "{\n"
+        if isFirst {
+            p += "  \"title\": \"document title\",\n"
+            p += "  \"summary\": \"short summary, 1-3 sentences\",\n"
+        }
+        p += "  \"sections\": [\n"
+        p += "    { \"type\": \"heading\", \"level\": 1, \"text\": \"...\" },\n"
+        p += "    { \"type\": \"paragraph\", \"text\": \"...\" },\n"
+        if includeImages {
+            p += "    { \"type\": \"image_description\", \"description\": \"...\" },\n"
+        }
+        p += "    { \"type\": \"table\", \"caption\": \"optional\", \"row_header\": false,\n"
+        p += "      \"cells\": [ [\"Header1\",\"Header2\"], [\"r1c1\",\"r1c2\"] ] }\n"
+        p += "  ]\n"
+        p += "}\n\n"
+        p += "Rules:\n"
+        if includeImages {
+            p += "- Describe every image thoroughly (type, main elements, layout, visible text, purpose).\n"
+        }
+        p += "- For EVERY table you see, output a 'table' section with the ACTUAL cell values "
+        p += "in a 2-D array. The FIRST row MUST be the header row. Preserve column order exactly. "
+        p += "Empty cells become empty strings. NEVER summarise a table as prose — emit the real cells.\n"
+        p += "- SCHEDULE / TIMETABLE tables (timetables, exam schedules, shift rosters): set "
+        p += "\"row_header\": true. Keep time ranges as ONE cell (\"08:00 – 09:00\", never split). "
+        p += "Join subject + room + instructor with \" — \". Empty slots become \"\".\n"
+        p += "- MERGED CELLS: duplicate the value into EACH covered cell. Never nest structures.\n"
+        p += "- EVERY row MUST have the SAME number of cells as the header row; emit \"\" for a "
+        p += "missing cell, never shift cells leftward.\n"
+        p += "- Transcribe text faithfully and in reading order. Do not invent content.\n"
+        p += "- Never identify real people by face.\n"
+        p += "- Output valid JSON only, no other prose."
+        return p
+    }
+
     // MARK: - Math extraction (v2.9 parity)
 
     /// Math extraction directive shared by the dedicated math image task

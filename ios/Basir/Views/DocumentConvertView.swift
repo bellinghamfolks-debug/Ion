@@ -57,6 +57,9 @@ struct DocumentConvertView: View {
     /// language-processing pass), so the progress bar can say which
     /// phase the user is in.
     @State private var isScanning = false
+    /// Structured conversion result (Android-parity). Holds the ordered
+    /// blocks — including REAL tables — used to build a proper DOCX.
+    @State private var convertedResult: StructuredDocConverter.Result?
     /// Cooperative cancel flag — checked at every batch boundary.
     @State private var cancelRequested: Bool = false
     /// Per-batch state for the current run. Populated when run()
@@ -128,8 +131,8 @@ struct DocumentConvertView: View {
                                 .progressViewStyle(.linear)
                             Text(isScanning
                                  ? L10n.t(
-                                    "أمسح الصفحة \(progress.done) من \(progress.total) ضوئيًا…",
-                                    "Scanning page \(progress.done) of \(progress.total)…")
+                                    "أقرأ الصفحة \(progress.done) من \(progress.total)…",
+                                    "Reading page \(progress.done) of \(progress.total)…")
                                  : L10n.t(
                                     "أعالج الجزء \(progress.done) من \(progress.total)…",
                                     "Processing part \(progress.done) of \(progress.total)…"
@@ -346,8 +349,8 @@ struct DocumentConvertView: View {
                              "Describe images inside the document"))
                     .font(.callout.bold())
                 Text(L10n.t(
-                    "عند التفعيل، يصف بصير الصور والرسوم والمخططات داخل الملف ويُدرج وصفها مع النص. هذا الخيار أبطأ وأعلى تكلفة لأنه يحلّل كل صفحة بصريًا؛ اتركه متوقفًا إذا أردت النص فقط.",
-                    "When on, Basir describes photos, figures, and charts in the file and inserts the descriptions alongside the text. This is slower and costs more because every page is analyzed visually; leave it off if you only need the text."
+                    "عند التفعيل، يضيف بصير وصفًا للصور والرسوم والمخططات داخل الملف بجانب النص والجداول. اتركه متوقفًا إذا أردت النص والجداول فقط (أوجز وأقل تكلفة).",
+                    "When on, Basir adds descriptions of photos, figures, and charts alongside the text and tables. Leave it off for text and tables only (shorter and cheaper)."
                 ))
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -448,6 +451,7 @@ struct DocumentConvertView: View {
             pageCount = dest.pathExtension.lowercased() == "pdf"
                 ? PdfReader.pageCount(of: dest) : 0
             resultText = ""
+            convertedResult = nil
             errorMessage = nil
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
@@ -464,6 +468,7 @@ struct DocumentConvertView: View {
         lastDocxURL = nil
         batches = []
         isScanning = false
+        convertedResult = nil
         ProcessingFeedback.start()
         var succeeded = false
         defer {
@@ -475,9 +480,61 @@ struct DocumentConvertView: View {
         }
 
         do {
+            let ext = url.pathExtension.lowercased()
+            let isImageFile = DocumentText.imageExtensions.contains(ext)
+
+            // ===== Android-parity structured conversion (PDF / image) =====
+            // Gemini SEES the real page and returns structured JSON, so
+            // tables come back as real cell data and the Word file is a
+            // genuine table — instead of the old local text extraction that
+            // destroyed all layout. Needs a direct Gemini key; proxy/keyless
+            // setups fall through to the legacy text path below.
+            if (ext == "pdf" || isImageFile), StructuredDocConverter.isAvailable {
+                isScanning = true
+                let options = DocConvertOptions(translateTo: translateTo,
+                                                describeImages: describeImages,
+                                                math: mathMode)
+                let result: StructuredDocConverter.Result
+                if ext == "pdf" {
+                    result = try await StructuredDocConverter.convertPdf(
+                        url: url, options: options,
+                        shouldCancel: { cancelRequested },
+                        onProgress: { d, t in progress = (done: d, total: t) },
+                        onPartial: { txt in resultText = txt })
+                } else {
+                    result = try await StructuredDocConverter.convertImage(
+                        url: url, options: options,
+                        onProgress: { d, t in progress = (done: d, total: t) })
+                }
+                isScanning = false
+                convertedResult = result
+                resultText = StructuredDocConverter.displayText(result)
+                lastDocxURL = nil
+                guard !resultText.isEmpty else {
+                    throw NSError(domain: "BasirDocument", code: 1, userInfo: [
+                        NSLocalizedDescriptionKey:
+                            L10n.t("لم يُعثر على محتوى قابل للقراءة في الملف.",
+                                   "No readable content was found in the file.")])
+                }
+                ArchiveStore.shared.addResult(ArchivedResult(
+                    title: L10n.t("اكتملت معالجة الملف: ", "Processed document: ")
+                        + url.lastPathComponent,
+                    kind: translateTo.isEmpty ? "convert" : "translate_doc",
+                    text: resultText,
+                    summary: String(resultText.prefix(140))))
+                LastDocumentStore.shared.set(text: resultText,
+                                             sourceName: url.lastPathComponent)
+                UIAccessibility.post(notification: .announcement,
+                    argument: L10n.t("اكتملت المعالجة. راجع النتيجة قبل استخدامها.",
+                                     "Processing is complete. Review the result before using it."))
+                succeeded = true
+                return
+            }
+
+            // ===== Legacy text path (DOCX / PPTX / TXT, or proxy / keyless) =====
             let pages: [String]
             var fromOCR = false
-            switch url.pathExtension.lowercased() {
+            switch ext {
             case "pdf":
                 if describeImages {
                     // User wants images described → analyze every page with
@@ -742,8 +799,6 @@ struct DocumentConvertView: View {
     private func buildDocxFile() {
         guard !resultText.isEmpty else { return }
         let rtl = BasirSettings.shared.language == .arabic
-        var writer = DocxWriter(rtl: rtl)
-        writer.appendPlain(resultText)
         let baseName = pickedURL?
             .deletingPathExtension()
             .lastPathComponent ?? "Basir"
@@ -752,7 +807,15 @@ struct DocumentConvertView: View {
             .appendingPathComponent("\(baseName)-basir.docx")
         try? FileManager.default.removeItem(at: outURL)
         do {
-            try writer.write(to: outURL)
+            // Prefer the structured blocks so the Word file has REAL,
+            // navigable tables; fall back to plain text otherwise.
+            if let result = convertedResult {
+                try StructuredDocConverter.buildDocx(result, rtl: rtl, to: outURL)
+            } else {
+                var writer = DocxWriter(rtl: rtl)
+                writer.appendPlain(resultText)
+                try writer.write(to: outURL)
+            }
             lastDocxURL = outURL
             UIAccessibility.post(notification: .announcement,
                                   argument: L10n.t(

@@ -6,14 +6,18 @@
 import Foundation
 import UniformTypeIdentifiers
 import PDFKit
+import UIKit
 
 enum DocumentText {
 
     /// Content types broad enough that documents aren't greyed out in the
-    /// Files picker (validated by extension after picking).
+    /// Files picker (validated by extension after picking). Includes image
+    /// types so a photo/scan saved in Files can be picked and read via OCR
+    /// — matching Android, which lets you insert image files too.
     static var importTypes: [UTType] {
         var types: [UTType] = [.pdf, .plainText, .commaSeparatedText,
-                               .text, .rtf, .content]
+                               .text, .rtf, .content,
+                               .image, .jpeg, .png, .heic]
         if let docx = UTType(mimeType:
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
             types.append(docx)
@@ -23,6 +27,55 @@ enum DocumentText {
             types.append(pptx)
         }
         return types
+    }
+
+    /// File extensions we treat as a single image to OCR / describe.
+    static let imageExtensions: Set<String> =
+        ["jpg", "jpeg", "png", "heic", "heif", "gif", "bmp", "tiff", "tif", "webp"]
+
+    /// True when a picked URL points at an image file (vs. a document).
+    static func isImage(_ url: URL) -> Bool {
+        imageExtensions.contains(url.pathExtension.lowercased())
+    }
+
+    /// Read an image file (picked via the Files picker, already copied
+    /// into our sandbox by asCopy:true) and re-encode it as a ≤1600px
+    /// JPEG — the same envelope the camera/photo paths use for Gemini.
+    static func imageData(from url: URL) -> Data? {
+        guard let raw = try? Data(contentsOf: url),
+              let img = UIImage(data: raw) else { return nil }
+        let maxLongEdge: CGFloat = 1600
+        let longEdge = max(img.size.width, img.size.height)
+        guard longEdge > 0 else { return raw }
+        let scale = min(1.0, maxLongEdge / longEdge)
+        let newSize = CGSize(width: img.size.width * scale,
+                             height: img.size.height * scale)
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        return renderer.image { _ in
+            img.draw(in: CGRect(origin: .zero, size: newSize))
+        }.jpegData(compressionQuality: 0.85) ?? raw
+    }
+
+    /// OCR a single image file through Gemini vision, following the
+    /// user-selected document model (docQuality), with the same progress
+    /// callback shape as ocrPdf so the convert screen can show a bar.
+    @MainActor
+    static func ocrImage(from url: URL,
+                         onProgress: ((Int, Int) -> Void)? = nil) async -> String? {
+        guard let jpeg = imageData(from: url) else { return nil }
+        onProgress?(0, 1)
+        let text = (try? await AiProviderFactory.current().ask(
+            task: .convert,
+            input: "",
+            instruction: "Transcribe ALL text in this image EXACTLY as written, "
+                + "preserving reading order, line breaks, numbers, and table layout as plain text. "
+                + "Output only the transcribed text with no commentary.",
+            language: BasirSettings.shared.language,
+            imageData: jpeg,
+            mimeType: "image/jpeg")) ?? ""
+        onProgress?(1, 1)
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? nil : trimmed
     }
 
     /// Extract text from a picked document URL. Handles iCloud files that
@@ -79,6 +132,10 @@ enum DocumentText {
     /// Gemini vision, like the Android PdfRenderer → Gemini path.
     @MainActor
     static func extractTextAsync(from url: URL) async -> String? {
+        // Image file picked from Files → OCR it like a one-page scan.
+        if isImage(url) {
+            return await ocrImage(from: url)
+        }
         if url.pathExtension.lowercased() == "pdf" {
             // A PDF with a real text layer extracts instantly and free.
             if let t = try? PdfReader.extractText(from: url),

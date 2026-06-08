@@ -97,32 +97,51 @@ final class WaitingTone {
         engine.stop()
     }
 
-    /// A ~4s seamless loop: a soft A3+E4 (perfect fifth) pad whose
-    /// amplitude follows a half-sine window — silent at both ends, so
-    /// the loop joins without a click, and "breathing" in the middle.
+    /// A calm, looping chime motif — NOT a sustained drone (the previous
+    /// continuous tone read like an air-conditioner hum). We synthesize a
+    /// short pentatonic phrase of soft, bell-like notes, each with a quick
+    /// attack and a gentle exponential decay, followed by a restful tail
+    /// of near-silence before the phrase repeats. Pentatonic notes never
+    /// clash, so any loop point sounds pleasant, and because every note
+    /// has decayed to silence well before the buffer ends the loop joins
+    /// without a click.
     private static func makeBuffer() -> AVAudioPCMBuffer? {
         let sampleRate = 44_100.0
-        let duration = 4.0
-        let frames = AVAudioFrameCount(sampleRate * duration)
+        let duration = 6.0
+        let frameCount = Int(sampleRate * duration)
         guard
             let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate,
                                        channels: 1),
             let buffer = AVAudioPCMBuffer(pcmFormat: format,
-                                          frameCapacity: frames)
+                                          frameCapacity: AVAudioFrameCount(frameCount))
         else { return nil }
-        buffer.frameLength = frames
-
+        buffer.frameLength = AVAudioFrameCount(frameCount)
         guard let channel = buffer.floatChannelData?[0] else { return nil }
-        let f1 = 220.0   // A3
-        let f2 = 330.0   // E4 (perfect fifth)
-        let peak: Float = 0.12
-        for i in 0..<Int(frames) {
-            let t = Double(i) / sampleRate
-            // Half-sine window: 0 → 1 → 0 across the whole buffer.
-            let window = sin(Double.pi * t / duration)
-            let s1 = sin(2 * Double.pi * f1 * t)
-            let s2 = sin(2 * Double.pi * f2 * t) * 0.6
-            channel[i] = Float((s1 + s2) * window) * peak
+        for i in 0..<frameCount { channel[i] = 0 }
+
+        // A gentle four-note phrase (E5–G5–B5–G5: a soothing major-ish
+        // pentatonic shape), spaced ~0.5s apart, then ~4s of quiet.
+        let notes: [(freq: Double, start: Double)] = [
+            (659.25, 0.00),   // E5
+            (783.99, 0.50),   // G5
+            (987.77, 1.00),   // B5
+            (783.99, 1.50),   // G5
+        ]
+        let decay = 4.5          // per-second amplitude falloff (bell-like)
+        let ring  = 1.4          // seconds a note keeps sounding
+        let attack = 0.008       // short fade-in to avoid a click on onset
+        let peak: Float = 0.16
+        for note in notes {
+            let startSample = Int(note.start * sampleRate)
+            let endSample = min(frameCount, startSample + Int(ring * sampleRate))
+            guard startSample < endSample else { continue }
+            for n in startSample..<endSample {
+                let t = Double(n - startSample) / sampleRate
+                let env = exp(-decay * t) * min(1.0, t / attack)
+                let fundamental = sin(2 * Double.pi * note.freq * t)
+                let octave = sin(2 * Double.pi * note.freq * 2 * t) * 0.25
+                channel[n] += Float((fundamental + octave) * env) * peak
+            }
         }
         return buffer
     }

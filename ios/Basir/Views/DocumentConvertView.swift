@@ -80,7 +80,8 @@ struct DocumentConvertView: View {
         // validate/extract by extension after picking, so an unsupported
         // pick just yields a clear error instead of being unselectable.
         var types: [UTType] = [.pdf, .plainText, .commaSeparatedText,
-                               .text, .rtf, .content]
+                               .text, .rtf, .content,
+                               .image, .jpeg, .png, .heic]
         // DOCX / PPTX are declared by their MIME types so we work
         // even on iOS releases that haven't promoted them to a
         // first-class UTType identifier.
@@ -239,8 +240,8 @@ struct DocumentConvertView: View {
                         .font(.title3.bold())
                 }
                 Text(L10n.t(
-                    "يدعم PDF حتى 500 صفحة، إضافة إلى Word وPowerPoint وTXT وCSV. يستخرج بصير النص على جهازك، ثم يعالجه على أجزاء مع عرض التقدم. اترك التطبيق مفتوحًا حتى تنتهي العملية. يمكنك مشاركة النتيجة كنص أو إنشاء ملف Word.",
-                    "Supports PDFs up to 500 pages, plus Word, PowerPoint, TXT, and CSV. Basir extracts text on your device, then processes it in parts with live progress. Keep the app open until processing finishes. You can share the result as text or create a Word file."
+                    "يدعم PDF حتى 500 صفحة، إضافة إلى Word وPowerPoint وTXT وCSV وملفات الصور. يستخرج بصير النص على جهازك، ثم يعالجه على أجزاء مع عرض التقدم. اترك التطبيق مفتوحًا حتى تنتهي العملية. يمكنك مشاركة النتيجة كنص أو إنشاء ملف Word.",
+                    "Supports PDFs up to 500 pages, plus Word, PowerPoint, TXT, CSV, and image files. Basir extracts text on your device, then processes it in parts with live progress. Keep the app open until processing finishes. You can share the result as text or create a Word file."
                 ))
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -475,6 +476,17 @@ struct DocumentConvertView: View {
                 // page-equivalent.
                 pages = Self.splitByCharBudget(
                     try PptxReader.extractText(from: url))
+            case "jpg", "jpeg", "png", "heic", "heif",
+                 "gif", "bmp", "tiff", "tif", "webp":
+                // Image file (photo/scan) picked from Files → OCR via
+                // Gemini vision, then process the transcription as text.
+                isScanning = true
+                let ocr = await DocumentText.ocrImage(from: url) { done, total in
+                    progress = (done: done, total: total)
+                } ?? ""
+                isScanning = false
+                pages = Self.splitByCharBudget(ocr)
+                fromOCR = true
             default:
                 pages = Self.splitByCharBudget(
                     try String(contentsOf: url, encoding: .utf8))

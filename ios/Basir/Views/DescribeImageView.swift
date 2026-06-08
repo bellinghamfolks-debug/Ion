@@ -53,7 +53,9 @@ enum DescribeImageMode {
             // Mirrors Android's legal-text prompt: SUMMARIZING ONLY.
             return "You are Basir, an assistant for blind and low-vision users. The image contains a legal document (contract, lease, agreement, terms, court paper, or official form). FIRST: state the document type and the parties in one sentence. THEN: bullet the key clauses in plain language: obligations, dates, monetary amounts, penalties, termination conditions, signatures. Quote any critical number or date verbatim. DO NOT give legal advice, do NOT predict outcomes, do NOT recommend signing or refusing. End with: \"راجِع محاميًا قبل التوقيع.\" / \"Consult a lawyer before signing.\" No markdown."
         case .table:
-            return "You are Basir, an assistant for blind and low-vision users. The image contains a TABLE (timetable, results sheet, schedule, line-item invoice, lecture grid). Read the column headers first as a header line. Then read each row as: \"Row 1: <header1> <cell1>, <header2> <cell2>, ...\". Preserve numbers, times, and units exactly. If the table is a lecture / class schedule, treat the LEFT column as the time / period label and announce it FIRST per row. Keep the response under 200 words; if the table is longer, end with \"…and \" + how many more rows are visible. No markdown."
+            // Faithful, complete Markdown-table extraction (no truncation).
+            return GeminiPrompts.tableExtractionInstruction(
+                english: AppLanguage.current != .arabic)
         }
     }
 }
@@ -177,6 +179,13 @@ struct DescribeImageView: View {
         .sheet(isPresented: $showDocPicker) {
             DocumentPicker(types: DocumentText.importTypes) { url in
                 guard let url else { return }
+                // An image FILE from Files is best read as an image (the
+                // mode's vision prompt sees the real layout) — not flattened
+                // to OCR text first. Documents go through text extraction.
+                if DocumentText.isImage(url), let data = try? Data(contentsOf: url) {
+                    Task { await analyze(rawData: data) }
+                    return
+                }
                 Task {
                     isLoading = true
                     let text = await DocumentText.extractTextAsync(from: url)

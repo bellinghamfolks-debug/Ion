@@ -146,6 +146,71 @@ enum GeminiPrompts {
         return p
     }
 
+    // MARK: - Table extraction
+
+    /// Faithful, COMPLETE table extraction. The earlier inline prompt
+    /// capped the answer at ~200 words and dropped rows with a "…and N
+    /// more rows" trailer, which read as primitive and garbled for real
+    /// timetables / invoices. This mirrors Android's structured table
+    /// output: a clean Markdown table with every row, exact cells, and a
+    /// row/column count — no truncation, no summarising.
+    static func tableExtractionInstruction(english: Bool) -> String {
+        if english {
+            return """
+            TABLE EXTRACTION — faithful and complete.
+
+            The image contains one or more TABLES (timetable, class schedule, \
+            results sheet, invoice line items, spreadsheet, lecture grid).
+
+            Output for EACH table:
+            1. If the table has a title or caption, put it on its own line first.
+            2. Then a clean GitHub-style Markdown table:
+               - First row = the column headers exactly as written.
+               - A separator row of dashes (| --- | --- |).
+               - One Markdown row per data row, cells in their original column order.
+               - Use an em dash "—" for any empty cell. Never drop or merge columns.
+               - Keep every number, date, time, currency symbol and unit EXACTLY as printed.
+               - For a cell that visually spans columns/rows, repeat its value in each \
+            covered cell and append " (merged)".
+            3. After the table, add one line: "The table has N rows and M columns." \
+            using the real counts (data rows only, excluding the header).
+
+            STRICT:
+            - Include ALL rows. Do NOT truncate, summarise, paraphrase, or add commentary, \
+            totals, or analysis that is not printed in the table.
+            - If the image is rotated or skewed, still read it.
+            - If a specific value is genuinely unreadable, write "[unclear]" for that cell \
+            instead of guessing.
+            - Reply with the table(s) only — no preamble.
+            """
+        }
+        return """
+        استخراج الجداول — أمين وكامل.
+
+        تحتوي الصورة على جدول واحد أو أكثر (جدول حصص، جدول مواعيد، كشف نتائج، \
+        بنود فاتورة، جدول بيانات، شبكة محاضرات).
+
+        لكل جدول، أخرِج التالي:
+        ١. إن كان للجدول عنوان أو تسمية، اكتبه في سطر مستقل أولًا.
+        ٢. ثم جدول Markdown نظيف:
+           - الصف الأول = عناوين الأعمدة كما هي مكتوبة تمامًا.
+           - صف فاصل من الشرطات (| --- | --- |).
+           - صف Markdown واحد لكل صف بيانات، بالخلايا بترتيب أعمدتها الأصلي.
+           - استخدم الشرطة "—" لأي خلية فارغة. لا تحذف عمودًا ولا تدمج الأعمدة.
+           - احتفظ بكل رقم وتاريخ ووقت ورمز عملة ووحدة قياس كما هي مطبوعة تمامًا.
+           - إذا امتدت خلية بصريًا على أعمدة/صفوف، كرّر قيمتها في كل خلية يشملها وأضِف " (مدمجة)".
+        ٣. بعد الجدول، أضِف سطرًا واحدًا: "الجدول يحتوي على N صفًا و M عمودًا." \
+        بالأعداد الحقيقية (صفوف البيانات فقط دون صف العناوين).
+
+        قواعد صارمة:
+        - أدرِج كل الصفوف. لا تختصر ولا تلخّص ولا تُعِد الصياغة، ولا تضِف تعليقًا أو \
+        مجاميع أو تحليلًا غير مطبوع في الجدول.
+        - إن كانت الصورة مائلة أو مدوّرة، اقرأها رغم ذلك.
+        - إن تعذّرت قراءة قيمة بعينها فعلًا، اكتب "[غير واضح]" لتلك الخلية بدل التخمين.
+        - أجب بالجدول/الجداول فقط دون مقدمات.
+        """
+    }
+
     // MARK: - Live scene guidance (v3.2 parity)
 
     /// Per-frame prompt for the Live Scene Guidance loop. Mirrors the

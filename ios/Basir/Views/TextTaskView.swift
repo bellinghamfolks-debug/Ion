@@ -87,6 +87,7 @@ struct TextTaskView: View {
         isLoading = true
         errorMessage = nil
         result = ""
+        ProcessingFeedback.start()
         defer { isLoading = false }
         do {
             result = try await AiProviderFactory.current().ask(
@@ -97,10 +98,12 @@ struct TextTaskView: View {
                 imageData: nil,
                 mimeType: nil
             )
+            ProcessingFeedback.done()
             UIAccessibility.post(notification: .announcement,
                                  argument: L10n.t("أصبحت النتيجة جاهزة.", "Result ready."))
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
+            ProcessingFeedback.failed()
         }
     }
 }

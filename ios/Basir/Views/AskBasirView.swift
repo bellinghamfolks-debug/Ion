@@ -94,6 +94,7 @@ struct AskBasirView: View {
         isLoading = true
         errorMessage = nil
         answer = ""
+        ProcessingFeedback.start()
         defer { isLoading = false }
 
         do {
@@ -106,12 +107,14 @@ struct AskBasirView: View {
                 mimeType: nil
             )
             answer = response
+            ProcessingFeedback.done()
             // Announce completion to VoiceOver. Equivalent to the Android
             // announceForAccessibility call.
             UIAccessibility.post(notification: .announcement,
                                   argument: L10n.t("أصبحت الإجابة جاهزة.", "Answer ready."))
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
+            ProcessingFeedback.failed()
         }
     }
 

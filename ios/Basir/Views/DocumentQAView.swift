@@ -88,6 +88,7 @@ struct DocumentQAView: View {
         isLoading = true
         errorMessage = nil
         answer = ""
+        ProcessingFeedback.start()
         defer { isLoading = false }
         do {
             let instruction = "Answer the user's question using ONLY the following document. "
@@ -100,10 +101,12 @@ struct DocumentQAView: View {
                 imageData: nil,
                 mimeType: nil
             )
+            ProcessingFeedback.done()
             UIAccessibility.post(notification: .announcement,
                                  argument: L10n.t("أصبحت الإجابة جاهزة.", "Answer ready."))
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
+            ProcessingFeedback.failed()
         }
     }
 }

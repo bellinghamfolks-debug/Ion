@@ -163,6 +163,7 @@ struct DescribeImageView: View {
         isLoading = true
         errorMessage = nil
         resultText = ""
+        ProcessingFeedback.start()
         defer { isLoading = false }
         do {
             // Same 1600-px JPEG-85 compression used by MathExtractView.
@@ -188,8 +189,10 @@ struct DescribeImageView: View {
                 mimeType: "image/jpeg"
             )
             resultText = response
+            ProcessingFeedback.done()
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
+            ProcessingFeedback.failed()
         }
     }
 }

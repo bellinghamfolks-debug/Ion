@@ -20,6 +20,7 @@ final class LocationService: NSObject, ObservableObject {
 
     private let manager = CLLocationManager()
     private var oneShotContinuation: CheckedContinuation<CLLocation?, Never>?
+    private var authContinuation: CheckedContinuation<Void, Never>?
 
     override private init() {
         super.init()
@@ -36,8 +37,13 @@ final class LocationService: NSObject, ObservableObject {
     /// Returns nil on denial or timeout.
     func fetchOnce(timeout: TimeInterval = 8) async -> CLLocation? {
         if authorization == .undetermined {
-            manager.requestWhenInUseAuthorization()
-            try? await Task.sleep(nanoseconds: 600_000_000)
+            // Wait for the user to actually answer the permission prompt.
+            // (A fixed short sleep raced the dialog and always failed the
+            // first time, so location "did nothing".)
+            await withCheckedContinuation { cont in
+                self.authContinuation = cont
+                manager.requestWhenInUseAuthorization()
+            }
         }
         guard authorization == .whenInUse || authorization == .always else {
             return nil
@@ -85,7 +91,14 @@ final class LocationService: NSObject, ObservableObject {
 
 extension LocationService: CLLocationManagerDelegate {
     nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        Task { @MainActor in self.updateAuthState() }
+        Task { @MainActor in
+            self.updateAuthState()
+            // Resume any fetchOnce() that was waiting for the prompt.
+            if self.authorization != .undetermined, let cont = self.authContinuation {
+                self.authContinuation = nil
+                cont.resume()
+            }
+        }
     }
 
     nonisolated func locationManager(_ manager: CLLocationManager,

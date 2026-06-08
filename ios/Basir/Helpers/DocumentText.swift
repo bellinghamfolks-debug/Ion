@@ -100,8 +100,12 @@ enum DocumentText {
         let lang = BasirSettings.shared.language
         var sb = ""
         for (i, image) in images.enumerated() {
+            // Use the .convert task so OCR follows the user-selected
+            // document-processing model (docQuality) — the file model
+            // picker / Settings genuinely control which Gemini model
+            // does the scan.
             let text = (try? await AiProviderFactory.current().ask(
-                task: .screenshot,
+                task: .convert,
                 input: "",
                 instruction: "Transcribe ALL text in this scanned document page EXACTLY as written, "
                     + "preserving reading order, line breaks, numbers, and table layout as plain text. "

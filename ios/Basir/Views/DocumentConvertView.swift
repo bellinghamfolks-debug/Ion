@@ -265,7 +265,8 @@ struct DocumentConvertView: View {
     /// choice persists, matching Android's document-quality control.
     private var modelPicker: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(L10n.t("نموذج معالجة الملف", "File-processing model"))
+            Text(L10n.t("نموذج معالجة الملف والمسح الضوئي",
+                        "File-processing & scan model"))
                 .font(.subheadline.bold())
             Picker(L10n.t("النموذج", "Model"), selection: $settings.docQuality) {
                 Text(L10n.t("أسرع · Flash Lite", "Fastest · Flash Lite")).tag("fast")
@@ -274,8 +275,8 @@ struct DocumentConvertView: View {
             }
             .pickerStyle(.segmented)
             Text(L10n.t(
-                "يحدد موديل Gemini المستخدم لتحويل هذا الملف. الأعلى جودة (Pro) أدق لكنه أبطأ وأغلى. يُحفظ اختيارك.",
-                "Sets the Gemini model used to convert this file. Best (Pro) is more accurate but slower and costlier. Your choice is saved."
+                "يحدد موديل Gemini المستخدم لتحويل هذا الملف وللتعرّف الضوئي (OCR) على الملفات الممسوحة. الأعلى جودة (Pro) أدق لكنه أبطأ وأغلى — للمسح الضوئي الكثيف يُفضّل Flash. يُحفظ اختيارك.",
+                "Sets the Gemini model used to convert this file AND to OCR scanned files. Best (Pro) is more accurate but slower and costlier — for bulk scanning Flash is recommended. Your choice is saved."
             ))
             .font(.caption)
             .foregroundStyle(.secondary)

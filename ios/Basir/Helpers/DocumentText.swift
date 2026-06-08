@@ -94,7 +94,7 @@ enum DocumentText {
     /// OCR every rendered page of a scanned PDF through Gemini vision and
     /// join the transcriptions. Uses the cheap (Flash) screenshot task.
     @MainActor
-    static func ocrPdf(from url: URL, maxPages: Int = 40) async -> String? {
+    static func ocrPdf(from url: URL, maxPages: Int = 500) async -> String? {
         let images = PdfReader.renderPageImages(from: url, maxPages: maxPages)
         guard !images.isEmpty else { return nil }
         let lang = BasirSettings.shared.language

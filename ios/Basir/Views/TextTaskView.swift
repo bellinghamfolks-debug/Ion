@@ -4,6 +4,7 @@
 // table-as-text) and the "scene text" guidance tool.
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct TextTaskView: View {
     let title: String
@@ -15,6 +16,7 @@ struct TextTaskView: View {
     @State private var result = ""
     @State private var isLoading = false
     @State private var errorMessage: String?
+    @State private var showDocPicker = false
     @FocusState private var focused: Bool
 
     var body: some View {
@@ -23,6 +25,17 @@ struct TextTaskView: View {
                 Text(hint)
                     .font(.callout)
                     .foregroundStyle(.secondary)
+
+                // Insert text from a document instead of pasting manually.
+                Button {
+                    showDocPicker = true
+                } label: {
+                    Label(L10n.t("إدراج نص من مستند", "Insert text from a document"),
+                          systemImage: "doc.badge.plus")
+                        .frame(maxWidth: .infinity, minHeight: 48)
+                }
+                .buttonStyle(.bordered)
+                .disabled(isLoading)
 
                 TextEditor(text: $input)
                     .focused($focused)
@@ -65,6 +78,7 @@ struct TextTaskView: View {
                     Text(result)
                         .textSelection(.enabled)
                         .accessibilityLabel(result)
+                    AskAboutResultLink(text: result)
                 }
 
                 if let errorMessage {
@@ -79,6 +93,16 @@ struct TextTaskView: View {
             .padding(20)
         }
         .navigationTitle(title)
+        .fileImporter(isPresented: $showDocPicker,
+                      allowedContentTypes: DocumentText.importTypes,
+                      allowsMultipleSelection: false) { res in
+            if case let .success(urls) = res, let url = urls.first,
+               let text = DocumentText.extract(from: url) {
+                input = text
+            } else if case .failure = res {
+                errorMessage = L10n.t("تعذّر قراءة المستند.", "Could not read the document.")
+            }
+        }
     }
 
     private func run() async {

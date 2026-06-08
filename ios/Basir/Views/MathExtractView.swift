@@ -66,6 +66,7 @@ struct MathExtractView: View {
                         .font(.body)
                         .accessibilityLabel(resultText)
                     CopyButton(text: resultText)
+                    AskAboutResultLink(text: resultText)
                 }
 
                 if let errorMessage {

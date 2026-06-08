@@ -4,6 +4,7 @@
 // document conversion is deferred (see README).
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct TranslateView: View {
     @EnvironmentObject var settings: BasirSettings
@@ -11,6 +12,7 @@ struct TranslateView: View {
     @State private var translation: String = ""
     @State private var isLoading = false
     @State private var errorMessage: String?
+    @State private var showDocPicker = false
     @FocusState private var inputFocused: Bool
 
     // The 20-language list lives in L10n.swift.
@@ -92,6 +94,17 @@ struct TranslateView: View {
                 }
                 .buttonStyle(.bordered)
 
+                // Insert text from a document to translate.
+                Button {
+                    showDocPicker = true
+                } label: {
+                    Label(L10n.t("ترجمة نص من مستند", "Translate text from a document"),
+                          systemImage: "doc.badge.plus")
+                        .frame(maxWidth: .infinity, minHeight: 48)
+                }
+                .buttonStyle(.bordered)
+                .disabled(isLoading)
+
                 // Input
                 TextEditor(text: $inputText)
                     .focused($inputFocused)
@@ -135,6 +148,7 @@ struct TranslateView: View {
                         .textSelection(.enabled)
                         .accessibilityLabel(translation)
                     CopyButton(text: translation)
+                    AskAboutResultLink(text: translation)
                 }
 
                 if let errorMessage {
@@ -149,6 +163,16 @@ struct TranslateView: View {
             .padding(20)
         }
         .navigationTitle(L10n.t("ترجمة وشرح", "Translate and explain"))
+        .fileImporter(isPresented: $showDocPicker,
+                      allowedContentTypes: DocumentText.importTypes,
+                      allowsMultipleSelection: false) { res in
+            if case let .success(urls) = res, let url = urls.first,
+               let text = DocumentText.extract(from: url) {
+                inputText = text
+            } else if case .failure = res {
+                errorMessage = L10n.t("تعذّر قراءة المستند.", "Could not read the document.")
+            }
+        }
     }
 
     private func translate() async {

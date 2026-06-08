@@ -156,6 +156,7 @@ struct DocumentConvertView: View {
                         .accessibilityLabel(L10n.t("مشاركة كنص",
                                                      "Share as text"))
                         CopyButton(text: resultText)
+                        AskAboutResultLink(text: resultText)
                     }
                     Text(resultText)
                         .textSelection(.enabled)

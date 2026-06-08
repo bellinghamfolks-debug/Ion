@@ -5,6 +5,7 @@
 
 import SwiftUI
 import PhotosUI
+import UniformTypeIdentifiers
 
 enum DescribeImageMode {
     case detailed, altText, screenshot, currencyOrReceipt
@@ -64,6 +65,14 @@ struct DescribeImageView: View {
     @State private var isLoading = false
     @State private var errorMessage: String?
     @State private var showCamera = false
+    @State private var showDocPicker = false
+
+    /// Reading modes where attaching a document (not just an image) makes
+    /// sense — matches Android's medical/legal/table document support.
+    /// Currency reading stays image-only by design.
+    private var allowsDocument: Bool {
+        mode == .medical || mode == .legal || mode == .table
+    }
 
     var body: some View {
         ScrollView {
@@ -104,6 +113,23 @@ struct DescribeImageView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
 
+                if allowsDocument {
+                    Button {
+                        showDocPicker = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "doc.badge.plus")
+                            Text(L10n.t("اختر مستندًا (PDF أو Word)",
+                                        "Choose a document (PDF or Word)"))
+                                .fontWeight(.semibold)
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 52)
+                        .background(Color(.secondarySystemBackground))
+                        .foregroundStyle(Color.primary)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+                }
+
                 if isLoading {
                     HStack {
                         ProgressView()
@@ -121,6 +147,7 @@ struct DescribeImageView: View {
                         .textSelection(.enabled)
                         .accessibilityLabel(resultText)
                     CopyButton(text: resultText)
+                    AskAboutResultLink(text: resultText)
                 }
 
                 if let errorMessage {
@@ -145,6 +172,42 @@ struct DescribeImageView: View {
                 if let data { Task { await analyze(rawData: data) } }
             }
             .ignoresSafeArea()
+        }
+        .fileImporter(isPresented: $showDocPicker,
+                      allowedContentTypes: DocumentText.importTypes,
+                      allowsMultipleSelection: false) { res in
+            if case let .success(urls) = res, let url = urls.first,
+               let text = DocumentText.extract(from: url), !text.isEmpty {
+                Task { await analyzeText(text) }
+            } else if case .failure = res {
+                errorMessage = L10n.t("تعذّر قراءة المستند.", "Could not read the document.")
+            }
+        }
+    }
+
+    /// Run the mode's reading prompt over extracted document text instead
+    /// of an image (medical / legal / table modes).
+    private func analyzeText(_ text: String) async {
+        isLoading = true
+        errorMessage = nil
+        resultText = ""
+        ProcessingFeedback.start()
+        defer { isLoading = false }
+        do {
+            let response = try await AiProviderFactory.current().ask(
+                task: mode.task,
+                input: String(text.prefix(12000)),
+                instruction: mode.instruction
+                    + " The content is provided below as text (not an image).",
+                language: BasirSettings.shared.language,
+                imageData: nil,
+                mimeType: nil
+            )
+            resultText = response
+            ProcessingFeedback.done()
+        } catch {
+            errorMessage = UserFriendlyErrorMapper.map(error)
+            ProcessingFeedback.failed()
         }
     }
 

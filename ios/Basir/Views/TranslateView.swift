@@ -144,9 +144,7 @@ struct TranslateView: View {
                     Text(L10n.t("النص المترجم", "Translated text"))
                         .font(.headline)
                         .accessibilityAddTraits(.isHeader)
-                    Text(translation)
-                        .textSelection(.enabled)
-                        .accessibilityLabel(translation)
+                    SelectableText(text: translation)
                     CopyButton(text: translation)
                     AskAboutResultLink(text: translation)
                 }

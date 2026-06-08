@@ -46,9 +46,7 @@ struct SharedItemView: View {
                         Text(L10n.t("النتيجة", "Result"))
                             .font(.headline)
                             .accessibilityAddTraits(.isHeader)
-                        Text(result)
-                            .textSelection(.enabled)
-                            .accessibilityLabel(result)
+                        SelectableText(text: result)
                         CopyButton(text: result)
                     }
 

@@ -82,9 +82,7 @@ private struct ArchivedResultDetail: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 Divider()
-                Text(result.text)
-                    .textSelection(.enabled)
-                    .accessibilityLabel(result.text)
+                SelectableText(text: result.text)
             }
             .padding(20)
         }

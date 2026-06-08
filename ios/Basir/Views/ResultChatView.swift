@@ -74,9 +74,7 @@ struct ResultChatView: View {
                     Text(L10n.t("الإجابة", "Answer"))
                         .font(.headline)
                         .accessibilityAddTraits(.isHeader)
-                    Text(answer)
-                        .textSelection(.enabled)
-                        .accessibilityLabel(answer)
+                    SelectableText(text: answer)
                     CopyButton(text: answer)
                 }
 

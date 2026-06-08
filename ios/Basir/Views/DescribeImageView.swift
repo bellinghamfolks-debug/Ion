@@ -146,9 +146,7 @@ struct DescribeImageView: View {
                     Text(L10n.t("النتيجة", "Result"))
                         .font(.headline)
                         .accessibilityAddTraits(.isHeader)
-                    Text(resultText)
-                        .textSelection(.enabled)
-                        .accessibilityLabel(resultText)
+                    SelectableText(text: resultText)
                     CopyButton(text: resultText)
                     AskAboutResultLink(text: resultText, imageData: lastImageData)
                 }

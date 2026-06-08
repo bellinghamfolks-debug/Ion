@@ -53,6 +53,10 @@ struct DocumentConvertView: View {
     @State private var lastDocxURL: URL?
     /// Per-batch progress for the chunked conversion loop.
     @State private var progress: (done: Int, total: Int) = (0, 0)
+    /// True while we're OCR-scanning a scanned PDF (vs. the later
+    /// language-processing pass), so the progress bar can say which
+    /// phase the user is in.
+    @State private var isScanning = false
     /// Cooperative cancel flag — checked at every batch boundary.
     @State private var cancelRequested: Bool = false
     /// Per-batch state for the current run. Populated when run()
@@ -115,9 +119,13 @@ struct DocumentConvertView: View {
                             ProgressView(value: Double(progress.done),
                                           total: Double(progress.total))
                                 .progressViewStyle(.linear)
-                            Text(L10n.t(
-                                "أعالج الجزء \(progress.done) من \(progress.total)…",
-                                "Processing part \(progress.done) of \(progress.total)…"
+                            Text(isScanning
+                                 ? L10n.t(
+                                    "أمسح الصفحة \(progress.done) من \(progress.total) ضوئيًا…",
+                                    "Scanning page \(progress.done) of \(progress.total)…")
+                                 : L10n.t(
+                                    "أعالج الجزء \(progress.done) من \(progress.total)…",
+                                    "Processing part \(progress.done) of \(progress.total)…"
                             ))
                                 .font(.callout)
                                 .accessibilityAddTraits(.updatesFrequently)
@@ -158,9 +166,7 @@ struct DocumentConvertView: View {
                         CopyButton(text: resultText)
                         AskAboutResultLink(text: resultText)
                     }
-                    Text(resultText)
-                        .textSelection(.enabled)
-                        .accessibilityLabel(resultText)
+                    SelectableText(text: resultText)
 
                     // v3.2 — produce an actual .docx file the user can
                     // share, save to Files, or hand to Word. Mirrors
@@ -429,9 +435,15 @@ struct DocumentConvertView: View {
         cancelRequested = false
         lastDocxURL = nil
         batches = []
+        isScanning = false
+        ProcessingFeedback.start()
+        var succeeded = false
         defer {
             isLoading = false
             progress = (done: 0, total: 0)
+            isScanning = false
+            if succeeded { ProcessingFeedback.done() }
+            else { ProcessingFeedback.failed() }
         }
 
         do {
@@ -444,7 +456,12 @@ struct DocumentConvertView: View {
                 } catch PdfReadError.empty {
                     // Scanned PDF (no text layer): OCR each page via Gemini
                     // vision, then process the transcription like any text.
-                    let ocr = await DocumentText.ocrPdf(from: url) ?? ""
+                    // Report per-page scan progress to the progress bar.
+                    isScanning = true
+                    let ocr = await DocumentText.ocrPdf(from: url) { done, total in
+                        progress = (done: done, total: total)
+                    } ?? ""
+                    isScanning = false
                     pages = Self.splitByCharBudget(ocr)
                     fromOCR = true
                 }
@@ -487,6 +504,7 @@ struct DocumentConvertView: View {
                 UIAccessibility.post(notification: .announcement,
                                      argument: L10n.t("اكتملت المعالجة. راجع النتيجة قبل استخدامها.",
                                                        "Processing is complete. Review the result before using it."))
+                succeeded = true
                 return
             }
 
@@ -500,6 +518,7 @@ struct DocumentConvertView: View {
 
             await runBatches(allIndices: Array(batches.indices),
                               sourceName: url.lastPathComponent)
+            succeeded = true
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
         }
@@ -520,9 +539,11 @@ struct DocumentConvertView: View {
         // out of the warning banner while they're in flight.
         for i in failedIdx { batches[i].status = .pending }
         progress = (done: 0, total: failedIdx.count)
+        ProcessingFeedback.start()
         defer {
             isLoading = false
             progress = (done: 0, total: 0)
+            ProcessingFeedback.done()
         }
         let sourceName = pickedURL?.lastPathComponent ?? "document"
         await runBatches(allIndices: failedIdx, sourceName: sourceName)

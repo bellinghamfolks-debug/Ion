@@ -61,10 +61,7 @@ struct MathExtractView: View {
                     Text(L10n.t("النتيجة", "Result"))
                         .font(.headline)
                         .accessibilityAddTraits(.isHeader)
-                    Text(resultText)
-                        .textSelection(.enabled)
-                        .font(.body)
-                        .accessibilityLabel(resultText)
+                    SelectableText(text: resultText)
                     CopyButton(text: resultText)
                     AskAboutResultLink(text: resultText)
                 }

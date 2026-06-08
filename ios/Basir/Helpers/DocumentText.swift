@@ -93,10 +93,17 @@ enum DocumentText {
 
     /// OCR every rendered page of a scanned PDF through Gemini vision and
     /// join the transcriptions. Uses the cheap (Flash) screenshot task.
+    ///
+    /// `onProgress(done, total)` is invoked on the main actor — first
+    /// with (0, pageCount) once the pages are rendered, then after each
+    /// page is transcribed — so the convert screen can show a real OCR
+    /// progress bar instead of an indeterminate spinner.
     @MainActor
-    static func ocrPdf(from url: URL, maxPages: Int = 500) async -> String? {
+    static func ocrPdf(from url: URL, maxPages: Int = 500,
+                       onProgress: ((Int, Int) -> Void)? = nil) async -> String? {
         let images = PdfReader.renderPageImages(from: url, maxPages: maxPages)
         guard !images.isEmpty else { return nil }
+        onProgress?(0, images.count)
         let lang = BasirSettings.shared.language
         var sb = ""
         for (i, image) in images.enumerated() {
@@ -115,6 +122,7 @@ enum DocumentText {
                 mimeType: "image/jpeg")) ?? ""
             let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
             if !trimmed.isEmpty { sb += "\n[Page \(i + 1)]\n" + trimmed + "\n" }
+            onProgress?(i + 1, images.count)
         }
         return sb.isEmpty ? nil : sb
     }

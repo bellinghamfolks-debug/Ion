@@ -75,9 +75,7 @@ struct TextTaskView: View {
                             Label(L10n.t("مشاركة", "Share"), systemImage: "square.and.arrow.up")
                         }
                     }
-                    Text(result)
-                        .textSelection(.enabled)
-                        .accessibilityLabel(result)
+                    SelectableText(text: result)
                     AskAboutResultLink(text: result)
                 }
 

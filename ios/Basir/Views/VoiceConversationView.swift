@@ -58,9 +58,7 @@ struct VoiceConversationView: View {
                 Text(L10n.t("الإجابة", "Answer"))
                     .font(.subheadline.bold())
                     .foregroundStyle(.secondary)
-                Text(lastResponse)
-                    .textSelection(.enabled)
-                    .accessibilityLabel(lastResponse)
+                SelectableText(text: lastResponse)
             }
 
             if let errorMessage {

@@ -165,15 +165,6 @@ final class ArchiveStore: ObservableObject {
         save()
     }
 
-    func clearAll() {
-        people.removeAll()
-        products.removeAll()
-        places.removeAll()
-        results.removeAll()
-        logs.removeAll()
-        save()
-    }
-
     // MARK: - Persistence
 
     private func load() {

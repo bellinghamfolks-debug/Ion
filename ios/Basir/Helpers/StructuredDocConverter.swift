@@ -61,6 +61,7 @@ enum StructuredDocConverter {
                            options: DocConvertOptions,
                            maxPages: Int = 500,
                            shouldCancel: () -> Bool = { false },
+                           onStatus: ((String) -> Void)? = nil,
                            onProgress: ((Int, Int) -> Void)? = nil,
                            onPartial: ((String) -> Void)? = nil) async throws -> Result {
         guard let doc = PDFDocument(url: url) else {
@@ -82,15 +83,19 @@ enum StructuredDocConverter {
         // dense pages far better than our downsampled page images did
         // (which caused misreads and fabrication), and each batch payload
         // is tiny (just the file URI) instead of megabytes of image data.
+        onStatus?(L10n.t("جارٍ تجهيز الملف ورفعه…", "Preparing and uploading the file…"))
         let key = KeychainStore.geminiKey()
         guard let bytes = try? Data(contentsOf: url) else {
             throw NSError(domain: "BasirConvert", code: 4, userInfo: [
                 NSLocalizedDescriptionKey: L10n.t("تعذّر قراءة الملف.",
                                                   "The file could not be read.")])
         }
-        let uploaded = try await GeminiClient.uploadFile(
-            apiKey: key, data: bytes, mimeType: "application/pdf")
+        let uploaded = try await withRetry {
+            try await GeminiClient.uploadFile(apiKey: key, data: bytes,
+                                              mimeType: "application/pdf")
+        }
         try await GeminiClient.waitForFileActive(apiKey: key, name: uploaded.name)
+        onStatus?("")
 
         // Process page ranges (4 pages per call, like Android) so the
         // model keeps a consistent schema and the output never truncates.
@@ -100,18 +105,58 @@ enum StructuredDocConverter {
         while start <= total {
             if shouldCancel() { break }   // keep batches converted so far
             let end = min(start + batchSize - 1, total)
-            let json = try await requestFileBatch(fileUri: uploaded.uri,
-                                                  fileMime: uploaded.mimeType,
-                                                  startPage: start, endPage: end,
-                                                  totalPages: total,
-                                                  isFirst: result.blocks.isEmpty,
-                                                  options: options)
-            merge(json, into: &result, isFirst: start == 1, defaultPage: start)
+            do {
+                // Retry transient failures (rate limit, 5xx, network,
+                // timeout) so one hiccup doesn't abort the whole document.
+                let json = try await withRetry {
+                    try await requestFileBatch(fileUri: uploaded.uri,
+                                               fileMime: uploaded.mimeType,
+                                               startPage: start, endPage: end,
+                                               totalPages: total,
+                                               isFirst: result.blocks.isEmpty,
+                                               options: options)
+                }
+                merge(json, into: &result, isFirst: result.blocks.isEmpty, defaultPage: start)
+            } catch {
+                // A batch that keeps failing must NOT discard the rest:
+                // note the page range and continue with the next batch.
+                result.blocks.append(.pageMarker(start))
+                result.blocks.append(.paragraph(L10n.t(
+                    "(تعذّرت معالجة الصفحات \(start)–\(end). يمكنك إعادة المحاولة لاحقًا.)",
+                    "(Could not process pages \(start)–\(end). You can try again later.)")))
+            }
             onProgress?(end, total)
             onPartial?(displayText(result))
             start = end + 1
         }
         return result
+    }
+
+    /// Retry an async operation on transient API errors with exponential
+    /// backoff (network drop, request timeout, HTTP 429 / 5xx).
+    @MainActor
+    private static func withRetry<T>(_ op: () async throws -> T) async throws -> T {
+        var delay: UInt64 = 1_500_000_000   // 1.5s
+        var lastError: Error?
+        for attempt in 0..<4 {
+            do { return try await op() }
+            catch {
+                lastError = error
+                if attempt == 3 || !isTransient(error) { throw error }
+                try? await Task.sleep(nanoseconds: delay)
+                delay = min(delay * 2, 12_000_000_000)
+            }
+        }
+        throw lastError ?? GeminiError.decode("retry failed")
+    }
+
+    private static func isTransient(_ error: Error) -> Bool {
+        switch error {
+        case GeminiError.network: return true
+        case let GeminiError.http(status, _):
+            return status == 429 || (500...599).contains(status)
+        default: return false
+        }
     }
 
     /// Convert a single image file (photo / scan) the same way.

@@ -217,7 +217,8 @@ struct GeminiClient {
 
     private static func post(model: String,
                               apiKey: String,
-                              body: [String: Any]) async throws -> [String: Any] {
+                              body: [String: Any],
+                              timeout: TimeInterval = 120) async throws -> [String: Any] {
         let urlString = "\(baseURL)/models/\(model):generateContent?key=\(apiKey)"
         guard let url = URL(string: urlString) else {
             throw GeminiError.http(status: 0, body: "Invalid URL")
@@ -227,7 +228,7 @@ struct GeminiClient {
         req.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         req.setValue("application/json", forHTTPHeaderField: "Accept")
         req.setValue("Basir-iOS/3.2.0", forHTTPHeaderField: "User-Agent")
-        req.timeoutInterval = 120
+        req.timeoutInterval = timeout
 
         do {
             req.httpBody = try JSONSerialization.data(withJSONObject: body)
@@ -394,7 +395,9 @@ struct GeminiClient {
                 "responseMimeType": "application/json"
             ]
         ]
-        let json = try await post(model: model, apiKey: apiKey, body: body)
+        // Referencing a multi-page PDF makes the model ingest the whole
+        // file, so give it generous time before the request times out.
+        let json = try await post(model: model, apiKey: apiKey, body: body, timeout: 300)
         return try extractTextResponse(from: json)
     }
 }

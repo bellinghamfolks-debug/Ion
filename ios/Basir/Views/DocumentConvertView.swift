@@ -60,6 +60,10 @@ struct DocumentConvertView: View {
     /// Structured conversion result (Android-parity). Holds the ordered
     /// blocks — including REAL tables — used to build a proper DOCX.
     @State private var convertedResult: StructuredDocConverter.Result?
+    /// Transient phase note (e.g. "uploading…") shown while there is no
+    /// numeric progress yet, so the bar sitting at 0 isn't mistaken for a
+    /// stall during the initial upload.
+    @State private var statusNote: String = ""
     /// Cooperative cancel flag — checked at every batch boundary.
     @State private var cancelRequested: Bool = false
     /// Per-batch state for the current run. Populated when run()
@@ -125,7 +129,16 @@ struct DocumentConvertView: View {
 
                 if isLoading {
                     VStack(alignment: .leading, spacing: 8) {
-                        if progress.total > 1 {
+                        if !statusNote.isEmpty {
+                            // Upload / preparation phase: no page numbers yet,
+                            // so show a spinner + note instead of a 0-valued bar.
+                            HStack {
+                                ProgressView()
+                                Text(statusNote)
+                                    .font(.callout)
+                                    .accessibilityAddTraits(.updatesFrequently)
+                            }
+                        } else if progress.total > 1 {
                             ProgressView(value: Double(progress.done),
                                           total: Double(progress.total))
                                 .progressViewStyle(.linear)
@@ -469,12 +482,14 @@ struct DocumentConvertView: View {
         batches = []
         isScanning = false
         convertedResult = nil
+        statusNote = ""
         ProcessingFeedback.start()
         var succeeded = false
         defer {
             isLoading = false
             progress = (done: 0, total: 0)
             isScanning = false
+            statusNote = ""
             if succeeded { ProcessingFeedback.done() }
             else { ProcessingFeedback.failed() }
         }
@@ -499,6 +514,7 @@ struct DocumentConvertView: View {
                     result = try await StructuredDocConverter.convertPdf(
                         url: url, options: options,
                         shouldCancel: { cancelRequested },
+                        onStatus: { note in statusNote = note },
                         onProgress: { d, t in progress = (done: d, total: t) },
                         onPartial: { txt in resultText = txt })
                 } else {

@@ -133,6 +133,42 @@ struct GeminiClient {
         return try extractTextResponse(from: json)
     }
 
+    /// JSON-mode generation with MULTIPLE images in one request. Used by
+    /// the structured document converter so Gemini sees a whole batch of
+    /// pages together and produces CONSISTENT table schemas across them
+    /// (the single-image path processed each page in isolation, so the
+    /// model invented a different column layout per page). Fewer, larger
+    /// calls are also cheaper than one-call-per-page.
+    static func generateJsonStringWithImages(
+        apiKey: String,
+        model: String,
+        systemText: String,
+        userMessage: String,
+        images: [Data],
+        mimeType: String,
+        maxOutputTokens: Int = maxOutputTokens
+    ) async throws -> String {
+        try validate(apiKey)
+        var parts: [[String: Any]] = [["text": userMessage]]
+        for img in images {
+            parts.append(["inlineData": [
+                "mimeType": mimeType,
+                "data": img.base64EncodedString()
+            ]])
+        }
+        let body: [String: Any] = [
+            "system_instruction": ["parts": [["text": systemText]]],
+            "contents": [["role": "user", "parts": parts]],
+            "generationConfig": [
+                "maxOutputTokens": maxOutputTokens,
+                "temperature": 0.2,
+                "responseMimeType": "application/json"
+            ]
+        ]
+        let json = try await post(model: model, apiKey: apiKey, body: body)
+        return try extractTextResponse(from: json)
+    }
+
     /// Mirrors GeminiDirectClient.generateJsonWithImage on Android.
     /// Asks Gemini for application/json output so the response can be
     /// parsed deterministically — used by the Live Scene Guidance loop

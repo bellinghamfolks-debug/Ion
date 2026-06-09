@@ -76,21 +76,34 @@ enum StructuredDocConverter {
         }
         onProgress?(0, total)
 
+        // Process several pages per call (like Android's 4-page batches)
+        // so Gemini sees them together and produces a CONSISTENT table
+        // schema across them — and so a 3-page doc is one call, matching
+        // Android exactly. Also fewer, cheaper calls.
+        let batchSize = 4
         var result = Result()
-        for i in 0..<total {
-            if shouldCancel() { break }   // keep pages converted so far
-            guard let page = doc.page(at: i),
-                  let image = PdfReader.jpegData(for: page) else {
-                onProgress?(i + 1, total); continue
+        var start = 1
+        while start <= total {
+            if shouldCancel() { break }   // keep batches converted so far
+            let end = min(start + batchSize - 1, total)
+            var images: [Data] = []
+            for p in start...end {
+                if let page = doc.page(at: p - 1),
+                   let img = PdfReader.jpegData(for: page) {
+                    images.append(img)
+                }
             }
-            let json = try await requestPage(image: image,
-                                              pageNumber: i + 1,
-                                              totalPages: total,
-                                              isFirst: result.blocks.isEmpty,
-                                              options: options)
-            merge(json, into: &result, isFirst: i == 0, page: i + 1)
-            onProgress?(i + 1, total)
+            if !images.isEmpty {
+                let json = try await requestBatch(images: images,
+                                                  startPage: start, endPage: end,
+                                                  totalPages: total,
+                                                  isFirst: result.blocks.isEmpty,
+                                                  options: options)
+                merge(json, into: &result, isFirst: start == 1, defaultPage: start)
+            }
+            onProgress?(end, total)
             onPartial?(displayText(result))
+            start = end + 1
         }
         return result
     }
@@ -106,11 +119,11 @@ enum StructuredDocConverter {
                                                   "The image could not be read.")])
         }
         onProgress?(0, 1)
-        let json = try await requestPage(image: jpeg, pageNumber: 1,
-                                         totalPages: 1, isFirst: true,
-                                         options: options)
+        let json = try await requestBatch(images: [jpeg], startPage: 1, endPage: 1,
+                                          totalPages: 1, isFirst: true,
+                                          options: options)
         var result = Result()
-        merge(json, into: &result, isFirst: true, page: 1)
+        merge(json, into: &result, isFirst: true, defaultPage: 1)
         onProgress?(1, 1)
         return result
     }
@@ -118,11 +131,11 @@ enum StructuredDocConverter {
     // MARK: - Networking
 
     @MainActor
-    private static func requestPage(image: Data,
-                                    pageNumber: Int,
-                                    totalPages: Int,
-                                    isFirst: Bool,
-                                    options: DocConvertOptions) async throws -> [String: Any] {
+    private static func requestBatch(images: [Data],
+                                     startPage: Int, endPage: Int,
+                                     totalPages: Int,
+                                     isFirst: Bool,
+                                     options: DocConvertOptions) async throws -> [String: Any] {
         let key = KeychainStore.geminiKey()
         let settings = BasirSettings.shared
         let model = settings.modelFor(task: .convert)
@@ -135,21 +148,22 @@ enum StructuredDocConverter {
         }
         let prompt = GeminiPrompts.documentPageInstruction(
             langName: langName,
-            pageNumber: pageNumber,
+            startPage: startPage,
+            endPage: endPage,
             totalPages: totalPages,
             isFirst: isFirst,
             includeImages: options.describeImages,
             translateToName: options.translateTo.isEmpty ? nil : langName,
             math: options.math)
 
-        let raw = try await GeminiClient.generateJsonStringWithImage(
+        let raw = try await GeminiClient.generateJsonStringWithImages(
             apiKey: key,
             model: model,
             systemText: "You are Basir, an assistant for blind and low-vision users.",
             userMessage: prompt,
-            imageData: image,
+            images: images,
             mimeType: "image/jpeg",
-            maxOutputTokens: 8192)
+            maxOutputTokens: GeminiClient.maxOutputTokens)
 
         return parseObject(raw)
     }
@@ -170,7 +184,7 @@ enum StructuredDocConverter {
     }
 
     private static func merge(_ json: [String: Any], into result: inout Result,
-                              isFirst: Bool, page: Int) {
+                              isFirst: Bool, defaultPage: Int) {
         if isFirst {
             if let title = (json["title"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines),
                !title.isEmpty {
@@ -183,25 +197,34 @@ enum StructuredDocConverter {
                 result.blocks.append(.paragraph(summary))
             }
         }
-        // A page marker before each page's content — mirrors Android and
-        // gives a blind reader a clear "Page N" landmark to navigate by.
-        result.blocks.append(.pageMarker(page))
-        guard let sections = json["sections"] as? [[String: Any]] else { return }
+        guard let sections = json["sections"] as? [[String: Any]] else {
+            result.blocks.append(.pageMarker(defaultPage)); return
+        }
+        var currentPage = defaultPage
+        var sawMarker = false
         for sec in sections {
             let type = (sec["type"] as? String ?? "").lowercased()
             switch type {
+            case "page_marker":
+                if let n = firstInt(sec["label"] as? String) { currentPage = n }
+                result.blocks.append(.pageMarker(currentPage))
+                sawMarker = true
             case "heading":
+                if !sawMarker { result.blocks.append(.pageMarker(currentPage)); sawMarker = true }
                 let level = (sec["level"] as? Int) ?? Int((sec["level"] as? String) ?? "") ?? 2
                 let text = (sec["text"] as? String ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
                 if !text.isEmpty { result.blocks.append(.heading(level: min(max(level, 1), 3), text: text)) }
             case "paragraph":
+                if !sawMarker { result.blocks.append(.pageMarker(currentPage)); sawMarker = true }
                 let text = (sec["text"] as? String ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
                 if !text.isEmpty { result.blocks.append(.paragraph(text)) }
             case "image_description", "image":
+                if !sawMarker { result.blocks.append(.pageMarker(currentPage)); sawMarker = true }
                 let d = (sec["description"] as? String ?? sec["text"] as? String ?? "")
                     .trimmingCharacters(in: .whitespacesAndNewlines)
-                if !d.isEmpty { result.blocks.append(.imageDescription(page: page, text: d)) }
+                if !d.isEmpty { result.blocks.append(.imageDescription(page: currentPage, text: d)) }
             case "table":
+                if !sawMarker { result.blocks.append(.pageMarker(currentPage)); sawMarker = true }
                 let caption = (sec["caption"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines)
                 let rowHeader = (sec["row_header"] as? Bool) ?? false
                 let cells = parseCells(sec["cells"])
@@ -209,13 +232,18 @@ enum StructuredDocConverter {
                     result.blocks.append(.table(caption: (caption?.isEmpty == false) ? caption : nil,
                                                 cells: cells, rowHeader: rowHeader))
                 }
-            case "page_marker":
-                break   // page markers are internal bookkeeping; not shown
             default:
-                if let text = (sec["text"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines),
-                   !text.isEmpty { result.blocks.append(.paragraph(text)) }
+                let text = (sec["text"] as? String ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+                if !text.isEmpty { result.blocks.append(.paragraph(text)) }
             }
         }
+    }
+
+    /// First integer found in a string like "Page 3" → 3.
+    private static func firstInt(_ s: String?) -> Int? {
+        guard let s else { return nil }
+        let digits = s.drop { !$0.isNumber }.prefix { $0.isNumber }
+        return Int(digits)
     }
 
     private static func parseCells(_ raw: Any?) -> [[String]] {

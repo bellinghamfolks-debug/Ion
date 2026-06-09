@@ -69,14 +69,15 @@ enum GeminiPrompts {
     ///   language while preserving structure.
     /// - math: append the spoken-math + LaTeX directive.
     static func documentPageInstruction(langName: String,
-                                        pageNumber: Int,
+                                        startPage: Int,
+                                        endPage: Int,
                                         totalPages: Int,
                                         isFirst: Bool,
                                         includeImages: Bool,
                                         translateToName: String?,
                                         math: Bool) -> String {
         var p = ""
-        p += "You are converting ONE page of a document for a blind user.\n"
+        p += "You are converting pages of a document for a blind user.\n"
         p += "Respond strictly in \(langName).\n"
         if let tgt = translateToName {
             p += "TRANSLATION MODE. Translate EVERY textual element into \(tgt): "
@@ -92,7 +93,10 @@ enum GeminiPrompts {
             p += "MATH: render every mathematical expression as a SPOKEN form in the "
             p += "response language followed by [LaTeX: ...]. Apply only to real math.\n"
         }
-        p += "\nThis is page \(pageNumber) of \(totalPages). Process ONLY this page.\n"
+        p += "\nThe attached images are pages \(startPage) to \(endPage) of \(totalPages), "
+        p += "in order. Process ONLY these pages. Insert a "
+        p += "{ \"type\": \"page_marker\", \"label\": \"Page N\" } before each page's content, "
+        p += "and do NOT repeat content from other pages.\n"
         p += "Return a SINGLE JSON object (no markdown, no code fences):\n"
         p += "{\n"
         if isFirst {
@@ -100,6 +104,7 @@ enum GeminiPrompts {
             p += "  \"summary\": \"short summary, 1-3 sentences\",\n"
         }
         p += "  \"sections\": [\n"
+        p += "    { \"type\": \"page_marker\", \"label\": \"Page \(startPage)\" },\n"
         p += "    { \"type\": \"heading\", \"level\": 1, \"text\": \"...\" },\n"
         p += "    { \"type\": \"paragraph\", \"text\": \"...\" },\n"
         if includeImages {
@@ -116,6 +121,10 @@ enum GeminiPrompts {
         p += "- For EVERY table you see, output a 'table' section with the ACTUAL cell values "
         p += "in a 2-D array. The FIRST row MUST be the header row. Preserve column order exactly. "
         p += "Empty cells become empty strings. NEVER summarise a table as prose — emit the real cells.\n"
+        p += "- CONSISTENCY: when the document repeats similar tables (e.g. a transcript with one "
+        p += "table per term, or a report with repeating sections), use the SAME column headers in "
+        p += "the SAME order and the SAME number of columns for EVERY such table throughout. Do not "
+        p += "add, drop, reorder, or rename columns between repetitions.\n"
         p += "- SCHEDULE / TIMETABLE tables (timetables, exam schedules, shift rosters): set "
         p += "\"row_header\": true. Keep time ranges as ONE cell (\"08:00 – 09:00\", never split). "
         p += "Join subject + room + instructor with \" — \". Empty slots become \"\".\n"

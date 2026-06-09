@@ -97,6 +97,12 @@ enum GeminiPrompts {
         p += "in order. Process ONLY these pages. Insert a "
         p += "{ \"type\": \"page_marker\", \"label\": \"Page N\" } before each page's content, "
         p += "and do NOT repeat content from other pages.\n"
+        p += "ORDER: emit sections in the EXACT order they appear in the source — page by "
+        p += "page, and within each page strictly top-to-bottom (for Arabic / RTL pages, "
+        p += "right-to-left). NEVER reorder. If the page has several blocks (e.g. several "
+        p += "academic terms), keep their original sequence.\n"
+        p += "COMPLETENESS: include EVERY block, term, section, and table on these pages — "
+        p += "do not skip, merge, or omit any, even if there are many.\n"
         p += "Return a SINGLE JSON object (no markdown, no code fences):\n"
         p += "{\n"
         if isFirst {

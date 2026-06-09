@@ -163,7 +163,11 @@ enum StructuredDocConverter {
             userMessage: prompt,
             images: images,
             mimeType: "image/jpeg",
-            maxOutputTokens: GeminiClient.maxOutputTokens)
+            // A dense batch (several terms per page) needs plenty of room
+            // so the JSON isn't truncated mid-document — losing or
+            // reordering content. Gemini 2.5 models allow large outputs;
+            // the API clamps to the model's max if it is lower.
+            maxOutputTokens: 32768)
 
         return parseObject(raw)
     }

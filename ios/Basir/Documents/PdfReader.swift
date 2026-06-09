@@ -116,7 +116,8 @@ struct PdfReader {
     /// transcribing and releasing each before rendering the next. The
     /// autoreleasepool frees the bitmap promptly between pages.
     static func jpegData(for page: PDFPage,
-                         longEdge: CGFloat = 1600) -> Data? {
+                         longEdge: CGFloat = 1600,
+                         rotationDegrees: Int = 0) -> Data? {
         autoreleasepool {
             let bounds = page.bounds(for: .mediaBox)
             guard bounds.width > 0, bounds.height > 0 else { return nil }
@@ -130,7 +131,29 @@ struct PdfReader {
                 ctx.cgContext.scaleBy(x: scale, y: -scale)
                 page.draw(with: .mediaBox, to: ctx.cgContext)
             }
-            return img.jpegData(compressionQuality: 0.7)
+            let final = rotationDegrees % 360 == 0 ? img
+                                                    : rotate(img, degrees: rotationDegrees)
+            return final.jpegData(compressionQuality: 0.7)
+        }
+    }
+
+    /// Rotate a rendered page image clockwise by 90/180/270° so a scan
+    /// that was stored sideways is sent to the model UPRIGHT — sideways
+    /// Arabic is what made the model misread and fabricate.
+    private static func rotate(_ image: UIImage, degrees: Int) -> UIImage {
+        let radians = CGFloat(degrees) * .pi / 180
+        let swap = (degrees % 180) != 0
+        let newSize = swap ? CGSize(width: image.size.height, height: image.size.width)
+                           : image.size
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        return renderer.image { ctx in
+            let cg = ctx.cgContext
+            cg.translateBy(x: newSize.width / 2, y: newSize.height / 2)
+            cg.rotate(by: radians)
+            image.draw(in: CGRect(x: -image.size.width / 2,
+                                  y: -image.size.height / 2,
+                                  width: image.size.width,
+                                  height: image.size.height))
         }
     }
 }

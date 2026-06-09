@@ -77,13 +77,25 @@ enum StructuredDocConverter {
         }
         onProgress?(0, total)
 
-        // PRIMARY (Android parity): upload the actual PDF once via the
-        // Files API and reference it by URI per batch, so Gemini reads the
-        // real document at full fidelity. If anything in that path fails
-        // (upload error, file never ACTIVE, the first batch erroring out),
-        // FALL BACK to rendering pages as images — lower fidelity but
-        // reliable — so the user always gets a result instead of a
-        // "could not process" note.
+        // Detect page orientation ONCE. Scanned transcripts are often
+        // stored rotated 90° (sideways) with no /Rotate flag; sending such
+        // a page as-is makes even Pro misread and FABRICATE. If it is
+        // rotated, the Files API can't help (it would send the sideways
+        // PDF), so we render the pages upright via the image path instead.
+        onStatus?(L10n.t("جارٍ تحليل اتجاه الصفحات…", "Checking page orientation…"))
+        let rotation = await detectRotation(doc: doc)
+        onStatus?("")
+        if rotation != 0 {
+            return try await convertPdfViaImages(
+                doc: doc, total: total, options: options, rotation: rotation,
+                shouldCancel: shouldCancel, onStatus: onStatus,
+                onProgress: onProgress, onPartial: onPartial)
+        }
+
+        // Upright document → PRIMARY (Android parity): upload the actual
+        // PDF once via the Files API and reference it by URI per batch, so
+        // Gemini reads the real document at full fidelity. If that path
+        // fails, fall back to rendering pages as images.
         onStatus?(L10n.t("جارٍ تجهيز الملف ورفعه…", "Preparing and uploading the file…"))
         let key = KeychainStore.geminiKey()
         guard let bytes = try? Data(contentsOf: url) else {
@@ -149,18 +161,19 @@ enum StructuredDocConverter {
         return result
     }
 
-    /// Fallback converter: render each page to an image and send page
-    /// batches inline (the path that worked before the Files API). Used
-    /// when the Files API upload or first batch fails.
+    /// Fallback / rotated-scan converter: render each page to an image
+    /// (rotated upright by `rotation` degrees when the scan was stored
+    /// sideways) and send page batches inline. Used when the Files API
+    /// can't help — either it failed, or the scan is rotated (the Files
+    /// API would send the sideways PDF and the model would fabricate).
     @MainActor
     private static func convertPdfViaImages(
         doc: PDFDocument, total: Int, options: DocConvertOptions,
+        rotation: Int = 0,
         shouldCancel: () -> Bool,
         onStatus: ((String) -> Void)?,
         onProgress: ((Int, Int) -> Void)?,
         onPartial: ((String) -> Void)?) async throws -> Result {
-        onStatus?(L10n.t("جارٍ المعالجة بالطريقة البديلة…",
-                         "Processing with the fallback method…"))
         let batchSize = 4
         var result = Result()
         var start = 1
@@ -170,11 +183,11 @@ enum StructuredDocConverter {
             var images: [Data] = []
             for p in start...end {
                 if let page = doc.page(at: p - 1),
-                   let img = PdfReader.jpegData(for: page, longEdge: 2400) {
+                   let img = PdfReader.jpegData(for: page, longEdge: 2400,
+                                                rotationDegrees: rotation) {
                     images.append(img)
                 }
             }
-            onStatus?("")
             if !images.isEmpty {
                 do {
                     let json = try await withRetry {
@@ -249,6 +262,28 @@ enum StructuredDocConverter {
         validateGrades(&result.blocks)
         onProgress?(1, 1)
         return result
+    }
+
+    /// Ask Gemini once how far the first page must be rotated CLOCKWISE to
+    /// be upright (0/90/180/270). A tiny, cheap text call; defaults to 0 on
+    /// any uncertainty so an upright document is never needlessly rotated.
+    @MainActor
+    private static func detectRotation(doc: PDFDocument) async -> Int {
+        guard let page = doc.page(at: 0),
+              let img = PdfReader.jpegData(for: page, longEdge: 1100) else { return 0 }
+        let key = KeychainStore.geminiKey()
+        let model = BasirSettings.shared.modelFor(task: .convert)
+        let prompt = "This image is ONE page of a scanned document. Looking at how the "
+            + "text lines run, what CLOCKWISE rotation in degrees is needed to make the "
+            + "text upright and normally readable? If it is already upright answer 0. "
+            + "Answer with ONLY one number: 0, 90, 180, or 270."
+        let resp = (try? await GeminiClient.generateWithImage(
+            apiKey: key, model: model,
+            systemText: "You detect the reading orientation of scanned pages.",
+            userMessage: prompt, imageData: img, mimeType: "image/jpeg")) ?? "0"
+        let digits = resp.drop { !$0.isNumber }.prefix { $0.isNumber }
+        let value = Int(digits) ?? 0
+        return [0, 90, 180, 270].contains(value) ? value : 0
     }
 
     // MARK: - Networking

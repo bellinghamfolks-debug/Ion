@@ -383,7 +383,7 @@ private struct VoiceCoachSessionView: View {
             if speechService.state == .listening {
                 Text("يستمع الآن")
                     .font(.caption.bold())
-                    .accessibilityAddTraits(.isUpdatesFrequently)
+                    .accessibilityAddTraits(.updatesFrequently)
             }
         }
 

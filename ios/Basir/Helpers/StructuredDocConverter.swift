@@ -77,12 +77,13 @@ enum StructuredDocConverter {
         }
         onProgress?(0, total)
 
-        // ANDROID PARITY: upload the actual PDF once via the Files API and
-        // reference it by URI in every batch. Gemini then reads the REAL
-        // document at full fidelity — it handles scanned, rotated, and
-        // dense pages far better than our downsampled page images did
-        // (which caused misreads and fabrication), and each batch payload
-        // is tiny (just the file URI) instead of megabytes of image data.
+        // PRIMARY (Android parity): upload the actual PDF once via the
+        // Files API and reference it by URI per batch, so Gemini reads the
+        // real document at full fidelity. If anything in that path fails
+        // (upload error, file never ACTIVE, the first batch erroring out),
+        // FALL BACK to rendering pages as images — lower fidelity but
+        // reliable — so the user always gets a result instead of a
+        // "could not process" note.
         onStatus?(L10n.t("جارٍ تجهيز الملف ورفعه…", "Preparing and uploading the file…"))
         let key = KeychainStore.geminiKey()
         guard let bytes = try? Data(contentsOf: url) else {
@@ -90,15 +91,25 @@ enum StructuredDocConverter {
                 NSLocalizedDescriptionKey: L10n.t("تعذّر قراءة الملف.",
                                                   "The file could not be read.")])
         }
-        let uploaded = try await withRetry {
-            try await GeminiClient.uploadFile(apiKey: key, data: bytes,
-                                              mimeType: "application/pdf")
+
+        let uploaded: GeminiClient.UploadedFile
+        do {
+            uploaded = try await withRetry {
+                try await GeminiClient.uploadFile(apiKey: key, data: bytes,
+                                                  mimeType: "application/pdf")
+            }
+            try await GeminiClient.waitForFileActive(apiKey: key, name: uploaded.name,
+                                                     maxWaitSeconds: 120)
+        } catch {
+            // Upload/activation failed → image fallback for the whole doc.
+            onStatus?("")
+            return try await convertPdfViaImages(
+                doc: doc, total: total, options: options,
+                shouldCancel: shouldCancel, onStatus: onStatus,
+                onProgress: onProgress, onPartial: onPartial)
         }
-        try await GeminiClient.waitForFileActive(apiKey: key, name: uploaded.name)
         onStatus?("")
 
-        // Process page ranges (4 pages per call, like Android) so the
-        // model keeps a consistent schema and the output never truncates.
         let batchSize = 4
         var result = Result()
         var start = 1
@@ -106,8 +117,6 @@ enum StructuredDocConverter {
             if shouldCancel() { break }   // keep batches converted so far
             let end = min(start + batchSize - 1, total)
             do {
-                // Retry transient failures (rate limit, 5xx, network,
-                // timeout) so one hiccup doesn't abort the whole document.
                 let json = try await withRetry {
                     try await requestFileBatch(fileUri: uploaded.uri,
                                                fileMime: uploaded.mimeType,
@@ -118,8 +127,15 @@ enum StructuredDocConverter {
                 }
                 merge(json, into: &result, isFirst: result.blocks.isEmpty, defaultPage: start)
             } catch {
-                // A batch that keeps failing must NOT discard the rest:
-                // note the page range and continue with the next batch.
+                // If the VERY FIRST batch fails, the file path is unusable
+                // here — switch the whole document to the image fallback.
+                if result.blocks.isEmpty {
+                    return try await convertPdfViaImages(
+                        doc: doc, total: total, options: options,
+                        shouldCancel: shouldCancel, onStatus: onStatus,
+                        onProgress: onProgress, onPartial: onPartial)
+                }
+                // A later batch failing only loses that range; note + go on.
                 result.blocks.append(.pageMarker(start))
                 result.blocks.append(.paragraph(L10n.t(
                     "(تعذّرت معالجة الصفحات \(start)–\(end). يمكنك إعادة المحاولة لاحقًا.)",
@@ -129,7 +145,60 @@ enum StructuredDocConverter {
             onPartial?(displayText(result))
             start = end + 1
         }
-        // Deterministic grade↔points↔hours cross-check (Saudi scale).
+        validateGrades(&result.blocks)
+        return result
+    }
+
+    /// Fallback converter: render each page to an image and send page
+    /// batches inline (the path that worked before the Files API). Used
+    /// when the Files API upload or first batch fails.
+    @MainActor
+    private static func convertPdfViaImages(
+        doc: PDFDocument, total: Int, options: DocConvertOptions,
+        shouldCancel: () -> Bool,
+        onStatus: ((String) -> Void)?,
+        onProgress: ((Int, Int) -> Void)?,
+        onPartial: ((String) -> Void)?) async throws -> Result {
+        onStatus?(L10n.t("جارٍ المعالجة بالطريقة البديلة…",
+                         "Processing with the fallback method…"))
+        let batchSize = 4
+        var result = Result()
+        var start = 1
+        while start <= total {
+            if shouldCancel() { break }
+            let end = min(start + batchSize - 1, total)
+            var images: [Data] = []
+            for p in start...end {
+                if let page = doc.page(at: p - 1),
+                   let img = PdfReader.jpegData(for: page, longEdge: 2400) {
+                    images.append(img)
+                }
+            }
+            onStatus?("")
+            if !images.isEmpty {
+                do {
+                    let json = try await withRetry {
+                        try await requestBatch(images: images,
+                                               startPage: start, endPage: end,
+                                               totalPages: total,
+                                               isFirst: result.blocks.isEmpty,
+                                               options: options)
+                    }
+                    merge(json, into: &result, isFirst: result.blocks.isEmpty, defaultPage: start)
+                } catch {
+                    // If even the first fallback batch fails, surface the
+                    // real error rather than a silent empty document.
+                    if result.blocks.isEmpty { throw error }
+                    result.blocks.append(.pageMarker(start))
+                    result.blocks.append(.paragraph(L10n.t(
+                        "(تعذّرت معالجة الصفحات \(start)–\(end). يمكنك إعادة المحاولة لاحقًا.)",
+                        "(Could not process pages \(start)–\(end). You can try again later.)")))
+                }
+            }
+            onProgress?(end, total)
+            onPartial?(displayText(result))
+            start = end + 1
+        }
         validateGrades(&result.blocks)
         return result
     }

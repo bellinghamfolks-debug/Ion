@@ -1,21 +1,17 @@
-# Basir iOS — GitHub Actions build.
+# EnglishNova iOS — GitHub Actions compile check.
 #
-# NOTE: this replaces the contents of GitHub's default "Swift" starter
-# workflow. That template runs `swift build` / `swift test`, which only
-# works for a Swift Package Manager package. Basir is a SwiftUI **iOS
-# app** with no Package.swift and depends on UIKit/SwiftUI/PDFKit/
-# AVFoundation (iOS SDK, macOS-only) — so `swift build` always fails
-# with "could not find Package.swift".
+# Generates the Xcode project with XcodeGen and builds for the iOS
+# Simulator on a macOS runner (unsigned — compile check only). The
+# device IPA + signing live in Codemagic (see codemagic.yaml).
 #
-# Instead we generate the Xcode project with XcodeGen and build for the
-# iOS Simulator on a macOS runner (unsigned — compile check only).
-# Device IPA + signing live in Codemagic (see codemagic.yaml).
+# Basir's code is preserved on its own branch; this workflow builds the
+# repo's active project, EnglishNova.
 
 name: Swift
 
 on:
   push:
-    branches: [main, master, develop, "claude/file-extraction-repo-migration-hqgNY"]
+    branches: [main, master, develop, "claude/englishnova-ios"]
   pull_request:
 
 concurrency:
@@ -27,11 +23,9 @@ jobs:
     name: Build (iOS Simulator)
     runs-on: macos-14
 
-    # The Xcode project lives under ios/ (v3.3 monorepo layout), so run
-    # every shell step from there.
     defaults:
       run:
-        working-directory: ios
+        working-directory: EnglishNova
 
     steps:
       - name: Checkout
@@ -52,8 +46,8 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild build \
-            -project Basir.xcodeproj \
-            -scheme Basir \
+            -project EnglishNova.xcodeproj \
+            -scheme EnglishNova \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             -configuration Debug \

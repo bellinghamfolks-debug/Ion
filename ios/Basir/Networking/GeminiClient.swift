@@ -283,6 +283,120 @@ struct GeminiClient {
             throw GeminiError.missingApiKey
         }
     }
+
+    // MARK: - Files API (ports GeminiDirectClient upload/wait/fileData)
+
+    struct UploadedFile {
+        let name: String      // e.g. "files/abc123"
+        let uri: String       // full URI used in fileData.fileUri
+        let mimeType: String
+    }
+
+    /// Upload raw bytes to the Gemini Files API (the same "raw" protocol
+    /// Android uses). The file is processed server-side and is then
+    /// referenceable by URI across many generateContent calls for ~48h.
+    static func uploadFile(apiKey: String, data: Data,
+                           mimeType: String,
+                           displayName: String = "basir-doc") async throws -> UploadedFile {
+        try validate(apiKey)
+        let urlString = "https://generativelanguage.googleapis.com/upload/v1beta/files?key=\(apiKey)"
+        guard let url = URL(string: urlString) else {
+            throw GeminiError.http(status: 0, body: "Invalid upload URL")
+        }
+        var req = URLRequest(url: url)
+        req.httpMethod = "POST"
+        req.timeoutInterval = 600
+        req.setValue("raw", forHTTPHeaderField: "X-Goog-Upload-Protocol")
+        req.setValue(mimeType, forHTTPHeaderField: "X-Goog-Upload-Header-Content-Type")
+        req.setValue(mimeType, forHTTPHeaderField: "Content-Type")
+        req.setValue(displayName, forHTTPHeaderField: "X-Goog-File-Display-Name")
+        req.setValue("Basir-iOS/3.2.0", forHTTPHeaderField: "User-Agent")
+
+        let (respData, response): (Data, URLResponse)
+        do {
+            (respData, response) = try await URLSession.shared.upload(for: req, from: data)
+        } catch {
+            throw GeminiError.network(error)
+        }
+        let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+        let bodyString = String(data: respData, encoding: .utf8) ?? ""
+        guard (200..<300).contains(status) else {
+            throw GeminiError.http(status: status, body: bodyString)
+        }
+        guard let obj = try? JSONSerialization.jsonObject(with: respData) as? [String: Any],
+              let file = obj["file"] as? [String: Any],
+              let uri = file["uri"] as? String, !uri.isEmpty else {
+            throw GeminiError.decode("upload response missing file uri")
+        }
+        let name = file["name"] as? String ?? ""
+        let mt = file["mimeType"] as? String ?? mimeType
+        return UploadedFile(name: name, uri: uri, mimeType: mt)
+    }
+
+    /// Current processing state of an uploaded file (PROCESSING/ACTIVE/FAILED).
+    static func fileState(apiKey: String, name: String) async throws -> String {
+        guard !name.isEmpty else { return "" }
+        let urlString = "\(baseURL)/\(name)?key=\(apiKey)"
+        guard let url = URL(string: urlString) else { return "" }
+        var req = URLRequest(url: url)
+        req.timeoutInterval = 30
+        req.setValue("Basir-iOS/3.2.0", forHTTPHeaderField: "User-Agent")
+        let (data, response) = try await URLSession.shared.data(for: req)
+        let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+        guard (200..<300).contains(status),
+              let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
+        else { return "" }
+        return obj["state"] as? String ?? ""
+    }
+
+    /// Poll until the uploaded file becomes ACTIVE (or the budget runs out).
+    /// Gemini cannot reference a file in generateContent until it is ACTIVE.
+    static func waitForFileActive(apiKey: String, name: String,
+                                  maxWaitSeconds: Double = 60) async throws {
+        let start = Date()
+        var delay: UInt64 = 1_000_000_000   // 1s
+        while Date().timeIntervalSince(start) < maxWaitSeconds {
+            let state = try await fileState(apiKey: apiKey, name: name)
+            if state == "ACTIVE" { return }
+            if state == "FAILED" {
+                throw GeminiError.decode("Gemini failed to process the uploaded file")
+            }
+            try? await Task.sleep(nanoseconds: delay)
+            delay = min(delay * 2, 4_000_000_000)
+        }
+    }
+
+    /// generateContent in JSON mode referencing a previously-uploaded file
+    /// by URI (so a PDF is uploaded once and reused across page-range
+    /// batches — exactly the Android batched-conversion pipeline).
+    static func generateJsonStringWithFile(
+        apiKey: String,
+        model: String,
+        systemText: String,
+        userMessage: String,
+        fileUri: String,
+        fileMimeType: String,
+        maxOutputTokens: Int = maxOutputTokens
+    ) async throws -> String {
+        try validate(apiKey)
+        let body: [String: Any] = [
+            "system_instruction": ["parts": [["text": systemText]]],
+            "contents": [[
+                "role": "user",
+                "parts": [
+                    ["text": userMessage],
+                    ["fileData": ["fileUri": fileUri, "mimeType": fileMimeType]]
+                ]
+            ]],
+            "generationConfig": [
+                "maxOutputTokens": maxOutputTokens,
+                "temperature": 0.2,
+                "responseMimeType": "application/json"
+            ]
+        ]
+        let json = try await post(model: model, apiKey: apiKey, body: body)
+        return try extractTextResponse(from: json)
+    }
 }
 
 // MARK: - High-level Provider abstraction

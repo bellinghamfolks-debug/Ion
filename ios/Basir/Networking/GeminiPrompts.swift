@@ -93,8 +93,8 @@ enum GeminiPrompts {
             p += "MATH: render every mathematical expression as a SPOKEN form in the "
             p += "response language followed by [LaTeX: ...]. Apply only to real math.\n"
         }
-        p += "\nThe attached images are pages \(startPage) to \(endPage) of \(totalPages), "
-        p += "in order. Process ONLY these pages. Insert a "
+        p += "\nProcess ONLY pages \(startPage) to \(endPage) of the attached document "
+        p += "(it has \(totalPages) pages in total), in order. Insert a "
         p += "{ \"type\": \"page_marker\", \"label\": \"Page N\" } before each page's content, "
         p += "and do NOT repeat content from other pages.\n"
         p += "ORDER: emit sections in the EXACT order they appear in the source — page by "

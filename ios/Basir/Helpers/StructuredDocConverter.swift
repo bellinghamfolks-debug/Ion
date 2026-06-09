@@ -76,35 +76,37 @@ enum StructuredDocConverter {
         }
         onProgress?(0, total)
 
-        // Process several pages per call (like Android's 4-page batches)
-        // so Gemini sees them together and produces a CONSISTENT table
-        // schema across them — and so a 3-page doc is one call, matching
-        // Android exactly. Also fewer, cheaper calls.
+        // ANDROID PARITY: upload the actual PDF once via the Files API and
+        // reference it by URI in every batch. Gemini then reads the REAL
+        // document at full fidelity — it handles scanned, rotated, and
+        // dense pages far better than our downsampled page images did
+        // (which caused misreads and fabrication), and each batch payload
+        // is tiny (just the file URI) instead of megabytes of image data.
+        let key = KeychainStore.geminiKey()
+        guard let bytes = try? Data(contentsOf: url) else {
+            throw NSError(domain: "BasirConvert", code: 4, userInfo: [
+                NSLocalizedDescriptionKey: L10n.t("تعذّر قراءة الملف.",
+                                                  "The file could not be read.")])
+        }
+        let uploaded = try await GeminiClient.uploadFile(
+            apiKey: key, data: bytes, mimeType: "application/pdf")
+        try await GeminiClient.waitForFileActive(apiKey: key, name: uploaded.name)
+
+        // Process page ranges (4 pages per call, like Android) so the
+        // model keeps a consistent schema and the output never truncates.
         let batchSize = 4
         var result = Result()
         var start = 1
         while start <= total {
             if shouldCancel() { break }   // keep batches converted so far
             let end = min(start + batchSize - 1, total)
-            var images: [Data] = []
-            for p in start...end {
-                if let page = doc.page(at: p - 1),
-                   // Near-native resolution so dense / small / SIDEWAYS
-                   // scanned text stays legible and the model reads it
-                   // rather than guessing (the cause of fabrication on
-                   // rotated scans).
-                   let img = PdfReader.jpegData(for: page, longEdge: 2400) {
-                    images.append(img)
-                }
-            }
-            if !images.isEmpty {
-                let json = try await requestBatch(images: images,
+            let json = try await requestFileBatch(fileUri: uploaded.uri,
+                                                  fileMime: uploaded.mimeType,
                                                   startPage: start, endPage: end,
                                                   totalPages: total,
                                                   isFirst: result.blocks.isEmpty,
                                                   options: options)
-                merge(json, into: &result, isFirst: start == 1, defaultPage: start)
-            }
+            merge(json, into: &result, isFirst: start == 1, defaultPage: start)
             onProgress?(end, total)
             onPartial?(displayText(result))
             start = end + 1
@@ -171,6 +173,43 @@ enum StructuredDocConverter {
             // so the JSON isn't truncated mid-document — losing or
             // reordering content. Gemini 2.5 models allow large outputs;
             // the API clamps to the model's max if it is lower.
+            maxOutputTokens: 32768)
+
+        return parseObject(raw)
+    }
+
+    /// Same as requestBatch but references an uploaded PDF by URI (Android
+    /// parity) instead of sending rendered page images.
+    @MainActor
+    private static func requestFileBatch(fileUri: String, fileMime: String,
+                                         startPage: Int, endPage: Int,
+                                         totalPages: Int,
+                                         isFirst: Bool,
+                                         options: DocConvertOptions) async throws -> [String: Any] {
+        let key = KeychainStore.geminiKey()
+        let settings = BasirSettings.shared
+        let model = settings.modelFor(task: .convert)
+        let arabic = settings.language == .arabic
+        let langName = options.translateTo.isEmpty
+            ? (arabic ? "Arabic" : "English")
+            : GeminiPrompts.bcp47Name(options.translateTo)
+        let prompt = GeminiPrompts.documentPageInstruction(
+            langName: langName,
+            startPage: startPage,
+            endPage: endPage,
+            totalPages: totalPages,
+            isFirst: isFirst,
+            includeImages: options.describeImages,
+            translateToName: options.translateTo.isEmpty ? nil : langName,
+            math: options.math)
+
+        let raw = try await GeminiClient.generateJsonStringWithFile(
+            apiKey: key,
+            model: model,
+            systemText: "You are Basir, an assistant for blind and low-vision users.",
+            userMessage: prompt,
+            fileUri: fileUri,
+            fileMimeType: fileMime,
             maxOutputTokens: 32768)
 
         return parseObject(raw)

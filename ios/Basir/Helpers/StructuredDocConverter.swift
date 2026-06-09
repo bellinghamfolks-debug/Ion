@@ -129,6 +129,8 @@ enum StructuredDocConverter {
             onPartial?(displayText(result))
             start = end + 1
         }
+        // Deterministic grade↔points↔hours cross-check (Saudi scale).
+        validateGrades(&result.blocks)
         return result
     }
 
@@ -175,6 +177,7 @@ enum StructuredDocConverter {
                                           options: options)
         var result = Result()
         merge(json, into: &result, isFirst: true, defaultPage: 1)
+        validateGrades(&result.blocks)
         onProgress?(1, 1)
         return result
     }
@@ -329,6 +332,94 @@ enum StructuredDocConverter {
                 if !text.isEmpty { result.blocks.append(.paragraph(text)) }
             }
         }
+    }
+
+    // MARK: - Transcript validation engine
+
+    /// Saudi 5-point scale: grade value → canonical Arabic grade.
+    private static let gradeScale: [(value: Double, grade: String)] = [
+        (5.00, "أ+"), (4.75, "أ"), (4.50, "ب+"), (4.00, "ب"),
+        (3.50, "ج+"), (3.00, "ج"), (2.50, "د+"), (2.00, "د"), (1.00, "هـ"),
+    ]
+
+    /// Deterministic cross-check for academic-transcript tables. The earned
+    /// points of a course = credit hours × grade value, and the numeric
+    /// columns (hours, points) are far less ambiguous to read than the
+    /// single Arabic grade glyph (أ vs ب …). So where a row's points ÷ hours
+    /// lands exactly on a scale value but the printed grade disagrees, the
+    /// grade was misread — we correct it. Numbers are never altered, and we
+    /// only touch a cell that already looks like a grade, so a non-transcript
+    /// table is left untouched.
+    @discardableResult
+    static func validateGrades(_ blocks: inout [DocBlock]) -> Int {
+        var corrections = 0
+        for i in blocks.indices {
+            guard case let .table(caption, cells, rowHeader) = blocks[i],
+                  let header = cells.first, cells.count > 1 else { continue }
+            let gradeCol = header.firstIndex { isGradeHeader($0) }
+            let hoursCol = header.firstIndex { isHoursHeader($0) }
+            let pointsCol = header.firstIndex { isPointsHeader($0) }
+            guard let gc = gradeCol, let hc = hoursCol, let pc = pointsCol else { continue }
+
+            var newCells = cells
+            for r in 1..<newCells.count {
+                let row = newCells[r]
+                guard gc < row.count, hc < row.count, pc < row.count else { continue }
+                guard looksLikeGrade(row[gc]),
+                      let hours = number(row[hc]), hours >= 1, hours <= 9,
+                      let points = number(row[pc]), points > 0 else { continue }
+                let ratio = points / hours
+                guard let match = gradeScale.first(where: { abs($0.value - ratio) <= 0.02 })
+                else { continue }
+                if normalizedGrade(row[gc]) != match.grade {
+                    newCells[r][gc] = match.grade
+                    corrections += 1
+                }
+            }
+            if corrections > 0 {
+                blocks[i] = .table(caption: caption, cells: newCells, rowHeader: rowHeader)
+            }
+        }
+        return corrections
+    }
+
+    private static func isGradeHeader(_ s: String) -> Bool {
+        let t = s.lowercased()
+        return s.contains("تقدير") || t.contains("grade")
+    }
+    private static func isHoursHeader(_ s: String) -> Bool {
+        let t = s.trimmingCharacters(in: .whitespaces)
+        let l = t.lowercased()
+        return t == "س" || t.contains("ساع") || t.contains("وحدات")
+            || l.contains("hour") || l.contains("credit") || l == "ch"
+    }
+    private static func isPointsHeader(_ s: String) -> Bool {
+        let l = s.lowercased()
+        return s.contains("نقاط") || s.contains("نقطة") || l.contains("point")
+    }
+    /// A grade cell is a short token of grade letters (Arabic أبجده or Latin A–F)
+    /// possibly with a +/-; never a long word or a number.
+    private static func looksLikeGrade(_ s: String) -> Bool {
+        let t = s.trimmingCharacters(in: .whitespaces)
+        guard !t.isEmpty, t.count <= 3, number(t) == nil else { return false }
+        return t.contains(where: { "أابجدهـ".contains($0) })
+            || t.uppercased().contains(where: { "ABCDF".contains($0) })
+    }
+    private static func normalizedGrade(_ s: String) -> String {
+        s.replacingOccurrences(of: " ", with: "")
+    }
+    /// Parse a number, tolerating Arabic-Indic digits and stray characters.
+    private static func number(_ s: String) -> Double? {
+        let map: [Character: Character] = [
+            "٠":"0","١":"1","٢":"2","٣":"3","٤":"4",
+            "٥":"5","٦":"6","٧":"7","٨":"8","٩":"9","٫":".",
+        ]
+        var out = ""
+        for ch in s {
+            if let m = map[ch] { out.append(m) }
+            else if ch.isNumber || ch == "." { out.append(ch) }
+        }
+        return Double(out)
     }
 
     /// First integer found in a string like "Page 3" → 3.

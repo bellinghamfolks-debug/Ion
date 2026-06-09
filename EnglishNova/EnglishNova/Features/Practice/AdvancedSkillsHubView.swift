@@ -363,7 +363,7 @@ struct WritingStudioView: View {
                         .accessibilityLabel("حقل كتابة المسودة باللغة الإنجليزية")
                     Text("\(wordCount) كلمة")
                         .font(.caption.monospacedDigit())
-                        .foregroundStyle(wordCount >= prompt.minimumWords ? .secondary : .orange)
+                        .foregroundStyle(wordCount >= prompt.minimumWords ? Color.secondary : Color.orange)
                 }
 
                 PrimaryButton(title: "تحليل المسودة محليًا", systemImage: "text.magnifyingglass") { analyze() }

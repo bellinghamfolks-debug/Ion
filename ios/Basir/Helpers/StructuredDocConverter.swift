@@ -334,53 +334,99 @@ enum StructuredDocConverter {
         }
     }
 
-    // MARK: - Transcript validation engine
+    // MARK: - Transcript validation engine (university-agnostic)
 
-    /// Saudi 5-point scale: grade value → canonical Arabic grade.
-    private static let gradeScale: [(value: Double, grade: String)] = [
-        (5.00, "أ+"), (4.75, "أ"), (4.50, "ب+"), (4.00, "ب"),
-        (3.50, "ج+"), (3.00, "ج"), (2.50, "د+"), (2.00, "د"), (1.00, "هـ"),
-    ]
-
-    /// Deterministic cross-check for academic-transcript tables. The earned
-    /// points of a course = credit hours × grade value, and the numeric
-    /// columns (hours, points) are far less ambiguous to read than the
-    /// single Arabic grade glyph (أ vs ب …). So where a row's points ÷ hours
-    /// lands exactly on a scale value but the printed grade disagrees, the
-    /// grade was misread — we correct it. Numbers are never altered, and we
-    /// only touch a cell that already looks like a grade, so a non-transcript
-    /// table is left untouched.
+    /// Deterministic cross-check for academic-transcript tables of ANY
+    /// university / grading system. It does NOT assume a fixed scale:
+    /// instead it LEARNS the document's own scale (grade → points-per-hour)
+    /// from the rows that are internally consistent, then fixes the rows
+    /// whose printed grade contradicts that learned scale. Because the
+    /// numeric columns (hours, points) are far less ambiguous to read than a
+    /// single grade glyph, a row whose points ÷ hours lands on a learned
+    /// value but whose printed grade differs almost certainly has a misread
+    /// grade — so we correct the GRADE only. Numbers are never altered, and
+    /// the table must expose grade + hours + points columns, so receipts,
+    /// invoices, and other documents are never touched.
     @discardableResult
     static func validateGrades(_ blocks: inout [DocBlock]) -> Int {
+        // Pass 1 — learn grade → value from this document's own rows.
+        // value = points / hours, keyed by the grade text the doc uses.
+        var samples: [String: [Double]] = [:]
+        forEachGradeRow(blocks) { grade, ratio in
+            samples[grade, default: []].append((ratio * 100).rounded() / 100)
+        }
+        guard !samples.isEmpty else { return 0 }
+
+        // The representative value for a grade = the most common ratio,
+        // and we only trust a grade backed by at least two consistent rows.
+        var gradeToValue: [String: Double] = [:]
+        for (grade, ratios) in samples {
+            let counts = Dictionary(ratios.map { ($0, 1) }, uniquingKeysWith: +)
+            if let (value, n) = counts.max(by: { $0.value < $1.value }), n >= 2 {
+                gradeToValue[grade] = value
+            }
+        }
+        // Invert to value → grade, dropping any value claimed by two grades.
+        var valueToGrade: [Int: String] = [:]
+        var ambiguous = Set<Int>()
+        for (grade, value) in gradeToValue {
+            let key = Int((value * 100).rounded())
+            if let existing = valueToGrade[key], existing != grade { ambiguous.insert(key) }
+            else { valueToGrade[key] = grade }
+        }
+        for k in ambiguous { valueToGrade[k] = nil }
+        guard !valueToGrade.isEmpty else { return 0 }
+
+        // Pass 2 — correct rows whose printed grade contradicts the learned
+        // scale (numbers are clean, grade glyph was misread).
         var corrections = 0
         for i in blocks.indices {
             guard case let .table(caption, cells, rowHeader) = blocks[i],
-                  let header = cells.first, cells.count > 1 else { continue }
-            let gradeCol = header.firstIndex { isGradeHeader($0) }
-            let hoursCol = header.firstIndex { isHoursHeader($0) }
-            let pointsCol = header.firstIndex { isPointsHeader($0) }
-            guard let gc = gradeCol, let hc = hoursCol, let pc = pointsCol else { continue }
-
+                  let header = cells.first, cells.count > 1,
+                  let gc = header.firstIndex(where: isGradeHeader),
+                  let hc = header.firstIndex(where: isHoursHeader),
+                  let pc = header.firstIndex(where: isPointsHeader) else { continue }
             var newCells = cells
+            var changed = false
             for r in 1..<newCells.count {
                 let row = newCells[r]
-                guard gc < row.count, hc < row.count, pc < row.count else { continue }
-                guard looksLikeGrade(row[gc]),
-                      let hours = number(row[hc]), hours >= 1, hours <= 9,
+                guard gc < row.count, hc < row.count, pc < row.count,
+                      looksLikeGrade(row[gc]),
+                      let hours = number(row[hc]), hours >= 1, hours <= 12,
                       let points = number(row[pc]), points > 0 else { continue }
-                let ratio = points / hours
-                guard let match = gradeScale.first(where: { abs($0.value - ratio) <= 0.02 })
-                else { continue }
-                if normalizedGrade(row[gc]) != match.grade {
-                    newCells[r][gc] = match.grade
+                let key = Int(((points / hours) * 100).rounded())
+                guard let learned = valueToGrade[key] else { continue }
+                if normalizedGrade(row[gc]) != normalizedGrade(learned) {
+                    newCells[r][gc] = learned
+                    changed = true
                     corrections += 1
                 }
             }
-            if corrections > 0 {
+            if changed {
                 blocks[i] = .table(caption: caption, cells: newCells, rowHeader: rowHeader)
             }
         }
         return corrections
+    }
+
+    /// Visit every (grade, points/hours) sample across transcript-shaped
+    /// tables — used to learn the document's own grading scale.
+    private static func forEachGradeRow(_ blocks: [DocBlock],
+                                        _ body: (_ grade: String, _ ratio: Double) -> Void) {
+        for block in blocks {
+            guard case let .table(_, cells, _) = block,
+                  let header = cells.first, cells.count > 1,
+                  let gc = header.firstIndex(where: isGradeHeader),
+                  let hc = header.firstIndex(where: isHoursHeader),
+                  let pc = header.firstIndex(where: isPointsHeader) else { continue }
+            for row in cells.dropFirst() {
+                guard gc < row.count, hc < row.count, pc < row.count,
+                      looksLikeGrade(row[gc]),
+                      let hours = number(row[hc]), hours >= 1, hours <= 12,
+                      let points = number(row[pc]), points > 0 else { continue }
+                body(normalizedGrade(row[gc]), points / hours)
+            }
+        }
     }
 
     private static func isGradeHeader(_ s: String) -> Bool {

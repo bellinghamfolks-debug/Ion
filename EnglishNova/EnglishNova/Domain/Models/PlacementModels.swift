@@ -30,6 +30,26 @@ enum LanguageSkill: String, Codable, CaseIterable, Identifiable, Hashable {
     }
 }
 
+// Make `[LanguageSkill: T]` dictionaries serialize as a JSON object keyed by
+// the skill's rawValue (e.g. {"reading": …}) instead of the default
+// alternating-array form Swift uses for non-String/Int keys. This keeps the
+// persisted progress shape consistent with the String-keyed collections and
+// lets an empty `{}` decode cleanly during migration.
+extension LanguageSkill: CodingKeyRepresentable {
+    private struct SkillCodingKey: CodingKey {
+        let stringValue: String
+        var intValue: Int? { nil }
+        init(stringValue: String) { self.stringValue = stringValue }
+        init?(intValue: Int) { nil }
+    }
+
+    var codingKey: CodingKey { SkillCodingKey(stringValue: rawValue) }
+
+    init?<T: CodingKey>(codingKey: T) {
+        self.init(rawValue: codingKey.stringValue)
+    }
+}
+
 struct PlacementQuestion: Identifiable, Codable, Hashable {
     let id: String
     let level: CEFRLevel

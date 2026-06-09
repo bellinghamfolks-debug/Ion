@@ -308,85 +308,12 @@ private struct VoiceCoachSessionView: View {
                     value: scenario.turns.isEmpty ? 0 : Double(turnIndex) / Double(scenario.turns.count)
                 )
 
-                InfoCard(title: "المدرب", systemImage: "waveform.circle.fill") {
-                    Text(partnerLine.isEmpty ? scenario.openingLine : partnerLine)
-                        .font(.title3)
-                        .environment(\.layoutDirection, .leftToRight)
-                    HStack {
-                        Button("استمع") { speakPartnerLine() }
-                            .buttonStyle(.bordered)
-                        Text(coachReply?.source == "remote" ? "رد عبر الإنترنت" : "رد محلي أو احتياطي")
-                            .font(.caption).foregroundStyle(.secondary)
-                    }
-                    if settings.showArabicCoachHints, let translation = coachReply?.translationAr {
-                        Text(translation).foregroundStyle(.secondary)
-                    }
-                }
+                coachCard
 
                 if isFinished {
                     completionCard
                 } else if let turn {
-                    InfoCard(title: "مهمتك", systemImage: "target") {
-                        Text(turn.promptAr).font(.headline)
-                        Text("النموذج المستخدم للمقارنة الصوتية:")
-                            .font(.caption).foregroundStyle(.secondary)
-                        Text(turn.sampleAnswer)
-                            .environment(\.layoutDirection, .leftToRight)
-                        Button("سماع نموذج الإجابة") {
-                            container.textToSpeech.speak(turn.sampleAnswer, accent: settings.accentVariant, rate: Float(settings.speechRate))
-                        }
-                    }
-
-                    TextField("سيظهر ردك هنا، ويمكنك تعديله قبل التقييم", text: $transcript, axis: .vertical)
-                        .textFieldStyle(.roundedBorder)
-                        .lineLimit(3...8)
-                        .environment(\.layoutDirection, .leftToRight)
-                        .disabled(isEvaluating || report != nil)
-
-                    HStack {
-                        Button {
-                            Task { await toggleRecording() }
-                        } label: {
-                            Label(speechService.state == .listening ? "إيقاف التسجيل" : "ابدأ الإجابة", systemImage: speechService.state == .listening ? "stop.circle.fill" : "mic.circle.fill")
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .disabled(isEvaluating || report != nil)
-
-                        if speechService.state == .listening {
-                            Text("يستمع الآن")
-                                .font(.caption.bold())
-                                .accessibilityAddTraits(.isUpdatesFrequently)
-                        }
-                    }
-
-                    if isEvaluating { ProgressView("يحلل الرد ويجهز الجولة التالية") }
-                    if let statusMessage { Text(statusMessage).font(.caption).foregroundStyle(.secondary) }
-
-                    if let report, let ideaEvaluation {
-                        pronunciationReportCard(report, ideaEvaluation: ideaEvaluation)
-                    }
-
-                    if let coachReply {
-                        InfoCard(title: "ملاحظة المدرب", systemImage: "brain.head.profile") {
-                            Text(coachReply.feedbackAr)
-                            if let suggestion = coachReply.suggestedAnswer {
-                                Text("صياغة مقترحة:").font(.caption.bold())
-                                Text(suggestion).environment(\.layoutDirection, .leftToRight)
-                            }
-                        }
-                    }
-
-                    PrimaryButton(
-                        title: report == nil ? "حلل الرد" : "انتقل إلى الجولة التالية",
-                        systemImage: report == nil ? "waveform.path.ecg" : "arrow.forward.circle.fill",
-                        isDisabled: transcript.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isEvaluating
-                    ) {
-                        if report == nil {
-                            Task { await evaluateCurrentTurn(turn) }
-                        } else {
-                            advance()
-                        }
-                    }
+                    activeTurnView(turn)
                 }
             }
             .padding(AppTheme.screenPadding)
@@ -404,6 +331,89 @@ private struct VoiceCoachSessionView: View {
         .onDisappear {
             speechService.stop()
             container.textToSpeech.stop()
+        }
+    }
+
+    @ViewBuilder
+    private var coachCard: some View {
+        InfoCard(title: "المدرب", systemImage: "waveform.circle.fill") {
+            Text(partnerLine.isEmpty ? scenario.openingLine : partnerLine)
+                .font(.title3)
+                .environment(\.layoutDirection, .leftToRight)
+            HStack {
+                Button("استمع") { speakPartnerLine() }
+                    .buttonStyle(.bordered)
+                Text(coachReply?.source == "remote" ? "رد عبر الإنترنت" : "رد محلي أو احتياطي")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+            if settings.showArabicCoachHints, let translation = coachReply?.translationAr {
+                Text(translation).foregroundStyle(.secondary)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func activeTurnView(_ turn: ConversationTurn) -> some View {
+        InfoCard(title: "مهمتك", systemImage: "target") {
+            Text(turn.promptAr).font(.headline)
+            Text("النموذج المستخدم للمقارنة الصوتية:")
+                .font(.caption).foregroundStyle(.secondary)
+            Text(turn.sampleAnswer)
+                .environment(\.layoutDirection, .leftToRight)
+            Button("سماع نموذج الإجابة") {
+                container.textToSpeech.speak(turn.sampleAnswer, accent: settings.accentVariant, rate: Float(settings.speechRate))
+            }
+        }
+
+        TextField("سيظهر ردك هنا، ويمكنك تعديله قبل التقييم", text: $transcript, axis: .vertical)
+            .textFieldStyle(.roundedBorder)
+            .lineLimit(3...8)
+            .environment(\.layoutDirection, .leftToRight)
+            .disabled(isEvaluating || report != nil)
+
+        HStack {
+            Button {
+                Task { await toggleRecording() }
+            } label: {
+                Label(speechService.state == .listening ? "إيقاف التسجيل" : "ابدأ الإجابة", systemImage: speechService.state == .listening ? "stop.circle.fill" : "mic.circle.fill")
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(isEvaluating || report != nil)
+
+            if speechService.state == .listening {
+                Text("يستمع الآن")
+                    .font(.caption.bold())
+                    .accessibilityAddTraits(.isUpdatesFrequently)
+            }
+        }
+
+        if isEvaluating { ProgressView("يحلل الرد ويجهز الجولة التالية") }
+        if let statusMessage { Text(statusMessage).font(.caption).foregroundStyle(.secondary) }
+
+        if let report, let ideaEvaluation {
+            pronunciationReportCard(report, ideaEvaluation: ideaEvaluation)
+        }
+
+        if let coachReply {
+            InfoCard(title: "ملاحظة المدرب", systemImage: "brain.head.profile") {
+                Text(coachReply.feedbackAr)
+                if let suggestion = coachReply.suggestedAnswer {
+                    Text("صياغة مقترحة:").font(.caption.bold())
+                    Text(suggestion).environment(\.layoutDirection, .leftToRight)
+                }
+            }
+        }
+
+        PrimaryButton(
+            title: report == nil ? "حلل الرد" : "انتقل إلى الجولة التالية",
+            systemImage: report == nil ? "waveform.path.ecg" : "arrow.forward.circle.fill",
+            isDisabled: transcript.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isEvaluating
+        ) {
+            if report == nil {
+                Task { await evaluateCurrentTurn(turn) }
+            } else {
+                advance()
+            }
         }
     }
 

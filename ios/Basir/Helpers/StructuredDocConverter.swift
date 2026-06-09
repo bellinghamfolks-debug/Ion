@@ -89,7 +89,11 @@ enum StructuredDocConverter {
             var images: [Data] = []
             for p in start...end {
                 if let page = doc.page(at: p - 1),
-                   let img = PdfReader.jpegData(for: page) {
+                   // Near-native resolution so dense / small / SIDEWAYS
+                   // scanned text stays legible and the model reads it
+                   // rather than guessing (the cause of fabrication on
+                   // rotated scans).
+                   let img = PdfReader.jpegData(for: page, longEdge: 2400) {
                     images.append(img)
                 }
             }

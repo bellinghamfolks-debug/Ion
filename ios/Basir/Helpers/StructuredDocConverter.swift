@@ -24,9 +24,10 @@ import UIKit
 
 /// One rendered element of a converted document.
 enum DocBlock {
+    case pageMarker(Int)
     case heading(level: Int, text: String)
     case paragraph(String)
-    case imageDescription(String)
+    case imageDescription(page: Int, text: String)
     case table(caption: String?, cells: [[String]], rowHeader: Bool)
 }
 
@@ -87,7 +88,7 @@ enum StructuredDocConverter {
                                               totalPages: total,
                                               isFirst: result.blocks.isEmpty,
                                               options: options)
-            merge(json, into: &result, isFirst: i == 0)
+            merge(json, into: &result, isFirst: i == 0, page: i + 1)
             onProgress?(i + 1, total)
             onPartial?(displayText(result))
         }
@@ -109,7 +110,7 @@ enum StructuredDocConverter {
                                          totalPages: 1, isFirst: true,
                                          options: options)
         var result = Result()
-        merge(json, into: &result, isFirst: true)
+        merge(json, into: &result, isFirst: true, page: 1)
         onProgress?(1, 1)
         return result
     }
@@ -168,7 +169,8 @@ enum StructuredDocConverter {
         return obj
     }
 
-    private static func merge(_ json: [String: Any], into result: inout Result, isFirst: Bool) {
+    private static func merge(_ json: [String: Any], into result: inout Result,
+                              isFirst: Bool, page: Int) {
         if isFirst {
             if let title = (json["title"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines),
                !title.isEmpty {
@@ -181,6 +183,9 @@ enum StructuredDocConverter {
                 result.blocks.append(.paragraph(summary))
             }
         }
+        // A page marker before each page's content — mirrors Android and
+        // gives a blind reader a clear "Page N" landmark to navigate by.
+        result.blocks.append(.pageMarker(page))
         guard let sections = json["sections"] as? [[String: Any]] else { return }
         for sec in sections {
             let type = (sec["type"] as? String ?? "").lowercased()
@@ -195,7 +200,7 @@ enum StructuredDocConverter {
             case "image_description", "image":
                 let d = (sec["description"] as? String ?? sec["text"] as? String ?? "")
                     .trimmingCharacters(in: .whitespacesAndNewlines)
-                if !d.isEmpty { result.blocks.append(.imageDescription(d)) }
+                if !d.isEmpty { result.blocks.append(.imageDescription(page: page, text: d)) }
             case "table":
                 let caption = (sec["caption"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines)
                 let rowHeader = (sec["row_header"] as? Bool) ?? false
@@ -233,12 +238,15 @@ enum StructuredDocConverter {
         var out = ""
         for block in result.blocks {
             switch block {
+            case .pageMarker(let n):
+                out += "\n" + L10n.t("صفحة \(n)", "Page \(n)") + "\n"
             case .heading(_, let text):
                 out += "\n" + text + "\n"
             case .paragraph(let text):
                 out += text + "\n\n"
-            case .imageDescription(let d):
-                out += L10n.t("صورة: ", "Image: ") + d + "\n\n"
+            case .imageDescription(let page, let text):
+                out += L10n.t("وصف الصورة (صفحة \(page)): ",
+                              "Image description (Page \(page)): ") + text + "\n\n"
             case .table(let caption, let cells, _):
                 if let caption { out += caption + "\n" }
                 out += renderTableText(cells) + "\n\n"
@@ -271,12 +279,16 @@ enum StructuredDocConverter {
         var writer = DocxWriter(rtl: rtl)
         for block in result.blocks {
             switch block {
+            case .pageMarker(let n):
+                writer.append(.heading(level: 3, text: L10n.t("صفحة \(n)", "Page \(n)")))
             case .heading(let level, let text):
                 writer.append(.heading(level: level, text: text))
             case .paragraph(let text):
                 writer.append(.paragraph(text: text))
-            case .imageDescription(let d):
-                writer.append(.paragraph(text: L10n.t("صورة: ", "Image: ") + d))
+            case .imageDescription(let page, let text):
+                writer.append(.paragraph(text:
+                    L10n.t("وصف الصورة (صفحة \(page)): ",
+                           "Image description (Page \(page)): ") + text))
             case .table(let caption, let cells, _):
                 if let caption { writer.append(.paragraph(text: caption)) }
                 writer.append(.table(rows: cells))

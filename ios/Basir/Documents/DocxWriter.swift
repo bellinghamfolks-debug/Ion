@@ -150,7 +150,7 @@ struct DocxWriter {
             switch block {
             case .heading(let level, let text):
                 sb += paragraphXml(text: text, isHeading: true,
-                                    headingLevel: level, size: 28 - level * 2)
+                                    headingLevel: level, size: 40 - level * 4)
             case .paragraph(let text):
                 sb += paragraphXml(text: text, isHeading: false,
                                     headingLevel: 0, size: 22)

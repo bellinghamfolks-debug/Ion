@@ -30,8 +30,12 @@ targets:
       - path: EnglishNova
         excludes:
           - Resources
-    resources:
-      - path: EnglishNova/Resources
+      # Folder reference so the bundle contains Curriculum/curriculum.json,
+      # matching BundledContentLoader's subdirectory: "Curriculum" lookup.
+      # (A top-level `resources:` key is not part of the XcodeGen spec.)
+      - path: EnglishNova/Resources/Curriculum
+        type: folder
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.englishnova.app

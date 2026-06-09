@@ -73,6 +73,12 @@ workflows:
           fi
           echo "✅ Built $APP_PATH"
           du -sh "$APP_PATH"
+          if [ ! -f "$APP_PATH/Curriculum/curriculum.json" ]; then
+            echo "❌ Curriculum/curriculum.json missing from app bundle"
+            ls -R "$APP_PATH" | head -40
+            exit 1
+          fi
+          echo "✅ Curriculum/curriculum.json bundled correctly"
 
     artifacts:
       - EnglishNova/build/Build/Products/Debug-iphonesimulator/EnglishNova.app
@@ -150,6 +156,13 @@ workflows:
             find . -maxdepth 5 -type d -name "*.app" -print
             exit 1
           fi
+
+          if [ ! -f "$APP_PATH/Curriculum/curriculum.json" ]; then
+            echo "❌ Curriculum/curriculum.json missing from app bundle"
+            ls -R "$APP_PATH" | head -40
+            exit 1
+          fi
+          echo "✅ Curriculum/curriculum.json bundled correctly"
 
           rm -rf Payload
           mkdir -p Payload

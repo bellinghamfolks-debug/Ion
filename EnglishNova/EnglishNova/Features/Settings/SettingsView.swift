@@ -6,6 +6,7 @@ struct SettingsView: View {
     @EnvironmentObject private var reminderService: StudyReminderService
     @State private var showResetConfirmation = false
     @State private var reminderTime = Date()
+    @State private var geminiKeyEntry = ""
 
     var body: some View {
         Form {
@@ -80,6 +81,52 @@ struct SettingsView: View {
                 NavigationLink("إدارة حزم الصوت") { AudioPacksView() }
                 Text("يبقى صوت iOS المحلي متاحًا عند عدم وجود حزمة مسجلة. المحتوى والدروس ودفتر الأخطاء والمدرب الاحتياطي تعمل دون خادم.")
                     .font(.caption).foregroundStyle(.secondary)
+            }
+
+            Section("المدرّس التفاعلي") {
+                Picker("مصدر إجابات المدرّس", selection: $settings.tutorProvider) {
+                    ForEach(TutorProvider.allCases) { provider in
+                        Text(provider.titleAr).tag(provider)
+                    }
+                }
+                Text(settings.tutorProvider.detailAr)
+                    .font(.caption).foregroundStyle(.secondary)
+
+                Toggle("نطق ردود المدرّس تلقائيًا", isOn: $settings.autoSpeakTutorReplies)
+                Text("يقرأ التطبيق رد المدرّس صوتيًا فور وصوله، ويبقى زر الاستماع متاحًا في كل رد لقارئ الشاشة.")
+                    .font(.caption).foregroundStyle(.secondary)
+
+                if settings.tutorProvider == .gemini {
+                    SecureField(settings.hasGeminiAPIKey ? "المفتاح محفوظ — أدخل مفتاحًا جديدًا للتغيير" : "أدخل مفتاح Gemini API", text: $geminiKeyEntry)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .environment(\.layoutDirection, .leftToRight)
+                    HStack {
+                        Button("حفظ المفتاح") {
+                            settings.setGeminiAPIKey(geminiKeyEntry)
+                            geminiKeyEntry = ""
+                        }
+                        .disabled(geminiKeyEntry.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        if settings.hasGeminiAPIKey {
+                            Spacer()
+                            Button("حذف المفتاح", role: .destructive) {
+                                settings.clearGeminiAPIKey()
+                                geminiKeyEntry = ""
+                            }
+                        }
+                    }
+                    Label(
+                        settings.hasGeminiAPIKey ? "المفتاح محفوظ بشكل مشفّر على هذا الجهاز فقط" : "لم يُحفظ مفتاح بعد",
+                        systemImage: settings.hasGeminiAPIKey ? "lock.fill" : "lock.open"
+                    )
+                    .font(.caption).foregroundStyle(settings.hasGeminiAPIKey ? Color.green : Color.secondary)
+                    TextField("اسم النموذج", text: $settings.geminiModel)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .environment(\.layoutDirection, .leftToRight)
+                    Text("يُحفظ المفتاح في سلسلة المفاتيح المشفّرة (Keychain) ولا يُكتب في ملفات الإعداد ولا في النسخ الاحتياطي. مثال للنموذج: gemini-1.5-flash.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
             }
 
             Section("الخدمات عبر الإنترنت") {
@@ -160,6 +207,8 @@ struct PrivacyView: View {
             Text("لا يرسل EnglishNova التسجيل الصوتي الخام إلى الخادم الذي تعينه. عند استخدام التعرف على الكلام، قد تعالج خدمة النظام الصوت وفق إعدادات iOS وسياسات Apple وتوفر المعالجة على الجهاز.")
             Text("عند تعيين خادم خارجي واستخدام المدرب المتصل، يرسل التطبيق النص المفرغ وسياق الموقف والنتيجة المحلية، ولا يرسل التسجيل الخام ضمن العقد الحالي.")
             Text("ملفات النسخ الاحتياطي تُنشأ على الجهاز ولا تُرسل تلقائيًا. أنت تختار مكان حفظها أو مشاركتها.")
+            Text("تُحفظ محادثات المدرّس التفاعلي على هذا الجهاز فقط للرجوع إليها، ويمكنك حذف أي محادثة في أي وقت.")
+            Text("عند اختيار مزوّد Gemini، يُرسل نص رسالتك إلى خدمة Google عبر مفتاحك الخاص. يُحفظ المفتاح مشفّرًا في سلسلة المفاتيح (Keychain) على هذا الجهاز فقط، ولا يُكتب في ملفات الإعداد ولا في النسخ الاحتياطي.")
             Text("يمكن ترك عنوان الخادم فارغًا، وعندها يستخدم التطبيق محركاته المحلية والاحتياطية فقط.")
         }
         .navigationTitle("الخصوصية")

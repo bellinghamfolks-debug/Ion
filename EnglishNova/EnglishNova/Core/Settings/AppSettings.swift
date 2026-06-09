@@ -20,12 +20,16 @@ struct SettingsSnapshot: Codable {
     var selectedLearningPathway: LearningPathwayID
     var weeklyTargetDays: Int
     var revealListeningTranscriptAfterAnswer: Bool
+    var tutorProvider: TutorProvider
+    var autoSpeakTutorReplies: Bool
+    var geminiModel: String
 
     enum CodingKeys: String, CodingKey {
         case interfaceLanguage, dailyGoalMinutes, speechRate, hapticsEnabled, serverURLString
         case reminderEnabled, reminderHour, reminderMinute, autoPlayLessonAudio, reduceLearningPressure
         case accentVariant, adaptiveCoachEnabled, autoSpeakCoachPrompts, showArabicCoachHints
         case studyMode, selectedLearningPathway, weeklyTargetDays, revealListeningTranscriptAfterAnswer
+        case tutorProvider, autoSpeakTutorReplies, geminiModel
     }
 
     init(
@@ -46,7 +50,10 @@ struct SettingsSnapshot: Codable {
         studyMode: StudyMode,
         selectedLearningPathway: LearningPathwayID,
         weeklyTargetDays: Int,
-        revealListeningTranscriptAfterAnswer: Bool
+        revealListeningTranscriptAfterAnswer: Bool,
+        tutorProvider: TutorProvider,
+        autoSpeakTutorReplies: Bool,
+        geminiModel: String
     ) {
         self.interfaceLanguage = interfaceLanguage
         self.dailyGoalMinutes = dailyGoalMinutes
@@ -66,6 +73,9 @@ struct SettingsSnapshot: Codable {
         self.selectedLearningPathway = selectedLearningPathway
         self.weeklyTargetDays = weeklyTargetDays
         self.revealListeningTranscriptAfterAnswer = revealListeningTranscriptAfterAnswer
+        self.tutorProvider = tutorProvider
+        self.autoSpeakTutorReplies = autoSpeakTutorReplies
+        self.geminiModel = geminiModel
     }
 
     init(from decoder: Decoder) throws {
@@ -88,6 +98,10 @@ struct SettingsSnapshot: Codable {
         selectedLearningPathway = try container.decodeIfPresent(LearningPathwayID.self, forKey: .selectedLearningPathway) ?? .foundations
         weeklyTargetDays = min(7, max(2, try container.decodeIfPresent(Int.self, forKey: .weeklyTargetDays) ?? 5))
         revealListeningTranscriptAfterAnswer = try container.decodeIfPresent(Bool.self, forKey: .revealListeningTranscriptAfterAnswer) ?? true
+        tutorProvider = try container.decodeIfPresent(TutorProvider.self, forKey: .tutorProvider) ?? .smart
+        autoSpeakTutorReplies = try container.decodeIfPresent(Bool.self, forKey: .autoSpeakTutorReplies) ?? true
+        let model = (try container.decodeIfPresent(String.self, forKey: .geminiModel) ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        geminiModel = model.isEmpty ? "gemini-1.5-flash" : model
     }
 }
 
@@ -118,14 +132,49 @@ final class AppSettings: ObservableObject {
     @Published var selectedLearningPathway: LearningPathwayID = .foundations { didSet { persist() } }
     @Published var weeklyTargetDays = 5 { didSet { persist() } }
     @Published var revealListeningTranscriptAfterAnswer = true { didSet { persist() } }
+    @Published var tutorProvider: TutorProvider = .smart { didSet { persist() } }
+    @Published var autoSpeakTutorReplies = true { didSet { persist() } }
+    @Published var geminiModel = "gemini-1.5-flash" { didSet { persist() } }
+    /// Reflects whether a Gemini key exists in the Keychain (the key itself is
+    /// never published or written to settings.json).
+    @Published private(set) var hasGeminiAPIKey = false
 
     private let store: FileStore
+    private let keychain: KeychainStore
+    private let geminiKeyAccount = "gemini.apiKey"
     private let key = "settings.json"
     private var isLoading = false
 
-    init(store: FileStore) {
+    init(store: FileStore, keychain: KeychainStore = KeychainStore()) {
         self.store = store
+        self.keychain = keychain
+        self.hasGeminiAPIKey = keychain.exists(geminiKeyAccount)
         Task { await load() }
+    }
+
+    // MARK: - Gemini API key (encrypted, on-device only)
+
+    /// Stores the key in the Keychain. Passing blank clears it.
+    func setGeminiAPIKey(_ value: String) {
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty {
+            clearGeminiAPIKey()
+            return
+        }
+        try? keychain.setString(trimmed, for: geminiKeyAccount)
+        hasGeminiAPIKey = keychain.exists(geminiKeyAccount)
+    }
+
+    func clearGeminiAPIKey() {
+        keychain.delete(geminiKeyAccount)
+        hasGeminiAPIKey = false
+    }
+
+    /// Reads the stored key for use by the tutor router. Returns nil if unset.
+    func geminiAPIKey() -> String? {
+        guard let value = keychain.string(for: geminiKeyAccount)?
+            .trimmingCharacters(in: .whitespacesAndNewlines), !value.isEmpty else { return nil }
+        return value
     }
 
     var serverURL: URL? { URL(string: serverURLString.trimmingCharacters(in: .whitespacesAndNewlines)) }
@@ -160,7 +209,10 @@ final class AppSettings: ObservableObject {
             studyMode: studyMode,
             selectedLearningPathway: selectedLearningPathway,
             weeklyTargetDays: weeklyTargetDays,
-            revealListeningTranscriptAfterAnswer: revealListeningTranscriptAfterAnswer
+            revealListeningTranscriptAfterAnswer: revealListeningTranscriptAfterAnswer,
+            tutorProvider: tutorProvider,
+            autoSpeakTutorReplies: autoSpeakTutorReplies,
+            geminiModel: geminiModel
         )
     }
 
@@ -190,6 +242,10 @@ final class AppSettings: ObservableObject {
         selectedLearningPathway = snapshot.selectedLearningPathway
         weeklyTargetDays = min(7, max(2, snapshot.weeklyTargetDays))
         revealListeningTranscriptAfterAnswer = snapshot.revealListeningTranscriptAfterAnswer
+        tutorProvider = snapshot.tutorProvider
+        autoSpeakTutorReplies = snapshot.autoSpeakTutorReplies
+        let model = snapshot.geminiModel.trimmingCharacters(in: .whitespacesAndNewlines)
+        geminiModel = model.isEmpty ? "gemini-1.5-flash" : model
     }
 
     private static func sanitizedServerURL(_ value: String) -> String {

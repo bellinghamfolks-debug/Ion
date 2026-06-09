@@ -10,6 +10,7 @@ final class AppContainer: ObservableObject {
     let vocabularyRepository: VocabularyRepositoryProtocol
     let learningMemoryRepository: LearningMemoryRepositoryProtocol
     let tutorRepository: TutorRepositoryProtocol
+    let conversationRepository: ConversationRepositoryProtocol
     let voiceCoachRepository: VoiceCoachRepositoryProtocol
     let speechService: SpeechService
     let textToSpeech: TextToSpeechService
@@ -27,6 +28,7 @@ final class AppContainer: ObservableObject {
         vocabularyRepository: VocabularyRepositoryProtocol,
         learningMemoryRepository: LearningMemoryRepositoryProtocol,
         tutorRepository: TutorRepositoryProtocol,
+        conversationRepository: ConversationRepositoryProtocol,
         voiceCoachRepository: VoiceCoachRepositoryProtocol,
         speechService: SpeechService,
         textToSpeech: TextToSpeechService,
@@ -43,6 +45,7 @@ final class AppContainer: ObservableObject {
         self.vocabularyRepository = vocabularyRepository
         self.learningMemoryRepository = learningMemoryRepository
         self.tutorRepository = tutorRepository
+        self.conversationRepository = conversationRepository
         self.voiceCoachRepository = voiceCoachRepository
         self.speechService = speechService
         self.textToSpeech = textToSpeech
@@ -70,10 +73,13 @@ final class AppContainer: ObservableObject {
             progressRepository: progress,
             vocabularyRepository: vocabulary,
             learningMemoryRepository: memory,
-            tutorRepository: HybridTutorRepository(
+            tutorRepository: RoutingTutorRepository(
+                gemini: GeminiTutorClient(),
                 remote: RemoteTutorClient(apiClient: client),
-                local: LocalTutorEngine()
+                local: LocalTutorEngine(),
+                settings: settings
             ),
+            conversationRepository: ConversationRepository(store: store),
             voiceCoachRepository: HybridVoiceCoachRepository(
                 remote: RemoteVoiceCoachClient(apiClient: client),
                 local: LocalVoiceCoachEngine()

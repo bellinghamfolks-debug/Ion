@@ -1,0 +1,161 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1A8AB52CF3553E9D68AAE2F9 /* PDFToWordApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0D06553B20C6A516592909 /* PDFToWordApp.swift */; };
+		F6B5F45FFF55524ACEAAED39 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC0A0AA26B095D01079FAE2 /* AppModel.swift */; };
+		35CAFA68EB5B5438644E57F7 /* ConversionModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B98BCEC903DE21778349A /* ConversionModels.swift */; };
+		4565B8476D1B9E8885654D24 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B157E70A612257AC2AE6C4 /* AppSettings.swift */; };
+		51E04D8379A6DB36BF561F9F /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC029ACA82DADF7F3FE1C6 /* KeychainStore.swift */; };
+		C4429E415F7B471FFE131BBB /* GeminiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09A76A1406AB9B1938F14A /* GeminiClient.swift */; };
+		5F5A2D653D334B1FD1B27EEE /* PDFPageExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50790F477336B8A6BBD5075 /* PDFPageExtractor.swift */; };
+		5B8F0A4220235AA25A6318A7 /* JobStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB258715267D6EC423247E44 /* JobStore.swift */; };
+		8D210B2EE490A0A31F10F78E /* ZipArchiveWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93800A88AD8DE837C50E955A /* ZipArchiveWriter.swift */; };
+		B445660E1F79B59B894EAE26 /* DOCXBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E75B04C2CFA20EBD1D8EEB /* DOCXBuilder.swift */; };
+		0D0838418455486E53535694 /* ConversionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2805C059F673066C73C320 /* ConversionEngine.swift */; };
+		719F15E2ABFAEA8B0306B163 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5F5B4E0E4672FD95767FAE /* XML.swift */; };
+		CAF63E89F3BB11CDD7D5E76B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC8F9B50E0CA5CACE16BB40 /* RootView.swift */; };
+		0D01D199F90BB63BE4F505AD /* ConvertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA8FCF0359C2BA0C35030E5 /* ConvertView.swift */; };
+		C1E2164D90008EB1DE88273A /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C9DC41C79CAB4634C7942 /* HistoryView.swift */; };
+		5A048A5962D239BE0A1D024E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D1FC7E20CAFB535E6B1E9F /* SettingsView.swift */; };
+		222F0DBFFE5EB23DCD3FD16F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B04B2273026590A440D27C9 /* Assets.xcassets */; };
+		ECEEA0346EA710E5EAA22643 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 28DDF1AF7DBB75E111EE13BE /* PrivacyInfo.xcprivacy */; };
+        A14000000000000000000001 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14000000000000000000002 /* Localization.swift */; };
+        A14000000000000000000003 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A14000000000000000000010 /* Localizable.strings */; };
+        A14000000000000000000004 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A14000000000000000000011 /* InfoPlist.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2D0D06553B20C6A516592909 /* PDFToWordApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFToWordApp.swift; sourceTree = "<group>"; };
+		6FC0A0AA26B095D01079FAE2 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		868B98BCEC903DE21778349A /* ConversionModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionModels.swift; sourceTree = "<group>"; };
+		64B157E70A612257AC2AE6C4 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		7FAC029ACA82DADF7F3FE1C6 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		3B09A76A1406AB9B1938F14A /* GeminiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiClient.swift; sourceTree = "<group>"; };
+		E50790F477336B8A6BBD5075 /* PDFPageExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPageExtractor.swift; sourceTree = "<group>"; };
+		BB258715267D6EC423247E44 /* JobStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobStore.swift; sourceTree = "<group>"; };
+		93800A88AD8DE837C50E955A /* ZipArchiveWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipArchiveWriter.swift; sourceTree = "<group>"; };
+		A7E75B04C2CFA20EBD1D8EEB /* DOCXBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DOCXBuilder.swift; sourceTree = "<group>"; };
+		5A2805C059F673066C73C320 /* ConversionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionEngine.swift; sourceTree = "<group>"; };
+		6A5F5B4E0E4672FD95767FAE /* XML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XML.swift; sourceTree = "<group>"; };
+		9CC8F9B50E0CA5CACE16BB40 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		0EA8FCF0359C2BA0C35030E5 /* ConvertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertView.swift; sourceTree = "<group>"; };
+		6D1C9DC41C79CAB4634C7942 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		B4D1FC7E20CAFB535E6B1E9F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5B04B2273026590A440D27C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		38A007151ABE87CC01A5B6E9 /* PDFToWord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFToWord.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28DDF1AF7DBB75E111EE13BE /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+        A14000000000000000000002 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+        A14000000000000000000020 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+        A14000000000000000000021 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+        A14000000000000000000022 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+        A14000000000000000000023 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7561BFB015D8F536760CB671 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6CFC827E67DCAE34C72B9CED = {isa = PBXGroup; children = (1DF401F405384E02A0BF02D3 /* PDFToWord */, FBDC4F23F93125BBEEAE800C /* Products */); sourceTree = "<group>"; };
+		FBDC4F23F93125BBEEAE800C /* Products */ = {isa = PBXGroup; children = (38A007151ABE87CC01A5B6E9 /* PDFToWord.app */); name = Products; sourceTree = "<group>"; };
+		1DF401F405384E02A0BF02D3 /* PDFToWord */ = {isa = PBXGroup; children = (2D0D06553B20C6A516592909 /* PDFToWordApp.swift */,
+				6FC0A0AA26B095D01079FAE2 /* AppModel.swift */,
+				5B04B2273026590A440D27C9 /* Assets.xcassets */,
+				28DDF1AF7DBB75E111EE13BE /* PrivacyInfo.xcprivacy */,
+                A14000000000000000000010 /* Localizable.strings */,
+                A14000000000000000000011 /* InfoPlist.strings */,
+				9911C8090D10EFAB1ED672C2 /* Models */,
+				D072337BD2CD1B18DAEC184E /* Services */,
+				38DC3EC5BB18656AEB7EC09F /* Views */,
+				A55E8A76F5BB2E498A08D57F /* Utilities */); path = PDFToWord; sourceTree = "<group>"; };
+		9911C8090D10EFAB1ED672C2 /* Models */ = {isa = PBXGroup; children = (868B98BCEC903DE21778349A /* ConversionModels.swift */,
+				64B157E70A612257AC2AE6C4 /* AppSettings.swift */); path = Models; sourceTree = "<group>"; };
+		D072337BD2CD1B18DAEC184E /* Services */ = {isa = PBXGroup; children = (7FAC029ACA82DADF7F3FE1C6 /* KeychainStore.swift */,
+				3B09A76A1406AB9B1938F14A /* GeminiClient.swift */,
+				E50790F477336B8A6BBD5075 /* PDFPageExtractor.swift */,
+				BB258715267D6EC423247E44 /* JobStore.swift */,
+				93800A88AD8DE837C50E955A /* ZipArchiveWriter.swift */,
+				A7E75B04C2CFA20EBD1D8EEB /* DOCXBuilder.swift */,
+				5A2805C059F673066C73C320 /* ConversionEngine.swift */); path = Services; sourceTree = "<group>"; };
+		38DC3EC5BB18656AEB7EC09F /* Views */ = {isa = PBXGroup; children = (9CC8F9B50E0CA5CACE16BB40 /* RootView.swift */,
+				0EA8FCF0359C2BA0C35030E5 /* ConvertView.swift */,
+				6D1C9DC41C79CAB4634C7942 /* HistoryView.swift */,
+				B4D1FC7E20CAFB535E6B1E9F /* SettingsView.swift */); path = Views; sourceTree = "<group>"; };
+		A55E8A76F5BB2E498A08D57F /* Utilities */ = {isa = PBXGroup; children = (6A5F5B4E0E4672FD95767FAE /* XML.swift */, A14000000000000000000002 /* Localization.swift */); path = Utilities; sourceTree = "<group>"; };
+/* End PBXGroup section */
+
+/* Begin PBXVariantGroup section */
+        A14000000000000000000010 /* Localizable.strings */ = {
+            isa = PBXVariantGroup;
+            children = (
+                A14000000000000000000020 /* ar */,
+                A14000000000000000000021 /* en */,
+            );
+            name = Localizable.strings;
+            sourceTree = "<group>";
+        };
+        A14000000000000000000011 /* InfoPlist.strings */ = {
+            isa = PBXVariantGroup;
+            children = (
+                A14000000000000000000022 /* ar */,
+                A14000000000000000000023 /* en */,
+            );
+            name = InfoPlist.strings;
+            sourceTree = "<group>";
+        };
+/* End PBXVariantGroup section */
+
+/* Begin PBXNativeTarget section */
+		0E8A3AD980EC179856012B7E /* PDFToWord */ = {isa = PBXNativeTarget; buildConfigurationList = B440910B32010914D0155F83 /* Build configuration list for PBXNativeTarget "PDFToWord" */; buildPhases = (BCE16DD0260827ECF338C787 /* Sources */, 7561BFB015D8F536760CB671 /* Frameworks */, 0189424A5A60FED329FA868E /* Resources */); buildRules = (); dependencies = (); name = PDFToWord; productName = PDFToWord; productReference = 38A007151ABE87CC01A5B6E9 /* PDFToWord.app */; productType = "com.apple.product-type.application"; };
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98F54143AB4E86B28C3AFEE0 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; TargetAttributes = {0E8A3AD980EC179856012B7E = {CreatedOnToolsVersion = 16.0; }; }; }; buildConfigurationList = 831D5D50E3DCCA5F3B08F657 /* Build configuration list for PBXProject "PDFToWord" */; compatibilityVersion = "Xcode 14.0"; developmentRegion = ar; hasScannedForEncodings = 0; knownRegions = (ar, en, Base); mainGroup = 6CFC827E67DCAE34C72B9CED; productRefGroup = FBDC4F23F93125BBEEAE800C /* Products */; projectDirPath = ""; projectRoot = ""; targets = (0E8A3AD980EC179856012B7E /* PDFToWord */); };
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0189424A5A60FED329FA868E /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (222F0DBFFE5EB23DCD3FD16F /* Assets.xcassets in Resources */,
+				ECEEA0346EA710E5EAA22643 /* PrivacyInfo.xcprivacy in Resources */,
+                A14000000000000000000003 /* Localizable.strings in Resources */,
+                A14000000000000000000004 /* InfoPlist.strings in Resources */); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BCE16DD0260827ECF338C787 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (1A8AB52CF3553E9D68AAE2F9 /* PDFToWordApp.swift in Sources */,
+				F6B5F45FFF55524ACEAAED39 /* AppModel.swift in Sources */,
+				35CAFA68EB5B5438644E57F7 /* ConversionModels.swift in Sources */,
+				4565B8476D1B9E8885654D24 /* AppSettings.swift in Sources */,
+				51E04D8379A6DB36BF561F9F /* KeychainStore.swift in Sources */,
+				C4429E415F7B471FFE131BBB /* GeminiClient.swift in Sources */,
+				5F5A2D653D334B1FD1B27EEE /* PDFPageExtractor.swift in Sources */,
+				5B8F0A4220235AA25A6318A7 /* JobStore.swift in Sources */,
+				8D210B2EE490A0A31F10F78E /* ZipArchiveWriter.swift in Sources */,
+				B445660E1F79B59B894EAE26 /* DOCXBuilder.swift in Sources */,
+				0D0838418455486E53535694 /* ConversionEngine.swift in Sources */,
+				719F15E2ABFAEA8B0306B163 /* XML.swift in Sources */,
+                A14000000000000000000001 /* Localization.swift in Sources */,
+				CAF63E89F3BB11CDD7D5E76B /* RootView.swift in Sources */,
+				0D01D199F90BB63BE4F505AD /* ConvertView.swift in Sources */,
+				C1E2164D90008EB1DE88273A /* HistoryView.swift in Sources */,
+				5A048A5962D239BE0A1D024E /* SettingsView.swift in Sources */); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		5E8ACABCCBE1DB5D311988C9 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; CLANG_WARN_BOOL_CONVERSION = YES; CLANG_WARN_CONSTANT_CONVERSION = YES; CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES; CLANG_WARN_DOCUMENTATION_COMMENTS = YES; CLANG_WARN_EMPTY_BODY = YES; CLANG_WARN_ENUM_CONVERSION = YES; CLANG_WARN_INFINITE_RECURSION = YES; CLANG_WARN_INT_CONVERSION = YES; CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES; CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES; CLANG_WARN_OBJC_LITERAL_CONVERSION = YES; CLANG_WARN_RANGE_LOOP_ANALYSIS = YES; CLANG_WARN_STRICT_PROTOTYPES = YES; CLANG_WARN_SUSPICIOUS_MOVE = YES; CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE; GCC_C_LANGUAGE_STANDARD = gnu17; GCC_NO_COMMON_BLOCKS = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_TESTABILITY = YES; GCC_OPTIMIZATION_LEVEL = 0; ONLY_ACTIVE_ARCH = YES; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; }; name = Debug; };
+		F84FD35CA8548076F2B51EDF /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; CLANG_WARN_BOOL_CONVERSION = YES; CLANG_WARN_CONSTANT_CONVERSION = YES; CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES; CLANG_WARN_DOCUMENTATION_COMMENTS = YES; CLANG_WARN_EMPTY_BODY = YES; CLANG_WARN_ENUM_CONVERSION = YES; CLANG_WARN_INFINITE_RECURSION = YES; CLANG_WARN_INT_CONVERSION = YES; CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES; CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES; CLANG_WARN_OBJC_LITERAL_CONVERSION = YES; CLANG_WARN_RANGE_LOOP_ANALYSIS = YES; CLANG_WARN_STRICT_PROTOTYPES = YES; CLANG_WARN_SUSPICIOUS_MOVE = YES; CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE; GCC_C_LANGUAGE_STANDARD = gnu17; GCC_NO_COMMON_BLOCKS = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; ENABLE_NS_ASSERTIONS = NO; SWIFT_COMPILATION_MODE = wholemodule; VALIDATE_PRODUCT = YES; }; name = Release; };
+		52E4B1F45A8301801ABFA155 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 6; DEVELOPMENT_ASSET_PATHS = ""; ENABLE_PREVIEWS = YES; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = PDFToWord; INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES; INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES; INFOPLIST_KEY_UIFileSharingEnabled = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait"; LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks"; MARKETING_VERSION = 2.0.0; PRODUCT_BUNDLE_IDENTIFIER = com.example.PDFToWord; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_STRICT_CONCURRENCY = minimal; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2";}; name = Debug; };
+		9F4924C3DF89CA99B9B1F005 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 6; DEVELOPMENT_ASSET_PATHS = ""; ENABLE_PREVIEWS = YES; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = PDFToWord; INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES; INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES; INFOPLIST_KEY_UIFileSharingEnabled = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait"; LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks"; MARKETING_VERSION = 2.0.0; PRODUCT_BUNDLE_IDENTIFIER = com.example.PDFToWord; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_STRICT_CONCURRENCY = minimal; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2";}; name = Release; };
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		831D5D50E3DCCA5F3B08F657 /* Build configuration list for PBXProject "PDFToWord" */ = {isa = XCConfigurationList; buildConfigurations = (5E8ACABCCBE1DB5D311988C9 /* Debug */, F84FD35CA8548076F2B51EDF /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		B440910B32010914D0155F83 /* Build configuration list for PBXNativeTarget "PDFToWord" */ = {isa = XCConfigurationList; buildConfigurations = (52E4B1F45A8301801ABFA155 /* Debug */, 9F4924C3DF89CA99B9B1F005 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+}

@@ -1,52 +1,22 @@
-# Codemagic CI/CD for Basir.
+# Codemagic CI/CD for PDFToWord (iOS).
 #
-# Why Codemagic for this repo
-# ───────────────────────────
-# Building an iOS app needs macOS + Xcode. The developer's primary
-# machine is Linux/Windows, so we use Codemagic's hosted macOS
-# instances. Build duration and plan limits are controlled by the
-# connected Codemagic account and may change over time.
+# This repo's active iOS build is PDFToWord. The project ships a committed
+# Xcode project (PDFToWord.xcodeproj), so no XcodeGen step is needed — we
+# build it directly. Basir is preserved on the `main` branch.
 #
-# How to use this file
-# ────────────────────
-# 1. Push this repo to GitHub (already done).
-# 2. Go to codemagic.io → sign in with GitHub.
-# 3. "Add application" → select bellinghamfolks-debug/Vceer2.
-# 4. Codemagic detects codemagic.yaml and shows the workflows below.
-# 5. Trigger the `ios-simulator-build` workflow manually for the first
-#    build (or push to a watched branch).
-# 6. To enable code-signed device builds, add an Apple Developer
-#    account in Codemagic → Teams → Integrations and uncomment the
-#    `ios-device-build` workflow.
-#
-# What this file does NOT do (yet)
-# ────────────────────────────────
-# - The Android workflow stays on GitHub Actions (.github/workflows/
-#   build-apk.yml). Codemagic could build Android too, but the existing
-#   Actions setup works and is free.
-# - App Store / TestFlight publishing is set up but disabled by default
-#   (needs Apple Developer credentials uploaded to Codemagic first).
-#
-# Which workflows run automatically
-# ─────────────────────────────────
-# v3.3 — every push to claude/**, main, or master triggers BOTH:
-#   1. ios-simulator-build  → fast .app smoke test (~3-5 min)
-#   2. ios-unsigned-ipa     → real .ipa archive (~5-8 min)
-# The IPA is emailed + posted as a Codemagic artifact so the user
-# always has a downloadable installer-shaped file. The simulator
-# build catches compile errors a couple of minutes earlier in case
-# the IPA archive step would have caught the same regression later.
+# Every push to claude/**, main, or master triggers BOTH:
+#   1. ios-simulator-build → fast .app compile smoke test
+#   2. ios-unsigned-ipa    → real .ipa archive, emailed + posted as a
+#      downloadable Codemagic artifact.
 
 workflows:
 
   ios-simulator-build:
-    name: Basir iOS — simulator build (no Apple Developer account needed)
+    name: PDFToWord iOS — simulator build (no Apple Developer account needed)
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
       xcode: latest
-      vars:
-        XCODE_PROJECT_DIR: "ios"
 
     triggering:
       events:
@@ -60,100 +30,32 @@ workflows:
           include: true
 
     scripts:
-      - name: Run repository safety checks
-        script: |
-          python3 -m pip install --quiet pyyaml || python3 -m pip install --quiet --break-system-packages pyyaml
-          python3 scripts/verify_project.py
-
-      - name: Install XcodeGen
-        # XcodeGen creates the .xcodeproj from ios/project.yml so we
-        # never commit a binary Xcode project to git.
-        script: |
-          brew install xcodegen
-          xcodegen --version
-
-      - name: Generate Xcode project
-        script: |
-          cd $XCODE_PROJECT_DIR
-          xcodegen generate
-          ls -la Basir.xcodeproj/
-
-      - name: Static analyzer
-        script: |
-          set -euo pipefail
-          cd $XCODE_PROJECT_DIR
-          xcodebuild analyze \
-            -project Basir.xcodeproj \
-            -scheme Basir \
-            -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
-            -configuration Debug \
-            -derivedDataPath build-analyze \
-            CODE_SIGNING_ALLOWED=NO \
-            COMPILER_INDEX_STORE_ENABLE=NO
-
       - name: Build for iOS Simulator
-        # Unsigned build for an iPhone 15 simulator. Catches compile
-        # errors, missing imports, Swift version mismatches — the same
-        # role the Android `assembleDebug` task plays for the APK.
         script: |
-          cd $XCODE_PROJECT_DIR
           xcodebuild build \
-            -project Basir.xcodeproj \
-            -scheme Basir \
+            -project PDFToWord.xcodeproj \
+            -scheme PDFToWord \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             -configuration Debug \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             COMPILER_INDEX_STORE_ENABLE=NO \
-            ONLY_ACTIVE_ARCH=YES
-
-      - name: Run unit tests on simulator
-        script: |
-          set -euo pipefail
-          cd $XCODE_PROJECT_DIR
-          DEVICE_ID=$(xcrun simctl list devices available -j | python3 ../scripts/select_ios_simulator.py)
-          xcrun simctl boot "$DEVICE_ID" 2>/dev/null || true
-          xcrun simctl bootstatus "$DEVICE_ID" -b
-          xcodebuild test \
-            -project Basir.xcodeproj \
-            -scheme Basir \
-            -destination "platform=iOS Simulator,id=$DEVICE_ID" \
-            -configuration Debug \
-            -derivedDataPath build-tests \
-            CODE_SIGNING_ALLOWED=NO \
-            COMPILER_INDEX_STORE_ENABLE=NO
+            ONLY_ACTIVE_ARCH=YES \
+            | xcpretty || exit 1
 
       - name: Verify .app bundle was produced
         script: |
-          cd $XCODE_PROJECT_DIR
-          APP_PATH="build/Build/Products/Debug-iphonesimulator/Basir.app"
+          APP_PATH="build/Build/Products/Debug-iphonesimulator/PDFToWord.app"
           if [ ! -d "$APP_PATH" ]; then
             echo "❌ Build did not produce $APP_PATH"
             exit 1
           fi
-          if [ ! -d "$APP_PATH/PlugIns/BasirShare.appex" ]; then
-            echo "❌ Share extension was not embedded"
-            exit 1
-          fi
-          if [ ! -f "$APP_PATH/PrivacyInfo.xcprivacy" ]; then
-            echo "❌ PrivacyInfo.xcprivacy was not embedded"
-            exit 1
-          fi
-          plutil -lint "$APP_PATH/PrivacyInfo.xcprivacy"
-          HOST_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP_PATH/Info.plist")
-          SHARE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP_PATH/PlugIns/BasirShare.appex/Info.plist")
-          HOST_BUILD=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$APP_PATH/Info.plist")
-          SHARE_BUILD=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$APP_PATH/PlugIns/BasirShare.appex/Info.plist")
-          test "$HOST_VERSION" = "$SHARE_VERSION"
-          test "$HOST_BUILD" = "$SHARE_BUILD"
-          echo "✅ Built host app, embedded share extension, and privacy manifest"
+          echo "✅ Built $APP_PATH"
           du -sh "$APP_PATH"
 
     artifacts:
-      - ios/build/Build/Products/Debug-iphonesimulator/Basir.app
-      - ios/build/Build/Products/Debug-iphonesimulator/Basir.app.dSYM
+      - build/Build/Products/Debug-iphonesimulator/PDFToWord.app
 
     publishing:
       email:
@@ -164,23 +66,16 @@ workflows:
           failure: true
 
   # ---------------------------------------------------------------------
-  # Device-ready unsigned IPA. Boots the .app into an IPA wrapper that
-  # can be inspected and (with proper signing later) installed on a real
-  # iPhone via AltStore / Sideloadly / Xcode resigning.
-  #
-  # v3.3 — promoted to auto-trigger. Every push to the watched branches
-  # now produces an IPA email + downloadable artifact in addition to the
-  # simulator smoke build above. The two workflows run in parallel on
-  # Codemagic so the IPA never blocks the faster simulator feedback.
+  # Device-ready unsigned IPA. Archives the app and wraps it into an .ipa
+  # that can be installed on a real iPhone with a sideloading tool
+  # (AltStore / Sideloadly / Signulous) or resigned with a certificate.
   # ---------------------------------------------------------------------
   ios-unsigned-ipa:
-    name: Basir iOS — unsigned IPA (auto-built on every push)
+    name: PDFToWord iOS — unsigned IPA (auto-built on every push)
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
       xcode: latest
-      vars:
-        XCODE_PROJECT_DIR: "ios"
 
     triggering:
       events:
@@ -194,81 +89,48 @@ workflows:
           include: true
 
     scripts:
-      - name: Run repository safety checks
+      - name: Stamp build number from commit count
         script: |
-          python3 -m pip install --quiet pyyaml || python3 -m pip install --quiet --break-system-packages pyyaml
-          python3 scripts/verify_project.py
-
-      - name: Install XcodeGen
-        script: brew install xcodegen
-
-      - name: Generate Xcode project
-        script: |
-          cd $XCODE_PROJECT_DIR
-          xcodegen generate
-
-      - name: Stamp matching host and extension build numbers
-        script: |
-          set -euo pipefail
-          cd $XCODE_PROJECT_DIR
           BUILD_NUMBER=$(git rev-list HEAD --count)
-          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" Basir/Info.plist
-          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" ShareExtension/Info.plist
-          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' Basir/Info.plist)" =                "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' ShareExtension/Info.plist)"
+          agvtool new-version -all $BUILD_NUMBER || true
 
       - name: Archive (unsigned, for inspection or external resigning)
         script: |
-          cd $XCODE_PROJECT_DIR
           xcodebuild archive \
-            -project Basir.xcodeproj \
-            -scheme Basir \
+            -project PDFToWord.xcodeproj \
+            -scheme PDFToWord \
             -configuration Release \
-            -archivePath build/Basir.xcarchive \
+            -archivePath build/PDFToWord.xcarchive \
             -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY=""
+            CODE_SIGN_IDENTITY="" \
+            | xcpretty || exit 1
 
       - name: Wrap .app into unsigned .ipa
-        # Creates a real .ipa file and copies it to a guaranteed export
-        # folder so Codemagic shows it under Build artifacts.
         script: |
           set -euo pipefail
-          cd "$CM_BUILD_DIR/$XCODE_PROJECT_DIR/build"
+          cd "$CM_BUILD_DIR/build"
 
-          APP_PATH="Basir.xcarchive/Products/Applications/Basir.app"
+          APP_PATH="PDFToWord.xcarchive/Products/Applications/PDFToWord.app"
           if [ ! -d "$APP_PATH" ]; then
             echo "❌ Missing app bundle: $APP_PATH"
             find . -maxdepth 5 -type d -name "*.app" -print
             exit 1
           fi
-          if [ ! -d "$APP_PATH/PlugIns/BasirShare.appex" ]; then
-            echo "❌ Missing embedded share extension in archive"
-            exit 1
-          fi
-          if [ ! -f "$APP_PATH/PrivacyInfo.xcprivacy" ]; then
-            echo "❌ Missing privacy manifest in archive"
-            exit 1
-          fi
-          plutil -lint "$APP_PATH/Info.plist"
-          plutil -lint "$APP_PATH/PlugIns/BasirShare.appex/Info.plist"
-          plutil -lint "$APP_PATH/PrivacyInfo.xcprivacy"
-          HOST_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP_PATH/Info.plist")
-          SHARE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP_PATH/PlugIns/BasirShare.appex/Info.plist")
-          test "$HOST_VERSION" = "$SHARE_VERSION"
 
           rm -rf Payload
           mkdir -p Payload
           cp -R "$APP_PATH" Payload/
 
           SHORT_SHA=$(git -C "$CM_BUILD_DIR" rev-parse --short HEAD)
-          IPA_NAME="Basir-${SHORT_SHA}-unsigned.ipa"
+          IPA_NAME="PDFToWord-${SHORT_SHA}-unsigned.ipa"
           /usr/bin/zip -qry "$IPA_NAME" Payload
-          cp "$IPA_NAME" Basir-unsigned.ipa
+          cp "$IPA_NAME" PDFToWord-unsigned.ipa
 
           mkdir -p "$CM_BUILD_DIR/artifacts"
           cp "$IPA_NAME" "$CM_BUILD_DIR/artifacts/"
-          cp Basir-unsigned.ipa "$CM_BUILD_DIR/artifacts/"
+          cp PDFToWord-unsigned.ipa "$CM_BUILD_DIR/artifacts/"
 
           echo "✅ IPA files ready:"
           ls -lh "$CM_BUILD_DIR/artifacts"/*.ipa
@@ -276,7 +138,7 @@ workflows:
 
     artifacts:
       - artifacts/*.ipa
-      - ios/build/Basir.xcarchive
+      - build/PDFToWord.xcarchive
 
     publishing:
       email:
@@ -285,76 +147,3 @@ workflows:
         notify:
           success: true
           failure: true
-
-  # ---------------------------------------------------------------------
-  # Real distribution build. DISABLED until you upload an Apple
-  # Developer account to Codemagic. To enable:
-  #
-  # 1. Codemagic → Teams → Integrations → Developer Portal → Connect.
-  # 2. Codemagic → App settings → Code signing identities → upload
-  #    your iOS Distribution certificate (.p12) and provisioning
-  #    profile, OR enable automatic code signing (Codemagic creates
-  #    them via the API).
-  # 3. Remove the `when` block below to make this workflow active.
-  # 4. Push to the `release/ios` branch to trigger a TestFlight build.
-  # ---------------------------------------------------------------------
-  # ios-app-store-build:
-  #   name: Basir iOS — App Store / TestFlight (signed)
-  #   instance_type: mac_mini_m2
-  #   max_build_duration: 60
-  #   integrations:
-  #     app_store_connect: Basir App Store Connect API
-  #   environment:
-  #     xcode: latest
-  #     ios_signing:
-  #       distribution_type: app_store
-  #       bundle_identifier: com.basir.ai
-  #     vars:
-  #       APP_STORE_APPLE_ID: "1234567890"   # fill in after first upload
-  #       XCODE_PROJECT_DIR: "ios"
-  #
-  #   triggering:
-  #     events:
-  #       - push
-  #     branch_patterns:
-  #       - pattern: "release/ios"
-  #         include: true
-  #
-  #   scripts:
-  #     - name: Install XcodeGen
-  #       script: brew install xcodegen
-  #
-  #     - name: Generate Xcode project
-  #       script: |
-  #         cd $XCODE_PROJECT_DIR
-  #         xcodegen generate
-  #
-  #     - name: Set build number to commit count
-  #       script: |
-  #         cd $XCODE_PROJECT_DIR
-  #         BUILD_NUMBER=$(git rev-list HEAD --count)
-  #         agvtool new-version -all $BUILD_NUMBER
-  #
-  #     - name: Fetch signing files
-  #       script: xcode-project use-profiles
-  #
-  #     - name: Archive and sign
-  #       script: |
-  #         cd $XCODE_PROJECT_DIR
-  #         xcode-project build-ipa \
-  #           --project Basir.xcodeproj \
-  #           --scheme Basir
-  #
-  #   artifacts:
-  #     - ios/build/ios/ipa/*.ipa
-  #     - ios/build/Basir.xcarchive
-  #
-  #   publishing:
-  #     app_store_connect:
-  #       auth: integration
-  #       submit_to_testflight: true
-  #       beta_groups:
-  #         - "Basir Internal Testers"
-  #     email:
-  #       recipients:
-  #         - ubdallahalrashdee@gmail.com

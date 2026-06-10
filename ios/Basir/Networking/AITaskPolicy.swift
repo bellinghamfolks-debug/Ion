@@ -203,6 +203,36 @@ enum AIExecutionDecision {
         return false
     }
 
+    /// True when the provider rejected the request itself — most often because
+    /// it did not accept the structured-output JSON schema (HTTP 400 /
+    /// InvalidArgument). When this happens on a schema-bearing request we retry
+    /// the same model once without the schema; the prompt still asks for the
+    /// JSON shape and the validator parses it leniently.
+    static func isStructuredSchemaRejection(_ error: Error) -> Bool {
+        guard let gemini = error as? GeminiError else { return false }
+        switch gemini {
+        case let .http(status, body):
+            guard status == 400 else { return false }
+            let lower = body.lowercased()
+            return lower.isEmpty
+                || lower.contains("schema")
+                || lower.contains("response")
+                || lower.contains("format")
+                || lower.contains("invalid")
+                || lower.contains("unknown name")
+                || lower.contains("json")
+        case let .decode(message):
+            let lower = message.lowercased()
+            return lower.contains("response_format")
+                || lower.contains("responseformat")
+                || lower.contains("invalid argument")
+                || lower.contains("unknown name")
+                || lower.contains("schema")
+        default:
+            return false
+        }
+    }
+
     static func boundedFailureReason(_ error: Error) -> String {
         guard let gemini = error as? GeminiError else {
             return "quality validation failed"

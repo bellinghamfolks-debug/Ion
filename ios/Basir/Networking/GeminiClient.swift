@@ -29,7 +29,8 @@ struct GeminiClient {
         imageData: Data?,
         mimeType: String?,
         policy: AITaskPolicy,
-        responseSchemaOverride: [String: Any]? = nil
+        responseSchemaOverride: [String: Any]? = nil,
+        includeResponseSchema: Bool = true
     ) async throws -> AIGenerationResult {
         try validateTextEnvelope(systemText: systemText, userMessage: userMessage)
         var parts: [[String: Any]] = [["text": userMessage]]
@@ -42,7 +43,7 @@ struct GeminiClient {
             systemText: systemText,
             userParts: parts,
             maxOutputTokens: policy.maxOutputTokens,
-            responseSchema: responseSchemaOverride ?? policy.responseSchema,
+            responseSchema: includeResponseSchema ? (responseSchemaOverride ?? policy.responseSchema) : nil,
             temperature: policy.temperature,
             thinkingLevel: policy.thinkingLevel
         )
@@ -624,16 +625,37 @@ struct GeminiAiProvider: AiProvider {
                 do {
                     let schemaOverride = task == .convert && imageData != nil
                         ? AIResponseSchemas.documentPage : nil
-                    let generation = try await GeminiClient.generateResult(
-                        apiKey: key,
-                        model: model,
-                        systemText: systemText,
-                        userMessage: userMessage,
-                        imageData: imageData,
-                        mimeType: mimeType,
-                        policy: policy,
-                        responseSchemaOverride: schemaOverride
-                    )
+                    let hasSchema = (schemaOverride ?? policy.responseSchema) != nil
+                    let generation: AIGenerationResult
+                    do {
+                        generation = try await GeminiClient.generateResult(
+                            apiKey: key,
+                            model: model,
+                            systemText: systemText,
+                            userMessage: userMessage,
+                            imageData: imageData,
+                            mimeType: mimeType,
+                            policy: policy,
+                            responseSchemaOverride: schemaOverride
+                        )
+                    } catch {
+                        // The provider rejected the structured-output schema
+                        // itself (e.g. HTTP 400). Retry the same model once
+                        // without the schema; the prompt still requests the
+                        // JSON shape and the validator parses it leniently.
+                        guard hasSchema, AIExecutionDecision.isStructuredSchemaRejection(error) else { throw error }
+                        generation = try await GeminiClient.generateResult(
+                            apiKey: key,
+                            model: model,
+                            systemText: systemText,
+                            userMessage: userMessage,
+                            imageData: imageData,
+                            mimeType: mimeType,
+                            policy: policy,
+                            responseSchemaOverride: schemaOverride,
+                            includeResponseSchema: false
+                        )
+                    }
                     let validated = try AIResponseValidator.validate(
                         generation.text,
                         task: task,

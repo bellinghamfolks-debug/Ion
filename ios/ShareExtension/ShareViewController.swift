@@ -320,8 +320,28 @@ final class ShareViewController: UIViewController {
             if opened {
                 self.extensionContext?.completeRequest(returningItems: nil)
             } else {
-                self.showFailure()
+                // A Share Extension cannot always launch its host app. The
+                // content is already saved in the shared App Group container,
+                // and Basir scans that inbox when it next becomes active — so
+                // this is not a failure, just a manual-open hand-off.
+                self.showSavedForManualOpen()
             }
+        }
+    }
+
+    private func showSavedForManualOpen() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self, !self.isCancelled else { return }
+            self.setLoading(false)
+            self.statusLabel.isHidden = false
+            self.statusLabel.textColor = .secondaryLabel
+            self.statusLabel.text = self.localized(
+                "تم تجهيز المحتوى وحفظه. افتح تطبيق بصير الآن وسيظهر المحتوى تلقائيًا.",
+                "Your content is ready. Open the Basir app now and it will appear automatically."
+            )
+            self.continueButton.isEnabled = true
+            self.cancelButton.isEnabled = true
+            UIAccessibility.post(notification: .announcement, argument: self.statusLabel.text)
         }
     }
 

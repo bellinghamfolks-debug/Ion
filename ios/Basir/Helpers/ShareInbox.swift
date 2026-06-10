@@ -51,6 +51,57 @@ final class ShareInbox: ObservableObject {
         pending = Incoming(task: task, fileURL: fileURL, fileExtension: ext)
     }
 
+    /// Picks up content the Share Extension saved to the App Group when the
+    /// deep-link hand-off did not reach the app (a share extension cannot
+    /// reliably launch its host). The task is encoded in the file name as
+    /// `share-<task>-<uuid>.<ext>`. Runs on launch and when the app becomes
+    /// active; ignored if something is already pending.
+    func scanInbox() {
+        guard pending == nil else { return }
+        purgeStaleFiles()
+        guard let container = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: Self.appGroup),
+              let files = try? FileManager.default.contentsOfDirectory(
+                at: container,
+                includingPropertiesForKeys: [.contentModificationDateKey, .fileSizeKey],
+                options: [.skipsHiddenFiles]) else { return }
+
+        let candidates = files
+            .filter { $0.lastPathComponent.hasPrefix("share-") }
+            .sorted {
+                let lhs = (try? $0.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate) ?? .distantPast
+                let rhs = (try? $1.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate) ?? .distantPast
+                return lhs > rhs
+            }
+
+        for fileURL in candidates {
+            let ext = fileURL.pathExtension.lowercased()
+            guard Self.allowedExtensions.contains(ext),
+                  let values = try? fileURL.resourceValues(forKeys: [.fileSizeKey]),
+                  Int64(values.fileSize ?? 0) > 0,
+                  Int64(values.fileSize ?? 0) <= Self.maximumSharedFileBytes else { continue }
+            pending = Incoming(task: Self.task(fromFileName: fileURL.lastPathComponent),
+                               fileURL: fileURL,
+                               fileExtension: ext)
+            return
+        }
+    }
+
+    /// Derives the task from a `share-<task>-<uuid>.<ext>` file name, falling
+    /// back to a sensible default per file type when an older name omits it.
+    private static func task(fromFileName name: String) -> String {
+        let stem = (name as NSString).deletingPathExtension
+        let parts = stem.split(separator: "-")
+        if parts.count >= 2 {
+            let candidate = String(parts[1])
+            if ["describe_image", "convert", "ask"].contains(candidate) { return candidate }
+        }
+        let ext = (name as NSString).pathExtension.lowercased()
+        if ext == "pdf" { return "convert" }
+        if ext == "txt" { return "ask" }
+        return "describe_image"
+    }
+
     func clear(_ incoming: Incoming, deleteFile: Bool = true) {
         guard pending?.id == incoming.id else { return }
         pending = nil

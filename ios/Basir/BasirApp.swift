@@ -13,6 +13,7 @@ import SwiftUI
 struct BasirApp: App {
     @StateObject private var settings = BasirSettings.shared
     @StateObject private var shareInbox = ShareInbox.shared
+    @Environment(\.scenePhase) private var scenePhase
 
     // Mirrors the Android resetScreen "title is heading, focus on mount"
     // behaviour: every NavigationStack root sets its title as accessibility
@@ -63,6 +64,14 @@ struct BasirApp: App {
                 // basir://share/<task>?file=<name>. ShareInbox loads it
                 // out of the App Group container; ContentView presents it.
                 .onOpenURL { shareInbox.handle($0) }
+                // Fallback: a Share Extension cannot reliably launch the host
+                // app via a deep link. Whenever Basir becomes active we also
+                // scan the App Group inbox for any content the extension saved
+                // but could not hand off through the URL.
+                .onAppear { shareInbox.scanInbox() }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { shareInbox.scanInbox() }
         }
     }
 }

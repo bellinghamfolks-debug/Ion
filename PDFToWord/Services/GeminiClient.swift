@@ -7,6 +7,10 @@ actor GeminiClient {
     private let session: URLSession
     private let decoder = JSONDecoder()
     private static let minimumAcceptanceScore = 0.95
+    /// Acceptance gate for the single-pass pipeline. The page is checked
+    /// locally against the PDF text layer and on-device OCR; below this the
+    /// page is preserved as an image instead of risking invented text.
+    private static let singlePassAcceptanceScore = 0.80
 
     private enum AnalysisPass {
         case primary
@@ -77,7 +81,14 @@ actor GeminiClient {
         let model = Self.normalizedModel(options.model)
         guard !model.isEmpty else { throw GeminiError.modelUnavailable(options.model) }
 
-        let first = try await requestAnalysisPass(
+        // Single-pass pipeline (the way fast commercial converters work):
+        // one Gemini reading per page, then local verification against the
+        // native text layer / on-device OCR, with a whole-page-image fallback
+        // when confidence is genuinely low. The previous design ran three
+        // sequential model calls per page (primary + independent +
+        // adjudication), which took many minutes per page and offered little
+        // accuracy benefit over local reference checks.
+        var final = try await requestAnalysisPass(
             pagePDF: pagePDF,
             pageImage: pageImage,
             nativeText: nativeText,
@@ -88,32 +99,8 @@ actor GeminiClient {
             model: model,
             pass: .primary
         )
-        let second = try await requestAnalysisPass(
-            pagePDF: pagePDF,
-            pageImage: pageImage,
-            nativeText: nativeText,
-            localOCR: localOCR,
-            pageNumber: pageNumber,
-            apiKey: apiKey,
-            options: options,
-            model: model,
-            pass: .independent
-        )
-        let initialAgreement = Self.analysisAgreement(first, second)
 
-        var final = try await requestAdjudication(
-            pagePDF: pagePDF,
-            pageImage: pageImage,
-            detailTiles: detailTiles,
-            nativeText: nativeText,
-            localOCR: localOCR,
-            pageNumber: pageNumber,
-            apiKey: apiKey,
-            options: options,
-            model: model,
-            first: first,
-            second: second
-        )
+        let confidence = Self.weightedConfidence(final)
         do {
             try Self.validateSemanticQuality(
                 analysis: final,
@@ -130,8 +117,8 @@ actor GeminiClient {
                 final.source = .visualPageFallback
                 final.preserveWholePageImage = true
                 final.qualityScore = 0
-                final.agreementScore = initialAgreement
-                final.verificationPasses = 3
+                final.agreementScore = confidence
+                final.verificationPasses = 1
                 if final.wholePageAltText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     final.wholePageAltText = Self.visualFallbackDescription(
                         analysis: final,
@@ -148,30 +135,20 @@ actor GeminiClient {
             throw error
         }
 
-        let finalAgreement = max(
-            Self.analysisAgreement(final, first),
-            Self.analysisAgreement(final, second)
-        )
-        let consensusAgreement = min(initialAgreement, finalAgreement)
         let referenceScore = Self.referenceAgreement(
             analysis: final,
             nativeText: nativeText,
             localOCR: localOCR,
-            fallback: consensusAgreement
+            fallback: confidence
         )
-        let confidence = Self.weightedConfidence(final)
-        let qualityScore = min(
-            consensusAgreement,
-            0.75 * referenceScore + 0.25 * confidence
-        )
+        let qualityScore = 0.75 * referenceScore + 0.25 * confidence
 
         final.qualityScore = qualityScore
-        final.agreementScore = consensusAgreement
-        final.verificationPasses = 3
+        final.agreementScore = referenceScore
+        final.verificationPasses = 1
 
-        if consensusAgreement >= Self.minimumAcceptanceScore,
-           qualityScore >= Self.minimumAcceptanceScore,
-           final.readingOrderConfidence >= Self.minimumAcceptanceScore {
+        if qualityScore >= Self.singlePassAcceptanceScore,
+           final.readingOrderConfidence >= Self.singlePassAcceptanceScore {
             final.source = .geminiConsensus
             return final
         }
@@ -189,7 +166,7 @@ actor GeminiClient {
                 )
             }
             final.warnings.append(L10n.format(
-                "حُفظت الصفحة %d كصورة كاملة لأن دقة النص أو ترتيب القراءة لم يبلغا بوابة 95٪.",
+                "حُفظت الصفحة %d كصورة كاملة لأن دقة النص أو ترتيب القراءة لم يبلغا بوابة القبول.",
                 pageNumber
             ))
             final.warnings = Array(Set(final.warnings)).sorted()
@@ -199,8 +176,8 @@ actor GeminiClient {
         throw GeminiError.qualityBelowAcceptance(
             page: pageNumber,
             score: qualityScore,
-            agreement: consensusAgreement,
-            required: Self.minimumAcceptanceScore,
+            agreement: referenceScore,
+            required: Self.singlePassAcceptanceScore,
             kind: final.contentKind
         )
     }

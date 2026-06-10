@@ -66,7 +66,16 @@ final class AppSettings: ObservableObject {
         let storedModel = defaults.string(forKey: Key.model) ?? "gemini-3.5-flash"
         model = storedModel == "مخصص" ? Self.customModelIdentifier : storedModel
         customModel = defaults.string(forKey: Key.customModel) ?? ""
-        thinkingLevel = defaults.string(forKey: Key.thinkingLevel) ?? "high"
+        // Default to fast thinking. One-shot migration: installs that stored
+        // the old slow default ("high") before 2.1 are moved to "low" once;
+        // an explicit later choice of "high" is then respected.
+        if defaults.object(forKey: "settings.migratedThinkingV21") == nil {
+            if defaults.string(forKey: Key.thinkingLevel) == "high" {
+                defaults.set("low", forKey: Key.thinkingLevel)
+            }
+            defaults.set(true, forKey: "settings.migratedThinkingV21")
+        }
+        thinkingLevel = defaults.string(forKey: Key.thinkingLevel) ?? "low"
         describeImages = defaults.object(forKey: Key.describeImages) as? Bool ?? true
         embedImages = defaults.object(forKey: Key.embedImages) as? Bool ?? true
         includeDecorativeImages = defaults.object(forKey: Key.includeDecorativeImages) as? Bool ?? false
@@ -125,7 +134,7 @@ final class AppSettings: ObservableObject {
     func restoreDefaults() {
         model = "gemini-3.5-flash"
         customModel = ""
-        thinkingLevel = "high"
+        thinkingLevel = "low"
         describeImages = true
         embedImages = true
         includeDecorativeImages = false

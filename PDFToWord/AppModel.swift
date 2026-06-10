@@ -9,6 +9,7 @@ final class AppModel: ObservableObject {
     @Published var currentRecord: ConversionJobRecord?
     @Published var progress = ConversionProgress(status: .queued, currentPage: 0, totalPages: 0, message: "")
     @Published var isConverting = false
+    @Published var isPreparingFile = false
     @Published var alertMessage: String?
     @Published var keyStatusMessage: String?
     @Published var isTestingKey = false
@@ -34,27 +35,42 @@ final class AppModel: ObservableObject {
     }
 
     func selectPDF(_ url: URL) {
-        let accessing = url.startAccessingSecurityScopedResource()
-        defer { if accessing { url.stopAccessingSecurityScopedResource() } }
-        do {
-            // Copy the picked file into our sandbox now, while access is
-            // granted. Files chosen from iCloud Drive or another Files
-            // provider may not be materialized on disk yet, so a direct
-            // PDFDocument(url:) can silently fail and nothing loads. A
-            // coordinated read downloads/materializes the file, and using the
-            // local copy keeps it readable for the whole conversion.
-            let localURL = try Self.importToSandbox(url)
-            let extractor = try PDFPageExtractor(url: localURL)
-            guard extractor.pageCount > 0 else {
-                throw ConversionEngineError.emptyDocument
+        guard !isPreparingFile else { return }
+        isPreparingFile = true
+        alertMessage = nil
+        // Materializing an iCloud / provider file (and reading it) can block,
+        // so do it off the main actor and keep the UI responsive with a
+        // "preparing" state instead of appearing frozen.
+        Task {
+            let outcome: Result<(URL, Int), Error> = await Task.detached(priority: .userInitiated) {
+                let accessing = url.startAccessingSecurityScopedResource()
+                defer { if accessing { url.stopAccessingSecurityScopedResource() } }
+                do {
+                    // Copy the picked file into our sandbox now, while access
+                    // is granted. iCloud/provider files may not be on disk yet,
+                    // so a direct PDFDocument(url:) can fail silently. A
+                    // coordinated read downloads/materializes the file, and the
+                    // local copy stays readable for the whole conversion.
+                    let localURL = try Self.importToSandbox(url)
+                    let extractor = try PDFPageExtractor(url: localURL)
+                    guard extractor.pageCount > 0 else { throw ConversionEngineError.emptyDocument }
+                    return .success((localURL, extractor.pageCount))
+                } catch {
+                    return .failure(error)
+                }
+            }.value
+
+            isPreparingFile = false
+            switch outcome {
+            case .success(let (localURL, count)):
+                selectedPDF = localURL
+                selectedPageCount = count
+                currentRecord = nil
+            case .failure(let error):
+                selectedPDF = nil
+                selectedPageCount = nil
+                alertMessage = error.localizedDescription
             }
-            selectedPDF = localURL
-            selectedPageCount = extractor.pageCount
-            currentRecord = nil
-        } catch {
-            selectedPDF = nil
-            selectedPageCount = nil
-            alertMessage = error.localizedDescription
         }
     }
 

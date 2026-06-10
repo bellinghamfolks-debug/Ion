@@ -91,8 +91,19 @@ struct ConvertView: View {
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
-            .disabled(appModel.isConverting)
+            .disabled(appModel.isConverting || appModel.isPreparingFile)
             .accessibilityHint(L10n.text("يفتح تطبيق الملفات لاختيار مستند PDF"))
+
+            if appModel.isPreparingFile {
+                HStack(spacing: 8) {
+                    ProgressView()
+                    Text(L10n.text("جاري تجهيز الملف (قد يُنزَّل من iCloud)…"))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(L10n.text("جاري تجهيز الملف"))
+            }
         }
         .padding()
         .background(.background, in: RoundedRectangle(cornerRadius: 18))

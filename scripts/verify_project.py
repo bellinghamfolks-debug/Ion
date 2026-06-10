@@ -77,7 +77,7 @@ require("usageMetadata" in client and "modelVersion" in client,
         "Executed model or usage metadata is not parsed")
 require("!settings.privacyMode" in client,
         "Direct AI metrics are not disabled by privacy mode")
-require('Basir-iOS/4.4.0' in client, "Gemini user agent was not updated to 4.4.0")
+require('Basir-iOS/4.4.1' in client, "Gemini user agent was not updated to 4.4.1")
 require('"resumable"' in client and '"upload, finalize"' in client,
         "Official two-stage resumable Files API flow is missing")
 require("shouldTryNextModel" in client, "Model fallback classification is missing")
@@ -195,7 +195,7 @@ for path, label in [(APP / "Info.plist", "app"), (SHARE / "Info.plist", "share e
     try:
         with path.open("rb") as handle:
             plist = plistlib.load(handle)
-        require(plist.get("CFBundleShortVersionString") == "4.4.0", f"{label} marketing version is not 4.4.0")
+        require(plist.get("CFBundleShortVersionString") == "4.4.1", f"{label} marketing version is not 4.4.1")
         require(plist.get("CFBundleVersion") == "64", f"{label} build version is not 64")
         if label == "app":
             require(plist.get("NSAppTransportSecurity", {}).get("NSAllowsArbitraryLoads") is False,

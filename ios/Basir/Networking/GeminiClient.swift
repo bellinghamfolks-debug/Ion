@@ -19,7 +19,7 @@ struct GeminiClient {
     static let maxInlineImagesBytes = 30 * 1_024 * 1_024
     static let maxUserMessageBytes = 2 * 1_024 * 1_024
     static let maxSystemInstructionBytes = 256 * 1_024
-    static let userAgent = "Basir-iOS/4.4.0"
+    static let userAgent = "Basir-iOS/4.4.1"
 
     static func generateResult(
         apiKey: String,

@@ -37,11 +37,18 @@ final class AppModel: ObservableObject {
         let accessing = url.startAccessingSecurityScopedResource()
         defer { if accessing { url.stopAccessingSecurityScopedResource() } }
         do {
-            let extractor = try PDFPageExtractor(url: url)
+            // Copy the picked file into our sandbox now, while access is
+            // granted. Files chosen from iCloud Drive or another Files
+            // provider may not be materialized on disk yet, so a direct
+            // PDFDocument(url:) can silently fail and nothing loads. A
+            // coordinated read downloads/materializes the file, and using the
+            // local copy keeps it readable for the whole conversion.
+            let localURL = try Self.importToSandbox(url)
+            let extractor = try PDFPageExtractor(url: localURL)
             guard extractor.pageCount > 0 else {
                 throw ConversionEngineError.emptyDocument
             }
-            selectedPDF = url
+            selectedPDF = localURL
             selectedPageCount = extractor.pageCount
             currentRecord = nil
         } catch {
@@ -49,6 +56,33 @@ final class AppModel: ObservableObject {
             selectedPageCount = nil
             alertMessage = error.localizedDescription
         }
+    }
+
+    /// Copies a picked PDF into the app's caches via a coordinated read so
+    /// iCloud/provider files are materialized and stay readable independent of
+    /// the security-scoped URL's lifetime. Returns the local copy's URL.
+    private static func importToSandbox(_ url: URL) throws -> URL {
+        let directory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("ImportedPDFs", isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        // Keep only the most recent import to avoid unbounded cache growth.
+        if let existing = try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil) {
+            for file in existing { try? FileManager.default.removeItem(at: file) }
+        }
+        let destination = directory.appendingPathComponent(UUID().uuidString).appendingPathExtension("pdf")
+
+        var coordinationError: NSError?
+        var readData: Data?
+        var readError: Error?
+        NSFileCoordinator().coordinate(readingItemAt: url, options: [.withoutChanges], error: &coordinationError) { readURL in
+            do { readData = try Data(contentsOf: readURL, options: [.mappedIfSafe]) }
+            catch { readError = error }
+        }
+        if let coordinationError { throw coordinationError }
+        if let readError { throw readError }
+        guard let data = readData, !data.isEmpty else { throw PDFExtractionError.cannotOpen }
+        try data.write(to: destination, options: [.atomic])
+        return destination
     }
 
     func startConversion(options: ConversionOptions) {

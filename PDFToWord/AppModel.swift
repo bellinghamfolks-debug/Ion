@@ -77,7 +77,7 @@ final class AppModel: ObservableObject {
     /// Copies a picked PDF into the app's caches via a coordinated read so
     /// iCloud/provider files are materialized and stay readable independent of
     /// the security-scoped URL's lifetime. Returns the local copy's URL.
-    private static func importToSandbox(_ url: URL) throws -> URL {
+    nonisolated private static func importToSandbox(_ url: URL) throws -> URL {
         let directory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("ImportedPDFs", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)

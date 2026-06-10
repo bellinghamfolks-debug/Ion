@@ -217,25 +217,27 @@ actor GeminiClient {
         pass: AnalysisPass
     ) async throws -> PageAnalysis {
         let url = try Self.generateContentURL(model: model)
-        let payload = Self.analysisPayload(
-            pagePDF: pagePDF,
-            pageImage: pageImage,
-            prompt: prompt(
-                pageNumber: pageNumber,
-                options: options,
-                pass: pass,
-                nativeText: nativeText,
-                localOCR: localOCR
-            ),
-            model: model,
-            thinkingLevel: options.thinkingLevel
+        let pagePrompt = prompt(
+            pageNumber: pageNumber,
+            options: options,
+            pass: pass,
+            nativeText: nativeText,
+            localOCR: localOCR
         )
-        let data = try await sendGenerateContentRequest(
+        let data = try await sendAnalysisWithSchemaFallback(
             url: url,
             apiKey: apiKey,
-            payload: payload,
             timeout: 240
-        )
+        ) { includeSchema in
+            Self.analysisPayload(
+                pagePDF: pagePDF,
+                pageImage: pageImage,
+                prompt: pagePrompt,
+                model: model,
+                thinkingLevel: options.thinkingLevel,
+                includeSchema: includeSchema
+            )
+        }
         return try Self.decodePageAnalysis(
             from: data,
             decoder: decoder,
@@ -287,20 +289,22 @@ actor GeminiClient {
             || Self.analysisAgreement(first, second) < 0.98
             || nativeText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             || localOCR.averageConfidence < 0.92
-        let payload = Self.analysisPayload(
-            pagePDF: pagePDF,
-            pageImage: pageImage,
-            detailTiles: needsDetailCrops ? detailTiles : [],
-            prompt: adjudicationPrompt,
-            model: model,
-            thinkingLevel: "high"
-        )
-        let data = try await sendGenerateContentRequest(
-            url: Self.generateContentURL(model: model),
+        let adjudicationURL = try Self.generateContentURL(model: model)
+        let data = try await sendAnalysisWithSchemaFallback(
+            url: adjudicationURL,
             apiKey: apiKey,
-            payload: payload,
             timeout: 300
-        )
+        ) { includeSchema in
+            Self.analysisPayload(
+                pagePDF: pagePDF,
+                pageImage: pageImage,
+                detailTiles: needsDetailCrops ? detailTiles : [],
+                prompt: adjudicationPrompt,
+                model: model,
+                thinkingLevel: "high",
+                includeSchema: includeSchema
+            )
+        }
         return try Self.decodePageAnalysis(
             from: data,
             decoder: decoder,
@@ -315,18 +319,21 @@ actor GeminiClient {
         detailTiles: [Data] = [],
         prompt: String,
         model: String,
-        thinkingLevel: String
+        thinkingLevel: String,
+        includeSchema: Bool = true
     ) -> [String: Any] {
         var generationConfig: [String: Any] = [
-            "responseFormat": [
+            "mediaResolution": "MEDIA_RESOLUTION_HIGH",
+            "maxOutputTokens": Self.maximumOutputTokens(for: model)
+        ]
+        if includeSchema {
+            generationConfig["responseFormat"] = [
                 "text": [
                     "mimeType": "APPLICATION_JSON",
                     "schema": Self.pageSchema
                 ]
-            ],
-            "mediaResolution": "MEDIA_RESOLUTION_HIGH",
-            "maxOutputTokens": Self.maximumOutputTokens(for: model)
-        ]
+            ]
+        }
         if Self.supportsThinkingLevel(model) {
             generationConfig["thinkingConfig"] = [
                 "thinkingLevel": Self.normalizedThinkingLevel(thinkingLevel, model: model)
@@ -456,6 +463,34 @@ actor GeminiClient {
         default:
             return false
         }
+    }
+
+    /// Sends a page-analysis request and, if the provider rejects the request
+    /// with a bare INVALID_ARGUMENT (the full structured-output page schema can
+    /// exceed Gemini's schema-complexity limit), retries once without the
+    /// schema. The prompt already specifies the exact JSON structure and the
+    /// response is decoded leniently, so the conversion still proceeds.
+    private func sendAnalysisWithSchemaFallback(
+        url: URL,
+        apiKey: String,
+        timeout: TimeInterval,
+        makePayload: (_ includeSchema: Bool) -> [String: Any]
+    ) async throws -> Data {
+        do {
+            return try await sendGenerateContentRequest(url: url, apiKey: apiKey, payload: makePayload(true), timeout: timeout)
+        } catch let error as GeminiError where Self.isInvalidArgument(error) {
+            return try await sendGenerateContentRequest(url: url, apiKey: apiKey, payload: makePayload(false), timeout: timeout)
+        }
+    }
+
+    private static func isInvalidArgument(_ error: GeminiError) -> Bool {
+        guard case let .httpStatus(status, message, _) = error, status == 400 else { return false }
+        let lower = message.lowercased()
+        return lower.contains("invalid argument")
+            || lower.contains("invalid_argument")
+            || lower.contains("schema")
+            || lower.contains("response_format")
+            || lower.contains("response format")
     }
 
     private func sendGenerateContentRequest(

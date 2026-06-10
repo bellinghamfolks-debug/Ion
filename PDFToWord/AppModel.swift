@@ -85,7 +85,14 @@ final class AppModel: ObservableObject {
         if let existing = try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil) {
             for file in existing { try? FileManager.default.removeItem(at: file) }
         }
-        let destination = directory.appendingPathComponent(UUID().uuidString).appendingPathExtension("pdf")
+        // Keep the original file name so the produced Word document is named
+        // after the source (not an opaque UUID). The directory is cleared
+        // above, so there is no collision to disambiguate.
+        let baseName = url.deletingPathExtension().lastPathComponent
+        let safeBaseName = baseName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            ? UUID().uuidString
+            : baseName
+        let destination = directory.appendingPathComponent(safeBaseName).appendingPathExtension("pdf")
 
         var coordinationError: NSError?
         var readData: Data?

@@ -320,7 +320,7 @@ actor GeminiClient {
         var generationConfig: [String: Any] = [
             "responseFormat": [
                 "text": [
-                    "mimeType": "application/json",
+                    "mimeType": "APPLICATION_JSON",
                     "schema": Self.pageSchema
                 ]
             ],
@@ -389,7 +389,7 @@ actor GeminiClient {
         var generationConfig: [String: Any] = [
             "responseFormat": [
                 "text": [
-                    "mimeType": "application/json",
+                    "mimeType": "APPLICATION_JSON",
                     "schema": [
                         "type": "object",
                         "additionalProperties": false,

@@ -1,5 +1,6 @@
 import SwiftUI
 import UniformTypeIdentifiers
+import UIKit
 
 struct ConvertView: View {
     @EnvironmentObject private var appModel: AppModel
@@ -28,16 +29,15 @@ struct ConvertView: View {
                 .padding()
             }
             .navigationTitle(L10n.text("PDFToWord"))
-            .fileImporter(
-                isPresented: $showingImporter,
-                allowedContentTypes: [.pdf],
-                allowsMultipleSelection: false
-            ) { result in
-                switch result {
-                case .success(let urls):
-                    if let url = urls.first { appModel.selectPDF(url) }
-                case .failure(let error):
-                    appModel.alertMessage = error.localizedDescription
+            .sheet(isPresented: $showingImporter) {
+                // UIDocumentPicker with asCopy:true reliably delivers the
+                // selection (SwiftUI's .fileImporter can silently no-op) and
+                // hands back a local copy — iCloud files are downloaded by the
+                // system, avoiding not-materialized failures.
+                PDFDocumentPicker { url in
+                    appModel.selectPDF(url)
+                } onError: { message in
+                    appModel.alertMessage = message
                 }
             }
         }
@@ -251,5 +251,45 @@ struct ConvertView: View {
         .padding()
         .background(.background, in: RoundedRectangle(cornerRadius: 18))
         .overlay(RoundedRectangle(cornerRadius: 18).stroke(.quaternary))
+    }
+}
+
+/// A reliable file picker backed by UIDocumentPickerViewController. SwiftUI's
+/// `.fileImporter` can silently fail to deliver a selection in some view
+/// hierarchies; this UIKit picker always reports through its delegate. Using
+/// `asCopy: true` makes the system copy (and download, for iCloud items) the
+/// chosen file into a temporary location the app can read directly.
+struct PDFDocumentPicker: UIViewControllerRepresentable {
+    let onPick: (URL) -> Void
+    let onError: (String) -> Void
+
+    func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
+        let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf], asCopy: true)
+        picker.delegate = context.coordinator
+        picker.allowsMultipleSelection = false
+        picker.shouldShowFileExtensions = true
+        return picker
+    }
+
+    func updateUIViewController(_ controller: UIDocumentPickerViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator { Coordinator(onPick: onPick, onError: onError) }
+
+    final class Coordinator: NSObject, UIDocumentPickerDelegate {
+        let onPick: (URL) -> Void
+        let onError: (String) -> Void
+
+        init(onPick: @escaping (URL) -> Void, onError: @escaping (String) -> Void) {
+            self.onPick = onPick
+            self.onError = onError
+        }
+
+        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+            guard let url = urls.first else {
+                onError(L10n.text("لم يتم اختيار أي ملف."))
+                return
+            }
+            onPick(url)
+        }
     }
 }

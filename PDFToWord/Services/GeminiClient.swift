@@ -81,6 +81,12 @@ actor GeminiClient {
         let model = Self.normalizedModel(options.model)
         guard !model.isEmpty else { throw GeminiError.modelUnavailable(options.model) }
 
+        let pageStarted = Date()
+        DiagnosticsLog.shared.record("page", "p\(pageNumber) start | model:\(model) | nativeText:\(nativeText.count) chars | image:\(pageImage != nil) | tiles:\(detailTiles.count) | ocrConf:\(String(format: "%.2f", localOCR.averageConfidence))")
+        defer {
+            DiagnosticsLog.shared.record("page", "p\(pageNumber) done in \(Int(Date().timeIntervalSince(pageStarted) * 1000))ms")
+        }
+
         // Single-pass pipeline (the way fast commercial converters work):
         // one Gemini reading per page, then local verification against the
         // native text layer / on-device OCR, with a whole-page-image fallback
@@ -492,12 +498,47 @@ actor GeminiClient {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(trimmedKey, forHTTPHeaderField: "x-goog-api-key")
 
-        let (data, response) = try await session.data(for: request)
-        guard let http = response as? HTTPURLResponse else { throw GeminiError.invalidResponse }
-        guard (200..<300).contains(http.statusCode) else {
-            throw parseAPIError(data: data, response: http)
+        let endpoint = url.lastPathComponent
+        let hasSchema = ((payload["generationConfig"] as? [String: Any])?["responseFormat"]) != nil
+        let thinking = ((payload["generationConfig"] as? [String: Any])?["thinkingConfig"] as? [String: Any])?["thinkingLevel"] as? String ?? "default"
+        DiagnosticsLog.shared.record("gemini→", "POST \(endpoint) | body \(body.count / 1024)KB | schema:\(hasSchema) | thinking:\(thinking) | timeout:\(Int(timeout))s")
+        let started = Date()
+        do {
+            let (data, response) = try await session.data(for: request)
+            let ms = Int(Date().timeIntervalSince(started) * 1000)
+            guard let http = response as? HTTPURLResponse else {
+                DiagnosticsLog.shared.record("gemini✗", "non-HTTP response after \(ms)ms")
+                throw GeminiError.invalidResponse
+            }
+            guard (200..<300).contains(http.statusCode) else {
+                let err = parseAPIError(data: data, response: http)
+                DiagnosticsLog.shared.record("gemini✗", "HTTP \(http.statusCode) after \(ms)ms | \(Self.boundedBody(data))")
+                throw err
+            }
+            let finish = Self.finishReasonHint(data)
+            DiagnosticsLog.shared.record("gemini✓", "HTTP \(http.statusCode) in \(ms)ms | \(data.count / 1024)KB\(finish.isEmpty ? "" : " | finish:\(finish)")")
+            return data
+        } catch let error as GeminiError {
+            throw error
+        } catch {
+            let ms = Int(Date().timeIntervalSince(started) * 1000)
+            DiagnosticsLog.shared.record("gemini✗", "transport error after \(ms)ms | \(error.localizedDescription)")
+            throw error
         }
-        return data
+    }
+
+    /// A bounded excerpt of a response/error body for diagnostics (never the key).
+    private static func boundedBody(_ data: Data) -> String {
+        let raw = String(data: data.prefix(600), encoding: .utf8) ?? "<binary \(data.count) bytes>"
+        return raw.replacingOccurrences(of: "\n", with: " ").trimmingCharacters(in: .whitespaces)
+    }
+
+    /// Extracts a finishReason from a candidates response, if present.
+    private static func finishReasonHint(_ data: Data) -> String {
+        guard let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let candidates = obj["candidates"] as? [[String: Any]],
+              let reason = candidates.first?["finishReason"] as? String else { return "" }
+        return reason
     }
 
     private func prompt(

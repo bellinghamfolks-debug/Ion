@@ -22,6 +22,7 @@ final class AppModel: ObservableObject {
 
     init() {
         refreshRecords()
+        DiagnosticsLog.shared.record("session", "App launched.")
     }
 
     var hasAPIKey: Bool {
@@ -34,8 +35,35 @@ final class AppModel: ObservableObject {
         }
     }
 
+    /// Builds a complete diagnostics report and writes it to a temporary file
+    /// for sharing. `extra` carries Settings-only fields (model, thinking).
+    func writeDiagnostics(extra: [String: String]) async -> URL? {
+        var header = extra
+        let short = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "?"
+        header["App version"] = "\(short) (build \(build))"
+        header["Gemini key"] = hasAPIKey ? "present" : "absent"
+        header["Stored records"] = "\(records.count)"
+        header["Selected file"] = selectedPDF?.lastPathComponent ?? "none"
+        header["Selected pages"] = selectedPageCount.map(String.init) ?? "?"
+        let text = await DiagnosticsLog.shared.export(header: header)
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("PDFToWord-Diagnostics.txt")
+        do {
+            try Data(text.utf8).write(to: url, options: [.atomic])
+            return url
+        } catch {
+            alertMessage = error.localizedDescription
+            return nil
+        }
+    }
+
+    func clearDiagnostics() {
+        Task { await DiagnosticsLog.shared.clear() }
+    }
+
     func selectPDF(_ url: URL) {
         guard !isPreparingFile else { return }
+        DiagnosticsLog.shared.record("file", "selectPDF tapped | source:\(url.lastPathComponent)")
         isPreparingFile = true
         alertMessage = nil
         // Materializing an iCloud / provider file (and reading it) can block,
@@ -66,10 +94,13 @@ final class AppModel: ObservableObject {
                 selectedPDF = localURL
                 selectedPageCount = count
                 currentRecord = nil
+                let bytes = (try? FileManager.default.attributesOfItem(atPath: localURL.path)[.size] as? Int) ?? nil
+                DiagnosticsLog.shared.record("file", "selected OK | name:\(localURL.lastPathComponent) | pages:\(count) | size:\((bytes ?? 0) / 1024)KB")
             case .failure(let error):
                 selectedPDF = nil
                 selectedPageCount = nil
                 alertMessage = error.localizedDescription
+                DiagnosticsLog.shared.record("file✗", "select failed | \(error.localizedDescription)")
             }
         }
     }
@@ -109,11 +140,16 @@ final class AppModel: ObservableObject {
     }
 
     func startConversion(options: ConversionOptions) {
-        guard !isConverting, let selectedPDF else { return }
-        guard let key = storedAPIKey(), !key.isEmpty else {
-            alertMessage = L10n.text("أضف مفتاح Gemini API من الإعدادات أولًا.")
+        guard !isConverting, let selectedPDF else {
+            DiagnosticsLog.shared.record("convert", "startConversion ignored | isConverting:\(isConverting) | hasFile:\(selectedPDF != nil)")
             return
         }
+        guard let key = storedAPIKey(), !key.isEmpty else {
+            alertMessage = L10n.text("أضف مفتاح Gemini API من الإعدادات أولًا.")
+            DiagnosticsLog.shared.record("convert✗", "no API key saved")
+            return
+        }
+        DiagnosticsLog.shared.record("convert", "startConversion | file:\(selectedPDF.lastPathComponent) | model:\(options.model) | thinking:\(options.thinkingLevel)")
 
         progress = .init(status: .queued, currentPage: 0, totalPages: selectedPageCount ?? 0, message: L10n.text("بدء التحويل"))
         currentRecord = nil
@@ -298,5 +334,86 @@ final class AppModel: ObservableObject {
         let root = documents.standardizedFileURL.path
         let candidate = url.standardizedFileURL.path
         return candidate.hasPrefix(root + "/") && url.pathExtension.lowercased() == "docx"
+    }
+}
+
+import UIKit
+
+/// Captures a precise, shareable diagnostic timeline of everything the app
+/// does — environment, file selection, every Gemini request/response with
+/// timings and verbatim errors, per-page outcomes, and conversion totals.
+/// The Gemini API key is never recorded (only its presence/length).
+actor DiagnosticsLog {
+    static let shared = DiagnosticsLog()
+
+    struct Entry: Sendable {
+        let time: Date
+        let category: String
+        let message: String
+    }
+
+    private var entries: [Entry] = []
+    private let maxEntries = 8000
+    private let sessionStart = Date()
+
+    /// Fire-and-forget logging usable from any context (no await needed).
+    nonisolated func record(_ category: String, _ message: String) {
+        Task { await self.append(category: category, message: message) }
+    }
+
+    private func append(category: String, message: String) {
+        entries.append(Entry(time: Date(), category: category, message: message))
+        if entries.count > maxEntries { entries.removeFirst(entries.count - maxEntries) }
+    }
+
+    func clear() {
+        entries.removeAll()
+        entries.append(Entry(time: Date(), category: "session", message: "Diagnostics cleared."))
+    }
+
+    func entryCount() -> Int { entries.count }
+
+    /// Builds the full report. `header` carries main-actor-only environment
+    /// (app version, model/thinking, key presence) gathered by the caller.
+    func export(header: [String: String]) -> String {
+        let now = Date()
+        let stamp = ISO8601DateFormatter()
+        let line = DateFormatter()
+        line.locale = Locale(identifier: "en_US_POSIX")
+        line.dateFormat = "HH:mm:ss.SSS"
+
+        var out = "# PDFToWord Diagnostics\n"
+        out += "Generated: \(stamp.string(from: now))\n"
+        out += "Session uptime: \(String(format: "%.1f", now.timeIntervalSince(sessionStart)))s\n"
+        out += "Entries: \(entries.count)\n\n"
+
+        out += "## Environment\n"
+        for key in header.keys.sorted() { out += "- \(key): \(header[key] ?? "")\n" }
+        out += "- iOS: \(ProcessInfo.processInfo.operatingSystemVersionString)\n"
+        out += "- Device: \(Self.deviceModelIdentifier())\n"
+        out += "- Active processors: \(ProcessInfo.processInfo.activeProcessorCount)\n"
+        out += "- Physical memory: \(ProcessInfo.processInfo.physicalMemory / (1024*1024)) MB\n"
+        out += "- Low power mode: \(ProcessInfo.processInfo.isLowPowerModeEnabled)\n\n"
+
+        out += "## Timeline\n"
+        if entries.isEmpty {
+            out += "(empty — perform a conversion, then save again)\n"
+        } else {
+            let base = entries.first!.time
+            for e in entries {
+                let delta = e.time.timeIntervalSince(base)
+                out += "[\(line.string(from: e.time))] (+\(String(format: "%7.3f", delta))s) [\(e.category)] \(e.message)\n"
+            }
+        }
+        return out
+    }
+
+    nonisolated static func deviceModelIdentifier() -> String {
+        var sys = utsname()
+        uname(&sys)
+        let mirror = Mirror(reflecting: sys.machine)
+        let id = mirror.children.compactMap { ($0.value as? Int8).map { Character(UnicodeScalar(UInt8(bitPattern: $0))) } }
+            .filter { $0 != "\0" }
+        return String(id)
     }
 }

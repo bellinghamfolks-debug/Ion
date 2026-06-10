@@ -69,6 +69,7 @@ actor ConversionEngine {
             record.totalPages = extractor.pageCount
             record.status = .preparing
             record.updatedAt = Date()
+            DiagnosticsLog.shared.record("convert", "START | pages:\(extractor.pageCount) | model:\(options.model) | thinking:\(options.thinkingLevel) | concurrency:\(options.concurrency) | retry:\(options.retryCount) | completedSoFar:\(record.completedPages)")
             try await store.save(record)
             await progress(.init(
                 status: .preparing,
@@ -351,6 +352,7 @@ actor ConversionEngine {
             record.minimumQualityScore = qualityScores.min()
             record.updatedAt = Date()
             try await store.save(record)
+            DiagnosticsLog.shared.record("convert", "COMPLETE | pages:\(record.totalPages) | fallbackPages:\(record.fallbackPages?.count ?? 0) | minQuality:\(record.minimumQualityScore.map { Int($0 * 100) } ?? -1)% | output:\(outputByteCount / 1024)KB | name:\(outputURL.lastPathComponent)")
 
             let completionMessage: String
             if let minimum = record.minimumQualityScore {
@@ -381,6 +383,7 @@ actor ConversionEngine {
             record.status = .failed
             record.errorMessage = error.localizedDescription
             record.updatedAt = Date()
+            DiagnosticsLog.shared.record("convert", "FAILED at page \(record.completedPages + 1)/\(record.totalPages) | \(error.localizedDescription)")
             try? await store.save(record)
             await progress(.init(
                 status: .failed,

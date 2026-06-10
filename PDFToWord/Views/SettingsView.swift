@@ -5,6 +5,8 @@ struct SettingsView: View {
     @EnvironmentObject private var settings: AppSettings
     @State private var enteredKey = ""
     @State private var confirmReset = false
+    @State private var diagnosticsURL: URL?
+    @State private var isBuildingDiagnostics = false
 
     var body: some View {
         NavigationStack {
@@ -15,6 +17,7 @@ struct SettingsView: View {
                 wordSection
                 reliabilitySection
                 promptSection
+                diagnosticsSection
                 privacySection
                 resetSection
             }
@@ -24,6 +27,50 @@ struct SettingsView: View {
                 Button(L10n.text("إعادة"), role: .destructive) { settings.restoreDefaults() }
             } message: {
                 Text(L10n.text("لن يُحذف مفتاح Gemini أو سجل التحويل."))
+            }
+        }
+    }
+
+    private var diagnosticsSection: some View {
+        Section(L10n.text("التشخيص")) {
+            Text(L10n.text("يلتقط ملف التشخيص سجلًّا زمنيًا دقيقًا لكل خطوة وكل طلب إلى Gemini وتوقيته والأخطاء والبيئة — دون مفتاحك. احفظه وأرسله للمطوّر لتحديد سبب أي بطء أو فشل."))
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+
+            Button {
+                isBuildingDiagnostics = true
+                Task {
+                    let extra = [
+                        "Model": settings.resolvedModel,
+                        "Thinking": settings.thinkingLevel,
+                        "Concurrency": String(settings.concurrency),
+                        "Retry count": String(settings.retryCount)
+                    ]
+                    diagnosticsURL = await appModel.writeDiagnostics(extra: extra)
+                    isBuildingDiagnostics = false
+                }
+            } label: {
+                HStack {
+                    Label(L10n.text("تجهيز ملف التشخيص"), systemImage: "stethoscope")
+                    if isBuildingDiagnostics {
+                        Spacer()
+                        ProgressView()
+                    }
+                }
+            }
+            .disabled(isBuildingDiagnostics)
+
+            if let diagnosticsURL {
+                ShareLink(item: diagnosticsURL) {
+                    Label(L10n.text("حفظ أو مشاركة ملف التشخيص"), systemImage: "square.and.arrow.up")
+                }
+            }
+
+            Button(role: .destructive) {
+                appModel.clearDiagnostics()
+                diagnosticsURL = nil
+            } label: {
+                Label(L10n.text("مسح سجل التشخيص"), systemImage: "trash")
             }
         }
     }

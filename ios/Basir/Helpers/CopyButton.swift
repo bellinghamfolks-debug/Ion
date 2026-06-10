@@ -1,8 +1,3 @@
-// CopyButton.swift
-// Small reusable "copy to clipboard" control for result screens, so the
-// user can always copy output even when the iOS share sheet is awkward
-// on a sideloaded build.
-
 import SwiftUI
 import UIKit
 
@@ -14,13 +9,24 @@ struct CopyButton: View {
         Button {
             UIPasteboard.general.string = text
             copied = true
-            UIAccessibility.post(notification: .announcement,
-                                 argument: L10n.t("نُسخ النص", "Text copied"))
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { copied = false }
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: L10n.t("نُسخ النص إلى الحافظة.", "Text copied to the clipboard.")
+            )
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                copied = false
+            }
         } label: {
-            Label(copied ? L10n.t("نُسخ النص", "Text copied") : L10n.t("نسخ النص", "Copy text"),
-                  systemImage: copied ? "checkmark" : "doc.on.doc")
+            Image(systemName: copied ? "checkmark" : "doc.on.doc")
         }
-        .accessibilityLabel(L10n.t("نسخ النتيجة إلى الحافظة", "Copy result to clipboard"))
+        .buttonStyle(BasirIconButtonStyle())
+        .accessibilityLabel(
+            copied ? L10n.t("تم النسخ", "Copied")
+                   : L10n.t("نسخ النص", "Copy text")
+        )
+        .accessibilityHint(L10n.t(
+            "ينسخ النص الكامل إلى الحافظة.",
+            "Copies the full text to the clipboard."
+        ))
     }
 }

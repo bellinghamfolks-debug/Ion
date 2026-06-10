@@ -1,114 +1,111 @@
-// DescribeHubView.swift
-// Mirrors Android showDescribeScreen(): the "Describe an image or scene"
-// hub that lists the image-reading modes plus a written-scene tool.
-
 import SwiftUI
 
 struct DescribeHubView: View {
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(L10n.t(
-                    "اختر ما تريد فهمه، ثم التقط صورة أو اخترها من مكتبة الصور.",
-                    "Choose what you want to understand, then take a photo or select one from your library."
-                ))
-                .font(.callout)
-                .foregroundStyle(.secondary)
+        BasirScreen {
+            BasirPageIntro(
+                text: L10n.t(
+                    "اختر المهمة أولًا، لأن بصير يغيّر طريقة القراءة بحسب الصورة: وصف عام، نص بديل، لقطة شاشة، عملة، معادلات، أو مستند متخصص.",
+                    "Choose the task first. Basir changes how it reads the image for general description, alt text, screenshots, currency, equations, or specialist documents."
+                )
+            )
 
-                NavigationLink {
-                    DescribeImageView(mode: .detailed)
-                } label: {
-                    BasirCard(
-                        icon: "📝",
-                        title: L10n.t("وصف الصورة بالتفصيل", "Describe an image in detail"),
-                        description: L10n.t(
-                            "يبدأ بخلاصة واضحة، ثم يذكر الأشخاص والأشياء ومواقعها والنصوص الظاهرة والتفاصيل المفيدة.",
-                            "Starts with a clear summary, then covers people, objects, positions, visible text, and useful details."
-                        )
-                    )
-                }
-                .buttonStyle(.plain)
+            BasirSectionHeader(
+                title: L10n.t("نوع القراءة", "Reading mode"),
+                subtitle: L10n.t(
+                    "كل وضع يركز على المعلومات الأكثر فائدة للمهمة.",
+                    "Each mode focuses on the details that matter most for that task."
+                )
+            )
 
-                NavigationLink {
-                    DescribeImageView(mode: .altText)
-                } label: {
-                    BasirCard(
-                        icon: "🖼",
-                        title: L10n.t("إنشاء وصف بديل", "Create alt text"),
-                        description: L10n.t(
-                            "ينشئ وصفًا موجزًا ودقيقًا مناسبًا للنشر وقارئات الشاشة، بلا حشو أو افتراضات.",
-                            "Creates concise, accurate alt text for publishing and screen readers, without filler or assumptions."
-                        )
-                    )
-                }
-                .buttonStyle(.plain)
+            modeLink(.detailed,
+                     image: "photo.fill.on.rectangle.fill",
+                     title: L10n.t("وصف شامل للصورة", "Detailed image description"),
+                     description: L10n.t(
+                        "خلاصة أولًا، ثم الأشخاص والأشياء والمواقع والنص الظاهر والتفاصيل المهمة.",
+                        "A summary first, followed by people, objects, positions, visible text, and useful detail."
+                     ))
 
-                NavigationLink {
-                    DescribeImageView(mode: .screenshot)
-                } label: {
-                    BasirCard(
-                        icon: "🖥",
-                        title: L10n.t("قراءة لقطة شاشة", "Read a screenshot"),
-                        description: L10n.t(
-                            "يقرأ النصوص والأزرار والتنبيهات الظاهرة، ثم يشرح الخطوة التالية بناءً على الشاشة نفسها.",
-                            "Reads visible text, buttons, and alerts, then explains the next step based only on the screenshot."
-                        )
-                    )
-                }
-                .buttonStyle(.plain)
+            modeLink(.altText,
+                     image: "accessibility",
+                     title: L10n.t("كتابة وصف بديل", "Write alt text"),
+                     description: L10n.t(
+                        "وصف موجز ودقيق مناسب للنشر وقارئات الشاشة، من دون افتراضات أو حشو.",
+                        "Concise, accurate alt text for publishing and screen readers, without assumptions or filler."
+                     ),
+                     tone: .success)
 
-                NavigationLink {
-                    DescribeImageView(mode: .currencyOrReceipt)
-                } label: {
-                    BasirCard(
-                        icon: "💵",
-                        title: L10n.t("قراءة عملة أو فاتورة", "Read currency or a receipt"),
-                        description: L10n.t(
-                            "يتعرّف على فئة الورقة النقدية أو إجمالي الفاتورة من صورة واضحة. تحقّق من المبلغ قبل الدفع أو التسليم.",
-                            "Identifies a banknote denomination or receipt total from a clear photo. Verify the amount before paying or handing it over."
-                        )
-                    )
-                }
-                .buttonStyle(.plain)
+            modeLink(.screenshot,
+                     image: "rectangle.on.rectangle.angled",
+                     title: L10n.t("فهم لقطة شاشة", "Understand a screenshot"),
+                     description: L10n.t(
+                        "يقرأ النص والأزرار والتنبيهات، ثم يشرح ما يظهر وما الخطوة الممكنة التالية.",
+                        "Reads text, buttons, and alerts, then explains what is visible and the likely next action."
+                     ),
+                     tone: .info)
 
-                NavigationLink {
-                    MathExtractView()
-                } label: {
-                    BasirCard(
-                        icon: "🧮",
-                        title: L10n.t("قراءة معادلات من صورة", "Read equations from an image"),
-                        description: L10n.t(
-                            "يلتقط المعادلات من ورقة أو سبورة أو كتاب، ويعرضها بصيغة منطوقة مع LaTeX للمراجعة.",
-                            "Extracts equations from a page, whiteboard, or textbook and presents spoken math with LaTeX for review."
-                        )
-                    )
-                }
-                .buttonStyle(.plain)
+            modeLink(.currencyOrReceipt,
+                     image: "banknote.fill",
+                     title: L10n.t("قراءة عملة أو فاتورة", "Read currency or a receipt"),
+                     description: L10n.t(
+                        "يتعرف على الفئة أو المبلغ الظاهر في صورة واضحة. النتيجة ليست إثباتًا لأصالة العملة.",
+                        "Identifies a visible denomination or amount from a clear image. The result does not verify authenticity."
+                     ),
+                     tone: .warning)
 
-                NavigationLink {
-                    TextTaskView(
-                        title: L10n.t("إرشادات مكانية من وصفك", "Guidance from your description"),
-                        hint: L10n.t(
-                            "اكتب ما تعرفه عن المكان، وسيُلخّص بصير العوائق والاتجاهات ويقترح خطوة عملية دون اختراع تفاصيل.",
-                            "Describe what you know about the place. Basir summarizes obstacles and directions and suggests one practical step without inventing details."
-                        ),
-                        instruction: "From the user's written description of a place, summarize obstacles, directions, and a single practical next step. This is not live scene recognition; do not invent details that were not described."
-                    )
-                } label: {
-                    BasirCard(
-                        icon: "🧭",
-                        title: L10n.t("تحويل وصف المكان إلى إرشادات",
-                                      "Turn place details into guidance"),
-                        description: L10n.t(
-                            "اكتب تفاصيل المكان لتحصل على تلخيص واضح للعوائق والاتجاهات والخطوة التالية.",
-                            "Enter place details to receive a clear summary of obstacles, directions, and the next step."
-                        )
-                    )
-                }
-                .buttonStyle(.plain)
+            NavigationLink { MathExtractView() } label: {
+                BasirFeatureCard(
+                    systemImage: "function",
+                    title: L10n.t("قراءة المعادلات", "Read equations"),
+                    description: L10n.t(
+                        "يستخرج المعادلات من ورقة أو سبورة ويعرضها بصيغة منطوقة مع LaTeX.",
+                        "Extracts equations from a page or whiteboard and presents spoken math with LaTeX."
+                    ),
+                    tone: .info
+                )
             }
-            .padding(20)
+            .buttonStyle(.plain)
+
+            NavigationLink {
+                TextTaskView(
+                    title: L10n.t("تنظيم وصف المكان", "Organize place details"),
+                    hint: L10n.t(
+                        "اكتب ما تعرفه عن المكان، وسيحوّل بصير الوصف إلى عوائق واتجاهات وخطوة عملية واضحة من دون اختراع تفاصيل.",
+                        "Describe what you know about the place. Basir organizes it into obstacles, directions, and one clear practical step without inventing details."
+                    ),
+                    instruction: GeminiPrompts.placeDescriptionInstruction,
+                    task: .organizePlaceDescription
+                )
+            } label: {
+                BasirFeatureCard(
+                    systemImage: "map.fill",
+                    title: L10n.t("تحويل وصف المكان إلى نقاط عملية", "Turn place details into practical steps"),
+                    description: L10n.t(
+                        "ينظم وصفك المكتوب إلى معلومات مكانية أسهل للاستماع والمراجعة.",
+                        "Organizes your written description into spatial information that is easier to hear and review."
+                    ),
+                    tone: .neutral
+                )
+            }
+            .buttonStyle(.plain)
         }
-        .navigationTitle(L10n.t("فهم صورة أو مشهد", "Understand an image or scene"))
+        .navigationTitle(L10n.t("وصف صورة", "Describe an image"))
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func modeLink(_ mode: DescribeImageMode,
+                          image: String,
+                          title: String,
+                          description: String,
+                          tone: BasirTone = .brand) -> some View {
+        NavigationLink { DescribeImageView(mode: mode) } label: {
+            BasirFeatureCard(
+                systemImage: image,
+                title: title,
+                description: description,
+                tone: tone
+            )
+        }
+        .buttonStyle(.plain)
     }
 }

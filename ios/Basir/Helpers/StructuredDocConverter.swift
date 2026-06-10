@@ -1,660 +1,721 @@
 // StructuredDocConverter.swift
-// Android-parity document conversion.
+// High-fidelity, page-isolated PDF/image to Word conversion.
 //
-// The problem this fixes
-// ──────────────────────
-//   The old iOS convert flow extracted only the PDF's TEXT LAYER on the
-//   device and sent that flat text to Gemini. Tables collapsed into
-//   meaningless runs of words, image content vanished, and even the most
-//   expensive model produced garbage because it never SAW the page.
-//
-//   Android instead lets Gemini see the real document and return a
-//   STRUCTURED JSON object — ordered sections where every table is real
-//   2-D cell data — then builds a Word file with genuine tables. This is
-//   that mechanism, ported: we render each page to an image, ask Gemini
-//   (JSON mode) for the structured page, parse it into blocks, show a
-//   clean readable result, and build a DOCX with actual tables.
-//
-//   Economical: pages run on the model the user picked (default Flash via
-//   the convert screen), one page at a time, peak memory of a single page.
+// Design goals:
+// 1. Never lose an entire multi-page batch because one page failed.
+// 2. Never present a partial result as a complete conversion.
+// 3. Preserve exact text, numbers, tables, reading order, and mixed RTL/LTR.
+// 4. Use structured output with an explicit JSON Schema where supported.
+// 5. Fall back to local text and, for scanned pages, an embedded page image.
 
 import Foundation
 import PDFKit
 import UIKit
 
-/// One rendered element of a converted document.
-enum DocBlock {
+struct DocTextRun: Hashable, Sendable {
+    enum Direction: String, Sendable {
+        case auto, rtl, ltr
+    }
+
+    var text: String
+    var bold: Bool = false
+    var italic: Bool = false
+    var underline: Bool = false
+    var strike: Bool = false
+    var highlight: Bool = false
+    var superscript: Bool = false
+    var isSubscript: Bool = false
+    var fontSizePoints: Double? = nil
+    var colorHex: String? = nil
+    var url: String? = nil
+    var direction: Direction = .auto
+}
+
+enum DocBlock: Sendable {
     case pageMarker(Int)
-    case heading(level: Int, text: String)
-    case paragraph(String)
+    case pageBreak
+    case heading(level: Int, runs: [DocTextRun])
+    case paragraph(runs: [DocTextRun])
+    case listItem(level: Int, ordered: Bool, runs: [DocTextRun])
     case imageDescription(page: Int, text: String)
+    case pageImage(page: Int, data: Data, altText: String)
     case table(caption: String?, cells: [[String]], rowHeader: Bool)
 }
 
-struct DocConvertOptions {
-    /// BCP-47 code to translate into, or "" for no translation.
+struct DocConvertOptions: Sendable {
     var translateTo: String = ""
-    /// Include image descriptions (full mode) vs. text/tables only.
     var describeImages: Bool = false
-    /// Render mathematics as spoken form + LaTeX.
     var math: Bool = false
 }
 
+struct DocConversionDiagnostics: Sendable {
+    var totalPages = 0
+    var processedPages = 0
+    var aiPages = 0
+    var localFallbackPages = 0
+    var imageFallbackPages = 0
+    var warningPages: [Int] = []
+    var failedPages: [Int] = []
+    var wasCancelled = false
+
+    var isComplete: Bool {
+        !wasCancelled && processedPages == totalPages && failedPages.isEmpty
+    }
+
+    var summaryArabic: String {
+        let state = wasCancelled ? "أُوقفت المعالجة قبل اكتمالها. " : ""
+        return state + "عولجت \(processedPages) من \(totalPages) صفحة. "
+        + "نجح التحليل المنظم في \(aiPages)، واستخدم الاستخراج المحلي في \(localFallbackPages)، "
+        + "وحُفظت صورة الصفحة في \(imageFallbackPages)."
+        + (failedPages.isEmpty ? "" : " الصفحات التي تعذّر حفظها: \(failedPages.map(String.init).joined(separator: ", ")).")
+    }
+
+    var summaryEnglish: String {
+        let state = wasCancelled ? "Processing stopped before completion. " : ""
+        return state + "Processed \(processedPages) of \(totalPages) pages. "
+        + "Structured analysis succeeded for \(aiPages), local extraction was used for \(localFallbackPages), "
+        + "and a page image was preserved for \(imageFallbackPages)."
+        + (failedPages.isEmpty ? "" : " Pages that could not be preserved: \(failedPages.map(String.init).joined(separator: ", ")).")
+    }
+}
+
 enum StructuredDocConverter {
-
-    /// True when we can run the structured (JSON) pipeline. It needs a
-    /// direct Gemini key because it uses JSON-mode image calls; proxy /
-    /// keyless setups fall back to the legacy text path in the caller.
-    @MainActor static var isAvailable: Bool { !KeychainStore.geminiKey().isEmpty }
-
-    struct Result {
+    struct Result: Sendable {
         var blocks: [DocBlock] = []
         var title: String = ""
-        var summary: String = ""
+        var diagnostics = DocConversionDiagnostics()
     }
 
-    /// Convert every page of a PDF. `onProgress(done, total)` and
-    /// `onPartial(displayText)` are called on the main actor so the view
-    /// can show a live progress bar and a growing result.
     @MainActor
-    static func convertPdf(url: URL,
-                           options: DocConvertOptions,
-                           maxPages: Int = 500,
-                           shouldCancel: () -> Bool = { false },
-                           onStatus: ((String) -> Void)? = nil,
-                           onProgress: ((Int, Int) -> Void)? = nil,
-                           onPartial: ((String) -> Void)? = nil) async throws -> Result {
-        guard let doc = PDFDocument(url: url) else {
-            throw NSError(domain: "BasirConvert", code: 1, userInfo: [
-                NSLocalizedDescriptionKey: L10n.t("تعذّر فتح ملف PDF.",
-                                                  "The PDF could not be opened.")])
-        }
-        let total = min(doc.pageCount, maxPages)
+    static var isAvailable: Bool { AiProviderFactory.isConfigured }
+
+    // MARK: - Conversion entry points
+
+    @MainActor
+    static func convertPdf(
+        url: URL,
+        options: DocConvertOptions,
+        maxPages: Int = 500,
+        shouldCancel: () -> Bool = { false },
+        onStatus: ((String) -> Void)? = nil,
+        onProgress: ((Int, Int) -> Void)? = nil,
+        onPartial: ((String) -> Void)? = nil
+    ) async throws -> Result {
+        let snapshotter = try await Task.detached(priority: .userInitiated) {
+            try PdfPageSnapshotter(url: url, maxPages: maxPages)
+        }.value
+        let total = snapshotter.pageCount
         guard total > 0 else {
-            throw NSError(domain: "BasirConvert", code: 2, userInfo: [
-                NSLocalizedDescriptionKey: L10n.t("الملف لا يحتوي على صفحات.",
-                                                  "The file has no pages.")])
+            throw conversionError(2, ar: "الملف لا يحتوي على صفحات.", en: "The file has no pages.")
         }
+
+        var result = Result()
+        result.diagnostics.totalPages = total
         onProgress?(0, total)
 
-        // Detect page orientation ONCE. Scanned transcripts are often
-        // stored rotated 90° (sideways) with no /Rotate flag; sending such
-        // a page as-is makes even Pro misread and FABRICATE. If it is
-        // rotated, the Files API can't help (it would send the sideways
-        // PDF), so we render the pages upright via the image path instead.
-        onStatus?(L10n.t("جارٍ تحليل اتجاه الصفحات…", "Checking page orientation…"))
-        let rotation = await detectRotation(doc: doc)
-        onStatus?("")
-        if rotation != 0 {
-            return try await convertPdfViaImages(
-                doc: doc, total: total, options: options, rotation: rotation,
-                shouldCancel: shouldCancel, onStatus: onStatus,
-                onProgress: onProgress, onPartial: onPartial)
-        }
-
-        // Upright document → PRIMARY (Android parity): upload the actual
-        // PDF once via the Files API and reference it by URI per batch, so
-        // Gemini reads the real document at full fidelity. If that path
-        // fails, fall back to rendering pages as images.
-        onStatus?(L10n.t("جارٍ تجهيز الملف ورفعه…", "Preparing and uploading the file…"))
-        let key = KeychainStore.geminiKey()
-        guard let bytes = try? Data(contentsOf: url) else {
-            throw NSError(domain: "BasirConvert", code: 4, userInfo: [
-                NSLocalizedDescriptionKey: L10n.t("تعذّر قراءة الملف.",
-                                                  "The file could not be read.")])
-        }
-
-        let uploaded: GeminiClient.UploadedFile
-        do {
-            uploaded = try await withRetry {
-                try await GeminiClient.uploadFile(apiKey: key, data: bytes,
-                                                  mimeType: "application/pdf")
+        for index in 0..<total {
+            if shouldCancel() || Task.isCancelled {
+                result.diagnostics.wasCancelled = true
+                break
             }
-            try await GeminiClient.waitForFileActive(apiKey: key, name: uploaded.name,
-                                                     maxWaitSeconds: 120)
-        } catch {
-            // Upload/activation failed → image fallback for the whole doc.
-            onStatus?("")
-            return try await convertPdfViaImages(
-                doc: doc, total: total, options: options,
-                shouldCancel: shouldCancel, onStatus: onStatus,
-                onProgress: onProgress, onPartial: onPartial)
-        }
-        onStatus?("")
+            let pageNumber = index + 1
+            onStatus?(L10n.t("جارٍ تحليل الصفحة \(pageNumber)…",
+                             "Analyzing page \(pageNumber)…"))
 
-        let batchSize = 4
-        var result = Result()
-        var start = 1
-        while start <= total {
-            if shouldCancel() { break }   // keep batches converted so far
-            let end = min(start + batchSize - 1, total)
+            guard let snapshot = await snapshotter.snapshot(at: index) else {
+                appendUnavailablePage(pageNumber, to: &result)
+                if pageNumber < total { result.blocks.append(.pageBreak) }
+                onProgress?(pageNumber, total)
+                continue
+            }
+
+            let sourceText = snapshot.text
+            let imageData = snapshot.jpegData
+
+            result.blocks.append(.pageMarker(pageNumber))
             do {
-                let json = try await withRetry {
-                    try await requestFileBatch(fileUri: uploaded.uri,
-                                               fileMime: uploaded.mimeType,
-                                               startPage: start, endPage: end,
-                                               totalPages: total,
-                                               isFirst: result.blocks.isEmpty,
-                                               options: options)
+                guard let imageData else { throw GeminiError.decode("page render failed") }
+                let pageBlocks = try await convertPage(
+                    imageData: imageData,
+                    pageNumber: pageNumber,
+                    totalPages: total,
+                    sourceText: sourceText,
+                    options: options)
+                result.blocks.append(contentsOf: pageBlocks)
+                if options.describeImages,
+                   pageBlocks.contains(where: {
+                       if case .imageDescription = $0 { return true }
+                       return false
+                   }) {
+                    let descriptions = pageBlocks.compactMap { block -> String? in
+                        if case let .imageDescription(_, text) = block { return text }
+                        return nil
+                    }.joined(separator: " ")
+                    result.blocks.append(.pageImage(
+                        page: pageNumber,
+                        data: imageData,
+                        altText: descriptions.isEmpty
+                            ? L10n.t("مرجع بصري للصفحة \(pageNumber)", "Visual reference for page \(pageNumber)")
+                            : descriptions))
                 }
-                merge(json, into: &result, isFirst: result.blocks.isEmpty, defaultPage: start)
+                result.diagnostics.aiPages += 1
             } catch {
-                // If the VERY FIRST batch fails, the file path is unusable
-                // here — switch the whole document to the image fallback.
-                if result.blocks.isEmpty {
-                    return try await convertPdfViaImages(
-                        doc: doc, total: total, options: options,
-                        shouldCancel: shouldCancel, onStatus: onStatus,
-                        onProgress: onProgress, onPartial: onPartial)
+                if Task.isCancelled || isCancellation(error) {
+                    result.diagnostics.wasCancelled = true
+                    break
                 }
-                // A later batch failing only loses that range; note + go on.
-                result.blocks.append(.pageMarker(start))
-                result.blocks.append(.paragraph(L10n.t(
-                    "(تعذّرت معالجة الصفحات \(start)–\(end). يمكنك إعادة المحاولة لاحقًا.)",
-                    "(Could not process pages \(start)–\(end). You can try again later.)")))
+                AppLogger.documentError("Structured page conversion failed at page \(pageNumber)")
+                appendFallback(pageImage: imageData,
+                               pageNumber: pageNumber,
+                               sourceText: sourceText,
+                               to: &result)
             }
-            onProgress?(end, total)
+
+            if pageNumber < total { result.blocks.append(.pageBreak) }
+            result.diagnostics.processedPages += 1
+            onProgress?(pageNumber, total)
             onPartial?(displayText(result))
-            start = end + 1
         }
-        validateGrades(&result.blocks)
+
+        onStatus?("")
+        if result.diagnostics.processedPages == 0 && result.diagnostics.wasCancelled {
+            throw GeminiError.cancelled
+        }
+        result.title = firstHeading(in: result.blocks) ?? url.deletingPathExtension().lastPathComponent
         return result
     }
 
-    /// Fallback / rotated-scan converter: render each page to an image
-    /// (rotated upright by `rotation` degrees when the scan was stored
-    /// sideways) and send page batches inline. Used when the Files API
-    /// can't help — either it failed, or the scan is rotated (the Files
-    /// API would send the sideways PDF and the model would fabricate).
     @MainActor
-    private static func convertPdfViaImages(
-        doc: PDFDocument, total: Int, options: DocConvertOptions,
-        rotation: Int = 0,
-        shouldCancel: () -> Bool,
-        onStatus: ((String) -> Void)?,
-        onProgress: ((Int, Int) -> Void)?,
-        onPartial: ((String) -> Void)?) async throws -> Result {
-        let batchSize = 4
-        var result = Result()
-        var start = 1
-        while start <= total {
-            if shouldCancel() { break }
-            let end = min(start + batchSize - 1, total)
-            var images: [Data] = []
-            for p in start...end {
-                if let page = doc.page(at: p - 1),
-                   let img = PdfReader.jpegData(for: page, longEdge: 2400,
-                                                rotationDegrees: rotation) {
-                    images.append(img)
-                }
-            }
-            if !images.isEmpty {
-                do {
-                    let json = try await withRetry {
-                        try await requestBatch(images: images,
-                                               startPage: start, endPage: end,
-                                               totalPages: total,
-                                               isFirst: result.blocks.isEmpty,
-                                               options: options)
-                    }
-                    merge(json, into: &result, isFirst: result.blocks.isEmpty, defaultPage: start)
-                } catch {
-                    // If even the first fallback batch fails, surface the
-                    // real error rather than a silent empty document.
-                    if result.blocks.isEmpty { throw error }
-                    result.blocks.append(.pageMarker(start))
-                    result.blocks.append(.paragraph(L10n.t(
-                        "(تعذّرت معالجة الصفحات \(start)–\(end). يمكنك إعادة المحاولة لاحقًا.)",
-                        "(Could not process pages \(start)–\(end). You can try again later.)")))
-                }
-            }
-            onProgress?(end, total)
-            onPartial?(displayText(result))
-            start = end + 1
-        }
-        validateGrades(&result.blocks)
-        return result
-    }
-
-    /// Retry an async operation on transient API errors with exponential
-    /// backoff (network drop, request timeout, HTTP 429 / 5xx).
-    @MainActor
-    private static func withRetry<T>(_ op: () async throws -> T) async throws -> T {
-        var delay: UInt64 = 1_500_000_000   // 1.5s
-        var lastError: Error?
-        for attempt in 0..<4 {
-            do { return try await op() }
-            catch {
-                lastError = error
-                if attempt == 3 || !isTransient(error) { throw error }
-                try? await Task.sleep(nanoseconds: delay)
-                delay = min(delay * 2, 12_000_000_000)
-            }
-        }
-        throw lastError ?? GeminiError.decode("retry failed")
-    }
-
-    private static func isTransient(_ error: Error) -> Bool {
-        switch error {
-        case GeminiError.network: return true
-        case let GeminiError.http(status, _):
-            return status == 429 || (500...599).contains(status)
-        default: return false
-        }
-    }
-
-    /// Convert a single image file (photo / scan) the same way.
-    @MainActor
-    static func convertImage(url: URL,
-                             options: DocConvertOptions,
-                             onProgress: ((Int, Int) -> Void)? = nil) async throws -> Result {
-        guard let jpeg = DocumentText.imageData(from: url) else {
-            throw NSError(domain: "BasirConvert", code: 3, userInfo: [
-                NSLocalizedDescriptionKey: L10n.t("تعذّر قراءة الصورة.",
-                                                  "The image could not be read.")])
+    static func convertImage(
+        url: URL,
+        options: DocConvertOptions,
+        onProgress: ((Int, Int) -> Void)? = nil
+    ) async throws -> Result {
+        guard let imageData = await Task.detached(priority: .userInitiated, operation: {
+            DocumentText.imageData(from: url)
+        }).value else {
+            throw conversionError(3, ar: "تعذّر قراءة الصورة.", en: "The image could not be read.")
         }
         onProgress?(0, 1)
-        let json = try await requestBatch(images: [jpeg], startPage: 1, endPage: 1,
-                                          totalPages: 1, isFirst: true,
-                                          options: options)
         var result = Result()
-        merge(json, into: &result, isFirst: true, defaultPage: 1)
-        validateGrades(&result.blocks)
+        result.diagnostics.totalPages = 1
+        result.blocks.append(.pageMarker(1))
+        do {
+            result.blocks.append(contentsOf: try await convertPage(
+                imageData: imageData,
+                pageNumber: 1,
+                totalPages: 1,
+                sourceText: "",
+                options: options))
+            result.diagnostics.aiPages = 1
+            if options.describeImages {
+                result.blocks.append(.pageImage(page: 1,
+                                                data: imageData,
+                                                altText: L10n.t("الصورة الأصلية مع النص المستخرج", "Original image with extracted text")))
+            }
+        } catch {
+            if Task.isCancelled || isCancellation(error) { throw GeminiError.cancelled }
+            result.blocks.append(.paragraph(runs: [DocTextRun(text: L10n.t(
+                "تعذّر استخراج محتوى موثوق؛ أُدرجت الصورة الأصلية للمراجعة.",
+                "Reliable extraction failed; the original image is included for review."))]))
+            result.blocks.append(.pageImage(page: 1,
+                                            data: imageData,
+                                            altText: L10n.t("الصورة الأصلية", "Original image")))
+            result.diagnostics.imageFallbackPages = 1
+            result.diagnostics.failedPages.append(1)
+        }
+        result.diagnostics.processedPages = 1
+        result.title = url.deletingPathExtension().lastPathComponent
         onProgress?(1, 1)
         return result
     }
 
-    /// Ask Gemini once how far the first page must be rotated CLOCKWISE to
-    /// be upright (0/90/180/270). A tiny, cheap text call; defaults to 0 on
-    /// any uncertainty so an upright document is never needlessly rotated.
-    @MainActor
-    private static func detectRotation(doc: PDFDocument) async -> Int {
-        guard let page = doc.page(at: 0),
-              let img = PdfReader.jpegData(for: page, longEdge: 1100) else { return 0 }
-        let key = KeychainStore.geminiKey()
-        let model = BasirSettings.shared.modelFor(task: .convert)
-        let prompt = "This image is ONE page of a scanned document. Looking at how the "
-            + "text lines run, what CLOCKWISE rotation in degrees is needed to make the "
-            + "text upright and normally readable? If it is already upright answer 0. "
-            + "Answer with ONLY one number: 0, 90, 180, or 270."
-        let resp = (try? await GeminiClient.generateWithImage(
-            apiKey: key, model: model,
-            systemText: "You detect the reading orientation of scanned pages.",
-            userMessage: prompt, imageData: img, mimeType: "image/jpeg")) ?? "0"
-        let digits = resp.drop { !$0.isNumber }.prefix { $0.isNumber }
-        let value = Int(digits) ?? 0
-        return [0, 90, 180, 270].contains(value) ? value : 0
-    }
-
-    // MARK: - Networking
+    // MARK: - One-page structured analysis
 
     @MainActor
-    private static func requestBatch(images: [Data],
-                                     startPage: Int, endPage: Int,
-                                     totalPages: Int,
-                                     isFirst: Bool,
-                                     options: DocConvertOptions) async throws -> [String: Any] {
-        let key = KeychainStore.geminiKey()
-        let settings = BasirSettings.shared
-        let model = settings.modelFor(task: .convert)
-        let arabic = settings.language == .arabic
-        let langName: String
-        if options.translateTo.isEmpty {
-            langName = arabic ? "Arabic" : "English"
-        } else {
-            langName = GeminiPrompts.bcp47Name(options.translateTo)
+    private static func convertPage(
+        imageData: Data,
+        pageNumber: Int,
+        totalPages: Int,
+        sourceText: String,
+        options: DocConvertOptions
+    ) async throws -> [DocBlock] {
+        var lastError: Error = GeminiError.decode("page conversion failed")
+        for attempt in 1...2 {
+            do {
+                let raw = try await requestPage(
+                    imageData: imageData,
+                    pageNumber: pageNumber,
+                    totalPages: totalPages,
+                    sourceText: sourceText,
+                    options: options,
+                    strictRetry: attempt > 1)
+                let object = try parseObject(raw)
+                var blocks = try parseSections(object["sections"], page: pageNumber)
+                blocks = collapseAdjacentDuplicates(blocks)
+                try validate(blocks: blocks,
+                             sourceText: sourceText,
+                             translationMode: !options.translateTo.isEmpty)
+                return blocks
+            } catch {
+                lastError = error
+                if attempt == 1 { try await cancellableDelay(nanoseconds: 900_000_000) }
+            }
         }
-        let prompt = GeminiPrompts.documentPageInstruction(
-            langName: langName,
-            startPage: startPage,
-            endPage: endPage,
-            totalPages: totalPages,
-            isFirst: isFirst,
-            includeImages: options.describeImages,
-            translateToName: options.translateTo.isEmpty ? nil : langName,
-            math: options.math)
-
-        let raw = try await GeminiClient.generateJsonStringWithImages(
-            apiKey: key,
-            model: model,
-            systemText: "You are Basir, an assistant for blind and low-vision users.",
-            userMessage: prompt,
-            images: images,
-            mimeType: "image/jpeg",
-            // A dense batch (several terms per page) needs plenty of room
-            // so the JSON isn't truncated mid-document — losing or
-            // reordering content. Gemini 2.5 models allow large outputs;
-            // the API clamps to the model's max if it is lower.
-            maxOutputTokens: 32768)
-
-        return parseObject(raw)
+        throw lastError
     }
 
-    /// Same as requestBatch but references an uploaded PDF by URI (Android
-    /// parity) instead of sending rendered page images.
     @MainActor
-    private static func requestFileBatch(fileUri: String, fileMime: String,
-                                         startPage: Int, endPage: Int,
-                                         totalPages: Int,
-                                         isFirst: Bool,
-                                         options: DocConvertOptions) async throws -> [String: Any] {
-        let key = KeychainStore.geminiKey()
+    private static func requestPage(
+        imageData: Data,
+        pageNumber: Int,
+        totalPages: Int,
+        sourceText: String,
+        options: DocConvertOptions,
+        strictRetry: Bool
+    ) async throws -> String {
         let settings = BasirSettings.shared
-        let model = settings.modelFor(task: .convert)
-        let arabic = settings.language == .arabic
-        let langName = options.translateTo.isEmpty
-            ? (arabic ? "Arabic" : "English")
+        let outputLanguage = options.translateTo.isEmpty
+            ? (settings.language == .arabic ? "Arabic" : "English")
             : GeminiPrompts.bcp47Name(options.translateTo)
         let prompt = GeminiPrompts.documentPageInstruction(
-            langName: langName,
-            startPage: startPage,
-            endPage: endPage,
+            langName: outputLanguage,
+            pageNumber: pageNumber,
             totalPages: totalPages,
-            isFirst: isFirst,
             includeImages: options.describeImages,
-            translateToName: options.translateTo.isEmpty ? nil : langName,
-            math: options.math)
+            translateToName: options.translateTo.isEmpty ? nil : outputLanguage,
+            math: options.math,
+            strictRetry: strictRetry)
 
-        let raw = try await GeminiClient.generateJsonStringWithFile(
-            apiKey: key,
-            model: model,
-            systemText: "You are Basir, an assistant for blind and low-vision users.",
-            userMessage: prompt,
-            fileUri: fileUri,
-            fileMimeType: fileMime,
-            maxOutputTokens: 32768)
-
-        return parseObject(raw)
+        return try await AiProviderFactory.current().ask(
+            task: .convert,
+            input: String(sourceText.prefix(24_000)),
+            instruction: prompt,
+            language: settings.language,
+            imageData: imageData,
+            mimeType: "image/jpeg")
     }
 
-    // MARK: - JSON parsing
+    // MARK: - Validation and fallback
 
-    /// Tolerant JSON-object parse: strips ```json fences and any prose
-    /// around the outermost { … } before decoding.
-    private static func parseObject(_ s: String) -> [String: Any] {
-        var t = s.trimmingCharacters(in: .whitespacesAndNewlines)
-        if let open = t.firstIndex(of: "{"), let close = t.lastIndex(of: "}"), open < close {
-            t = String(t[open...close])     // trim ```json fences / stray prose
+    private static func validate(
+        blocks: [DocBlock],
+        sourceText: String,
+        translationMode: Bool
+    ) throws {
+        guard !blocks.isEmpty || sourceText.isEmpty else {
+            throw GeminiError.decode("structured page contained no sections")
         }
-        guard let data = t.data(using: .utf8),
-              let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-        else { return [:] }
-        return obj
+        let produced = blocks.map(blockText).joined(separator: " ")
+        if !sourceText.isEmpty {
+            let expectedCritical = AIResponseValidator.criticalTokens(in: sourceText)
+            if !expectedCritical.isEmpty {
+                let actualCritical = AIResponseValidator.criticalTokens(in: produced)
+                let criticalRecall = Double(expectedCritical.intersection(actualCritical).count)
+                    / Double(expectedCritical.count)
+                guard criticalRecall >= 0.90 else {
+                    throw GeminiError.decode("page changed critical numbers, links, or identifiers")
+                }
+            }
+        }
+        guard !translationMode, !sourceText.isEmpty else { return }
+        let referenceTokens = tokenSet(sourceText)
+        guard referenceTokens.count >= 8 else { return }
+        let outputTokens = tokenSet(produced)
+        let matched = referenceTokens.intersection(outputTokens).count
+        let coverage = Double(matched) / Double(referenceTokens.count)
+        if coverage < 0.55 {
+            throw GeminiError.decode("page text coverage too low")
+        }
+
+        let sourceCount = sourceText.filter { !$0.isWhitespace }.count
+        let outputCount = produced.filter { !$0.isWhitespace }.count
+        if sourceCount >= 80 {
+            let ratio = Double(outputCount) / Double(sourceCount)
+            if ratio < 0.45 || ratio > 4.0 {
+                throw GeminiError.decode("page output length was implausible")
+            }
+        }
+
+        let critical = criticalTokens(in: sourceText)
+        if !critical.isEmpty {
+            let output = Set(criticalTokens(in: produced))
+            let retained = critical.filter { output.contains($0) }.count
+            let recall = Double(retained) / Double(critical.count)
+            if recall < 0.85 {
+                throw GeminiError.decode("critical identifiers or numbers changed")
+            }
+        }
     }
 
-    private static func merge(_ json: [String: Any], into result: inout Result,
-                              isFirst: Bool, defaultPage: Int) {
-        if isFirst {
-            if let title = (json["title"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines),
-               !title.isEmpty {
-                result.title = title
-                result.blocks.append(.heading(level: 1, text: title))
+    private static func appendFallback(
+        pageImage: Data?,
+        pageNumber: Int,
+        sourceText: String,
+        to result: inout Result
+    ) {
+        if !sourceText.isEmpty {
+            result.blocks.append(.paragraph(runs: [DocTextRun(text: L10n.t(
+                "نص الصفحة المستخرج محليًا بعد تعذّر التحليل المنظم:",
+                "Locally extracted page text after structured analysis failed:"),
+                bold: true)]))
+            for paragraph in paragraphs(from: sourceText) {
+                result.blocks.append(.paragraph(runs: [DocTextRun(text: paragraph)]))
             }
-            if let summary = (json["summary"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines),
-               !summary.isEmpty {
-                result.summary = summary
-                result.blocks.append(.paragraph(summary))
-            }
+            result.diagnostics.localFallbackPages += 1
+            result.diagnostics.warningPages.append(pageNumber)
+            return
         }
-        guard let sections = json["sections"] as? [[String: Any]] else {
-            result.blocks.append(.pageMarker(defaultPage)); return
+
+        let fallbackData = pageImage
+        result.blocks.append(.paragraph(runs: [DocTextRun(text: L10n.t(
+            "تعذّر استخراج نص موثوق من هذه الصفحة الممسوحة؛ حُفظت صورة الصفحة داخل Word بدل حذفها.",
+            "Reliable text could not be extracted from this scanned page; its image was preserved in Word instead of being omitted."))]))
+        if let fallbackData {
+            result.blocks.append(.pageImage(
+                page: pageNumber,
+                data: fallbackData,
+                altText: L10n.t("صورة الصفحة \(pageNumber)", "Image of page \(pageNumber)")))
+            result.diagnostics.imageFallbackPages += 1
+            result.diagnostics.warningPages.append(pageNumber)
+        } else {
+            result.diagnostics.failedPages.append(pageNumber)
         }
-        var currentPage = defaultPage
-        var sawMarker = false
-        for sec in sections {
-            let type = (sec["type"] as? String ?? "").lowercased()
+    }
+
+    private static func appendUnavailablePage(_ page: Int, to result: inout Result) {
+        result.blocks.append(.pageMarker(page))
+        result.blocks.append(.paragraph(runs: [DocTextRun(text: L10n.t(
+            "تعذّر فتح هذه الصفحة داخل ملف PDF.",
+            "This PDF page could not be opened."))]))
+        result.diagnostics.failedPages.append(page)
+        result.diagnostics.processedPages += 1
+    }
+
+    // MARK: - JSON schema and parsing
+
+
+    private static func parseObject(_ raw: String) throws -> [String: Any] {
+        var text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let first = text.firstIndex(of: "{"),
+           let last = text.lastIndex(of: "}"), first <= last {
+            text = String(text[first...last])
+        }
+        guard let data = text.data(using: .utf8),
+              let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
+        else { throw GeminiError.decode("malformed JSON") }
+        return object
+    }
+
+    private static func parseSections(_ raw: Any?, page: Int) throws -> [DocBlock] {
+        guard let sections = raw as? [[String: Any]] else {
+            throw GeminiError.decode("missing sections")
+        }
+        guard sections.count <= 600 else {
+            throw GeminiError.decode("implausible section count")
+        }
+        var blocks: [DocBlock] = []
+        for section in sections {
+            let type = (section["type"] as? String ?? "").lowercased()
             switch type {
-            case "page_marker":
-                if let n = firstInt(sec["label"] as? String) { currentPage = n }
-                result.blocks.append(.pageMarker(currentPage))
-                sawMarker = true
             case "heading":
-                if !sawMarker { result.blocks.append(.pageMarker(currentPage)); sawMarker = true }
-                let level = (sec["level"] as? Int) ?? Int((sec["level"] as? String) ?? "") ?? 2
-                let text = (sec["text"] as? String ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-                if !text.isEmpty { result.blocks.append(.heading(level: min(max(level, 1), 3), text: text)) }
+                let level = clamp(intValue(section["level"], fallback: 2), 1, 3)
+                let runs = parseRuns(section)
+                if !runsText(runs).isEmpty { blocks.append(.heading(level: level, runs: runs)) }
             case "paragraph":
-                if !sawMarker { result.blocks.append(.pageMarker(currentPage)); sawMarker = true }
-                let text = (sec["text"] as? String ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-                if !text.isEmpty { result.blocks.append(.paragraph(text)) }
-            case "image_description", "image":
-                if !sawMarker { result.blocks.append(.pageMarker(currentPage)); sawMarker = true }
-                let d = (sec["description"] as? String ?? sec["text"] as? String ?? "")
-                    .trimmingCharacters(in: .whitespacesAndNewlines)
-                if !d.isEmpty { result.blocks.append(.imageDescription(page: currentPage, text: d)) }
+                let runs = parseRuns(section)
+                if !runsText(runs).isEmpty { blocks.append(.paragraph(runs: runs)) }
+            case "list_item":
+                let level = clamp(intValue(section["level"], fallback: 0), 0, 8)
+                let ordered = section["ordered"] as? Bool ?? false
+                let runs = parseRuns(section)
+                if !runsText(runs).isEmpty {
+                    blocks.append(.listItem(level: level, ordered: ordered, runs: runs))
+                }
             case "table":
-                if !sawMarker { result.blocks.append(.pageMarker(currentPage)); sawMarker = true }
-                let caption = (sec["caption"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines)
-                let rowHeader = (sec["row_header"] as? Bool) ?? false
-                let cells = parseCells(sec["cells"])
+                let cells = normalizedCells(section["cells"])
                 if !cells.isEmpty {
-                    result.blocks.append(.table(caption: (caption?.isEmpty == false) ? caption : nil,
-                                                cells: cells, rowHeader: rowHeader))
+                    let caption = clean(section["caption"] as? String)
+                    let rowHeader = section["row_header"] as? Bool ?? false
+                    blocks.append(.table(caption: caption, cells: cells, rowHeader: rowHeader))
                 }
+            case "image_description":
+                let text = clean(section["description"] as? String)
+                    ?? clean(section["text"] as? String)
+                if let text { blocks.append(.imageDescription(page: page, text: text)) }
             default:
-                let text = (sec["text"] as? String ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-                if !text.isEmpty { result.blocks.append(.paragraph(text)) }
+                continue
             }
+        }
+        return blocks
+    }
+
+    private static func parseRuns(_ section: [String: Any]) -> [DocTextRun] {
+        if let rawRuns = section["runs"] as? [[String: Any]] {
+            let runs = rawRuns.compactMap { raw -> DocTextRun? in
+                guard let text = clean(raw["text"] as? String) else { return nil }
+                let direction = DocTextRun.Direction(rawValue: raw["direction"] as? String ?? "auto") ?? .auto
+                return DocTextRun(
+                    text: text,
+                    bold: raw["bold"] as? Bool ?? false,
+                    italic: raw["italic"] as? Bool ?? false,
+                    underline: raw["underline"] as? Bool ?? false,
+                    strike: raw["strike"] as? Bool ?? false,
+                    highlight: raw["highlight"] as? Bool ?? false,
+                    superscript: raw["superscript"] as? Bool ?? false,
+                    isSubscript: raw["subscript"] as? Bool ?? false,
+                    fontSizePoints: (raw["font_size_pt"] as? NSNumber)?.doubleValue,
+                    colorHex: clean(raw["color_hex"] as? String),
+                    url: clean(raw["url"] as? String),
+                    direction: direction)
+            }
+            if !runs.isEmpty { return runs }
+        }
+        if let text = clean(section["text"] as? String) { return [DocTextRun(text: text)] }
+        return []
+    }
+
+    private static func normalizedCells(_ raw: Any?) -> [[String]] {
+        guard let rows = raw as? [[Any]], !rows.isEmpty, rows.count <= 500 else { return [] }
+        var converted = rows.map { row in
+            row.map { value -> String in
+                if let string = value as? String { return string }
+                if let number = value as? NSNumber { return number.stringValue }
+                return ""
+            }
+        }
+        let width = converted.map(\.count).max() ?? 0
+        guard width > 0, width <= 50, width * converted.count <= 5_000 else { return [] }
+        for index in converted.indices {
+            if converted[index].count < width {
+                converted[index].append(contentsOf: repeatElement("", count: width - converted[index].count))
+            } else if converted[index].count > width {
+                converted[index] = Array(converted[index].prefix(width))
+            }
+        }
+        return converted
+    }
+
+    // MARK: - Retry, rotation, and helpers
+
+    private static func isTransient(_ error: Error) -> Bool {
+        switch error {
+        case GeminiError.network:
+            return true
+        case let GeminiError.http(status, _):
+            return status == 408 || status == 429 || (500...599).contains(status)
+        default:
+            return false
         }
     }
 
-    // MARK: - Transcript validation engine (university-agnostic)
-
-    /// Deterministic cross-check for academic-transcript tables of ANY
-    /// university / grading system. It does NOT assume a fixed scale:
-    /// instead it LEARNS the document's own scale (grade → points-per-hour)
-    /// from the rows that are internally consistent, then fixes the rows
-    /// whose printed grade contradicts that learned scale. Because the
-    /// numeric columns (hours, points) are far less ambiguous to read than a
-    /// single grade glyph, a row whose points ÷ hours lands on a learned
-    /// value but whose printed grade differs almost certainly has a misread
-    /// grade — so we correct the GRADE only. Numbers are never altered, and
-    /// the table must expose grade + hours + points columns, so receipts,
-    /// invoices, and other documents are never touched.
-    @discardableResult
-    static func validateGrades(_ blocks: inout [DocBlock]) -> Int {
-        // Pass 1 — learn grade → value from this document's own rows.
-        // value = points / hours, keyed by the grade text the doc uses.
-        var samples: [String: [Double]] = [:]
-        forEachGradeRow(blocks) { grade, ratio in
-            samples[grade, default: []].append((ratio * 100).rounded() / 100)
-        }
-        guard !samples.isEmpty else { return 0 }
-
-        // The representative value for a grade = the most common ratio,
-        // and we only trust a grade backed by at least two consistent rows.
-        var gradeToValue: [String: Double] = [:]
-        for (grade, ratios) in samples {
-            let counts = Dictionary(ratios.map { ($0, 1) }, uniquingKeysWith: +)
-            if let (value, n) = counts.max(by: { $0.value < $1.value }), n >= 2 {
-                gradeToValue[grade] = value
-            }
-        }
-        // Invert to value → grade, dropping any value claimed by two grades.
-        var valueToGrade: [Int: String] = [:]
-        var ambiguous = Set<Int>()
-        for (grade, value) in gradeToValue {
-            let key = Int((value * 100).rounded())
-            if let existing = valueToGrade[key], existing != grade { ambiguous.insert(key) }
-            else { valueToGrade[key] = grade }
-        }
-        for k in ambiguous { valueToGrade[k] = nil }
-        guard !valueToGrade.isEmpty else { return 0 }
-
-        // Pass 2 — correct rows whose printed grade contradicts the learned
-        // scale (numbers are clean, grade glyph was misread).
-        var corrections = 0
-        for i in blocks.indices {
-            guard case let .table(caption, cells, rowHeader) = blocks[i],
-                  let header = cells.first, cells.count > 1,
-                  let gc = header.firstIndex(where: isGradeHeader),
-                  let hc = header.firstIndex(where: isHoursHeader),
-                  let pc = header.firstIndex(where: isPointsHeader) else { continue }
-            var newCells = cells
-            var changed = false
-            for r in 1..<newCells.count {
-                let row = newCells[r]
-                guard gc < row.count, hc < row.count, pc < row.count,
-                      looksLikeGrade(row[gc]),
-                      let hours = number(row[hc]), hours >= 1, hours <= 12,
-                      let points = number(row[pc]), points > 0 else { continue }
-                let key = Int(((points / hours) * 100).rounded())
-                guard let learned = valueToGrade[key] else { continue }
-                if normalizedGrade(row[gc]) != normalizedGrade(learned) {
-                    newCells[r][gc] = learned
-                    changed = true
-                    corrections += 1
-                }
-            }
-            if changed {
-                blocks[i] = .table(caption: caption, cells: newCells, rowHeader: rowHeader)
-            }
-        }
-        return corrections
+    private static func isCancellation(_ error: Error) -> Bool {
+        if error is CancellationError { return true }
+        if case GeminiError.cancelled = error { return true }
+        return false
     }
 
-    /// Visit every (grade, points/hours) sample across transcript-shaped
-    /// tables — used to learn the document's own grading scale.
-    private static func forEachGradeRow(_ blocks: [DocBlock],
-                                        _ body: (_ grade: String, _ ratio: Double) -> Void) {
+    private static func cancellableDelay(nanoseconds: UInt64) async throws {
+        try Task.checkCancellation()
+        do { try await Task.sleep(nanoseconds: nanoseconds) }
+        catch { throw GeminiError.cancelled }
+    }
+
+    /// Removes only accidental immediate duplicates. A global Set is unsafe
+    /// because legitimate documents often repeat headings, disclaimers, or
+    /// table rows on the same page.
+    private static func collapseAdjacentDuplicates(_ blocks: [DocBlock]) -> [DocBlock] {
+        var output: [DocBlock] = []
         for block in blocks {
-            guard case let .table(_, cells, _) = block,
-                  let header = cells.first, cells.count > 1,
-                  let gc = header.firstIndex(where: isGradeHeader),
-                  let hc = header.firstIndex(where: isHoursHeader),
-                  let pc = header.firstIndex(where: isPointsHeader) else { continue }
-            for row in cells.dropFirst() {
-                guard gc < row.count, hc < row.count, pc < row.count,
-                      looksLikeGrade(row[gc]),
-                      let hours = number(row[hc]), hours >= 1, hours <= 12,
-                      let points = number(row[pc]), points > 0 else { continue }
-                body(normalizedGrade(row[gc]), points / hours)
+            let fingerprint = normalized(blockText(block))
+            let previous = output.last.map { normalized(blockText($0)) }
+            if !fingerprint.isEmpty, fingerprint == previous { continue }
+            output.append(block)
+        }
+        return output
+    }
+
+    private static func tokenSet(_ text: String) -> Set<String> {
+        Set(text.lowercased()
+            .components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .filter { $0.count >= 2 })
+    }
+
+    private static func criticalTokens(in text: String) -> [String] {
+        let pattern = #"https?://[^\s<>]+|[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}|\+?\d[\d\s.,:/\-]{2,}\d|[A-Za-z]+[A-Za-z0-9._/\-]*\d[A-Za-z0-9._/\-]*"#
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
+        let range = NSRange(text.startIndex..<text.endIndex, in: text)
+        return regex.matches(in: text, range: range).compactMap { match in
+            guard let swiftRange = Range(match.range, in: text) else { return nil }
+            return text[swiftRange]
+                .trimmingCharacters(in: CharacterSet(charactersIn: ".،؛;:!?؟)]}"))
+                .replacingOccurrences(of: " ", with: "")
+                .lowercased()
+        }
+    }
+
+    private static func normalized(_ text: String) -> String {
+        text.lowercased()
+            .components(separatedBy: .whitespacesAndNewlines)
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
+    }
+
+    private static func paragraphs(from text: String) -> [String] {
+        text.components(separatedBy: "\n")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+    }
+
+    private static func conversionError(_ code: Int, ar: String, en: String) -> NSError {
+        NSError(domain: "BasirConvert", code: code,
+                userInfo: [NSLocalizedDescriptionKey: L10n.t(ar, en)])
+    }
+
+    private static func clean(_ value: String?) -> String? {
+        guard let value else { return nil }
+        let clean = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        return clean.isEmpty ? nil : clean
+    }
+
+    private static func intValue(_ value: Any?, fallback: Int) -> Int {
+        if let number = value as? NSNumber { return number.intValue }
+        if let string = value as? String, let number = Int(string) { return number }
+        return fallback
+    }
+
+    private static func clamp(_ value: Int, _ lower: Int, _ upper: Int) -> Int {
+        min(max(value, lower), upper)
+    }
+
+    private static func runsText(_ runs: [DocTextRun]) -> String {
+        runs.map(\.text).joined()
+    }
+
+    private static func blockText(_ block: DocBlock) -> String {
+        switch block {
+        case .pageMarker(let page): return "Page \(page)"
+        case .pageBreak: return ""
+        case .heading(_, let runs), .paragraph(let runs), .listItem(_, _, let runs):
+            return runsText(runs)
+        case .imageDescription(_, let text): return text
+        case .pageImage(_, _, let altText): return altText
+        case .table(let caption, let cells, _):
+            return ([caption].compactMap { $0 } + cells.flatMap { $0 }).joined(separator: " ")
+        }
+    }
+
+    private static func firstHeading(in blocks: [DocBlock]) -> String? {
+        for block in blocks {
+            if case let .heading(level, runs) = block, level == 1 {
+                let text = runsText(runs).trimmingCharacters(in: .whitespacesAndNewlines)
+                if !text.isEmpty { return text }
             }
         }
+        return nil
     }
 
-    private static func isGradeHeader(_ s: String) -> Bool {
-        let t = s.lowercased()
-        return s.contains("تقدير") || t.contains("grade")
-    }
-    private static func isHoursHeader(_ s: String) -> Bool {
-        let t = s.trimmingCharacters(in: .whitespaces)
-        let l = t.lowercased()
-        return t == "س" || t.contains("ساع") || t.contains("وحدات")
-            || l.contains("hour") || l.contains("credit") || l == "ch"
-    }
-    private static func isPointsHeader(_ s: String) -> Bool {
-        let l = s.lowercased()
-        return s.contains("نقاط") || s.contains("نقطة") || l.contains("point")
-    }
-    /// A grade cell is a short token of grade letters (Arabic أبجده or Latin A–F)
-    /// possibly with a +/-; never a long word or a number.
-    private static func looksLikeGrade(_ s: String) -> Bool {
-        let t = s.trimmingCharacters(in: .whitespaces)
-        guard !t.isEmpty, t.count <= 3, number(t) == nil else { return false }
-        return t.contains(where: { "أابجدهـ".contains($0) })
-            || t.uppercased().contains(where: { "ABCDF".contains($0) })
-    }
-    private static func normalizedGrade(_ s: String) -> String {
-        s.replacingOccurrences(of: " ", with: "")
-    }
-    /// Parse a number, tolerating Arabic-Indic digits and stray characters.
-    private static func number(_ s: String) -> Double? {
-        let map: [Character: Character] = [
-            "٠":"0","١":"1","٢":"2","٣":"3","٤":"4",
-            "٥":"5","٦":"6","٧":"7","٨":"8","٩":"9","٫":".",
-        ]
-        var out = ""
-        for ch in s {
-            if let m = map[ch] { out.append(m) }
-            else if ch.isNumber || ch == "." { out.append(ch) }
-        }
-        return Double(out)
-    }
+    // MARK: - Screen-reader display and DOCX export
 
-    /// First integer found in a string like "Page 3" → 3.
-    private static func firstInt(_ s: String?) -> Int? {
-        guard let s else { return nil }
-        let digits = s.drop { !$0.isNumber }.prefix { $0.isNumber }
-        return Int(digits)
-    }
-
-    private static func parseCells(_ raw: Any?) -> [[String]] {
-        guard let rows = raw as? [[Any]] else { return [] }
-        return rows.map { row in
-            row.map { cell in
-                if let s = cell as? String { return s }
-                if let n = cell as? NSNumber { return n.stringValue }
-                return String(describing: cell)
-            }
-        }
-    }
-
-    // MARK: - Rendering
-
-    /// A clean, screen-reader-friendly plain-text rendering of the blocks
-    /// for on-screen display, Copy, and Share. Tables become aligned rows
-    /// ("Header: value" per cell) so they read sensibly aloud.
     static func displayText(_ result: Result) -> String {
-        var out = ""
+        var lines: [String] = []
         for block in result.blocks {
             switch block {
-            case .pageMarker(let n):
-                out += "\n" + L10n.t("صفحة \(n)", "Page \(n)") + "\n"
-            case .heading(_, let text):
-                out += "\n" + text + "\n"
-            case .paragraph(let text):
-                out += text + "\n\n"
+            case .pageMarker(let page):
+                lines.append(L10n.t("صفحة \(page)", "Page \(page)"))
+            case .pageBreak:
+                continue
+            case .heading(_, let runs):
+                lines.append(runsText(runs))
+            case .paragraph(let runs):
+                lines.append(runsText(runs))
+            case .listItem(let level, let ordered, let runs):
+                let indentation = String(repeating: "  ", count: max(0, level))
+                let prefix = ordered ? "1." : "•"
+                lines.append("\(indentation)\(prefix) \(runsText(runs))")
             case .imageDescription(let page, let text):
-                out += L10n.t("وصف الصورة (صفحة \(page)): ",
-                              "Image description (Page \(page)): ") + text + "\n\n"
+                lines.append(L10n.t("وصف صورة في الصفحة \(page): \(text)",
+                                    "Image description on page \(page): \(text)"))
+            case .pageImage(let page, _, let altText):
+                lines.append(L10n.t("صورة محفوظة للصفحة \(page): \(altText)",
+                                    "Preserved image for page \(page): \(altText)"))
             case .table(let caption, let cells, _):
-                if let caption { out += caption + "\n" }
-                out += renderTableText(cells) + "\n\n"
+                if let caption { lines.append(caption) }
+                lines.append(renderTableText(cells))
             }
         }
-        return out.trimmingCharacters(in: .whitespacesAndNewlines)
+        lines.append(L10n.t(result.diagnostics.summaryArabic,
+                            result.diagnostics.summaryEnglish))
+        return lines.joined(separator: "\n\n")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    /// Read a table row-by-row with each value labelled by its column
-    /// header — far clearer with a screen reader than a raw grid.
     private static func renderTableText(_ cells: [[String]]) -> String {
         guard let header = cells.first else { return "" }
         if cells.count == 1 { return header.joined(separator: " | ") }
-        var lines: [String] = []
-        for (idx, row) in cells.dropFirst().enumerated() {
-            var parts: [String] = []
-            for (c, value) in row.enumerated() {
-                let label = c < header.count ? header[c] : ""
-                if value.isEmpty { continue }
-                parts.append(label.isEmpty ? value : "\(label): \(value)")
+        return cells.dropFirst().enumerated().map { rowIndex, row in
+            let parts = row.enumerated().compactMap { column, value -> String? in
+                guard !value.isEmpty else { return nil }
+                let label = column < header.count ? header[column] : ""
+                return label.isEmpty ? value : "\(label): \(value)"
             }
-            lines.append(L10n.t("صف \(idx + 1): ", "Row \(idx + 1): ")
-                         + parts.joined(separator: "، "))
-        }
-        return lines.joined(separator: "\n")
+            return L10n.t("صف \(rowIndex + 1): ", "Row \(rowIndex + 1): ")
+                + parts.joined(separator: "، ")
+        }.joined(separator: "\n")
     }
 
-    /// Build a Word (.docx) file with REAL tables from the blocks.
     static func buildDocx(_ result: Result, rtl: Bool, to url: URL) throws {
         var writer = DocxWriter(rtl: rtl)
         for block in result.blocks {
             switch block {
-            case .pageMarker(let n):
-                writer.append(.heading(level: 3, text: L10n.t("صفحة \(n)", "Page \(n)")))
-            case .heading(let level, let text):
-                writer.append(.heading(level: level, text: text))
-            case .paragraph(let text):
-                writer.append(.paragraph(text: text))
+            case .pageMarker(let page):
+                writer.append(.paragraph(
+                    runs: [DocxWriter.Run(text: L10n.t("صفحة \(page)", "Page \(page)"),
+                                          bold: true)]))
+            case .pageBreak:
+                writer.append(.pageBreak)
+            case .heading(let level, let runs):
+                writer.append(.heading(level: level, runs: runs.map(DocxWriter.Run.init)))
+            case .paragraph(let runs):
+                writer.append(.paragraph(runs: runs.map(DocxWriter.Run.init)))
+            case .listItem(let level, let ordered, let runs):
+                writer.append(.listItem(level: level,
+                                        ordered: ordered,
+                                        runs: runs.map(DocxWriter.Run.init)))
             case .imageDescription(let page, let text):
-                writer.append(.paragraph(text:
-                    L10n.t("وصف الصورة (صفحة \(page)): ",
-                           "Image description (Page \(page)): ") + text))
-            case .table(let caption, let cells, _):
-                if let caption { writer.append(.paragraph(text: caption)) }
-                writer.append(.table(rows: cells))
+                writer.append(.paragraph(runs: [DocxWriter.Run(text: L10n.t(
+                    "وصف صورة في الصفحة \(page): \(text)",
+                    "Image description on page \(page): \(text)"))]))
+            case .pageImage(_, let data, let altText):
+                writer.append(.image(data: data, mimeType: "image/jpeg", altText: altText))
+            case .table(let caption, let cells, let rowHeader):
+                if let caption {
+                    writer.append(.paragraph(runs: [DocxWriter.Run(text: caption, bold: true)]))
+                }
+                writer.append(.table(rows: cells, rowHeader: rowHeader))
             }
         }
+        writer.append(.paragraph(runs: [DocxWriter.Run(
+            text: L10n.t(result.diagnostics.summaryArabic,
+                         result.diagnostics.summaryEnglish),
+            italic: true)]))
         try writer.write(to: url)
+    }
+}
+
+private extension DocxWriter.Run {
+    init(_ run: DocTextRun) {
+        self.init(text: run.text,
+                  bold: run.bold,
+                  italic: run.italic,
+                  underline: run.underline,
+                  strike: run.strike,
+                  highlight: run.highlight,
+                  superscript: run.superscript,
+                  isSubscript: run.isSubscript,
+                  fontSizePoints: run.fontSizePoints,
+                  colorHex: run.colorHex,
+                  url: run.url,
+                  direction: DocxWriter.Run.Direction(rawValue: run.direction.rawValue) ?? .auto)
     }
 }

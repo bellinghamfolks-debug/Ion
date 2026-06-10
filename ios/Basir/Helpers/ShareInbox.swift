@@ -1,10 +1,6 @@
 // ShareInbox.swift
-// Receives content handed off by the Share Extension (BasirShare).
-//
-// The extension writes the shared file into the App Group container
-// "group.com.basir.shared" and opens basir://share/<task>?file=<name>.
-// BasirApp forwards that URL here; we read the file back out of the
-// shared container and publish it so ContentView can present it.
+// Receives files handed off by the Share Extension without loading an
+// arbitrary PDF or image into memory merely to present the hand-off UI.
 
 import SwiftUI
 
@@ -13,37 +9,66 @@ final class ShareInbox: ObservableObject {
     static let shared = ShareInbox()
     private init() {}
 
-    /// Must match the group in Basir.entitlements / BasirShare.entitlements
-    /// and the identifier used in ShareViewController.persistAndOpen.
     static let appGroup = "group.com.basir.shared"
+    private static let allowedExtensions: Set<String> = [
+        "jpg", "jpeg", "png", "heic", "heif", "gif", "bmp", "tif", "tiff", "webp", "pdf", "txt"
+    ]
+    private static let maximumSharedFileBytes: Int64 = 256 * 1_024 * 1_024
 
     struct Incoming: Identifiable, Equatable {
         let id = UUID()
-        let task: String          // "describe_image" | "convert" | "ask"
-        let data: Data
+        let task: String
+        let fileURL: URL
         let fileExtension: String
     }
 
     @Published var pending: Incoming?
 
-    /// Parse basir://share/<task>?file=<name> and load the shared file
-    /// out of the App Group container. No-op for any other URL.
     func handle(_ url: URL) {
         guard url.scheme == "basir", url.host == "share" else { return }
+        purgeStaleFiles()
 
         let task = url.lastPathComponent.isEmpty ? "ask" : url.lastPathComponent
-        guard
-            let comps = URLComponents(url: url, resolvingAgainstBaseURL: false),
-            let name = comps.queryItems?.first(where: { $0.name == "file" })?.value,
-            let container = FileManager.default.containerURL(
-                forSecurityApplicationGroupIdentifier: Self.appGroup),
-            let data = try? Data(contentsOf: container.appendingPathComponent(name))
+        guard ["describe_image", "convert", "ask"].contains(task),
+              let comps = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let suppliedName = comps.queryItems?.first(where: { $0.name == "file" })?.value,
+              !suppliedName.isEmpty,
+              (suppliedName as NSString).lastPathComponent == suppliedName,
+              suppliedName.hasPrefix("share-"),
+              let container = FileManager.default.containerURL(
+                forSecurityApplicationGroupIdentifier: Self.appGroup)
         else { return }
 
-        pending = Incoming(
-            task: task,
-            data: data,
-            fileExtension: (name as NSString).pathExtension.lowercased()
-        )
+        let fileURL = container.appendingPathComponent(suppliedName, isDirectory: false)
+        let ext = fileURL.pathExtension.lowercased()
+        guard Self.allowedExtensions.contains(ext),
+              FileManager.default.fileExists(atPath: fileURL.path),
+              let values = try? fileURL.resourceValues(forKeys: [.fileSizeKey]),
+              Int64(values.fileSize ?? 0) <= Self.maximumSharedFileBytes else {
+            return
+        }
+
+        pending = Incoming(task: task, fileURL: fileURL, fileExtension: ext)
+    }
+
+    func clear(_ incoming: Incoming, deleteFile: Bool = true) {
+        guard pending?.id == incoming.id else { return }
+        pending = nil
+        if deleteFile { try? FileManager.default.removeItem(at: incoming.fileURL) }
+    }
+
+    private func purgeStaleFiles() {
+        guard let container = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: Self.appGroup),
+              let files = try? FileManager.default.contentsOfDirectory(
+                at: container,
+                includingPropertiesForKeys: [.contentModificationDateKey],
+                options: [.skipsHiddenFiles]) else { return }
+        let cutoff = Date().addingTimeInterval(-24 * 60 * 60)
+        for file in files where file.lastPathComponent.hasPrefix("share-") {
+            let modified = (try? file.resourceValues(
+                forKeys: [.contentModificationDateKey]).contentModificationDate) ?? .distantPast
+            if modified < cutoff { try? FileManager.default.removeItem(at: file) }
+        }
     }
 }

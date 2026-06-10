@@ -1,8 +1,3 @@
-// DescribeImageView.swift
-// Reusable image task screen for: detailed description, alt text,
-// screenshot reading, currency/receipt reading. The four modes share
-// the same picker + Gemini round-trip; only the prompt differs.
-
 import SwiftUI
 import PhotosUI
 import UniformTypeIdentifiers
@@ -13,49 +8,67 @@ enum DescribeImageMode {
 
     var title: String {
         switch self {
-        case .detailed:           return L10n.t("وصف الصورة", "Image description")
-        case .altText:            return L10n.t("إنشاء وصف بديل", "Create alt text")
-        case .screenshot:         return L10n.t("قراءة لقطة شاشة", "Read a screenshot")
-        case .currencyOrReceipt:  return L10n.t("قارئ العملات والفواتير",
-                                                 "Currency and receipt reader")
-        case .medical:            return L10n.t("قراءة مستند طبي", "Read a medical document")
-        case .legal:              return L10n.t("قراءة مستند قانوني", "Read a legal document")
-        case .table:              return L10n.t("تحويل جدول إلى نص", "Turn a table into text")
+        case .detailed: return L10n.t("وصف الصورة", "Image description")
+        case .altText: return L10n.t("الوصف البديل", "Alt text")
+        case .screenshot: return L10n.t("قراءة لقطة شاشة", "Read a screenshot")
+        case .currencyOrReceipt: return L10n.t("قراءة عملة أو فاتورة", "Read currency or receipt")
+        case .medical: return L10n.t("قراءة مستند طبي", "Read a medical document")
+        case .legal: return L10n.t("قراءة مستند قانوني", "Read a legal document")
+        case .table: return L10n.t("قراءة جدول", "Read a table")
+        }
+    }
+
+    var intro: String {
+        switch self {
+        case .detailed:
+            return L10n.t("التقط صورة واضحة قدر الإمكان. سيبدأ بصير بخلاصة ثم ينتقل إلى التفاصيل والنص الظاهر.",
+                          "Capture the clearest image you can. Basir starts with a summary, then moves to detail and visible text.")
+        case .altText:
+            return L10n.t("ينشئ بصير وصفًا بديلًا موجزًا ودقيقًا مناسبًا للنشر وقارئات الشاشة.",
+                          "Basir creates concise, accurate alt text suitable for publishing and screen readers.")
+        case .screenshot:
+            return L10n.t("اختر لقطة الشاشة كاملة لتبقى أسماء الأزرار والتنبيهات وموقعها في السياق.",
+                          "Choose the full screenshot so buttons, alerts, and their position remain in context.")
+        case .currencyOrReceipt:
+            return L10n.t("ضع العملة أو الفاتورة على سطح ثابت وصوّرها بإضاءة جيدة. راجع المبلغ قبل أي دفع أو تسليم.",
+                          "Place the banknote or receipt on a steady surface with good lighting. Verify the amount before paying or handing anything over.")
+        case .medical:
+            return L10n.t("سيقرأ بصير النص وينظمه، لكنه لا يشخّص حالة ولا يستبدل الطبيب أو الصيدلي.",
+                          "Basir reads and organizes the text, but does not diagnose or replace a doctor or pharmacist.")
+        case .legal:
+            return L10n.t("سيشرح النص ويستخرج النقاط المهمة، لكنه لا يقدم استشارة قانونية ولا يحسم الأثر النظامي.",
+                          "Basir explains the text and extracts key points, but does not provide legal advice or decide legal effect.")
+        case .table:
+            return L10n.t("اختر صورة واضحة للجدول أو أرفق الملف، وسيعرض كل صف مع عناوين أعمدته.",
+                          "Choose a clear table image or attach the file. Basir presents each row with its column headers.")
         }
     }
 
     var task: TaskKind {
         switch self {
-        case .detailed:           return .describeImage
-        case .altText:            return .altText
-        case .screenshot:         return .screenshot
-        case .currencyOrReceipt:  return .currencyOrReceipt
-        case .medical:            return .medicalText
-        case .legal:              return .legalText
-        case .table:              return .tableRead
+        case .detailed: return .describeImage
+        case .altText: return .altText
+        case .screenshot: return .screenshot
+        case .currencyOrReceipt: return .currencyOrReceipt
+        case .medical: return .medicalText
+        case .legal: return .legalText
+        case .table: return .tableRead
         }
     }
 
     var instruction: String {
+        GeminiPrompts.imageTaskInstruction(task, english: AppLanguage.current != .arabic)
+    }
+
+    var resultTitle: String {
         switch self {
-        case .detailed:
-            return "Provide a detailed description suitable for a blind user. Start with a one-sentence summary, then objects, layout, visible text, and any practical notes."
-        case .altText:
-            return "Write precise alt text for a blind user: objects, spatial relationships, colors, visible text, practical relevance."
-        case .screenshot:
-            return "Explain the screenshot for a screen-reader user: page, buttons, messages, errors, and the next useful step."
-        case .currencyOrReceipt:
-            return "You are Basir, an assistant for blind and low-vision users. The image contains either banknotes/coins OR a paid receipt/invoice. BANKNOTES/COINS: state the currency and denomination in the FIRST sentence. RECEIPTS/INVOICES: state the grand total and the currency in the FIRST sentence. Keep the answer under 80 words, plain prose, no markdown."
-        case .medical:
-            // Mirrors Android's medical-text prompt: READING ONLY, no diagnosis.
-            return "You are Basir, an assistant for blind and low-vision users. The image contains medical text (a prescription, drug leaflet, lab result, or doctor's note). FIRST: read the document type and the most important fact in one sentence (drug name + dose, or test name + value). THEN: list the other readable fields plainly: patient name if visible, date, dosage instructions, frequency, warnings, allergies, expiry. Render numbers and units exactly as printed. DO NOT diagnose, do NOT recommend treatment, do NOT suggest stopping or starting medication. End with: \"راجِع طبيبك أو الصيدلي قبل أي قرار.\" / \"Consult your doctor or pharmacist before any decision.\" No markdown."
-        case .legal:
-            // Mirrors Android's legal-text prompt: SUMMARIZING ONLY.
-            return "You are Basir, an assistant for blind and low-vision users. The image contains a legal document (contract, lease, agreement, terms, court paper, or official form). FIRST: state the document type and the parties in one sentence. THEN: bullet the key clauses in plain language: obligations, dates, monetary amounts, penalties, termination conditions, signatures. Quote any critical number or date verbatim. DO NOT give legal advice, do NOT predict outcomes, do NOT recommend signing or refusing. End with: \"راجِع محاميًا قبل التوقيع.\" / \"Consult a lawyer before signing.\" No markdown."
-        case .table:
-            // Faithful, complete Markdown-table extraction (no truncation).
-            return GeminiPrompts.tableExtractionInstruction(
-                english: AppLanguage.current != .arabic)
+        case .altText: return L10n.t("الوصف البديل المقترح", "Suggested alt text")
+        case .screenshot: return L10n.t("محتوى الشاشة", "Screen content")
+        case .currencyOrReceipt: return L10n.t("القراءة المحتملة", "Likely reading")
+        case .medical: return L10n.t("قراءة المستند الطبي", "Medical document reading")
+        case .legal: return L10n.t("قراءة المستند القانوني", "Legal document reading")
+        case .table: return L10n.t("محتوى الجدول", "Table content")
+        case .detailed: return L10n.t("وصف الصورة", "Image description")
         }
     }
 }
@@ -63,108 +76,94 @@ enum DescribeImageMode {
 struct DescribeImageView: View {
     let mode: DescribeImageMode
     @State private var pickerItem: PhotosPickerItem?
-    @State private var resultText: String = ""
+    @State private var resultText = ""
     @State private var isLoading = false
     @State private var errorMessage: String?
     @State private var showCamera = false
     @State private var showDocPicker = false
-    /// Last analyzed image (compressed), kept so "Ask about the result"
-    /// can re-examine it for follow-up questions.
     @State private var lastImageData: Data?
 
-    /// Reading modes where attaching a document (not just an image) makes
-    /// sense — matches Android's medical/legal/table document support.
-    /// Currency reading stays image-only by design.
     private var allowsDocument: Bool {
         mode == .medical || mode == .legal || mode == .table
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                // Capture a NEW photo with the camera — what blind users
-                // most often want. Hidden on devices/simulators without a
-                // camera.
-                if CameraPicker.isAvailable {
-                    Button {
-                        showCamera = true
-                    } label: {
-                        HStack {
-                            Image(systemName: "camera.fill")
-                            Text(L10n.t("التقاط صورة", "Take a photo"))
-                                .fontWeight(.semibold)
-                        }
-                        .frame(maxWidth: .infinity, minHeight: 56)
-                        .background(Color.accentColor)
-                        .foregroundStyle(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 14))
-                    }
-                }
+        BasirScreen {
+            BasirPageIntro(text: mode.intro, tone: introTone)
 
-                PhotosPicker(
-                    selection: $pickerItem,
-                    matching: .images,
-                    photoLibrary: .shared()
-                ) {
-                    HStack {
-                        Image(systemName: "photo.on.rectangle.angled")
-                        Text(L10n.t("اختيار صورة", "Choose a photo"))
-                            .fontWeight(.semibold)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 56)
-                    .background(CameraPicker.isAvailable
-                                ? Color(.secondarySystemBackground) : Color.accentColor)
-                    .foregroundStyle(CameraPicker.isAvailable ? Color.primary : .white)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
-                }
+            BasirSectionHeader(
+                title: L10n.t("إضافة المحتوى", "Add content"),
+                subtitle: L10n.t("اختر طريقة واحدة، وستبدأ المعالجة تلقائيًا.",
+                                 "Choose one method and processing starts automatically.")
+            )
 
-                if allowsDocument {
-                    Button {
-                        showDocPicker = true
-                    } label: {
-                        HStack {
-                            Image(systemName: "doc.badge.plus")
-                            Text(L10n.t("اختيار مستند",
-                                        "Choose document"))
-                                .fontWeight(.semibold)
-                        }
-                        .frame(maxWidth: .infinity, minHeight: 52)
-                        .background(Color(.secondarySystemBackground))
-                        .foregroundStyle(Color.primary)
-                        .clipShape(RoundedRectangle(cornerRadius: 14))
-                    }
+            if CameraPicker.isAvailable {
+                Button { showCamera = true } label: {
+                    Label(L10n.t("التقاط صورة الآن", "Take a photo now"), systemImage: "camera.fill")
                 }
-
-                if isLoading {
-                    HStack {
-                        ProgressView()
-                        Text(L10n.t("أحلّل المحتوى...",
-                                     "Analyzing content..."))
-                    }
-                }
-
-                if !resultText.isEmpty {
-                    Divider().padding(.vertical, 8)
-                    Text(L10n.t("النتيجة", "Result"))
-                        .font(.headline)
-                        .accessibilityAddTraits(.isHeader)
-                    SelectableText(text: resultText)
-                    CopyButton(text: resultText)
-                    AskAboutResultLink(text: resultText, imageData: lastImageData)
-                }
-
-                if let errorMessage {
-                    Text(errorMessage)
-                        .foregroundStyle(.red)
-                        .padding(12)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.red.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                }
+                .buttonStyle(BasirPrimaryButtonStyle())
+                .disabled(isLoading)
             }
-            .padding(20)
+
+            if CameraPicker.isAvailable {
+                PhotosPicker(selection: $pickerItem, matching: .images, photoLibrary: .shared()) {
+                    Label(L10n.t("اختيار صورة من المكتبة", "Choose from Photos"),
+                          systemImage: "photo.on.rectangle.angled")
+                }
+                .buttonStyle(BasirSecondaryButtonStyle())
+                .disabled(isLoading)
+            } else {
+                PhotosPicker(selection: $pickerItem, matching: .images, photoLibrary: .shared()) {
+                    Label(L10n.t("اختيار صورة من المكتبة", "Choose from Photos"),
+                          systemImage: "photo.on.rectangle.angled")
+                }
+                .buttonStyle(BasirPrimaryButtonStyle())
+                .disabled(isLoading)
+            }
+
+            if allowsDocument {
+                Button { showDocPicker = true } label: {
+                    Label(L10n.t("اختيار ملف من تطبيق الملفات", "Choose a file from Files"),
+                          systemImage: "doc.badge.plus")
+                }
+                .buttonStyle(BasirSecondaryButtonStyle(tone: .info))
+                .disabled(isLoading)
+            }
+
+            if isLoading {
+                BasirStatusBanner(
+                    text: L10n.t("جاري قراءة المحتوى. اترك هذه الشاشة مفتوحة حتى تظهر النتيجة.",
+                                 "Reading the content. Keep this screen open until the result appears."),
+                    tone: .info,
+                    title: L10n.t("جاري التحليل", "Analyzing")
+                )
+            }
+
+            if let errorMessage {
+                BasirStatusBanner(
+                    text: errorMessage,
+                    tone: .danger,
+                    title: L10n.t("تعذّرت القراءة", "Could not read the content")
+                )
+            }
+
+            if !resultText.isEmpty {
+                BasirResultCard(title: mode.resultTitle, text: resultText) {
+                    HStack(spacing: 4) {
+                        CopyButton(text: resultText)
+                        ShareLink(item: resultText) {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                        .buttonStyle(BasirIconButtonStyle())
+                        .accessibilityLabel(L10n.t("مشاركة النتيجة", "Share result"))
+                    }
+                }
+                AskAboutResultLink(text: resultText, imageData: lastImageData)
+                BasirStatusBanner(text: resultCaution, tone: .warning)
+            }
         }
         .navigationTitle(mode.title)
+        .navigationBarTitleDisplayMode(.inline)
         .onChange(of: pickerItem) { _, item in
             guard let item else { return }
             Task { await runDescribe(item: item) }
@@ -179,49 +178,79 @@ struct DescribeImageView: View {
         .sheet(isPresented: $showDocPicker) {
             DocumentPicker(types: DocumentText.importTypes) { url in
                 guard let url else { return }
-                // An image FILE from Files is best read as an image (the
-                // mode's vision prompt sees the real layout) — not flattened
-                // to OCR text first. Documents go through text extraction.
-                if DocumentText.isImage(url), let data = try? Data(contentsOf: url) {
-                    Task { await analyze(rawData: data) }
-                    return
-                }
                 Task {
+                    guard !isLoading else { return }
+                    if DocumentText.isImage(url) {
+                        let data = await Task.detached(priority: .userInitiated) {
+                            DocumentText.imageData(from: url)
+                        }.value
+                        guard let data else {
+                            errorMessage = L10n.t(
+                                "تعذّر تجهيز الصورة ضمن الحد الآمن.",
+                                "The image could not be prepared within the safe limit."
+                            )
+                            return
+                        }
+                        await analyze(rawData: data)
+                        return
+                    }
                     isLoading = true
-                    let text = await DocumentText.extractTextAsync(from: url)
-                    isLoading = false
-                    if let text, !text.isEmpty {
+                    errorMessage = nil
+                    defer { isLoading = false }
+                    do {
+                        let text = try await DocumentText.extractTextAsync(from: url)
                         await analyzeText(text)
-                    } else {
-                        errorMessage = L10n.t("لم أتمكن من استخراج نص قابل للقراءة من هذا الملف.",
-                                              "I couldn't extract readable text from this file.")
+                    } catch {
+                        errorMessage = UserFriendlyErrorMapper.map(error)
                     }
                 }
             }
         }
     }
 
-    /// Run the mode's reading prompt over extracted document text instead
-    /// of an image (medical / legal / table modes).
+    private var introTone: BasirTone {
+        switch mode {
+        case .currencyOrReceipt, .medical, .legal: return .warning
+        default: return .info
+        }
+    }
+
+    private var resultCaution: String {
+        switch mode {
+        case .currencyOrReceipt:
+            return L10n.t("تحقق من الفئة والمبلغ بطريقة أخرى قبل الدفع أو التسليم. لا يستطيع بصير إثبات أصالة العملة.",
+                          "Verify the denomination and amount another way before paying or handing it over. Basir cannot verify authenticity.")
+        case .medical:
+            return L10n.t("راجع الطبيب أو الصيدلي قبل اتخاذ قرار يتعلق بالعلاج أو الجرعة.",
+                          "Consult a doctor or pharmacist before making treatment or dosage decisions.")
+        case .legal:
+            return L10n.t("راجع مختصًا قانونيًا قبل اتخاذ إجراء أو الاعتماد على تفسير النص.",
+                          "Consult a legal professional before acting on or relying on the interpretation.")
+        default:
+            return BasirCopy.verifyImportantInformation
+        }
+    }
+
     private func analyzeText(_ text: String) async {
+        guard !isLoading else { return }
         isLoading = true
         errorMessage = nil
         resultText = ""
-        lastImageData = nil   // document path: no image to re-examine
+        lastImageData = nil
         ProcessingFeedback.start()
         defer { isLoading = false }
+
         do {
-            let response = try await AiProviderFactory.current().ask(
+            resultText = try await AiProviderFactory.current().ask(
                 task: mode.task,
-                input: String(text.prefix(12000)),
-                instruction: mode.instruction
-                    + " The content is provided below as text (not an image).",
+                input: String(text.prefix(12_000)),
+                instruction: mode.instruction + " The content is provided below as text, not as an image.",
                 language: BasirSettings.shared.language,
                 imageData: nil,
                 mimeType: nil
             )
-            resultText = response
             ProcessingFeedback.done()
+            UIAccessibility.post(notification: .announcement, argument: BasirCopy.resultReady)
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
             ProcessingFeedback.failed()
@@ -240,28 +269,21 @@ struct DescribeImageView: View {
     }
 
     private func analyze(rawData data: Data) async {
+        guard !isLoading else { return }
         isLoading = true
         errorMessage = nil
         resultText = ""
         ProcessingFeedback.start()
         defer { isLoading = false }
-        do {
-            // Same 1600-px JPEG-85 compression used by MathExtractView.
-            let compressed = UIImage(data: data).flatMap { img -> Data? in
-                let maxLongEdge: CGFloat = 1600
-                let longEdge = max(img.size.width, img.size.height)
-                guard longEdge > 0 else { return nil }
-                let scale = min(1.0, maxLongEdge / longEdge)
-                let newSize = CGSize(width: img.size.width * scale,
-                                     height: img.size.height * scale)
-                let renderer = UIGraphicsImageRenderer(size: newSize)
-                return renderer.image { _ in
-                    img.draw(in: CGRect(origin: .zero, size: newSize))
-                }.jpegData(compressionQuality: 0.85)
-            } ?? data
-            lastImageData = compressed
 
-            let response = try await AiProviderFactory.current().ask(
+        do {
+            guard let compressed = await Task.detached(priority: .userInitiated, operation: {
+                ImagePreprocessor.jpeg(from: data)
+            }).value else {
+                throw GeminiError.decode("image could not be prepared safely")
+            }
+            lastImageData = compressed
+            resultText = try await AiProviderFactory.current().ask(
                 task: mode.task,
                 input: "",
                 instruction: mode.instruction,
@@ -269,8 +291,8 @@ struct DescribeImageView: View {
                 imageData: compressed,
                 mimeType: "image/jpeg"
             )
-            resultText = response
             ProcessingFeedback.done()
+            UIAccessibility.post(notification: .announcement, argument: BasirCopy.resultReady)
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
             ProcessingFeedback.failed()

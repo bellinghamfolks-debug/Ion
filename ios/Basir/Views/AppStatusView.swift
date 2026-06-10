@@ -1,67 +1,46 @@
-// AppStatusView.swift
-// Mirrors Android showStatusScreen(): a plain, screen-reader-friendly
-// summary of version, connection mode, and Gemini configuration.
-
 import SwiftUI
 
 struct AppStatusView: View {
     @EnvironmentObject private var settings: BasirSettings
 
     private var version: String {
-        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—"
-        let b = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "—"
-        return "\(v) (\(b))"
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—"
+        let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "—"
+        return "\(version) (\(build))"
     }
 
     private var connectionMode: String {
-        // The current iOS release uses a direct connection to Gemini.
-        L10n.t("اتصال مباشر بخدمة Gemini", "Direct Gemini connection")
-    }
-
-    private var keyState: String {
-        settings.isConfigured
-            ? L10n.t("جاهز", "Ready")
-            : L10n.t("يحتاج إلى إعداد", "Setup needed")
+        settings.aiMode == "proxy"
+            ? L10n.t("خادم وسيط", "Proxy server")
+            : L10n.t("اتصال مباشر بـ Gemini", "Direct Gemini connection")
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 14) {
-                Text(L10n.t(
-                    "معلومات سريعة تساعدك على معرفة إعداد التطبيق وطريقة اتصاله على هذا الجهاز.",
-                    "A quick overview of the app setup and connection on this device."
-                ))
-                .font(.callout)
-                .foregroundStyle(.secondary)
+        BasirScreen {
+            BasirStatusBanner(
+                text: settings.isConfigured
+                    ? L10n.t("إعداد الاتصال مكتمل، ويمكن تشغيل ميزات الذكاء الاصطناعي.",
+                             "Connection setup is complete and AI features can run.")
+                    : L10n.t("إعداد الاتصال غير مكتمل. افتح الإعدادات وأضف مفتاح Gemini أو عنوان الخادم الوسيط.",
+                             "Connection setup is incomplete. Open Settings and add a Gemini key or proxy server address."),
+                tone: settings.isConfigured ? .success : .warning,
+                title: settings.isConfigured
+                    ? L10n.t("التطبيق جاهز", "App is ready")
+                    : L10n.t("يلزم إكمال الإعداد", "Setup required")
+            )
 
-                statusRow(L10n.t("التطبيق", "App"), "بصير — Basir")
-                statusRow(L10n.t("الإصدار", "Version"), version)
-                statusRow(L10n.t("طريقة الاتصال", "Connection method"), connectionMode)
-                statusRow(L10n.t("مفتاح Gemini", "Gemini API key"), keyState)
-                statusRow(L10n.t("اللغة", "Language"),
-                          settings.language == .arabic ? "العربية" : "English")
+            BasirInfoRow(label: L10n.t("التطبيق", "App"), value: "بصير · Basir", systemImage: "app.fill")
+            BasirInfoRow(label: L10n.t("الإصدار والبناء", "Version and build"), value: version, systemImage: "number")
+            BasirInfoRow(label: L10n.t("طريقة الاتصال", "Connection method"), value: connectionMode, systemImage: "network")
+            BasirInfoRow(label: L10n.t("اللغة", "Language"), value: settings.language.displayName, systemImage: "globe")
+            BasirInfoRow(label: L10n.t("وضع الخصوصية", "Privacy mode"), value: settings.privacyMode ? L10n.t("مفعّل", "On") : L10n.t("غير مفعّل", "Off"), systemImage: "hand.raised.fill")
+
+            NavigationLink { SettingsView() } label: {
+                Label(L10n.t("فتح الإعدادات", "Open Settings"), systemImage: "gearshape.fill")
             }
-            .padding(20)
+            .buttonStyle(BasirPrimaryButtonStyle())
         }
-        .navigationTitle(L10n.t("حالة التطبيق والاتصال", "App and connection status"))
-    }
-
-    @ViewBuilder
-    private func statusRow(_ label: String, _ value: String) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(label)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-            Text(value)
-                .font(.body.weight(.medium))
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(14)
-        .background(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(Color(.secondarySystemBackground))
-        )
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(label): \(value)")
+        .navigationTitle(L10n.t("حالة التطبيق", "App status"))
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

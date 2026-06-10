@@ -1,21 +1,3 @@
-// VoiceConversationView.swift
-// Continuous voice conversation. Equivalent to Android's
-// showVoiceConversationScreen + the TTS-recognizer ping-pong loop.
-//
-// State machine
-// ─────────────
-//   .idle           initial, "Tap Start" CTA visible
-//   .listening      microphone open, transcript building
-//   .thinking       sent transcript to Gemini, awaiting response
-//   .speaking       TTS playing the response
-//   then auto-loops back to .listening after a 0.6s grace period
-//
-// Stop conditions
-//   - User taps Stop → engine + recogniser both cancelled.
-//   - User leaves screen → onDisappear cancels.
-//   - Gemini errors → state goes to .error with friendly message;
-//     auto-loop pauses so user can read what went wrong.
-
 import SwiftUI
 import Combine
 
@@ -25,81 +7,70 @@ struct VoiceConversationView: View {
     @StateObject private var tts = SpeechSynthesizer.shared
     @StateObject private var asr = SpeechRecognizer.shared
     @State private var phase: Phase = .idle
-    @State private var transcript: String = ""
-    @State private var lastResponse: String = ""
+    @State private var transcript = ""
+    @State private var lastResponse = ""
     @State private var errorMessage: String?
     @State private var ttsSubscription: AnyCancellable?
-    @State private var loopActive: Bool = false
+    @State private var loopActive = false
+    @State private var isStarting = false
+    @State private var responseTask: Task<Void, Never>?
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            // Status indicator
-            HStack(spacing: 12) {
-                Circle()
-                    .fill(phaseColor)
-                    .frame(width: 16, height: 16)
-                    .scaleEffect(phase == .listening || phase == .speaking ? 1.4 : 1.0)
-                    .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true),
-                                value: phase)
-                Text(phaseLabel)
-                    .font(.title3.bold())
-                    .accessibilityAddTraits(.isHeader)
-            }
+        BasirScreen {
+            BasirPageIntro(
+                text: L10n.t(
+                    "اضغط بدء ثم تحدث بعد سماع إشارة الاستماع. بعد قراءة الإجابة سيفتح الميكروفون تلقائيًا للسؤال التالي.",
+                    "Tap Start, then speak when listening begins. After the answer is read aloud, the microphone opens automatically for your next question."
+                )
+            )
+
+            phaseCard
 
             if !transcript.isEmpty {
-                Text(L10n.t("سؤالك", "Your question"))
-                    .font(.subheadline.bold())
-                    .foregroundStyle(.secondary)
-                Text(transcript).textSelection(.enabled)
+                BasirInfoRow(label: L10n.t("آخر سؤال سُمع", "Last question heard"),
+                             value: transcript,
+                             systemImage: "quote.bubble.fill")
             }
 
             if !lastResponse.isEmpty {
-                Divider()
-                Text(L10n.t("الإجابة", "Answer"))
-                    .font(.subheadline.bold())
-                    .foregroundStyle(.secondary)
-                SelectableText(text: lastResponse)
+                BasirResultCard(title: L10n.t("آخر إجابة", "Last answer"), text: lastResponse) {
+                    CopyButton(text: lastResponse)
+                }
             }
 
             if let errorMessage {
-                Text(errorMessage)
-                    .foregroundStyle(.red)
-                    .padding(12)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.red.opacity(0.1))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                BasirStatusBanner(text: errorMessage, tone: .danger)
             }
-
-            Spacer()
 
             if loopActive {
-                Button(role: .destructive) {
-                    stopLoop()
-                } label: {
-                    Text(L10n.t("إنهاء المحادثة", "End conversation"))
-                        .fontWeight(.semibold)
-                        .frame(maxWidth: .infinity, minHeight: 56)
+                Button(role: .destructive) { stopLoop() } label: {
+                    Label(L10n.t("إنهاء المحادثة", "End conversation"),
+                          systemImage: "stop.circle.fill")
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(BasirPrimaryButtonStyle(tone: .danger))
             } else {
-                Button {
-                    Task { await startLoop() }
-                } label: {
-                    Text(L10n.t("بدء محادثة صوتية", "Start voice conversation"))
-                        .fontWeight(.semibold)
-                        .frame(maxWidth: .infinity, minHeight: 56)
+                Button { Task { await startLoop() } } label: {
+                    Label(L10n.t("بدء المحادثة الصوتية", "Start voice conversation"),
+                          systemImage: "waveform.and.mic")
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(BasirPrimaryButtonStyle())
+                .disabled(isStarting)
             }
+
+            BasirStatusBanner(
+                text: L10n.t(
+                    "يمكنك إنهاء المحادثة في أي وقت. لا يُحفظ التسجيل الصوتي داخل بصير؛ يتحول الكلام إلى نص لإرسال السؤال.",
+                    "You can end the conversation at any time. Basir does not save the audio recording; speech is converted to text for the question."
+                ),
+                tone: .neutral
+            )
         }
-        .padding(20)
         .navigationTitle(L10n.t("محادثة صوتية", "Voice conversation"))
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             ttsSubscription = tts.didFinish.sink { _ in
                 Task { @MainActor in
-                    // TTS just finished playback. If the loop is still
-                    // active, hand back to the microphone after a small
-                    // gap so the recogniser doesn't catch our own audio.
                     if loopActive {
                         try? await Task.sleep(nanoseconds: 600_000_000)
                         guard loopActive else { return }
@@ -108,39 +79,83 @@ struct VoiceConversationView: View {
                 }
             }
         }
-        .onDisappear {
-            stopLoop()
+        .onDisappear { stopLoop() }
+    }
+
+    private var phaseCard: some View {
+        HStack(spacing: 16) {
+            ZStack {
+                Circle().fill(phaseColor.opacity(0.14)).frame(width: 62, height: 62)
+                Image(systemName: phaseIcon)
+                    .font(.system(size: 26, weight: .semibold))
+                    .foregroundStyle(phaseColor)
+                    .scaleEffect(!reduceMotion && (phase == .listening || phase == .speaking) ? 1.12 : 1)
+                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.7).repeatForever(autoreverses: true), value: phase)
+            }
+            .accessibilityHidden(true)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(L10n.t("حالة المحادثة", "Conversation status"))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(phaseLabel)
+                    .font(.title3.bold())
+                    .foregroundStyle(phaseColor)
+                    .accessibilityAddTraits(.updatesFrequently)
+            }
+            Spacer()
         }
+        .basirCardSurface()
+        .accessibilityElement(children: .combine)
     }
 
     private var phaseColor: Color {
         switch phase {
-        case .idle:      return .gray
+        case .idle: return .secondary
         case .listening: return .green
-        case .thinking:  return .orange
-        case .speaking:  return .blue
-        case .error:     return .red
+        case .thinking: return .orange
+        case .speaking: return .blue
+        case .error: return .red
+        }
+    }
+
+    private var phaseIcon: String {
+        switch phase {
+        case .idle: return "mic.circle.fill"
+        case .listening: return "ear.fill"
+        case .thinking: return "ellipsis.bubble.fill"
+        case .speaking: return "speaker.wave.3.fill"
+        case .error: return "exclamationmark.triangle.fill"
         }
     }
 
     private var phaseLabel: String {
         switch phase {
-        case .idle:      return L10n.t("مستعد للاستماع", "Ready to listen")
-        case .listening: return L10n.t("أستمع الآن...", "Listening now...")
-        case .thinking:  return L10n.t("أجهّز الإجابة...", "Preparing your answer...")
-        case .speaking:  return L10n.t("أقرأ الإجابة...", "Reading the answer...")
-        case .error:     return L10n.t("تعذّر المتابعة", "Unable to continue")
+        case .idle: return L10n.t("جاهز للبدء", "Ready to start")
+        case .listening: return L10n.t("أستمع الآن", "Listening now")
+        case .thinking: return L10n.t("جاري إعداد الإجابة", "Preparing the answer")
+        case .speaking: return L10n.t("جاري قراءة الإجابة", "Reading the answer")
+        case .error: return L10n.t("توقفت المحادثة", "Conversation stopped")
         }
     }
 
-    // MARK: - Loop control
-
     private func startLoop() async {
+        guard !loopActive, !isStarting else { return }
+        guard BasirSettings.shared.speechEnabled else {
+            errorMessage = L10n.t(
+                "فعّل القراءة الصوتية من الإعدادات قبل بدء المحادثة الصوتية.",
+                "Enable spoken output in Settings before starting a voice conversation."
+            )
+            phase = .error
+            return
+        }
+        isStarting = true
+        defer { isStarting = false }
         let auth = await asr.requestAuthorization()
         guard auth == .granted else {
             errorMessage = L10n.t(
-                "فعّل إذنَي الميكروفون والتعرّف على الكلام من إعدادات iPhone لاستخدام المحادثة الصوتية.",
-                "Enable Microphone and Speech Recognition in iPhone Settings to use voice conversation."
+                "اسمح لبصير باستخدام الميكروفون والتعرّف على الكلام من إعدادات iPhone، ثم أعد المحاولة.",
+                "Allow Basir to use the microphone and Speech Recognition in iPhone Settings, then try again."
             )
             phase = .error
             return
@@ -154,6 +169,8 @@ struct VoiceConversationView: View {
         loopActive = false
         asr.stop()
         tts.stop()
+        responseTask?.cancel()
+        responseTask = nil
         phase = .idle
     }
 
@@ -162,18 +179,21 @@ struct VoiceConversationView: View {
         transcript = ""
         phase = .listening
         let ok = asr.startDictation(language: BasirSettings.shared.language) { final in
-            Task { await onTranscriptFinal(final) }
+            Task { @MainActor in
+                responseTask?.cancel()
+                responseTask = Task { await onTranscriptFinal(final) }
+            }
         }
         if !ok {
-            errorMessage = L10n.t(
-                "التعرّف على الكلام غير متاح على هذا الجهاز.",
-                "Speech recognition is not available on this device."
-            )
+            errorMessage = L10n.t("التعرّف على الكلام غير متاح على هذا الجهاز.",
+                                  "Speech recognition is not available on this device.")
             phase = .error
+            loopActive = false
         }
     }
 
     private func onTranscriptFinal(_ text: String) async {
+        guard loopActive, !Task.isCancelled else { return }
         let q = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !q.isEmpty else {
             if loopActive { startListening() }
@@ -184,20 +204,30 @@ struct VoiceConversationView: View {
 
         do {
             let response = try await AiProviderFactory.current().ask(
-                task: .ask,
+                task: .voiceConversation,
                 input: q,
-                instruction: "Answer as Basir, screen-reader friendly and practical. Keep replies under 80 words for voice readability.",
+                instruction: GeminiPrompts.voiceAnswerInstruction,
                 language: BasirSettings.shared.language,
                 imageData: nil,
                 mimeType: nil
             )
+            guard loopActive, !Task.isCancelled else { return }
             lastResponse = response
             phase = .speaking
-            tts.speak(response, utteranceId: "convo")
+            guard tts.speak(response, utteranceId: "convo") else {
+                errorMessage = L10n.t(
+                    "توقفت القراءة الصوتية من الإعدادات؛ أُنهِيت المحادثة بأمان.",
+                    "Spoken output was disabled in Settings, so the conversation ended safely."
+                )
+                phase = .error
+                loopActive = false
+                return
+            }
         } catch {
+            if Task.isCancelled || !loopActive { return }
             errorMessage = UserFriendlyErrorMapper.map(error)
             phase = .error
-            loopActive = false   // Pause the loop so the user can read it.
+            loopActive = false
         }
     }
 }

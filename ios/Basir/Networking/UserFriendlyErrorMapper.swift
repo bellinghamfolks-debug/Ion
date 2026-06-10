@@ -61,7 +61,30 @@ enum UserFriendlyErrorMapper {
                           "The request took too long. Check your connection and try again, or use a smaller file.")
         }
 
+        // --- File selection and local processing ---
+        if low.contains("unsupported file type") {
+            return L10n.t("نوع الملف غير مدعوم. استخدم PDF أو DOCX أو PPTX أو RTF أو TXT أو CSV أو صورة مدعومة.",
+                          "This file type is not supported. Use PDF, DOCX, PPTX, RTF, TXT, CSV, or a supported image.")
+        }
+        if low.contains("selected file is empty") || low.contains("file is empty") {
+            return L10n.t("الملف المحدد فارغ ولا يحتوي بيانات قابلة للمعالجة.",
+                          "The selected file is empty and contains no data to process.")
+        }
+
         // --- Model output problems ---
+        if low.contains("critical numbers") || low.contains("identifiers changed") {
+            return L10n.t("غيّرت الاستجابة رقمًا أو رابطًا أو معرّفًا مهمًا، لذلك لم يعرضها بصير. أعد المحاولة، أو قسّم المحتوى إلى جزء أصغر.",
+                          "The response changed an important number, link, or identifier, so Basir did not show it. Try again or use a smaller section.")
+        }
+        if low.contains("safe size limit") || low.contains("too large") || low.contains("exceeded the allowed size") {
+            return L10n.t("يتجاوز الملف أو الناتج الحد الآمن للمعالجة. استخدم ملفًا أصغر أو قسّمه إلى أجزاء.",
+                          "The file or result exceeds the safe processing limit. Use a smaller file or split it into sections.")
+        }
+        if low.contains("semantic validation") || low.contains("empty response")
+                || low.contains("internal instructions") {
+            return L10n.t("لم تكن النتيجة موثوقة بما يكفي لعرضها. أعد المحاولة بصورة أو محتوى أوضح.",
+                          "The result was not reliable enough to show. Try again with a clearer image or clearer content.")
+        }
         if low.contains("unterminated") || low.contains("malformed json") || low.contains("decode") {
             return L10n.t("وصلت استجابة غير مكتملة. جرّب مستوى جودة أعلى، أو أعد المحاولة بملف أصغر.",
                           "The response was incomplete. Try a higher quality level or use a smaller file.")

@@ -72,12 +72,20 @@ private struct SelectableTextViewRepresentable: UIViewRepresentable {
         tv.isSelectable = true
         tv.isScrollEnabled = false          // let SwiftUI's ScrollView scroll
         tv.backgroundColor = .clear
+        tv.textColor = .label
+        tv.tintColor = UIColor(BasirTheme.brand)
         tv.textContainerInset = .zero
         tv.textContainer.lineFragmentPadding = 0
         tv.textContainer.lineBreakMode = .byWordWrapping
         tv.adjustsFontForContentSizeCategory = true
         tv.font = UIFont.preferredFont(forTextStyle: .body)
-        tv.dataDetectorTypes = []
+        tv.dataDetectorTypes = [.link, .phoneNumber]
+        // Keep paragraph direction natural so Arabic, English, phone numbers,
+        // and links can coexist without the whole result being forced into one
+        // direction. The surrounding SwiftUI screen still follows the selected
+        // app language.
+        tv.semanticContentAttribute = .unspecified
+        tv.textAlignment = .natural
         // Allow the view to be compressed/expanded horizontally to the
         // width SwiftUI gives it; resist vertical compression so the full
         // (wrapped) height is shown.
@@ -89,6 +97,12 @@ private struct SelectableTextViewRepresentable: UIViewRepresentable {
 
     func updateUIView(_ tv: UITextView, context: Context) {
         if tv.text != text { tv.text = text }
+        // Keep paragraph direction natural so Arabic, English, phone numbers,
+        // and links can coexist without the whole result being forced into one
+        // direction. The surrounding SwiftUI screen still follows the selected
+        // app language.
+        tv.semanticContentAttribute = .unspecified
+        tv.textAlignment = .natural
     }
 
     /// Bound the width to SwiftUI's proposal so the text wraps and the

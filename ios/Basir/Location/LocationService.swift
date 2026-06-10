@@ -20,7 +20,10 @@ final class LocationService: NSObject, ObservableObject {
 
     private let manager = CLLocationManager()
     private var oneShotContinuation: CheckedContinuation<CLLocation?, Never>?
+    private var oneShotTimeoutTask: Task<Void, Never>?
+    private var locationRequestStartedAt: Date?
     private var authContinuation: CheckedContinuation<Void, Never>?
+    private var authTimeoutTask: Task<Void, Never>?
 
     override private init() {
         super.init()
@@ -34,41 +37,86 @@ final class LocationService: NSObject, ObservableObject {
     }
 
     /// Fetch one location reading, asking for permission first if needed.
-    /// Returns nil on denial or timeout.
+    /// Returns nil on denial, cancellation, or timeout. Every continuation
+    /// is resumed exactly once, including when Core Location never calls back.
     func fetchOnce(timeout: TimeInterval = 8) async -> CLLocation? {
+        let boundedTimeout = max(1, min(timeout, 30))
         if authorization == .undetermined {
-            // Wait for the user to actually answer the permission prompt.
-            // (A fixed short sleep raced the dialog and always failed the
-            // first time, so location "did nothing".)
-            await withCheckedContinuation { cont in
-                self.authContinuation = cont
-                manager.requestWhenInUseAuthorization()
-            }
+            await waitForAuthorization(timeout: max(15, boundedTimeout))
         }
-        guard authorization == .whenInUse || authorization == .always else {
+        guard !Task.isCancelled,
+              authorization == .whenInUse || authorization == .always else {
             return nil
         }
-        // Race the requestLocation callback against a timeout.
-        return await withTaskGroup(of: CLLocation?.self) { group in
-            group.addTask {
-                await withCheckedContinuation { [weak self] cont in
-                    Task { @MainActor [weak self] in
-                        guard let self else { cont.resume(returning: nil); return }
-                        self.oneShotContinuation = cont
-                        self.manager.requestLocation()
-                    }
+        return await requestOneLocation(timeout: boundedTimeout)
+    }
+
+    private func waitForAuthorization(timeout: TimeInterval) async {
+        // Only one permission waiter may exist. Resolve an older waiter rather
+        // than overwriting its checked continuation and leaking the task.
+        finishAuthorizationWait()
+        await withTaskCancellationHandler {
+            await withCheckedContinuation { continuation in
+                guard !Task.isCancelled else {
+                    continuation.resume()
+                    return
+                }
+                authContinuation = continuation
+                manager.requestWhenInUseAuthorization()
+                authTimeoutTask = Task { [weak self] in
+                    try? await Task.sleep(for: .seconds(timeout))
+                    guard !Task.isCancelled else { return }
+                    await MainActor.run { self?.finishAuthorizationWait() }
                 }
             }
-            group.addTask {
-                try? await Task.sleep(nanoseconds: UInt64(timeout * 1_000_000_000))
-                return nil
+        } onCancel: {
+            Task { @MainActor [weak self] in
+                self?.finishAuthorizationWait()
             }
-            for await result in group {
-                group.cancelAll()
-                return result
-            }
-            return nil
         }
+    }
+
+    private func requestOneLocation(timeout: TimeInterval) async -> CLLocation? {
+        // Avoid overwriting an in-flight continuation. A newer request wins,
+        // while the older caller receives nil immediately.
+        finishLocationRequest(with: nil)
+        return await withTaskCancellationHandler {
+            await withCheckedContinuation { continuation in
+                guard !Task.isCancelled else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                oneShotContinuation = continuation
+                locationRequestStartedAt = Date()
+                manager.requestLocation()
+                oneShotTimeoutTask = Task { [weak self] in
+                    try? await Task.sleep(for: .seconds(timeout))
+                    guard !Task.isCancelled else { return }
+                    await MainActor.run { self?.finishLocationRequest(with: nil) }
+                }
+            }
+        } onCancel: {
+            Task { @MainActor [weak self] in
+                self?.finishLocationRequest(with: nil)
+            }
+        }
+    }
+
+    private func finishAuthorizationWait() {
+        authTimeoutTask?.cancel()
+        authTimeoutTask = nil
+        guard let continuation = authContinuation else { return }
+        authContinuation = nil
+        continuation.resume()
+    }
+
+    private func finishLocationRequest(with location: CLLocation?) {
+        oneShotTimeoutTask?.cancel()
+        oneShotTimeoutTask = nil
+        locationRequestStartedAt = nil
+        guard let continuation = oneShotContinuation else { return }
+        oneShotContinuation = nil
+        continuation.resume(returning: location)
     }
 
     /// Format a coordinate as a Google Maps link (works on any
@@ -94,9 +142,8 @@ extension LocationService: CLLocationManagerDelegate {
         Task { @MainActor in
             self.updateAuthState()
             // Resume any fetchOnce() that was waiting for the prompt.
-            if self.authorization != .undetermined, let cont = self.authContinuation {
-                self.authContinuation = nil
-                cont.resume()
+            if self.authorization != .undetermined {
+                self.finishAuthorizationWait()
             }
         }
     }
@@ -105,9 +152,11 @@ extension LocationService: CLLocationManagerDelegate {
                                       didUpdateLocations locations: [CLLocation]) {
         Task { @MainActor in
             if let loc = locations.last {
+                // Ignore cached readings older than this request.
+                if let started = self.locationRequestStartedAt,
+                   loc.timestamp < started.addingTimeInterval(-1) { return }
                 self.lastKnownCoordinate = loc.coordinate
-                self.oneShotContinuation?.resume(returning: loc)
-                self.oneShotContinuation = nil
+                self.finishLocationRequest(with: loc)
             }
         }
     }
@@ -116,8 +165,7 @@ extension LocationService: CLLocationManagerDelegate {
                                       didFailWithError error: Error) {
         Task { @MainActor in
             self.lastError = error.localizedDescription
-            self.oneShotContinuation?.resume(returning: nil)
-            self.oneShotContinuation = nil
+            self.finishLocationRequest(with: nil)
         }
     }
 }

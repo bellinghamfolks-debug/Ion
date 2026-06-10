@@ -37,6 +37,15 @@ enum ZipError: Error, LocalizedError {
     case truncated
     case entryNotFound(String)
     case unsupportedMethod(UInt16)
+    case archiveTooLarge(Int64)
+    case entryTooLarge(String, UInt32)
+    case tooManyEntries(Int)
+    case expandedArchiveTooLarge(UInt64)
+    case suspiciousCompression(String)
+    case duplicateEntry(String)
+    case invalidEntryName
+    case directoryCountMismatch(expected: Int, actual: Int)
+    case decompressedSizeMismatch(expected: Int, actual: Int)
     case decompressFailed
 
     var errorDescription: String? {
@@ -45,12 +54,29 @@ enum ZipError: Error, LocalizedError {
         case .truncated:                return "ZIP file is truncated."
         case .entryNotFound(let name):  return "Entry not found: \(name)"
         case .unsupportedMethod(let m): return "Unsupported compression method: \(m)"
+        case .archiveTooLarge(let bytes): return "Archive is too large to process safely (\(bytes) bytes)."
+        case .entryTooLarge(let name, let bytes): return "Archive entry is too large: \(name) (\(bytes) bytes)."
+        case .tooManyEntries(let count): return "Archive contains too many entries (\(count))."
+        case .expandedArchiveTooLarge(let bytes): return "Expanded archive is too large to process safely (\(bytes) bytes)."
+        case .suspiciousCompression(let name): return "Archive entry has a suspicious compression ratio: \(name)."
+        case .duplicateEntry(let name): return "Archive contains a duplicate entry: \(name)."
+        case .invalidEntryName:         return "Archive contains an invalid entry name."
+        case .directoryCountMismatch(let expected, let actual):
+            return "Archive directory count mismatch (expected \(expected), found \(actual))."
+        case .decompressedSizeMismatch(let expected, let actual):
+            return "Decompressed size mismatch (expected \(expected), found \(actual))."
         case .decompressFailed:         return "Decompression failed."
         }
     }
 }
 
 struct ZipReader {
+
+    private static let maximumArchiveBytes: Int64 = 256 * 1_024 * 1_024
+    private static let maximumEntryBytes: UInt32 = 64 * 1_024 * 1_024
+    private static let maximumEntryCount = 20_000
+    private static let maximumExpandedBytes: UInt64 = 512 * 1_024 * 1_024
+    private static let maximumCompressionRatio: UInt64 = 500
 
     private let data: Data
     private let entries: [String: Entry]
@@ -63,11 +89,19 @@ struct ZipReader {
     }
 
     init(url: URL) throws {
-        let raw = try Data(contentsOf: url)
+        let values = try url.resourceValues(forKeys: [.fileSizeKey])
+        let byteCount = Int64(values.fileSize ?? 0)
+        guard byteCount <= Self.maximumArchiveBytes else {
+            throw ZipError.archiveTooLarge(byteCount)
+        }
+        let raw = try Data(contentsOf: url, options: [.mappedIfSafe])
         try self.init(data: raw)
     }
 
     init(data: Data) throws {
+        guard Int64(data.count) <= Self.maximumArchiveBytes else {
+            throw ZipError.archiveTooLarge(Int64(data.count))
+        }
         self.data = data
         self.entries = try Self.scanCentralDirectory(data)
     }
@@ -80,6 +114,9 @@ struct ZipReader {
     func read(_ name: String) throws -> Data {
         guard let entry = entries[name] else {
             throw ZipError.entryNotFound(name)
+        }
+        guard entry.uncompressedSize <= Self.maximumEntryBytes else {
+            throw ZipError.entryTooLarge(name, entry.uncompressedSize)
         }
         return try decompress(entry)
     }
@@ -94,7 +131,7 @@ struct ZipReader {
     private static let sigLFH:  UInt32 = 0x04034b50
 
     private static func scanCentralDirectory(_ data: Data) throws -> [String: Entry] {
-        guard data.count > 22 else { throw ZipError.truncated }
+        guard data.count >= 22 else { throw ZipError.truncated }
         // End-of-central-directory has a max comment size of 0xFFFF,
         // so it lives in the last 65557 bytes. Scan backwards for
         // the signature.
@@ -108,10 +145,23 @@ struct ZipReader {
         }
         guard let eocd = eocdOffset else { throw ZipError.notAZip }
 
+        guard eocd + 22 <= data.count else { throw ZipError.truncated }
+        let diskNumber = data.readUInt16LE(at: eocd + 4)
+        let directoryDisk = data.readUInt16LE(at: eocd + 6)
+        let entriesOnDisk = data.readUInt16LE(at: eocd + 8)
         let totalEntries = data.readUInt16LE(at: eocd + 10)
+        let commentLength = Int(data.readUInt16LE(at: eocd + 20))
+        guard diskNumber == 0, directoryDisk == 0, entriesOnDisk == totalEntries,
+              eocd + 22 + commentLength <= data.count else {
+            throw ZipError.truncated
+        }
+        guard Int(totalEntries) <= maximumEntryCount else {
+            throw ZipError.tooManyEntries(Int(totalEntries))
+        }
         let cdSize       = data.readUInt32LE(at: eocd + 12)
         let cdOffset     = Int(data.readUInt32LE(at: eocd + 16))
-        guard cdOffset + Int(cdSize) <= data.count else {
+        guard cdOffset >= 0, Int(cdSize) <= data.count - cdOffset,
+              cdOffset + Int(cdSize) <= eocd else {
             throw ZipError.truncated
         }
 
@@ -120,7 +170,16 @@ struct ZipReader {
 
         var p = cdOffset
         let cdEnd = cdOffset + Int(cdSize)
+        var declaredExpandedBytes: UInt64 = 0
+        var scannedRecords = 0
         while p < cdEnd {
+            scannedRecords += 1
+            guard scannedRecords <= maximumEntryCount else {
+                throw ZipError.tooManyEntries(scannedRecords)
+            }
+            guard p + 46 <= cdEnd, p + 46 <= data.count else {
+                throw ZipError.truncated
+            }
             guard data.readUInt32LE(at: p) == sigCDFH else {
                 throw ZipError.truncated
             }
@@ -134,19 +193,41 @@ struct ZipReader {
 
             let nameStart = p + 46
             let nameEnd = nameStart + nameLen
-            guard nameEnd <= data.count else { throw ZipError.truncated }
-            let name = String(data: data.subdata(in: nameStart..<nameEnd),
-                              encoding: .utf8) ?? ""
+            let recordEnd = nameEnd + extraLen + commentLen
+            guard nameEnd <= data.count, recordEnd <= cdEnd else {
+                throw ZipError.truncated
+            }
+            guard let name = String(data: data.subdata(in: nameStart..<nameEnd),
+                                    encoding: .utf8), !name.contains("\0") else {
+                throw ZipError.invalidEntryName
+            }
 
             // Directories end with "/" and have zero-byte content;
             // skip them to keep the map small.
             if !name.hasSuffix("/") && !name.isEmpty {
+                guard map[name] == nil else { throw ZipError.duplicateEntry(name) }
+                guard uncompressedSize <= maximumEntryBytes else {
+                    throw ZipError.entryTooLarge(name, uncompressedSize)
+                }
+                declaredExpandedBytes += UInt64(uncompressedSize)
+                guard declaredExpandedBytes <= maximumExpandedBytes else {
+                    throw ZipError.expandedArchiveTooLarge(declaredExpandedBytes)
+                }
+                if uncompressedSize > 1_024 * 1_024 {
+                    let denominator = max(UInt64(compressedSize), 1)
+                    guard UInt64(uncompressedSize) / denominator <= maximumCompressionRatio else {
+                        throw ZipError.suspiciousCompression(name)
+                    }
+                }
                 map[name] = Entry(method: method,
                                   compressedSize: compressedSize,
                                   uncompressedSize: uncompressedSize,
                                   localHeaderOffset: localOffset)
             }
-            p = nameEnd + extraLen + commentLen
+            p = recordEnd
+        }
+        guard scannedRecords == Int(totalEntries) else {
+            throw ZipError.directoryCountMismatch(expected: Int(totalEntries), actual: scannedRecords)
         }
         return map
     }
@@ -164,13 +245,22 @@ struct ZipReader {
         // here to find the actual compressed-payload offset.
         let lfhNameLen  = Int(data.readUInt16LE(at: lfhOffset + 26))
         let lfhExtraLen = Int(data.readUInt16LE(at: lfhOffset + 28))
+        guard lfhNameLen <= data.count - (lfhOffset + 30),
+              lfhExtraLen <= data.count - (lfhOffset + 30 + lfhNameLen) else {
+            throw ZipError.truncated
+        }
         let payloadStart = lfhOffset + 30 + lfhNameLen + lfhExtraLen
-        let payloadEnd   = payloadStart + Int(entry.compressedSize)
-        guard payloadEnd <= data.count else { throw ZipError.truncated }
+        guard Int(entry.compressedSize) <= data.count - payloadStart else {
+            throw ZipError.truncated
+        }
+        let payloadEnd = payloadStart + Int(entry.compressedSize)
 
         let payload = data.subdata(in: payloadStart..<payloadEnd)
         switch entry.method {
         case 0:
+            guard entry.compressedSize == entry.uncompressedSize else {
+                throw ZipError.truncated
+            }
             return payload
         case 8:
             return try Self.inflate(payload,
@@ -200,7 +290,11 @@ struct ZipReader {
                     nil, COMPRESSION_ZLIB)
             }
         }
+        if expectedSize == 0, written == 0 { return Data() }
         guard written > 0 else { throw ZipError.decompressFailed }
+        guard written == expectedSize else {
+            throw ZipError.decompressedSizeMismatch(expected: expectedSize, actual: written)
+        }
         dst.removeSubrange(written..<dst.count)
         return dst
     }

@@ -54,10 +54,16 @@ final class SpeechSynthesizer: NSObject, ObservableObject {
 
     /// Speak the text in the user-selected language. No-op when the
     /// "speech_enabled" preference is off (matches Android's gating).
-    func speak(_ text: String, utteranceId: String = "basir") {
-        guard BasirSettings.shared.speechEnabled else { return }
+    @discardableResult
+    func speak(_ text: String, utteranceId: String = "basir") -> Bool {
+        guard BasirSettings.shared.speechEnabled else { return false }
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
+        guard !trimmed.isEmpty else { return false }
+
+        // Dictation deactivates and changes the shared audio session. Restore
+        // the speech category before every utterance so voice conversation
+        // cannot become silent after the microphone closes.
+        configureAudioSession()
 
         // Cancel anything currently mid-flight; speak() should never
         // queue. Last call wins.
@@ -80,11 +86,13 @@ final class SpeechSynthesizer: NSObject, ObservableObject {
         pendingIds[utterance] = utteranceId
         isSpeaking = true
         engine.speak(utterance)
+        return true
     }
 
     func stop() {
-        guard engine.isSpeaking else { return }
-        engine.stopSpeaking(at: .immediate)
+        if engine.isSpeaking {
+            engine.stopSpeaking(at: .immediate)
+        }
         pendingIds.removeAll()
         isSpeaking = false
     }

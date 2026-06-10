@@ -211,8 +211,7 @@ struct SettingsView: View {
         ) {
             Button(L10n.t("حذف البيانات", "Delete data"), role: .destructive) {
                 ArchiveStore.shared.clearAll()
-                LastDocumentStore.shared.text = nil
-                LastDocumentStore.shared.sourceName = nil
+                LastDocumentStore.shared.clear()
                 clearTempFiles()
                 showDeletedToast = true
             }

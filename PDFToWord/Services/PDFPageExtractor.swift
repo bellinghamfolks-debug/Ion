@@ -16,7 +16,7 @@ final class PDFPageExtractor: @unchecked Sendable {
         guard let document = PDFDocument(url: url) else {
             throw PDFExtractionError.cannotOpen
         }
-        if document.isEncrypted && !document.isUnlocked {
+        if document.isEncrypted && document.isLocked {
             throw PDFExtractionError.passwordProtected
         }
         self.document = document

@@ -398,7 +398,12 @@ actor GeminiClient {
                     ]
                 ]
             ],
-            "maxOutputTokens": 64
+            // Must comfortably exceed the model's thinking budget: Gemini 3
+            // (especially Pro, where "minimal" is promoted to "low") spends
+            // hidden thinking tokens before emitting the visible JSON, so a
+            // tiny cap finishes as MAX_TOKENS with no output. The schema keeps
+            // the actual answer to a few tokens regardless.
+            "maxOutputTokens": 4096
         ]
         if Self.supportsThinkingLevel(model) {
             generationConfig["thinkingConfig"] = ["thinkingLevel": Self.normalizedThinkingLevel("minimal", model: model)]
@@ -411,18 +416,45 @@ actor GeminiClient {
             ]],
             "generationConfig": generationConfig
         ]
-        let data = try await sendGenerateContentRequest(
-            url: url,
-            apiKey: apiKey,
-            payload: payload,
-            timeout: 45
-        )
-        let text = try Self.extractCandidateText(from: data, decoder: decoder)
-        let cleaned = Self.removeCodeFence(from: text)
-        guard let json = cleaned.data(using: .utf8),
-              let probe = try? decoder.decode(StructuredProbe.self, from: json),
-              probe.ok else {
-            throw GeminiError.structuredOutputProbeFailed
+
+        // The probe must tolerate transient provider overload (HTTP 503 /
+        // "high demand"), which is unrelated to the key or model validity.
+        var lastError: Error = GeminiError.structuredOutputProbeFailed
+        for attempt in 1...3 {
+            do {
+                let data = try await sendGenerateContentRequest(
+                    url: url,
+                    apiKey: apiKey,
+                    payload: payload,
+                    timeout: 45
+                )
+                let text = try Self.extractCandidateText(from: data, decoder: decoder)
+                let cleaned = Self.removeCodeFence(from: text)
+                guard let json = cleaned.data(using: .utf8),
+                      let probe = try? decoder.decode(StructuredProbe.self, from: json),
+                      probe.ok else {
+                    throw GeminiError.structuredOutputProbeFailed
+                }
+                return
+            } catch let error as GeminiError where Self.isTransient(error) && attempt < 3 {
+                lastError = error
+                let seconds = min(error.retryAfter ?? Double(attempt * 2), 8)
+                try? await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
+            }
+        }
+        throw lastError
+    }
+
+    /// Transient, retryable provider conditions (overload / rate limit /
+    /// temporary 5xx) as opposed to a genuine key or model problem.
+    private static func isTransient(_ error: GeminiError) -> Bool {
+        switch error {
+        case .modelUnavailable:
+            return true
+        case .httpStatus(let status, _, _):
+            return status == 429 || (500...599).contains(status)
+        default:
+            return false
         }
     }
 

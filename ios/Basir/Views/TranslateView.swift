@@ -1,188 +1,157 @@
-// TranslateView.swift
-// Text translation between 20 languages. The full-file translation
-// (PDF/DOCX/PPTX) entry is intentionally NOT in this scaffold because
-// document conversion is deferred (see README).
-
 import SwiftUI
 import UniformTypeIdentifiers
 
 struct TranslateView: View {
     @EnvironmentObject var settings: BasirSettings
-    @State private var inputText: String = ""
-    @State private var translation: String = ""
+    @State private var inputText = ""
+    @State private var translation = ""
     @State private var isLoading = false
     @State private var errorMessage: String?
     @State private var showDocPicker = false
-    @FocusState private var inputFocused: Bool
 
-    // The 20-language list lives in L10n.swift.
     private let allLanguages = L10n.supportedTranslationLanguages
-    // Target spinner: drop the "auto" entry (you can't translate INTO auto).
     private var targetLanguages: [(code: String, ar: String, en: String)] {
         allLanguages.filter { $0.code != "auto" }
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(L10n.t(
-                    "اختر لغة النص واللغة المطلوبة، ثم اكتب النص أو ألصقه. راجع الأسماء والأرقام والمصطلحات المتخصصة قبل الاعتماد على الترجمة.",
-                    "Choose the source and target languages, then type or paste your text. Verify names, numbers, and specialist terms before relying on the translation."
-                ))
-                .font(.callout)
-                .foregroundStyle(.secondary)
+        BasirScreen {
+            BasirPageIntro(
+                text: L10n.t(
+                    "اختر لغة النص ولغة الترجمة. يمكنك لصق النص أو استيراده من ملف، ثم مراجعة النتيجة قبل استخدامها.",
+                    "Choose the source and target languages. Paste text or import it from a file, then review the result before using it."
+                )
+            )
 
-                // Source language
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(L10n.t("اللغة المصدر", "Source language"))
-                        .font(.subheadline.bold())
-                    Picker(L10n.t("اختيار لغة النص", "Choose source language"),
-                            selection: $settings.translateSource) {
-                        ForEach(allLanguages, id: \.code) { lang in
-                            Text(BasirSettings.shared.language == .arabic ? lang.ar : lang.en)
-                                .tag(lang.code)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .accessibilityLabel(L10n.t(
-                        "اختيار اللغة المصدر للترجمة",
-                        "Select the source language for translation"
-                    ))
-                }
+            languageCard
 
-                // Target language
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(L10n.t("اللغة الهدف", "Target language"))
-                        .font(.subheadline.bold())
-                    Picker(L10n.t("اختيار لغة الترجمة", "Choose target language"),
-                            selection: $settings.translateTarget) {
-                        ForEach(targetLanguages, id: \.code) { lang in
-                            Text(BasirSettings.shared.language == .arabic ? lang.ar : lang.en)
-                                .tag(lang.code)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .accessibilityLabel(L10n.t(
-                        "اختيار اللغة الهدف للترجمة",
-                        "Select the target language for translation"
-                    ))
-                }
+            Button {
+                showDocPicker = true
+            } label: {
+                Label(L10n.t("استيراد نص من ملف", "Import text from a file"),
+                      systemImage: "doc.badge.plus")
+            }
+            .buttonStyle(BasirSecondaryButtonStyle())
+            .disabled(isLoading)
 
-                // Swap languages
-                Button {
-                    let oldSrc = settings.translateSource
-                    let oldTgt = settings.translateTarget
-                    if oldSrc == "auto" {
-                        UIAccessibility.post(notification: .announcement,
-                                              argument: L10n.t(
-                                                "اختر لغةً محددة للنص قبل تبديل اللغتين.",
-                                                "Choose a specific source language before swapping."
-                                              ))
-                        return
-                    }
-                    settings.translateSource = oldTgt
-                    settings.translateTarget = oldSrc
-                    UIAccessibility.post(notification: .announcement,
-                                          argument: L10n.t("تبدّلت لغة النص ولغة الترجمة.",
-                                                            "Source and target languages swapped."))
-                } label: {
-                    HStack {
-                        Image(systemName: "arrow.up.arrow.down")
-                        Text(L10n.t("تبديل اللغتين", "Swap languages"))
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 48)
-                }
-                .buttonStyle(.bordered)
+            BasirTextEditor(
+                title: L10n.t("النص المراد ترجمته", "Text to translate"),
+                placeholder: L10n.t("اكتب النص أو الصقه هنا.", "Type or paste text here."),
+                text: $inputText,
+                minimumHeight: 170,
+                characterLimit: 20_000
+            )
 
-                // Insert text from a document to translate.
-                Button {
-                    showDocPicker = true
-                } label: {
-                    Label(L10n.t("إدراج نص من مستند", "Insert text from a document"),
-                          systemImage: "doc.badge.plus")
-                        .frame(maxWidth: .infinity, minHeight: 48)
-                }
-                .buttonStyle(.bordered)
-                .disabled(isLoading)
-
-                // Input
-                TextEditor(text: $inputText)
-                    .focused($inputFocused)
-                    .frame(minHeight: 140)
-                    .padding(8)
-                    .background(Color(.tertiarySystemBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12).stroke(.tertiary)
+            Button {
+                Task { await translate() }
+            } label: {
+                HStack(spacing: 10) {
+                    if isLoading { ProgressView().tint(.white) }
+                    Label(
+                        isLoading ? L10n.t("جاري الترجمة", "Translating")
+                                  : L10n.t("ترجمة النص", "Translate text"),
+                        systemImage: "character.book.closed.fill"
                     )
-                    .accessibilityLabel(L10n.t(
-                        "اكتب النص أو الصقه للترجمة",
-                        "Type or paste text to translate"
-                    ))
-
-                // Translate button
-                Button {
-                    Task { await translate() }
-                } label: {
-                    HStack {
-                        if isLoading { ProgressView().tint(.white) }
-                        Text(isLoading
-                             ? L10n.t("أترجم النص...", "Translating text...")
-                             : L10n.t("ترجمة النص", "Translate text"))
-                            .fontWeight(.semibold)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 56)
-                    .background(Color.accentColor)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
-                }
-                .disabled(isLoading || inputText.trimmingCharacters(in: .whitespaces).isEmpty)
-
-                // Output
-                if !translation.isEmpty {
-                    Divider().padding(.vertical, 8)
-                    Text(L10n.t("النص المترجم", "Translated text"))
-                        .font(.headline)
-                        .accessibilityAddTraits(.isHeader)
-                    Text(translation)
-                        .textSelection(.enabled)
-                        .accessibilityLabel(translation)
-                    CopyButton(text: translation)
-                    AskAboutResultLink(text: translation)
-                }
-
-                if let errorMessage {
-                    Text(errorMessage)
-                        .foregroundStyle(.red)
-                        .padding(12)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.red.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             }
-            .padding(20)
+            .buttonStyle(BasirPrimaryButtonStyle())
+            .disabled(isLoading || inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+
+            if let errorMessage {
+                BasirStatusBanner(text: errorMessage, tone: .danger)
+            }
+
+            if !translation.isEmpty {
+                BasirResultCard(title: L10n.t("الترجمة", "Translation"), text: translation) {
+                    HStack(spacing: 4) {
+                        CopyButton(text: translation)
+                        ShareLink(item: translation) {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                        .buttonStyle(BasirIconButtonStyle())
+                        .accessibilityLabel(L10n.t("مشاركة الترجمة", "Share translation"))
+                    }
+                }
+                AskAboutResultLink(text: translation)
+                BasirStatusBanner(text: BasirCopy.verifyImportantInformation, tone: .warning)
+            }
         }
         .navigationTitle(L10n.t("الترجمة", "Translation"))
+        .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showDocPicker) {
             DocumentPicker(types: DocumentText.importTypes) { url in
                 guard let url else { return }
                 Task {
+                    guard !isLoading else { return }
                     isLoading = true
                     errorMessage = nil
-                    let text = await DocumentText.extractTextAsync(from: url)
-                    isLoading = false
-                    if let text, !text.isEmpty {
-                        inputText = text
-                    } else {
-                        errorMessage = L10n.t("لم أتمكن من استخراج نص قابل للترجمة من هذا الملف.",
-                                              "I couldn't extract text to translate from this file.")
+                    defer { isLoading = false }
+                    do {
+                        inputText = try await DocumentText.extractTextAsync(from: url)
+                    } catch {
+                        errorMessage = UserFriendlyErrorMapper.map(error)
                     }
                 }
             }
         }
     }
 
+    private var languageCard: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            BasirSectionHeader(
+                title: L10n.t("اللغات", "Languages"),
+                subtitle: L10n.t("يمكن لبصير اكتشاف لغة النص تلقائيًا.",
+                                 "Basir can detect the source language automatically.")
+            )
+
+            Picker(L10n.t("لغة النص", "Source language"), selection: $settings.translateSource) {
+                ForEach(allLanguages, id: \.code) { lang in
+                    Text(settings.language == .arabic ? lang.ar : lang.en).tag(lang.code)
+                }
+            }
+            .pickerStyle(.menu)
+
+            Picker(L10n.t("لغة الترجمة", "Target language"), selection: $settings.translateTarget) {
+                ForEach(targetLanguages, id: \.code) { lang in
+                    Text(settings.language == .arabic ? lang.ar : lang.en).tag(lang.code)
+                }
+            }
+            .pickerStyle(.menu)
+
+            Button {
+                swapLanguages()
+            } label: {
+                Label(L10n.t("تبديل اللغتين", "Swap languages"),
+                      systemImage: "arrow.up.arrow.down")
+            }
+            .buttonStyle(BasirSecondaryButtonStyle(tone: .info))
+        }
+        .basirCardSurface()
+    }
+
+    private func swapLanguages() {
+        let oldSource = settings.translateSource
+        let oldTarget = settings.translateTarget
+        guard oldSource != "auto" else {
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: L10n.t(
+                    "اختر لغة محددة للنص قبل تبديل اللغتين.",
+                    "Choose a specific source language before swapping."
+                )
+            )
+            return
+        }
+        settings.translateSource = oldTarget
+        settings.translateTarget = oldSource
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: L10n.t("تم تبديل اللغتين.", "Languages swapped.")
+        )
+    }
+
     private func translate() async {
+        guard !isLoading else { return }
         let text = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return }
         isLoading = true
@@ -196,18 +165,15 @@ struct TranslateView: View {
         )
 
         do {
-            let response = try await AiProviderFactory.current().ask(
+            translation = try await AiProviderFactory.current().ask(
                 task: .translate,
                 input: text,
                 instruction: instruction,
-                language: BasirSettings.shared.language,
+                language: settings.language,
                 imageData: nil,
                 mimeType: nil
             )
-            translation = response
-            UIAccessibility.post(notification: .announcement,
-                                  argument: L10n.t("اكتملت الترجمة.",
-                                                    "Translation complete."))
+            UIAccessibility.post(notification: .announcement, argument: BasirCopy.resultReady)
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
         }

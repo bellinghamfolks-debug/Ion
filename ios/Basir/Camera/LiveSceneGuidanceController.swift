@@ -35,11 +35,94 @@
 // SwiftUI can observe without dispatch hops.
 
 #if canImport(UIKit)
-import AVFoundation
+@preconcurrency import AVFoundation
 import Combine
 import CoreLocation
 import Foundation
 import UIKit
+
+
+private final class CaptureSessionWorker: @unchecked Sendable {
+    private let captureSession = AVCaptureSession()
+    private let photoOutput = AVCapturePhotoOutput()
+    private let queue = DispatchQueue(label: "basir.live_scene.capture", qos: .userInitiated)
+    private var configured = false
+    private var captureInFlight = false
+    private var photoDelegate: PhotoDelegate?
+
+    func start(completion: @escaping @Sendable (String?) -> Void) {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        if status == .notDetermined {
+            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+                guard granted else { completion("camera_denied"); return }
+                self?.start(completion: completion)
+            }
+            return
+        }
+        guard status != .denied && status != .restricted else {
+            completion("camera_denied")
+            return
+        }
+
+        queue.async { [weak self] in
+            guard let self else { return }
+            if !self.configured {
+                self.captureSession.beginConfiguration()
+                self.captureSession.sessionPreset = .high
+                let camera = AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back)
+                    ?? AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+                    ?? AVCaptureDevice.default(for: .video)
+                guard let camera,
+                      let input = try? AVCaptureDeviceInput(device: camera),
+                      self.captureSession.canAddInput(input),
+                      self.captureSession.canAddOutput(self.photoOutput) else {
+                    self.captureSession.commitConfiguration()
+                    completion("camera_open_failed")
+                    return
+                }
+                self.captureSession.addInput(input)
+                self.captureSession.addOutput(self.photoOutput)
+                self.captureSession.commitConfiguration()
+                self.configured = true
+            }
+            if !self.captureSession.isRunning { self.captureSession.startRunning() }
+            completion(nil)
+        }
+    }
+
+    func stop() {
+        queue.async { [weak self] in
+            guard let self else { return }
+            if self.captureSession.isRunning { self.captureSession.stopRunning() }
+            self.captureInFlight = false
+            self.photoDelegate = nil
+        }
+    }
+
+    func capture(completion: @escaping @Sendable (Data?) -> Void) {
+        queue.async { [weak self] in
+            guard let self, self.captureSession.isRunning, !self.captureInFlight else {
+                completion(nil)
+                return
+            }
+            self.captureInFlight = true
+            let settings = AVCapturePhotoSettings(
+                format: [AVVideoCodecKey: AVVideoCodecType.jpeg]
+            )
+            let delegate = PhotoDelegate { [weak self] data in
+                guard let self else { completion(nil); return }
+                self.queue.async { [weak self] in
+                    guard let self else { completion(nil); return }
+                    self.captureInFlight = false
+                    self.photoDelegate = nil
+                    completion(data)
+                }
+            }
+            self.photoDelegate = delegate
+            self.photoOutput.capturePhoto(with: settings, delegate: delegate)
+        }
+    }
+}
 
 @MainActor
 final class LiveSceneGuidanceController: NSObject, ObservableObject {
@@ -61,13 +144,11 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
 
     // ───── Capture pipeline ─────
 
-    private let captureSession = AVCaptureSession()
-    private let photoOutput = AVCapturePhotoOutput()
-    private let sessionQueue = DispatchQueue(label: "basir.live_scene.session")
+    private let captureWorker = CaptureSessionWorker()
     private var captureTimer: Timer?
     private var aiBusy = false
-    private var sessionConfigured = false
-    private var photoDelegate: PhotoDelegate?
+    private var aiTask: Task<Void, Never>?
+    private var locationTask: Task<Void, Never>?
 
     // ───── Inputs (mutable so the View can re-apply user settings at
     //   each Start without having to rebuild the @StateObject). ─────
@@ -103,18 +184,32 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
     /// errorMessage when the camera or Gemini key is unusable.
     func start() {
         guard !isRunning else { return }
-        let key = KeychainStore.geminiKey()
-        guard !key.isEmpty else {
+        guard AiProviderFactory.isConfigured else {
             errorMessage = arabic
-                ? "أضف مفتاح Gemini من الإعدادات قبل بدء الوصف المباشر."
-                : "Add your Gemini key in Settings before starting live scene guidance."
+                ? "أكمل إعداد اتصال الذكاء الاصطناعي قبل بدء الوصف المباشر."
+                : "Finish configuring the AI connection before starting live scene guidance."
             return
         }
         isRunning = true
         errorMessage = nil
         lastStatus = arabic ? "أفتح الكاميرا..." : "Opening camera..."
-        if useGps { Task { await self.fetchLocationOnce() } }
-        sessionQueue.async { [weak self] in self?.configureAndStartSession() }
+        locationTask?.cancel()
+        if useGps {
+            locationTask = Task { [weak self] in
+                await self?.fetchLocationOnce()
+            }
+        }
+        captureWorker.start { [weak self] errorCode in
+            Task { @MainActor in
+                guard let self else { return }
+                guard self.isRunning else {
+                    self.captureWorker.stop()
+                    return
+                }
+                if let errorCode { self.fail(errorCode) }
+                else { self.startCaptureTimer() }
+            }
+        }
     }
 
     /// Stop the loop. Idempotent.
@@ -123,12 +218,12 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
         isRunning = false
         captureTimer?.invalidate()
         captureTimer = nil
-        let captureSession = self.captureSession
-        sessionQueue.async {
-            if captureSession.isRunning {
-                captureSession.stopRunning()
-            }
-        }
+        captureWorker.stop()
+        aiTask?.cancel()
+        aiTask = nil
+        locationTask?.cancel()
+        locationTask = nil
+        aiBusy = false
         recentSummaries.removeAll()
         recentSpokenPaths.removeAll()
         lastSpokenPath = ""
@@ -138,59 +233,6 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
     }
 
     // ───── AVCaptureSession setup ─────
-
-    private func configureAndStartSession() {
-        // Permission: the view is expected to have asked first. If
-        // it's still .notDetermined we bounce through requestAccess
-        // here so a misconfigured caller doesn't silently get nothing.
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        if status == .notDetermined {
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                Task { @MainActor [weak self] in
-                    guard let self else { return }
-                    if granted { self.configureAndStartSession() }
-                    else { self.fail("camera_denied") }
-                }
-            }
-            return
-        }
-        if status == .denied || status == .restricted {
-            fail("camera_denied"); return
-        }
-
-        let needConfig = !sessionConfigured
-        let captureSession = self.captureSession
-        let photoOutput = self.photoOutput
-        sessionQueue.async { [weak self] in
-            if needConfig {
-                captureSession.beginConfiguration()
-                captureSession.sessionPreset = .high
-                // v3.2 parity — prefer the WIDEST back camera so the
-                // ultra-wide field of view catches side-approaching
-                // obstacles a 24-28mm "main" lens would crop out.
-                let widest = AVCaptureDevice.default(.builtInUltraWideCamera,
-                                                      for: .video, position: .back)
-                    ?? AVCaptureDevice.default(.builtInWideAngleCamera,
-                                                 for: .video, position: .back)
-                    ?? AVCaptureDevice.default(for: .video)
-                guard let camera = widest,
-                      let input = try? AVCaptureDeviceInput(device: camera) else {
-                    captureSession.commitConfiguration()
-                    Task { @MainActor in self?.fail("camera_open_failed") }
-                    return
-                }
-                if captureSession.canAddInput(input) { captureSession.addInput(input) }
-                if captureSession.canAddOutput(photoOutput) { captureSession.addOutput(photoOutput) }
-                photoOutput.isHighResolutionCaptureEnabled = false
-                captureSession.commitConfiguration()
-            }
-            if !captureSession.isRunning { captureSession.startRunning() }
-            Task { @MainActor [weak self] in
-                self?.sessionConfigured = true
-                self?.startCaptureTimer()
-            }
-        }
-    }
 
     private func startCaptureTimer() {
         lastStatus = arabic ? "الوصف المباشر يعمل الآن." : "Live description is running."
@@ -210,30 +252,24 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
         // Skip when a previous frame's AI call is still in flight —
         // mirrors the aiBusy compareAndSet on Android.
         if aiBusy { return }
-        let captureSession = self.captureSession
-        let photoOutput = self.photoOutput
-        sessionQueue.async { [weak self] in
-            guard captureSession.isRunning else { return }
-            let settings = AVCapturePhotoSettings(
-                format: [AVVideoCodecKey: AVVideoCodecType.jpeg]
-            )
-            settings.isHighResolutionPhotoEnabled = false
-            // Hold a strong reference for the duration of the capture
-            // callback; AVCapturePhotoOutput only holds it weakly.
-            let delegate = PhotoDelegate { data in
-                Task { @MainActor in self?.onJpegReady(data) }
-            }
-            Task { @MainActor in self?.photoDelegate = delegate }
-            photoOutput.capturePhoto(with: settings, delegate: delegate)
+        captureWorker.capture { [weak self] data in
+            Task { @MainActor in self?.onJpegReady(data) }
         }
     }
 
     private func onJpegReady(_ jpeg: Data?) {
         guard isRunning, let jpeg else { return }
         aiBusy = true
-        Task { [weak self] in
-            await self?.sendToAi(jpeg: jpeg)
-            self?.aiBusy = false
+        aiTask = Task { [weak self] in
+            guard let self else { return }
+            defer {
+                self.aiBusy = false
+                self.aiTask = nil
+            }
+            guard let prepared = await Task.detached(priority: .userInitiated, operation: {
+                ImagePreprocessor.jpeg(from: jpeg, maxLongEdge: 1_280, quality: 0.72)
+            }).value, self.isRunning, !Task.isCancelled else { return }
+            await self.sendToAi(jpeg: prepared)
         }
     }
 
@@ -241,8 +277,7 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
 
     private func sendToAi(jpeg: Data) async {
         do {
-            let prompt = GeminiPrompts.liveSceneGuidancePrompt(
-                arabic: arabic,
+            let context = GeminiPrompts.liveSceneGuidanceInput(
                 recentSummaries: snapshotRecentSummaries(),
                 locationLabel: locationLabel)
             // Route through the configured provider so Proxy mode
@@ -252,11 +287,12 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
             // upstream server / Gemini still returns a JSON string.
             let text = try await AiProviderFactory.current().ask(
                 task: .liveScene,
-                input: prompt,
-                instruction: nil,
+                input: context,
+                instruction: GeminiPrompts.liveSceneGuidanceInstruction,
                 language: arabic ? .arabic : .english,
                 imageData: jpeg,
                 mimeType: "image/jpeg")
+            guard isRunning, !Task.isCancelled else { return }
             let trimmed = stripJsonFence(text)
             guard let data = trimmed.data(using: .utf8),
                   let obj = try? JSONSerialization.jsonObject(with: data)
@@ -265,6 +301,7 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
             }
             handleResponse(obj)
         } catch {
+            if Task.isCancelled || !isRunning { return }
             // Silent skip: a single failed frame should not break the
             // session — the next one in 2 seconds usually succeeds.
             let mapped = UserFriendlyErrorMapper.map(error)
@@ -276,7 +313,7 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
 
     /// Strip ```json fences when an upstream proxy doesn't honour
     /// JSON mode and Gemini wraps the object in markdown. The Direct
-    /// path already returns bare JSON via responseMimeType, so this
+    /// path already returns bare JSON via responseFormat, so this
     /// is a no-op there.
     private func stripJsonFence(_ s: String) -> String {
         var t = s.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -291,12 +328,11 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
 
     private func handleResponse(_ resp: [String: Any]) {
         let hazardObj = resp["hazard"] as? [String: Any] ?? [:]
-        let level = (hazardObj["level"] as? String) ?? "none"
-        let hazardDesc = (hazardObj["description"] as? String) ?? ""
-        let path = ((resp["path"] as? String) ?? "")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        let scene = ((resp["scene"] as? String) ?? "")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
+        let rawLevel = ((hazardObj["level"] as? String) ?? "none").lowercased()
+        let level = ["stop", "caution", "none"].contains(rawLevel) ? rawLevel : "none"
+        let hazardDesc = boundedLine(hazardObj["description"] as? String, maxCharacters: 220)
+        let path = boundedLine(resp["path"] as? String, maxCharacters: 160)
+        let scene = boundedLine(resp["scene"] as? String, maxCharacters: 160)
 
         // Update rolling summary so the next prompt can say "don't repeat".
         let summary = "hazard=\(level) path=\"\(path)\""
@@ -336,6 +372,19 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
             SpeechSynthesizer.shared.speak(spoken, utteranceId: "live_scene")
             ArchiveStore.shared.appendLog(type: "live_scene", content: spoken)
         }
+    }
+
+
+    /// Proxy responses are not guaranteed to honour Gemini's response schema.
+    /// Collapse whitespace and cap text before it reaches TTS, logs, or the
+    /// rolling prompt so malformed output cannot create an unbounded loop.
+    private func boundedLine(_ value: String?, maxCharacters: Int) -> String {
+        let compact = (value ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .replacingOccurrences(of: #"\s+"#,
+                                  with: " ",
+                                  options: .regularExpression)
+        return String(compact.prefix(maxCharacters))
     }
 
     // ───── Haptics (mirrors Android's vibrateForLevel) ─────
@@ -418,9 +467,10 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
 
     private func fetchLocationOnce() async {
         let loc = await LocationService.shared.fetchOnce()
-        guard let loc else { return }
+        guard isRunning, !Task.isCancelled, let loc else { return }
         let geocoder = CLGeocoder()
         let placemarks = try? await geocoder.reverseGeocodeLocation(loc)
+        guard isRunning, !Task.isCancelled else { return }
         let label: String = {
             if let p = placemarks?.first {
                 let joined = [p.thoroughfare, p.subLocality, p.locality, p.country]
@@ -432,7 +482,9 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
             return String(format: "%.4f,%.4f",
                           loc.coordinate.latitude, loc.coordinate.longitude)
         }()
+        guard isRunning, !Task.isCancelled else { return }
         locationLabel = label
+        locationTask = nil
         lastStatus = (arabic ? "أُضيف الموقع إلى الوصف: " : "Location added to descriptions: ") + label
     }
 
@@ -475,9 +527,9 @@ final class LiveSceneGuidanceController: NSObject, ObservableObject {
 
 /// AVCapturePhotoOutput only holds the delegate weakly, so we own
 /// it from the controller for the duration of each capture.
-private final class PhotoDelegate: NSObject, AVCapturePhotoCaptureDelegate {
-    private let onJpeg: (Data?) -> Void
-    init(onJpeg: @escaping (Data?) -> Void) { self.onJpeg = onJpeg }
+private final class PhotoDelegate: NSObject, AVCapturePhotoCaptureDelegate, @unchecked Sendable {
+    private let onJpeg: @Sendable (Data?) -> Void
+    init(onJpeg: @escaping @Sendable (Data?) -> Void) { self.onJpeg = onJpeg }
 
     func photoOutput(_ output: AVCapturePhotoOutput,
                      didFinishProcessingPhoto photo: AVCapturePhoto,

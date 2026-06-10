@@ -37,30 +37,82 @@ private struct LegalDocument: View {
     let versionNote: String
     let content: String
 
-    private var paragraphs: [String] {
+    private var lines: [String] {
         content
-            .components(separatedBy: "\n\n")
+            .components(separatedBy: .newlines)
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 14) {
-                Text(versionNote)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+        BasirScreen {
+            BasirStatusBanner(
+                text: versionNote,
+                tone: .info,
+                title: L10n.t("معلومات الوثيقة", "Document information")
+            )
 
-                ForEach(Array(paragraphs.enumerated()), id: \.offset) { _, paragraph in
-                    Text(paragraph)
-                        .font(.body)
-                        .textSelection(.enabled)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+            LazyVStack(alignment: .leading, spacing: 14) {
+                ForEach(Array(lines.enumerated()), id: \.offset) { _, line in
+                    legalLine(line)
                 }
             }
-            .padding(20)
+            .basirCardSurface()
         }
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    @ViewBuilder
+    private func legalLine(_ line: String) -> some View {
+        if isSectionHeading(line) {
+            Text(line)
+                .font(.headline)
+                .foregroundStyle(.primary)
+                .padding(.top, 10)
+                .textSelection(.enabled)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityAddTraits(.isHeader)
+        } else if line.hasPrefix("•") {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                Text("•")
+                    .font(.body.bold())
+                    .foregroundStyle(BasirTheme.brand)
+                    .accessibilityHidden(true)
+                Text(String(line.dropFirst()).trimmingCharacters(in: .whitespaces))
+                    .font(.body)
+                    .textSelection(.enabled)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityElement(children: .combine)
+        } else if isMetadata(line) {
+            Text(line)
+                .font(.callout.weight(.medium))
+                .foregroundStyle(.secondary)
+                .textSelection(.enabled)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        } else {
+            Text(line)
+                .font(.body)
+                .textSelection(.enabled)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    private func isSectionHeading(_ line: String) -> Bool {
+        guard let first = line.first, first.isNumber else { return false }
+        return line.contains(")")
+    }
+
+    private func isMetadata(_ line: String) -> Bool {
+        let prefixes = [
+            "تاريخ النفاذ:", "الإصدار القانوني:",
+            "Effective date:", "Legal version:"
+        ]
+        return prefixes.contains { line.hasPrefix($0) }
     }
 }
 
@@ -102,7 +154,7 @@ private let termsArabic = """
 أي محتوى طبي أو دوائي أو قانوني أو مالي أو ضريبي أو مهني هو للمساعدة العامة فقط، وليس تشخيصًا أو وصفة أو فتوى قانونية أو استشارة مهنية. لا تتخذ قرارًا مؤثرًا اعتمادًا على التطبيق وحده.
 
 10) أنماط الاتصال
-قد يتيح Android نمطين: اتصال مباشر بخدمة Gemini باستخدام مفتاح المستخدم، أو اتصال عبر خادم وسيط يحدده المستخدم أو الجهة التي وفرت له الإعدادات. إصدار iOS الحالي يستخدم الاتصال المباشر. يتحمل مشغل أي خادم وسيط مستقل مسؤولية ممارساته وأمنه ومدة احتفاظه.
+قد يتيح التطبيق على Android وiOS نمطين: اتصالًا مباشرًا بخدمة Gemini باستخدام مفتاح المستخدم، أو اتصالًا عبر خادم وسيط يحدده المستخدم أو الجهة التي وفرت له الإعدادات. يتحمل مشغل أي خادم وسيط مستقل مسؤولية ممارساته وأمنه ومدة احتفاظه.
 
 11) Google Gemini
 تعتمد ميزات الذكاء الاصطناعي على Google Gemini API. يخضع استخدام Gemini لشروط Google وسياساتها وحصة الحساب وفوترته وتوفر الخدمة. Google جهة مستقلة عن المطوّر، وقد تغير النماذج أو الحدود أو الأسعار أو ممارسات المعالجة.
@@ -191,7 +243,7 @@ The help feature prepares a message in a messaging or sharing app. It does not g
 Medical, medication, legal, financial, tax, or professional content is general assistance only and is not a diagnosis, prescription, legal opinion, or professional advice. Do not make a material decision based solely on the App.
 
 10) Connection Modes
-Android may offer direct connection to Gemini using the User’s API key or connection through a proxy server configured by the User or the organization that supplied the settings. The current iOS release uses direct connection. An independent proxy operator is responsible for its own practices, security, and retention.
+On Android and iOS, the App may offer direct connection to Gemini using the User’s API key or connection through a proxy server configured by the User or the organization that supplied the settings. An independent proxy operator is responsible for its own practices, security, and retention.
 
 11) Google Gemini
 AI features rely on the Google Gemini API. Gemini use is subject to Google’s terms, policies, account quota, billing, and service availability. Google is independent from the Developer and may change models, limits, prices, or processing practices.
@@ -255,7 +307,7 @@ private let privacyArabic = """
 • لا يتطلب بصير إنشاء حساب لدى المطوّر.
 • لا يحتوي التطبيق على إعلانات أو معرّفات إعلانية أو بيع للبيانات.
 • كثير من الإعدادات والنتائج تحفظ محليًا على جهازك.
-• عند استخدام الذكاء الاصطناعي، يُرسل المحتوى الذي اخترته إلى Google Gemini مباشرة أو، في Android عند اختياره، عبر خادم وسيط مُعدّ.
+• عند استخدام الذكاء الاصطناعي، يُرسل المحتوى الذي اخترته إلى Google Gemini مباشرة أو، عند اختيار ذلك على Android أو iOS، عبر خادم وسيط مُعدّ.
 • لا توجد معالجة ذكاء اصطناعي سحابية دون إرسال المحتوى إلى مزود الخدمة المستخدم.
 
 3) البيانات التي تختار تقديمها
@@ -274,7 +326,7 @@ private let privacyArabic = """
 في الاتصال المباشر، يرسل التطبيق طلبك والمحتوى المحدد ومفتاح API إلى Google Gemini عبر HTTPS. لا تمر البيانات في هذه الحالة عبر خادم يملكه المطوّر. تتحكم Google في معالجة البيانات داخل خدمتها وفق نوع حسابك ومشروعك وشروطها.
 
 8) الاتصال عبر خادم وسيط
-في Android قد تختار خادمًا وسيطًا. عندها يرسل التطبيق الطلب إلى عنوان الخادم الذي أعددته، وقد يرسل الخادم المحتوى إلى Gemini باستخدام مفتاح مخزن لديه. مشغل الخادم قادر تقنيًا على الوصول إلى البيانات المارة خلاله وتحدد سياسته مدة الاحتفاظ والأمان والموقع الجغرافي للمعالجة. الخادم النموذجي المرفق مع مشروع بصير يحذف ملفات التحويل المؤقتة بعد انتهاء الطلب، لكن لا يجوز افتراض أن كل خادم آخر يفعل ذلك.
+على Android أو iOS قد تختار خادمًا وسيطًا. عندها يرسل التطبيق الطلب إلى عنوان الخادم الذي أعددته، وقد يرسل الخادم المحتوى إلى Gemini باستخدام مفتاح مخزن لديه. مشغل الخادم قادر تقنيًا على الوصول إلى البيانات المارة خلاله وتحدد سياسته مدة الاحتفاظ والأمان والموقع الجغرافي للمعالجة. الخادم النموذجي المرفق مع مشروع بصير يحذف ملفات التحويل المؤقتة بعد انتهاء الطلب، لكن لا يجوز افتراض أن كل خادم آخر يفعل ذلك.
 
 9) استخدام Google للبيانات: الخدمة غير المدفوعة والمدفوعة
 بحسب شروط Gemini API المنشورة، قد تستخدم Google المدخلات والمخرجات المرسلة عبر الخدمات غير المدفوعة لتحسين منتجاتها، وقد يراجعها أشخاص مخولون. وتذكر Google أن المدخلات والمخرجات في الخدمات المدفوعة لا تستخدم لتحسين المنتجات، مع احتفاظ أو مراجعة محدودة لأغراض منع الإساءة والالتزام القانوني. راجع تصنيف مشروعك قبل إرسال معلومات حساسة.
@@ -289,7 +341,7 @@ private let privacyArabic = """
 يستخدم الميكروفون عند تفعيل الإملاء أو المحادثة الصوتية. قد ينفذ نظام التشغيل أو مزود التعرف الصوتي تحويل الكلام إلى نص وفق إعدادات جهازك. لا ينشئ بصير عمدًا أرشيفًا دائمًا للتسجيل الصوتي الخام، لكنه يعالج النص الناتج وقد يحفظه في السجل أو النتائج وفق إعداداتك.
 
 13) الموقع الجغرافي
-في Android قد يطلب التطبيق موقعًا لمرة واحدة عند إعداد رسالة طلب مساعدة، أو اختياريًا لتحسين سياق وضع المشي المباشر. في iOS يستخدم الموقع حاليًا لرسالة طلب المساعدة عند اختيارك. لا يرسل التطبيق الموقع تلقائيًا؛ تظهر الرسالة للمراجعة قبل الإرسال. قد يكون الموقع تقريبيًا أو غير متاح.
+على Android وiOS قد يطلب التطبيق موقعًا لمرة واحدة عند إعداد رسالة طلب مساعدة، أو اختياريًا لتحسين سياق الوصف المباشر. قد تتضمن رسالة المساعدة رابطًا بإحداثيات الموقع المتاحة، ويظهر لك للمراجعة قبل الإرسال. وعند تفعيل الموقع داخل الوصف المباشر يحاول التطبيق تحويل الموقع إلى اسم منطقة، وقد يرسل اسم المنطقة أو الإحداثيات عند تعذر تحديد الاسم إلى Gemini أو الخادم الوسيط طوال الجلسة. قد تكون القراءة غير دقيقة أو غير متاحة.
 
 14) وضع المشي المباشر والكاميرا في الخلفية
 في Android يمكن أن يعمل وضع المشي المباشر كخدمة أمامية ويستخدم الكاميرا دوريًا حتى توقفه. تُرسل اللقطات اللازمة للتحليل وفق نمط الاتصال. لا يستخدم بصير هذه اللقطات للإعلانات، لكن مزود الخدمة يعالجها وفق سياسته. أوقف الوضع عند انتهاء الحاجة واحترم خصوصية الآخرين.
@@ -343,7 +395,7 @@ The person responsible for the App is Abdullah Al-Rashidi. Privacy questions and
 • Basir does not require an account with the Developer.
 • The App contains no ads, advertising identifiers, or sale of data.
 • Many settings and results are stored locally on your device.
-• When you use AI, the Content you select is sent directly to Google Gemini or, on Android when selected, through a configured proxy server.
+• When you use AI, the Content you select is sent directly to Google Gemini or, when selected, through a configured proxy server.
 • Cloud AI processing cannot occur without sending Content to the provider being used.
 
 3) Data You Choose to Provide
@@ -362,7 +414,7 @@ The key is stored on the device. Android uses the system keystore and AES-GCM en
 In direct mode, the App sends your request, selected Content, and API key to Google Gemini over HTTPS. The data does not pass through a server owned by the Developer. Google controls processing within its service according to your account type, project, and its terms.
 
 8) Proxy Connection
-On Android, you may select a proxy server. The App then sends the request to the address you configured, and that server may send the Content to Gemini using a key stored by the server. The operator can technically access data passing through it and its policy determines retention, security, and processing location. The sample proxy included with the Basir project deletes temporary conversion files after a request, but you must not assume that every other proxy does the same.
+On Android or iOS, you may select a proxy server. The App then sends the request to the HTTPS address you configured, and that server may send the Content to Gemini using a key stored by the server. The operator can technically access data passing through it and its policy determines retention, security, and processing location. The sample proxy included with the Basir project deletes temporary conversion files after a request, but you must not assume that every other proxy does the same.
 
 9) Google Data Use: Unpaid and Paid Services
 Under the published Gemini API terms, Google may use inputs and outputs submitted through unpaid services to improve its products, and authorized people may review them. Google states that inputs and outputs in paid services are not used to improve products, although limited retention or review may still occur for abuse prevention and legal compliance. Confirm your project type before submitting sensitive information.
@@ -377,10 +429,10 @@ The App accesses an image or file only when you select or capture it or start a 
 The microphone is used when you start dictation or voice conversation. The operating system or speech-recognition provider may convert audio to text under your device settings. Basir does not intentionally create a permanent archive of raw voice recordings, but the resulting text may be processed and saved in activity history or results according to your settings.
 
 13) Location
-On Android, the App may request a one-time location when preparing a help message or, optionally, to improve context in live walking mode. On iOS, location is currently used for a help message when you choose it. The App does not send location automatically; the message is displayed for review before sending. Location may be approximate or unavailable.
+On Android and iOS, the App may request a one-time location when preparing a help message or, optionally, to improve context in live scene guidance. A help message may include a link containing the available coordinates, and it is displayed for review before sending. When location context is enabled for live guidance, the App tries to convert the location into an area name and may send that name, or coordinates if a name cannot be resolved, to Gemini or the configured proxy during the session. The reading may be inaccurate or unavailable.
 
 14) Live Walking Mode and Background Camera
-On Android, live walking mode can run as a foreground service and use the camera periodically until you stop it. Images needed for analysis are sent according to the selected connection mode. Basir does not use them for advertising, but the service provider processes them under its policy. Stop the mode when finished and respect other people’s privacy.
+On Android, live walking mode may run as a foreground service. On iOS, live scene guidance uses the camera only while the App is active in the foreground. Images needed for analysis are sent according to the selected connection mode. Basir does not use them for advertising, but the selected service provider processes them under its policy. Stop the mode when finished and respect other people’s privacy.
 
 15) Purposes
 Data is used to perform the feature you requested, personalize language and voice, save items you ask to save, prepare a help message, display local error information, secure the service, and comply with a legal obligation. It is not used to build an advertising profile or for direct marketing.

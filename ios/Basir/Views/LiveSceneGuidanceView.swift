@@ -1,163 +1,130 @@
-// LiveSceneGuidanceView.swift
-//
-// SwiftUI surface for the iOS port of Android's "Live walking mode".
-// One big Start / Stop button, two live regions (status + last spoken
-// line), and an optional GPS-hint toggle. Background = the foreground
-// scene-guidance loop, which iOS allows only while the app is
-// active (Apple prohibits camera access from the background, and we
-// don't fight that — we just tear down cleanly on .scenePhase change).
-//
-// VoiceOver: status + last-spoken-line are .accessibilityLiveRegion
-// equivalents so a screen-reader user hears each new hazard /
-// description without manual focus moves.
-
 import SwiftUI
 
 struct LiveSceneGuidanceView: View {
-
     @StateObject private var controller = LiveSceneGuidanceController(
         arabic: BasirSettings.shared.language == .arabic,
-        useGps: false)
+        useGps: false
+    )
     @Environment(\.scenePhase) private var scenePhase
-    @AppStorage("live_scene_use_gps") private var useGps: Bool = false
+    @AppStorage("live_scene_use_gps") private var useGps = false
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(L10n.t(
-                    "هذه أداة مساعدة فقط، وليست بديلًا عن العصا أو الكلب المرشد. لا تستخدمها وحدها لعبور الطرق أو السلالم، فقد يتأخر الوصف أو يخطئ.",
-                    "This is an aid only, not a replacement for a cane or guide dog. Never use it alone to cross roads or stairs, because descriptions may be delayed or wrong."
-                ))
-                .font(.callout)
-                .foregroundStyle(.secondary)
+        BasirScreen {
+            BasirStatusBanner(
+                text: L10n.t(
+                    "الوصف المباشر قد يتأخر أو يخطئ. لا تستخدمه وحده لعبور الطرق أو الدرج، واستمر في استخدام العصا أو وسيلة التنقل المعتادة.",
+                    "Live description may be delayed or wrong. Never use it alone for roads or stairs, and keep using your cane or usual mobility aid."
+                ),
+                tone: .warning,
+                title: L10n.t("تنبيه سلامة", "Safety notice")
+            )
 
-                statusCard
+            statusCard
+            lastLineCard
 
-                lastLineCard
-
-                if let error = controller.errorMessage {
-                    Text(error)
-                        .foregroundStyle(.red)
-                        .padding(12)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.red.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .accessibilityAddTraits(.isStaticText)
-                }
-
-                Toggle(L10n.t("استخدام الموقع لتحسين الوصف",
-                              "Use location to improve descriptions"),
-                       isOn: $useGps)
-                    .font(.callout)
-                    .disabled(controller.isRunning)
-
-                primaryButton
-
-                Text(L10n.t(
-                    "يعمل الوصف المباشر ما دام بصير ظاهرًا على الشاشة. عند قفل الشاشة أو الانتقال إلى تطبيق آخر، تتوقف الجلسة تلقائيًا.",
-                    "Live description runs only while Basir is visible on screen. The session stops automatically when the screen locks or you switch apps."
-                ))
-                .font(.footnote)
-                .foregroundStyle(.tertiary)
+            if let error = controller.errorMessage {
+                BasirStatusBanner(text: error, tone: .danger)
             }
-            .padding(20)
+
+            Toggle(isOn: $useGps) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(L10n.t("استخدام الموقع التقريبي", "Use approximate location"))
+                        .font(.body.weight(.medium))
+                    Text(L10n.t("قد يساعد في فهم نوع المكان، ولا يوفّر ملاحة أو توجيهًا دقيقًا.",
+                                 "May help identify the type of place, but does not provide navigation or precise guidance."))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .disabled(controller.isRunning)
+            .basirCardSurface()
+
+            primaryButton
+
+            BasirPageIntro(
+                text: L10n.t(
+                    "تعمل الكاميرا ما دام بصير ظاهرًا على الشاشة. تتوقف الجلسة عند قفل الشاشة أو الانتقال إلى تطبيق آخر.",
+                    "The camera runs only while Basir is visible. The session stops when the screen locks or you switch apps."
+                ),
+                tone: .neutral
+            )
         }
-        .navigationTitle(L10n.t("الوصف المباشر",
-                                  "Live scene description"))
+        .navigationTitle(L10n.t("الوصف المباشر", "Live scene description"))
+        .navigationBarTitleDisplayMode(.inline)
         .onChange(of: scenePhase) { _, phase in
-            // iOS prohibits camera in background. Tear down so the OS
-            // doesn't kill us with a black-frame warning and so the
-            // user knows the session ended.
             if phase != .active { controller.stop() }
         }
         .onDisappear { controller.stop() }
     }
 
-    // MARK: - Sub-views
-
-    @ViewBuilder
     private var statusCard: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(L10n.t("الحالة", "Status"))
-                .font(.subheadline.bold())
-                .foregroundStyle(.secondary)
-            Text(controller.lastStatus.isEmpty
-                 ? L10n.t("جاهز للبدء.", "Ready to start.")
-                 : controller.lastStatus)
-                .font(.body)
+        HStack(spacing: 14) {
+            Image(systemName: controller.isRunning ? "dot.radiowaves.left.and.right" : "pause.circle.fill")
+                .font(.system(size: 28, weight: .semibold))
                 .foregroundStyle(statusColor)
-                .accessibilityLabel(controller.lastStatus.isEmpty
-                                    ? L10n.t("جاهز للبدء.", "Ready to start.")
-                                    : controller.lastStatus)
-                .accessibilityAddTraits(.updatesFrequently)
+                .frame(width: 52, height: 52)
+                .background(statusColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 15))
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(L10n.t("الحالة", "Status"))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(controller.lastStatus.isEmpty
+                     ? L10n.t("جاهز للبدء", "Ready to start")
+                     : controller.lastStatus)
+                    .font(.headline)
+                    .foregroundStyle(statusColor)
+                    .accessibilityAddTraits(.updatesFrequently)
+            }
+            Spacer()
         }
-        .padding(12)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .basirCardSurface()
+        .accessibilityElement(children: .combine)
     }
 
-    @ViewBuilder
     private var lastLineCard: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(L10n.t("آخر وصف منطوق",
-                         "Last spoken description"))
+        VStack(alignment: .leading, spacing: 8) {
+            Label(L10n.t("آخر وصف منطوق", "Last spoken description"),
+                  systemImage: "speaker.wave.2.fill")
                 .font(.subheadline.bold())
                 .foregroundStyle(.secondary)
-            Text(controller.lastLine.isEmpty ? "—" : controller.lastLine)
-                .font(.title3.bold())
-                .accessibilityLabel(controller.lastLine.isEmpty ? "" : controller.lastLine)
+            Text(controller.lastLine.isEmpty
+                 ? L10n.t("لم يبدأ الوصف بعد.", "No description yet.")
+                 : controller.lastLine)
+                .font(.title3.weight(.semibold))
                 .accessibilityAddTraits(.updatesFrequently)
         }
-        .padding(12)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .basirCardSurface()
     }
 
     @ViewBuilder
     private var primaryButton: some View {
         if controller.isRunning {
-            Button(role: .destructive) {
-                controller.stop()
-            } label: {
-                Text(L10n.t("إيقاف الوصف", "Stop description"))
-                    .fontWeight(.bold)
-                    .frame(maxWidth: .infinity, minHeight: 60)
-                    .background(Color.red)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+            Button(role: .destructive) { controller.stop() } label: {
+                Label(L10n.t("إيقاف الوصف وإغلاق الكاميرا", "Stop description and close camera"),
+                      systemImage: "stop.circle.fill")
             }
-            .accessibilityHint(L10n.t(
-                "يوقف الوصف المباشر ويغلق الكاميرا.",
-                "Stops the live scene guidance and closes the camera."))
+            .buttonStyle(BasirPrimaryButtonStyle(tone: .danger))
         } else {
             Button {
-                // Re-apply current settings each start so the GPS
-                // toggle takes effect on the next session.
-                let arabic = BasirSettings.shared.language == .arabic
-                controller.configure(arabic: arabic, useGps: useGps)
+                controller.configure(
+                    arabic: BasirSettings.shared.language == .arabic,
+                    useGps: useGps
+                )
                 controller.start()
             } label: {
-                Text(L10n.t("بدء الوصف المباشر",
-                             "Start live scene guidance"))
-                    .fontWeight(.bold)
-                    .frame(maxWidth: .infinity, minHeight: 60)
-                    .background(Color.accentColor)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                Label(L10n.t("بدء الوصف المباشر", "Start live description"),
+                      systemImage: "play.circle.fill")
             }
-            .accessibilityHint(L10n.t(
-                "يلتقط صورة كل ثانيتين ويصف ما أمامك بصوت.",
-                "Captures one frame every two seconds and speaks a description."))
+            .buttonStyle(BasirPrimaryButtonStyle(tone: .success))
         }
     }
 
     private var statusColor: Color {
         switch controller.hazardLevel.lowercased() {
-        case "stop":    return Color(red: 0.84, green: 0.16, blue: 0.16)
-        case "caution": return Color(red: 0.93, green: 0.61, blue: 0.0)
-        default:        return .primary
+        case "stop": return .red
+        case "caution": return .orange
+        default: return controller.isRunning ? .green : .secondary
         }
     }
 }

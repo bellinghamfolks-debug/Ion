@@ -1,10 +1,18 @@
 # Basir for iOS | بصير لنظام iOS
 
-Current app version: **3.2.0**  
-Build number: **54**  
-Target: **iOS 17.0 or later**  
-Language: **Swift 5.9+**  
+Current app version: **4.4.0**
+Build number: **64**
+Target: **iOS 17.0 or later**
+Language: **Swift 5.9+**
 UI: **SwiftUI**
+
+## Interface and accessibility
+
+- A shared semantic design system keeps cards, status messages, controls, spacing, and colors consistent across every screen.
+- All primary interface copy is bilingual Arabic and English and changes with the in-app language setting.
+- Dynamic Type, dark mode, increased contrast, right-to-left layout, meaningful VoiceOver labels, and minimum touch-target sizes are supported throughout the app.
+- Long legal documents are divided into navigable headings, paragraphs, and bullet points instead of one inaccessible text block.
+- The Share Extension has its own accessible confirmation screen and no longer depends on an unrelated compose interface or a storyboard.
 
 ## Current feature set
 
@@ -26,18 +34,17 @@ UI: **SwiftUI**
 
 - Select a PDF of up to 500 pages, a Word file (DOCX), a PowerPoint file (PPTX), or a TXT or CSV file.
 - Extract readable text locally on the device. PDF uses Apple's PDFKit; DOCX uses Basir's `DocxReader`; PPTX uses Basir's `PptxReader`. Both DOCX and PPTX rely on a built-in zero-dependency ZIP reader (`Documents/ZipReader.swift`) that does not require any external library.
-- Send the extracted text to Gemini in eight-page batches (configurable via `PdfReader.pagesPerBatch`). The screen shows a live progress bar — "batch X of Y" — and a Cancel button that stops cleanly after the current batch finishes and keeps whatever was already produced. Long documents must run with the app open in the foreground.
-- A single failed batch does NOT abort the whole run. Failures are recorded per-batch, the loop continues, and a "Retry failed batches only" button appears at the end so the user can re-run just the missing pages without re-processing the rest. This matches the `ConversionState.retainedSnapshot` retry path on Android.
+- PDF and scanned-image conversion is isolated one page at a time. A failed page cannot erase the surrounding pages. The screen shows page-level progress, supports true cancellation of the active request, and preserves completed work as a clearly labelled partial result.
+- Each PDF page combines its local text layer, a high-resolution page image, a strict structured-output schema, validation of critical numbers and identifiers, and a second-pass retry when needed. A failed digital page falls back to local text; a failed scanned page is embedded as an accessible page image instead of disappearing.
 - Optional math mode (`Convert math inside the document`) instructs Gemini to render every equation as spoken text plus a `[LaTeX:]` trailer, using the same vocabulary as the dedicated math card.
 - Display the result as copyable, shareable text.
-- Optionally export the result as a real Word file (DOCX). Tap "Create a Word file" to generate an OOXML package on-device (`Documents/DocxWriter.swift` + `Documents/ZipWriter.swift`); the file is shared through the standard iOS share sheet.
-
-The current iOS implementation does not keep an uploaded document for later follow-up questions.
+- Optionally export the result as a real Word file (DOCX). The writer creates genuine headings, lists, tables, hyperlinks, mixed RTL/LTR runs, page breaks, rich text, and images with alternative text.
+- Ask follow-up questions about the last converted document. The document and question remain in the untrusted data channel, separate from the model's system instructions.
 
 ### More
 
 - Continuous voice conversation.
-- Help-message preparation with optional approximate location.
+- Help-message preparation with optional precise map coordinates shown for review before sending.
 - Local saved items for people, products, medications, and places.
 - Local results archive and optional activity history.
 - Settings, About, Terms and Conditions, and Privacy Policy.
@@ -84,8 +91,18 @@ Before submission:
 ## Source map
 
 - `Basir/ContentView.swift`: root tabs.
-- `Basir/Views`: user-facing screens.
-- `Basir/Networking/GeminiClient.swift`: direct Gemini client.
+- `Basir/Design/BasirDesignSystem.swift`: shared visual language, controls, result cards, status banners, and accessible screen containers.
+- `Basir/Views`: user-facing screens and bilingual interface copy.
+- `Basir/Networking/AITaskPolicy.swift`: the 23-task execution-policy catalogue, model routing, thinking levels, budgets, retries, and validation profiles.
+- `Basir/Networking/GeminiClient.swift`: hardened direct Gemini client, current structured-output transport, model fallback, and usage parsing.
+- `Basir/Networking/GeminiPrompts.swift`: central trusted prompt catalogue and randomized untrusted-data envelopes.
+- `Basir/Networking/AIResponseSchemas.swift`: bounded JSON schemas for structured visual, document, OCR, table, medical, and legal tasks.
+- `Basir/Networking/AIResponseValidator.swift`: semantic validation, critical-value preservation, safety checks, and screen-reader rendering.
+- `Basir/Networking/AIEngineMetrics.swift`: privacy-preserving local execution metrics with no prompt, document, image, or response content.
+- `Basir/Helpers/StructuredDocConverter.swift`: page-isolated conversion, validation, retry, and fallbacks.
+- `Basir/Documents/DocxWriter.swift`: accessible OOXML generation.
+- `BasirTests`: prompt, networking, and DOCX regression tests.
+- `scripts/verify_project.py`: repository safety and parser checks.
 - `Basir/Storage/KeychainStore.swift`: API-key storage.
 - `Basir/Memory/ArchiveStore.swift`: local saved data and history.
 - `Basir/Views/LegalScreens.swift`: in-app legal documents.

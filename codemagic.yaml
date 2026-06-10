@@ -4,9 +4,8 @@
 # ───────────────────────────
 # Building an iOS app needs macOS + Xcode. The developer's primary
 # machine is Linux/Windows, so we use Codemagic's hosted macOS
-# instances. The free tier (500 build minutes/month at the time of
-# writing) is plenty for a project this size: a clean build runs in
-# ~3-5 minutes.
+# instances. Build duration and plan limits are controlled by the
+# connected Codemagic account and may change over time.
 #
 # How to use this file
 # ────────────────────
@@ -61,6 +60,9 @@ workflows:
           include: true
 
     scripts:
+      - name: Run repository safety checks
+        script: python3 scripts/verify_project.py
+
       - name: Install XcodeGen
         # XcodeGen creates the .xcodeproj from ios/project.yml so we
         # never commit a binary Xcode project to git.
@@ -73,6 +75,20 @@ workflows:
           cd $XCODE_PROJECT_DIR
           xcodegen generate
           ls -la Basir.xcodeproj/
+
+      - name: Static analyzer
+        script: |
+          set -euo pipefail
+          cd $XCODE_PROJECT_DIR
+          xcodebuild analyze \
+            -project Basir.xcodeproj \
+            -scheme Basir \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -configuration Debug \
+            -derivedDataPath build-analyze \
+            CODE_SIGNING_ALLOWED=NO \
+            COMPILER_INDEX_STORE_ENABLE=NO
 
       - name: Build for iOS Simulator
         # Unsigned build for an iPhone 15 simulator. Catches compile
@@ -89,8 +105,23 @@ workflows:
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             COMPILER_INDEX_STORE_ENABLE=NO \
-            ONLY_ACTIVE_ARCH=YES \
-            | xcpretty || exit 1
+            ONLY_ACTIVE_ARCH=YES
+
+      - name: Run unit tests on simulator
+        script: |
+          set -euo pipefail
+          cd $XCODE_PROJECT_DIR
+          DEVICE_ID=$(xcrun simctl list devices available -j | python3 ../scripts/select_ios_simulator.py)
+          xcrun simctl boot "$DEVICE_ID" 2>/dev/null || true
+          xcrun simctl bootstatus "$DEVICE_ID" -b
+          xcodebuild test \
+            -project Basir.xcodeproj \
+            -scheme Basir \
+            -destination "platform=iOS Simulator,id=$DEVICE_ID" \
+            -configuration Debug \
+            -derivedDataPath build-tests \
+            CODE_SIGNING_ALLOWED=NO \
+            COMPILER_INDEX_STORE_ENABLE=NO
 
       - name: Verify .app bundle was produced
         script: |
@@ -100,7 +131,22 @@ workflows:
             echo "❌ Build did not produce $APP_PATH"
             exit 1
           fi
-          echo "✅ Built $APP_PATH"
+          if [ ! -d "$APP_PATH/PlugIns/BasirShare.appex" ]; then
+            echo "❌ Share extension was not embedded"
+            exit 1
+          fi
+          if [ ! -f "$APP_PATH/PrivacyInfo.xcprivacy" ]; then
+            echo "❌ PrivacyInfo.xcprivacy was not embedded"
+            exit 1
+          fi
+          plutil -lint "$APP_PATH/PrivacyInfo.xcprivacy"
+          HOST_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP_PATH/Info.plist")
+          SHARE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP_PATH/PlugIns/BasirShare.appex/Info.plist")
+          HOST_BUILD=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$APP_PATH/Info.plist")
+          SHARE_BUILD=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$APP_PATH/PlugIns/BasirShare.appex/Info.plist")
+          test "$HOST_VERSION" = "$SHARE_VERSION"
+          test "$HOST_BUILD" = "$SHARE_BUILD"
+          echo "✅ Built host app, embedded share extension, and privacy manifest"
           du -sh "$APP_PATH"
 
     artifacts:
@@ -146,6 +192,9 @@ workflows:
           include: true
 
     scripts:
+      - name: Run repository safety checks
+        script: python3 scripts/verify_project.py
+
       - name: Install XcodeGen
         script: brew install xcodegen
 
@@ -154,15 +203,14 @@ workflows:
           cd $XCODE_PROJECT_DIR
           xcodegen generate
 
-      - name: Stamp build number from commit count
-        # Codemagic's UI lets us set CFBundleVersion via agvtool, which
-        # keeps every IPA distinguishable in TestFlight / archive
-        # records. The marketing version (CFBundleShortVersionString)
-        # stays at whatever Info.plist declares.
+      - name: Stamp matching host and extension build numbers
         script: |
+          set -euo pipefail
           cd $XCODE_PROJECT_DIR
           BUILD_NUMBER=$(git rev-list HEAD --count)
-          agvtool new-version -all $BUILD_NUMBER || true
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" Basir/Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" ShareExtension/Info.plist
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' Basir/Info.plist)" =                "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' ShareExtension/Info.plist)"
 
       - name: Archive (unsigned, for inspection or external resigning)
         script: |
@@ -175,8 +223,7 @@ workflows:
             -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            | xcpretty || exit 1
+            CODE_SIGN_IDENTITY=""
 
       - name: Wrap .app into unsigned .ipa
         # Creates a real .ipa file and copies it to a guaranteed export
@@ -191,6 +238,20 @@ workflows:
             find . -maxdepth 5 -type d -name "*.app" -print
             exit 1
           fi
+          if [ ! -d "$APP_PATH/PlugIns/BasirShare.appex" ]; then
+            echo "❌ Missing embedded share extension in archive"
+            exit 1
+          fi
+          if [ ! -f "$APP_PATH/PrivacyInfo.xcprivacy" ]; then
+            echo "❌ Missing privacy manifest in archive"
+            exit 1
+          fi
+          plutil -lint "$APP_PATH/Info.plist"
+          plutil -lint "$APP_PATH/PlugIns/BasirShare.appex/Info.plist"
+          plutil -lint "$APP_PATH/PrivacyInfo.xcprivacy"
+          HOST_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP_PATH/Info.plist")
+          SHARE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP_PATH/PlugIns/BasirShare.appex/Info.plist")
+          test "$HOST_VERSION" = "$SHARE_VERSION"
 
           rm -rf Payload
           mkdir -p Payload

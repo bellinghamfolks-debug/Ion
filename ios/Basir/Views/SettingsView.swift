@@ -1,12 +1,10 @@
-// SettingsView.swift
-// Native, VoiceOver-friendly settings for Basir on iOS.
-
 import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var settings: BasirSettings
-    @State private var apiKey: String = ""
+    @State private var apiKey = ""
     @State private var showSavedToast = false
+    @State private var showClearedKeyToast = false
     @State private var pendingLanguage: AppLanguage?
     @State private var showLanguageConfirm = false
     @State private var showDeleteConfirm = false
@@ -14,213 +12,204 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section(L10n.t("اللغة", "Language")) {
-                // Confirm before switching, since it re-lays out the whole
-                // app (RTL/LTR) — a deliberate confirmation step.
-                Picker(L10n.t("لغة التطبيق", "App language"),
+            Section {
+                BasirStatusBanner(
+                    text: settings.isConfigured
+                        ? L10n.t("الاتصال بالذكاء الاصطناعي مُعدّ وجاهز للاستخدام.",
+                                 "The AI connection is configured and ready to use.")
+                        : L10n.t("أكمل قسم الاتصال أدناه حتى تعمل ميزات الوصف والتحليل.",
+                                 "Complete the connection section below to use description and analysis features."),
+                    tone: settings.isConfigured ? .success : .warning,
+                    title: settings.isConfigured
+                        ? L10n.t("جاهز للعمل", "Ready")
+                        : L10n.t("الإعداد غير مكتمل", "Setup incomplete")
+                )
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
+            }
+
+            Section {
+                Picker(L10n.t("لغة الواجهة", "Interface language"),
                        selection: Binding(
                         get: { settings.language },
                         set: { newValue in
-                            if newValue != settings.language {
-                                pendingLanguage = newValue
-                                showLanguageConfirm = true
-                            }
+                            guard newValue != settings.language else { return }
+                            pendingLanguage = newValue
+                            showLanguageConfirm = true
                         }
                        )) {
-                    ForEach(AppLanguage.allCases) { lang in
-                        Text(lang.displayName).tag(lang)
+                    ForEach(AppLanguage.allCases) { language in
+                        Text(language.displayName).tag(language)
                     }
                 }
-            }
 
-            Section {
                 Picker(L10n.t("المظهر", "Appearance"), selection: $settings.appearance) {
-                    Text(L10n.t("حسب النظام", "Match system")).tag("system")
+                    Text(L10n.t("تلقائي حسب iPhone", "Follow iPhone")).tag("system")
                     Text(L10n.t("فاتح", "Light")).tag("light")
                     Text(L10n.t("داكن", "Dark")).tag("dark")
                 }
-                Stepper(value: $settings.fontStep, in: 0...4) {
-                    Text(L10n.t("حجم الخط", "Text size") + ": \(settings.fontStep)/4")
+
+                Picker(L10n.t("حجم النص داخل بصير", "Text size in Basir"), selection: $settings.fontStep) {
+                    Text(L10n.t("الافتراضي", "Default")).tag(0)
+                    Text(L10n.t("كبير", "Large")).tag(1)
+                    Text(L10n.t("أكبر", "Larger")).tag(2)
+                    Text(L10n.t("كبير جدًا", "Extra large")).tag(3)
+                    Text(L10n.t("حجم وصول", "Accessibility size")).tag(4)
                 }
-                .accessibilityLabel(L10n.t("حجم الخط، المستوى \(settings.fontStep) من 4",
-                                           "Text size, level \(settings.fontStep) of 4"))
             } header: {
-                Text(L10n.t("المظهر وحجم النص", "Appearance and text size"))
+                Label(L10n.t("اللغة والمظهر", "Language and appearance"), systemImage: "textformat.size")
+            } footer: {
+                Text(L10n.t(
+                    "يتغير اتجاه الواجهة تلقائيًا عند اختيار العربية أو الإنجليزية. يحترم بصير أيضًا إعدادات تكبير النص والتباين في iPhone.",
+                    "The interface direction changes automatically for Arabic or English. Basir also respects iPhone text-size and contrast settings."
+                ))
             }
 
-            Section(L10n.t("الصوت والاهتزاز", "Voice and vibration")) {
-                Toggle(L10n.t("نطق النتائج والتنبيهات تلقائيًا", "Speak results and alerts automatically"),
+            Section {
+                Toggle(L10n.t("نطق النتائج المهمة تلقائيًا", "Speak important results automatically"),
                        isOn: $settings.speechEnabled)
-                Toggle(L10n.t("اهتزاز عند اكتمال العملية أو حدوث تنبيه", "Vibrate when a task finishes or an alert occurs"),
+                Toggle(L10n.t("اهتزاز عند اكتمال مهمة أو ظهور تنبيه", "Vibrate when a task finishes or an alert appears"),
                        isOn: $settings.vibrationEnabled)
-                HStack {
-                    Text(L10n.t("سرعة النطق", "Speech rate"))
+
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Text(L10n.t("سرعة النطق", "Speech rate"))
+                        Spacer()
+                        Text(String(format: "%.1f×", settings.ttsRate))
+                            .monospacedDigit()
+                            .foregroundStyle(.secondary)
+                    }
                     Slider(value: $settings.ttsRate, in: 0.5...1.5, step: 0.1)
                         .accessibilityLabel(L10n.t("سرعة النطق", "Speech rate"))
-                    Text(String(format: "%.1f×", settings.ttsRate))
-                        .monospacedDigit()
+                        .accessibilityValue(String(format: "%.1f", settings.ttsRate))
                 }
+            } header: {
+                Label(L10n.t("الصوت والاهتزاز", "Speech and vibration"), systemImage: "speaker.wave.2.fill")
             }
 
             Section {
-                Toggle(L10n.t("عدم تسجيل النشاط", "Do not record activity"),
+                Toggle(L10n.t("وضع الخصوصية: عدم إضافة نشاط جديد إلى السجل", "Privacy mode: do not add new activity to history"),
                        isOn: $settings.privacyMode)
-                Toggle(L10n.t("حفظ النتائج الجديدة تلقائيًا", "Automatically save new results"),
+                Toggle(L10n.t("حفظ النتائج الجديدة تلقائيًا على الجهاز", "Automatically save new results on this device"),
                        isOn: $settings.autoSaveResults)
             } header: {
-                Text(L10n.t("الخصوصية والتخزين المحلي", "Privacy and local storage"))
+                Label(L10n.t("الخصوصية والحفظ", "Privacy and saving"), systemImage: "hand.raised.fill")
             } footer: {
                 Text(L10n.t(
-                    "منع تسجيل النشاط يوقف إضافة عمليات جديدة فقط، ولا يحذف السجل السابق. الحفظ التلقائي يضيف النتائج الجديدة إلى قسم النتائج المحفوظة. لا يغيّر أي من الخيارين طريقة إرسال المحتوى عند استخدام ميزات الذكاء الاصطناعي.",
-                    "Disabling activity recording stops new log entries but does not delete existing history. Automatic saving adds new results to Saved Results. Neither setting changes how content is sent when you use AI features."
+                    "وضع الخصوصية يمنع إنشاء سجلات جديدة ولا يحذف السجل السابق. الحفظ التلقائي يضيف النتائج إلى قسم النتائج المحفوظة. كلا الخيارين محليان ولا يغيّران المحتوى المرسل عند تشغيل الذكاء الاصطناعي.",
+                    "Privacy mode stops new history entries but does not delete existing history. Automatic saving adds results to Saved Results. Both are local settings and do not change the content sent when AI runs."
                 ))
             }
 
             Section {
-                Picker(L10n.t("وضع الاتصال", "Connection mode"),
-                       selection: $settings.aiMode) {
-                    Text(L10n.t("مباشر باستخدام مفتاحي",
-                                 "Direct with my API key")).tag("direct")
-                    Text(L10n.t("عبر خادم وسيط",
-                                 "Through a proxy server")).tag("proxy")
+                Picker(L10n.t("طريقة الاتصال", "Connection method"), selection: $settings.aiMode) {
+                    Label(L10n.t("مباشر باستخدام مفتاحي", "Direct with my key"),
+                          systemImage: "key.fill").tag("direct")
+                    Label(L10n.t("عبر خادم وسيط", "Through a proxy server"),
+                          systemImage: "server.rack").tag("proxy")
                 }
-                .pickerStyle(.segmented)
+                .pickerStyle(.inline)
             } header: {
-                Text(L10n.t("الاتصال بخدمة الذكاء الاصطناعي",
-                             "AI service connection"))
+                Label(L10n.t("الاتصال بالذكاء الاصطناعي", "AI connection"), systemImage: "network")
             } footer: {
-                Text(L10n.t(
-                    "في الاتصال المباشر، يرسل بصير الطلب إلى Google Gemini باستخدام مفتاحك المحفوظ على الجهاز. أما الخادم الوسيط فيحتفظ بالمفتاح على خادمك أو خادم منظمتك، فلا تحتاج إلى إدخاله هنا.",
-                    "With a direct connection, Basir sends requests to Google Gemini using the key saved on this device. A proxy keeps the key on your server or your organization's server, so you do not enter it here."
-                ))
+                Text(settings.aiMode == "direct"
+                     ? L10n.t("تُرسل الطلبات مباشرة إلى Google Gemini باستخدام المفتاح المحفوظ في سلسلة مفاتيح iPhone.",
+                              "Requests are sent directly to Google Gemini using the key stored in the iPhone Keychain.")
+                     : L10n.t("تُرسل الطلبات إلى الخادم الذي تحدده. استخدم خادمًا موثوقًا يدعم HTTPS.",
+                              "Requests are sent to the server you specify. Use a trusted server that supports HTTPS."))
             }
 
             if settings.aiMode == "direct" {
-                Section {
-                    SecureField(L10n.t("مفتاح Gemini API", "Gemini API key"),
-                                text: $apiKey)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .accessibilityLabel(L10n.t(
-                            "حقل مفتاح Gemini API. الأحرف مخفية.",
-                            "Gemini API key field. Characters are hidden."
-                        ))
-                    Button(L10n.t("حفظ المفتاح بأمان", "Save key securely")) {
-                        KeychainStore.setGeminiKey(apiKey.trimmingCharacters(in: .whitespacesAndNewlines))
-                        showSavedToast = true
-                        apiKey = ""
-                    }
-                    .disabled(apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                } header: {
-                    Text(L10n.t("مفتاح Google Gemini", "Google Gemini API key"))
-                } footer: {
-                    Text(L10n.t(
-                        "تشترط Google حاليًا أن يكون استخدام Gemini API لمن بلغ 18 عامًا ولأغراض مهنية أو تجارية مسموحة. وقد تستخدم محتوى الخدمات غير المدفوعة لتحسين منتجاتها ويجوز أن يراجعه أشخاص مخولون. لا ترسل معلومات شخصية أو سرية قبل مراجعة سياسة الخصوصية وشروط مشروعك.",
-                        "Google currently requires Gemini API users to be 18 or older and to use the service for permitted professional or business purposes. Google may use content from unpaid services to improve its products, and authorized people may review it. Do not submit personal or confidential information before reviewing the Privacy Policy and your project terms."
-                    ))
-                }
+                directConnectionSection
             } else {
-                Section {
-                    TextField(L10n.t("عنوان الخادم الوسيط (HTTPS)",
-                                      "Proxy server URL (HTTPS)"),
-                              text: $settings.proxyURL)
-                        .keyboardType(.URL)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                    SecureField(L10n.t("الرمز السري المشترك (اختياري)",
-                                         "Shared client token (optional)"),
-                                text: $settings.proxyToken)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                } header: {
-                    Text(L10n.t("إعداد الخادم الوسيط", "Proxy server setup"))
-                } footer: {
-                    Text(L10n.t(
-                        "يجب أن يبدأ العنوان بـ HTTPS. إذا كان الخادم يتطلب رمزًا مشتركًا، فأدخله في الحقل المخصص. استخدم خادمًا تثق به، لأن بصير لا يستطيع التحقق من سياساته أو طريقة حفظه للبيانات.",
-                        "The address must use HTTPS. If the server requires a shared token, enter it in the field above. Use a server you trust, because Basir cannot verify its policies or data-handling practices."
-                    ))
-                }
+                proxyConnectionSection
             }
 
             Section {
-                Picker(L10n.t("جودة الصور والأسئلة", "Image and question quality"),
-                       selection: $settings.quickQuality) {
-                    Text(L10n.t("الأسرع · Flash Lite", "Fastest · Flash Lite")).tag("fast")
-                    Text(L10n.t("متوازن · Flash", "Balanced · Flash")).tag("balanced")
-                    Text(L10n.t("الأدق · Pro", "Most accurate · Pro")).tag("best")
+                Picker(L10n.t("الأسئلة والصور", "Questions and images"), selection: $settings.quickQuality) {
+                    Text(L10n.t("اقتصادي وأسرع", "Economical and fastest")).tag("fast")
+                    Text(L10n.t("متوازن", "Balanced")).tag("balanced")
+                    Text(L10n.t("أعلى دقة", "Highest accuracy")).tag("best")
                 }
-                Picker(L10n.t("جودة المستندات", "Document quality"),
-                       selection: $settings.docQuality) {
-                    Text(L10n.t("الأسرع · Flash Lite", "Fastest · Flash Lite")).tag("fast")
-                    Text(L10n.t("متوازن · Flash", "Balanced · Flash")).tag("balanced")
-                    Text(L10n.t("الأدق · Pro", "Most accurate · Pro")).tag("best")
+                Picker(L10n.t("المستندات والمعادلات", "Documents and equations"), selection: $settings.docQuality) {
+                    Text(L10n.t("اقتصادي وأسرع", "Economical and fastest")).tag("fast")
+                    Text(L10n.t("متوازن", "Balanced")).tag("balanced")
+                    Text(L10n.t("أعلى دقة", "Highest accuracy")).tag("best")
                 }
             } header: {
-                Text(L10n.t("سرعة وجودة النتائج", "Speed and result quality"))
+                Label(L10n.t("السرعة والدقة", "Speed and accuracy"), systemImage: "speedometer")
             } footer: {
                 Text(L10n.t(
-                    "عند استخدام الاتصال المباشر، يحدد هذا الاختيار توازن السرعة والدقة والتكلفة. أما في وضع الخادم الوسيط، فقد يحدد مشغل الخادم نموذجًا مختلفًا.",
-                    "With a direct connection, this controls the balance of speed, accuracy, and cost. In proxy mode, the server operator may choose a different model."
+                    "الدقة الأعلى أبطأ وقد تستهلك حصة أو تكلفة أكبر. في وضع الخادم الوسيط قد يختار مشغل الخادم نموذجًا مختلفًا.",
+                    "Higher accuracy is slower and may use more quota or cost. In proxy mode, the server operator may choose a different model."
                 ))
             }
 
             Section {
-                TextField(L10n.t("رقم شخص موثوق، مثال: +9665XXXXXXXX",
-                                  "Trusted contact number, e.g. +9665XXXXXXXX"),
+                TextField(L10n.t("مثال: +9665XXXXXXXX", "Example: +9665XXXXXXXX"),
                           text: $settings.emergencyContact)
                     .keyboardType(.phonePad)
+                    .textContentType(.telephoneNumber)
             } header: {
-                Text(L10n.t("جهة موثوقة للمساعدة", "Trusted help contact"))
+                Label(L10n.t("جهة موثوقة للمساعدة", "Trusted help contact"), systemImage: "person.crop.circle.badge.checkmark")
             } footer: {
                 Text(L10n.t(
-                    "يستخدم بصير هذا الرقم عند إنشاء رسالة مساعدة. سيفتح تطبيق الرسائل لتراجع المستلم والنص، ولن يتم الإرسال تلقائيًا.",
-                    "Basir uses this number when creating a help message. The Messages app opens so you can review the recipient and text; nothing is sent automatically."
+                    "يُستخدم الرقم فقط لتعبئة مستلم رسالة المساعدة. يفتح تطبيق الرسائل لتراجع النص والمستلم، ولا يتم الإرسال تلقائيًا.",
+                    "The number is used only to fill the recipient of a help message. Messages opens for review, and nothing is sent automatically."
                 ))
             }
 
             Section {
-                Button(role: .destructive) {
-                    showDeleteConfirm = true
-                } label: {
-                    Label(L10n.t("حذف جميع البيانات المحلية",
-                                 "Delete all local data"),
-                          systemImage: "trash")
+                Button(role: .destructive) { showDeleteConfirm = true } label: {
+                    Label(L10n.t("حذف الملاحظات والنتائج والسجل المحلي", "Delete local notes, results, and history"),
+                          systemImage: "trash.fill")
                 }
             } header: {
-                Text(L10n.t("إدارة البيانات المحلية", "Manage local data"))
+                Label(L10n.t("إدارة البيانات المحلية", "Manage local data"), systemImage: "internaldrive.fill")
             } footer: {
                 Text(L10n.t(
-                    "يحذف الملاحظات والنتائج المحفوظة وسجل النشاط والمستند الأخير والملفات المؤقتة من هذا الجهاز. لن يحذف مفتاح Gemini أو الملفات التي حفظتها في تطبيق الملفات.",
-                    "Deletes notes, saved results, activity history, the last document, and temporary files from this device. It does not delete your Gemini key or files saved in the Files app."
+                    "يحذف البيانات التي أنشأها بصير على هذا الجهاز، ولا يحذف مفتاح Gemini أو الملفات التي حفظتها بنفسك في تطبيق الملفات.",
+                    "Deletes data created by Basir on this device. It does not delete your Gemini key or files you saved in the Files app."
                 ))
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(BasirTheme.screenBackground)
         .navigationTitle(L10n.t("الإعدادات", "Settings"))
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
-        .alert(L10n.t("حُفظ المفتاح", "Key saved"), isPresented: $showSavedToast) {
+        .alert(L10n.t("تم حفظ المفتاح", "Key saved"), isPresented: $showSavedToast) {
             Button(L10n.t("حسنًا", "OK"), role: .cancel) {}
         } message: {
-            Text(L10n.t("حُفظ المفتاح بأمان في سلسلة مفاتيح iPhone على هذا الجهاز.",
-                        "The key was saved securely in the iPhone Keychain on this device."))
+            Text(L10n.t("حُفظ المفتاح في سلسلة مفاتيح iPhone على هذا الجهاز.",
+                        "The key was saved in the iPhone Keychain on this device."))
+        }
+        .alert(L10n.t("تم مسح المفتاح", "Key removed"), isPresented: $showClearedKeyToast) {
+            Button(L10n.t("حسنًا", "OK"), role: .cancel) {}
+        } message: {
+            Text(L10n.t("لن يعمل الاتصال المباشر حتى تضيف مفتاحًا جديدًا.",
+                        "Direct connection will not work until you add a new key."))
         }
         .confirmationDialog(
-            L10n.t("تغيير لغة بصير؟", "Change Basir language?"),
-            isPresented: $showLanguageConfirm, titleVisibility: .visible
+            L10n.t("تغيير لغة الواجهة؟", "Change interface language?"),
+            isPresented: $showLanguageConfirm,
+            titleVisibility: .visible
         ) {
-            Button(L10n.t("تغيير", "Change")) {
-                if let lang = pendingLanguage { settings.language = lang }
+            Button(L10n.t("تغيير اللغة", "Change language")) {
+                if let pendingLanguage { settings.language = pendingLanguage }
                 pendingLanguage = nil
             }
             Button(L10n.t("إلغاء", "Cancel"), role: .cancel) { pendingLanguage = nil }
         } message: {
-            Text(L10n.t("ستتغير نصوص الواجهة واتجاهها فورًا إلى اللغة الجديدة.",
-                        "The interface text and direction will switch immediately to the new language."))
+            Text(L10n.t("ستتغير النصوص واتجاه الواجهة فورًا.",
+                        "Text and interface direction will change immediately."))
         }
         .confirmationDialog(
-            L10n.t("حذف البيانات المحفوظة على هذا الجهاز؟", "Delete data saved on this device?"),
-            isPresented: $showDeleteConfirm, titleVisibility: .visible
+            L10n.t("حذف البيانات المحلية نهائيًا؟", "Permanently delete local data?"),
+            isPresented: $showDeleteConfirm,
+            titleVisibility: .visible
         ) {
-            Button(L10n.t("حذف", "Delete"), role: .destructive) {
+            Button(L10n.t("حذف البيانات", "Delete data"), role: .destructive) {
                 ArchiveStore.shared.clearAll()
                 LastDocumentStore.shared.text = nil
                 LastDocumentStore.shared.sourceName = nil
@@ -229,24 +218,81 @@ struct SettingsView: View {
             }
             Button(L10n.t("إلغاء", "Cancel"), role: .cancel) {}
         } message: {
-            Text(L10n.t("سيُحذف السجل والملاحظات والنتائج المحلية نهائيًا، ولا يمكن التراجع عن ذلك.",
-                        "Local history, notes, and saved results will be permanently deleted. This cannot be undone."))
+            Text(L10n.t("سيُحذف السجل والملاحظات والنتائج المحلية، ولا يمكن التراجع عن ذلك.",
+                        "Local history, notes, and results will be deleted and cannot be restored."))
         }
         .alert(L10n.t("اكتمل الحذف", "Deletion complete"), isPresented: $showDeletedToast) {
             Button(L10n.t("حسنًا", "OK"), role: .cancel) {}
         } message: {
-            Text(L10n.t("حُذفت البيانات المحلية المحفوظة على هذا الجهاز.",
-                        "Data saved locally on this device was deleted."))
+            Text(L10n.t("حُذفت البيانات المحلية من هذا الجهاز.",
+                        "Local data was deleted from this device."))
         }
     }
 
-    /// Best-effort cleanup of the app's temporary directory.
+    private var directConnectionSection: some View {
+        Section {
+            SecureField(L10n.t("ألصق مفتاح Gemini API", "Paste Gemini API key"), text: $apiKey)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .privacySensitive()
+
+            Button {
+                KeychainStore.setGeminiKey(apiKey.trimmingCharacters(in: .whitespacesAndNewlines))
+                apiKey = ""
+                showSavedToast = true
+            } label: {
+                Label(L10n.t("حفظ المفتاح بأمان", "Save key securely"), systemImage: "key.fill")
+            }
+            .disabled(apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+
+            if !KeychainStore.geminiKey().isEmpty {
+                Button(role: .destructive) {
+                    KeychainStore.setGeminiKey("")
+                    showClearedKeyToast = true
+                } label: {
+                    Label(L10n.t("مسح المفتاح المحفوظ", "Remove saved key"), systemImage: "key.slash.fill")
+                }
+            }
+        } header: {
+            Text(L10n.t("مفتاح Google Gemini", "Google Gemini key"))
+        } footer: {
+            Text(L10n.t(
+                "المفتاح مخفي ومحفوظ محليًا. قد تختلف معالجة Google للمحتوى بحسب نوع مشروعك وفوترته؛ لا ترسل معلومات سرية قبل مراجعة شروط حسابك.",
+                "The key is hidden and stored locally. Google's handling of content may vary by project and billing status; do not send confidential information before reviewing your account terms."
+            ))
+        }
+    }
+
+    private var proxyConnectionSection: some View {
+        Section {
+            TextField(L10n.t("عنوان الخادم، يبدأ بـ https://", "Server URL, starting with https://"),
+                      text: $settings.proxyURL)
+                .keyboardType(.URL)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+
+            SecureField(L10n.t("رمز وصول مشترك، اختياري", "Shared access token, optional"),
+                        text: $settings.proxyToken)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .privacySensitive()
+        } header: {
+            Text(L10n.t("الخادم الوسيط", "Proxy server"))
+        } footer: {
+            Text(L10n.t(
+                "يجب أن يستخدم العنوان HTTPS. بصير لا يستطيع التحقق من سياسة الخادم أو مدة احتفاظه بالبيانات.",
+                "The address must use HTTPS. Basir cannot verify the server's policy or data-retention period."
+            ))
+        }
+    }
+
     private func clearTempFiles() {
-        let fm = FileManager.default
-        let tmp = fm.temporaryDirectory
-        if let items = try? fm.contentsOfDirectory(at: tmp,
-                                                   includingPropertiesForKeys: nil) {
-            for url in items { try? fm.removeItem(at: url) }
+        let manager = FileManager.default
+        if let items = try? manager.contentsOfDirectory(
+            at: manager.temporaryDirectory,
+            includingPropertiesForKeys: nil
+        ) {
+            for url in items { try? manager.removeItem(at: url) }
         }
     }
 }

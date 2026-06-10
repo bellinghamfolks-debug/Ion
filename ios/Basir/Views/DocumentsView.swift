@@ -1,7 +1,3 @@
-// DocumentsView.swift  (Documents tab)
-// Mirrors Android renderDocumentsTab(): "Documents and conversion"
-// section + a "Language" section with Translate and explain.
-
 import SwiftUI
 
 struct DocumentsView: View {
@@ -9,68 +5,92 @@ struct DocumentsView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    Hero()
+            BasirScreen {
+                BasirHero(
+                    eyebrow: L10n.t("المستندات", "DOCUMENTS"),
+                    title: L10n.t("حوّل الملف إلى محتوى قابل للعمل", "Turn a file into usable content"),
+                    subtitle: L10n.t(
+                        "افتح PDF أو Word أو PowerPoint، نظّم المحتوى، ترجم عند الحاجة، ثم صدّره إلى Word.",
+                        "Open a PDF, Word, or PowerPoint file, organize the content, translate when needed, then export to Word."
+                    ),
+                    systemImage: "doc.text.magnifyingglass"
+                )
 
-                    SectionHeader(L10n.t("قراءة المستندات ومعالجتها",
-                                          "Read and process documents"))
+                BasirSectionHeader(
+                    title: L10n.t("قراءة وتحويل الملفات", "Read and convert files"),
+                    subtitle: L10n.t(
+                        "تظهر حالة كل مرحلة بوضوح، ولن يُخفى فشل أي صفحة أو جزء.",
+                        "Every stage is shown clearly, and failed pages or sections are never hidden."
+                    )
+                )
 
+                NavigationLink {
+                    DocumentConvertView()
+                } label: {
+                    BasirFeatureCard(
+                        systemImage: "doc.badge.gearshape.fill",
+                        title: L10n.t("فتح ملف ومعالجته", "Open and process a file"),
+                        description: L10n.t(
+                            "استخرج النص والبنية والصور، اختر الترجمة أو وصف الرسومات، ثم أنشئ ملف Word قابلًا للمراجعة.",
+                            "Extract text, structure, and images; choose translation or figure descriptions; then create a reviewable Word file."
+                        ),
+                        badge: L10n.t("PDF إلى Word", "PDF to Word")
+                    )
+                }
+                .buttonStyle(.plain)
+
+                if lastDoc.hasDocument {
                     NavigationLink {
-                        DocumentConvertView()
+                        DocumentQAView()
                     } label: {
-                        BasirCard(
-                            icon: "📄",
-                            title: L10n.t("فتح مستند ومعالجته",
-                                          "Open and process a document"),
-                            description: L10n.t(
-                                "افتح PDF أو Word أو PowerPoint أو ملفًا نصيًا، ثم نظّم محتواه أو ترجمه وصدّر النتيجة إلى Word.",
-                                "Open a PDF, Word, PowerPoint, or text file, then organize or translate its content and export the result to Word."
-                            )
-                        )
-                    }
-                    .buttonStyle(.plain)
-
-                    // Shown only after a document has been converted, like
-                    // Android's conditional "Ask about the latest document".
-                    if lastDoc.hasDocument {
-                        NavigationLink {
-                            DocumentQAView()
-                        } label: {
-                            BasirCard(
-                                icon: "❓",
-                                title: L10n.t("اسأل عن المستند الأخير",
-                                              "Ask about your last document"),
-                                description: lastDoc.sourceName.map { name in
-                                    L10n.t("المستند: ", "Document: ") + name
-                                } ?? L10n.t(
-                                    "اطرح سؤالًا عن محتوى المستند الذي عالجته مؤخرًا.",
-                                    "Ask a question about the document you processed most recently."
-                                )
-                            )
-                        }
-                        .buttonStyle(.plain)
-                    }
-
-                    SectionHeader(L10n.t("الترجمة", "Translation"))
-
-                    NavigationLink {
-                        TranslateView()
-                    } label: {
-                        BasirCard(
-                            icon: "🌐",
-                            title: L10n.t("ترجمة النصوص", "Translate text"),
-                            description: L10n.t(
-                                "ترجم نصًا أو مستندًا، واطلب شرح المعنى أو النبرة أو المصطلحات عند الحاجة.",
-                                "Translate text or a document, and ask for clarification of meaning, tone, or terminology when needed."
-                            )
+                        BasirFeatureCard(
+                            systemImage: "questionmark.bubble.fill",
+                            title: L10n.t("اسأل عن آخر مستند", "Ask about the latest document"),
+                            description: lastDocumentDescription,
+                            tone: .info
                         )
                     }
                     .buttonStyle(.plain)
                 }
-                .padding(20)
+
+                BasirSectionHeader(
+                    title: L10n.t("الترجمة", "Translation"),
+                    subtitle: L10n.t(
+                        "للعبارات القصيرة أو المستندات التي تحتاج ترجمة مباشرة مع الحفاظ على المعنى.",
+                        "For short passages or documents that need a direct, meaning-preserving translation."
+                    )
+                )
+
+                NavigationLink {
+                    TranslateView()
+                } label: {
+                    BasirFeatureCard(
+                        systemImage: "character.book.closed.fill",
+                        title: L10n.t("ترجمة نص أو مستند", "Translate text or a document"),
+                        description: L10n.t(
+                            "اختر اللغتين، ألصق النص أو استورده من ملف، ثم راجع الترجمة وانسخها أو شاركها.",
+                            "Choose both languages, paste or import the text, then review, copy, or share the translation."
+                        ),
+                        tone: .success
+                    )
+                }
+                .buttonStyle(.plain)
             }
+            .navigationTitle(L10n.t("المستندات", "Documents"))
             .navigationBarTitleDisplayMode(.inline)
         }
+    }
+
+    private var lastDocumentDescription: String {
+        if let name = lastDoc.sourceName, !name.isEmpty {
+            return L10n.t(
+                "تابع العمل على «\(name)» من دون إعادة فتح الملف.",
+                "Continue working with “\(name)” without opening the file again."
+            )
+        }
+        return L10n.t(
+            "اطرح سؤالًا دقيقًا عن المستند الذي عالجته مؤخرًا.",
+            "Ask a focused question about the document you processed most recently."
+        )
     }
 }

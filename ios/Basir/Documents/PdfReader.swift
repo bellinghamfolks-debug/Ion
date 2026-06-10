@@ -55,13 +55,11 @@ struct PdfReader {
     /// the same order of magnitude as ScribeMe-class tools.
     static let maxPagesPerShot = 500
 
-    /// Per-Gemini-batch page count. Each batch is one foreground
-    /// `convert` call; we keep batches small enough that the output
-    /// stays under Gemini Flash's per-response token cap (~8K) with
-    /// dense Arabic / English text. 8 pages per batch is the sweet
-    /// spot in our tests: large enough to amortise the round-trip,
-    /// small enough that an 80-page lecture pack only needs 10 calls.
-    static let pagesPerBatch = 8
+    /// One page-equivalent per request. Larger batches were faster, but a
+    /// malformed or truncated model response could erase several pages at
+    /// once. Page isolation makes retries deterministic and prevents the
+    /// former 5–8 / 9–12 grouped-failure pattern.
+    static let pagesPerBatch = 1
 
     /// Per-page extracted text. Empty strings mean the page had no
     /// readable content (typical for scanned PDFs and cover pages).
@@ -104,22 +102,36 @@ struct PdfReader {
         PDFDocument(url: url)?.pageCount ?? 0
     }
 
-    /// Render the first `maxPages` pages to JPEG data, for OCR via Gemini
-    /// vision when a PDF is a scan with no text layer (matches Android's
-    /// PdfRenderer → Gemini path).
-    static func renderPageImages(from url: URL,
-                                 maxPages: Int = 40,
-                                 longEdge: CGFloat = 1600) -> [Data] {
-        guard let doc = PDFDocument(url: url) else { return [] }
-        var out: [Data] = []
-        let count = min(doc.pageCount, maxPages)
-        for i in 0..<count {
-            guard let page = doc.page(at: i) else { continue }
+    /// Render a SINGLE page to JPEG data, for OCR via Gemini vision when
+    /// a PDF is a scan with no text layer (matches Android's PdfRenderer →
+    /// Gemini path).
+    ///
+    /// Rendering one page at a time — instead of building an array of
+    /// every page up front — is essential: a long scanned PDF rendered
+    /// all at once holds hundreds of MB of bitmaps/JPEGs simultaneously
+    /// and iOS terminates the app (a freeze-then-crash). The caller
+    /// (DocumentText.ocrPdf) opens the document once and walks pages,
+    /// transcribing and releasing each before rendering the next. The
+    /// autoreleasepool frees the bitmap promptly between pages.
+    static func jpegData(for page: PDFPage,
+                         longEdge: CGFloat = 1600,
+                         quality: CGFloat = 0.72,
+                         rotationDegrees: Int = 0) -> Data? {
+        autoreleasepool {
             let bounds = page.bounds(for: .mediaBox)
-            guard bounds.width > 0, bounds.height > 0 else { continue }
-            let scale = min(1.0, longEdge / max(bounds.width, bounds.height))
+            guard bounds.width > 0, bounds.height > 0 else { return nil }
+            // PDF pages are measured in points, not pixels. The old code
+            // capped scale at 1.0, producing ~800 px pages even when the
+            // caller requested 2400 px. That made small Arabic text and
+            // table cells unreadable to OCR. Render at the requested pixel
+            // size, capped to avoid pathological memory use.
+            let requestedScale = longEdge / max(bounds.width, bounds.height)
+            let scale = min(4.0, max(1.0, requestedScale))
             let size = CGSize(width: bounds.width * scale, height: bounds.height * scale)
-            let renderer = UIGraphicsImageRenderer(size: size)
+            let format = UIGraphicsImageRendererFormat.default()
+            format.scale = 1
+            format.opaque = true
+            let renderer = UIGraphicsImageRenderer(size: size, format: format)
             let img = renderer.image { ctx in
                 UIColor.white.set()
                 ctx.fill(CGRect(origin: .zero, size: size))
@@ -127,8 +139,63 @@ struct PdfReader {
                 ctx.cgContext.scaleBy(x: scale, y: -scale)
                 page.draw(with: .mediaBox, to: ctx.cgContext)
             }
-            if let data = img.jpegData(compressionQuality: 0.7) { out.append(data) }
+            let final = rotationDegrees % 360 == 0 ? img
+                                                    : rotate(img, degrees: rotationDegrees)
+            return final.jpegData(compressionQuality: min(max(quality, 0.35), 0.95))
         }
-        return out
+    }
+
+    /// Rotate a rendered page image clockwise by 90/180/270° so a scan
+    /// that was stored sideways is sent to the model UPRIGHT — sideways
+    /// Arabic is what made the model misread and fabricate.
+    private static func rotate(_ image: UIImage, degrees: Int) -> UIImage {
+        let radians = CGFloat(degrees) * .pi / 180
+        let swap = (degrees % 180) != 0
+        let newSize = swap ? CGSize(width: image.size.height, height: image.size.width)
+                           : image.size
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        return renderer.image { ctx in
+            let cg = ctx.cgContext
+            cg.translateBy(x: newSize.width / 2, y: newSize.height / 2)
+            cg.rotate(by: radians)
+            image.draw(in: CGRect(x: -image.size.width / 2,
+                                  y: -image.size.height / 2,
+                                  width: image.size.width,
+                                  height: image.size.height))
+        }
+    }
+}
+
+struct PdfPageSnapshot: Sendable {
+    let text: String
+    let jpegData: Data?
+}
+
+/// Owns PDFKit objects behind an actor boundary so page extraction and
+/// rendering never execute on SwiftUI's main actor and never overlap.
+actor PdfPageSnapshotter {
+    private let document: PDFDocument
+    nonisolated let pageCount: Int
+
+    init(url: URL, maxPages: Int) throws {
+        guard let document = PDFDocument(url: url) else { throw PdfReadError.couldNotOpen }
+        guard document.pageCount <= maxPages else {
+            throw PdfReadError.tooLarge(pages: document.pageCount, max: maxPages)
+        }
+        self.document = document
+        self.pageCount = document.pageCount
+    }
+
+    func snapshot(
+        at index: Int,
+        longEdge: CGFloat = 2_600,
+        quality: CGFloat = 0.82
+    ) -> PdfPageSnapshot? {
+        guard index >= 0, index < pageCount, let page = document.page(at: index) else { return nil }
+        let text = page.string?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        return PdfPageSnapshot(
+            text: text,
+            jpegData: PdfReader.jpegData(for: page, longEdge: longEdge, quality: quality)
+        )
     }
 }

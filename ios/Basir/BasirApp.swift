@@ -48,6 +48,7 @@ struct BasirApp: App {
             ContentView()
                 .environmentObject(settings)
                 .environmentObject(shareInbox)
+                .tint(BasirTheme.brand)
                 // Apply RTL when Arabic is selected. iOS picks layout
                 // direction from the locale by default, but our app
                 // keeps its own language preference independent of the

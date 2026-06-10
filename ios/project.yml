@@ -106,3 +106,28 @@ targets:
         CODE_SIGN_ENTITLEMENTS: ShareExtension/BasirShare.entitlements
         DEVELOPMENT_TEAM: ""
         CODE_SIGN_STYLE: Automatic
+
+  BasirTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: BasirTests
+    dependencies:
+      - target: Basir
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.basir.ai.tests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""
+
+schemes:
+  Basir:
+    build:
+      targets:
+        Basir: all
+        BasirShare: all
+    test:
+      targets:
+        - BasirTests

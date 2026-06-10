@@ -58,52 +58,32 @@ final class BasirSettings: ObservableObject {
         if aiMode == "direct" {
             return !KeychainStore.geminiKey().isEmpty
         }
-        return proxyURL.hasPrefix("https://") || proxyURL.hasPrefix("http://")
+        return NetworkTransport.safeProxyEndpoint(from: proxyURL) != nil
     }
 
-    /// Map a quality preset to the actual Gemini model ID. Matches
-    /// AiClient.modelForQuality on Android.
+    /// Current Gemini routing and task-level execution policy. Every task
+    /// has its own model candidates, thinking level, temperature, timeout,
+    /// output budget, validation profile, and repair behavior.
+    func policy(for task: TaskKind) -> AITaskPolicy {
+        AITaskPolicyCatalog.policy(for: task)
+    }
+
+    func modelsForQuality(_ quality: String) -> [String] {
+        AIModelRouter.models(for: quality)
+    }
+
     func modelForQuality(_ quality: String) -> String {
-        switch quality {
-        case "fast":     return "gemini-2.5-flash-lite"
-        case "best":     return "gemini-2.5-pro"
-        case "balanced": fallthrough
-        default:         return "gemini-2.5-flash"
-        }
+        modelsForQuality(quality).first ?? "gemini-3.5-flash"
+    }
+
+    func modelsFor(task: TaskKind) -> [String] {
+        policy(for: task).modelCandidates(
+            quickQuality: quickQuality,
+            documentQuality: docQuality
+        )
     }
 
     func modelFor(task: TaskKind) -> String {
-        // Live scene guidance ALWAYS uses Flash regardless of the user's
-        // selected quality — navigation latency beats Pro-level fidelity
-        // (matches Android LiveWalkingController's QUALITY_BALANCED pick).
-        if task == .liveScene { return modelForQuality("balanced") }
-        // Cost control: ordinary vision + text tasks run on the quick
-        // preset (Flash by default), which is plenty for description,
-        // alt text, screenshots, currency, and reading tasks. Only the
-        // genuinely quality-sensitive jobs (document conversion, doc Q&A,
-        // math extraction) fall through to the document preset (Pro).
-        // This cuts the cost of the most-used features ~10x vs Pro with
-        // no meaningful quality loss.
-        let quick: Set<TaskKind> = [.ask, .translate, .reply, .quick, .health,
-                                     .medicalText, .legalText, .tableRead,
-                                     .describeImage, .altText, .screenshot,
-                                     .currencyOrReceipt]
-        let preset = quick.contains(task) ? quickQuality : docQuality
-        return modelForQuality(preset)
+        modelsFor(task: task).first ?? "gemini-3.5-flash"
     }
-}
-
-enum TaskKind: String {
-    case ask, translate, reply, quick, health
-    case describeImage = "describe_image"
-    case altText = "alt_text"
-    case screenshot
-    case currencyOrReceipt = "currency_or_receipt"
-    case medicalText = "medical_text"
-    case legalText = "legal_text"
-    case tableRead = "table_read"
-    case mathExtract = "math_extract"
-    case liveScene = "live_scene"
-    case convert
-    case askDocument = "ask_document"
 }

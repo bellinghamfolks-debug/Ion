@@ -38,3 +38,7 @@ credentials.json
 *.cer
 *.mobileprovision
 .credentials
+
+# Python verification caches
+__pycache__/
+*.py[cod]

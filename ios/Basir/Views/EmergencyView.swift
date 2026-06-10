@@ -1,6 +1,3 @@
-// EmergencyView.swift
-// Prepares a message in the system composer. The user must review and send it.
-
 import SwiftUI
 import MessageUI
 import CoreLocation
@@ -10,83 +7,76 @@ struct EmergencyView: View {
     @StateObject private var location = LocationService.shared
     @StateObject private var tts = SpeechSynthesizer.shared
     @State private var showMessageComposer = false
-    @State private var smsBody: String = ""
+    @State private var smsBody = ""
     @State private var smsRecipients: [String] = []
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(L10n.t(
-                    "لن يرسل بصير أي رسالة تلقائيًا، ولن يتصل بخدمات الطوارئ. سيفتح تطبيق الرسائل لتراجع المستلم والنص والموقع قبل الإرسال.",
-                    "Basir never sends a message automatically and does not contact emergency services. The Messages app opens so you can review the recipient, text, and location before sending."
-                ))
-                .font(.callout)
-                .foregroundStyle(.secondary)
-                .padding(12)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.orange.opacity(0.12))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+        BasirScreen {
+            BasirStatusBanner(
+                text: L10n.t(
+                    "بصير لا يتصل بخدمات الطوارئ ولا يرسل رسالة تلقائيًا. سيفتح تطبيق الرسائل لتراجع المستلم والنص والموقع ثم تقرر الإرسال.",
+                    "Basir does not contact emergency services or send messages automatically. It opens Messages so you can review the recipient, text, and location before deciding to send."
+                ),
+                tone: .warning,
+                title: L10n.t("ليست خدمة طوارئ", "Not an emergency service")
+            )
 
-                if settings.emergencyContact.isEmpty {
-                    Label(L10n.t("لا توجد جهة مساعدة محفوظة. أضف رقمًا من الإعدادات قبل المتابعة.",
-                                  "No help contact is saved. Add a number in Settings before continuing."),
-                           systemImage: "exclamationmark.triangle.fill")
-                        .padding(12)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.yellow.opacity(0.18))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                } else {
-                    Text(L10n.t("جهة المساعدة المحفوظة: ",
-                                 "Saved help contact: ") + settings.emergencyContact)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
+            if settings.emergencyContact.isEmpty {
+                BasirStatusBanner(
+                    text: L10n.t(
+                        "لا توجد جهة موثوقة محفوظة. أضف رقمًا من الإعدادات لتجهيز رسالة مساعدة.",
+                        "No trusted contact is saved. Add a number in Settings to prepare a help message."
+                    ),
+                    tone: .danger,
+                    title: L10n.t("يلزم إضافة رقم", "A contact number is required")
+                )
+
+                NavigationLink { SettingsView() } label: {
+                    Label(L10n.t("فتح إعدادات جهة المساعدة", "Open help contact settings"),
+                          systemImage: "person.crop.circle.badge.plus")
                 }
+                .buttonStyle(BasirPrimaryButtonStyle())
+            } else {
+                BasirInfoRow(
+                    label: L10n.t("الجهة الموثوقة", "Trusted contact"),
+                    value: settings.emergencyContact,
+                    systemImage: "person.crop.circle.fill.badge.checkmark"
+                )
 
-                Button {
-                    Task { await prepareHelpRequest() }
-                } label: {
-                    Label(L10n.t("إنشاء رسالة مساعدة", "Create help message"),
+                Button { Task { await prepareHelpRequest() } } label: {
+                    Label(L10n.t("تجهيز رسالة مساعدة مع الموقع", "Prepare a help message with location"),
                           systemImage: "sos.circle.fill")
-                        .fontWeight(.semibold)
-                        .frame(maxWidth: .infinity, minHeight: 64)
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(.red)
-                .disabled(settings.emergencyContact.isEmpty)
-                .accessibilityHint(L10n.t(
-                    "يحاول إضافة موقعك التقريبي إلى رسالة جديدة، ثم يفتح تطبيق الرسائل لتراجع النص والموقع قبل الإرسال.",
-                    "Attempts to add your approximate location to a new message, then opens the Messages app so you can review the text and location before sending."
-                ))
+                .buttonStyle(BasirPrimaryButtonStyle(tone: .danger))
 
-                Button {
-                    playLocatorSound()
-                } label: {
-                    Label(L10n.t("تشغيل نداء صوتي للمساعدة", "Play an audible help call"),
-                          systemImage: "speaker.wave.3.fill")
-                        .frame(maxWidth: .infinity, minHeight: 56)
-                }
-                .buttonStyle(.bordered)
-
-                Button {
-                    Task { await prepareLocationMessage() }
-                } label: {
-                    Label(L10n.t("إضافة موقعي إلى رسالة", "Add my location to a message"),
+                Button { Task { await prepareLocationMessage() } } label: {
+                    Label(L10n.t("تجهيز رسالة بالموقع فقط", "Prepare a location-only message"),
                           systemImage: "location.fill")
-                        .frame(maxWidth: .infinity, minHeight: 56)
                 }
-                .buttonStyle(.bordered)
-                .disabled(settings.emergencyContact.isEmpty)
+                .buttonStyle(BasirSecondaryButtonStyle(tone: .info))
             }
-            .padding(20)
+
+            Button { playLocatorSound() } label: {
+                Label(L10n.t("تشغيل نداء صوتي: أحتاج إلى مساعدة", "Play audible call: I need help"),
+                      systemImage: "speaker.wave.3.fill")
+            }
+            .buttonStyle(BasirSecondaryButtonStyle(tone: .warning))
+
+            BasirPageIntro(
+                text: L10n.t(
+                    "الموقع المضاف تقريبي وقد لا يتوفر داخل المباني. راجع الرابط والنص قبل الإرسال.",
+                    "The added location is approximate and may be unavailable indoors. Review the link and message before sending."
+                ),
+                tone: .neutral
+            )
         }
         .navigationTitle(L10n.t("طلب مساعدة", "Get help"))
+        .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showMessageComposer) {
             if MFMessageComposeViewController.canSendText() {
-                MessageComposer(
-                    body: smsBody,
-                    recipients: smsRecipients,
-                    onResult: { _ in showMessageComposer = false }
-                )
+                MessageComposer(body: smsBody, recipients: smsRecipients) { _ in
+                    showMessageComposer = false
+                }
             } else {
                 ShareSheet(items: [smsBody])
             }
@@ -100,22 +90,20 @@ struct EmergencyView: View {
     }
 
     private func prepareHelpRequest() async {
-        let coord = await location.fetchOnce()?.coordinate
-        let mapsLink = coord.map { LocationService.mapsLink(for: $0) }
-        let preface = L10n.t("أحتاج إلى مساعدة. هذا موقعي التقريبي: ",
-                              "I need help. This is my approximate location: ")
-        smsBody = preface + (mapsLink ?? L10n.t("الموقع غير متاح حاليًا.",
-                                                "Location is currently unavailable."))
+        let coordinate = await location.fetchOnce()?.coordinate
+        let mapsLink = coordinate.map { LocationService.mapsLink(for: $0) }
+        smsBody = L10n.t("أحتاج إلى مساعدة. هذا موقعي التقريبي: ",
+                          "I need help. This is my approximate location: ")
+            + (mapsLink ?? L10n.t("الموقع غير متاح حاليًا.", "Location is currently unavailable."))
         smsRecipients = [settings.emergencyContact]
         showMessageComposer = true
     }
 
     private func prepareLocationMessage() async {
-        let coord = await location.fetchOnce()?.coordinate
-        let mapsLink = coord.map { LocationService.mapsLink(for: $0) }
+        let coordinate = await location.fetchOnce()?.coordinate
+        let mapsLink = coordinate.map { LocationService.mapsLink(for: $0) }
         smsBody = L10n.t("موقعي التقريبي: ", "My approximate location: ")
-            + (mapsLink ?? L10n.t("الموقع غير متاح حاليًا.",
-                                   "Location is currently unavailable."))
+            + (mapsLink ?? L10n.t("الموقع غير متاح حاليًا.", "Location is currently unavailable."))
         smsRecipients = [settings.emergencyContact]
         showMessageComposer = true
     }
@@ -127,11 +115,11 @@ private struct MessageComposer: UIViewControllerRepresentable {
     let onResult: (MessageComposeResult) -> Void
 
     func makeUIViewController(context: Context) -> MFMessageComposeViewController {
-        let vc = MFMessageComposeViewController()
-        vc.messageComposeDelegate = context.coordinator
-        vc.body = body
-        vc.recipients = recipients
-        return vc
+        let controller = MFMessageComposeViewController()
+        controller.messageComposeDelegate = context.coordinator
+        controller.body = body
+        controller.recipients = recipients
+        return controller
     }
 
     func updateUIViewController(_ uiViewController: MFMessageComposeViewController, context: Context) {}

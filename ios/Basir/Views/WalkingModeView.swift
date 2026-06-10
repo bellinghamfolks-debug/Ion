@@ -1,104 +1,95 @@
-// WalkingModeView.swift
-// "Tap → capture → describe → speak → repeat" loop for blind users
-// who are walking. iOS does not allow continuous photo capture from
-// the background, so this is foreground-only.
-//
-// The interaction is a single big button. After each Gemini response
-// TTS reads the description. When TTS finishes the user can tap
-// again for the next scene. An "auto-open camera" toggle re-opens
-// the picker as soon as TTS ends, mirroring the Android version.
-
 import SwiftUI
 import PhotosUI
 import Combine
 
 struct WalkingModeView: View {
     @State private var pickerItem: PhotosPickerItem?
-    @State private var lastDescription: String = ""
+    @State private var lastDescription = ""
     @State private var isLoading = false
     @State private var errorMessage: String?
-    @AppStorage("walking_auto_reopen") private var autoReopen: Bool = false
+    @AppStorage("walking_auto_reopen") private var autoReopen = false
     @StateObject private var tts = SpeechSynthesizer.shared
     @State private var ttsSubscription: AnyCancellable?
     @State private var openPickerAfterTts = false
     @State private var showCamera = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.t(
-                "التقط صورة واحدة لما أمامك واستمع إلى وصف موجز. قد يتأخر الوصف أو يخطئ، لذلك لا تستخدمه وحده لعبور الطرق أو السلالم. استخدم وسيلة التنقل المعتادة.",
-                "Capture one image of what is ahead and hear a brief description. It may be delayed or wrong, so never use it alone to cross roads or stairs. Use your usual mobility aid."
-            ))
-            .font(.callout)
-            .foregroundStyle(.secondary)
+        BasirScreen {
+            BasirStatusBanner(
+                text: L10n.t(
+                    "التقط صورة ثابتة لما أمامك. قد يتأخر الوصف أو يخطئ، لذلك استخدم العصا أو وسيلة التنقل المعتادة ولا تعتمد عليه لعبور الطرق أو الدرج.",
+                    "Capture a steady image of what is ahead. The description may be delayed or wrong, so keep using your cane or usual mobility aid and never rely on it for roads or stairs."
+                ),
+                tone: .warning,
+                title: L10n.t("نظرة مساندة وليست وسيلة تنقل", "An assistive glance, not a mobility tool")
+            )
 
-            if !lastDescription.isEmpty {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(L10n.t("آخر وصف", "Last description"))
-                        .font(.subheadline.bold())
-                    Text(lastDescription)
-                        .accessibilityLabel(lastDescription)
-                }
-                .padding(12)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.secondarySystemBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+            if isLoading {
+                BasirStatusBanner(
+                    text: L10n.t("جاري فحص الصورة. سيُنطق الوصف فور اكتماله.",
+                                 "Checking the image. The description will be spoken when ready."),
+                    tone: .info
+                )
             }
 
             if let errorMessage {
-                Text(errorMessage)
-                    .foregroundStyle(.red)
-                    .padding(12)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.red.opacity(0.1))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                BasirStatusBanner(text: errorMessage, tone: .danger)
             }
 
-            Spacer()
-
-            // Primary action: capture a NEW photo of what's ahead.
-            if CameraPicker.isAvailable {
-                Button {
-                    showCamera = true
-                } label: {
-                    VStack {
-                        Image(systemName: "camera.fill")
-                            .font(.system(size: 50))
-                        Text(L10n.t("التقاط ووصف ما أمامي",
-                                     "Capture and describe what is ahead"))
-                            .fontWeight(.bold)
+            if !lastDescription.isEmpty {
+                BasirResultCard(title: L10n.t("آخر وصف", "Latest description"), text: lastDescription) {
+                    Button {
+                        tts.speak(lastDescription, utteranceId: "walking-replay")
+                    } label: {
+                        Image(systemName: "speaker.wave.2.fill")
                     }
-                    .frame(maxWidth: .infinity, minHeight: 120)
-                    .background(Color.accentColor)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 18))
+                    .buttonStyle(BasirIconButtonStyle())
+                    .accessibilityLabel(L10n.t("إعادة قراءة الوصف", "Read description again"))
                 }
+            }
+
+            if CameraPicker.isAvailable {
+                Button { showCamera = true } label: {
+                    VStack(spacing: 10) {
+                        Image(systemName: "camera.viewfinder")
+                            .font(.system(size: 34, weight: .semibold))
+                        Text(L10n.t("التقاط ووصف ما أمامي", "Capture and describe what is ahead"))
+                    }
+                }
+                .buttonStyle(BasirPrimaryButtonStyle())
                 .disabled(isLoading)
             }
 
-            // Secondary: pick an existing photo from the library.
-            PhotosPicker(
-                selection: $pickerItem,
-                matching: .images,
-                photoLibrary: .shared()
-            ) {
-                Label(L10n.t("اختيار صورة بدلًا من الكاميرا", "Choose a photo instead"),
-                      systemImage: "photo.on.rectangle.angled")
-                    .frame(maxWidth: .infinity, minHeight: CameraPicker.isAvailable ? 48 : 120)
-                    .background(CameraPicker.isAvailable
-                                ? Color(.secondarySystemBackground) : Color.accentColor)
-                    .foregroundStyle(CameraPicker.isAvailable ? Color.primary : .white)
-                    .clipShape(RoundedRectangle(cornerRadius: CameraPicker.isAvailable ? 12 : 18))
+            if CameraPicker.isAvailable {
+                PhotosPicker(selection: $pickerItem, matching: .images, photoLibrary: .shared()) {
+                    Label(L10n.t("اختيار صورة موجودة", "Choose an existing image"),
+                          systemImage: "photo.on.rectangle.angled")
+                }
+                .buttonStyle(BasirSecondaryButtonStyle())
+                .disabled(isLoading)
+            } else {
+                PhotosPicker(selection: $pickerItem, matching: .images, photoLibrary: .shared()) {
+                    Label(L10n.t("اختيار صورة موجودة", "Choose an existing image"),
+                          systemImage: "photo.on.rectangle.angled")
+                }
+                .buttonStyle(BasirPrimaryButtonStyle())
+                .disabled(isLoading)
             }
-            .disabled(isLoading)
 
-            Toggle(L10n.t("فتح الكاميرا تلقائيًا بعد كل وصف",
-                          "Auto-open camera after each description"),
-                    isOn: $autoReopen)
-                .font(.callout)
+            Toggle(isOn: $autoReopen) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(L10n.t("فتح الكاميرا بعد انتهاء الوصف", "Open the camera after each description"))
+                        .font(.body.weight(.medium))
+                    Text(L10n.t("مفيد لالتقاط صورة جديدة دون العودة إلى الزر في كل مرة.",
+                                 "Useful for taking another image without returning to the button each time."))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .basirCardSurface()
         }
-        .padding(20)
-        .navigationTitle(L10n.t("وصف سريع لما أمامك", "Quick look ahead"))
+        .navigationTitle(L10n.t("نظرة سريعة أمامك", "Quick look ahead"))
+        .navigationBarTitleDisplayMode(.inline)
         .fullScreenCover(isPresented: $showCamera) {
             CameraPicker { data in
                 showCamera = false
@@ -109,7 +100,6 @@ struct WalkingModeView: View {
         .onAppear {
             ttsSubscription = tts.didFinish.sink { id in
                 guard id == "walking" else { return }
-                // Re-open the camera for the next scene once speech ends.
                 if autoReopen && openPickerAfterTts && CameraPicker.isAvailable {
                     openPickerAfterTts = false
                     showCamera = true
@@ -127,47 +117,33 @@ struct WalkingModeView: View {
     }
 
     private func describe(rawData data: Data) async {
+        guard !isLoading else { return }
         isLoading = true
         errorMessage = nil
         ProcessingFeedback.start()
         defer { isLoading = false }
+
         do {
-            // 1600-px JPEG-85 compression — same wire-saving pass that
-            // the Android version uses.
-            let compressed = compressForAi(data: data) ?? data
-            let response = try await AiProviderFactory.current().ask(
-                task: .describeImage,
+            guard let compressed = await Task.detached(priority: .userInitiated, operation: {
+                ImagePreprocessor.jpeg(from: data)
+            }).value else {
+                throw GeminiError.decode("image could not be prepared safely")
+            }
+            lastDescription = try await AiProviderFactory.current().ask(
+                task: .walkingSnapshot,
                 input: "",
-                instruction: "Describe the scene for a blind walker. ONE concise paragraph (max 35 words): main objects, obstacles directly ahead, any text or signage, and one practical next-step suggestion. No greetings or filler.",
+                instruction: GeminiPrompts.walkingSnapshotInstruction,
                 language: BasirSettings.shared.language,
                 imageData: compressed,
                 mimeType: "image/jpeg"
             )
-            lastDescription = response
             ProcessingFeedback.done()
-            // Auto-speak the description so a walking user doesn't need
-            // to read the screen.
             openPickerAfterTts = autoReopen
-            SpeechSynthesizer.shared.speak(response, utteranceId: "walking")
-            ArchiveStore.shared.appendLog(type: "walking",
-                                           content: response)
+            tts.speak(lastDescription, utteranceId: "walking")
+            ArchiveStore.shared.appendLog(type: "walking", content: lastDescription)
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
             ProcessingFeedback.failed()
         }
-    }
-
-    private func compressForAi(data: Data) -> Data? {
-        guard let image = UIImage(data: data) else { return nil }
-        let maxLongEdge: CGFloat = 1600
-        let longEdge = max(image.size.width, image.size.height)
-        guard longEdge > 0 else { return nil }
-        let scale = min(1.0, maxLongEdge / longEdge)
-        let newSize = CGSize(width: image.size.width * scale,
-                              height: image.size.height * scale)
-        let renderer = UIGraphicsImageRenderer(size: newSize)
-        return renderer.image { _ in
-            image.draw(in: CGRect(origin: .zero, size: newSize))
-        }.jpegData(compressionQuality: 0.85)
     }
 }

@@ -1,4 +1,3 @@
-// AboutView.swift
 import SwiftUI
 
 struct AboutView: View {
@@ -13,55 +12,62 @@ struct AboutView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(L10n.t(
-                    "بصير مساعد ذكي صُمّم للمكفوفين وضعاف البصر. يصف الصور، ويقرأ المستندات، ويترجم النصوص، ويدعم المحادثة الصوتية، ويحفظ النتائج التي تختارها.",
-                    "Basir is an AI assistant designed for blind and low-vision users. It describes images, reads documents, translates text, supports voice conversation, and saves the results you choose."
-                ))
+        BasirScreen {
+            BasirHero(
+                eyebrow: L10n.t("عن التطبيق", "ABOUT"),
+                title: L10n.t("بصير", "Basir"),
+                subtitle: L10n.t(
+                    "مساعد وصول للصور والمستندات والنصوص والمحادثة، صُمّم ليكون واضحًا مع قارئ الشاشة.",
+                    "An accessibility assistant for images, documents, text, and conversation, designed to work clearly with a screen reader."
+                ),
+                systemImage: "accessibility"
+            )
 
-                Text(L10n.t(
-                    "للسلامة: بصير أداة مساعدة، ولا يحل محل العصا البيضاء أو الكلب المرشد أو المرافق أو المختص أو خدمات الطوارئ. راجع المعلومات المهمة قبل الاعتماد عليها.",
-                    "For safety, Basir is an assistive tool. It does not replace a white cane, guide dog, human guide, qualified professional, or emergency services. Verify important information before relying on it."
-                ))
-                .foregroundStyle(.secondary)
+            BasirSectionHeader(title: L10n.t("ما الذي يقدمه؟", "What does it do?"))
+            Text(L10n.t(
+                "يصف بصير الصور، ويقرأ المستندات، ويترجم النصوص، ويدعم الأسئلة والمحادثة الصوتية، ويحفظ النتائج التي تختار الاحتفاظ بها على جهازك.",
+                "Basir describes images, reads documents, translates text, supports questions and voice conversation, and saves the results you choose to keep on your device."
+            ))
+            .font(.body)
+            .basirCardSurface()
 
-                Text(L10n.t(
-                    "الخصوصية: لا يتطلب بصير حسابًا لدى المطوّر، ولا يعرض إعلانات. عند استخدام ميزة تعتمد على الذكاء الاصطناعي، يُرسل المحتوى الذي اخترته إلى Google Gemini أو إلى الخادم الوسيط الذي أعددته. راجع سياسة الخصوصية للتفاصيل.",
-                    "Privacy: Basir does not require a developer account and contains no ads. When you use an AI feature, the content you choose is sent to Google Gemini or to the proxy server you configured. See the Privacy Policy for details."
-                ))
-                .foregroundStyle(.secondary)
+            BasirStatusBanner(
+                text: L10n.t(
+                    "بصير أداة مساعدة، وليس بديلًا عن العصا البيضاء أو المرافق أو المختص أو خدمات الطوارئ. راجع المعلومات المؤثرة قبل استخدامها.",
+                    "Basir is an assistive tool, not a replacement for a cane, human guide, qualified professional, or emergency services. Verify consequential information before using it."
+                ),
+                tone: .warning,
+                title: L10n.t("حدود الاستخدام", "Use limitations")
+            )
 
-                Group {
-                    Text(L10n.t("إصدار التطبيق: ", "App version: ") + appVersion)
-                    Text(L10n.t("رقم البناء: ", "Build: ") + buildNumber)
-                    Text(L10n.t("المطوّر: عبدالله الراشدي",
-                                 "Developer: Abdullah Al-Rashidi"))
-                    Text(L10n.t("البريد: ", "Email: ") + contactEmail)
+            BasirStatusBanner(
+                text: L10n.t(
+                    "لا يتطلب التطبيق حسابًا لدى المطور ولا يعرض إعلانات. عند تشغيل ميزة ذكاء اصطناعي، يُرسل المحتوى الذي اخترته إلى Gemini أو إلى الخادم الوسيط الذي أعددته.",
+                    "The app does not require a developer account and shows no ads. When you run an AI feature, the content you chose is sent to Gemini or the proxy server you configured."
+                ),
+                tone: .info,
+                title: L10n.t("الخصوصية باختصار", "Privacy at a glance")
+            )
+
+            BasirSectionHeader(title: L10n.t("معلومات الإصدار", "Version information"))
+            BasirInfoRow(label: L10n.t("الإصدار", "Version"), value: appVersion, systemImage: "number")
+            BasirInfoRow(label: L10n.t("رقم البناء", "Build"), value: buildNumber, systemImage: "hammer.fill")
+            BasirInfoRow(label: L10n.t("المطور", "Developer"), value: L10n.t("عبدالله الراشدي", "Abdullah Al-Rashidi"), systemImage: "person.fill")
+            BasirInfoRow(label: L10n.t("البريد", "Email"), value: contactEmail, systemImage: "envelope.fill")
+
+            Button {
+                if let url = URL(string: "mailto:\(contactEmail)?subject=Basir%20feedback") {
+                    UIApplication.shared.open(url)
                 }
-                .font(.callout)
-                .foregroundStyle(.secondary)
-
-                Button {
-                    if let url = URL(string: "mailto:\(contactEmail)?subject=Basir%20feedback") {
-                        UIApplication.shared.open(url)
-                    }
-                } label: {
-                    HStack {
-                        Image(systemName: "envelope.fill")
-                        Text(L10n.t("التواصل مع المطوّر", "Contact the developer"))
-                            .fontWeight(.semibold)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 56)
-                    .background(Color.accentColor)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
-                }
-                .accessibilityHint(L10n.t("يفتح تطبيق البريد برسالة جديدة.",
-                                          "Opens the email app with a new message."))
+            } label: {
+                Label(L10n.t("إرسال ملاحظة للمطور", "Send feedback to the developer"),
+                      systemImage: "envelope.fill")
             }
-            .padding(20)
+            .buttonStyle(BasirPrimaryButtonStyle())
+            .accessibilityHint(L10n.t("يفتح تطبيق البريد برسالة جديدة.",
+                                      "Opens the email app with a new message."))
         }
-        .navigationTitle(L10n.t("حول بصير", "About Basir"))
+        .navigationTitle(L10n.t("عن بصير", "About Basir"))
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

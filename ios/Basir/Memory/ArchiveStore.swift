@@ -28,7 +28,7 @@ import Combine
 
 // MARK: - Records
 
-struct Person: Identifiable, Codable, Hashable {
+struct Person: Identifiable, Codable, Hashable, Sendable {
     var id: UUID = UUID()
     var name: String
     var relation: String
@@ -36,7 +36,7 @@ struct Person: Identifiable, Codable, Hashable {
     var createdAt: Date = Date()
 }
 
-struct Product: Identifiable, Codable, Hashable {
+struct Product: Identifiable, Codable, Hashable, Sendable {
     var id: UUID = UUID()
     var name: String
     var barcode: String
@@ -44,7 +44,7 @@ struct Product: Identifiable, Codable, Hashable {
     var createdAt: Date = Date()
 }
 
-struct Place: Identifiable, Codable, Hashable {
+struct Place: Identifiable, Codable, Hashable, Sendable {
     var id: UUID = UUID()
     var name: String
     var description: String
@@ -52,7 +52,7 @@ struct Place: Identifiable, Codable, Hashable {
     var createdAt: Date = Date()
 }
 
-struct ArchivedResult: Identifiable, Codable, Hashable {
+struct ArchivedResult: Identifiable, Codable, Hashable, Sendable {
     var id: UUID = UUID()
     var title: String
     var kind: String          // e.g. "image_describe", "translate", "math_extract"
@@ -61,7 +61,7 @@ struct ArchivedResult: Identifiable, Codable, Hashable {
     var createdAt: Date = Date()
 }
 
-struct ActivityLog: Identifiable, Codable, Hashable {
+struct ActivityLog: Identifiable, Codable, Hashable, Sendable {
     var id: UUID = UUID()
     var type: String
     var content: String
@@ -70,7 +70,7 @@ struct ActivityLog: Identifiable, Codable, Hashable {
 
 // MARK: - Snapshot
 
-private struct ArchiveSnapshot: Codable {
+private struct ArchiveSnapshot: Codable, Sendable {
     var people: [Person] = []
     var products: [Product] = []
     var places: [Place] = []
@@ -95,13 +95,22 @@ final class ArchiveStore: ObservableObject {
     /// autoTrim contract (1000 logs / 200 documents).
     static let maxLogs = 1000
     static let maxResults = 200
+    private static let maximumArchiveBytes = 32 * 1_024 * 1_024
+    private static let maximumResultCharacters = 100_000
+    private static let maximumNoteCharacters = 20_000
+    private static let maximumLogCharacters = 5_000
 
-    private var fileURL: URL {
-        let docs = try! FileManager.default.url(for: .documentDirectory,
-                                                in: .userDomainMask,
-                                                appropriateFor: nil,
-                                                create: true)
-        return docs.appendingPathComponent("basir_archive.json")
+    private var fileURL: URL? {
+        do {
+            let docs = try FileManager.default.url(for: .documentDirectory,
+                                                   in: .userDomainMask,
+                                                   appropriateFor: nil,
+                                                   create: true)
+            return docs.appendingPathComponent("basir_archive.json")
+        } catch {
+            AppLogger.documentError("Archive directory unavailable")
+            return nil
+        }
     }
 
     private init() {
@@ -111,7 +120,11 @@ final class ArchiveStore: ObservableObject {
     // MARK: - Mutations
 
     func addPerson(_ person: Person) {
-        people.append(person)
+        var safe = person
+        safe.name = Self.clamp(person.name, to: 500)
+        safe.relation = Self.clamp(person.relation, to: 500)
+        safe.notes = Self.clamp(person.notes, to: Self.maximumNoteCharacters)
+        people.append(safe)
         save()
     }
     func deletePerson(_ id: UUID) {
@@ -119,7 +132,11 @@ final class ArchiveStore: ObservableObject {
         save()
     }
     func addProduct(_ product: Product) {
-        products.append(product)
+        var safe = product
+        safe.name = Self.clamp(product.name, to: 500)
+        safe.barcode = Self.clamp(product.barcode, to: 500)
+        safe.notes = Self.clamp(product.notes, to: Self.maximumNoteCharacters)
+        products.append(safe)
         save()
     }
     func deleteProduct(_ id: UUID) {
@@ -127,7 +144,11 @@ final class ArchiveStore: ObservableObject {
         save()
     }
     func addPlace(_ place: Place) {
-        places.append(place)
+        var safe = place
+        safe.name = Self.clamp(place.name, to: 500)
+        safe.description = Self.clamp(place.description, to: Self.maximumNoteCharacters)
+        safe.notes = Self.clamp(place.notes, to: Self.maximumNoteCharacters)
+        places.append(safe)
         save()
     }
     func deletePlace(_ id: UUID) {
@@ -137,7 +158,12 @@ final class ArchiveStore: ObservableObject {
 
     func addResult(_ result: ArchivedResult) {
         guard BasirSettings.shared.autoSaveResults else { return }
-        results.insert(result, at: 0)
+        var safe = result
+        safe.title = Self.clamp(result.title, to: 1_000)
+        safe.kind = Self.clamp(result.kind, to: 100)
+        safe.text = Self.clamp(result.text, to: Self.maximumResultCharacters)
+        safe.summary = Self.clamp(result.summary, to: 2_000)
+        results.insert(safe, at: 0)
         save()
     }
     func deleteResult(_ id: UUID) {
@@ -147,7 +173,10 @@ final class ArchiveStore: ObservableObject {
 
     func appendLog(type: String, content: String) {
         guard !BasirSettings.shared.privacyMode else { return }
-        logs.insert(ActivityLog(type: type, content: content), at: 0)
+        logs.insert(ActivityLog(
+            type: Self.clamp(type, to: 100),
+            content: Self.clamp(content, to: Self.maximumLogCharacters)
+        ), at: 0)
         save()
     }
     func clearLogs() {
@@ -168,15 +197,19 @@ final class ArchiveStore: ObservableObject {
     // MARK: - Persistence
 
     private func load() {
-        guard let data = try? Data(contentsOf: fileURL),
+        guard let fileURL,
+              let values = try? fileURL.resourceValues(forKeys: [.isRegularFileKey, .fileSizeKey]),
+              values.isRegularFile == true,
+              let size = values.fileSize, size > 0, size <= Self.maximumArchiveBytes,
+              let data = try? Data(contentsOf: fileURL, options: [.mappedIfSafe]),
               let snapshot = try? JSONDecoder.iso.decode(ArchiveSnapshot.self, from: data) else {
             return
         }
-        self.people = snapshot.people
-        self.products = snapshot.products
-        self.places = snapshot.places
-        self.results = snapshot.results
-        self.logs = snapshot.logs
+        self.people = Array(snapshot.people.prefix(1_000)).map(Self.sanitized)
+        self.products = Array(snapshot.products.prefix(1_000)).map(Self.sanitized)
+        self.places = Array(snapshot.places.prefix(1_000)).map(Self.sanitized)
+        self.results = Array(snapshot.results.prefix(Self.maxResults)).map(Self.sanitized)
+        self.logs = Array(snapshot.logs.prefix(Self.maxLogs)).map(Self.sanitized)
     }
 
     private func save() {
@@ -194,19 +227,63 @@ final class ArchiveStore: ObservableObject {
             results: results,
             logs: logs
         )
-        // Atomic write: encode to a temp file then move into place.
+        guard let fileURL else { return }
         do {
             let data = try JSONEncoder.iso.encode(snapshot)
-            let tmpURL = fileURL.appendingPathExtension("tmp")
-            try data.write(to: tmpURL, options: [.atomic])
-            if FileManager.default.fileExists(atPath: fileURL.path) {
-                _ = try? FileManager.default.removeItem(at: fileURL)
+            guard data.count <= Self.maximumArchiveBytes else {
+                AppLogger.documentError("Archive save skipped because it exceeded the safe limit")
+                return
             }
-            try FileManager.default.moveItem(at: tmpURL, to: fileURL)
+            // Foundation writes to a sibling temporary file and replaces the
+            // destination atomically, avoiding a delete-then-move loss window.
+            try data.write(to: fileURL, options: [.atomic, .completeFileProtection])
         } catch {
-            // Failure to persist is non-fatal — the user just loses
-            // the change on next app launch. Better than crashing.
+            AppLogger.documentError("Archive save failed")
         }
+    }
+
+    private static func clamp(_ value: String, to limit: Int) -> String {
+        value.count <= limit ? value : String(value.prefix(limit))
+    }
+
+    private static func sanitized(_ value: Person) -> Person {
+        var copy = value
+        copy.name = clamp(copy.name, to: 500)
+        copy.relation = clamp(copy.relation, to: 500)
+        copy.notes = clamp(copy.notes, to: maximumNoteCharacters)
+        return copy
+    }
+
+    private static func sanitized(_ value: Product) -> Product {
+        var copy = value
+        copy.name = clamp(copy.name, to: 500)
+        copy.barcode = clamp(copy.barcode, to: 500)
+        copy.notes = clamp(copy.notes, to: maximumNoteCharacters)
+        return copy
+    }
+
+    private static func sanitized(_ value: Place) -> Place {
+        var copy = value
+        copy.name = clamp(copy.name, to: 500)
+        copy.description = clamp(copy.description, to: maximumNoteCharacters)
+        copy.notes = clamp(copy.notes, to: maximumNoteCharacters)
+        return copy
+    }
+
+    private static func sanitized(_ value: ArchivedResult) -> ArchivedResult {
+        var copy = value
+        copy.title = clamp(copy.title, to: 1_000)
+        copy.kind = clamp(copy.kind, to: 100)
+        copy.text = clamp(copy.text, to: maximumResultCharacters)
+        copy.summary = clamp(copy.summary, to: 2_000)
+        return copy
+    }
+
+    private static func sanitized(_ value: ActivityLog) -> ActivityLog {
+        var copy = value
+        copy.type = clamp(copy.type, to: 100)
+        copy.content = clamp(copy.content, to: maximumLogCharacters)
+        return copy
     }
 }
 

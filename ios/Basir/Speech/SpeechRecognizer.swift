@@ -39,6 +39,8 @@ final class SpeechRecognizer: ObservableObject {
     /// because a live mic never produces result.isFinal on its own.
     private var silenceWork: DispatchWorkItem?
     private var finalized = false
+    private var tapInstalled = false
+    private var activeSessionID: UUID?
 
     private init() {}
 
@@ -87,6 +89,8 @@ final class SpeechRecognizer: ObservableObject {
         stop()
         transcript = ""
         finalized = false
+        let sessionID = UUID()
+        activeSessionID = sessionID
 
         do {
             // Audio session configured for recording while TTS may
@@ -107,6 +111,7 @@ final class SpeechRecognizer: ObservableObject {
             inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { buffer, _ in
                 request.append(buffer)
             }
+            tapInstalled = true
 
             audioEngine.prepare()
             try audioEngine.start()
@@ -115,17 +120,18 @@ final class SpeechRecognizer: ObservableObject {
             recognitionTask = recognizer.recognitionTask(with: request) { [weak self] result, error in
                 guard let self else { return }
                 Task { @MainActor in
+                    guard self.activeSessionID == sessionID else { return }
                     if let result {
                         self.transcript = result.bestTranscription.formattedString
                         // A live mic rarely sets isFinal, so arm a silence
                         // timer that finalizes ~1.8s after the last words.
-                        self.armSilenceTimer(onFinal: onFinal)
+                        self.armSilenceTimer(sessionID: sessionID, onFinal: onFinal)
                         if result.isFinal {
-                            self.finishOnce(onFinal)
+                            self.finishOnce(sessionID: sessionID, onFinal)
                         }
                     }
                     if error != nil {
-                        self.finishOnce(onFinal)
+                        self.finishOnce(sessionID: sessionID, onFinal)
                     }
                 }
             }
@@ -138,19 +144,19 @@ final class SpeechRecognizer: ObservableObject {
 
     /// Restart the silence countdown; if no new speech arrives within the
     /// window, deliver whatever has been transcribed so far.
-    private func armSilenceTimer(onFinal: @escaping (String) -> Void) {
+    private func armSilenceTimer(sessionID: UUID, onFinal: @escaping (String) -> Void) {
         silenceWork?.cancel()
         let work = DispatchWorkItem { [weak self] in
-            guard let self, !self.transcript.isEmpty else { return }
-            self.finishOnce(onFinal)
+            guard let self, self.activeSessionID == sessionID, !self.transcript.isEmpty else { return }
+            self.finishOnce(sessionID: sessionID, onFinal)
         }
         silenceWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.8, execute: work)
     }
 
     /// Deliver the result exactly once, then tear down.
-    private func finishOnce(_ onFinal: @escaping (String) -> Void) {
-        guard !finalized else { return }
+    private func finishOnce(sessionID: UUID, _ onFinal: @escaping (String) -> Void) {
+        guard activeSessionID == sessionID, !finalized else { return }
         finalized = true
         let text = transcript
         stop()
@@ -163,9 +169,14 @@ final class SpeechRecognizer: ObservableObject {
         recognitionTask?.cancel()
         recognitionTask = nil
 
+        activeSessionID = nil
+        finalized = true
         if audioEngine.isRunning {
             audioEngine.stop()
+        }
+        if tapInstalled {
             audioEngine.inputNode.removeTap(onBus: 0)
+            tapInstalled = false
         }
 
         recognitionRequest?.endAudio()

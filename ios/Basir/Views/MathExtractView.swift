@@ -1,143 +1,130 @@
-// MathExtractView.swift
-// Math extraction — the v2.9 feature. Photograph a textbook page, a
-// whiteboard, or handwritten equations; Basir returns each expression
-// in spoken Arabic / English followed by the LaTeX source.
-//
-// This uses the FULL mathExtractionInstruction prompt that ports
-// directly from AiClient.mathExtractionInstruction on Android, with
-// the same 8 worked examples + full Arabic / English vocabulary.
-
 import SwiftUI
 import PhotosUI
 
 struct MathExtractView: View {
     @State private var pickerItem: PhotosPickerItem?
-    @State private var resultText: String = ""
+    @State private var resultText = ""
     @State private var isLoading = false
     @State private var errorMessage: String?
+    @State private var showCamera = false
+    @State private var lastImageData: Data?
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(L10n.t(
-                    "صوّر معادلات من ورقة أو سبورة أو كتاب. سيعرضها بصير بصيغة منطوقة، ويضيف LaTeX للمراجعة.",
-                    "Photograph equations on a page, whiteboard, or textbook. Basir presents them in spoken form and adds LaTeX for review."
-                ))
-                .font(.callout)
-                .foregroundStyle(.secondary)
+        BasirScreen {
+            BasirPageIntro(
+                text: L10n.t(
+                    "صوّر الصفحة كاملة وبشكل مستقيم. سيستخرج بصير المعادلات ويعرض طريقة نطقها، ثم يضيف صيغة LaTeX للمراجعة أو النسخ.",
+                    "Capture the full page as straight as possible. Basir extracts each equation, explains how to read it aloud, and adds LaTeX for review or copying."
+                )
+            )
 
-                PhotosPicker(
-                    selection: $pickerItem,
-                    matching: .images,
-                    photoLibrary: .shared()
-                ) {
-                    HStack {
-                        Image(systemName: "camera.fill")
-                        Text(L10n.t("التقاط أو اختيار صورة",
-                                     "Take or pick an image"))
-                            .fontWeight(.semibold)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 56)
-                    .background(Color.accentColor)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+            if CameraPicker.isAvailable {
+                Button { showCamera = true } label: {
+                    Label(L10n.t("تصوير المعادلات الآن", "Photograph equations now"),
+                          systemImage: "camera.fill")
                 }
-                .accessibilityLabel(L10n.t(
-                    "اختيار صورة لقراءة المعادلات",
-                    "Choose an image to analyze equations"
-                ))
-
-                if isLoading {
-                    HStack {
-                        ProgressView()
-                        Text(L10n.t("أقرأ المعادلات...",
-                                     "Reading equations..."))
-                    }
-                    .padding(.top, 8)
-                }
-
-                if !resultText.isEmpty {
-                    Divider().padding(.vertical, 8)
-                    Text(L10n.t("النتيجة", "Result"))
-                        .font(.headline)
-                        .accessibilityAddTraits(.isHeader)
-                    Text(resultText)
-                        .textSelection(.enabled)
-                        .font(.body)
-                        .accessibilityLabel(resultText)
-                    CopyButton(text: resultText)
-                    AskAboutResultLink(text: resultText)
-                }
-
-                if let errorMessage {
-                    Text(errorMessage)
-                        .foregroundStyle(.red)
-                        .padding(12)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.red.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                }
+                .buttonStyle(BasirPrimaryButtonStyle())
+                .disabled(isLoading)
             }
-            .padding(20)
+
+            if CameraPicker.isAvailable {
+                PhotosPicker(selection: $pickerItem, matching: .images, photoLibrary: .shared()) {
+                    Label(L10n.t("اختيار صورة من المكتبة", "Choose an image from Photos"),
+                          systemImage: "photo.on.rectangle.angled")
+                }
+                .buttonStyle(BasirSecondaryButtonStyle())
+                .disabled(isLoading)
+            } else {
+                PhotosPicker(selection: $pickerItem, matching: .images, photoLibrary: .shared()) {
+                    Label(L10n.t("اختيار صورة من المكتبة", "Choose an image from Photos"),
+                          systemImage: "photo.on.rectangle.angled")
+                }
+                .buttonStyle(BasirPrimaryButtonStyle())
+                .disabled(isLoading)
+            }
+
+            if isLoading {
+                BasirStatusBanner(
+                    text: L10n.t("جاري استخراج المعادلات وتحويلها إلى صيغة قابلة للقراءة.",
+                                 "Extracting equations and converting them into a readable format."),
+                    tone: .info
+                )
+            }
+
+            if let errorMessage {
+                BasirStatusBanner(text: errorMessage, tone: .danger)
+            }
+
+            if !resultText.isEmpty {
+                BasirResultCard(title: L10n.t("المعادلات المستخرجة", "Extracted equations"), text: resultText) {
+                    HStack(spacing: 4) {
+                        CopyButton(text: resultText)
+                        ShareLink(item: resultText) {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                        .buttonStyle(BasirIconButtonStyle())
+                        .accessibilityLabel(L10n.t("مشاركة المعادلات", "Share equations"))
+                    }
+                }
+                AskAboutResultLink(text: resultText, imageData: lastImageData)
+                BasirStatusBanner(
+                    text: L10n.t("قارن الرموز والأسس والإشارات بالصورة الأصلية، خصوصًا في المعادلات المكتوبة بخط اليد.",
+                                 "Compare symbols, exponents, and signs with the source image, especially for handwritten equations."),
+                    tone: .warning
+                )
+            }
         }
-        .navigationTitle(L10n.t("قراءة معادلات من صورة", "Read equations from an image"))
+        .navigationTitle(L10n.t("قراءة المعادلات", "Read equations"))
+        .navigationBarTitleDisplayMode(.inline)
         .onChange(of: pickerItem) { _, item in
             guard let item else { return }
-            Task { await runExtraction(item: item) }
+            Task {
+                do {
+                    guard let data = try await item.loadTransferable(type: Data.self) else {
+                        throw GeminiError.decode("could not open image")
+                    }
+                    await runExtraction(data: data)
+                } catch {
+                    errorMessage = UserFriendlyErrorMapper.map(error)
+                }
+            }
+        }
+        .fullScreenCover(isPresented: $showCamera) {
+            CameraPicker { data in
+                showCamera = false
+                if let data { Task { await runExtraction(data: data) } }
+            }
+            .ignoresSafeArea()
         }
     }
 
-    private func runExtraction(item: PhotosPickerItem) async {
+    private func runExtraction(data: Data) async {
+        guard !isLoading else { return }
         isLoading = true
         errorMessage = nil
         resultText = ""
         defer { isLoading = false }
+
         do {
-            guard let data = try await item.loadTransferable(type: Data.self) else {
-                throw GeminiError.decode(L10n.t(
-                    "لم أتمكن من فتح الصورة.",
-                    "I couldn't open the image."
-                ))
+            guard let compressed = await Task.detached(priority: .userInitiated, operation: {
+                ImagePreprocessor.jpeg(from: data)
+            }).value else {
+                throw GeminiError.decode("image could not be prepared safely")
             }
-            // Compress to ~1600px long edge + JPEG quality 85 — matches
-            // the Android ImageCompressor and the same Gemini cost win.
-            let compressed = compressForAi(data: data) ?? data
-            let mime = "image/jpeg"
+            lastImageData = compressed
             let isEnglish = BasirSettings.shared.language == .english
-            let instruction = GeminiPrompts.mathExtractionInstruction(english: isEnglish)
             let response = try await AiProviderFactory.current().ask(
                 task: .mathExtract,
                 input: "",
-                instruction: instruction,
+                instruction: GeminiPrompts.mathLatexInstruction(english: isEnglish),
                 language: BasirSettings.shared.language,
                 imageData: compressed,
-                mimeType: mime
+                mimeType: "image/jpeg"
             )
-            resultText = response
-            UIAccessibility.post(notification: .announcement,
-                                  argument: L10n.t("اكتمل تحليل الرياضيات.",
-                                                    "Math analysis complete."))
+            resultText = LatexToSpeech.renderDocument(response, arabic: !isEnglish)
+            UIAccessibility.post(notification: .announcement, argument: BasirCopy.resultReady)
         } catch {
             errorMessage = UserFriendlyErrorMapper.map(error)
         }
-    }
-
-    // MARK: - Image compression (port of Android ImageCompressor)
-
-    /// Down-scales the long edge to 1600 px and re-encodes as JPEG 85.
-    /// Returns nil if decoding fails (caller falls back to raw data).
-    private func compressForAi(data: Data) -> Data? {
-        guard let image = UIImage(data: data) else { return nil }
-        let maxLongEdge: CGFloat = 1600
-        let w = image.size.width, h = image.size.height
-        let longEdge = max(w, h)
-        guard longEdge > 0 else { return nil }
-        let scale = min(1.0, maxLongEdge / longEdge)
-        let newSize = CGSize(width: w * scale, height: h * scale)
-        let renderer = UIGraphicsImageRenderer(size: newSize)
-        let scaled = renderer.image { _ in
-            image.draw(in: CGRect(origin: .zero, size: newSize))
-        }
-        return scaled.jpegData(compressionQuality: 0.85)
     }
 }

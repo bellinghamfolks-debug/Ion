@@ -1,71 +1,91 @@
-// ArchiveView.swift
-// Browse and re-read past AI results. Filtered by kind so a user can
-// jump straight to all their math extractions, all translations, etc.
-
 import SwiftUI
 
 struct ArchiveView: View {
     @StateObject private var store = ArchiveStore.shared
-    @State private var filter: String = "all"
+    @State private var filter = "all"
 
     private var filtered: [ArchivedResult] {
-        if filter == "all" { return store.results }
-        return store.results.filter { $0.kind == filter }
+        filter == "all" ? store.results : store.results.filter { $0.kind == filter }
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Picker(L10n.t("نوع النتيجة", "Result type"), selection: $filter) {
+        VStack(spacing: 0) {
+            Picker(L10n.t("تصفية النتائج", "Filter results"), selection: $filter) {
                 Text(L10n.t("الكل", "All")).tag("all")
                 Text(L10n.t("ترجمة", "Translation")).tag("translate")
-                Text(L10n.t("وصف صورة", "Image description")).tag("describe_image")
+                Text(L10n.t("صور", "Images")).tag("describe_image")
                 Text(L10n.t("رياضيات", "Math")).tag("math_extract")
-                Text(L10n.t("سؤال", "Question")).tag("ask")
+                Text(L10n.t("أسئلة", "Questions")).tag("ask")
             }
             .pickerStyle(.segmented)
-            .padding(.horizontal)
+            .padding(.horizontal, BasirTheme.horizontalPadding)
+            .padding(.vertical, 14)
+            .background(BasirTheme.screenBackground)
 
             if filtered.isEmpty {
-                ContentUnavailableView(
-                    L10n.t("لا توجد نتائج محفوظة.",
-                           "No saved results."),
-                    systemImage: "tray",
-                    description: Text(L10n.t(
-                        "عندما تحفظ وصفًا أو ترجمة أو إجابة، ستجدها هنا. ويمكنك تفعيل الحفظ التلقائي من الإعدادات.",
-                        "Descriptions, translations, and answers you save appear here. Automatic saving can be enabled in Settings."
-                    ))
+                BasirEmptyState(
+                    systemImage: "archivebox",
+                    title: L10n.t("لا توجد نتائج في هذا القسم", "No results in this category"),
+                    message: L10n.t(
+                        "النتائج التي تختار حفظها ستظهر هنا، ويمكن تغيير الحفظ التلقائي من الإعدادات.",
+                        "Results you choose to save appear here. Automatic saving can be changed in Settings."
+                    )
                 )
+                .padding(BasirTheme.horizontalPadding)
+                Spacer()
             } else {
                 List {
                     ForEach(filtered) { result in
                         NavigationLink {
                             ArchivedResultDetail(result: result)
                         } label: {
-                            VStack(alignment: .leading, spacing: 4) {
-                                HStack {
-                                    Text(result.title).font(.body.bold())
-                                    Spacer()
-                                    Text(result.createdAt, style: .date)
-                                        .font(.caption2)
+                            HStack(alignment: .top, spacing: 13) {
+                                Image(systemName: icon(for: result.kind))
+                                    .foregroundStyle(BasirTheme.brand)
+                                    .frame(width: 34, height: 34)
+                                    .background(BasirTheme.brand.opacity(0.10), in: RoundedRectangle(cornerRadius: 10))
+                                    .accessibilityHidden(true)
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(result.title)
+                                        .font(.body.weight(.semibold))
+                                        .lineLimit(2)
+                                    if !result.summary.isEmpty {
+                                        Text(result.summary)
+                                            .font(.callout)
+                                            .foregroundStyle(.secondary)
+                                            .lineLimit(2)
+                                    }
+                                    Text(result.createdAt, format: .dateTime.year().month().day())
+                                        .font(.caption)
                                         .foregroundStyle(.tertiary)
                                 }
-                                if !result.summary.isEmpty {
-                                    Text(result.summary)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                        .lineLimit(2)
-                                }
                             }
-                            .accessibilityLabel("\(result.title). \(result.summary)")
+                            .padding(.vertical, 5)
+                            .accessibilityElement(children: .combine)
                         }
                     }
                     .onDelete { indexSet in
-                        for i in indexSet { store.deleteResult(filtered[i].id) }
+                        for index in indexSet { store.deleteResult(filtered[index].id) }
                     }
                 }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .background(BasirTheme.screenBackground)
             }
         }
+        .background(BasirTheme.screenBackground.ignoresSafeArea())
         .navigationTitle(L10n.t("النتائج المحفوظة", "Saved results"))
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func icon(for kind: String) -> String {
+        switch kind {
+        case "translate", "translate_doc": return "character.book.closed.fill"
+        case "describe_image", "image_describe": return "photo.fill"
+        case "math_extract": return "function"
+        case "convert": return "doc.text.fill"
+        default: return "bubble.left.fill"
+        }
     }
 }
 
@@ -73,28 +93,27 @@ private struct ArchivedResultDetail: View {
     let result: ArchivedResult
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 14) {
-                Text(result.title)
-                    .font(.title2.bold())
-                    .accessibilityAddTraits(.isHeader)
-                Text(result.createdAt, style: .date)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                Divider()
-                Text(result.text)
-                    .textSelection(.enabled)
-                    .accessibilityLabel(result.text)
-            }
-            .padding(20)
-        }
-        .navigationTitle(L10n.t("تفاصيل النتيجة", "Result details"))
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                ShareLink(item: result.text) {
-                    Image(systemName: "square.and.arrow.up")
+        BasirScreen {
+            BasirInfoRow(
+                label: L10n.t("تاريخ الحفظ", "Saved on"),
+                value: result.createdAt.formatted(date: .long, time: .shortened),
+                systemImage: "calendar"
+            )
+
+            BasirResultCard(title: result.title, text: result.text) {
+                HStack(spacing: 4) {
+                    CopyButton(text: result.text)
+                    ShareLink(item: result.text) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    .buttonStyle(BasirIconButtonStyle())
+                    .accessibilityLabel(L10n.t("مشاركة النتيجة", "Share result"))
                 }
             }
+
+            AskAboutResultLink(text: result.text)
         }
+        .navigationTitle(L10n.t("تفاصيل النتيجة", "Result details"))
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

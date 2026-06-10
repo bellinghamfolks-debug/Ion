@@ -1,139 +1,60 @@
-// HomeView.swift  (Talk tab)
-// Mirrors Android renderTalkTab(): section "Questions and conversation"
-// with Ask Basir + Continuous voice conversation.
-
 import SwiftUI
 
 struct HomeView: View {
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    Hero()
+            BasirScreen {
+                BasirHero(
+                    eyebrow: L10n.t("المحادثة", "CONVERSATION"),
+                    title: L10n.t("كيف أساعدك اليوم؟", "How can I help today?"),
+                    subtitle: L10n.t(
+                        "اكتب سؤالك أو تحدث بصوتك، وستبقى الإجابة واضحة وقابلة للنسخ والحفظ.",
+                        "Type a question or speak naturally. Every answer stays clear, reviewable, and easy to save."
+                    ),
+                    systemImage: "bubble.left.and.bubble.right.fill"
+                )
 
-                    SectionHeader(L10n.t("تحدث مع بصير",
-                                          "Talk with Basir"))
+                BasirSectionHeader(
+                    title: L10n.t("اختر طريقة المحادثة", "Choose how to talk"),
+                    subtitle: L10n.t(
+                        "يمكنك التبديل بين الكتابة والصوت في أي وقت.",
+                        "Switch between typing and voice whenever you need."
+                    )
+                )
 
-                    NavigationLink {
-                        AskBasirView()
-                    } label: {
-                        BasirCard(
-                            icon: "💬",
-                            title: L10n.t("اسأل بصير", "Ask Basir"),
-                            description: L10n.t(
-                                "اكتب سؤالك أو انطقه بصوتك، ثم راجع المعلومات المهمة قبل استخدام الإجابة.",
-                                "Type your question or say it aloud, then verify important information before using the answer."
-                            )
+                NavigationLink {
+                    AskBasirView()
+                } label: {
+                    BasirFeatureCard(
+                        systemImage: "text.bubble.fill",
+                        title: L10n.t("اكتب سؤالك", "Type a question"),
+                        description: L10n.t(
+                            "اكتب أو أمْلِ السؤال، ثم راجع الإجابة وانسخها أو اسأل عنها بتفصيل أكبر.",
+                            "Type or dictate your question, then review, copy, or explore the answer in more detail."
                         )
-                    }
-                    .buttonStyle(.plain)
-
-                    NavigationLink {
-                        VoiceConversationView()
-                    } label: {
-                        BasirCard(
-                            icon: "🎙️",
-                            title: L10n.t("محادثة صوتية",
-                                          "Voice conversation"),
-                            description: L10n.t(
-                                "تحدث دون كتابة. يستمع بصير لسؤالك، يجيب بصوت، ثم يستعد تلقائيًا للسؤال التالي.",
-                                "Talk without typing. Basir listens, answers aloud, then gets ready for your next question."
-                            )
-                        )
-                    }
-                    .buttonStyle(.plain)
+                    )
                 }
-                .padding(20)
+                .buttonStyle(.plain)
+
+                NavigationLink {
+                    VoiceConversationView()
+                } label: {
+                    BasirFeatureCard(
+                        systemImage: "waveform.and.mic",
+                        title: L10n.t("ابدأ محادثة صوتية", "Start a voice conversation"),
+                        description: L10n.t(
+                            "تحدث دون لمس الشاشة بعد كل إجابة. بصير يستمع ويجيب ثم يستعد للسؤال التالي.",
+                            "Keep talking without touching the screen after every answer. Basir listens, replies, and gets ready again."
+                        ),
+                        badge: L10n.t("دون كتابة", "Hands-free")
+                    )
+                }
+                .buttonStyle(.plain)
+
+                BasirPageIntro(text: BasirCopy.verifyImportantInformation, tone: .warning)
             }
+            .navigationTitle(L10n.t("المحادثة", "Conversation"))
             .navigationBarTitleDisplayMode(.inline)
         }
-    }
-}
-
-// MARK: - Reusable building blocks
-
-struct Hero: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(L10n.t("بصير", "Basir"))
-                .font(.system(size: 34, weight: .bold))
-                .foregroundStyle(.white)
-                .accessibilityAddTraits(.isHeader)
-            Text(L10n.t(
-                "افهم الصور والمستندات، ترجم النصوص، وتحدث بصوتك",
-                "Understand images and documents, translate text, and ask by voice"
-            ))
-            .font(.body)
-            .foregroundStyle(.white.opacity(0.85))
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(24)
-        .background(
-            LinearGradient(
-                colors: [Color(red: 6/255, green: 35/255, blue: 86/255),
-                         Color(red: 11/255, green: 58/255, blue: 130/255)],
-                startPoint: .top, endPoint: .bottom
-            )
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-    }
-}
-
-struct SectionHeader: View {
-    let title: String
-    init(_ title: String) { self.title = title }
-    var body: some View {
-        Text(title)
-            .font(.subheadline.bold())
-            .foregroundStyle(.secondary)
-            .padding(.top, 8)
-            .accessibilityAddTraits(.isHeader)
-    }
-}
-
-struct BasirCard: View {
-    /// An emoji glyph, matching the Android cards (addRichCard icon).
-    let icon: String
-    let title: String
-    let description: String
-
-    var body: some View {
-        HStack(spacing: 14) {
-            ZStack {
-                Circle()
-                    .fill(Color.accentColor.opacity(0.15))
-                    .frame(width: 48, height: 48)
-                Text(icon)
-                    .font(.title2)
-            }
-            .accessibilityHidden(true)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(.title3.bold())
-                Text(description)
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-            }
-
-            Spacer(minLength: 0)
-
-            Image(systemName: "chevron.forward")
-                .foregroundStyle(.tertiary)
-                .accessibilityHidden(true)
-        }
-        .padding(18)
-        .frame(maxWidth: .infinity, minHeight: 96, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(Color(.secondarySystemBackground))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .stroke(Color.primary.opacity(0.07))
-        )
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(title). \(description)")
-        .accessibilityAddTraits(.isButton)
     }
 }

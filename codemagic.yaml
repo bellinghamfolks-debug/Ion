@@ -61,7 +61,9 @@ workflows:
 
     scripts:
       - name: Run repository safety checks
-        script: python3 scripts/verify_project.py
+        script: |
+          python3 -m pip install --quiet pyyaml || python3 -m pip install --quiet --break-system-packages pyyaml
+          python3 scripts/verify_project.py
 
       - name: Install XcodeGen
         # XcodeGen creates the .xcodeproj from ios/project.yml so we
@@ -193,7 +195,9 @@ workflows:
 
     scripts:
       - name: Run repository safety checks
-        script: python3 scripts/verify_project.py
+        script: |
+          python3 -m pip install --quiet pyyaml || python3 -m pip install --quiet --break-system-packages pyyaml
+          python3 scripts/verify_project.py
 
       - name: Install XcodeGen
         script: brew install xcodegen

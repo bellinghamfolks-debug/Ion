@@ -38,6 +38,20 @@ enum UserFriendlyErrorMapper {
                           "The key does not have the required permission. Check Gemini API access, project permissions, and billing, then try again.")
         }
 
+        // --- Bad request / model-not-found. These were previously unmapped,
+        //     so the real cause hid behind the generic closing message. ---
+        if low.contains("http 400") || low.contains("invalid_argument")
+                || low.contains("invalid argument") || low.contains("failed_precondition") {
+            return L10n.t("لم يقبل مزوّد الذكاء صيغة الطلب. تأكد من تحديث التطبيق وإعداد النموذج، ثم أعد المحاولة.",
+                          "The AI provider rejected the request format. Make sure the app and model settings are up to date, then try again.")
+                + technicalTrailer(raw)
+        }
+        if low.contains("http 404") || low.contains("not_found") || low.contains("was not found") {
+            return L10n.t("النموذج المطلوب غير متاح لهذا المفتاح أو المنطقة. جرّب مستوى جودة آخر من الإعدادات، ثم أعد المحاولة.",
+                          "The requested model is not available for this key or region. Try another quality level in Settings, then try again.")
+                + technicalTrailer(raw)
+        }
+
         // --- Rate limits and server load ---
         if low.contains("http 429") || low.contains("rate") || low.contains("quota") {
             return L10n.t("وصل الحساب إلى حد الطلبات أو الحصة المتاحة. أعد المحاولة لاحقًا، أو راجع حدود الاستخدام والفوترة في مشروعك.",
@@ -106,6 +120,16 @@ enum UserFriendlyErrorMapper {
 
         return L10n.t("تعذّر إكمال الطلب. تحقق من اتصال الإنترنت وإعداد Gemini أو الخادم الوسيط، ثم أعد المحاولة.",
                       "The request could not be completed. Check your internet connection and Gemini or proxy settings, then try again.")
+            + technicalTrailer(raw)
+    }
+
+    /// A short, bounded technical hint appended only when we could not map the
+    /// error to a specific cause. It lets a user report exactly what the
+    /// provider returned instead of seeing an opaque generic message.
+    private static func technicalTrailer(_ raw: String) -> String {
+        let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return "" }
+        return "\n\n(\(truncate(trimmed, max: 200)))"
     }
 
     private static func rawString(from error: Error) -> String {

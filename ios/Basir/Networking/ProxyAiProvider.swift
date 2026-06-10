@@ -37,6 +37,9 @@ struct ProxyAiProvider: AiProvider {
         let requestID = UUID().uuidString
         var lastError: Error = GeminiError.decode("proxy request failed")
         var repairReason: String?
+        let hasSchema = (task == .convert && imageData != nil
+            ? AIResponseSchemas.documentPage : policy.responseSchema) != nil
+        var dropSchema = false
 
         for attempt in 1...policy.attemptsPerModel {
             try Task.checkCancellation()
@@ -53,7 +56,8 @@ struct ProxyAiProvider: AiProvider {
                     policy: policy,
                     requestID: requestID,
                     attempt: attempt,
-                    repairReason: repairReason
+                    repairReason: repairReason,
+                    includeSchema: !dropSchema
                 )
                 var request = URLRequest(url: url)
                 request.httpMethod = "POST"
@@ -100,6 +104,13 @@ struct ProxyAiProvider: AiProvider {
                     success: false,
                     error: error
                 )
+                // If the proxy rejected the structured schema, retry once
+                // without it before giving up. The prompt still requests the
+                // JSON shape and the validator parses it leniently.
+                if hasSchema, !dropSchema, AIExecutionDecision.isStructuredSchemaRejection(error) {
+                    dropSchema = true
+                    continue
+                }
                 guard attempt < policy.attemptsPerModel,
                       policy.repairEnabled,
                       AIExecutionDecision.shouldRetrySameModel(after: error) else { throw error }
@@ -133,10 +144,12 @@ struct ProxyAiProvider: AiProvider {
         policy: AITaskPolicy,
         requestID: String,
         attempt: Int,
-        repairReason: String?
+        repairReason: String?,
+        includeSchema: Bool = true
     ) -> [String: Any] {
-        let effectiveSchema = task == .convert && imageData != nil
-            ? AIResponseSchemas.documentPage : policy.responseSchema
+        let effectiveSchema = includeSchema
+            ? (task == .convert && imageData != nil ? AIResponseSchemas.documentPage : policy.responseSchema)
+            : nil
         var generation: [String: Any] = [
             "temperature": policy.temperature,
             "max_output_tokens": policy.maxOutputTokens,

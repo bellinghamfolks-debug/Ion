@@ -31,10 +31,13 @@ final class AppSettings: ObservableObject {
         static let promptAddendum = "settings.promptAddendum"
     }
 
+    // Models matched to the working Basir Android app: the GA gemini-2.5
+    // family is well-provisioned and reliable. The newer gemini-3.x models
+    // were returning persistent HTTP 503 "high demand" for this account.
     let availableModels = [
-        "gemini-3.5-flash",
-        "gemini-3.1-flash-lite",
-        "gemini-3.1-pro-preview",
+        "gemini-2.5-flash",
+        "gemini-2.5-flash-lite",
+        "gemini-2.5-pro",
         AppSettings.customModelIdentifier
     ]
 
@@ -63,7 +66,16 @@ final class AppSettings: ObservableObject {
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
-        let storedModel = defaults.string(forKey: Key.model) ?? "gemini-3.5-flash"
+        // One-shot migration to the reliable gemini-2.5 family (matching the
+        // Android app). Installs still on a gemini-3.x model — which returned
+        // persistent 503 — are moved to gemini-2.5-flash once.
+        if defaults.object(forKey: "settings.migratedModelV25") == nil {
+            if let m = defaults.string(forKey: Key.model), m.lowercased().hasPrefix("gemini-3") {
+                defaults.set("gemini-2.5-flash", forKey: Key.model)
+            }
+            defaults.set(true, forKey: "settings.migratedModelV25")
+        }
+        let storedModel = defaults.string(forKey: Key.model) ?? "gemini-2.5-flash"
         model = storedModel == "مخصص" ? Self.customModelIdentifier : storedModel
         customModel = defaults.string(forKey: Key.customModel) ?? ""
         // Default to fast thinking. One-shot migration: installs that stored
@@ -107,7 +119,7 @@ final class AppSettings: ObservableObject {
 
     var options: ConversionOptions {
         ConversionOptions(
-            model: resolvedModel.isEmpty ? "gemini-3.5-flash" : resolvedModel,
+            model: resolvedModel.isEmpty ? "gemini-2.5-flash" : resolvedModel,
             thinkingLevel: thinkingLevel,
             describeImages: describeImages,
             embedImages: embedImages,
@@ -132,7 +144,7 @@ final class AppSettings: ObservableObject {
     }
 
     func restoreDefaults() {
-        model = "gemini-3.5-flash"
+        model = "gemini-2.5-flash"
         customModel = ""
         thinkingLevel = "low"
         describeImages = true

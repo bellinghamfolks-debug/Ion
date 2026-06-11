@@ -371,14 +371,13 @@ actor GeminiClient {
         thinkingLevel: String,
         includeSchema: Bool = true
     ) -> [String: Any] {
+        // Matches the working Basir Android request: responseMimeType JSON, a
+        // modest output budget, a low temperature for faithful transcription,
+        // and no mediaResolution field (Android never sends it).
         var generationConfig: [String: Any] = [
-            "mediaResolution": "MEDIA_RESOLUTION_HIGH",
             "maxOutputTokens": Self.maximumOutputTokens(for: model),
-            // The Gemini REST API returns plain text unless JSON is requested
-            // explicitly. The literal MIME string "application/json" is required
-            // here (there is no "APPLICATION_JSON" enum), and these keys live
-            // directly inside generationConfig — not under a "responseFormat" wrapper.
-            "responseMimeType": "application/json"
+            "responseMimeType": "application/json",
+            "temperature": 0.2
         ]
         if includeSchema {
             // The page schema relies on `additionalProperties:false`, which the
@@ -1459,7 +1458,7 @@ actor GeminiClient {
     /// when the chosen one is overloaded (HTTP 503). Duplicates removed.
     private static func modelFallbackChain(for model: String) -> [String] {
         var chain = [model]
-        for alternate in ["gemini-2.5-flash", "gemini-flash-latest", "gemini-2.0-flash"]
+        for alternate in ["gemini-2.5-flash", "gemini-2.5-flash-lite"]
         where alternate != model {
             chain.append(alternate)
         }
@@ -1499,8 +1498,10 @@ actor GeminiClient {
     }
 
     private static func maximumOutputTokens(for model: String) -> Int {
-        let lower = model.lowercased()
-        return (lower.hasPrefix("gemini-3") || lower.hasPrefix("gemini-2.5")) ? 65_536 : 32_768
+        // Matches the Android app: 16384 comfortably fits a single page's
+        // structured JSON and avoids requesting an oversized output budget
+        // (which slows responses and can interact badly with thinking).
+        16_384
     }
 
     private static func sanitizedAPIMessage(_ message: String) -> String {

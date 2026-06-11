@@ -95,17 +95,46 @@ actor GeminiClient {
         // sequential model calls per page (primary + independent +
         // adjudication), which took many minutes per page and offered little
         // accuracy benefit over local reference checks.
-        var final = try await requestAnalysisPass(
-            pagePDF: pagePDF,
-            pageImage: pageImage,
-            nativeText: nativeText,
-            localOCR: localOCR,
-            pageNumber: pageNumber,
-            apiKey: apiKey,
-            options: options,
-            model: model,
-            pass: .primary
-        )
+        //
+        // If the chosen model is overloaded (HTTP 503 "high demand", common on
+        // the newest flash model's free tier), fall back to other widely
+        // available flash models for this page instead of failing.
+        var finalResult: PageAnalysis?
+        var usedModel = model
+        let modelChain = Self.modelFallbackChain(for: model)
+        var lastError: Error = GeminiError.modelUnavailable(model)
+        for (modelIndex, candidate) in modelChain.enumerated() {
+            do {
+                finalResult = try await requestAnalysisPass(
+                    pagePDF: pagePDF,
+                    pageImage: pageImage,
+                    nativeText: nativeText,
+                    localOCR: localOCR,
+                    pageNumber: pageNumber,
+                    apiKey: apiKey,
+                    options: options,
+                    model: candidate,
+                    pass: .primary
+                )
+                usedModel = candidate
+                break
+            } catch let error {
+                lastError = error
+                let isLast = modelIndex == modelChain.count - 1
+                if !isLast, Self.isModelCapacityError(error) {
+                    DiagnosticsLog.shared.record("page", "p\(pageNumber) model \(candidate) busy; trying \(modelChain[modelIndex + 1])")
+                    continue
+                }
+                throw error
+            }
+        }
+        guard var final = finalResult else { throw lastError }
+        if usedModel != model {
+            final.warnings.append(L10n.format(
+                "استُخدم النموذج البديل %@ للصفحة %d لأن النموذج الأساسي كان مزدحمًا.",
+                usedModel, pageNumber
+            ))
+        }
 
         let confidence = Self.weightedConfidence(final)
         do {
@@ -1424,6 +1453,32 @@ actor GeminiClient {
     private static func normalizedModel(_ model: String) -> String {
         model.trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(of: "models/", with: "")
+    }
+
+    /// The chosen model first, then broadly-available flash models used only
+    /// when the chosen one is overloaded (HTTP 503). Duplicates removed.
+    private static func modelFallbackChain(for model: String) -> [String] {
+        var chain = [model]
+        for alternate in ["gemini-2.5-flash", "gemini-flash-latest", "gemini-2.0-flash"]
+        where alternate != model {
+            chain.append(alternate)
+        }
+        return chain
+    }
+
+    /// True when the provider could not serve this model right now (overload,
+    /// rate limit, transient 5xx, or model-not-found), so another model in the
+    /// fallback chain is worth trying.
+    private static func isModelCapacityError(_ error: Error) -> Bool {
+        guard let gemini = error as? GeminiError else { return false }
+        switch gemini {
+        case .httpStatus(let code, _, _):
+            return code == 503 || code == 429 || code == 404 || (500...599).contains(code)
+        case .modelUnavailable:
+            return true
+        default:
+            return false
+        }
     }
 
     private static func supportsThinkingLevel(_ model: String) -> Bool {

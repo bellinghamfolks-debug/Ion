@@ -133,7 +133,11 @@ actor ConversionEngine {
                     message: L10n.text("نجح اختبار Gemini؛ بدء القراءة الثلاثية عالية الدقة")
                 ))
             }
-            let concurrency = max(1, min(3, options.concurrency))
+            // Serialize page requests. The Gemini free tier returns HTTP 503
+            // "high demand" under load, and firing two large requests at once
+            // doubles that pressure (and per-key rate-limit hits). One page at a
+            // time is far more reliable; the model-fallback chain handles spikes.
+            let concurrency = 1
 
             for batchStart in stride(from: 0, to: pendingIndices.count, by: concurrency) {
                 try Task.checkCancellation()

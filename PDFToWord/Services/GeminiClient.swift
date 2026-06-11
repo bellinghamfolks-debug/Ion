@@ -307,15 +307,19 @@ actor GeminiClient {
     ) -> [String: Any] {
         var generationConfig: [String: Any] = [
             "mediaResolution": "MEDIA_RESOLUTION_HIGH",
-            "maxOutputTokens": Self.maximumOutputTokens(for: model)
+            "maxOutputTokens": Self.maximumOutputTokens(for: model),
+            // The Gemini REST API returns plain text unless JSON is requested
+            // explicitly. The literal MIME string "application/json" is required
+            // here (there is no "APPLICATION_JSON" enum), and these keys live
+            // directly inside generationConfig — not under a "responseFormat" wrapper.
+            "responseMimeType": "application/json"
         ]
         if includeSchema {
-            generationConfig["responseFormat"] = [
-                "text": [
-                    "mimeType": "APPLICATION_JSON",
-                    "schema": Self.pageSchema
-                ]
-            ]
+            // The page schema relies on `additionalProperties:false`, which the
+            // OpenAPI-subset `responseSchema` field rejects. `responseJsonSchema`
+            // accepts the full JSON-Schema feature set. Exactly one of the two may
+            // be present; the schema-complexity fallback below drops it on a 400.
+            generationConfig["responseJsonSchema"] = Self.pageSchema
         }
         if Self.supportsThinkingLevel(model) {
             generationConfig["thinkingConfig"] = [
@@ -377,16 +381,12 @@ actor GeminiClient {
     private func performStructuredProbe(apiKey: String, model: String) async throws {
         let url = try Self.generateContentURL(model: model)
         var generationConfig: [String: Any] = [
-            "responseFormat": [
-                "text": [
-                    "mimeType": "APPLICATION_JSON",
-                    "schema": [
-                        "type": "object",
-                        "additionalProperties": false,
-                        "properties": ["ok": ["type": "boolean"]],
-                        "required": ["ok"]
-                    ]
-                ]
+            "responseMimeType": "application/json",
+            "responseJsonSchema": [
+                "type": "object",
+                "additionalProperties": false,
+                "properties": ["ok": ["type": "boolean"]],
+                "required": ["ok"]
             ],
             // Must comfortably exceed the model's thinking budget: Gemini 3
             // (especially Pro, where "minimal" is promoted to "low") spends
@@ -472,8 +472,9 @@ actor GeminiClient {
         return lower.contains("invalid argument")
             || lower.contains("invalid_argument")
             || lower.contains("schema")
-            || lower.contains("response_format")
-            || lower.contains("response format")
+            || lower.contains("response_json_schema")
+            || lower.contains("responsejsonschema")
+            || lower.contains("unknown name")
     }
 
     private func sendGenerateContentRequest(
@@ -499,7 +500,7 @@ actor GeminiClient {
         request.setValue(trimmedKey, forHTTPHeaderField: "x-goog-api-key")
 
         let endpoint = url.lastPathComponent
-        let hasSchema = ((payload["generationConfig"] as? [String: Any])?["responseFormat"]) != nil
+        let hasSchema = ((payload["generationConfig"] as? [String: Any])?["responseJsonSchema"]) != nil
         let thinking = ((payload["generationConfig"] as? [String: Any])?["thinkingConfig"] as? [String: Any])?["thinkingLevel"] as? String ?? "default"
         DiagnosticsLog.shared.record("gemini→", "POST \(endpoint) | body \(body.count / 1024)KB | schema:\(hasSchema) | thinking:\(thinking) | timeout:\(Int(timeout))s")
         let started = Date()
@@ -1378,7 +1379,7 @@ actor GeminiClient {
 
     private static func generateContentURL(model: String) throws -> URL {
         let encoded = model.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? model
-        guard let url = URL(string: "https://generativelanguage.googleapis.com/v1alpha/models/\(encoded):generateContent") else {
+        guard let url = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/\(encoded):generateContent") else {
             throw GeminiError.invalidEndpoint
         }
         return url

@@ -346,7 +346,10 @@ struct DocumentBlock: Codable, Identifiable, Sendable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = UUID()
-        type = try container.decode(BlockType.self, forKey: .type)
+        // Lenient: a missing or unrecognized block type must not fail the whole
+        // page decode (the model isn't always constrained by a response schema).
+        // Unknown/absent types fall back to a plain paragraph.
+        type = (try? container.decode(BlockType.self, forKey: .type)) ?? .paragraph
         text = try container.decodeIfPresent(String.self, forKey: .text) ?? ""
         runs = try container.decodeIfPresent([TextRun].self, forKey: .runs) ?? []
         rows = try container.decodeIfPresent([[String]].self, forKey: .rows) ?? []

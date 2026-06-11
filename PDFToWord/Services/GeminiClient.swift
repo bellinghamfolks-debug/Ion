@@ -207,20 +207,24 @@ actor GeminiClient {
             nativeText: nativeText,
             localOCR: localOCR
         )
-        let data = try await sendAnalysisWithSchemaFallback(
+        // The full page schema is rejected by Gemini as too complex (a bare
+        // HTTP 400 INVALID_ARGUMENT) on every request — confirmed by diagnostics
+        // where the identical request without the schema returns 200. So we skip
+        // it and rely on responseMimeType:"application/json" plus the detailed
+        // prompt; PageAnalysis decodes leniently.
+        let data = try await sendGenerateContentRequest(
             url: url,
             apiKey: apiKey,
-            timeout: 240
-        ) { includeSchema in
-            Self.analysisPayload(
+            payload: Self.analysisPayload(
                 pagePDF: pagePDF,
                 pageImage: pageImage,
                 prompt: pagePrompt,
                 model: model,
                 thinkingLevel: options.thinkingLevel,
-                includeSchema: includeSchema
-            )
-        }
+                includeSchema: false
+            ),
+            timeout: 240
+        )
         return try Self.decodePageAnalysis(
             from: data,
             decoder: decoder,

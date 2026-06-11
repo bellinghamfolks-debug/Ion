@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -300,6 +301,38 @@ actor GeminiClient {
         )
     }
 
+    /// Downscales and JPEG-compresses a page image for upload so requests stay
+    /// small (~0.5-1 MB) and upload reliably on cellular / Low Power Mode,
+    /// instead of the previous ~12 MB PNG.
+    private static func compressedUploadImage(
+        from data: Data,
+        maxLongEdge: CGFloat = 2200,
+        quality: CGFloat = 0.6
+    ) -> (data: Data, mime: String) {
+        guard let image = UIImage(data: data) else { return (data, "image/png") }
+        let longEdge = max(image.size.width, image.size.height)
+        let scale = longEdge > maxLongEdge && longEdge > 0 ? maxLongEdge / longEdge : 1
+        let rendered: UIImage
+        if scale < 1 {
+            let target = CGSize(
+                width: max(1, (image.size.width * scale).rounded()),
+                height: max(1, (image.size.height * scale).rounded())
+            )
+            let format = UIGraphicsImageRendererFormat.default()
+            format.scale = 1
+            format.opaque = true
+            rendered = UIGraphicsImageRenderer(size: target, format: format).image { _ in
+                image.draw(in: CGRect(origin: .zero, size: target))
+            }
+        } else {
+            rendered = image
+        }
+        if let jpeg = rendered.jpegData(compressionQuality: quality), !jpeg.isEmpty {
+            return (jpeg, "image/jpeg")
+        }
+        return (data, "image/png")
+    }
+
     private static func analysisPayload(
         pagePDF: Data,
         pageImage: Data?,
@@ -331,26 +364,25 @@ actor GeminiClient {
             ]
         }
 
-        var parts: [[String: Any]] = [[
-            "inlineData": [
-                "mimeType": "application/pdf",
-                "data": pagePDF.base64EncodedString()
-            ]
-        ]]
+        // Send ONE compressed JPEG of the page rather than the full-resolution
+        // PNG plus the embedded PDF. On a real device (4G / Low Power Mode) the
+        // old ~16 MB request took 60-120s to upload and dropped the connection.
+        // A downscaled JPEG is ~0.5-1 MB and uploads in seconds; the model reads
+        // it just as well. Fall back to the inline PDF only when no image exists.
+        var parts: [[String: Any]] = []
         if let pageImage, !pageImage.isEmpty {
+            let upload = Self.compressedUploadImage(from: pageImage)
             parts.append([
                 "inlineData": [
-                    "mimeType": "image/png",
-                    "data": pageImage.base64EncodedString()
+                    "mimeType": upload.mime,
+                    "data": upload.data.base64EncodedString()
                 ]
             ])
-        }
-        for (index, tile) in detailTiles.prefix(4).enumerated() where !tile.isEmpty {
-            parts.append(["text": "Overlapping detail crop \(index + 1) of \(min(4, detailTiles.count))."])
+        } else {
             parts.append([
                 "inlineData": [
-                    "mimeType": "image/png",
-                    "data": tile.base64EncodedString()
+                    "mimeType": "application/pdf",
+                    "data": pagePDF.base64EncodedString()
                 ]
             ])
         }

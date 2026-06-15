@@ -114,6 +114,9 @@ def find(exercises, etype):
 
 def model_sentence(lesson) -> str:
     """English model sentence for the lesson."""
+    explicit = (lesson.get("modelSentence") or "").strip()
+    if explicit:
+        return explicit if explicit.endswith((".", "!", "?")) else explicit + "."
     exs = lesson["exercises"]
     for t in ("speak", "explanation", "translation", "arrangeWords"):
         e = find(exs, t)
@@ -132,6 +135,9 @@ def model_sentence_arabic(lesson) -> str:
     it is preferred — after expansion there are several translation exercises
     (one per extra example) and the first is no longer the model sentence.
     """
+    explicit = (lesson.get("modelSentenceArabic") or "").strip()
+    if explicit:
+        return explicit
     exs = lesson["exercises"]
     ar = find(exs, "arrangeWords")
     if ar:

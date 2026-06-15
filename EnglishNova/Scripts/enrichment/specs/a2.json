@@ -1,0 +1,212 @@
+{
+  "lessons": [
+    {
+      "id": "a2-u1-l1",
+      "level": "A2",
+      "titleEn": "Clear Short Messages",
+      "titleAr": "رسائل قصيرة واضحة",
+      "objectiveAr": "كتابة رسالة قصيرة توضح التأخر أو تغيير الموعد.",
+      "modelSentence": "I will be ten minutes late.",
+      "modelSentenceAr": "سأتأخر عشر دقائق.",
+      "existingVocabulary": [
+        {
+          "id": "a2-u1-l1-w1",
+          "english": "ten minutes late",
+          "arabic": "متأخر عشر دقائق"
+        },
+        {
+          "id": "a2-u1-l1-w2",
+          "english": "I",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "a2-u1-l1-w3",
+          "english": "late",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "a2-extra-2",
+      "level": "A2",
+      "titleEn": "Past Simple",
+      "titleAr": "الماضي البسيط",
+      "objectiveAr": "وصف حدث انتهى في الماضي.",
+      "modelSentence": "I visited Jeddah last week.",
+      "modelSentenceAr": "زرت جدة الأسبوع الماضي.",
+      "existingVocabulary": [
+        {
+          "id": "a2-extra-2-w1",
+          "english": "visited",
+          "arabic": "زار"
+        },
+        {
+          "id": "a2-extra-2-w2",
+          "english": "I",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "a2-extra-2-w3",
+          "english": "week",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "a2-extra-3",
+      "level": "A2",
+      "titleEn": "Future Plans",
+      "titleAr": "خطط المستقبل",
+      "objectiveAr": "التحدث عن خطة باستخدام going to.",
+      "modelSentence": "I am going to study tonight.",
+      "modelSentenceAr": "سأدرس الليلة.",
+      "existingVocabulary": [
+        {
+          "id": "a2-extra-3-w1",
+          "english": "going to",
+          "arabic": "سوف حسب الخطة"
+        },
+        {
+          "id": "a2-extra-3-w2",
+          "english": "I",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "a2-extra-3-w3",
+          "english": "tonight",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "a2-extra-4",
+      "level": "A2",
+      "titleEn": "Travel and Airport",
+      "titleAr": "السفر والمطار",
+      "objectiveAr": "فهم عبارات السفر الأساسية.",
+      "modelSentence": "Where is the boarding gate?.",
+      "modelSentenceAr": "أين بوابة الصعود؟",
+      "existingVocabulary": [
+        {
+          "id": "a2-extra-4-w1",
+          "english": "boarding gate",
+          "arabic": "بوابة الصعود"
+        },
+        {
+          "id": "a2-extra-4-w2",
+          "english": "Where",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "a2-extra-4-w3",
+          "english": "gate",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "a2-extra-5",
+      "level": "A2",
+      "titleEn": "Health and Symptoms",
+      "titleAr": "الصحة والأعراض",
+      "objectiveAr": "وصف أعراض بسيطة للطبيب.",
+      "modelSentence": "I have a headache.",
+      "modelSentenceAr": "لدي صداع.",
+      "existingVocabulary": [
+        {
+          "id": "a2-extra-5-w1",
+          "english": "headache",
+          "arabic": "صداع"
+        },
+        {
+          "id": "a2-extra-5-w2",
+          "english": "I",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "a2-extra-5-w3",
+          "english": "headache",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "a2-extra-6",
+      "level": "A2",
+      "titleEn": "Comparisons",
+      "titleAr": "المقارنة",
+      "objectiveAr": "مقارنة شخصين أو شيئين.",
+      "modelSentence": "This car is faster than that one.",
+      "modelSentenceAr": "هذه السيارة أسرع من تلك.",
+      "existingVocabulary": [
+        {
+          "id": "a2-extra-6-w1",
+          "english": "faster than",
+          "arabic": "أسرع من"
+        },
+        {
+          "id": "a2-extra-6-w2",
+          "english": "This",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "a2-extra-6-w3",
+          "english": "one",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "a2-extra-7",
+      "level": "A2",
+      "titleEn": "Invitations and Suggestions",
+      "titleAr": "الدعوات والاقتراحات",
+      "objectiveAr": "دعوة شخص وقبول أو رفض الدعوة.",
+      "modelSentence": "Would you like to join us?.",
+      "modelSentenceAr": "هل تود الانضمام إلينا؟",
+      "existingVocabulary": [
+        {
+          "id": "a2-extra-7-w1",
+          "english": "Would you like",
+          "arabic": "هل تود"
+        },
+        {
+          "id": "a2-extra-7-w2",
+          "english": "Would",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "a2-extra-7-w3",
+          "english": "us",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "a2-extra-8",
+      "level": "A2",
+      "titleEn": "Work Tasks",
+      "titleAr": "مهام العمل",
+      "objectiveAr": "وصف المهام والمواعيد النهائية.",
+      "modelSentence": "I need to finish the report today.",
+      "modelSentenceAr": "أحتاج إلى إنهاء التقرير اليوم.",
+      "existingVocabulary": [
+        {
+          "id": "a2-extra-8-w1",
+          "english": "finish the report",
+          "arabic": "إنهاء التقرير"
+        },
+        {
+          "id": "a2-extra-8-w2",
+          "english": "I",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "a2-extra-8-w3",
+          "english": "today",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    }
+  ]
+}

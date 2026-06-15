@@ -1,22 +1,33 @@
-name: Basir iOS quality gate
+# EnglishNova iOS — GitHub Actions build + test check.
+#
+# Generates the Xcode project with XcodeGen, builds for the iOS
+# Simulator, runs the unit tests (which decode the bundled
+# curriculum.json with the real Swift models), and verifies the
+# curriculum resource is inside the built .app bundle. The device IPA
+# + signing live in Codemagic (see codemagic.yaml).
+#
+# Basir's code is preserved on its own branch; this workflow builds the
+# repo's active project, EnglishNova.
+
+name: Swift
 
 on:
-  workflow_dispatch:
   push:
     branches: [main, master, develop, "claude/**"]
   pull_request:
 
 concurrency:
-  group: basir-ios-${{ github.ref }}
+  group: swift-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  quality-gate:
-    name: Build, analyze, test, and inspect bundles
+  build:
+    name: Build & test (iOS Simulator)
     runs-on: macos-14
+
     defaults:
       run:
-        working-directory: ios
+        working-directory: EnglishNova
 
     steps:
       - name: Checkout
@@ -27,76 +38,44 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Install Python dependencies for checks
-        run: python3 -m pip install --quiet pyyaml || python3 -m pip install --quiet --break-system-packages pyyaml
-
-      - name: Run platform-independent checks
-        run: python3 ../scripts/verify_project.py
-
       - name: Install XcodeGen
         run: brew install xcodegen
 
-      - name: Generate project
-        run: |
-          set -euo pipefail
-          xcodegen generate
-          test -d Basir.xcodeproj
+      - name: Generate Xcode project
+        run: xcodegen generate
 
-      - name: Static analyzer
+      - name: Pick an available iPhone simulator
+        id: sim
         run: |
-          set -euo pipefail
-          xcodebuild analyze \
-            -project Basir.xcodeproj \
-            -scheme Basir \
-            -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
-            -configuration Debug \
-            -derivedDataPath build-analyze \
-            CODE_SIGNING_ALLOWED=NO \
-            COMPILER_INDEX_STORE_ENABLE=NO
+          UDID=$(xcrun simctl list devices available --json | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          devices = [d for devs in data['devices'].values() for d in devs
+                     if d.get('isAvailable') and 'iPhone' in d['name']]
+          print(devices[-1]['udid'])
+          ")
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+          xcrun simctl list devices available | grep iPhone
 
-      - name: Build for iOS Simulator
+      - name: Build and run unit tests (decodes bundled curriculum)
         run: |
-          set -euo pipefail
-          xcodebuild build \
-            -project Basir.xcodeproj \
-            -scheme Basir \
-            -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
+          set -o pipefail
+          xcodebuild test \
+            -project EnglishNova.xcodeproj \
+            -scheme EnglishNova \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
             -configuration Debug \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
-            COMPILER_INDEX_STORE_ENABLE=NO \
-            ONLY_ACTIVE_ARCH=YES
-
-      - name: Verify host app and share extension
-        run: |
-          set -euo pipefail
-          APP='build/Build/Products/Debug-iphonesimulator/Basir.app'
-          test -d "$APP"
-          test -d "$APP/PlugIns/BasirShare.appex"
-          plutil -lint "$APP/Info.plist"
-          plutil -lint "$APP/PlugIns/BasirShare.appex/Info.plist"
-          test -f "$APP/PrivacyInfo.xcprivacy"
-          plutil -lint "$APP/PrivacyInfo.xcprivacy"
-          HOST_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/Info.plist")
-          SHARE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/PlugIns/BasirShare.appex/Info.plist")
-          HOST_BUILD=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$APP/Info.plist")
-          SHARE_BUILD=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$APP/PlugIns/BasirShare.appex/Info.plist")
-          test "$HOST_VERSION" = "$SHARE_VERSION"
-          test "$HOST_BUILD" = "$SHARE_BUILD"
-
-      - name: Run unit tests
-        run: |
-          set -euo pipefail
-          DEVICE_ID=$(xcrun simctl list devices available -j | python3 ../scripts/select_ios_simulator.py)
-          xcrun simctl boot "$DEVICE_ID" 2>/dev/null || true
-          xcrun simctl bootstatus "$DEVICE_ID" -b
-          xcodebuild test \
-            -project Basir.xcodeproj \
-            -scheme Basir \
-            -destination "platform=iOS Simulator,id=$DEVICE_ID" \
-            -configuration Debug \
-            -derivedDataPath build-tests \
-            CODE_SIGNING_ALLOWED=NO \
             COMPILER_INDEX_STORE_ENABLE=NO
+
+      - name: Verify curriculum.json is inside the app bundle
+        run: |
+          APP="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
+          echo "--- bundle contents ---"
+          ls -R "$APP" | head -40
+          if [ ! -f "$APP/Curriculum/curriculum.json" ]; then
+            echo "❌ Curriculum/curriculum.json missing from app bundle"
+            exit 1
+          fi
+          echo "✅ Curriculum/curriculum.json bundled correctly"

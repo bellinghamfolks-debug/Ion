@@ -1,0 +1,398 @@
+{
+  "lessons": {
+    "a2-u1-l1": {
+      "extraVocabulary": [
+        {
+          "english": "delay",
+          "arabic": "تأخير",
+          "example": "There is a short delay on the train.",
+          "exampleArabic": "هناك تأخير قصير في القطار.",
+          "partOfSpeech": "noun",
+          "phonetic": "/dɪˈleɪ/"
+        },
+        {
+          "english": "reschedule",
+          "arabic": "يعيد جدولة الموعد",
+          "example": "Can we reschedule the meeting to Friday?",
+          "exampleArabic": "هل يمكننا تغيير موعد الاجتماع إلى يوم الجمعة؟",
+          "partOfSpeech": "verb",
+          "phonetic": "/ˌriːˈʃedjuːl/"
+        },
+        {
+          "english": "on my way",
+          "arabic": "في طريقي",
+          "example": "Don't worry, I am on my way now.",
+          "exampleArabic": "لا تقلق، أنا في طريقي الآن.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/ɒn maɪ weɪ/"
+        },
+        {
+          "english": "apologize",
+          "arabic": "يعتذر",
+          "example": "I apologize for being late.",
+          "exampleArabic": "أعتذر عن التأخر.",
+          "partOfSpeech": "verb",
+          "phonetic": "/əˈpɒlədʒaɪz/"
+        }
+      ],
+      "extraExamples": {
+        "a2-u1-l1-w1": [
+          {
+            "example": "Sorry, I am ten minutes late for class.",
+            "exampleArabic": "آسف، لقد تأخرت عشر دقائق عن الحصة."
+          }
+        ],
+        "a2-u1-l1-w3": [
+          {
+            "example": "The bus was late this morning.",
+            "exampleArabic": "تأخرت الحافلة هذا الصباح."
+          }
+        ]
+      }
+    },
+    "a2-extra-2": {
+      "extraVocabulary": [
+        {
+          "english": "yesterday",
+          "arabic": "أمس",
+          "example": "We watched a film yesterday.",
+          "exampleArabic": "شاهدنا فيلمًا أمس.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈjestədeɪ/"
+        },
+        {
+          "english": "last month",
+          "arabic": "الشهر الماضي",
+          "example": "She started a new job last month.",
+          "exampleArabic": "بدأت عملًا جديدًا الشهر الماضي.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/lɑːst mʌnθ/"
+        },
+        {
+          "english": "ago",
+          "arabic": "قبل (مدة)",
+          "example": "They moved here two years ago.",
+          "exampleArabic": "انتقلوا إلى هنا قبل عامين.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/əˈɡəʊ/"
+        },
+        {
+          "english": "arrived",
+          "arabic": "وصل",
+          "example": "The train arrived on time.",
+          "exampleArabic": "وصل القطار في الموعد.",
+          "partOfSpeech": "verb",
+          "phonetic": "/əˈraɪvd/"
+        }
+      ],
+      "extraExamples": {
+        "a2-extra-2-w1": [
+          {
+            "example": "I visited my grandmother last weekend.",
+            "exampleArabic": "زرت جدتي نهاية الأسبوع الماضي."
+          }
+        ],
+        "a2-extra-2-w3": [
+          {
+            "example": "We will travel next week.",
+            "exampleArabic": "سنسافر الأسبوع المقبل."
+          }
+        ]
+      }
+    },
+    "a2-extra-3": {
+      "extraVocabulary": [
+        {
+          "english": "plan",
+          "arabic": "خطة",
+          "example": "What is your plan for the weekend?",
+          "exampleArabic": "ما خطتك لنهاية الأسبوع؟",
+          "partOfSpeech": "noun",
+          "phonetic": "/plæn/"
+        },
+        {
+          "english": "tomorrow",
+          "arabic": "غدًا",
+          "example": "I am going to call you tomorrow.",
+          "exampleArabic": "سأتصل بك غدًا.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/təˈmɒrəʊ/"
+        },
+        {
+          "english": "next year",
+          "arabic": "العام المقبل",
+          "example": "We are going to move next year.",
+          "exampleArabic": "سننتقل العام المقبل.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/nekst jɪə/"
+        },
+        {
+          "english": "hope",
+          "arabic": "يأمل",
+          "example": "I hope to visit London soon.",
+          "exampleArabic": "آمل أن أزور لندن قريبًا.",
+          "partOfSpeech": "verb",
+          "phonetic": "/həʊp/"
+        }
+      ],
+      "extraExamples": {
+        "a2-extra-3-w1": [
+          {
+            "example": "She is going to buy a new phone.",
+            "exampleArabic": "ستشتري هاتفًا جديدًا."
+          }
+        ],
+        "a2-extra-3-w3": [
+          {
+            "example": "We are going to cook dinner tonight.",
+            "exampleArabic": "سنطبخ العشاء الليلة."
+          }
+        ]
+      }
+    },
+    "a2-extra-4": {
+      "extraVocabulary": [
+        {
+          "english": "passport",
+          "arabic": "جواز سفر",
+          "example": "Please show me your passport.",
+          "exampleArabic": "من فضلك أرني جواز سفرك.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈpɑːspɔːt/"
+        },
+        {
+          "english": "luggage",
+          "arabic": "أمتعة",
+          "example": "My luggage is very heavy.",
+          "exampleArabic": "أمتعتي ثقيلة جدًا.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈlʌɡɪdʒ/"
+        },
+        {
+          "english": "departure",
+          "arabic": "مغادرة",
+          "example": "The departure time is at six o'clock.",
+          "exampleArabic": "موعد المغادرة في الساعة السادسة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/dɪˈpɑːtʃə/"
+        },
+        {
+          "english": "check in",
+          "arabic": "يسجّل الوصول",
+          "example": "You must check in two hours before the flight.",
+          "exampleArabic": "يجب أن تسجّل الوصول قبل الرحلة بساعتين.",
+          "partOfSpeech": "verb",
+          "phonetic": "/tʃek ɪn/"
+        }
+      ],
+      "extraExamples": {
+        "a2-extra-4-w1": [
+          {
+            "example": "The boarding gate is on the left.",
+            "exampleArabic": "بوابة الصعود على اليسار."
+          }
+        ],
+        "a2-extra-4-w3": [
+          {
+            "example": "Our flight leaves from gate twelve.",
+            "exampleArabic": "تنطلق رحلتنا من البوابة رقم اثني عشر."
+          }
+        ]
+      }
+    },
+    "a2-extra-5": {
+      "extraVocabulary": [
+        {
+          "english": "fever",
+          "arabic": "حُمّى",
+          "example": "My son has a high fever.",
+          "exampleArabic": "ابني مصاب بحمى شديدة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈfiːvə/"
+        },
+        {
+          "english": "cough",
+          "arabic": "سُعال",
+          "example": "I have a bad cough today.",
+          "exampleArabic": "لدي سعال شديد اليوم.",
+          "partOfSpeech": "noun",
+          "phonetic": "/kɒf/"
+        },
+        {
+          "english": "sore throat",
+          "arabic": "التهاب الحلق",
+          "example": "She has a sore throat and cannot speak well.",
+          "exampleArabic": "تعاني من التهاب في الحلق ولا تستطيع الكلام جيدًا.",
+          "partOfSpeech": "noun",
+          "phonetic": "/sɔː θrəʊt/"
+        },
+        {
+          "english": "medicine",
+          "arabic": "دواء",
+          "example": "Take this medicine twice a day.",
+          "exampleArabic": "تناول هذا الدواء مرتين في اليوم.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈmedsən/"
+        }
+      ],
+      "extraExamples": {
+        "a2-extra-5-w1": [
+          {
+            "example": "I have a headache after work.",
+            "exampleArabic": "أصابني صداع بعد العمل."
+          }
+        ]
+      }
+    },
+    "a2-extra-6": {
+      "extraVocabulary": [
+        {
+          "english": "bigger than",
+          "arabic": "أكبر من",
+          "example": "My house is bigger than yours.",
+          "exampleArabic": "بيتي أكبر من بيتك.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/ˈbɪɡə ðæn/"
+        },
+        {
+          "english": "the best",
+          "arabic": "الأفضل",
+          "example": "This is the best restaurant in town.",
+          "exampleArabic": "هذا أفضل مطعم في المدينة.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/ðə best/"
+        },
+        {
+          "english": "cheaper",
+          "arabic": "أرخص",
+          "example": "The blue shirt is cheaper than the red one.",
+          "exampleArabic": "القميص الأزرق أرخص من الأحمر.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈtʃiːpə/"
+        },
+        {
+          "english": "as tall as",
+          "arabic": "بطول مثل",
+          "example": "He is as tall as his brother.",
+          "exampleArabic": "هو بطول أخيه نفسه.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/əz tɔːl əz/"
+        }
+      ],
+      "extraExamples": {
+        "a2-extra-6-w1": [
+          {
+            "example": "A train is faster than a bus.",
+            "exampleArabic": "القطار أسرع من الحافلة."
+          }
+        ],
+        "a2-extra-6-w3": [
+          {
+            "example": "I like this phone, but that one is better.",
+            "exampleArabic": "يعجبني هذا الهاتف، لكن ذاك أفضل."
+          }
+        ]
+      }
+    },
+    "a2-extra-7": {
+      "extraVocabulary": [
+        {
+          "english": "invitation",
+          "arabic": "دعوة",
+          "example": "Thank you for the invitation to dinner.",
+          "exampleArabic": "شكرًا لك على دعوة العشاء.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˌɪnvɪˈteɪʃən/"
+        },
+        {
+          "english": "Why don't we",
+          "arabic": "لماذا لا (اقتراح)",
+          "example": "Why don't we go to the cinema tonight?",
+          "exampleArabic": "لماذا لا نذهب إلى السينما الليلة؟",
+          "partOfSpeech": "phrase",
+          "phonetic": "/waɪ dəʊnt wiː/"
+        },
+        {
+          "english": "accept",
+          "arabic": "يقبل",
+          "example": "I am happy to accept your invitation.",
+          "exampleArabic": "يسعدني أن أقبل دعوتك.",
+          "partOfSpeech": "verb",
+          "phonetic": "/əkˈsept/"
+        },
+        {
+          "english": "I'd love to",
+          "arabic": "يسعدني ذلك كثيرًا",
+          "example": "Come to my party. I'd love to!",
+          "exampleArabic": "تعال إلى حفلتي. يسعدني ذلك كثيرًا!",
+          "partOfSpeech": "phrase",
+          "phonetic": "/aɪd lʌv tuː/"
+        }
+      ],
+      "extraExamples": {
+        "a2-extra-7-w1": [
+          {
+            "example": "Would you like a cup of tea?",
+            "exampleArabic": "هل تود فنجانًا من الشاي؟"
+          }
+        ],
+        "a2-extra-7-w3": [
+          {
+            "example": "Please come with us to the park.",
+            "exampleArabic": "من فضلك تعال معنا إلى الحديقة."
+          }
+        ]
+      }
+    },
+    "a2-extra-8": {
+      "extraVocabulary": [
+        {
+          "english": "deadline",
+          "arabic": "موعد نهائي",
+          "example": "The deadline for the project is Monday.",
+          "exampleArabic": "الموعد النهائي للمشروع هو يوم الاثنين.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈdedlaɪn/"
+        },
+        {
+          "english": "meeting",
+          "arabic": "اجتماع",
+          "example": "We have a meeting at nine o'clock.",
+          "exampleArabic": "لدينا اجتماع في الساعة التاسعة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈmiːtɪŋ/"
+        },
+        {
+          "english": "email",
+          "arabic": "بريد إلكتروني",
+          "example": "Please send me the email before lunch.",
+          "exampleArabic": "من فضلك أرسل لي البريد الإلكتروني قبل الغداء.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈiːmeɪl/"
+        },
+        {
+          "english": "in charge of",
+          "arabic": "مسؤول عن",
+          "example": "She is in charge of the new project.",
+          "exampleArabic": "هي مسؤولة عن المشروع الجديد.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/ɪn tʃɑːdʒ ɒv/"
+        }
+      ],
+      "extraExamples": {
+        "a2-extra-8-w1": [
+          {
+            "example": "I will finish the report after the meeting.",
+            "exampleArabic": "سأنهي التقرير بعد الاجتماع."
+          }
+        ],
+        "a2-extra-8-w3": [
+          {
+            "example": "I have a lot of work to do today.",
+            "exampleArabic": "لدي الكثير من العمل لأنجزه اليوم."
+          }
+        ]
+      }
+    }
+  }
+}

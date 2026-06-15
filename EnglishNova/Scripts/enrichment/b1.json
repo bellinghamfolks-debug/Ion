@@ -1,0 +1,404 @@
+{
+  "lessons": {
+    "b1-u1-l1": {
+      "extraVocabulary": [
+        {
+          "english": "boarding pass",
+          "arabic": "بطاقة الصعود إلى الطائرة",
+          "example": "Please have your boarding pass ready at the gate.",
+          "exampleArabic": "يرجى تجهيز بطاقة الصعود عند البوابة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈbɔːdɪŋ pɑːs/"
+        },
+        {
+          "english": "refund",
+          "arabic": "استرداد المبلغ",
+          "example": "I would like a full refund for my cancelled ticket.",
+          "exampleArabic": "أرغب في استرداد كامل المبلغ مقابل تذكرتي الملغاة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈriːfʌnd/"
+        },
+        {
+          "english": "connecting flight",
+          "arabic": "رحلة ربط",
+          "example": "Because of the delay, I missed my connecting flight.",
+          "exampleArabic": "بسبب التأخير، فاتتني رحلة الربط.",
+          "partOfSpeech": "noun",
+          "phonetic": "/kəˈnektɪŋ flaɪt/"
+        },
+        {
+          "english": "complaint",
+          "arabic": "شكوى",
+          "example": "I want to make a complaint about the poor service.",
+          "exampleArabic": "أريد تقديم شكوى بشأن سوء الخدمة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/kəmˈpleɪnt/"
+        }
+      ],
+      "extraExamples": {
+        "b1-u1-l1-w1": [
+          {
+            "example": "The train has been delayed because of the heavy snow.",
+            "exampleArabic": "تأخر القطار بسبب الثلوج الكثيفة."
+          }
+        ],
+        "b1-u1-l1-w3": [
+          {
+            "example": "We waited at the airport for almost three hours.",
+            "exampleArabic": "انتظرنا في المطار قرابة ثلاث ساعات."
+          }
+        ]
+      }
+    },
+    "b1-extra-2": {
+      "extraVocabulary": [
+        {
+          "english": "already",
+          "arabic": "بالفعل",
+          "example": "She has already read the whole book.",
+          "exampleArabic": "لقد قرأت الكتاب كله بالفعل.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ɔːlˈredi/"
+        },
+        {
+          "english": "yet",
+          "arabic": "بعدُ",
+          "example": "I haven't decided what to do yet.",
+          "exampleArabic": "لم أقرر بعدُ ما الذي سأفعله.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/jet/"
+        },
+        {
+          "english": "recently",
+          "arabic": "مؤخرًا",
+          "example": "They have recently moved to a new city.",
+          "exampleArabic": "لقد انتقلوا مؤخرًا إلى مدينة جديدة.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈriːsntli/"
+        },
+        {
+          "english": "experience",
+          "arabic": "خبرة",
+          "example": "He has a lot of experience in teaching English.",
+          "exampleArabic": "لديه خبرة كبيرة في تدريس اللغة الإنجليزية.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ɪkˈspɪəriəns/"
+        }
+      ],
+      "extraExamples": {
+        "b1-extra-2-w1": [
+          {
+            "example": "We have finished all the exercises for today.",
+            "exampleArabic": "لقد أنهينا جميع التمارين لليوم."
+          }
+        ],
+        "b1-extra-2-w3": [
+          {
+            "example": "The teacher gave us a difficult assignment last week.",
+            "exampleArabic": "أعطانا المعلم واجبًا صعبًا الأسبوع الماضي."
+          }
+        ]
+      }
+    },
+    "b1-extra-3": {
+      "extraVocabulary": [
+        {
+          "english": "I believe that",
+          "arabic": "أعتقد أنّ",
+          "example": "I believe that learning a language takes time and patience.",
+          "exampleArabic": "أعتقد أنّ تعلّم لغة يتطلب وقتًا وصبرًا.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/aɪ bɪˈliːv ðət/"
+        },
+        {
+          "english": "point of view",
+          "arabic": "وجهة نظر",
+          "example": "From my point of view, the plan needs more time.",
+          "exampleArabic": "من وجهة نظري، تحتاج الخطة إلى مزيد من الوقت.",
+          "partOfSpeech": "noun",
+          "phonetic": "/pɔɪnt əv vjuː/"
+        },
+        {
+          "english": "agree",
+          "arabic": "يوافق",
+          "example": "I completely agree with your suggestion.",
+          "exampleArabic": "أتفق تمامًا مع اقتراحك.",
+          "partOfSpeech": "verb",
+          "phonetic": "/əˈɡriː/"
+        },
+        {
+          "english": "disagree",
+          "arabic": "يختلف في الرأي",
+          "example": "Many people disagree about the best way to study.",
+          "exampleArabic": "يختلف كثير من الناس حول أفضل طريقة للدراسة.",
+          "partOfSpeech": "verb",
+          "phonetic": "/ˌdɪsəˈɡriː/"
+        }
+      ],
+      "extraExamples": {
+        "b1-extra-3-w1": [
+          {
+            "example": "In my opinion, reading every day improves your vocabulary.",
+            "exampleArabic": "في رأيي، تحسّن القراءة اليومية حصيلتك من المفردات."
+          }
+        ],
+        "b1-extra-3-w3": [
+          {
+            "example": "This website is very useful for students.",
+            "exampleArabic": "هذا الموقع مفيد جدًا للطلاب."
+          }
+        ]
+      }
+    },
+    "b1-extra-4": {
+      "extraVocabulary": [
+        {
+          "english": "after that",
+          "arabic": "بعد ذلك",
+          "example": "We had dinner, and after that we watched a film.",
+          "exampleArabic": "تناولنا العشاء، وبعد ذلك شاهدنا فيلمًا.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/ˈɑːftə ðæt/"
+        },
+        {
+          "english": "finally",
+          "arabic": "أخيرًا",
+          "example": "Finally, everyone went home after the long trip.",
+          "exampleArabic": "أخيرًا، عاد الجميع إلى منازلهم بعد الرحلة الطويلة.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈfaɪnəli/"
+        },
+        {
+          "english": "suddenly",
+          "arabic": "فجأة",
+          "example": "Suddenly, the lights went out in the whole building.",
+          "exampleArabic": "فجأة، انطفأت الأضواء في المبنى بأكمله.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈsʌdənli/"
+        },
+        {
+          "english": "meanwhile",
+          "arabic": "في هذه الأثناء",
+          "example": "She cooked dinner; meanwhile, her brother set the table.",
+          "exampleArabic": "أعدّت العشاء؛ وفي هذه الأثناء، رتّب أخوها المائدة.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈmiːnwaɪl/"
+        }
+      ],
+      "extraExamples": {
+        "b1-extra-4-w1": [
+          {
+            "example": "We visited the museum and then walked along the river.",
+            "exampleArabic": "زرنا المتحف ثم تمشّينا بمحاذاة النهر."
+          }
+        ],
+        "b1-extra-4-w3": [
+          {
+            "example": "The film started just as we sat down.",
+            "exampleArabic": "بدأ الفيلم تمامًا حين جلسنا."
+          }
+        ]
+      }
+    },
+    "b1-extra-5": {
+      "extraVocabulary": [
+        {
+          "english": "solution",
+          "arabic": "حل",
+          "example": "We finally found a simple solution to the problem.",
+          "exampleArabic": "وجدنا أخيرًا حلًا بسيطًا للمشكلة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/səˈluːʃn/"
+        },
+        {
+          "english": "suggest",
+          "arabic": "يقترح",
+          "example": "I would like to suggest a different approach.",
+          "exampleArabic": "أودّ أن أقترح أسلوبًا مختلفًا.",
+          "partOfSpeech": "verb",
+          "phonetic": "/səˈdʒest/"
+        },
+        {
+          "english": "deal with",
+          "arabic": "يتعامل مع",
+          "example": "Managers must deal with problems quickly and calmly.",
+          "exampleArabic": "على المديرين أن يتعاملوا مع المشكلات بسرعة وهدوء.",
+          "partOfSpeech": "phrasal verb",
+          "phonetic": "/diːl wɪð/"
+        },
+        {
+          "english": "issue",
+          "arabic": "مسألة",
+          "example": "We need to discuss this issue at the next meeting.",
+          "exampleArabic": "علينا مناقشة هذه المسألة في الاجتماع القادم.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈɪʃuː/"
+        }
+      ],
+      "extraExamples": {
+        "b1-extra-5-w1": [
+          {
+            "example": "We could solve the traffic problem by adding more buses.",
+            "exampleArabic": "يمكننا حل مشكلة الازدحام بإضافة مزيد من الحافلات."
+          }
+        ],
+        "b1-extra-5-w3": [
+          {
+            "example": "Please check the schedule before you book the room.",
+            "exampleArabic": "يرجى مراجعة الجدول قبل أن تحجز القاعة."
+          }
+        ]
+      }
+    },
+    "b1-extra-6": {
+      "extraVocabulary": [
+        {
+          "english": "headline",
+          "arabic": "عنوان رئيسي",
+          "example": "The headline said that the team had won the match.",
+          "exampleArabic": "قال العنوان الرئيسي إن الفريق فاز بالمباراة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈhedlaɪn/"
+        },
+        {
+          "english": "according to",
+          "arabic": "وفقًا لـ",
+          "example": "According to the news, the storm will arrive tonight.",
+          "exampleArabic": "وفقًا للأخبار، ستصل العاصفة الليلة.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/əˈkɔːdɪŋ tə/"
+        },
+        {
+          "english": "source",
+          "arabic": "مصدر",
+          "example": "A good journalist always checks the source of a story.",
+          "exampleArabic": "يتحقق الصحفي الجيد دائمًا من مصدر الخبر.",
+          "partOfSpeech": "noun",
+          "phonetic": "/sɔːs/"
+        },
+        {
+          "english": "announce",
+          "arabic": "يعلن",
+          "example": "The company will announce its results next week.",
+          "exampleArabic": "ستعلن الشركة عن نتائجها الأسبوع القادم.",
+          "partOfSpeech": "verb",
+          "phonetic": "/əˈnaʊns/"
+        }
+      ],
+      "extraExamples": {
+        "b1-extra-6-w1": [
+          {
+            "example": "The report says that more people are working from home.",
+            "exampleArabic": "يقول التقرير إن مزيدًا من الناس يعملون من المنزل."
+          }
+        ],
+        "b1-extra-6-w3": [
+          {
+            "example": "The number of visitors increased sharply last summer.",
+            "exampleArabic": "ازداد عدد الزوار بشكل حادّ في الصيف الماضي."
+          }
+        ]
+      }
+    },
+    "b1-extra-7": {
+      "extraVocabulary": [
+        {
+          "english": "agenda",
+          "arabic": "جدول الأعمال",
+          "example": "The first item on the agenda is the new budget.",
+          "exampleArabic": "أول بند في جدول الأعمال هو الميزانية الجديدة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/əˈdʒendə/"
+        },
+        {
+          "english": "discuss",
+          "arabic": "يناقش",
+          "example": "We need to discuss the project before Friday.",
+          "exampleArabic": "علينا أن نناقش المشروع قبل يوم الجمعة.",
+          "partOfSpeech": "verb",
+          "phonetic": "/dɪˈskʌs/"
+        },
+        {
+          "english": "summarize",
+          "arabic": "يلخّص",
+          "example": "Could you summarize the main decisions for us?",
+          "exampleArabic": "هل يمكنك أن تلخّص لنا أهم القرارات؟",
+          "partOfSpeech": "verb",
+          "phonetic": "/ˈsʌməraɪz/"
+        },
+        {
+          "english": "minutes",
+          "arabic": "محضر الاجتماع",
+          "example": "She took the minutes during the whole meeting.",
+          "exampleArabic": "دوّنت محضر الاجتماع طوال مدة الاجتماع.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈmɪnɪts/"
+        }
+      ],
+      "extraExamples": {
+        "b1-extra-7-w1": [
+          {
+            "example": "Could you clarify what you mean by that?",
+            "exampleArabic": "هل يمكنك توضيح ما تقصده بذلك؟"
+          }
+        ],
+        "b1-extra-7-w3": [
+          {
+            "example": "That is a very good point, and we should consider it.",
+            "exampleArabic": "هذه نقطة جيدة جدًا، وينبغي أن نأخذها بعين الاعتبار."
+          }
+        ]
+      }
+    },
+    "b1-extra-8": {
+      "extraVocabulary": [
+        {
+          "english": "attach",
+          "arabic": "يرفق",
+          "example": "I will attach the report to my next email.",
+          "exampleArabic": "سأرفق التقرير ببريدي الإلكتروني التالي.",
+          "partOfSpeech": "verb",
+          "phonetic": "/əˈtætʃ/"
+        },
+        {
+          "english": "regards",
+          "arabic": "تحيات",
+          "example": "I ended the email with the words \"Kind regards\".",
+          "exampleArabic": "أنهيت البريد بعبارة \"مع خالص التحيات\".",
+          "partOfSpeech": "noun",
+          "phonetic": "/rɪˈɡɑːdz/"
+        },
+        {
+          "english": "look forward to",
+          "arabic": "يتطلّع إلى",
+          "example": "I look forward to hearing from you soon.",
+          "exampleArabic": "أتطلّع إلى تلقّي ردّك قريبًا.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/lʊk ˈfɔːwəd tə/"
+        },
+        {
+          "english": "reply",
+          "arabic": "يرد",
+          "example": "Please reply to this message by Monday.",
+          "exampleArabic": "يرجى الرد على هذه الرسالة بحلول يوم الاثنين.",
+          "partOfSpeech": "verb",
+          "phonetic": "/rɪˈplaɪ/"
+        }
+      ],
+      "extraExamples": {
+        "b1-extra-8-w1": [
+          {
+            "example": "I am writing to apply for the position of sales manager.",
+            "exampleArabic": "أكتب للتقدّم لشغل وظيفة مدير المبيعات."
+          }
+        ],
+        "b1-extra-8-w3": [
+          {
+            "example": "I would like to make an appointment with the doctor.",
+            "exampleArabic": "أودّ أن أحجز موعدًا مع الطبيب."
+          }
+        ]
+      }
+    }
+  }
+}

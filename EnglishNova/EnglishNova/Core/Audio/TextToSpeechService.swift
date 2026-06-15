@@ -21,6 +21,15 @@ final class TextToSpeechService: NSObject, ObservableObject, AVSpeechSynthesizer
 
     private func speakInternal(_ text: String, language: String, rate: Float) {
         stop()
+        // Re-establish a playback-capable session before every utterance. The
+        // mic flow (SpeechService) reconfigures the shared AVAudioSession for
+        // recording and then deactivates it; without restoring a playback
+        // category here the synthesizer stays muted after the first mic use.
+        // .duckOthers lets us speak over other audio; .spokenAudio is tuned for
+        // voice and routes correctly to the speaker, receiver, or headphones.
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.playback, mode: .spokenAudio, options: [.duckOthers])
+        try? session.setActive(true, options: [])
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: language)
         utterance.rate = min(max(rate, 0.25), 0.58)

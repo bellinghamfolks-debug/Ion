@@ -51,7 +51,13 @@ final class SpeechService: ObservableObject {
 
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(.record, mode: .measurement, options: [.duckOthers, .allowBluetooth])
+            // .playAndRecord (not .record) keeps the output path alive so the
+            // tutor's TTS can still be heard while the mic is capturing. .record
+            // tears playback down entirely, which is why the speaker went silent
+            // the moment the mic turned on — even through headphones.
+            try audioSession.setCategory(.playAndRecord,
+                                         mode: .default,
+                                         options: [.duckOthers, .defaultToSpeaker, .allowBluetooth, .allowBluetoothA2DP])
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
             let request = SFSpeechAudioBufferRecognitionRequest()
             request.shouldReportPartialResults = true

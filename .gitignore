@@ -38,3 +38,4 @@ credentials.json
 *.cer
 *.mobileprovision
 .credentials
+__pycache__/

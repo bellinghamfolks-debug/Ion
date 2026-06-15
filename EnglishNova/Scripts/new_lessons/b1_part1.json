@@ -1,0 +1,603 @@
+{
+  "level": "B1",
+  "units": [
+    {
+      "id": "b1-x-u1",
+      "titleAr": "التجارب والنصائح والخطط",
+      "titleEn": "Experiences, Advice and Plans",
+      "descriptionAr": "تعلّم كيف تصف تجاربك الشخصية، وتقدّم النصائح للآخرين، وتتحدّث عن خططك ونواياك المستقبلية بطلاقة في المستوى المتوسط.",
+      "icon": "lightbulb",
+      "lessons": [
+        {
+          "id": "b1-x-u1-l1",
+          "titleAr": "وصف التجارب الشخصية",
+          "titleEn": "Describing Personal Experiences",
+          "objectiveAr": "أن يتمكن المتعلم من وصف تجاربه السابقة وردود فعله تجاهها باستخدام عبارات طبيعية.",
+          "modelSentence": "Living abroad for a year was one of the most rewarding experiences I've ever had.",
+          "modelSentenceArabic": "كان العيش في الخارج لمدة عام من أكثر التجارب التي خضتها فائدةً على الإطلاق.",
+          "vocabulary": [
+            {
+              "english": "rewarding",
+              "arabic": "مُجزٍ، مُفيد",
+              "example": "Teaching children is a rewarding job.",
+              "exampleArabic": "تعليم الأطفال عمل مُجزٍ.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/rɪˈwɔːrdɪŋ/"
+            },
+            {
+              "english": "memorable",
+              "arabic": "لا يُنسى",
+              "example": "Our trip to the mountains was truly memorable.",
+              "exampleArabic": "كانت رحلتنا إلى الجبال لا تُنسى حقًّا.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈmemərəbl/"
+            },
+            {
+              "english": "look back on",
+              "arabic": "يستذكر، يتأمل الماضي",
+              "example": "I often look back on my school years with a smile.",
+              "exampleArabic": "كثيرًا ما أستذكر سنوات دراستي بابتسامة.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/lʊk bæk ɒn/"
+            },
+            {
+              "english": "broaden your horizons",
+              "arabic": "يوسّع آفاقك",
+              "example": "Travelling helps you broaden your horizons.",
+              "exampleArabic": "يساعدك السفر على توسيع آفاقك.",
+              "partOfSpeech": "collocation",
+              "phonetic": "/ˈbrɔːdn jɔːr həˈraɪznz/"
+            },
+            {
+              "english": "challenging",
+              "arabic": "صعب، يتطلب جهدًا",
+              "example": "The first month at the new job was challenging.",
+              "exampleArabic": "كان الشهر الأول في الوظيفة الجديدة صعبًا.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈtʃælɪndʒɪŋ/"
+            },
+            {
+              "english": "turning point",
+              "arabic": "نقطة تحوّل",
+              "example": "Meeting her was a turning point in my life.",
+              "exampleArabic": "كان لقاؤها نقطة تحوّل في حياتي.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈtɜːrnɪŋ pɔɪnt/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u1-l2",
+          "titleAr": "التحدث عن إنجازاتك",
+          "titleEn": "Talking About Achievements",
+          "objectiveAr": "أن يتمكن المتعلم من وصف إنجازاته والتعبير عن الفخر بها بطريقة طبيعية ومتواضعة.",
+          "modelSentence": "I'm really proud of how far I've come since I started learning English.",
+          "modelSentenceArabic": "أنا فخور حقًّا بمدى التقدّم الذي أحرزته منذ أن بدأت تعلّم الإنجليزية.",
+          "vocabulary": [
+            {
+              "english": "accomplish",
+              "arabic": "يُنجز، يحقق",
+              "example": "We accomplished a lot in a short time.",
+              "exampleArabic": "أنجزنا الكثير في وقت قصير.",
+              "partOfSpeech": "verb",
+              "phonetic": "/əˈkʌmplɪʃ/"
+            },
+            {
+              "english": "achievement",
+              "arabic": "إنجاز",
+              "example": "Finishing the marathon was a great achievement.",
+              "exampleArabic": "كان إكمال الماراثون إنجازًا كبيرًا.",
+              "partOfSpeech": "noun",
+              "phonetic": "/əˈtʃiːvmənt/"
+            },
+            {
+              "english": "milestone",
+              "arabic": "مَعلَم بارز، محطة مهمة",
+              "example": "Buying our first home was an important milestone.",
+              "exampleArabic": "كان شراء منزلنا الأول محطة مهمة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈmaɪlstoʊn/"
+            },
+            {
+              "english": "overcome",
+              "arabic": "يتغلّب على، يتجاوز",
+              "example": "She managed to overcome her fear of public speaking.",
+              "exampleArabic": "تمكّنت من التغلّب على خوفها من التحدث أمام الجمهور.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˌoʊvərˈkʌm/"
+            },
+            {
+              "english": "be proud of",
+              "arabic": "يفخر بـ",
+              "example": "My parents are proud of my results.",
+              "exampleArabic": "والداي فخوران بنتائجي.",
+              "partOfSpeech": "collocation",
+              "phonetic": "/biː praʊd ɒv/"
+            },
+            {
+              "english": "make progress",
+              "arabic": "يُحرز تقدّمًا",
+              "example": "You'll make progress if you practise every day.",
+              "exampleArabic": "ستُحرز تقدّمًا إذا تدرّبت كل يوم.",
+              "partOfSpeech": "collocation",
+              "phonetic": "/meɪk ˈprɑːɡres/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u1-l3",
+          "titleAr": "تقديم النصائح والاقتراحات",
+          "titleEn": "Giving Advice and Suggestions",
+          "objectiveAr": "أن يتمكن المتعلم من تقديم النصائح والاقتراحات للآخرين باستخدام عبارات مهذبة ومناسبة.",
+          "modelSentence": "If I were you, I'd talk to your manager before making any decision.",
+          "modelSentenceArabic": "لو كنت مكانك، لتحدّثت إلى مديرك قبل اتخاذ أي قرار.",
+          "vocabulary": [
+            {
+              "english": "ought to",
+              "arabic": "ينبغي أن، يجدر بـ",
+              "example": "You ought to see a doctor about that cough.",
+              "exampleArabic": "ينبغي أن تراجع طبيبًا بشأن ذلك السعال.",
+              "partOfSpeech": "modal verb",
+              "phonetic": "/ˈɔːt tu/"
+            },
+            {
+              "english": "recommend",
+              "arabic": "يُوصي، ينصح بـ",
+              "example": "I'd recommend booking your tickets early.",
+              "exampleArabic": "أنصح بحجز تذاكرك مبكرًا.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˌrekəˈmend/"
+            },
+            {
+              "english": "advisable",
+              "arabic": "مُستحسَن، من الحكمة",
+              "example": "It's advisable to arrive at least an hour early.",
+              "exampleArabic": "من المستحسن الوصول قبل ساعة على الأقل.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ədˈvaɪzəbl/"
+            },
+            {
+              "english": "give it a try",
+              "arabic": "يجرّب، يُعطيه فرصة",
+              "example": "Why don't you give it a try? You might enjoy it.",
+              "exampleArabic": "لمَ لا تجرّبه؟ قد يعجبك.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ɡɪv ɪt ə traɪ/"
+            },
+            {
+              "english": "be worth",
+              "arabic": "يستحق، يجدر بـ",
+              "example": "It's worth checking the prices online first.",
+              "exampleArabic": "يجدر التحقق من الأسعار عبر الإنترنت أولًا.",
+              "partOfSpeech": "collocation",
+              "phonetic": "/biː wɜːrθ/"
+            },
+            {
+              "english": "second thoughts",
+              "arabic": "إعادة نظر، تردّد",
+              "example": "I'm having second thoughts about the trip.",
+              "exampleArabic": "بدأت أعيد التفكير في الرحلة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈsekənd θɔːts/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u1-l4",
+          "titleAr": "الخطط والنوايا المستقبلية",
+          "titleEn": "Future Plans and Intentions",
+          "objectiveAr": "أن يتمكن المتعلم من التحدث عن خططه ونواياه المستقبلية باستخدام التراكيب المناسبة.",
+          "modelSentence": "I'm planning to take a course next year to improve my career prospects.",
+          "modelSentenceArabic": "أنوي الالتحاق بدورة العام المقبل لتحسين فرصي المهنية.",
+          "vocabulary": [
+            {
+              "english": "intend to",
+              "arabic": "ينوي أن",
+              "example": "We intend to move to a bigger flat soon.",
+              "exampleArabic": "ننوي الانتقال إلى شقة أكبر قريبًا.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪnˈtend tu/"
+            },
+            {
+              "english": "be about to",
+              "arabic": "على وشك أن",
+              "example": "I was about to call you when you arrived.",
+              "exampleArabic": "كنت على وشك الاتصال بك عندما وصلت.",
+              "partOfSpeech": "collocation",
+              "phonetic": "/biː əˈbaʊt tu/"
+            },
+            {
+              "english": "set a goal",
+              "arabic": "يضع هدفًا",
+              "example": "She set a goal to read fifty books this year.",
+              "exampleArabic": "وضعت هدفًا بقراءة خمسين كتابًا هذا العام.",
+              "partOfSpeech": "collocation",
+              "phonetic": "/set ə ɡoʊl/"
+            },
+            {
+              "english": "look forward to",
+              "arabic": "يتطلّع إلى، ينتظر بشوق",
+              "example": "I'm looking forward to seeing you next month.",
+              "exampleArabic": "أتطلّع إلى رؤيتك الشهر المقبل.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/lʊk ˈfɔːrwərd tu/"
+            },
+            {
+              "english": "prospect",
+              "arabic": "احتمال، أفق مستقبلي",
+              "example": "The prospect of a new job excites me.",
+              "exampleArabic": "يثير احتمال الحصول على وظيفة جديدة حماستي.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈprɑːspekt/"
+            },
+            {
+              "english": "in the long run",
+              "arabic": "على المدى البعيد",
+              "example": "Saving money now will help you in the long run.",
+              "exampleArabic": "سيساعدك توفير المال الآن على المدى البعيد.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ɪn ðə lɔːŋ rʌn/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u1-l5",
+          "titleAr": "اتخاذ القرارات",
+          "titleEn": "Making Decisions",
+          "objectiveAr": "أن يتمكن المتعلم من التعبير عن عملية اتخاذ القرار والموازنة بين الخيارات.",
+          "modelSentence": "After weighing up the options, we decided to go with the cheaper plan.",
+          "modelSentenceArabic": "بعد الموازنة بين الخيارات، قرّرنا اختيار الخطة الأرخص.",
+          "vocabulary": [
+            {
+              "english": "weigh up",
+              "arabic": "يوازن بين، يقيّم",
+              "example": "Take your time to weigh up the pros and cons.",
+              "exampleArabic": "خذ وقتك للموازنة بين الإيجابيات والسلبيات.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/weɪ ʌp/"
+            },
+            {
+              "english": "make up your mind",
+              "arabic": "يحسم أمره، يتّخذ قراره",
+              "example": "You need to make up your mind by Friday.",
+              "exampleArabic": "عليك أن تحسم أمرك بحلول يوم الجمعة.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/meɪk ʌp jɔːr maɪnd/"
+            },
+            {
+              "english": "option",
+              "arabic": "خيار",
+              "example": "We have two options to choose from.",
+              "exampleArabic": "لدينا خياران للاختيار بينهما.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈɑːpʃn/"
+            },
+            {
+              "english": "hesitate",
+              "arabic": "يتردّد",
+              "example": "Don't hesitate to ask if you need help.",
+              "exampleArabic": "لا تتردّد في السؤال إذا احتجت مساعدة.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈhezɪteɪt/"
+            },
+            {
+              "english": "pros and cons",
+              "arabic": "الإيجابيات والسلبيات",
+              "example": "Let's list the pros and cons before we decide.",
+              "exampleArabic": "لنُعدّد الإيجابيات والسلبيات قبل أن نقرر.",
+              "partOfSpeech": "noun",
+              "phonetic": "/proʊz ænd kɒnz/"
+            },
+            {
+              "english": "go with",
+              "arabic": "يختار، يقرّ على",
+              "example": "In the end, we decided to go with the blue design.",
+              "exampleArabic": "في النهاية، قرّرنا اختيار التصميم الأزرق.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/ɡoʊ wɪð/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b1-x-u2",
+      "titleAr": "الشكاوى والتواصل في العمل",
+      "titleEn": "Complaints and Workplace Communication",
+      "descriptionAr": "تعلّم كيف تقدّم الشكاوى بأدب وتحلّها، وتتواصل بفعالية في بيئة العمل اليومية مع الزملاء والعملاء.",
+      "icon": "bubble.left.and.bubble.right",
+      "lessons": [
+        {
+          "id": "b1-x-u2-l1",
+          "titleAr": "تقديم شكوى بأدب",
+          "titleEn": "Making a Polite Complaint",
+          "objectiveAr": "أن يتمكن المتعلم من تقديم شكوى بطريقة مهذبة وواضحة في مختلف المواقف.",
+          "modelSentence": "I'm afraid there seems to be a problem with the order I received yesterday.",
+          "modelSentenceArabic": "أخشى أنّ هناك مشكلة في الطلب الذي استلمته بالأمس.",
+          "vocabulary": [
+            {
+              "english": "complaint",
+              "arabic": "شكوى",
+              "example": "I'd like to make a complaint about the service.",
+              "exampleArabic": "أودّ تقديم شكوى بشأن الخدمة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/kəmˈpleɪnt/"
+            },
+            {
+              "english": "faulty",
+              "arabic": "معيب، تالف",
+              "example": "The phone I bought turned out to be faulty.",
+              "exampleArabic": "تبيّن أنّ الهاتف الذي اشتريته معيب.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈfɔːlti/"
+            },
+            {
+              "english": "I'm afraid",
+              "arabic": "أخشى أنّ، يؤسفني",
+              "example": "I'm afraid the meal was rather disappointing.",
+              "exampleArabic": "يؤسفني أنّ الوجبة كانت مخيّبة للآمال نوعًا ما.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/aɪm əˈfreɪd/"
+            },
+            {
+              "english": "dissatisfied",
+              "arabic": "غير راضٍ",
+              "example": "Many customers were dissatisfied with the delay.",
+              "exampleArabic": "كان كثير من العملاء غير راضين عن التأخير.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/dɪsˈsætɪsfaɪd/"
+            },
+            {
+              "english": "let down",
+              "arabic": "يخيّب الأمل، يخذل",
+              "example": "We felt let down by the poor quality.",
+              "exampleArabic": "شعرنا بخيبة أمل بسبب الجودة الرديئة.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/let daʊn/"
+            },
+            {
+              "english": "raise an issue",
+              "arabic": "يثير مسألة، يطرح موضوعًا",
+              "example": "I'd like to raise an issue about the billing.",
+              "exampleArabic": "أودّ أن أثير مسألة بشأن الفاتورة.",
+              "partOfSpeech": "collocation",
+              "phonetic": "/reɪz ən ˈɪʃuː/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u2-l2",
+          "titleAr": "حلّ الشكاوى",
+          "titleEn": "Resolving Complaints",
+          "objectiveAr": "أن يتمكن المتعلم من الاستجابة للشكاوى وتقديم الحلول والاعتذار بطريقة مهنية.",
+          "modelSentence": "I do apologise for the inconvenience, and we'll send you a replacement right away.",
+          "modelSentenceArabic": "أعتذر بشدّة عن الإزعاج، وسنرسل لك بديلًا على الفور.",
+          "vocabulary": [
+            {
+              "english": "apologise",
+              "arabic": "يعتذر",
+              "example": "We apologise for any trouble this has caused.",
+              "exampleArabic": "نعتذر عن أي إزعاج تسبّب به هذا.",
+              "partOfSpeech": "verb",
+              "phonetic": "/əˈpɒlədʒaɪz/"
+            },
+            {
+              "english": "inconvenience",
+              "arabic": "إزعاج، مضايقة",
+              "example": "We're sorry for the inconvenience caused.",
+              "exampleArabic": "نأسف للإزعاج الذي حدث.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˌɪnkənˈviːniəns/"
+            },
+            {
+              "english": "replacement",
+              "arabic": "بديل، استبدال",
+              "example": "They offered me a free replacement.",
+              "exampleArabic": "عرضوا عليّ بديلًا مجانيًّا.",
+              "partOfSpeech": "noun",
+              "phonetic": "/rɪˈpleɪsmənt/"
+            },
+            {
+              "english": "refund",
+              "arabic": "استرداد المبلغ",
+              "example": "You're entitled to a full refund.",
+              "exampleArabic": "يحقّ لك استرداد المبلغ كاملًا.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈriːfʌnd/"
+            },
+            {
+              "english": "sort out",
+              "arabic": "يحلّ، يعالج",
+              "example": "We'll sort out the problem as soon as possible.",
+              "exampleArabic": "سنحلّ المشكلة في أسرع وقت ممكن.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/sɔːrt aʊt/"
+            },
+            {
+              "english": "make up for",
+              "arabic": "يعوّض عن",
+              "example": "We'd like to make up for the delay with a discount.",
+              "exampleArabic": "نودّ أن نعوّض عن التأخير بخصم.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/meɪk ʌp fɔːr/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u2-l3",
+          "titleAr": "التواصل مع الزملاء",
+          "titleEn": "Communicating with Colleagues",
+          "objectiveAr": "أن يتمكن المتعلم من التواصل اليومي مع زملاء العمل بطريقة ودّية ومهنية.",
+          "modelSentence": "Could you give me a hand with this report? I'm a bit behind schedule.",
+          "modelSentenceArabic": "هل يمكنك مساعدتي في هذا التقرير؟ أنا متأخّر قليلًا عن الموعد.",
+          "vocabulary": [
+            {
+              "english": "give a hand",
+              "arabic": "يساعد، يمدّ يد العون",
+              "example": "Can you give me a hand carrying these boxes?",
+              "exampleArabic": "هل يمكنك مساعدتي في حمل هذه الصناديق؟",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ɡɪv ə hænd/"
+            },
+            {
+              "english": "colleague",
+              "arabic": "زميل عمل",
+              "example": "My colleagues are very supportive.",
+              "exampleArabic": "زملائي في العمل داعمون جدًّا.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈkɒliːɡ/"
+            },
+            {
+              "english": "behind schedule",
+              "arabic": "متأخّر عن الموعد المحدّد",
+              "example": "The project is running behind schedule.",
+              "exampleArabic": "المشروع متأخّر عن الموعد المحدّد.",
+              "partOfSpeech": "collocation",
+              "phonetic": "/bɪˈhaɪnd ˈskedʒuːl/"
+            },
+            {
+              "english": "keep someone posted",
+              "arabic": "يُبقي شخصًا على اطّلاع",
+              "example": "I'll keep you posted on any updates.",
+              "exampleArabic": "سأُبقيك على اطّلاع بأي مستجدّات.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/kiːp ˈsʌmwʌn ˈpoʊstɪd/"
+            },
+            {
+              "english": "touch base",
+              "arabic": "يتواصل بإيجاز، يتشاور سريعًا",
+              "example": "Let's touch base tomorrow about the plan.",
+              "exampleArabic": "لنتواصل غدًا بشأن الخطة.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/tʌtʃ beɪs/"
+            },
+            {
+              "english": "workload",
+              "arabic": "عبء العمل، حجم المهام",
+              "example": "My workload has increased this month.",
+              "exampleArabic": "ازداد عبء عملي هذا الشهر.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈwɜːrkloʊd/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u2-l4",
+          "titleAr": "التعامل مع العملاء",
+          "titleEn": "Dealing with Customers",
+          "objectiveAr": "أن يتمكن المتعلم من التعامل مع طلبات العملاء واستفساراتهم بطريقة احترافية ولبقة.",
+          "modelSentence": "How can I help you today? Please let me know if you have any questions.",
+          "modelSentenceArabic": "كيف يمكنني مساعدتك اليوم؟ من فضلك أخبرني إن كان لديك أي أسئلة.",
+          "vocabulary": [
+            {
+              "english": "assist",
+              "arabic": "يساعد، يقدّم العون",
+              "example": "Our team is happy to assist you at any time.",
+              "exampleArabic": "يسعد فريقنا بمساعدتك في أي وقت.",
+              "partOfSpeech": "verb",
+              "phonetic": "/əˈsɪst/"
+            },
+            {
+              "english": "inquiry",
+              "arabic": "استفسار",
+              "example": "We received several inquiries about the new product.",
+              "exampleArabic": "تلقّينا عدّة استفسارات عن المنتج الجديد.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ɪnˈkwaɪəri/"
+            },
+            {
+              "english": "look into",
+              "arabic": "يبحث في، يتحرّى",
+              "example": "I'll look into the matter and get back to you.",
+              "exampleArabic": "سأبحث في الأمر وأعود إليك.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/lʊk ˈɪntu/"
+            },
+            {
+              "english": "satisfied",
+              "arabic": "راضٍ",
+              "example": "We want to make sure every customer is satisfied.",
+              "exampleArabic": "نريد التأكّد من أنّ كل عميل راضٍ.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈsætɪsfaɪd/"
+            },
+            {
+              "english": "follow up",
+              "arabic": "يتابع",
+              "example": "I'll follow up with an email later today.",
+              "exampleArabic": "سأتابع برسالة بريد إلكتروني لاحقًا اليوم.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/ˈfɒloʊ ʌp/"
+            },
+            {
+              "english": "go the extra mile",
+              "arabic": "يبذل جهدًا إضافيًّا",
+              "example": "Our staff always go the extra mile for clients.",
+              "exampleArabic": "يبذل موظفونا دائمًا جهدًا إضافيًّا من أجل العملاء.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ɡoʊ ði ˈekstrə maɪl/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u2-l5",
+          "titleAr": "إدارة المهام والمواعيد النهائية",
+          "titleEn": "Managing Tasks and Deadlines",
+          "objectiveAr": "أن يتمكن المتعلم من التحدث عن تنظيم المهام وترتيب الأولويات والالتزام بالمواعيد النهائية.",
+          "modelSentence": "We need to prioritise the most urgent tasks to meet the deadline on time.",
+          "modelSentenceArabic": "علينا ترتيب أولويات المهام الأكثر إلحاحًا للالتزام بالموعد النهائي في وقته.",
+          "vocabulary": [
+            {
+              "english": "prioritise",
+              "arabic": "يرتّب الأولويات",
+              "example": "You should prioritise the tasks that matter most.",
+              "exampleArabic": "عليك ترتيب أولويات المهام الأكثر أهمية.",
+              "partOfSpeech": "verb",
+              "phonetic": "/praɪˈɒrɪtaɪz/"
+            },
+            {
+              "english": "deadline",
+              "arabic": "الموعد النهائي",
+              "example": "The deadline for the report is Monday.",
+              "exampleArabic": "الموعد النهائي للتقرير هو يوم الاثنين.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈdedlaɪn/"
+            },
+            {
+              "english": "meet a deadline",
+              "arabic": "يلتزم بالموعد النهائي",
+              "example": "We worked hard to meet the deadline.",
+              "exampleArabic": "عملنا بجدّ للالتزام بالموعد النهائي.",
+              "partOfSpeech": "collocation",
+              "phonetic": "/miːt ə ˈdedlaɪn/"
+            },
+            {
+              "english": "urgent",
+              "arabic": "عاجل، ملحّ",
+              "example": "This is an urgent matter that can't wait.",
+              "exampleArabic": "هذه مسألة عاجلة لا يمكن أن تنتظر.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈɜːrdʒənt/"
+            },
+            {
+              "english": "keep track of",
+              "arabic": "يتابع، يتتبّع",
+              "example": "I use an app to keep track of my tasks.",
+              "exampleArabic": "أستخدم تطبيقًا لمتابعة مهامي.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/kiːp træk ɒv/"
+            },
+            {
+              "english": "fall behind",
+              "arabic": "يتأخّر، يتخلّف",
+              "example": "Don't let small tasks make you fall behind.",
+              "exampleArabic": "لا تدع المهام الصغيرة تجعلك تتأخّر.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/fɔːl bɪˈhaɪnd/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

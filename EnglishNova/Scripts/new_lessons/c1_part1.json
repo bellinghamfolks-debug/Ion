@@ -1,0 +1,603 @@
+{
+  "level": "C1",
+  "units": [
+    {
+      "id": "c1-x-u1",
+      "titleAr": "بلاغة الطلاقة والدلالات الدقيقة",
+      "titleEn": "Fluency, Nuance, and Connotation",
+      "descriptionAr": "وحدة متقدمة تصقل طلاقتك الاصطلاحية وحساسيتك للفروق الدلالية والإيحاءات، لتتحدث الإنجليزية بثراء ودقة قريبَين من المتحدث الأصلي.",
+      "icon": "text.bubble.fill",
+      "lessons": [
+        {
+          "id": "c1-x-u1-l1",
+          "titleAr": "إتقان التعابير الاصطلاحية",
+          "titleEn": "Mastering Idiomatic Expressions",
+          "objectiveAr": "أن توظّف التعابير الاصطلاحية بثقة وفي سياقها الصحيح لتبدو طبيعيًا كالمتحدث الأصلي.",
+          "modelSentence": "Once I got the hang of the new software, the rest of the project fell into place almost effortlessly.",
+          "modelSentenceArabic": "ما إن أتقنتُ استخدام البرنامج الجديد حتى انتظمت بقية المشروع بسلاسة وبلا عناء يُذكر.",
+          "vocabulary": [
+            {
+              "english": "get the hang of",
+              "arabic": "يتقن استخدام شيء بالممارسة",
+              "example": "It took me a week to get the hang of the espresso machine.",
+              "exampleArabic": "استغرقني الأمر أسبوعًا حتى أتقنتُ استخدام آلة الإسبريسو.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ɡɛt ðə hæŋ ʌv/"
+            },
+            {
+              "english": "fall into place",
+              "arabic": "تنتظم الأمور وتتضح فجأة",
+              "example": "After her explanation, everything suddenly fell into place.",
+              "exampleArabic": "بعد شرحها، انتظمت الأمور كلها واتضحت فجأة.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/fɔːl ˈɪntə pleɪs/"
+            },
+            {
+              "english": "the tip of the iceberg",
+              "arabic": "غيض من فيض؛ الجزء الظاهر من مشكلة أكبر",
+              "example": "These complaints are just the tip of the iceberg.",
+              "exampleArabic": "هذه الشكاوى ليست سوى غيض من فيض.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ðə tɪp ʌv ðiː ˈaɪsbɜːrɡ/"
+            },
+            {
+              "english": "cut to the chase",
+              "arabic": "يدخل في صلب الموضوع مباشرة",
+              "example": "We're short on time, so let me cut to the chase.",
+              "exampleArabic": "وقتنا ضيق، لذا دعني أدخل في صلب الموضوع مباشرة.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/kʌt tə ðə tʃeɪs/"
+            },
+            {
+              "english": "a blessing in disguise",
+              "arabic": "نعمة في ثوب نقمة؛ خير في ظاهره شر",
+              "example": "Losing that job turned out to be a blessing in disguise.",
+              "exampleArabic": "تبيّن أن فقداني تلك الوظيفة كان نعمة في ثوب نقمة.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ə ˈblɛsɪŋ ɪn dɪsˈɡaɪz/"
+            },
+            {
+              "english": "bite the bullet",
+              "arabic": "يتحمّل أمرًا صعبًا بشجاعة ولا مفر منه",
+              "example": "I finally bit the bullet and booked the dental surgery.",
+              "exampleArabic": "تحمّلتُ الأمر بشجاعة أخيرًا وحجزتُ موعد جراحة الأسنان.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/baɪt ðə ˈbʊlɪt/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u1-l2",
+          "titleAr": "الفروق الدلالية والإيحاءات",
+          "titleEn": "Shades of Meaning and Connotation",
+          "objectiveAr": "أن تميّز بين الكلمات المترادفة ظاهريًا بحسب إيحاءاتها الإيجابية أو السلبية وتختار الأدق.",
+          "modelSentence": "Calling someone 'frugal' carries a positive connotation, whereas 'stingy' implies a rather unflattering meanness.",
+          "modelSentenceArabic": "وصف شخص بأنه «مقتصد» يحمل إيحاءً إيجابيًا، بينما تنطوي كلمة «بخيل» على دناءةٍ غير محمودة.",
+          "vocabulary": [
+            {
+              "english": "connotation",
+              "arabic": "الإيحاء الضمني للكلمة بعيدًا عن معناها الحرفي",
+              "example": "The word 'home' has warmer connotations than 'house'.",
+              "exampleArabic": "تحمل كلمة «دار» إيحاءاتٍ أكثر دفئًا من كلمة «منزل».",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˌkɒnəˈteɪʃən/"
+            },
+            {
+              "english": "loaded",
+              "arabic": "مشحون بدلالات أو نوايا خفية",
+              "example": "That was a loaded question designed to trap him.",
+              "exampleArabic": "كان ذلك سؤالًا مشحونًا صُمّم لإيقاعه في فخ.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈloʊdɪd/"
+            },
+            {
+              "english": "derogatory",
+              "arabic": "تحقيري؛ منطوٍ على ازدراء وانتقاص",
+              "example": "He apologized for using such a derogatory term.",
+              "exampleArabic": "اعتذر عن استخدامه مصطلحًا تحقيريًا كهذا.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/dɪˈrɒɡətɔːri/"
+            },
+            {
+              "english": "evoke",
+              "arabic": "يستحضر أو يستثير شعورًا أو ذكرى",
+              "example": "The melody evokes memories of my childhood.",
+              "exampleArabic": "يستحضر هذا اللحن ذكريات طفولتي.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪˈvoʊk/"
+            },
+            {
+              "english": "subtle distinction",
+              "arabic": "فرق دقيق غير ظاهر للوهلة الأولى",
+              "example": "There is a subtle distinction between 'lonely' and 'alone'.",
+              "exampleArabic": "ثمة فرق دقيق بين «الشعور بالوحدة» و«الانفراد».",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈsʌtl dɪˈstɪŋkʃən/"
+            },
+            {
+              "english": "pejorative",
+              "arabic": "ذو دلالة قدحية منتقِصة من قيمة الموصوف",
+              "example": "Over time, the label took on a pejorative sense.",
+              "exampleArabic": "اكتسبت هذه التسمية بمرور الوقت دلالة قدحية.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/pɪˈdʒɒrətɪv/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u1-l3",
+          "titleAr": "التلميح والمعنى الضمني",
+          "titleEn": "Implication and Inference",
+          "objectiveAr": "أن تفهم ما يُلمَّح إليه دون تصريح وأن تنقل المعاني بمهارة عبر التلميح.",
+          "modelSentence": "Although she never said so outright, her hesitant tone strongly implied that she had reservations about the plan.",
+          "modelSentenceArabic": "مع أنها لم تصرّح بذلك صراحةً، إلا أن نبرتها المترددة كانت تلمّح بقوة إلى أن لديها تحفظات على الخطة.",
+          "vocabulary": [
+            {
+              "english": "imply",
+              "arabic": "يلمّح إلى معنى دون التصريح به",
+              "example": "Are you implying that I made a mistake?",
+              "exampleArabic": "هل تلمّح إلى أنني ارتكبتُ خطأً؟",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪmˈplaɪ/"
+            },
+            {
+              "english": "infer",
+              "arabic": "يستنتج المعنى من القرائن والشواهد",
+              "example": "From his silence, I inferred that he disagreed.",
+              "exampleArabic": "استنتجتُ من صمته أنه غير موافق.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪnˈfɜːr/"
+            },
+            {
+              "english": "read between the lines",
+              "arabic": "يقرأ ما بين السطور؛ يفهم المعنى الخفي",
+              "example": "Reading between the lines, I sensed her disappointment.",
+              "exampleArabic": "بقراءتي ما بين السطور، لمستُ خيبة أملها.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/riːd bɪˈtwiːn ðə laɪnz/"
+            },
+            {
+              "english": "undertone",
+              "arabic": "نبرة أو معنى خفي كامن تحت السطح",
+              "example": "There was an undertone of sarcasm in his praise.",
+              "exampleArabic": "كانت في مديحه نبرة خفية من السخرية.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈʌndərtoʊn/"
+            },
+            {
+              "english": "allude to",
+              "arabic": "يشير إلى أمرٍ تلميحًا دون ذكره مباشرة",
+              "example": "He alluded to past disputes without naming anyone.",
+              "exampleArabic": "ألمح إلى خلافات سابقة دون أن يسمّي أحدًا.",
+              "partOfSpeech": "verb",
+              "phonetic": "/əˈluːd tuː/"
+            },
+            {
+              "english": "tacit",
+              "arabic": "ضمني؛ مفهوم دون تصريح أو إعلان",
+              "example": "They reached a tacit agreement to avoid the topic.",
+              "exampleArabic": "توصّلوا إلى اتفاق ضمني على تجنّب الموضوع.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈtæsɪt/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u1-l4",
+          "titleAr": "اللغة المجازية والتعبيرية",
+          "titleEn": "Figurative and Expressive Language",
+          "objectiveAr": "أن تثري كلامك باللغة المجازية لتنقل أفكارك بصور حيّة ومؤثرة.",
+          "modelSentence": "Time, that relentless thief, slips through our fingers no matter how tightly we try to grasp it.",
+          "modelSentenceArabic": "الوقت، ذلك اللص الذي لا يرحم، ينساب من بين أصابعنا مهما حاولنا الإمساك به بإحكام.",
+          "vocabulary": [
+            {
+              "english": "metaphor",
+              "arabic": "استعارة؛ تشبيه ضمني بلا أداة",
+              "example": "He used the metaphor of a journey to describe life.",
+              "exampleArabic": "استخدم استعارة الرحلة ليصف الحياة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈmɛtəfɔːr/"
+            },
+            {
+              "english": "vivid",
+              "arabic": "حيّ نابض يكاد يُرى رأي العين",
+              "example": "Her vivid description brought the scene to life.",
+              "exampleArabic": "بثّ وصفها الحيّ الحياةَ في المشهد.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈvɪvɪd/"
+            },
+            {
+              "english": "paint a picture",
+              "arabic": "يرسم صورة بالكلمات؛ يصف بوضوح وحيوية",
+              "example": "The novelist paints a picture of a divided city.",
+              "exampleArabic": "يرسم الروائي صورة لمدينة منقسمة على نفسها.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/peɪnt ə ˈpɪktʃər/"
+            },
+            {
+              "english": "evocative",
+              "arabic": "موحٍ مثير للمشاعر والذكريات",
+              "example": "The poem is rich with evocative imagery.",
+              "exampleArabic": "القصيدة غنية بالصور الموحية المثيرة للمشاعر.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ɪˈvɒkətɪv/"
+            },
+            {
+              "english": "hyperbole",
+              "arabic": "مبالغة بلاغية مقصودة لا تؤخذ حرفيًا",
+              "example": "Saying he 'died laughing' is obvious hyperbole.",
+              "exampleArabic": "قوله إنه «مات من الضحك» مبالغة بلاغية واضحة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/haɪˈpɜːrbəli/"
+            },
+            {
+              "english": "turn of phrase",
+              "arabic": "صياغة لافتة بارعة للعبارة",
+              "example": "She has a memorable turn of phrase in her speeches.",
+              "exampleArabic": "تتميّز خطبها بصياغة لافتة لا تُنسى للعبارة.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/tɜːrn ʌv freɪz/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u1-l5",
+          "titleAr": "الطلاقة العفوية والكلام المترابط",
+          "titleEn": "Spontaneous Fluency and Cohesion",
+          "objectiveAr": "أن تتحدث بعفوية وسلاسة مع ربط أفكارك بأدوات تماسك متقدمة.",
+          "modelSentence": "To be perfectly honest, I'd been mulling it over for a while, and on balance, I think we should hold off for now.",
+          "modelSentenceArabic": "بصراحة تامة، كنتُ أقلّب الأمر في ذهني منذ مدة، وعند الموازنة بين الأمور، أرى أن نتريّث في الوقت الحالي.",
+          "vocabulary": [
+            {
+              "english": "mull over",
+              "arabic": "يتأمّل ويقلّب الأمر في ذهنه مليًا",
+              "example": "Give me a day to mull over your offer.",
+              "exampleArabic": "أمهلني يومًا لأقلّب عرضك في ذهني.",
+              "partOfSpeech": "verb",
+              "phonetic": "/mʌl ˈoʊvər/"
+            },
+            {
+              "english": "on balance",
+              "arabic": "عند الموازنة بين الإيجابيات والسلبيات",
+              "example": "On balance, the benefits outweigh the risks.",
+              "exampleArabic": "عند الموازنة، تفوق المنافع المخاطر.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ɒn ˈbæləns/"
+            },
+            {
+              "english": "filler",
+              "arabic": "كلمة حشو تملأ فجوات الكلام أثناء التفكير",
+              "example": "Try to reduce fillers like 'um' when presenting.",
+              "exampleArabic": "حاول تقليل كلمات الحشو مثل «إمم» أثناء العرض.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈfɪlər/"
+            },
+            {
+              "english": "off the top of my head",
+              "arabic": "على عجل ودون تفكير أو تحضير مسبق",
+              "example": "Off the top of my head, I'd say about fifty people.",
+              "exampleArabic": "هكذا دون تفكير، أقول إن العدد نحو خمسين شخصًا.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ɔːf ðə tɒp ʌv maɪ hɛd/"
+            },
+            {
+              "english": "digress",
+              "arabic": "يستطرد ويبتعد عن صلب الموضوع",
+              "example": "I don't want to digress, but this is relevant.",
+              "exampleArabic": "لا أريد أن أستطرد، لكن لهذا صلة بالموضوع.",
+              "partOfSpeech": "verb",
+              "phonetic": "/daɪˈɡrɛs/"
+            },
+            {
+              "english": "that said",
+              "arabic": "ومع ذلك؛ أداة ربط تستدرك بها رأيًا سابقًا",
+              "example": "It's expensive. That said, the quality justifies it.",
+              "exampleArabic": "إنه باهظ الثمن. ومع ذلك، فإن جودته تبرّر سعره.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ðæt sɛd/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c1-x-u2",
+      "titleAr": "الرسمية واللباقة والأفكار المجردة",
+      "titleEn": "Register, Tact, and Abstract Ideas",
+      "descriptionAr": "وحدة متقدمة تُكسبك مرونة التنقل بين المستويات الرسمية وغير الرسمية، ومناقشة المفاهيم المجردة، وإتقان فن الدبلوماسية واللباقة في الكلام.",
+      "icon": "person.2.wave.2.fill",
+      "lessons": [
+        {
+          "id": "c1-x-u2-l1",
+          "titleAr": "الرسمي مقابل غير الرسمي",
+          "titleEn": "Formal versus Informal Register",
+          "objectiveAr": "أن تنتقل بمرونة بين الأسلوب الرسمي وغير الرسمي بحسب السياق والمخاطَب.",
+          "modelSentence": "In casual settings I'd just say 'let's meet up', but in a formal email I would request a convenient time to convene.",
+          "modelSentenceArabic": "في المواقف غير الرسمية أقول ببساطة «لنلتقِ»، أما في رسالة رسمية فأطلب تحديد وقت مناسب للاجتماع.",
+          "vocabulary": [
+            {
+              "english": "register",
+              "arabic": "مستوى اللغة وأسلوبها بحسب المقام",
+              "example": "Adjust your register depending on the audience.",
+              "exampleArabic": "اضبط مستوى لغتك بحسب الجمهور.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈrɛdʒɪstər/"
+            },
+            {
+              "english": "colloquial",
+              "arabic": "عامي؛ خاص بلغة التخاطب اليومية",
+              "example": "Avoid colloquial slang in academic essays.",
+              "exampleArabic": "تجنّب التعبيرات العامية في المقالات الأكاديمية.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/kəˈloʊkwiəl/"
+            },
+            {
+              "english": "convene",
+              "arabic": "يعقد اجتماعًا أو يجتمع رسميًا",
+              "example": "The committee will convene next Monday.",
+              "exampleArabic": "ستجتمع اللجنة يوم الإثنين القادم.",
+              "partOfSpeech": "verb",
+              "phonetic": "/kənˈviːn/"
+            },
+            {
+              "english": "stilted",
+              "arabic": "متكلّف متصنّع يفتقر إلى الطبيعية",
+              "example": "His writing sounds stilted and overly formal.",
+              "exampleArabic": "تبدو كتابته متكلّفة ومفرطة في الرسمية.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈstɪltɪd/"
+            },
+            {
+              "english": "vernacular",
+              "arabic": "اللهجة الدارجة أو لغة العامة المحلية",
+              "example": "The author wrote in the local vernacular.",
+              "exampleArabic": "كتب المؤلف باللهجة الدارجة المحلية.",
+              "partOfSpeech": "noun",
+              "phonetic": "/vərˈnækjələr/"
+            },
+            {
+              "english": "tone down",
+              "arabic": "يخفّف من حدّة الأسلوب أو الصياغة",
+              "example": "You might want to tone down the language in that note.",
+              "exampleArabic": "قد يحسن بك أن تخفّف من حدّة لغة تلك المذكرة.",
+              "partOfSpeech": "verb",
+              "phonetic": "/toʊn daʊn/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u2-l2",
+          "titleAr": "مناقشة الأفكار المجردة",
+          "titleEn": "Discussing Abstract Ideas",
+          "objectiveAr": "أن تناقش المفاهيم المجردة كالحرية والعدالة بدقة ووضوح فكري.",
+          "modelSentence": "The notion of justice is inherently abstract, yet it underpins almost every concrete decision a society makes.",
+          "modelSentenceArabic": "إن مفهوم العدالة مجرّد في جوهره، ومع ذلك فهو يقوم عليه كل قرار ملموس تتخذه المجتمعات تقريبًا.",
+          "vocabulary": [
+            {
+              "english": "abstract",
+              "arabic": "مجرّد؛ نظري بعيد عن الملموس",
+              "example": "Freedom is an abstract concept hard to define.",
+              "exampleArabic": "الحرية مفهوم مجرّد يصعب تعريفه.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈæbstrækt/"
+            },
+            {
+              "english": "underpin",
+              "arabic": "يدعم ويشكّل الأساس الذي يقوم عليه شيء",
+              "example": "Trust underpins every healthy relationship.",
+              "exampleArabic": "الثقة هي الأساس الذي تقوم عليه كل علاقة سليمة.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˌʌndərˈpɪn/"
+            },
+            {
+              "english": "notion",
+              "arabic": "فكرة أو تصوّر ذهني",
+              "example": "I reject the notion that wealth equals success.",
+              "exampleArabic": "أرفض فكرة أن الثروة تعني النجاح.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈnoʊʃən/"
+            },
+            {
+              "english": "tangible",
+              "arabic": "ملموس محسوس يمكن إدراكه",
+              "example": "We need tangible results, not vague promises.",
+              "exampleArabic": "نحتاج إلى نتائج ملموسة لا وعود غامضة.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈtændʒəbl/"
+            },
+            {
+              "english": "grapple with",
+              "arabic": "يصارع فكرة أو مشكلة عسيرة محاولًا فهمها",
+              "example": "Philosophers have long grappled with this question.",
+              "exampleArabic": "صارع الفلاسفة هذه المسألة طويلًا في محاولة لفهمها.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈɡræpl wɪð/"
+            },
+            {
+              "english": "in essence",
+              "arabic": "في جوهر الأمر؛ من حيث الأساس",
+              "example": "In essence, both theories say the same thing.",
+              "exampleArabic": "في جوهر الأمر، تقول النظريتان الشيء نفسه.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ɪn ˈɛsəns/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u2-l3",
+          "titleAr": "الدبلوماسية واللباقة",
+          "titleEn": "Diplomacy and Tact",
+          "objectiveAr": "أن تعبّر عن آرائك الحساسة بلباقة دبلوماسية تحفظ ماء الوجه وتتجنّب الإساءة.",
+          "modelSentence": "With the greatest respect, I wonder whether we might revisit that figure, as it strikes me as somewhat optimistic.",
+          "modelSentenceArabic": "مع فائق احترامي، أتساءل إن كان بوسعنا إعادة النظر في ذلك الرقم، إذ يبدو لي متفائلًا بعض الشيء.",
+          "vocabulary": [
+            {
+              "english": "tactful",
+              "arabic": "لبق حصيف يراعي مشاعر الآخرين",
+              "example": "She gave a tactful reply that offended no one.",
+              "exampleArabic": "قدّمت ردًا لبقًا لم يُسئ إلى أحد.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈtæktfʊl/"
+            },
+            {
+              "english": "with the greatest respect",
+              "arabic": "مع فائق الاحترام؛ تمهيد لطيف لاعتراض",
+              "example": "With the greatest respect, I must disagree.",
+              "exampleArabic": "مع فائق احترامي، لا بد أن أختلف معك.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/wɪð ðə ˈɡreɪtɪst rɪˈspɛkt/"
+            },
+            {
+              "english": "save face",
+              "arabic": "يحفظ ماء الوجه ويتجنّب الإحراج",
+              "example": "The compromise allowed both sides to save face.",
+              "exampleArabic": "أتاح الحل الوسط لكلا الطرفين حفظ ماء الوجه.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/seɪv feɪs/"
+            },
+            {
+              "english": "couch",
+              "arabic": "يصوغ الكلام بعبارة معيّنة تلطّف وقعه",
+              "example": "He couched his criticism in gentle terms.",
+              "exampleArabic": "صاغ نقده بعبارات لطيفة.",
+              "partOfSpeech": "verb",
+              "phonetic": "/kaʊtʃ/"
+            },
+            {
+              "english": "broach",
+              "arabic": "يطرح موضوعًا حساسًا بحذر لأول مرة",
+              "example": "It was hard to broach the subject of money.",
+              "exampleArabic": "كان من الصعب طرح موضوع المال.",
+              "partOfSpeech": "verb",
+              "phonetic": "/broʊtʃ/"
+            },
+            {
+              "english": "diplomatically",
+              "arabic": "بدبلوماسية ولباقة تتجنّب الجفاء",
+              "example": "He diplomatically declined the invitation.",
+              "exampleArabic": "اعتذر عن الدعوة بدبلوماسية ولباقة.",
+              "partOfSpeech": "adverb",
+              "phonetic": "/ˌdɪpləˈmætɪkli/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u2-l4",
+          "titleAr": "تليين الرفض والاعتراض",
+          "titleEn": "Softening Disagreement and Refusal",
+          "objectiveAr": "أن تعترض أو ترفض بأسلوب ملطَّف يحافظ على العلاقة ويقلّل المواجهة.",
+          "modelSentence": "I see where you're coming from, but I'm not entirely convinced that rushing the launch is in our best interest.",
+          "modelSentenceArabic": "أتفهّم وجهة نظرك، لكنني لستُ مقتنعًا تمامًا بأن التعجّل في الإطلاق يصبّ في مصلحتنا.",
+          "vocabulary": [
+            {
+              "english": "I see where you're coming from",
+              "arabic": "أتفهّم وجهة نظرك ومنطلقك",
+              "example": "I see where you're coming from, but consider the cost.",
+              "exampleArabic": "أتفهّم وجهة نظرك، لكن ضع التكلفة في الحسبان.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/aɪ siː wɛr jʊr ˈkʌmɪŋ frʌm/"
+            },
+            {
+              "english": "beg to differ",
+              "arabic": "يختلف بأدب ولطف في الرأي",
+              "example": "I'm afraid I beg to differ on that point.",
+              "exampleArabic": "أخشى أنني أختلف معك بأدبٍ في تلك النقطة.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/bɛɡ tə ˈdɪfər/"
+            },
+            {
+              "english": "have reservations",
+              "arabic": "لديه تحفّظات أو شكوك بشأن أمر",
+              "example": "I have some reservations about this approach.",
+              "exampleArabic": "لديّ بعض التحفّظات على هذا النهج.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/hæv ˌrɛzərˈveɪʃənz/"
+            },
+            {
+              "english": "play devil's advocate",
+              "arabic": "يتبنّى الرأي المخالف للنقاش لا قناعةً",
+              "example": "Let me play devil's advocate for a moment.",
+              "exampleArabic": "دعني أتبنّى الرأي المخالف للنقاش للحظة.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/pleɪ ˈdɛvlz ˈædvəkət/"
+            },
+            {
+              "english": "concede",
+              "arabic": "يقرّ ويسلّم بصحة نقطة على مضض",
+              "example": "I'll concede that you have a valid point.",
+              "exampleArabic": "أسلّم بأن وجهة نظرك وجيهة.",
+              "partOfSpeech": "verb",
+              "phonetic": "/kənˈsiːd/"
+            },
+            {
+              "english": "with all due respect",
+              "arabic": "مع كامل الاحترام؛ تمهيد لطيف للاعتراض",
+              "example": "With all due respect, the data suggests otherwise.",
+              "exampleArabic": "مع كامل احترامي، تشير البيانات إلى خلاف ذلك.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/wɪð ɔːl djuː rɪˈspɛkt/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u2-l5",
+          "titleAr": "التعبير الملطَّف والمواربة",
+          "titleEn": "Euphemism and Understatement",
+          "objectiveAr": "أن توظّف التلطيف والتهوين لتنقل الرسائل الحساسة بلطف ولباقة.",
+          "modelSentence": "The company described the layoffs as 'rightsizing', a euphemism that fooled almost no one.",
+          "modelSentenceArabic": "وصفت الشركة عمليات التسريح بأنها «إعادة هيكلة للحجم»، وهو تعبير ملطَّف لم ينطلِ على أحد تقريبًا.",
+          "vocabulary": [
+            {
+              "english": "euphemism",
+              "arabic": "تعبير ملطَّف يحلّ محل عبارة جارحة أو محرجة",
+              "example": "'Passed away' is a euphemism for 'died'.",
+              "exampleArabic": "«وافته المنية» تعبير ملطَّف بديل عن «مات».",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈjuːfəmɪzəm/"
+            },
+            {
+              "english": "understatement",
+              "arabic": "تهوين؛ تقليل من شأن أمر عمدًا في الوصف",
+              "example": "Calling the storm 'a bit windy' was an understatement.",
+              "exampleArabic": "وصف العاصفة بأنها «ريح خفيفة» كان تهوينًا بالغًا.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈʌndərsteɪtmənt/"
+            },
+            {
+              "english": "gloss over",
+              "arabic": "يمرّ على الأمر سريعًا مخفيًا جوانبه السيئة",
+              "example": "The report glossed over the project's failures.",
+              "exampleArabic": "مرّ التقرير سريعًا على إخفاقات المشروع.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɡlɒs ˈoʊvər/"
+            },
+            {
+              "english": "sugarcoat",
+              "arabic": "يجمّل الأمر السيئ ليبدو أهون مما هو عليه",
+              "example": "I won't sugarcoat it: the results are poor.",
+              "exampleArabic": "لن أجمّل الأمر: النتائج سيئة.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈʃʊɡərkoʊt/"
+            },
+            {
+              "english": "downplay",
+              "arabic": "يقلّل من أهمية أو خطورة شيء",
+              "example": "Officials tried to downplay the incident.",
+              "exampleArabic": "حاول المسؤولون التقليل من أهمية الحادثة.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˌdaʊnˈpleɪ/"
+            },
+            {
+              "english": "mince words",
+              "arabic": "يلطّف الكلام ويواربه (غالبًا في النفي)",
+              "example": "She doesn't mince words when giving feedback.",
+              "exampleArabic": "إنها لا تلطّف الكلام ولا تواربه حين تقدّم ملاحظاتها.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/mɪns wɜːrdz/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

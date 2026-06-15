@@ -1,0 +1,603 @@
+{
+  "level": "C1",
+  "units": [
+    {
+      "id": "c1-x-u3",
+      "titleAr": "البحث والاقتصاد والأخلاق",
+      "titleEn": "Inquiry, Economics and Ethics",
+      "descriptionAr": "وحدة متقدمة تجمع بين تفسير البيانات والتحليل الاقتصادي والسياسات العامة والمفاهيم الأخلاقية والفلسفية، مع مفردات راقية ودقيقة.",
+      "icon": "chart.xyaxis.line",
+      "lessons": [
+        {
+          "id": "c1-x-u3-l1",
+          "titleAr": "البحث وتفسير البيانات",
+          "titleEn": "Research and Interpreting Data",
+          "objectiveAr": "قراءة نتائج البحث الكمي وتفسيرها بدقة مع التمييز بين الارتباط والسببية.",
+          "modelSentence": "The dataset reveals a robust correlation between the two variables, yet the authors are careful to caution that this does not, in itself, establish a causal relationship.",
+          "modelSentenceArabic": "تكشف مجموعة البيانات عن ارتباط متين بين المتغيّرين، غير أن الباحثين يحرصون على التنبيه إلى أن هذا وحده لا يثبت وجود علاقة سببية.",
+          "vocabulary": [
+            {
+              "english": "to disaggregate",
+              "arabic": "يفصّل البيانات إلى مكوّناتها",
+              "example": "When we disaggregate the figures by region, the national average conceals striking disparities.",
+              "exampleArabic": "حين نفصّل الأرقام بحسب المنطقة، يتبيّن أن المتوسط الوطني يخفي تفاوتات صارخة.",
+              "partOfSpeech": "verb",
+              "phonetic": "/dɪsˈæɡrɪɡeɪt/"
+            },
+            {
+              "english": "confounding variable",
+              "arabic": "متغيّر مربِك (مشوِّش)",
+              "example": "The apparent link between coffee and illness vanished once the researchers controlled for a confounding variable: smoking.",
+              "exampleArabic": "تلاشى الارتباط الظاهر بين القهوة والمرض بمجرد أن ضبط الباحثون متغيّرًا مربكًا هو التدخين.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/kənˈfaʊndɪŋ ˈveəriəbl/"
+            },
+            {
+              "english": "to extrapolate",
+              "arabic": "يستقرئ (يستنتج بالاستقراء)",
+              "example": "It is risky to extrapolate long-term trends from such a small and unrepresentative sample.",
+              "exampleArabic": "من الخطورة أن نستقرئ اتجاهات طويلة الأمد من عيّنة بهذا الصِّغر وعدم التمثيل.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪkˈstræpəleɪt/"
+            },
+            {
+              "english": "statistically significant",
+              "arabic": "ذو دلالة إحصائية",
+              "example": "The difference between the two groups proved statistically significant, well below the conventional threshold.",
+              "exampleArabic": "تبيّن أن الفرق بين المجموعتين ذو دلالة إحصائية، أدنى بكثير من العتبة المعتادة.",
+              "partOfSpeech": "adjective phrase",
+              "phonetic": "/stəˈtɪstɪkli sɪɡˈnɪfɪkənt/"
+            },
+            {
+              "english": "to skew",
+              "arabic": "يحرّف (يميل بالنتائج)",
+              "example": "A handful of extreme outliers can badly skew the mean and mislead the reader.",
+              "exampleArabic": "يمكن لحفنة من القيم الشاذة المتطرفة أن تحرّف المتوسط بشدة وتضلّل القارئ.",
+              "partOfSpeech": "verb",
+              "phonetic": "/skjuː/"
+            },
+            {
+              "english": "margin of error",
+              "arabic": "هامش الخطأ",
+              "example": "Given the wide margin of error, the poll's apparent lead may be little more than statistical noise.",
+              "exampleArabic": "نظرًا إلى اتساع هامش الخطأ، قد لا يعدو التقدّم الظاهر في الاستطلاع كونه ضوضاء إحصائية.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈmɑːdʒɪn əv ˈerə/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u3-l2",
+          "titleAr": "الاقتصاد والأسواق",
+          "titleEn": "Economics and Markets",
+          "objectiveAr": "مناقشة الظواهر الاقتصادية الكلية والديناميكيات السوقية بلغة دقيقة.",
+          "modelSentence": "As demand outstripped supply, prices crept upward, and the central bank found itself weighing the risk of overheating against the danger of stifling a fragile recovery.",
+          "modelSentenceArabic": "إذ فاق الطلب المعروض، أخذت الأسعار تزحف صعودًا، فوجد البنك المركزي نفسه يوازن بين خطر فرط النشاط الاقتصادي وخطر خنق تعافٍ هشّ.",
+          "vocabulary": [
+            {
+              "english": "supply and demand",
+              "arabic": "العرض والطلب",
+              "example": "Like any commodity, the price of housing is ultimately governed by supply and demand.",
+              "exampleArabic": "كأي سلعة، يحكم سعرَ المساكن في نهاية المطاف العرضُ والطلب.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/səˈplaɪ ən dɪˈmɑːnd/"
+            },
+            {
+              "english": "to outstrip",
+              "arabic": "يفوق (يتجاوز)",
+              "example": "Wage growth has consistently failed to outstrip inflation, eroding household purchasing power.",
+              "exampleArabic": "أخفق نمو الأجور باستمرار في أن يفوق التضخم، ممّا أدّى إلى تآكل القدرة الشرائية للأسر.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˌaʊtˈstrɪp/"
+            },
+            {
+              "english": "monetary policy",
+              "arabic": "السياسة النقدية",
+              "example": "Tightening monetary policy too abruptly could tip the economy into recession.",
+              "exampleArabic": "قد يدفع تشديد السياسة النقدية على نحو مفاجئ بالاقتصاد إلى الركود.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈmʌnɪtri ˈpɒləsi/"
+            },
+            {
+              "english": "diminishing returns",
+              "arabic": "العوائد المتناقصة",
+              "example": "Beyond a certain point, pouring more capital into the project yields diminishing returns.",
+              "exampleArabic": "بعد نقطة معيّنة، يُنتج ضخّ مزيد من رأس المال في المشروع عوائد متناقصة.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/dɪˈmɪnɪʃɪŋ rɪˈtɜːnz/"
+            },
+            {
+              "english": "to incentivize",
+              "arabic": "يحفّز (يقدّم حوافز)",
+              "example": "Tax credits were introduced to incentivize firms to invest in clean technology.",
+              "exampleArabic": "أُدخلت الإعفاءات الضريبية لتحفيز الشركات على الاستثمار في التكنولوجيا النظيفة.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪnˈsentɪvaɪz/"
+            },
+            {
+              "english": "boom and bust",
+              "arabic": "الازدهار والانهيار (دورة الرواج والكساد)",
+              "example": "The unregulated sector lurched through repeated cycles of boom and bust.",
+              "exampleArabic": "ترنّح القطاع غير المنظَّم عبر دورات متكرّرة من الازدهار والانهيار.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˌbuːm ən ˈbʌst/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u3-l3",
+          "titleAr": "السياسات العامة",
+          "titleEn": "Public Policy",
+          "objectiveAr": "تحليل تصميم السياسات وأثرها ومقايضاتها في الشأن العام.",
+          "modelSentence": "The proposed legislation, however well intentioned, risks producing unintended consequences that could fall hardest on the very communities it was designed to protect.",
+          "modelSentenceArabic": "إن التشريع المقترح، مهما حسنت نواياه، يخاطر بإحداث عواقب غير مقصودة قد تقع بأشدّ وطأتها على المجتمعات ذاتها التي وُضع لحمايتها.",
+          "vocabulary": [
+            {
+              "english": "to implement",
+              "arabic": "ينفّذ (يطبّق)",
+              "example": "Drafting a sound policy is one thing; implementing it across a sprawling bureaucracy is quite another.",
+              "exampleArabic": "إن صياغة سياسة سليمة شيء، وتنفيذها عبر بيروقراطية متشعّبة شيء آخر تمامًا.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈɪmplɪment/"
+            },
+            {
+              "english": "unintended consequences",
+              "arabic": "عواقب غير مقصودة",
+              "example": "Rent controls often carry unintended consequences, discouraging the construction of new housing.",
+              "exampleArabic": "كثيرًا ما تحمل ضوابط الإيجار عواقب غير مقصودة، إذ تثبّط بناء مساكن جديدة.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˌʌnɪnˈtendɪd ˈkɒnsɪkwənsɪz/"
+            },
+            {
+              "english": "stakeholder",
+              "arabic": "صاحب المصلحة (الطرف المعني)",
+              "example": "Effective reform requires genuine consultation with every stakeholder affected by the change.",
+              "exampleArabic": "يتطلّب الإصلاح الفعّال تشاورًا حقيقيًا مع كل صاحب مصلحة يتأثّر بالتغيير.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈsteɪkhəʊldə/"
+            },
+            {
+              "english": "trade-off",
+              "arabic": "مقايضة (موازنة بين بديلين)",
+              "example": "Every policy involves a trade-off between competing goods, and honesty demands that we acknowledge it.",
+              "exampleArabic": "تنطوي كل سياسة على مقايضة بين مصالح متنافسة، وتقتضي الأمانة أن نعترف بذلك.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈtreɪdɒf/"
+            },
+            {
+              "english": "to roll out",
+              "arabic": "يطرح تدريجيًا (يُعمّم)",
+              "example": "The government plans to roll out the scheme in phases, beginning with the worst-affected districts.",
+              "exampleArabic": "تعتزم الحكومة طرح البرنامج على مراحل، بدءًا بأشدّ الأحياء تضرّرًا.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/tə rəʊl aʊt/"
+            },
+            {
+              "english": "regulatory framework",
+              "arabic": "إطار تنظيمي",
+              "example": "Innovation has outpaced the regulatory framework, leaving sizeable gaps in oversight.",
+              "exampleArabic": "سبق الابتكارُ الإطارَ التنظيمي، مخلّفًا ثغرات كبيرة في الرقابة.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈreɡjələtri ˈfreɪmwɜːk/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u3-l4",
+          "titleAr": "الأخلاق والفلسفة",
+          "titleEn": "Ethics and Philosophy",
+          "objectiveAr": "صياغة الحجج الأخلاقية والمعضلات الفلسفية بمصطلحات دقيقة.",
+          "modelSentence": "The dilemma pits an unwavering commitment to individual rights against the utilitarian impulse to maximize the welfare of the greatest number.",
+          "modelSentenceArabic": "تضع هذه المعضلة التزامًا راسخًا بحقوق الفرد في مواجهة النزعة النفعية إلى تعظيم رفاه أكبر عدد ممكن من الناس.",
+          "vocabulary": [
+            {
+              "english": "moral dilemma",
+              "arabic": "معضلة أخلاقية",
+              "example": "She faced a genuine moral dilemma, with no course of action free of harm.",
+              "exampleArabic": "واجهت معضلة أخلاقية حقيقية، إذ لم يخلُ أي مسار من الأذى.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈmɒrəl dɪˈlemə/"
+            },
+            {
+              "english": "utilitarian",
+              "arabic": "نفعي (المذهب النفعي)",
+              "example": "From a utilitarian standpoint, the policy is justified if it reduces suffering on balance.",
+              "exampleArabic": "من منظور نفعي، تكون السياسة مبرَّرة إذا قلّلت المعاناة في المحصّلة.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˌjuːtɪlɪˈteəriən/"
+            },
+            {
+              "english": "to reconcile",
+              "arabic": "يوفّق بين (يصالح)",
+              "example": "Philosophers have long struggled to reconcile free will with a deterministic universe.",
+              "exampleArabic": "لطالما جاهد الفلاسفة للتوفيق بين حرية الإرادة وكون محكوم بالحتمية.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈrekənsaɪl/"
+            },
+            {
+              "english": "intrinsic value",
+              "arabic": "قيمة جوهرية (ذاتية)",
+              "example": "Some argue that nature has intrinsic value, quite apart from any use we make of it.",
+              "exampleArabic": "يرى بعضهم أن للطبيعة قيمة جوهرية، بمعزل تمامًا عن أي منفعة نجنيها منها.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ɪnˈtrɪnsɪk ˈvæljuː/"
+            },
+            {
+              "english": "morally fraught",
+              "arabic": "محفوف بالإشكالات الأخلاقية",
+              "example": "End-of-life decisions are morally fraught, resisting any tidy formula.",
+              "exampleArabic": "إن القرارات المتعلقة بنهاية الحياة محفوفة بالإشكالات الأخلاقية، تأبى أي صيغة جاهزة.",
+              "partOfSpeech": "adjective phrase",
+              "phonetic": "/ˈmɒrəli frɔːt/"
+            },
+            {
+              "english": "premise",
+              "arabic": "مقدّمة منطقية (افتراض الحجة)",
+              "example": "The conclusion is valid, but it rests on a premise few would accept.",
+              "exampleArabic": "النتيجة سليمة منطقيًا، لكنها تقوم على مقدّمة قلّ من يقبلها.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈpremɪs/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u3-l5",
+          "titleAr": "التفكير النقدي في الأدلة",
+          "titleEn": "Critical Thinking About Evidence",
+          "objectiveAr": "تقييم متانة الأدلة وكشف المغالطات في الحجج المعقّدة.",
+          "modelSentence": "Before accepting the claim at face value, we ought to interrogate the underlying assumptions and ask whether the evidence genuinely warrants so sweeping a conclusion.",
+          "modelSentenceArabic": "قبل أن نقبل الادعاء كما هو ظاهره، ينبغي لنا أن نمحّص الافتراضات الكامنة وأن نتساءل عمّا إذا كانت الأدلة تبرّر فعلًا نتيجة بهذا الاتساع.",
+          "vocabulary": [
+            {
+              "english": "to interrogate",
+              "arabic": "يمحّص (يستجوب الفكرة)",
+              "example": "A good analyst will interrogate the source of every figure before citing it.",
+              "exampleArabic": "يمحّص المحلّل الجيّد مصدر كل رقم قبل أن يستشهد به.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪnˈterəɡeɪt/"
+            },
+            {
+              "english": "underlying assumption",
+              "arabic": "افتراض كامن (ضمني)",
+              "example": "The model collapses once you challenge its underlying assumption of perfect rationality.",
+              "exampleArabic": "ينهار النموذج بمجرد أن تطعن في افتراضه الكامن بالعقلانية التامة.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˌʌndəˈlaɪɪŋ əˈsʌmpʃn/"
+            },
+            {
+              "english": "logical fallacy",
+              "arabic": "مغالطة منطقية",
+              "example": "Dismissing an argument by attacking its author is a textbook logical fallacy.",
+              "exampleArabic": "إن ردّ الحجة بمهاجمة صاحبها مغالطة منطقية كلاسيكية.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈlɒdʒɪkl ˈfæləsi/"
+            },
+            {
+              "english": "to corroborate",
+              "arabic": "يؤيّد بالأدلة (يدعم بشهادة مستقلّة)",
+              "example": "Two independent studies corroborate the finding, lending it considerable weight.",
+              "exampleArabic": "تؤيّد دراستان مستقلّتان النتيجة بالأدلة، ممّا يمنحها ثقلًا كبيرًا.",
+              "partOfSpeech": "verb",
+              "phonetic": "/kəˈrɒbəreɪt/"
+            },
+            {
+              "english": "at face value",
+              "arabic": "بحسب ظاهره (دون تمحيص)",
+              "example": "We should not take official statistics at face value without scrutinizing how they were compiled.",
+              "exampleArabic": "ينبغي ألّا نأخذ الإحصاءات الرسمية بحسب ظاهرها دون تدقيق في كيفية جمعها.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ət ˈfeɪs ˈvæljuː/"
+            },
+            {
+              "english": "compelling",
+              "arabic": "مقنع بقوة (دامغ)",
+              "example": "The defence presented a compelling case that left the jury little room for doubt.",
+              "exampleArabic": "قدّم الدفاع حجّة مقنعة بقوة لم تترك للمحلّفين كبير مجال للشكّ.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/kəmˈpelɪŋ/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c1-x-u4",
+      "titleAr": "التفاوض والسرد والبلاغة",
+      "titleEn": "Negotiation, Storytelling and Rhetoric",
+      "descriptionAr": "وحدة متقدمة تطوّر مهارات التفاوض الراقي وفنّ السرد والإقناع البلاغي، بمفردات أنيقة ودقيقة تناسب المستوى C1.",
+      "icon": "bubble.left.and.bubble.right",
+      "lessons": [
+        {
+          "id": "c1-x-u4-l1",
+          "titleAr": "أساسيات التفاوض المتقدّم",
+          "titleEn": "Foundations of Advanced Negotiation",
+          "objectiveAr": "تأطير المفاوضات حول المصالح بدلًا من المواقف والسعي إلى حلول مربحة للطرفين.",
+          "modelSentence": "Rather than haggling over fixed positions, the seasoned negotiator probes for the interests beneath them, seeking common ground from which a mutually beneficial deal might emerge.",
+          "modelSentenceArabic": "بدلًا من المساومة على مواقف ثابتة، يسبر المفاوض المحنّك المصالح الكامنة وراءها، باحثًا عن أرضية مشتركة قد ينبثق منها اتفاق يعود بالنفع على الطرفين.",
+          "vocabulary": [
+            {
+              "english": "to haggle",
+              "arabic": "يساوم (يفاصل على السعر)",
+              "example": "There is little point in haggling over pennies when the real value lies elsewhere.",
+              "exampleArabic": "لا طائل من المساومة على الفلوس حين تكمن القيمة الحقيقية في موضع آخر.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈhæɡl/"
+            },
+            {
+              "english": "common ground",
+              "arabic": "أرضية مشتركة",
+              "example": "After hours of deadlock, the two sides finally found common ground on the timetable.",
+              "exampleArabic": "بعد ساعات من الجمود، وجد الطرفان أخيرًا أرضية مشتركة بشأن الجدول الزمني.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈkɒmən ɡraʊnd/"
+            },
+            {
+              "english": "bargaining chip",
+              "arabic": "ورقة مساومة (وسيلة ضغط في التفاوض)",
+              "example": "She kept the licensing rights in reserve as a bargaining chip for the final round.",
+              "exampleArabic": "احتفظت بحقوق الترخيص احتياطًا بوصفها ورقة مساومة للجولة الأخيرة.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈbɑːɡɪnɪŋ tʃɪp/"
+            },
+            {
+              "english": "to concede",
+              "arabic": "يتنازل (يسلّم بنقطة)",
+              "example": "He was willing to concede on price provided the delivery terms remained intact.",
+              "exampleArabic": "كان مستعدًا للتنازل في السعر شريطة أن تبقى شروط التسليم كما هي.",
+              "partOfSpeech": "verb",
+              "phonetic": "/kənˈsiːd/"
+            },
+            {
+              "english": "win-win",
+              "arabic": "مربح للطرفين",
+              "example": "By expanding the pie, they turned a zero-sum standoff into a win-win outcome.",
+              "exampleArabic": "بتوسيع حجم المكاسب، حوّلا مأزقًا صفري المحصّلة إلى نتيجة مربحة للطرفين.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˌwɪnˈwɪn/"
+            },
+            {
+              "english": "to drive a hard bargain",
+              "arabic": "يفاوض بحزم (يتمسّك بشروط صعبة)",
+              "example": "She is courteous but drives a hard bargain, rarely conceding without something in return.",
+              "exampleArabic": "إنها لبقة لكنها تفاوض بحزم، فقلّما تتنازل دون مقابل.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/tə draɪv ə hɑːd ˈbɑːɡɪn/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u4-l2",
+          "titleAr": "التعامل مع الجمود والصراع",
+          "titleEn": "Handling Deadlock and Conflict",
+          "objectiveAr": "إدارة المآزق التفاوضية ونزع فتيل التوتر والوصول إلى تسويات.",
+          "modelSentence": "When talks reach an impasse, a skilled mediator will reframe the dispute, defusing tension and nudging both parties toward a face-saving compromise.",
+          "modelSentenceArabic": "حين تبلغ المحادثات طريقًا مسدودًا، يعيد الوسيط الماهر تأطير النزاع، فينزع فتيل التوتر ويدفع الطرفين برفق نحو تسوية تحفظ ماء الوجه.",
+          "vocabulary": [
+            {
+              "english": "impasse",
+              "arabic": "طريق مسدود (مأزق)",
+              "example": "The negotiations reached an impasse over the question of sovereignty.",
+              "exampleArabic": "بلغت المفاوضات طريقًا مسدودًا بشأن مسألة السيادة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/æmˈpæs/"
+            },
+            {
+              "english": "to defuse",
+              "arabic": "ينزع فتيل (يهدّئ التوتر)",
+              "example": "A well-timed concession can defuse a confrontation before it escalates.",
+              "exampleArabic": "قد ينزع تنازلٌ في توقيته المناسب فتيل مواجهة قبل أن تتصاعد.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˌdiːˈfjuːz/"
+            },
+            {
+              "english": "to reframe",
+              "arabic": "يعيد تأطير (يطرح المسألة من زاوية أخرى)",
+              "example": "By reframing the layoffs as a chance to retrain, she shifted the entire tone of the meeting.",
+              "exampleArabic": "بإعادة تأطير التسريح بوصفه فرصة لإعادة التأهيل، غيّرت نبرة الاجتماع بأكملها.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˌriːˈfreɪm/"
+            },
+            {
+              "english": "to meet halfway",
+              "arabic": "يلتقي في منتصف الطريق (يتوسّط الحلّ)",
+              "example": "Neither got everything they wanted, but both agreed to meet halfway.",
+              "exampleArabic": "لم يحصل أيٌّ منهما على كل ما أراد، لكنهما اتفقا على الالتقاء في منتصف الطريق.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/tə miːt ˈhɑːfweɪ/"
+            },
+            {
+              "english": "to save face",
+              "arabic": "يحفظ ماء الوجه (يصون الكرامة)",
+              "example": "The wording was softened so that the losing side could save face.",
+              "exampleArabic": "خُفِّفت الصياغة كي يتمكّن الطرف الخاسر من حفظ ماء وجهه.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/tə seɪv feɪs/"
+            },
+            {
+              "english": "concession",
+              "arabic": "تنازل",
+              "example": "Each concession was carefully traded for one of equal value.",
+              "exampleArabic": "قُويض كل تنازل بعناية بآخر من القيمة نفسها.",
+              "partOfSpeech": "noun",
+              "phonetic": "/kənˈseʃn/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u4-l3",
+          "titleAr": "فنّ السرد القصصي",
+          "titleEn": "The Art of Storytelling",
+          "objectiveAr": "بناء سرد آسر بقوس درامي وصوت متميّز يشدّ المستمع.",
+          "modelSentence": "A great storyteller draws the listener in from the very first line, building tension through a deftly paced narrative arc before delivering a resolution that lingers long after.",
+          "modelSentenceArabic": "يشدّ الراوي البارع المستمع إليه منذ السطر الأول، فيبني التوتر عبر قوس سردي محكم الإيقاع، قبل أن يقدّم خاتمة تظلّ عالقة في الذهن طويلًا بعدها.",
+          "vocabulary": [
+            {
+              "english": "narrative arc",
+              "arabic": "القوس السردي (بناء الحبكة)",
+              "example": "Even a five-minute anecdote benefits from a clear narrative arc.",
+              "exampleArabic": "حتى الحكاية القصيرة من خمس دقائق تستفيد من قوس سردي واضح.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈnærətɪv ɑːk/"
+            },
+            {
+              "english": "to draw someone in",
+              "arabic": "يشدّ انتباه أحدهم (يستدرجه إلى القصة)",
+              "example": "The opening image draws you in before you even know what the story is about.",
+              "exampleArabic": "تشدّك الصورة الافتتاحية قبل أن تعرف حتى عمّا تدور القصة.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/tə drɔː ˈsʌmwʌn ɪn/"
+            },
+            {
+              "english": "to evoke",
+              "arabic": "يستحضر (يثير مشاعر أو صورًا)",
+              "example": "A handful of precise details can evoke an entire vanished world.",
+              "exampleArabic": "يمكن لحفنة من التفاصيل الدقيقة أن تستحضر عالمًا مندثرًا بأكمله.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪˈvəʊk/"
+            },
+            {
+              "english": "vivid",
+              "arabic": "حيّ نابض (بالغ الوضوح)",
+              "example": "Her vivid description placed the reader squarely in the crowded market.",
+              "exampleArabic": "وضع وصفها الحيّ النابض القارئ في قلب السوق المكتظّ تمامًا.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈvɪvɪd/"
+            },
+            {
+              "english": "cliffhanger",
+              "arabic": "نهاية معلّقة مشوّقة",
+              "example": "He ended each chapter on a cliffhanger, daring you to put the book down.",
+              "exampleArabic": "كان ينهي كل فصل بنهاية معلّقة مشوّقة، متحدّيًا إيّاك أن تترك الكتاب.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈklɪfhæŋə/"
+            },
+            {
+              "english": "to set the scene",
+              "arabic": "يمهّد المشهد (يهيّئ الأجواء)",
+              "example": "A few well-chosen lines are enough to set the scene before the action begins.",
+              "exampleArabic": "تكفي بضعة أسطر منتقاة بعناية لتمهيد المشهد قبل أن تبدأ الأحداث.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/tə set ðə siːn/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u4-l4",
+          "titleAr": "الأدوات البلاغية",
+          "titleEn": "Rhetorical Devices",
+          "objectiveAr": "توظيف الوسائل البلاغية لتعزيز الإقناع وإيقاع الخطاب.",
+          "modelSentence": "By weaving a striking metaphor into an otherwise dry argument and returning to it through deliberate repetition, the speaker lent her case a resonance that mere statistics could never achieve.",
+          "modelSentenceArabic": "بنسجها استعارة لافتة في حجّة كانت لولا ذلك جافّة، ثم بعودتها إليها عبر تكرار مقصود، منحت المتحدّثةُ قضيّتها رنينًا يعجز مجرّد الأرقام عن بلوغه.",
+          "vocabulary": [
+            {
+              "english": "metaphor",
+              "arabic": "استعارة (مجاز)",
+              "example": "The bridge metaphor ran through the entire speech, tying its themes together.",
+              "exampleArabic": "سرت استعارة الجسر في الخطاب بأكمله، فربطت موضوعاته بعضها ببعض.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈmetəfə/"
+            },
+            {
+              "english": "rhetorical question",
+              "arabic": "سؤال بلاغي (استفهام لا يُنتظر جوابه)",
+              "example": "\"How long must we wait for justice?\" is a rhetorical question, not a request for a date.",
+              "exampleArabic": "\"إلى متى علينا أن ننتظر العدالة؟\" سؤال بلاغي، لا طلب لتحديد موعد.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/rɪˈtɒrɪkl ˈkwestʃən/"
+            },
+            {
+              "english": "to underscore",
+              "arabic": "يؤكّد (يبرز أهمية)",
+              "example": "She paused deliberately to underscore the gravity of what she had just said.",
+              "exampleArabic": "توقّفت عن قصد لتؤكّد جسامة ما قالته للتوّ.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˌʌndəˈskɔː/"
+            },
+            {
+              "english": "to resonate",
+              "arabic": "يجد صدى (يلامس الوجدان)",
+              "example": "His message resonated with an audience weary of empty promises.",
+              "exampleArabic": "وجدت رسالته صدى لدى جمهور سئم الوعود الجوفاء.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈrezəneɪt/"
+            },
+            {
+              "english": "understatement",
+              "arabic": "تهوين مقصود (تقليل من شأن الأمر بلاغيًا)",
+              "example": "Calling the disaster \"a bit of a setback\" was a masterly understatement.",
+              "exampleArabic": "إن وصف الكارثة بأنها \"نكسة بسيطة\" كان تهوينًا بارعًا.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˌʌndəˈsteɪtmənt/"
+            },
+            {
+              "english": "turn of phrase",
+              "arabic": "صياغة لفظية بارعة (تعبير مصوغ بإتقان)",
+              "example": "A memorable turn of phrase can outlive the speech that contained it.",
+              "exampleArabic": "قد تعمّر صياغة لفظية بارعة بعد فناء الخطاب الذي وردت فيه.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ˌtɜːn əv ˈfreɪz/"
+            }
+          ]
+        },
+        {
+          "id": "c1-x-u4-l5",
+          "titleAr": "الإقناع والتأثير",
+          "titleEn": "Persuasion and Influence",
+          "objectiveAr": "بناء حجج مقنعة عبر مزج المنطق بالمصداقية والعاطفة.",
+          "modelSentence": "The most persuasive advocates marshal evidence and reason while never neglecting the emotional appeal that ultimately moves an audience to act.",
+          "modelSentenceArabic": "إن أبرع المدافعين إقناعًا يحشدون الأدلة والمنطق دون أن يغفلوا قطّ النداء العاطفي الذي يحرّك الجمهور في نهاية المطاف نحو الفعل.",
+          "vocabulary": [
+            {
+              "english": "to marshal",
+              "arabic": "يحشد (ينظّم الأدلة أو الموارد)",
+              "example": "He marshalled an impressive body of evidence in support of the reform.",
+              "exampleArabic": "حشد كمًّا مثيرًا للإعجاب من الأدلة دعمًا للإصلاح.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈmɑːʃl/"
+            },
+            {
+              "english": "emotional appeal",
+              "arabic": "نداء عاطفي (استمالة الوجدان)",
+              "example": "Beneath its veneer of cold logic, the advert was built on a powerful emotional appeal.",
+              "exampleArabic": "تحت قشرته من المنطق البارد، بُني الإعلان على نداء عاطفي قوي.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ɪˈməʊʃənl əˈpiːl/"
+            },
+            {
+              "english": "credibility",
+              "arabic": "مصداقية",
+              "example": "Years of accurate forecasts gave her analysis enormous credibility.",
+              "exampleArabic": "منحت سنواتٌ من التنبؤات الدقيقة تحليلَها مصداقية هائلة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˌkredəˈbɪləti/"
+            },
+            {
+              "english": "to sway",
+              "arabic": "يميل بالرأي (يؤثّر في الموقف)",
+              "example": "A single eloquent witness can sway an undecided jury.",
+              "exampleArabic": "قد يميل شاهد واحد بليغ برأي هيئة محلّفين لم تحسم أمرها.",
+              "partOfSpeech": "verb",
+              "phonetic": "/sweɪ/"
+            },
+            {
+              "english": "to win someone over",
+              "arabic": "يكسب ودّ أحدهم (يقنعه ويستميله)",
+              "example": "It took patience, but she gradually won over even her fiercest critics.",
+              "exampleArabic": "تطلّب الأمر صبرًا، لكنها كسبت تدريجيًا ودّ ألدّ منتقديها.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/tə wɪn ˈsʌmwʌn ˈəʊvə/"
+            },
+            {
+              "english": "compelling argument",
+              "arabic": "حجّة دامغة (مقنعة بقوة)",
+              "example": "She built a compelling argument that left her opponents with little to say.",
+              "exampleArabic": "بنت حجّة دامغة لم تترك لخصومها كثيرًا ليقولوه.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/kəmˈpelɪŋ ˈɑːɡjʊmənt/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

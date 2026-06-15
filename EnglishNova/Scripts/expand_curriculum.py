@@ -177,13 +177,35 @@ def shuffled(rng, items):
     return out
 
 
-def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None):
+def arabic_policy(level: str) -> str:
+    """How much Arabic (L1) scaffolding a level gets.
+
+    Grounded in the comprehensible-input / graded-L1-withdrawal approach: the
+    target language is the medium, and L1 support is a scaffold that shrinks as
+    proficiency rises.
+      full    – beginners (A0, A1): Arabic instructions, glosses, translations.
+      reduced – A2, B1: English instructions; Arabic kept for word meanings and
+                one sentence translation; redundant Arabic dropped.
+      minimal – B2, C1: English-first. Arabic only as a short word gloss and the
+                lesson objective; meaning is checked in English (context), and
+                translation drills are replaced by English-only tasks.
+    """
+    return {"A0": "full", "A1": "full",
+            "A2": "reduced", "B1": "reduced",
+            "B2": "minimal", "C1": "minimal"}.get(level, "full")
+
+
+def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, policy="full"):
     extra_examples = extra_examples or {}
     lid = lesson["id"]
     vocab = lesson.get("vocabulary", [])
     sentence = model_sentence(lesson)
     sentence_ar = model_sentence_arabic(lesson)
     objective = lesson.get("objectiveAr", "").strip()
+
+    full = policy == "full"
+    minimal = policy == "minimal"
+    en_instructions = policy != "full"   # reduced + minimal use English prompts
 
     new_ex = []
     counter = 0
@@ -192,8 +214,6 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None):
         nonlocal counter
         counter += 1
         ex["id"] = f"{lid}-e{counter}"
-        # Every exercise carries an accessibility hint and (where relevant)
-        # speech text; fill sane defaults so the UI/VoiceOver always works.
         ex.setdefault("promptEn", None)
         ex.setdefault("choices", None)
         ex.setdefault("tokens", None)
@@ -202,27 +222,41 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None):
         new_ex.append(ex)
 
     # 1) Teaching intro --------------------------------------------------
-    word_lines = "\n".join(
-        f"• {w['english']} = {w['arabic']}" for w in vocab
-    )
-    intro_lines = []
-    if objective:
-        intro_lines.append(f"الهدف: {objective}")
-    if sentence:
-        line = f"الجملة النموذجية: {sentence}"
-        if sentence_ar:
-            line += f"\nالمعنى: {sentence_ar}"
-        intro_lines.append(line)
-    if word_lines:
-        intro_lines.append("الكلمات الجديدة:\n" + word_lines)
-    intro_lines.append("استمع إلى النموذج وكرّره بصوتٍ واضح، ثم انتقل إلى التمارين لتثبيت الكلمات.")
+    if full:
+        word_lines = "\n".join(f"• {w['english']} = {w['arabic']}" for w in vocab)
+        intro_lines = []
+        if objective:
+            intro_lines.append(f"الهدف: {objective}")
+        if sentence:
+            line = f"الجملة النموذجية: {sentence}"
+            if sentence_ar:
+                line += f"\nالمعنى: {sentence_ar}"
+            intro_lines.append(line)
+        if word_lines:
+            intro_lines.append("الكلمات الجديدة:\n" + word_lines)
+        intro_lines.append("استمع إلى النموذج وكرّره بصوتٍ واضح، ثم انتقل إلى التمارين لتثبيت الكلمات.")
+        intro_prompt = "تمهيد الدرس والمفردات"
+        intro_hint = "استمع إلى الشرح والنموذج ثم انتقل إلى التمرين التالي"
+    else:
+        # English-led intro; a single Arabic objective line is the only L1.
+        word_lines = "\n".join(f"• {w['english']} — {w['arabic']}" for w in vocab)
+        intro_lines = []
+        if objective:
+            intro_lines.append(f"الهدف: {objective}")
+        if sentence:
+            intro_lines.append(f"Model sentence: {sentence}")
+        if word_lines:
+            intro_lines.append("New words:\n" + word_lines)
+        intro_lines.append("Listen to the model, then practise the words in the exercises.")
+        intro_prompt = "Lesson intro & key words"
+        intro_hint = "Listen to the model sentence, then continue"
     add({
         "type": "explanation",
-        "promptAr": "تمهيد الدرس والمفردات",
+        "promptAr": intro_prompt,
         "promptEn": sentence or None,
         "answer": sentence or objective or "",
         "explanationAr": "\n\n".join(intro_lines),
-        "accessibilityHint": "استمع إلى الشرح والنموذج ثم انتقل إلى التمرين التالي",
+        "accessibilityHint": intro_hint,
         "speechText": sentence or None,
     })
 
@@ -234,92 +268,126 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None):
         example = (w.get("example") or "").strip()
         example_ar = (w.get("exampleArabic") or "").strip()
         rng = random.Random(f"{lid}:{en}")
-
-        # Hand-authored extra example sentences for this word (if any).
         word_extras = extra_examples.get(w.get("id"), [])
 
-        # a) flashcard — shows the meaning plus every example we have.
-        card_lines = [f"{en} = {ar}" + (f" ({pos})" if pos else "")]
-        if example:
-            line = f"مثال: {example}"
-            if example_ar:
-                line += f" — {example_ar}"
-            card_lines.append(line)
-        for ex in word_extras:
-            ex_en = (ex.get("example") or "").strip()
-            ex_ar = (ex.get("exampleArabic") or "").strip()
-            if ex_en:
-                card_lines.append(f"مثال آخر: {ex_en}" + (f" — {ex_ar}" if ex_ar else ""))
+        # a) flashcard
+        if full:
+            card_lines = [f"{en} = {ar}" + (f" ({pos})" if pos else "")]
+            if example:
+                card_lines.append(f"مثال: {example}" + (f" — {example_ar}" if example_ar else ""))
+            for ex in word_extras:
+                ex_en = (ex.get("example") or "").strip()
+                ex_ar = (ex.get("exampleArabic") or "").strip()
+                if ex_en:
+                    card_lines.append(f"مثال آخر: {ex_en}" + (f" — {ex_ar}" if ex_ar else ""))
+            card_prompt = "تعرّف على الكلمة الجديدة، واستمع إلى نطقها."
+            card_hint = "استمع إلى الكلمة ثم اضغط متابعة"
+        else:
+            # English example is the headline; Arabic is a short gloss only.
+            card_lines = [f"{en}" + (f" ({pos})" if pos else "")]
+            if example:
+                card_lines.append(f"e.g., {example}")
+            for ex in word_extras:
+                ex_en = (ex.get("example") or "").strip()
+                if ex_en:
+                    card_lines.append(f"e.g., {ex_en}")
+            card_lines.append(f"بالعربية: {ar}")
+            card_prompt = "New word — listen and learn it from the example."
+            card_hint = "Listen to the word, then continue"
         add({
             "type": "flashcard",
-            "promptAr": "تعرّف على الكلمة الجديدة، واستمع إلى نطقها.",
+            "promptAr": card_prompt,
             "answer": en,
             "explanationAr": "\n".join(card_lines),
-            "accessibilityHint": "استمع إلى الكلمة ثم اضغط متابعة",
+            "accessibilityHint": card_hint,
             "speechText": en,
         })
 
-        # b) multipleChoice – Arabic meaning
-        ar_distractors = pick_distractors(rng, unit_ar_pool, exclude={ar}, n=2)
-        mc_choices = shuffled(rng, [ar] + ar_distractors)
-        add({
-            "type": "multipleChoice",
-            "promptAr": f"ما معنى {en}؟",
-            "promptEn": en,
-            "answer": ar,
-            "choices": mc_choices,
-            "explanationAr": f"{en} تعني {ar}." + (f"\nمثال: {example}" if example else ""),
-            "accessibilityHint": "اختر المعنى العربي الصحيح",
-            "speechText": en,
-        })
+        # b) meaning check
+        example_has_word = bool(example) and re.search(rf"\b{re.escape(en)}\b", example, re.IGNORECASE)
+        if minimal and example_has_word:
+            # English, context-based: complete the example sentence.
+            gapped = re.sub(rf"\b{re.escape(en)}\b", "_____", example, count=1, flags=re.IGNORECASE)
+            en_distractors = pick_distractors(rng, unit_eng_pool, exclude={en}, n=2)
+            add({
+                "type": "multipleChoice",
+                "promptAr": "Choose the word that completes the sentence:",
+                "promptEn": gapped,
+                "answer": en,
+                "choices": shuffled(rng, [en] + en_distractors),
+                "explanationAr": f"{en}: {example}",
+                "accessibilityHint": "Pick the word that fits the sentence",
+                "speechText": example,
+            })
+        else:
+            # Arabic meaning (kept for full + reduced; minimal fallback).
+            ar_distractors = pick_distractors(rng, unit_ar_pool, exclude={ar}, n=2)
+            add({
+                "type": "multipleChoice",
+                "promptAr": f"ما معنى {en}؟" if full else f"What does “{en}” mean?",
+                "promptEn": en,
+                "answer": ar,
+                "choices": shuffled(rng, [ar] + ar_distractors),
+                "explanationAr": (f"{en} تعني {ar}." if full else f"{en} = {ar}")
+                                 + (f"\ne.g., {example}" if example and not full else
+                                    (f"\nمثال: {example}" if example else "")),
+                "accessibilityHint": "اختر المعنى العربي الصحيح" if full else "Choose the correct meaning",
+                "speechText": en,
+            })
 
-        # c) listenAndChoose – hear the word, pick it
+        # c) listenAndChoose
         en_distractors = pick_distractors(rng, unit_eng_pool, exclude={en}, n=2)
-        lc_choices = shuffled(rng, [en] + en_distractors)
         add({
             "type": "listenAndChoose",
-            "promptAr": "استمع ثم اختر الكلمة التي سمعتها.",
+            "promptAr": "استمع ثم اختر الكلمة التي سمعتها." if full else "Listen and choose the word you hear.",
             "answer": en,
-            "choices": lc_choices,
-            "explanationAr": f"الكلمة التي سمعتها هي {en} ({ar}).",
-            "accessibilityHint": "شغّل الصوت ثم اختر إجابة واحدة",
+            "choices": shuffled(rng, [en] + en_distractors),
+            "explanationAr": (f"الكلمة التي سمعتها هي {en} ({ar})." if full else f"You heard: {en}."),
+            "accessibilityHint": "شغّل الصوت ثم اختر إجابة واحدة" if full else "Play the audio, then choose one",
             "speechText": en,
         })
 
-        # d) translate the extra example(s) — practises the word in a new
-        # sentence rather than in isolation.
-        for ex in word_extras:
-            ex_en = (ex.get("example") or "").strip()
-            ex_ar = (ex.get("exampleArabic") or "").strip()
-            if not ex_en or not ex_ar:
-                continue
-            add({
-                "type": "translation",
-                "promptAr": f"ترجم إلى الإنجليزية: {ex_ar}",
-                "answer": ex_en.rstrip("."),
-                "explanationAr": f"الترجمة النموذجية: {ex_en}\nلاحظ استخدام الكلمة {en}.",
-                "accessibilityHint": "اكتب الترجمة الإنجليزية ثم اضغط تحقق",
-                "speechText": ex_en,
-                "acceptableAnswers": [ex_en, ex_en.rstrip(".")],
-            })
+        # d) translate the extra example(s) — full only (redundant L1 otherwise)
+        if full:
+            for ex in word_extras:
+                ex_en = (ex.get("example") or "").strip()
+                ex_ar = (ex.get("exampleArabic") or "").strip()
+                if not ex_en or not ex_ar:
+                    continue
+                add({
+                    "type": "translation",
+                    "promptAr": f"ترجم إلى الإنجليزية: {ex_ar}",
+                    "answer": ex_en.rstrip("."),
+                    "explanationAr": f"الترجمة النموذجية: {ex_en}\nلاحظ استخدام الكلمة {en}.",
+                    "accessibilityHint": "اكتب الترجمة الإنجليزية ثم اضغط تحقق",
+                    "speechText": ex_en,
+                    "acceptableAnswers": [ex_en, ex_en.rstrip(".")],
+                })
 
     # 3) Sentence work ---------------------------------------------------
     if sentence:
         toks = tokens_for(sentence)
         rng = random.Random(f"{lid}:arrange")
+        if full:
+            arrange_prompt = (f"رتب الكلمات لتكوين الجملة: {sentence_ar}" if sentence_ar
+                              else "رتب الكلمات لتكوين الجملة النموذجية.")
+        elif sentence_ar and not minimal:
+            arrange_prompt = f"Arrange the words to form the sentence: {sentence_ar}"
+        else:
+            arrange_prompt = "Arrange the words to form the model sentence."
         add({
             "type": "arrangeWords",
-            "promptAr": f"رتب الكلمات لتكوين الجملة: {sentence_ar}" if sentence_ar
-                        else "رتب الكلمات لتكوين الجملة النموذجية.",
+            "promptAr": arrange_prompt,
             "answer": " ".join(toks),
             "tokens": shuffled(rng, toks),
-            "explanationAr": f"الترتيب الصحيح: {sentence}",
-            "accessibilityHint": "اختر الكلمات بالترتيب الصحيح، ويمكنك التراجع عن آخر كلمة",
+            "explanationAr": (f"الترتيب الصحيح: {sentence}" if full else f"Correct order: {sentence}"),
+            "accessibilityHint": ("اختر الكلمات بالترتيب الصحيح، ويمكنك التراجع عن آخر كلمة" if full
+                                  else "Tap the words in the correct order; you can undo the last one"),
             "speechText": sentence,
             "acceptableAnswers": [sentence, " ".join(toks)],
         })
 
-        # fillBlank – remove a key word that actually appears in the sentence
+        # fillBlank
         blank = None
         for w in vocab:
             en = w["english"]
@@ -332,23 +400,24 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None):
             gapped = pat.sub("_____", sentence, count=1)
             add({
                 "type": "fillBlank",
-                "promptAr": "أكمل الفراغ بالكلمة المناسبة.",
+                "promptAr": "أكمل الفراغ بالكلمة المناسبة." if full else "Fill in the blank.",
                 "promptEn": gapped,
                 "answer": en,
-                "explanationAr": f"الكلمة الناقصة هي {en}.\nالجملة كاملة: {sentence}",
-                "accessibilityHint": "اكتب الكلمة الناقصة ثم اضغط تحقق",
+                "explanationAr": (f"الكلمة الناقصة هي {en}.\nالجملة كاملة: {sentence}" if full
+                                  else f"Missing word: {en}.\nFull sentence: {sentence}"),
+                "accessibilityHint": "اكتب الكلمة الناقصة ثم اضغط تحقق" if full else "Type the missing word, then check",
                 "speechText": sentence,
                 "acceptableAnswers": [en.lower(), en.capitalize()],
             })
 
-        # translation
-        if sentence_ar:
+        # translation (full + reduced; dropped at minimal)
+        if sentence_ar and not minimal:
             add({
                 "type": "translation",
                 "promptAr": f"ترجم إلى الإنجليزية: {sentence_ar}",
                 "answer": sentence.rstrip("."),
-                "explanationAr": f"الترجمة النموذجية: {sentence}",
-                "accessibilityHint": "اكتب الترجمة الإنجليزية ثم اضغط تحقق",
+                "explanationAr": (f"الترجمة النموذجية: {sentence}" if full else f"Model answer: {sentence}"),
+                "accessibilityHint": "اكتب الترجمة الإنجليزية ثم اضغط تحقق" if full else "Write the English translation, then check",
                 "speechText": sentence,
                 "acceptableAnswers": [sentence, sentence.rstrip(".")],
             })
@@ -356,37 +425,46 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None):
         # speak
         add({
             "type": "speak",
-            "promptAr": "انطق الجملة التالية بوضوح.",
+            "promptAr": "انطق الجملة التالية بوضوح." if full else "Say the sentence aloud, clearly.",
             "promptEn": sentence,
             "answer": sentence.rstrip("."),
-            "explanationAr": "ركّز على وضوح الكلمات والإيقاع، ولا تقلق من اختلاف اللهجة.",
-            "accessibilityHint": "استمع للنموذج ثم ابدأ التسجيل وانطق الجملة",
+            "explanationAr": ("ركّز على وضوح الكلمات والإيقاع، ولا تقلق من اختلاف اللهجة." if full
+                              else "Focus on clear words and rhythm; don't worry about your accent."),
+            "accessibilityHint": "استمع للنموذج ثم ابدأ التسجيل وانطق الجملة" if full else "Listen to the model, then record yourself",
             "speechText": sentence,
             "acceptableAnswers": [sentence, sentence.rstrip(".")],
         })
 
     # 4) Review ----------------------------------------------------------
-    words_inline = "، ".join(w["english"] for w in vocab)
+    words_inline = "، ".join(w["english"] for w in vocab) if full else ", ".join(w["english"] for w in vocab)
     review_lines = []
-    if words_inline:
-        review_lines.append(f"راجعنا في هذا الدرس: {words_inline}.")
-    if sentence:
-        s = f"وتدرّبنا على الجملة: {sentence}"
-        if sentence_ar:
-            s += f" ({sentence_ar})"
-        review_lines.append(s + ".")
-    review_lines.append("أعد التمرين متى احتجت، وحاول أن تستخدم الكلمات في جملةٍ من عندك.")
+    if full:
+        if words_inline:
+            review_lines.append(f"راجعنا في هذا الدرس: {words_inline}.")
+        if sentence:
+            s = f"وتدرّبنا على الجملة: {sentence}"
+            if sentence_ar:
+                s += f" ({sentence_ar})"
+            review_lines.append(s + ".")
+        review_lines.append("أعد التمرين متى احتجت، وحاول أن تستخدم الكلمات في جملةٍ من عندك.")
+        review_prompt, review_hint = "مراجعة الدرس", "اقرأ المراجعة ثم أنهِ الدرس"
+    else:
+        if words_inline:
+            review_lines.append(f"You practised: {words_inline}.")
+        if sentence:
+            review_lines.append(f"Key sentence: {sentence}.")
+        review_lines.append("Try to use these words in a sentence of your own.")
+        review_prompt, review_hint = "Lesson review", "Read the review, then finish the lesson"
     add({
         "type": "explanation",
-        "promptAr": "مراجعة الدرس",
+        "promptAr": review_prompt,
         "answer": sentence or words_inline,
         "explanationAr": "\n".join(review_lines),
-        "accessibilityHint": "اقرأ المراجعة ثم أنهِ الدرس",
+        "accessibilityHint": review_hint,
         "speechText": sentence or None,
     })
 
     lesson["exercises"] = new_ex
-    # Reflect the heavier workload in time/points estimates.
     lesson["estimatedMinutes"] = max(10, round(len(new_ex) * 0.8))
     lesson["points"] = max(int(lesson.get("points", 0)), len(new_ex) * 8)
     return lesson
@@ -412,6 +490,7 @@ def main():
 
     total_before = total_after = lessons = 0
     for level in catalog.get("levels", []):
+        policy = arabic_policy(level.get("level", ""))
         for unit in level.get("units", []):
             unit_lessons = unit.get("lessons", [])
             eng_pool, ar_pool = [], []
@@ -422,7 +501,7 @@ def main():
             for ls in unit_lessons:
                 total_before += len(ls.get("exercises", []))
                 extra = enrichment.get(ls["id"], {}).get("extraExamples", {})
-                expand_lesson(ls, eng_pool, ar_pool, extra_examples=extra)
+                expand_lesson(ls, eng_pool, ar_pool, extra_examples=extra, policy=policy)
                 total_after += len(ls["exercises"])
                 lessons += 1
 

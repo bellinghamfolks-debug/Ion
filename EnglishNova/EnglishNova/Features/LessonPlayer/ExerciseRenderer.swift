@@ -37,6 +37,13 @@ struct ExerciseRenderer: View {
                     .environment(\.layoutDirection, .leftToRight)
                 Button { container.textToSpeech.speak(exercise.answer) } label: { Label("نطق الكلمة", systemImage: "speaker.wave.2.fill") }
                     .buttonStyle(.bordered)
+                if !exercise.explanationAr.isEmpty {
+                    Divider()
+                    Text(exercise.explanationAr)
+                        .font(.title3)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
             .frame(maxWidth: .infinity)
             .padding(32)

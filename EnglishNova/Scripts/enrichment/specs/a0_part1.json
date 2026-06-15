@@ -1,0 +1,784 @@
+{
+  "lessons": [
+    {
+      "id": "a0-u1-l1",
+      "level": "A0",
+      "titleEn": "Saying Hello",
+      "titleAr": "قول مرحبًا",
+      "objectiveAr": "أن تستخدم تحية مناسبة عند اللقاء.",
+      "modelSentence": "Hello, I am Abdullah.",
+      "modelSentenceAr": "مرحبًا، أنا عبدالله.",
+      "existingVocabulary": [
+        {
+          "id": "a0-001-hello-1",
+          "english": "hello",
+          "arabic": "مرحبًا"
+        },
+        {
+          "id": "a0-001-i-2",
+          "english": "I",
+          "arabic": "أنا"
+        },
+        {
+          "id": "a0-001-am-3",
+          "english": "am",
+          "arabic": "أكون مع I"
+        }
+      ]
+    },
+    {
+      "id": "a0-u1-l2",
+      "level": "A0",
+      "titleEn": "Introducing Your Name",
+      "titleAr": "التعريف بالاسم",
+      "objectiveAr": "أن تقول اسمك وتسأل شخصًا عن اسمه.",
+      "modelSentence": "My name is Sara.",
+      "modelSentenceAr": "اسمي سارة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-002-name-1",
+          "english": "name",
+          "arabic": "اسم"
+        },
+        {
+          "id": "a0-002-my-2",
+          "english": "my",
+          "arabic": "خاصتي"
+        },
+        {
+          "id": "a0-002-your-3",
+          "english": "your",
+          "arabic": "خاصتك"
+        }
+      ]
+    },
+    {
+      "id": "a0-u1-l3",
+      "level": "A0",
+      "titleEn": "Yes and No",
+      "titleAr": "نعم ولا",
+      "objectiveAr": "أن تجيب بإجابة قصيرة واضحة.",
+      "modelSentence": "Yes, I am ready.",
+      "modelSentenceAr": "نعم، أنا مستعد.",
+      "existingVocabulary": [
+        {
+          "id": "a0-003-yes-1",
+          "english": "yes",
+          "arabic": "نعم"
+        },
+        {
+          "id": "a0-003-no-2",
+          "english": "no",
+          "arabic": "لا"
+        },
+        {
+          "id": "a0-003-ready-3",
+          "english": "ready",
+          "arabic": "مستعد"
+        }
+      ]
+    },
+    {
+      "id": "a0-u1-l4",
+      "level": "A0",
+      "titleEn": "Please and Thank You",
+      "titleAr": "من فضلك وشكرًا",
+      "objectiveAr": "أن تطلب بأدب وتشكر الآخرين.",
+      "modelSentence": "Water, please. Thank you.",
+      "modelSentenceAr": "ماء، من فضلك. شكرًا لك.",
+      "existingVocabulary": [
+        {
+          "id": "a0-004-please-1",
+          "english": "please",
+          "arabic": "من فضلك"
+        },
+        {
+          "id": "a0-004-thank-you-2",
+          "english": "thank you",
+          "arabic": "شكرًا لك"
+        },
+        {
+          "id": "a0-004-water-3",
+          "english": "water",
+          "arabic": "ماء"
+        }
+      ]
+    },
+    {
+      "id": "a0-u1-l5",
+      "level": "A0",
+      "titleEn": "Saying Goodbye",
+      "titleAr": "مع السلامة",
+      "objectiveAr": "أن تنهي محادثة قصيرة بلطف.",
+      "modelSentence": "Goodbye. See you tomorrow.",
+      "modelSentenceAr": "مع السلامة. أراك غدًا.",
+      "existingVocabulary": [
+        {
+          "id": "a0-005-goodbye-1",
+          "english": "goodbye",
+          "arabic": "مع السلامة"
+        },
+        {
+          "id": "a0-005-see-2",
+          "english": "see",
+          "arabic": "يرى"
+        },
+        {
+          "id": "a0-005-tomorrow-3",
+          "english": "tomorrow",
+          "arabic": "غدًا"
+        }
+      ]
+    },
+    {
+      "id": "a0-u1-l6",
+      "level": "A0",
+      "titleEn": "How Are You?",
+      "titleAr": "كيف حالك؟",
+      "objectiveAr": "أن تسأل عن الحال وتجيب ببساطة.",
+      "modelSentence": "I am fine, thank you.",
+      "modelSentenceAr": "أنا بخير، شكرًا لك.",
+      "existingVocabulary": [
+        {
+          "id": "a0-006-fine-1",
+          "english": "fine",
+          "arabic": "بخير"
+        },
+        {
+          "id": "a0-006-how-2",
+          "english": "how",
+          "arabic": "كيف"
+        },
+        {
+          "id": "a0-006-you-3",
+          "english": "you",
+          "arabic": "أنت"
+        }
+      ]
+    },
+    {
+      "id": "a0-u2-l1",
+      "level": "A0",
+      "titleEn": "The Letter A",
+      "titleAr": "حرف A وصوته",
+      "objectiveAr": "أن تتعرف على حرف A في كلمات مألوفة.",
+      "modelSentence": "A is for apple.",
+      "modelSentenceAr": "حرف A في كلمة تفاحة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-007-apple-1",
+          "english": "apple",
+          "arabic": "تفاحة"
+        },
+        {
+          "id": "a0-007-letter-2",
+          "english": "letter",
+          "arabic": "حرف"
+        },
+        {
+          "id": "a0-007-sound-3",
+          "english": "sound",
+          "arabic": "صوت"
+        }
+      ]
+    },
+    {
+      "id": "a0-u2-l2",
+      "level": "A0",
+      "titleEn": "Letters B and C",
+      "titleAr": "حروف B وC",
+      "objectiveAr": "أن تميز بدايات كلمات بسيطة بحرفي B وC.",
+      "modelSentence": "B is for book and C is for cat.",
+      "modelSentenceAr": "حرف B في كتاب وحرف C في قطة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-008-book-1",
+          "english": "book",
+          "arabic": "كتاب"
+        },
+        {
+          "id": "a0-008-cat-2",
+          "english": "cat",
+          "arabic": "قطة"
+        },
+        {
+          "id": "a0-008-begin-3",
+          "english": "begin",
+          "arabic": "يبدأ"
+        }
+      ]
+    },
+    {
+      "id": "a0-u2-l3",
+      "level": "A0",
+      "titleEn": "Uppercase and Lowercase",
+      "titleAr": "الحروف الكبيرة والصغيرة",
+      "objectiveAr": "أن تميز شكل الحرف الكبير والصغير.",
+      "modelSentence": "A and a are the same letter.",
+      "modelSentenceAr": "A الكبير وa الصغير هما الحرف نفسه.",
+      "existingVocabulary": [
+        {
+          "id": "a0-009-uppercase-1",
+          "english": "uppercase",
+          "arabic": "حرف كبير"
+        },
+        {
+          "id": "a0-009-lowercase-2",
+          "english": "lowercase",
+          "arabic": "حرف صغير"
+        },
+        {
+          "id": "a0-009-same-3",
+          "english": "same",
+          "arabic": "نفسه"
+        }
+      ]
+    },
+    {
+      "id": "a0-u2-l4",
+      "level": "A0",
+      "titleEn": "A Book and a Pen",
+      "titleAr": "كتاب وقلم",
+      "objectiveAr": "أن تسمي أدوات الدراسة الأساسية.",
+      "modelSentence": "This is a pen.",
+      "modelSentenceAr": "هذا قلم.",
+      "existingVocabulary": [
+        {
+          "id": "a0-010-pen-1",
+          "english": "pen",
+          "arabic": "قلم"
+        },
+        {
+          "id": "a0-010-paper-2",
+          "english": "paper",
+          "arabic": "ورق"
+        },
+        {
+          "id": "a0-010-desk-3",
+          "english": "desk",
+          "arabic": "مكتب"
+        }
+      ]
+    },
+    {
+      "id": "a0-u2-l5",
+      "level": "A0",
+      "titleEn": "This and That",
+      "titleAr": "هذا وذاك",
+      "objectiveAr": "أن تشير إلى شيء قريب أو بعيد.",
+      "modelSentence": "This is my book.",
+      "modelSentenceAr": "هذا كتابي.",
+      "existingVocabulary": [
+        {
+          "id": "a0-011-this-1",
+          "english": "this",
+          "arabic": "هذا القريب"
+        },
+        {
+          "id": "a0-011-that-2",
+          "english": "that",
+          "arabic": "ذلك البعيد"
+        },
+        {
+          "id": "a0-011-is-3",
+          "english": "is",
+          "arabic": "يكون"
+        }
+      ]
+    },
+    {
+      "id": "a0-u2-l6",
+      "level": "A0",
+      "titleEn": "Classroom Instructions",
+      "titleAr": "تعليمات الفصل",
+      "objectiveAr": "أن تفهم أوامر صفية قصيرة.",
+      "modelSentence": "Open your book, please.",
+      "modelSentenceAr": "افتح كتابك، من فضلك.",
+      "existingVocabulary": [
+        {
+          "id": "a0-012-open-1",
+          "english": "open",
+          "arabic": "افتح"
+        },
+        {
+          "id": "a0-012-close-2",
+          "english": "close",
+          "arabic": "أغلق"
+        },
+        {
+          "id": "a0-012-listen-3",
+          "english": "listen",
+          "arabic": "استمع"
+        }
+      ]
+    },
+    {
+      "id": "a0-u3-l1",
+      "level": "A0",
+      "titleEn": "Numbers Zero to Five",
+      "titleAr": "الأرقام من صفر إلى خمسة",
+      "objectiveAr": "أن تعد من صفر إلى خمسة.",
+      "modelSentence": "I have five books.",
+      "modelSentenceAr": "لدي خمسة كتب.",
+      "existingVocabulary": [
+        {
+          "id": "a0-013-zero-1",
+          "english": "zero",
+          "arabic": "صفر"
+        },
+        {
+          "id": "a0-013-three-2",
+          "english": "three",
+          "arabic": "ثلاثة"
+        },
+        {
+          "id": "a0-013-five-3",
+          "english": "five",
+          "arabic": "خمسة"
+        }
+      ]
+    },
+    {
+      "id": "a0-u3-l2",
+      "level": "A0",
+      "titleEn": "Numbers Six to Ten",
+      "titleAr": "الأرقام من ستة إلى عشرة",
+      "objectiveAr": "أن تعد من ستة إلى عشرة.",
+      "modelSentence": "There are ten students.",
+      "modelSentenceAr": "يوجد عشرة طلاب.",
+      "existingVocabulary": [
+        {
+          "id": "a0-014-six-1",
+          "english": "six",
+          "arabic": "ستة"
+        },
+        {
+          "id": "a0-014-eight-2",
+          "english": "eight",
+          "arabic": "ثمانية"
+        },
+        {
+          "id": "a0-014-ten-3",
+          "english": "ten",
+          "arabic": "عشرة"
+        }
+      ]
+    },
+    {
+      "id": "a0-u3-l3",
+      "level": "A0",
+      "titleEn": "How Many?",
+      "titleAr": "كم العدد؟",
+      "objectiveAr": "أن تسأل عن عدد الأشياء.",
+      "modelSentence": "How many pens are there?.",
+      "modelSentenceAr": "كم قلمًا يوجد؟",
+      "existingVocabulary": [
+        {
+          "id": "a0-015-how-many-1",
+          "english": "how many",
+          "arabic": "كم عدد"
+        },
+        {
+          "id": "a0-015-one-2",
+          "english": "one",
+          "arabic": "واحد"
+        },
+        {
+          "id": "a0-015-two-3",
+          "english": "two",
+          "arabic": "اثنان"
+        }
+      ]
+    },
+    {
+      "id": "a0-u3-l4",
+      "level": "A0",
+      "titleEn": "Phone Numbers",
+      "titleAr": "رقم الهاتف",
+      "objectiveAr": "أن تقول رقمًا قصيرًا رقمًا رقمًا.",
+      "modelSentence": "My number is five, zero, four.",
+      "modelSentenceAr": "رقمي هو خمسة، صفر، أربعة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-016-number-1",
+          "english": "number",
+          "arabic": "رقم"
+        },
+        {
+          "id": "a0-016-phone-2",
+          "english": "phone",
+          "arabic": "هاتف"
+        },
+        {
+          "id": "a0-016-four-3",
+          "english": "four",
+          "arabic": "أربعة"
+        }
+      ]
+    },
+    {
+      "id": "a0-u3-l5",
+      "level": "A0",
+      "titleEn": "Whole Hours",
+      "titleAr": "الساعة الكاملة",
+      "objectiveAr": "أن تسأل عن الوقت وتقول ساعة كاملة.",
+      "modelSentence": "It is three o’clock.",
+      "modelSentenceAr": "الساعة الثالثة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-017-time-1",
+          "english": "time",
+          "arabic": "وقت"
+        },
+        {
+          "id": "a0-017-o-clock-2",
+          "english": "o’clock",
+          "arabic": "تمام الساعة"
+        },
+        {
+          "id": "a0-017-three-3",
+          "english": "three",
+          "arabic": "ثلاثة"
+        }
+      ]
+    },
+    {
+      "id": "a0-u3-l6",
+      "level": "A0",
+      "titleEn": "Today and Tomorrow",
+      "titleAr": "اليوم وغدًا",
+      "objectiveAr": "أن تميز اليوم عن الغد.",
+      "modelSentence": "I study today and rest tomorrow.",
+      "modelSentenceAr": "أدرس اليوم وأرتاح غدًا.",
+      "existingVocabulary": [
+        {
+          "id": "a0-018-today-1",
+          "english": "today",
+          "arabic": "اليوم"
+        },
+        {
+          "id": "a0-018-tomorrow-2",
+          "english": "tomorrow",
+          "arabic": "غدًا"
+        },
+        {
+          "id": "a0-018-day-3",
+          "english": "day",
+          "arabic": "يوم"
+        }
+      ]
+    },
+    {
+      "id": "a0-u4-l1",
+      "level": "A0",
+      "titleEn": "My Mother and Father",
+      "titleAr": "أمي وأبي",
+      "objectiveAr": "أن تسمي الوالدين.",
+      "modelSentence": "This is my mother.",
+      "modelSentenceAr": "هذه أمي.",
+      "existingVocabulary": [
+        {
+          "id": "a0-019-mother-1",
+          "english": "mother",
+          "arabic": "أم"
+        },
+        {
+          "id": "a0-019-father-2",
+          "english": "father",
+          "arabic": "أب"
+        },
+        {
+          "id": "a0-019-family-3",
+          "english": "family",
+          "arabic": "عائلة"
+        }
+      ]
+    },
+    {
+      "id": "a0-u4-l2",
+      "level": "A0",
+      "titleEn": "Brother and Sister",
+      "titleAr": "أخي وأختي",
+      "objectiveAr": "أن تسمي الإخوة والأخوات.",
+      "modelSentence": "I have one brother.",
+      "modelSentenceAr": "لدي أخ واحد.",
+      "existingVocabulary": [
+        {
+          "id": "a0-020-brother-1",
+          "english": "brother",
+          "arabic": "أخ"
+        },
+        {
+          "id": "a0-020-sister-2",
+          "english": "sister",
+          "arabic": "أخت"
+        },
+        {
+          "id": "a0-020-have-3",
+          "english": "have",
+          "arabic": "لديه"
+        }
+      ]
+    },
+    {
+      "id": "a0-u4-l3",
+      "level": "A0",
+      "titleEn": "Man and Woman",
+      "titleAr": "رجل وامرأة",
+      "objectiveAr": "أن تسمي الأشخاص بكلمات أساسية.",
+      "modelSentence": "The woman is here.",
+      "modelSentenceAr": "المرأة هنا.",
+      "existingVocabulary": [
+        {
+          "id": "a0-021-man-1",
+          "english": "man",
+          "arabic": "رجل"
+        },
+        {
+          "id": "a0-021-woman-2",
+          "english": "woman",
+          "arabic": "امرأة"
+        },
+        {
+          "id": "a0-021-person-3",
+          "english": "person",
+          "arabic": "شخص"
+        }
+      ]
+    },
+    {
+      "id": "a0-u4-l4",
+      "level": "A0",
+      "titleEn": "Child and Friend",
+      "titleAr": "طفل وصديق",
+      "objectiveAr": "أن تتحدث عن طفل أو صديق.",
+      "modelSentence": "Ali is my friend.",
+      "modelSentenceAr": "علي صديقي.",
+      "existingVocabulary": [
+        {
+          "id": "a0-022-child-1",
+          "english": "child",
+          "arabic": "طفل"
+        },
+        {
+          "id": "a0-022-friend-2",
+          "english": "friend",
+          "arabic": "صديق"
+        },
+        {
+          "id": "a0-022-my-3",
+          "english": "my",
+          "arabic": "خاصتي"
+        }
+      ]
+    },
+    {
+      "id": "a0-u4-l5",
+      "level": "A0",
+      "titleEn": "He and She",
+      "titleAr": "هو وهي",
+      "objectiveAr": "أن تستخدم ضميري هو وهي.",
+      "modelSentence": "She is a student.",
+      "modelSentenceAr": "هي طالبة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-023-he-1",
+          "english": "he",
+          "arabic": "هو"
+        },
+        {
+          "id": "a0-023-she-2",
+          "english": "she",
+          "arabic": "هي"
+        },
+        {
+          "id": "a0-023-student-3",
+          "english": "student",
+          "arabic": "طالب"
+        }
+      ]
+    },
+    {
+      "id": "a0-u4-l6",
+      "level": "A0",
+      "titleEn": "Simple Descriptions",
+      "titleAr": "صفات بسيطة",
+      "objectiveAr": "أن تصف شخصًا بصفة واحدة.",
+      "modelSentence": "He is tall.",
+      "modelSentenceAr": "هو طويل.",
+      "existingVocabulary": [
+        {
+          "id": "a0-024-tall-1",
+          "english": "tall",
+          "arabic": "طويل"
+        },
+        {
+          "id": "a0-024-short-2",
+          "english": "short",
+          "arabic": "قصير"
+        },
+        {
+          "id": "a0-024-kind-3",
+          "english": "kind",
+          "arabic": "لطيف"
+        }
+      ]
+    },
+    {
+      "id": "a0-u5-l1",
+      "level": "A0",
+      "titleEn": "Room and House",
+      "titleAr": "غرفة ومنزل",
+      "objectiveAr": "أن تسمي المنزل والغرفة.",
+      "modelSentence": "This is my room.",
+      "modelSentenceAr": "هذه غرفتي.",
+      "existingVocabulary": [
+        {
+          "id": "a0-025-house-1",
+          "english": "house",
+          "arabic": "منزل"
+        },
+        {
+          "id": "a0-025-room-2",
+          "english": "room",
+          "arabic": "غرفة"
+        },
+        {
+          "id": "a0-025-door-3",
+          "english": "door",
+          "arabic": "باب"
+        }
+      ]
+    },
+    {
+      "id": "a0-u5-l2",
+      "level": "A0",
+      "titleEn": "Bed and Chair",
+      "titleAr": "سرير وكرسي",
+      "objectiveAr": "أن تسمي أثاثًا بسيطًا.",
+      "modelSentence": "The chair is in the room.",
+      "modelSentenceAr": "الكرسي في الغرفة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-026-bed-1",
+          "english": "bed",
+          "arabic": "سرير"
+        },
+        {
+          "id": "a0-026-chair-2",
+          "english": "chair",
+          "arabic": "كرسي"
+        },
+        {
+          "id": "a0-026-table-3",
+          "english": "table",
+          "arabic": "طاولة"
+        }
+      ]
+    },
+    {
+      "id": "a0-u5-l3",
+      "level": "A0",
+      "titleEn": "Key and Phone",
+      "titleAr": "مفتاح وهاتف",
+      "objectiveAr": "أن تسمي أشياء شخصية شائعة.",
+      "modelSentence": "My key is here.",
+      "modelSentenceAr": "مفتاحي هنا.",
+      "existingVocabulary": [
+        {
+          "id": "a0-027-key-1",
+          "english": "key",
+          "arabic": "مفتاح"
+        },
+        {
+          "id": "a0-027-phone-2",
+          "english": "phone",
+          "arabic": "هاتف"
+        },
+        {
+          "id": "a0-027-bag-3",
+          "english": "bag",
+          "arabic": "حقيبة"
+        }
+      ]
+    },
+    {
+      "id": "a0-u5-l4",
+      "level": "A0",
+      "titleEn": "In and On",
+      "titleAr": "في وعلى",
+      "objectiveAr": "أن تحدد موقع شيء باستخدام in وon.",
+      "modelSentence": "The phone is on the table.",
+      "modelSentenceAr": "الهاتف على الطاولة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-028-in-1",
+          "english": "in",
+          "arabic": "في"
+        },
+        {
+          "id": "a0-028-on-2",
+          "english": "on",
+          "arabic": "على"
+        },
+        {
+          "id": "a0-028-under-3",
+          "english": "under",
+          "arabic": "تحت"
+        }
+      ]
+    },
+    {
+      "id": "a0-u5-l5",
+      "level": "A0",
+      "titleEn": "Where Is It?",
+      "titleAr": "أين الشيء؟",
+      "objectiveAr": "أن تسأل عن موقع شيء.",
+      "modelSentence": "Where is my bag?.",
+      "modelSentenceAr": "أين حقيبتي؟",
+      "existingVocabulary": [
+        {
+          "id": "a0-029-where-1",
+          "english": "where",
+          "arabic": "أين"
+        },
+        {
+          "id": "a0-029-here-2",
+          "english": "here",
+          "arabic": "هنا"
+        },
+        {
+          "id": "a0-029-there-3",
+          "english": "there",
+          "arabic": "هناك"
+        }
+      ]
+    },
+    {
+      "id": "a0-u5-l6",
+      "level": "A0",
+      "titleEn": "Clean and Big",
+      "titleAr": "نظيف وكبير",
+      "objectiveAr": "أن تصف المنزل أو الأشياء بصفات بسيطة.",
+      "modelSentence": "The room is clean and big.",
+      "modelSentenceAr": "الغرفة نظيفة وكبيرة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-030-clean-1",
+          "english": "clean",
+          "arabic": "نظيف"
+        },
+        {
+          "id": "a0-030-big-2",
+          "english": "big",
+          "arabic": "كبير"
+        },
+        {
+          "id": "a0-030-small-3",
+          "english": "small",
+          "arabic": "صغير"
+        }
+      ]
+    }
+  ]
+}

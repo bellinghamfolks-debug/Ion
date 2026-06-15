@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- App Group shared between the Basir app and its Share Extension
+         so the extension can hand off the file the user shared. Must be
+         identical on both targets and provisioned by whatever account
+         signs the build (Apple Developer / TestFlight / Signulous). -->
+    <key>com.apple.security.application-groups</key>
+    <array>
+        <string>group.com.basir.shared</string>
+    </array>
+</dict>
+</plist>

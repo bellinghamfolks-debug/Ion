@@ -1,8 +1,13 @@
-# PDFToWord iOS — GitHub Actions compile check.
+# EnglishNova iOS — GitHub Actions build + test check.
 #
-# Builds the committed Xcode project for the iOS Simulator on a macOS
-# runner (unsigned — compile check only). The device IPA + signing live
-# in Codemagic (see codemagic.yaml). Basir is preserved on the main branch.
+# Generates the Xcode project with XcodeGen, builds for the iOS
+# Simulator, runs the unit tests (which decode the bundled
+# curriculum.json with the real Swift models), and verifies the
+# curriculum resource is inside the built .app bundle. The device IPA
+# + signing live in Codemagic (see codemagic.yaml).
+#
+# Basir's code is preserved on its own branch; this workflow builds the
+# repo's active project, EnglishNova.
 
 name: Swift
 
@@ -17,8 +22,12 @@ concurrency:
 
 jobs:
   build:
-    name: Build (iOS Simulator)
+    name: Build & test (iOS Simulator)
     runs-on: macos-14
+
+    defaults:
+      run:
+        working-directory: EnglishNova
 
     steps:
       - name: Checkout
@@ -29,15 +38,44 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Build for iOS Simulator (unsigned)
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Pick an available iPhone simulator
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available --json | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          devices = [d for devs in data['devices'].values() for d in devs
+                     if d.get('isAvailable') and 'iPhone' in d['name']]
+          print(devices[-1]['udid'])
+          ")
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+          xcrun simctl list devices available | grep iPhone
+
+      - name: Build and run unit tests (decodes bundled curriculum)
         run: |
           set -o pipefail
-          xcodebuild build \
-            -project PDFToWord.xcodeproj \
-            -scheme PDFToWord \
-            -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
+          xcodebuild test \
+            -project EnglishNova.xcodeproj \
+            -scheme EnglishNova \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
             -configuration Debug \
+            -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
-            COMPILER_INDEX_STORE_ENABLE=NO \
-            ONLY_ACTIVE_ARCH=YES
+            COMPILER_INDEX_STORE_ENABLE=NO
+
+      - name: Verify curriculum.json is inside the app bundle
+        run: |
+          APP="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
+          echo "--- bundle contents ---"
+          ls -R "$APP" | head -40
+          if [ ! -f "$APP/Curriculum/curriculum.json" ]; then
+            echo "❌ Curriculum/curriculum.json missing from app bundle"
+            exit 1
+          fi
+          echo "✅ Curriculum/curriculum.json bundled correctly"

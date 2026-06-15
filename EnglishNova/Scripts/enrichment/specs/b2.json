@@ -1,0 +1,212 @@
+{
+  "lessons": [
+    {
+      "id": "b2-u1-l1",
+      "level": "B2",
+      "titleEn": "Natural Expressions in Context",
+      "titleAr": "التعابير الطبيعية في السياق",
+      "objectiveAr": "فهم تعبيرات شائعة واستخدامها دون ترجمة حرفية.",
+      "modelSentence": "We need to get to the bottom of this issue.",
+      "modelSentenceAr": "نحتاج إلى الوصول إلى حقيقة هذه المشكلة.",
+      "existingVocabulary": [
+        {
+          "id": "b2-u1-l1-w1",
+          "english": "get to the bottom of",
+          "arabic": "يصل إلى حقيقة"
+        },
+        {
+          "id": "b2-u1-l1-w2",
+          "english": "We",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b2-u1-l1-w3",
+          "english": "issue",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b2-extra-2",
+      "level": "B2",
+      "titleEn": "Building an Argument",
+      "titleAr": "بناء الحجة",
+      "objectiveAr": "عرض ادعاء ودليل واعتراض.",
+      "modelSentence": "The evidence suggests that the policy is effective.",
+      "modelSentenceAr": "تشير الأدلة إلى أن السياسة فعالة.",
+      "existingVocabulary": [
+        {
+          "id": "b2-extra-2-w1",
+          "english": "evidence suggests",
+          "arabic": "تشير الأدلة"
+        },
+        {
+          "id": "b2-extra-2-w2",
+          "english": "The",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b2-extra-2-w3",
+          "english": "effective",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b2-extra-3",
+      "level": "B2",
+      "titleEn": "Conditionals",
+      "titleAr": "الجمل الشرطية",
+      "objectiveAr": "استخدام الشرط لنتائج واقعية وافتراضية.",
+      "modelSentence": "If I had more time, I would take the course.",
+      "modelSentenceAr": "لو كان لدي وقت أكثر لأخذت الدورة.",
+      "existingVocabulary": [
+        {
+          "id": "b2-extra-3-w1",
+          "english": "would take",
+          "arabic": "كنت سأخذ"
+        },
+        {
+          "id": "b2-extra-3-w2",
+          "english": "If",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b2-extra-3-w3",
+          "english": "course",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b2-extra-4",
+      "level": "B2",
+      "titleEn": "Passive Voice",
+      "titleAr": "المبني للمجهول",
+      "objectiveAr": "التركيز على الفعل أو النتيجة بدل الفاعل.",
+      "modelSentence": "The contract was signed yesterday.",
+      "modelSentenceAr": "وُقع العقد أمس.",
+      "existingVocabulary": [
+        {
+          "id": "b2-extra-4-w1",
+          "english": "was signed",
+          "arabic": "تم توقيعه"
+        },
+        {
+          "id": "b2-extra-4-w2",
+          "english": "The",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b2-extra-4-w3",
+          "english": "yesterday",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b2-extra-5",
+      "level": "B2",
+      "titleEn": "Reported Speech",
+      "titleAr": "الكلام المنقول",
+      "objectiveAr": "نقل كلام شخص بدقة زمنية.",
+      "modelSentence": "She said that she was busy.",
+      "modelSentenceAr": "قالت إنها كانت مشغولة.",
+      "existingVocabulary": [
+        {
+          "id": "b2-extra-5-w1",
+          "english": "she was busy",
+          "arabic": "إنها كانت مشغولة"
+        },
+        {
+          "id": "b2-extra-5-w2",
+          "english": "She",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b2-extra-5-w3",
+          "english": "busy",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b2-extra-6",
+      "level": "B2",
+      "titleEn": "Professional Presentation",
+      "titleAr": "العرض المهني",
+      "objectiveAr": "تنظيم عرض وتوجيه الجمهور بين النقاط.",
+      "modelSentence": "Let us move on to the next section.",
+      "modelSentenceAr": "لننتقل إلى القسم التالي.",
+      "existingVocabulary": [
+        {
+          "id": "b2-extra-6-w1",
+          "english": "move on to",
+          "arabic": "ننتقل إلى"
+        },
+        {
+          "id": "b2-extra-6-w2",
+          "english": "Let",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b2-extra-6-w3",
+          "english": "section",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b2-extra-7",
+      "level": "B2",
+      "titleEn": "Negotiation",
+      "titleAr": "التفاوض",
+      "objectiveAr": "اقتراح بدائل والوصول إلى حل وسط.",
+      "modelSentence": "We may be able to offer a more flexible deadline.",
+      "modelSentenceAr": "قد نتمكن من تقديم موعد نهائي أكثر مرونة.",
+      "existingVocabulary": [
+        {
+          "id": "b2-extra-7-w1",
+          "english": "may be able to",
+          "arabic": "قد نتمكن من"
+        },
+        {
+          "id": "b2-extra-7-w2",
+          "english": "We",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b2-extra-7-w3",
+          "english": "deadline",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b2-extra-8",
+      "level": "B2",
+      "titleEn": "Media Analysis",
+      "titleAr": "تحليل الإعلام",
+      "objectiveAr": "تمييز الرأي والتحيز والدليل.",
+      "modelSentence": "The article presents the issue from one perspective.",
+      "modelSentenceAr": "يعرض المقال القضية من منظور واحد.",
+      "existingVocabulary": [
+        {
+          "id": "b2-extra-8-w1",
+          "english": "one perspective",
+          "arabic": "منظور واحد"
+        },
+        {
+          "id": "b2-extra-8-w2",
+          "english": "The",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b2-extra-8-w3",
+          "english": "perspective",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    }
+  ]
+}

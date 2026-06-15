@@ -1,22 +1,29 @@
-# Codemagic CI/CD for PDFToWord (iOS).
+# Codemagic CI/CD for EnglishNova (iOS).
 #
-# This repo's active iOS build is PDFToWord. The project ships a committed
-# Xcode project (PDFToWord.xcodeproj), so no XcodeGen step is needed — we
-# build it directly. Basir is preserved on the `main` branch.
+# This repo's active iOS build is now EnglishNova. Basir's code is
+# preserved on its own branch (claude/file-extraction-repo-migration-hqgNY)
+# and can be restored or updated there at any time.
+#
+# Building an iOS app needs macOS + Xcode, so we use Codemagic's hosted
+# macOS instances. XcodeGen regenerates EnglishNova.xcodeproj from
+# EnglishNova/project.yml at build time, so no binary Xcode project is
+# committed to git.
 #
 # Every push to claude/**, main, or master triggers BOTH:
-#   1. ios-simulator-build → fast .app compile smoke test
-#   2. ios-unsigned-ipa    → real .ipa archive, emailed + posted as a
-#      downloadable Codemagic artifact.
+#   1. ios-simulator-build → fast .app compile smoke test (~3-5 min)
+#   2. ios-unsigned-ipa    → real .ipa archive (~5-8 min), emailed +
+#      posted as a downloadable Codemagic artifact.
 
 workflows:
 
   ios-simulator-build:
-    name: PDFToWord iOS — simulator build (no Apple Developer account needed)
+    name: EnglishNova iOS — simulator build (no Apple Developer account needed)
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
       xcode: latest
+      vars:
+        XCODE_PROJECT_DIR: "EnglishNova"
 
     triggering:
       events:
@@ -30,11 +37,23 @@ workflows:
           include: true
 
     scripts:
+      - name: Install XcodeGen
+        script: |
+          brew install xcodegen
+          xcodegen --version
+
+      - name: Generate Xcode project
+        script: |
+          cd $XCODE_PROJECT_DIR
+          xcodegen generate
+          ls -la EnglishNova.xcodeproj/
+
       - name: Build for iOS Simulator
         script: |
+          cd $XCODE_PROJECT_DIR
           xcodebuild build \
-            -project PDFToWord.xcodeproj \
-            -scheme PDFToWord \
+            -project EnglishNova.xcodeproj \
+            -scheme EnglishNova \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             -configuration Debug \
@@ -46,16 +65,23 @@ workflows:
 
       - name: Verify .app bundle was produced
         script: |
-          APP_PATH="build/Build/Products/Debug-iphonesimulator/PDFToWord.app"
+          cd $XCODE_PROJECT_DIR
+          APP_PATH="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
           if [ ! -d "$APP_PATH" ]; then
             echo "❌ Build did not produce $APP_PATH"
             exit 1
           fi
           echo "✅ Built $APP_PATH"
           du -sh "$APP_PATH"
+          if [ ! -f "$APP_PATH/Curriculum/curriculum.json" ]; then
+            echo "❌ Curriculum/curriculum.json missing from app bundle"
+            ls -R "$APP_PATH" | head -40
+            exit 1
+          fi
+          echo "✅ Curriculum/curriculum.json bundled correctly"
 
     artifacts:
-      - build/Build/Products/Debug-iphonesimulator/PDFToWord.app
+      - EnglishNova/build/Build/Products/Debug-iphonesimulator/EnglishNova.app
 
     publishing:
       email:
@@ -66,16 +92,18 @@ workflows:
           failure: true
 
   # ---------------------------------------------------------------------
-  # Device-ready unsigned IPA. Archives the app and wraps it into an .ipa
-  # that can be installed on a real iPhone with a sideloading tool
-  # (AltStore / Sideloadly / Signulous) or resigned with a certificate.
+  # Device-ready unsigned IPA. Wraps the archived .app into an .ipa that
+  # can be installed on a real iPhone with a sideloading tool (AltStore /
+  # Sideloadly / Signulous) or resigned with a developer certificate.
   # ---------------------------------------------------------------------
   ios-unsigned-ipa:
-    name: PDFToWord iOS — unsigned IPA (auto-built on every push)
+    name: EnglishNova iOS — unsigned IPA (auto-built on every push)
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
       xcode: latest
+      vars:
+        XCODE_PROJECT_DIR: "EnglishNova"
 
     triggering:
       events:
@@ -89,18 +117,28 @@ workflows:
           include: true
 
     scripts:
+      - name: Install XcodeGen
+        script: brew install xcodegen
+
+      - name: Generate Xcode project
+        script: |
+          cd $XCODE_PROJECT_DIR
+          xcodegen generate
+
       - name: Stamp build number from commit count
         script: |
+          cd $XCODE_PROJECT_DIR
           BUILD_NUMBER=$(git rev-list HEAD --count)
           agvtool new-version -all $BUILD_NUMBER || true
 
       - name: Archive (unsigned, for inspection or external resigning)
         script: |
+          cd $XCODE_PROJECT_DIR
           xcodebuild archive \
-            -project PDFToWord.xcodeproj \
-            -scheme PDFToWord \
+            -project EnglishNova.xcodeproj \
+            -scheme EnglishNova \
             -configuration Release \
-            -archivePath build/PDFToWord.xcarchive \
+            -archivePath build/EnglishNova.xcarchive \
             -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
@@ -110,27 +148,34 @@ workflows:
       - name: Wrap .app into unsigned .ipa
         script: |
           set -euo pipefail
-          cd "$CM_BUILD_DIR/build"
+          cd "$CM_BUILD_DIR/$XCODE_PROJECT_DIR/build"
 
-          APP_PATH="PDFToWord.xcarchive/Products/Applications/PDFToWord.app"
+          APP_PATH="EnglishNova.xcarchive/Products/Applications/EnglishNova.app"
           if [ ! -d "$APP_PATH" ]; then
             echo "❌ Missing app bundle: $APP_PATH"
             find . -maxdepth 5 -type d -name "*.app" -print
             exit 1
           fi
 
+          if [ ! -f "$APP_PATH/Curriculum/curriculum.json" ]; then
+            echo "❌ Curriculum/curriculum.json missing from app bundle"
+            ls -R "$APP_PATH" | head -40
+            exit 1
+          fi
+          echo "✅ Curriculum/curriculum.json bundled correctly"
+
           rm -rf Payload
           mkdir -p Payload
           cp -R "$APP_PATH" Payload/
 
           SHORT_SHA=$(git -C "$CM_BUILD_DIR" rev-parse --short HEAD)
-          IPA_NAME="PDFToWord-${SHORT_SHA}-unsigned.ipa"
+          IPA_NAME="EnglishNova-${SHORT_SHA}-unsigned.ipa"
           /usr/bin/zip -qry "$IPA_NAME" Payload
-          cp "$IPA_NAME" PDFToWord-unsigned.ipa
+          cp "$IPA_NAME" EnglishNova-unsigned.ipa
 
           mkdir -p "$CM_BUILD_DIR/artifacts"
           cp "$IPA_NAME" "$CM_BUILD_DIR/artifacts/"
-          cp PDFToWord-unsigned.ipa "$CM_BUILD_DIR/artifacts/"
+          cp EnglishNova-unsigned.ipa "$CM_BUILD_DIR/artifacts/"
 
           echo "✅ IPA files ready:"
           ls -lh "$CM_BUILD_DIR/artifacts"/*.ipa
@@ -138,7 +183,7 @@ workflows:
 
     artifacts:
       - artifacts/*.ipa
-      - build/PDFToWord.xcarchive
+      - EnglishNova/build/EnglishNova.xcarchive
 
     publishing:
       email:

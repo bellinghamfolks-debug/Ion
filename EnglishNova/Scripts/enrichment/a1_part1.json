@@ -1,0 +1,1444 @@
+{
+  "lessons": {
+    "a1-u1-l1": {
+      "extraVocabulary": [
+        {
+          "english": "early",
+          "arabic": "مبكرًا",
+          "example": "I wake up early on Monday.",
+          "exampleArabic": "أستيقظ مبكرًا يوم الإثنين.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈɜːli/"
+        },
+        {
+          "english": "alarm clock",
+          "arabic": "منبّه",
+          "example": "My alarm clock rings at six.",
+          "exampleArabic": "يرنّ منبّهي الساعة السادسة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/əˈlɑːm klɒk/"
+        },
+        {
+          "english": "morning",
+          "arabic": "صباح",
+          "example": "I drink water in the morning.",
+          "exampleArabic": "أشرب الماء في الصباح.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈmɔːnɪŋ/"
+        }
+      ],
+      "extraExamples": {
+        "a1-001-usually-1": [
+          {
+            "example": "She usually walks to work.",
+            "exampleArabic": "هي تمشي عادةً إلى العمل."
+          }
+        ],
+        "a1-001-wake-up-2": [
+          {
+            "example": "We wake up at the same time.",
+            "exampleArabic": "نستيقظ في الوقت نفسه."
+          }
+        ],
+        "a1-001-seven-3": [
+          {
+            "example": "The class starts at seven.",
+            "exampleArabic": "يبدأ الدرس الساعة السابعة."
+          }
+        ]
+      }
+    },
+    "a1-u1-l2": {
+      "extraVocabulary": [
+        {
+          "english": "brush my teeth",
+          "arabic": "أنظّف أسناني",
+          "example": "I brush my teeth every morning.",
+          "exampleArabic": "أنظّف أسناني كل صباح.",
+          "partOfSpeech": "verb",
+          "phonetic": "/brʌʃ maɪ tiːθ/"
+        },
+        {
+          "english": "then",
+          "arabic": "ثم",
+          "example": "I wash my face, then I get dressed.",
+          "exampleArabic": "أغسل وجهي، ثم أرتدي ملابسي.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ðen/"
+        },
+        {
+          "english": "comb",
+          "arabic": "يمشّط",
+          "example": "He combs his hair before school.",
+          "exampleArabic": "يمشّط شعره قبل المدرسة.",
+          "partOfSpeech": "verb",
+          "phonetic": "/kəʊm/"
+        }
+      ],
+      "extraExamples": {
+        "a1-002-first-1": [
+          {
+            "example": "First, I make my bed.",
+            "exampleArabic": "أولًا، أرتّب سريري."
+          }
+        ],
+        "a1-002-wash-2": [
+          {
+            "example": "I wash my hands before lunch.",
+            "exampleArabic": "أغسل يديّ قبل الغداء."
+          }
+        ],
+        "a1-002-get-dressed-3": [
+          {
+            "example": "The children get dressed quickly.",
+            "exampleArabic": "يرتدي الأطفال ملابسهم بسرعة."
+          }
+        ]
+      }
+    },
+    "a1-u1-l3": {
+      "extraVocabulary": [
+        {
+          "english": "bread",
+          "arabic": "خبز",
+          "example": "I eat bread with cheese.",
+          "exampleArabic": "آكل الخبز مع الجبن.",
+          "partOfSpeech": "noun",
+          "phonetic": "/bred/"
+        },
+        {
+          "english": "milk",
+          "arabic": "حليب",
+          "example": "She drinks milk in the morning.",
+          "exampleArabic": "تشرب الحليب في الصباح.",
+          "partOfSpeech": "noun",
+          "phonetic": "/mɪlk/"
+        },
+        {
+          "english": "hungry",
+          "arabic": "جائع",
+          "example": "I am hungry before breakfast.",
+          "exampleArabic": "أنا جائع قبل الإفطار.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈhʌŋɡri/"
+        }
+      ],
+      "extraExamples": {
+        "a1-003-breakfast-1": [
+          {
+            "example": "We have breakfast together on Friday.",
+            "exampleArabic": "نتناول الإفطار معًا يوم الجمعة."
+          }
+        ],
+        "a1-003-eggs-2": [
+          {
+            "example": "The eggs are on the table.",
+            "exampleArabic": "البيض على الطاولة."
+          }
+        ],
+        "a1-003-have-3": [
+          {
+            "example": "They have rice for dinner.",
+            "exampleArabic": "يتناولون الأرز في العشاء."
+          }
+        ]
+      }
+    },
+    "a1-u1-l4": {
+      "extraVocabulary": [
+        {
+          "english": "by car",
+          "arabic": "بالسيارة",
+          "example": "She goes to work by car.",
+          "exampleArabic": "تذهب إلى العمل بالسيارة.",
+          "partOfSpeech": "preposition",
+          "phonetic": "/baɪ kɑː/"
+        },
+        {
+          "english": "walk",
+          "arabic": "يمشي",
+          "example": "I walk to the office every day.",
+          "exampleArabic": "أمشي إلى المكتب كل يوم.",
+          "partOfSpeech": "verb",
+          "phonetic": "/wɔːk/"
+        },
+        {
+          "english": "early",
+          "arabic": "مبكرًا",
+          "example": "He arrives at work early.",
+          "exampleArabic": "يصل إلى العمل مبكرًا.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈɜːli/"
+        }
+      ],
+      "extraExamples": {
+        "a1-004-by-bus-1": [
+          {
+            "example": "We go to school by bus.",
+            "exampleArabic": "نذهب إلى المدرسة بالحافلة."
+          }
+        ],
+        "a1-004-work-2": [
+          {
+            "example": "I like my work.",
+            "exampleArabic": "أحب عملي."
+          }
+        ],
+        "a1-004-leave-3": [
+          {
+            "example": "I leave home at eight.",
+            "exampleArabic": "أغادر المنزل الساعة الثامنة."
+          }
+        ]
+      }
+    },
+    "a1-u1-l5": {
+      "extraVocabulary": [
+        {
+          "english": "rice",
+          "arabic": "أرز",
+          "example": "I eat rice for lunch.",
+          "exampleArabic": "آكل الأرز في الغداء.",
+          "partOfSpeech": "noun",
+          "phonetic": "/raɪs/"
+        },
+        {
+          "english": "together",
+          "arabic": "معًا",
+          "example": "We eat lunch together.",
+          "exampleArabic": "نتناول الغداء معًا.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/təˈɡeðə/"
+        },
+        {
+          "english": "noon",
+          "arabic": "الظهر",
+          "example": "We have lunch at noon.",
+          "exampleArabic": "نتناول الغداء عند الظهر.",
+          "partOfSpeech": "noun",
+          "phonetic": "/nuːn/"
+        }
+      ],
+      "extraExamples": {
+        "a1-005-lunch-1": [
+          {
+            "example": "Lunch is ready now.",
+            "exampleArabic": "الغداء جاهز الآن."
+          }
+        ],
+        "a1-005-at-2": [
+          {
+            "example": "The shop opens at nine.",
+            "exampleArabic": "يفتح المتجر الساعة التاسعة."
+          }
+        ],
+        "a1-005-one-3": [
+          {
+            "example": "I have one brother.",
+            "exampleArabic": "لديّ أخ واحد."
+          }
+        ]
+      }
+    },
+    "a1-u1-l6": {
+      "extraVocabulary": [
+        {
+          "english": "watch TV",
+          "arabic": "يشاهد التلفاز",
+          "example": "I watch TV in the evening.",
+          "exampleArabic": "أشاهد التلفاز في المساء.",
+          "partOfSpeech": "verb",
+          "phonetic": "/wɒtʃ ˌtiːˈviː/"
+        },
+        {
+          "english": "tired",
+          "arabic": "متعب",
+          "example": "I am tired after work.",
+          "exampleArabic": "أنا متعب بعد العمل.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈtaɪəd/"
+        },
+        {
+          "english": "sleep",
+          "arabic": "ينام",
+          "example": "I sleep at ten o'clock.",
+          "exampleArabic": "أنام الساعة العاشرة.",
+          "partOfSpeech": "verb",
+          "phonetic": "/sliːp/"
+        }
+      ],
+      "extraExamples": {
+        "a1-006-evening-1": [
+          {
+            "example": "Good evening, everyone.",
+            "exampleArabic": "مساء الخير للجميع."
+          }
+        ],
+        "a1-006-relax-2": [
+          {
+            "example": "We relax on the sofa.",
+            "exampleArabic": "نسترخي على الأريكة."
+          }
+        ],
+        "a1-006-read-3": [
+          {
+            "example": "I read a book at night.",
+            "exampleArabic": "أقرأ كتابًا في الليل."
+          }
+        ]
+      }
+    },
+    "a1-u2-l1": {
+      "extraVocabulary": [
+        {
+          "english": "I",
+          "arabic": "أنا",
+          "example": "I live in a small city.",
+          "exampleArabic": "أنا أعيش في مدينة صغيرة.",
+          "partOfSpeech": "pronoun",
+          "phonetic": "/aɪ/"
+        },
+        {
+          "english": "live",
+          "arabic": "يعيش",
+          "example": "We live near the school.",
+          "exampleArabic": "نعيش بالقرب من المدرسة.",
+          "partOfSpeech": "verb",
+          "phonetic": "/lɪv/"
+        },
+        {
+          "english": "often",
+          "arabic": "غالبًا",
+          "example": "We often play football.",
+          "exampleArabic": "نلعب كرة القدم غالبًا.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈɒfn/"
+        }
+      ],
+      "extraExamples": {
+        "a1-007-every-day-1": [
+          {
+            "example": "I drink water every day.",
+            "exampleArabic": "أشرب الماء كل يوم."
+          }
+        ],
+        "a1-007-study-2": [
+          {
+            "example": "We study at the library.",
+            "exampleArabic": "ندرس في المكتبة."
+          }
+        ],
+        "a1-007-we-3": [
+          {
+            "example": "We are good friends.",
+            "exampleArabic": "نحن أصدقاء جيدون."
+          }
+        ]
+      }
+    },
+    "a1-u2-l2": {
+      "extraVocabulary": [
+        {
+          "english": "she",
+          "arabic": "هي",
+          "example": "She lives in a big house.",
+          "exampleArabic": "هي تعيش في منزل كبير.",
+          "partOfSpeech": "pronoun",
+          "phonetic": "/ʃiː/"
+        },
+        {
+          "english": "teacher",
+          "arabic": "معلّم",
+          "example": "He is a teacher at our school.",
+          "exampleArabic": "هو معلّم في مدرستنا.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈtiːtʃə/"
+        },
+        {
+          "english": "office",
+          "arabic": "مكتب",
+          "example": "She works in a small office.",
+          "exampleArabic": "هي تعمل في مكتب صغير.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈɒfɪs/"
+        }
+      ],
+      "extraExamples": {
+        "a1-008-works-1": [
+          {
+            "example": "My father works at home.",
+            "exampleArabic": "أبي يعمل في المنزل."
+          }
+        ],
+        "a1-008-bank-2": [
+          {
+            "example": "The bank is near the store.",
+            "exampleArabic": "البنك بالقرب من المتجر."
+          }
+        ],
+        "a1-008-in-3": [
+          {
+            "example": "The keys are in my bag.",
+            "exampleArabic": "المفاتيح في حقيبتي."
+          }
+        ]
+      }
+    },
+    "a1-u2-l3": {
+      "extraVocabulary": [
+        {
+          "english": "tea",
+          "arabic": "شاي",
+          "example": "I do not drink tea in the morning.",
+          "exampleArabic": "أنا لا أشرب الشاي في الصباح.",
+          "partOfSpeech": "noun",
+          "phonetic": "/tiː/"
+        },
+        {
+          "english": "like",
+          "arabic": "يحب",
+          "example": "I do not like cold weather.",
+          "exampleArabic": "أنا لا أحب الطقس البارد.",
+          "partOfSpeech": "verb",
+          "phonetic": "/laɪk/"
+        },
+        {
+          "english": "eat",
+          "arabic": "يأكل",
+          "example": "We do not eat late at night.",
+          "exampleArabic": "نحن لا نأكل في وقت متأخر من الليل.",
+          "partOfSpeech": "verb",
+          "phonetic": "/iːt/"
+        }
+      ],
+      "extraExamples": {
+        "a1-009-do-not-1": [
+          {
+            "example": "We do not work on Friday.",
+            "exampleArabic": "نحن لا نعمل يوم الجمعة."
+          }
+        ],
+        "a1-009-night-2": [
+          {
+            "example": "The city is quiet at night.",
+            "exampleArabic": "المدينة هادئة في الليل."
+          }
+        ],
+        "a1-009-drink-3": [
+          {
+            "example": "I drink water after lunch.",
+            "exampleArabic": "أشرب الماء بعد الغداء."
+          }
+        ]
+      }
+    },
+    "a1-u2-l4": {
+      "extraVocabulary": [
+        {
+          "english": "you",
+          "arabic": "أنت",
+          "example": "Do you live here?",
+          "exampleArabic": "هل تعيش هنا؟",
+          "partOfSpeech": "pronoun",
+          "phonetic": "/juː/"
+        },
+        {
+          "english": "understand",
+          "arabic": "يفهم",
+          "example": "Do you understand the question?",
+          "exampleArabic": "هل تفهم السؤال؟",
+          "partOfSpeech": "verb",
+          "phonetic": "/ˌʌndəˈstænd/"
+        },
+        {
+          "english": "language",
+          "arabic": "لغة",
+          "example": "Do you speak another language?",
+          "exampleArabic": "هل تتحدث لغة أخرى؟",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈlæŋɡwɪdʒ/"
+        }
+      ],
+      "extraExamples": {
+        "a1-010-do-1": [
+          {
+            "example": "Do you like tea?",
+            "exampleArabic": "هل تحب الشاي؟"
+          }
+        ],
+        "a1-010-speak-2": [
+          {
+            "example": "We speak slowly in class.",
+            "exampleArabic": "نتحدث ببطء في الصف."
+          }
+        ],
+        "a1-010-english-3": [
+          {
+            "example": "I study English every week.",
+            "exampleArabic": "أدرس الإنجليزية كل أسبوع."
+          }
+        ]
+      }
+    },
+    "a1-u2-l5": {
+      "extraVocabulary": [
+        {
+          "english": "he",
+          "arabic": "هو",
+          "example": "Does he live in this city?",
+          "exampleArabic": "هل يعيش في هذه المدينة؟",
+          "partOfSpeech": "pronoun",
+          "phonetic": "/hiː/"
+        },
+        {
+          "english": "start",
+          "arabic": "يبدأ",
+          "example": "Does the class start at nine?",
+          "exampleArabic": "هل يبدأ الدرس الساعة التاسعة؟",
+          "partOfSpeech": "verb",
+          "phonetic": "/stɑːt/"
+        },
+        {
+          "english": "name",
+          "arabic": "اسم",
+          "example": "What is her name?",
+          "exampleArabic": "ما اسمها؟",
+          "partOfSpeech": "noun",
+          "phonetic": "/neɪm/"
+        }
+      ],
+      "extraExamples": {
+        "a1-011-does-1": [
+          {
+            "example": "Does he speak English?",
+            "exampleArabic": "هل يتحدث الإنجليزية؟"
+          }
+        ],
+        "a1-011-here-2": [
+          {
+            "example": "Please sit here.",
+            "exampleArabic": "من فضلك اجلس هنا."
+          }
+        ],
+        "a1-011-work-3": [
+          {
+            "example": "She likes to work in the morning.",
+            "exampleArabic": "هي تحب العمل في الصباح."
+          }
+        ]
+      }
+    },
+    "a1-u2-l6": {
+      "extraVocabulary": [
+        {
+          "english": "often",
+          "arabic": "غالبًا",
+          "example": "I often read before bed.",
+          "exampleArabic": "غالبًا ما أقرأ قبل النوم.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈɒfn/"
+        },
+        {
+          "english": "usually",
+          "arabic": "عادةً",
+          "example": "She usually has tea at noon.",
+          "exampleArabic": "تشرب الشاي عادةً عند الظهر.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈjuːʒuəli/"
+        },
+        {
+          "english": "rarely",
+          "arabic": "نادرًا",
+          "example": "We rarely eat fast food.",
+          "exampleArabic": "نادرًا ما نأكل الوجبات السريعة.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈreəli/"
+        }
+      ],
+      "extraExamples": {
+        "a1-012-always-1": [
+          {
+            "example": "She always says good morning.",
+            "exampleArabic": "هي دائمًا تقول صباح الخير."
+          }
+        ],
+        "a1-012-sometimes-2": [
+          {
+            "example": "I sometimes drink coffee at night.",
+            "exampleArabic": "أشرب القهوة أحيانًا في الليل."
+          }
+        ],
+        "a1-012-never-3": [
+          {
+            "example": "He never eats before work.",
+            "exampleArabic": "هو لا يأكل أبدًا قبل العمل."
+          }
+        ]
+      }
+    },
+    "a1-u3-l1": {
+      "extraVocabulary": [
+        {
+          "english": "tired",
+          "arabic": "متعب",
+          "example": "I was tired yesterday.",
+          "exampleArabic": "كنت متعبًا أمس.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈtaɪəd/"
+        },
+        {
+          "english": "happy",
+          "arabic": "سعيد",
+          "example": "She was happy at the party.",
+          "exampleArabic": "كانت سعيدة في الحفلة.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈhæpi/"
+        },
+        {
+          "english": "morning",
+          "arabic": "صباح",
+          "example": "I was at home yesterday morning.",
+          "exampleArabic": "كنت في المنزل صباح أمس.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈmɔːnɪŋ/"
+        }
+      ],
+      "extraExamples": {
+        "a1-013-yesterday-1": [
+          {
+            "example": "We met yesterday.",
+            "exampleArabic": "التقينا أمس."
+          }
+        ],
+        "a1-013-was-2": [
+          {
+            "example": "He was at school yesterday.",
+            "exampleArabic": "كان في المدرسة أمس."
+          }
+        ],
+        "a1-013-busy-3": [
+          {
+            "example": "The store was busy today.",
+            "exampleArabic": "كان المتجر مزدحمًا اليوم."
+          }
+        ]
+      }
+    },
+    "a1-u3-l2": {
+      "extraVocabulary": [
+        {
+          "english": "they",
+          "arabic": "هم",
+          "example": "They were happy at home.",
+          "exampleArabic": "كانوا سعداء في المنزل.",
+          "partOfSpeech": "pronoun",
+          "phonetic": "/ðeɪ/"
+        },
+        {
+          "english": "yesterday",
+          "arabic": "أمس",
+          "example": "We were busy yesterday.",
+          "exampleArabic": "كنا مشغولين أمس.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈjestədeɪ/"
+        },
+        {
+          "english": "together",
+          "arabic": "معًا",
+          "example": "We were together last night.",
+          "exampleArabic": "كنا معًا الليلة الماضية.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/təˈɡeðə/"
+        }
+      ],
+      "extraExamples": {
+        "a1-014-were-1": [
+          {
+            "example": "We were at school in the morning.",
+            "exampleArabic": "كنا في المدرسة في الصباح."
+          }
+        ],
+        "a1-014-last-night-2": [
+          {
+            "example": "I read a book last night.",
+            "exampleArabic": "قرأت كتابًا الليلة الماضية."
+          }
+        ],
+        "a1-014-home-3": [
+          {
+            "example": "She is at home now.",
+            "exampleArabic": "هي في المنزل الآن."
+          }
+        ]
+      }
+    },
+    "a1-u3-l3": {
+      "extraVocabulary": [
+        {
+          "english": "bought",
+          "arabic": "اشترى",
+          "example": "I bought milk at the store.",
+          "exampleArabic": "اشتريت الحليب من المتجر.",
+          "partOfSpeech": "verb",
+          "phonetic": "/bɔːt/"
+        },
+        {
+          "english": "market",
+          "arabic": "سوق",
+          "example": "We went to the market on Saturday.",
+          "exampleArabic": "ذهبنا إلى السوق يوم السبت.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈmɑːkɪt/"
+        },
+        {
+          "english": "yesterday",
+          "arabic": "أمس",
+          "example": "I went to the store yesterday.",
+          "exampleArabic": "ذهبت إلى المتجر أمس.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈjestədeɪ/"
+        }
+      ],
+      "extraExamples": {
+        "a1-015-went-1": [
+          {
+            "example": "She went to work by car.",
+            "exampleArabic": "ذهبت إلى العمل بالسيارة."
+          }
+        ],
+        "a1-015-store-2": [
+          {
+            "example": "The store is open now.",
+            "exampleArabic": "المتجر مفتوح الآن."
+          }
+        ],
+        "a1-015-after-3": [
+          {
+            "example": "We rest after lunch.",
+            "exampleArabic": "نرتاح بعد الغداء."
+          }
+        ]
+      }
+    },
+    "a1-u3-l4": {
+      "extraVocabulary": [
+        {
+          "english": "played",
+          "arabic": "لعب",
+          "example": "We played football on Saturday.",
+          "exampleArabic": "لعبنا كرة القدم يوم السبت.",
+          "partOfSpeech": "verb",
+          "phonetic": "/pleɪd/"
+        },
+        {
+          "english": "last week",
+          "arabic": "الأسبوع الماضي",
+          "example": "I watched a movie last week.",
+          "exampleArabic": "شاهدت فيلمًا الأسبوع الماضي.",
+          "partOfSpeech": "noun",
+          "phonetic": "/lɑːst wiːk/"
+        },
+        {
+          "english": "cooked",
+          "arabic": "طبخ",
+          "example": "She cooked rice for dinner.",
+          "exampleArabic": "طبخت الأرز للعشاء.",
+          "partOfSpeech": "verb",
+          "phonetic": "/kʊkt/"
+        }
+      ],
+      "extraExamples": {
+        "a1-016-watched-1": [
+          {
+            "example": "I watched a game with my friend.",
+            "exampleArabic": "شاهدت مباراة مع صديقي."
+          }
+        ],
+        "a1-016-movie-2": [
+          {
+            "example": "The movie was very good.",
+            "exampleArabic": "كان الفيلم جيدًا جدًا."
+          }
+        ],
+        "a1-016-friday-3": [
+          {
+            "example": "We do not work on Friday.",
+            "exampleArabic": "نحن لا نعمل يوم الجمعة."
+          }
+        ]
+      }
+    },
+    "a1-u3-l5": {
+      "extraVocabulary": [
+        {
+          "english": "sleep",
+          "arabic": "ينام",
+          "example": "I did not sleep well last night.",
+          "exampleArabic": "لم أنم جيدًا الليلة الماضية.",
+          "partOfSpeech": "verb",
+          "phonetic": "/sliːp/"
+        },
+        {
+          "english": "eat",
+          "arabic": "يأكل",
+          "example": "She did not eat breakfast today.",
+          "exampleArabic": "لم تتناول الإفطار اليوم.",
+          "partOfSpeech": "verb",
+          "phonetic": "/iːt/"
+        },
+        {
+          "english": "study",
+          "arabic": "يدرس",
+          "example": "We did not study last night.",
+          "exampleArabic": "لم ندرس الليلة الماضية.",
+          "partOfSpeech": "verb",
+          "phonetic": "/ˈstʌdi/"
+        }
+      ],
+      "extraExamples": {
+        "a1-017-did-not-1": [
+          {
+            "example": "He did not call me.",
+            "exampleArabic": "هو لم يتصل بي."
+          }
+        ],
+        "a1-017-go-out-2": [
+          {
+            "example": "We go out on the weekend.",
+            "exampleArabic": "نخرج في عطلة نهاية الأسبوع."
+          }
+        ],
+        "a1-017-yesterday-3": [
+          {
+            "example": "It was cold yesterday.",
+            "exampleArabic": "كان الجو باردًا أمس."
+          }
+        ]
+      }
+    },
+    "a1-u3-l6": {
+      "extraVocabulary": [
+        {
+          "english": "eat",
+          "arabic": "يأكل",
+          "example": "Did you eat lunch?",
+          "exampleArabic": "هل تناولت الغداء؟",
+          "partOfSpeech": "verb",
+          "phonetic": "/iːt/"
+        },
+        {
+          "english": "see",
+          "arabic": "يرى",
+          "example": "Did you see the movie?",
+          "exampleArabic": "هل شاهدت الفيلم؟",
+          "partOfSpeech": "verb",
+          "phonetic": "/siː/"
+        },
+        {
+          "english": "yesterday",
+          "arabic": "أمس",
+          "example": "Did you study yesterday?",
+          "exampleArabic": "هل درست أمس؟",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈjestədeɪ/"
+        }
+      ],
+      "extraExamples": {
+        "a1-018-did-1": [
+          {
+            "example": "Did you sleep well?",
+            "exampleArabic": "هل نمت جيدًا؟"
+          }
+        ],
+        "a1-018-call-2": [
+          {
+            "example": "I will call you tonight.",
+            "exampleArabic": "سأتصل بك الليلة."
+          }
+        ],
+        "a1-018-friend-3": [
+          {
+            "example": "My friend lives near me.",
+            "exampleArabic": "صديقي يعيش بالقرب مني."
+          }
+        ]
+      }
+    },
+    "a1-u4-l1": {
+      "extraVocabulary": [
+        {
+          "english": "call",
+          "arabic": "يتصل",
+          "example": "I will call you later.",
+          "exampleArabic": "سأتصل بك لاحقًا.",
+          "partOfSpeech": "verb",
+          "phonetic": "/kɔːl/"
+        },
+        {
+          "english": "open",
+          "arabic": "يفتح",
+          "example": "I will open the door for you.",
+          "exampleArabic": "سأفتح لك الباب.",
+          "partOfSpeech": "verb",
+          "phonetic": "/ˈəʊpən/"
+        },
+        {
+          "english": "soon",
+          "arabic": "قريبًا",
+          "example": "We will leave soon.",
+          "exampleArabic": "سنغادر قريبًا.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/suːn/"
+        }
+      ],
+      "extraExamples": {
+        "a1-019-will-1": [
+          {
+            "example": "I will see you tomorrow.",
+            "exampleArabic": "سأراك غدًا."
+          }
+        ],
+        "a1-019-help-2": [
+          {
+            "example": "Can you help me, please?",
+            "exampleArabic": "هل يمكنك مساعدتي، من فضلك؟"
+          }
+        ],
+        "a1-019-bags-3": [
+          {
+            "example": "The bags are very heavy.",
+            "exampleArabic": "الحقائب ثقيلة جدًا."
+          }
+        ]
+      }
+    },
+    "a1-u4-l2": {
+      "extraVocabulary": [
+        {
+          "english": "travel",
+          "arabic": "يسافر",
+          "example": "I am going to travel next month.",
+          "exampleArabic": "سأسافر الشهر القادم.",
+          "partOfSpeech": "verb",
+          "phonetic": "/ˈtrævl/"
+        },
+        {
+          "english": "next week",
+          "arabic": "الأسبوع القادم",
+          "example": "We are going to move next week.",
+          "exampleArabic": "سننتقل الأسبوع القادم.",
+          "partOfSpeech": "noun",
+          "phonetic": "/nekst wiːk/"
+        },
+        {
+          "english": "buy",
+          "arabic": "يشتري",
+          "example": "She is going to buy a new phone.",
+          "exampleArabic": "ستشتري هاتفًا جديدًا.",
+          "partOfSpeech": "verb",
+          "phonetic": "/baɪ/"
+        }
+      ],
+      "extraExamples": {
+        "a1-020-going-to-1": [
+          {
+            "example": "I am going to study tonight.",
+            "exampleArabic": "سأدرس الليلة."
+          }
+        ],
+        "a1-020-visit-2": [
+          {
+            "example": "We visit our grandmother on Friday.",
+            "exampleArabic": "نزور جدتنا يوم الجمعة."
+          }
+        ],
+        "a1-020-family-3": [
+          {
+            "example": "My family is very big.",
+            "exampleArabic": "عائلتي كبيرة جدًا."
+          }
+        ]
+      }
+    },
+    "a1-u4-l3": {
+      "extraVocabulary": [
+        {
+          "english": "doctor",
+          "arabic": "طبيب",
+          "example": "I have a doctor's appointment tomorrow.",
+          "exampleArabic": "لديّ موعد مع الطبيب غدًا.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈdɒktə/"
+        },
+        {
+          "english": "time",
+          "arabic": "وقت",
+          "example": "What time is your appointment?",
+          "exampleArabic": "في أي وقت موعدك؟",
+          "partOfSpeech": "noun",
+          "phonetic": "/taɪm/"
+        },
+        {
+          "english": "morning",
+          "arabic": "صباح",
+          "example": "My appointment is in the morning.",
+          "exampleArabic": "موعدي في الصباح.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈmɔːnɪŋ/"
+        }
+      ],
+      "extraExamples": {
+        "a1-021-appointment-1": [
+          {
+            "example": "I have an appointment at noon.",
+            "exampleArabic": "لديّ موعد عند الظهر."
+          }
+        ],
+        "a1-021-tomorrow-2": [
+          {
+            "example": "See you tomorrow.",
+            "exampleArabic": "أراك غدًا."
+          }
+        ],
+        "a1-021-ten-3": [
+          {
+            "example": "The store opens at ten.",
+            "exampleArabic": "يفتح المتجر الساعة العاشرة."
+          }
+        ]
+      }
+    },
+    "a1-u4-l4": {
+      "extraVocabulary": [
+        {
+          "english": "Monday",
+          "arabic": "الإثنين",
+          "example": "On Monday, I go to the gym.",
+          "exampleArabic": "يوم الإثنين أذهب إلى النادي.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈmʌndeɪ/"
+        },
+        {
+          "english": "weekend",
+          "arabic": "عطلة نهاية الأسبوع",
+          "example": "I rest on the weekend.",
+          "exampleArabic": "أرتاح في عطلة نهاية الأسبوع.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˌwiːkˈend/"
+        },
+        {
+          "english": "busy",
+          "arabic": "مشغول",
+          "example": "I am busy this week.",
+          "exampleArabic": "أنا مشغول هذا الأسبوع.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈbɪzi/"
+        }
+      ],
+      "extraExamples": {
+        "a1-022-tuesday-1": [
+          {
+            "example": "We have a class on Tuesday.",
+            "exampleArabic": "لدينا درس يوم الثلاثاء."
+          }
+        ],
+        "a1-022-plan-2": [
+          {
+            "example": "I have a good plan for today.",
+            "exampleArabic": "لديّ خطة جيدة لليوم."
+          }
+        ],
+        "a1-022-study-3": [
+          {
+            "example": "I study English on Sunday.",
+            "exampleArabic": "أدرس الإنجليزية يوم الأحد."
+          }
+        ]
+      }
+    },
+    "a1-u4-l5": {
+      "extraVocabulary": [
+        {
+          "english": "perhaps",
+          "arabic": "ربما",
+          "example": "Perhaps we will go out tonight.",
+          "exampleArabic": "ربما سنخرج الليلة.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/pəˈhæps/"
+        },
+        {
+          "english": "tonight",
+          "arabic": "الليلة",
+          "example": "Maybe I will study tonight.",
+          "exampleArabic": "ربما سأدرس الليلة.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/təˈnaɪt/"
+        },
+        {
+          "english": "soon",
+          "arabic": "قريبًا",
+          "example": "Maybe she will come soon.",
+          "exampleArabic": "ربما ستأتي قريبًا.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/suːn/"
+        }
+      ],
+      "extraExamples": {
+        "a1-023-maybe-1": [
+          {
+            "example": "Maybe it will rain today.",
+            "exampleArabic": "ربما ستمطر اليوم."
+          }
+        ],
+        "a1-023-later-2": [
+          {
+            "example": "I will eat later.",
+            "exampleArabic": "سآكل لاحقًا."
+          }
+        ],
+        "a1-023-call-3": [
+          {
+            "example": "Please call me tomorrow.",
+            "exampleArabic": "من فضلك اتصل بي غدًا."
+          }
+        ]
+      }
+    },
+    "a1-u4-l6": {
+      "extraVocabulary": [
+        {
+          "english": "join",
+          "arabic": "ينضم",
+          "example": "Would you like to join us?",
+          "exampleArabic": "هل ترغب في الانضمام إلينا؟",
+          "partOfSpeech": "verb",
+          "phonetic": "/dʒɔɪn/"
+        },
+        {
+          "english": "dinner",
+          "arabic": "عشاء",
+          "example": "Would you like to have dinner tonight?",
+          "exampleArabic": "هل ترغب في تناول العشاء الليلة؟",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈdɪnə/"
+        },
+        {
+          "english": "together",
+          "arabic": "معًا",
+          "example": "Let's have lunch together.",
+          "exampleArabic": "لنتناول الغداء معًا.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/təˈɡeðə/"
+        }
+      ],
+      "extraExamples": {
+        "a1-024-would-you-like-1": [
+          {
+            "example": "Would you like some tea?",
+            "exampleArabic": "هل ترغب في بعض الشاي؟"
+          }
+        ],
+        "a1-024-coffee-2": [
+          {
+            "example": "I drink coffee in the morning.",
+            "exampleArabic": "أشرب القهوة في الصباح."
+          }
+        ],
+        "a1-024-tomorrow-3": [
+          {
+            "example": "We will meet tomorrow.",
+            "exampleArabic": "سنلتقي غدًا."
+          }
+        ]
+      }
+    },
+    "a1-u5-l1": {
+      "extraVocabulary": [
+        {
+          "english": "expensive",
+          "arabic": "غالي",
+          "example": "This shirt is very expensive.",
+          "exampleArabic": "هذا القميص غالٍ جدًا.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ɪkˈspensɪv/"
+        },
+        {
+          "english": "cheap",
+          "arabic": "رخيص",
+          "example": "These shoes are very cheap.",
+          "exampleArabic": "هذا الحذاء رخيص جدًا.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/tʃiːp/"
+        },
+        {
+          "english": "buy",
+          "arabic": "يشتري",
+          "example": "I want to buy this shirt.",
+          "exampleArabic": "أريد شراء هذا القميص.",
+          "partOfSpeech": "verb",
+          "phonetic": "/baɪ/"
+        }
+      ],
+      "extraExamples": {
+        "a1-025-how-much-1": [
+          {
+            "example": "How much are these shoes?",
+            "exampleArabic": "كم سعر هذا الحذاء؟"
+          }
+        ],
+        "a1-025-price-2": [
+          {
+            "example": "The price is too high.",
+            "exampleArabic": "السعر مرتفع جدًا."
+          }
+        ],
+        "a1-025-shirt-3": [
+          {
+            "example": "I like this blue shirt.",
+            "exampleArabic": "يعجبني هذا القميص الأزرق."
+          }
+        ]
+      }
+    },
+    "a1-u5-l2": {
+      "extraVocabulary": [
+        {
+          "english": "smaller",
+          "arabic": "أصغر",
+          "example": "Do you have a smaller size?",
+          "exampleArabic": "هل لديكم مقاس أصغر؟",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈsmɔːlə/"
+        },
+        {
+          "english": "try on",
+          "arabic": "يقيس (الملابس)",
+          "example": "Can I try on this jacket?",
+          "exampleArabic": "هل يمكنني قياس هذه السترة؟",
+          "partOfSpeech": "verb",
+          "phonetic": "/traɪ ɒn/"
+        },
+        {
+          "english": "fit",
+          "arabic": "يناسب المقاس",
+          "example": "These shoes do not fit me.",
+          "exampleArabic": "هذا الحذاء لا يناسب مقاسي.",
+          "partOfSpeech": "verb",
+          "phonetic": "/fɪt/"
+        }
+      ],
+      "extraExamples": {
+        "a1-026-size-1": [
+          {
+            "example": "What size do you wear?",
+            "exampleArabic": "ما المقاس الذي ترتديه؟"
+          }
+        ],
+        "a1-026-larger-2": [
+          {
+            "example": "I need a larger bag.",
+            "exampleArabic": "أحتاج إلى حقيبة أكبر."
+          }
+        ],
+        "a1-026-have-3": [
+          {
+            "example": "Do you have this in blue?",
+            "exampleArabic": "هل لديكم هذا باللون الأزرق؟"
+          }
+        ]
+      }
+    },
+    "a1-u5-l3": {
+      "extraVocabulary": [
+        {
+          "english": "white",
+          "arabic": "أبيض",
+          "example": "I want a white shirt.",
+          "exampleArabic": "أريد قميصًا أبيض.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/waɪt/"
+        },
+        {
+          "english": "color",
+          "arabic": "لون",
+          "example": "What color is the jacket?",
+          "exampleArabic": "ما لون السترة؟",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈkʌlə/"
+        },
+        {
+          "english": "red",
+          "arabic": "أحمر",
+          "example": "Is this dress available in red?",
+          "exampleArabic": "هل هذا الفستان متاح باللون الأحمر؟",
+          "partOfSpeech": "adjective",
+          "phonetic": "/red/"
+        }
+      ],
+      "extraExamples": {
+        "a1-027-available-1": [
+          {
+            "example": "The blue shirt is not available.",
+            "exampleArabic": "القميص الأزرق غير متاح."
+          }
+        ],
+        "a1-027-jacket-2": [
+          {
+            "example": "This jacket is very warm.",
+            "exampleArabic": "هذه السترة دافئة جدًا."
+          }
+        ],
+        "a1-027-black-3": [
+          {
+            "example": "I have black shoes.",
+            "exampleArabic": "لديّ حذاء أسود."
+          }
+        ]
+      }
+    },
+    "a1-u5-l4": {
+      "extraVocabulary": [
+        {
+          "english": "money",
+          "arabic": "مال",
+          "example": "I do not have money today.",
+          "exampleArabic": "ليس لديّ مال اليوم.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈmʌni/"
+        },
+        {
+          "english": "change",
+          "arabic": "باقي النقود",
+          "example": "Here is your change.",
+          "exampleArabic": "هذا باقي نقودك.",
+          "partOfSpeech": "noun",
+          "phonetic": "/tʃeɪndʒ/"
+        },
+        {
+          "english": "wallet",
+          "arabic": "محفظة",
+          "example": "My card is in my wallet.",
+          "exampleArabic": "بطاقتي في محفظتي.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈwɒlɪt/"
+        }
+      ],
+      "extraExamples": {
+        "a1-028-pay-1": [
+          {
+            "example": "I will pay now.",
+            "exampleArabic": "سأدفع الآن."
+          }
+        ],
+        "a1-028-card-2": [
+          {
+            "example": "My card is new.",
+            "exampleArabic": "بطاقتي جديدة."
+          }
+        ],
+        "a1-028-cash-3": [
+          {
+            "example": "I will pay in cash.",
+            "exampleArabic": "سأدفع نقدًا."
+          }
+        ]
+      }
+    },
+    "a1-u5-l5": {
+      "extraVocabulary": [
+        {
+          "english": "total",
+          "arabic": "المجموع",
+          "example": "The total is twenty dollars.",
+          "exampleArabic": "المجموع عشرون دولارًا.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈtəʊtl/"
+        },
+        {
+          "english": "please",
+          "arabic": "من فضلك",
+          "example": "Can I have the bill, please?",
+          "exampleArabic": "هل يمكنني الحصول على الفاتورة، من فضلك؟",
+          "partOfSpeech": "adverb",
+          "phonetic": "/pliːz/"
+        },
+        {
+          "english": "thank you",
+          "arabic": "شكرًا لك",
+          "example": "Thank you for the receipt.",
+          "exampleArabic": "شكرًا لك على الإيصال.",
+          "partOfSpeech": "interjection",
+          "phonetic": "/ˈθæŋk juː/"
+        }
+      ],
+      "extraExamples": {
+        "a1-029-receipt-1": [
+          {
+            "example": "Please keep the receipt.",
+            "exampleArabic": "من فضلك احتفظ بالإيصال."
+          }
+        ],
+        "a1-029-bill-2": [
+          {
+            "example": "The bill is on the table.",
+            "exampleArabic": "الفاتورة على الطاولة."
+          }
+        ],
+        "a1-029-could-3": [
+          {
+            "example": "Could you help me, please?",
+            "exampleArabic": "هل يمكنك مساعدتي، من فضلك؟"
+          }
+        ]
+      }
+    },
+    "a1-u5-l6": {
+      "extraVocabulary": [
+        {
+          "english": "exchange",
+          "arabic": "يستبدل",
+          "example": "I want to exchange this shirt.",
+          "exampleArabic": "أريد استبدال هذا القميص.",
+          "partOfSpeech": "verb",
+          "phonetic": "/ɪksˈtʃeɪndʒ/"
+        },
+        {
+          "english": "broken",
+          "arabic": "مكسور",
+          "example": "This phone is broken.",
+          "exampleArabic": "هذا الهاتف مكسور.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈbrəʊkən/"
+        },
+        {
+          "english": "refund",
+          "arabic": "استرداد المال",
+          "example": "Can I get a refund?",
+          "exampleArabic": "هل يمكنني استرداد المال؟",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈriːfʌnd/"
+        }
+      ],
+      "extraExamples": {
+        "a1-030-return-1": [
+          {
+            "example": "I want to return these shoes.",
+            "exampleArabic": "أريد إعادة هذا الحذاء."
+          }
+        ],
+        "a1-030-item-2": [
+          {
+            "example": "This item is too small.",
+            "exampleArabic": "هذا المنتج صغير جدًا."
+          }
+        ],
+        "a1-030-wrong-3": [
+          {
+            "example": "This is the wrong size.",
+            "exampleArabic": "هذا هو المقاس الخطأ."
+          }
+        ]
+      }
+    }
+  }
+}

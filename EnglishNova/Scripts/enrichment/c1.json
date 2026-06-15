@@ -1,0 +1,404 @@
+{
+  "lessons": {
+    "c1-u1-l1": {
+      "extraVocabulary": [
+        {
+          "english": "redundancy",
+          "arabic": "الإطناب",
+          "example": "Eliminating redundancy from the draft made the argument far easier to follow.",
+          "exampleArabic": "أدى حذف الإطناب من المسودة إلى جعل الحجة أيسر متابعة بكثير.",
+          "partOfSpeech": "noun",
+          "phonetic": "/rɪˈdʌndənsi/"
+        },
+        {
+          "english": "to trim the fat",
+          "arabic": "التخلص من الزوائد",
+          "example": "A good editor knows how to trim the fat without diluting the author's voice.",
+          "exampleArabic": "يعرف المحرر البارع كيف يتخلص من الزوائد دون إضعاف صوت الكاتب.",
+          "partOfSpeech": "idiom",
+          "phonetic": "/tə trɪm ðə fæt/"
+        },
+        {
+          "english": "concise",
+          "arabic": "موجز",
+          "example": "Her revisions were remarkably concise yet preserved every essential nuance.",
+          "exampleArabic": "كانت تنقيحاتها موجزة على نحو لافت ومع ذلك حافظت على كل فارق دقيق جوهري.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/kənˈsaɪs/"
+        },
+        {
+          "english": "to convey meaning",
+          "arabic": "نقل المعنى",
+          "example": "The challenge in editing is to convey meaning with the fewest possible words.",
+          "exampleArabic": "يكمن التحدي في التحرير في نقل المعنى بأقل عدد ممكن من الكلمات.",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/tə kənˈveɪ ˈmiːnɪŋ/"
+        }
+      ],
+      "extraExamples": {
+        "c1-u1-l1-w1": [
+          {
+            "example": "The editor tightened the prose without losing precision, retaining every technical detail.",
+            "exampleArabic": "أحكم المحرر صياغة النص دون فقد الدقة، محتفظًا بكل تفصيل تقني."
+          }
+        ],
+        "c1-u1-l1-w3": [
+          {
+            "example": "Scientific writing demands a level of precision that everyday language rarely requires.",
+            "exampleArabic": "تتطلب الكتابة العلمية مستوى من الدقة نادرًا ما تحتاجه اللغة اليومية."
+          }
+        ]
+      }
+    },
+    "c1-extra-2": {
+      "extraVocabulary": [
+        {
+          "english": "thesis statement",
+          "arabic": "جملة الأطروحة",
+          "example": "A compelling thesis statement frames the entire argument that follows.",
+          "exampleArabic": "تؤطر جملة الأطروحة المقنعة كامل الحجة التي تليها.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": "/ˈθiːsɪs ˈsteɪtmənt/"
+        },
+        {
+          "english": "to substantiate",
+          "arabic": "يثبت بالأدلة",
+          "example": "Every claim in an academic paper must be substantiated with credible evidence.",
+          "exampleArabic": "يجب أن يثبت كل ادعاء في الورقة الأكاديمية بأدلة موثوقة.",
+          "partOfSpeech": "verb",
+          "phonetic": "/səbˈstænʃieɪt/"
+        },
+        {
+          "english": "coherent",
+          "arabic": "مترابط",
+          "example": "The essay presents a coherent argument in which each paragraph builds on the last.",
+          "exampleArabic": "تعرض المقالة حجة مترابطة تبني فيها كل فقرة على ما سبقها.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/kəʊˈhɪərənt/"
+        },
+        {
+          "english": "to draw on",
+          "arabic": "يستند إلى",
+          "example": "The author draws on a wide range of sources to support her central claim.",
+          "exampleArabic": "تستند الكاتبة إلى طائفة واسعة من المصادر لدعم ادعائها المحوري.",
+          "partOfSpeech": "phrasal verb",
+          "phonetic": "/tə drɔː ɒn/"
+        }
+      ],
+      "extraExamples": {
+        "c1-extra-2-w1": [
+          {
+            "example": "This essay argues that economic policy cannot be divorced from its social consequences.",
+            "exampleArabic": "تجادل هذه المقالة بأن السياسة الاقتصادية لا يمكن فصلها عن عواقبها الاجتماعية."
+          }
+        ],
+        "c1-extra-2-w3": [
+          {
+            "example": "Transparency should be regarded as a guiding principle in public administration.",
+            "exampleArabic": "ينبغي اعتبار الشفافية مبدأً موجِّهًا في الإدارة العامة."
+          }
+        ]
+      }
+    },
+    "c1-extra-3": {
+      "extraVocabulary": [
+        {
+          "english": "tentative",
+          "arabic": "مبدئي",
+          "example": "The researchers offered only tentative conclusions given the small sample size.",
+          "exampleArabic": "قدم الباحثون استنتاجات مبدئية فحسب نظرًا لصغر حجم العينة.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈtentətɪv/"
+        },
+        {
+          "english": "to be inclined to",
+          "arabic": "يميل إلى",
+          "example": "Most scholars are inclined to interpret the data with considerable caution.",
+          "exampleArabic": "يميل معظم الباحثين إلى تفسير البيانات بحذر كبير.",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/tə bi ɪnˈklaɪnd tuː/"
+        },
+        {
+          "english": "presumably",
+          "arabic": "على الأرجح",
+          "example": "The decline in numbers is presumably linked to the change in policy.",
+          "exampleArabic": "من المرجح أن يكون التراجع في الأعداد مرتبطًا بتغير السياسة.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/prɪˈzjuːməbli/"
+        },
+        {
+          "english": "to a certain extent",
+          "arabic": "إلى حد ما",
+          "example": "To a certain extent, the results corroborate the original hypothesis.",
+          "exampleArabic": "إلى حد ما، تؤيد النتائج الفرضية الأصلية.",
+          "partOfSpeech": "idiom",
+          "phonetic": "/tu ə ˈsɜːtn ɪkˈstent/"
+        }
+      ],
+      "extraExamples": {
+        "c1-extra-3-w1": [
+          {
+            "example": "The preliminary data may indicate that the treatment slows the disease's progression.",
+            "exampleArabic": "قد تشير البيانات الأولية إلى أن العلاج يبطئ تطور المرض."
+          }
+        ],
+        "c1-extra-3-w3": [
+          {
+            "example": "Any meaningful change in attitudes tends to unfold over several generations.",
+            "exampleArabic": "يميل أي تغير ذو معنى في المواقف إلى التكشف عبر عدة أجيال."
+          }
+        ]
+      }
+    },
+    "c1-extra-4": {
+      "extraVocabulary": [
+        {
+          "english": "underlying assumption",
+          "arabic": "الافتراض الكامن",
+          "example": "The argument collapses once its underlying assumption is shown to be false.",
+          "exampleArabic": "تنهار الحجة بمجرد أن يتبين أن افتراضها الكامن خاطئ.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": "/ˌʌndəˈlaɪɪŋ əˈsʌmpʃn/"
+        },
+        {
+          "english": "to scrutinise",
+          "arabic": "يمحص",
+          "example": "Critics scrutinised the methodology before accepting the study's findings.",
+          "exampleArabic": "محّص النقاد المنهجية قبل قبول نتائج الدراسة.",
+          "partOfSpeech": "verb",
+          "phonetic": "/ˈskruːtənaɪz/"
+        },
+        {
+          "english": "flawed reasoning",
+          "arabic": "استدلال معيب",
+          "example": "Despite its persuasive tone, the editorial rests on deeply flawed reasoning.",
+          "exampleArabic": "رغم نبرته المقنعة، يقوم المقال الافتتاحي على استدلال معيب بعمق.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": "/flɔːd ˈriːzənɪŋ/"
+        },
+        {
+          "english": "to hold up to scrutiny",
+          "arabic": "يصمد أمام التمحيص",
+          "example": "His sweeping generalisations simply do not hold up to scrutiny.",
+          "exampleArabic": "إن تعميماته الجارفة لا تصمد ببساطة أمام التمحيص.",
+          "partOfSpeech": "idiom",
+          "phonetic": "/tə həʊld ʌp tə ˈskruːtəni/"
+        }
+      ],
+      "extraExamples": {
+        "c1-extra-4-w1": [
+          {
+            "example": "While the theory is elegant, the supporting evidence remains limited and largely anecdotal.",
+            "exampleArabic": "مع أناقة النظرية، تظل الأدلة الداعمة محدودة وقائمة إلى حد كبير على روايات فردية."
+          }
+        ],
+        "c1-extra-4-w3": [
+          {
+            "example": "The study's scope was deliberately limited to a single demographic group.",
+            "exampleArabic": "كان نطاق الدراسة محدودًا عن قصد بمجموعة سكانية واحدة."
+          }
+        ]
+      }
+    },
+    "c1-extra-5": {
+      "extraVocabulary": [
+        {
+          "english": "to strike a balance",
+          "arabic": "يحقق التوازن",
+          "example": "Policymakers must strike a balance between economic growth and environmental protection.",
+          "exampleArabic": "يجب على صانعي السياسات أن يحققوا التوازن بين النمو الاقتصادي وحماية البيئة.",
+          "partOfSpeech": "idiom",
+          "phonetic": "/tə straɪk ə ˈbæləns/"
+        },
+        {
+          "english": "vested interest",
+          "arabic": "مصلحة خاصة",
+          "example": "The lobby group has a vested interest in delaying the new legislation.",
+          "exampleArabic": "لدى جماعة الضغط مصلحة خاصة في تأخير التشريع الجديد.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": "/ˌvestɪd ˈɪntrəst/"
+        },
+        {
+          "english": "to bear the brunt",
+          "arabic": "يتحمل وطأة",
+          "example": "Low-income households tend to bear the brunt of rising energy costs.",
+          "exampleArabic": "تميل الأسر منخفضة الدخل إلى تحمل وطأة ارتفاع تكاليف الطاقة.",
+          "partOfSpeech": "idiom",
+          "phonetic": "/tə beə ðə brʌnt/"
+        },
+        {
+          "english": "compelling case",
+          "arabic": "حجة دامغة",
+          "example": "The report makes a compelling case for reforming the tax system.",
+          "exampleArabic": "يقدم التقرير حجة دامغة لإصلاح النظام الضريبي.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": "/kəmˈpelɪŋ keɪs/"
+        }
+      ],
+      "extraExamples": {
+        "c1-extra-5-w1": [
+          {
+            "example": "A hasty withdrawal could have far-reaching consequences for regional stability.",
+            "exampleArabic": "قد يكون للانسحاب المتعجل عواقب بعيدة المدى على الاستقرار الإقليمي."
+          }
+        ],
+        "c1-extra-5-w3": [
+          {
+            "example": "Few anticipated the long-term consequences of deregulating the financial markets.",
+            "exampleArabic": "قلة توقعوا العواقب طويلة الأمد لرفع القيود التنظيمية عن الأسواق المالية."
+          }
+        ]
+      }
+    },
+    "c1-extra-6": {
+      "extraVocabulary": [
+        {
+          "english": "breach of contract",
+          "arabic": "الإخلال بالعقد",
+          "example": "The supplier was sued for breach of contract after missing the delivery deadline.",
+          "exampleArabic": "قوضي المورّد بتهمة الإخلال بالعقد بعد تجاوزه الموعد النهائي للتسليم.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": "/briːtʃ əv ˈkɒntrækt/"
+        },
+        {
+          "english": "indemnify",
+          "arabic": "يعوض",
+          "example": "The clause requires the contractor to indemnify the client against any third-party claims.",
+          "exampleArabic": "يلزم البند المقاول بتعويض العميل عن أي مطالبات من طرف ثالث.",
+          "partOfSpeech": "verb",
+          "phonetic": "/ɪnˈdemnɪfaɪ/"
+        },
+        {
+          "english": "notwithstanding",
+          "arabic": "بصرف النظر عن",
+          "example": "Notwithstanding the foregoing, either party may terminate the agreement with notice.",
+          "exampleArabic": "بصرف النظر عما تقدم، يجوز لأي من الطرفين إنهاء الاتفاقية بعد إشعار.",
+          "partOfSpeech": "preposition",
+          "phonetic": "/ˌnɒtwɪθˈstændɪŋ/"
+        },
+        {
+          "english": "due diligence",
+          "arabic": "العناية الواجبة",
+          "example": "The firm conducted thorough due diligence before finalising the acquisition.",
+          "exampleArabic": "أجرت الشركة العناية الواجبة الشاملة قبل إتمام عملية الاستحواذ.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": "/djuː ˈdɪlɪdʒəns/"
+        }
+      ],
+      "extraExamples": {
+        "c1-extra-6-w1": [
+          {
+            "example": "All contractors shall comply with the safety standards set out in Schedule B.",
+            "exampleArabic": "يلتزم جميع المقاولين بمعايير السلامة المنصوص عليها في الملحق ب."
+          }
+        ],
+        "c1-extra-6-w3": [
+          {
+            "example": "The company faces hefty fines for failing to observe environmental regulations.",
+            "exampleArabic": "تواجه الشركة غرامات باهظة لعدم التزامها باللوائح البيئية."
+          }
+        ]
+      }
+    },
+    "c1-extra-7": {
+      "extraVocabulary": [
+        {
+          "english": "to resonate with",
+          "arabic": "يلامس وجدان",
+          "example": "A well-chosen anecdote can resonate with an audience far more than statistics alone.",
+          "exampleArabic": "قد تلامس الحكاية المنتقاة بعناية وجدان الجمهور أكثر بكثير من الإحصاءات وحدها.",
+          "partOfSpeech": "phrasal verb",
+          "phonetic": "/tə ˈrezəneɪt wɪð/"
+        },
+        {
+          "english": "call to action",
+          "arabic": "دعوة إلى الإجراء",
+          "example": "Every persuasive presentation should close with a clear call to action.",
+          "exampleArabic": "ينبغي أن يُختتم كل عرض مقنع بدعوة واضحة إلى الإجراء.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": "/kɔːl tu ˈækʃn/"
+        },
+        {
+          "english": "to drive the point home",
+          "arabic": "يرسخ الفكرة",
+          "example": "She used a vivid comparison to drive the point home to her sceptical investors.",
+          "exampleArabic": "استخدمت مقارنة حية لترسخ الفكرة في أذهان مستثمريها المتشككين.",
+          "partOfSpeech": "idiom",
+          "phonetic": "/tə draɪv ðə pɔɪnt həʊm/"
+        },
+        {
+          "english": "persuasive",
+          "arabic": "مقنع",
+          "example": "His delivery was so persuasive that the board approved the proposal unanimously.",
+          "exampleArabic": "كان إلقاؤه مقنعًا إلى حد أن المجلس وافق على المقترح بالإجماع.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/pəˈsweɪsɪv/"
+        }
+      ],
+      "extraExamples": {
+        "c1-extra-7-w1": [
+          {
+            "example": "The survey results are striking, yet they require careful interpretation before any reform is proposed.",
+            "exampleArabic": "نتائج الاستبيان لافتة، ومع ذلك فإنها تتطلب تفسيرًا دقيقًا قبل اقتراح أي إصلاح."
+          }
+        ],
+        "c1-extra-7-w3": [
+          {
+            "example": "Two analysts arrived at opposite conclusions because their interpretation of the figures differed.",
+            "exampleArabic": "توصل محللان إلى استنتاجين متعارضين لأن تفسيرهما للأرقام كان مختلفًا."
+          }
+        ]
+      }
+    },
+    "c1-extra-8": {
+      "extraVocabulary": [
+        {
+          "english": "to concede a point",
+          "arabic": "يسلّم بنقطة",
+          "example": "A skilled debater knows when to concede a point in order to strengthen the overall case.",
+          "exampleArabic": "يعرف المناظر الماهر متى يسلّم بنقطة من أجل تعزيز موقفه العام.",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/tə kənˈsiːd ə pɔɪnt/"
+        },
+        {
+          "english": "notwithstanding the fact that",
+          "arabic": "بالرغم من حقيقة أن",
+          "example": "Notwithstanding the fact that costs are high, the long-term benefits justify the investment.",
+          "exampleArabic": "بالرغم من حقيقة أن التكاليف مرتفعة، فإن المنافع طويلة الأمد تبرر الاستثمار.",
+          "partOfSpeech": "conjunction phrase",
+          "phonetic": "/ˌnɒtwɪθˈstændɪŋ ðə fækt ðæt/"
+        },
+        {
+          "english": "on balance",
+          "arabic": "في المحصلة",
+          "example": "On balance, the advantages of the reform outweigh its drawbacks.",
+          "exampleArabic": "في المحصلة، تفوق مزايا الإصلاح عيوبه.",
+          "partOfSpeech": "idiom",
+          "phonetic": "/ɒn ˈbæləns/"
+        },
+        {
+          "english": "with the caveat that",
+          "arabic": "مع التحفظ بأن",
+          "example": "I support the plan, with the caveat that it must be reviewed annually.",
+          "exampleArabic": "أؤيد الخطة، مع التحفظ بأنها يجب أن تُراجَع سنويًا.",
+          "partOfSpeech": "conjunction phrase",
+          "phonetic": "/wɪð ðə ˈkæviæt ðæt/"
+        }
+      ],
+      "extraExamples": {
+        "c1-extra-8-w1": [
+          {
+            "example": "The counterargument certainly has merit, though it overlooks the question of cost.",
+            "exampleArabic": "للحجة المضادة وجاهتها بالتأكيد، وإن كانت تغفل مسألة التكلفة."
+          }
+        ],
+        "c1-extra-8-w3": [
+          {
+            "example": "Scaling the project nationwide presents logistical challenges that should not be underestimated.",
+            "exampleArabic": "يطرح توسيع المشروع على المستوى الوطني تحديات لوجستية لا ينبغي الاستهانة بها."
+          }
+        ]
+      }
+    }
+  }
+}

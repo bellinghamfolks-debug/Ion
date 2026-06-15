@@ -1,0 +1,133 @@
+# XcodeGen project specification for Basir iOS.
+#
+# Why XcodeGen
+# ────────────
+# An Xcode project (.xcodeproj) is a complex binary directory that
+# diff-engines hate and that fights merge tools. XcodeGen reads this
+# YAML file at build time and regenerates a fresh, deterministic
+# Basir.xcodeproj. The result: nothing Xcode-specific is committed to
+# git, and every dev / every CI machine produces an identical project.
+#
+# Codemagic runs `xcodegen generate` as the first build step. The
+# generated .xcodeproj is then handed to xcodebuild.
+
+name: Basir
+
+options:
+  bundleIdPrefix: com.basir
+  deploymentTarget:
+    iOS: "17.0"
+  developmentLanguage: ar
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    DEVELOPMENT_LANGUAGE: ar
+    SWIFT_VERSION: "5.9"
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    # Match the Android side's "HTTPS only" posture on release.
+    # Info.plist already pins NSAllowsArbitraryLoads=false.
+
+targets:
+  Basir:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+
+    sources:
+      - path: Basir
+        excludes:
+          - Info.plist
+
+    dependencies:
+      - target: BasirShare
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.basir.ai
+        PRODUCT_NAME: Basir
+        TARGETED_DEVICE_FAMILY: "1,2"
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        SUPPORTS_MACCATALYST: NO
+        ENABLE_PREVIEWS: YES
+        SWIFT_EMIT_LOC_STRINGS: YES
+        # Use our hand-written Info.plist as-is. Do NOT let Xcode generate
+        # one: GENERATE_INFOPLIST_FILE=YES would drop our privacy usage
+        # strings (camera/mic/speech/location), UILaunchScreen, and the
+        # basir:// URL scheme — which crashed mic/camera features and
+        # letterboxed the app.
+        INFOPLIST_FILE: Basir/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        # App icon lives in Basir/Assets.xcassets/AppIcon.appiconset
+        # (single 1024×1024 universal icon; iOS downscales the rest).
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        # App Group entitlement so the Share Extension can hand off files.
+        CODE_SIGN_ENTITLEMENTS: Basir/Basir.entitlements
+        DEVELOPMENT_TEAM: ""
+        CODE_SIGN_STYLE: Automatic
+
+      configs:
+        Debug:
+          SWIFT_OPTIMIZATION_LEVEL: -Onone
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+          GCC_OPTIMIZATION_LEVEL: "0"
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: -O
+          SWIFT_COMPILATION_MODE: wholemodule
+          ENABLE_BITCODE: NO
+
+  # Share Extension target — receives ACTION_SEND-equivalent payloads
+  # from other iOS apps via the iOS share sheet. See
+  # Basir/ShareExtension/ShareViewController.swift.
+  BasirShare:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "17.0"
+
+    sources:
+      - path: ShareExtension
+        excludes:
+          - Info.plist
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.basir.ai.share
+        PRODUCT_NAME: BasirShare
+        TARGETED_DEVICE_FAMILY: "1,2"
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        # Use the extension's real Info.plist (its NSExtension config),
+        # not an Xcode-generated blank one.
+        INFOPLIST_FILE: ShareExtension/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        # The Share Extension needs the SAME app group as the host app so
+        # it can hand files off — declared in BasirShare.entitlements
+        # (matches Basir/Basir.entitlements: group.com.basir.shared).
+        CODE_SIGN_ENTITLEMENTS: ShareExtension/BasirShare.entitlements
+        DEVELOPMENT_TEAM: ""
+        CODE_SIGN_STYLE: Automatic
+
+  BasirTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: BasirTests
+    dependencies:
+      - target: Basir
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.basir.ai.tests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""
+
+schemes:
+  Basir:
+    build:
+      targets:
+        Basir: all
+        BasirShare: all
+    test:
+      targets:
+        - BasirTests

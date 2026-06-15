@@ -1,5 +1,44 @@
-.DS_Store
+# Generated Xcode project — produced by `xcodegen generate`. Source of
+# truth is ios/project.yml, not the binary .xcodeproj.
+ios/Basir.xcodeproj/
+ios/Basir.xcworkspace/
+Basir.xcodeproj/
+Basir.xcworkspace/
+
+# Build artifacts
+build/
 DerivedData/
-*.xcuserstate
-xcuserdata/
-.build/
+*.ipa
+*.xcarchive
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+
+# CocoaPods (if ever added)
+Pods/
+*.podspec
+
+# Xcode user-specific files
+**/xcuserdata/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Codemagic local cache
+.codemagic/
+
+# Environment / secrets — must never reach the repo
+.env
+.env.*
+*.env
+credentials.json
+*.p12
+*.cer
+*.mobileprovision
+.credentials
+
+# Python verification caches
+__pycache__/
+*.py[cod]

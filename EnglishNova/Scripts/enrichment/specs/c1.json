@@ -1,0 +1,212 @@
+{
+  "lessons": [
+    {
+      "id": "c1-u1-l1",
+      "level": "C1",
+      "titleEn": "Advanced Editing",
+      "titleAr": "التحرير المتقدم",
+      "objectiveAr": "تحسين الدقة والإيجاز والنبرة مع الحفاظ على المعنى.",
+      "modelSentence": "The revised sentence is more concise without losing precision.",
+      "modelSentenceAr": "الجملة المنقحة أكثر إيجازًا دون فقد الدقة.",
+      "existingVocabulary": [
+        {
+          "id": "c1-u1-l1-w1",
+          "english": "without losing precision",
+          "arabic": "دون فقد الدقة"
+        },
+        {
+          "id": "c1-u1-l1-w2",
+          "english": "The",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "c1-u1-l1-w3",
+          "english": "precision",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "c1-extra-2",
+      "level": "C1",
+      "titleEn": "Academic Writing",
+      "titleAr": "الكتابة الأكاديمية",
+      "objectiveAr": "صياغة فقرة ذات أطروحة وأدلة مترابطة.",
+      "modelSentence": "This essay argues that accessibility should be treated as a core design principle.",
+      "modelSentenceAr": "تجادل هذه المقالة بأن الوصولية يجب أن تعامل كمبدأ تصميم أساسي.",
+      "existingVocabulary": [
+        {
+          "id": "c1-extra-2-w1",
+          "english": "This essay argues that",
+          "arabic": "تجادل هذه المقالة بأن"
+        },
+        {
+          "id": "c1-extra-2-w2",
+          "english": "This",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "c1-extra-2-w3",
+          "english": "principle",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "c1-extra-3",
+      "level": "C1",
+      "titleEn": "Academic Hedging",
+      "titleAr": "التحفظ العلمي",
+      "objectiveAr": "تجنب الجزم غير المدعوم باستخدام لغة دقيقة.",
+      "modelSentence": "The findings may indicate a gradual change.",
+      "modelSentenceAr": "قد تشير النتائج إلى تغير تدريجي.",
+      "existingVocabulary": [
+        {
+          "id": "c1-extra-3-w1",
+          "english": "may indicate",
+          "arabic": "قد تشير"
+        },
+        {
+          "id": "c1-extra-3-w2",
+          "english": "The",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "c1-extra-3-w3",
+          "english": "change",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "c1-extra-4",
+      "level": "C1",
+      "titleEn": "Critical Analysis",
+      "titleAr": "التحليل النقدي",
+      "objectiveAr": "تقييم الافتراضات وقوة الاستدلال.",
+      "modelSentence": "The conclusion is plausible, but the evidence remains limited.",
+      "modelSentenceAr": "الاستنتاج معقول، لكن الأدلة ما تزال محدودة.",
+      "existingVocabulary": [
+        {
+          "id": "c1-extra-4-w1",
+          "english": "remains limited",
+          "arabic": "ما تزال محدودة"
+        },
+        {
+          "id": "c1-extra-4-w2",
+          "english": "The",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "c1-extra-4-w3",
+          "english": "limited",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "c1-extra-5",
+      "level": "C1",
+      "titleEn": "Advanced Collocations",
+      "titleAr": "المتلازمات اللفظية",
+      "objectiveAr": "استخدام تراكيب طبيعية عالية المستوى.",
+      "modelSentence": "The decision could have far-reaching consequences.",
+      "modelSentenceAr": "قد تكون للقرار عواقب بعيدة المدى.",
+      "existingVocabulary": [
+        {
+          "id": "c1-extra-5-w1",
+          "english": "far-reaching consequences",
+          "arabic": "عواقب بعيدة المدى"
+        },
+        {
+          "id": "c1-extra-5-w2",
+          "english": "The",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "c1-extra-5-w3",
+          "english": "consequences",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "c1-extra-6",
+      "level": "C1",
+      "titleEn": "Legal and Business English",
+      "titleAr": "الإنجليزية القانونية والمهنية",
+      "objectiveAr": "فهم صياغات الالتزام والاستثناء والمخاطر.",
+      "modelSentence": "The parties shall comply with all applicable regulations.",
+      "modelSentenceAr": "يلتزم الطرفان بجميع اللوائح واجبة التطبيق.",
+      "existingVocabulary": [
+        {
+          "id": "c1-extra-6-w1",
+          "english": "shall comply with",
+          "arabic": "يلتزم بـ"
+        },
+        {
+          "id": "c1-extra-6-w2",
+          "english": "The",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "c1-extra-6-w3",
+          "english": "regulations",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "c1-extra-7",
+      "level": "C1",
+      "titleEn": "Persuasive Presentations",
+      "titleAr": "العروض المقنعة",
+      "objectiveAr": "دمج السرد والدليل والدعوة إلى الإجراء.",
+      "modelSentence": "The data is compelling; however, its implications require careful interpretation.",
+      "modelSentenceAr": "البيانات مقنعة، لكن آثارها تتطلب تفسيرًا دقيقًا.",
+      "existingVocabulary": [
+        {
+          "id": "c1-extra-7-w1",
+          "english": "require careful interpretation",
+          "arabic": "تتطلب تفسيرًا دقيقًا"
+        },
+        {
+          "id": "c1-extra-7-w2",
+          "english": "The",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "c1-extra-7-w3",
+          "english": "interpretation",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "c1-extra-8",
+      "level": "C1",
+      "titleEn": "Nuanced Debate",
+      "titleAr": "النقاش الدقيق",
+      "objectiveAr": "عرض موقف متوازن مع الاعتراف بالاستثناءات.",
+      "modelSentence": "While the proposal has merit, its implementation poses significant challenges.",
+      "modelSentenceAr": "مع أن المقترح وجيه، فإن تنفيذه يطرح تحديات كبيرة.",
+      "existingVocabulary": [
+        {
+          "id": "c1-extra-8-w1",
+          "english": "has merit",
+          "arabic": "وجيه"
+        },
+        {
+          "id": "c1-extra-8-w2",
+          "english": "While",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "c1-extra-8-w3",
+          "english": "challenges",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    }
+  ]
+}

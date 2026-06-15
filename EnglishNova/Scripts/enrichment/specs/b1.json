@@ -1,0 +1,212 @@
+{
+  "lessons": [
+    {
+      "id": "b1-u1-l1",
+      "level": "B1",
+      "titleEn": "Handling Travel Problems",
+      "titleAr": "التعامل مع مشكلات السفر",
+      "objectiveAr": "شرح مشكلة سفر وطلب حل مناسب بوضوح.",
+      "modelSentence": "My flight has been delayed for two hours.",
+      "modelSentenceAr": "تأخرت رحلتي ساعتين.",
+      "existingVocabulary": [
+        {
+          "id": "b1-u1-l1-w1",
+          "english": "has been delayed",
+          "arabic": "تأخرت وما زال الأثر"
+        },
+        {
+          "id": "b1-u1-l1-w2",
+          "english": "My",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b1-u1-l1-w3",
+          "english": "hours",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b1-extra-2",
+      "level": "B1",
+      "titleEn": "Present Perfect",
+      "titleAr": "المضارع التام",
+      "objectiveAr": "ربط تجربة ماضية بالحاضر.",
+      "modelSentence": "I have finished the assignment.",
+      "modelSentenceAr": "لقد أنهيت الواجب.",
+      "existingVocabulary": [
+        {
+          "id": "b1-extra-2-w1",
+          "english": "have finished",
+          "arabic": "أنهيت للتو"
+        },
+        {
+          "id": "b1-extra-2-w2",
+          "english": "I",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b1-extra-2-w3",
+          "english": "assignment",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b1-extra-3",
+      "level": "B1",
+      "titleEn": "Expressing Opinions",
+      "titleAr": "التعبير عن الرأي",
+      "objectiveAr": "عرض رأي مع سبب ومثال.",
+      "modelSentence": "In my opinion, remote work is useful.",
+      "modelSentenceAr": "في رأيي، العمل عن بعد مفيد.",
+      "existingVocabulary": [
+        {
+          "id": "b1-extra-3-w1",
+          "english": "In my opinion",
+          "arabic": "في رأيي"
+        },
+        {
+          "id": "b1-extra-3-w2",
+          "english": "In",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b1-extra-3-w3",
+          "english": "useful",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b1-extra-4",
+      "level": "B1",
+      "titleEn": "Telling a Story",
+      "titleAr": "سرد قصة",
+      "objectiveAr": "ترتيب أحداث قصة باستخدام روابط زمنية.",
+      "modelSentence": "First, we arrived; then, the meeting started.",
+      "modelSentenceAr": "أولًا وصلنا، ثم بدأ الاجتماع.",
+      "existingVocabulary": [
+        {
+          "id": "b1-extra-4-w1",
+          "english": "then",
+          "arabic": "ثم"
+        },
+        {
+          "id": "b1-extra-4-w2",
+          "english": "First,",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b1-extra-4-w3",
+          "english": "started",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b1-extra-5",
+      "level": "B1",
+      "titleEn": "Problem Solving",
+      "titleAr": "حل المشكلات",
+      "objectiveAr": "شرح مشكلة واقتراح حل عملي.",
+      "modelSentence": "We could solve this by changing the schedule.",
+      "modelSentenceAr": "يمكننا حل ذلك بتغيير الجدول.",
+      "existingVocabulary": [
+        {
+          "id": "b1-extra-5-w1",
+          "english": "could solve",
+          "arabic": "يمكن أن نحل"
+        },
+        {
+          "id": "b1-extra-5-w2",
+          "english": "We",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b1-extra-5-w3",
+          "english": "schedule",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b1-extra-6",
+      "level": "B1",
+      "titleEn": "News and Information",
+      "titleAr": "الأخبار والمعلومات",
+      "objectiveAr": "تلخيص خبر قصير وتمييز الفكرة الرئيسة.",
+      "modelSentence": "The report says that prices have increased.",
+      "modelSentenceAr": "يقول التقرير إن الأسعار ارتفعت.",
+      "existingVocabulary": [
+        {
+          "id": "b1-extra-6-w1",
+          "english": "The report says",
+          "arabic": "يقول التقرير"
+        },
+        {
+          "id": "b1-extra-6-w2",
+          "english": "The",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b1-extra-6-w3",
+          "english": "increased",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b1-extra-7",
+      "level": "B1",
+      "titleEn": "Meetings",
+      "titleAr": "الاجتماعات",
+      "objectiveAr": "المشاركة في اجتماع وطلب التوضيح.",
+      "modelSentence": "Could you clarify the last point?.",
+      "modelSentenceAr": "هل يمكنك توضيح النقطة الأخيرة؟",
+      "existingVocabulary": [
+        {
+          "id": "b1-extra-7-w1",
+          "english": "clarify",
+          "arabic": "يوضح"
+        },
+        {
+          "id": "b1-extra-7-w2",
+          "english": "Could",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b1-extra-7-w3",
+          "english": "point",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    },
+    {
+      "id": "b1-extra-8",
+      "level": "B1",
+      "titleEn": "Professional Email",
+      "titleAr": "البريد المهني",
+      "objectiveAr": "كتابة افتتاحية وخاتمة مهنية.",
+      "modelSentence": "I am writing to confirm our appointment.",
+      "modelSentenceAr": "أكتب لتأكيد موعدنا.",
+      "existingVocabulary": [
+        {
+          "id": "b1-extra-8-w1",
+          "english": "I am writing to",
+          "arabic": "أكتب من أجل"
+        },
+        {
+          "id": "b1-extra-8-w2",
+          "english": "I",
+          "arabic": "بداية الجملة"
+        },
+        {
+          "id": "b1-extra-8-w3",
+          "english": "appointment",
+          "arabic": "كلمة من المثال"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+name: EnglishNova
+options:
+  bundleIdPrefix: com.englishnova
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: 5.10
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    CURRENT_PROJECT_VERSION: 4
+    MARKETING_VERSION: 0.4.0
+    INFOPLIST_KEY_CFBundleDisplayName: EnglishNova
+    INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.education
+    INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
+    INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
+    INFOPLIST_KEY_UILaunchScreen_Generation: true
+    INFOPLIST_KEY_NSMicrophoneUsageDescription: نستخدم الميكروفون لتحليل نطقك أثناء تمارين المحادثة.
+    INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: نستخدم التعرف على الكلام لتحويل نطقك إلى نص وتقديم ملاحظات تعليمية.
+    GENERATE_INFOPLIST_FILE: YES
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+targets:
+  EnglishNova:
+    type: application
+    platform: iOS
+    sources:
+      - path: EnglishNova
+        excludes:
+          - Resources
+      # Folder reference so the bundle contains Curriculum/curriculum.json,
+      # matching BundledContentLoader's subdirectory: "Curriculum" lookup.
+      # (A top-level `resources:` key is not part of the XcodeGen spec.)
+      - path: EnglishNova/Resources/Curriculum
+        type: folder
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.englishnova.app
+    scheme:
+      testTargets:
+        - EnglishNovaTests
+  EnglishNovaTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: EnglishNovaTests
+    dependencies:
+      - target: EnglishNova
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.englishnova.tests

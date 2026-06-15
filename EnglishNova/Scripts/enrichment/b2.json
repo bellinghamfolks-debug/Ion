@@ -1,0 +1,404 @@
+{
+  "lessons": {
+    "b2-u1-l1": {
+      "extraVocabulary": [
+        {
+          "english": "beat around the bush",
+          "arabic": "يلف ويدور حول الموضوع",
+          "example": "Stop beating around the bush and tell me what really happened.",
+          "exampleArabic": "توقف عن اللف والدوران حول الموضوع وأخبرني بما حدث حقًا.",
+          "partOfSpeech": "idiom",
+          "phonetic": "/biːt əˈraʊnd ðə bʊʃ/"
+        },
+        {
+          "english": "read between the lines",
+          "arabic": "يقرأ ما بين السطور",
+          "example": "If you read between the lines, you can tell she is not happy with the offer.",
+          "exampleArabic": "إذا قرأت ما بين السطور، يمكنك أن تدرك أنها غير راضية عن العرض.",
+          "partOfSpeech": "idiom",
+          "phonetic": "/riːd bɪˈtwiːn ðə laɪnz/"
+        },
+        {
+          "english": "jump to conclusions",
+          "arabic": "يتسرع في الحكم",
+          "example": "Let us gather all the facts before we jump to conclusions.",
+          "exampleArabic": "لنجمع كل الحقائق قبل أن نتسرع في إصدار الأحكام.",
+          "partOfSpeech": "idiom",
+          "phonetic": "/dʒʌmp tə kənˈkluːʒənz/"
+        },
+        {
+          "english": "take something with a pinch of salt",
+          "arabic": "يأخذ الأمر بتحفظ",
+          "example": "You should take his predictions with a pinch of salt, as he is often wrong.",
+          "exampleArabic": "ينبغي أن تأخذ توقعاته بتحفظ، فهو كثيرًا ما يخطئ.",
+          "partOfSpeech": "idiom",
+          "phonetic": "/teɪk ˈsʌmθɪŋ wɪð ə pɪntʃ əv sɔːlt/"
+        }
+      ],
+      "extraExamples": {
+        "b2-u1-l1-w1": [
+          {
+            "example": "The investigators are determined to get to the bottom of the financial scandal.",
+            "exampleArabic": "المحققون عازمون على الوصول إلى حقيقة الفضيحة المالية."
+          }
+        ],
+        "b2-u1-l1-w3": [
+          {
+            "example": "Management has finally agreed to address the issue of overtime pay.",
+            "exampleArabic": "وافقت الإدارة أخيرًا على معالجة مسألة أجر العمل الإضافي."
+          }
+        ]
+      }
+    },
+    "b2-extra-2": {
+      "extraVocabulary": [
+        {
+          "english": "compelling",
+          "arabic": "مقنع وقوي",
+          "example": "She made a compelling argument in favour of remote working.",
+          "exampleArabic": "قدّمت حجة مقنعة وقوية لصالح العمل عن بُعد.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/kəmˈpelɪŋ/"
+        },
+        {
+          "english": "counterargument",
+          "arabic": "حجة مضادة",
+          "example": "A good essay anticipates the main counterargument and responds to it.",
+          "exampleArabic": "المقال الجيد يتوقع الحجة المضادة الرئيسية ويرد عليها.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈkaʊntərˌɑːɡjumənt/"
+        },
+        {
+          "english": "to substantiate",
+          "arabic": "يثبت بالأدلة",
+          "example": "The journalist could not substantiate her claims with reliable sources.",
+          "exampleArabic": "لم تتمكن الصحفية من إثبات ادعاءاتها بمصادر موثوقة.",
+          "partOfSpeech": "verb",
+          "phonetic": "/səbˈstænʃieɪt/"
+        },
+        {
+          "english": "premise",
+          "arabic": "مقدمة منطقية",
+          "example": "The entire theory rests on a flawed premise about human behaviour.",
+          "exampleArabic": "ترتكز النظرية بأكملها على مقدمة منطقية خاطئة حول السلوك البشري.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈpremɪs/"
+        }
+      ],
+      "extraExamples": {
+        "b2-extra-2-w1": [
+          {
+            "example": "Recent evidence suggests that early intervention significantly improves outcomes.",
+            "exampleArabic": "تشير الأدلة الحديثة إلى أن التدخل المبكر يحسّن النتائج بشكل كبير."
+          }
+        ],
+        "b2-extra-2-w3": [
+          {
+            "example": "The new teaching method proved far more effective than the traditional one.",
+            "exampleArabic": "أثبتت طريقة التدريس الجديدة أنها أكثر فعالية بكثير من الطريقة التقليدية."
+          }
+        ]
+      }
+    },
+    "b2-extra-3": {
+      "extraVocabulary": [
+        {
+          "english": "provided that",
+          "arabic": "شريطة أن",
+          "example": "I will lend you the car provided that you return it by Sunday.",
+          "exampleArabic": "سأعيرك السيارة شريطة أن تعيدها بحلول يوم الأحد.",
+          "partOfSpeech": "conjunction",
+          "phonetic": "/prəˈvaɪdɪd ðæt/"
+        },
+        {
+          "english": "unless",
+          "arabic": "ما لم",
+          "example": "We will miss the flight unless we leave for the airport right now.",
+          "exampleArabic": "سنفوّت الرحلة ما لم نغادر إلى المطار الآن.",
+          "partOfSpeech": "conjunction",
+          "phonetic": "/ənˈles/"
+        },
+        {
+          "english": "as long as",
+          "arabic": "طالما",
+          "example": "You can stay here as long as you keep the place tidy.",
+          "exampleArabic": "يمكنك البقاء هنا طالما أنك تحافظ على نظافة المكان.",
+          "partOfSpeech": "conjunction",
+          "phonetic": "/əz ˈlɒŋ əz/"
+        },
+        {
+          "english": "otherwise",
+          "arabic": "وإلا",
+          "example": "We had better book early; otherwise, the tickets will sell out.",
+          "exampleArabic": "من الأفضل أن نحجز مبكرًا، وإلا فإن التذاكر ستنفد.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈʌðəwaɪz/"
+        }
+      ],
+      "extraExamples": {
+        "b2-extra-3-w1": [
+          {
+            "example": "If the company offered better benefits, more candidates would take the job.",
+            "exampleArabic": "لو قدّمت الشركة مزايا أفضل، لقبِل المزيد من المرشحين الوظيفة."
+          }
+        ],
+        "b2-extra-3-w3": [
+          {
+            "example": "She enrolled in an advanced course to improve her career prospects.",
+            "exampleArabic": "التحقت بدورة متقدمة لتحسين فرصها المهنية."
+          }
+        ]
+      }
+    },
+    "b2-extra-4": {
+      "extraVocabulary": [
+        {
+          "english": "to be carried out",
+          "arabic": "يُنفَّذ",
+          "example": "The maintenance work will be carried out over the weekend.",
+          "exampleArabic": "ستُنفَّذ أعمال الصيانة خلال عطلة نهاية الأسبوع.",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/biː ˈkærid aʊt/"
+        },
+        {
+          "english": "to be implemented",
+          "arabic": "يُطبَّق",
+          "example": "The new safety regulations will be implemented across all branches next month.",
+          "exampleArabic": "ستُطبَّق لوائح السلامة الجديدة في جميع الفروع الشهر المقبل.",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/biː ˈɪmplɪmentɪd/"
+        },
+        {
+          "english": "to be held",
+          "arabic": "يُعقَد",
+          "example": "The annual conference will be held in Geneva this year.",
+          "exampleArabic": "سيُعقَد المؤتمر السنوي في جنيف هذا العام.",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/biː held/"
+        },
+        {
+          "english": "to be made aware",
+          "arabic": "يُحاط علمًا",
+          "example": "Customers should be made aware of any changes to the policy in advance.",
+          "exampleArabic": "ينبغي أن يُحاط العملاء علمًا بأي تغييرات على السياسة مسبقًا.",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/biː meɪd əˈweə/"
+        }
+      ],
+      "extraExamples": {
+        "b2-extra-4-w1": [
+          {
+            "example": "The agreement was signed by both parties after months of negotiation.",
+            "exampleArabic": "وُقِّع الاتفاق من قبل الطرفين بعد أشهر من المفاوضات."
+          }
+        ],
+        "b2-extra-4-w3": [
+          {
+            "example": "The report that was due yesterday has still not been submitted.",
+            "exampleArabic": "التقرير الذي كان مستحقًا أمس لم يُقدَّم بعد."
+          }
+        ]
+      }
+    },
+    "b2-extra-5": {
+      "extraVocabulary": [
+        {
+          "english": "to claim",
+          "arabic": "يزعم",
+          "example": "He claimed that he had not received the email, but no one believed him.",
+          "exampleArabic": "زعم أنه لم يتلقَّ البريد الإلكتروني، لكن لم يصدقه أحد.",
+          "partOfSpeech": "verb",
+          "phonetic": "/kleɪm/"
+        },
+        {
+          "english": "to point out",
+          "arabic": "يشير إلى",
+          "example": "The manager pointed out that the deadline had already passed.",
+          "exampleArabic": "أشار المدير إلى أن الموعد النهائي قد انقضى بالفعل.",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/pɔɪnt aʊt/"
+        },
+        {
+          "english": "to admit",
+          "arabic": "يعترف",
+          "example": "She admitted that she had made a mistake in the calculations.",
+          "exampleArabic": "اعترفت بأنها ارتكبت خطأً في الحسابات.",
+          "partOfSpeech": "verb",
+          "phonetic": "/ədˈmɪt/"
+        },
+        {
+          "english": "to deny",
+          "arabic": "ينكر",
+          "example": "The minister denied that the government had been involved in the decision.",
+          "exampleArabic": "أنكر الوزير أن الحكومة كانت متورطة في القرار.",
+          "partOfSpeech": "verb",
+          "phonetic": "/dɪˈnaɪ/"
+        }
+      ],
+      "extraExamples": {
+        "b2-extra-5-w1": [
+          {
+            "example": "He explained that he was busy with another project at the time.",
+            "exampleArabic": "أوضح أنه كان مشغولًا بمشروع آخر في ذلك الوقت."
+          }
+        ],
+        "b2-extra-5-w3": [
+          {
+            "example": "The doctors were too busy to take on any new patients that week.",
+            "exampleArabic": "كان الأطباء مشغولين للغاية لدرجة عدم قدرتهم على استقبال أي مرضى جدد ذلك الأسبوع."
+          }
+        ]
+      }
+    },
+    "b2-extra-6": {
+      "extraVocabulary": [
+        {
+          "english": "to elaborate on",
+          "arabic": "يتوسع في الشرح",
+          "example": "Could you elaborate on the second point you raised earlier?",
+          "exampleArabic": "هل يمكنك التوسع في شرح النقطة الثانية التي أثرتها سابقًا؟",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/ɪˈlæbəreɪt ɒn/"
+        },
+        {
+          "english": "to sum up",
+          "arabic": "يلخّص",
+          "example": "To sum up, our sales have grown steadily over the past three quarters.",
+          "exampleArabic": "وللتلخيص، نمت مبيعاتنا بشكل مطّرد خلال الأرباع الثلاثة الماضية.",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/sʌm ʌp/"
+        },
+        {
+          "english": "with regard to",
+          "arabic": "فيما يتعلق بـ",
+          "example": "With regard to the budget, we will need to make some cuts next year.",
+          "exampleArabic": "فيما يتعلق بالميزانية، سنحتاج إلى إجراء بعض التخفيضات العام المقبل.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/wɪð rɪˈɡɑːd tə/"
+        },
+        {
+          "english": "to draw your attention to",
+          "arabic": "يلفت انتباهكم إلى",
+          "example": "I would like to draw your attention to the figures on the next slide.",
+          "exampleArabic": "أودّ أن ألفت انتباهكم إلى الأرقام في الشريحة التالية.",
+          "partOfSpeech": "phrase",
+          "phonetic": "/drɔː jɔːr əˈtenʃən tə/"
+        }
+      ],
+      "extraExamples": {
+        "b2-extra-6-w1": [
+          {
+            "example": "Now that the introduction is clear, let us move on to the main findings.",
+            "exampleArabic": "والآن بعد أن أصبحت المقدمة واضحة، لننتقل إلى النتائج الرئيسية."
+          }
+        ],
+        "b2-extra-6-w3": [
+          {
+            "example": "The final section of the presentation covered our plans for next year.",
+            "exampleArabic": "تناول القسم الأخير من العرض خططنا للعام المقبل."
+          }
+        ]
+      }
+    },
+    "b2-extra-7": {
+      "extraVocabulary": [
+        {
+          "english": "to meet halfway",
+          "arabic": "يلتقي في منتصف الطريق",
+          "example": "If you can lower the price slightly, I think we can meet halfway.",
+          "exampleArabic": "إذا تمكنت من خفض السعر قليلًا، أعتقد أننا نستطيع أن نلتقي في منتصف الطريق.",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/miːt ˈhɑːfweɪ/"
+        },
+        {
+          "english": "concession",
+          "arabic": "تنازل",
+          "example": "Both sides made significant concessions to reach the final agreement.",
+          "exampleArabic": "قدّم كلا الجانبين تنازلات كبيرة للتوصل إلى الاتفاق النهائي.",
+          "partOfSpeech": "noun",
+          "phonetic": "/kənˈseʃən/"
+        },
+        {
+          "english": "to come to terms",
+          "arabic": "يتوصل إلى اتفاق",
+          "example": "After hours of discussion, the two companies finally came to terms.",
+          "exampleArabic": "بعد ساعات من النقاش، توصلت الشركتان أخيرًا إلى اتفاق.",
+          "partOfSpeech": "verb phrase",
+          "phonetic": "/kʌm tə tɜːmz/"
+        },
+        {
+          "english": "mutually beneficial",
+          "arabic": "مفيد للطرفين",
+          "example": "We are looking for a mutually beneficial partnership rather than a one-sided deal.",
+          "exampleArabic": "نحن نبحث عن شراكة مفيدة للطرفين بدلًا من صفقة من جانب واحد.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈmjuːtʃuəli ˌbenɪˈfɪʃəl/"
+        }
+      ],
+      "extraExamples": {
+        "b2-extra-7-w1": [
+          {
+            "example": "We may be able to reduce the cost if you commit to a larger order.",
+            "exampleArabic": "قد نتمكن من تقليل التكلفة إذا التزمت بطلبية أكبر."
+          }
+        ],
+        "b2-extra-7-w3": [
+          {
+            "example": "The team worked overnight to meet the tight deadline.",
+            "exampleArabic": "عمل الفريق طوال الليل للوفاء بالموعد النهائي الضيق."
+          }
+        ]
+      }
+    },
+    "b2-extra-8": {
+      "extraVocabulary": [
+        {
+          "english": "biased",
+          "arabic": "متحيز",
+          "example": "The coverage was clearly biased in favour of the ruling party.",
+          "exampleArabic": "كانت التغطية متحيزة بوضوح لصالح الحزب الحاكم.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈbaɪəst/"
+        },
+        {
+          "english": "to misrepresent",
+          "arabic": "يحرّف",
+          "example": "The headline misrepresents what the scientist actually said.",
+          "exampleArabic": "يحرّف العنوان ما قاله العالم في الواقع.",
+          "partOfSpeech": "verb",
+          "phonetic": "/ˌmɪsreprɪˈzent/"
+        },
+        {
+          "english": "credible source",
+          "arabic": "مصدر موثوق",
+          "example": "Always check whether the information comes from a credible source.",
+          "exampleArabic": "تحقق دائمًا مما إذا كانت المعلومات تأتي من مصدر موثوق.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": "/ˈkredəbl sɔːs/"
+        },
+        {
+          "english": "sensationalism",
+          "arabic": "الإثارة الإعلامية",
+          "example": "The newspaper has been criticised for its sensationalism and exaggerated headlines.",
+          "exampleArabic": "انتُقدت الصحيفة بسبب إثارتها الإعلامية وعناوينها المبالغ فيها.",
+          "partOfSpeech": "noun",
+          "phonetic": "/senˈseɪʃənəlɪzəm/"
+        }
+      ],
+      "extraExamples": {
+        "b2-extra-8-w1": [
+          {
+            "example": "Reporting a conflict from only one perspective inevitably distorts the truth.",
+            "exampleArabic": "إن نقل نزاع من منظور واحد فقط يشوّه الحقيقة حتمًا."
+          }
+        ],
+        "b2-extra-8-w3": [
+          {
+            "example": "Reading several newspapers helps you see the story from a broader perspective.",
+            "exampleArabic": "تساعدك قراءة عدة صحف على رؤية القصة من منظور أوسع."
+          }
+        ]
+      }
+    }
+  }
+}

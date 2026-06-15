@@ -40,6 +40,59 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PATH = ROOT / "EnglishNova/Resources/Curriculum/curriculum.json"
+ENRICH_DIR = ROOT / "Scripts/enrichment"
+
+
+def load_enrichment():
+    """Merge all hand-authored enrichment files (Scripts/enrichment/*.json).
+
+    Each file maps lesson id -> {extraVocabulary:[...], extraExamples:{vocabId:[...]}}.
+    The `specs/` subfolder holds inputs for the authors and is ignored here.
+    Returns {} when no enrichment is present (script still works standalone).
+    """
+    merged = {}
+    if not ENRICH_DIR.is_dir():
+        return merged
+    for f in sorted(ENRICH_DIR.glob("*.json")):
+        try:
+            data = json.loads(f.read_text(encoding="utf-8"))
+        except Exception as exc:  # pragma: no cover - defensive
+            print(f"  ! skipping unreadable enrichment {f.name}: {exc}")
+            continue
+        for lid, payload in data.get("lessons", {}).items():
+            merged[lid] = payload
+    return merged
+
+
+def merge_new_vocabulary(lesson, payload):
+    """Append authored extra words to the lesson's vocabulary (idempotent).
+
+    New words get ids of the form "<lessonId>-xv<n>" so re-running the script
+    first strips the previous batch instead of duplicating it. Words already
+    present (by English form) are skipped.
+    """
+    lid = lesson["id"]
+    base = [w for w in lesson.get("vocabulary", [])
+            if not re.match(rf"^{re.escape(lid)}-xv\d+$", w.get("id", ""))]
+    have = {w["english"].strip().lower() for w in base}
+    added = []
+    for entry in payload.get("extraVocabulary", []):
+        en = (entry.get("english") or "").strip()
+        ar = (entry.get("arabic") or "").strip()
+        if not en or not ar or en.lower() in have:
+            continue
+        have.add(en.lower())
+        added.append({
+            "id": f"{lid}-xv{len(added) + 1}",
+            "english": en,
+            "arabic": ar,
+            "example": (entry.get("example") or "").strip(),
+            "exampleArabic": (entry.get("exampleArabic") or "").strip(),
+            "partOfSpeech": (entry.get("partOfSpeech") or "").strip(),
+            "phonetic": (entry.get("phonetic") or None),
+        })
+    lesson["vocabulary"] = base + added
+    return len(added)
 
 TRANSLATE_PREFIXES = ("ترجم إلى الإنجليزية:", "ترجم الجملة إلى الإنجليزية:")
 ARRANGE_PREFIXES = ("رتب الكلمات لتكوين الجملة:", "رتب كلمات الجملة:")
@@ -73,16 +126,21 @@ def model_sentence(lesson) -> str:
 
 
 def model_sentence_arabic(lesson) -> str:
-    """Arabic of the model sentence, recovered from the translate/arrange prompt."""
+    """Arabic of the model sentence, recovered from the arrange/translate prompt.
+
+    arrangeWords is unique per lesson and always carries the model sentence, so
+    it is preferred — after expansion there are several translation exercises
+    (one per extra example) and the first is no longer the model sentence.
+    """
     exs = lesson["exercises"]
-    tr = find(exs, "translation")
-    if tr:
-        s = strip_prefix(tr.get("promptAr", ""), TRANSLATE_PREFIXES)
-        if s:
-            return s
     ar = find(exs, "arrangeWords")
     if ar:
         s = strip_prefix(ar.get("promptAr", ""), ARRANGE_PREFIXES)
+        if s:
+            return s
+    tr = find(exs, "translation")
+    if tr:
+        s = strip_prefix(tr.get("promptAr", ""), TRANSLATE_PREFIXES)
         if s:
             return s
     return ""
@@ -113,7 +171,8 @@ def shuffled(rng, items):
     return out
 
 
-def expand_lesson(lesson, unit_eng_pool, unit_ar_pool):
+def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None):
+    extra_examples = extra_examples or {}
     lid = lesson["id"]
     vocab = lesson.get("vocabulary", [])
     sentence = model_sentence(lesson)
@@ -170,13 +229,21 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool):
         example_ar = (w.get("exampleArabic") or "").strip()
         rng = random.Random(f"{lid}:{en}")
 
-        # a) flashcard
+        # Hand-authored extra example sentences for this word (if any).
+        word_extras = extra_examples.get(w.get("id"), [])
+
+        # a) flashcard — shows the meaning plus every example we have.
         card_lines = [f"{en} = {ar}" + (f" ({pos})" if pos else "")]
         if example:
             line = f"مثال: {example}"
             if example_ar:
                 line += f" — {example_ar}"
             card_lines.append(line)
+        for ex in word_extras:
+            ex_en = (ex.get("example") or "").strip()
+            ex_ar = (ex.get("exampleArabic") or "").strip()
+            if ex_en:
+                card_lines.append(f"مثال آخر: {ex_en}" + (f" — {ex_ar}" if ex_ar else ""))
         add({
             "type": "flashcard",
             "promptAr": "تعرّف على الكلمة الجديدة، واستمع إلى نطقها.",
@@ -212,6 +279,23 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool):
             "accessibilityHint": "شغّل الصوت ثم اختر إجابة واحدة",
             "speechText": en,
         })
+
+        # d) translate the extra example(s) — practises the word in a new
+        # sentence rather than in isolation.
+        for ex in word_extras:
+            ex_en = (ex.get("example") or "").strip()
+            ex_ar = (ex.get("exampleArabic") or "").strip()
+            if not ex_en or not ex_ar:
+                continue
+            add({
+                "type": "translation",
+                "promptAr": f"ترجم إلى الإنجليزية: {ex_ar}",
+                "answer": ex_en.rstrip("."),
+                "explanationAr": f"الترجمة النموذجية: {ex_en}\nلاحظ استخدام الكلمة {en}.",
+                "accessibilityHint": "اكتب الترجمة الإنجليزية ثم اضغط تحقق",
+                "speechText": ex_en,
+                "acceptableAnswers": [ex_en, ex_en.rstrip(".")],
+            })
 
     # 3) Sentence work ---------------------------------------------------
     if sentence:
@@ -304,6 +388,22 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool):
 
 def main():
     catalog = json.loads(PATH.read_text(encoding="utf-8"))
+    enrichment = load_enrichment()
+    words_before = words_added = 0
+
+    # Merge authored extra vocabulary into every lesson first, so the new
+    # words feed both the per-word exercise generation and the distractor
+    # pools below.
+    for level in catalog.get("levels", []):
+        for unit in level.get("units", []):
+            for ls in unit.get("lessons", []):
+                words_before += len([w for w in ls.get("vocabulary", [])
+                                     if not re.match(rf"^{re.escape(ls['id'])}-xv\d+$",
+                                                     w.get("id", ""))])
+                payload = enrichment.get(ls["id"], {})
+                if payload:
+                    words_added += merge_new_vocabulary(ls, payload)
+
     total_before = total_after = lessons = 0
     for level in catalog.get("levels", []):
         for unit in level.get("units", []):
@@ -315,7 +415,8 @@ def main():
                     ar_pool.append(w["arabic"])
             for ls in unit_lessons:
                 total_before += len(ls.get("exercises", []))
-                expand_lesson(ls, eng_pool, ar_pool)
+                extra = enrichment.get(ls["id"], {}).get("extraExamples", {})
+                expand_lesson(ls, eng_pool, ar_pool, extra_examples=extra)
                 total_after += len(ls["exercises"])
                 lessons += 1
 
@@ -324,6 +425,8 @@ def main():
         encoding="utf-8",
     )
     print(f"Expanded {lessons} lessons.")
+    print(f"Vocabulary: {words_before} base words + {words_added} authored "
+          f"= {words_before + words_added} total.")
     print(f"Exercises: {total_before} -> {total_after} "
           f"(avg {total_before/lessons:.1f} -> {total_after/lessons:.1f} per lesson).")
 

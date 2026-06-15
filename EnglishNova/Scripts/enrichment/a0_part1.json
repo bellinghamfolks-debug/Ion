@@ -1,0 +1,364 @@
+{
+  "lessons": {
+    "a0-u1-l1": {
+      "extraVocabulary": [
+        {"english": "hi", "arabic": "أهلاً", "example": "Hi, I am Omar.", "exampleArabic": "أهلاً، أنا عمر.", "partOfSpeech": "interjection", "phonetic": "/haɪ/"},
+        {"english": "good morning", "arabic": "صباح الخير", "example": "Good morning, teacher.", "exampleArabic": "صباح الخير، أيتها المعلمة.", "partOfSpeech": "interjection", "phonetic": "/ˌɡʊd ˈmɔːrnɪŋ/"},
+        {"english": "welcome", "arabic": "مرحبًا بك", "example": "Welcome to my house.", "exampleArabic": "مرحبًا بك في منزلي.", "partOfSpeech": "interjection", "phonetic": "/ˈwelkəm/"}
+      ],
+      "extraExamples": {
+        "a0-001-hello-1": [{"example": "Hello, this is Sara.", "exampleArabic": "مرحبًا، هذه سارة."}],
+        "a0-001-i-2": [{"example": "I am a student.", "exampleArabic": "أنا طالب."}],
+        "a0-001-am-3": [{"example": "I am happy today.", "exampleArabic": "أنا سعيد اليوم."}]
+      }
+    },
+    "a0-u1-l2": {
+      "extraVocabulary": [
+        {"english": "his", "arabic": "خاصته", "example": "His name is Ali.", "exampleArabic": "اسمه علي.", "partOfSpeech": "determiner", "phonetic": "/hɪz/"},
+        {"english": "her", "arabic": "خاصتها", "example": "Her name is Maha.", "exampleArabic": "اسمها مها.", "partOfSpeech": "determiner", "phonetic": "/hɜːr/"},
+        {"english": "first name", "arabic": "الاسم الأول", "example": "My first name is Sami.", "exampleArabic": "اسمي الأول سامي.", "partOfSpeech": "noun", "phonetic": "/ˈfɜːrst neɪm/"}
+      ],
+      "extraExamples": {
+        "a0-002-name-1": [{"example": "What is your name?", "exampleArabic": "ما اسمك؟"}],
+        "a0-002-my-2": [{"example": "This is my pen.", "exampleArabic": "هذا قلمي."}],
+        "a0-002-your-3": [{"example": "Your bag is here.", "exampleArabic": "حقيبتك هنا."}]
+      }
+    },
+    "a0-u1-l3": {
+      "extraVocabulary": [
+        {"english": "okay", "arabic": "حسنًا", "example": "Okay, I am ready.", "exampleArabic": "حسنًا، أنا مستعد.", "partOfSpeech": "interjection", "phonetic": "/ˌoʊˈkeɪ/"},
+        {"english": "maybe", "arabic": "ربما", "example": "Maybe, I am not sure.", "exampleArabic": "ربما، لست متأكدًا.", "partOfSpeech": "adverb", "phonetic": "/ˈmeɪbi/"},
+        {"english": "sure", "arabic": "بالتأكيد", "example": "Sure, I can help.", "exampleArabic": "بالتأكيد، يمكنني المساعدة.", "partOfSpeech": "adverb", "phonetic": "/ʃʊr/"}
+      ],
+      "extraExamples": {
+        "a0-003-yes-1": [{"example": "Yes, this is my book.", "exampleArabic": "نعم، هذا كتابي."}],
+        "a0-003-no-2": [{"example": "No, it is not here.", "exampleArabic": "لا، إنه ليس هنا."}],
+        "a0-003-ready-3": [{"example": "She is ready now.", "exampleArabic": "هي مستعدة الآن."}]
+      }
+    },
+    "a0-u1-l4": {
+      "extraVocabulary": [
+        {"english": "sorry", "arabic": "آسف", "example": "Sorry, I am late.", "exampleArabic": "آسف، أنا متأخر.", "partOfSpeech": "adjective", "phonetic": "/ˈsɑːri/"},
+        {"english": "excuse me", "arabic": "عذرًا", "example": "Excuse me, where is the door?", "exampleArabic": "عذرًا، أين الباب؟", "partOfSpeech": "interjection", "phonetic": "/ɪkˈskjuːz miː/"},
+        {"english": "you are welcome", "arabic": "على الرحب والسعة", "example": "Thank you. You are welcome.", "exampleArabic": "شكرًا لك. على الرحب والسعة.", "partOfSpeech": "interjection", "phonetic": "/juː ɑːr ˈwelkəm/"}
+      ],
+      "extraExamples": {
+        "a0-004-please-1": [{"example": "Open the door, please.", "exampleArabic": "افتح الباب، من فضلك."}],
+        "a0-004-thank-you-2": [{"example": "Thank you for the book.", "exampleArabic": "شكرًا لك على الكتاب."}],
+        "a0-004-water-3": [{"example": "The water is cold.", "exampleArabic": "الماء بارد."}]
+      }
+    },
+    "a0-u1-l5": {
+      "extraVocabulary": [
+        {"english": "good night", "arabic": "تصبح على خير", "example": "Good night, mother.", "exampleArabic": "تصبحين على خير، أمي.", "partOfSpeech": "interjection", "phonetic": "/ˌɡʊd ˈnaɪt/"},
+        {"english": "later", "arabic": "لاحقًا", "example": "See you later.", "exampleArabic": "أراك لاحقًا.", "partOfSpeech": "adverb", "phonetic": "/ˈleɪtər/"},
+        {"english": "bye", "arabic": "وداعًا", "example": "Bye, my friend.", "exampleArabic": "وداعًا، يا صديقي.", "partOfSpeech": "interjection", "phonetic": "/baɪ/"}
+      ],
+      "extraExamples": {
+        "a0-005-goodbye-1": [{"example": "Goodbye, see you soon.", "exampleArabic": "مع السلامة، أراك قريبًا."}],
+        "a0-005-see-2": [{"example": "I see a cat.", "exampleArabic": "أرى قطة."}],
+        "a0-005-tomorrow-3": [{"example": "We meet tomorrow.", "exampleArabic": "نلتقي غدًا."}]
+      }
+    },
+    "a0-u1-l6": {
+      "extraVocabulary": [
+        {"english": "good", "arabic": "جيد", "example": "I am good, thank you.", "exampleArabic": "أنا بخير، شكرًا لك.", "partOfSpeech": "adjective", "phonetic": "/ɡʊd/"},
+        {"english": "happy", "arabic": "سعيد", "example": "She is happy today.", "exampleArabic": "هي سعيدة اليوم.", "partOfSpeech": "adjective", "phonetic": "/ˈhæpi/"},
+        {"english": "tired", "arabic": "متعب", "example": "I am tired now.", "exampleArabic": "أنا متعب الآن.", "partOfSpeech": "adjective", "phonetic": "/ˈtaɪərd/"}
+      ],
+      "extraExamples": {
+        "a0-006-fine-1": [{"example": "My father is fine.", "exampleArabic": "أبي بخير."}],
+        "a0-006-how-2": [{"example": "How is your mother?", "exampleArabic": "كيف حال أمك؟"}],
+        "a0-006-you-3": [{"example": "You are my friend.", "exampleArabic": "أنت صديقي."}]
+      }
+    },
+    "a0-u2-l1": {
+      "extraVocabulary": [
+        {"english": "ant", "arabic": "نملة", "example": "A is for ant.", "exampleArabic": "حرف A في كلمة نملة.", "partOfSpeech": "noun", "phonetic": "/ænt/"},
+        {"english": "arm", "arabic": "ذراع", "example": "This is my arm.", "exampleArabic": "هذه ذراعي.", "partOfSpeech": "noun", "phonetic": "/ɑːrm/"},
+        {"english": "word", "arabic": "كلمة", "example": "This word is easy.", "exampleArabic": "هذه الكلمة سهلة.", "partOfSpeech": "noun", "phonetic": "/wɜːrd/"}
+      ],
+      "extraExamples": {
+        "a0-007-apple-1": [{"example": "The apple is red.", "exampleArabic": "التفاحة حمراء."}],
+        "a0-007-letter-2": [{"example": "A is a letter.", "exampleArabic": "A حرف."}],
+        "a0-007-sound-3": [{"example": "I hear a sound.", "exampleArabic": "أسمع صوتًا."}]
+      }
+    },
+    "a0-u2-l2": {
+      "extraVocabulary": [
+        {"english": "ball", "arabic": "كرة", "example": "B is for ball.", "exampleArabic": "حرف B في كلمة كرة.", "partOfSpeech": "noun", "phonetic": "/bɔːl/"},
+        {"english": "car", "arabic": "سيارة", "example": "C is for car.", "exampleArabic": "حرف C في كلمة سيارة.", "partOfSpeech": "noun", "phonetic": "/kɑːr/"},
+        {"english": "cup", "arabic": "كوب", "example": "The cup is on the table.", "exampleArabic": "الكوب على الطاولة.", "partOfSpeech": "noun", "phonetic": "/kʌp/"}
+      ],
+      "extraExamples": {
+        "a0-008-book-1": [{"example": "I read a book.", "exampleArabic": "أقرأ كتابًا."}],
+        "a0-008-cat-2": [{"example": "The cat is small.", "exampleArabic": "القطة صغيرة."}],
+        "a0-008-begin-3": [{"example": "We begin now.", "exampleArabic": "نبدأ الآن."}]
+      }
+    },
+    "a0-u2-l3": {
+      "extraVocabulary": [
+        {"english": "big letter", "arabic": "حرف كبير", "example": "B is a big letter.", "exampleArabic": "B حرف كبير.", "partOfSpeech": "noun", "phonetic": "/ˌbɪɡ ˈletər/"},
+        {"english": "small letter", "arabic": "حرف صغير", "example": "b is a small letter.", "exampleArabic": "b حرف صغير.", "partOfSpeech": "noun", "phonetic": "/ˌsmɔːl ˈletər/"},
+        {"english": "write", "arabic": "يكتب", "example": "Write the letter A.", "exampleArabic": "اكتب حرف A.", "partOfSpeech": "verb", "phonetic": "/raɪt/"}
+      ],
+      "extraExamples": {
+        "a0-009-uppercase-1": [{"example": "This is an uppercase A.", "exampleArabic": "هذا حرف A كبير."}],
+        "a0-009-lowercase-2": [{"example": "This is a lowercase a.", "exampleArabic": "هذا حرف a صغير."}],
+        "a0-009-same-3": [{"example": "Our bags are the same.", "exampleArabic": "حقيبتانا متشابهتان."}]
+      }
+    },
+    "a0-u2-l4": {
+      "extraVocabulary": [
+        {"english": "pencil", "arabic": "قلم رصاص", "example": "This is a pencil.", "exampleArabic": "هذا قلم رصاص.", "partOfSpeech": "noun", "phonetic": "/ˈpensl/"},
+        {"english": "notebook", "arabic": "دفتر", "example": "My notebook is new.", "exampleArabic": "دفتري جديد.", "partOfSpeech": "noun", "phonetic": "/ˈnoʊtbʊk/"},
+        {"english": "ruler", "arabic": "مسطرة", "example": "I have a ruler.", "exampleArabic": "لدي مسطرة.", "partOfSpeech": "noun", "phonetic": "/ˈruːlər/"}
+      ],
+      "extraExamples": {
+        "a0-010-pen-1": [{"example": "The pen is blue.", "exampleArabic": "القلم أزرق."}],
+        "a0-010-paper-2": [{"example": "The paper is white.", "exampleArabic": "الورق أبيض."}],
+        "a0-010-desk-3": [{"example": "My book is on the desk.", "exampleArabic": "كتابي على المكتب."}]
+      }
+    },
+    "a0-u2-l5": {
+      "extraVocabulary": [
+        {"english": "these", "arabic": "هؤلاء القريبون", "example": "These are my books.", "exampleArabic": "هذه كتبي.", "partOfSpeech": "determiner", "phonetic": "/ðiːz/"},
+        {"english": "those", "arabic": "أولئك البعيدون", "example": "Those are her pens.", "exampleArabic": "تلك أقلامها.", "partOfSpeech": "determiner", "phonetic": "/ðoʊz/"},
+        {"english": "it", "arabic": "هو للأشياء", "example": "It is a small cat.", "exampleArabic": "إنها قطة صغيرة.", "partOfSpeech": "pronoun", "phonetic": "/ɪt/"}
+      ],
+      "extraExamples": {
+        "a0-011-this-1": [{"example": "This is a pen.", "exampleArabic": "هذا قلم."}],
+        "a0-011-that-2": [{"example": "That is your house.", "exampleArabic": "ذلك منزلك."}],
+        "a0-011-is-3": [{"example": "The cat is here.", "exampleArabic": "القطة هنا."}]
+      }
+    },
+    "a0-u2-l6": {
+      "extraVocabulary": [
+        {"english": "read", "arabic": "اقرأ", "example": "Read the book, please.", "exampleArabic": "اقرأ الكتاب، من فضلك.", "partOfSpeech": "verb", "phonetic": "/riːd/"},
+        {"english": "sit down", "arabic": "اجلس", "example": "Sit down, please.", "exampleArabic": "اجلس، من فضلك.", "partOfSpeech": "verb", "phonetic": "/ˌsɪt ˈdaʊn/"},
+        {"english": "stand up", "arabic": "قف", "example": "Stand up now.", "exampleArabic": "قف الآن.", "partOfSpeech": "verb", "phonetic": "/ˌstænd ˈʌp/"}
+      ],
+      "extraExamples": {
+        "a0-012-open-1": [{"example": "Open the window, please.", "exampleArabic": "افتح النافذة، من فضلك."}],
+        "a0-012-close-2": [{"example": "Close your book.", "exampleArabic": "أغلق كتابك."}],
+        "a0-012-listen-3": [{"example": "Listen to the teacher.", "exampleArabic": "استمع إلى المعلم."}]
+      }
+    },
+    "a0-u3-l1": {
+      "extraVocabulary": [
+        {"english": "one", "arabic": "واحد", "example": "I have one pen.", "exampleArabic": "لدي قلم واحد.", "partOfSpeech": "number", "phonetic": "/wʌn/"},
+        {"english": "two", "arabic": "اثنان", "example": "I see two cats.", "exampleArabic": "أرى قطتين.", "partOfSpeech": "number", "phonetic": "/tuː/"},
+        {"english": "four", "arabic": "أربعة", "example": "There are four books.", "exampleArabic": "يوجد أربعة كتب.", "partOfSpeech": "number", "phonetic": "/fɔːr/"}
+      ],
+      "extraExamples": {
+        "a0-013-zero-1": [{"example": "I have zero pens.", "exampleArabic": "ليس لدي أقلام."}],
+        "a0-013-three-2": [{"example": "There are three chairs.", "exampleArabic": "يوجد ثلاثة كراسٍ."}],
+        "a0-013-five-3": [{"example": "I have five friends.", "exampleArabic": "لدي خمسة أصدقاء."}]
+      }
+    },
+    "a0-u3-l2": {
+      "extraVocabulary": [
+        {"english": "seven", "arabic": "سبعة", "example": "I have seven books.", "exampleArabic": "لدي سبعة كتب.", "partOfSpeech": "number", "phonetic": "/ˈsevn/"},
+        {"english": "nine", "arabic": "تسعة", "example": "There are nine students.", "exampleArabic": "يوجد تسعة طلاب.", "partOfSpeech": "number", "phonetic": "/naɪn/"},
+        {"english": "count", "arabic": "يعد", "example": "I count to ten.", "exampleArabic": "أعد إلى عشرة.", "partOfSpeech": "verb", "phonetic": "/kaʊnt/"}
+      ],
+      "extraExamples": {
+        "a0-014-six-1": [{"example": "I see six cats.", "exampleArabic": "أرى ستة قطط."}],
+        "a0-014-eight-2": [{"example": "There are eight chairs.", "exampleArabic": "يوجد ثمانية كراسٍ."}],
+        "a0-014-ten-3": [{"example": "I have ten pens.", "exampleArabic": "لدي عشرة أقلام."}]
+      }
+    },
+    "a0-u3-l3": {
+      "extraVocabulary": [
+        {"english": "many", "arabic": "كثير", "example": "I have many books.", "exampleArabic": "لدي كتب كثيرة.", "partOfSpeech": "determiner", "phonetic": "/ˈmeni/"},
+        {"english": "few", "arabic": "قليل", "example": "I have few pens.", "exampleArabic": "لدي أقلام قليلة.", "partOfSpeech": "determiner", "phonetic": "/fjuː/"},
+        {"english": "there are", "arabic": "يوجد", "example": "There are three cats.", "exampleArabic": "يوجد ثلاث قطط.", "partOfSpeech": "verb", "phonetic": "/ðer ɑːr/"}
+      ],
+      "extraExamples": {
+        "a0-015-how-many-1": [{"example": "How many books do you have?", "exampleArabic": "كم كتابًا لديك؟"}],
+        "a0-015-one-2": [{"example": "I have one sister.", "exampleArabic": "لدي أخت واحدة."}],
+        "a0-015-two-3": [{"example": "There are two doors.", "exampleArabic": "يوجد بابان."}]
+      }
+    },
+    "a0-u3-l4": {
+      "extraVocabulary": [
+        {"english": "call", "arabic": "يتصل", "example": "I call my mother.", "exampleArabic": "أتصل بأمي.", "partOfSpeech": "verb", "phonetic": "/kɔːl/"},
+        {"english": "zero", "arabic": "صفر", "example": "My number has a zero.", "exampleArabic": "رقمي فيه صفر.", "partOfSpeech": "number", "phonetic": "/ˈzɪroʊ/"},
+        {"english": "five", "arabic": "خمسة", "example": "My number starts with five.", "exampleArabic": "رقمي يبدأ بخمسة.", "partOfSpeech": "number", "phonetic": "/faɪv/"}
+      ],
+      "extraExamples": {
+        "a0-016-number-1": [{"example": "What is your number?", "exampleArabic": "ما رقمك؟"}],
+        "a0-016-phone-2": [{"example": "My phone is new.", "exampleArabic": "هاتفي جديد."}],
+        "a0-016-four-3": [{"example": "There are four pens.", "exampleArabic": "يوجد أربعة أقلام."}]
+      }
+    },
+    "a0-u3-l5": {
+      "extraVocabulary": [
+        {"english": "hour", "arabic": "ساعة", "example": "One hour is long.", "exampleArabic": "ساعة واحدة طويلة.", "partOfSpeech": "noun", "phonetic": "/ˈaʊər/"},
+        {"english": "now", "arabic": "الآن", "example": "It is three o'clock now.", "exampleArabic": "الساعة الثالثة الآن.", "partOfSpeech": "adverb", "phonetic": "/naʊ/"},
+        {"english": "clock", "arabic": "ساعة حائط", "example": "The clock is on the wall.", "exampleArabic": "الساعة على الحائط.", "partOfSpeech": "noun", "phonetic": "/klɑːk/"}
+      ],
+      "extraExamples": {
+        "a0-017-time-1": [{"example": "What time is it?", "exampleArabic": "كم الساعة؟"}],
+        "a0-017-o-clock-2": [{"example": "It is five o'clock.", "exampleArabic": "الساعة الخامسة."}],
+        "a0-017-three-3": [{"example": "I have three books.", "exampleArabic": "لدي ثلاثة كتب."}]
+      }
+    },
+    "a0-u3-l6": {
+      "extraVocabulary": [
+        {"english": "yesterday", "arabic": "أمس", "example": "I was here yesterday.", "exampleArabic": "كنت هنا أمس.", "partOfSpeech": "adverb", "phonetic": "/ˈjestərdeɪ/"},
+        {"english": "week", "arabic": "أسبوع", "example": "One week has seven days.", "exampleArabic": "الأسبوع سبعة أيام.", "partOfSpeech": "noun", "phonetic": "/wiːk/"},
+        {"english": "night", "arabic": "ليل", "example": "I sleep at night.", "exampleArabic": "أنام في الليل.", "partOfSpeech": "noun", "phonetic": "/naɪt/"}
+      ],
+      "extraExamples": {
+        "a0-018-today-1": [{"example": "Today is a good day.", "exampleArabic": "اليوم يوم جميل."}],
+        "a0-018-tomorrow-2": [{"example": "I see you tomorrow.", "exampleArabic": "أراك غدًا."}],
+        "a0-018-day-3": [{"example": "It is a hot day.", "exampleArabic": "إنه يوم حار."}]
+      }
+    },
+    "a0-u4-l1": {
+      "extraVocabulary": [
+        {"english": "parents", "arabic": "والدان", "example": "My parents are kind.", "exampleArabic": "والداي لطيفان.", "partOfSpeech": "noun", "phonetic": "/ˈperənts/"},
+        {"english": "son", "arabic": "ابن", "example": "He is my son.", "exampleArabic": "هو ابني.", "partOfSpeech": "noun", "phonetic": "/sʌn/"},
+        {"english": "daughter", "arabic": "ابنة", "example": "She is my daughter.", "exampleArabic": "هي ابنتي.", "partOfSpeech": "noun", "phonetic": "/ˈdɔːtər/"}
+      ],
+      "extraExamples": {
+        "a0-019-mother-1": [{"example": "My mother is kind.", "exampleArabic": "أمي لطيفة."}],
+        "a0-019-father-2": [{"example": "My father is tall.", "exampleArabic": "أبي طويل."}],
+        "a0-019-family-3": [{"example": "My family is big.", "exampleArabic": "عائلتي كبيرة."}]
+      }
+    },
+    "a0-u4-l2": {
+      "extraVocabulary": [
+        {"english": "baby", "arabic": "رضيع", "example": "The baby is small.", "exampleArabic": "الرضيع صغير.", "partOfSpeech": "noun", "phonetic": "/ˈbeɪbi/"},
+        {"english": "older", "arabic": "أكبر سنًا", "example": "My brother is older.", "exampleArabic": "أخي أكبر سنًا.", "partOfSpeech": "adjective", "phonetic": "/ˈoʊldər/"},
+        {"english": "younger", "arabic": "أصغر سنًا", "example": "My sister is younger.", "exampleArabic": "أختي أصغر سنًا.", "partOfSpeech": "adjective", "phonetic": "/ˈjʌŋɡər/"}
+      ],
+      "extraExamples": {
+        "a0-020-brother-1": [{"example": "My brother is tall.", "exampleArabic": "أخي طويل."}],
+        "a0-020-sister-2": [{"example": "My sister is kind.", "exampleArabic": "أختي لطيفة."}],
+        "a0-020-have-3": [{"example": "I have two sisters.", "exampleArabic": "لدي أختان."}]
+      }
+    },
+    "a0-u4-l3": {
+      "extraVocabulary": [
+        {"english": "boy", "arabic": "ولد", "example": "The boy is happy.", "exampleArabic": "الولد سعيد.", "partOfSpeech": "noun", "phonetic": "/bɔɪ/"},
+        {"english": "girl", "arabic": "بنت", "example": "The girl is kind.", "exampleArabic": "البنت لطيفة.", "partOfSpeech": "noun", "phonetic": "/ɡɜːrl/"},
+        {"english": "people", "arabic": "ناس", "example": "The people are here.", "exampleArabic": "الناس هنا.", "partOfSpeech": "noun", "phonetic": "/ˈpiːpl/"}
+      ],
+      "extraExamples": {
+        "a0-021-man-1": [{"example": "The man is tall.", "exampleArabic": "الرجل طويل."}],
+        "a0-021-woman-2": [{"example": "The woman is my mother.", "exampleArabic": "المرأة هي أمي."}],
+        "a0-021-person-3": [{"example": "She is a kind person.", "exampleArabic": "هي شخص لطيف."}]
+      }
+    },
+    "a0-u4-l4": {
+      "extraVocabulary": [
+        {"english": "boy", "arabic": "ولد", "example": "The child is a boy.", "exampleArabic": "الطفل ولد.", "partOfSpeech": "noun", "phonetic": "/bɔɪ/"},
+        {"english": "name", "arabic": "اسم", "example": "My friend's name is Ali.", "exampleArabic": "اسم صديقي علي.", "partOfSpeech": "noun", "phonetic": "/neɪm/"},
+        {"english": "play", "arabic": "يلعب", "example": "I play with my friend.", "exampleArabic": "ألعب مع صديقي.", "partOfSpeech": "verb", "phonetic": "/pleɪ/"}
+      ],
+      "extraExamples": {
+        "a0-022-child-1": [{"example": "The child is happy.", "exampleArabic": "الطفل سعيد."}],
+        "a0-022-friend-2": [{"example": "Sara is my friend.", "exampleArabic": "سارة صديقتي."}],
+        "a0-022-my-3": [{"example": "This is my friend.", "exampleArabic": "هذا صديقي."}]
+      }
+    },
+    "a0-u4-l5": {
+      "extraVocabulary": [
+        {"english": "we", "arabic": "نحن", "example": "We are students.", "exampleArabic": "نحن طلاب.", "partOfSpeech": "pronoun", "phonetic": "/wiː/"},
+        {"english": "they", "arabic": "هم", "example": "They are my friends.", "exampleArabic": "هم أصدقائي.", "partOfSpeech": "pronoun", "phonetic": "/ðeɪ/"},
+        {"english": "teacher", "arabic": "معلم", "example": "He is a teacher.", "exampleArabic": "هو معلم.", "partOfSpeech": "noun", "phonetic": "/ˈtiːtʃər/"}
+      ],
+      "extraExamples": {
+        "a0-023-he-1": [{"example": "He is my brother.", "exampleArabic": "هو أخي."}],
+        "a0-023-she-2": [{"example": "She is my sister.", "exampleArabic": "هي أختي."}],
+        "a0-023-student-3": [{"example": "The student is here.", "exampleArabic": "الطالب هنا."}]
+      }
+    },
+    "a0-u4-l6": {
+      "extraVocabulary": [
+        {"english": "young", "arabic": "شاب", "example": "She is young.", "exampleArabic": "هي شابة.", "partOfSpeech": "adjective", "phonetic": "/jʌŋ/"},
+        {"english": "old", "arabic": "كبير في السن", "example": "He is old.", "exampleArabic": "هو كبير في السن.", "partOfSpeech": "adjective", "phonetic": "/oʊld/"},
+        {"english": "nice", "arabic": "لطيف", "example": "She is very nice.", "exampleArabic": "هي لطيفة جدًا.", "partOfSpeech": "adjective", "phonetic": "/naɪs/"}
+      ],
+      "extraExamples": {
+        "a0-024-tall-1": [{"example": "My father is tall.", "exampleArabic": "أبي طويل."}],
+        "a0-024-short-2": [{"example": "My sister is short.", "exampleArabic": "أختي قصيرة."}],
+        "a0-024-kind-3": [{"example": "My teacher is kind.", "exampleArabic": "معلمي لطيف."}]
+      }
+    },
+    "a0-u5-l1": {
+      "extraVocabulary": [
+        {"english": "window", "arabic": "نافذة", "example": "The window is open.", "exampleArabic": "النافذة مفتوحة.", "partOfSpeech": "noun", "phonetic": "/ˈwɪndoʊ/"},
+        {"english": "wall", "arabic": "حائط", "example": "The wall is white.", "exampleArabic": "الحائط أبيض.", "partOfSpeech": "noun", "phonetic": "/wɔːl/"},
+        {"english": "kitchen", "arabic": "مطبخ", "example": "My mother is in the kitchen.", "exampleArabic": "أمي في المطبخ.", "partOfSpeech": "noun", "phonetic": "/ˈkɪtʃɪn/"}
+      ],
+      "extraExamples": {
+        "a0-025-house-1": [{"example": "My house is big.", "exampleArabic": "منزلي كبير."}],
+        "a0-025-room-2": [{"example": "The room is clean.", "exampleArabic": "الغرفة نظيفة."}],
+        "a0-025-door-3": [{"example": "The door is open.", "exampleArabic": "الباب مفتوح."}]
+      }
+    },
+    "a0-u5-l2": {
+      "extraVocabulary": [
+        {"english": "sofa", "arabic": "أريكة", "example": "The sofa is big.", "exampleArabic": "الأريكة كبيرة.", "partOfSpeech": "noun", "phonetic": "/ˈsoʊfə/"},
+        {"english": "lamp", "arabic": "مصباح", "example": "The lamp is on the table.", "exampleArabic": "المصباح على الطاولة.", "partOfSpeech": "noun", "phonetic": "/læmp/"},
+        {"english": "shelf", "arabic": "رف", "example": "The book is on the shelf.", "exampleArabic": "الكتاب على الرف.", "partOfSpeech": "noun", "phonetic": "/ʃelf/"}
+      ],
+      "extraExamples": {
+        "a0-026-bed-1": [{"example": "My bed is big.", "exampleArabic": "سريري كبير."}],
+        "a0-026-chair-2": [{"example": "The chair is small.", "exampleArabic": "الكرسي صغير."}],
+        "a0-026-table-3": [{"example": "The cup is on the table.", "exampleArabic": "الكوب على الطاولة."}]
+      }
+    },
+    "a0-u5-l3": {
+      "extraVocabulary": [
+        {"english": "wallet", "arabic": "محفظة", "example": "My wallet is in my bag.", "exampleArabic": "محفظتي في حقيبتي.", "partOfSpeech": "noun", "phonetic": "/ˈwɑːlɪt/"},
+        {"english": "watch", "arabic": "ساعة يد", "example": "My watch is new.", "exampleArabic": "ساعتي جديدة.", "partOfSpeech": "noun", "phonetic": "/wɑːtʃ/"},
+        {"english": "glasses", "arabic": "نظارة", "example": "Her glasses are on the desk.", "exampleArabic": "نظارتها على المكتب.", "partOfSpeech": "noun", "phonetic": "/ˈɡlæsɪz/"}
+      ],
+      "extraExamples": {
+        "a0-027-key-1": [{"example": "The key is on the table.", "exampleArabic": "المفتاح على الطاولة."}],
+        "a0-027-phone-2": [{"example": "My phone is in my bag.", "exampleArabic": "هاتفي في حقيبتي."}],
+        "a0-027-bag-3": [{"example": "My bag is big.", "exampleArabic": "حقيبتي كبيرة."}]
+      }
+    },
+    "a0-u5-l4": {
+      "extraVocabulary": [
+        {"english": "next to", "arabic": "بجانب", "example": "The bag is next to the chair.", "exampleArabic": "الحقيبة بجانب الكرسي.", "partOfSpeech": "preposition", "phonetic": "/ˈnekst tuː/"},
+        {"english": "behind", "arabic": "خلف", "example": "The cat is behind the door.", "exampleArabic": "القطة خلف الباب.", "partOfSpeech": "preposition", "phonetic": "/bɪˈhaɪnd/"},
+        {"english": "near", "arabic": "قرب", "example": "My house is near the school.", "exampleArabic": "منزلي قرب المدرسة.", "partOfSpeech": "preposition", "phonetic": "/nɪr/"}
+      ],
+      "extraExamples": {
+        "a0-028-in-1": [{"example": "The key is in my bag.", "exampleArabic": "المفتاح في حقيبتي."}],
+        "a0-028-on-2": [{"example": "The book is on the bed.", "exampleArabic": "الكتاب على السرير."}],
+        "a0-028-under-3": [{"example": "The cat is under the table.", "exampleArabic": "القطة تحت الطاولة."}]
+      }
+    },
+    "a0-u5-l5": {
+      "extraVocabulary": [
+        {"english": "find", "arabic": "يجد", "example": "I find my key.", "exampleArabic": "أجد مفتاحي.", "partOfSpeech": "verb", "phonetic": "/faɪnd/"},
+        {"english": "look", "arabic": "ينظر", "example": "Look at the door.", "exampleArabic": "انظر إلى الباب.", "partOfSpeech": "verb", "phonetic": "/lʊk/"},
+        {"english": "inside", "arabic": "بالداخل", "example": "The cat is inside.", "exampleArabic": "القطة بالداخل.", "partOfSpeech": "adverb", "phonetic": "/ɪnˈsaɪd/"}
+      ],
+      "extraExamples": {
+        "a0-029-where-1": [{"example": "Where is my phone?", "exampleArabic": "أين هاتفي؟"}],
+        "a0-029-here-2": [{"example": "My bag is here.", "exampleArabic": "حقيبتي هنا."}],
+        "a0-029-there-3": [{"example": "The key is there.", "exampleArabic": "المفتاح هناك."}]
+      }
+    },
+    "a0-u5-l6": {
+      "extraVocabulary": [
+        {"english": "new", "arabic": "جديد", "example": "My house is new.", "exampleArabic": "منزلي جديد.", "partOfSpeech": "adjective", "phonetic": "/nuː/"},
+        {"english": "old", "arabic": "قديم", "example": "The book is old.", "exampleArabic": "الكتاب قديم.", "partOfSpeech": "adjective", "phonetic": "/oʊld/"},
+        {"english": "dirty", "arabic": "متسخ", "example": "The room is dirty.", "exampleArabic": "الغرفة متسخة.", "partOfSpeech": "adjective", "phonetic": "/ˈdɜːrti/"}
+      ],
+      "extraExamples": {
+        "a0-030-clean-1": [{"example": "My room is clean.", "exampleArabic": "غرفتي نظيفة."}],
+        "a0-030-big-2": [{"example": "The house is big.", "exampleArabic": "المنزل كبير."}],
+        "a0-030-small-3": [{"example": "The cat is small.", "exampleArabic": "القطة صغيرة."}]
+      }
+    }
+  }
+}

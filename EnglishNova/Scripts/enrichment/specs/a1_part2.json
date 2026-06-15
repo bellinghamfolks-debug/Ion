@@ -1,0 +1,784 @@
+{
+  "lessons": [
+    {
+      "id": "a1-u6-l1",
+      "level": "A1",
+      "titleEn": "At the Airport",
+      "titleAr": "في المطار",
+      "objectiveAr": "أن تسأل عن بوابة الرحلة.",
+      "modelSentence": "Where is gate twelve?.",
+      "modelSentenceAr": "أين البوابة رقم اثني عشر؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-031-gate-1",
+          "english": "gate",
+          "arabic": "بوابة"
+        },
+        {
+          "id": "a1-031-flight-2",
+          "english": "flight",
+          "arabic": "رحلة جوية"
+        },
+        {
+          "id": "a1-031-airport-3",
+          "english": "airport",
+          "arabic": "مطار"
+        }
+      ]
+    },
+    {
+      "id": "a1-u6-l2",
+      "level": "A1",
+      "titleEn": "Boarding Pass",
+      "titleAr": "بطاقة الصعود",
+      "objectiveAr": "أن تفهم معلومات بطاقة الصعود.",
+      "modelSentence": "My seat is fourteen A.",
+      "modelSentenceAr": "مقعدي هو أربعة عشر A.",
+      "existingVocabulary": [
+        {
+          "id": "a1-032-boarding-pass-1",
+          "english": "boarding pass",
+          "arabic": "بطاقة صعود"
+        },
+        {
+          "id": "a1-032-seat-2",
+          "english": "seat",
+          "arabic": "مقعد"
+        },
+        {
+          "id": "a1-032-fourteen-3",
+          "english": "fourteen",
+          "arabic": "أربعة عشر"
+        }
+      ]
+    },
+    {
+      "id": "a1-u6-l3",
+      "level": "A1",
+      "titleEn": "At the Hotel",
+      "titleAr": "في الفندق",
+      "objectiveAr": "أن تسجّل الدخول إلى الفندق.",
+      "modelSentence": "I have a reservation for two nights.",
+      "modelSentenceAr": "لدي حجز لليلتين.",
+      "existingVocabulary": [
+        {
+          "id": "a1-033-reservation-1",
+          "english": "reservation",
+          "arabic": "حجز"
+        },
+        {
+          "id": "a1-033-night-2",
+          "english": "night",
+          "arabic": "ليلة"
+        },
+        {
+          "id": "a1-033-hotel-3",
+          "english": "hotel",
+          "arabic": "فندق"
+        }
+      ]
+    },
+    {
+      "id": "a1-u6-l4",
+      "level": "A1",
+      "titleEn": "Ordering a Ride",
+      "titleAr": "طلب سيارة",
+      "objectiveAr": "أن تحدد وجهتك للسائق.",
+      "modelSentence": "Please take me to the city center.",
+      "modelSentenceAr": "من فضلك خذني إلى وسط المدينة.",
+      "existingVocabulary": [
+        {
+          "id": "a1-034-take-me-1",
+          "english": "take me",
+          "arabic": "خذني"
+        },
+        {
+          "id": "a1-034-center-2",
+          "english": "center",
+          "arabic": "وسط"
+        },
+        {
+          "id": "a1-034-driver-3",
+          "english": "driver",
+          "arabic": "سائق"
+        }
+      ]
+    },
+    {
+      "id": "a1-u6-l5",
+      "level": "A1",
+      "titleEn": "Train Station",
+      "titleAr": "محطة القطار",
+      "objectiveAr": "أن تسأل عن موعد القطار.",
+      "modelSentence": "What time does the train leave?.",
+      "modelSentenceAr": "متى يغادر القطار؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-035-train-1",
+          "english": "train",
+          "arabic": "قطار"
+        },
+        {
+          "id": "a1-035-leave-2",
+          "english": "leave",
+          "arabic": "يغادر"
+        },
+        {
+          "id": "a1-035-station-3",
+          "english": "station",
+          "arabic": "محطة"
+        }
+      ]
+    },
+    {
+      "id": "a1-u6-l6",
+      "level": "A1",
+      "titleEn": "Asking for Directions",
+      "titleAr": "السؤال عن الطريق",
+      "objectiveAr": "أن تطلب اتجاهات إلى مكان.",
+      "modelSentence": "How can I get to the museum?.",
+      "modelSentenceAr": "كيف أصل إلى المتحف؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-036-get-to-1",
+          "english": "get to",
+          "arabic": "يصل إلى"
+        },
+        {
+          "id": "a1-036-museum-2",
+          "english": "museum",
+          "arabic": "متحف"
+        },
+        {
+          "id": "a1-036-direction-3",
+          "english": "direction",
+          "arabic": "اتجاه"
+        }
+      ]
+    },
+    {
+      "id": "a1-u7-l1",
+      "level": "A1",
+      "titleEn": "I Have a Headache",
+      "titleAr": "لدي صداع",
+      "objectiveAr": "أن تصف عرضًا صحيًا شائعًا.",
+      "modelSentence": "I have a headache and feel tired.",
+      "modelSentenceAr": "لدي صداع وأشعر بالتعب.",
+      "existingVocabulary": [
+        {
+          "id": "a1-037-headache-1",
+          "english": "headache",
+          "arabic": "صداع"
+        },
+        {
+          "id": "a1-037-feel-2",
+          "english": "feel",
+          "arabic": "يشعر"
+        },
+        {
+          "id": "a1-037-tired-3",
+          "english": "tired",
+          "arabic": "متعب"
+        }
+      ]
+    },
+    {
+      "id": "a1-u7-l2",
+      "level": "A1",
+      "titleEn": "How Long?",
+      "titleAr": "منذ متى؟",
+      "objectiveAr": "أن تذكر مدة عرض بسيط.",
+      "modelSentence": "I have had this pain for two days.",
+      "modelSentenceAr": "لدي هذا الألم منذ يومين.",
+      "existingVocabulary": [
+        {
+          "id": "a1-038-pain-1",
+          "english": "pain",
+          "arabic": "ألم"
+        },
+        {
+          "id": "a1-038-for-2",
+          "english": "for",
+          "arabic": "لمدة"
+        },
+        {
+          "id": "a1-038-days-3",
+          "english": "days",
+          "arabic": "أيام"
+        }
+      ]
+    },
+    {
+      "id": "a1-u7-l3",
+      "level": "A1",
+      "titleEn": "Booking a Doctor",
+      "titleAr": "حجز موعد طبي",
+      "objectiveAr": "أن تطلب موعدًا مع الطبيب.",
+      "modelSentence": "I need an appointment with a doctor.",
+      "modelSentenceAr": "أحتاج موعدًا مع طبيب.",
+      "existingVocabulary": [
+        {
+          "id": "a1-039-doctor-1",
+          "english": "doctor",
+          "arabic": "طبيب"
+        },
+        {
+          "id": "a1-039-need-2",
+          "english": "need",
+          "arabic": "يحتاج"
+        },
+        {
+          "id": "a1-039-appointment-3",
+          "english": "appointment",
+          "arabic": "موعد"
+        }
+      ]
+    },
+    {
+      "id": "a1-u7-l4",
+      "level": "A1",
+      "titleEn": "At the Pharmacy",
+      "titleAr": "في الصيدلية",
+      "objectiveAr": "أن تطلب دواءً لعرض بسيط.",
+      "modelSentence": "Do you have something for a cough?.",
+      "modelSentenceAr": "هل لديكم شيء للسعال؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-040-pharmacy-1",
+          "english": "pharmacy",
+          "arabic": "صيدلية"
+        },
+        {
+          "id": "a1-040-cough-2",
+          "english": "cough",
+          "arabic": "سعال"
+        },
+        {
+          "id": "a1-040-medicine-3",
+          "english": "medicine",
+          "arabic": "دواء"
+        }
+      ]
+    },
+    {
+      "id": "a1-u7-l5",
+      "level": "A1",
+      "titleEn": "Medicine Instructions",
+      "titleAr": "تعليمات الدواء",
+      "objectiveAr": "أن تفهم تعليمات جرعة بسيطة.",
+      "modelSentence": "Take one tablet after food.",
+      "modelSentenceAr": "خذ قرصًا واحدًا بعد الطعام.",
+      "existingVocabulary": [
+        {
+          "id": "a1-041-tablet-1",
+          "english": "tablet",
+          "arabic": "قرص"
+        },
+        {
+          "id": "a1-041-take-2",
+          "english": "take",
+          "arabic": "يأخذ"
+        },
+        {
+          "id": "a1-041-after-food-3",
+          "english": "after food",
+          "arabic": "بعد الطعام"
+        }
+      ]
+    },
+    {
+      "id": "a1-u7-l6",
+      "level": "A1",
+      "titleEn": "An Emergency",
+      "titleAr": "حالة طارئة",
+      "objectiveAr": "أن تطلب مساعدة عاجلة بوضوح.",
+      "modelSentence": "Please call an ambulance.",
+      "modelSentenceAr": "من فضلك اتصل بالإسعاف.",
+      "existingVocabulary": [
+        {
+          "id": "a1-042-ambulance-1",
+          "english": "ambulance",
+          "arabic": "سيارة إسعاف"
+        },
+        {
+          "id": "a1-042-emergency-2",
+          "english": "emergency",
+          "arabic": "طوارئ"
+        },
+        {
+          "id": "a1-042-call-3",
+          "english": "call",
+          "arabic": "يتصل"
+        }
+      ]
+    },
+    {
+      "id": "a1-u8-l1",
+      "level": "A1",
+      "titleEn": "In Class",
+      "titleAr": "في الفصل",
+      "objectiveAr": "أن تطلب توضيحًا من المعلم.",
+      "modelSentence": "Could you explain this again?.",
+      "modelSentenceAr": "هل يمكنك شرح هذا مرة أخرى؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-043-explain-1",
+          "english": "explain",
+          "arabic": "يشرح"
+        },
+        {
+          "id": "a1-043-again-2",
+          "english": "again",
+          "arabic": "مرة أخرى"
+        },
+        {
+          "id": "a1-043-teacher-3",
+          "english": "teacher",
+          "arabic": "معلم"
+        }
+      ]
+    },
+    {
+      "id": "a1-u8-l2",
+      "level": "A1",
+      "titleEn": "Homework",
+      "titleAr": "الواجب",
+      "objectiveAr": "أن تتحدث عن واجب وموعده.",
+      "modelSentence": "The homework is due on Thursday.",
+      "modelSentenceAr": "موعد تسليم الواجب يوم الخميس.",
+      "existingVocabulary": [
+        {
+          "id": "a1-044-homework-1",
+          "english": "homework",
+          "arabic": "واجب منزلي"
+        },
+        {
+          "id": "a1-044-due-2",
+          "english": "due",
+          "arabic": "مستحق"
+        },
+        {
+          "id": "a1-044-thursday-3",
+          "english": "Thursday",
+          "arabic": "الخميس"
+        }
+      ]
+    },
+    {
+      "id": "a1-u8-l3",
+      "level": "A1",
+      "titleEn": "A Short Work Message",
+      "titleAr": "رسالة عمل قصيرة",
+      "objectiveAr": "أن تكتب تحديثًا مهنيًا بسيطًا.",
+      "modelSentence": "I finished the task and sent the file.",
+      "modelSentenceAr": "أنهيت المهمة وأرسلت الملف.",
+      "existingVocabulary": [
+        {
+          "id": "a1-045-task-1",
+          "english": "task",
+          "arabic": "مهمة"
+        },
+        {
+          "id": "a1-045-finished-2",
+          "english": "finished",
+          "arabic": "أنهى"
+        },
+        {
+          "id": "a1-045-sent-3",
+          "english": "sent",
+          "arabic": "أرسل"
+        }
+      ]
+    },
+    {
+      "id": "a1-u8-l4",
+      "level": "A1",
+      "titleEn": "Asking for Help at Work",
+      "titleAr": "طلب المساعدة في العمل",
+      "objectiveAr": "أن تطلب مساعدة في مهمة.",
+      "modelSentence": "Can you help me with this report?.",
+      "modelSentenceAr": "هل يمكنك مساعدتي في هذا التقرير؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-046-report-1",
+          "english": "report",
+          "arabic": "تقرير"
+        },
+        {
+          "id": "a1-046-help-2",
+          "english": "help",
+          "arabic": "يساعد"
+        },
+        {
+          "id": "a1-046-with-3",
+          "english": "with",
+          "arabic": "في"
+        }
+      ]
+    },
+    {
+      "id": "a1-u8-l5",
+      "level": "A1",
+      "titleEn": "Meeting Time",
+      "titleAr": "موعد الاجتماع",
+      "objectiveAr": "أن تؤكد وقت اجتماع.",
+      "modelSentence": "The meeting starts at nine thirty.",
+      "modelSentenceAr": "يبدأ الاجتماع الساعة التاسعة والنصف.",
+      "existingVocabulary": [
+        {
+          "id": "a1-047-meeting-1",
+          "english": "meeting",
+          "arabic": "اجتماع"
+        },
+        {
+          "id": "a1-047-starts-2",
+          "english": "starts",
+          "arabic": "يبدأ"
+        },
+        {
+          "id": "a1-047-nine-thirty-3",
+          "english": "nine thirty",
+          "arabic": "التاسعة والنصف"
+        }
+      ]
+    },
+    {
+      "id": "a1-u8-l6",
+      "level": "A1",
+      "titleEn": "Sending an Email",
+      "titleAr": "إرسال بريد إلكتروني",
+      "objectiveAr": "أن تستخدم افتتاحًا وختامًا بسيطين.",
+      "modelSentence": "Hello, I am writing about tomorrow’s meeting.",
+      "modelSentenceAr": "مرحبًا، أكتب بشأن اجتماع الغد.",
+      "existingVocabulary": [
+        {
+          "id": "a1-048-writing-1",
+          "english": "writing",
+          "arabic": "أكتب"
+        },
+        {
+          "id": "a1-048-about-2",
+          "english": "about",
+          "arabic": "بشأن"
+        },
+        {
+          "id": "a1-048-email-3",
+          "english": "email",
+          "arabic": "بريد إلكتروني"
+        }
+      ]
+    },
+    {
+      "id": "a1-u9-l1",
+      "level": "A1",
+      "titleEn": "Inviting a Friend",
+      "titleAr": "دعوة صديق",
+      "objectiveAr": "أن تدعو صديقًا وتحدد الوقت.",
+      "modelSentence": "Would you like to meet on Friday?.",
+      "modelSentenceAr": "هل ترغب في اللقاء يوم الجمعة؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-049-meet-1",
+          "english": "meet",
+          "arabic": "يلتقي"
+        },
+        {
+          "id": "a1-049-friday-2",
+          "english": "Friday",
+          "arabic": "الجمعة"
+        },
+        {
+          "id": "a1-049-like-3",
+          "english": "like",
+          "arabic": "يرغب"
+        }
+      ]
+    },
+    {
+      "id": "a1-u9-l2",
+      "level": "A1",
+      "titleEn": "Accepting and Declining",
+      "titleAr": "قبول ورفض الدعوة",
+      "objectiveAr": "أن تقبل أو ترفض دعوة بأدب.",
+      "modelSentence": "I would love to, but I am busy.",
+      "modelSentenceAr": "يسعدني ذلك، لكنني مشغول.",
+      "existingVocabulary": [
+        {
+          "id": "a1-050-would-love-to-1",
+          "english": "would love to",
+          "arabic": "يسعدني"
+        },
+        {
+          "id": "a1-050-but-2",
+          "english": "but",
+          "arabic": "لكن"
+        },
+        {
+          "id": "a1-050-busy-3",
+          "english": "busy",
+          "arabic": "مشغول"
+        }
+      ]
+    },
+    {
+      "id": "a1-u9-l3",
+      "level": "A1",
+      "titleEn": "Apologizing",
+      "titleAr": "الاعتذار",
+      "objectiveAr": "أن تعتذر وتذكر سببًا بسيطًا.",
+      "modelSentence": "I am sorry I was late.",
+      "modelSentenceAr": "أنا آسف لأنني تأخرت.",
+      "existingVocabulary": [
+        {
+          "id": "a1-051-sorry-1",
+          "english": "sorry",
+          "arabic": "آسف"
+        },
+        {
+          "id": "a1-051-late-2",
+          "english": "late",
+          "arabic": "متأخر"
+        },
+        {
+          "id": "a1-051-because-3",
+          "english": "because",
+          "arabic": "لأن"
+        }
+      ]
+    },
+    {
+      "id": "a1-u9-l4",
+      "level": "A1",
+      "titleEn": "Giving an Opinion",
+      "titleAr": "إبداء الرأي",
+      "objectiveAr": "أن تقول رأيًا بسيطًا مع سبب.",
+      "modelSentence": "I think this book is useful.",
+      "modelSentenceAr": "أعتقد أن هذا الكتاب مفيد.",
+      "existingVocabulary": [
+        {
+          "id": "a1-052-i-think-1",
+          "english": "I think",
+          "arabic": "أعتقد"
+        },
+        {
+          "id": "a1-052-useful-2",
+          "english": "useful",
+          "arabic": "مفيد"
+        },
+        {
+          "id": "a1-052-book-3",
+          "english": "book",
+          "arabic": "كتاب"
+        }
+      ]
+    },
+    {
+      "id": "a1-u9-l5",
+      "level": "A1",
+      "titleEn": "Simple Comparisons",
+      "titleAr": "المقارنة",
+      "objectiveAr": "أن تقارن شيئين باستخدام -er.",
+      "modelSentence": "This bag is cheaper than that one.",
+      "modelSentenceAr": "هذه الحقيبة أرخص من تلك.",
+      "existingVocabulary": [
+        {
+          "id": "a1-053-cheaper-1",
+          "english": "cheaper",
+          "arabic": "أرخص"
+        },
+        {
+          "id": "a1-053-than-2",
+          "english": "than",
+          "arabic": "من للمقارنة"
+        },
+        {
+          "id": "a1-053-bag-3",
+          "english": "bag",
+          "arabic": "حقيبة"
+        }
+      ]
+    },
+    {
+      "id": "a1-u9-l6",
+      "level": "A1",
+      "titleEn": "Expressing Preference",
+      "titleAr": "التفضيل",
+      "objectiveAr": "أن تقول ما تفضله بين خيارين.",
+      "modelSentence": "I prefer tea because it is lighter.",
+      "modelSentenceAr": "أفضل الشاي لأنه أخف.",
+      "existingVocabulary": [
+        {
+          "id": "a1-054-prefer-1",
+          "english": "prefer",
+          "arabic": "يفضل"
+        },
+        {
+          "id": "a1-054-lighter-2",
+          "english": "lighter",
+          "arabic": "أخف"
+        },
+        {
+          "id": "a1-054-because-3",
+          "english": "because",
+          "arabic": "لأن"
+        }
+      ]
+    },
+    {
+      "id": "a1-u10-l1",
+      "level": "A1",
+      "titleEn": "Internet Problem",
+      "titleAr": "مشكلة في الإنترنت",
+      "objectiveAr": "أن تبلغ عن عطل تقني بسيط.",
+      "modelSentence": "The internet is not working.",
+      "modelSentenceAr": "الإنترنت لا يعمل.",
+      "existingVocabulary": [
+        {
+          "id": "a1-055-internet-1",
+          "english": "internet",
+          "arabic": "الإنترنت"
+        },
+        {
+          "id": "a1-055-working-2",
+          "english": "working",
+          "arabic": "يعمل"
+        },
+        {
+          "id": "a1-055-problem-3",
+          "english": "problem",
+          "arabic": "مشكلة"
+        }
+      ]
+    },
+    {
+      "id": "a1-u10-l2",
+      "level": "A1",
+      "titleEn": "Delivery Request",
+      "titleAr": "طلب توصيل",
+      "objectiveAr": "أن تذكر عنوانًا وتعليمات تسليم.",
+      "modelSentence": "Please leave the order at the door.",
+      "modelSentenceAr": "من فضلك اترك الطلب عند الباب.",
+      "existingVocabulary": [
+        {
+          "id": "a1-056-order-1",
+          "english": "order",
+          "arabic": "طلب"
+        },
+        {
+          "id": "a1-056-leave-2",
+          "english": "leave",
+          "arabic": "يترك"
+        },
+        {
+          "id": "a1-056-door-3",
+          "english": "door",
+          "arabic": "باب"
+        }
+      ]
+    },
+    {
+      "id": "a1-u10-l3",
+      "level": "A1",
+      "titleEn": "Customer Service Call",
+      "titleAr": "الاتصال بخدمة العملاء",
+      "objectiveAr": "أن تشرح مشكلة طلب باختصار.",
+      "modelSentence": "I received the wrong item.",
+      "modelSentenceAr": "استلمت المنتج الخطأ.",
+      "existingVocabulary": [
+        {
+          "id": "a1-057-received-1",
+          "english": "received",
+          "arabic": "استلم"
+        },
+        {
+          "id": "a1-057-wrong-2",
+          "english": "wrong",
+          "arabic": "خطأ"
+        },
+        {
+          "id": "a1-057-customer-service-3",
+          "english": "customer service",
+          "arabic": "خدمة العملاء"
+        }
+      ]
+    },
+    {
+      "id": "a1-u10-l4",
+      "level": "A1",
+      "titleEn": "Describing a Lost Item",
+      "titleAr": "وصف شيء مفقود",
+      "objectiveAr": "أن تصف شيئًا فقدته.",
+      "modelSentence": "I lost a small black wallet.",
+      "modelSentenceAr": "فقدت محفظة سوداء صغيرة.",
+      "existingVocabulary": [
+        {
+          "id": "a1-058-lost-1",
+          "english": "lost",
+          "arabic": "فقد"
+        },
+        {
+          "id": "a1-058-wallet-2",
+          "english": "wallet",
+          "arabic": "محفظة"
+        },
+        {
+          "id": "a1-058-small-3",
+          "english": "small",
+          "arabic": "صغير"
+        }
+      ]
+    },
+    {
+      "id": "a1-u10-l5",
+      "level": "A1",
+      "titleEn": "Simple Rules",
+      "titleAr": "قواعد بسيطة",
+      "objectiveAr": "أن تفهم must وmust not في التعليمات.",
+      "modelSentence": "You must show your ticket.",
+      "modelSentenceAr": "يجب أن تُظهر تذكرتك.",
+      "existingVocabulary": [
+        {
+          "id": "a1-059-must-1",
+          "english": "must",
+          "arabic": "يجب"
+        },
+        {
+          "id": "a1-059-ticket-2",
+          "english": "ticket",
+          "arabic": "تذكرة"
+        },
+        {
+          "id": "a1-059-show-3",
+          "english": "show",
+          "arabic": "يُظهر"
+        }
+      ]
+    },
+    {
+      "id": "a1-u10-l6",
+      "level": "A1",
+      "titleEn": "Practical A1 Review",
+      "titleAr": "مراجعة A1 العملية",
+      "objectiveAr": "أن تجمع الماضي والخطة والطلب في موقف واحد.",
+      "modelSentence": "Yesterday I booked a hotel, and tomorrow I will travel.",
+      "modelSentenceAr": "حجزت فندقًا أمس، وسأسافر غدًا.",
+      "existingVocabulary": [
+        {
+          "id": "a1-060-booked-1",
+          "english": "booked",
+          "arabic": "حجز"
+        },
+        {
+          "id": "a1-060-tomorrow-2",
+          "english": "tomorrow",
+          "arabic": "غدًا"
+        },
+        {
+          "id": "a1-060-travel-3",
+          "english": "travel",
+          "arabic": "يسافر"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,364 @@
+{
+  "lessons": {
+    "a1-u6-l1": {
+      "extraVocabulary": [
+        { "english": "passport", "arabic": "جواز سفر", "example": "Show me your passport, please.", "exampleArabic": "أرني جواز سفرك من فضلك.", "partOfSpeech": "noun", "phonetic": "/ˈpɑːspɔːrt/" },
+        { "english": "luggage", "arabic": "أمتعة", "example": "My luggage is very heavy.", "exampleArabic": "أمتعتي ثقيلة جدًا.", "partOfSpeech": "noun", "phonetic": "/ˈlʌɡɪdʒ/" },
+        { "english": "board", "arabic": "يصعد إلى الطائرة", "example": "We board the plane at six.", "exampleArabic": "نصعد إلى الطائرة الساعة السادسة.", "partOfSpeech": "verb", "phonetic": "/bɔːrd/" }
+      ],
+      "extraExamples": {
+        "a1-031-gate-1": [ { "example": "The gate is on the left.", "exampleArabic": "البوابة على اليسار." } ],
+        "a1-031-flight-2": [ { "example": "My flight is at ten o'clock.", "exampleArabic": "رحلتي الجوية الساعة العاشرة." } ],
+        "a1-031-airport-3": [ { "example": "The airport is very big.", "exampleArabic": "المطار كبير جدًا." } ]
+      }
+    },
+    "a1-u6-l2": {
+      "extraVocabulary": [
+        { "english": "window", "arabic": "نافذة", "example": "I want a window seat.", "exampleArabic": "أريد مقعدًا بجانب النافذة.", "partOfSpeech": "noun", "phonetic": "/ˈwɪndoʊ/" },
+        { "english": "row", "arabic": "صف", "example": "My seat is in row five.", "exampleArabic": "مقعدي في الصف الخامس.", "partOfSpeech": "noun", "phonetic": "/roʊ/" },
+        { "english": "ticket", "arabic": "تذكرة", "example": "Here is my plane ticket.", "exampleArabic": "ها هي تذكرة طائرتي.", "partOfSpeech": "noun", "phonetic": "/ˈtɪkɪt/" }
+      ],
+      "extraExamples": {
+        "a1-032-boarding-pass-1": [ { "example": "Please show your boarding pass.", "exampleArabic": "من فضلك أظهر بطاقة الصعود." } ],
+        "a1-032-seat-2": [ { "example": "This seat is free.", "exampleArabic": "هذا المقعد فارغ." } ],
+        "a1-032-fourteen-3": [ { "example": "I am fourteen years old.", "exampleArabic": "عمري أربعة عشر عامًا." } ]
+      }
+    },
+    "a1-u6-l3": {
+      "extraVocabulary": [
+        { "english": "room", "arabic": "غرفة", "example": "My room is on the third floor.", "exampleArabic": "غرفتي في الطابق الثالث.", "partOfSpeech": "noun", "phonetic": "/ruːm/" },
+        { "english": "key", "arabic": "مفتاح", "example": "Here is your room key.", "exampleArabic": "ها هو مفتاح غرفتك.", "partOfSpeech": "noun", "phonetic": "/kiː/" },
+        { "english": "check in", "arabic": "يسجّل الدخول", "example": "We check in at two o'clock.", "exampleArabic": "نسجّل الدخول الساعة الثانية.", "partOfSpeech": "phrasal verb", "phonetic": "/tʃek ɪn/" }
+      ],
+      "extraExamples": {
+        "a1-033-reservation-1": [ { "example": "I have a reservation for tonight.", "exampleArabic": "لدي حجز لهذه الليلة." } ],
+        "a1-033-night-2": [ { "example": "We stay for one night.", "exampleArabic": "نبقى ليلة واحدة." } ],
+        "a1-033-hotel-3": [ { "example": "The hotel is near the beach.", "exampleArabic": "الفندق قريب من الشاطئ." } ]
+      }
+    },
+    "a1-u6-l4": {
+      "extraVocabulary": [
+        { "english": "address", "arabic": "عنوان", "example": "What is your address, please?", "exampleArabic": "ما هو عنوانك من فضلك؟", "partOfSpeech": "noun", "phonetic": "/ˈædres/" },
+        { "english": "stop here", "arabic": "توقف هنا", "example": "Please stop here.", "exampleArabic": "من فضلك توقف هنا.", "partOfSpeech": "phrase", "phonetic": "/stɑːp hɪr/" },
+        { "english": "wait", "arabic": "ينتظر", "example": "Please wait one minute.", "exampleArabic": "من فضلك انتظر دقيقة واحدة.", "partOfSpeech": "verb", "phonetic": "/weɪt/" }
+      ],
+      "extraExamples": {
+        "a1-034-take-me-1": [ { "example": "Please take me to the airport.", "exampleArabic": "من فضلك خذني إلى المطار." } ],
+        "a1-034-center-2": [ { "example": "The shop is in the center.", "exampleArabic": "المتجر في الوسط." } ],
+        "a1-034-driver-3": [ { "example": "The driver is very kind.", "exampleArabic": "السائق لطيف جدًا." } ]
+      }
+    },
+    "a1-u6-l5": {
+      "extraVocabulary": [
+        { "english": "platform", "arabic": "رصيف", "example": "The train is at platform two.", "exampleArabic": "القطار عند الرصيف رقم اثنين.", "partOfSpeech": "noun", "phonetic": "/ˈplætfɔːrm/" },
+        { "english": "arrive", "arabic": "يصل", "example": "The train arrives at noon.", "exampleArabic": "يصل القطار عند الظهر.", "partOfSpeech": "verb", "phonetic": "/əˈraɪv/" },
+        { "english": "late", "arabic": "متأخر", "example": "The train is ten minutes late.", "exampleArabic": "القطار متأخر عشر دقائق.", "partOfSpeech": "adjective", "phonetic": "/leɪt/" }
+      ],
+      "extraExamples": {
+        "a1-035-train-1": [ { "example": "The train is very fast.", "exampleArabic": "القطار سريع جدًا." } ],
+        "a1-035-leave-2": [ { "example": "We leave at eight o'clock.", "exampleArabic": "نغادر الساعة الثامنة." } ],
+        "a1-035-station-3": [ { "example": "The station is near my house.", "exampleArabic": "المحطة قريبة من بيتي." } ]
+      }
+    },
+    "a1-u6-l6": {
+      "extraVocabulary": [
+        { "english": "left", "arabic": "يسار", "example": "Turn left at the corner.", "exampleArabic": "انعطف يسارًا عند الزاوية.", "partOfSpeech": "noun", "phonetic": "/left/" },
+        { "english": "right", "arabic": "يمين", "example": "The bank is on the right.", "exampleArabic": "البنك على اليمين.", "partOfSpeech": "noun", "phonetic": "/raɪt/" },
+        { "english": "near", "arabic": "قريب من", "example": "The hotel is near the station.", "exampleArabic": "الفندق قريب من المحطة.", "partOfSpeech": "preposition", "phonetic": "/nɪr/" }
+      ],
+      "extraExamples": {
+        "a1-036-get-to-1": [ { "example": "How do I get to the park?", "exampleArabic": "كيف أصل إلى الحديقة؟" } ],
+        "a1-036-museum-2": [ { "example": "The museum opens at nine.", "exampleArabic": "يفتح المتحف الساعة التاسعة." } ],
+        "a1-036-direction-3": [ { "example": "Thank you for the directions.", "exampleArabic": "شكرًا على الاتجاهات." } ]
+      }
+    },
+    "a1-u7-l1": {
+      "extraVocabulary": [
+        { "english": "sick", "arabic": "مريض", "example": "My son is sick today.", "exampleArabic": "ابني مريض اليوم.", "partOfSpeech": "adjective", "phonetic": "/sɪk/" },
+        { "english": "fever", "arabic": "حُمّى", "example": "I have a high fever.", "exampleArabic": "لدي حُمّى مرتفعة.", "partOfSpeech": "noun", "phonetic": "/ˈfiːvər/" },
+        { "english": "rest", "arabic": "يستريح", "example": "You need to rest at home.", "exampleArabic": "تحتاج إلى أن تستريح في البيت.", "partOfSpeech": "verb", "phonetic": "/rest/" }
+      ],
+      "extraExamples": {
+        "a1-037-headache-1": [ { "example": "I have a bad headache.", "exampleArabic": "لدي صداع شديد." } ],
+        "a1-037-feel-2": [ { "example": "I feel better today.", "exampleArabic": "أشعر بتحسن اليوم." } ],
+        "a1-037-tired-3": [ { "example": "I am very tired tonight.", "exampleArabic": "أنا متعب جدًا هذه الليلة." } ]
+      }
+    },
+    "a1-u7-l2": {
+      "extraVocabulary": [
+        { "english": "since", "arabic": "منذ", "example": "I have been here since Monday.", "exampleArabic": "أنا هنا منذ يوم الاثنين.", "partOfSpeech": "preposition", "phonetic": "/sɪns/" },
+        { "english": "week", "arabic": "أسبوع", "example": "I was sick for one week.", "exampleArabic": "كنت مريضًا لمدة أسبوع.", "partOfSpeech": "noun", "phonetic": "/wiːk/" },
+        { "english": "hour", "arabic": "ساعة", "example": "We waited for one hour.", "exampleArabic": "انتظرنا لمدة ساعة واحدة.", "partOfSpeech": "noun", "phonetic": "/aʊər/" }
+      ],
+      "extraExamples": {
+        "a1-038-pain-1": [ { "example": "I have a pain in my back.", "exampleArabic": "لدي ألم في ظهري." } ],
+        "a1-038-for-2": [ { "example": "I slept for eight hours.", "exampleArabic": "نمت لمدة ثماني ساعات." } ],
+        "a1-038-days-3": [ { "example": "I was tired for three days.", "exampleArabic": "كنت متعبًا لمدة ثلاثة أيام." } ]
+      }
+    },
+    "a1-u7-l3": {
+      "extraVocabulary": [
+        { "english": "nurse", "arabic": "ممرض", "example": "The nurse is very kind.", "exampleArabic": "الممرض لطيف جدًا.", "partOfSpeech": "noun", "phonetic": "/nɜːrs/" },
+        { "english": "clinic", "arabic": "عيادة", "example": "The clinic is near my home.", "exampleArabic": "العيادة قريبة من بيتي.", "partOfSpeech": "noun", "phonetic": "/ˈklɪnɪk/" },
+        { "english": "tomorrow", "arabic": "غدًا", "example": "Can I come tomorrow?", "exampleArabic": "هل يمكنني أن آتي غدًا؟", "partOfSpeech": "adverb", "phonetic": "/təˈmɑːroʊ/" }
+      ],
+      "extraExamples": {
+        "a1-039-doctor-1": [ { "example": "The doctor is in the clinic.", "exampleArabic": "الطبيب في العيادة." } ],
+        "a1-039-need-2": [ { "example": "I need some water, please.", "exampleArabic": "أحتاج بعض الماء من فضلك." } ],
+        "a1-039-appointment-3": [ { "example": "My appointment is at three.", "exampleArabic": "موعدي الساعة الثالثة." } ]
+      }
+    },
+    "a1-u7-l4": {
+      "extraVocabulary": [
+        { "english": "cold", "arabic": "زكام", "example": "I have a bad cold.", "exampleArabic": "لدي زكام شديد.", "partOfSpeech": "noun", "phonetic": "/koʊld/" },
+        { "english": "syrup", "arabic": "شراب دوائي", "example": "Take this syrup twice a day.", "exampleArabic": "خذ هذا الشراب مرتين في اليوم.", "partOfSpeech": "noun", "phonetic": "/ˈsɪrəp/" },
+        { "english": "prescription", "arabic": "وصفة طبية", "example": "Here is my prescription.", "exampleArabic": "ها هي وصفتي الطبية.", "partOfSpeech": "noun", "phonetic": "/prɪˈskrɪpʃn/" }
+      ],
+      "extraExamples": {
+        "a1-040-pharmacy-1": [ { "example": "The pharmacy is open now.", "exampleArabic": "الصيدلية مفتوحة الآن." } ],
+        "a1-040-cough-2": [ { "example": "I have a bad cough.", "exampleArabic": "لدي سعال شديد." } ],
+        "a1-040-medicine-3": [ { "example": "Take this medicine after lunch.", "exampleArabic": "خذ هذا الدواء بعد الغداء." } ]
+      }
+    },
+    "a1-u7-l5": {
+      "extraVocabulary": [
+        { "english": "twice", "arabic": "مرتين", "example": "Take this twice a day.", "exampleArabic": "خذ هذا مرتين في اليوم.", "partOfSpeech": "adverb", "phonetic": "/twaɪs/" },
+        { "english": "water", "arabic": "ماء", "example": "Take the tablet with water.", "exampleArabic": "خذ القرص مع الماء.", "partOfSpeech": "noun", "phonetic": "/ˈwɔːtər/" },
+        { "english": "dose", "arabic": "جرعة", "example": "This is a small dose.", "exampleArabic": "هذه جرعة صغيرة.", "partOfSpeech": "noun", "phonetic": "/doʊs/" }
+      ],
+      "extraExamples": {
+        "a1-041-tablet-1": [ { "example": "Take one tablet in the morning.", "exampleArabic": "خذ قرصًا واحدًا في الصباح." } ],
+        "a1-041-take-2": [ { "example": "Take this medicine every day.", "exampleArabic": "خذ هذا الدواء كل يوم." } ],
+        "a1-041-after-food-3": [ { "example": "Drink the syrup after food.", "exampleArabic": "اشرب الشراب بعد الطعام." } ]
+      }
+    },
+    "a1-u7-l6": {
+      "extraVocabulary": [
+        { "english": "help", "arabic": "مساعدة", "example": "I need help, please!", "exampleArabic": "أحتاج مساعدة من فضلك!", "partOfSpeech": "noun", "phonetic": "/help/" },
+        { "english": "hospital", "arabic": "مستشفى", "example": "The hospital is very close.", "exampleArabic": "المستشفى قريب جدًا.", "partOfSpeech": "noun", "phonetic": "/ˈhɑːspɪtl/" },
+        { "english": "quickly", "arabic": "بسرعة", "example": "Please come quickly!", "exampleArabic": "من فضلك تعال بسرعة!", "partOfSpeech": "adverb", "phonetic": "/ˈkwɪkli/" }
+      ],
+      "extraExamples": {
+        "a1-042-ambulance-1": [ { "example": "The ambulance is here now.", "exampleArabic": "سيارة الإسعاف هنا الآن." } ],
+        "a1-042-emergency-2": [ { "example": "This is an emergency!", "exampleArabic": "هذه حالة طارئة!" } ],
+        "a1-042-call-3": [ { "example": "Please call the doctor now.", "exampleArabic": "من فضلك اتصل بالطبيب الآن." } ]
+      }
+    },
+    "a1-u8-l1": {
+      "extraVocabulary": [
+        { "english": "question", "arabic": "سؤال", "example": "I have a question, teacher.", "exampleArabic": "لدي سؤال يا معلم.", "partOfSpeech": "noun", "phonetic": "/ˈkwestʃən/" },
+        { "english": "understand", "arabic": "يفهم", "example": "I don't understand this word.", "exampleArabic": "لا أفهم هذه الكلمة.", "partOfSpeech": "verb", "phonetic": "/ˌʌndərˈstænd/" },
+        { "english": "lesson", "arabic": "درس", "example": "Today's lesson is easy.", "exampleArabic": "درس اليوم سهل.", "partOfSpeech": "noun", "phonetic": "/ˈlesn/" }
+      ],
+      "extraExamples": {
+        "a1-043-explain-1": [ { "example": "Please explain the answer.", "exampleArabic": "من فضلك اشرح الإجابة." } ],
+        "a1-043-again-2": [ { "example": "Please say it again.", "exampleArabic": "من فضلك قل ذلك مرة أخرى." } ],
+        "a1-043-teacher-3": [ { "example": "My teacher is very kind.", "exampleArabic": "معلمي لطيف جدًا." } ]
+      }
+    },
+    "a1-u8-l2": {
+      "extraVocabulary": [
+        { "english": "page", "arabic": "صفحة", "example": "Read page ten, please.", "exampleArabic": "اقرأ الصفحة العاشرة من فضلك.", "partOfSpeech": "noun", "phonetic": "/peɪdʒ/" },
+        { "english": "easy", "arabic": "سهل", "example": "The homework is very easy.", "exampleArabic": "الواجب سهل جدًا.", "partOfSpeech": "adjective", "phonetic": "/ˈiːzi/" },
+        { "english": "finish", "arabic": "ينهي", "example": "I finish my homework at six.", "exampleArabic": "أنهي واجبي الساعة السادسة.", "partOfSpeech": "verb", "phonetic": "/ˈfɪnɪʃ/" }
+      ],
+      "extraExamples": {
+        "a1-044-homework-1": [ { "example": "I do my homework every day.", "exampleArabic": "أؤدي واجبي كل يوم." } ],
+        "a1-044-due-2": [ { "example": "The report is due tomorrow.", "exampleArabic": "موعد تسليم التقرير غدًا." } ],
+        "a1-044-thursday-3": [ { "example": "We have a class on Thursday.", "exampleArabic": "لدينا حصة يوم الخميس." } ]
+      }
+    },
+    "a1-u8-l3": {
+      "extraVocabulary": [
+        { "english": "file", "arabic": "ملف", "example": "I opened the file on my computer.", "exampleArabic": "فتحت الملف على حاسوبي.", "partOfSpeech": "noun", "phonetic": "/faɪl/" },
+        { "english": "ready", "arabic": "جاهز", "example": "The report is ready now.", "exampleArabic": "التقرير جاهز الآن.", "partOfSpeech": "adjective", "phonetic": "/ˈredi/" },
+        { "english": "update", "arabic": "تحديث", "example": "Here is a short update.", "exampleArabic": "ها هو تحديث قصير.", "partOfSpeech": "noun", "phonetic": "/ˈʌpdeɪt/" }
+      ],
+      "extraExamples": {
+        "a1-045-task-1": [ { "example": "This task is very easy.", "exampleArabic": "هذه المهمة سهلة جدًا." } ],
+        "a1-045-finished-2": [ { "example": "I finished my work early.", "exampleArabic": "أنهيت عملي مبكرًا." } ],
+        "a1-045-sent-3": [ { "example": "I sent the email this morning.", "exampleArabic": "أرسلت البريد الإلكتروني هذا الصباح." } ]
+      }
+    },
+    "a1-u8-l4": {
+      "extraVocabulary": [
+        { "english": "problem", "arabic": "مشكلة", "example": "I have a small problem.", "exampleArabic": "لدي مشكلة صغيرة.", "partOfSpeech": "noun", "phonetic": "/ˈprɑːbləm/" },
+        { "english": "together", "arabic": "معًا", "example": "Let's do it together.", "exampleArabic": "لنفعل ذلك معًا.", "partOfSpeech": "adverb", "phonetic": "/təˈɡeðər/" },
+        { "english": "easy", "arabic": "سهل", "example": "This work is not easy.", "exampleArabic": "هذا العمل ليس سهلًا.", "partOfSpeech": "adjective", "phonetic": "/ˈiːzi/" }
+      ],
+      "extraExamples": {
+        "a1-046-report-1": [ { "example": "The report is on my desk.", "exampleArabic": "التقرير على مكتبي." } ],
+        "a1-046-help-2": [ { "example": "Can you help me, please?", "exampleArabic": "هل يمكنك مساعدتي من فضلك؟" } ],
+        "a1-046-with-3": [ { "example": "I need help with my homework.", "exampleArabic": "أحتاج مساعدة في واجبي." } ]
+      }
+    },
+    "a1-u8-l5": {
+      "extraVocabulary": [
+        { "english": "office", "arabic": "مكتب", "example": "The meeting is in my office.", "exampleArabic": "الاجتماع في مكتبي.", "partOfSpeech": "noun", "phonetic": "/ˈɔːfɪs/" },
+        { "english": "early", "arabic": "مبكرًا", "example": "Please come early tomorrow.", "exampleArabic": "من فضلك تعال مبكرًا غدًا.", "partOfSpeech": "adverb", "phonetic": "/ˈɜːrli/" },
+        { "english": "agenda", "arabic": "جدول أعمال", "example": "Here is the meeting agenda.", "exampleArabic": "ها هو جدول أعمال الاجتماع.", "partOfSpeech": "noun", "phonetic": "/əˈdʒendə/" }
+      ],
+      "extraExamples": {
+        "a1-047-meeting-1": [ { "example": "The meeting is very important.", "exampleArabic": "الاجتماع مهم جدًا." } ],
+        "a1-047-starts-2": [ { "example": "The class starts at eight.", "exampleArabic": "تبدأ الحصة الساعة الثامنة." } ],
+        "a1-047-nine-thirty-3": [ { "example": "I wake up at nine thirty.", "exampleArabic": "أستيقظ الساعة التاسعة والنصف." } ]
+      }
+    },
+    "a1-u8-l6": {
+      "extraVocabulary": [
+        { "english": "send", "arabic": "يرسل", "example": "I will send the email now.", "exampleArabic": "سأرسل البريد الإلكتروني الآن.", "partOfSpeech": "verb", "phonetic": "/send/" },
+        { "english": "regards", "arabic": "مع التحية", "example": "I end my email with regards.", "exampleArabic": "أنهي بريدي مع التحية.", "partOfSpeech": "noun", "phonetic": "/rɪˈɡɑːrdz/" },
+        { "english": "reply", "arabic": "يرد", "example": "Please reply to my email.", "exampleArabic": "من فضلك رد على بريدي.", "partOfSpeech": "verb", "phonetic": "/rɪˈplaɪ/" }
+      ],
+      "extraExamples": {
+        "a1-048-writing-1": [ { "example": "I am writing a short email.", "exampleArabic": "أكتب بريدًا إلكترونيًا قصيرًا." } ],
+        "a1-048-about-2": [ { "example": "This email is about the meeting.", "exampleArabic": "هذا البريد بشأن الاجتماع." } ],
+        "a1-048-email-3": [ { "example": "I sent you an email.", "exampleArabic": "أرسلت لك بريدًا إلكترونيًا." } ]
+      }
+    },
+    "a1-u9-l1": {
+      "extraVocabulary": [
+        { "english": "dinner", "arabic": "عشاء", "example": "Let's have dinner together.", "exampleArabic": "لنتناول العشاء معًا.", "partOfSpeech": "noun", "phonetic": "/ˈdɪnər/" },
+        { "english": "weekend", "arabic": "عطلة نهاية الأسبوع", "example": "Are you free this weekend?", "exampleArabic": "هل أنت متفرغ في عطلة نهاية الأسبوع؟", "partOfSpeech": "noun", "phonetic": "/ˈwiːkend/" },
+        { "english": "join", "arabic": "ينضم", "example": "Can you join us tonight?", "exampleArabic": "هل يمكنك الانضمام إلينا الليلة؟", "partOfSpeech": "verb", "phonetic": "/dʒɔɪn/" }
+      ],
+      "extraExamples": {
+        "a1-049-meet-1": [ { "example": "Let's meet at the café.", "exampleArabic": "لنلتقِ في المقهى." } ],
+        "a1-049-friday-2": [ { "example": "I am free on Friday.", "exampleArabic": "أنا متفرغ يوم الجمعة." } ],
+        "a1-049-like-3": [ { "example": "Would you like some tea?", "exampleArabic": "هل ترغب في بعض الشاي؟" } ]
+      }
+    },
+    "a1-u9-l2": {
+      "extraVocabulary": [
+        { "english": "maybe", "arabic": "ربما", "example": "Maybe next time.", "exampleArabic": "ربما في المرة القادمة.", "partOfSpeech": "adverb", "phonetic": "/ˈmeɪbi/" },
+        { "english": "free", "arabic": "متفرغ", "example": "I am free tomorrow.", "exampleArabic": "أنا متفرغ غدًا.", "partOfSpeech": "adjective", "phonetic": "/friː/" },
+        { "english": "sure", "arabic": "بالتأكيد", "example": "Sure, I can come.", "exampleArabic": "بالتأكيد، يمكنني أن آتي.", "partOfSpeech": "adverb", "phonetic": "/ʃʊr/" }
+      ],
+      "extraExamples": {
+        "a1-050-would-love-to-1": [ { "example": "I would love to see you.", "exampleArabic": "يسعدني أن أراك." } ],
+        "a1-050-but-2": [ { "example": "I like tea, but I prefer coffee.", "exampleArabic": "أحب الشاي، لكنني أفضل القهوة." } ],
+        "a1-050-busy-3": [ { "example": "I am busy this evening.", "exampleArabic": "أنا مشغول هذا المساء." } ]
+      }
+    },
+    "a1-u9-l3": {
+      "extraVocabulary": [
+        { "english": "forgive", "arabic": "يسامح", "example": "Please forgive me.", "exampleArabic": "من فضلك سامحني.", "partOfSpeech": "verb", "phonetic": "/fərˈɡɪv/" },
+        { "english": "mistake", "arabic": "خطأ", "example": "It was a small mistake.", "exampleArabic": "كان خطأً صغيرًا.", "partOfSpeech": "noun", "phonetic": "/mɪˈsteɪk/" },
+        { "english": "apologize", "arabic": "يعتذر", "example": "I apologize for the delay.", "exampleArabic": "أعتذر عن التأخير.", "partOfSpeech": "verb", "phonetic": "/əˈpɑːlədʒaɪz/" }
+      ],
+      "extraExamples": {
+        "a1-051-sorry-1": [ { "example": "I am sorry for the mistake.", "exampleArabic": "أنا آسف على الخطأ." } ],
+        "a1-051-late-2": [ { "example": "Sorry, I am a little late.", "exampleArabic": "آسف، أنا متأخر قليلًا." } ],
+        "a1-051-because-3": [ { "example": "I was late because of the traffic.", "exampleArabic": "تأخرت بسبب الازدحام." } ]
+      }
+    },
+    "a1-u9-l4": {
+      "extraVocabulary": [
+        { "english": "agree", "arabic": "يوافق", "example": "I agree with you.", "exampleArabic": "أنا أوافقك.", "partOfSpeech": "verb", "phonetic": "/əˈɡriː/" },
+        { "english": "interesting", "arabic": "ممتع", "example": "This story is interesting.", "exampleArabic": "هذه القصة ممتعة.", "partOfSpeech": "adjective", "phonetic": "/ˈɪntrəstɪŋ/" },
+        { "english": "boring", "arabic": "ممل", "example": "The film was boring.", "exampleArabic": "كان الفيلم مملًا.", "partOfSpeech": "adjective", "phonetic": "/ˈbɔːrɪŋ/" }
+      ],
+      "extraExamples": {
+        "a1-052-i-think-1": [ { "example": "I think the food is good.", "exampleArabic": "أعتقد أن الطعام جيد." } ],
+        "a1-052-useful-2": [ { "example": "This app is very useful.", "exampleArabic": "هذا التطبيق مفيد جدًا." } ],
+        "a1-052-book-3": [ { "example": "I read a good book.", "exampleArabic": "قرأت كتابًا جيدًا." } ]
+      }
+    },
+    "a1-u9-l5": {
+      "extraVocabulary": [
+        { "english": "bigger", "arabic": "أكبر", "example": "This house is bigger than mine.", "exampleArabic": "هذا البيت أكبر من بيتي.", "partOfSpeech": "adjective", "phonetic": "/ˈbɪɡər/" },
+        { "english": "smaller", "arabic": "أصغر", "example": "My bag is smaller than yours.", "exampleArabic": "حقيبتي أصغر من حقيبتك.", "partOfSpeech": "adjective", "phonetic": "/ˈsmɔːlər/" },
+        { "english": "faster", "arabic": "أسرع", "example": "The train is faster than the bus.", "exampleArabic": "القطار أسرع من الحافلة.", "partOfSpeech": "adjective", "phonetic": "/ˈfæstər/" }
+      ],
+      "extraExamples": {
+        "a1-053-cheaper-1": [ { "example": "This phone is cheaper.", "exampleArabic": "هذا الهاتف أرخص." } ],
+        "a1-053-than-2": [ { "example": "Tea is hotter than juice.", "exampleArabic": "الشاي أسخن من العصير." } ],
+        "a1-053-bag-3": [ { "example": "My bag is black.", "exampleArabic": "حقيبتي سوداء." } ]
+      }
+    },
+    "a1-u9-l6": {
+      "extraVocabulary": [
+        { "english": "coffee", "arabic": "قهوة", "example": "I drink coffee every morning.", "exampleArabic": "أشرب القهوة كل صباح.", "partOfSpeech": "noun", "phonetic": "/ˈkɔːfi/" },
+        { "english": "better", "arabic": "أفضل", "example": "This one is better.", "exampleArabic": "هذا أفضل.", "partOfSpeech": "adjective", "phonetic": "/ˈbetər/" },
+        { "english": "instead", "arabic": "بدلًا من ذلك", "example": "I want water instead.", "exampleArabic": "أريد ماءً بدلًا من ذلك.", "partOfSpeech": "adverb", "phonetic": "/ɪnˈsted/" }
+      ],
+      "extraExamples": {
+        "a1-054-prefer-1": [ { "example": "I prefer coffee in the morning.", "exampleArabic": "أفضل القهوة في الصباح." } ],
+        "a1-054-lighter-2": [ { "example": "This bag is lighter than that one.", "exampleArabic": "هذه الحقيبة أخف من تلك." } ],
+        "a1-054-because-3": [ { "example": "I like it because it is sweet.", "exampleArabic": "أحبه لأنه حلو." } ]
+      }
+    },
+    "a1-u10-l1": {
+      "extraVocabulary": [
+        { "english": "slow", "arabic": "بطيء", "example": "The internet is very slow.", "exampleArabic": "الإنترنت بطيء جدًا.", "partOfSpeech": "adjective", "phonetic": "/sloʊ/" },
+        { "english": "router", "arabic": "موجّه", "example": "I turned off the router.", "exampleArabic": "أطفأت الموجّه.", "partOfSpeech": "noun", "phonetic": "/ˈruːtər/" },
+        { "english": "connect", "arabic": "يتصل", "example": "I cannot connect to the internet.", "exampleArabic": "لا أستطيع الاتصال بالإنترنت.", "partOfSpeech": "verb", "phonetic": "/kəˈnekt/" }
+      ],
+      "extraExamples": {
+        "a1-055-internet-1": [ { "example": "The internet is fast today.", "exampleArabic": "الإنترنت سريع اليوم." } ],
+        "a1-055-working-2": [ { "example": "My phone is not working.", "exampleArabic": "هاتفي لا يعمل." } ],
+        "a1-055-problem-3": [ { "example": "There is a problem with my computer.", "exampleArabic": "هناك مشكلة في حاسوبي." } ]
+      }
+    },
+    "a1-u10-l2": {
+      "extraVocabulary": [
+        { "english": "package", "arabic": "طرد", "example": "The package is at the door.", "exampleArabic": "الطرد عند الباب.", "partOfSpeech": "noun", "phonetic": "/ˈpækɪdʒ/" },
+        { "english": "deliver", "arabic": "يوصّل", "example": "They deliver the food at noon.", "exampleArabic": "يوصّلون الطعام عند الظهر.", "partOfSpeech": "verb", "phonetic": "/dɪˈlɪvər/" },
+        { "english": "ring", "arabic": "يقرع الجرس", "example": "Please ring the bell.", "exampleArabic": "من فضلك اقرع الجرس.", "partOfSpeech": "verb", "phonetic": "/rɪŋ/" }
+      ],
+      "extraExamples": {
+        "a1-056-order-1": [ { "example": "My order is very big.", "exampleArabic": "طلبي كبير جدًا." } ],
+        "a1-056-leave-2": [ { "example": "Please leave it on the table.", "exampleArabic": "من فضلك اتركه على الطاولة." } ],
+        "a1-056-door-3": [ { "example": "Please close the door.", "exampleArabic": "من فضلك أغلق الباب." } ]
+      }
+    },
+    "a1-u10-l3": {
+      "extraVocabulary": [
+        { "english": "refund", "arabic": "استرداد المال", "example": "I want a refund, please.", "exampleArabic": "أريد استرداد المال من فضلك.", "partOfSpeech": "noun", "phonetic": "/ˈriːfʌnd/" },
+        { "english": "broken", "arabic": "مكسور", "example": "The item is broken.", "exampleArabic": "المنتج مكسور.", "partOfSpeech": "adjective", "phonetic": "/ˈbroʊkən/" },
+        { "english": "complaint", "arabic": "شكوى", "example": "I have a complaint about my order.", "exampleArabic": "لدي شكوى بشأن طلبي.", "partOfSpeech": "noun", "phonetic": "/kəmˈpleɪnt/" }
+      ],
+      "extraExamples": {
+        "a1-057-received-1": [ { "example": "I received the package today.", "exampleArabic": "استلمت الطرد اليوم." } ],
+        "a1-057-wrong-2": [ { "example": "This is the wrong size.", "exampleArabic": "هذا هو المقاس الخطأ." } ],
+        "a1-057-customer-service-3": [ { "example": "I called customer service.", "exampleArabic": "اتصلت بخدمة العملاء." } ]
+      }
+    },
+    "a1-u10-l4": {
+      "extraVocabulary": [
+        { "english": "black", "arabic": "أسود", "example": "I have a black bag.", "exampleArabic": "لدي حقيبة سوداء.", "partOfSpeech": "adjective", "phonetic": "/blæk/" },
+        { "english": "find", "arabic": "يجد", "example": "I cannot find my keys.", "exampleArabic": "لا أستطيع أن أجد مفاتيحي.", "partOfSpeech": "verb", "phonetic": "/faɪnd/" },
+        { "english": "phone", "arabic": "هاتف", "example": "I lost my phone yesterday.", "exampleArabic": "فقدت هاتفي أمس.", "partOfSpeech": "noun", "phonetic": "/foʊn/" }
+      ],
+      "extraExamples": {
+        "a1-058-lost-1": [ { "example": "I lost my keys this morning.", "exampleArabic": "فقدت مفاتيحي هذا الصباح." } ],
+        "a1-058-wallet-2": [ { "example": "My wallet is in my bag.", "exampleArabic": "محفظتي في حقيبتي." } ],
+        "a1-058-small-3": [ { "example": "I have a small car.", "exampleArabic": "لدي سيارة صغيرة." } ]
+      }
+    },
+    "a1-u10-l5": {
+      "extraVocabulary": [
+        { "english": "must not", "arabic": "يجب ألا", "example": "You must not smoke here.", "exampleArabic": "يجب ألا تدخّن هنا.", "partOfSpeech": "modal verb", "phonetic": "/mʌst nɑːt/" },
+        { "english": "rule", "arabic": "قاعدة", "example": "This is an important rule.", "exampleArabic": "هذه قاعدة مهمة.", "partOfSpeech": "noun", "phonetic": "/ruːl/" },
+        { "english": "allowed", "arabic": "مسموح", "example": "Food is not allowed here.", "exampleArabic": "الطعام غير مسموح هنا.", "partOfSpeech": "adjective", "phonetic": "/əˈlaʊd/" }
+      ],
+      "extraExamples": {
+        "a1-059-must-1": [ { "example": "You must wear a seatbelt.", "exampleArabic": "يجب أن تربط حزام الأمان." } ],
+        "a1-059-ticket-2": [ { "example": "I have two tickets.", "exampleArabic": "لدي تذكرتان." } ],
+        "a1-059-show-3": [ { "example": "Please show your passport.", "exampleArabic": "من فضلك أظهر جواز سفرك." } ]
+      }
+    },
+    "a1-u10-l6": {
+      "extraVocabulary": [
+        { "english": "yesterday", "arabic": "أمس", "example": "I worked at home yesterday.", "exampleArabic": "عملت في البيت أمس.", "partOfSpeech": "adverb", "phonetic": "/ˈjestərdeɪ/" },
+        { "english": "next week", "arabic": "الأسبوع القادم", "example": "I will travel next week.", "exampleArabic": "سأسافر الأسبوع القادم.", "partOfSpeech": "phrase", "phonetic": "/nekst wiːk/" },
+        { "english": "plan", "arabic": "خطة", "example": "I have a plan for tomorrow.", "exampleArabic": "لدي خطة للغد.", "partOfSpeech": "noun", "phonetic": "/plæn/" }
+      ],
+      "extraExamples": {
+        "a1-060-booked-1": [ { "example": "I booked a room last night.", "exampleArabic": "حجزت غرفة الليلة الماضية." } ],
+        "a1-060-tomorrow-2": [ { "example": "I will call you tomorrow.", "exampleArabic": "سأتصل بك غدًا." } ],
+        "a1-060-travel-3": [ { "example": "I love to travel by train.", "exampleArabic": "أحب السفر بالقطار." } ]
+      }
+    }
+  }
+}

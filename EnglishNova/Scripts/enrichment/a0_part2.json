@@ -1,0 +1,1444 @@
+{
+  "lessons": {
+    "a0-u6-l1": {
+      "extraVocabulary": [
+        {
+          "english": "water",
+          "arabic": "ماء",
+          "example": "I drink water.",
+          "exampleArabic": "أنا أشرب الماء.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈwɔːtər/"
+        },
+        {
+          "english": "milk",
+          "arabic": "حليب",
+          "example": "The milk is cold.",
+          "exampleArabic": "الحليب بارد.",
+          "partOfSpeech": "noun",
+          "phonetic": "/mɪlk/"
+        },
+        {
+          "english": "juice",
+          "arabic": "عصير",
+          "example": "I like orange juice.",
+          "exampleArabic": "أنا أحب عصير البرتقال.",
+          "partOfSpeech": "noun",
+          "phonetic": "/dʒuːs/"
+        }
+      ],
+      "extraExamples": {
+        "a0-031-tea-1": [
+          {
+            "example": "The tea is hot.",
+            "exampleArabic": "الشاي حار."
+          }
+        ],
+        "a0-031-coffee-2": [
+          {
+            "example": "I drink coffee in the morning.",
+            "exampleArabic": "أشرب القهوة في الصباح."
+          }
+        ],
+        "a0-031-want-3": [
+          {
+            "example": "I want water, please.",
+            "exampleArabic": "أريد ماءً، من فضلك."
+          }
+        ]
+      }
+    },
+    "a0-u6-l2": {
+      "extraVocabulary": [
+        {
+          "english": "egg",
+          "arabic": "بيضة",
+          "example": "I eat one egg.",
+          "exampleArabic": "آكل بيضة واحدة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/eɡ/"
+        },
+        {
+          "english": "meat",
+          "arabic": "لحم",
+          "example": "The meat is good.",
+          "exampleArabic": "اللحم جيد.",
+          "partOfSpeech": "noun",
+          "phonetic": "/miːt/"
+        },
+        {
+          "english": "soup",
+          "arabic": "حساء",
+          "example": "The soup is hot.",
+          "exampleArabic": "الحساء حار.",
+          "partOfSpeech": "noun",
+          "phonetic": "/suːp/"
+        }
+      ],
+      "extraExamples": {
+        "a0-032-bread-1": [
+          {
+            "example": "I eat bread and egg.",
+            "exampleArabic": "آكل الخبز والبيض."
+          }
+        ],
+        "a0-032-rice-2": [
+          {
+            "example": "The rice is hot.",
+            "exampleArabic": "الأرز حار."
+          }
+        ],
+        "a0-032-eat-3": [
+          {
+            "example": "I eat bread.",
+            "exampleArabic": "أنا آكل الخبز."
+          }
+        ]
+      }
+    },
+    "a0-u6-l3": {
+      "extraVocabulary": [
+        {
+          "english": "grape",
+          "arabic": "عنبة",
+          "example": "The grape is small.",
+          "exampleArabic": "العنبة صغيرة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ɡreɪp/"
+        },
+        {
+          "english": "lemon",
+          "arabic": "ليمونة",
+          "example": "The lemon is yellow.",
+          "exampleArabic": "الليمونة صفراء.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈlemən/"
+        },
+        {
+          "english": "fruit",
+          "arabic": "فاكهة",
+          "example": "I like fruit.",
+          "exampleArabic": "أنا أحب الفاكهة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/fruːt/"
+        }
+      ],
+      "extraExamples": {
+        "a0-033-apple-1": [
+          {
+            "example": "I eat an apple.",
+            "exampleArabic": "آكل تفاحة."
+          }
+        ],
+        "a0-033-banana-2": [
+          {
+            "example": "The banana is yellow.",
+            "exampleArabic": "الموزة صفراء."
+          }
+        ],
+        "a0-033-orange-3": [
+          {
+            "example": "The orange is sweet.",
+            "exampleArabic": "البرتقالة حلوة."
+          }
+        ]
+      }
+    },
+    "a0-u6-l4": {
+      "extraVocabulary": [
+        {
+          "english": "full",
+          "arabic": "شبعان",
+          "example": "I am full now.",
+          "exampleArabic": "أنا شبعان الآن.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/fʊl/"
+        },
+        {
+          "english": "meal",
+          "arabic": "وجبة",
+          "example": "The meal is good.",
+          "exampleArabic": "الوجبة جيدة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/miːl/"
+        },
+        {
+          "english": "water",
+          "arabic": "ماء",
+          "example": "I drink water.",
+          "exampleArabic": "أنا أشرب الماء.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈwɔːtər/"
+        }
+      ],
+      "extraExamples": {
+        "a0-034-hungry-1": [
+          {
+            "example": "I am hungry now.",
+            "exampleArabic": "أنا جائع الآن."
+          }
+        ],
+        "a0-034-thirsty-2": [
+          {
+            "example": "I am thirsty.",
+            "exampleArabic": "أنا عطشان."
+          }
+        ],
+        "a0-034-drink-3": [
+          {
+            "example": "I drink water.",
+            "exampleArabic": "أنا أشرب الماء."
+          }
+        ]
+      }
+    },
+    "a0-u6-l5": {
+      "extraVocabulary": [
+        {
+          "english": "love",
+          "arabic": "يعشق",
+          "example": "I love tea.",
+          "exampleArabic": "أنا أعشق الشاي.",
+          "partOfSpeech": "verb",
+          "phonetic": "/lʌv/"
+        },
+        {
+          "english": "bad",
+          "arabic": "سيئ",
+          "example": "The food is bad.",
+          "exampleArabic": "الطعام سيئ.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/bæd/"
+        },
+        {
+          "english": "favorite",
+          "arabic": "مفضّل",
+          "example": "Tea is my favorite drink.",
+          "exampleArabic": "الشاي مشروبي المفضّل.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈfeɪvərɪt/"
+        }
+      ],
+      "extraExamples": {
+        "a0-035-like-1": [
+          {
+            "example": "I like tea.",
+            "exampleArabic": "أنا أحب الشاي."
+          }
+        ],
+        "a0-035-food-2": [
+          {
+            "example": "The food is good.",
+            "exampleArabic": "الطعام جيد."
+          }
+        ],
+        "a0-035-good-3": [
+          {
+            "example": "This coffee is good.",
+            "exampleArabic": "هذه القهوة جيدة."
+          }
+        ]
+      }
+    },
+    "a0-u6-l6": {
+      "extraVocabulary": [
+        {
+          "english": "table",
+          "arabic": "طاولة",
+          "example": "The table is here.",
+          "exampleArabic": "الطاولة هنا.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈteɪbəl/"
+        },
+        {
+          "english": "water",
+          "arabic": "ماء",
+          "example": "Water, please.",
+          "exampleArabic": "ماء، من فضلك.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈwɔːtər/"
+        },
+        {
+          "english": "bill",
+          "arabic": "فاتورة",
+          "example": "The bill, please.",
+          "exampleArabic": "الفاتورة، من فضلك.",
+          "partOfSpeech": "noun",
+          "phonetic": "/bɪl/"
+        }
+      ],
+      "extraExamples": {
+        "a0-036-sandwich-1": [
+          {
+            "example": "I want one sandwich.",
+            "exampleArabic": "أريد شطيرة واحدة."
+          }
+        ],
+        "a0-036-menu-2": [
+          {
+            "example": "The menu, please.",
+            "exampleArabic": "قائمة الطعام، من فضلك."
+          }
+        ],
+        "a0-036-one-3": [
+          {
+            "example": "I want one tea.",
+            "exampleArabic": "أريد شايًا واحدًا."
+          }
+        ]
+      }
+    },
+    "a0-u7-l1": {
+      "extraVocabulary": [
+        {
+          "english": "leg",
+          "arabic": "ساق",
+          "example": "My leg is long.",
+          "exampleArabic": "ساقي طويلة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/leɡ/"
+        },
+        {
+          "english": "foot",
+          "arabic": "قدم",
+          "example": "This is my foot.",
+          "exampleArabic": "هذه قدمي.",
+          "partOfSpeech": "noun",
+          "phonetic": "/fʊt/"
+        },
+        {
+          "english": "finger",
+          "arabic": "إصبع",
+          "example": "I have a small finger.",
+          "exampleArabic": "لديّ إصبع صغير.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈfɪŋɡər/"
+        }
+      ],
+      "extraExamples": {
+        "a0-037-head-1": [
+          {
+            "example": "My head is big.",
+            "exampleArabic": "رأسي كبير."
+          }
+        ],
+        "a0-037-hand-2": [
+          {
+            "example": "I have two hands.",
+            "exampleArabic": "لديّ يدان."
+          }
+        ],
+        "a0-037-arm-3": [
+          {
+            "example": "My arm is strong.",
+            "exampleArabic": "ذراعي قوية."
+          }
+        ]
+      }
+    },
+    "a0-u7-l2": {
+      "extraVocabulary": [
+        {
+          "english": "mouth",
+          "arabic": "فم",
+          "example": "I eat with my mouth.",
+          "exampleArabic": "آكل بفمي.",
+          "partOfSpeech": "noun",
+          "phonetic": "/maʊθ/"
+        },
+        {
+          "english": "face",
+          "arabic": "وجه",
+          "example": "My face is clean.",
+          "exampleArabic": "وجهي نظيف.",
+          "partOfSpeech": "noun",
+          "phonetic": "/feɪs/"
+        },
+        {
+          "english": "hear",
+          "arabic": "يسمع",
+          "example": "I hear with my ears.",
+          "exampleArabic": "أسمع بأذنيّ.",
+          "partOfSpeech": "verb",
+          "phonetic": "/hɪr/"
+        }
+      ],
+      "extraExamples": {
+        "a0-038-eye-1": [
+          {
+            "example": "My eye is blue.",
+            "exampleArabic": "عيني زرقاء."
+          }
+        ],
+        "a0-038-ear-2": [
+          {
+            "example": "I hear with my ear.",
+            "exampleArabic": "أسمع بأذني."
+          }
+        ],
+        "a0-038-nose-3": [
+          {
+            "example": "My nose is small.",
+            "exampleArabic": "أنفي صغير."
+          }
+        ]
+      }
+    },
+    "a0-u7-l3": {
+      "extraVocabulary": [
+        {
+          "english": "hat",
+          "arabic": "قبعة",
+          "example": "My hat is red.",
+          "exampleArabic": "قبعتي حمراء.",
+          "partOfSpeech": "noun",
+          "phonetic": "/hæt/"
+        },
+        {
+          "english": "dress",
+          "arabic": "فستان",
+          "example": "The dress is green.",
+          "exampleArabic": "الفستان أخضر.",
+          "partOfSpeech": "noun",
+          "phonetic": "/dres/"
+        },
+        {
+          "english": "wear",
+          "arabic": "يرتدي",
+          "example": "I wear a blue shirt.",
+          "exampleArabic": "أرتدي قميصًا أزرق.",
+          "partOfSpeech": "verb",
+          "phonetic": "/wer/"
+        }
+      ],
+      "extraExamples": {
+        "a0-039-shirt-1": [
+          {
+            "example": "My shirt is white.",
+            "exampleArabic": "قميصي أبيض."
+          }
+        ],
+        "a0-039-shoes-2": [
+          {
+            "example": "My shoes are black.",
+            "exampleArabic": "حذائي أسود."
+          }
+        ],
+        "a0-039-clothes-3": [
+          {
+            "example": "My clothes are new.",
+            "exampleArabic": "ملابسي جديدة."
+          }
+        ]
+      }
+    },
+    "a0-u7-l4": {
+      "extraVocabulary": [
+        {
+          "english": "yellow",
+          "arabic": "أصفر",
+          "example": "The sun is yellow.",
+          "exampleArabic": "الشمس صفراء.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈjeloʊ/"
+        },
+        {
+          "english": "brown",
+          "arabic": "بنّي",
+          "example": "The bread is brown.",
+          "exampleArabic": "الخبز بنّي.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/braʊn/"
+        },
+        {
+          "english": "pink",
+          "arabic": "وردي",
+          "example": "The dress is pink.",
+          "exampleArabic": "الفستان وردي.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/pɪŋk/"
+        }
+      ],
+      "extraExamples": {
+        "a0-040-red-1": [
+          {
+            "example": "The apple is red.",
+            "exampleArabic": "التفاحة حمراء."
+          }
+        ],
+        "a0-040-blue-2": [
+          {
+            "example": "My shirt is blue.",
+            "exampleArabic": "قميصي أزرق."
+          }
+        ],
+        "a0-040-green-3": [
+          {
+            "example": "The tree is green.",
+            "exampleArabic": "الشجرة خضراء."
+          }
+        ]
+      }
+    },
+    "a0-u7-l5": {
+      "extraVocabulary": [
+        {
+          "english": "gray",
+          "arabic": "رمادي",
+          "example": "The cloud is gray.",
+          "exampleArabic": "السحابة رمادية.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ɡreɪ/"
+        },
+        {
+          "english": "dark",
+          "arabic": "داكن",
+          "example": "The room is dark.",
+          "exampleArabic": "الغرفة مظلمة.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/dɑːrk/"
+        },
+        {
+          "english": "light",
+          "arabic": "فاتح",
+          "example": "The blue is light.",
+          "exampleArabic": "الأزرق فاتح.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/laɪt/"
+        }
+      ],
+      "extraExamples": {
+        "a0-041-black-1": [
+          {
+            "example": "My shoes are black.",
+            "exampleArabic": "حذائي أسود."
+          }
+        ],
+        "a0-041-white-2": [
+          {
+            "example": "The cup is white.",
+            "exampleArabic": "الكوب أبيض."
+          }
+        ],
+        "a0-041-color-3": [
+          {
+            "example": "Red is my favorite color.",
+            "exampleArabic": "الأحمر لوني المفضّل."
+          }
+        ]
+      }
+    },
+    "a0-u7-l6": {
+      "extraVocabulary": [
+        {
+          "english": "pain",
+          "arabic": "ألم",
+          "example": "I have pain here.",
+          "exampleArabic": "لديّ ألم هنا.",
+          "partOfSpeech": "noun",
+          "phonetic": "/peɪn/"
+        },
+        {
+          "english": "doctor",
+          "arabic": "طبيب",
+          "example": "I see the doctor.",
+          "exampleArabic": "أرى الطبيب.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈdɑːktər/"
+        },
+        {
+          "english": "rest",
+          "arabic": "يرتاح",
+          "example": "I rest at home.",
+          "exampleArabic": "أرتاح في المنزل.",
+          "partOfSpeech": "verb",
+          "phonetic": "/rest/"
+        }
+      ],
+      "extraExamples": {
+        "a0-042-tired-1": [
+          {
+            "example": "I am tired today.",
+            "exampleArabic": "أنا متعب اليوم."
+          }
+        ],
+        "a0-042-sick-2": [
+          {
+            "example": "My friend is sick.",
+            "exampleArabic": "صديقي مريض."
+          }
+        ],
+        "a0-042-hurt-3": [
+          {
+            "example": "My head hurts.",
+            "exampleArabic": "رأسي يؤلمني."
+          }
+        ]
+      }
+    },
+    "a0-u8-l1": {
+      "extraVocabulary": [
+        {
+          "english": "market",
+          "arabic": "سوق",
+          "example": "The market is near.",
+          "exampleArabic": "السوق قريب.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈmɑːrkɪt/"
+        },
+        {
+          "english": "house",
+          "arabic": "منزل",
+          "example": "My house is big.",
+          "exampleArabic": "منزلي كبير.",
+          "partOfSpeech": "noun",
+          "phonetic": "/haʊs/"
+        },
+        {
+          "english": "here",
+          "arabic": "هنا",
+          "example": "The store is here.",
+          "exampleArabic": "المتجر هنا.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/hɪr/"
+        }
+      ],
+      "extraExamples": {
+        "a0-043-school-1": [
+          {
+            "example": "I go to school.",
+            "exampleArabic": "أذهب إلى المدرسة."
+          }
+        ],
+        "a0-043-store-2": [
+          {
+            "example": "The store is big.",
+            "exampleArabic": "المتجر كبير."
+          }
+        ],
+        "a0-043-place-3": [
+          {
+            "example": "This place is good.",
+            "exampleArabic": "هذا المكان جيد."
+          }
+        ]
+      }
+    },
+    "a0-u8-l2": {
+      "extraVocabulary": [
+        {
+          "english": "bank",
+          "arabic": "بنك",
+          "example": "The bank is here.",
+          "exampleArabic": "البنك هنا.",
+          "partOfSpeech": "noun",
+          "phonetic": "/bæŋk/"
+        },
+        {
+          "english": "street",
+          "arabic": "شارع",
+          "example": "The street is long.",
+          "exampleArabic": "الشارع طويل.",
+          "partOfSpeech": "noun",
+          "phonetic": "/striːt/"
+        },
+        {
+          "english": "here",
+          "arabic": "هنا",
+          "example": "The park is here.",
+          "exampleArabic": "الحديقة هنا.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/hɪr/"
+        }
+      ],
+      "extraExamples": {
+        "a0-044-hospital-1": [
+          {
+            "example": "The hospital is near.",
+            "exampleArabic": "المستشفى قريب."
+          }
+        ],
+        "a0-044-park-2": [
+          {
+            "example": "I walk in the park.",
+            "exampleArabic": "أمشي في الحديقة."
+          }
+        ],
+        "a0-044-there-3": [
+          {
+            "example": "The store is there.",
+            "exampleArabic": "المتجر هناك."
+          }
+        ]
+      }
+    },
+    "a0-u8-l3": {
+      "extraVocabulary": [
+        {
+          "english": "here",
+          "arabic": "هنا",
+          "example": "Stop here, please.",
+          "exampleArabic": "توقف هنا، من فضلك.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/hɪr/"
+        },
+        {
+          "english": "road",
+          "arabic": "طريق",
+          "example": "The road is long.",
+          "exampleArabic": "الطريق طويل.",
+          "partOfSpeech": "noun",
+          "phonetic": "/roʊd/"
+        },
+        {
+          "english": "way",
+          "arabic": "طريق",
+          "example": "This is the way.",
+          "exampleArabic": "هذا هو الطريق.",
+          "partOfSpeech": "noun",
+          "phonetic": "/weɪ/"
+        }
+      ],
+      "extraExamples": {
+        "a0-045-right-1": [
+          {
+            "example": "Turn right here.",
+            "exampleArabic": "انعطف يمينًا هنا."
+          }
+        ],
+        "a0-045-left-2": [
+          {
+            "example": "Turn left, please.",
+            "exampleArabic": "انعطف يسارًا، من فضلك."
+          }
+        ],
+        "a0-045-turn-3": [
+          {
+            "example": "Turn left here.",
+            "exampleArabic": "انعطف يسارًا هنا."
+          }
+        ]
+      }
+    },
+    "a0-u8-l4": {
+      "extraVocabulary": [
+        {
+          "english": "next to",
+          "arabic": "بجانب",
+          "example": "The car is next to the house.",
+          "exampleArabic": "السيارة بجانب المنزل.",
+          "partOfSpeech": "preposition",
+          "phonetic": "/ˈnekst tuː/"
+        },
+        {
+          "english": "house",
+          "arabic": "منزل",
+          "example": "The house is big.",
+          "exampleArabic": "المنزل كبير.",
+          "partOfSpeech": "noun",
+          "phonetic": "/haʊs/"
+        },
+        {
+          "english": "between",
+          "arabic": "بين",
+          "example": "The car is between two houses.",
+          "exampleArabic": "السيارة بين منزلين.",
+          "partOfSpeech": "preposition",
+          "phonetic": "/bɪˈtwiːn/"
+        }
+      ],
+      "extraExamples": {
+        "a0-046-front-1": [
+          {
+            "example": "The store is in front of the school.",
+            "exampleArabic": "المتجر أمام المدرسة."
+          }
+        ],
+        "a0-046-behind-2": [
+          {
+            "example": "The park is behind the house.",
+            "exampleArabic": "الحديقة خلف المنزل."
+          }
+        ],
+        "a0-046-car-3": [
+          {
+            "example": "My car is red.",
+            "exampleArabic": "سيارتي حمراء."
+          }
+        ]
+      }
+    },
+    "a0-u8-l5": {
+      "extraVocabulary": [
+        {
+          "english": "here",
+          "arabic": "هنا",
+          "example": "The school is here.",
+          "exampleArabic": "المدرسة هنا.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/hɪr/"
+        },
+        {
+          "english": "close",
+          "arabic": "قريب",
+          "example": "My house is close.",
+          "exampleArabic": "منزلي قريب.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/kloʊs/"
+        },
+        {
+          "english": "long",
+          "arabic": "طويل",
+          "example": "The road is long.",
+          "exampleArabic": "الطريق طويل.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/lɔːŋ/"
+        }
+      ],
+      "extraExamples": {
+        "a0-047-near-1": [
+          {
+            "example": "The school is near.",
+            "exampleArabic": "المدرسة قريبة."
+          }
+        ],
+        "a0-047-far-2": [
+          {
+            "example": "The park is far.",
+            "exampleArabic": "الحديقة بعيدة."
+          }
+        ],
+        "a0-047-walk-3": [
+          {
+            "example": "I walk to school.",
+            "exampleArabic": "أمشي إلى المدرسة."
+          }
+        ]
+      }
+    },
+    "a0-u8-l6": {
+      "extraVocabulary": [
+        {
+          "english": "slow",
+          "arabic": "بطيء",
+          "example": "The car is slow.",
+          "exampleArabic": "السيارة بطيئة.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/sloʊ/"
+        },
+        {
+          "english": "fast",
+          "arabic": "سريع",
+          "example": "The car is fast.",
+          "exampleArabic": "السيارة سريعة.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/fæst/"
+        },
+        {
+          "english": "wait",
+          "arabic": "ينتظر",
+          "example": "Please wait here.",
+          "exampleArabic": "انتظر هنا، من فضلك.",
+          "partOfSpeech": "verb",
+          "phonetic": "/weɪt/"
+        }
+      ],
+      "extraExamples": {
+        "a0-048-go-1": [
+          {
+            "example": "Go to the store.",
+            "exampleArabic": "اذهب إلى المتجر."
+          }
+        ],
+        "a0-048-stop-2": [
+          {
+            "example": "Stop here, please.",
+            "exampleArabic": "توقف هنا، من فضلك."
+          }
+        ],
+        "a0-048-straight-3": [
+          {
+            "example": "Go straight, please.",
+            "exampleArabic": "اذهب مستقيمًا، من فضلك."
+          }
+        ]
+      }
+    },
+    "a0-u9-l1": {
+      "extraVocabulary": [
+        {
+          "english": "night",
+          "arabic": "ليل",
+          "example": "I sleep at night.",
+          "exampleArabic": "أنام في الليل.",
+          "partOfSpeech": "noun",
+          "phonetic": "/naɪt/"
+        },
+        {
+          "english": "bed",
+          "arabic": "سرير",
+          "example": "I sleep in my bed.",
+          "exampleArabic": "أنام في سريري.",
+          "partOfSpeech": "noun",
+          "phonetic": "/bed/"
+        },
+        {
+          "english": "early",
+          "arabic": "مبكرًا",
+          "example": "I wake up early.",
+          "exampleArabic": "أستيقظ مبكرًا.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈɜːrli/"
+        }
+      ],
+      "extraExamples": {
+        "a0-049-wake-up-1": [
+          {
+            "example": "I wake up early.",
+            "exampleArabic": "أستيقظ مبكرًا."
+          }
+        ],
+        "a0-049-sleep-2": [
+          {
+            "example": "I sleep at night.",
+            "exampleArabic": "أنام في الليل."
+          }
+        ],
+        "a0-049-morning-3": [
+          {
+            "example": "I drink tea in the morning.",
+            "exampleArabic": "أشرب الشاي في الصباح."
+          }
+        ]
+      }
+    },
+    "a0-u9-l2": {
+      "extraVocabulary": [
+        {
+          "english": "back",
+          "arabic": "يعود",
+          "example": "I come back home.",
+          "exampleArabic": "أعود إلى المنزل.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/bæk/"
+        },
+        {
+          "english": "leave",
+          "arabic": "يغادر",
+          "example": "I leave home early.",
+          "exampleArabic": "أغادر المنزل مبكرًا.",
+          "partOfSpeech": "verb",
+          "phonetic": "/liːv/"
+        },
+        {
+          "english": "now",
+          "arabic": "الآن",
+          "example": "I go now.",
+          "exampleArabic": "أذهب الآن.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/naʊ/"
+        }
+      ],
+      "extraExamples": {
+        "a0-050-go-1": [
+          {
+            "example": "I go to the store.",
+            "exampleArabic": "أذهب إلى المتجر."
+          }
+        ],
+        "a0-050-come-2": [
+          {
+            "example": "Please come here.",
+            "exampleArabic": "تعال هنا، من فضلك."
+          }
+        ],
+        "a0-050-home-3": [
+          {
+            "example": "I am at home.",
+            "exampleArabic": "أنا في المنزل."
+          }
+        ]
+      }
+    },
+    "a0-u9-l3": {
+      "extraVocabulary": [
+        {
+          "english": "book",
+          "arabic": "كتاب",
+          "example": "I read a book.",
+          "exampleArabic": "أقرأ كتابًا.",
+          "partOfSpeech": "noun",
+          "phonetic": "/bʊk/"
+        },
+        {
+          "english": "pen",
+          "arabic": "قلم",
+          "example": "I write with a pen.",
+          "exampleArabic": "أكتب بقلم.",
+          "partOfSpeech": "noun",
+          "phonetic": "/pen/"
+        },
+        {
+          "english": "learn",
+          "arabic": "يتعلم",
+          "example": "I learn English.",
+          "exampleArabic": "أتعلم الإنجليزية.",
+          "partOfSpeech": "verb",
+          "phonetic": "/lɜːrn/"
+        }
+      ],
+      "extraExamples": {
+        "a0-051-read-1": [
+          {
+            "example": "I read every day.",
+            "exampleArabic": "أقرأ كل يوم."
+          }
+        ],
+        "a0-051-write-2": [
+          {
+            "example": "I write my name.",
+            "exampleArabic": "أكتب اسمي."
+          }
+        ],
+        "a0-051-study-3": [
+          {
+            "example": "I study at home.",
+            "exampleArabic": "أدرس في المنزل."
+          }
+        ]
+      }
+    },
+    "a0-u9-l4": {
+      "extraVocabulary": [
+        {
+          "english": "job",
+          "arabic": "وظيفة",
+          "example": "I have a good job.",
+          "exampleArabic": "لديّ وظيفة جيدة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/dʒɑːb/"
+        },
+        {
+          "english": "busy",
+          "arabic": "مشغول",
+          "example": "I am busy today.",
+          "exampleArabic": "أنا مشغول اليوم.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈbɪzi/"
+        },
+        {
+          "english": "free",
+          "arabic": "متفرّغ",
+          "example": "I am free today.",
+          "exampleArabic": "أنا متفرّغ اليوم.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/friː/"
+        }
+      ],
+      "extraExamples": {
+        "a0-052-work-1": [
+          {
+            "example": "I work every day.",
+            "exampleArabic": "أعمل كل يوم."
+          }
+        ],
+        "a0-052-rest-2": [
+          {
+            "example": "I rest at night.",
+            "exampleArabic": "أرتاح في الليل."
+          }
+        ],
+        "a0-052-at-3": [
+          {
+            "example": "I am at school.",
+            "exampleArabic": "أنا في المدرسة."
+          }
+        ]
+      }
+    },
+    "a0-u9-l5": {
+      "extraVocabulary": [
+        {
+          "english": "window",
+          "arabic": "نافذة",
+          "example": "I open the window.",
+          "exampleArabic": "أفتح النافذة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈwɪndoʊ/"
+        },
+        {
+          "english": "box",
+          "arabic": "صندوق",
+          "example": "I open the box.",
+          "exampleArabic": "أفتح الصندوق.",
+          "partOfSpeech": "noun",
+          "phonetic": "/bɑːks/"
+        },
+        {
+          "english": "key",
+          "arabic": "مفتاح",
+          "example": "This is my key.",
+          "exampleArabic": "هذا مفتاحي.",
+          "partOfSpeech": "noun",
+          "phonetic": "/kiː/"
+        }
+      ],
+      "extraExamples": {
+        "a0-053-open-1": [
+          {
+            "example": "I open the window.",
+            "exampleArabic": "أفتح النافذة."
+          }
+        ],
+        "a0-053-close-2": [
+          {
+            "example": "I close the door.",
+            "exampleArabic": "أغلق الباب."
+          }
+        ],
+        "a0-053-door-3": [
+          {
+            "example": "The door is open.",
+            "exampleArabic": "الباب مفتوح."
+          }
+        ]
+      }
+    },
+    "a0-u9-l6": {
+      "extraVocabulary": [
+        {
+          "english": "table",
+          "arabic": "طاولة",
+          "example": "The book is on the table.",
+          "exampleArabic": "الكتاب على الطاولة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈteɪbəl/"
+        },
+        {
+          "english": "down",
+          "arabic": "للأسفل",
+          "example": "Please sit down.",
+          "exampleArabic": "اجلس، من فضلك.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/daʊn/"
+        },
+        {
+          "english": "up",
+          "arabic": "للأعلى",
+          "example": "Please stand up.",
+          "exampleArabic": "قف، من فضلك.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ʌp/"
+        }
+      ],
+      "extraExamples": {
+        "a0-054-sit-1": [
+          {
+            "example": "Please sit here.",
+            "exampleArabic": "اجلس هنا، من فضلك."
+          }
+        ],
+        "a0-054-stand-2": [
+          {
+            "example": "I stand near the door.",
+            "exampleArabic": "أقف بجانب الباب."
+          }
+        ],
+        "a0-054-chair-3": [
+          {
+            "example": "The chair is new.",
+            "exampleArabic": "الكرسي جديد."
+          }
+        ]
+      }
+    },
+    "a0-u10-l1": {
+      "extraVocabulary": [
+        {
+          "english": "warm",
+          "arabic": "دافئ",
+          "example": "The water is warm.",
+          "exampleArabic": "الماء دافئ.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/wɔːrm/"
+        },
+        {
+          "english": "sky",
+          "arabic": "سماء",
+          "example": "The sky is blue.",
+          "exampleArabic": "السماء زرقاء.",
+          "partOfSpeech": "noun",
+          "phonetic": "/skaɪ/"
+        },
+        {
+          "english": "summer",
+          "arabic": "صيف",
+          "example": "Summer is hot.",
+          "exampleArabic": "الصيف حار.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈsʌmər/"
+        }
+      ],
+      "extraExamples": {
+        "a0-055-hot-1": [
+          {
+            "example": "The tea is hot.",
+            "exampleArabic": "الشاي حار."
+          }
+        ],
+        "a0-055-sun-2": [
+          {
+            "example": "The sun is big.",
+            "exampleArabic": "الشمس كبيرة."
+          }
+        ],
+        "a0-055-weather-3": [
+          {
+            "example": "The weather is good today.",
+            "exampleArabic": "الطقس جيد اليوم."
+          }
+        ]
+      }
+    },
+    "a0-u10-l2": {
+      "extraVocabulary": [
+        {
+          "english": "wind",
+          "arabic": "رياح",
+          "example": "The wind is cold.",
+          "exampleArabic": "الرياح باردة.",
+          "partOfSpeech": "noun",
+          "phonetic": "/wɪnd/"
+        },
+        {
+          "english": "snow",
+          "arabic": "ثلج",
+          "example": "The snow is white.",
+          "exampleArabic": "الثلج أبيض.",
+          "partOfSpeech": "noun",
+          "phonetic": "/snoʊ/"
+        },
+        {
+          "english": "winter",
+          "arabic": "شتاء",
+          "example": "Winter is cold.",
+          "exampleArabic": "الشتاء بارد.",
+          "partOfSpeech": "noun",
+          "phonetic": "/ˈwɪntər/"
+        }
+      ],
+      "extraExamples": {
+        "a0-056-cold-1": [
+          {
+            "example": "The water is cold.",
+            "exampleArabic": "الماء بارد."
+          }
+        ],
+        "a0-056-rain-2": [
+          {
+            "example": "The rain is cold.",
+            "exampleArabic": "المطر بارد."
+          }
+        ],
+        "a0-056-cloud-3": [
+          {
+            "example": "The cloud is gray.",
+            "exampleArabic": "السحابة رمادية."
+          }
+        ]
+      }
+    },
+    "a0-u10-l3": {
+      "extraVocabulary": [
+        {
+          "english": "thank you",
+          "arabic": "شكرًا لك",
+          "example": "Thank you very much.",
+          "exampleArabic": "شكرًا جزيلاً لك.",
+          "partOfSpeech": "interjection",
+          "phonetic": "/ˈθæŋk juː/"
+        },
+        {
+          "english": "sorry",
+          "arabic": "آسف",
+          "example": "I am sorry.",
+          "exampleArabic": "أنا آسف.",
+          "partOfSpeech": "adjective",
+          "phonetic": "/ˈsɑːri/"
+        },
+        {
+          "english": "now",
+          "arabic": "الآن",
+          "example": "I need help now.",
+          "exampleArabic": "أحتاج مساعدة الآن.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/naʊ/"
+        }
+      ],
+      "extraExamples": {
+        "a0-057-need-1": [
+          {
+            "example": "I need water.",
+            "exampleArabic": "أحتاج ماءً."
+          }
+        ],
+        "a0-057-help-2": [
+          {
+            "example": "I need your help.",
+            "exampleArabic": "أحتاج مساعدتك."
+          }
+        ],
+        "a0-057-please-3": [
+          {
+            "example": "Water, please.",
+            "exampleArabic": "ماء، من فضلك."
+          }
+        ]
+      }
+    },
+    "a0-u10-l4": {
+      "extraVocabulary": [
+        {
+          "english": "know",
+          "arabic": "يعرف",
+          "example": "I do not know.",
+          "exampleArabic": "أنا لا أعرف.",
+          "partOfSpeech": "verb",
+          "phonetic": "/noʊ/"
+        },
+        {
+          "english": "speak",
+          "arabic": "يتكلم",
+          "example": "Please speak slowly.",
+          "exampleArabic": "تكلم ببطء، من فضلك.",
+          "partOfSpeech": "verb",
+          "phonetic": "/spiːk/"
+        },
+        {
+          "english": "yes",
+          "arabic": "نعم",
+          "example": "Yes, I understand.",
+          "exampleArabic": "نعم، أنا أفهم.",
+          "partOfSpeech": "interjection",
+          "phonetic": "/jes/"
+        }
+      ],
+      "extraExamples": {
+        "a0-058-understand-1": [
+          {
+            "example": "I understand now.",
+            "exampleArabic": "أنا أفهم الآن."
+          }
+        ],
+        "a0-058-again-2": [
+          {
+            "example": "Please say it again.",
+            "exampleArabic": "قل ذلك مرة أخرى، من فضلك."
+          }
+        ],
+        "a0-058-slowly-3": [
+          {
+            "example": "Please speak slowly.",
+            "exampleArabic": "تكلم ببطء، من فضلك."
+          }
+        ]
+      }
+    },
+    "a0-u10-l5": {
+      "extraVocabulary": [
+        {
+          "english": "say",
+          "arabic": "يقول",
+          "example": "Please say it again.",
+          "exampleArabic": "قل ذلك مرة أخرى، من فضلك.",
+          "partOfSpeech": "verb",
+          "phonetic": "/seɪ/"
+        },
+        {
+          "english": "this",
+          "arabic": "هذا",
+          "example": "What is this?",
+          "exampleArabic": "ما هذا؟",
+          "partOfSpeech": "pronoun",
+          "phonetic": "/ðɪs/"
+        },
+        {
+          "english": "louder",
+          "arabic": "بصوت أعلى",
+          "example": "Please speak louder.",
+          "exampleArabic": "تكلم بصوت أعلى، من فضلك.",
+          "partOfSpeech": "adverb",
+          "phonetic": "/ˈlaʊdər/"
+        }
+      ],
+      "extraExamples": {
+        "a0-059-repeat-1": [
+          {
+            "example": "Please repeat that.",
+            "exampleArabic": "كرر ذلك، من فضلك."
+          }
+        ],
+        "a0-059-can-2": [
+          {
+            "example": "Can you help me?",
+            "exampleArabic": "هل يمكنك مساعدتي؟"
+          }
+        ],
+        "a0-059-that-3": [
+          {
+            "example": "I want that, please.",
+            "exampleArabic": "أريد ذلك، من فضلك."
+          }
+        ]
+      }
+    },
+    "a0-u10-l6": {
+      "extraVocabulary": [
+        {
+          "english": "goodbye",
+          "arabic": "مع السلامة",
+          "example": "Goodbye, see you tomorrow.",
+          "exampleArabic": "مع السلامة، أراك غدًا.",
+          "partOfSpeech": "interjection",
+          "phonetic": "/ˌɡʊdˈbaɪ/"
+        },
+        {
+          "english": "thank you",
+          "arabic": "شكرًا لك",
+          "example": "Thank you very much.",
+          "exampleArabic": "شكرًا جزيلاً لك.",
+          "partOfSpeech": "interjection",
+          "phonetic": "/ˈθæŋk juː/"
+        },
+        {
+          "english": "name",
+          "arabic": "اسم",
+          "example": "What is your name?",
+          "exampleArabic": "ما اسمك؟",
+          "partOfSpeech": "noun",
+          "phonetic": "/neɪm/"
+        }
+      ],
+      "extraExamples": {
+        "a0-060-hello-1": [
+          {
+            "example": "Hello, how are you?",
+            "exampleArabic": "مرحبًا، كيف حالك؟"
+          }
+        ],
+        "a0-060-need-2": [
+          {
+            "example": "I need help, please.",
+            "exampleArabic": "أحتاج مساعدة، من فضلك."
+          }
+        ],
+        "a0-060-where-3": [
+          {
+            "example": "Where is the hospital?",
+            "exampleArabic": "أين المستشفى؟"
+          }
+        ]
+      }
+    }
+  }
+}

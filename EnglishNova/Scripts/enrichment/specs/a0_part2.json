@@ -1,0 +1,784 @@
+{
+  "lessons": [
+    {
+      "id": "a0-u6-l1",
+      "level": "A0",
+      "titleEn": "Water and Tea",
+      "titleAr": "ماء وشاي",
+      "objectiveAr": "أن تطلب مشروبًا بسيطًا.",
+      "modelSentence": "I want tea, please.",
+      "modelSentenceAr": "أريد شايًا، من فضلك.",
+      "existingVocabulary": [
+        {
+          "id": "a0-031-tea-1",
+          "english": "tea",
+          "arabic": "شاي"
+        },
+        {
+          "id": "a0-031-coffee-2",
+          "english": "coffee",
+          "arabic": "قهوة"
+        },
+        {
+          "id": "a0-031-want-3",
+          "english": "want",
+          "arabic": "يريد"
+        }
+      ]
+    },
+    {
+      "id": "a0-u6-l2",
+      "level": "A0",
+      "titleEn": "Bread and Rice",
+      "titleAr": "خبز وأرز",
+      "objectiveAr": "أن تسمي أطعمة أساسية.",
+      "modelSentence": "I eat rice.",
+      "modelSentenceAr": "أنا آكل الأرز.",
+      "existingVocabulary": [
+        {
+          "id": "a0-032-bread-1",
+          "english": "bread",
+          "arabic": "خبز"
+        },
+        {
+          "id": "a0-032-rice-2",
+          "english": "rice",
+          "arabic": "أرز"
+        },
+        {
+          "id": "a0-032-eat-3",
+          "english": "eat",
+          "arabic": "يأكل"
+        }
+      ]
+    },
+    {
+      "id": "a0-u6-l3",
+      "level": "A0",
+      "titleEn": "Simple Fruit",
+      "titleAr": "فواكه بسيطة",
+      "objectiveAr": "أن تسمي ثلاث فواكه شائعة.",
+      "modelSentence": "The apple is red.",
+      "modelSentenceAr": "التفاحة حمراء.",
+      "existingVocabulary": [
+        {
+          "id": "a0-033-apple-1",
+          "english": "apple",
+          "arabic": "تفاحة"
+        },
+        {
+          "id": "a0-033-banana-2",
+          "english": "banana",
+          "arabic": "موزة"
+        },
+        {
+          "id": "a0-033-orange-3",
+          "english": "orange",
+          "arabic": "برتقالة"
+        }
+      ]
+    },
+    {
+      "id": "a0-u6-l4",
+      "level": "A0",
+      "titleEn": "Hungry and Thirsty",
+      "titleAr": "جائع وعطشان",
+      "objectiveAr": "أن تعبّر عن الجوع والعطش.",
+      "modelSentence": "I am hungry and thirsty.",
+      "modelSentenceAr": "أنا جائع وعطشان.",
+      "existingVocabulary": [
+        {
+          "id": "a0-034-hungry-1",
+          "english": "hungry",
+          "arabic": "جائع"
+        },
+        {
+          "id": "a0-034-thirsty-2",
+          "english": "thirsty",
+          "arabic": "عطشان"
+        },
+        {
+          "id": "a0-034-drink-3",
+          "english": "drink",
+          "arabic": "يشرب"
+        }
+      ]
+    },
+    {
+      "id": "a0-u6-l5",
+      "level": "A0",
+      "titleEn": "Like and Do Not Like",
+      "titleAr": "أحب ولا أحب",
+      "objectiveAr": "أن تقول ما تحبه وما لا تحبه.",
+      "modelSentence": "I like coffee.",
+      "modelSentenceAr": "أنا أحب القهوة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-035-like-1",
+          "english": "like",
+          "arabic": "يحب"
+        },
+        {
+          "id": "a0-035-food-2",
+          "english": "food",
+          "arabic": "طعام"
+        },
+        {
+          "id": "a0-035-good-3",
+          "english": "good",
+          "arabic": "جيد"
+        }
+      ]
+    },
+    {
+      "id": "a0-u6-l6",
+      "level": "A0",
+      "titleEn": "At the Restaurant",
+      "titleAr": "في المطعم",
+      "objectiveAr": "أن تطلب شيئًا قصيرًا في مطعم.",
+      "modelSentence": "One sandwich, please.",
+      "modelSentenceAr": "شطيرة واحدة، من فضلك.",
+      "existingVocabulary": [
+        {
+          "id": "a0-036-sandwich-1",
+          "english": "sandwich",
+          "arabic": "شطيرة"
+        },
+        {
+          "id": "a0-036-menu-2",
+          "english": "menu",
+          "arabic": "قائمة الطعام"
+        },
+        {
+          "id": "a0-036-one-3",
+          "english": "one",
+          "arabic": "واحد"
+        }
+      ]
+    },
+    {
+      "id": "a0-u7-l1",
+      "level": "A0",
+      "titleEn": "Head and Hand",
+      "titleAr": "الرأس واليد",
+      "objectiveAr": "أن تسمي أجزاء جسم أساسية.",
+      "modelSentence": "This is my hand.",
+      "modelSentenceAr": "هذه يدي.",
+      "existingVocabulary": [
+        {
+          "id": "a0-037-head-1",
+          "english": "head",
+          "arabic": "رأس"
+        },
+        {
+          "id": "a0-037-hand-2",
+          "english": "hand",
+          "arabic": "يد"
+        },
+        {
+          "id": "a0-037-arm-3",
+          "english": "arm",
+          "arabic": "ذراع"
+        }
+      ]
+    },
+    {
+      "id": "a0-u7-l2",
+      "level": "A0",
+      "titleEn": "Eye and Ear",
+      "titleAr": "العين والأذن",
+      "objectiveAr": "أن تسمي أعضاء الحواس الأساسية.",
+      "modelSentence": "I see with my eyes.",
+      "modelSentenceAr": "أرى بعيني.",
+      "existingVocabulary": [
+        {
+          "id": "a0-038-eye-1",
+          "english": "eye",
+          "arabic": "عين"
+        },
+        {
+          "id": "a0-038-ear-2",
+          "english": "ear",
+          "arabic": "أذن"
+        },
+        {
+          "id": "a0-038-nose-3",
+          "english": "nose",
+          "arabic": "أنف"
+        }
+      ]
+    },
+    {
+      "id": "a0-u7-l3",
+      "level": "A0",
+      "titleEn": "Shirt and Shoes",
+      "titleAr": "قميص وحذاء",
+      "objectiveAr": "أن تسمي ملابس أساسية.",
+      "modelSentence": "My shirt is blue.",
+      "modelSentenceAr": "قميصي أزرق.",
+      "existingVocabulary": [
+        {
+          "id": "a0-039-shirt-1",
+          "english": "shirt",
+          "arabic": "قميص"
+        },
+        {
+          "id": "a0-039-shoes-2",
+          "english": "shoes",
+          "arabic": "حذاء"
+        },
+        {
+          "id": "a0-039-clothes-3",
+          "english": "clothes",
+          "arabic": "ملابس"
+        }
+      ]
+    },
+    {
+      "id": "a0-u7-l4",
+      "level": "A0",
+      "titleEn": "Basic Colors",
+      "titleAr": "الألوان الأساسية",
+      "objectiveAr": "أن تستخدم الأحمر والأزرق والأخضر.",
+      "modelSentence": "The bag is green.",
+      "modelSentenceAr": "الحقيبة خضراء.",
+      "existingVocabulary": [
+        {
+          "id": "a0-040-red-1",
+          "english": "red",
+          "arabic": "أحمر"
+        },
+        {
+          "id": "a0-040-blue-2",
+          "english": "blue",
+          "arabic": "أزرق"
+        },
+        {
+          "id": "a0-040-green-3",
+          "english": "green",
+          "arabic": "أخضر"
+        }
+      ]
+    },
+    {
+      "id": "a0-u7-l5",
+      "level": "A0",
+      "titleEn": "Black and White",
+      "titleAr": "أسود وأبيض",
+      "objectiveAr": "أن تميز اللونين الأسود والأبيض.",
+      "modelSentence": "The phone is black.",
+      "modelSentenceAr": "الهاتف أسود.",
+      "existingVocabulary": [
+        {
+          "id": "a0-041-black-1",
+          "english": "black",
+          "arabic": "أسود"
+        },
+        {
+          "id": "a0-041-white-2",
+          "english": "white",
+          "arabic": "أبيض"
+        },
+        {
+          "id": "a0-041-color-3",
+          "english": "color",
+          "arabic": "لون"
+        }
+      ]
+    },
+    {
+      "id": "a0-u7-l6",
+      "level": "A0",
+      "titleEn": "Feeling Tired",
+      "titleAr": "أشعر بالتعب",
+      "objectiveAr": "أن تعبر عن تعب أو ألم بسيط.",
+      "modelSentence": "I am tired.",
+      "modelSentenceAr": "أنا متعب.",
+      "existingVocabulary": [
+        {
+          "id": "a0-042-tired-1",
+          "english": "tired",
+          "arabic": "متعب"
+        },
+        {
+          "id": "a0-042-sick-2",
+          "english": "sick",
+          "arabic": "مريض"
+        },
+        {
+          "id": "a0-042-hurt-3",
+          "english": "hurt",
+          "arabic": "يؤلم"
+        }
+      ]
+    },
+    {
+      "id": "a0-u8-l1",
+      "level": "A0",
+      "titleEn": "School and Store",
+      "titleAr": "المدرسة والمتجر",
+      "objectiveAr": "أن تسمي مكانين شائعين.",
+      "modelSentence": "The school is near.",
+      "modelSentenceAr": "المدرسة قريبة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-043-school-1",
+          "english": "school",
+          "arabic": "مدرسة"
+        },
+        {
+          "id": "a0-043-store-2",
+          "english": "store",
+          "arabic": "متجر"
+        },
+        {
+          "id": "a0-043-place-3",
+          "english": "place",
+          "arabic": "مكان"
+        }
+      ]
+    },
+    {
+      "id": "a0-u8-l2",
+      "level": "A0",
+      "titleEn": "Hospital and Park",
+      "titleAr": "المستشفى والحديقة",
+      "objectiveAr": "أن تسمي أماكن عامة مهمة.",
+      "modelSentence": "The hospital is there.",
+      "modelSentenceAr": "المستشفى هناك.",
+      "existingVocabulary": [
+        {
+          "id": "a0-044-hospital-1",
+          "english": "hospital",
+          "arabic": "مستشفى"
+        },
+        {
+          "id": "a0-044-park-2",
+          "english": "park",
+          "arabic": "حديقة"
+        },
+        {
+          "id": "a0-044-there-3",
+          "english": "there",
+          "arabic": "هناك"
+        }
+      ]
+    },
+    {
+      "id": "a0-u8-l3",
+      "level": "A0",
+      "titleEn": "Right and Left",
+      "titleAr": "يمين ويسار",
+      "objectiveAr": "أن تفهم اتجاهي اليمين واليسار.",
+      "modelSentence": "Turn right here.",
+      "modelSentenceAr": "انعطف يمينًا هنا.",
+      "existingVocabulary": [
+        {
+          "id": "a0-045-right-1",
+          "english": "right",
+          "arabic": "يمين"
+        },
+        {
+          "id": "a0-045-left-2",
+          "english": "left",
+          "arabic": "يسار"
+        },
+        {
+          "id": "a0-045-turn-3",
+          "english": "turn",
+          "arabic": "ينعطف"
+        }
+      ]
+    },
+    {
+      "id": "a0-u8-l4",
+      "level": "A0",
+      "titleEn": "In Front and Behind",
+      "titleAr": "أمام وخلف",
+      "objectiveAr": "أن تحدد موقعًا نسبيًا بسيطًا.",
+      "modelSentence": "The car is in front of the house.",
+      "modelSentenceAr": "السيارة أمام المنزل.",
+      "existingVocabulary": [
+        {
+          "id": "a0-046-front-1",
+          "english": "front",
+          "arabic": "أمام"
+        },
+        {
+          "id": "a0-046-behind-2",
+          "english": "behind",
+          "arabic": "خلف"
+        },
+        {
+          "id": "a0-046-car-3",
+          "english": "car",
+          "arabic": "سيارة"
+        }
+      ]
+    },
+    {
+      "id": "a0-u8-l5",
+      "level": "A0",
+      "titleEn": "Near and Far",
+      "titleAr": "قريب وبعيد",
+      "objectiveAr": "أن تصف المسافة بكلمتين أساسيتين.",
+      "modelSentence": "The store is near.",
+      "modelSentenceAr": "المتجر قريب.",
+      "existingVocabulary": [
+        {
+          "id": "a0-047-near-1",
+          "english": "near",
+          "arabic": "قريب"
+        },
+        {
+          "id": "a0-047-far-2",
+          "english": "far",
+          "arabic": "بعيد"
+        },
+        {
+          "id": "a0-047-walk-3",
+          "english": "walk",
+          "arabic": "يمشي"
+        }
+      ]
+    },
+    {
+      "id": "a0-u8-l6",
+      "level": "A0",
+      "titleEn": "Go and Stop",
+      "titleAr": "اذهب وتوقف",
+      "objectiveAr": "أن تفهم تعليمات الحركة الأساسية.",
+      "modelSentence": "Go straight and stop.",
+      "modelSentenceAr": "اذهب مستقيمًا وتوقف.",
+      "existingVocabulary": [
+        {
+          "id": "a0-048-go-1",
+          "english": "go",
+          "arabic": "يذهب"
+        },
+        {
+          "id": "a0-048-stop-2",
+          "english": "stop",
+          "arabic": "يتوقف"
+        },
+        {
+          "id": "a0-048-straight-3",
+          "english": "straight",
+          "arabic": "مستقيمًا"
+        }
+      ]
+    },
+    {
+      "id": "a0-u9-l1",
+      "level": "A0",
+      "titleEn": "Wake Up and Sleep",
+      "titleAr": "أستيقظ وأنام",
+      "objectiveAr": "أن تصف بداية اليوم ونهايته.",
+      "modelSentence": "I wake up and drink water.",
+      "modelSentenceAr": "أستيقظ وأشرب الماء.",
+      "existingVocabulary": [
+        {
+          "id": "a0-049-wake-up-1",
+          "english": "wake up",
+          "arabic": "يستيقظ"
+        },
+        {
+          "id": "a0-049-sleep-2",
+          "english": "sleep",
+          "arabic": "ينام"
+        },
+        {
+          "id": "a0-049-morning-3",
+          "english": "morning",
+          "arabic": "صباح"
+        }
+      ]
+    },
+    {
+      "id": "a0-u9-l2",
+      "level": "A0",
+      "titleEn": "Go and Come Back",
+      "titleAr": "أذهب وأعود",
+      "objectiveAr": "أن تتحدث عن الذهاب والعودة.",
+      "modelSentence": "I go to school.",
+      "modelSentenceAr": "أذهب إلى المدرسة.",
+      "existingVocabulary": [
+        {
+          "id": "a0-050-go-1",
+          "english": "go",
+          "arabic": "يذهب"
+        },
+        {
+          "id": "a0-050-come-2",
+          "english": "come",
+          "arabic": "يأتي"
+        },
+        {
+          "id": "a0-050-home-3",
+          "english": "home",
+          "arabic": "المنزل"
+        }
+      ]
+    },
+    {
+      "id": "a0-u9-l3",
+      "level": "A0",
+      "titleEn": "Read and Write",
+      "titleAr": "أقرأ وأكتب",
+      "objectiveAr": "أن تسمي نشاطين دراسيين.",
+      "modelSentence": "I read a book.",
+      "modelSentenceAr": "أقرأ كتابًا.",
+      "existingVocabulary": [
+        {
+          "id": "a0-051-read-1",
+          "english": "read",
+          "arabic": "يقرأ"
+        },
+        {
+          "id": "a0-051-write-2",
+          "english": "write",
+          "arabic": "يكتب"
+        },
+        {
+          "id": "a0-051-study-3",
+          "english": "study",
+          "arabic": "يدرس"
+        }
+      ]
+    },
+    {
+      "id": "a0-u9-l4",
+      "level": "A0",
+      "titleEn": "Work and Rest",
+      "titleAr": "أعمل وأرتاح",
+      "objectiveAr": "أن تتحدث عن العمل والراحة.",
+      "modelSentence": "I work today and rest at home.",
+      "modelSentenceAr": "أعمل اليوم وأرتاح في المنزل.",
+      "existingVocabulary": [
+        {
+          "id": "a0-052-work-1",
+          "english": "work",
+          "arabic": "يعمل"
+        },
+        {
+          "id": "a0-052-rest-2",
+          "english": "rest",
+          "arabic": "يرتاح"
+        },
+        {
+          "id": "a0-052-at-3",
+          "english": "at",
+          "arabic": "في"
+        }
+      ]
+    },
+    {
+      "id": "a0-u9-l5",
+      "level": "A0",
+      "titleEn": "Open and Close",
+      "titleAr": "أفتح وأغلق",
+      "objectiveAr": "أن تصف فعل فتح شيء وإغلاقه.",
+      "modelSentence": "I open the door.",
+      "modelSentenceAr": "أفتح الباب.",
+      "existingVocabulary": [
+        {
+          "id": "a0-053-open-1",
+          "english": "open",
+          "arabic": "يفتح"
+        },
+        {
+          "id": "a0-053-close-2",
+          "english": "close",
+          "arabic": "يغلق"
+        },
+        {
+          "id": "a0-053-door-3",
+          "english": "door",
+          "arabic": "باب"
+        }
+      ]
+    },
+    {
+      "id": "a0-u9-l6",
+      "level": "A0",
+      "titleEn": "Sit and Stand",
+      "titleAr": "أجلس وأقف",
+      "objectiveAr": "أن تفهم وتستخدم فعلي الجلوس والوقوف.",
+      "modelSentence": "I sit on the chair.",
+      "modelSentenceAr": "أجلس على الكرسي.",
+      "existingVocabulary": [
+        {
+          "id": "a0-054-sit-1",
+          "english": "sit",
+          "arabic": "يجلس"
+        },
+        {
+          "id": "a0-054-stand-2",
+          "english": "stand",
+          "arabic": "يقف"
+        },
+        {
+          "id": "a0-054-chair-3",
+          "english": "chair",
+          "arabic": "كرسي"
+        }
+      ]
+    },
+    {
+      "id": "a0-u10-l1",
+      "level": "A0",
+      "titleEn": "Hot Weather",
+      "titleAr": "الجو حار",
+      "objectiveAr": "أن تصف الطقس الحار.",
+      "modelSentence": "It is hot today.",
+      "modelSentenceAr": "الجو حار اليوم.",
+      "existingVocabulary": [
+        {
+          "id": "a0-055-hot-1",
+          "english": "hot",
+          "arabic": "حار"
+        },
+        {
+          "id": "a0-055-sun-2",
+          "english": "sun",
+          "arabic": "شمس"
+        },
+        {
+          "id": "a0-055-weather-3",
+          "english": "weather",
+          "arabic": "طقس"
+        }
+      ]
+    },
+    {
+      "id": "a0-u10-l2",
+      "level": "A0",
+      "titleEn": "Cold Weather",
+      "titleAr": "الجو بارد",
+      "objectiveAr": "أن تصف الطقس البارد أو الممطر.",
+      "modelSentence": "It is cold and rainy.",
+      "modelSentenceAr": "الجو بارد وممطر.",
+      "existingVocabulary": [
+        {
+          "id": "a0-056-cold-1",
+          "english": "cold",
+          "arabic": "بارد"
+        },
+        {
+          "id": "a0-056-rain-2",
+          "english": "rain",
+          "arabic": "مطر"
+        },
+        {
+          "id": "a0-056-cloud-3",
+          "english": "cloud",
+          "arabic": "سحابة"
+        }
+      ]
+    },
+    {
+      "id": "a0-u10-l3",
+      "level": "A0",
+      "titleEn": "I Need Help",
+      "titleAr": "أحتاج مساعدة",
+      "objectiveAr": "أن تطلب المساعدة بوضوح.",
+      "modelSentence": "I need help, please.",
+      "modelSentenceAr": "أحتاج مساعدة، من فضلك.",
+      "existingVocabulary": [
+        {
+          "id": "a0-057-need-1",
+          "english": "need",
+          "arabic": "يحتاج"
+        },
+        {
+          "id": "a0-057-help-2",
+          "english": "help",
+          "arabic": "مساعدة"
+        },
+        {
+          "id": "a0-057-please-3",
+          "english": "please",
+          "arabic": "من فضلك"
+        }
+      ]
+    },
+    {
+      "id": "a0-u10-l4",
+      "level": "A0",
+      "titleEn": "I Do Not Understand",
+      "titleAr": "لا أفهم",
+      "objectiveAr": "أن تخبر المتحدث أنك لم تفهم.",
+      "modelSentence": "I do not understand.",
+      "modelSentenceAr": "أنا لا أفهم.",
+      "existingVocabulary": [
+        {
+          "id": "a0-058-understand-1",
+          "english": "understand",
+          "arabic": "يفهم"
+        },
+        {
+          "id": "a0-058-again-2",
+          "english": "again",
+          "arabic": "مرة أخرى"
+        },
+        {
+          "id": "a0-058-slowly-3",
+          "english": "slowly",
+          "arabic": "ببطء"
+        }
+      ]
+    },
+    {
+      "id": "a0-u10-l5",
+      "level": "A0",
+      "titleEn": "Can You Repeat?",
+      "titleAr": "هل يمكنك التكرار؟",
+      "objectiveAr": "أن تطلب تكرار الكلام ببطء.",
+      "modelSentence": "Can you repeat that, please?.",
+      "modelSentenceAr": "هل يمكنك تكرار ذلك، من فضلك؟",
+      "existingVocabulary": [
+        {
+          "id": "a0-059-repeat-1",
+          "english": "repeat",
+          "arabic": "يكرر"
+        },
+        {
+          "id": "a0-059-can-2",
+          "english": "can",
+          "arabic": "يستطيع"
+        },
+        {
+          "id": "a0-059-that-3",
+          "english": "that",
+          "arabic": "ذلك"
+        }
+      ]
+    },
+    {
+      "id": "a0-u10-l6",
+      "level": "A0",
+      "titleEn": "Foundation Review",
+      "titleAr": "مراجعة البداية",
+      "objectiveAr": "أن تجمع التحية والطلب والموقع في محادثة قصيرة.",
+      "modelSentence": "Hello. I need help. Where is the school?.",
+      "modelSentenceAr": "مرحبًا. أحتاج مساعدة. أين المدرسة؟",
+      "existingVocabulary": [
+        {
+          "id": "a0-060-hello-1",
+          "english": "hello",
+          "arabic": "مرحبًا"
+        },
+        {
+          "id": "a0-060-need-2",
+          "english": "need",
+          "arabic": "يحتاج"
+        },
+        {
+          "id": "a0-060-where-3",
+          "english": "where",
+          "arabic": "أين"
+        }
+      ]
+    }
+  ]
+}

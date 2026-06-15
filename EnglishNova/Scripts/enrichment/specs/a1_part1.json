@@ -1,0 +1,784 @@
+{
+  "lessons": [
+    {
+      "id": "a1-u1-l1",
+      "level": "A1",
+      "titleEn": "Wake-up Time",
+      "titleAr": "وقت الاستيقاظ",
+      "objectiveAr": "أن تصف وقت استيقاظك كل يوم.",
+      "modelSentence": "I usually wake up at seven.",
+      "modelSentenceAr": "أستيقظ عادةً الساعة السابعة.",
+      "existingVocabulary": [
+        {
+          "id": "a1-001-usually-1",
+          "english": "usually",
+          "arabic": "عادةً"
+        },
+        {
+          "id": "a1-001-wake-up-2",
+          "english": "wake up",
+          "arabic": "يستيقظ"
+        },
+        {
+          "id": "a1-001-seven-3",
+          "english": "seven",
+          "arabic": "سبعة"
+        }
+      ]
+    },
+    {
+      "id": "a1-u1-l2",
+      "level": "A1",
+      "titleEn": "Morning Routine",
+      "titleAr": "روتين الصباح",
+      "objectiveAr": "أن ترتب أفعال الصباح في جمل.",
+      "modelSentence": "First, I wash my face and get dressed.",
+      "modelSentenceAr": "أولًا، أغسل وجهي وأرتدي ملابسي.",
+      "existingVocabulary": [
+        {
+          "id": "a1-002-first-1",
+          "english": "first",
+          "arabic": "أولًا"
+        },
+        {
+          "id": "a1-002-wash-2",
+          "english": "wash",
+          "arabic": "يغسل"
+        },
+        {
+          "id": "a1-002-get-dressed-3",
+          "english": "get dressed",
+          "arabic": "يرتدي ملابسه"
+        }
+      ]
+    },
+    {
+      "id": "a1-u1-l3",
+      "level": "A1",
+      "titleEn": "Breakfast",
+      "titleAr": "الإفطار",
+      "objectiveAr": "أن تتحدث عن إفطارك المعتاد.",
+      "modelSentence": "I have eggs and tea for breakfast.",
+      "modelSentenceAr": "أتناول البيض والشاي في الإفطار.",
+      "existingVocabulary": [
+        {
+          "id": "a1-003-breakfast-1",
+          "english": "breakfast",
+          "arabic": "إفطار"
+        },
+        {
+          "id": "a1-003-eggs-2",
+          "english": "eggs",
+          "arabic": "بيض"
+        },
+        {
+          "id": "a1-003-have-3",
+          "english": "have",
+          "arabic": "يتناول"
+        }
+      ]
+    },
+    {
+      "id": "a1-u1-l4",
+      "level": "A1",
+      "titleEn": "Going to Work",
+      "titleAr": "الذهاب إلى العمل",
+      "objectiveAr": "أن تصف وسيلة ذهابك إلى العمل أو الدراسة.",
+      "modelSentence": "I go to work by bus.",
+      "modelSentenceAr": "أذهب إلى العمل بالحافلة.",
+      "existingVocabulary": [
+        {
+          "id": "a1-004-by-bus-1",
+          "english": "by bus",
+          "arabic": "بالحافلة"
+        },
+        {
+          "id": "a1-004-work-2",
+          "english": "work",
+          "arabic": "العمل"
+        },
+        {
+          "id": "a1-004-leave-3",
+          "english": "leave",
+          "arabic": "يغادر"
+        }
+      ]
+    },
+    {
+      "id": "a1-u1-l5",
+      "level": "A1",
+      "titleEn": "Lunch Time",
+      "titleAr": "وقت الغداء",
+      "objectiveAr": "أن تتحدث عن وقت ومكان الغداء.",
+      "modelSentence": "I eat lunch at one o’clock.",
+      "modelSentenceAr": "أتناول الغداء الساعة الواحدة.",
+      "existingVocabulary": [
+        {
+          "id": "a1-005-lunch-1",
+          "english": "lunch",
+          "arabic": "غداء"
+        },
+        {
+          "id": "a1-005-at-2",
+          "english": "at",
+          "arabic": "عند"
+        },
+        {
+          "id": "a1-005-one-3",
+          "english": "one",
+          "arabic": "واحدة"
+        }
+      ]
+    },
+    {
+      "id": "a1-u1-l6",
+      "level": "A1",
+      "titleEn": "Evening Routine",
+      "titleAr": "روتين المساء",
+      "objectiveAr": "أن تصف ما تفعله في المساء.",
+      "modelSentence": "In the evening, I read and relax.",
+      "modelSentenceAr": "في المساء، أقرأ وأسترخي.",
+      "existingVocabulary": [
+        {
+          "id": "a1-006-evening-1",
+          "english": "evening",
+          "arabic": "مساء"
+        },
+        {
+          "id": "a1-006-relax-2",
+          "english": "relax",
+          "arabic": "يسترخي"
+        },
+        {
+          "id": "a1-006-read-3",
+          "english": "read",
+          "arabic": "يقرأ"
+        }
+      ]
+    },
+    {
+      "id": "a1-u2-l1",
+      "level": "A1",
+      "titleEn": "Regular Habits",
+      "titleAr": "العادات المتكررة",
+      "objectiveAr": "أن تستخدم الحاضر البسيط مع I وwe.",
+      "modelSentence": "We study English every day.",
+      "modelSentenceAr": "نحن ندرس الإنجليزية كل يوم.",
+      "existingVocabulary": [
+        {
+          "id": "a1-007-every-day-1",
+          "english": "every day",
+          "arabic": "كل يوم"
+        },
+        {
+          "id": "a1-007-study-2",
+          "english": "study",
+          "arabic": "يدرس"
+        },
+        {
+          "id": "a1-007-we-3",
+          "english": "we",
+          "arabic": "نحن"
+        }
+      ]
+    },
+    {
+      "id": "a1-u2-l2",
+      "level": "A1",
+      "titleEn": "He Works",
+      "titleAr": "هو يعمل",
+      "objectiveAr": "أن تضيف s للفعل مع he وshe.",
+      "modelSentence": "He works in a bank.",
+      "modelSentenceAr": "هو يعمل في بنك.",
+      "existingVocabulary": [
+        {
+          "id": "a1-008-works-1",
+          "english": "works",
+          "arabic": "يعمل"
+        },
+        {
+          "id": "a1-008-bank-2",
+          "english": "bank",
+          "arabic": "بنك"
+        },
+        {
+          "id": "a1-008-in-3",
+          "english": "in",
+          "arabic": "في"
+        }
+      ]
+    },
+    {
+      "id": "a1-u2-l3",
+      "level": "A1",
+      "titleEn": "Present Simple Negative",
+      "titleAr": "لا أفعل",
+      "objectiveAr": "أن تنفي عادة باستخدام do not.",
+      "modelSentence": "I do not drink coffee at night.",
+      "modelSentenceAr": "أنا لا أشرب القهوة ليلًا.",
+      "existingVocabulary": [
+        {
+          "id": "a1-009-do-not-1",
+          "english": "do not",
+          "arabic": "لا أفعل"
+        },
+        {
+          "id": "a1-009-night-2",
+          "english": "night",
+          "arabic": "ليل"
+        },
+        {
+          "id": "a1-009-drink-3",
+          "english": "drink",
+          "arabic": "يشرب"
+        }
+      ]
+    },
+    {
+      "id": "a1-u2-l4",
+      "level": "A1",
+      "titleEn": "Do Questions",
+      "titleAr": "هل تفعل؟",
+      "objectiveAr": "أن تكوّن سؤالًا في الحاضر باستخدام Do.",
+      "modelSentence": "Do you speak English?.",
+      "modelSentenceAr": "هل تتحدث الإنجليزية؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-010-do-1",
+          "english": "do",
+          "arabic": "هل تفعل"
+        },
+        {
+          "id": "a1-010-speak-2",
+          "english": "speak",
+          "arabic": "يتحدث"
+        },
+        {
+          "id": "a1-010-english-3",
+          "english": "English",
+          "arabic": "الإنجليزية"
+        }
+      ]
+    },
+    {
+      "id": "a1-u2-l5",
+      "level": "A1",
+      "titleEn": "Does Questions",
+      "titleAr": "هل يعمل؟",
+      "objectiveAr": "أن تسأل عن شخص باستخدام Does.",
+      "modelSentence": "Does Sara work here?.",
+      "modelSentenceAr": "هل تعمل سارة هنا؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-011-does-1",
+          "english": "does",
+          "arabic": "هل يفعل"
+        },
+        {
+          "id": "a1-011-here-2",
+          "english": "here",
+          "arabic": "هنا"
+        },
+        {
+          "id": "a1-011-work-3",
+          "english": "work",
+          "arabic": "يعمل"
+        }
+      ]
+    },
+    {
+      "id": "a1-u2-l6",
+      "level": "A1",
+      "titleEn": "Frequency Adverbs",
+      "titleAr": "دائمًا وأحيانًا",
+      "objectiveAr": "أن تحدد تكرار العادة.",
+      "modelSentence": "I sometimes walk to school.",
+      "modelSentenceAr": "أمشي أحيانًا إلى المدرسة.",
+      "existingVocabulary": [
+        {
+          "id": "a1-012-always-1",
+          "english": "always",
+          "arabic": "دائمًا"
+        },
+        {
+          "id": "a1-012-sometimes-2",
+          "english": "sometimes",
+          "arabic": "أحيانًا"
+        },
+        {
+          "id": "a1-012-never-3",
+          "english": "never",
+          "arabic": "أبدًا"
+        }
+      ]
+    },
+    {
+      "id": "a1-u3-l1",
+      "level": "A1",
+      "titleEn": "Yesterday",
+      "titleAr": "أمس",
+      "objectiveAr": "أن تشير إلى يوم مضى.",
+      "modelSentence": "I was busy yesterday.",
+      "modelSentenceAr": "كنت مشغولًا أمس.",
+      "existingVocabulary": [
+        {
+          "id": "a1-013-yesterday-1",
+          "english": "yesterday",
+          "arabic": "أمس"
+        },
+        {
+          "id": "a1-013-was-2",
+          "english": "was",
+          "arabic": "كان"
+        },
+        {
+          "id": "a1-013-busy-3",
+          "english": "busy",
+          "arabic": "مشغول"
+        }
+      ]
+    },
+    {
+      "id": "a1-u3-l2",
+      "level": "A1",
+      "titleEn": "Was and Were",
+      "titleAr": "كان وكانت",
+      "objectiveAr": "أن تستخدم was وwere مع الضمائر.",
+      "modelSentence": "They were at home last night.",
+      "modelSentenceAr": "كانوا في المنزل الليلة الماضية.",
+      "existingVocabulary": [
+        {
+          "id": "a1-014-were-1",
+          "english": "were",
+          "arabic": "كانوا"
+        },
+        {
+          "id": "a1-014-last-night-2",
+          "english": "last night",
+          "arabic": "الليلة الماضية"
+        },
+        {
+          "id": "a1-014-home-3",
+          "english": "home",
+          "arabic": "المنزل"
+        }
+      ]
+    },
+    {
+      "id": "a1-u3-l3",
+      "level": "A1",
+      "titleEn": "Went to the Store",
+      "titleAr": "ذهبت إلى المتجر",
+      "objectiveAr": "أن تستخدم فعلًا ماضيًا شائعًا غير منتظم.",
+      "modelSentence": "I went to the store after work.",
+      "modelSentenceAr": "ذهبت إلى المتجر بعد العمل.",
+      "existingVocabulary": [
+        {
+          "id": "a1-015-went-1",
+          "english": "went",
+          "arabic": "ذهب"
+        },
+        {
+          "id": "a1-015-store-2",
+          "english": "store",
+          "arabic": "متجر"
+        },
+        {
+          "id": "a1-015-after-3",
+          "english": "after",
+          "arabic": "بعد"
+        }
+      ]
+    },
+    {
+      "id": "a1-u3-l4",
+      "level": "A1",
+      "titleEn": "Watched a Movie",
+      "titleAr": "شاهدت فيلمًا",
+      "objectiveAr": "أن تستخدم فعلًا ماضيًا منتظمًا.",
+      "modelSentence": "We watched a movie on Friday.",
+      "modelSentenceAr": "شاهدنا فيلمًا يوم الجمعة.",
+      "existingVocabulary": [
+        {
+          "id": "a1-016-watched-1",
+          "english": "watched",
+          "arabic": "شاهد"
+        },
+        {
+          "id": "a1-016-movie-2",
+          "english": "movie",
+          "arabic": "فيلم"
+        },
+        {
+          "id": "a1-016-friday-3",
+          "english": "Friday",
+          "arabic": "الجمعة"
+        }
+      ]
+    },
+    {
+      "id": "a1-u3-l5",
+      "level": "A1",
+      "titleEn": "Past Negative",
+      "titleAr": "لم أذهب",
+      "objectiveAr": "أن تنفي حدثًا ماضيًا باستخدام did not.",
+      "modelSentence": "I did not go out yesterday.",
+      "modelSentenceAr": "لم أخرج أمس.",
+      "existingVocabulary": [
+        {
+          "id": "a1-017-did-not-1",
+          "english": "did not",
+          "arabic": "لم يفعل"
+        },
+        {
+          "id": "a1-017-go-out-2",
+          "english": "go out",
+          "arabic": "يخرج"
+        },
+        {
+          "id": "a1-017-yesterday-3",
+          "english": "yesterday",
+          "arabic": "أمس"
+        }
+      ]
+    },
+    {
+      "id": "a1-u3-l6",
+      "level": "A1",
+      "titleEn": "Past Questions",
+      "titleAr": "هل ذهبت؟",
+      "objectiveAr": "أن تسأل عن الماضي باستخدام Did.",
+      "modelSentence": "Did you call your friend?.",
+      "modelSentenceAr": "هل اتصلت بصديقك؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-018-did-1",
+          "english": "did",
+          "arabic": "هل فعل"
+        },
+        {
+          "id": "a1-018-call-2",
+          "english": "call",
+          "arabic": "يتصل"
+        },
+        {
+          "id": "a1-018-friend-3",
+          "english": "friend",
+          "arabic": "صديق"
+        }
+      ]
+    },
+    {
+      "id": "a1-u4-l1",
+      "level": "A1",
+      "titleEn": "Using Will",
+      "titleAr": "سأفعل",
+      "objectiveAr": "أن تعبّر عن قرار سريع باستخدام will.",
+      "modelSentence": "I will help you with the bags.",
+      "modelSentenceAr": "سأساعدك في الحقائب.",
+      "existingVocabulary": [
+        {
+          "id": "a1-019-will-1",
+          "english": "will",
+          "arabic": "سوف"
+        },
+        {
+          "id": "a1-019-help-2",
+          "english": "help",
+          "arabic": "يساعد"
+        },
+        {
+          "id": "a1-019-bags-3",
+          "english": "bags",
+          "arabic": "حقائب"
+        }
+      ]
+    },
+    {
+      "id": "a1-u4-l2",
+      "level": "A1",
+      "titleEn": "Going To Plans",
+      "titleAr": "سوف أزور",
+      "objectiveAr": "أن تعبّر عن خطة باستخدام going to.",
+      "modelSentence": "I am going to visit my family.",
+      "modelSentenceAr": "سأزور عائلتي.",
+      "existingVocabulary": [
+        {
+          "id": "a1-020-going-to-1",
+          "english": "going to",
+          "arabic": "سوف"
+        },
+        {
+          "id": "a1-020-visit-2",
+          "english": "visit",
+          "arabic": "يزور"
+        },
+        {
+          "id": "a1-020-family-3",
+          "english": "family",
+          "arabic": "عائلة"
+        }
+      ]
+    },
+    {
+      "id": "a1-u4-l3",
+      "level": "A1",
+      "titleEn": "Tomorrow’s Appointment",
+      "titleAr": "موعد الغد",
+      "objectiveAr": "أن تذكر موعدًا مستقبليًا.",
+      "modelSentence": "My appointment is tomorrow at ten.",
+      "modelSentenceAr": "موعدي غدًا الساعة العاشرة.",
+      "existingVocabulary": [
+        {
+          "id": "a1-021-appointment-1",
+          "english": "appointment",
+          "arabic": "موعد"
+        },
+        {
+          "id": "a1-021-tomorrow-2",
+          "english": "tomorrow",
+          "arabic": "غدًا"
+        },
+        {
+          "id": "a1-021-ten-3",
+          "english": "ten",
+          "arabic": "عشرة"
+        }
+      ]
+    },
+    {
+      "id": "a1-u4-l4",
+      "level": "A1",
+      "titleEn": "Weekly Plan",
+      "titleAr": "خطة الأسبوع",
+      "objectiveAr": "أن ترتب خطط الأسبوع بأيام محددة.",
+      "modelSentence": "On Tuesday, I am going to study.",
+      "modelSentenceAr": "يوم الثلاثاء سأدرس.",
+      "existingVocabulary": [
+        {
+          "id": "a1-022-tuesday-1",
+          "english": "Tuesday",
+          "arabic": "الثلاثاء"
+        },
+        {
+          "id": "a1-022-plan-2",
+          "english": "plan",
+          "arabic": "خطة"
+        },
+        {
+          "id": "a1-022-study-3",
+          "english": "study",
+          "arabic": "يدرس"
+        }
+      ]
+    },
+    {
+      "id": "a1-u4-l5",
+      "level": "A1",
+      "titleEn": "Maybe Later",
+      "titleAr": "ربما لاحقًا",
+      "objectiveAr": "أن تعبّر عن احتمال بسيط.",
+      "modelSentence": "Maybe I will call later.",
+      "modelSentenceAr": "ربما سأتصل لاحقًا.",
+      "existingVocabulary": [
+        {
+          "id": "a1-023-maybe-1",
+          "english": "maybe",
+          "arabic": "ربما"
+        },
+        {
+          "id": "a1-023-later-2",
+          "english": "later",
+          "arabic": "لاحقًا"
+        },
+        {
+          "id": "a1-023-call-3",
+          "english": "call",
+          "arabic": "يتصل"
+        }
+      ]
+    },
+    {
+      "id": "a1-u4-l6",
+      "level": "A1",
+      "titleEn": "Making an Invitation",
+      "titleAr": "الدعوة",
+      "objectiveAr": "أن تدعو شخصًا إلى نشاط.",
+      "modelSentence": "Would you like to have coffee tomorrow?.",
+      "modelSentenceAr": "هل ترغب في شرب القهوة غدًا؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-024-would-you-like-1",
+          "english": "would you like",
+          "arabic": "هل ترغب"
+        },
+        {
+          "id": "a1-024-coffee-2",
+          "english": "coffee",
+          "arabic": "قهوة"
+        },
+        {
+          "id": "a1-024-tomorrow-3",
+          "english": "tomorrow",
+          "arabic": "غدًا"
+        }
+      ]
+    },
+    {
+      "id": "a1-u5-l1",
+      "level": "A1",
+      "titleEn": "Asking the Price",
+      "titleAr": "كم السعر؟",
+      "objectiveAr": "أن تسأل عن سعر منتج.",
+      "modelSentence": "How much is this shirt?.",
+      "modelSentenceAr": "كم سعر هذا القميص؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-025-how-much-1",
+          "english": "how much",
+          "arabic": "كم السعر"
+        },
+        {
+          "id": "a1-025-price-2",
+          "english": "price",
+          "arabic": "سعر"
+        },
+        {
+          "id": "a1-025-shirt-3",
+          "english": "shirt",
+          "arabic": "قميص"
+        }
+      ]
+    },
+    {
+      "id": "a1-u5-l2",
+      "level": "A1",
+      "titleEn": "The Right Size",
+      "titleAr": "المقاس المناسب",
+      "objectiveAr": "أن تطلب مقاسًا مختلفًا.",
+      "modelSentence": "Do you have this in a larger size?.",
+      "modelSentenceAr": "هل لديكم هذا بمقاس أكبر؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-026-size-1",
+          "english": "size",
+          "arabic": "مقاس"
+        },
+        {
+          "id": "a1-026-larger-2",
+          "english": "larger",
+          "arabic": "أكبر"
+        },
+        {
+          "id": "a1-026-have-3",
+          "english": "have",
+          "arabic": "لديه"
+        }
+      ]
+    },
+    {
+      "id": "a1-u5-l3",
+      "level": "A1",
+      "titleEn": "Colors in a Store",
+      "titleAr": "الألوان في المتجر",
+      "objectiveAr": "أن تسأل عن لون متاح.",
+      "modelSentence": "Is this jacket available in black?.",
+      "modelSentenceAr": "هل هذه السترة متاحة باللون الأسود؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-027-available-1",
+          "english": "available",
+          "arabic": "متاح"
+        },
+        {
+          "id": "a1-027-jacket-2",
+          "english": "jacket",
+          "arabic": "سترة"
+        },
+        {
+          "id": "a1-027-black-3",
+          "english": "black",
+          "arabic": "أسود"
+        }
+      ]
+    },
+    {
+      "id": "a1-u5-l4",
+      "level": "A1",
+      "titleEn": "Paying by Card",
+      "titleAr": "الدفع بالبطاقة",
+      "objectiveAr": "أن تسأل عن طريقة الدفع.",
+      "modelSentence": "Can I pay by card?.",
+      "modelSentenceAr": "هل يمكنني الدفع بالبطاقة؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-028-pay-1",
+          "english": "pay",
+          "arabic": "يدفع"
+        },
+        {
+          "id": "a1-028-card-2",
+          "english": "card",
+          "arabic": "بطاقة"
+        },
+        {
+          "id": "a1-028-cash-3",
+          "english": "cash",
+          "arabic": "نقد"
+        }
+      ]
+    },
+    {
+      "id": "a1-u5-l5",
+      "level": "A1",
+      "titleEn": "Bill and Receipt",
+      "titleAr": "الفاتورة والإيصال",
+      "objectiveAr": "أن تطلب فاتورة أو إيصالًا.",
+      "modelSentence": "Could I have the receipt, please?.",
+      "modelSentenceAr": "هل يمكنني الحصول على الإيصال، من فضلك؟",
+      "existingVocabulary": [
+        {
+          "id": "a1-029-receipt-1",
+          "english": "receipt",
+          "arabic": "إيصال"
+        },
+        {
+          "id": "a1-029-bill-2",
+          "english": "bill",
+          "arabic": "فاتورة"
+        },
+        {
+          "id": "a1-029-could-3",
+          "english": "could",
+          "arabic": "هل يمكن"
+        }
+      ]
+    },
+    {
+      "id": "a1-u5-l6",
+      "level": "A1",
+      "titleEn": "Returning an Item",
+      "titleAr": "استبدال منتج",
+      "objectiveAr": "أن تشرح سبب استبدال منتج.",
+      "modelSentence": "I would like to return this item.",
+      "modelSentenceAr": "أرغب في إعادة هذا المنتج.",
+      "existingVocabulary": [
+        {
+          "id": "a1-030-return-1",
+          "english": "return",
+          "arabic": "يعيد"
+        },
+        {
+          "id": "a1-030-item-2",
+          "english": "item",
+          "arabic": "منتج"
+        },
+        {
+          "id": "a1-030-wrong-3",
+          "english": "wrong",
+          "arabic": "غير مناسب"
+        }
+      ]
+    }
+  ]
+}

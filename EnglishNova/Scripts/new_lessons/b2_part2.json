@@ -1,0 +1,603 @@
+{
+  "level": "B2",
+  "units": [
+    {
+      "id": "b2-x-u3",
+      "titleAr": "التعلم والمجتمع",
+      "titleEn": "Learning and Society",
+      "descriptionAr": "وحدة تتناول التعليم والقضايا الاجتماعية والعلوم والتكنولوجيا بلغة إنجليزية متقدمة، مع مفردات وتعبيرات طبيعية تساعدك على مناقشة موضوعات معاصرة بثقة.",
+      "icon": "books.vertical",
+      "lessons": [
+        {
+          "id": "b2-x-u3-l1",
+          "titleAr": "التعلم مدى الحياة",
+          "titleEn": "Lifelong Learning",
+          "objectiveAr": "أن تتحدث عن أهمية مواصلة التعلم طوال الحياة باستخدام مفردات تربوية دقيقة.",
+          "modelSentence": "In a rapidly changing job market, lifelong learning is no longer a luxury but a necessity for staying employable.",
+          "modelSentenceArabic": "في سوق عمل سريع التغير، لم يعد التعلم مدى الحياة رفاهية بل ضرورة للحفاظ على قابليتك للتوظيف.",
+          "vocabulary": [
+            {
+              "english": "lifelong learning",
+              "arabic": "التعلم مدى الحياة",
+              "example": "She credits her success to a commitment to lifelong learning.",
+              "exampleArabic": "تنسب نجاحها إلى التزامها بالتعلم مدى الحياة.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈlaɪflɒŋ ˈlɜːnɪŋ/"
+            },
+            {
+              "english": "acquire a skill",
+              "arabic": "يكتسب مهارة",
+              "example": "It takes patience to acquire a skill as complex as coding.",
+              "exampleArabic": "يتطلب الأمر صبرًا لاكتساب مهارة معقدة مثل البرمجة.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/əˈkwaɪə ə skɪl/"
+            },
+            {
+              "english": "broaden one's horizons",
+              "arabic": "يوسّع آفاقه",
+              "example": "Studying abroad really broadened my horizons.",
+              "exampleArabic": "وسّعت الدراسة في الخارج آفاقي بحق.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/ˈbrɔːdən wʌnz həˈraɪzənz/"
+            },
+            {
+              "english": "self-directed",
+              "arabic": "ذاتي التوجيه",
+              "example": "Online courses suit self-directed learners best.",
+              "exampleArabic": "تناسب الدورات الإلكترونية المتعلمين ذاتيي التوجيه أكثر من غيرهم.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˌself dɪˈrektɪd/"
+            },
+            {
+              "english": "keep up with",
+              "arabic": "يواكب",
+              "example": "Professionals must keep up with new developments in their field.",
+              "exampleArabic": "يجب على المهنيين أن يواكبوا المستجدات في مجالهم.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/kiːp ʌp wɪð/"
+            },
+            {
+              "english": "employability",
+              "arabic": "القابلية للتوظيف",
+              "example": "Volunteer work can significantly boost your employability.",
+              "exampleArabic": "يمكن للعمل التطوعي أن يعزز قابليتك للتوظيف بشكل كبير.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ɪmˌplɔɪəˈbɪləti/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u3-l2",
+          "titleAr": "إصلاح التعليم",
+          "titleEn": "Education Reform",
+          "objectiveAr": "أن تناقش مقترحات إصلاح النظام التعليمي باستخدام مصطلحات السياسات التربوية.",
+          "modelSentence": "Many educators argue that the current curriculum should place greater emphasis on critical thinking rather than rote memorization.",
+          "modelSentenceArabic": "يرى كثير من التربويين أن المنهج الحالي ينبغي أن يولي اهتمامًا أكبر بالتفكير النقدي بدلًا من الحفظ عن ظهر قلب.",
+          "vocabulary": [
+            {
+              "english": "curriculum",
+              "arabic": "المنهج الدراسي",
+              "example": "The school overhauled its science curriculum last year.",
+              "exampleArabic": "أعادت المدرسة هيكلة منهجها العلمي العام الماضي.",
+              "partOfSpeech": "noun",
+              "phonetic": "/kəˈrɪkjʊləm/"
+            },
+            {
+              "english": "rote memorization",
+              "arabic": "الحفظ عن ظهر قلب",
+              "example": "Critics say rote memorization stifles genuine understanding.",
+              "exampleArabic": "يقول النقاد إن الحفظ عن ظهر قلب يخنق الفهم الحقيقي.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/rəʊt ˌmeməraɪˈzeɪʃən/"
+            },
+            {
+              "english": "critical thinking",
+              "arabic": "التفكير النقدي",
+              "example": "Employers increasingly value critical thinking over factual recall.",
+              "exampleArabic": "يقدّر أصحاب العمل بشكل متزايد التفكير النقدي أكثر من استرجاع المعلومات.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈkrɪtɪkəl ˈθɪŋkɪŋ/"
+            },
+            {
+              "english": "assessment",
+              "arabic": "التقييم",
+              "example": "Continuous assessment can reduce exam-related stress.",
+              "exampleArabic": "يمكن للتقييم المستمر أن يقلل من التوتر المرتبط بالامتحانات.",
+              "partOfSpeech": "noun",
+              "phonetic": "/əˈsesmənt/"
+            },
+            {
+              "english": "overhaul the system",
+              "arabic": "يعيد هيكلة النظام",
+              "example": "The minister promised to overhaul the system within five years.",
+              "exampleArabic": "وعد الوزير بإعادة هيكلة النظام خلال خمس سنوات.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/ˈəʊvəhɔːl ðə ˈsɪstəm/"
+            },
+            {
+              "english": "equitable access",
+              "arabic": "الوصول العادل",
+              "example": "The reform aims to ensure equitable access to quality education.",
+              "exampleArabic": "يهدف الإصلاح إلى ضمان الوصول العادل إلى تعليم جيد.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈekwɪtəbəl ˈækses/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u3-l3",
+          "titleAr": "عدم المساواة الاجتماعية",
+          "titleEn": "Social Inequality",
+          "objectiveAr": "أن تتحدث عن الفوارق الاجتماعية والاقتصادية بمفردات دقيقة وموضوعية.",
+          "modelSentence": "The widening gap between rich and poor has fuelled growing resentment across many societies.",
+          "modelSentenceArabic": "أجّجت الفجوة المتسعة بين الأغنياء والفقراء استياءً متناميًا في كثير من المجتمعات.",
+          "vocabulary": [
+            {
+              "english": "wealth gap",
+              "arabic": "فجوة الثروة",
+              "example": "Economists warn that the wealth gap is reaching dangerous levels.",
+              "exampleArabic": "يحذّر الاقتصاديون من أن فجوة الثروة تبلغ مستويات خطيرة.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/welθ ɡæp/"
+            },
+            {
+              "english": "marginalized",
+              "arabic": "مُهمَّش",
+              "example": "The program supports marginalized communities in rural areas.",
+              "exampleArabic": "يدعم البرنامج المجتمعات المهمشة في المناطق الريفية.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈmɑːdʒɪnəlaɪzd/"
+            },
+            {
+              "english": "social mobility",
+              "arabic": "الحراك الاجتماعي",
+              "example": "Good education is a key driver of social mobility.",
+              "exampleArabic": "التعليم الجيد محرّك رئيسي للحراك الاجتماعي.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈsəʊʃəl məʊˈbɪləti/"
+            },
+            {
+              "english": "underprivileged",
+              "arabic": "محروم",
+              "example": "Scholarships give underprivileged students a fair chance.",
+              "exampleArabic": "تمنح المنح الدراسية الطلاب المحرومين فرصة عادلة.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˌʌndəˈprɪvəlɪdʒd/"
+            },
+            {
+              "english": "address an issue",
+              "arabic": "يعالج قضية",
+              "example": "The government must address the issue of homelessness urgently.",
+              "exampleArabic": "يجب على الحكومة أن تعالج قضية التشرد بشكل عاجل.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/əˈdres ən ˈɪʃuː/"
+            },
+            {
+              "english": "vulnerable groups",
+              "arabic": "الفئات الهشة",
+              "example": "Aid is being directed toward the most vulnerable groups.",
+              "exampleArabic": "يُوجَّه الدعم نحو الفئات الأكثر هشاشة.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈvʌlnərəbəl ɡruːps/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u3-l4",
+          "titleAr": "الذكاء الاصطناعي وحياتنا",
+          "titleEn": "AI in Our Lives",
+          "objectiveAr": "أن تناقش تأثير الذكاء الاصطناعي على العمل والحياة اليومية بمفردات تقنية مناسبة.",
+          "modelSentence": "While artificial intelligence promises remarkable efficiency, it also raises serious concerns about job displacement.",
+          "modelSentenceArabic": "في حين يَعِد الذكاء الاصطناعي بكفاءة لافتة، فإنه يثير أيضًا مخاوف جدية بشأن فقدان الوظائف.",
+          "vocabulary": [
+            {
+              "english": "artificial intelligence",
+              "arabic": "الذكاء الاصطناعي",
+              "example": "Artificial intelligence is transforming the healthcare sector.",
+              "exampleArabic": "يُحدِث الذكاء الاصطناعي تحولًا في قطاع الرعاية الصحية.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˌɑːtɪˈfɪʃəl ɪnˈtelɪdʒəns/"
+            },
+            {
+              "english": "automation",
+              "arabic": "الأتمتة",
+              "example": "Automation has streamlined the entire production line.",
+              "exampleArabic": "بسّطت الأتمتة خط الإنتاج بالكامل.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˌɔːtəˈmeɪʃən/"
+            },
+            {
+              "english": "job displacement",
+              "arabic": "فقدان الوظائف",
+              "example": "Unions are worried about job displacement caused by robots.",
+              "exampleArabic": "تشعر النقابات بالقلق إزاء فقدان الوظائف الناجم عن الروبوتات.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/dʒɒb dɪsˈpleɪsmənt/"
+            },
+            {
+              "english": "data privacy",
+              "arabic": "خصوصية البيانات",
+              "example": "New laws aim to protect users' data privacy.",
+              "exampleArabic": "تهدف القوانين الجديدة إلى حماية خصوصية بيانات المستخدمين.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈdeɪtə ˈprɪvəsi/"
+            },
+            {
+              "english": "cutting-edge",
+              "arabic": "متطور للغاية",
+              "example": "The lab is equipped with cutting-edge technology.",
+              "exampleArabic": "المختبر مجهّز بتقنيات متطورة للغاية.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈkʌtɪŋ edʒ/"
+            },
+            {
+              "english": "ethical implications",
+              "arabic": "التبعات الأخلاقية",
+              "example": "Researchers must weigh the ethical implications of their work.",
+              "exampleArabic": "على الباحثين أن يزنوا التبعات الأخلاقية لعملهم.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈeθɪkəl ˌɪmplɪˈkeɪʃənz/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u3-l5",
+          "titleAr": "العلم في الحياة اليومية",
+          "titleEn": "Science in Everyday Life",
+          "objectiveAr": "أن تشرح المفاهيم العلمية وتقيّم الأدلة باستخدام لغة الاستقصاء العلمي.",
+          "modelSentence": "A well-designed experiment can confirm whether a hypothesis holds up under careful scrutiny.",
+          "modelSentenceArabic": "يمكن لتجربة مصممة جيدًا أن تؤكد ما إذا كانت الفرضية تصمد أمام التدقيق الدقيق.",
+          "vocabulary": [
+            {
+              "english": "hypothesis",
+              "arabic": "فرضية",
+              "example": "The data did not support the original hypothesis.",
+              "exampleArabic": "لم تدعم البيانات الفرضية الأصلية.",
+              "partOfSpeech": "noun",
+              "phonetic": "/haɪˈpɒθəsɪs/"
+            },
+            {
+              "english": "conduct research",
+              "arabic": "يجري بحثًا",
+              "example": "The team conducted research on renewable energy for a decade.",
+              "exampleArabic": "أجرى الفريق بحثًا حول الطاقة المتجددة على مدى عقد.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/kənˈdʌkt rɪˈsɜːtʃ/"
+            },
+            {
+              "english": "evidence-based",
+              "arabic": "قائم على الأدلة",
+              "example": "Doctors increasingly rely on evidence-based treatments.",
+              "exampleArabic": "يعتمد الأطباء بشكل متزايد على علاجات قائمة على الأدلة.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈevɪdəns beɪst/"
+            },
+            {
+              "english": "breakthrough",
+              "arabic": "اختراق علمي",
+              "example": "The vaccine represented a major breakthrough in medicine.",
+              "exampleArabic": "مثّل اللقاح اختراقًا علميًا كبيرًا في الطب.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈbreɪkθruː/"
+            },
+            {
+              "english": "peer review",
+              "arabic": "مراجعة الأقران",
+              "example": "The findings were published after rigorous peer review.",
+              "exampleArabic": "نُشرت النتائج بعد مراجعة أقران صارمة.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈpɪə rɪˈvjuː/"
+            },
+            {
+              "english": "draw a conclusion",
+              "arabic": "يستخلص استنتاجًا",
+              "example": "It is too early to draw a conclusion from these results.",
+              "exampleArabic": "من المبكر جدًا استخلاص استنتاج من هذه النتائج.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/drɔː ə kənˈkluːʒən/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b2-x-u4",
+      "titleAr": "الأعمال والإقناع",
+      "titleEn": "Business and Persuasion",
+      "descriptionAr": "وحدة تركز على اجتماعات العمل واتخاذ القرار وأساليب الإقناع، بمفردات وتعبيرات مهنية تساعدك على المشاركة بفاعلية وإقناع الآخرين بثقة.",
+      "icon": "person.3.sequence",
+      "lessons": [
+        {
+          "id": "b2-x-u4-l1",
+          "titleAr": "إدارة الاجتماعات",
+          "titleEn": "Running Meetings",
+          "objectiveAr": "أن تدير اجتماع عمل بفاعلية باستخدام عبارات تنظيمية مهنية.",
+          "modelSentence": "Before we move on, let me quickly recap the main points we've agreed on so far.",
+          "modelSentenceArabic": "قبل أن ننتقل، دعوني ألخّص بسرعة النقاط الرئيسية التي اتفقنا عليها حتى الآن.",
+          "vocabulary": [
+            {
+              "english": "agenda",
+              "arabic": "جدول الأعمال",
+              "example": "There are five items on today's agenda.",
+              "exampleArabic": "هناك خمسة بنود على جدول أعمال اليوم.",
+              "partOfSpeech": "noun",
+              "phonetic": "/əˈdʒendə/"
+            },
+            {
+              "english": "chair a meeting",
+              "arabic": "يترأس اجتماعًا",
+              "example": "She was asked to chair the meeting in the director's absence.",
+              "exampleArabic": "طُلب منها أن تترأس الاجتماع في غياب المدير.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/tʃeə ə ˈmiːtɪŋ/"
+            },
+            {
+              "english": "move on",
+              "arabic": "ينتقل إلى التالي",
+              "example": "If there are no questions, let's move on to the next topic.",
+              "exampleArabic": "إن لم تكن هناك أسئلة، فلننتقل إلى الموضوع التالي.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/muːv ɒn/"
+            },
+            {
+              "english": "recap",
+              "arabic": "يلخّص",
+              "example": "Let me recap what we discussed in the last session.",
+              "exampleArabic": "دعوني ألخّص ما ناقشناه في الجلسة الماضية.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈriːkæp/"
+            },
+            {
+              "english": "minutes",
+              "arabic": "محضر الاجتماع",
+              "example": "Could you take the minutes for this meeting?",
+              "exampleArabic": "هل يمكنك تدوين محضر هذا الاجتماع؟",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈmɪnɪts/"
+            },
+            {
+              "english": "stick to the point",
+              "arabic": "يلتزم بصلب الموضوع",
+              "example": "We're short on time, so please stick to the point.",
+              "exampleArabic": "وقتنا ضيق، لذا يرجى الالتزام بصلب الموضوع.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/stɪk tə ðə pɔɪnt/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u4-l2",
+          "titleAr": "اتخاذ القرار",
+          "titleEn": "Making Decisions",
+          "objectiveAr": "أن تشارك في اتخاذ القرارات الجماعية وتقيّم الخيارات بلغة مهنية.",
+          "modelSentence": "After weighing up the pros and cons, the board reached a consensus on the new strategy.",
+          "modelSentenceArabic": "بعد الموازنة بين الإيجابيات والسلبيات، توصّل المجلس إلى توافق بشأن الاستراتيجية الجديدة.",
+          "vocabulary": [
+            {
+              "english": "weigh up the options",
+              "arabic": "يوازن بين الخيارات",
+              "example": "Take your time to weigh up the options before deciding.",
+              "exampleArabic": "خذ وقتك للموازنة بين الخيارات قبل أن تقرر.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/weɪ ʌp ði ˈɒpʃənz/"
+            },
+            {
+              "english": "reach a consensus",
+              "arabic": "يتوصل إلى توافق",
+              "example": "It took hours to reach a consensus on the budget.",
+              "exampleArabic": "استغرق الأمر ساعات للتوصل إلى توافق بشأن الميزانية.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/riːtʃ ə kənˈsensəs/"
+            },
+            {
+              "english": "pros and cons",
+              "arabic": "الإيجابيات والسلبيات",
+              "example": "Let's list the pros and cons of each proposal.",
+              "exampleArabic": "لنُعدّ قائمة بإيجابيات وسلبيات كل مقترح.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/prəʊz ən kɒnz/"
+            },
+            {
+              "english": "make a call",
+              "arabic": "يتخذ قرارًا",
+              "example": "As the manager, you'll have to make the call on this.",
+              "exampleArabic": "بصفتك المدير، سيتعين عليك اتخاذ القرار في هذا الأمر.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/meɪk ə kɔːl/"
+            },
+            {
+              "english": "trade-off",
+              "arabic": "مقايضة",
+              "example": "There's always a trade-off between speed and quality.",
+              "exampleArabic": "هناك دائمًا مقايضة بين السرعة والجودة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈtreɪd ɒf/"
+            },
+            {
+              "english": "rule out",
+              "arabic": "يستبعد",
+              "example": "We can't rule out the possibility of delays.",
+              "exampleArabic": "لا يمكننا استبعاد احتمال حدوث تأخيرات.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/ruːl aʊt/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u4-l3",
+          "titleAr": "العصف الذهني والمقترحات",
+          "titleEn": "Brainstorming and Proposals",
+          "objectiveAr": "أن تطرح الأفكار وتقدّم المقترحات في بيئة العمل بأسلوب تعاوني.",
+          "modelSentence": "I'd like to put forward a proposal that could cut our costs without compromising quality.",
+          "modelSentenceArabic": "أودّ أن أطرح مقترحًا قد يخفّض تكاليفنا دون المساس بالجودة.",
+          "vocabulary": [
+            {
+              "english": "put forward a proposal",
+              "arabic": "يطرح مقترحًا",
+              "example": "She put forward a proposal to expand into new markets.",
+              "exampleArabic": "طرحت مقترحًا للتوسع في أسواق جديدة.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/pʊt ˈfɔːwəd ə prəˈpəʊzəl/"
+            },
+            {
+              "english": "brainstorm",
+              "arabic": "يعصف ذهنيًا",
+              "example": "Let's brainstorm a few ideas before lunch.",
+              "exampleArabic": "لنعصف ذهنيًا ببعض الأفكار قبل الغداء.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈbreɪnstɔːm/"
+            },
+            {
+              "english": "build on an idea",
+              "arabic": "يبني على فكرة",
+              "example": "That's a good start, and we can build on that idea.",
+              "exampleArabic": "هذه بداية جيدة، ويمكننا أن نبني على تلك الفكرة.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/bɪld ɒn ən aɪˈdɪə/"
+            },
+            {
+              "english": "feasible",
+              "arabic": "قابل للتطبيق",
+              "example": "The plan sounds ambitious but entirely feasible.",
+              "exampleArabic": "تبدو الخطة طموحة لكنها قابلة للتطبيق تمامًا.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈfiːzəbəl/"
+            },
+            {
+              "english": "think outside the box",
+              "arabic": "يفكّر خارج الصندوق",
+              "example": "To solve this, we need to think outside the box.",
+              "exampleArabic": "لحل هذا، علينا أن نفكر خارج الصندوق.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/θɪŋk aʊtˈsaɪd ðə bɒks/"
+            },
+            {
+              "english": "viable",
+              "arabic": "قابل للنجاح",
+              "example": "We're looking for a commercially viable solution.",
+              "exampleArabic": "نحن نبحث عن حل قابل للنجاح تجاريًا.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈvaɪəbəl/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u4-l4",
+          "titleAr": "أساليب الإقناع",
+          "titleEn": "Persuasion Techniques",
+          "objectiveAr": "أن تستخدم أساليب الإقناع المختلفة للتأثير في جمهورك بفاعلية.",
+          "modelSentence": "By appealing to their emotions and backing it with solid data, she managed to win them over.",
+          "modelSentenceArabic": "من خلال مخاطبة عواطفهم ودعم ذلك ببيانات قوية، تمكنت من كسب تأييدهم.",
+          "vocabulary": [
+            {
+              "english": "win someone over",
+              "arabic": "يكسب تأييد أحدهم",
+              "example": "It took a great pitch to win the investors over.",
+              "exampleArabic": "تطلّب الأمر عرضًا رائعًا لكسب تأييد المستثمرين.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/wɪn ˈsʌmwʌn ˈəʊvə/"
+            },
+            {
+              "english": "appeal to emotions",
+              "arabic": "يخاطب العواطف",
+              "example": "Good advertisements often appeal to our emotions.",
+              "exampleArabic": "غالبًا ما تخاطب الإعلانات الجيدة عواطفنا.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/əˈpiːl tʊ ɪˈməʊʃənz/"
+            },
+            {
+              "english": "compelling",
+              "arabic": "مقنع للغاية",
+              "example": "He made a compelling case for the merger.",
+              "exampleArabic": "قدّم حجة مقنعة للغاية لصالح الاندماج.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/kəmˈpelɪŋ/"
+            },
+            {
+              "english": "credibility",
+              "arabic": "المصداقية",
+              "example": "Citing trusted sources adds credibility to your argument.",
+              "exampleArabic": "يضيف الاستشهاد بمصادر موثوقة مصداقية إلى حجتك.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˌkredəˈbɪləti/"
+            },
+            {
+              "english": "back up a claim",
+              "arabic": "يدعم ادعاءً",
+              "example": "You'll need statistics to back up that claim.",
+              "exampleArabic": "ستحتاج إلى إحصاءات لدعم ذلك الادعاء.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/bæk ʌp ə kleɪm/"
+            },
+            {
+              "english": "sway opinion",
+              "arabic": "يميل الرأي",
+              "example": "A single speech can sway public opinion overnight.",
+              "exampleArabic": "يمكن لخطاب واحد أن يميل الرأي العام بين عشية وضحاها.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/sweɪ əˈpɪnjən/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u4-l5",
+          "titleAr": "التعامل مع الاعتراضات",
+          "titleEn": "Handling Objections",
+          "objectiveAr": "أن تتعامل مع الاعتراضات والمخاوف بثقة وأسلوب دبلوماسي مقنع.",
+          "modelSentence": "I understand your concern, but let me address it by highlighting the long-term benefits.",
+          "modelSentenceArabic": "أتفهّم قلقك، لكن دعني أعالجه بتسليط الضوء على الفوائد طويلة الأمد.",
+          "vocabulary": [
+            {
+              "english": "raise an objection",
+              "arabic": "يثير اعتراضًا",
+              "example": "Several members raised objections to the proposal.",
+              "exampleArabic": "أثار عدة أعضاء اعتراضات على المقترح.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/reɪz ən əbˈdʒekʃən/"
+            },
+            {
+              "english": "counterargument",
+              "arabic": "حجة مضادة",
+              "example": "She had a convincing counterargument ready.",
+              "exampleArabic": "كانت لديها حجة مضادة مقنعة جاهزة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈkaʊntərˌɑːɡjʊmənt/"
+            },
+            {
+              "english": "address a concern",
+              "arabic": "يعالج مخاوف",
+              "example": "The CEO took time to address every concern.",
+              "exampleArabic": "خصّص الرئيس التنفيذي وقتًا لمعالجة كل المخاوف.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/əˈdres ə kənˈsɜːn/"
+            },
+            {
+              "english": "concede a point",
+              "arabic": "يسلّم بنقطة",
+              "example": "He was willing to concede a point to keep the deal alive.",
+              "exampleArabic": "كان مستعدًا للتسليم بنقطة للإبقاء على الصفقة قائمة.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/kənˈsiːd ə pɔɪnt/"
+            },
+            {
+              "english": "reassure",
+              "arabic": "يطمئن",
+              "example": "He tried to reassure the team about job security.",
+              "exampleArabic": "حاول أن يطمئن الفريق بشأن الأمان الوظيفي.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˌriːəˈʃʊə/"
+            },
+            {
+              "english": "common ground",
+              "arabic": "أرضية مشتركة",
+              "example": "Despite their differences, they found common ground.",
+              "exampleArabic": "رغم اختلافاتهم، وجدوا أرضية مشتركة.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈkɒmən ɡraʊnd/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,603 @@
+{
+  "level": "B2",
+  "units": [
+    {
+      "id": "b2-x-u1",
+      "titleAr": "اليقين والاحتمال والاستنتاج",
+      "titleEn": "Certainty, Possibility, and Reasoning",
+      "descriptionAr": "وحدة تركّز على التعبير عن درجات اليقين والشك، وربط الأسباب بالنتائج، وبناء سيناريوهات افتراضية بلغة إنجليزية طبيعية للمستوى المتقدم المتوسط.",
+      "icon": "brain.head.profile",
+      "lessons": [
+        {
+          "id": "b2-x-u1-l1",
+          "titleAr": "التعبير عن اليقين التام",
+          "titleEn": "Expressing Strong Certainty",
+          "objectiveAr": "أن تعبّر بثقة عن قناعتك بأمر ما باستخدام عبارات اليقين القوية.",
+          "modelSentence": "I'm absolutely convinced that the project will succeed, given how well the team has performed so far.",
+          "modelSentenceArabic": "أنا مقتنع تمامًا بأنّ المشروع سينجح، نظرًا إلى الأداء الممتاز الذي قدّمه الفريق حتى الآن.",
+          "vocabulary": [
+            {
+              "english": "absolutely convinced",
+              "arabic": "مقتنع تمامًا",
+              "example": "She is absolutely convinced that her decision was the right one.",
+              "exampleArabic": "إنها مقتنعة تمامًا بأنّ قرارها كان صائبًا.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/ˌæbsəˈluːtli kənˈvɪnst/"
+            },
+            {
+              "english": "without a doubt",
+              "arabic": "بلا أدنى شك",
+              "example": "Without a doubt, this is the best option available to us.",
+              "exampleArabic": "بلا أدنى شك، هذا هو أفضل خيار متاح لنا.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/wɪˈðaʊt ə daʊt/"
+            },
+            {
+              "english": "I'm positive",
+              "arabic": "أنا على يقين",
+              "example": "I'm positive I locked the door before we left.",
+              "exampleArabic": "أنا على يقين أنني أقفلت الباب قبل أن نغادر.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/aɪm ˈpɒzətɪv/"
+            },
+            {
+              "english": "bound to",
+              "arabic": "حتمًا سوف",
+              "example": "With such preparation, they are bound to win.",
+              "exampleArabic": "بمثل هذا الاستعداد، سيفوزون حتمًا.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/baʊnd tə/"
+            },
+            {
+              "english": "certainty",
+              "arabic": "يقين",
+              "example": "I can say with certainty that the report is accurate.",
+              "exampleArabic": "أستطيع أن أقول بيقين إنّ التقرير دقيق.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈsɜːtnti/"
+            },
+            {
+              "english": "undeniable",
+              "arabic": "لا يمكن إنكاره",
+              "example": "The evidence is undeniable, so we must accept the result.",
+              "exampleArabic": "الدليل لا يمكن إنكاره، لذا علينا أن نقبل النتيجة.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˌʌndɪˈnaɪəbl/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u1-l2",
+          "titleAr": "التعبير عن الشك والتحفّظ",
+          "titleEn": "Expressing Doubt and Reservation",
+          "objectiveAr": "أن تعبّر عن شكوكك وتحفّظاتك بطريقة مهذبة ودقيقة.",
+          "modelSentence": "I have my doubts about whether this approach will actually solve the underlying problem.",
+          "modelSentenceArabic": "لديّ شكوكي حول ما إذا كان هذا النهج سيحلّ فعلًا المشكلة الجوهرية.",
+          "vocabulary": [
+            {
+              "english": "have one's doubts",
+              "arabic": "تساوره الشكوك",
+              "example": "I have my doubts about his ability to finish on time.",
+              "exampleArabic": "تساورني الشكوك حول قدرته على الإنهاء في الوقت المحدد.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/hæv wʌnz daʊts/"
+            },
+            {
+              "english": "be skeptical",
+              "arabic": "يكون متشككًا",
+              "example": "Many experts remain skeptical about the new theory.",
+              "exampleArabic": "لا يزال كثير من الخبراء متشككين إزاء النظرية الجديدة.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/biː ˈskeptɪkl/"
+            },
+            {
+              "english": "I'm not entirely sure",
+              "arabic": "لست متأكدًا تمامًا",
+              "example": "I'm not entirely sure that the figures are reliable.",
+              "exampleArabic": "لست متأكدًا تمامًا من أنّ الأرقام موثوقة.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/aɪm nɒt ɪnˈtaɪəli ʃʊə/"
+            },
+            {
+              "english": "questionable",
+              "arabic": "مشكوك فيه",
+              "example": "The validity of these results is questionable.",
+              "exampleArabic": "صحة هذه النتائج مشكوك فيها.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈkwestʃənəbl/"
+            },
+            {
+              "english": "it's unlikely that",
+              "arabic": "من غير المرجّح أن",
+              "example": "It's unlikely that the weather will improve before evening.",
+              "exampleArabic": "من غير المرجّح أن يتحسّن الطقس قبل المساء.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/ɪts ʌnˈlaɪkli ðæt/"
+            },
+            {
+              "english": "reservation",
+              "arabic": "تحفّظ",
+              "example": "She expressed some reservations about the proposed plan.",
+              "exampleArabic": "أبدت بعض التحفّظات على الخطة المقترحة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˌrezəˈveɪʃn/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u1-l3",
+          "titleAr": "التخمين والاستنتاج المنطقي",
+          "titleEn": "Speculating and Drawing Conclusions",
+          "objectiveAr": "أن تستنتج وتخمّن بناءً على الأدلة المتاحة باستخدام أفعال الاحتمال.",
+          "modelSentence": "Judging by the empty parking lot, the office must have closed early today.",
+          "modelSentenceArabic": "بالنظر إلى موقف السيارات الفارغ، لا بدّ أنّ المكتب قد أُغلق مبكرًا اليوم.",
+          "vocabulary": [
+            {
+              "english": "must have",
+              "arabic": "لا بدّ أنه قد",
+              "example": "He must have forgotten about the meeting.",
+              "exampleArabic": "لا بدّ أنه قد نسي أمر الاجتماع.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/mʌst həv/"
+            },
+            {
+              "english": "judging by",
+              "arabic": "بالنظر إلى",
+              "example": "Judging by her tone, she wasn't pleased with the news.",
+              "exampleArabic": "بالنظر إلى نبرتها، لم تكن راضية عن الخبر.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/ˈdʒʌdʒɪŋ baɪ/"
+            },
+            {
+              "english": "presumably",
+              "arabic": "على الأرجح",
+              "example": "Presumably, they will announce the results next week.",
+              "exampleArabic": "على الأرجح سيعلنون النتائج الأسبوع المقبل.",
+              "partOfSpeech": "adverb",
+              "phonetic": "/prɪˈzjuːməbli/"
+            },
+            {
+              "english": "infer",
+              "arabic": "يستنتج",
+              "example": "From his silence, I inferred that he disagreed.",
+              "exampleArabic": "من صمته، استنتجت أنه غير موافق.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪnˈfɜː/"
+            },
+            {
+              "english": "it stands to reason",
+              "arabic": "من المنطقي",
+              "example": "It stands to reason that prices will rise if demand increases.",
+              "exampleArabic": "من المنطقي أن ترتفع الأسعار إذا زاد الطلب.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/ɪt stændz tə ˈriːzn/"
+            },
+            {
+              "english": "draw a conclusion",
+              "arabic": "يستخلص نتيجة",
+              "example": "We shouldn't draw a conclusion before reviewing all the data.",
+              "exampleArabic": "ينبغي ألّا نستخلص نتيجة قبل مراجعة كل البيانات.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/drɔː ə kənˈkluːʒn/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u1-l4",
+          "titleAr": "ربط الأسباب بالنتائج",
+          "titleEn": "Connecting Cause and Effect",
+          "objectiveAr": "أن تربط بين الأسباب والنتائج باستخدام روابط متنوعة وطبيعية.",
+          "modelSentence": "The sudden rise in fuel prices triggered a chain reaction across the entire economy.",
+          "modelSentenceArabic": "أدى الارتفاع المفاجئ في أسعار الوقود إلى سلسلة من ردود الأفعال في الاقتصاد بأكمله.",
+          "vocabulary": [
+            {
+              "english": "trigger",
+              "arabic": "يُحدِث أو يُطلِق",
+              "example": "The announcement triggered a wave of protests.",
+              "exampleArabic": "أطلق الإعلان موجة من الاحتجاجات.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈtrɪɡə/"
+            },
+            {
+              "english": "as a consequence",
+              "arabic": "نتيجةً لذلك",
+              "example": "He missed the deadline, and as a consequence, lost the contract.",
+              "exampleArabic": "فاته الموعد النهائي، ونتيجةً لذلك خسر العقد.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/æz ə ˈkɒnsɪkwəns/"
+            },
+            {
+              "english": "stem from",
+              "arabic": "ينبع من",
+              "example": "Most of these issues stem from poor communication.",
+              "exampleArabic": "معظم هذه المشكلات تنبع من سوء التواصل.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/stem frɒm/"
+            },
+            {
+              "english": "give rise to",
+              "arabic": "يؤدي إلى نشوء",
+              "example": "The new policy gave rise to widespread confusion.",
+              "exampleArabic": "أدّت السياسة الجديدة إلى نشوء ارتباك واسع.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/ɡɪv raɪz tə/"
+            },
+            {
+              "english": "knock-on effect",
+              "arabic": "تأثير متسلسل",
+              "example": "Delays at the factory had a knock-on effect on deliveries.",
+              "exampleArabic": "كان للتأخيرات في المصنع تأثير متسلسل على عمليات التسليم.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈnɒk ɒn ɪˌfekt/"
+            },
+            {
+              "english": "attribute to",
+              "arabic": "يعزو إلى",
+              "example": "They attributed the failure to a lack of funding.",
+              "exampleArabic": "عزوا الفشل إلى نقص التمويل.",
+              "partOfSpeech": "verb",
+              "phonetic": "/əˈtrɪbjuːt tə/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u1-l5",
+          "titleAr": "المواقف الافتراضية والندم",
+          "titleEn": "Hypothetical Situations and Regret",
+          "objectiveAr": "أن تناقش مواقف افتراضية وتعبّر عن الندم على الماضي بلغة طبيعية.",
+          "modelSentence": "If I had known about the risks earlier, I would have approached the whole situation differently.",
+          "modelSentenceArabic": "لو كنت قد عرفت بالمخاطر في وقت أبكر، لتعاملت مع الموقف بأكمله بطريقة مختلفة.",
+          "vocabulary": [
+            {
+              "english": "would have",
+              "arabic": "كان من الممكن أن",
+              "example": "I would have called you if I had had your number.",
+              "exampleArabic": "كان من الممكن أن أتصل بك لو كان معي رقمك.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/wʊd həv/"
+            },
+            {
+              "english": "hypothetical",
+              "arabic": "افتراضي",
+              "example": "Let's consider a hypothetical scenario for a moment.",
+              "exampleArabic": "لنفترض سيناريو افتراضيًا للحظة.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˌhaɪpəˈθetɪkl/"
+            },
+            {
+              "english": "in hindsight",
+              "arabic": "بعد فوات الأوان",
+              "example": "In hindsight, accepting that offer was a mistake.",
+              "exampleArabic": "بعد فوات الأوان، أدركت أنّ قبول ذلك العرض كان خطأ.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/ɪn ˈhaɪndsaɪt/"
+            },
+            {
+              "english": "if only",
+              "arabic": "ليت",
+              "example": "If only I had saved more money last year.",
+              "exampleArabic": "ليتني ادّخرت مزيدًا من المال العام الماضي.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/ɪf ˈəʊnli/"
+            },
+            {
+              "english": "suppose",
+              "arabic": "افترض",
+              "example": "Suppose we lowered the price; would sales improve?",
+              "exampleArabic": "افترض أننا خفّضنا السعر؛ هل ستتحسّن المبيعات؟",
+              "partOfSpeech": "verb",
+              "phonetic": "/səˈpəʊz/"
+            },
+            {
+              "english": "regret",
+              "arabic": "يندم على",
+              "example": "She deeply regrets not finishing her degree.",
+              "exampleArabic": "إنها تندم بشدة على عدم إكمال شهادتها.",
+              "partOfSpeech": "verb",
+              "phonetic": "/rɪˈɡret/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b2-x-u2",
+      "titleAr": "القيادة في مكان العمل وقراءة البيانات",
+      "titleEn": "Workplace Leadership and Reading Data",
+      "descriptionAr": "وحدة عملية تنمّي مهارات القيادة وتفويض المهام وتحفيز الفِرق، إضافةً إلى وصف الاتجاهات وتحليل البيانات بلغة احترافية للمستوى المتقدم المتوسط.",
+      "icon": "chart.line.uptrend.xyaxis",
+      "lessons": [
+        {
+          "id": "b2-x-u2-l1",
+          "titleAr": "تفويض المهام بفعالية",
+          "titleEn": "Delegating Tasks Effectively",
+          "objectiveAr": "أن توزّع المهام وتفوّض المسؤوليات على فريقك بوضوح وفعالية.",
+          "modelSentence": "As a manager, I try to delegate responsibilities according to each team member's strengths.",
+          "modelSentenceArabic": "بصفتي مديرًا، أحاول أن أفوّض المسؤوليات وفقًا لنقاط القوة لدى كل عضو في الفريق.",
+          "vocabulary": [
+            {
+              "english": "delegate",
+              "arabic": "يفوّض",
+              "example": "A good leader knows how to delegate without losing control.",
+              "exampleArabic": "القائد الجيد يعرف كيف يفوّض دون أن يفقد السيطرة.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈdelɪɡeɪt/"
+            },
+            {
+              "english": "assign a task",
+              "arabic": "يُسنِد مهمة",
+              "example": "She assigned the most urgent task to her assistant.",
+              "exampleArabic": "أسندت المهمة الأكثر إلحاحًا إلى مساعدها.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/əˈsaɪn ə tɑːsk/"
+            },
+            {
+              "english": "accountability",
+              "arabic": "المساءلة",
+              "example": "Clear accountability prevents tasks from being overlooked.",
+              "exampleArabic": "المساءلة الواضحة تمنع إغفال المهام.",
+              "partOfSpeech": "noun",
+              "phonetic": "/əˌkaʊntəˈbɪləti/"
+            },
+            {
+              "english": "empower",
+              "arabic": "يمكّن",
+              "example": "Managers should empower employees to make their own decisions.",
+              "exampleArabic": "ينبغي للمديرين أن يمكّنوا الموظفين من اتخاذ قراراتهم بأنفسهم.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪmˈpaʊə/"
+            },
+            {
+              "english": "workload",
+              "arabic": "عبء العمل",
+              "example": "We need to distribute the workload more fairly.",
+              "exampleArabic": "نحتاج إلى توزيع عبء العمل بصورة أكثر إنصافًا.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈwɜːkləʊd/"
+            },
+            {
+              "english": "hand over",
+              "arabic": "يسلّم",
+              "example": "He handed over the project to a more experienced colleague.",
+              "exampleArabic": "سلّم المشروع إلى زميل أكثر خبرة.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/hænd ˈəʊvə/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u2-l2",
+          "titleAr": "أساليب القيادة",
+          "titleEn": "Leadership Styles",
+          "objectiveAr": "أن تصف أساليب القيادة المختلفة وتناقش مزاياها وعيوبها.",
+          "modelSentence": "A successful leader knows when to take charge and when to step back and let the team decide.",
+          "modelSentenceArabic": "القائد الناجح يعرف متى يتولّى زمام الأمور ومتى يتراجع ويترك القرار للفريق.",
+          "vocabulary": [
+            {
+              "english": "take charge",
+              "arabic": "يتولّى زمام الأمور",
+              "example": "When the crisis hit, she immediately took charge.",
+              "exampleArabic": "عندما وقعت الأزمة، تولّت زمام الأمور على الفور.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/teɪk tʃɑːdʒ/"
+            },
+            {
+              "english": "lead by example",
+              "arabic": "يقود بالقدوة",
+              "example": "The best managers lead by example rather than by orders.",
+              "exampleArabic": "أفضل المديرين يقودون بالقدوة لا بالأوامر.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/liːd baɪ ɪɡˈzɑːmpl/"
+            },
+            {
+              "english": "hands-on",
+              "arabic": "مباشر التدخّل",
+              "example": "He prefers a hands-on approach to managing his team.",
+              "exampleArabic": "يفضّل أسلوبًا مباشرًا في إدارة فريقه.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˌhændz ˈɒn/"
+            },
+            {
+              "english": "decisive",
+              "arabic": "حاسم",
+              "example": "A decisive leader inspires confidence during uncertainty.",
+              "exampleArabic": "القائد الحاسم يبثّ الثقة في أوقات عدم اليقين.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/dɪˈsaɪsɪv/"
+            },
+            {
+              "english": "visionary",
+              "arabic": "صاحب رؤية",
+              "example": "Their visionary CEO transformed the entire industry.",
+              "exampleArabic": "حوّل مديرهم التنفيذي صاحب الرؤية الصناعة بأكملها.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈvɪʒənri/"
+            },
+            {
+              "english": "step back",
+              "arabic": "يتراجع ويفسح المجال",
+              "example": "Sometimes a leader must step back and trust the team.",
+              "exampleArabic": "أحيانًا على القائد أن يتراجع ويفسح المجال ليثق بفريقه.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/step bæk/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u2-l3",
+          "titleAr": "تحفيز الفريق",
+          "titleEn": "Motivating the Team",
+          "objectiveAr": "أن تستخدم لغة محفّزة لرفع معنويات فريقك وتعزيز أدائه.",
+          "modelSentence": "Recognizing small achievements regularly can significantly boost team morale and productivity.",
+          "modelSentenceArabic": "إنّ الاعتراف بالإنجازات الصغيرة بانتظام يمكن أن يعزّز معنويات الفريق وإنتاجيته بشكل كبير.",
+          "vocabulary": [
+            {
+              "english": "boost morale",
+              "arabic": "يرفع المعنويات",
+              "example": "A simple thank-you can boost morale across the office.",
+              "exampleArabic": "كلمة شكر بسيطة قد ترفع المعنويات في المكتب بأكمله.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/buːst məˈrɑːl/"
+            },
+            {
+              "english": "incentive",
+              "arabic": "حافز",
+              "example": "The company offers bonuses as an incentive for high performance.",
+              "exampleArabic": "تقدّم الشركة المكافآت كحافز للأداء المرتفع.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ɪnˈsentɪv/"
+            },
+            {
+              "english": "recognize achievements",
+              "arabic": "يقدّر الإنجازات",
+              "example": "Leaders who recognize achievements build loyal teams.",
+              "exampleArabic": "القادة الذين يقدّرون الإنجازات يبنون فِرقًا مخلصة.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/ˈrekəɡnaɪz əˈtʃiːvmənts/"
+            },
+            {
+              "english": "engagement",
+              "arabic": "الانخراط والتفاعل",
+              "example": "Employee engagement improves when goals are clear.",
+              "exampleArabic": "يتحسّن انخراط الموظفين عندما تكون الأهداف واضحة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ɪnˈɡeɪdʒmənt/"
+            },
+            {
+              "english": "foster",
+              "arabic": "يعزّز ويرعى",
+              "example": "We aim to foster a culture of collaboration.",
+              "exampleArabic": "نهدف إلى تعزيز ثقافة التعاون.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈfɒstə/"
+            },
+            {
+              "english": "rally",
+              "arabic": "يحشد ويوحّد",
+              "example": "The captain rallied the team before the final match.",
+              "exampleArabic": "حشد القائد الفريق ووحّده قبل المباراة النهائية.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈræli/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u2-l4",
+          "titleAr": "وصف الاتجاهات",
+          "titleEn": "Describing Trends",
+          "objectiveAr": "أن تصف الاتجاهات الصاعدة والهابطة والمستقرة بلغة دقيقة ومهنية.",
+          "modelSentence": "Sales rose steadily in the first quarter before leveling off toward the end of the year.",
+          "modelSentenceArabic": "ارتفعت المبيعات بثبات في الربع الأول قبل أن تستقرّ مع اقتراب نهاية العام.",
+          "vocabulary": [
+            {
+              "english": "rise steadily",
+              "arabic": "يرتفع بثبات",
+              "example": "Demand has risen steadily over the past decade.",
+              "exampleArabic": "ارتفع الطلب بثبات على مدى العقد الماضي.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/raɪz ˈstedɪli/"
+            },
+            {
+              "english": "level off",
+              "arabic": "يستقرّ ويثبت",
+              "example": "Prices climbed quickly and then leveled off.",
+              "exampleArabic": "ارتفعت الأسعار بسرعة ثم استقرّت.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/ˈlevl ɒf/"
+            },
+            {
+              "english": "plummet",
+              "arabic": "يهبط بشدة",
+              "example": "Share prices plummeted after the announcement.",
+              "exampleArabic": "هبطت أسعار الأسهم بشدة بعد الإعلان.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈplʌmɪt/"
+            },
+            {
+              "english": "fluctuate",
+              "arabic": "يتذبذب",
+              "example": "Exchange rates fluctuate throughout the day.",
+              "exampleArabic": "تتذبذب أسعار الصرف على مدار اليوم.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈflʌktʃueɪt/"
+            },
+            {
+              "english": "upward trend",
+              "arabic": "اتجاه تصاعدي",
+              "example": "There is a clear upward trend in online sales.",
+              "exampleArabic": "هناك اتجاه تصاعدي واضح في المبيعات عبر الإنترنت.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈʌpwəd trend/"
+            },
+            {
+              "english": "peak",
+              "arabic": "يبلغ ذروته",
+              "example": "Tourism peaks during the summer months.",
+              "exampleArabic": "تبلغ السياحة ذروتها خلال أشهر الصيف.",
+              "partOfSpeech": "verb",
+              "phonetic": "/piːk/"
+            }
+          ]
+        },
+        {
+          "id": "b2-x-u2-l5",
+          "titleAr": "تحليل البيانات وتفسيرها",
+          "titleEn": "Analyzing and Interpreting Data",
+          "objectiveAr": "أن تفسّر البيانات والإحصاءات وتستخلص منها رؤى واضحة.",
+          "modelSentence": "The data clearly indicate a strong correlation between training and overall employee performance.",
+          "modelSentenceArabic": "تشير البيانات بوضوح إلى وجود ارتباط قوي بين التدريب والأداء العام للموظفين.",
+          "vocabulary": [
+            {
+              "english": "correlation",
+              "arabic": "ارتباط أو علاقة",
+              "example": "Researchers found a strong correlation between the two factors.",
+              "exampleArabic": "وجد الباحثون ارتباطًا قويًا بين العاملين.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˌkɒrəˈleɪʃn/"
+            },
+            {
+              "english": "the data indicate",
+              "arabic": "تشير البيانات إلى",
+              "example": "The data indicate that customers prefer faster delivery.",
+              "exampleArabic": "تشير البيانات إلى أنّ العملاء يفضّلون التسليم الأسرع.",
+              "partOfSpeech": "phrase",
+              "phonetic": "/ðə ˈdeɪtə ˈɪndɪkeɪt/"
+            },
+            {
+              "english": "significant",
+              "arabic": "ذو دلالة كبيرة",
+              "example": "There was a significant increase in user engagement.",
+              "exampleArabic": "كان هناك ارتفاع ذو دلالة كبيرة في تفاعل المستخدمين.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/sɪɡˈnɪfɪkənt/"
+            },
+            {
+              "english": "margin of error",
+              "arabic": "هامش الخطأ",
+              "example": "These figures carry a small margin of error.",
+              "exampleArabic": "تحمل هذه الأرقام هامش خطأ صغيرًا.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈmɑːdʒɪn əv ˈerə/"
+            },
+            {
+              "english": "interpret",
+              "arabic": "يفسّر",
+              "example": "Analysts must interpret the results with caution.",
+              "exampleArabic": "على المحلّلين أن يفسّروا النتائج بحذر.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪnˈtɜːprɪt/"
+            },
+            {
+              "english": "outlier",
+              "arabic": "قيمة شاذة",
+              "example": "We should remove the outlier before calculating the average.",
+              "exampleArabic": "علينا استبعاد القيمة الشاذة قبل حساب المتوسط.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈaʊtlaɪə/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

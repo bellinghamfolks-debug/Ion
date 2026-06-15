@@ -1,0 +1,603 @@
+{
+  "level": "B1",
+  "units": [
+    {
+      "id": "b1-x-u3",
+      "titleAr": "العيش الصحي في عالم رقمي",
+      "titleEn": "Healthy Living in a Digital World",
+      "descriptionAr": "وحدة تجمع بين الصحة ونمط الحياة والتكنولوجيا في الحياة اليومية والبيئة، لمساعدتك على التحدث بثقة عن عاداتك اليومية وعالمك المتغير.",
+      "icon": "heart.text.square",
+      "lessons": [
+        {
+          "id": "b1-x-u3-l1",
+          "titleAr": "بناء عادات صحية",
+          "titleEn": "Building Healthy Habits",
+          "objectiveAr": "أن تتعلم التحدث عن العادات اليومية وأسلوب الحياة الصحي باستخدام مفردات مناسبة للمستوى المتوسط.",
+          "modelSentence": "I am trying to build healthier habits by going for a walk every morning before work.",
+          "modelSentenceArabic": "أحاول بناء عادات أكثر صحة من خلال الذهاب في نزهة كل صباح قبل العمل.",
+          "vocabulary": [
+            {
+              "english": "healthy lifestyle",
+              "arabic": "نمط حياة صحي",
+              "example": "A healthy lifestyle includes regular exercise and good sleep.",
+              "exampleArabic": "يتضمن نمط الحياة الصحي ممارسة التمارين بانتظام والنوم الجيد.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈhɛlθi ˈlaɪfstaɪl/"
+            },
+            {
+              "english": "balanced diet",
+              "arabic": "نظام غذائي متوازن",
+              "example": "She maintains her energy with a balanced diet full of vegetables.",
+              "exampleArabic": "تحافظ على طاقتها بنظام غذائي متوازن مليء بالخضروات.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈbælənst ˈdaɪət/"
+            },
+            {
+              "english": "stay active",
+              "arabic": "يبقى نشيطًا",
+              "example": "It is important to stay active even when you work in an office.",
+              "exampleArabic": "من المهم أن تبقى نشيطًا حتى عندما تعمل في مكتب.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/steɪ ˈæktɪv/"
+            },
+            {
+              "english": "cut down on",
+              "arabic": "يقلل من",
+              "example": "My doctor told me to cut down on sugar and fast food.",
+              "exampleArabic": "نصحني طبيبي بأن أقلل من السكر والوجبات السريعة.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/kʌt daʊn ɒn/"
+            },
+            {
+              "english": "get into shape",
+              "arabic": "يستعيد لياقته البدنية",
+              "example": "I joined a gym last month to get into shape for summer.",
+              "exampleArabic": "انضممت إلى نادٍ رياضي الشهر الماضي لأستعيد لياقتي البدنية استعدادًا للصيف.",
+              "partOfSpeech": "idiom",
+              "phonetic": "/ɡɛt ˈɪntə ʃeɪp/"
+            },
+            {
+              "english": "routine",
+              "arabic": "روتين",
+              "example": "A morning routine helps me feel organized and calm.",
+              "exampleArabic": "يساعدني روتين الصباح على الشعور بالتنظيم والهدوء.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ruːˈtiːn/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u3-l2",
+          "titleAr": "إدارة التوتر والراحة",
+          "titleEn": "Managing Stress and Rest",
+          "objectiveAr": "أن تكتسب مفردات للحديث عن التوتر والاسترخاء والصحة النفسية في الحياة اليومية.",
+          "modelSentence": "Whenever I feel stressed, I take a short break to clear my mind and relax.",
+          "modelSentenceArabic": "كلما شعرت بالتوتر، آخذ استراحة قصيرة لأصفّي ذهني وأسترخي.",
+          "vocabulary": [
+            {
+              "english": "stressed out",
+              "arabic": "مرهق ومتوتر",
+              "example": "He felt completely stressed out before his exams.",
+              "exampleArabic": "شعر بالإرهاق والتوتر الشديد قبل امتحاناته.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/strɛst aʊt/"
+            },
+            {
+              "english": "mental health",
+              "arabic": "الصحة النفسية",
+              "example": "Talking about your feelings is good for your mental health.",
+              "exampleArabic": "الحديث عن مشاعرك مفيد لصحتك النفسية.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈmɛntl hɛlθ/"
+            },
+            {
+              "english": "unwind",
+              "arabic": "يسترخي ويتخلص من التوتر",
+              "example": "I like to unwind by listening to music after a long day.",
+              "exampleArabic": "أحب أن أسترخي بالاستماع إلى الموسيقى بعد يوم طويل.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ʌnˈwaɪnd/"
+            },
+            {
+              "english": "get enough sleep",
+              "arabic": "ينال قسطًا كافيًا من النوم",
+              "example": "You think more clearly when you get enough sleep.",
+              "exampleArabic": "تفكّر بوضوح أكبر عندما تنال قسطًا كافيًا من النوم.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/ɡɛt ɪˈnʌf sliːp/"
+            },
+            {
+              "english": "deep breath",
+              "arabic": "نفَس عميق",
+              "example": "Take a deep breath before you speak to the audience.",
+              "exampleArabic": "خذ نفَسًا عميقًا قبل أن تتحدث إلى الجمهور.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/diːp brɛθ/"
+            },
+            {
+              "english": "overwhelmed",
+              "arabic": "غارق ومثقل بالأعباء",
+              "example": "She felt overwhelmed by all the tasks on her list.",
+              "exampleArabic": "شعرت بأنها غارقة ومثقلة بكل المهام في قائمتها.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˌoʊvərˈwɛlmd/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u3-l3",
+          "titleAr": "التكنولوجيا في حياتنا اليومية",
+          "titleEn": "Technology in Our Daily Lives",
+          "objectiveAr": "أن تتعلم التحدث عن استخدام الأجهزة والتطبيقات في المهام اليومية بطريقة طبيعية.",
+          "modelSentence": "These days I use my phone to do almost everything, from paying bills to ordering food.",
+          "modelSentenceArabic": "في هذه الأيام أستخدم هاتفي لإنجاز كل شيء تقريبًا، من دفع الفواتير إلى طلب الطعام.",
+          "vocabulary": [
+            {
+              "english": "device",
+              "arabic": "جهاز",
+              "example": "I keep all my photos and notes on this small device.",
+              "exampleArabic": "أحتفظ بكل صوري وملاحظاتي على هذا الجهاز الصغير.",
+              "partOfSpeech": "noun",
+              "phonetic": "/dɪˈvaɪs/"
+            },
+            {
+              "english": "app",
+              "arabic": "تطبيق",
+              "example": "There is an app that reminds me to drink water.",
+              "exampleArabic": "هناك تطبيق يذكّرني بشرب الماء.",
+              "partOfSpeech": "noun",
+              "phonetic": "/æp/"
+            },
+            {
+              "english": "log in",
+              "arabic": "يسجّل الدخول",
+              "example": "You need a password to log in to your account.",
+              "exampleArabic": "تحتاج إلى كلمة مرور لتسجّل الدخول إلى حسابك.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/lɒɡ ɪn/"
+            },
+            {
+              "english": "update",
+              "arabic": "تحديث",
+              "example": "The new update made the app much faster.",
+              "exampleArabic": "جعل التحديث الجديد التطبيق أسرع بكثير.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈʌpdeɪt/"
+            },
+            {
+              "english": "wireless",
+              "arabic": "لاسلكي",
+              "example": "Most modern headphones are wireless now.",
+              "exampleArabic": "معظم سماعات الرأس الحديثة لاسلكية الآن.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈwaɪərləs/"
+            },
+            {
+              "english": "save time",
+              "arabic": "يوفّر الوقت",
+              "example": "Online shopping helps me save time during the week.",
+              "exampleArabic": "يساعدني التسوّق عبر الإنترنت على توفير الوقت خلال الأسبوع.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/seɪv taɪm/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u3-l4",
+          "titleAr": "البقاء آمنًا على الإنترنت",
+          "titleEn": "Staying Safe Online",
+          "objectiveAr": "أن تكتسب مفردات للحديث عن الأمان الرقمي وحماية المعلومات الشخصية على الإنترنت.",
+          "modelSentence": "You should never share your password, even with people you trust online.",
+          "modelSentenceArabic": "يجب ألا تشارك كلمة المرور الخاصة بك أبدًا، حتى مع من تثق بهم عبر الإنترنت.",
+          "vocabulary": [
+            {
+              "english": "password",
+              "arabic": "كلمة المرور",
+              "example": "Choose a strong password that is hard to guess.",
+              "exampleArabic": "اختر كلمة مرور قوية يصعب تخمينها.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈpɑːswɜːrd/"
+            },
+            {
+              "english": "scam",
+              "arabic": "عملية احتيال",
+              "example": "That email was a scam asking for my bank details.",
+              "exampleArabic": "كانت تلك الرسالة الإلكترونية عملية احتيال تطلب بيانات حسابي المصرفي.",
+              "partOfSpeech": "noun",
+              "phonetic": "/skæm/"
+            },
+            {
+              "english": "personal data",
+              "arabic": "البيانات الشخصية",
+              "example": "Companies must protect your personal data carefully.",
+              "exampleArabic": "يجب على الشركات حماية بياناتك الشخصية بعناية.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈpɜːrsənl ˈdeɪtə/"
+            },
+            {
+              "english": "log out",
+              "arabic": "يسجّل الخروج",
+              "example": "Always log out when you use a public computer.",
+              "exampleArabic": "سجّل الخروج دائمًا عندما تستخدم حاسوبًا عامًا.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/lɒɡ aʊt/"
+            },
+            {
+              "english": "suspicious",
+              "arabic": "مريب ومثير للشك",
+              "example": "Do not click on any suspicious links in messages.",
+              "exampleArabic": "لا تضغط على أي روابط مريبة في الرسائل.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/səˈspɪʃəs/"
+            },
+            {
+              "english": "back up",
+              "arabic": "ينشئ نسخة احتياطية",
+              "example": "Remember to back up your files once a week.",
+              "exampleArabic": "تذكّر أن تنشئ نسخة احتياطية من ملفاتك مرة كل أسبوع.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/bæk ʌp/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u3-l5",
+          "titleAr": "العناية بالبيئة",
+          "titleEn": "Caring for the Environment",
+          "objectiveAr": "أن تتعلم مفردات أساسية للحديث عن البيئة والعادات اليومية الصديقة للبيئة.",
+          "modelSentence": "Small actions, like recycling and saving water, can really help the environment.",
+          "modelSentenceArabic": "الأفعال الصغيرة، مثل إعادة التدوير وتوفير الماء، يمكن أن تساعد البيئة حقًا.",
+          "vocabulary": [
+            {
+              "english": "recycle",
+              "arabic": "يعيد التدوير",
+              "example": "We recycle paper, glass, and plastic at home.",
+              "exampleArabic": "نعيد تدوير الورق والزجاج والبلاستيك في المنزل.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˌriːˈsaɪkl/"
+            },
+            {
+              "english": "pollution",
+              "arabic": "تلوّث",
+              "example": "Air pollution is a serious problem in big cities.",
+              "exampleArabic": "تلوّث الهواء مشكلة خطيرة في المدن الكبيرة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/pəˈluːʃn/"
+            },
+            {
+              "english": "waste",
+              "arabic": "نفايات",
+              "example": "Try to produce less plastic waste every day.",
+              "exampleArabic": "حاول أن تنتج كمية أقل من النفايات البلاستيكية كل يوم.",
+              "partOfSpeech": "noun",
+              "phonetic": "/weɪst/"
+            },
+            {
+              "english": "save energy",
+              "arabic": "يوفّر الطاقة",
+              "example": "Turn off the lights to save energy at home.",
+              "exampleArabic": "أطفئ الأضواء لتوفّر الطاقة في المنزل.",
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/seɪv ˈɛnərdʒi/"
+            },
+            {
+              "english": "environmentally friendly",
+              "arabic": "صديق للبيئة",
+              "example": "We bought an environmentally friendly cleaning product.",
+              "exampleArabic": "اشترينا منتج تنظيف صديقًا للبيئة.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ɪnˌvaɪrənˈmɛntəli ˈfrɛndli/"
+            },
+            {
+              "english": "climate change",
+              "arabic": "تغيّر المناخ",
+              "example": "Many people are worried about climate change.",
+              "exampleArabic": "كثير من الناس قلقون بشأن تغيّر المناخ.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/ˈklaɪmət tʃeɪndʒ/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b1-x-u4",
+      "titleAr": "الثقافة والمسار المهني",
+      "titleEn": "Culture and Career",
+      "descriptionAr": "وحدة تستكشف العادات والتقاليد حول العالم وتساعدك على الاستعداد لمقابلات العمل والتعبير عن نفسك بثقة في المواقف المهنية.",
+      "icon": "globe.americas",
+      "lessons": [
+        {
+          "id": "b1-x-u4-l1",
+          "titleAr": "العادات والتقاليد",
+          "titleEn": "Customs and Traditions",
+          "objectiveAr": "أن تتعلم التحدث عن العادات والتقاليد في ثقافات مختلفة باستخدام مفردات مناسبة.",
+          "modelSentence": "In my country, it is a tradition to visit relatives during the holidays.",
+          "modelSentenceArabic": "في بلدي، من التقاليد أن نزور الأقارب خلال أيام العطلات.",
+          "vocabulary": [
+            {
+              "english": "tradition",
+              "arabic": "تقليد",
+              "example": "Sharing a big meal is an important family tradition.",
+              "exampleArabic": "تناول وجبة كبيرة معًا تقليد عائلي مهم.",
+              "partOfSpeech": "noun",
+              "phonetic": "/trəˈdɪʃn/"
+            },
+            {
+              "english": "custom",
+              "arabic": "عُرف أو عادة",
+              "example": "It is a local custom to greet neighbors warmly.",
+              "exampleArabic": "من العادات المحلية تحية الجيران بحرارة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈkʌstəm/"
+            },
+            {
+              "english": "celebrate",
+              "arabic": "يحتفل",
+              "example": "Families celebrate the new year together every year.",
+              "exampleArabic": "تحتفل العائلات بالعام الجديد معًا كل عام.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈsɛlɪbreɪt/"
+            },
+            {
+              "english": "heritage",
+              "arabic": "تراث",
+              "example": "We are proud of our rich cultural heritage.",
+              "exampleArabic": "نحن فخورون بتراثنا الثقافي الغني.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈhɛrɪtɪdʒ/"
+            },
+            {
+              "english": "pass down",
+              "arabic": "يتوارث أو ينقل عبر الأجيال",
+              "example": "These recipes were passed down from my grandmother.",
+              "exampleArabic": "توارثنا هذه الوصفات عن جدتي.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/pɑːs daʊn/"
+            },
+            {
+              "english": "festival",
+              "arabic": "مهرجان أو احتفال",
+              "example": "The spring festival fills the streets with music and color.",
+              "exampleArabic": "يملأ مهرجان الربيع الشوارع بالموسيقى والألوان.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈfɛstɪvl/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u4-l2",
+          "titleAr": "احترام الاختلافات الثقافية",
+          "titleEn": "Respecting Cultural Differences",
+          "objectiveAr": "أن تكتسب مفردات للحديث عن التنوع الثقافي واحترام عادات الآخرين.",
+          "modelSentence": "When you travel abroad, it is polite to respect local customs and beliefs.",
+          "modelSentenceArabic": "عندما تسافر إلى الخارج، من المهذّب أن تحترم العادات والمعتقدات المحلية.",
+          "vocabulary": [
+            {
+              "english": "culture",
+              "arabic": "ثقافة",
+              "example": "I love learning about a new culture when I travel.",
+              "exampleArabic": "أحب التعرّف على ثقافة جديدة عندما أسافر.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈkʌltʃər/"
+            },
+            {
+              "english": "diversity",
+              "arabic": "تنوّع",
+              "example": "There is great diversity of food in this city.",
+              "exampleArabic": "هناك تنوّع كبير في الطعام في هذه المدينة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/daɪˈvɜːrsəti/"
+            },
+            {
+              "english": "respect",
+              "arabic": "يحترم",
+              "example": "We should respect people who think differently from us.",
+              "exampleArabic": "علينا أن نحترم من يفكّرون بطريقة مختلفة عنّا.",
+              "partOfSpeech": "verb",
+              "phonetic": "/rɪˈspɛkt/"
+            },
+            {
+              "english": "open-minded",
+              "arabic": "متفتّح الذهن",
+              "example": "Being open-minded helps you make friends from other countries.",
+              "exampleArabic": "كونك متفتّح الذهن يساعدك على تكوين صداقات من بلدان أخرى.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˌoʊpən ˈmaɪndɪd/"
+            },
+            {
+              "english": "belief",
+              "arabic": "معتقد",
+              "example": "People around the world have different beliefs and values.",
+              "exampleArabic": "لدى الناس حول العالم معتقدات وقيم مختلفة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/bɪˈliːf/"
+            },
+            {
+              "english": "fit in",
+              "arabic": "يندمج أو يتأقلم",
+              "example": "It took me a while to fit in when I moved abroad.",
+              "exampleArabic": "استغرقني الأمر بعض الوقت كي أندمج عندما انتقلت إلى الخارج.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/fɪt ɪn/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u4-l3",
+          "titleAr": "الاستعداد لمقابلة العمل",
+          "titleEn": "Preparing for a Job Interview",
+          "objectiveAr": "أن تتعلم مفردات للاستعداد لمقابلة العمل والتحدث عن نقاط قوتك.",
+          "modelSentence": "Before the interview, I researched the company and prepared answers to common questions.",
+          "modelSentenceArabic": "قبل المقابلة، بحثت عن الشركة وجهّزت إجابات للأسئلة الشائعة.",
+          "vocabulary": [
+            {
+              "english": "job interview",
+              "arabic": "مقابلة عمل",
+              "example": "I have a job interview at a marketing company tomorrow.",
+              "exampleArabic": "لديّ مقابلة عمل في شركة تسويق غدًا.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/dʒɒb ˈɪntərvjuː/"
+            },
+            {
+              "english": "résumé",
+              "arabic": "السيرة الذاتية",
+              "example": "Please send your résumé before the deadline.",
+              "exampleArabic": "يرجى إرسال سيرتك الذاتية قبل الموعد النهائي.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈrɛzʊmeɪ/"
+            },
+            {
+              "english": "qualification",
+              "arabic": "مؤهّل",
+              "example": "She has all the qualifications needed for the role.",
+              "exampleArabic": "تمتلك جميع المؤهّلات اللازمة لهذه الوظيفة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˌkwɒlɪfɪˈkeɪʃn/"
+            },
+            {
+              "english": "strength",
+              "arabic": "نقطة قوة",
+              "example": "One of my main strengths is working well under pressure.",
+              "exampleArabic": "إحدى نقاط قوتي الرئيسية هي العمل الجيد تحت الضغط.",
+              "partOfSpeech": "noun",
+              "phonetic": "/strɛŋθ/"
+            },
+            {
+              "english": "apply for",
+              "arabic": "يتقدّم بطلب لـ",
+              "example": "I decided to apply for the assistant manager position.",
+              "exampleArabic": "قررت أن أتقدّم بطلب لشغل منصب مساعد المدير.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/əˈplaɪ fɔːr/"
+            },
+            {
+              "english": "first impression",
+              "arabic": "الانطباع الأول",
+              "example": "Arriving on time gives a good first impression.",
+              "exampleArabic": "الوصول في الوقت المحدد يترك انطباعًا أول جيدًا.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/fɜːrst ɪmˈprɛʃn/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u4-l4",
+          "titleAr": "الإجابة على أسئلة المقابلة",
+          "titleEn": "Answering Interview Questions",
+          "objectiveAr": "أن تكتسب مفردات وعبارات للإجابة بثقة على أسئلة المقابلة الشائعة.",
+          "modelSentence": "In my previous job, I gained a lot of experience in teamwork and customer service.",
+          "modelSentenceArabic": "في وظيفتي السابقة، اكتسبت الكثير من الخبرة في العمل الجماعي وخدمة العملاء.",
+          "vocabulary": [
+            {
+              "english": "experience",
+              "arabic": "خبرة",
+              "example": "I have three years of experience in sales.",
+              "exampleArabic": "لديّ ثلاث سنوات من الخبرة في المبيعات.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ɪkˈspɪəriəns/"
+            },
+            {
+              "english": "teamwork",
+              "arabic": "العمل الجماعي",
+              "example": "Good teamwork is essential in this department.",
+              "exampleArabic": "العمل الجماعي الجيد ضروري في هذا القسم.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈtiːmwɜːrk/"
+            },
+            {
+              "english": "responsibility",
+              "arabic": "مسؤولية",
+              "example": "My main responsibility was to manage the schedule.",
+              "exampleArabic": "كانت مسؤوليتي الرئيسية إدارة الجدول الزمني.",
+              "partOfSpeech": "noun",
+              "phonetic": "/rɪˌspɒnsəˈbɪləti/"
+            },
+            {
+              "english": "deal with",
+              "arabic": "يتعامل مع",
+              "example": "I am good at dealing with difficult situations calmly.",
+              "exampleArabic": "أجيد التعامل مع المواقف الصعبة بهدوء.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/diːl wɪð/"
+            },
+            {
+              "english": "motivated",
+              "arabic": "متحمّس ولديه دافع",
+              "example": "I am highly motivated to grow within the company.",
+              "exampleArabic": "أنا متحمّس جدًا للتطوّر داخل الشركة.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈmoʊtɪveɪtɪd/"
+            },
+            {
+              "english": "achieve",
+              "arabic": "يحقّق",
+              "example": "I helped my team achieve its monthly goals.",
+              "exampleArabic": "ساعدت فريقي على تحقيق أهدافه الشهرية.",
+              "partOfSpeech": "verb",
+              "phonetic": "/əˈtʃiːv/"
+            }
+          ]
+        },
+        {
+          "id": "b1-x-u4-l5",
+          "titleAr": "بعد المقابلة",
+          "titleEn": "After the Interview",
+          "objectiveAr": "أن تتعلم مفردات للحديث عمّا يحدث بعد مقابلة العمل والمتابعة بشكل احترافي.",
+          "modelSentence": "After the interview, I sent a short message to thank them for their time.",
+          "modelSentenceArabic": "بعد المقابلة، أرسلت رسالة قصيرة لأشكرهم على وقتهم.",
+          "vocabulary": [
+            {
+              "english": "follow up",
+              "arabic": "يتابع",
+              "example": "It is a good idea to follow up a few days later.",
+              "exampleArabic": "من الجيد أن تتابع بعد بضعة أيام.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/ˈfɒloʊ ʌp/"
+            },
+            {
+              "english": "job offer",
+              "arabic": "عرض عمل",
+              "example": "I was thrilled to receive a job offer last week.",
+              "exampleArabic": "كنت سعيدًا جدًا بتلقّي عرض عمل الأسبوع الماضي.",
+              "partOfSpeech": "noun phrase",
+              "phonetic": "/dʒɒb ˈɒfər/"
+            },
+            {
+              "english": "salary",
+              "arabic": "راتب",
+              "example": "They offered a competitive salary and good benefits.",
+              "exampleArabic": "عرضوا راتبًا تنافسيًا ومزايا جيدة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈsæləri/"
+            },
+            {
+              "english": "turn down",
+              "arabic": "يرفض",
+              "example": "She decided to turn down the offer for personal reasons.",
+              "exampleArabic": "قررت أن ترفض العرض لأسباب شخصية.",
+              "partOfSpeech": "phrasal verb",
+              "phonetic": "/tɜːrn daʊn/"
+            },
+            {
+              "english": "negotiate",
+              "arabic": "يتفاوض",
+              "example": "You can usually negotiate your start date.",
+              "exampleArabic": "يمكنك عادةً أن تتفاوض على تاريخ بدء العمل.",
+              "partOfSpeech": "verb",
+              "phonetic": "/nɪˈɡoʊʃieɪt/"
+            },
+            {
+              "english": "feedback",
+              "arabic": "ملاحظات تقييمية",
+              "example": "I asked for feedback to improve my next interview.",
+              "exampleArabic": "طلبت ملاحظات تقييمية لأطوّر أدائي في المقابلة القادمة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈfiːdbæk/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

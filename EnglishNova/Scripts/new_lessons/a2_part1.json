@@ -1,0 +1,183 @@
+{
+  "level": "A2",
+  "units": [
+    {
+      "id": "a2-x-u1",
+      "titleAr": "الحياة اليومية والطعام",
+      "titleEn": "Daily Life and Food",
+      "descriptionAr": "تعلّم كيف تتحدث عن روتينك اليومي وعاداتك، وكيف تطلب الطعام في المطعم وتتحدث عن وجباتك المفضلة.",
+      "icon": "fork.knife",
+      "lessons": [
+        {
+          "id": "a2-x-u1-l1",
+          "titleAr": "روتيني الصباحي",
+          "titleEn": "My Morning Routine",
+          "objectiveAr": "أن تصف ما تفعله كل صباح باستخدام المضارع البسيط.",
+          "modelSentence": "I wake up at seven and have breakfast before work.",
+          "modelSentenceArabic": "أستيقظ في الساعة السابعة وأتناول الفطور قبل العمل.",
+          "vocabulary": [
+            {"english":"wake up","arabic":"يستيقظ","example":"I wake up early every day.","exampleArabic":"أستيقظ مبكرًا كل يوم.","partOfSpeech":"verb","phonetic":"/weɪk ʌp/"},
+            {"english":"breakfast","arabic":"الفطور","example":"We eat breakfast together.","exampleArabic":"نتناول الفطور معًا.","partOfSpeech":"noun","phonetic":"/ˈbrɛkfəst/"},
+            {"english":"early","arabic":"مبكرًا","example":"She gets up early.","exampleArabic":"تستيقظ هي مبكرًا.","partOfSpeech":"adverb","phonetic":"/ˈɜːrli/"},
+            {"english":"shower","arabic":"يستحمّ","example":"I take a shower in the morning.","exampleArabic":"أستحمّ في الصباح.","partOfSpeech":"noun","phonetic":"/ˈʃaʊər/"},
+            {"english":"brush","arabic":"يُنظّف بالفرشاة","example":"I brush my teeth twice a day.","exampleArabic":"أُنظّف أسناني مرتين في اليوم.","partOfSpeech":"verb","phonetic":"/brʌʃ/"},
+            {"english":"dress","arabic":"يرتدي الملابس","example":"He dresses quickly for work.","exampleArabic":"يرتدي ملابسه بسرعة للعمل.","partOfSpeech":"verb","phonetic":"/drɛs/"}
+          ]
+        },
+        {
+          "id": "a2-x-u1-l2",
+          "titleAr": "عاداتي اليومية",
+          "titleEn": "My Daily Habits",
+          "objectiveAr": "أن تتحدث عن عاداتك المعتادة وعدد مرات تكرارها.",
+          "modelSentence": "I usually go to bed early because I get up at six.",
+          "modelSentenceArabic": "عادةً أنام مبكرًا لأنني أستيقظ في السادسة.",
+          "vocabulary": [
+            {"english":"usually","arabic":"عادةً","example":"I usually walk to work.","exampleArabic":"عادةً أمشي إلى العمل.","partOfSpeech":"adverb","phonetic":"/ˈjuːʒuəli/"},
+            {"english":"always","arabic":"دائمًا","example":"She always drinks coffee.","exampleArabic":"تشرب هي القهوة دائمًا.","partOfSpeech":"adverb","phonetic":"/ˈɔːlweɪz/"},
+            {"english":"sometimes","arabic":"أحيانًا","example":"Sometimes I read at night.","exampleArabic":"أحيانًا أقرأ في الليل.","partOfSpeech":"adverb","phonetic":"/ˈsʌmtaɪmz/"},
+            {"english":"never","arabic":"أبدًا","example":"He never eats fast food.","exampleArabic":"لا يأكل الطعام السريع أبدًا.","partOfSpeech":"adverb","phonetic":"/ˈnɛvər/"},
+            {"english":"habit","arabic":"عادة","example":"Reading is a good habit.","exampleArabic":"القراءة عادة جيدة.","partOfSpeech":"noun","phonetic":"/ˈhæbɪt/"},
+            {"english":"bedtime","arabic":"وقت النوم","example":"My bedtime is at eleven.","exampleArabic":"وقت نومي في الحادية عشرة.","partOfSpeech":"noun","phonetic":"/ˈbɛdtaɪm/"}
+          ]
+        },
+        {
+          "id": "a2-x-u1-l3",
+          "titleAr": "في المطعم",
+          "titleEn": "At the Restaurant",
+          "objectiveAr": "أن تطلب الطعام وتتعامل مع النادل بأدب.",
+          "modelSentence": "Could I see the menu, please? I would like to order.",
+          "modelSentenceArabic": "هل يمكنني رؤية قائمة الطعام من فضلك؟ أودّ أن أطلب.",
+          "vocabulary": [
+            {"english":"menu","arabic":"قائمة الطعام","example":"The menu has many dishes.","exampleArabic":"قائمة الطعام بها أطباق كثيرة.","partOfSpeech":"noun","phonetic":"/ˈmɛnjuː/"},
+            {"english":"order","arabic":"يطلب","example":"I want to order now.","exampleArabic":"أريد أن أطلب الآن.","partOfSpeech":"verb","phonetic":"/ˈɔːrdər/"},
+            {"english":"waiter","arabic":"النادل","example":"The waiter brought our food.","exampleArabic":"أحضر النادل طعامنا.","partOfSpeech":"noun","phonetic":"/ˈweɪtər/"},
+            {"english":"dish","arabic":"طبق","example":"This dish is delicious.","exampleArabic":"هذا الطبق لذيذ.","partOfSpeech":"noun","phonetic":"/dɪʃ/"},
+            {"english":"bill","arabic":"الفاتورة","example":"Can we have the bill, please?","exampleArabic":"هل يمكننا الحصول على الفاتورة من فضلك؟","partOfSpeech":"noun","phonetic":"/bɪl/"},
+            {"english":"reserve","arabic":"يحجز","example":"I want to reserve a table.","exampleArabic":"أريد أن أحجز طاولة.","partOfSpeech":"verb","phonetic":"/rɪˈzɜːrv/"}
+          ]
+        },
+        {
+          "id": "a2-x-u1-l4",
+          "titleAr": "أطعمتي المفضلة",
+          "titleEn": "My Favourite Foods",
+          "objectiveAr": "أن تتحدث عن الأطعمة التي تحبها ولا تحبها.",
+          "modelSentence": "I love fresh vegetables, but I don't like spicy food.",
+          "modelSentenceArabic": "أحبّ الخضروات الطازجة، لكنني لا أحبّ الطعام الحارّ.",
+          "vocabulary": [
+            {"english":"vegetable","arabic":"خضار","example":"Vegetables are good for you.","exampleArabic":"الخضروات مفيدة لك.","partOfSpeech":"noun","phonetic":"/ˈvɛdʒtəbl/"},
+            {"english":"fruit","arabic":"فاكهة","example":"I eat fruit every morning.","exampleArabic":"آكل الفاكهة كل صباح.","partOfSpeech":"noun","phonetic":"/fruːt/"},
+            {"english":"spicy","arabic":"حارّ","example":"This soup is too spicy.","exampleArabic":"هذا الحساء حارّ جدًا.","partOfSpeech":"adjective","phonetic":"/ˈspaɪsi/"},
+            {"english":"fresh","arabic":"طازج","example":"I buy fresh bread daily.","exampleArabic":"أشتري خبزًا طازجًا يوميًا.","partOfSpeech":"adjective","phonetic":"/frɛʃ/"},
+            {"english":"meal","arabic":"وجبة","example":"Dinner is my favourite meal.","exampleArabic":"العشاء هو وجبتي المفضلة.","partOfSpeech":"noun","phonetic":"/miːl/"},
+            {"english":"taste","arabic":"طعم","example":"I like the taste of honey.","exampleArabic":"أحبّ طعم العسل.","partOfSpeech":"noun","phonetic":"/teɪst/"}
+          ]
+        },
+        {
+          "id": "a2-x-u1-l5",
+          "titleAr": "الطبخ في المنزل",
+          "titleEn": "Cooking at Home",
+          "objectiveAr": "أن تصف خطوات بسيطة لتحضير وجبة في المنزل.",
+          "modelSentence": "First I cut the onions, then I cook them in a pan.",
+          "modelSentenceArabic": "أولًا أُقطّع البصل، ثم أطبخه في المقلاة.",
+          "vocabulary": [
+            {"english":"cook","arabic":"يطبخ","example":"My mother cooks every evening.","exampleArabic":"تطبخ أمي كل مساء.","partOfSpeech":"verb","phonetic":"/kʊk/"},
+            {"english":"cut","arabic":"يقطّع","example":"Please cut the tomatoes.","exampleArabic":"رجاءً قطّع الطماطم.","partOfSpeech":"verb","phonetic":"/kʌt/"},
+            {"english":"recipe","arabic":"وصفة","example":"This recipe is easy.","exampleArabic":"هذه الوصفة سهلة.","partOfSpeech":"noun","phonetic":"/ˈrɛsəpi/"},
+            {"english":"pan","arabic":"مقلاة","example":"Put the eggs in the pan.","exampleArabic":"ضع البيض في المقلاة.","partOfSpeech":"noun","phonetic":"/pæn/"},
+            {"english":"boil","arabic":"يغلي","example":"Boil the water first.","exampleArabic":"اغْلِ الماء أولًا.","partOfSpeech":"verb","phonetic":"/bɔɪl/"},
+            {"english":"ingredient","arabic":"مكوّن","example":"Salt is an important ingredient.","exampleArabic":"الملح مكوّن مهم.","partOfSpeech":"noun","phonetic":"/ɪnˈɡriːdiənt/"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a2-x-u2",
+      "titleAr": "التسوّق والتنقّل في المدينة",
+      "titleEn": "Shopping and Getting Around",
+      "descriptionAr": "تعلّم كيف تتسوّق وتسأل عن الأسعار، وكيف تجد طريقك في المدينة، وكيف تتحدث عن الطقس والفصول.",
+      "icon": "cart",
+      "lessons": [
+        {
+          "id": "a2-x-u2-l1",
+          "titleAr": "في السوق",
+          "titleEn": "At the Market",
+          "objectiveAr": "أن تسأل عن السلع وتطلب ما تحتاجه أثناء التسوّق.",
+          "modelSentence": "Excuse me, do you have any apples for sale today?",
+          "modelSentenceArabic": "عذرًا، هل لديكم تفاح للبيع اليوم؟",
+          "vocabulary": [
+            {"english":"market","arabic":"سوق","example":"The market opens at eight.","exampleArabic":"يفتح السوق في الثامنة.","partOfSpeech":"noun","phonetic":"/ˈmɑːrkɪt/"},
+            {"english":"buy","arabic":"يشتري","example":"I want to buy some bread.","exampleArabic":"أريد أن أشتري بعض الخبز.","partOfSpeech":"verb","phonetic":"/baɪ/"},
+            {"english":"customer","arabic":"زبون","example":"The shop has many customers.","exampleArabic":"المتجر به زبائن كثيرون.","partOfSpeech":"noun","phonetic":"/ˈkʌstəmər/"},
+            {"english":"basket","arabic":"سلة","example":"Put the fruit in the basket.","exampleArabic":"ضع الفاكهة في السلة.","partOfSpeech":"noun","phonetic":"/ˈbæskɪt/"},
+            {"english":"sell","arabic":"يبيع","example":"They sell fresh fish here.","exampleArabic":"يبيعون سمكًا طازجًا هنا.","partOfSpeech":"verb","phonetic":"/sɛl/"},
+            {"english":"bag","arabic":"كيس","example":"I need a bigger bag.","exampleArabic":"أحتاج كيسًا أكبر.","partOfSpeech":"noun","phonetic":"/bæɡ/"}
+          ]
+        },
+        {
+          "id": "a2-x-u2-l2",
+          "titleAr": "الأسعار والدفع",
+          "titleEn": "Prices and Paying",
+          "objectiveAr": "أن تسأل عن السعر وتدفع وتطلب الباقي.",
+          "modelSentence": "How much does this cost? I will pay by card.",
+          "modelSentenceArabic": "كم يكلّف هذا؟ سأدفع بالبطاقة.",
+          "vocabulary": [
+            {"english":"price","arabic":"سعر","example":"The price is very high.","exampleArabic":"السعر مرتفع جدًا.","partOfSpeech":"noun","phonetic":"/praɪs/"},
+            {"english":"cost","arabic":"يكلّف","example":"How much does it cost?","exampleArabic":"كم يكلّف؟","partOfSpeech":"verb","phonetic":"/kɒst/"},
+            {"english":"pay","arabic":"يدفع","example":"I will pay in cash.","exampleArabic":"سأدفع نقدًا.","partOfSpeech":"verb","phonetic":"/peɪ/"},
+            {"english":"cheap","arabic":"رخيص","example":"These shoes are cheap.","exampleArabic":"هذا الحذاء رخيص.","partOfSpeech":"adjective","phonetic":"/tʃiːp/"},
+            {"english":"expensive","arabic":"غالٍ","example":"That phone is expensive.","exampleArabic":"ذلك الهاتف غالٍ.","partOfSpeech":"adjective","phonetic":"/ɪkˈspɛnsɪv/"},
+            {"english":"change","arabic":"الباقي","example":"Here is your change.","exampleArabic":"هذا هو الباقي الخاص بك.","partOfSpeech":"noun","phonetic":"/tʃeɪndʒ/"}
+          ]
+        },
+        {
+          "id": "a2-x-u2-l3",
+          "titleAr": "السؤال عن الاتجاهات",
+          "titleEn": "Asking for Directions",
+          "objectiveAr": "أن تسأل عن الطريق إلى مكان وتفهم الإجابة.",
+          "modelSentence": "Excuse me, how do I get to the train station?",
+          "modelSentenceArabic": "عذرًا، كيف أصل إلى محطة القطار؟",
+          "vocabulary": [
+            {"english":"direction","arabic":"اتجاه","example":"She gave me good directions.","exampleArabic":"أعطتني توجيهات جيدة.","partOfSpeech":"noun","phonetic":"/dɪˈrɛkʃn/"},
+            {"english":"left","arabic":"يسار","example":"Turn left at the corner.","exampleArabic":"انعطف يسارًا عند الزاوية.","partOfSpeech":"noun","phonetic":"/lɛft/"},
+            {"english":"right","arabic":"يمين","example":"The bank is on the right.","exampleArabic":"البنك على اليمين.","partOfSpeech":"noun","phonetic":"/raɪt/"},
+            {"english":"straight","arabic":"مباشرةً","example":"Go straight ahead.","exampleArabic":"اذهب مباشرةً إلى الأمام.","partOfSpeech":"adverb","phonetic":"/streɪt/"},
+            {"english":"corner","arabic":"زاوية","example":"The shop is on the corner.","exampleArabic":"المتجر عند الزاوية.","partOfSpeech":"noun","phonetic":"/ˈkɔːrnər/"},
+            {"english":"near","arabic":"قريب","example":"The park is near my house.","exampleArabic":"الحديقة قريبة من منزلي.","partOfSpeech":"preposition","phonetic":"/nɪər/"}
+          ]
+        },
+        {
+          "id": "a2-x-u2-l4",
+          "titleAr": "التنقّل في المدينة",
+          "titleEn": "Getting Around the City",
+          "objectiveAr": "أن تتحدث عن وسائل النقل التي تستخدمها للتنقّل.",
+          "modelSentence": "I take the bus to the city centre every morning.",
+          "modelSentenceArabic": "أركب الحافلة إلى وسط المدينة كل صباح.",
+          "vocabulary": [
+            {"english":"bus","arabic":"حافلة","example":"The bus is late today.","exampleArabic":"الحافلة متأخرة اليوم.","partOfSpeech":"noun","phonetic":"/bʌs/"},
+            {"english":"station","arabic":"محطة","example":"I waited at the station.","exampleArabic":"انتظرت في المحطة.","partOfSpeech":"noun","phonetic":"/ˈsteɪʃn/"},
+            {"english":"ticket","arabic":"تذكرة","example":"I bought a return ticket.","exampleArabic":"اشتريت تذكرة ذهاب وعودة.","partOfSpeech":"noun","phonetic":"/ˈtɪkɪt/"},
+            {"english":"street","arabic":"شارع","example":"This street is very busy.","exampleArabic":"هذا الشارع مزدحم جدًا.","partOfSpeech":"noun","phonetic":"/striːt/"},
+            {"english":"cross","arabic":"يعبر","example":"Cross the road carefully.","exampleArabic":"اعبر الطريق بحذر.","partOfSpeech":"verb","phonetic":"/krɒs/"},
+            {"english":"map","arabic":"خريطة","example":"I use a map on my phone.","exampleArabic":"أستخدم خريطة على هاتفي.","partOfSpeech":"noun","phonetic":"/mæp/"}
+          ]
+        },
+        {
+          "id": "a2-x-u2-l5",
+          "titleAr": "الطقس والفصول",
+          "titleEn": "Weather and Seasons",
+          "objectiveAr": "أن تصف الطقس وتتحدث عن الفصول الأربعة.",
+          "modelSentence": "It is sunny today, but it will rain tomorrow.",
+          "modelSentenceArabic": "الجو مشمس اليوم، لكن ستمطر غدًا.",
+          "vocabulary": [
+            {"english":"weather","arabic":"طقس","example":"The weather is nice today.","exampleArabic":"الطقس جميل اليوم.","partOfSpeech":"noun","phonetic":"/ˈwɛðər/"},
+            {"english":"sunny","arabic":"مشمس","example":"It is sunny and warm.","exampleArabic":"الجو مشمس ودافئ.","partOfSpeech":"adjective","phonetic":"/ˈsʌni/"},
+            {"english":"rain","arabic":"مطر","example":"The rain stopped at noon.","exampleArabic":"توقّف المطر عند الظهر.","partOfSpeech":"noun","phonetic":"/reɪn/"},
+            {"english":"cold","arabic":"بارد","example":"Winter is very cold here.","exampleArabic":"الشتاء بارد جدًا هنا.","partOfSpeech":"adjective","phonetic":"/koʊld/"},
+            {"english":"season","arabic":"فصل","example":"Spring is my favourite season.","exampleArabic":"الربيع فصلي المفضل.","partOfSpeech":"noun","phonetic":"/ˈsiːzn/"},
+            {"english":"cloud","arabic":"سحابة","example":"There is a big cloud in the sky.","exampleArabic":"هناك سحابة كبيرة في السماء.","partOfSpeech":"noun","phonetic":"/klaʊd/"}
+          ]
+        }
+      ]
+    }
+  ]
+}

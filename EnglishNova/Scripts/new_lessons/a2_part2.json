@@ -1,0 +1,603 @@
+{
+  "level": "A2",
+  "units": [
+    {
+      "id": "a2-x-u3",
+      "titleAr": "العائلة والأصدقاء وأوقات الفراغ",
+      "titleEn": "Family, Friends and Free Time",
+      "descriptionAr": "تعلّم كيف تتحدث عن أفراد عائلتك وعلاقاتك، وتصف الناس، وتشارك هواياتك وأنشطتك في وقت الفراغ.",
+      "icon": "person.2",
+      "lessons": [
+        {
+          "id": "a2-x-u3-l1",
+          "titleAr": "أفراد العائلة",
+          "titleEn": "Family Members",
+          "objectiveAr": "أن تتعلّم أسماء أفراد العائلة وتتحدث عنهم بجمل بسيطة.",
+          "modelSentence": "I live with my parents and my younger sister.",
+          "modelSentenceArabic": "أعيش مع والديّ وأختي الصغرى.",
+          "vocabulary": [
+            {
+              "english": "parents",
+              "arabic": "الوالدان",
+              "example": "My parents work in the same office.",
+              "exampleArabic": "يعمل والداي في المكتب نفسه.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈpeə.rənts/"
+            },
+            {
+              "english": "brother",
+              "arabic": "أخ",
+              "example": "My brother is two years older than me.",
+              "exampleArabic": "أخي أكبر مني بعامين.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈbrʌð.ər/"
+            },
+            {
+              "english": "sister",
+              "arabic": "أخت",
+              "example": "My sister studies at university.",
+              "exampleArabic": "أختي تدرس في الجامعة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈsɪs.tər/"
+            },
+            {
+              "english": "grandfather",
+              "arabic": "جدّ",
+              "example": "My grandfather tells us old stories.",
+              "exampleArabic": "يحكي لنا جدّي قصصًا قديمة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈɡræn.fɑː.ðər/"
+            },
+            {
+              "english": "cousin",
+              "arabic": "ابن العم أو ابن الخال",
+              "example": "My cousin lives in another city.",
+              "exampleArabic": "يعيش ابن عمي في مدينة أخرى.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈkʌz.ən/"
+            },
+            {
+              "english": "family",
+              "arabic": "عائلة",
+              "example": "We are a small family of four.",
+              "exampleArabic": "نحن عائلة صغيرة مكوّنة من أربعة أفراد.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈfæm.əl.i/"
+            }
+          ]
+        },
+        {
+          "id": "a2-x-u3-l2",
+          "titleAr": "العلاقات والمشاعر",
+          "titleEn": "Relationships and Feelings",
+          "objectiveAr": "أن تصف علاقاتك بالآخرين وتعبّر عن قربك منهم.",
+          "modelSentence": "My best friend and I have known each other since childhood.",
+          "modelSentenceArabic": "أنا وأعزّ أصدقائي نعرف بعضنا منذ الطفولة.",
+          "vocabulary": [
+            {
+              "english": "friend",
+              "arabic": "صديق",
+              "example": "She is a very kind friend.",
+              "exampleArabic": "هي صديقة طيبة جدًا.",
+              "partOfSpeech": "noun",
+              "phonetic": "/frend/"
+            },
+            {
+              "english": "neighbour",
+              "arabic": "جار",
+              "example": "Our neighbour helps us with the garden.",
+              "exampleArabic": "يساعدنا جارنا في العناية بالحديقة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈneɪ.bər/"
+            },
+            {
+              "english": "married",
+              "arabic": "متزوّج",
+              "example": "My older brother is married now.",
+              "exampleArabic": "أخي الأكبر متزوّج الآن.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈmær.id/"
+            },
+            {
+              "english": "single",
+              "arabic": "أعزب",
+              "example": "He is still single and lives alone.",
+              "exampleArabic": "ما زال أعزب ويعيش بمفرده.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈsɪŋ.ɡəl/"
+            },
+            {
+              "english": "trust",
+              "arabic": "يثق",
+              "example": "I trust my close friends completely.",
+              "exampleArabic": "أثق بأصدقائي المقرّبين ثقة تامة.",
+              "partOfSpeech": "verb",
+              "phonetic": "/trʌst/"
+            },
+            {
+              "english": "close",
+              "arabic": "مقرّب",
+              "example": "We are very close and share everything.",
+              "exampleArabic": "نحن مقرّبان جدًا ونتشارك كل شيء.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/kləʊs/"
+            }
+          ]
+        },
+        {
+          "id": "a2-x-u3-l3",
+          "titleAr": "وصف الشخصية والطباع",
+          "titleEn": "Describing Personality",
+          "objectiveAr": "أن تصف طباع الناس وشخصياتهم باستخدام صفات مناسبة.",
+          "modelSentence": "My mother is patient and very generous with everyone.",
+          "modelSentenceArabic": "أمي صبورة وكريمة جدًا مع الجميع.",
+          "vocabulary": [
+            {
+              "english": "kind",
+              "arabic": "لطيف",
+              "example": "Our teacher is kind to all the students.",
+              "exampleArabic": "معلّمنا لطيف مع جميع الطلاب.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/kaɪnd/"
+            },
+            {
+              "english": "funny",
+              "arabic": "مرِح",
+              "example": "My uncle is funny and makes us laugh.",
+              "exampleArabic": "عمّي مرِح ويُضحكنا.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈfʌn.i/"
+            },
+            {
+              "english": "shy",
+              "arabic": "خجول",
+              "example": "He is shy when he meets new people.",
+              "exampleArabic": "هو خجول عندما يقابل أشخاصًا جددًا.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ʃaɪ/"
+            },
+            {
+              "english": "patient",
+              "arabic": "صبور",
+              "example": "You must be patient with young children.",
+              "exampleArabic": "يجب أن تكون صبورًا مع الأطفال الصغار.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈpeɪ.ʃənt/"
+            },
+            {
+              "english": "honest",
+              "arabic": "صادق",
+              "example": "She is always honest about her feelings.",
+              "exampleArabic": "هي دائمًا صادقة بشأن مشاعرها.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈɒn.ɪst/"
+            },
+            {
+              "english": "polite",
+              "arabic": "مؤدّب",
+              "example": "The children were polite to the guests.",
+              "exampleArabic": "كان الأطفال مؤدّبين مع الضيوف.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/pəˈlaɪt/"
+            }
+          ]
+        },
+        {
+          "id": "a2-x-u3-l4",
+          "titleAr": "الهوايات والاهتمامات",
+          "titleEn": "Hobbies and Interests",
+          "objectiveAr": "أن تتحدث عن هواياتك واهتماماتك المفضّلة.",
+          "modelSentence": "In my free time, I enjoy painting and reading novels.",
+          "modelSentenceArabic": "في وقت فراغي، أستمتع بالرسم وقراءة الروايات.",
+          "vocabulary": [
+            {
+              "english": "hobby",
+              "arabic": "هواية",
+              "example": "Collecting stamps is my favourite hobby.",
+              "exampleArabic": "جمع الطوابع هو هوايتي المفضّلة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈhɒb.i/"
+            },
+            {
+              "english": "painting",
+              "arabic": "الرسم",
+              "example": "She spends her weekends painting.",
+              "exampleArabic": "تقضي عطلتها الأسبوعية في الرسم.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈpeɪn.tɪŋ/"
+            },
+            {
+              "english": "reading",
+              "arabic": "القراءة",
+              "example": "Reading helps me relax before bed.",
+              "exampleArabic": "القراءة تساعدني على الاسترخاء قبل النوم.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈriː.dɪŋ/"
+            },
+            {
+              "english": "enjoy",
+              "arabic": "يستمتع",
+              "example": "I enjoy listening to music every day.",
+              "exampleArabic": "أستمتع بالاستماع إلى الموسيقى كل يوم.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ɪnˈdʒɔɪ/"
+            },
+            {
+              "english": "interested",
+              "arabic": "مهتمّ",
+              "example": "He is interested in photography.",
+              "exampleArabic": "هو مهتمّ بالتصوير.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈɪn.trəs.tɪd/"
+            },
+            {
+              "english": "practise",
+              "arabic": "يتمرّن",
+              "example": "I practise the guitar twice a week.",
+              "exampleArabic": "أتمرّن على العزف على الغيتار مرتين أسبوعيًا.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈpræk.tɪs/"
+            }
+          ]
+        },
+        {
+          "id": "a2-x-u3-l5",
+          "titleAr": "الرياضة والأنشطة",
+          "titleEn": "Sports and Activities",
+          "objectiveAr": "أن تتحدث عن الرياضات والأنشطة التي تمارسها في وقت فراغك.",
+          "modelSentence": "We play football together every Friday afternoon.",
+          "modelSentenceArabic": "نلعب كرة القدم معًا كل يوم جمعة بعد الظهر.",
+          "vocabulary": [
+            {
+              "english": "team",
+              "arabic": "فريق",
+              "example": "Our team won the match yesterday.",
+              "exampleArabic": "فاز فريقنا بالمباراة أمس.",
+              "partOfSpeech": "noun",
+              "phonetic": "/tiːm/"
+            },
+            {
+              "english": "swimming",
+              "arabic": "السباحة",
+              "example": "Swimming is good for your health.",
+              "exampleArabic": "السباحة مفيدة لصحتك.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈswɪm.ɪŋ/"
+            },
+            {
+              "english": "exercise",
+              "arabic": "تمرين رياضي",
+              "example": "I do exercise in the morning.",
+              "exampleArabic": "أمارس التمارين الرياضية في الصباح.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈek.sə.saɪz/"
+            },
+            {
+              "english": "win",
+              "arabic": "يفوز",
+              "example": "I hope our team will win again.",
+              "exampleArabic": "آمل أن يفوز فريقنا مرة أخرى.",
+              "partOfSpeech": "verb",
+              "phonetic": "/wɪn/"
+            },
+            {
+              "english": "tired",
+              "arabic": "متعب",
+              "example": "I feel tired after a long run.",
+              "exampleArabic": "أشعر بالتعب بعد جري طويل.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/taɪəd/"
+            },
+            {
+              "english": "join",
+              "arabic": "ينضمّ",
+              "example": "Would you like to join our club?",
+              "exampleArabic": "هل ترغب في الانضمام إلى نادينا؟",
+              "partOfSpeech": "verb",
+              "phonetic": "/dʒɔɪn/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a2-x-u4",
+      "titleAr": "التواصل والمواعيد",
+      "titleEn": "Communication and Appointments",
+      "descriptionAr": "تعلّم كيف تستخدم الهاتف والرسائل للتواصل، وتصف مظهر الناس، وتنظّم المواعيد والخطط مع الآخرين.",
+      "icon": "phone",
+      "lessons": [
+        {
+          "id": "a2-x-u4-l1",
+          "titleAr": "المكالمات الهاتفية",
+          "titleEn": "Phone Calls",
+          "objectiveAr": "أن تجري مكالمة هاتفية بسيطة وتستخدم العبارات الشائعة فيها.",
+          "modelSentence": "Hello, could I speak to Mr. Adam, please?",
+          "modelSentenceArabic": "مرحبًا، هل يمكنني التحدث إلى السيد آدم من فضلك؟",
+          "vocabulary": [
+            {
+              "english": "call",
+              "arabic": "يتّصل",
+              "example": "I will call you after lunch.",
+              "exampleArabic": "سأتّصل بك بعد الغداء.",
+              "partOfSpeech": "verb",
+              "phonetic": "/kɔːl/"
+            },
+            {
+              "english": "answer",
+              "arabic": "يردّ",
+              "example": "She did not answer her phone.",
+              "exampleArabic": "لم تردّ على هاتفها.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈɑːn.sər/"
+            },
+            {
+              "english": "ring",
+              "arabic": "يرنّ",
+              "example": "My phone started to ring loudly.",
+              "exampleArabic": "بدأ هاتفي يرنّ بصوت عالٍ.",
+              "partOfSpeech": "verb",
+              "phonetic": "/rɪŋ/"
+            },
+            {
+              "english": "busy",
+              "arabic": "مشغول",
+              "example": "The line is busy at the moment.",
+              "exampleArabic": "الخط مشغول في الوقت الحالي.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈbɪz.i/"
+            },
+            {
+              "english": "number",
+              "arabic": "رقم",
+              "example": "Please give me your phone number.",
+              "exampleArabic": "من فضلك أعطني رقم هاتفك.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈnʌm.bər/"
+            },
+            {
+              "english": "voicemail",
+              "arabic": "البريد الصوتي",
+              "example": "I left a voicemail for my doctor.",
+              "exampleArabic": "تركت رسالة في البريد الصوتي لطبيبي.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈvɔɪs.meɪl/"
+            }
+          ]
+        },
+        {
+          "id": "a2-x-u4-l2",
+          "titleAr": "الرسائل والتطبيقات",
+          "titleEn": "Messaging and Apps",
+          "objectiveAr": "أن تتواصل عبر الرسائل النصية وتطبيقات الهاتف بشكل بسيط.",
+          "modelSentence": "I sent you a message, but I think you didn't see it.",
+          "modelSentenceArabic": "أرسلت إليك رسالة، لكن أظن أنك لم ترَها.",
+          "vocabulary": [
+            {
+              "english": "text",
+              "arabic": "رسالة نصية",
+              "example": "Send me a text when you arrive.",
+              "exampleArabic": "أرسل لي رسالة نصية عندما تصل.",
+              "partOfSpeech": "noun",
+              "phonetic": "/tekst/"
+            },
+            {
+              "english": "reply",
+              "arabic": "يردّ",
+              "example": "Please reply to my email today.",
+              "exampleArabic": "من فضلك ردّ على بريدي الإلكتروني اليوم.",
+              "partOfSpeech": "verb",
+              "phonetic": "/rɪˈplaɪ/"
+            },
+            {
+              "english": "app",
+              "arabic": "تطبيق",
+              "example": "This app is easy to use.",
+              "exampleArabic": "هذا التطبيق سهل الاستخدام.",
+              "partOfSpeech": "noun",
+              "phonetic": "/æp/"
+            },
+            {
+              "english": "online",
+              "arabic": "متصل بالإنترنت",
+              "example": "She is online almost all day.",
+              "exampleArabic": "هي متصلة بالإنترنت طوال اليوم تقريبًا.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˌɒnˈlaɪn/"
+            },
+            {
+              "english": "share",
+              "arabic": "يشارك",
+              "example": "Can you share the photo with me?",
+              "exampleArabic": "هل يمكنك مشاركة الصورة معي؟",
+              "partOfSpeech": "verb",
+              "phonetic": "/ʃeər/"
+            },
+            {
+              "english": "notification",
+              "arabic": "إشعار",
+              "example": "I got a notification about your message.",
+              "exampleArabic": "وصلني إشعار بشأن رسالتك.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˌnəʊ.tɪ.fɪˈkeɪ.ʃən/"
+            }
+          ]
+        },
+        {
+          "id": "a2-x-u4-l3",
+          "titleAr": "وصف المظهر الخارجي",
+          "titleEn": "Describing Appearance",
+          "objectiveAr": "أن تصف شكل الناس ومظهرهم الخارجي.",
+          "modelSentence": "My brother is tall and has short black hair.",
+          "modelSentenceArabic": "أخي طويل القامة وله شعر أسود قصير.",
+          "vocabulary": [
+            {
+              "english": "tall",
+              "arabic": "طويل القامة",
+              "example": "The basketball player is very tall.",
+              "exampleArabic": "لاعب كرة السلة طويل القامة جدًا.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/tɔːl/"
+            },
+            {
+              "english": "hair",
+              "arabic": "شعر",
+              "example": "She has long brown hair.",
+              "exampleArabic": "لديها شعر بنّي طويل.",
+              "partOfSpeech": "noun",
+              "phonetic": "/heər/"
+            },
+            {
+              "english": "beard",
+              "arabic": "لحية",
+              "example": "My grandfather has a grey beard.",
+              "exampleArabic": "لجدّي لحية رمادية.",
+              "partOfSpeech": "noun",
+              "phonetic": "/bɪəd/"
+            },
+            {
+              "english": "young",
+              "arabic": "شابّ",
+              "example": "He looks very young for his age.",
+              "exampleArabic": "يبدو شابًا جدًا بالنسبة لعمره.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/jʌŋ/"
+            },
+            {
+              "english": "handsome",
+              "arabic": "وسيم",
+              "example": "Her husband is tall and handsome.",
+              "exampleArabic": "زوجها طويل القامة ووسيم.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈhæn.səm/"
+            },
+            {
+              "english": "wear",
+              "arabic": "يرتدي",
+              "example": "He likes to wear glasses.",
+              "exampleArabic": "يحب أن يرتدي النظارات.",
+              "partOfSpeech": "verb",
+              "phonetic": "/weər/"
+            }
+          ]
+        },
+        {
+          "id": "a2-x-u4-l4",
+          "titleAr": "حجز المواعيد",
+          "titleEn": "Making Appointments",
+          "objectiveAr": "أن تحجز موعدًا وتسأل عن الأوقات المتاحة.",
+          "modelSentence": "I would like to make an appointment for next Monday.",
+          "modelSentenceArabic": "أودّ أن أحجز موعدًا ليوم الإثنين القادم.",
+          "vocabulary": [
+            {
+              "english": "appointment",
+              "arabic": "موعد",
+              "example": "I have a dentist appointment at three.",
+              "exampleArabic": "لديّ موعد مع طبيب الأسنان في الساعة الثالثة.",
+              "partOfSpeech": "noun",
+              "phonetic": "/əˈpɔɪnt.mənt/"
+            },
+            {
+              "english": "book",
+              "arabic": "يحجز",
+              "example": "Can I book a table for two?",
+              "exampleArabic": "هل يمكنني حجز طاولة لشخصين؟",
+              "partOfSpeech": "verb",
+              "phonetic": "/bʊk/"
+            },
+            {
+              "english": "available",
+              "arabic": "متاح",
+              "example": "Is the doctor available this week?",
+              "exampleArabic": "هل الطبيب متاح هذا الأسبوع؟",
+              "partOfSpeech": "adjective",
+              "phonetic": "/əˈveɪ.lə.bəl/"
+            },
+            {
+              "english": "confirm",
+              "arabic": "يؤكّد",
+              "example": "Please confirm your booking by email.",
+              "exampleArabic": "من فضلك أكّد حجزك عبر البريد الإلكتروني.",
+              "partOfSpeech": "verb",
+              "phonetic": "/kənˈfɜːm/"
+            },
+            {
+              "english": "cancel",
+              "arabic": "يلغي",
+              "example": "I had to cancel my appointment.",
+              "exampleArabic": "اضطررت إلى إلغاء موعدي.",
+              "partOfSpeech": "verb",
+              "phonetic": "/ˈkæn.səl/"
+            },
+            {
+              "english": "schedule",
+              "arabic": "جدول مواعيد",
+              "example": "My schedule is full this morning.",
+              "exampleArabic": "جدول مواعيدي ممتلئ هذا الصباح.",
+              "partOfSpeech": "noun",
+              "phonetic": "/ˈʃed.juːl/"
+            }
+          ]
+        },
+        {
+          "id": "a2-x-u4-l5",
+          "titleAr": "ترتيب الخطط مع الآخرين",
+          "titleEn": "Arranging Plans Together",
+          "objectiveAr": "أن تتفق مع الآخرين على وقت ومكان للقاء أو الخروج.",
+          "modelSentence": "Let's meet in front of the café at six o'clock.",
+          "modelSentenceArabic": "لنلتقِ أمام المقهى في الساعة السادسة.",
+          "vocabulary": [
+            {
+              "english": "meet",
+              "arabic": "يلتقي",
+              "example": "Where shall we meet tomorrow?",
+              "exampleArabic": "أين سنلتقي غدًا؟",
+              "partOfSpeech": "verb",
+              "phonetic": "/miːt/"
+            },
+            {
+              "english": "free",
+              "arabic": "متفرّغ",
+              "example": "Are you free on Saturday evening?",
+              "exampleArabic": "هل أنت متفرّغ مساء السبت؟",
+              "partOfSpeech": "adjective",
+              "phonetic": "/friː/"
+            },
+            {
+              "english": "arrange",
+              "arabic": "يرتّب",
+              "example": "Let's arrange a time to meet.",
+              "exampleArabic": "لنرتّب وقتًا للقاء.",
+              "partOfSpeech": "verb",
+              "phonetic": "/əˈreɪndʒ/"
+            },
+            {
+              "english": "place",
+              "arabic": "مكان",
+              "example": "This is a good place to talk.",
+              "exampleArabic": "هذا مكان جيد للحديث.",
+              "partOfSpeech": "noun",
+              "phonetic": "/pleɪs/"
+            },
+            {
+              "english": "late",
+              "arabic": "متأخّر",
+              "example": "Sorry, I am a little late.",
+              "exampleArabic": "آسف، أنا متأخّر قليلًا.",
+              "partOfSpeech": "adjective",
+              "phonetic": "/leɪt/"
+            },
+            {
+              "english": "wait",
+              "arabic": "ينتظر",
+              "example": "I will wait for you at the door.",
+              "exampleArabic": "سأنتظرك عند الباب.",
+              "partOfSpeech": "verb",
+              "phonetic": "/weɪt/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

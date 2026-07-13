@@ -1,0 +1,40 @@
+name: ZTEControl
+options:
+  bundleIdPrefix: com.bellinghamfolks.ztecontrol
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_VERSION: "5.10"
+    TARGETED_DEVICE_FAMILY: "1,2"
+
+targets:
+  ZTEControl:
+    type: application
+    platform: iOS
+    sources:
+      - path: ZTEControl
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.bellinghamfolks.ztecontrol
+    info:
+      path: ZTEControl/Info.plist
+      properties:
+        CFBundleDisplayName: "ZTE Control"
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        NSLocalNetworkUsageDescription: "يتصل التطبيق بجهاز الراوتر ZTE MU5001 على الشبكة المحلية للتحكم في النطاقات وقراءة قوة الإشارة."
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true

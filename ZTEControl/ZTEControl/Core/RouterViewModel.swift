@@ -60,20 +60,21 @@ final class RouterViewModel: ObservableObject {
     }
 
     func applyMode() async {
-        await run("تم ضبط وضع الشبكة.") { try await $0.setNetworkMode(self.mode) }
+        let mode = self.mode
+        await run("تم ضبط وضع الشبكة.") { try await $0.setNetworkMode(mode) }
     }
 
     func applyBandLock() async {
+        let lte = selectedLTE, nr5g = selectedNR5G
         await run("تم تثبيت النطاقات. انتظر إعادة الاتصال.") {
-            try await $0.lockBands(lte: self.selectedLTE, nr5g: self.selectedNR5G)
+            try await $0.lockBands(lte: lte, nr5g: nr5g)
         }
     }
 
     func clearLock() async {
-        await run("تم إلغاء التثبيت (اختيار تلقائي).") {
-            self.selectedLTE = []; self.selectedNR5G = []
-            try await $0.clearBandLock()
-        }
+        selectedLTE = []
+        selectedNR5G = []
+        await run("تم إلغاء التثبيت (اختيار تلقائي).") { try await $0.clearBandLock() }
     }
 
     func sendRaw(goformId: String, fields: [String: String]) async {

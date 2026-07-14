@@ -48,14 +48,13 @@ struct RouterStatus {
     }
 
     /// A 0–4 quality bar from LTE RSRP (dBm), for a quick visual.
+    /// RSRP closer to 0 is better (e.g. -80 is strong, -110 is poor).
     var signalBars: Int {
         guard let s = lteRSRP ?? nr5gRSRP, let v = Double(s) else { return 0 }
-        switch v {         // RSRP: >-80 excellent … <-110 poor
-        case -80...:   return 4
-        case -90..<(-80): return 3
-        case -100..<(-90): return 2
-        case -110..<(-100): return 1
-        default:       return 0
-        }
+        if v >= -80 { return 4 }
+        if v >= -90 { return 3 }
+        if v >= -100 { return 2 }
+        if v >= -110 { return 1 }
+        return 0
     }
 }

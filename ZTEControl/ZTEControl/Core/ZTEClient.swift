@@ -66,11 +66,13 @@ actor ZTEClient {
     /// POST goform_set_cmd_process with a set of form fields. `AD` is injected
     /// automatically when available.
     @discardableResult
-    func set(goformId: String, fields: [String: String]) async throws -> [String: String] {
+    func set(goformId: String, fields: [String: String], strict: Bool = true) async throws -> [String: String] {
         var body = fields
         body["isTest"] = "false"
         body["goformId"] = goformId
-        if let ad = try? await computeAD() { body["AD"] = ad }
+        // LOGIN does not take the AD verification token (that guards
+        // authenticated commands), so only compute it afterwards.
+        if goformId != "LOGIN", let ad = try? await computeAD() { body["AD"] = ad }
 
         let url = baseURL.appendingPathComponent("goform/goform_set_cmd_process")
         var req = URLRequest(url: url)
@@ -86,27 +88,51 @@ actor ZTEClient {
         let text = String(data: data, encoding: .utf8) ?? ""
         await DiagnosticsLog.shared.add(.response, text)
         let dict = decodeStringDict(data)
-        if let result = dict["result"], result != "0", result.lowercased() != "success" {
+        if strict, let result = dict["result"], result != "0", result.lowercased() != "success" {
             throw ClientError.commandRejected(text)
         }
         return dict
     }
 
+    private func loginAccepted(_ dict: [String: String]) -> Bool {
+        let r = dict["result"]
+        return r == "0" || r?.lowercased() == "success"
+    }
+
+    private func freshLD() async -> String {
+        ((try? await get(["LD"], multi: false)) ?? [:])["LD"] ?? ""
+    }
+
     // MARK: - High-level operations
 
-    /// Log in with the admin password (SHA256 + LD nonce scheme).
+    /// Log in with the admin password. ZTE firmwares disagree on the exact
+    /// password encoding, so this tries the known schemes in order and stops at
+    /// the first the router accepts. Kept to a handful of attempts because ZTE
+    /// units lock out after ~5 failures — so the caller must be sure the
+    /// password itself is correct before invoking this.
     func login(password: String) async throws {
-        let ld = try await get(["LD"], multi: false)["LD"] ?? ""
-        let token = ZTECrypto.loginToken(password: password, ld: ld)
-        let dict = try await set(goformId: "LOGIN", fields: ["password": token])
-        // result "0" is success; some firmwares return the same via cookie only.
-        if let result = dict["result"], result != "0" {
-            // Retry with the legacy plaintext scheme some older units use.
-            let legacy = try await set(goformId: "LOGIN", fields: ["password": password])
-            if let r = legacy["result"], r != "0" {
-                throw ClientError.loginFailed(result)
-            }
+        let sha = ZTECrypto.sha256Hex(password)          // upper-case hex
+
+        // 1) base64(password) — common on MU5001 / MC801A firmwares.
+        let b64 = Data(password.utf8).base64EncodedString()
+        if loginAccepted(try await set(goformId: "LOGIN",
+                                       fields: ["password": b64], strict: false)) { return }
+        await DiagnosticsLog.shared.add(.note, "طريقة base64 لم تُقبل، أجرّب SHA256+LD…")
+
+        // 2) SHA256( SHA256(password) + LD ) — newer "advanced" login.
+        let ld = await freshLD()
+        if !ld.isEmpty {
+            let token = ZTECrypto.sha256Hex(sha + ld)
+            if loginAccepted(try await set(goformId: "LOGIN",
+                                           fields: ["password": token], strict: false)) { return }
+            await DiagnosticsLog.shared.add(.note, "طريقة SHA256+LD لم تُقبل، أجرّب SHA256…")
         }
+
+        // 3) SHA256(password).
+        if loginAccepted(try await set(goformId: "LOGIN",
+                                       fields: ["password": sha], strict: false)) { return }
+
+        throw ClientError.loginFailed("رُفضت طرق تسجيل الدخول المعروفة. تأكد أنها كلمة مرور صفحة الإدارة (وليست كلمة مرور الواي فاي)، وافتح تبويب «السجل» وأرسله لي.")
     }
 
     func fetchStatus() async throws -> RouterStatus {

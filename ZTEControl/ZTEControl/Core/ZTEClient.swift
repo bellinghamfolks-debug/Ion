@@ -111,26 +111,27 @@ actor ZTEClient {
     /// units lock out after ~5 failures — so the caller must be sure the
     /// password itself is correct before invoking this.
     func login(password: String) async throws {
-        let sha = ZTECrypto.sha256Hex(password)          // upper-case hex
+        let shaUpper = ZTECrypto.sha256Hex(password)
+        let shaLower = shaUpper.lowercased()
 
-        // 1) base64(password) — common on MU5001 / MC801A firmwares.
-        let b64 = Data(password.utf8).base64EncodedString()
-        if loginAccepted(try await set(goformId: "LOGIN",
-                                       fields: ["password": b64], strict: false)) { return }
-        await DiagnosticsLog.shared.add(.note, "طريقة base64 لم تُقبل، أجرّب SHA256+LD…")
-
-        // 2) SHA256( SHA256(password) + LD ) — newer "advanced" login.
-        let ld = await freshLD()
-        if !ld.isEmpty {
-            let token = ZTECrypto.sha256Hex(sha + ld)
-            if loginAccepted(try await set(goformId: "LOGIN",
-                                           fields: ["password": token], strict: false)) { return }
-            await DiagnosticsLog.shared.add(.note, "طريقة SHA256+LD لم تُقبل، أجرّب SHA256…")
+        func tryLogin(_ token: String, _ note: String) async -> Bool {
+            let accepted = loginAccepted((try? await set(goformId: "LOGIN",
+                                                         fields: ["password": token],
+                                                         strict: false)) ?? [:])
+            if !accepted { await DiagnosticsLog.shared.add(.note, "طريقة \(note) لم تُقبل.") }
+            return accepted
         }
 
-        // 3) SHA256(password).
-        if loginAccepted(try await set(goformId: "LOGIN",
-                                       fields: ["password": sha], strict: false)) { return }
+        // 1) base64(password) — used by MU5001 firmwares that return an empty LD.
+        if await tryLogin(Data(password.utf8).base64EncodedString(), "base64") { return }
+
+        // 2) SHA256( SHA256(pw) + LD ) — only when the firmware supplies an LD.
+        let ld = await freshLD()
+        if !ld.isEmpty, await tryLogin(ZTECrypto.sha256Hex(shaUpper + ld), "SHA256+LD") { return }
+
+        // 3) plain SHA256(pw) — CryptoJS-style lower-case, then upper-case.
+        if await tryLogin(shaLower, "SHA256(lower)") { return }
+        if await tryLogin(shaUpper, "SHA256(upper)") { return }
 
         throw ClientError.loginFailed("رُفضت طرق تسجيل الدخول المعروفة. تأكد أنها كلمة مرور صفحة الإدارة (وليست كلمة مرور الواي فاي)، وافتح تبويب «السجل» وأرسله لي.")
     }

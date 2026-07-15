@@ -23,7 +23,7 @@ struct MultiTouchTestView: View {
 
             ZStack {
                 RoundedRectangle(cornerRadius: Theme.cornerRadius)
-                    .fill(.background.secondary)
+                    .fill(Color(uiColor: .secondarySystemBackground))
 
                 TouchTrackingView(points: $activePoints)
                     .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))

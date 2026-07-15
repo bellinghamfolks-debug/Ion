@@ -96,7 +96,7 @@ struct SensorTestView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
-        .background(.background.secondary, in: RoundedRectangle(cornerRadius: 10))
+        .background(Color(uiColor: .tertiarySystemBackground), in: RoundedRectangle(cornerRadius: 10))
     }
 
     // MARK: - Proximity

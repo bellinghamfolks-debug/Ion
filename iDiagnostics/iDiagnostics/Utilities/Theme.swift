@@ -29,7 +29,8 @@ struct Card<Content: View>: View {
         content
             .padding(Theme.cardPadding)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.background.secondary, in: RoundedRectangle(cornerRadius: Theme.cornerRadius))
+            .background(Color(uiColor: .secondarySystemBackground),
+                        in: RoundedRectangle(cornerRadius: Theme.cornerRadius))
     }
 }
 

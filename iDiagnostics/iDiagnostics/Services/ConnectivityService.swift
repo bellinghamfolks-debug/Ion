@@ -151,7 +151,7 @@ final class ConnectivityService: NSObject, ObservableObject {
         if kind == .cellular { refreshCellular() }
     }
 
-    private static func interfaceKind(for path: NWPath) -> ConnectionInterfaceKind {
+    private nonisolated static func interfaceKind(for path: NWPath) -> ConnectionInterfaceKind {
         if path.usesInterfaceType(.wifi) { return .wifi }
         if path.usesInterfaceType(.cellular) { return .cellular }
         if path.usesInterfaceType(.wiredEthernet) { return .wiredEthernet }
@@ -211,7 +211,7 @@ final class ConnectivityService: NSObject, ObservableObject {
 
     // MARK: - Bluetooth / Location mapping
 
-    static func bluetoothPower(for state: CBManagerState) -> BluetoothPower {
+    nonisolated static func bluetoothPower(for state: CBManagerState) -> BluetoothPower {
         switch state {
         case .poweredOn:     return .poweredOn
         case .poweredOff:    return .poweredOff
@@ -222,7 +222,7 @@ final class ConnectivityService: NSObject, ObservableObject {
         }
     }
 
-    static func locationAuth(for status: CLAuthorizationStatus) -> LocationAuth {
+    nonisolated static func locationAuth(for status: CLAuthorizationStatus) -> LocationAuth {
         switch status {
         case .authorizedAlways:    return .authorizedAlways
         case .authorizedWhenInUse: return .authorizedWhenInUse

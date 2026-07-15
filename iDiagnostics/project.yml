@@ -1,0 +1,42 @@
+name: iDiagnostics
+options:
+  bundleIdPrefix: com.bellinghamfolks.idiagnostics
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_VERSION: "5.10"
+    TARGETED_DEVICE_FAMILY: "1"
+
+targets:
+  iDiagnostics:
+    type: application
+    platform: iOS
+    sources:
+      - path: iDiagnostics
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.bellinghamfolks.idiagnostics
+    info:
+      path: iDiagnostics/Info.plist
+      properties:
+        CFBundleDisplayName: "iDiagnostics"
+        UILaunchScreen: {}
+        UIRequiresFullScreen: true
+        UIStatusBarHidden: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        # --- Permission usage descriptions (shown in the system prompts) ---
+        NSCameraUsageDescription: "يستخدم التطبيق الكاميرا لفحص الكاميرا الأمامية والخلفية والفلاش."
+        NSMicrophoneUsageDescription: "يستخدم التطبيق الميكروفون لتسجيل مقطع قصير ثم تشغيله للتحقق من عمل الميكروفون."
+        NSLocationWhenInUseUsageDescription: "يستخدم التطبيق الموقع لفحص عمل نظام تحديد المواقع (GPS)."
+        NSBluetoothAlwaysUsageDescription: "يستخدم التطبيق البلوتوث لفحص حالة عتاد البلوتوث في الجهاز."
+        NSBluetoothPeripheralUsageDescription: "يستخدم التطبيق البلوتوث لفحص حالة عتاد البلوتوث في الجهاز."
+        NSFaceIDUsageDescription: "يستخدم التطبيق Face ID لفحص عمل المصادقة البيومترية."
+        NSMotionUsageDescription: "يستخدم التطبيق مستشعرات الحركة لفحص مقياس التسارع والجيروسكوب."

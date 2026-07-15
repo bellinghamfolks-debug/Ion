@@ -1,19 +1,13 @@
-# EnglishNova iOS — GitHub Actions build + test check.
+# iDiagnostics iOS — GitHub Actions build check.
 #
-# Generates the Xcode project with XcodeGen, builds for the iOS
-# Simulator, runs the unit tests (which decode the bundled
-# curriculum.json with the real Swift models), and verifies the
-# curriculum resource is inside the built .app bundle. The device IPA
-# + signing live in Codemagic (see codemagic.yaml).
-#
-# Basir's code is preserved on its own branch; this workflow builds the
-# repo's active project, EnglishNova.
+# Generates the Xcode project with XcodeGen and builds iDiagnostics for the
+# iOS Simulator. The device IPA lives in Codemagic (see codemagic.yaml).
 
 name: Swift
 
 on:
   push:
-    branches: [main, master, develop, "claude/**"]
+    branches: [main, "claude/**"]
   pull_request:
 
 concurrency:
@@ -22,28 +16,22 @@ concurrency:
 
 jobs:
   build:
-    name: Build & test (iOS Simulator)
+    name: Build (iOS Simulator)
     runs-on: macos-14
-
     defaults:
       run:
-        working-directory: EnglishNova
-
+        working-directory: iDiagnostics
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Select latest stable Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
-
       - name: Install XcodeGen
         run: brew install xcodegen
-
       - name: Generate Xcode project
         run: xcodegen generate
-
       - name: Pick an available iPhone simulator
         id: sim
         run: |
@@ -55,27 +43,14 @@ jobs:
           print(devices[-1]['udid'])
           ")
           echo "udid=$UDID" >> "$GITHUB_OUTPUT"
-          xcrun simctl list devices available | grep iPhone
-
-      - name: Build and run unit tests (decodes bundled curriculum)
+      - name: Build for iOS Simulator
         run: |
           set -o pipefail
-          xcodebuild test \
-            -project EnglishNova.xcodeproj \
-            -scheme EnglishNova \
+          xcodebuild build \
+            -project iDiagnostics.xcodeproj \
+            -scheme iDiagnostics \
             -destination "id=${{ steps.sim.outputs.udid }}" \
             -configuration Debug \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             COMPILER_INDEX_STORE_ENABLE=NO
-
-      - name: Verify curriculum.json is inside the app bundle
-        run: |
-          APP="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
-          echo "--- bundle contents ---"
-          ls -R "$APP" | head -40
-          if [ ! -f "$APP/Curriculum/curriculum.json" ]; then
-            echo "❌ Curriculum/curriculum.json missing from app bundle"
-            exit 1
-          fi
-          echo "✅ Curriculum/curriculum.json bundled correctly"

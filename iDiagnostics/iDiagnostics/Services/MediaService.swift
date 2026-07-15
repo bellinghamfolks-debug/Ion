@@ -338,9 +338,11 @@ final class SpeakerController: ObservableObject {
         guard !isPlaying else { return }
         do {
             let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(.playback, options: [.defaultToSpeaker])
+            // `.playback` already routes to the loud speaker (absent headphones).
+            try audioSession.setCategory(.playback)
             try audioSession.setActive(true)
-            try audioSession.overrideOutputAudioPort(.speaker)
+            // Best-effort explicit routing; harmless if the category disallows it.
+            try? audioSession.overrideOutputAudioPort(.speaker)
 
             if !attached {
                 engine.attach(playerNode)

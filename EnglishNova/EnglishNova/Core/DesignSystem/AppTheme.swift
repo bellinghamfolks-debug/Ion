@@ -34,6 +34,17 @@ enum AppTheme {
         LinearGradient(colors: [brand, brandSecondary, accentTeal],
                        startPoint: .topLeading, endPoint: .bottomTrailing)
     }
+    /// Deep, calm gradient used only for the launch screen. Fixed dark tones
+    /// (not theme-adaptive) so it never glares in bright surroundings while the
+    /// white logo stays crisp and readable.
+    static var splashGradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(uiColor: rgb(0.11, 0.09, 0.29)),
+                     Color(uiColor: rgb(0.22, 0.14, 0.44)),
+                     Color(uiColor: rgb(0.14, 0.11, 0.34))],
+            startPoint: .topLeading, endPoint: .bottomTrailing
+        )
+    }
     static func gradient(_ colors: [Color]) -> LinearGradient {
         LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
     }

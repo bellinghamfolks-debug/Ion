@@ -24,11 +24,13 @@ final class AvatarStore: ObservableObject {
         if let data = newImage.jpegData(compressionQuality: 0.85) {
             try? data.write(to: fileURL, options: .atomic)
         }
+        ToastCenter.shared.show("تم اختيار الصورة")
     }
 
     func clear() {
         image = nil
         try? FileManager.default.removeItem(at: fileURL)
+        ToastCenter.shared.show("تمت إزالة الصورة", style: .info)
     }
 }
 

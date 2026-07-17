@@ -120,6 +120,16 @@ aiRouter.post("/coach", requireAuth, async (req, res) => {
 });
 
 // GET /ai/status -> { enabled } so the app can show/hide AI features.
+// Also returns safe diagnostics (NO secret values) to debug key wiring:
+//  - keyLength: length of GEMINI_API_KEY as the process sees it (0 = not set)
+//  - seenGeminiEnvVars: names (only) of any env var containing "gemini"
 aiRouter.get("/status", (_req, res) => {
-  res.json({ enabled: Boolean(process.env.GEMINI_API_KEY) });
+  const key = process.env.GEMINI_API_KEY || "";
+  const seenGeminiEnvVars = Object.keys(process.env).filter((k) => /gemini/i.test(k));
+  res.json({
+    enabled: Boolean(key),
+    model: MODEL,
+    keyLength: key.length,
+    seenGeminiEnvVars,
+  });
 });

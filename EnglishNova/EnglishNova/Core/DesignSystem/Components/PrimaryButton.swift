@@ -10,17 +10,33 @@ struct PrimaryButton: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 10) {
-                if isLoading { ProgressView() }
-                if let systemImage { Image(systemName: systemImage) }
+                if isLoading {
+                    ProgressView().tint(.white)
+                } else if let systemImage {
+                    Image(systemName: systemImage)
+                }
                 Text(title).font(.headline)
             }
+            .foregroundStyle(.white)
             .frame(maxWidth: .infinity)
             .frame(minHeight: AppTheme.minimumTapHeight)
+            .background(AppTheme.brandGradient,
+                        in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .opacity(isDisabled ? 0.5 : 1)
+            .shadow(color: AppTheme.brand.opacity(isDisabled ? 0 : 0.35), radius: 10, x: 0, y: 5)
         }
-        .buttonStyle(.borderedProminent)
-        .controlSize(.large)
+        .buttonStyle(PressableButtonStyle())
         .disabled(isDisabled || isLoading)
         .accessibilityLabel(title)
         .accessibilityAddTraits(.isButton)
+    }
+}
+
+/// A button style that gently scales on press for tactile feedback.
+struct PressableButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.97 : 1)
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: configuration.isPressed)
     }
 }

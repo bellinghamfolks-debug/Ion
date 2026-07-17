@@ -78,7 +78,7 @@ struct OnboardingView: View {
             Text("كيف نناديك؟").font(.largeTitle.bold())
             TextField("الاسم اختياري", text: $name).textContentType(.name).textFieldStyle(.roundedBorder)
             InfoCard(title: "خصوصيتك أولا", systemImage: "lock.shield.fill") {
-                Text("يمكنك استخدام التطبيق دون حساب. لا تُرفع تسجيلاتك الصوتية افتراضيا، ولا تُخزن مفاتيح سرية داخل التطبيق.")
+                Text("يمكنك استخدام التطبيق دون حساب، وإنشاء حساب لاحقًا لحفظ تقدّمك عبر أجهزتك. لا تُرفع تسجيلاتك الصوتية الخام، وكلمة المرور محفوظة مشفّرة.")
             }
         }
     }

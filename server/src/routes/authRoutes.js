@@ -22,13 +22,20 @@ authRouter.post("/register", async (req, res) => {
   if (existing.rowCount > 0) return res.status(409).json({ error: "email_taken" });
 
   const hash = await hashPassword(password);
-  const { rows } = await pool.query(
-    `INSERT INTO users (email, password_hash, display_name)
-     VALUES ($1, $2, $3) RETURNING *`,
-    [email, hash, displayName]
-  );
-  const user = rows[0];
-  res.status(201).json({ token: signToken(user.id), user: publicUser(user) });
+  try {
+    const { rows } = await pool.query(
+      `INSERT INTO users (email, password_hash, display_name)
+       VALUES ($1, $2, $3) RETURNING *`,
+      [email, hash, displayName]
+    );
+    const user = rows[0];
+    res.status(201).json({ token: signToken(user.id), user: publicUser(user) });
+  } catch (e) {
+    // 23505 = unique_violation. The DB constraint is the final guard against
+    // duplicate accounts even if two registrations race past the SELECT above.
+    if (e.code === "23505") return res.status(409).json({ error: "email_taken" });
+    throw e;
+  }
 });
 
 // POST /auth/login { email, password }

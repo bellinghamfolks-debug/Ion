@@ -44,7 +44,7 @@ final class BackupService {
         async let memory = learningMemoryRepository.snapshot()
         let backup = EnglishNovaBackup(
             schemaVersion: 4,
-            appVersion: "0.4.0",
+            appVersion: "1.0.0",
             exportedAt: .now,
             session: session.exportSnapshot(),
             settings: settings.exportSnapshot(),

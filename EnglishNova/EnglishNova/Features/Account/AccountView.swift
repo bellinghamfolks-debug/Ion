@@ -6,6 +6,7 @@ import AuthenticationServices
 struct AccountView: View {
     @EnvironmentObject private var account: AccountService
     @EnvironmentObject private var sync: ProgressSyncService
+    @State private var showSignOutConfirm = false
 
     var body: some View {
         ScrollView {
@@ -69,12 +70,18 @@ struct AccountView: View {
             }
 
             Button(role: .destructive) {
-                account.logout()
+                showSignOutConfirm = true
             } label: {
                 Label("تسجيل الخروج", systemImage: "rectangle.portrait.and.arrow.right")
                     .frame(maxWidth: .infinity, minHeight: 44)
             }
             .buttonStyle(.bordered)
+            .confirmationDialog("تسجيل الخروج", isPresented: $showSignOutConfirm, titleVisibility: .visible) {
+                Button("تسجيل الخروج", role: .destructive) { account.logout() }
+                Button("إلغاء", role: .cancel) {}
+            } message: {
+                Text("تأكّد أنك حفظت تقدّمك في حسابك قبل الخروج. هل تريد تسجيل الخروج؟")
+            }
         }
     }
 

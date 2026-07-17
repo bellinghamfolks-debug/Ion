@@ -169,12 +169,22 @@ struct SettingsView: View {
 
             Section("الوصولية والخصوصية") {
                 NavigationLink("بيان الوصولية") { AccessibilityStatementView() }
-                NavigationLink("سياسة الخصوصية المحلية") { PrivacyView() }
+                NavigationLink("سياسة الخصوصية") { PrivacyView() }
+            }
+
+            Section("تواصل مع المطوّر") {
+                Link(destination: URL(string: "https://x.com/abdullahuksu")!) {
+                    Label("حساب X (تويتر)", systemImage: "bird")
+                }
+                Link(destination: URL(string: "mailto:ubdallahalrashdee@gmail.com")!) {
+                    Label("البريد الإلكتروني", systemImage: "envelope.fill")
+                }
             }
 
             Section("عن التطبيق") {
-                LabeledContent("الإصدار", value: "0.4.0")
-                Text("الدفعة الرابعة مدمجة داخل مشروع EnglishNova نفسه")
+                LabeledContent("الإصدار", value: "1.0.0")
+                Text("EnglishNova — رحلتك لتعلّم الإنجليزية من الصفر إلى الاحتراف، مع مدرّب ذكي ومزامنة لتقدّمك عبر أجهزتك.")
+                    .font(.caption).foregroundStyle(.secondary)
             }
         }
         .navigationTitle("الإعدادات")

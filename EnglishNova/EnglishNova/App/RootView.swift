@@ -2,16 +2,30 @@ import SwiftUI
 
 struct RootView: View {
     @EnvironmentObject private var session: UserSession
+    @State private var showSplash = true
 
     var body: some View {
-        Group {
-            if session.hasCompletedOnboarding {
-                MainTabView()
+        ZStack {
+            if showSplash {
+                SplashView()
+                    .transition(.opacity)
             } else {
-                OnboardingView()
+                Group {
+                    if session.hasCompletedOnboarding {
+                        MainTabView()
+                    } else {
+                        OnboardingView()
+                    }
+                }
+                .transition(.opacity)
             }
         }
         .task { await session.load() }
+        .task {
+            // Keep the branded splash for ~3 seconds, then reveal the app.
+            try? await Task.sleep(nanoseconds: 3_000_000_000)
+            withAnimation(.easeInOut(duration: 0.4)) { showSplash = false }
+        }
     }
 }
 

@@ -32,6 +32,14 @@ struct SettingsView: View {
                 }
             }
 
+            Section("اللغة") {
+                Picker("لغة الواجهة", selection: $settings.interfaceLanguage) {
+                    ForEach(AppSettings.InterfaceLanguage.allCases) { Text($0.title).tag($0) }
+                }
+                Text("تُغيّر لغة عناصر الواجهة واتجاهها فورًا.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+
             Section("التعلّم") {
                 Stepper(
                     "الهدف اليومي: \(settings.dailyGoalMinutes) دقيقة",
@@ -182,6 +190,7 @@ struct SettingsView: View {
             }
 
             Section("عن التطبيق") {
+                NavigationLink("دليل الاستخدام") { UsageGuideView() }
                 LabeledContent("الإصدار", value: "1.0.0")
                 Text("EnglishNova — رحلتك لتعلّم الإنجليزية من الصفر إلى الاحتراف، مع مدرّب ذكي ومزامنة لتقدّمك عبر أجهزتك.")
                     .font(.caption).foregroundStyle(.secondary)

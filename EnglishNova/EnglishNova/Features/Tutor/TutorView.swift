@@ -170,7 +170,10 @@ struct ConversationHistoryView: View {
                         }
                         .onDelete { indexSet in
                             let targets = indexSet.map { model.savedConversations[$0] }
-                            Task { for target in targets { await model.delete(target, container: container) } }
+                            Task {
+                                for target in targets { await model.delete(target, container: container) }
+                                ToastCenter.shared.show("تم حذف المحادثة", style: .info)
+                            }
                         }
                     }
                 }

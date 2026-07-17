@@ -71,6 +71,7 @@ final class AccountService: ObservableObject {
         keychain.delete(tokenAccount)
         currentUser = nil
         isAuthenticated = false
+        ToastCenter.shared.show("تم تسجيل الخروج", style: .info)
     }
 
     /// Permanently delete the account and all its data from the server.
@@ -82,6 +83,7 @@ final class AccountService: ObservableObject {
                                    body: Optional<EmptyBody>.none,
                                    response: DeleteResponse.self, bearerToken: token)
             logout()
+            ToastCenter.shared.show("تم حذف الحساب نهائيًا", style: .info)
             return true
         } catch {
             lastError = friendlyMessage(for: error)
@@ -95,6 +97,8 @@ final class AccountService: ObservableObject {
         try keychain.setString(response.token, for: tokenAccount)
         currentUser = response.user
         isAuthenticated = true
+        let name = response.user.displayName.isEmpty ? "" : "، \(response.user.displayName)"
+        ToastCenter.shared.show("مرحبًا بك\(name)")
     }
 
     private func run(_ operation: @escaping () async throws -> Void) async -> Bool {

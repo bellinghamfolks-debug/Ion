@@ -9,14 +9,14 @@ struct SplashView: View {
 
     var body: some View {
         ZStack {
-            AppTheme.heroGradient.ignoresSafeArea()
+            AppTheme.splashGradient.ignoresSafeArea()
 
             VStack(spacing: 20) {
                 ZStack {
                     Circle()
-                        .fill(.white.opacity(0.15))
+                        .fill(.white.opacity(0.10))
                         .frame(width: 150, height: 150)
-                        .scaleEffect(glow ? 1.12 : 0.9)
+                        .scaleEffect(glow ? 1.08 : 0.92)
                     Image(systemName: "graduationcap.fill")
                         .font(.system(size: 76, weight: .bold))
                         .foregroundStyle(.white)

@@ -10,6 +10,7 @@ struct AudioPacksView: View {
 
 private struct AudioPacksContent: View {
     @ObservedObject var service: AudioPackService
+    @State private var packToDelete: AudioPackDescriptor?
 
     var body: some View {
         List {
@@ -41,7 +42,7 @@ private struct AudioPacksContent: View {
                             Text("هذا الصوت يوفره النظام، لذلك لا يحتاج إلى ملف تنزيل داخل التطبيق.")
                                 .font(.caption).foregroundStyle(.secondary)
                         } else {
-                            Button("حذف الملفات المحلية", role: .destructive) { Task { await service.delete(pack) } }
+                            Button("حذف الملفات المحلية", role: .destructive) { packToDelete = pack }
                         }
                     }
                 }
@@ -55,6 +56,24 @@ private struct AudioPacksContent: View {
         )) {
             Button("حسنًا") { service.errorMessage = nil }
         } message: { Text(service.errorMessage ?? "") }
+        .confirmationDialog(
+            "حذف الملفات المحلية؟",
+            isPresented: Binding(get: { packToDelete != nil },
+                                 set: { if !$0 { packToDelete = nil } }),
+            titleVisibility: .visible,
+            presenting: packToDelete
+        ) { pack in
+            Button("حذف", role: .destructive) {
+                Task {
+                    await service.delete(pack)
+                    ToastCenter.shared.show("تم حذف ملفات الحزمة", style: .info)
+                }
+                packToDelete = nil
+            }
+            Button("إلغاء", role: .cancel) { packToDelete = nil }
+        } message: { pack in
+            Text("ستُحذف ملفات \(pack.titleAr) من جهازك، ويمكنك تنزيلها مجددًا لاحقًا.")
+        }
     }
 
     private func icon(for state: AudioPackState) -> String {

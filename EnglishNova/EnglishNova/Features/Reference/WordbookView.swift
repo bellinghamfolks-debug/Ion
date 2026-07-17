@@ -218,14 +218,19 @@ private struct WordDetailView: View {
             }
         }
         .navigationTitle("تفاصيل الكلمة")
-        .confirmationDialog("حذف \(card.word.english)؟", isPresented: $showDeleteConfirmation) {
+        .confirmationDialog("حذف \(card.word.english)؟", isPresented: $showDeleteConfirmation,
+                            titleVisibility: .visible) {
             Button("حذف", role: .destructive) {
                 Task {
                     await container.vocabularyRepository.remove(cardID: card.id)
                     await onChange()
+                    ToastCenter.shared.show("تم حذف الكلمة", style: .info)
                     dismiss()
                 }
             }
+            Button("إلغاء", role: .cancel) {}
+        } message: {
+            Text("سيُحذف \(card.word.english) من قاموسك.")
         }
     }
 }

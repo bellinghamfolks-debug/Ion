@@ -16,6 +16,7 @@ struct HomeView: View {
                 personalCoach
                 continueLearning
                 quickActions
+                HomeLeaderboardCard()
                 weeklyActivity
             }
             .padding(AppTheme.screenPadding)
@@ -213,6 +214,72 @@ struct HomeView: View {
 
     private var lastSevenDays: [Date] {
         Array((0..<7).compactMap { Calendar.current.date(byAdding: .day, value: -$0, to: .now) }.reversed())
+    }
+}
+
+/// Compact leaderboard preview for the Home screen: the user's rank + the top
+/// three, tappable to open the full board. Only shown when signed in (the
+/// leaderboard endpoint requires auth). Failures fall back to nothing.
+private struct HomeLeaderboardCard: View {
+    @EnvironmentObject private var account: AccountService
+    @State private var me: MyRank?
+    @State private var top: [LeaderboardEntry] = []
+    @State private var loaded = false
+
+    private let service = AIStudioService()
+
+    var body: some View {
+        if account.isAuthenticated {
+            NavigationLink { LeaderboardView() } label: {
+                InfoCard(title: "لوحة الصدارة", systemImage: "trophy.fill", tint: AppTheme.warning) {
+                    if let me {
+                        HStack {
+                            Text("ترتيبك #\(me.rank)")
+                                .font(.title3.bold()).foregroundStyle(AppTheme.brand)
+                            Spacer()
+                            Label("\(me.points)", systemImage: "star.fill")
+                                .foregroundStyle(AppTheme.warning)
+                            if me.streak > 0 {
+                                Label("\(me.streak)", systemImage: "flame.fill")
+                                    .foregroundStyle(AppTheme.streak)
+                            }
+                        }
+                        .font(.subheadline.weight(.semibold))
+                    }
+                    ForEach(top.prefix(3)) { entry in
+                        HStack(spacing: 10) {
+                            Text(medal(entry.rank))
+                            Text(entry.name).lineLimit(1)
+                            if entry.isMe {
+                                Text("أنت").font(.caption2.bold()).foregroundStyle(AppTheme.brand)
+                            }
+                            Spacer()
+                            Text("\(entry.points)").monospacedDigit().foregroundStyle(.secondary)
+                        }
+                        .font(.subheadline)
+                    }
+                    if !loaded {
+                        Text("جارٍ التحميل…").font(.caption).foregroundStyle(.secondary)
+                    } else if top.isEmpty && me == nil {
+                        Text("احفظ تقدّمك من شاشة الحساب لتدخل المنافسة.")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+            .task { await load() }
+        }
+    }
+
+    private func medal(_ rank: Int) -> String {
+        [1: "🥇", 2: "🥈", 3: "🥉"][rank] ?? "#\(rank)"
+    }
+
+    private func load() async {
+        defer { loaded = true }
+        guard let result = try? await service.leaderboard() else { return }
+        top = result.top
+        me = result.me
     }
 }
 

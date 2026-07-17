@@ -15,7 +15,6 @@ settings:
     INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.education
     INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
     INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
-    INFOPLIST_KEY_UILaunchScreen_Generation: true
     INFOPLIST_KEY_NSMicrophoneUsageDescription: نستخدم الميكروفون لتحليل نطقك أثناء تمارين المحادثة.
     INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: نستخدم التعرف على الكلام لتحويل نطقك إلى نص وتقديم ملاحظات تعليمية.
     INFOPLIST_KEY_NSCameraUsageDescription: نستخدم الكاميرا لالتقاط صورة ملفك الشخصي.
@@ -32,6 +31,7 @@ targets:
       - path: EnglishNova
         excludes:
           - Resources
+          - Info.plist
       # Folder reference so the bundle contains Curriculum/curriculum.json,
       # matching BundledContentLoader's subdirectory: "Curriculum" lookup.
       # (A top-level `resources:` key is not part of the XcodeGen spec.)
@@ -41,6 +41,9 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.englishnova.app
+        # Base Info.plist providing the launch-screen background color; Xcode
+        # merges the generated INFOPLIST_KEY_* values on top of it.
+        INFOPLIST_FILE: EnglishNova/Info.plist
     scheme:
       testTargets:
         - EnglishNovaTests

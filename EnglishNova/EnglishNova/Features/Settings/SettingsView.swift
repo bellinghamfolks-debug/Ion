@@ -178,6 +178,7 @@ struct SettingsView: View {
             Button("العودة", role: .destructive) {
                 session.hasCompletedOnboarding = false
                 Task { await session.save() }
+                ToastCenter.shared.show("ستبدأ من شاشة الإعداد", style: .info)
             }
         } message: {
             Text("سيعيدك هذا إلى خطوات الإعداد الأولى. تقدّمك لن يُحذف، لكن ستمرّ بشاشة البداية من جديد.")
@@ -191,9 +192,13 @@ struct SettingsView: View {
                 minute: settings.reminderMinute
             )
             settings.reminderEnabled = granted
+            ToastCenter.shared.show(granted ? "تم تفعيل التذكير اليومي"
+                                            : "لم يُمنح إذن الإشعارات",
+                                    style: granted ? .success : .error)
         } else {
             reminderService.cancel()
             settings.reminderEnabled = false
+            ToastCenter.shared.show("تم إيقاف التذكير", style: .info)
         }
     }
 }

@@ -20,6 +20,7 @@ struct RootView: View {
                 .transition(.opacity)
             }
         }
+        .toastLayer()
         .task { await session.load() }
         .task {
             // Keep the branded splash for ~3 seconds, then reveal the app.

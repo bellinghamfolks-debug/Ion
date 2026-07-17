@@ -37,9 +37,11 @@ final class ProgressSyncService: ObservableObject {
                                    bearerToken: token)
             lastSyncedAt = Date()
             syncMessage = "تم حفظ تقدّمك في حسابك."
+            ToastCenter.shared.show("تم حفظ تقدّمك")
             return true
         } catch {
             syncMessage = "تعذّرت المزامنة: \((error as? LocalizedError)?.errorDescription ?? "خطأ")"
+            ToastCenter.shared.show("تعذّرت المزامنة", style: .error)
             return false
         }
     }
@@ -56,15 +58,18 @@ final class ProgressSyncService: ObservableObject {
                                              bearerToken: token)
             guard let value = response.data else {
                 syncMessage = "لا يوجد تقدّم محفوظ في الخادم بعد."
+                ToastCenter.shared.show("لا يوجد تقدّم محفوظ بعد", style: .info)
                 return true
             }
             let blob = try value.encodedData()
             try await backup.restore(from: blob)
             lastSyncedAt = Date()
             syncMessage = "تمت استعادة تقدّمك من حسابك."
+            ToastCenter.shared.show("تمت استعادة تقدّمك")
             return true
         } catch {
             syncMessage = "تعذّرت الاستعادة: \((error as? LocalizedError)?.errorDescription ?? "خطأ")"
+            ToastCenter.shared.show("تعذّرت الاستعادة", style: .error)
             return false
         }
     }

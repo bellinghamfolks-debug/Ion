@@ -26,12 +26,23 @@ struct RemoteTutorClient {
 struct RemoteVoiceCoachClient {
     let apiClient: APIClient
 
+    private struct CoachBody: Encodable {
+        let prompt: String
+        let transcript: String
+        let level: String
+    }
+
     func reply(request: VoiceCoachRequest) async throws -> VoiceCoachReply {
-        try await apiClient.send(
-            path: "v1/coach/conversation",
+        // Server AI voice coach (/ai/coach), authenticated with the user's token.
+        let token = KeychainStore().string(for: "server.authToken")
+        return try await apiClient.send(
+            path: "ai/coach",
             method: "POST",
-            body: request,
-            response: VoiceCoachReply.self
+            body: CoachBody(prompt: request.prompt,
+                            transcript: request.learnerTranscript,
+                            level: request.level.rawValue),
+            response: VoiceCoachReply.self,
+            bearerToken: token
         )
     }
 }

@@ -132,9 +132,8 @@ struct SettingsView: View {
             Section("الخدمات عبر الإنترنت") {
                 Label("متصل بخادم EnglishNova", systemImage: "checkmark.seal.fill")
                     .foregroundStyle(AppTheme.success)
-                Text("يتصل التطبيق تلقائيًا بخادم EnglishNova لإنشاء الحساب وحفظ التقدّم عبر أجهزتك — دون أي إعداد.")
+                Text("يتصل التطبيق تلقائيًا بخادم EnglishNova لإنشاء الحساب وحفظ التقدّم والمدرّب الذكي عبر أجهزتك — دون أي إعداد.")
                     .font(.caption).foregroundStyle(.secondary)
-                NavigationLink("تحديثات المنهج") { ContentUpdatesView() }
             }
 
             Section("الحساب المحلي والبيانات") {

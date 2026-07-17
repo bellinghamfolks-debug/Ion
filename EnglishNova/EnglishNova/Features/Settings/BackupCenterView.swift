@@ -1,91 +1,77 @@
 import SwiftUI
-import UniformTypeIdentifiers
 
+/// Backup is now account-based: progress is saved to the server automatically
+/// and restored on any device by signing in. A local file export remains as an
+/// optional extra, but the primary, reliable backup is the account.
 struct BackupCenterView: View {
     @EnvironmentObject private var container: AppContainer
+    @EnvironmentObject private var account: AccountService
+    @EnvironmentObject private var sync: ProgressSyncService
     @State private var exportURL: URL?
-    @State private var showImporter = false
     @State private var statusMessage: String?
-    @State private var isWorking = false
 
     var body: some View {
         List {
-            Section("نسخة كاملة محلية") {
-                Text("تتضمن الاسم المحلي، المستوى، النقاط، التقدم، نتائج المهارات، كلمات المراجعة، تقارير النطق، دفتر الأخطاء، نتائج الاختبارات، سجل المحادثات، والإعدادات. لا تتضمن التسجيلات الصوتية الخام ولا مفاتيح سرية.")
-                    .font(.subheadline).foregroundStyle(.secondary)
-
-                Button {
-                    Task { await createBackup() }
-                } label: {
-                    Label("إنشاء ملف نسخة احتياطية", systemImage: "square.and.arrow.up")
-                }
-                .disabled(isWorking)
-
-                if let exportURL {
-                    ShareLink(item: exportURL) {
-                        Label("مشاركة النسخة المحفوظة", systemImage: "square.and.arrow.up.on.square")
+            if account.isAuthenticated {
+                Section("النسخ الاحتياطي عبر حسابك") {
+                    Text("يُحفظ تقدّمك تلقائيًا في حسابك بعد كل درس، وتستعيده على أي جهاز بمجرد تسجيل الدخول.")
+                        .font(.subheadline).foregroundStyle(.secondary)
+                    Button {
+                        Task { await sync.push() }
+                    } label: {
+                        Label("احفظ الآن في حسابي", systemImage: "icloud.and.arrow.up")
                     }
+                    .disabled(sync.isSyncing)
+                    Button {
+                        Task { await sync.pull() }
+                    } label: {
+                        Label("استعادة من حسابي", systemImage: "icloud.and.arrow.down")
+                    }
+                    .disabled(sync.isSyncing)
+                    if let message = sync.syncMessage {
+                        Text(message).font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+            } else {
+                Section("احفظ تقدّمك في السحابة") {
+                    NavigationLink {
+                        AccountView()
+                    } label: {
+                        Label("أنشئ حسابًا أو سجّل الدخول", systemImage: "person.crop.circle.badge.plus")
+                    }
+                    Text("النسخ الاحتياطي أصبح عبر الحساب: أنشئ حسابًا ليُحفظ تقدّمك تلقائيًا في الخادم ويُزامَن عبر أجهزتك.")
+                        .font(.caption).foregroundStyle(.secondary)
                 }
             }
 
-            Section("الاستعادة") {
+            Section("تصدير محلي (اختياري)") {
                 Button {
-                    showImporter = true
+                    Task { await createBackup() }
                 } label: {
-                    Label("اختيار ملف EnglishNova", systemImage: "square.and.arrow.down")
+                    Label("تصدير نسخة كملف", systemImage: "square.and.arrow.up")
                 }
-                .disabled(isWorking)
-                Text("الاستعادة تستبدل بيانات التقدم والقاموس والإعدادات الحالية بما في الملف.")
+                if let exportURL {
+                    ShareLink(item: exportURL) {
+                        Label("مشاركة الملف", systemImage: "square.and.arrow.up.on.square")
+                    }
+                }
+                Text("للاحتفاظ بنسخة إضافية على جهازك أو مشاركتها. الاستعادة الأساسية تتم من حسابك.")
                     .font(.caption).foregroundStyle(.secondary)
             }
 
             if let statusMessage {
-                Section("الحالة") {
-                    Text(statusMessage)
-                }
-            }
-
-            Section("الخصوصية") {
-                Text("إنشاء الملف يتم على الجهاز. لا يرفعه التطبيق إلى أي خادم. مكان حفظه أو مشاركته تحدده أنت من ورقة المشاركة.")
+                Section("الحالة") { Text(statusMessage) }
             }
         }
         .navigationTitle("النسخ الاحتياطي")
-        // Accept json plus generic data/text: when a backup is saved or shared,
-        // iOS often tags the file as public.data instead of public.json, which
-        // made the JSON file appear greyed-out (unselectable) in the picker.
-        .fileImporter(isPresented: $showImporter,
-                      allowedContentTypes: [.json, .text, .plainText, .data, .item]) { result in
-            Task { await importBackup(result) }
-        }
     }
 
     private func createBackup() async {
-        isWorking = true
-        defer { isWorking = false }
         do {
             exportURL = try await container.backupService.makeTemporaryBackupFile()
-            statusMessage = "تم إنشاء النسخة. استخدم زر المشاركة لحفظها في الملفات أو إرسالها إلى جهازك الآخر."
+            statusMessage = "تم إنشاء الملف. استخدم زر المشاركة لحفظه في الملفات أو إرساله."
         } catch {
-            statusMessage = "تعذر إنشاء النسخة: \(error.localizedDescription)"
-        }
-    }
-
-    private func importBackup(_ result: Result<URL, Error>) async {
-        isWorking = true
-        defer { isWorking = false }
-        do {
-            let url = try result.get()
-            let accessed = url.startAccessingSecurityScopedResource()
-            defer { if accessed { url.stopAccessingSecurityScopedResource() } }
-            let values = try url.resourceValues(forKeys: [.fileSizeKey])
-            guard (values.fileSize ?? 0) <= BackupService.maximumBackupBytes else {
-                throw BackupService.BackupError.backupTooLarge
-            }
-            let data = try Data(contentsOf: url, options: [.mappedIfSafe])
-            try await container.backupService.restore(from: data)
-            statusMessage = "تمت استعادة البيانات بنجاح. ستظهر التغييرات عند العودة أو تحديث الشاشات."
-        } catch {
-            statusMessage = "تعذرت الاستعادة: \(error.localizedDescription)"
+            statusMessage = "تعذّر إنشاء الملف: \(error.localizedDescription)"
         }
     }
 }

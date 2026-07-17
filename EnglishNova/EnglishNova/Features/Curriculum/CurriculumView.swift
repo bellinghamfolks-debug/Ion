@@ -12,6 +12,14 @@ struct CurriculumView: View {
                     ForEach(CEFRLevel.allCases) { Text($0.rawValue).tag($0) }
                 }
                 .pickerStyle(.segmented)
+                // Changing the level here becomes the learner's active level, so
+                // the Home screen and "continue learning" follow it instead of
+                // always restarting from A0.
+                .onChange(of: model.selectedLevel) { newLevel in
+                    guard session.selectedLevel != newLevel else { return }
+                    session.selectedLevel = newLevel
+                    Task { await session.save() }
+                }
 
                 if let course = model.selectedCourse {
                     Text(course.titleAr).font(.largeTitle.bold())

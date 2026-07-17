@@ -6,6 +6,7 @@ struct LessonPlayerView: View {
     @EnvironmentObject private var settings: AppSettings
     @Environment(\.dismiss) private var dismiss
     @StateObject private var model: LessonPlayerViewModel
+    @State private var showExitConfirm = false
 
     init(lesson: Lesson) { _model = StateObject(wrappedValue: LessonPlayerViewModel(lesson: lesson)) }
 
@@ -20,7 +21,7 @@ struct LessonPlayerView: View {
                             Text(prompt).font(.title3).environment(\.layoutDirection, .leftToRight)
                         }
                         ExerciseRenderer(exercise: model.current, selectedAnswer: $model.selectedAnswer, arrangedTokens: $model.arrangedTokens)
-                        if model.answered { feedback }
+                        if model.answered && !isInformational { feedback }
                     }
                     .padding(AppTheme.screenPadding)
                 }
@@ -32,6 +33,23 @@ struct LessonPlayerView: View {
         .screenBackground()
         .navigationTitle(model.lesson.titleAr)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(model.phase == .lesson)
+        .toolbar {
+            if model.phase == .lesson {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button { showExitConfirm = true } label: {
+                        Label("إنهاء", systemImage: "xmark")
+                    }
+                    .accessibilityLabel("إنهاء الدرس")
+                }
+            }
+        }
+        .alert("إنهاء الدرس؟", isPresented: $showExitConfirm) {
+            Button("متابعة الدرس", role: .cancel) {}
+            Button("إنهاء وخروج", role: .destructive) { dismiss() }
+        } message: {
+            Text("إذا خرجت الآن فلن يُحتسب تقدّمك في هذا الدرس. هل تريد الخروج؟")
+        }
         .onAppear { Task { await container.vocabularyRepository.add(words: model.lesson.vocabulary) } }
         .task(id: model.currentIndex) {
             guard model.phase == .lesson, settings.autoPlayLessonAudio else { return }
@@ -41,8 +59,20 @@ struct LessonPlayerView: View {
         }
     }
 
+    /// Explanations and flashcards are informational — they shouldn't ask the
+    /// learner to "check an answer" or show correct/incorrect feedback.
+    private var isInformational: Bool {
+        model.current.type == .explanation || model.current.type == .flashcard
+    }
+
     @ViewBuilder private var actionButton: some View {
-        if model.answered {
+        if isInformational {
+            PrimaryButton(title: "التالي", systemImage: "arrow.forward") {
+                if !model.answered { model.submit() }
+                model.continueNext()
+            }
+            .padding()
+        } else if model.answered {
             PrimaryButton(title: "متابعة", systemImage: "arrow.forward") { model.continueNext() }.padding()
         } else {
             PrimaryButton(title: "تحقق من الإجابة", systemImage: "checkmark", isDisabled: !canSubmit) {
@@ -80,21 +110,85 @@ struct LessonPlayerView: View {
         }
     }
 
+    private var scorePercent: Int { Int((model.score * 100).rounded()) }
+
     private var result: some View {
-        VStack(spacing: 20) {
-            Image(systemName: model.score >= 0.7 ? "trophy.fill" : "arrow.counterclockwise.circle.fill").accessibilityHidden(true).font(.system(size: 72)).foregroundStyle(.tint)
-            Text(model.score >= 0.7 ? "أحسنت، اكتمل الدرس" : "محاولة قوية، ونحتاج جولة أخرى").font(.largeTitle.bold()).multilineTextAlignment(.center)
-            Text("نتيجتك \(Int(model.score * 100))٪").font(.title2)
-            PrimaryButton(title: "حفظ النتيجة والعودة", systemImage: "checkmark.circle.fill") {
-                Task {
-                    let earned = Int(Double(model.lesson.points) * model.score)
-                    await container.progressRepository.recordLesson(lessonID: model.lesson.id, score: model.score, points: earned, minutes: model.elapsedMinutes)
-                    await session.award(points: earned)
-                    dismiss()
+        ScrollView {
+            VStack(spacing: 20) {
+                ZStack {
+                    Circle().stroke(.quaternary, lineWidth: 14)
+                    Circle().trim(from: 0, to: model.score)
+                        .stroke(AppTheme.gradient(scoreColors), style: StrokeStyle(lineWidth: 14, lineCap: .round))
+                        .rotationEffect(.degrees(-90))
+                        .animation(.easeInOut(duration: 0.7), value: model.score)
+                    VStack(spacing: 0) {
+                        Text("\(scorePercent)٪").font(.system(size: 38, weight: .bold, design: .rounded))
+                        Text("تقييمك").font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+                .frame(width: 150, height: 150)
+                .padding(.top, 10)
+
+                Text(headline).font(.title2.bold()).multilineTextAlignment(.center)
+
+                InfoCard(title: "توصياتنا لك", systemImage: "sparkles", tint: AppTheme.accentTeal) {
+                    ForEach(recommendations, id: \.self) { tip in
+                        Label(tip, systemImage: "checkmark.circle.fill")
+                            .font(.subheadline)
+                            .foregroundStyle(.primary)
+                    }
+                }
+
+                PrimaryButton(title: "إنهاء الدرس", systemImage: "checkmark.circle.fill") {
+                    Task {
+                        let earned = Int(Double(model.lesson.points) * model.score)
+                        await container.progressRepository.recordLesson(lessonID: model.lesson.id, score: model.score, points: earned, minutes: model.elapsedMinutes)
+                        await session.award(points: earned)
+                        // Auto-save to the account so progress is never lost.
+                        if container.accountService.isAuthenticated {
+                            await container.progressSyncService.push()
+                        }
+                        dismiss()
+                    }
                 }
             }
+            .padding(AppTheme.screenPadding)
         }
-        .padding(AppTheme.screenPadding)
-        .accessibilityElement(children: .combine)
+    }
+
+    private var scoreColors: [Color] {
+        switch scorePercent {
+        case 85...: return [AppTheme.success, AppTheme.accentTeal]
+        case 60..<85: return [AppTheme.warning, AppTheme.streak]
+        default: return [AppTheme.streak, .red]
+        }
+    }
+
+    private var headline: String {
+        switch scorePercent {
+        case 90...: return "أداء ممتاز! 🎉"
+        case 70..<90: return "أداء جيد جدًا 👏"
+        case 50..<70: return "أداء جيد، وتستطيع أفضل"
+        default: return "بداية جيدة، لنقوّها معًا"
+        }
+    }
+
+    private var recommendations: [String] {
+        switch scorePercent {
+        case 90...:
+            return ["أتقنت هذا الدرس — انتقل إلى الدرس التالي بثقة.",
+                    "جرّب استخدام كلمات الدرس في جملة من عندك."]
+        case 70..<90:
+            return ["راجع الكلمات التي ترددت فيها من دفتر المفردات.",
+                    "أعد تمرين النطق مرة إضافية لتثبيت الإيقاع."]
+        case 50..<70:
+            return ["أعد الدرس بعد قليل — التكرار يثبّت المعلومة.",
+                    "ركّز على تمارين الاستماع وملء الفراغ.",
+                    "استخدم المدرّب الصوتي للتدرّب على الجمل."]
+        default:
+            return ["لا بأس، أعد الدرس بهدوء وركّز على الشرح أولًا.",
+                    "استمع للنموذج وكرّره بصوتٍ واضح قبل الإجابة.",
+                    "خفّض الهدف اليومي مؤقتًا وتقدّم خطوة بخطوة."]
+        }
     }
 }

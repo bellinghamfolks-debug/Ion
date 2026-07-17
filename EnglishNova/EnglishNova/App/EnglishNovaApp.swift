@@ -14,6 +14,8 @@ struct EnglishNovaApp: App {
                 .environmentObject(container.speechService)
                 .environmentObject(container.textToSpeech)
                 .environmentObject(container.reminderService)
+                .environmentObject(container.accountService)
+                .environmentObject(container.progressSyncService)
                 .environment(\.layoutDirection, container.settings.interfaceLanguage == .arabic ? .rightToLeft : .leftToRight)
         }
     }

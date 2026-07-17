@@ -4,12 +4,34 @@ struct SettingsView: View {
     @EnvironmentObject private var settings: AppSettings
     @EnvironmentObject private var session: UserSession
     @EnvironmentObject private var reminderService: StudyReminderService
+    @EnvironmentObject private var account: AccountService
     @State private var showResetConfirmation = false
     @State private var reminderTime = Date()
     @State private var geminiKeyEntry = ""
 
     var body: some View {
         Form {
+            Section {
+                NavigationLink { AccountView() } label: {
+                    HStack(spacing: 14) {
+                        Image(systemName: account.isAuthenticated ? "person.crop.circle.fill" : "person.crop.circle.badge.plus")
+                            .font(.title2)
+                            .foregroundStyle(.white)
+                            .frame(width: 42, height: 42)
+                            .background(AppTheme.brandGradient, in: Circle())
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(account.isAuthenticated
+                                 ? (account.currentUser?.displayName.isEmpty == false ? account.currentUser!.displayName : (account.currentUser?.email ?? "حسابك"))
+                                 : "إنشاء حساب وحفظ التقدّم")
+                                .font(.headline)
+                            Text(account.isAuthenticated ? "الحساب والمزامنة" : "سجّل الدخول لمزامنة تعلّمك عبر أجهزتك")
+                                .font(.caption).foregroundStyle(.secondary)
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
+            }
+
             Section("التعلّم") {
                 Stepper(
                     "الهدف اليومي: \(settings.dailyGoalMinutes) دقيقة",

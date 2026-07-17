@@ -50,7 +50,11 @@ struct BackupCenterView: View {
             }
         }
         .navigationTitle("النسخ الاحتياطي")
-        .fileImporter(isPresented: $showImporter, allowedContentTypes: [.json]) { result in
+        // Accept json plus generic data/text: when a backup is saved or shared,
+        // iOS often tags the file as public.data instead of public.json, which
+        // made the JSON file appear greyed-out (unselectable) in the picker.
+        .fileImporter(isPresented: $showImporter,
+                      allowedContentTypes: [.json, .text, .plainText, .data, .item]) { result in
             Task { await importBackup(result) }
         }
     }

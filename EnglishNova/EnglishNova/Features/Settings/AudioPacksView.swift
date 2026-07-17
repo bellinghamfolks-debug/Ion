@@ -4,21 +4,17 @@ struct AudioPacksView: View {
     @EnvironmentObject private var container: AppContainer
 
     var body: some View {
-        AudioPacksContent(
-            service: container.audioPackService,
-            hasServer: container.settings.serverURL != nil
-        )
+        AudioPacksContent(service: container.audioPackService)
     }
 }
 
 private struct AudioPacksContent: View {
     @ObservedObject var service: AudioPackService
-    let hasServer: Bool
 
     var body: some View {
         List {
             Section {
-                Text("يستخدم التطبيق صوت iOS المحلي دائمًا بوصفه بديلًا يعمل دون إنترنت. ويمكن لخادم EnglishNova توفير ملفات بشرية أو استوديوهات نطق تُحفظ داخل التطبيق.")
+                Text("يستخدم التطبيق صوت iOS المحلي دائمًا لنطق الكلمات والجمل، ويعمل دون إنترنت.")
                     .font(.subheadline).foregroundStyle(.secondary)
             }
 
@@ -50,22 +46,10 @@ private struct AudioPacksContent: View {
                     }
                 }
             }
-
-            Section("الحزم المتصلة") {
-                Button("تحديث قائمة الحزم من الخادم") {
-                    Task { await service.refreshIndex() }
-                }
-                .disabled(!hasServer || service.isRefreshing)
-                if service.isRefreshing { ProgressView("جاري جلب فهرس الصوت") }
-                if !hasServer {
-                    Text("عيّن عنوان الخادم في الإعدادات لإظهار حزم الصوت المتاحة عبر الإنترنت.")
-                        .font(.caption).foregroundStyle(.secondary)
-                }
-            }
         }
-        .navigationTitle("حزم الصوت دون إنترنت")
+        .navigationTitle("حزم الصوت")
         .task { await service.loadLocalState() }
-        .alert("تعذر تحديث الحزم", isPresented: Binding(
+        .alert("تعذر تحميل الحزم", isPresented: Binding(
             get: { service.errorMessage != nil },
             set: { if !$0 { service.errorMessage = nil } }
         )) {

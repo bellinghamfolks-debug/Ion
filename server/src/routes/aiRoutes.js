@@ -5,7 +5,9 @@ import { requireAuth } from "../middleware/requireAuth.js";
 
 export const aiRouter = Router();
 
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+// Default to Gemini 3.5 Flash (the current GA Flash model). Override with the
+// GEMINI_MODEL env var if you ever need a different one.
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash";
 
 function geminiURL() {
   const key = process.env.GEMINI_API_KEY;

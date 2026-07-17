@@ -9,6 +9,12 @@ struct PracticeHubView: View {
                 NavigationLink { AdvancedPreparationHubView() } label: { Label("IELTS وSTEP والمقابلات", systemImage: "doc.text.magnifyingglass") }
                 NavigationLink { MistakeNotebookView() } label: { Label("دفتر الأخطاء", systemImage: "exclamationmark.bubble.fill") }
             }
+            Section("ذكاء الخادم") {
+                NavigationLink { ExplainView() } label: { Label("اشرح لي", systemImage: "sparkles") }
+                NavigationLink { WritingCoachView() } label: { Label("مصحّح الكتابة", systemImage: "pencil.and.scribble") }
+                NavigationLink { AIExerciseView() } label: { Label("مولّد التمارين", systemImage: "wand.and.stars") }
+                NavigationLink { LeaderboardView() } label: { Label("لوحة الصدارة", systemImage: "trophy.fill") }
+            }
             Section("مختبرات المستوى المتقدم") {
                 NavigationLink { AdvancedSkillsHubView() } label: { Label("القراءة والاستماع والكتابة", systemImage: "books.vertical.fill") }
                 NavigationLink { LearningPathwaysView() } label: { Label("مسارات الهدف", systemImage: "point.topleft.down.to.point.bottomright.curvepath") }

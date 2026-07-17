@@ -7,6 +7,11 @@ struct LessonPlayerView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var model: LessonPlayerViewModel
     @State private var showExitConfirm = false
+    @State private var explainConcept: ExplainConcept?
+
+    /// Wraps the concept string so `.sheet(item:)` (needs Identifiable) can drive
+    /// the "اشرح لي" explanation sheet.
+    private struct ExplainConcept: Identifiable { let id = UUID(); let text: String }
 
     init(lesson: Lesson) { _model = StateObject(wrappedValue: LessonPlayerViewModel(lesson: lesson)) }
 
@@ -49,6 +54,16 @@ struct LessonPlayerView: View {
             Button("إنهاء وخروج", role: .destructive) { dismiss() }
         } message: {
             Text("إذا خرجت الآن فلن يُحتسب تقدّمك في هذا الدرس. هل تريد الخروج؟")
+        }
+        .sheet(item: $explainConcept) { concept in
+            NavigationStack {
+                ExplainView(initialConcept: concept.text)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button("تم") { explainConcept = nil }
+                        }
+                    }
+            }
         }
         .onAppear { Task { await container.vocabularyRepository.add(words: model.lesson.vocabulary) } }
         .task(id: model.currentIndex) {
@@ -96,8 +111,27 @@ struct LessonPlayerView: View {
         InfoCard(title: model.lastWasCorrect ? "إجابة صحيحة" : "لنصححها معًا", systemImage: model.lastWasCorrect ? "checkmark.seal.fill" : "lightbulb.fill") {
             if !model.lastWasCorrect { Text("الإجابة: \(model.current.answer)").font(.headline) }
             Text(model.current.explanationAr)
+            if !explainSeed.isEmpty {
+                Button {
+                    explainConcept = ExplainConcept(text: explainSeed)
+                } label: {
+                    Label("اشرح لي أكثر", systemImage: "sparkles")
+                        .font(.subheadline.weight(.semibold))
+                }
+                .buttonStyle(.bordered)
+                .tint(AppTheme.accentTeal)
+                .accessibilityHint("شرح إضافي من المدرّب الذكي")
+            }
         }
         .accessibilityLabel(model.lastWasCorrect ? "إجابة صحيحة" : "إجابة غير صحيحة. الصحيح \(model.current.answer). \(model.current.explanationAr)")
+    }
+
+    /// The English text we ask the AI to explain — prefer the correct answer,
+    /// fall back to the English prompt. Trimmed; empty hides the button.
+    private var explainSeed: String {
+        let answer = model.current.answer.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !answer.isEmpty { return answer }
+        return (model.current.promptEn ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func skill(for exercise: Exercise) -> LanguageSkill {

@@ -6,6 +6,7 @@ struct LessonPlayerView: View {
     @EnvironmentObject private var settings: AppSettings
     @Environment(\.dismiss) private var dismiss
     @StateObject private var model: LessonPlayerViewModel
+    @State private var showExitConfirm = false
 
     init(lesson: Lesson) { _model = StateObject(wrappedValue: LessonPlayerViewModel(lesson: lesson)) }
 
@@ -32,6 +33,23 @@ struct LessonPlayerView: View {
         .screenBackground()
         .navigationTitle(model.lesson.titleAr)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(model.phase == .lesson)
+        .toolbar {
+            if model.phase == .lesson {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button { showExitConfirm = true } label: {
+                        Label("إنهاء", systemImage: "xmark")
+                    }
+                    .accessibilityLabel("إنهاء الدرس")
+                }
+            }
+        }
+        .alert("إنهاء الدرس؟", isPresented: $showExitConfirm) {
+            Button("متابعة الدرس", role: .cancel) {}
+            Button("إنهاء وخروج", role: .destructive) { dismiss() }
+        } message: {
+            Text("إذا خرجت الآن فلن يُحتسب تقدّمك في هذا الدرس. هل تريد الخروج؟")
+        }
         .onAppear { Task { await container.vocabularyRepository.add(words: model.lesson.vocabulary) } }
         .task(id: model.currentIndex) {
             guard model.phase == .lesson, settings.autoPlayLessonAudio else { return }

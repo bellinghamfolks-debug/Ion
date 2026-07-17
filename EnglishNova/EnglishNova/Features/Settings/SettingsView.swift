@@ -192,11 +192,14 @@ struct SettingsView: View {
             reminderTime = Calendar.current.date(from: DateComponents(hour: settings.reminderHour, minute: settings.reminderMinute)) ?? .now
             await reminderService.refreshAuthorization()
         }
-        .confirmationDialog("هل تريد العودة إلى شاشة البداية؟", isPresented: $showResetConfirmation) {
-            Button("إعادة", role: .destructive) {
+        .alert("العودة إلى شاشة البداية؟", isPresented: $showResetConfirmation) {
+            Button("إلغاء", role: .cancel) {}
+            Button("العودة", role: .destructive) {
                 session.hasCompletedOnboarding = false
                 Task { await session.save() }
             }
+        } message: {
+            Text("سيعيدك هذا إلى خطوات الإعداد الأولى. تقدّمك لن يُحذف، لكن ستمرّ بشاشة البداية من جديد.")
         }
     }
 

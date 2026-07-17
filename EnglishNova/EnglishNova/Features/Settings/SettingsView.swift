@@ -7,7 +7,6 @@ struct SettingsView: View {
     @EnvironmentObject private var account: AccountService
     @State private var showResetConfirmation = false
     @State private var reminderTime = Date()
-    @State private var geminiKeyEntry = ""
 
     var body: some View {
         Form {
@@ -114,8 +113,11 @@ struct SettingsView: View {
             }
 
             Section("المدرّس التفاعلي") {
+                // The AI tutor now runs on the server (one shared key), so the
+                // personal Gemini key + model fields are gone. Users only choose
+                // between the smart (server) tutor and the offline local tutor.
                 Picker("مصدر إجابات المدرّس", selection: $settings.tutorProvider) {
-                    ForEach(TutorProvider.allCases) { provider in
+                    ForEach(TutorProvider.allCases.filter { $0 != .gemini }) { provider in
                         Text(provider.titleAr).tag(provider)
                     }
                 }
@@ -125,38 +127,6 @@ struct SettingsView: View {
                 Toggle("نطق ردود المدرّس تلقائيًا", isOn: $settings.autoSpeakTutorReplies)
                 Text("يقرأ التطبيق رد المدرّس صوتيًا فور وصوله، ويبقى زر الاستماع متاحًا في كل رد لقارئ الشاشة.")
                     .font(.caption).foregroundStyle(.secondary)
-
-                if settings.tutorProvider == .gemini {
-                    SecureField(settings.hasGeminiAPIKey ? "المفتاح محفوظ — أدخل مفتاحًا جديدًا للتغيير" : "أدخل مفتاح Gemini API", text: $geminiKeyEntry)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .environment(\.layoutDirection, .leftToRight)
-                    HStack {
-                        Button("حفظ المفتاح") {
-                            settings.setGeminiAPIKey(geminiKeyEntry)
-                            geminiKeyEntry = ""
-                        }
-                        .disabled(geminiKeyEntry.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                        if settings.hasGeminiAPIKey {
-                            Spacer()
-                            Button("حذف المفتاح", role: .destructive) {
-                                settings.clearGeminiAPIKey()
-                                geminiKeyEntry = ""
-                            }
-                        }
-                    }
-                    Label(
-                        settings.hasGeminiAPIKey ? "المفتاح محفوظ بشكل مشفّر على هذا الجهاز فقط" : "لم يُحفظ مفتاح بعد",
-                        systemImage: settings.hasGeminiAPIKey ? "lock.fill" : "lock.open"
-                    )
-                    .font(.caption).foregroundStyle(settings.hasGeminiAPIKey ? Color.green : Color.secondary)
-                    TextField("اسم النموذج", text: $settings.geminiModel)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .environment(\.layoutDirection, .leftToRight)
-                    Text("يُحفظ المفتاح في سلسلة المفاتيح المشفّرة (Keychain) ولا يُكتب في ملفات الإعداد ولا في النسخ الاحتياطي. مثال للنموذج: gemini-1.5-flash.")
-                        .font(.caption).foregroundStyle(.secondary)
-                }
             }
 
             Section("الخدمات عبر الإنترنت") {
@@ -199,6 +169,9 @@ struct SettingsView: View {
         .navigationTitle("الإعدادات")
         .task {
             reminderTime = Calendar.current.date(from: DateComponents(hour: settings.reminderHour, minute: settings.reminderMinute)) ?? .now
+            // Migrate anyone still on the retired personal-Gemini provider to the
+            // server-backed smart tutor.
+            if settings.tutorProvider == .gemini { settings.tutorProvider = .smart }
             await reminderService.refreshAuthorization()
         }
         .alert("العودة إلى شاشة البداية؟", isPresented: $showResetConfirmation) {

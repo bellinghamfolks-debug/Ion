@@ -13,6 +13,8 @@ app.use(express.json({ limit: "5mb" }));
 // reports it so problems are easy to diagnose without the whole app going down.
 let dbReady = false;
 
+app.get("/", (_req, res) =>
+  res.json({ service: "EnglishNova", status: "ok", db: dbReady, health: "/health" }));
 app.get("/health", (_req, res) => res.json({ status: "ok", db: dbReady }));
 app.use("/auth", authRouter);
 app.use("/", progressRouter);

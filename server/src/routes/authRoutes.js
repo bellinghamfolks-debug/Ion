@@ -16,7 +16,9 @@ authRouter.post("/register", async (req, res) => {
   const displayName = String(req.body.displayName || "").trim();
 
   if (!EMAIL_RE.test(email)) return res.status(400).json({ error: "invalid_email" });
-  if (password.length < 8) return res.status(400).json({ error: "weak_password" });
+  // At least 8 characters, containing both letters and digits.
+  const strongPassword = password.length >= 8 && /[A-Za-z]/.test(password) && /\d/.test(password);
+  if (!strongPassword) return res.status(400).json({ error: "weak_password" });
 
   const existing = await pool.query("SELECT id FROM users WHERE email = $1", [email]);
   if (existing.rowCount > 0) return res.status(409).json({ error: "email_taken" });

@@ -112,7 +112,7 @@ final class AccountService: ObservableObject {
         if case APIError.server(let status, let message) = error {
             if message.contains("email_taken") { return "هذا البريد مُسجَّل بالفعل." }
             if message.contains("invalid_credentials") { return "البريد أو كلمة المرور غير صحيحة." }
-            if message.contains("weak_password") { return "كلمة المرور يجب أن تكون ٨ أحرف على الأقل." }
+            if message.contains("weak_password") { return "كلمة المرور يجب أن تكون ٨ أحرف على الأقل وتحتوي أحرفًا وأرقامًا." }
             if message.contains("invalid_email") { return "صيغة البريد غير صحيحة." }
             return "تعذّر إتمام الطلب (\(status))."
         }

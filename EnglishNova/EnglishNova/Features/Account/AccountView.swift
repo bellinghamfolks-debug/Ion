@@ -183,6 +183,12 @@ struct AccountView: View {
                 }
                 field("البريد الإلكتروني", text: $email, systemImage: "envelope", keyboard: .emailAddress)
                 secureField("كلمة المرور", text: $password)
+                if mode == .register {
+                    Label("٨ أحرف على الأقل، وتحتوي أحرفًا وأرقامًا",
+                          systemImage: passwordStrong ? "checkmark.circle.fill" : "info.circle")
+                        .font(.caption2)
+                        .foregroundStyle(passwordStrong ? AppTheme.success : (password.isEmpty ? .secondary : .orange))
+                }
 
                 if let error = account.lastError {
                     Text(error).font(.caption).foregroundStyle(.red)
@@ -191,7 +197,7 @@ struct AccountView: View {
                 PrimaryButton(title: mode.titleAr,
                               systemImage: mode == .signIn ? "arrow.right.circle.fill" : "person.badge.plus",
                               isLoading: isWorking,
-                              isDisabled: email.isEmpty || password.isEmpty) {
+                              isDisabled: !canSubmit) {
                     Task { await submit() }
                 }
             }
@@ -241,6 +247,17 @@ struct AccountView: View {
         }
         .padding(12)
         .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var passwordStrong: Bool {
+        password.count >= 8
+            && password.contains(where: { $0.isLetter })
+            && password.contains(where: { $0.isNumber })
+    }
+
+    private var canSubmit: Bool {
+        guard !email.isEmpty, !password.isEmpty else { return false }
+        return mode == .signIn || passwordStrong
     }
 
     @MainActor private func submit() async {

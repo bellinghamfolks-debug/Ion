@@ -29,8 +29,36 @@ export async function initSchema() {
     CREATE TABLE IF NOT EXISTS progress (
       user_id    INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
       data       JSONB NOT NULL,
+      -- Denormalised for the leaderboard so we don't scan JSONB on every read.
+      points     INTEGER NOT NULL DEFAULT 0,
+      streak     INTEGER NOT NULL DEFAULT 0,
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
+
+    -- Learning analytics events (fire-and-forget writes).
+    CREATE TABLE IF NOT EXISTS events (
+      id         BIGSERIAL PRIMARY KEY,
+      user_id    INTEGER REFERENCES users(id) ON DELETE SET NULL,
+      type       TEXT NOT NULL,
+      meta       JSONB NOT NULL DEFAULT '{}',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+    CREATE INDEX IF NOT EXISTS events_created_at_idx ON events (created_at);
+    CREATE INDEX IF NOT EXISTS events_type_idx ON events (type);
+
+    -- Over-the-air content channels (curriculum, config, ...).
+    CREATE TABLE IF NOT EXISTS content (
+      channel    TEXT PRIMARY KEY,
+      version    INTEGER NOT NULL,
+      payload    JSONB NOT NULL,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `);
+
+  // Columns added after the first release: tolerate pre-existing progress tables.
+  await pool.query(`
+    ALTER TABLE progress ADD COLUMN IF NOT EXISTS points INTEGER NOT NULL DEFAULT 0;
+    ALTER TABLE progress ADD COLUMN IF NOT EXISTS streak INTEGER NOT NULL DEFAULT 0;
   `);
 }
 

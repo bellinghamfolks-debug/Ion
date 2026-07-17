@@ -5,6 +5,8 @@ import { initSchema } from "./db.js";
 import { authRouter } from "./routes/authRoutes.js";
 import { progressRouter } from "./routes/progressRoutes.js";
 import { aiRouter } from "./routes/aiRoutes.js";
+import { contentRouter } from "./routes/contentRoutes.js";
+import { analyticsRouter } from "./analytics.js";
 
 const app = express();
 app.use(cors());
@@ -19,6 +21,8 @@ app.get("/", (_req, res) =>
 app.get("/health", (_req, res) => res.json({ status: "ok", db: dbReady }));
 app.use("/auth", authRouter);
 app.use("/ai", aiRouter);
+app.use("/analytics", analyticsRouter);
+app.use("/", contentRouter);
 app.use("/", progressRouter);
 
 // Catch-all error handler so failures return JSON, not HTML.

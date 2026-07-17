@@ -73,6 +73,22 @@ final class AccountService: ObservableObject {
         isAuthenticated = false
     }
 
+    /// Permanently delete the account and all its data from the server.
+    func deleteAccount() async -> Bool {
+        guard let token else { return false }
+        struct DeleteResponse: Decodable { let deleted: Bool }
+        do {
+            _ = try await api.send(path: "me", method: "DELETE",
+                                   body: Optional<EmptyBody>.none,
+                                   response: DeleteResponse.self, bearerToken: token)
+            logout()
+            return true
+        } catch {
+            lastError = friendlyMessage(for: error)
+            return false
+        }
+    }
+
     // MARK: - Helpers
 
     private func persist(_ response: AuthResponse) throws {

@@ -9,6 +9,7 @@ struct AccountView: View {
     @EnvironmentObject private var sync: ProgressSyncService
     @StateObject private var avatar = AvatarStore.shared
     @State private var showSignOutConfirm = false
+    @State private var showDeleteConfirm = false
     @State private var photoItem: PhotosPickerItem?
     @State private var showPhotoPicker = false
     @State private var showCamera = false
@@ -127,6 +128,21 @@ struct AccountView: View {
                 Button("إلغاء", role: .cancel) {}
             } message: {
                 Text("تأكّد أنك حفظت تقدّمك في حسابك قبل الخروج. هل تريد تسجيل الخروج؟")
+            }
+
+            Button(role: .destructive) {
+                showDeleteConfirm = true
+            } label: {
+                Label("حذف الحساب نهائيًا", systemImage: "trash")
+                    .frame(maxWidth: .infinity, minHeight: 44)
+            }
+            .buttonStyle(.bordered)
+            .tint(.red)
+            .confirmationDialog("حذف الحساب نهائيًا؟", isPresented: $showDeleteConfirm, titleVisibility: .visible) {
+                Button("حذف نهائيًا", role: .destructive) { Task { await account.deleteAccount() } }
+                Button("إلغاء", role: .cancel) {}
+            } message: {
+                Text("سيُحذف حسابك وكل بياناتك من الخادم نهائيًا، ولا يمكن التراجع عن ذلك.")
             }
         }
     }

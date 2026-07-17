@@ -9,6 +9,10 @@ struct ExplainView: View {
     @State private var loading = false
     @State private var errorMessage: String?
 
+    /// When set (e.g. from a lesson), the view pre-fills this concept and
+    /// explains it automatically on appear.
+    var initialConcept: String? = nil
+
     private let service = AIStudioService()
     private let suggestions = ["Present Perfect", "a vs an", "much vs many", "used to", "Phrasal verbs"]
 
@@ -69,6 +73,12 @@ struct ExplainView: View {
         .screenBackground()
         .navigationTitle("اشرح لي")
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            if let initialConcept, concept.isEmpty, result == nil {
+                concept = initialConcept
+                run()
+            }
+        }
     }
 
     private var trimmed: String { concept.trimmingCharacters(in: .whitespacesAndNewlines) }

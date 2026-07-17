@@ -31,7 +31,7 @@ final class AccountService: ObservableObject {
     func register(email: String, password: String, displayName: String) async -> Bool {
         await run {
             let body = RegisterBody(email: email, password: password, displayName: displayName)
-            let response = try await api.send(path: "auth/register", method: "POST",
+            let response = try await self.api.send(path: "auth/register", method: "POST",
                                               body: body, response: AuthResponse.self)
             try self.persist(response)
         }
@@ -40,7 +40,7 @@ final class AccountService: ObservableObject {
     func login(email: String, password: String) async -> Bool {
         await run {
             let body = LoginBody(email: email, password: password)
-            let response = try await api.send(path: "auth/login", method: "POST",
+            let response = try await self.api.send(path: "auth/login", method: "POST",
                                               body: body, response: AuthResponse.self)
             try self.persist(response)
         }
@@ -49,7 +49,7 @@ final class AccountService: ObservableObject {
     func signInWithApple(identityToken: String, displayName: String) async -> Bool {
         await run {
             let body = AppleSignInBody(identityToken: identityToken, displayName: displayName)
-            let response = try await api.send(path: "auth/apple", method: "POST",
+            let response = try await self.api.send(path: "auth/apple", method: "POST",
                                               body: body, response: AuthResponse.self)
             try self.persist(response)
         }

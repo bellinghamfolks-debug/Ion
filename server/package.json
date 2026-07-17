@@ -1,0 +1,20 @@
+{
+  "name": "englishnova-server",
+  "version": "1.0.0",
+  "description": "EnglishNova backend — accounts, auth (email/password + Sign in with Apple) and progress sync, backed by PostgreSQL. Deployable on Railway.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jose": "^5.6.3",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.12.0"
+  }
+}

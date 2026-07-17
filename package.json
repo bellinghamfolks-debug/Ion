@@ -1,0 +1,12 @@
+{
+  "name": "englishnova-monorepo",
+  "private": true,
+  "description": "Repo root shim so Railway (Railpack) builds and runs the Node backend in server/ without needing a Root Directory setting.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "postinstall": "npm --prefix server install",
+    "start": "node server/src/index.js"
+  }
+}

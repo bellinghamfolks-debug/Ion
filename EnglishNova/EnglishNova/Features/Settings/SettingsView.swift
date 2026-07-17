@@ -152,11 +152,9 @@ struct SettingsView: View {
             }
 
             Section("الخدمات عبر الإنترنت") {
-                TextField("عنوان الخادم، مثال https://api.example.com", text: $settings.serverURLString)
-                    .textInputAutocapitalization(.never)
-                    .keyboardType(.URL)
-                    .environment(\.layoutDirection, .leftToRight)
-                Text("اتركه فارغًا لاستخدام المدرّس والمدرب المحليين. يجب أن يكون العنوان HTTPS، ولا تضع مفتاح API سريًا هنا.")
+                Label("متصل بخادم EnglishNova", systemImage: "checkmark.seal.fill")
+                    .foregroundStyle(AppTheme.success)
+                Text("يتصل التطبيق تلقائيًا بخادم EnglishNova لإنشاء الحساب وحفظ التقدّم عبر أجهزتك — دون أي إعداد.")
                     .font(.caption).foregroundStyle(.secondary)
                 NavigationLink("تحديثات المنهج") { ContentUpdatesView() }
             }

@@ -45,15 +45,18 @@ final class APIClient {
         self.session = URLSession(configuration: config)
     }
 
-    func get<Response: Decodable>(path: String, response: Response.Type) async throws -> Response {
-        try await send(path: path, method: "GET", body: Optional<EmptyBody>.none, response: response)
+    func get<Response: Decodable>(path: String, response: Response.Type,
+                                  bearerToken: String? = nil) async throws -> Response {
+        try await send(path: path, method: "GET", body: Optional<EmptyBody>.none,
+                       response: response, bearerToken: bearerToken)
     }
 
     func send<Response: Decodable, Body: Encodable>(
         path: String,
         method: String = "GET",
         body: Body? = nil,
-        response: Response.Type
+        response: Response.Type,
+        bearerToken: String? = nil
     ) async throws -> Response {
         guard let baseURL = ServerEndpoint.currentURL ?? configuration.baseURL else { throw APIError.missingBaseURL }
         guard baseURL.scheme?.lowercased() == "https", baseURL.host != nil else { throw APIError.insecureBaseURL }
@@ -62,6 +65,7 @@ final class APIClient {
         request.httpMethod = method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
+        if let bearerToken { request.setValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization") }
         if let body { request.httpBody = try encoder.encode(body) }
 
         let (data, urlResponse) = try await session.data(for: request)

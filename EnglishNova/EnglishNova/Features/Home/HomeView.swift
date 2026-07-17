@@ -9,7 +9,7 @@ struct HomeView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                greeting
+                hero
                 dailyGoal
                 pathwayOverview
                 smartPlan
@@ -32,13 +32,43 @@ struct HomeView: View {
         } message: { Text(model.errorMessage ?? "") }
     }
 
-    private var greeting: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(session.displayName.isEmpty ? "مرحبًا بك" : "مرحبًا، \(session.displayName)")
-                .font(.largeTitle.bold())
-            Text(settings.reduceLearningPressure ? "اليوم يكفي أن تتقدم بهدوء." : "خطوة صغيرة اليوم تصنع لغة كاملة غدًا.")
-                .foregroundStyle(.secondary)
+    private var hero: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(session.displayName.isEmpty ? "مرحبًا بك 👋" : "مرحبًا، \(session.displayName) 👋")
+                    .font(.title.bold())
+                    .foregroundStyle(.white)
+                Text(settings.reduceLearningPressure ? "اليوم يكفي أن تتقدم بهدوء." : "خطوة صغيرة اليوم تصنع لغة كاملة غدًا.")
+                    .font(.subheadline)
+                    .foregroundStyle(.white.opacity(0.9))
+            }
+            HStack(spacing: 10) {
+                heroStat(icon: "graduationcap.fill", value: session.selectedLevel.rawValue, label: "المستوى")
+                heroStat(icon: "star.fill", value: "\(session.points)", label: "نقطة")
+                heroStat(icon: "flame.fill", value: "\(session.streak)", label: "يوم متتالٍ")
+            }
         }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(AppTheme.heroGradient,
+                    in: RoundedRectangle(cornerRadius: AppTheme.cornerRadius, style: .continuous))
+        .shadow(color: AppTheme.brand.opacity(0.35), radius: 16, x: 0, y: 8)
+    }
+
+    private func heroStat(icon: String, value: String, label: String) -> some View {
+        VStack(spacing: 3) {
+            Label(value, systemImage: icon)
+                .font(.subheadline.bold())
+                .foregroundStyle(.white)
+            Text(label)
+                .font(.caption2)
+                .foregroundStyle(.white.opacity(0.85))
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 10)
+        .background(.white.opacity(0.18), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(label): \(value)")
     }
 
     private var dailyGoal: some View {
@@ -157,11 +187,11 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("وصول سريع").font(.title2.bold())
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                NavigationLink { PracticeHubView() } label: { QuickActionCard(title: "تدريب", icon: "mic.fill") }
-                NavigationLink { ReviewView() } label: { QuickActionCard(title: "مراجعة \(model.dueCount)", icon: "rectangle.stack.fill") }
-                NavigationLink { StoryLibraryView() } label: { QuickActionCard(title: "قصص", icon: "book.pages.fill") }
-                NavigationLink { AdvancedSkillsHubView() } label: { QuickActionCard(title: "مختبرات", icon: "books.vertical.fill") }
-                NavigationLink { WeeklyProgressReportView() } label: { QuickActionCard(title: "تقرير أسبوعي", icon: "doc.text.image.fill") }
+                NavigationLink { PracticeHubView() } label: { QuickActionCard(title: "تدريب", icon: "mic.fill", colors: [AppTheme.brand, AppTheme.brandSecondary]) }
+                NavigationLink { ReviewView() } label: { QuickActionCard(title: "مراجعة \(model.dueCount)", icon: "rectangle.stack.fill", colors: [AppTheme.accentTeal, AppTheme.success]) }
+                NavigationLink { StoryLibraryView() } label: { QuickActionCard(title: "قصص", icon: "book.pages.fill", colors: [AppTheme.brandSecondary, AppTheme.streak]) }
+                NavigationLink { AdvancedSkillsHubView() } label: { QuickActionCard(title: "مختبرات", icon: "books.vertical.fill", colors: [AppTheme.warning, AppTheme.streak]) }
+                NavigationLink { WeeklyProgressReportView() } label: { QuickActionCard(title: "تقرير أسبوعي", icon: "doc.text.image.fill", colors: [AppTheme.success, AppTheme.accentTeal]) }
             }
             .buttonStyle(.plain)
         }
@@ -189,13 +219,24 @@ struct HomeView: View {
 private struct QuickActionCard: View {
     let title: String
     let icon: String
+    var colors: [Color] = [AppTheme.brand, AppTheme.brandSecondary]
     var body: some View {
         VStack(spacing: 10) {
-            Image(systemName: icon).font(.title)
-            Text(title).font(.headline)
+            Image(systemName: icon)
+                .font(.title2.weight(.bold))
+                .foregroundStyle(.white)
+                .frame(width: 48, height: 48)
+                .background(.white.opacity(0.22), in: Circle())
+            Text(title)
+                .font(.subheadline.bold())
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
         }
-        .frame(maxWidth: .infinity, minHeight: 100)
-        .background(.background, in: RoundedRectangle(cornerRadius: 16))
+        .frame(maxWidth: .infinity, minHeight: 118)
+        .padding(.vertical, 10)
+        .background(AppTheme.gradient(colors),
+                   in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .cardShadow()
         .accessibilityElement(children: .combine)
     }
 }

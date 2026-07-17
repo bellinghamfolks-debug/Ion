@@ -29,5 +29,6 @@ struct MainTabView: View {
             NavigationStack { SettingsView() }
                 .tabItem { Label("الإعدادات", systemImage: "gearshape.fill") }
         }
+        .tint(AppTheme.brand)   // brand accent across tabs, links and controls
     }
 }

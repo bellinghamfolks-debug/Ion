@@ -19,6 +19,8 @@ final class AppContainer: ObservableObject {
     let audioPackService: AudioPackService
     let reminderService: StudyReminderService
     let backupService: BackupService
+    let accountService: AccountService
+    let progressSyncService: ProgressSyncService
 
     init(
         settings: AppSettings,
@@ -36,7 +38,9 @@ final class AppContainer: ObservableObject {
         contentUpdateService: ContentUpdateService,
         audioPackService: AudioPackService,
         reminderService: StudyReminderService,
-        backupService: BackupService
+        backupService: BackupService,
+        accountService: AccountService,
+        progressSyncService: ProgressSyncService
     ) {
         self.settings = settings
         self.session = session
@@ -54,6 +58,8 @@ final class AppContainer: ObservableObject {
         self.audioPackService = audioPackService
         self.reminderService = reminderService
         self.backupService = backupService
+        self.accountService = accountService
+        self.progressSyncService = progressSyncService
     }
 
     static func live() -> AppContainer {
@@ -66,6 +72,15 @@ final class AppContainer: ObservableObject {
         let client = APIClient(configuration: .init(baseURL: settings.serverURL))
         let speech = SpeechService()
         let textToSpeech = TextToSpeechService()
+        let backup = BackupService(
+            session: session,
+            settings: settings,
+            progressRepository: progress,
+            vocabularyRepository: vocabulary,
+            learningMemoryRepository: memory
+        )
+        let account = AccountService()
+        let progressSync = ProgressSyncService(account: account, backup: backup)
         return AppContainer(
             settings: settings,
             session: session,
@@ -90,13 +105,9 @@ final class AppContainer: ObservableObject {
             contentUpdateService: ContentUpdateService(apiClient: client),
             audioPackService: AudioPackService(apiClient: client, store: store),
             reminderService: StudyReminderService(),
-            backupService: BackupService(
-                session: session,
-                settings: settings,
-                progressRepository: progress,
-                vocabularyRepository: vocabulary,
-                learningMemoryRepository: memory
-            )
+            backupService: backup,
+            accountService: account,
+            progressSyncService: progressSync
         )
     }
 }

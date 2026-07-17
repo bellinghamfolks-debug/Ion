@@ -1,11 +1,17 @@
 import SwiftUI
 import AuthenticationServices
+import PhotosUI
 
 /// Account screen: create an account or sign in (email/password + Sign in with
 /// Apple), then sync progress to/from the server.
 struct AccountView: View {
     @EnvironmentObject private var account: AccountService
     @EnvironmentObject private var sync: ProgressSyncService
+    @StateObject private var avatar = AvatarStore.shared
+    @State private var showSignOutConfirm = false
+    @State private var photoItem: PhotosPickerItem?
+    @State private var showPhotoPicker = false
+    @State private var showCamera = false
 
     var body: some View {
         ScrollView {
@@ -21,6 +27,34 @@ struct AccountView: View {
         .screenBackground()
         .navigationTitle("الحساب والمزامنة")
         .navigationBarTitleDisplayMode(.inline)
+        .photosPicker(isPresented: $showPhotoPicker, selection: $photoItem, matching: .images)
+        .fullScreenCover(isPresented: $showCamera) {
+            CameraPicker { avatar.save($0) }.ignoresSafeArea()
+        }
+        .onChange(of: photoItem) { item in
+            guard let item else { return }
+            Task {
+                if let data = try? await item.loadTransferable(type: Data.self),
+                   let image = UIImage(data: data) {
+                    avatar.save(image)
+                }
+            }
+        }
+    }
+
+    private var avatarCircle: some View {
+        Group {
+            if let image = avatar.image {
+                Image(uiImage: image).resizable().scaledToFill()
+            } else {
+                Image(systemName: "person.fill")
+                    .font(.system(size: 38)).foregroundStyle(.white)
+            }
+        }
+        .frame(width: 92, height: 92)
+        .background(.white.opacity(0.2))
+        .clipShape(Circle())
+        .overlay(Circle().stroke(.white.opacity(0.6), lineWidth: 2))
     }
 
     // MARK: - Signed in
@@ -28,8 +62,21 @@ struct AccountView: View {
     private var signedInContent: some View {
         VStack(spacing: 18) {
             VStack(spacing: 10) {
-                Image(systemName: "person.crop.circle.fill.badge.checkmark")
-                    .font(.system(size: 46)).foregroundStyle(.white)
+                Menu {
+                    Button { showCamera = true } label: { Label("التقاط بالكاميرا", systemImage: "camera") }
+                    Button { showPhotoPicker = true } label: { Label("اختيار من الصور", systemImage: "photo") }
+                    if avatar.image != nil {
+                        Button(role: .destructive) { avatar.clear() } label: { Label("إزالة الصورة", systemImage: "trash") }
+                    }
+                } label: {
+                    ZStack(alignment: .bottomTrailing) {
+                        avatarCircle
+                        Image(systemName: "pencil.circle.fill")
+                            .font(.title3)
+                            .foregroundStyle(AppTheme.brand, .white)
+                    }
+                }
+                .accessibilityLabel("تغيير صورة الملف الشخصي")
                 Text(account.currentUser?.displayName.isEmpty == false
                      ? account.currentUser!.displayName
                      : (account.currentUser?.email ?? "حسابك"))
@@ -69,12 +116,18 @@ struct AccountView: View {
             }
 
             Button(role: .destructive) {
-                account.logout()
+                showSignOutConfirm = true
             } label: {
                 Label("تسجيل الخروج", systemImage: "rectangle.portrait.and.arrow.right")
                     .frame(maxWidth: .infinity, minHeight: 44)
             }
             .buttonStyle(.bordered)
+            .confirmationDialog("تسجيل الخروج", isPresented: $showSignOutConfirm, titleVisibility: .visible) {
+                Button("تسجيل الخروج", role: .destructive) { account.logout() }
+                Button("إلغاء", role: .cancel) {}
+            } message: {
+                Text("تأكّد أنك حفظت تقدّمك في حسابك قبل الخروج. هل تريد تسجيل الخروج؟")
+            }
         }
     }
 

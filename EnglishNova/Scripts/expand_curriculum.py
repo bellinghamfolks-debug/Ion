@@ -464,6 +464,21 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
         "speechText": sentence or None,
     })
 
+    # Interleave for variety so the lesson isn't a predictable, repetitive
+    # "here's a word → now complete the obvious sentence" run: keep the intro
+    # first and review last, front-load the flashcards as a short "learn" phase,
+    # then shuffle the practice items (multiple-choice, listening, fill-blank,
+    # translation, speak) into a mixed, less-guessable order.
+    if len(new_ex) > 3:
+        intro, review = new_ex[0], new_ex[-1]
+        middle = new_ex[1:-1]
+        flashcards = [e for e in middle if e["type"] == "flashcard"]
+        practice = [e for e in middle if e["type"] != "flashcard"]
+        random.Random(f"{lid}:order").shuffle(practice)
+        new_ex = [intro] + flashcards + practice + [review]
+        for index, ex in enumerate(new_ex, start=1):
+            ex["id"] = f"{lid}-e{index}"
+
     lesson["exercises"] = new_ex
     lesson["estimatedMinutes"] = max(10, round(len(new_ex) * 0.8))
     lesson["points"] = max(int(lesson.get("points", 0)), len(new_ex) * 8)

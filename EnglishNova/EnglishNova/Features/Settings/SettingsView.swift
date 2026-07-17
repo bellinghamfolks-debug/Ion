@@ -32,6 +32,14 @@ struct SettingsView: View {
                 }
             }
 
+            Section("اللغة") {
+                Picker("لغة الواجهة", selection: $settings.interfaceLanguage) {
+                    ForEach(AppSettings.InterfaceLanguage.allCases) { Text($0.title).tag($0) }
+                }
+                Text("تُغيّر لغة عناصر الواجهة واتجاهها فورًا.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+
             Section("التعلّم") {
                 Stepper(
                     "الهدف اليومي: \(settings.dailyGoalMinutes) دقيقة",
@@ -169,12 +177,23 @@ struct SettingsView: View {
 
             Section("الوصولية والخصوصية") {
                 NavigationLink("بيان الوصولية") { AccessibilityStatementView() }
-                NavigationLink("سياسة الخصوصية المحلية") { PrivacyView() }
+                NavigationLink("سياسة الخصوصية") { PrivacyView() }
+            }
+
+            Section("تواصل مع المطوّر") {
+                Link(destination: URL(string: "https://x.com/abdullahuksu")!) {
+                    Label("حساب X (تويتر)", systemImage: "bird")
+                }
+                Link(destination: URL(string: "mailto:ubdallahalrashdee@gmail.com")!) {
+                    Label("البريد الإلكتروني", systemImage: "envelope.fill")
+                }
             }
 
             Section("عن التطبيق") {
-                LabeledContent("الإصدار", value: "0.4.0")
-                Text("الدفعة الرابعة مدمجة داخل مشروع EnglishNova نفسه")
+                NavigationLink("دليل الاستخدام") { UsageGuideView() }
+                LabeledContent("الإصدار", value: "1.0.0")
+                Text("EnglishNova — رحلتك لتعلّم الإنجليزية من الصفر إلى الاحتراف، مع مدرّب ذكي ومزامنة لتقدّمك عبر أجهزتك.")
+                    .font(.caption).foregroundStyle(.secondary)
             }
         }
         .navigationTitle("الإعدادات")
@@ -182,11 +201,14 @@ struct SettingsView: View {
             reminderTime = Calendar.current.date(from: DateComponents(hour: settings.reminderHour, minute: settings.reminderMinute)) ?? .now
             await reminderService.refreshAuthorization()
         }
-        .confirmationDialog("هل تريد العودة إلى شاشة البداية؟", isPresented: $showResetConfirmation) {
-            Button("إعادة", role: .destructive) {
+        .alert("العودة إلى شاشة البداية؟", isPresented: $showResetConfirmation) {
+            Button("إلغاء", role: .cancel) {}
+            Button("العودة", role: .destructive) {
                 session.hasCompletedOnboarding = false
                 Task { await session.save() }
             }
+        } message: {
+            Text("سيعيدك هذا إلى خطوات الإعداد الأولى. تقدّمك لن يُحذف، لكن ستمرّ بشاشة البداية من جديد.")
         }
     }
 

@@ -66,7 +66,17 @@ final class SpeechService: ObservableObject {
             }
             self.request = request
             let node = engine.inputNode
-            let format = node.outputFormat(forBus: 0)
+            let format = node.inputFormat(forBus: 0)
+            // A zero sample-rate / zero-channel format means the microphone input
+            // isn't ready (no permission yet, mic in use, or the Simulator).
+            // Installing a tap with it triggers an AVAudioEngine assertion that
+            // crashes the app, so bail out gracefully instead of tapping.
+            guard format.sampleRate > 0, format.channelCount > 0 else {
+                request.endAudio()
+                self.request = nil
+                state = .failed("الميكروفون غير متاح حاليًا. أغلق أي تطبيق يستخدمه ثم حاول مرة أخرى.")
+                return
+            }
             node.removeTap(onBus: 0)
             node.installTap(onBus: 0, bufferSize: 1024, format: format) { buffer, _ in
                 request.append(buffer)

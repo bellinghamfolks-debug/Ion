@@ -9,6 +9,7 @@ struct AccountView: View {
     @EnvironmentObject private var sync: ProgressSyncService
     @StateObject private var avatar = AvatarStore.shared
     @State private var showSignOutConfirm = false
+    @State private var showDeleteConfirm = false
     @State private var photoItem: PhotosPickerItem?
     @State private var showPhotoPicker = false
     @State private var showCamera = false
@@ -128,6 +129,21 @@ struct AccountView: View {
             } message: {
                 Text("تأكّد أنك حفظت تقدّمك في حسابك قبل الخروج. هل تريد تسجيل الخروج؟")
             }
+
+            Button(role: .destructive) {
+                showDeleteConfirm = true
+            } label: {
+                Label("حذف الحساب نهائيًا", systemImage: "trash")
+                    .frame(maxWidth: .infinity, minHeight: 44)
+            }
+            .buttonStyle(.bordered)
+            .tint(.red)
+            .confirmationDialog("حذف الحساب نهائيًا؟", isPresented: $showDeleteConfirm, titleVisibility: .visible) {
+                Button("حذف نهائيًا", role: .destructive) { Task { await account.deleteAccount() } }
+                Button("إلغاء", role: .cancel) {}
+            } message: {
+                Text("سيُحذف حسابك وكل بياناتك من الخادم نهائيًا، ولا يمكن التراجع عن ذلك.")
+            }
         }
     }
 
@@ -167,6 +183,12 @@ struct AccountView: View {
                 }
                 field("البريد الإلكتروني", text: $email, systemImage: "envelope", keyboard: .emailAddress)
                 secureField("كلمة المرور", text: $password)
+                if mode == .register {
+                    Label("٨ أحرف على الأقل، وتحتوي أحرفًا وأرقامًا",
+                          systemImage: passwordStrong ? "checkmark.circle.fill" : "info.circle")
+                        .font(.caption2)
+                        .foregroundStyle(passwordStrong ? AppTheme.success : (password.isEmpty ? .secondary : .orange))
+                }
 
                 if let error = account.lastError {
                     Text(error).font(.caption).foregroundStyle(.red)
@@ -175,7 +197,7 @@ struct AccountView: View {
                 PrimaryButton(title: mode.titleAr,
                               systemImage: mode == .signIn ? "arrow.right.circle.fill" : "person.badge.plus",
                               isLoading: isWorking,
-                              isDisabled: email.isEmpty || password.isEmpty) {
+                              isDisabled: !canSubmit) {
                     Task { await submit() }
                 }
             }
@@ -225,6 +247,17 @@ struct AccountView: View {
         }
         .padding(12)
         .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var passwordStrong: Bool {
+        password.count >= 8
+            && password.contains(where: { $0.isLetter })
+            && password.contains(where: { $0.isNumber })
+    }
+
+    private var canSubmit: Bool {
+        guard !email.isEmpty, !password.isEmpty else { return false }
+        return mode == .signIn || passwordStrong
     }
 
     @MainActor private func submit() async {

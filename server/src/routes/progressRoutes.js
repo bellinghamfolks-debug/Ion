@@ -14,6 +14,13 @@ progressRouter.get("/me", requireAuth, async (req, res) => {
   res.json({ user: publicUser(rows[0]) });
 });
 
+// DELETE /me -> permanently delete the account and all its progress.
+progressRouter.delete("/me", requireAuth, async (req, res) => {
+  // progress rows cascade via ON DELETE CASCADE.
+  await pool.query("DELETE FROM users WHERE id = $1", [req.userId]);
+  res.json({ deleted: true });
+});
+
 // GET /progress -> { data, updatedAt } or { data: null }
 progressRouter.get("/progress", requireAuth, async (req, res) => {
   const { rows } = await pool.query(

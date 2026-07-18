@@ -57,7 +57,7 @@ private struct AudioPacksContent: View {
             Button(L("حسنًا")) { service.errorMessage = nil }
         } message: { Text(service.errorMessage ?? "") }
         .confirmationDialog(
-            "حذف الملفات المحلية؟",
+            L("حذف الملفات المحلية؟"),
             isPresented: Binding(get: { packToDelete != nil },
                                  set: { if !$0 { packToDelete = nil } }),
             titleVisibility: .visible,
@@ -66,7 +66,7 @@ private struct AudioPacksContent: View {
             Button(L("حذف"), role: .destructive) {
                 Task {
                     await service.delete(pack)
-                    ToastCenter.shared.show("تم حذف ملفات الحزمة", style: .info)
+                    ToastCenter.shared.show(L("تم حذف ملفات الحزمة"), style: .info)
                 }
                 packToDelete = nil
             }

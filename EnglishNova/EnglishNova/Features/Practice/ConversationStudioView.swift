@@ -66,11 +66,11 @@ private struct ConversationSessionView: View {
                 Text(L(scenario.titleAr)).font(.largeTitle.bold())
                 Text(scenario.roleAr).foregroundStyle(.secondary)
                 AccessibleProgressView(
-                    title: "الدور \(min(turnIndex + 1, scenario.turns.count)) من \(scenario.turns.count)",
+                    title: Lf("الدور %@ من %@", "\(min(turnIndex + 1, scenario.turns.count))", "\(scenario.turns.count)"),
                     value: scenario.turns.isEmpty ? 0 : Double(turnIndex) / Double(scenario.turns.count)
                 )
 
-                InfoCard(title: "الطرف الآخر", systemImage: "person.crop.circle.fill") {
+                InfoCard(title: L("الطرف الآخر"), systemImage: "person.crop.circle.fill") {
                     let line = turnIndex == 0 ? scenario.openingLine : responseLine
                     HStack(alignment: .top) {
                         Text(line).font(.title3).environment(\.layoutDirection, .leftToRight)
@@ -86,7 +86,7 @@ private struct ConversationSessionView: View {
                 if isFinished {
                     resultCard
                 } else if let turn = currentTurn {
-                    InfoCard(title: "مهمتك", systemImage: "target") {
+                    InfoCard(title: L("مهمتك"), systemImage: "target") {
                         Text(L(turn.promptAr)).font(.headline)
                         Text(L("لا يلزم أن تطابق النموذج حرفيًا. عبّر بطريقتك واذكر الفكرة الأساسية."))
                             .font(.caption).foregroundStyle(.secondary)
@@ -121,11 +121,11 @@ private struct ConversationSessionView: View {
                     }
 
                     if let evaluation {
-                        InfoCard(title: "تقييم محلي", systemImage: evaluation.score >= 0.8 ? "checkmark.seal.fill" : "lightbulb.fill") {
+                        InfoCard(title: L("تقييم محلي"), systemImage: evaluation.score >= 0.8 ? "checkmark.seal.fill" : "lightbulb.fill") {
                             AccessibleProgressView(title: Lf("اكتمال الأفكار %@٪", "\(Int(evaluation.score * 100))"), value: evaluation.score)
                             Text(evaluation.feedbackAr)
                             if !evaluation.matchedIdeas.isEmpty {
-                                Text("الأفكار التي التقطها التقييم: \(evaluation.matchedIdeas.joined(separator: "، "))")
+                                Text(Lf("الأفكار التي التقطها التقييم: %@", "\(evaluation.matchedIdeas.joined(separator: "، "))"))
                                     .font(.caption).foregroundStyle(.secondary)
                             }
                             Divider()
@@ -162,7 +162,7 @@ private struct ConversationSessionView: View {
 
     private var resultCard: some View {
         let average = completedScores.isEmpty ? 0 : completedScores.reduce(0, +) / Double(completedScores.count)
-        return InfoCard(title: "اكتملت المحادثة", systemImage: "flag.checkered") {
+        return InfoCard(title: L("اكتملت المحادثة"), systemImage: "flag.checkered") {
             AccessibleProgressView(title: Lf("النتيجة العامة %@٪", "\(Int(average * 100))"), value: average)
             Text(average >= 0.8 ? L("أدرت الموقف بوضوح وثقة.") : L("أنهيت الموقف. أعده مرة أخرى وحاول إدخال الأفكار التي ظهرت في النماذج."))
             Button(L("إعادة المحادثة")) {
@@ -194,7 +194,7 @@ private struct ConversationSessionView: View {
             if result.score < 0.55 {
                 let mistake = LearningMistake(
                     id: UUID().uuidString,
-                    category: "المحادثة",
+                    category: L("المحادثة"),
                     source: scenario.titleAr,
                     prompt: turn.promptAr,
                     learnerAnswer: response,
@@ -304,7 +304,7 @@ private struct VoiceCoachSessionView: View {
                 Text(L(scenario.titleAr)).font(.largeTitle.bold())
                 Text(scenario.roleAr).foregroundStyle(.secondary)
                 AccessibleProgressView(
-                    title: "الجولة \(min(turnIndex + 1, scenario.turns.count)) من \(scenario.turns.count)",
+                    title: Lf("الجولة %@ من %@", "\(min(turnIndex + 1, scenario.turns.count))", "\(scenario.turns.count)"),
                     value: scenario.turns.isEmpty ? 0 : Double(turnIndex) / Double(scenario.turns.count)
                 )
 
@@ -336,7 +336,7 @@ private struct VoiceCoachSessionView: View {
 
     @ViewBuilder
     private var coachCard: some View {
-        InfoCard(title: "المدرب", systemImage: "waveform.circle.fill") {
+        InfoCard(title: L("المدرب"), systemImage: "waveform.circle.fill") {
             Text(partnerLine.isEmpty ? scenario.openingLine : partnerLine)
                 .font(.title3)
                 .environment(\.layoutDirection, .leftToRight)
@@ -354,7 +354,7 @@ private struct VoiceCoachSessionView: View {
 
     @ViewBuilder
     private func activeTurnView(_ turn: ConversationTurn) -> some View {
-        InfoCard(title: "مهمتك", systemImage: "target") {
+        InfoCard(title: L("مهمتك"), systemImage: "target") {
             Text(L(turn.promptAr)).font(.headline)
             Text(L("النموذج المستخدم للمقارنة الصوتية:"))
                 .font(.caption).foregroundStyle(.secondary)
@@ -395,7 +395,7 @@ private struct VoiceCoachSessionView: View {
         }
 
         if let coachReply {
-            InfoCard(title: "ملاحظة المدرب", systemImage: "brain.head.profile") {
+            InfoCard(title: L("ملاحظة المدرب"), systemImage: "brain.head.profile") {
                 Text(coachReply.feedbackAr)
                 if let suggestion = coachReply.suggestedAnswer {
                     Text(L("صياغة مقترحة:")).font(.caption.bold())
@@ -419,7 +419,7 @@ private struct VoiceCoachSessionView: View {
 
     private var completionCard: some View {
         let average = scores.isEmpty ? 0 : scores.reduce(0, +) / Double(scores.count)
-        return InfoCard(title: "اكتملت الجلسة الصوتية", systemImage: "checkmark.seal.fill") {
+        return InfoCard(title: L("اكتملت الجلسة الصوتية"), systemImage: "checkmark.seal.fill") {
             AccessibleProgressView(title: Lf("متوسط الجلسة %@٪", "\(Int(average * 100))"), value: average)
             Text(average >= 0.82 ? L("استجابتك واضحة ومتوازنة. انتقل إلى موقف أعلى قليلًا.") : L("اكتملت الجلسة. راجع الكلمات المسجلة في دفتر الأخطاء ثم أعد الموقف."))
             Button(L("إعادة الجلسة")) { resetSession() }
@@ -429,7 +429,7 @@ private struct VoiceCoachSessionView: View {
 
     @ViewBuilder
     private func pronunciationReportCard(_ report: PronunciationReport, ideaEvaluation: ConversationEvaluation) -> some View {
-        InfoCard(title: "تقرير الكلام", systemImage: "chart.bar.doc.horizontal.fill") {
+        InfoCard(title: L("تقرير الكلام"), systemImage: "chart.bar.doc.horizontal.fill") {
             AccessibleProgressView(title: Lf("النتيجة الكلية %@٪", "\(Int(report.overall * 100))"), value: report.overall)
             LabeledContent(L("دقة الكلمات"), value: "\(Int(report.accuracy * 100))٪")
             LabeledContent(L("اكتمال الجملة"), value: "\(Int(report.completeness * 100))٪")
@@ -520,7 +520,7 @@ private struct VoiceCoachSessionView: View {
             coachReply = try await container.voiceCoachRepository.reply(to: request)
             partnerLine = coachReply?.reply ?? turn.responseOnSuccess
         } catch {
-            statusMessage = "تعذر إنشاء رد جديد: \(error.localizedDescription)"
+            statusMessage = Lf("تعذر إنشاء رد جديد: %@", "\(error.localizedDescription)")
             partnerLine = combinedScore >= 0.55 ? turn.responseOnSuccess : turn.responseOnRetry
         }
 
@@ -539,12 +539,12 @@ private struct VoiceCoachSessionView: View {
         for weakWord in localReport.needsPractice.prefix(3) where !weakWord.expected.isEmpty {
             await container.learningMemoryRepository.recordMistake(.init(
                 id: UUID().uuidString,
-                category: "النطق",
+                category: L("النطق"),
                 source: scenario.titleAr,
                 prompt: weakWord.expected,
-                learnerAnswer: weakWord.recognized ?? "لم تُلتقط",
+                learnerAnswer: weakWord.recognized ?? L("لم تُلتقط"),
                 correction: weakWord.expected,
-                explanationAr: weakWord.tipAr ?? "أعد الكلمة منفردة ثم داخل الجملة.",
+                explanationAr: weakWord.tipAr ?? L("أعد الكلمة منفردة ثم داخل الجملة."),
                 createdAt: .now,
                 reviewCount: 0,
                 resolved: false
@@ -553,7 +553,7 @@ private struct VoiceCoachSessionView: View {
         if localIdeas.score < 0.5 {
             await container.learningMemoryRepository.recordMistake(.init(
                 id: UUID().uuidString,
-                category: "المحادثة",
+                category: L("المحادثة"),
                 source: scenario.titleAr,
                 prompt: turn.promptAr,
                 learnerAnswer: transcript,

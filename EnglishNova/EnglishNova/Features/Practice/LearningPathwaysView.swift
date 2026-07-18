@@ -68,7 +68,7 @@ struct LearningPathwaysView: View {
             .disabled(selected)
             .accessibilityHint(selected ? L("هذا هو المسار الحالي") : L("يضبط أولويات الخطة اليومية ولا يحذف تقدمك"))
 
-            DisclosureGroup("مراحل المسار") {
+            DisclosureGroup(L("مراحل المسار")) {
                 ForEach(Array(pathway.milestones.enumerated()), id: \.element.id) { index, milestone in
                     HStack(alignment: .top) {
                         Image(systemName: index < progress.completedMilestones ? "checkmark.circle.fill" : "circle")

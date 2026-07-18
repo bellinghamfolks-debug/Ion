@@ -15,7 +15,7 @@ struct AchievementsView: View {
                     Text(L(achievement.titleAr)).font(.headline)
                     Text(L(achievement.descriptionAr)).font(.subheadline).foregroundStyle(.secondary)
                     if !unlocked {
-                        Text("متبقي \(max(0, achievement.requiredPoints - session.points)) نقطة")
+                        Text(Lf("متبقي %@ نقطة", "\(max(0, achievement.requiredPoints - session.points))"))
                             .font(.caption).foregroundStyle(.secondary)
                     }
                 }

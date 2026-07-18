@@ -91,7 +91,7 @@ struct LeaderboardView: View {
         do {
             result = try await service.leaderboard()
         } catch {
-            errorMessage = (error as? LocalizedError)?.errorDescription ?? "تعذّر تحميل لوحة الصدارة."
+            errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذّر تحميل لوحة الصدارة.")
         }
         loading = false
     }

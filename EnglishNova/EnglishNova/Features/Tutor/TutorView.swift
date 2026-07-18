@@ -102,7 +102,7 @@ private struct MessageBubble: View {
                 .padding(10).background(.background, in: RoundedRectangle(cornerRadius: 12))
             }
             if !message.suggestedReplies.isEmpty {
-                Text("اقتراحات: \(message.suggestedReplies.joined(separator: "، "))").font(.caption).foregroundStyle(.secondary)
+                Text(Lf("اقتراحات: %@", "\(message.suggestedReplies.joined(separator: "، "))")).font(.caption).foregroundStyle(.secondary)
             }
             if isAssistant {
                 Button {
@@ -126,10 +126,10 @@ private struct MessageBubble: View {
     private var accessibilityText: String {
         var parts: [String] = [isAssistant ? L("رد المدرّس:") : L("رسالتك:"), message.text]
         for correction in message.corrections {
-            parts.append("تصحيح: \(correction.original) يصبح \(correction.replacement). \(correction.reason)")
+            parts.append(Lf("تصحيح: %@ يصبح %@. %@", "\(correction.original)", "\(correction.replacement)", "\(correction.reason)"))
         }
         if !message.suggestedReplies.isEmpty {
-            parts.append("اقتراحات: \(message.suggestedReplies.joined(separator: "، "))")
+            parts.append(Lf("اقتراحات: %@", "\(message.suggestedReplies.joined(separator: "، "))"))
         }
         return parts.joined(separator: " ")
     }
@@ -146,7 +146,7 @@ struct ConversationHistoryView: View {
             Group {
                 if model.savedConversations.isEmpty {
                     ContentUnavailableView(
-                        "لا توجد محادثات محفوظة بعد",
+                        L("لا توجد محادثات محفوظة بعد"),
                         systemImage: "bubble.left.and.bubble.right",
                         description: Text(L("ستُحفظ محادثاتك مع المدرّس هنا تلقائيًا على هذا الجهاز."))
                     )
@@ -172,7 +172,7 @@ struct ConversationHistoryView: View {
                             let targets = indexSet.map { model.savedConversations[$0] }
                             Task {
                                 for target in targets { await model.delete(target, container: container) }
-                                ToastCenter.shared.show("تم حذف المحادثة", style: .info)
+                                ToastCenter.shared.show(L("تم حذف المحادثة"), style: .info)
                             }
                         }
                     }

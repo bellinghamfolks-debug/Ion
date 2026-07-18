@@ -9,7 +9,7 @@ struct ExerciseRenderer: View {
     var body: some View {
         switch exercise.type {
         case .explanation:
-            InfoCard(title: "شرح", systemImage: "book.fill") { Text(exercise.explanationAr).font(.title3) }
+            InfoCard(title: L("شرح"), systemImage: "book.fill") { Text(exercise.explanationAr).font(.title3) }
         case .multipleChoice, .listenAndChoose:
             VStack(spacing: 12) {
                 if exercise.type == .listenAndChoose {
@@ -78,10 +78,10 @@ private struct ArrangeWordsView: View {
     @Binding var arranged: [String]
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("الجملة الحالية: \(arranged.joined(separator: " "))")
+            Text(Lf("الجملة الحالية: %@", "\(arranged.joined(separator: " "))"))
                 .font(.headline)
                 .environment(\.layoutDirection, .leftToRight)
-                .accessibilityLabel(arranged.isEmpty ? L("لم تختر كلمات بعد") : "الجملة الحالية \(arranged.joined(separator: " "))")
+                .accessibilityLabel(arranged.isEmpty ? L("لم تختر كلمات بعد") : Lf("الجملة الحالية %@", "\(arranged.joined(separator: " "))"))
             ForEach(Array(tokens.enumerated()), id: \.offset) { index, token in
                 Button("\(index + 1). \(token)") { arranged.append(token) }
                     .buttonStyle(.bordered)
@@ -117,7 +117,7 @@ private struct SpeakExerciseView: View {
                     .frame(maxWidth: .infinity, minHeight: 52)
             }
             .buttonStyle(.borderedProminent)
-            Text(speechService.transcript.isEmpty ? "سيظهر كلامك هنا" : speechService.transcript)
+            Text(speechService.transcript.isEmpty ? L("سيظهر كلامك هنا") : speechService.transcript)
                 .frame(maxWidth: .infinity, minHeight: 80, alignment: .topLeading)
                 .padding().background(.background, in: RoundedRectangle(cornerRadius: 14))
                 .environment(\.layoutDirection, .leftToRight)

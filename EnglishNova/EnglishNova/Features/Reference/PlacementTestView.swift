@@ -22,7 +22,7 @@ final class AdaptivePlacementViewModel: ObservableObject {
         answeredCount = engine.responses.count
         isAnswerLocked = true
         let correct = selectedAnswer == question.answer
-        feedbackAr = correct ? "إجابة صحيحة. \(question.explanationAr)" : "الإجابة الصحيحة: \(question.answer). \(question.explanationAr)"
+        feedbackAr = correct ? Lf("إجابة صحيحة. %@", "\(question.explanationAr)") : Lf("الإجابة الصحيحة: %@. %@", "\(question.answer)", "\(question.explanationAr)")
     }
 
     func advance() {
@@ -120,7 +120,7 @@ struct PlacementTestView: View {
                 }
 
                 if let feedback = model.feedbackAr {
-                    InfoCard(title: "التغذية الراجعة", systemImage: "lightbulb.fill") {
+                    InfoCard(title: L("التغذية الراجعة"), systemImage: "lightbulb.fill") {
                         Text(feedback)
                         Text(L("السؤال التالي قد يصبح أسهل أو أصعب بناءً على إجابتك."))
                             .font(.caption)
@@ -155,7 +155,7 @@ struct PlacementTestView: View {
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.secondary)
 
-                InfoCard(title: "خريطة المهارات", systemImage: "chart.bar.xaxis") {
+                InfoCard(title: L("خريطة المهارات"), systemImage: "chart.bar.xaxis") {
                     ForEach(result.skills) { skill in
                         AccessibleProgressView(
                             title: Lf("%@: %@٪ من %@ أسئلة", "\(skill.skill.titleAr)", "\(Int(skill.score * 100))", "\(skill.answered)"),
@@ -168,7 +168,7 @@ struct PlacementTestView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
 
-                PrimaryButton(title: "اعتماد المستوى", systemImage: "checkmark.seal.fill") {
+                PrimaryButton(title: L("اعتماد المستوى"), systemImage: "checkmark.seal.fill") {
                     Task {
                         session.selectedLevel = result.recommendedLevel
                         await session.save()

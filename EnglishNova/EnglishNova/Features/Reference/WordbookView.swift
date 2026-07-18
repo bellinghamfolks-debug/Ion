@@ -83,7 +83,7 @@ struct WordbookView: View {
                 ProgressView(L("جاري تحميل كلماتك"))
             } else if model.filtered.isEmpty {
                 ContentUnavailableView(
-                    "لا توجد كلمات مطابقة",
+                    L("لا توجد كلمات مطابقة"),
                     systemImage: "character.book.closed",
                     description: Text(L("أضف كلمات من الدروس أو غيّر البحث والتصفية."))
                 )
@@ -110,7 +110,7 @@ struct WordbookView: View {
                             .font(.caption).foregroundStyle(.secondary)
                             .environment(\.layoutDirection, .leftToRight)
                         if !card.tags.isEmpty {
-                            Text("التصنيفات: \(card.tags.joined(separator: "، "))")
+                            Text(Lf("التصنيفات: %@", "\(card.tags.joined(separator: "، "))"))
                                 .font(.caption2).foregroundStyle(.secondary)
                         }
                         Text("المراجعة القادمة: \(card.dueDate, format: .dateTime.day().month().year())")
@@ -218,13 +218,13 @@ private struct WordDetailView: View {
             }
         }
         .navigationTitle(L("تفاصيل الكلمة"))
-        .confirmationDialog("حذف \(card.word.english)؟", isPresented: $showDeleteConfirmation,
+        .confirmationDialog(Lf("حذف %@؟", "\(card.word.english)"), isPresented: $showDeleteConfirmation,
                             titleVisibility: .visible) {
             Button(L("حذف"), role: .destructive) {
                 Task {
                     await container.vocabularyRepository.remove(cardID: card.id)
                     await onChange()
-                    ToastCenter.shared.show("تم حذف الكلمة", style: .info)
+                    ToastCenter.shared.show(L("تم حذف الكلمة"), style: .info)
                     dismiss()
                 }
             }

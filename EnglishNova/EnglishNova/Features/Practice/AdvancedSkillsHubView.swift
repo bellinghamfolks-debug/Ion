@@ -7,13 +7,13 @@ struct AdvancedSkillsHubView: View {
         List {
             Section {
                 NavigationLink { ReadingComprehensionLabView() } label: {
-                    skillRow("مختبر القراءة", "نصوص متدرجة مع أسئلة الفكرة والتفاصيل والسياق.", "book.fill", AdvancedSkillsLibrary.readingPassages.count)
+                    skillRow(L("مختبر القراءة"), L("نصوص متدرجة مع أسئلة الفكرة والتفاصيل والسياق."), "book.fill", AdvancedSkillsLibrary.readingPassages.count)
                 }
                 NavigationLink { ListeningComprehensionLabView() } label: {
-                    skillRow("فهم الاستماع", "مقاطع محلية تُنطق بصوت iOS وتُحل دون إظهار النص أولًا.", "headphones", AdvancedSkillsLibrary.listeningPassages.count)
+                    skillRow(L("فهم الاستماع"), L("مقاطع محلية تُنطق بصوت iOS وتُحل دون إظهار النص أولًا."), "headphones", AdvancedSkillsLibrary.listeningPassages.count)
                 }
                 NavigationLink { WritingStudioView() } label: {
-                    skillRow("استوديو الكتابة", "رسائل وفقرات وتقارير مع تقييم محلي متعدد المعايير.", "pencil.line", AdvancedSkillsLibrary.writingPrompts.count)
+                    skillRow(L("استوديو الكتابة"), L("رسائل وفقرات وتقارير مع تقييم محلي متعدد المعايير."), "pencil.line", AdvancedSkillsLibrary.writingPrompts.count)
                 }
             } header: {
                 Text(L("المهارات المتقدمة"))
@@ -99,13 +99,13 @@ struct ReadingComprehensionLabView: View {
                 }
 
                 if submitted {
-                    InfoCard(title: "النتيجة", systemImage: score >= 0.70 ? "checkmark.seal.fill" : "arrow.clockwise.circle.fill") {
+                    InfoCard(title: L("النتيجة"), systemImage: score >= 0.70 ? "checkmark.seal.fill" : "arrow.clockwise.circle.fill") {
                         AccessibleProgressView(title: "\(Int(score * 100))٪", value: score)
                         Text(score >= 0.70 ? L("فهم جيد. راجع الشرح ثم انتقل إلى نص جديد.") : L("أعد قراءة النص وابحث عن الكلمات التي تحمل الإجابة مباشرة."))
-                        PrimaryButton(title: "النص التالي", systemImage: "arrow.forward.circle.fill") { nextPassage() }
+                        PrimaryButton(title: L("النص التالي"), systemImage: "arrow.forward.circle.fill") { nextPassage() }
                     }
                 } else {
-                    PrimaryButton(title: "تصحيح الإجابات", systemImage: "checkmark.circle.fill") { submit() }
+                    PrimaryButton(title: L("تصحيح الإجابات"), systemImage: "checkmark.circle.fill") { submit() }
                         .disabled(answers.count < passage.questions.count)
                 }
             }
@@ -155,9 +155,9 @@ struct ReadingComprehensionLabView: View {
     }
 
     private func accessibilityChoiceLabel(_ choice: String, question: ComprehensionQuestion) -> String {
-        if submitted && choice == question.answer { return "\(choice)، الإجابة الصحيحة" }
-        if submitted && answers[question.id] == choice { return "\(choice)، إجابتك غير صحيحة" }
-        if answers[question.id] == choice { return "\(choice)، محدد" }
+        if submitted && choice == question.answer { return Lf("%@، الإجابة الصحيحة", "\(choice)") }
+        if submitted && answers[question.id] == choice { return Lf("%@، إجابتك غير صحيحة", "\(choice)") }
+        if answers[question.id] == choice { return Lf("%@، محدد", "\(choice)") }
         return choice
     }
 
@@ -183,10 +183,10 @@ struct ReadingComprehensionLabView: View {
             for question in passage.questions where answers[question.id] != question.answer {
                 await container.learningMemoryRepository.recordMistake(.init(
                     id: UUID().uuidString,
-                    category: "القراءة",
+                    category: L("القراءة"),
                     source: passage.titleAr,
                     prompt: question.prompt,
-                    learnerAnswer: answers[question.id] ?? "دون إجابة",
+                    learnerAnswer: answers[question.id] ?? L("دون إجابة"),
                     correction: question.answer,
                     explanationAr: question.explanationAr,
                     createdAt: .now,
@@ -232,7 +232,7 @@ struct ListeningComprehensionLabView: View {
                     replayCount += 1
                     textToSpeech.speak(item.transcript, accent: settings.accentVariant, rate: Float(settings.speechRate))
                 } label: {
-                    Label(replayCount == 0 ? L("تشغيل المقطع") : "إعادة المقطع، شُغّل \(replayCount) مرة", systemImage: "play.circle.fill")
+                    Label(replayCount == 0 ? L("تشغيل المقطع") : Lf("إعادة المقطع، شُغّل %@ مرة", "\(replayCount)"), systemImage: "play.circle.fill")
                 }
                 .buttonStyle(.borderedProminent)
                 Text(Lf("المقترح: %@ تشغيلات أو أقل.", "\(item.recommendedReplays)"))
@@ -250,10 +250,10 @@ struct ListeningComprehensionLabView: View {
                             Label(choice, systemImage: answers[question.id] == choice ? "largecircle.fill.circle" : "circle")
                                 .environment(\.layoutDirection, .leftToRight)
                         }
-                        .accessibilityLabel(answers[question.id] == choice ? "\(choice)، محدد" : choice)
+                        .accessibilityLabel(answers[question.id] == choice ? Lf("%@، محدد", "\(choice)") : choice)
                     }
                     if submitted {
-                        Text(answers[question.id] == question.answer ? L("إجابة صحيحة") : "الصحيح: \(question.answer)")
+                        Text(answers[question.id] == question.answer ? L("إجابة صحيحة") : Lf("الصحيح: %@", "\(question.answer)"))
                             .font(.caption.bold())
                         Text(question.explanationAr).font(.caption).foregroundStyle(.secondary)
                     }
@@ -264,7 +264,7 @@ struct ListeningComprehensionLabView: View {
                 Section(L("النتيجة")) {
                     AccessibleProgressView(title: "\(Int(score * 100))٪", value: score)
                     if settings.revealListeningTranscriptAfterAnswer {
-                        DisclosureGroup("إظهار النص بعد الإجابة") {
+                        DisclosureGroup(L("إظهار النص بعد الإجابة")) {
                             Text(item.transcript).environment(\.layoutDirection, .leftToRight)
                         }
                     }
@@ -293,15 +293,15 @@ struct ListeningComprehensionLabView: View {
                 score: score,
                 minutes: max(2, replayCount + 2),
                 createdAt: .now,
-                details: ["عدد مرات التشغيل: \(replayCount)"]
+                details: [Lf("عدد مرات التشغيل: %@", "\(replayCount)")]
             ))
             for question in item.questions where answers[question.id] != question.answer {
                 await container.learningMemoryRepository.recordMistake(.init(
                     id: UUID().uuidString,
-                    category: "الاستماع",
+                    category: L("الاستماع"),
                     source: item.titleAr,
                     prompt: question.prompt,
-                    learnerAnswer: answers[question.id] ?? "دون إجابة",
+                    learnerAnswer: answers[question.id] ?? L("دون إجابة"),
                     correction: question.answer,
                     explanationAr: question.explanationAr,
                     createdAt: .now,
@@ -338,16 +338,16 @@ struct WritingStudioView: View {
                 Text(L(prompt.titleAr)).font(.largeTitle.bold())
                 Text(L(prompt.kind.titleAr)).font(.headline).foregroundStyle(.secondary)
 
-                InfoCard(title: "المهمة", systemImage: "doc.text.fill") {
+                InfoCard(title: L("المهمة"), systemImage: "doc.text.fill") {
                     Text(prompt.prompt).font(.title3).environment(\.layoutDirection, .leftToRight)
                     Text(L(prompt.promptAr)).foregroundStyle(.secondary)
                     Label(Lf("الحد الأدنى %@ كلمة", "\(prompt.minimumWords)"), systemImage: "number")
-                    Text("مفردات مقترحة: \(prompt.suggestedWords.joined(separator: "، "))")
+                    Text(Lf("مفردات مقترحة: %@", "\(prompt.suggestedWords.joined(separator: "، "))"))
                         .font(.caption)
                         .environment(\.layoutDirection, .leftToRight)
                 }
 
-                InfoCard(title: "قائمة الفحص", systemImage: "checklist") {
+                InfoCard(title: L("قائمة الفحص"), systemImage: "checklist") {
                     ForEach(prompt.checklistAr, id: \.self) { item in
                         Label(item, systemImage: "checkmark.circle")
                     }
@@ -366,12 +366,12 @@ struct WritingStudioView: View {
                         .foregroundStyle(wordCount >= prompt.minimumWords ? Color.secondary : Color.orange)
                 }
 
-                PrimaryButton(title: "تحليل المسودة محليًا", systemImage: "text.magnifyingglass") { analyze() }
+                PrimaryButton(title: L("تحليل المسودة محليًا"), systemImage: "text.magnifyingglass") { analyze() }
                     .disabled(draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
 
                 if let evaluation {
                     evaluationView(evaluation)
-                    DisclosureGroup("نموذج إجابة للمقارنة بعد المحاولة") {
+                    DisclosureGroup(L("نموذج إجابة للمقارنة بعد المحاولة")) {
                         Text(prompt.sampleAnswer)
                             .environment(\.layoutDirection, .leftToRight)
                             .textSelection(.enabled)
@@ -393,19 +393,19 @@ struct WritingStudioView: View {
 
     private func evaluationView(_ value: WritingEvaluation) -> some View {
         VStack(alignment: .leading, spacing: 14) {
-            InfoCard(title: "تقرير الكتابة", systemImage: "chart.bar.doc.horizontal.fill") {
+            InfoCard(title: L("تقرير الكتابة"), systemImage: "chart.bar.doc.horizontal.fill") {
                 AccessibleProgressView(title: Lf("النتيجة الكلية %@٪", "\(Int(value.overall * 100))"), value: value.overall)
-                scoreRow("إنجاز المهمة", value.taskAchievement)
-                scoreRow("التنظيم والترابط", value.organization)
-                scoreRow("تنوع اللغة", value.languageRange)
-                scoreRow("الأساسيات الكتابية", value.mechanics)
+                scoreRow(L("إنجاز المهمة"), value.taskAchievement)
+                scoreRow(L("التنظيم والترابط"), value.organization)
+                scoreRow(L("تنوع اللغة"), value.languageRange)
+                scoreRow(L("الأساسيات الكتابية"), value.mechanics)
                 Text(L("هذا تحليل محلي إرشادي يعتمد على بنية النص ومؤشراته، وليس تصحيحًا بشريًا أو درجة اختبار رسمية."))
                     .font(.caption).foregroundStyle(.secondary)
             }
-            InfoCard(title: "نقاط قوة", systemImage: "hand.thumbsup.fill") {
+            InfoCard(title: L("نقاط قوة"), systemImage: "hand.thumbsup.fill") {
                 ForEach(value.strengthsAr, id: \.self) { Label($0, systemImage: "checkmark.circle.fill") }
             }
-            InfoCard(title: "الخطوة التالية", systemImage: "arrow.up.right.circle.fill") {
+            InfoCard(title: L("الخطوة التالية"), systemImage: "arrow.up.right.circle.fill") {
                 ForEach(value.improvementsAr, id: \.self) { Label($0, systemImage: "lightbulb.fill") }
             }
         }
@@ -435,7 +435,7 @@ struct WritingStudioView: View {
             if value.overall < 0.72 {
                 await container.learningMemoryRepository.recordMistake(.init(
                     id: UUID().uuidString,
-                    category: "الكتابة",
+                    category: L("الكتابة"),
                     source: prompt.titleAr,
                     prompt: prompt.prompt,
                     learnerAnswer: String(draft.prefix(500)),

@@ -67,7 +67,7 @@ private struct StoryReaderView: View {
                 Text(L(story.titleAr)).font(.largeTitle.bold())
                 Text(story.titleEn).font(.title2).foregroundStyle(.secondary).environment(\.layoutDirection, .leftToRight)
                 ForEach(story.paragraphs) { paragraph in
-                    InfoCard(title: "فقرة", systemImage: "text.alignleft") {
+                    InfoCard(title: L("فقرة"), systemImage: "text.alignleft") {
                         HStack(alignment: .top) {
                             Text(paragraph.english).font(.title3).environment(\.layoutDirection, .leftToRight)
                             Spacer()
@@ -77,7 +77,7 @@ private struct StoryReaderView: View {
                         Text(paragraph.arabic).foregroundStyle(.secondary)
                     }
                 }
-                InfoCard(title: "الكلمات المهمة", systemImage: "character.book.closed.fill") {
+                InfoCard(title: L("الكلمات المهمة"), systemImage: "character.book.closed.fill") {
                     ForEach(story.keyWords) { word in
                         VStack(alignment: .leading) {
                             Text("\(word.english): \(word.arabic)").font(.headline).environment(\.layoutDirection, .leftToRight)
@@ -90,7 +90,7 @@ private struct StoryReaderView: View {
                     .buttonStyle(.borderedProminent)
                 }
                 ForEach(story.questions) { question in
-                    InfoCard(title: "سؤال فهم", systemImage: "questionmark.circle.fill") {
+                    InfoCard(title: L("سؤال فهم"), systemImage: "questionmark.circle.fill") {
                         Text(L(question.promptAr)).font(.headline)
                         ForEach(question.choices, id: \.self) { choice in
                             Button {
@@ -105,9 +105,9 @@ private struct StoryReaderView: View {
                             .buttonStyle(.bordered)
                         }
                         if let selected = selectedAnswers[question.id] {
-                            Text(selected == question.answer ? L("إجابة صحيحة") : "الصحيح: \(question.answer)")
+                            Text(selected == question.answer ? L("إجابة صحيحة") : Lf("الصحيح: %@", "\(question.answer)"))
                                 .font(.headline)
-                                .accessibilityLabel(selected == question.answer ? L("إجابة صحيحة") : "إجابة غير صحيحة. الصحيح \(question.answer)")
+                                .accessibilityLabel(selected == question.answer ? L("إجابة صحيحة") : Lf("إجابة غير صحيحة. الصحيح %@", "\(question.answer)"))
                         }
                     }
                 }
@@ -153,7 +153,7 @@ private struct InteractiveStoryPlayerView: View {
                 }
 
                 if let scene {
-                    InfoCard(title: "المشهد", systemImage: "book.pages.fill") {
+                    InfoCard(title: L("المشهد"), systemImage: "book.pages.fill") {
                         HStack(alignment: .top) {
                             Text(scene.english)
                                 .font(.title2.bold())
@@ -193,7 +193,7 @@ private struct InteractiveStoryPlayerView: View {
                     }
                 }
 
-                InfoCard(title: "كلمات القصة", systemImage: "character.book.closed.fill") {
+                InfoCard(title: L("كلمات القصة"), systemImage: "character.book.closed.fill") {
                     ForEach(story.keyWords) { word in
                         HStack {
                             Text(word.english).bold().environment(\.layoutDirection, .leftToRight)

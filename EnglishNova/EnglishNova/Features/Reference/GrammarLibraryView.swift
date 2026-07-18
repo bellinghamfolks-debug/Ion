@@ -40,11 +40,11 @@ private struct GrammarTopicView: View {
             VStack(alignment: .leading, spacing: 18) {
                 Text(L(topic.titleAr)).font(.largeTitle.bold())
                 Text(topic.titleEn).font(.title2).foregroundStyle(.secondary).environment(\.layoutDirection, .leftToRight)
-                InfoCard(title: "الفكرة", systemImage: "lightbulb.fill") { Text(topic.summaryAr) }
-                InfoCard(title: "البنية", systemImage: "function") {
+                InfoCard(title: L("الفكرة"), systemImage: "lightbulb.fill") { Text(topic.summaryAr) }
+                InfoCard(title: L("البنية"), systemImage: "function") {
                     Text(topic.formula).font(.headline.monospaced()).environment(\.layoutDirection, .leftToRight)
                 }
-                InfoCard(title: "أمثلة", systemImage: "text.quote") {
+                InfoCard(title: L("أمثلة"), systemImage: "text.quote") {
                     ForEach(topic.examples) { example in
                         VStack(alignment: .leading, spacing: 5) {
                             HStack {
@@ -58,7 +58,7 @@ private struct GrammarTopicView: View {
                         Divider()
                     }
                 }
-                InfoCard(title: "أخطاء شائعة", systemImage: "exclamationmark.triangle.fill") {
+                InfoCard(title: L("أخطاء شائعة"), systemImage: "exclamationmark.triangle.fill") {
                     ForEach(topic.commonMistakes, id: \.self) { Text("• \($0)") }
                 }
             }

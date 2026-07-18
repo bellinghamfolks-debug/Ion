@@ -79,7 +79,7 @@ struct PronunciationLabView: View {
                         }
                     }
                 }
-                Text(speechService.transcript.isEmpty ? "لا يوجد تفريغ بعد" : speechService.transcript)
+                Text(speechService.transcript.isEmpty ? L("لا يوجد تفريغ بعد") : speechService.transcript)
                     .environment(\.layoutDirection, .leftToRight)
                 if !speechService.transcript.isEmpty && speechService.state != .listening {
                     Button(L("تحليل النطق")) { analyze() }
@@ -89,7 +89,7 @@ struct PronunciationLabView: View {
 
             if let report {
                 Section(L("التقرير")) {
-                    AccessibleProgressView(title: "النتيجة الكلية", value: report.overall)
+                    AccessibleProgressView(title: L("النتيجة الكلية"), value: report.overall)
                     LabeledContent(L("دقة الكلمات"), value: "\(Int(report.accuracy * 100))٪")
                     LabeledContent(L("اكتمال الجملة"), value: "\(Int(report.completeness * 100))٪")
                     LabeledContent(L("الطلاقة"), value: "\(Int(report.fluency * 100))٪")
@@ -139,12 +139,12 @@ struct PronunciationLabView: View {
             for word in value.needsPractice.prefix(3) where !word.expected.isEmpty {
                 await container.learningMemoryRepository.recordMistake(.init(
                     id: UUID().uuidString,
-                    category: "النطق",
-                    source: "مختبر النطق",
+                    category: L("النطق"),
+                    source: L("مختبر النطق"),
                     prompt: word.expected,
-                    learnerAnswer: word.recognized ?? "لم تُلتقط",
+                    learnerAnswer: word.recognized ?? L("لم تُلتقط"),
                     correction: word.expected,
-                    explanationAr: word.tipAr ?? "أعد الكلمة منفردة ثم داخل الجملة.",
+                    explanationAr: word.tipAr ?? L("أعد الكلمة منفردة ثم داخل الجملة."),
                     createdAt: .now,
                     reviewCount: 0,
                     resolved: false
@@ -170,7 +170,7 @@ struct ListeningLabView: View {
             TextField(L("اكتب ما سمعت"), text: $answer, axis: .vertical).environment(\.layoutDirection, .leftToRight)
             if !answer.isEmpty {
                 let score = StringSimilarity.score(sentence, answer)
-                AccessibleProgressView(title: "الدقة", value: score)
+                AccessibleProgressView(title: L("الدقة"), value: score)
                 Button(L("تسجيل النتيجة")) {
                     guard !didRecord else { return }
                     didRecord = true

@@ -70,10 +70,10 @@ struct BackupCenterView: View {
         do {
             exportURL = try await container.backupService.makeTemporaryBackupFile()
             statusMessage = L("تم إنشاء الملف. استخدم زر المشاركة لحفظه في الملفات أو إرساله.")
-            ToastCenter.shared.show("تم إنشاء ملف النسخة")
+            ToastCenter.shared.show(L("تم إنشاء ملف النسخة"))
         } catch {
-            statusMessage = "تعذّر إنشاء الملف: \(error.localizedDescription)"
-            ToastCenter.shared.show("تعذّر إنشاء الملف", style: .error)
+            statusMessage = Lf("تعذّر إنشاء الملف: %@", "\(error.localizedDescription)")
+            ToastCenter.shared.show(L("تعذّر إنشاء الملف"), style: .error)
         }
     }
 }

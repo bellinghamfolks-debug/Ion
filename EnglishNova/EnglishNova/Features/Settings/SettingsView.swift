@@ -21,8 +21,8 @@ struct SettingsView: View {
                             .background(AppTheme.brandGradient, in: Circle())
                         VStack(alignment: .leading, spacing: 2) {
                             Text(account.isAuthenticated
-                                 ? (account.currentUser?.displayName.isEmpty == false ? account.currentUser!.displayName : (account.currentUser?.email ?? "حسابك"))
-                                 : "إنشاء حساب وحفظ التقدّم")
+                                 ? (account.currentUser?.displayName.isEmpty == false ? account.currentUser!.displayName : (account.currentUser?.email ?? L("حسابك")))
+                                 : L("إنشاء حساب وحفظ التقدّم"))
                                 .font(.headline)
                             Text(account.isAuthenticated ? L("الحساب والمزامنة") : L("سجّل الدخول لمزامنة تعلّمك عبر أجهزتك"))
                                 .font(.caption).foregroundStyle(.secondary)
@@ -46,7 +46,7 @@ struct SettingsView: View {
 
             Section(L("التعلّم")) {
                 Stepper(
-                    "الهدف اليومي: \(settings.dailyGoalMinutes) دقيقة",
+                    Lf("الهدف اليومي: %@ دقيقة", "\(settings.dailyGoalMinutes)"),
                     value: $settings.dailyGoalMinutes,
                     in: 5...120,
                     step: 5
@@ -60,7 +60,7 @@ struct SettingsView: View {
                     LabeledContent(L("المسار الحالي"), value: settings.selectedLearningPathway.titleAr)
                 }
                 Stepper(
-                    "هدف الأسبوع: \(settings.weeklyTargetDays) أيام",
+                    Lf("هدف الأسبوع: %@ أيام", "\(settings.weeklyTargetDays)"),
                     value: $settings.weeklyTargetDays,
                     in: 2...7
                 )
@@ -189,7 +189,7 @@ struct SettingsView: View {
             Button(L("العودة"), role: .destructive) {
                 session.hasCompletedOnboarding = false
                 Task { await session.save() }
-                ToastCenter.shared.show("ستبدأ من شاشة الإعداد", style: .info)
+                ToastCenter.shared.show(L("ستبدأ من شاشة الإعداد"), style: .info)
             }
         } message: {
             Text(L("سيعيدك هذا إلى خطوات الإعداد الأولى. تقدّمك لن يُحذف، لكن ستمرّ بشاشة البداية من جديد."))
@@ -208,7 +208,7 @@ struct SettingsView: View {
         } else {
             reminderService.cancel()
             settings.reminderEnabled = false
-            ToastCenter.shared.show("تم إيقاف التذكير", style: .info)
+            ToastCenter.shared.show(L("تم إيقاف التذكير"), style: .info)
         }
     }
 }

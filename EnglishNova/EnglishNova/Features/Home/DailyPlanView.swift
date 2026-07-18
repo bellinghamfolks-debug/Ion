@@ -48,13 +48,13 @@ struct DailyPlanView: View {
                         .font(.largeTitle.bold())
                     Text(L("تتغير الخطة حسب الدروس غير المكتملة، الكلمات المستحقة، ومستوى المهارات."))
                         .foregroundStyle(.secondary)
-                    AccessibleProgressView(title: "إنجاز الخطة", value: plan.progress)
+                    AccessibleProgressView(title: L("إنجاز الخطة"), value: plan.progress)
 
                     ForEach(Array(plan.items.enumerated()), id: \.element.id) { index, item in
                         planItem(item, number: index + 1)
                     }
 
-                    InfoCard(title: "لماذا هذه الخطة؟", systemImage: "wand.and.stars") {
+                    InfoCard(title: L("لماذا هذه الخطة؟"), systemImage: "wand.and.stars") {
                         Text(L("تبدأ بمهمة أساسية، ثم تضيف مراجعة أو تدريب مهارة حتى تقترب من هدفك دون حشو أو ضغط زائد."))
                         if container.settings.reduceLearningPressure {
                             Text(L("وضع التعلّم الهادئ مفعّل، لذلك حُدّدت الخطة بعشر دقائق كحد أقصى."))
@@ -62,7 +62,7 @@ struct DailyPlanView: View {
                         }
                     }
                 } else if let error = model.errorMessage {
-                    ContentUnavailableView("تعذر بناء الخطة", systemImage: "exclamationmark.triangle", description: Text(error))
+                    ContentUnavailableView(L("تعذر بناء الخطة"), systemImage: "exclamationmark.triangle", description: Text(error))
                 }
             }
             .padding(AppTheme.screenPadding)

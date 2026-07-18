@@ -19,7 +19,7 @@ struct ExplainView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                InfoCard(title: "اشرح لي", systemImage: "sparkles") {
+                InfoCard(title: L("اشرح لي"), systemImage: "sparkles") {
                     Text(L("اكتب أي قاعدة أو كلمة إنجليزية وسيشرحها لك المدرّب بالعربية مع مثال بسيط."))
                         .font(.footnote).foregroundStyle(.secondary)
 
@@ -44,7 +44,7 @@ struct ExplainView: View {
                         }
                     }
 
-                    PrimaryButton(title: "اشرح", systemImage: "wand.and.stars", isLoading: loading,
+                    PrimaryButton(title: L("اشرح"), systemImage: "wand.and.stars", isLoading: loading,
                                   isDisabled: trimmed.isEmpty) { run() }
                 }
 
@@ -55,7 +55,7 @@ struct ExplainView: View {
                 }
 
                 if let result {
-                    InfoCard(title: "الشرح", systemImage: "lightbulb.fill", tint: AppTheme.accentTeal) {
+                    InfoCard(title: L("الشرح"), systemImage: "lightbulb.fill", tint: AppTheme.accentTeal) {
                         Text(result.explanationAr)
                         if let example = result.exampleEn, !example.isEmpty {
                             Divider()
@@ -92,7 +92,7 @@ struct ExplainView: View {
             do {
                 result = try await service.explain(concept: query, level: session.selectedLevel.rawValue)
             } catch {
-                errorMessage = (error as? LocalizedError)?.errorDescription ?? "تعذّر الشرح."
+                errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذّر الشرح.")
             }
             loading = false
         }

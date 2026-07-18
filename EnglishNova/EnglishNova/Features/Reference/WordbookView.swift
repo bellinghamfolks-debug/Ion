@@ -9,10 +9,10 @@ enum WordbookFilter: String, CaseIterable, Identifiable {
     var id: String { rawValue }
     var titleAr: String {
         switch self {
-        case .all: return "الكل"
-        case .favorites: return "المفضلة"
-        case .due: return "مستحقة"
-        case .mastered: return "متقنة"
+        case .all: return L("الكل")
+        case .favorites: return L("المفضلة")
+        case .due: return L("مستحقة")
+        case .mastered: return L("متقنة")
         }
     }
 }

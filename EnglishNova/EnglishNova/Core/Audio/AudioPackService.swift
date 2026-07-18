@@ -121,10 +121,10 @@ enum AudioPackError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .insecureURL: return "يجب أن تستخدم ملفات الصوت اتصال HTTPS آمنًا."
-        case .invalidResponse: return "لم يرسل خادم الصوت استجابة صالحة."
-        case .clipTooLarge: return "ملف الصوت أكبر من الحد الآمن للتنزيل."
-        case .checksumMismatch: return "فشل التحقق من سلامة ملف صوتي."
+        case .insecureURL: return L("يجب أن تستخدم ملفات الصوت اتصال HTTPS آمنًا.")
+        case .invalidResponse: return L("لم يرسل خادم الصوت استجابة صالحة.")
+        case .clipTooLarge: return L("ملف الصوت أكبر من الحد الآمن للتنزيل.")
+        case .checksumMismatch: return L("فشل التحقق من سلامة ملف صوتي.")
         }
     }
 }

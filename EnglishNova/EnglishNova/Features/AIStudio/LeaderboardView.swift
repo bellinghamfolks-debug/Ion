@@ -69,7 +69,7 @@ struct LeaderboardView: View {
             }
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("المركز \(entry.rank)، \(entry.name)، \(entry.points) نقطة")
+        .accessibilityLabel(Lf("المركز %@، %@، %@ نقطة", "\(entry.rank)", "\(entry.name)", "\(entry.points)"))
     }
 
     @ViewBuilder

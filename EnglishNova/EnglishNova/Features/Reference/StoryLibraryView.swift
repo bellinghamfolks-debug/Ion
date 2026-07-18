@@ -142,7 +142,7 @@ private struct InteractiveStoryPlayerView: View {
             VStack(alignment: .leading, spacing: 18) {
                 Text(L(story.titleAr)).font(.largeTitle.bold())
                 Text(story.titleEn).font(.title2).foregroundStyle(.secondary).environment(\.layoutDirection, .leftToRight)
-                AccessibleProgressView(title: "النقاط: \(points) من 20", value: min(1, Double(points) / 20))
+                AccessibleProgressView(title: Lf("النقاط: %@ من 20", "\(points)"), value: min(1, Double(points) / 20))
 
                 if let feedback = lastFeedback {
                     Label(feedback, systemImage: "lightbulb.fill")
@@ -200,7 +200,7 @@ private struct InteractiveStoryPlayerView: View {
                             Text(word.arabic).foregroundStyle(.secondary)
                             Spacer()
                             Button { container.textToSpeech.speak(word.english) } label: { Image(systemName: "speaker.wave.2") }
-                                .accessibilityLabel("نطق \(word.english)")
+                                .accessibilityLabel(Lf("نطق %@", "\(word.english)"))
                         }
                     }
                     Button(L("إضافة الكلمات إلى قاموسي")) {
@@ -219,7 +219,7 @@ private struct InteractiveStoryPlayerView: View {
     private func endingView(_ ending: StoryEnding) -> some View {
         InfoCard(title: ending.titleAr, systemImage: "flag.checkered") {
             Text(ending.messageAr).font(.title3)
-            Text("وصلت إلى نهاية \(ending.id). يمكنك إعادة القصة لاكتشاف نهاية أخرى.")
+            Text(Lf("وصلت إلى نهاية %@. يمكنك إعادة القصة لاكتشاف نهاية أخرى.", "\(ending.id)"))
                 .font(.caption).foregroundStyle(.secondary)
             Button(L("إعادة القصة")) { restart() }
                 .buttonStyle(.borderedProminent)

@@ -122,7 +122,7 @@ private struct ConversationSessionView: View {
 
                     if let evaluation {
                         InfoCard(title: "تقييم محلي", systemImage: evaluation.score >= 0.8 ? "checkmark.seal.fill" : "lightbulb.fill") {
-                            AccessibleProgressView(title: "اكتمال الأفكار \(Int(evaluation.score * 100))٪", value: evaluation.score)
+                            AccessibleProgressView(title: Lf("اكتمال الأفكار %@٪", "\(Int(evaluation.score * 100))"), value: evaluation.score)
                             Text(evaluation.feedbackAr)
                             if !evaluation.matchedIdeas.isEmpty {
                                 Text("الأفكار التي التقطها التقييم: \(evaluation.matchedIdeas.joined(separator: "، "))")
@@ -163,7 +163,7 @@ private struct ConversationSessionView: View {
     private var resultCard: some View {
         let average = completedScores.isEmpty ? 0 : completedScores.reduce(0, +) / Double(completedScores.count)
         return InfoCard(title: "اكتملت المحادثة", systemImage: "flag.checkered") {
-            AccessibleProgressView(title: "النتيجة العامة \(Int(average * 100))٪", value: average)
+            AccessibleProgressView(title: Lf("النتيجة العامة %@٪", "\(Int(average * 100))"), value: average)
             Text(average >= 0.8 ? L("أدرت الموقف بوضوح وثقة.") : L("أنهيت الموقف. أعده مرة أخرى وحاول إدخال الأفكار التي ظهرت في النماذج."))
             Button(L("إعادة المحادثة")) {
                 turnIndex = 0
@@ -250,7 +250,7 @@ struct VoiceCoachView: View {
                 Toggle(L("نطق سؤال المدرب تلقائيًا"), isOn: $settings.autoSpeakCoachPrompts)
             }
 
-            Section("مناسب لمستواك \(session.selectedLevel.rawValue)") {
+            Section(Lf("مناسب لمستواك %@", "\(session.selectedLevel.rawValue)")) {
                 ForEach(recommended) { scenario in
                     NavigationLink {
                         VoiceCoachSessionView(scenario: scenario)
@@ -258,7 +258,7 @@ struct VoiceCoachView: View {
                         VStack(alignment: .leading, spacing: 5) {
                             Text(L(scenario.titleAr)).font(.headline)
                             Text(scenario.titleEn).environment(\.layoutDirection, .leftToRight)
-                            Text("\(scenario.turns.count) جولات • \(scenario.roleAr)")
+                            Text(Lf("%@ جولات • %@", "\(scenario.turns.count)", "\(scenario.roleAr)"))
                                 .font(.caption).foregroundStyle(.secondary)
                         }
                     }
@@ -420,7 +420,7 @@ private struct VoiceCoachSessionView: View {
     private var completionCard: some View {
         let average = scores.isEmpty ? 0 : scores.reduce(0, +) / Double(scores.count)
         return InfoCard(title: "اكتملت الجلسة الصوتية", systemImage: "checkmark.seal.fill") {
-            AccessibleProgressView(title: "متوسط الجلسة \(Int(average * 100))٪", value: average)
+            AccessibleProgressView(title: Lf("متوسط الجلسة %@٪", "\(Int(average * 100))"), value: average)
             Text(average >= 0.82 ? L("استجابتك واضحة ومتوازنة. انتقل إلى موقف أعلى قليلًا.") : L("اكتملت الجلسة. راجع الكلمات المسجلة في دفتر الأخطاء ثم أعد الموقف."))
             Button(L("إعادة الجلسة")) { resetSession() }
                 .buttonStyle(.borderedProminent)
@@ -430,11 +430,11 @@ private struct VoiceCoachSessionView: View {
     @ViewBuilder
     private func pronunciationReportCard(_ report: PronunciationReport, ideaEvaluation: ConversationEvaluation) -> some View {
         InfoCard(title: "تقرير الكلام", systemImage: "chart.bar.doc.horizontal.fill") {
-            AccessibleProgressView(title: "النتيجة الكلية \(Int(report.overall * 100))٪", value: report.overall)
+            AccessibleProgressView(title: Lf("النتيجة الكلية %@٪", "\(Int(report.overall * 100))"), value: report.overall)
             LabeledContent(L("دقة الكلمات"), value: "\(Int(report.accuracy * 100))٪")
             LabeledContent(L("اكتمال الجملة"), value: "\(Int(report.completeness * 100))٪")
             LabeledContent(L("الطلاقة"), value: "\(Int(report.fluency * 100))٪")
-            LabeledContent(L("السرعة"), value: "\(Int(report.wordsPerMinute)) كلمة في الدقيقة")
+            LabeledContent(L("السرعة"), value: Lf("%@ كلمة في الدقيقة", "\(Int(report.wordsPerMinute))"))
             LabeledContent(L("اكتمال أفكار الموقف"), value: "\(Int(ideaEvaluation.score * 100))٪")
             Text(L("التقييم الصوتي هنا يعتمد على تفريغ الكلام وتوقيته وثقة نظام التعرف، وليس فحصًا مخبريًا لمخارج الحروف."))
                 .font(.caption).foregroundStyle(.secondary)
@@ -453,7 +453,7 @@ private struct VoiceCoachSessionView: View {
                             Text(L(word.issue.titleAr)).font(.caption.bold())
                         }
                         if let recognized = word.recognized, recognized != word.expected {
-                            Text("سمعها النظام: \(recognized)")
+                            Text(Lf("سمعها النظام: %@", "\(recognized)"))
                                 .font(.caption).environment(\.layoutDirection, .leftToRight)
                         }
                         if let tip = word.tipAr { Text(tip).font(.caption).foregroundStyle(.secondary) }

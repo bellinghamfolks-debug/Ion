@@ -166,7 +166,7 @@ struct ConversationHistoryView: View {
                                     .font(.caption).foregroundStyle(.secondary)
                                 }
                             }
-                            .accessibilityLabel("محادثة: \(conversation.title)، \(conversation.provider.titleAr)")
+                            .accessibilityLabel(Lf("محادثة: %@، %@", "\(conversation.title)", "\(conversation.provider.titleAr)"))
                         }
                         .onDelete { indexSet in
                             let targets = indexSet.map { model.savedConversations[$0] }

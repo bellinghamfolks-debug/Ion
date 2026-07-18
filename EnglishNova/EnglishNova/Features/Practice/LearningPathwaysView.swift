@@ -42,20 +42,20 @@ struct LearningPathwaysView: View {
         return InfoCard(title: pathway.titleAr, systemImage: pathway.id.systemImage) {
             Text(pathway.detailAr).foregroundStyle(.secondary)
             HStack {
-                Label("الهدف \(pathway.targetLevel.rawValue)", systemImage: "scope")
+                Label(Lf("الهدف %@", "\(pathway.targetLevel.rawValue)"), systemImage: "scope")
                 Spacer()
-                Label("نحو \(pathway.estimatedWeeks) أسبوعًا", systemImage: "calendar")
+                Label(Lf("نحو %@ أسبوعًا", "\(pathway.estimatedWeeks)"), systemImage: "calendar")
             }
             .font(.caption)
             AccessibleProgressView(
-                title: "\(progress.completedMilestones) من \(progress.totalMilestones) مراحل",
+                title: Lf("%@ من %@ مراحل", "\(progress.completedMilestones)", "\(progress.totalMilestones)"),
                 value: progress.overallProgress
             )
             if let current = progress.currentMilestone {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("المرحلة الحالية: \(current.titleAr)").font(.headline)
+                    Text(Lf("المرحلة الحالية: %@", "\(current.titleAr)")).font(.headline)
                     Text(current.detailAr).font(.caption).foregroundStyle(.secondary)
-                    AccessibleProgressView(title: "تقدم المرحلة \(Int(progress.currentMilestoneProgress * 100))٪", value: progress.currentMilestoneProgress)
+                    AccessibleProgressView(title: Lf("تقدم المرحلة %@٪", "\(Int(progress.currentMilestoneProgress * 100))"), value: progress.currentMilestoneProgress)
                 }
             } else if progress.completedMilestones == progress.totalMilestones {
                 Label(L("اكتملت مراحل المسار المسجلة"), systemImage: "checkmark.seal.fill")
@@ -75,7 +75,7 @@ struct LearningPathwaysView: View {
                             .accessibilityHidden(true)
                         VStack(alignment: .leading) {
                             Text(L(milestone.titleAr)).font(.subheadline.bold())
-                            Text("\(milestone.requiredSessions) جلسة، متوسط \(Int(milestone.requiredAverageScore * 100))٪")
+                            Text(Lf("%@ جلسة، متوسط %@٪", "\(milestone.requiredSessions)", "\(Int(milestone.requiredAverageScore * 100))"))
                                 .font(.caption).foregroundStyle(.secondary)
                         }
                     }

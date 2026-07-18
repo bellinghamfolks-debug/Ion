@@ -9,13 +9,13 @@ struct ReviewView: View {
             if model.isLoading {
                 ProgressView(L("جاري تجهيز البطاقات"))
             } else if let card = model.current {
-                Text("متبقي \(model.remaining)").font(.subheadline).foregroundStyle(.secondary)
+                Text(Lf("متبقي %@", "\(model.remaining)")).font(.subheadline).foregroundStyle(.secondary)
                 Spacer()
                 VStack(spacing: 18) {
                     Text(card.word.english).font(.system(size: 44, weight: .bold, design: .rounded)).environment(\.layoutDirection, .leftToRight)
                     if let phonetic = card.word.phonetic { Text(phonetic).foregroundStyle(.secondary) }
                     VStack(spacing: 4) {
-                        Text("احتمال التذكر الآن \(Int(card.estimatedRetrievability() * 100))٪")
+                        Text(Lf("احتمال التذكر الآن %@٪", "\(Int(card.estimatedRetrievability() * 100))"))
                         Text("ثبات الذاكرة \(String(format: "%.1f", card.stabilityDays)) يوم • الانتكاسات \(card.lapses)")
                     }
                     .font(.caption)

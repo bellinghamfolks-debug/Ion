@@ -79,7 +79,7 @@ struct AIExerciseView: View {
     }
 
     private func questionCard(number: Int, question: ExerciseQuestion) -> some View {
-        InfoCard(title: "سؤال \(number)", systemImage: "questionmark.circle.fill") {
+        InfoCard(title: Lf("سؤال %@", "\(number)"), systemImage: "questionmark.circle.fill") {
             Text(question.prompt)
                 .font(.body.weight(.medium))
                 .environment(\.layoutDirection, .leftToRight)

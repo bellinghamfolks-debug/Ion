@@ -86,7 +86,7 @@ aiRouter.post("/tutor", requireAuth, aiLimit, async (req, res) => {
       userText,
       config: {
         temperature: 0.5,
-        maxOutputTokens: 800,
+        maxOutputTokens: 1200,
         responseMimeType: "application/json",
         responseSchema: {
           type: "object",
@@ -310,7 +310,9 @@ aiRouter.post("/exercise", requireAuth, aiLimit, async (req, res) => {
       userText,
       config: {
         temperature: 0.7,
-        maxOutputTokens: 900,
+        // 5 full MCQs is a lot of JSON; Gemini 3.x also spends tokens thinking
+        // first, so give a big budget or the questions come back truncated/empty.
+        maxOutputTokens: 2400,
         responseMimeType: "application/json",
         responseSchema: {
           type: "object",
@@ -335,8 +337,13 @@ aiRouter.post("/exercise", requireAuth, aiLimit, async (req, res) => {
     });
     let parsed = {};
     try { parsed = JSON.parse(raw || "{}"); } catch { parsed = { questions: [] }; }
-    const result = { questions: Array.isArray(parsed.questions) ? parsed.questions : [], source: "server" };
-    if (result.questions.length) cacheSet(cacheKey, result, 24 * 60 * 60 * 1000); // 1 day
+    const questions = Array.isArray(parsed.questions) ? parsed.questions : [];
+    if (!questions.length) {
+      // Empty/truncated output — surface a retryable error, not a silent blank.
+      return res.status(502).json({ error: "ai_empty" });
+    }
+    const result = { questions, source: "server" };
+    cacheSet(cacheKey, result, 24 * 60 * 60 * 1000); // 1 day
     logEvent(req.userId, "ai_exercise", { level, topic });
     res.json(result);
   } catch (e) {

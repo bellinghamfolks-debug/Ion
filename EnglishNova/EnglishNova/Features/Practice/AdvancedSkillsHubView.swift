@@ -16,27 +16,27 @@ struct AdvancedSkillsHubView: View {
                     skillRow("استوديو الكتابة", "رسائل وفقرات وتقارير مع تقييم محلي متعدد المعايير.", "pencil.line", AdvancedSkillsLibrary.writingPrompts.count)
                 }
             } header: {
-                Text("المهارات المتقدمة")
+                Text(L("المهارات المتقدمة"))
             } footer: {
-                Text("تعمل المكتبات والتقييمات الأساسية محليًا. يمكن تطويرها لاحقًا بتغذية راجعة من الخادم دون تعطيل الوضع غير المتصل.")
+                Text(L("تعمل المكتبات والتقييمات الأساسية محليًا. يمكن تطويرها لاحقًا بتغذية راجعة من الخادم دون تعطيل الوضع غير المتصل."))
             }
 
-            Section("المسار والتحليل") {
+            Section(L("المسار والتحليل")) {
                 NavigationLink { LearningPathwaysView() } label: {
                     Label("مساري: \(settings.selectedLearningPathway.titleAr)", systemImage: settings.selectedLearningPathway.systemImage)
                 }
                 NavigationLink { WeeklyProgressReportView() } label: {
-                    Label("تقرير الأسبوع القابل للمشاركة", systemImage: "doc.text.image.fill")
+                    Label(L("تقرير الأسبوع القابل للمشاركة"), systemImage: "doc.text.image.fill")
                 }
             }
 
-            Section("كيف يعمل التقييم؟") {
-                Label("القراءة والاستماع: صحة الإجابات مع تسجيل الإتقان المتناقص بمرور الوقت.", systemImage: "checkmark.circle")
-                Label("الكتابة: إنجاز المهمة، والتنظيم، والتنوع، والأساسيات الكتابية.", systemImage: "text.badge.checkmark")
-                Label("لا يزعم التقييم المحلي أنه درجة IELTS رسمية أو تدقيق لغوي بشري.", systemImage: "info.circle")
+            Section(L("كيف يعمل التقييم؟")) {
+                Label(L("القراءة والاستماع: صحة الإجابات مع تسجيل الإتقان المتناقص بمرور الوقت."), systemImage: "checkmark.circle")
+                Label(L("الكتابة: إنجاز المهمة، والتنظيم، والتنوع، والأساسيات الكتابية."), systemImage: "text.badge.checkmark")
+                Label(L("لا يزعم التقييم المحلي أنه درجة IELTS رسمية أو تدقيق لغوي بشري."), systemImage: "info.circle")
             }
         }
-        .navigationTitle("مختبرات اللغة")
+        .navigationTitle(L("مختبرات اللغة"))
     }
 
     private func skillRow(_ title: String, _ detail: String, _ icon: String, _ count: Int) -> some View {
@@ -90,7 +90,7 @@ struct ReadingComprehensionLabView: View {
                     Button {
                         textToSpeech.speak(passage.text)
                     } label: {
-                        Label("استمع إلى النص", systemImage: "speaker.wave.2.fill")
+                        Label(L("استمع إلى النص"), systemImage: "speaker.wave.2.fill")
                     }
                 }
 
@@ -112,7 +112,7 @@ struct ReadingComprehensionLabView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("مختبر القراءة")
+        .navigationTitle(L("مختبر القراءة"))
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -224,7 +224,7 @@ struct ListeningComprehensionLabView: View {
 
     var body: some View {
         Form {
-            Section("الموقف") {
+            Section(L("الموقف")) {
                 Text(L(item.titleAr)).font(.title2.bold())
                 Text(item.contextAr).foregroundStyle(.secondary)
                 Label("المستوى \(item.level.rawValue)", systemImage: "gauge.with.dots.needle.33percent")
@@ -261,21 +261,21 @@ struct ListeningComprehensionLabView: View {
             }
 
             if submitted {
-                Section("النتيجة") {
+                Section(L("النتيجة")) {
                     AccessibleProgressView(title: "\(Int(score * 100))٪", value: score)
                     if settings.revealListeningTranscriptAfterAnswer {
                         DisclosureGroup("إظهار النص بعد الإجابة") {
                             Text(item.transcript).environment(\.layoutDirection, .leftToRight)
                         }
                     }
-                    Button("المقطع التالي") { nextItem() }
+                    Button(L("المقطع التالي")) { nextItem() }
                 }
             } else {
-                Button("تصحيح الإجابات") { submit() }
+                Button(L("تصحيح الإجابات")) { submit() }
                     .disabled(answers.count < item.questions.count)
             }
         }
-        .navigationTitle("فهم الاستماع")
+        .navigationTitle(L("فهم الاستماع"))
         .onDisappear { textToSpeech.stop() }
     }
 
@@ -354,13 +354,13 @@ struct WritingStudioView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("مسودتك").font(.title2.bold())
+                    Text(L("مسودتك")).font(.title2.bold())
                     TextEditor(text: $draft)
                         .frame(minHeight: 240)
                         .padding(8)
                         .background(.background, in: RoundedRectangle(cornerRadius: 14))
                         .environment(\.layoutDirection, .leftToRight)
-                        .accessibilityLabel("حقل كتابة المسودة باللغة الإنجليزية")
+                        .accessibilityLabel(L("حقل كتابة المسودة باللغة الإنجليزية"))
                     Text("\(wordCount) كلمة")
                         .font(.caption.monospacedDigit())
                         .foregroundStyle(wordCount >= prompt.minimumWords ? Color.secondary : Color.orange)
@@ -376,14 +376,14 @@ struct WritingStudioView: View {
                             .environment(\.layoutDirection, .leftToRight)
                             .textSelection(.enabled)
                     }
-                    Button("مهمة جديدة") { nextPrompt() }
+                    Button(L("مهمة جديدة")) { nextPrompt() }
                         .buttonStyle(.borderedProminent)
                 }
             }
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("استوديو الكتابة")
+        .navigationTitle(L("استوديو الكتابة"))
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -399,7 +399,7 @@ struct WritingStudioView: View {
                 scoreRow("التنظيم والترابط", value.organization)
                 scoreRow("تنوع اللغة", value.languageRange)
                 scoreRow("الأساسيات الكتابية", value.mechanics)
-                Text("هذا تحليل محلي إرشادي يعتمد على بنية النص ومؤشراته، وليس تصحيحًا بشريًا أو درجة اختبار رسمية.")
+                Text(L("هذا تحليل محلي إرشادي يعتمد على بنية النص ومؤشراته، وليس تصحيحًا بشريًا أو درجة اختبار رسمية."))
                     .font(.caption).foregroundStyle(.secondary)
             }
             InfoCard(title: "نقاط قوة", systemImage: "hand.thumbsup.fill") {

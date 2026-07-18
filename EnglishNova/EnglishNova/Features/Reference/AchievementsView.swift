@@ -25,6 +25,6 @@ struct AchievementsView: View {
             .accessibilityElement(children: .combine)
             .accessibilityValue(unlocked ? "مفتوح" : "مغلق")
         }
-        .navigationTitle("الإنجازات")
+        .navigationTitle(L("الإنجازات"))
     }
 }

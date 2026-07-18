@@ -26,7 +26,7 @@ struct AccountView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("الحساب والمزامنة")
+        .navigationTitle(L("الحساب والمزامنة"))
         .navigationBarTitleDisplayMode(.inline)
         .photosPicker(isPresented: $showPhotoPicker, selection: $photoItem, matching: .images)
         .fullScreenCover(isPresented: $showCamera) {
@@ -64,10 +64,10 @@ struct AccountView: View {
         VStack(spacing: 18) {
             VStack(spacing: 10) {
                 Menu {
-                    Button { showCamera = true } label: { Label("التقاط بالكاميرا", systemImage: "camera") }
-                    Button { showPhotoPicker = true } label: { Label("اختيار من الصور", systemImage: "photo") }
+                    Button { showCamera = true } label: { Label(L("التقاط بالكاميرا"), systemImage: "camera") }
+                    Button { showPhotoPicker = true } label: { Label(L("اختيار من الصور"), systemImage: "photo") }
                     if avatar.image != nil {
-                        Button(role: .destructive) { avatar.clear() } label: { Label("إزالة الصورة", systemImage: "trash") }
+                        Button(role: .destructive) { avatar.clear() } label: { Label(L("إزالة الصورة"), systemImage: "trash") }
                     }
                 } label: {
                     ZStack(alignment: .bottomTrailing) {
@@ -77,7 +77,7 @@ struct AccountView: View {
                             .foregroundStyle(AppTheme.brand, .white)
                     }
                 }
-                .accessibilityLabel("تغيير صورة الملف الشخصي")
+                .accessibilityLabel(L("تغيير صورة الملف الشخصي"))
                 Text(account.currentUser?.displayName.isEmpty == false
                      ? account.currentUser!.displayName
                      : (account.currentUser?.email ?? "حسابك"))
@@ -93,7 +93,7 @@ struct AccountView: View {
             .shadow(color: AppTheme.brand.opacity(0.3), radius: 14, y: 7)
 
             InfoCard(title: "مزامنة التقدّم", systemImage: "arrow.triangle.2.circlepath", tint: AppTheme.accentTeal) {
-                Text("يُحفظ تقدّمك (النقاط، السلسلة، المهارات، القاموس، الإعدادات) في حسابك لتستعيده على أي جهاز.")
+                Text(L("يُحفظ تقدّمك (النقاط، السلسلة، المهارات، القاموس، الإعدادات) في حسابك لتستعيده على أي جهاز."))
                     .font(.footnote).foregroundStyle(.secondary)
                 if let when = sync.lastSyncedAt {
                     Label(when.formatted(date: .abbreviated, time: .shortened), systemImage: "clock")
@@ -106,7 +106,7 @@ struct AccountView: View {
                 Button {
                     Task { await sync.pull() }
                 } label: {
-                    Label("استعادة التقدّم من الحساب", systemImage: "icloud.and.arrow.down")
+                    Label(L("استعادة التقدّم من الحساب"), systemImage: "icloud.and.arrow.down")
                         .frame(maxWidth: .infinity, minHeight: 44)
                 }
                 .buttonStyle(.bordered)
@@ -119,30 +119,30 @@ struct AccountView: View {
             Button(role: .destructive) {
                 showSignOutConfirm = true
             } label: {
-                Label("تسجيل الخروج", systemImage: "rectangle.portrait.and.arrow.right")
+                Label(L("تسجيل الخروج"), systemImage: "rectangle.portrait.and.arrow.right")
                     .frame(maxWidth: .infinity, minHeight: 44)
             }
             .buttonStyle(.bordered)
-            .confirmationDialog("تسجيل الخروج", isPresented: $showSignOutConfirm, titleVisibility: .visible) {
-                Button("تسجيل الخروج", role: .destructive) { account.logout() }
-                Button("إلغاء", role: .cancel) {}
+            .confirmationDialog(L("تسجيل الخروج"), isPresented: $showSignOutConfirm, titleVisibility: .visible) {
+                Button(L("تسجيل الخروج"), role: .destructive) { account.logout() }
+                Button(L("إلغاء"), role: .cancel) {}
             } message: {
-                Text("تأكّد أنك حفظت تقدّمك في حسابك قبل الخروج. هل تريد تسجيل الخروج؟")
+                Text(L("تأكّد أنك حفظت تقدّمك في حسابك قبل الخروج. هل تريد تسجيل الخروج؟"))
             }
 
             Button(role: .destructive) {
                 showDeleteConfirm = true
             } label: {
-                Label("حذف الحساب نهائيًا", systemImage: "trash")
+                Label(L("حذف الحساب نهائيًا"), systemImage: "trash")
                     .frame(maxWidth: .infinity, minHeight: 44)
             }
             .buttonStyle(.bordered)
             .tint(.red)
-            .confirmationDialog("حذف الحساب نهائيًا؟", isPresented: $showDeleteConfirm, titleVisibility: .visible) {
-                Button("حذف نهائيًا", role: .destructive) { Task { await account.deleteAccount() } }
-                Button("إلغاء", role: .cancel) {}
+            .confirmationDialog(L("حذف الحساب نهائيًا؟"), isPresented: $showDeleteConfirm, titleVisibility: .visible) {
+                Button(L("حذف نهائيًا"), role: .destructive) { Task { await account.deleteAccount() } }
+                Button(L("إلغاء"), role: .cancel) {}
             } message: {
-                Text("سيُحذف حسابك وكل بياناتك من الخادم نهائيًا، ولا يمكن التراجع عن ذلك.")
+                Text(L("سيُحذف حسابك وكل بياناتك من الخادم نهائيًا، ولا يمكن التراجع عن ذلك."))
             }
         }
     }
@@ -164,9 +164,9 @@ struct AccountView: View {
             VStack(spacing: 6) {
                 Image(systemName: "graduationcap.circle.fill")
                     .font(.system(size: 44)).foregroundStyle(AppTheme.brand)
-                Text("احفظ تقدّمك في السحابة")
+                Text(L("احفظ تقدّمك في السحابة"))
                     .font(.title3.bold())
-                Text("أنشئ حسابًا لمزامنة تعلّمك عبر أجهزتك.")
+                Text(L("أنشئ حسابًا لمزامنة تعلّمك عبر أجهزتك."))
                     .font(.footnote).foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
@@ -184,7 +184,7 @@ struct AccountView: View {
                 field("البريد الإلكتروني", text: $email, systemImage: "envelope", keyboard: .emailAddress)
                 secureField("كلمة المرور", text: $password)
                 if mode == .register {
-                    Label("٨ أحرف على الأقل، وتحتوي أحرفًا وأرقامًا",
+                    Label(L("٨ أحرف على الأقل، وتحتوي أحرفًا وأرقامًا"),
                           systemImage: passwordStrong ? "checkmark.circle.fill" : "info.circle")
                         .font(.caption2)
                         .foregroundStyle(passwordStrong ? AppTheme.success : (password.isEmpty ? .secondary : .orange))
@@ -204,7 +204,7 @@ struct AccountView: View {
 
             HStack {
                 Rectangle().fill(.secondary.opacity(0.3)).frame(height: 1)
-                Text("أو").font(.caption).foregroundStyle(.secondary)
+                Text(L("أو")).font(.caption).foregroundStyle(.secondary)
                 Rectangle().fill(.secondary.opacity(0.3)).frame(height: 1)
             }
 
@@ -217,7 +217,7 @@ struct AccountView: View {
             .frame(height: AppTheme.minimumTapHeight)
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
 
-            Text("Sign in with Apple يتطلب نسخة موقّعة بحساب مطوّر Apple؛ قد لا يعمل في النسخة المثبّتة يدويًا. البريد وكلمة المرور يعملان دائمًا.")
+            Text(L("Sign in with Apple يتطلب نسخة موقّعة بحساب مطوّر Apple؛ قد لا يعمل في النسخة المثبّتة يدويًا. البريد وكلمة المرور يعملان دائمًا."))
                 .font(.caption2).foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }

@@ -13,7 +13,7 @@ struct LeaderboardView: View {
     var body: some View {
         List {
             if let me = result?.me {
-                Section("ترتيبك") {
+                Section(L("ترتيبك")) {
                     HStack(spacing: 12) {
                         Text("#\(me.rank)")
                             .font(.title3.bold())
@@ -28,21 +28,21 @@ struct LeaderboardView: View {
                 }
             }
 
-            Section("أفضل المتعلّمين") {
+            Section(L("أفضل المتعلّمين")) {
                 if loading {
-                    HStack(spacing: 10) { ProgressView(); Text("جارٍ التحميل…").foregroundStyle(.secondary) }
+                    HStack(spacing: 10) { ProgressView(); Text(L("جارٍ التحميل…")).foregroundStyle(.secondary) }
                 } else if let errorMessage {
                     Label(errorMessage, systemImage: "exclamationmark.triangle.fill")
                         .font(.footnote).foregroundStyle(.orange)
                 } else if (result?.top.isEmpty ?? true) {
-                    Text("لا يوجد متصدّرون بعد. احفظ تقدّمك من شاشة الحساب لتكون أول المتصدّرين!")
+                    Text(L("لا يوجد متصدّرون بعد. احفظ تقدّمك من شاشة الحساب لتكون أول المتصدّرين!"))
                         .font(.footnote).foregroundStyle(.secondary)
                 } else {
                     ForEach(result?.top ?? []) { entry in row(entry) }
                 }
             }
         }
-        .navigationTitle("لوحة الصدارة")
+        .navigationTitle(L("لوحة الصدارة"))
         .navigationBarTitleDisplayMode(.inline)
         .task { await load() }
         .refreshable { await load() }
@@ -55,7 +55,7 @@ struct LeaderboardView: View {
                 .font(.subheadline.weight(entry.isMe ? .bold : .regular))
                 .foregroundStyle(entry.isMe ? AppTheme.brand : .primary)
             if entry.isMe {
-                Text("أنت").font(.caption2.bold())
+                Text(L("أنت")).font(.caption2.bold())
                     .padding(.horizontal, 6).padding(.vertical, 2)
                     .background(AppTheme.brand.opacity(0.15), in: Capsule())
                     .foregroundStyle(AppTheme.brand)

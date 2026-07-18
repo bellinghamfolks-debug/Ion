@@ -7,7 +7,7 @@ struct ReviewView: View {
     var body: some View {
         VStack(spacing: 20) {
             if model.isLoading {
-                ProgressView("جاري تجهيز البطاقات")
+                ProgressView(L("جاري تجهيز البطاقات"))
             } else if let card = model.current {
                 Text("متبقي \(model.remaining)").font(.subheadline).foregroundStyle(.secondary)
                 Spacer()
@@ -21,7 +21,7 @@ struct ReviewView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .accessibilityElement(children: .combine)
-                    Button { container.textToSpeech.speak(card.word.english) } label: { Label("استمع", systemImage: "speaker.wave.2.fill") }
+                    Button { container.textToSpeech.speak(card.word.english) } label: { Label(L("استمع"), systemImage: "speaker.wave.2.fill") }
                     if model.showingAnswer {
                         Divider()
                         Text(card.word.arabic).font(.title.bold())
@@ -36,8 +36,8 @@ struct ReviewView: View {
                 Spacer()
                 if model.showingAnswer {
                     VStack(spacing: 10) {
-                        Text("ما مدى سهولة تذكرك؟").font(.headline)
-                        Text("ستحدد الإجابة موعد البطاقة القادم وفق ثباتها وصعوبتها، لا بفاصل ثابت لجميع الكلمات.")
+                        Text(L("ما مدى سهولة تذكرك؟")).font(.headline)
+                        Text(L("ستحدد الإجابة موعد البطاقة القادم وفق ثباتها وصعوبتها، لا بفاصل ثابت لجميع الكلمات."))
                             .font(.caption).foregroundStyle(.secondary)
                         HStack {
                             ForEach(ReviewGrade.allCases, id: \.rawValue) { grade in
@@ -50,12 +50,12 @@ struct ReviewView: View {
                     PrimaryButton(title: "إظهار المعنى", systemImage: "eye.fill") { model.showingAnswer = true }
                 }
             } else {
-                ContentUnavailableView("لا توجد مراجعات مستحقة", systemImage: "checkmark.seal.fill", description: Text("عُد بعد دراسة بعض الدروس أو عندما يحين موعد البطاقات."))
+                ContentUnavailableView("لا توجد مراجعات مستحقة", systemImage: "checkmark.seal.fill", description: Text(L("عُد بعد دراسة بعض الدروس أو عندما يحين موعد البطاقات.")))
             }
         }
         .padding(AppTheme.screenPadding)
         .screenBackground()
-        .navigationTitle("المراجعة الذكية")
+        .navigationTitle(L("المراجعة الذكية"))
         .task { await model.load(repository: container.vocabularyRepository) }
     }
 }

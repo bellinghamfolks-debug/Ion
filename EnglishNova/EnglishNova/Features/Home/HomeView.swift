@@ -25,11 +25,11 @@ struct HomeView: View {
         .navigationTitle("EnglishNova")
         .task { await model.load(container: container) }
         .refreshable { await model.load(container: container) }
-        .alert("تعذر التحميل", isPresented: Binding(
+        .alert(L("تعذر التحميل"), isPresented: Binding(
             get: { model.errorMessage != nil },
             set: { if !$0 { model.errorMessage = nil } }
         )) {
-            Button("حسنًا") { model.errorMessage = nil }
+            Button(L("حسنًا")) { model.errorMessage = nil }
         } message: { Text(model.errorMessage ?? "") }
     }
 
@@ -116,7 +116,7 @@ struct HomeView: View {
                         Label(item.titleAr, systemImage: item.kind.systemImage)
                             .font(.subheadline)
                     }
-                    Text("افتح الخطة لمعرفة سبب اختيار كل نشاط.")
+                    Text(L("افتح الخطة لمعرفة سبب اختيار كل نشاط."))
                         .font(.caption).foregroundStyle(.secondary)
                 }
             }
@@ -128,7 +128,7 @@ struct HomeView: View {
     @ViewBuilder private var personalCoach: some View {
         if settings.adaptiveCoachEnabled, !model.personalizedRecommendations.isEmpty {
             InfoCard(title: "مدربك الشخصي", systemImage: "brain.head.profile") {
-                Text("هذه الاقتراحات مبنية على تقدمك وأخطائك الحديثة، لا على ترتيب ثابت.")
+                Text(L("هذه الاقتراحات مبنية على تقدمك وأخطائك الحديثة، لا على ترتيب ثابت."))
                     .font(.caption).foregroundStyle(.secondary)
                 ForEach(model.personalizedRecommendations.prefix(3)) { recommendation in
                     NavigationLink {
@@ -180,13 +180,13 @@ struct HomeView: View {
             .buttonStyle(.plain)
             .navigationDestination(for: Lesson.self) { LessonPlayerView(lesson: $0) }
         } else if model.isLoading {
-            ProgressView("جاري تجهيز رحلتك التعليمية")
+            ProgressView(L("جاري تجهيز رحلتك التعليمية"))
         }
     }
 
     private var quickActions: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("وصول سريع").font(.title2.bold())
+            Text(L("وصول سريع")).font(.title2.bold())
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                 NavigationLink { PracticeHubView() } label: { QuickActionCard(title: "تدريب", icon: "mic.fill", colors: [AppTheme.brand, AppTheme.brandSecondary]) }
                 NavigationLink { ReviewView() } label: { QuickActionCard(title: "مراجعة \(model.dueCount)", icon: "rectangle.stack.fill", colors: [AppTheme.accentTeal, AppTheme.success]) }
@@ -251,7 +251,7 @@ private struct HomeLeaderboardCard: View {
                             Text(medal(entry.rank))
                             Text(entry.name).lineLimit(1)
                             if entry.isMe {
-                                Text("أنت").font(.caption2.bold()).foregroundStyle(AppTheme.brand)
+                                Text(L("أنت")).font(.caption2.bold()).foregroundStyle(AppTheme.brand)
                             }
                             Spacer()
                             Text("\(entry.points)").monospacedDigit().foregroundStyle(.secondary)
@@ -259,9 +259,9 @@ private struct HomeLeaderboardCard: View {
                         .font(.subheadline)
                     }
                     if !loaded {
-                        Text("جارٍ التحميل…").font(.caption).foregroundStyle(.secondary)
+                        Text(L("جارٍ التحميل…")).font(.caption).foregroundStyle(.secondary)
                     } else if top.isEmpty && me == nil {
-                        Text("احفظ تقدّمك من شاشة الحساب لتدخل المنافسة.")
+                        Text(L("احفظ تقدّمك من شاشة الحساب لتدخل المنافسة."))
                             .font(.caption).foregroundStyle(.secondary)
                     }
                 }

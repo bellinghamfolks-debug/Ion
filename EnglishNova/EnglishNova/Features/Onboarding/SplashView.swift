@@ -30,7 +30,7 @@ struct SplashView: View {
                         .font(.system(size: 38, weight: .heavy, design: .rounded))
                         .foregroundStyle(.white)
                         .environment(\.layoutDirection, .leftToRight)
-                    Text("رحلتك إلى الإنجليزية")
+                    Text(L("رحلتك إلى الإنجليزية"))
                         .font(.headline)
                         .foregroundStyle(.white.opacity(0.9))
                 }
@@ -44,6 +44,6 @@ struct SplashView: View {
             withAnimation(.easeInOut(duration: 1.4).repeatForever(autoreverses: true)) { glow = true }
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("EnglishNova، رحلتك إلى الإنجليزية")
+        .accessibilityLabel(L("EnglishNova، رحلتك إلى الإنجليزية"))
     }
 }

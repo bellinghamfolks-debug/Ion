@@ -15,9 +15,9 @@ struct StoryLibraryView: View {
 
     var body: some View {
         List {
-            Section("تصفية المستوى") {
-                Picker("المستوى", selection: $levelFilter) {
-                    Text("الكل").tag(CEFRLevel?.none)
+            Section(L("تصفية المستوى")) {
+                Picker(L("المستوى"), selection: $levelFilter) {
+                    Text(L("الكل")).tag(CEFRLevel?.none)
                     ForEach(CEFRLevel.allCases) { level in
                         Text(level.rawValue).tag(Optional(level))
                     }
@@ -25,7 +25,7 @@ struct StoryLibraryView: View {
                 .pickerStyle(.segmented)
             }
 
-            Section("قصص تفاعلية متفرعة") {
+            Section(L("قصص تفاعلية متفرعة")) {
                 ForEach(interactiveStories) { story in
                     NavigationLink {
                         InteractiveStoryPlayerView(story: story)
@@ -39,7 +39,7 @@ struct StoryLibraryView: View {
                 }
             }
 
-            Section("قراءة وفهم") {
+            Section(L("قراءة وفهم")) {
                 ForEach(gradedStories) { story in
                     NavigationLink {
                         StoryReaderView(story: story)
@@ -52,7 +52,7 @@ struct StoryLibraryView: View {
                 }
             }
         }
-        .navigationTitle("القصص المتدرجة")
+        .navigationTitle(L("القصص المتدرجة"))
     }
 }
 
@@ -72,7 +72,7 @@ private struct StoryReaderView: View {
                             Text(paragraph.english).font(.title3).environment(\.layoutDirection, .leftToRight)
                             Spacer()
                             Button { container.textToSpeech.speak(paragraph.english) } label: { Image(systemName: "speaker.wave.2.fill") }
-                                .accessibilityLabel("نطق الفقرة")
+                                .accessibilityLabel(L("نطق الفقرة"))
                         }
                         Text(paragraph.arabic).foregroundStyle(.secondary)
                     }
@@ -84,7 +84,7 @@ private struct StoryReaderView: View {
                             Text(word.example).environment(\.layoutDirection, .leftToRight)
                         }
                     }
-                    Button("إضافة الكلمات إلى المراجعة") {
+                    Button(L("إضافة الكلمات إلى المراجعة")) {
                         Task { await container.vocabularyRepository.add(words: story.keyWords) }
                     }
                     .buttonStyle(.borderedProminent)
@@ -162,7 +162,7 @@ private struct InteractiveStoryPlayerView: View {
                             Button { container.textToSpeech.speak(scene.english) } label: {
                                 Image(systemName: "speaker.wave.2.fill")
                             }
-                            .accessibilityLabel("نطق نص المشهد")
+                            .accessibilityLabel(L("نطق نص المشهد"))
                         }
                         Text(scene.arabic).foregroundStyle(.secondary)
                         if let hint = scene.narratorHintAr {
@@ -188,7 +188,7 @@ private struct InteractiveStoryPlayerView: View {
                                 .padding(.vertical, 8)
                             }
                             .buttonStyle(.bordered)
-                            .accessibilityHint("ينقلك هذا الاختيار إلى المشهد التالي")
+                            .accessibilityHint(L("ينقلك هذا الاختيار إلى المشهد التالي"))
                         }
                     }
                 }
@@ -203,7 +203,7 @@ private struct InteractiveStoryPlayerView: View {
                                 .accessibilityLabel("نطق \(word.english)")
                         }
                     }
-                    Button("إضافة الكلمات إلى قاموسي") {
+                    Button(L("إضافة الكلمات إلى قاموسي")) {
                         Task { await container.vocabularyRepository.add(words: story.keyWords) }
                     }
                     .buttonStyle(.borderedProminent)
@@ -221,7 +221,7 @@ private struct InteractiveStoryPlayerView: View {
             Text(ending.messageAr).font(.title3)
             Text("وصلت إلى نهاية \(ending.id). يمكنك إعادة القصة لاكتشاف نهاية أخرى.")
                 .font(.caption).foregroundStyle(.secondary)
-            Button("إعادة القصة") { restart() }
+            Button(L("إعادة القصة")) { restart() }
                 .buttonStyle(.borderedProminent)
         }
         .task(id: ending.id) {

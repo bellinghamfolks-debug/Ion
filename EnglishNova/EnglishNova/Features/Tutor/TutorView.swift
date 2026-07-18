@@ -11,7 +11,7 @@ struct TutorView: View {
     var body: some View {
         VStack(spacing: 0) {
             if !networkMonitor.isConnected && container.settings.tutorProvider != .device {
-                Label("وضع دون إنترنت: يعمل المصحح المحلي", systemImage: "wifi.slash")
+                Label(L("وضع دون إنترنت: يعمل المصحح المحلي"), systemImage: "wifi.slash")
                     .font(.caption).padding(8).frame(maxWidth: .infinity).background(.thinMaterial)
             }
             ScrollViewReader { proxy in
@@ -27,8 +27,8 @@ struct TutorView: View {
                             .id(message.id)
                         }
                         if model.isSending {
-                            ProgressView("يفكر المدرّس")
-                                .accessibilityLabel("المدرّس يكتب الرد")
+                            ProgressView(L("يفكر المدرّس"))
+                                .accessibilityLabel(L("المدرّس يكتب الرد"))
                         }
                     }
                     .padding()
@@ -39,31 +39,31 @@ struct TutorView: View {
             }
             Divider()
             HStack(alignment: .bottom, spacing: 10) {
-                TextField("اكتب رسالتك بالإنجليزية أو العربية", text: $model.draft, axis: .vertical)
+                TextField(L("اكتب رسالتك بالإنجليزية أو العربية"), text: $model.draft, axis: .vertical)
                     .textFieldStyle(.roundedBorder).lineLimit(1...5)
                 Button {
                     Task { await model.send(container: container, level: session.selectedLevel) }
                 } label: { Image(systemName: "paperplane.fill").frame(width: 44, height: 44) }
                 .buttonStyle(.borderedProminent)
                 .disabled(model.draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || model.isSending)
-                .accessibilityLabel("إرسال")
+                .accessibilityLabel(L("إرسال"))
             }
             .padding()
         }
         .screenBackground()
-        .navigationTitle("المدرّس التفاعلي")
+        .navigationTitle(L("المدرّس التفاعلي"))
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button {
                     model.startNewConversation(container: container)
                 } label: { Image(systemName: "square.and.pencil") }
-                .accessibilityLabel("محادثة جديدة")
+                .accessibilityLabel(L("محادثة جديدة"))
 
                 Button {
                     Task { await model.loadHistory(container: container) }
                     showHistory = true
                 } label: { Image(systemName: "clock.arrow.circlepath") }
-                .accessibilityLabel("المحادثات المحفوظة")
+                .accessibilityLabel(L("المحادثات المحفوظة"))
             }
         }
         .sheet(isPresented: $showHistory) {
@@ -72,8 +72,8 @@ struct TutorView: View {
         }
         .task { await model.loadHistory(container: container) }
         .onDisappear { model.stopSpeaking(container: container) }
-        .alert("تعذر الإرسال", isPresented: .constant(model.errorMessage != nil)) {
-            Button("حسنًا") { model.errorMessage = nil }
+        .alert(L("تعذر الإرسال"), isPresented: .constant(model.errorMessage != nil)) {
+            Button(L("حسنًا")) { model.errorMessage = nil }
         } message: { Text(model.errorMessage ?? "") }
     }
 }
@@ -148,7 +148,7 @@ struct ConversationHistoryView: View {
                     ContentUnavailableView(
                         "لا توجد محادثات محفوظة بعد",
                         systemImage: "bubble.left.and.bubble.right",
-                        description: Text("ستُحفظ محادثاتك مع المدرّس هنا تلقائيًا على هذا الجهاز.")
+                        description: Text(L("ستُحفظ محادثاتك مع المدرّس هنا تلقائيًا على هذا الجهاز."))
                     )
                 } else {
                     List {
@@ -178,11 +178,11 @@ struct ConversationHistoryView: View {
                     }
                 }
             }
-            .navigationTitle("المحادثات المحفوظة")
+            .navigationTitle(L("المحادثات المحفوظة"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("تم") { dismiss() }
+                    Button(L("تم")) { dismiss() }
                 }
             }
         }

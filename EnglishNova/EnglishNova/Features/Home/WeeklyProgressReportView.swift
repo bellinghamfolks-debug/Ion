@@ -28,9 +28,9 @@ struct WeeklyProgressReportView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 if model.isLoading {
-                    ProgressView("جاري إعداد التقرير محليًا")
+                    ProgressView(L("جاري إعداد التقرير محليًا"))
                 } else if let report = model.report {
-                    Text("تقرير الأسبوع").font(.largeTitle.bold())
+                    Text(L("تقرير الأسبوع")).font(.largeTitle.bold())
                     Text("من \(report.startDate.formatted(date: .abbreviated, time: .omitted)) إلى \(report.endDate.formatted(date: .abbreviated, time: .omitted))")
                         .foregroundStyle(.secondary)
 
@@ -43,11 +43,11 @@ struct WeeklyProgressReportView: View {
                     }
 
                     InfoCard(title: "الأرقام", systemImage: "chart.bar.fill") {
-                        LabeledContent("وقت التعلم", value: "\(report.totalMinutes) دقيقة")
-                        LabeledContent("الدروس المكتملة", value: "\(report.completedLessons)")
-                        LabeledContent("جلسات المهارات", value: "\(report.practiceSessions)")
-                        LabeledContent("متوسط المهارات", value: "\(Int(report.averagePracticeScore * 100))٪")
-                        LabeledContent("بطاقات مستحقة", value: "\(report.dueReviewCount)")
+                        LabeledContent(L("وقت التعلم"), value: "\(report.totalMinutes) دقيقة")
+                        LabeledContent(L("الدروس المكتملة"), value: "\(report.completedLessons)")
+                        LabeledContent(L("جلسات المهارات"), value: "\(report.practiceSessions)")
+                        LabeledContent(L("متوسط المهارات"), value: "\(Int(report.averagePracticeScore * 100))٪")
+                        LabeledContent(L("بطاقات مستحقة"), value: "\(report.dueReviewCount)")
                     }
 
                     if let strongest = report.strongestDomain {
@@ -70,19 +70,19 @@ struct WeeklyProgressReportView: View {
                     }
 
                     ShareLink(item: report.shareText) {
-                        Label("مشاركة التقرير كنص", systemImage: "square.and.arrow.up")
+                        Label(L("مشاركة التقرير كنص"), systemImage: "square.and.arrow.up")
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
 
-                    Text("التقرير خاص بجهازك ويُبنى من بيانات التعلّم المحلية. لا تُرفع بياناته تلقائيًا.")
+                    Text(L("التقرير خاص بجهازك ويُبنى من بيانات التعلّم المحلية. لا تُرفع بياناته تلقائيًا."))
                         .font(.caption).foregroundStyle(.secondary)
                 }
             }
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("التقرير الأسبوعي")
+        .navigationTitle(L("التقرير الأسبوعي"))
         .task { await model.load(container: container) }
         .refreshable { await model.load(container: container) }
     }

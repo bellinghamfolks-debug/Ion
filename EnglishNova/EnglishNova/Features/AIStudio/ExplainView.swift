@@ -20,12 +20,12 @@ struct ExplainView: View {
         ScrollView {
             VStack(spacing: 16) {
                 InfoCard(title: "اشرح لي", systemImage: "sparkles") {
-                    Text("اكتب أي قاعدة أو كلمة إنجليزية وسيشرحها لك المدرّب بالعربية مع مثال بسيط.")
+                    Text(L("اكتب أي قاعدة أو كلمة إنجليزية وسيشرحها لك المدرّب بالعربية مع مثال بسيط."))
                         .font(.footnote).foregroundStyle(.secondary)
 
                     HStack {
                         Image(systemName: "text.book.closed").foregroundStyle(.secondary).frame(width: 22)
-                        TextField("مثال: Present Perfect", text: $concept)
+                        TextField(L("مثال: Present Perfect"), text: $concept)
                             .environment(\.layoutDirection, .leftToRight)
                             .submitLabel(.go)
                             .onSubmit(run)
@@ -59,7 +59,7 @@ struct ExplainView: View {
                         Text(result.explanationAr)
                         if let example = result.exampleEn, !example.isEmpty {
                             Divider()
-                            Label("مثال", systemImage: "quote.opening")
+                            Label(L("مثال"), systemImage: "quote.opening")
                                 .font(.caption.bold()).foregroundStyle(.secondary)
                             Text(example)
                                 .font(.body.weight(.medium))
@@ -71,7 +71,7 @@ struct ExplainView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("اشرح لي")
+        .navigationTitle(L("اشرح لي"))
         .navigationBarTitleDisplayMode(.inline)
         .task {
             if let initialConcept, concept.isEmpty, result == nil {

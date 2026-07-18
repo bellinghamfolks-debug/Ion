@@ -22,11 +22,11 @@ struct LearningInsightsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 if model.isLoading {
-                    ProgressView("جاري تحليل تقدمك محليًا")
+                    ProgressView(L("جاري تحليل تقدمك محليًا"))
                 } else if let insights = model.insights {
-                    Text("لوحة التقدم")
+                    Text(L("لوحة التقدم"))
                         .font(.largeTitle.bold())
-                    Text("لا توجد مقارنات مع مستخدمين آخرين. الأرقام تخص رحلتك فقط.")
+                    Text(L("لا توجد مقارنات مع مستخدمين آخرين. الأرقام تخص رحلتك فقط."))
                         .foregroundStyle(.secondary)
 
                     ForEach(insights.insights) { insight in
@@ -41,8 +41,8 @@ struct LearningInsightsView: View {
                             title: "متوسط أفضل نتيجة \(Int(insights.averageLessonScore * 100))٪",
                             value: insights.averageLessonScore
                         )
-                        LabeledContent("إجمالي المحاولات", value: "\(insights.totalAttempts)")
-                        LabeledContent("كلمات مستحقة", value: "\(insights.dueVocabulary)")
+                        LabeledContent(L("إجمالي المحاولات"), value: "\(insights.totalAttempts)")
+                        LabeledContent(L("كلمات مستحقة"), value: "\(insights.dueVocabulary)")
                     }
 
                     if let strongest = insights.strongestSkill {
@@ -55,8 +55,8 @@ struct LearningInsightsView: View {
                     if let focus = insights.focusSkill {
                         InfoCard(title: "المهارة المقترحة للتركيز", systemImage: "location.fill") {
                             Text(L(focus.skill.titleAr)).font(.title2.bold())
-                            Text("اختر نشاطًا قصيرًا لهذه المهارة، ثم عد إلى خطتك الأساسية.")
-                            NavigationLink("فتح مركز التدريب") { PracticeHubView() }
+                            Text(L("اختر نشاطًا قصيرًا لهذه المهارة، ثم عد إلى خطتك الأساسية."))
+                            NavigationLink(L("فتح مركز التدريب")) { PracticeHubView() }
                         }
                     }
                 }
@@ -64,7 +64,7 @@ struct LearningInsightsView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("التحليلات")
+        .navigationTitle(L("التحليلات"))
         .task { await model.load(container: container) }
         .refreshable { await model.load(container: container) }
     }

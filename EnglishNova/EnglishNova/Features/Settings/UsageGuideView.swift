@@ -22,7 +22,7 @@ struct UsageGuideView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("دليل الاستخدام")
+        .navigationTitle(L("دليل الاستخدام"))
         .navigationBarTitleDisplayMode(.inline)
     }
 

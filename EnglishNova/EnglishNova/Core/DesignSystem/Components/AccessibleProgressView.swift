@@ -8,7 +8,7 @@ struct AccessibleProgressView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text(title).font(.subheadline.weight(.semibold))
+                Text(L(title)).font(.subheadline.weight(.semibold))
                 Spacer()
                 Text(clamped, format: .percent.precision(.fractionLength(0)))
                     .monospacedDigit()
@@ -27,7 +27,7 @@ struct AccessibleProgressView: View {
             .frame(height: 10)
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(title)
+        .accessibilityLabel(L(title))
         .accessibilityValue(Text(clamped, format: .percent.precision(.fractionLength(0))))
     }
 

@@ -19,12 +19,12 @@ struct AIExerciseView: View {
         ScrollView {
             VStack(spacing: 16) {
                 InfoCard(title: "مولّد التمارين", systemImage: "wand.and.stars") {
-                    Text("اختر موضوعًا وسيولّد لك المدرّب تمارين اختيار من متعدد مناسبة لمستواك.")
+                    Text(L("اختر موضوعًا وسيولّد لك المدرّب تمارين اختيار من متعدد مناسبة لمستواك."))
                         .font(.footnote).foregroundStyle(.secondary)
 
                     HStack {
                         Image(systemName: "tag").foregroundStyle(.secondary).frame(width: 22)
-                        TextField("موضوع (مثال: Travel)", text: $topic)
+                        TextField(L("موضوع (مثال: Travel)"), text: $topic)
                             .environment(\.layoutDirection, .leftToRight)
                             .submitLabel(.go)
                             .onSubmit(generate)
@@ -61,8 +61,8 @@ struct AIExerciseView: View {
                     if revealed {
                         InfoCard(title: "النتيجة", systemImage: "rosette", tint: AppTheme.success) {
                             AccessibleProgressView(title: "إجاباتك الصحيحة", value: scoreRatio)
-                            LabeledContent("الصحيحة", value: "\(correctCount)/\(questions.count)")
-                            Button("تمرين جديد") { reset() }
+                            LabeledContent(L("الصحيحة"), value: "\(correctCount)/\(questions.count)")
+                            Button(L("تمرين جديد")) { reset() }
                                 .buttonStyle(.bordered)
                         }
                     } else {
@@ -74,7 +74,7 @@ struct AIExerciseView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("مولّد التمارين")
+        .navigationTitle(L("مولّد التمارين"))
         .navigationBarTitleDisplayMode(.inline)
     }
 

@@ -20,8 +20,8 @@ struct LearningPathwaysView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text("اختر وجهتك").font(.largeTitle.bold())
-                Text("المسار لا يقفل المحتوى. إنه يغيّر الأولويات ويحوّل الجلسات المسجلة إلى مراحل قابلة للقياس.")
+                Text(L("اختر وجهتك")).font(.largeTitle.bold())
+                Text(L("المسار لا يقفل المحتوى. إنه يغيّر الأولويات ويحوّل الجلسات المسجلة إلى مراحل قابلة للقياس."))
                     .foregroundStyle(.secondary)
 
                 ForEach(LearningPathwayCatalog.all) { pathway in
@@ -31,7 +31,7 @@ struct LearningPathwaysView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("مسارات التعلّم")
+        .navigationTitle(L("مسارات التعلّم"))
         .task { await model.load(container: container) }
         .refreshable { await model.load(container: container) }
     }
@@ -58,7 +58,7 @@ struct LearningPathwaysView: View {
                     AccessibleProgressView(title: "تقدم المرحلة \(Int(progress.currentMilestoneProgress * 100))٪", value: progress.currentMilestoneProgress)
                 }
             } else if progress.completedMilestones == progress.totalMilestones {
-                Label("اكتملت مراحل المسار المسجلة", systemImage: "checkmark.seal.fill")
+                Label(L("اكتملت مراحل المسار المسجلة"), systemImage: "checkmark.seal.fill")
             }
             Button(selected ? "المسار المحدد" : "اختيار هذا المسار") {
                 settings.selectedLearningPathway = pathway.id

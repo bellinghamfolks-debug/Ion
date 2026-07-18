@@ -24,7 +24,7 @@ struct InfoCard<Content: View>: View {
                     .background(AppTheme.gradient([tint, tint.opacity(0.7)]),
                                 in: RoundedRectangle(cornerRadius: 9, style: .continuous))
                     .accessibilityHidden(true)
-                Text(title).font(.headline)
+                Text(L(title)).font(.headline)
             }
             content
         }

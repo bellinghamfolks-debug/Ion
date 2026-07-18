@@ -61,8 +61,8 @@ struct WordbookView: View {
 
     var body: some View {
         List {
-            Section("التصفية") {
-                Picker("نوع الكلمات", selection: $model.filter) {
+            Section(L("التصفية")) {
+                Picker(L("نوع الكلمات"), selection: $model.filter) {
                     ForEach(WordbookFilter.allCases) { filter in
                         Text(L(filter.titleAr)).tag(filter)
                     }
@@ -70,8 +70,8 @@ struct WordbookView: View {
                 .pickerStyle(.segmented)
 
                 if !model.tags.isEmpty {
-                    Picker("التصنيف", selection: $model.selectedTag) {
-                        Text("كل التصنيفات").tag("")
+                    Picker(L("التصنيف"), selection: $model.selectedTag) {
+                        Text(L("كل التصنيفات")).tag("")
                         ForEach(model.tags, id: \.self) { Text($0).tag($0) }
                     }
                 }
@@ -80,12 +80,12 @@ struct WordbookView: View {
             }
 
             if model.isLoading {
-                ProgressView("جاري تحميل كلماتك")
+                ProgressView(L("جاري تحميل كلماتك"))
             } else if model.filtered.isEmpty {
                 ContentUnavailableView(
                     "لا توجد كلمات مطابقة",
                     systemImage: "character.book.closed",
-                    description: Text("أضف كلمات من الدروس أو غيّر البحث والتصفية.")
+                    description: Text(L("أضف كلمات من الدروس أو غيّر البحث والتصفية."))
                 )
             }
 
@@ -99,7 +99,7 @@ struct WordbookView: View {
                         HStack {
                             Text(card.word.english).font(.headline).environment(\.layoutDirection, .leftToRight)
                             if card.isFavorite {
-                                Image(systemName: "star.fill").accessibilityLabel("مفضلة")
+                                Image(systemName: "star.fill").accessibilityLabel(L("مفضلة"))
                             }
                             Spacer()
                             Text("\(Int(card.confidence * 100))٪")
@@ -135,8 +135,8 @@ struct WordbookView: View {
                 }
             }
         }
-        .searchable(text: $model.query, prompt: "ابحث بالكلمة أو المعنى أو الملاحظة")
-        .navigationTitle("قاموسي الشخصي")
+        .searchable(text: $model.query, prompt: L("ابحث بالكلمة أو المعنى أو الملاحظة"))
+        .navigationTitle(L("قاموسي الشخصي"))
         .task { await model.load(repository: container.vocabularyRepository) }
         .refreshable { await model.load(repository: container.vocabularyRepository) }
     }
@@ -163,7 +163,7 @@ private struct WordDetailView: View {
 
     var body: some View {
         Form {
-            Section("الكلمة") {
+            Section(L("الكلمة")) {
                 HStack {
                     VStack(alignment: .leading) {
                         Text(card.word.english).font(.largeTitle.bold()).environment(\.layoutDirection, .leftToRight)
@@ -180,21 +180,21 @@ private struct WordDetailView: View {
                 Text(card.word.exampleArabic).foregroundStyle(.secondary)
             }
 
-            Section("التنظيم") {
-                Toggle("إضافة إلى المفضلة", isOn: $isFavorite)
-                TextField("تصنيفات مفصولة بفواصل", text: $tagsText, axis: .vertical)
-                TextField("ملاحظة شخصية أو وسيلة تذكّر", text: $note, axis: .vertical)
+            Section(L("التنظيم")) {
+                Toggle(L("إضافة إلى المفضلة"), isOn: $isFavorite)
+                TextField(L("تصنيفات مفصولة بفواصل"), text: $tagsText, axis: .vertical)
+                TextField(L("ملاحظة شخصية أو وسيلة تذكّر"), text: $note, axis: .vertical)
             }
 
-            Section("التقدم") {
+            Section(L("التقدم")) {
                 AccessibleProgressView(title: "درجة الإتقان \(Int(card.confidence * 100))٪", value: card.confidence)
-                LabeledContent("عدد النجاحات المتتالية", value: "\(card.repetitions)")
-                LabeledContent("الفاصل الحالي", value: "\(card.intervalDays) يوم")
-                LabeledContent("المراجعة القادمة", value: card.dueDate.formatted(date: .abbreviated, time: .omitted))
+                LabeledContent(L("عدد النجاحات المتتالية"), value: "\(card.repetitions)")
+                LabeledContent(L("الفاصل الحالي"), value: "\(card.intervalDays) يوم")
+                LabeledContent(L("المراجعة القادمة"), value: card.dueDate.formatted(date: .abbreviated, time: .omitted))
             }
 
             Section {
-                Button("حفظ التعديلات") {
+                Button(L("حفظ التعديلات")) {
                     Task {
                         let tags = tagsText
                             .replacingOccurrences(of: ",", with: "،")
@@ -212,15 +212,15 @@ private struct WordDetailView: View {
                 }
                 .buttonStyle(.borderedProminent)
 
-                Button("حذف الكلمة من القاموس", role: .destructive) {
+                Button(L("حذف الكلمة من القاموس"), role: .destructive) {
                     showDeleteConfirmation = true
                 }
             }
         }
-        .navigationTitle("تفاصيل الكلمة")
+        .navigationTitle(L("تفاصيل الكلمة"))
         .confirmationDialog("حذف \(card.word.english)؟", isPresented: $showDeleteConfirmation,
                             titleVisibility: .visible) {
-            Button("حذف", role: .destructive) {
+            Button(L("حذف"), role: .destructive) {
                 Task {
                     await container.vocabularyRepository.remove(cardID: card.id)
                     await onChange()
@@ -228,7 +228,7 @@ private struct WordDetailView: View {
                     dismiss()
                 }
             }
-            Button("إلغاء", role: .cancel) {}
+            Button(L("إلغاء"), role: .cancel) {}
         } message: {
             Text("سيُحذف \(card.word.english) من قاموسك.")
         }

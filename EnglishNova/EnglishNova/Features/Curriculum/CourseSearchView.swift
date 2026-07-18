@@ -33,7 +33,7 @@ struct CourseSearchView: View {
 
     var body: some View {
         List {
-            if model.isLoading { ProgressView("جاري فهرسة المنهج") }
+            if model.isLoading { ProgressView(L("جاري فهرسة المنهج")) }
             ForEach(model.filtered) { lesson in
                 NavigationLink(value: lesson) {
                     VStack(alignment: .leading, spacing: 4) {
@@ -44,8 +44,8 @@ struct CourseSearchView: View {
                 }
             }
         }
-        .searchable(text: $model.query, prompt: "درس، مهارة، أو كلمة")
-        .navigationTitle("البحث في المنهج")
+        .searchable(text: $model.query, prompt: L("درس، مهارة، أو كلمة"))
+        .navigationTitle(L("البحث في المنهج"))
         .navigationDestination(for: Lesson.self) { LessonPlayerView(lesson: $0) }
         .task { await model.load(repository: container.courseRepository) }
     }

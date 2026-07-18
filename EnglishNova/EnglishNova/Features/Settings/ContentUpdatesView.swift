@@ -44,36 +44,36 @@ struct ContentUpdatesView: View {
 
     var body: some View {
         List {
-            Section("الحالة") {
+            Section(L("الحالة")) {
                 switch model.status {
                 case .idle:
-                    Text("اضغط فحص التحديثات للبحث عن منهج أحدث من الخادم الذي حددته.")
+                    Text(L("اضغط فحص التحديثات للبحث عن منهج أحدث من الخادم الذي حددته."))
                 case .checking:
-                    ProgressView("جاري فحص التحديثات")
+                    ProgressView(L("جاري فحص التحديثات"))
                 case let .available(version, notes):
-                    LabeledContent("الإصدار المتاح", value: "\(version)")
+                    LabeledContent(L("الإصدار المتاح"), value: "\(version)")
                     Text(notes)
-                    Button("تنزيل وتثبيت المحتوى") {
+                    Button(L("تنزيل وتثبيت المحتوى")) {
                         Task { await model.install(service: container.contentUpdateService, repository: container.courseRepository) }
                     }
                     .buttonStyle(.borderedProminent)
                 case .installing:
-                    ProgressView("جاري التحقق والتثبيت")
+                    ProgressView(L("جاري التحقق والتثبيت"))
                 case let .installed(version):
                     Label("تم تثبيت الإصدار \(version)", systemImage: "checkmark.seal.fill")
                 case let .failed(message):
                     Label(message, systemImage: "exclamationmark.triangle.fill")
                 }
             }
-            Section("الأمان") {
-                Text("لا تُثبت الحزمة إلا عبر HTTPS، وبعد مطابقة بصمة SHA-256 وفك ترميز المنهج كاملًا بنجاح.")
-                Text("يُحفظ المحتوى المحدّث في مساحة التطبيق، ويمكن الرجوع إلى المحتوى المدمج بحذف بيانات التطبيق.")
+            Section(L("الأمان")) {
+                Text(L("لا تُثبت الحزمة إلا عبر HTTPS، وبعد مطابقة بصمة SHA-256 وفك ترميز المنهج كاملًا بنجاح."))
+                Text(L("يُحفظ المحتوى المحدّث في مساحة التطبيق، ويمكن الرجوع إلى المحتوى المدمج بحذف بيانات التطبيق."))
             }
-            Button("فحص التحديثات") {
+            Button(L("فحص التحديثات")) {
                 Task { await model.check(service: container.contentUpdateService) }
             }
             .disabled(container.settings.serverURL == nil)
         }
-        .navigationTitle("تحديثات المنهج")
+        .navigationTitle(L("تحديثات المنهج"))
     }
 }

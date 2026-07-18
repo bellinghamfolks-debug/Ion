@@ -114,7 +114,15 @@ final class AppSettings: ObservableObject {
         var title: String { self == .arabic ? "العربية" : "English" }
     }
 
-    @Published var interfaceLanguage: InterfaceLanguage = .arabic { didSet { persist() } }
+    @Published var interfaceLanguage: InterfaceLanguage = .arabic {
+        didSet {
+            Localizer.shared.isEnglish = interfaceLanguage == .english
+            // Mirror to UserDefaults so Localizer knows the language synchronously
+            // at the next launch, before the async settings load completes.
+            UserDefaults.standard.set(interfaceLanguage.rawValue, forKey: "ui.language")
+            persist()
+        }
+    }
     @Published var dailyGoalMinutes: Int = 15 { didSet { persist() } }
     @Published var speechRate: Double = 0.45 { didSet { persist() } }
     @Published var hapticsEnabled: Bool = true { didSet { persist() } }

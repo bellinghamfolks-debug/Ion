@@ -8,7 +8,7 @@ struct CurriculumView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Picker("المستوى", selection: $model.selectedLevel) {
+                Picker(L("المستوى"), selection: $model.selectedLevel) {
                     ForEach(CEFRLevel.allCases) { Text($0.rawValue).tag($0) }
                 }
                 .pickerStyle(.segmented)
@@ -28,16 +28,16 @@ struct CurriculumView: View {
                         UnitCard(unit: unit, completion: model.completion(for: unit), progress: model.progress)
                     }
                 } else if model.isLoading {
-                    ProgressView("جاري تحميل المنهج")
+                    ProgressView(L("جاري تحميل المنهج"))
                 }
             }
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("المنهج")
+        .navigationTitle(L("المنهج"))
         .toolbar {
             NavigationLink { CourseSearchView() } label: { Image(systemName: "magnifyingglass") }
-                .accessibilityLabel("البحث في المنهج")
+                .accessibilityLabel(L("البحث في المنهج"))
         }
         .navigationDestination(for: Lesson.self) { LessonPlayerView(lesson: $0) }
         .task { await model.load(container: container, initialLevel: session.selectedLevel) }

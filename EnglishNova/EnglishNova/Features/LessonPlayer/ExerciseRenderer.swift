@@ -14,7 +14,7 @@ struct ExerciseRenderer: View {
             VStack(spacing: 12) {
                 if exercise.type == .listenAndChoose {
                     Button { container.textToSpeech.speak(exercise.speechText ?? exercise.answer) } label: {
-                        Label("استمع إلى الجملة", systemImage: "speaker.wave.2.fill").frame(maxWidth: .infinity, minHeight: 52)
+                        Label(L("استمع إلى الجملة"), systemImage: "speaker.wave.2.fill").frame(maxWidth: .infinity, minHeight: 52)
                     }
                     .buttonStyle(.bordered)
                 }
@@ -23,7 +23,7 @@ struct ExerciseRenderer: View {
                 }
             }
         case .fillBlank, .translation:
-            TextField("اكتب إجابتك", text: $selectedAnswer, axis: .vertical)
+            TextField(L("اكتب إجابتك"), text: $selectedAnswer, axis: .vertical)
                 .textFieldStyle(.roundedBorder)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
@@ -35,7 +35,7 @@ struct ExerciseRenderer: View {
             VStack(spacing: 16) {
                 Text(exercise.answer).font(.system(.largeTitle, design: .rounded).bold())
                     .environment(\.layoutDirection, .leftToRight)
-                Button { container.textToSpeech.speak(exercise.answer) } label: { Label("نطق الكلمة", systemImage: "speaker.wave.2.fill") }
+                Button { container.textToSpeech.speak(exercise.answer) } label: { Label(L("نطق الكلمة"), systemImage: "speaker.wave.2.fill") }
                     .buttonStyle(.bordered)
                 if !exercise.explanationAr.isEmpty {
                     Divider()
@@ -87,7 +87,7 @@ private struct ArrangeWordsView: View {
                     .buttonStyle(.bordered)
                     .disabled(usedCount(token) >= tokenCount(token))
             }
-            Button("حذف آخر كلمة") { _ = arranged.popLast() }
+            Button(L("حذف آخر كلمة")) { _ = arranged.popLast() }
                 .disabled(arranged.isEmpty)
         }
     }
@@ -104,7 +104,7 @@ private struct SpeakExerciseView: View {
     var body: some View {
         VStack(spacing: 14) {
             Button { container.textToSpeech.speak(exercise.speechText ?? exercise.answer) } label: {
-                Label("استمع للنموذج", systemImage: "speaker.wave.2.fill").frame(maxWidth: .infinity, minHeight: 52)
+                Label(L("استمع للنموذج"), systemImage: "speaker.wave.2.fill").frame(maxWidth: .infinity, minHeight: 52)
             }
             .buttonStyle(.bordered)
             Button {

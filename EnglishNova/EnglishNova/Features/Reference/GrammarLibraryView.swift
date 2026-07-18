@@ -11,8 +11,8 @@ struct GrammarLibraryView: View {
     var body: some View {
         List {
             Section {
-                Picker("المستوى", selection: $selectedLevel) {
-                    Text("الكل").tag(nil as CEFRLevel?)
+                Picker(L("المستوى"), selection: $selectedLevel) {
+                    Text(L("الكل")).tag(nil as CEFRLevel?)
                     ForEach(CEFRLevel.allCases) { Text($0.rawValue).tag(Optional($0)) }
                 }
             }
@@ -27,7 +27,7 @@ struct GrammarLibraryView: View {
                 }
             }
         }
-        .navigationTitle("مكتبة القواعد")
+        .navigationTitle(L("مكتبة القواعد"))
     }
 }
 
@@ -51,7 +51,7 @@ private struct GrammarTopicView: View {
                                 Text(example.english).font(.headline).environment(\.layoutDirection, .leftToRight)
                                 Spacer()
                                 Button { container.textToSpeech.speak(example.english) } label: { Image(systemName: "speaker.wave.2") }
-                                    .accessibilityLabel("نطق المثال")
+                                    .accessibilityLabel(L("نطق المثال"))
                             }
                             Text(example.arabic).foregroundStyle(.secondary)
                         }

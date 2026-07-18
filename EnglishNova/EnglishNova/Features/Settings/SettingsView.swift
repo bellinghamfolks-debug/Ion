@@ -6,6 +6,7 @@ struct SettingsView: View {
     @EnvironmentObject private var reminderService: StudyReminderService
     @EnvironmentObject private var account: AccountService
     @State private var showResetConfirmation = false
+    @State private var showLanguageRestart = false
     @State private var reminderTime = Date()
 
     var body: some View {
@@ -35,8 +36,12 @@ struct SettingsView: View {
                 Picker("لغة الواجهة", selection: $settings.interfaceLanguage) {
                     ForEach(AppSettings.InterfaceLanguage.allCases) { Text($0.title).tag($0) }
                 }
-                Text("تُغيّر لغة عناصر الواجهة واتجاهها فورًا.")
+                Text("لتطبيق تغيير اللغة بالكامل سيُطلب إعادة تشغيل التطبيق.")
                     .font(.caption).foregroundStyle(.secondary)
+            }
+            .onChange(of: settings.interfaceLanguage) { _, newValue in
+                LanguageManager.apply(newValue)
+                showLanguageRestart = true
             }
 
             Section("التعلّم") {
@@ -172,6 +177,12 @@ struct SettingsView: View {
             // server-backed smart tutor.
             if settings.tutorProvider == .gemini { settings.tutorProvider = .smart }
             await reminderService.refreshAuthorization()
+        }
+        .alert("إعادة تشغيل مطلوبة", isPresented: $showLanguageRestart) {
+            Button("أعد التشغيل الآن", role: .destructive) { LanguageManager.restart() }
+            Button("لاحقًا", role: .cancel) {}
+        } message: {
+            Text("لتطبيق اللغة الجديدة بالكامل سيُغلق التطبيق الآن، ثم أعد فتحه.")
         }
         .alert("العودة إلى شاشة البداية؟", isPresented: $showResetConfirmation) {
             Button("إلغاء", role: .cancel) {}

@@ -92,7 +92,7 @@ struct HomeView: View {
         let progress = LearningPathwayCatalog.progress(for: settings.selectedLearningPathway, snapshot: model.progress)
         return NavigationLink { LearningPathwaysView() } label: {
             InfoCard(title: "مسارك الحالي", systemImage: pathway.id.systemImage) {
-                Text(pathway.titleAr).font(.title2.bold())
+                Text(L(pathway.titleAr)).font(.title2.bold())
                 Text(pathway.detailAr).foregroundStyle(.secondary)
                 AccessibleProgressView(
                     title: "\(progress.completedMilestones) من \(progress.totalMilestones) مراحل",
@@ -139,7 +139,7 @@ struct HomeView: View {
                                 .frame(width: 24)
                                 .accessibilityHidden(true)
                             VStack(alignment: .leading, spacing: 3) {
-                                Text(recommendation.titleAr).font(.headline)
+                                Text(L(recommendation.titleAr)).font(.headline)
                                 Text(recommendation.detailAr)
                                     .font(.caption).foregroundStyle(.secondary)
                             }
@@ -172,8 +172,8 @@ struct HomeView: View {
         if let lesson = model.nextLesson(for: session.selectedLevel) {
             NavigationLink(value: lesson) {
                 InfoCard(title: "تابع التعلّم", systemImage: "play.circle.fill") {
-                    Text(lesson.titleAr).font(.title2.bold())
-                    Text(lesson.objectiveAr).foregroundStyle(.secondary)
+                    Text(L(lesson.titleAr)).font(.title2.bold())
+                    Text(L(lesson.objectiveAr)).foregroundStyle(.secondary)
                     Label("\(lesson.estimatedMinutes) دقائق", systemImage: "clock")
                 }
             }

@@ -161,7 +161,7 @@ struct ConversationHistoryView: View {
                                     Text(conversation.title).font(.headline).lineLimit(1)
                                     HStack(spacing: 8) {
                                         Text(conversation.updatedAt, style: .date)
-                                        Text(conversation.provider.titleAr)
+                                        Text(L(conversation.provider.titleAr))
                                     }
                                     .font(.caption).foregroundStyle(.secondary)
                                 }

@@ -21,7 +21,7 @@ struct LessonPlayerView: View {
             if model.phase == .lesson {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
-                        Text(model.current.promptAr).font(.title2.bold())
+                        Text(L(model.current.promptAr)).font(.title2.bold())
                         if let prompt = model.current.promptEn, !prompt.isEmpty {
                             Text(prompt).font(.title3).environment(\.layoutDirection, .leftToRight)
                         }
@@ -36,7 +36,7 @@ struct LessonPlayerView: View {
             }
         }
         .screenBackground()
-        .navigationTitle(model.lesson.titleAr)
+        .navigationTitle(L(model.lesson.titleAr))
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(model.phase == .lesson)
         .toolbar {

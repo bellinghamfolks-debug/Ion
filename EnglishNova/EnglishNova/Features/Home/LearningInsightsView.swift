@@ -47,14 +47,14 @@ struct LearningInsightsView: View {
 
                     if let strongest = insights.strongestSkill {
                         InfoCard(title: "أقوى مهارة مسجلة", systemImage: "crown.fill") {
-                            Text(strongest.skill.titleAr).font(.title2.bold())
+                            Text(L(strongest.skill.titleAr)).font(.title2.bold())
                             AccessibleProgressView(title: "الدقة \(Int(strongest.accuracy * 100))٪", value: strongest.accuracy)
                         }
                     }
 
                     if let focus = insights.focusSkill {
                         InfoCard(title: "المهارة المقترحة للتركيز", systemImage: "location.fill") {
-                            Text(focus.skill.titleAr).font(.title2.bold())
+                            Text(L(focus.skill.titleAr)).font(.title2.bold())
                             Text("اختر نشاطًا قصيرًا لهذه المهارة، ثم عد إلى خطتك الأساسية.")
                             NavigationLink("فتح مركز التدريب") { PracticeHubView() }
                         }

@@ -28,7 +28,7 @@ struct ExerciseRenderer: View {
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
                 .environment(\.layoutDirection, .leftToRight)
-                .accessibilityHint(exercise.accessibilityHint)
+                .accessibilityHint(L(exercise.accessibilityHint))
         case .arrangeWords:
             ArrangeWordsView(tokens: exercise.tokens ?? [], arranged: $arrangedTokens)
         case .flashcard:

@@ -145,7 +145,7 @@ aiRouter.post("/coach", requireAuth, aiLimit, async (req, res) => {
       system,
       userText,
       config: {
-        maxOutputTokens: 500,
+        maxOutputTokens: 900,
         responseMimeType: "application/json",
         responseSchema: {
           type: "object",
@@ -197,7 +197,10 @@ aiRouter.post("/explain", requireAuth, aiLimit, async (req, res) => {
       userText,
       config: {
         temperature: 0.4,
-        maxOutputTokens: 400,
+        // Gemini 3.x flash spends output tokens on internal "thinking" before
+        // emitting the answer, so a small budget can leave nothing for the JSON
+        // (empty reply). Keep this generous.
+        maxOutputTokens: 1200,
         responseMimeType: "application/json",
         responseSchema: {
           type: "object",
@@ -211,8 +214,13 @@ aiRouter.post("/explain", requireAuth, aiLimit, async (req, res) => {
     });
     let parsed = {};
     try { parsed = JSON.parse(text || "{}"); } catch { parsed = { explanationAr: text.trim() }; }
+    if (!parsed.explanationAr || !parsed.explanationAr.trim()) {
+      // Empty output (e.g. thinking consumed the token budget) — let the client
+      // show a retryable error instead of a blank card.
+      return res.status(502).json({ error: "ai_empty" });
+    }
     const result = {
-      explanationAr: parsed.explanationAr || "",
+      explanationAr: parsed.explanationAr,
       exampleEn: parsed.exampleEn || null,
       source: "server",
     };
@@ -244,7 +252,9 @@ aiRouter.post("/writing", requireAuth, aiLimit, async (req, res) => {
       userText,
       config: {
         temperature: 0.3,
-        maxOutputTokens: 600,
+        // Generous budget: Gemini 3.x spends output tokens on internal thinking
+        // first, so a small cap can yield an empty reply.
+        maxOutputTokens: 1400,
         responseMimeType: "application/json",
         responseSchema: {
           type: "object",
@@ -258,10 +268,13 @@ aiRouter.post("/writing", requireAuth, aiLimit, async (req, res) => {
       },
     });
     let parsed = {};
-    try { parsed = JSON.parse(raw || "{}"); } catch { parsed = { corrected: text, feedbackAr: raw.trim() }; }
+    try { parsed = JSON.parse(raw || "{}"); } catch { parsed = {}; }
+    if (!parsed.corrected || !parsed.corrected.trim()) {
+      return res.status(502).json({ error: "ai_empty" });
+    }
     logEvent(req.userId, "ai_writing", { level });
     res.json({
-      corrected: parsed.corrected || text,
+      corrected: parsed.corrected,
       feedbackAr: parsed.feedbackAr || "",
       score: Number.isFinite(parsed.score) ? parsed.score : null,
       source: "server",

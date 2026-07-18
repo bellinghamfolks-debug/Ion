@@ -355,12 +355,17 @@ aiRouter.post("/exercise", requireAuth, aiLimit, async (req, res) => {
 // Also returns safe diagnostics (NO secret values) to debug key wiring:
 //  - keyLength: length of GEMINI_API_KEY as the process sees it (0 = not set)
 //  - seenGeminiEnvVars: names (only) of any env var containing "gemini"
+// Bump this whenever the server changes so /ai/status confirms which build is
+// actually live on Railway (helps verify a redeploy took effect).
+const SERVER_BUILD = "2024-ai-tokens-leaderboard-v3";
+
 aiRouter.get("/status", (_req, res) => {
   const key = process.env.GEMINI_API_KEY || "";
   const seenGeminiEnvVars = Object.keys(process.env).filter((k) => /gemini/i.test(k));
   res.json({
     enabled: Boolean(key),
     model: MODEL,
+    build: SERVER_BUILD,
     keyLength: key.length,
     seenGeminiEnvVars,
   });

@@ -60,6 +60,21 @@ export async function initSchema() {
     ALTER TABLE progress ADD COLUMN IF NOT EXISTS points INTEGER NOT NULL DEFAULT 0;
     ALTER TABLE progress ADD COLUMN IF NOT EXISTS streak INTEGER NOT NULL DEFAULT 0;
   `);
+
+  // Backfill existing rows whose points/streak were stored as 0 before we knew
+  // the app nests them under `session`. Best-effort: only numeric values, and
+  // never let a bad row break startup.
+  try {
+    await pool.query(`
+      UPDATE progress SET
+        points = COALESCE(NULLIF(data #>> '{session,points}', '')::int, points),
+        streak = COALESCE(NULLIF(data #>> '{session,streak}', '')::int, streak)
+      WHERE (points = 0 AND data #>> '{session,points}' ~ '^[0-9]+$')
+         OR (streak = 0 AND data #>> '{session,streak}' ~ '^[0-9]+$');
+    `);
+  } catch (e) {
+    console.error("leaderboard backfill skipped:", e.message);
+  }
 }
 
 /// Public shape of a user returned to clients (never expose the hash).

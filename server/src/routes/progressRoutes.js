@@ -32,11 +32,16 @@ progressRouter.get("/progress", requireAuth, async (req, res) => {
 });
 
 // Pull a non-negative integer out of the opaque progress JSON for the
-// leaderboard, tolerating a few common key spellings the app might use.
+// leaderboard. The app's backup nests points/streak under `session`
+// (EnglishNovaBackup.session), so search there first, then a few fallbacks.
 function extractMetric(data, keys) {
-  for (const k of keys) {
-    const v = data?.[k];
-    if (typeof v === "number" && Number.isFinite(v)) return Math.max(0, Math.round(v));
+  const sources = [data?.session, data?.progress, data];
+  for (const src of sources) {
+    if (!src || typeof src !== "object") continue;
+    for (const k of keys) {
+      const v = src[k];
+      if (typeof v === "number" && Number.isFinite(v)) return Math.max(0, Math.round(v));
+    }
   }
   return 0;
 }

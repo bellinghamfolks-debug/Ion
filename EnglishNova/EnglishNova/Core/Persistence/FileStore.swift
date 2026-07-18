@@ -7,8 +7,8 @@ actor FileStore {
 
         var errorDescription: String? {
             switch self {
-            case .invalidDirectory: return "تعذر الوصول إلى مجلد تخزين التطبيق."
-            case .invalidPath: return "مسار التخزين المطلوب غير آمن."
+            case .invalidDirectory: return L("تعذر الوصول إلى مجلد تخزين التطبيق.")
+            case .invalidPath: return L("مسار التخزين المطلوب غير آمن.")
             }
         }
     }

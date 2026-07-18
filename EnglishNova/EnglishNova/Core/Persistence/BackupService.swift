@@ -10,8 +10,8 @@ final class BackupService {
         var errorDescription: String? {
             switch self {
             case let .unsupportedSchema(version): return "إصدار النسخة الاحتياطية \(version) غير مدعوم."
-            case .backupTooLarge: return "ملف النسخة الاحتياطية أكبر من الحد الآمن البالغ 25 ميغابايت."
-            case .invalidBackup: return "الملف لا يحتوي نسخة EnglishNova صالحة."
+            case .backupTooLarge: return L("ملف النسخة الاحتياطية أكبر من الحد الآمن البالغ 25 ميغابايت.")
+            case .invalidBackup: return L("الملف لا يحتوي نسخة EnglishNova صالحة.")
             }
         }
     }

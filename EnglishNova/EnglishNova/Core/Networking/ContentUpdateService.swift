@@ -19,11 +19,11 @@ enum ContentUpdateError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .insecureURL: return "رابط حزمة المحتوى يجب أن يستخدم HTTPS."
-        case .checksumMismatch: return "فشل التحقق من سلامة حزمة المحتوى."
-        case .packageTooLarge: return "حزمة المحتوى أكبر من الحد الآمن."
-        case .invalidCatalog: return "الحزمة لا تحتوي منهجًا صالحًا."
-        case .unavailableStorage: return "تعذر الوصول إلى مساحة التخزين المحلية."
+        case .insecureURL: return L("رابط حزمة المحتوى يجب أن يستخدم HTTPS.")
+        case .checksumMismatch: return L("فشل التحقق من سلامة حزمة المحتوى.")
+        case .packageTooLarge: return L("حزمة المحتوى أكبر من الحد الآمن.")
+        case .invalidCatalog: return L("الحزمة لا تحتوي منهجًا صالحًا.")
+        case .unavailableStorage: return L("تعذر الوصول إلى مساحة التخزين المحلية.")
         }
     }
 }

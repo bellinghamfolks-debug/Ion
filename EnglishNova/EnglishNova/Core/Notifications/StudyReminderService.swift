@@ -12,10 +12,10 @@ final class StudyReminderService: ObservableObject {
 
         var titleAr: String {
             switch self {
-            case .unknown: return "لم يُطلب الإذن"
-            case .denied: return "الإشعارات غير مسموحة"
-            case .authorized: return "الإشعارات مسموحة"
-            case .provisional: return "الإشعارات مسموحة مؤقتًا"
+            case .unknown: return L("لم يُطلب الإذن")
+            case .denied: return L("الإشعارات غير مسموحة")
+            case .authorized: return L("الإشعارات مسموحة")
+            case .provisional: return L("الإشعارات مسموحة مؤقتًا")
             }
         }
     }

@@ -67,7 +67,11 @@ private struct ToastBanner: View {
             Image(systemName: toast.style.icon)
                 .foregroundStyle(toast.style.tint)
                 .font(.system(size: 18, weight: .semibold))
-            Text(toast.message)
+            // Toast messages arrive as plain Strings, so SwiftUI won't localize
+            // them implicitly. Look the message up in Localizable.strings at
+            // display time; static messages become English in English mode, and
+            // interpolated ones fall back to the original text.
+            Text(NSLocalizedString(toast.message, comment: "toast"))
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(.primary)
                 .lineLimit(2)

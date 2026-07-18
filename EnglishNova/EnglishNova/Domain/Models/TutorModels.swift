@@ -13,17 +13,17 @@ enum TutorProvider: String, Codable, CaseIterable, Identifiable {
 
     var titleAr: String {
         switch self {
-        case .smart: return "تلقائي (الخادم أو المحلي)"
-        case .device: return "محلي على الجهاز"
-        case .gemini: return "Gemini API (مفتاحك الخاص)"
+        case .smart: return L("تلقائي (الخادم أو المحلي)")
+        case .device: return L("محلي على الجهاز")
+        case .gemini: return L("Gemini API (مفتاحك الخاص)")
         }
     }
 
     var detailAr: String {
         switch self {
-        case .smart: return "يستخدم خادم التطبيق إن عُيّن، وإلا فالمدرّس المحلي. لا يحتاج مفتاحًا."
-        case .device: return "يعمل دون إنترنت بالكامل ولا يرسل أي نص خارج الجهاز."
-        case .gemini: return "يرسل رسالتك إلى Gemini باستخدام مفتاحك المحفوظ مشفّرًا على الجهاز."
+        case .smart: return L("يستخدم خادم التطبيق إن عُيّن، وإلا فالمدرّس المحلي. لا يحتاج مفتاحًا.")
+        case .device: return L("يعمل دون إنترنت بالكامل ولا يرسل أي نص خارج الجهاز.")
+        case .gemini: return L("يرسل رسالتك إلى Gemini باستخدام مفتاحك المحفوظ مشفّرًا على الجهاز.")
         }
     }
 }
@@ -85,7 +85,7 @@ struct TutorConversation: Codable, Identifiable, Hashable {
             .trimmingCharacters(in: .whitespacesAndNewlines), !firstUser.isEmpty {
             return String(firstUser.prefix(60))
         }
-        return "محادثة جديدة"
+        return L("محادثة جديدة")
     }
 
     /// True once the learner has actually said something worth keeping.

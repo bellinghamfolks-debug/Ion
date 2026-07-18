@@ -155,10 +155,10 @@ enum ReviewGrade: Int, CaseIterable {
 
     var titleAr: String {
         switch self {
-        case .again: return "إعادة"
-        case .hard: return "صعب"
-        case .good: return "جيد"
-        case .easy: return "سهل"
+        case .again: return L("إعادة")
+        case .hard: return L("صعب")
+        case .good: return L("جيد")
+        case .easy: return L("سهل")
         }
     }
 }

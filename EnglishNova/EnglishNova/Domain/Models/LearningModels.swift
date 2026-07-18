@@ -15,15 +15,15 @@ enum LearningActivityKind: String, Codable, CaseIterable, Identifiable, Hashable
 
     var titleAr: String {
         switch self {
-        case .lesson: return "درس جديد"
-        case .review: return "مراجعة كلمات"
-        case .listening: return "تدريب استماع"
-        case .pronunciation: return "تدريب نطق"
-        case .story: return "قصة متدرجة"
-        case .conversation: return "محادثة موقف"
-        case .reading: return "قراءة وفهم"
-        case .writing: return "تدريب كتابة"
-        case .exam: return "تدريب اختبار"
+        case .lesson: return L("درس جديد")
+        case .review: return L("مراجعة كلمات")
+        case .listening: return L("تدريب استماع")
+        case .pronunciation: return L("تدريب نطق")
+        case .story: return L("قصة متدرجة")
+        case .conversation: return L("محادثة موقف")
+        case .reading: return L("قراءة وفهم")
+        case .writing: return L("تدريب كتابة")
+        case .exam: return L("تدريب اختبار")
         }
     }
 

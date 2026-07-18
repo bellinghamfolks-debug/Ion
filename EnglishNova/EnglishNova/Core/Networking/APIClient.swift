@@ -15,10 +15,10 @@ enum APIError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .missingBaseURL: return "لم يتم تعيين عنوان الخادم."
-        case .insecureBaseURL: return "عنوان الخادم يجب أن يكون HTTPS صالحًا."
-        case .responseTooLarge: return "استجابة الخادم أكبر من الحد الآمن."
-        case .invalidResponse: return "استجابة غير صالحة من الخادم."
+        case .missingBaseURL: return L("لم يتم تعيين عنوان الخادم.")
+        case .insecureBaseURL: return L("عنوان الخادم يجب أن يكون HTTPS صالحًا.")
+        case .responseTooLarge: return L("استجابة الخادم أكبر من الحد الآمن.")
+        case .invalidResponse: return L("استجابة غير صالحة من الخادم.")
         case let .server(status, message): return "خطأ خادم رقم \(status): \(message)"
         case let .decoding(error): return "تعذر قراءة الاستجابة: \(error.localizedDescription)"
         }

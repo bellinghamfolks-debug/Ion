@@ -75,12 +75,12 @@ struct FiveMinuteChallengeView: View {
                 Text(L("خمس دقائق")).font(.largeTitle.bold())
                 Text(L("عشرة أسئلة سريعة من مستوى قريب من مستواك. ينتهي التحدي عند انتهاء الوقت أو الأسئلة."))
                     .multilineTextAlignment(.center).foregroundStyle(.secondary)
-                PrimaryButton(title: "ابدأ التحدي", systemImage: "play.fill") { start() }
+                PrimaryButton(title: L("ابدأ التحدي"), systemImage: "play.fill") { start() }
             } else if isFinished {
                 Image(systemName: "flag.checkered").font(.system(size: 64)).foregroundStyle(.tint).accessibilityHidden(true)
                 Text(Lf("النتيجة %@ من %@", "\(correct)", "\(questions.count)")).font(.largeTitle.bold())
                 Text("الوقت المتبقي: \(formattedTime)")
-                PrimaryButton(title: "إعادة التحدي", systemImage: "arrow.clockwise") { start() }
+                PrimaryButton(title: L("إعادة التحدي"), systemImage: "arrow.clockwise") { start() }
             } else if questions.indices.contains(index) {
                 Text(formattedTime).font(.title.monospacedDigit().bold()).accessibilityLabel("الوقت المتبقي \(formattedTime)")
                 AccessibleProgressView(title: Lf("السؤال %@ من %@", "\(index + 1)", "\(questions.count)"), value: Double(index) / Double(questions.count))
@@ -98,7 +98,7 @@ struct FiveMinuteChallengeView: View {
                     }
                     .buttonStyle(.bordered)
                 }
-                PrimaryButton(title: "إجابة", systemImage: "arrow.forward", isDisabled: selected.isEmpty) { submit() }
+                PrimaryButton(title: L("إجابة"), systemImage: "arrow.forward", isDisabled: selected.isEmpty) { submit() }
             }
         }
         .padding(AppTheme.screenPadding)
@@ -208,7 +208,7 @@ struct IELTSSpeakingSimulatorView: View {
                     completion
                 } else {
                     AccessibleProgressView(title: Lf("السؤال %@ من 3", "\(index + 1)"), value: Double(index) / 3)
-                    InfoCard(title: "السؤال", systemImage: "quote.bubble.fill") {
+                    InfoCard(title: L("السؤال"), systemImage: "quote.bubble.fill") {
                         Text(question.prompt).font(.title2.bold()).environment(\.layoutDirection, .leftToRight)
                         Text(L(question.promptAr)).foregroundStyle(.secondary)
                         Button(L("استمع للسؤال")) {
@@ -239,7 +239,7 @@ struct IELTSSpeakingSimulatorView: View {
                     .disabled(evaluation != nil)
 
                     if let evaluation {
-                        InfoCard(title: "تقييم تدريبي", systemImage: "chart.bar.fill") {
+                        InfoCard(title: L("تقييم تدريبي"), systemImage: "chart.bar.fill") {
                             AccessibleProgressView(title: Lf("النتيجة %@٪", "\(Int(evaluation.overall * 100))"), value: evaluation.overall)
                             LabeledContent(L("الإجابة عن السؤال"), value: "\(Int(evaluation.relevance * 100))٪")
                             LabeledContent(L("الترابط والبناء"), value: "\(Int(evaluation.structure * 100))٪")
@@ -271,7 +271,7 @@ struct IELTSSpeakingSimulatorView: View {
 
     private var completion: some View {
         let average = completedScores.isEmpty ? 0 : completedScores.reduce(0, +) / Double(completedScores.count)
-        return InfoCard(title: "اكتملت المحاكاة", systemImage: "flag.checkered") {
+        return InfoCard(title: L("اكتملت المحاكاة"), systemImage: "flag.checkered") {
             AccessibleProgressView(title: Lf("متوسط الجلسة %@٪", "\(Int(average * 100))"), value: average)
             Text(L("راجع الملاحظات المسجلة في دفتر الأخطاء، ثم أعد سؤالًا واحدًا بصياغة أفضل بدل تكرار الجلسة كاملة فورًا."))
             Button(L("جلسة جديدة")) {
@@ -320,7 +320,7 @@ struct IELTSSpeakingSimulatorView: View {
                     answered: completedScores.count,
                     correct: completedScores.filter { $0 >= 0.68 }.count,
                     createdAt: .now,
-                    notesAr: ["مؤشر محلي للطلاقة والترابط وليس درجة IELTS رسمية."]
+                    notesAr: [L("مؤشر محلي للطلاقة والترابط وليس درجة IELTS رسمية.")]
                 ))
             }
         } else {
@@ -347,9 +347,9 @@ struct STEPPracticeView: View {
             if questions.isEmpty {
                 Text(L("جلسة STEP قصيرة من عشرة أسئلة، مع شرح الإجابة وتسجيل الأخطاء للمراجعة."))
                     .foregroundStyle(.secondary)
-                PrimaryButton(title: "ابدأ الجلسة", systemImage: "play.fill") { start() }
+                PrimaryButton(title: L("ابدأ الجلسة"), systemImage: "play.fill") { start() }
             } else if isFinished {
-                InfoCard(title: "نتيجة STEP التدريبية", systemImage: "checkmark.seal.fill") {
+                InfoCard(title: L("نتيجة STEP التدريبية"), systemImage: "checkmark.seal.fill") {
                     AccessibleProgressView(title: Lf("%@ من %@", "\(correct)", "\(questions.count)"), value: Double(correct) / Double(max(1, questions.count)))
                     Text(L("هذه نتيجة جلسة تدريبية قصيرة وليست تحويلًا رسميًا إلى درجة STEP."))
                     Button(L("جلسة جديدة")) { start() }.buttonStyle(.borderedProminent)
@@ -375,7 +375,7 @@ struct STEPPracticeView: View {
                 }
                 if checked {
                     InfoCard(title: selected == question.answer ? L("إجابة صحيحة") : L("الإجابة تحتاج مراجعة"), systemImage: selected == question.answer ? "checkmark.circle.fill" : "xmark.circle.fill") {
-                        Text("الإجابة الصحيحة: \(question.answer ?? "")")
+                        Text(Lf("الإجابة الصحيحة: %@", "\(question.answer ?? "")"))
                             .environment(\.layoutDirection, .leftToRight)
                         Text(question.explanationAr)
                     }
@@ -442,7 +442,7 @@ struct STEPPracticeView: View {
                     answered: questions.count,
                     correct: correct,
                     createdAt: .now,
-                    notesAr: ["جلسة تدريبية قصيرة من بنك محلي."]
+                    notesAr: [L("جلسة تدريبية قصيرة من بنك محلي.")]
                 ))
             }
         } else {
@@ -568,7 +568,7 @@ private struct InterviewQuestionView: View {
             if result.overall < 0.72 {
                 await container.learningMemoryRepository.recordMistake(.init(
                     id: UUID().uuidString,
-                    category: "مقابلات العمل",
+                    category: L("مقابلات العمل"),
                     source: question.category.titleAr,
                     prompt: question.question,
                     learnerAnswer: answer,
@@ -608,7 +608,7 @@ struct MistakeNotebookView: View {
 
             if filtered.isEmpty {
                 ContentUnavailableView(
-                    "لا توجد ملاحظات مطابقة",
+                    L("لا توجد ملاحظات مطابقة"),
                     systemImage: "checkmark.circle",
                     description: Text(L("تظهر هنا أخطاء المحادثة والنطق والاختبارات التي تحتاج مراجعة."))
                 )

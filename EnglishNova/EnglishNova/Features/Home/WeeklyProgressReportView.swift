@@ -34,7 +34,7 @@ struct WeeklyProgressReportView: View {
                     Text("من \(report.startDate.formatted(date: .abbreviated, time: .omitted)) إلى \(report.endDate.formatted(date: .abbreviated, time: .omitted))")
                         .foregroundStyle(.secondary)
 
-                    InfoCard(title: "الاستمرارية", systemImage: "calendar.badge.checkmark") {
+                    InfoCard(title: L("الاستمرارية"), systemImage: "calendar.badge.checkmark") {
                         AccessibleProgressView(
                             title: Lf("%@ من %@ أيام مستهدفة", "\(report.activeDays)", "\(settings.weeklyTargetDays)"),
                             value: min(1, Double(report.activeDays) / Double(max(1, settings.weeklyTargetDays)))
@@ -42,7 +42,7 @@ struct WeeklyProgressReportView: View {
                         Text(report.narrativeAr)
                     }
 
-                    InfoCard(title: "الأرقام", systemImage: "chart.bar.fill") {
+                    InfoCard(title: L("الأرقام"), systemImage: "chart.bar.fill") {
                         LabeledContent(L("وقت التعلم"), value: Lf("%@ دقيقة", "\(report.totalMinutes)"))
                         LabeledContent(L("الدروس المكتملة"), value: "\(report.completedLessons)")
                         LabeledContent(L("جلسات المهارات"), value: "\(report.practiceSessions)")
@@ -51,19 +51,19 @@ struct WeeklyProgressReportView: View {
                     }
 
                     if let strongest = report.strongestDomain {
-                        InfoCard(title: "أقوى مجال هذا الأسبوع", systemImage: "crown.fill") {
+                        InfoCard(title: L("أقوى مجال هذا الأسبوع"), systemImage: "crown.fill") {
                             Label(strongest.titleAr, systemImage: strongest.systemImage)
                                 .font(.title2.bold())
                         }
                     }
                     if let focus = report.focusDomain {
-                        InfoCard(title: "بوصلة الأسبوع القادم", systemImage: "location.fill") {
+                        InfoCard(title: L("بوصلة الأسبوع القادم"), systemImage: "location.fill") {
                             Label(focus.titleAr, systemImage: focus.systemImage)
                                 .font(.title2.bold())
                         }
                     }
 
-                    InfoCard(title: "خطة الأسبوع القادم", systemImage: "list.bullet.clipboard.fill") {
+                    InfoCard(title: L("خطة الأسبوع القادم"), systemImage: "list.bullet.clipboard.fill") {
                         ForEach(Array(report.nextWeekActions.enumerated()), id: \.offset) { index, action in
                             Text("\(index + 1). \(action)")
                         }

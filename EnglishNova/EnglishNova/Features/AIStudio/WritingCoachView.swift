@@ -14,7 +14,7 @@ struct WritingCoachView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                InfoCard(title: "مصحّح الكتابة", systemImage: "pencil.and.scribble") {
+                InfoCard(title: L("مصحّح الكتابة"), systemImage: "pencil.and.scribble") {
                     Text(L("اكتب جملة أو فقرة بالإنجليزية، وسيصححها المدرّب، ويمنحها درجة، ويشرح الأخطاء بالعربية."))
                         .font(.footnote).foregroundStyle(.secondary)
 
@@ -25,7 +25,7 @@ struct WritingCoachView: View {
                         .padding(8)
                         .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 12))
 
-                    PrimaryButton(title: "صحّح كتابتي", systemImage: "checkmark.seal.fill", isLoading: loading,
+                    PrimaryButton(title: L("صحّح كتابتي"), systemImage: "checkmark.seal.fill", isLoading: loading,
                                   isDisabled: trimmed.isEmpty) { run() }
                 }
 
@@ -37,19 +37,19 @@ struct WritingCoachView: View {
 
                 if let result {
                     if let score = result.score {
-                        InfoCard(title: "التقييم", systemImage: "gauge.with.dots.needle.67percent",
+                        InfoCard(title: L("التقييم"), systemImage: "gauge.with.dots.needle.67percent",
                                  tint: AppTheme.accentTeal) {
-                            AccessibleProgressView(title: "جودة الكتابة", value: Double(score) / 100)
+                            AccessibleProgressView(title: L("جودة الكتابة"), value: Double(score) / 100)
                             LabeledContent(L("الدرجة"), value: "\(score)/100")
                         }
                     }
-                    InfoCard(title: "النص المصحّح", systemImage: "text.badge.checkmark", tint: AppTheme.success) {
+                    InfoCard(title: L("النص المصحّح"), systemImage: "text.badge.checkmark", tint: AppTheme.success) {
                         Text(result.corrected)
                             .font(.body.weight(.medium))
                             .environment(\.layoutDirection, .leftToRight)
                             .textSelection(.enabled)
                     }
-                    InfoCard(title: "الملاحظات", systemImage: "text.bubble.fill", tint: AppTheme.warning) {
+                    InfoCard(title: L("الملاحظات"), systemImage: "text.bubble.fill", tint: AppTheme.warning) {
                         Text(result.feedbackAr)
                     }
                 }
@@ -71,9 +71,9 @@ struct WritingCoachView: View {
         Task {
             do {
                 result = try await service.correctWriting(text: value, level: session.selectedLevel.rawValue)
-                ToastCenter.shared.show("تم تصحيح كتابتك")
+                ToastCenter.shared.show(L("تم تصحيح كتابتك"))
             } catch {
-                errorMessage = (error as? LocalizedError)?.errorDescription ?? "تعذّر التصحيح."
+                errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذّر التصحيح.")
             }
             loading = false
         }

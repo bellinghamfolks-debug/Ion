@@ -52,7 +52,7 @@ private struct UnitCard: View {
     var body: some View {
         InfoCard(title: unit.titleAr, systemImage: unit.icon) {
             Text(L(unit.descriptionAr)).foregroundStyle(.secondary)
-            AccessibleProgressView(title: "تقدم الوحدة", value: completion)
+            AccessibleProgressView(title: L("تقدم الوحدة"), value: completion)
             VStack(spacing: 8) {
                 ForEach(unit.lessons) { lesson in
                     NavigationLink(value: lesson) {

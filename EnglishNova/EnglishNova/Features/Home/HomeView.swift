@@ -36,7 +36,7 @@ struct HomeView: View {
     private var hero: some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 6) {
-                Text(session.displayName.isEmpty ? L("مرحبًا بك 👋") : "مرحبًا، \(session.displayName) 👋")
+                Text(session.displayName.isEmpty ? L("مرحبًا بك 👋") : Lf("مرحبًا، %@ 👋", "\(session.displayName)"))
                     .font(.title.bold())
                     .foregroundStyle(.white)
                 Text(settings.reduceLearningPressure ? L("اليوم يكفي أن تتقدم بهدوء.") : L("خطوة صغيرة اليوم تصنع لغة كاملة غدًا."))
@@ -44,9 +44,9 @@ struct HomeView: View {
                     .foregroundStyle(.white.opacity(0.9))
             }
             HStack(spacing: 10) {
-                heroStat(icon: "graduationcap.fill", value: session.selectedLevel.rawValue, label: "المستوى")
-                heroStat(icon: "star.fill", value: "\(session.points)", label: "نقطة")
-                heroStat(icon: "flame.fill", value: "\(session.streak)", label: "يوم متتالٍ")
+                heroStat(icon: "graduationcap.fill", value: session.selectedLevel.rawValue, label: L("المستوى"))
+                heroStat(icon: "star.fill", value: "\(session.points)", label: L("نقطة"))
+                heroStat(icon: "flame.fill", value: "\(session.streak)", label: L("يوم متتالٍ"))
             }
         }
         .padding(20)
@@ -73,7 +73,7 @@ struct HomeView: View {
     }
 
     private var dailyGoal: some View {
-        InfoCard(title: "هدف اليوم", systemImage: "target") {
+        InfoCard(title: L("هدف اليوم"), systemImage: "target") {
             AccessibleProgressView(
                 title: Lf("%@ من %@ دقيقة", "\(model.todayMinutes)", "\(settings.dailyGoalMinutes)"),
                 value: min(1, Double(model.todayMinutes) / Double(max(1, settings.dailyGoalMinutes)))
@@ -91,7 +91,7 @@ struct HomeView: View {
         let pathway = LearningPathwayCatalog.definition(for: settings.selectedLearningPathway)
         let progress = LearningPathwayCatalog.progress(for: settings.selectedLearningPathway, snapshot: model.progress)
         return NavigationLink { LearningPathwaysView() } label: {
-            InfoCard(title: "مسارك الحالي", systemImage: pathway.id.systemImage) {
+            InfoCard(title: L("مسارك الحالي"), systemImage: pathway.id.systemImage) {
                 Text(L(pathway.titleAr)).font(.title2.bold())
                 Text(pathway.detailAr).foregroundStyle(.secondary)
                 AccessibleProgressView(
@@ -109,7 +109,7 @@ struct HomeView: View {
     @ViewBuilder private var smartPlan: some View {
         if let plan = model.dailyPlan {
             NavigationLink { DailyPlanView() } label: {
-                InfoCard(title: "خطتك الذكية", systemImage: "wand.and.stars") {
+                InfoCard(title: L("خطتك الذكية"), systemImage: "wand.and.stars") {
                     Text(Lf("%@ أنشطة • %@ دقيقة", "\(plan.items.count)", "\(plan.targetMinutes)"))
                         .font(.title2.bold())
                     ForEach(plan.items.prefix(3)) { item in
@@ -127,7 +127,7 @@ struct HomeView: View {
 
     @ViewBuilder private var personalCoach: some View {
         if settings.adaptiveCoachEnabled, !model.personalizedRecommendations.isEmpty {
-            InfoCard(title: "مدربك الشخصي", systemImage: "brain.head.profile") {
+            InfoCard(title: L("مدربك الشخصي"), systemImage: "brain.head.profile") {
                 Text(L("هذه الاقتراحات مبنية على تقدمك وأخطائك الحديثة، لا على ترتيب ثابت."))
                     .font(.caption).foregroundStyle(.secondary)
                 ForEach(model.personalizedRecommendations.prefix(3)) { recommendation in
@@ -171,7 +171,7 @@ struct HomeView: View {
     @ViewBuilder private var continueLearning: some View {
         if let lesson = model.nextLesson(for: session.selectedLevel) {
             NavigationLink(value: lesson) {
-                InfoCard(title: "تابع التعلّم", systemImage: "play.circle.fill") {
+                InfoCard(title: L("تابع التعلّم"), systemImage: "play.circle.fill") {
                     Text(L(lesson.titleAr)).font(.title2.bold())
                     Text(L(lesson.objectiveAr)).foregroundStyle(.secondary)
                     Label(Lf("%@ دقائق", "\(lesson.estimatedMinutes)"), systemImage: "clock")
@@ -188,18 +188,18 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(L("وصول سريع")).font(.title2.bold())
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                NavigationLink { PracticeHubView() } label: { QuickActionCard(title: "تدريب", icon: "mic.fill", colors: [AppTheme.brand, AppTheme.brandSecondary]) }
+                NavigationLink { PracticeHubView() } label: { QuickActionCard(title: L("تدريب"), icon: "mic.fill", colors: [AppTheme.brand, AppTheme.brandSecondary]) }
                 NavigationLink { ReviewView() } label: { QuickActionCard(title: Lf("مراجعة %@", "\(model.dueCount)"), icon: "rectangle.stack.fill", colors: [AppTheme.accentTeal, AppTheme.success]) }
-                NavigationLink { StoryLibraryView() } label: { QuickActionCard(title: "قصص", icon: "book.pages.fill", colors: [AppTheme.brandSecondary, AppTheme.streak]) }
-                NavigationLink { AdvancedSkillsHubView() } label: { QuickActionCard(title: "مختبرات", icon: "books.vertical.fill", colors: [AppTheme.warning, AppTheme.streak]) }
-                NavigationLink { WeeklyProgressReportView() } label: { QuickActionCard(title: "تقرير أسبوعي", icon: "doc.text.image.fill", colors: [AppTheme.success, AppTheme.accentTeal]) }
+                NavigationLink { StoryLibraryView() } label: { QuickActionCard(title: L("قصص"), icon: "book.pages.fill", colors: [AppTheme.brandSecondary, AppTheme.streak]) }
+                NavigationLink { AdvancedSkillsHubView() } label: { QuickActionCard(title: L("مختبرات"), icon: "books.vertical.fill", colors: [AppTheme.warning, AppTheme.streak]) }
+                NavigationLink { WeeklyProgressReportView() } label: { QuickActionCard(title: L("تقرير أسبوعي"), icon: "doc.text.image.fill", colors: [AppTheme.success, AppTheme.accentTeal]) }
             }
             .buttonStyle(.plain)
         }
     }
 
     private var weeklyActivity: some View {
-        InfoCard(title: "آخر سبعة أيام", systemImage: "chart.bar.fill") {
+        InfoCard(title: L("آخر سبعة أيام"), systemImage: "chart.bar.fill") {
             ForEach(lastSevenDays, id: \.self) { date in
                 let minutes = model.progress.activity.first(where: { Calendar.current.isDate($0.date, inSameDayAs: date) })?.minutes ?? 0
                 HStack {
@@ -231,7 +231,7 @@ private struct HomeLeaderboardCard: View {
     var body: some View {
         if account.isAuthenticated {
             NavigationLink { LeaderboardView() } label: {
-                InfoCard(title: "لوحة الصدارة", systemImage: "trophy.fill", tint: AppTheme.warning) {
+                InfoCard(title: L("لوحة الصدارة"), systemImage: "trophy.fill", tint: AppTheme.warning) {
                     if let me {
                         HStack {
                             Text(Lf("ترتيبك #%@", "\(me.rank)"))

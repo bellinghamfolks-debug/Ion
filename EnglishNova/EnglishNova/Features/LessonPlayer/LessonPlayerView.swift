@@ -17,7 +17,7 @@ struct LessonPlayerView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            AccessibleProgressView(title: "تقدم الدرس", value: model.progress).padding(.horizontal)
+            AccessibleProgressView(title: L("تقدم الدرس"), value: model.progress).padding(.horizontal)
             if model.phase == .lesson {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
@@ -82,15 +82,15 @@ struct LessonPlayerView: View {
 
     @ViewBuilder private var actionButton: some View {
         if isInformational {
-            PrimaryButton(title: "التالي", systemImage: "arrow.forward") {
+            PrimaryButton(title: L("التالي"), systemImage: "arrow.forward") {
                 if !model.answered { model.submit() }
                 model.continueNext()
             }
             .padding()
         } else if model.answered {
-            PrimaryButton(title: "متابعة", systemImage: "arrow.forward") { model.continueNext() }.padding()
+            PrimaryButton(title: L("متابعة"), systemImage: "arrow.forward") { model.continueNext() }.padding()
         } else {
-            PrimaryButton(title: "تحقق من الإجابة", systemImage: "checkmark", isDisabled: !canSubmit) {
+            PrimaryButton(title: L("تحقق من الإجابة"), systemImage: "checkmark", isDisabled: !canSubmit) {
                 let exercise = model.current
                 if exercise.type == .arrangeWords { model.submitArranged() } else { model.submit() }
                 Task { await container.progressRepository.recordSkill(skill(for: exercise), correct: model.lastWasCorrect, at: .now) }
@@ -123,7 +123,7 @@ struct LessonPlayerView: View {
                 .accessibilityHint(L("شرح إضافي من المدرّب الذكي"))
             }
         }
-        .accessibilityLabel(model.lastWasCorrect ? L("إجابة صحيحة") : "إجابة غير صحيحة. الصحيح \(model.current.answer). \(model.current.explanationAr)")
+        .accessibilityLabel(model.lastWasCorrect ? L("إجابة صحيحة") : Lf("إجابة غير صحيحة. الصحيح %@. %@", "\(model.current.answer)", "\(model.current.explanationAr)"))
     }
 
     /// The English text we ask the AI to explain — prefer the correct answer,
@@ -165,7 +165,7 @@ struct LessonPlayerView: View {
 
                 Text(headline).font(.title2.bold()).multilineTextAlignment(.center)
 
-                InfoCard(title: "توصياتنا لك", systemImage: "sparkles", tint: AppTheme.accentTeal) {
+                InfoCard(title: L("توصياتنا لك"), systemImage: "sparkles", tint: AppTheme.accentTeal) {
                     ForEach(recommendations, id: \.self) { tip in
                         Label(tip, systemImage: "checkmark.circle.fill")
                             .font(.subheadline)
@@ -173,7 +173,7 @@ struct LessonPlayerView: View {
                     }
                 }
 
-                PrimaryButton(title: "إنهاء الدرس", systemImage: "checkmark.circle.fill") {
+                PrimaryButton(title: L("إنهاء الدرس"), systemImage: "checkmark.circle.fill") {
                     Task {
                         let earned = Int(Double(model.lesson.points) * model.score)
                         await container.progressRepository.recordLesson(lessonID: model.lesson.id, score: model.score, points: earned, minutes: model.elapsedMinutes)

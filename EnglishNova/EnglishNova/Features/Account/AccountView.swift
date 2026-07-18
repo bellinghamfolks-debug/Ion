@@ -80,7 +80,7 @@ struct AccountView: View {
                 .accessibilityLabel(L("تغيير صورة الملف الشخصي"))
                 Text(account.currentUser?.displayName.isEmpty == false
                      ? account.currentUser!.displayName
-                     : (account.currentUser?.email ?? "حسابك"))
+                     : (account.currentUser?.email ?? L("حسابك")))
                     .font(.title3.bold()).foregroundStyle(.white)
                 if let email = account.currentUser?.email {
                     Text(email).font(.footnote).foregroundStyle(.white.opacity(0.85))
@@ -92,14 +92,14 @@ struct AccountView: View {
                         in: RoundedRectangle(cornerRadius: AppTheme.cornerRadius, style: .continuous))
             .shadow(color: AppTheme.brand.opacity(0.3), radius: 14, y: 7)
 
-            InfoCard(title: "مزامنة التقدّم", systemImage: "arrow.triangle.2.circlepath", tint: AppTheme.accentTeal) {
+            InfoCard(title: L("مزامنة التقدّم"), systemImage: "arrow.triangle.2.circlepath", tint: AppTheme.accentTeal) {
                 Text(L("يُحفظ تقدّمك (النقاط، السلسلة، المهارات، القاموس، الإعدادات) في حسابك لتستعيده على أي جهاز."))
                     .font(.footnote).foregroundStyle(.secondary)
                 if let when = sync.lastSyncedAt {
                     Label(when.formatted(date: .abbreviated, time: .shortened), systemImage: "clock")
                         .font(.caption).foregroundStyle(.secondary)
                 }
-                PrimaryButton(title: "احفظ تقدّمي الآن", systemImage: "icloud.and.arrow.up",
+                PrimaryButton(title: L("احفظ تقدّمي الآن"), systemImage: "icloud.and.arrow.up",
                               isLoading: sync.isSyncing) {
                     Task { await sync.push() }
                 }
@@ -179,10 +179,10 @@ struct AccountView: View {
 
             InfoCard(title: mode.titleAr, systemImage: "envelope.fill") {
                 if mode == .register {
-                    field("الاسم", text: $displayName, systemImage: "person", keyboard: .default)
+                    field(L("الاسم"), text: $displayName, systemImage: "person", keyboard: .default)
                 }
-                field("البريد الإلكتروني", text: $email, systemImage: "envelope", keyboard: .emailAddress)
-                secureField("كلمة المرور", text: $password)
+                field(L("البريد الإلكتروني"), text: $email, systemImage: "envelope", keyboard: .emailAddress)
+                secureField(L("كلمة المرور"), text: $password)
                 if mode == .register {
                     Label(L("٨ أحرف على الأقل، وتحتوي أحرفًا وأرقامًا"),
                           systemImage: passwordStrong ? "checkmark.circle.fill" : "info.circle")
@@ -278,7 +278,7 @@ struct AccountView: View {
             guard let credential = auth.credential as? ASAuthorizationAppleIDCredential,
                   let tokenData = credential.identityToken,
                   let token = String(data: tokenData, encoding: .utf8) else {
-                account.lastError = "تعذّر قراءة رمز Apple."
+                account.lastError = L("تعذّر قراءة رمز Apple.")
                 return
             }
             let name = [credential.fullName?.givenName, credential.fullName?.familyName]

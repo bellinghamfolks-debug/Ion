@@ -16,7 +16,7 @@ struct ReviewView: View {
                     if let phonetic = card.word.phonetic { Text(phonetic).foregroundStyle(.secondary) }
                     VStack(spacing: 4) {
                         Text(Lf("احتمال التذكر الآن %@٪", "\(Int(card.estimatedRetrievability() * 100))"))
-                        Text("ثبات الذاكرة \(String(format: "%.1f", card.stabilityDays)) يوم • الانتكاسات \(card.lapses)")
+                        Text(Lf("ثبات الذاكرة %@ يوم • الانتكاسات %@", String(format: "%.1f", card.stabilityDays), "\(card.lapses)"))
                     }
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -47,10 +47,10 @@ struct ReviewView: View {
                         }
                     }
                 } else {
-                    PrimaryButton(title: "إظهار المعنى", systemImage: "eye.fill") { model.showingAnswer = true }
+                    PrimaryButton(title: L("إظهار المعنى"), systemImage: "eye.fill") { model.showingAnswer = true }
                 }
             } else {
-                ContentUnavailableView("لا توجد مراجعات مستحقة", systemImage: "checkmark.seal.fill", description: Text(L("عُد بعد دراسة بعض الدروس أو عندما يحين موعد البطاقات.")))
+                ContentUnavailableView(L("لا توجد مراجعات مستحقة"), systemImage: "checkmark.seal.fill", description: Text(L("عُد بعد دراسة بعض الدروس أو عندما يحين موعد البطاقات.")))
             }
         }
         .padding(AppTheme.screenPadding)

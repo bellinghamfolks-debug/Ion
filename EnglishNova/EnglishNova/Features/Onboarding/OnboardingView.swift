@@ -77,7 +77,7 @@ struct OnboardingView: View {
         VStack(alignment: .leading, spacing: 18) {
             Text(L("كيف نناديك؟")).font(.largeTitle.bold())
             TextField(L("الاسم اختياري"), text: $name).textContentType(.name).textFieldStyle(.roundedBorder)
-            InfoCard(title: "خصوصيتك أولا", systemImage: "lock.shield.fill") {
+            InfoCard(title: L("خصوصيتك أولا"), systemImage: "lock.shield.fill") {
                 Text(L("يمكنك استخدام التطبيق دون حساب، وإنشاء حساب لاحقًا لحفظ تقدّمك عبر أجهزتك. لا تُرفع تسجيلاتك الصوتية الخام، وكلمة المرور محفوظة مشفّرة."))
             }
         }

@@ -18,7 +18,7 @@ struct AIExerciseView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                InfoCard(title: "مولّد التمارين", systemImage: "wand.and.stars") {
+                InfoCard(title: L("مولّد التمارين"), systemImage: "wand.and.stars") {
                     Text(L("اختر موضوعًا وسيولّد لك المدرّب تمارين اختيار من متعدد مناسبة لمستواك."))
                         .font(.footnote).foregroundStyle(.secondary)
 
@@ -43,7 +43,7 @@ struct AIExerciseView: View {
                         }
                     }
 
-                    PrimaryButton(title: "ولّد التمارين", systemImage: "sparkles", isLoading: loading,
+                    PrimaryButton(title: L("ولّد التمارين"), systemImage: "sparkles", isLoading: loading,
                                   isDisabled: trimmed.isEmpty) { generate() }
                 }
 
@@ -59,14 +59,14 @@ struct AIExerciseView: View {
 
                 if !questions.isEmpty {
                     if revealed {
-                        InfoCard(title: "النتيجة", systemImage: "rosette", tint: AppTheme.success) {
-                            AccessibleProgressView(title: "إجاباتك الصحيحة", value: scoreRatio)
+                        InfoCard(title: L("النتيجة"), systemImage: "rosette", tint: AppTheme.success) {
+                            AccessibleProgressView(title: L("إجاباتك الصحيحة"), value: scoreRatio)
                             LabeledContent(L("الصحيحة"), value: "\(correctCount)/\(questions.count)")
                             Button(L("تمرين جديد")) { reset() }
                                 .buttonStyle(.bordered)
                         }
                     } else {
-                        PrimaryButton(title: "تحقّق من الإجابات", systemImage: "checkmark.circle.fill",
+                        PrimaryButton(title: L("تحقّق من الإجابات"), systemImage: "checkmark.circle.fill",
                                       isDisabled: selections.count < questions.count) { check() }
                     }
                 }
@@ -154,7 +154,7 @@ struct AIExerciseView: View {
                 questions = result.questions
                 if questions.isEmpty { errorMessage = L("لم تُولَّد تمارين. جرّب موضوعًا آخر.") }
             } catch {
-                errorMessage = (error as? LocalizedError)?.errorDescription ?? "تعذّر توليد التمارين."
+                errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذّر توليد التمارين.")
             }
             loading = false
         }
@@ -162,7 +162,7 @@ struct AIExerciseView: View {
 
     private func check() {
         withAnimation { revealed = true }
-        ToastCenter.shared.show("أصبت \(correctCount) من \(questions.count)")
+        ToastCenter.shared.show(Lf("أصبت %@ من %@", "\(correctCount)", "\(questions.count)"))
     }
 
     private func reset() {

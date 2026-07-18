@@ -53,7 +53,7 @@ struct SettingsView: View {
                 )
                 Picker("نمط الدراسة", selection: $settings.studyMode) {
                     ForEach(StudyMode.allCases) { mode in
-                        Text(mode.titleAr).tag(mode)
+                        Text(L(mode.titleAr)).tag(mode)
                     }
                 }
                 NavigationLink { LearningPathwaysView() } label: {
@@ -123,7 +123,7 @@ struct SettingsView: View {
                 // between the smart (server) tutor and the offline local tutor.
                 Picker("مصدر إجابات المدرّس", selection: $settings.tutorProvider) {
                     ForEach(TutorProvider.allCases.filter { $0 != .gemini }) { provider in
-                        Text(provider.titleAr).tag(provider)
+                        Text(L(provider.titleAr)).tag(provider)
                     }
                 }
                 Text(settings.tutorProvider.detailAr)

@@ -37,9 +37,9 @@ struct CourseSearchView: View {
             ForEach(model.filtered) { lesson in
                 NavigationLink(value: lesson) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(lesson.titleAr).font(.headline)
+                        Text(L(lesson.titleAr)).font(.headline)
                         Text(lesson.titleEn).foregroundStyle(.secondary).environment(\.layoutDirection, .leftToRight)
-                        Text(lesson.objectiveAr).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                        Text(L(lesson.objectiveAr)).font(.caption).foregroundStyle(.secondary).lineLimit(2)
                     }
                 }
             }

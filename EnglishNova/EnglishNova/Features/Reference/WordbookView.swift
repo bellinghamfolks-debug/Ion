@@ -64,7 +64,7 @@ struct WordbookView: View {
             Section("التصفية") {
                 Picker("نوع الكلمات", selection: $model.filter) {
                     ForEach(WordbookFilter.allCases) { filter in
-                        Text(filter.titleAr).tag(filter)
+                        Text(L(filter.titleAr)).tag(filter)
                     }
                 }
                 .pickerStyle(.segmented)

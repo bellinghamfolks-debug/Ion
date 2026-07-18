@@ -76,7 +76,7 @@ struct DailyPlanView: View {
     @ViewBuilder
     private func planItem(_ item: LearningPlanItem, number: Int) -> some View {
         let card = InfoCard(title: "\(number). \(item.kind.titleAr)", systemImage: item.kind.systemImage) {
-            Text(item.titleAr).font(.title3.bold())
+            Text(L(item.titleAr)).font(.title3.bold())
             Text(item.subtitleAr).foregroundStyle(.secondary)
             Label("\(item.estimatedMinutes) دقائق", systemImage: "clock")
         }

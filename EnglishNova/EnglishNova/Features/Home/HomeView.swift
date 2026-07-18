@@ -75,13 +75,13 @@ struct HomeView: View {
     private var dailyGoal: some View {
         InfoCard(title: "هدف اليوم", systemImage: "target") {
             AccessibleProgressView(
-                title: "\(model.todayMinutes) من \(settings.dailyGoalMinutes) دقيقة",
+                title: Lf("%@ من %@ دقيقة", "\(model.todayMinutes)", "\(settings.dailyGoalMinutes)"),
                 value: min(1, Double(model.todayMinutes) / Double(max(1, settings.dailyGoalMinutes)))
             )
             HStack {
-                Label("\(session.points) نقطة", systemImage: "star.fill")
+                Label(Lf("%@ نقطة", "\(session.points)"), systemImage: "star.fill")
                 Spacer()
-                Label("\(session.streak) يوم", systemImage: "flame.fill")
+                Label(Lf("%@ يوم", "\(session.streak)"), systemImage: "flame.fill")
             }
             .font(.subheadline.weight(.semibold))
         }
@@ -95,11 +95,11 @@ struct HomeView: View {
                 Text(L(pathway.titleAr)).font(.title2.bold())
                 Text(pathway.detailAr).foregroundStyle(.secondary)
                 AccessibleProgressView(
-                    title: "\(progress.completedMilestones) من \(progress.totalMilestones) مراحل",
+                    title: Lf("%@ من %@ مراحل", "\(progress.completedMilestones)", "\(progress.totalMilestones)"),
                     value: progress.overallProgress
                 )
                 if let current = progress.currentMilestone {
-                    Text("المرحلة الحالية: \(current.titleAr)").font(.caption.bold())
+                    Text(Lf("المرحلة الحالية: %@", "\(current.titleAr)")).font(.caption.bold())
                 }
             }
         }
@@ -110,7 +110,7 @@ struct HomeView: View {
         if let plan = model.dailyPlan {
             NavigationLink { DailyPlanView() } label: {
                 InfoCard(title: "خطتك الذكية", systemImage: "wand.and.stars") {
-                    Text("\(plan.items.count) أنشطة • \(plan.targetMinutes) دقيقة")
+                    Text(Lf("%@ أنشطة • %@ دقيقة", "\(plan.items.count)", "\(plan.targetMinutes)"))
                         .font(.title2.bold())
                     ForEach(plan.items.prefix(3)) { item in
                         Label(item.titleAr, systemImage: item.kind.systemImage)
@@ -174,7 +174,7 @@ struct HomeView: View {
                 InfoCard(title: "تابع التعلّم", systemImage: "play.circle.fill") {
                     Text(L(lesson.titleAr)).font(.title2.bold())
                     Text(L(lesson.objectiveAr)).foregroundStyle(.secondary)
-                    Label("\(lesson.estimatedMinutes) دقائق", systemImage: "clock")
+                    Label(Lf("%@ دقائق", "\(lesson.estimatedMinutes)"), systemImage: "clock")
                 }
             }
             .buttonStyle(.plain)
@@ -189,7 +189,7 @@ struct HomeView: View {
             Text(L("وصول سريع")).font(.title2.bold())
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                 NavigationLink { PracticeHubView() } label: { QuickActionCard(title: "تدريب", icon: "mic.fill", colors: [AppTheme.brand, AppTheme.brandSecondary]) }
-                NavigationLink { ReviewView() } label: { QuickActionCard(title: "مراجعة \(model.dueCount)", icon: "rectangle.stack.fill", colors: [AppTheme.accentTeal, AppTheme.success]) }
+                NavigationLink { ReviewView() } label: { QuickActionCard(title: Lf("مراجعة %@", "\(model.dueCount)"), icon: "rectangle.stack.fill", colors: [AppTheme.accentTeal, AppTheme.success]) }
                 NavigationLink { StoryLibraryView() } label: { QuickActionCard(title: "قصص", icon: "book.pages.fill", colors: [AppTheme.brandSecondary, AppTheme.streak]) }
                 NavigationLink { AdvancedSkillsHubView() } label: { QuickActionCard(title: "مختبرات", icon: "books.vertical.fill", colors: [AppTheme.warning, AppTheme.streak]) }
                 NavigationLink { WeeklyProgressReportView() } label: { QuickActionCard(title: "تقرير أسبوعي", icon: "doc.text.image.fill", colors: [AppTheme.success, AppTheme.accentTeal]) }
@@ -205,7 +205,7 @@ struct HomeView: View {
                 HStack {
                     Text(date, format: .dateTime.weekday(.abbreviated))
                     ProgressView(value: Double(minutes), total: Double(max(settings.dailyGoalMinutes, 1)))
-                    Text("\(minutes) د").monospacedDigit()
+                    Text(Lf("%@ د", "\(minutes)")).monospacedDigit()
                 }
                 .accessibilityElement(children: .combine)
             }
@@ -234,7 +234,7 @@ private struct HomeLeaderboardCard: View {
                 InfoCard(title: "لوحة الصدارة", systemImage: "trophy.fill", tint: AppTheme.warning) {
                     if let me {
                         HStack {
-                            Text("ترتيبك #\(me.rank)")
+                            Text(Lf("ترتيبك #%@", "\(me.rank)"))
                                 .font(.title3.bold()).foregroundStyle(AppTheme.brand)
                             Spacer()
                             Label("\(me.points)", systemImage: "star.fill")

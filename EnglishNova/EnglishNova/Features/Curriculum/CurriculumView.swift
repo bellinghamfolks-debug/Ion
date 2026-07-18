@@ -60,7 +60,7 @@ private struct UnitCard: View {
                             Image(systemName: progress.lessons[lesson.id]?.completedAt == nil ? "circle" : "checkmark.circle.fill")
                             VStack(alignment: .leading) {
                                 Text(L(lesson.titleAr)).font(.headline)
-                                Text("\(lesson.estimatedMinutes) دقائق • \(lesson.points) نقطة").font(.caption).foregroundStyle(.secondary)
+                                Text(Lf("%@ دقائق • %@ نقطة", "\(lesson.estimatedMinutes)", "\(lesson.points)")).font(.caption).foregroundStyle(.secondary)
                             }
                             Spacer()
                             Image(systemName: "chevron.forward")
@@ -68,7 +68,7 @@ private struct UnitCard: View {
                         .padding(.vertical, 8)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("درس \(lesson.titleAr)، مدته \(lesson.estimatedMinutes) دقائق")
+                    .accessibilityLabel(Lf("درس %@، مدته %@ دقائق", "\(lesson.titleAr)", "\(lesson.estimatedMinutes)"))
                     .accessibilityValue(progress.lessons[lesson.id]?.completedAt == nil ? L("غير مكتمل") : L("مكتمل"))
                 }
             }

@@ -93,7 +93,7 @@ struct PronunciationLabView: View {
                     LabeledContent(L("دقة الكلمات"), value: "\(Int(report.accuracy * 100))٪")
                     LabeledContent(L("اكتمال الجملة"), value: "\(Int(report.completeness * 100))٪")
                     LabeledContent(L("الطلاقة"), value: "\(Int(report.fluency * 100))٪")
-                    LabeledContent(L("السرعة"), value: "\(Int(report.wordsPerMinute)) كلمة في الدقيقة")
+                    LabeledContent(L("السرعة"), value: Lf("%@ كلمة في الدقيقة", "\(Int(report.wordsPerMinute))"))
                     Text(L("هذا التحليل يعتمد على تفريغ الكلام والتوقيت وثقة نظام التعرف، وليس قياسًا صوتيًا مخبريًا لمخارج الحروف."))
                         .font(.caption).foregroundStyle(.secondary)
                 }

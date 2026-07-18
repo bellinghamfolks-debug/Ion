@@ -36,14 +36,14 @@ struct WeeklyProgressReportView: View {
 
                     InfoCard(title: "الاستمرارية", systemImage: "calendar.badge.checkmark") {
                         AccessibleProgressView(
-                            title: "\(report.activeDays) من \(settings.weeklyTargetDays) أيام مستهدفة",
+                            title: Lf("%@ من %@ أيام مستهدفة", "\(report.activeDays)", "\(settings.weeklyTargetDays)"),
                             value: min(1, Double(report.activeDays) / Double(max(1, settings.weeklyTargetDays)))
                         )
                         Text(report.narrativeAr)
                     }
 
                     InfoCard(title: "الأرقام", systemImage: "chart.bar.fill") {
-                        LabeledContent(L("وقت التعلم"), value: "\(report.totalMinutes) دقيقة")
+                        LabeledContent(L("وقت التعلم"), value: Lf("%@ دقيقة", "\(report.totalMinutes)"))
                         LabeledContent(L("الدروس المكتملة"), value: "\(report.completedLessons)")
                         LabeledContent(L("جلسات المهارات"), value: "\(report.practiceSessions)")
                         LabeledContent(L("متوسط المهارات"), value: "\(Int(report.averagePracticeScore * 100))٪")

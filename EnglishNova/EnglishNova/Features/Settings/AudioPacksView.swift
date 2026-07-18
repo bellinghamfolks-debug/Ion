@@ -72,7 +72,7 @@ private struct AudioPacksContent: View {
             }
             Button(L("إلغاء"), role: .cancel) { packToDelete = nil }
         } message: { pack in
-            Text("ستُحذف ملفات \(pack.titleAr) من جهازك، ويمكنك تنزيلها مجددًا لاحقًا.")
+            Text(Lf("ستُحذف ملفات %@ من جهازك، ويمكنك تنزيلها مجددًا لاحقًا.", "\(pack.titleAr)"))
         }
     }
 

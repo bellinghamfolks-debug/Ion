@@ -3,10 +3,12 @@ import Combine
 
 @MainActor
 final class TutorViewModel: ObservableObject {
-    private static let greeting = TutorMessage(
-        role: .assistant,
-        text: "مرحبًا. اكتب جملة إنجليزية أو اسأل عن قاعدة، وسأشرحها بالعربية خطوة بخطوة."
-    )
+    private static var greeting: TutorMessage {
+        TutorMessage(
+            role: .assistant,
+            text: L("مرحبًا. اكتب جملة إنجليزية أو اسأل عن قاعدة، وسأشرحها بالعربية خطوة بخطوة.")
+        )
+    }
 
     @Published var messages: [TutorMessage] = [TutorViewModel.greeting]
     @Published var draft = ""

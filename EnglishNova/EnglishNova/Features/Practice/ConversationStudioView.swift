@@ -109,7 +109,7 @@ private struct ConversationSessionView: View {
                                 }
                             }
                         } label: {
-                            Label(speechService.state == .listening ? "إيقاف التسجيل" : "الإجابة بالصوت", systemImage: "mic.fill")
+                            Label(speechService.state == .listening ? L("إيقاف التسجيل") : L("الإجابة بالصوت"), systemImage: "mic.fill")
                         }
                         .buttonStyle(.bordered)
                         Button {
@@ -135,7 +135,7 @@ private struct ConversationSessionView: View {
                     }
 
                     PrimaryButton(
-                        title: evaluation == nil ? "تقييم الرد" : "متابعة الحوار",
+                        title: evaluation == nil ? L("تقييم الرد") : L("متابعة الحوار"),
                         systemImage: evaluation == nil ? "checkmark.circle.fill" : "arrow.forward.circle.fill",
                         isDisabled: response.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                     ) {
@@ -164,7 +164,7 @@ private struct ConversationSessionView: View {
         let average = completedScores.isEmpty ? 0 : completedScores.reduce(0, +) / Double(completedScores.count)
         return InfoCard(title: "اكتملت المحادثة", systemImage: "flag.checkered") {
             AccessibleProgressView(title: "النتيجة العامة \(Int(average * 100))٪", value: average)
-            Text(average >= 0.8 ? "أدرت الموقف بوضوح وثقة." : "أنهيت الموقف. أعده مرة أخرى وحاول إدخال الأفكار التي ظهرت في النماذج.")
+            Text(average >= 0.8 ? L("أدرت الموقف بوضوح وثقة.") : L("أنهيت الموقف. أعده مرة أخرى وحاول إدخال الأفكار التي ظهرت في النماذج."))
             Button(L("إعادة المحادثة")) {
                 turnIndex = 0
                 response = ""
@@ -343,7 +343,7 @@ private struct VoiceCoachSessionView: View {
             HStack {
                 Button(L("استمع")) { speakPartnerLine() }
                     .buttonStyle(.bordered)
-                Text(coachReply?.source == "remote" ? "رد عبر الإنترنت" : "رد محلي أو احتياطي")
+                Text(coachReply?.source == "remote" ? L("رد عبر الإنترنت") : L("رد محلي أو احتياطي"))
                     .font(.caption).foregroundStyle(.secondary)
             }
             if settings.showArabicCoachHints, let translation = coachReply?.translationAr {
@@ -375,7 +375,7 @@ private struct VoiceCoachSessionView: View {
             Button {
                 Task { await toggleRecording() }
             } label: {
-                Label(speechService.state == .listening ? "إيقاف التسجيل" : "ابدأ الإجابة", systemImage: speechService.state == .listening ? "stop.circle.fill" : "mic.circle.fill")
+                Label(speechService.state == .listening ? L("إيقاف التسجيل") : L("ابدأ الإجابة"), systemImage: speechService.state == .listening ? "stop.circle.fill" : "mic.circle.fill")
             }
             .buttonStyle(.borderedProminent)
             .disabled(isEvaluating || report != nil)
@@ -405,7 +405,7 @@ private struct VoiceCoachSessionView: View {
         }
 
         PrimaryButton(
-            title: report == nil ? "حلل الرد" : "انتقل إلى الجولة التالية",
+            title: report == nil ? L("حلل الرد") : L("انتقل إلى الجولة التالية"),
             systemImage: report == nil ? "waveform.path.ecg" : "arrow.forward.circle.fill",
             isDisabled: transcript.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isEvaluating
         ) {
@@ -421,7 +421,7 @@ private struct VoiceCoachSessionView: View {
         let average = scores.isEmpty ? 0 : scores.reduce(0, +) / Double(scores.count)
         return InfoCard(title: "اكتملت الجلسة الصوتية", systemImage: "checkmark.seal.fill") {
             AccessibleProgressView(title: "متوسط الجلسة \(Int(average * 100))٪", value: average)
-            Text(average >= 0.82 ? "استجابتك واضحة ومتوازنة. انتقل إلى موقف أعلى قليلًا." : "اكتملت الجلسة. راجع الكلمات المسجلة في دفتر الأخطاء ثم أعد الموقف.")
+            Text(average >= 0.82 ? L("استجابتك واضحة ومتوازنة. انتقل إلى موقف أعلى قليلًا.") : L("اكتملت الجلسة. راجع الكلمات المسجلة في دفتر الأخطاء ثم أعد الموقف."))
             Button(L("إعادة الجلسة")) { resetSession() }
                 .buttonStyle(.borderedProminent)
         }

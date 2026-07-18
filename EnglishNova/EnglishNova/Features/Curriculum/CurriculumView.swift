@@ -69,7 +69,7 @@ private struct UnitCard: View {
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel("درس \(lesson.titleAr)، مدته \(lesson.estimatedMinutes) دقائق")
-                    .accessibilityValue(progress.lessons[lesson.id]?.completedAt == nil ? "غير مكتمل" : "مكتمل")
+                    .accessibilityValue(progress.lessons[lesson.id]?.completedAt == nil ? L("غير مكتمل") : L("مكتمل"))
                 }
             }
         }

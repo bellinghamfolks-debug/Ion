@@ -108,11 +108,11 @@ private struct MessageBubble: View {
                 Button {
                     isSpeaking ? onStop() : onSpeak()
                 } label: {
-                    Label(isSpeaking ? "إيقاف" : "استماع", systemImage: isSpeaking ? "stop.circle" : "speaker.wave.2.circle")
+                    Label(isSpeaking ? L("إيقاف") : L("استماع"), systemImage: isSpeaking ? "stop.circle" : "speaker.wave.2.circle")
                         .font(.caption)
                 }
                 .buttonStyle(.bordered)
-                .accessibilityLabel(isSpeaking ? "إيقاف نطق رد المدرّس" : "استماع إلى رد المدرّس")
+                .accessibilityLabel(isSpeaking ? L("إيقاف نطق رد المدرّس") : L("استماع إلى رد المدرّس"))
             }
         }
         .frame(maxWidth: .infinity, alignment: isAssistant ? .leading : .trailing)
@@ -120,11 +120,11 @@ private struct MessageBubble: View {
         // rotor/double-tap action to hear it spoken aloud by the synthesizer.
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(accessibilityText)
-        .accessibilityAction(named: isAssistant ? "استماع إلى الرد" : "استماع") { onSpeak() }
+        .accessibilityAction(named: isAssistant ? L("استماع إلى الرد") : L("استماع")) { onSpeak() }
     }
 
     private var accessibilityText: String {
-        var parts: [String] = [isAssistant ? "رد المدرّس:" : "رسالتك:", message.text]
+        var parts: [String] = [isAssistant ? L("رد المدرّس:") : L("رسالتك:"), message.text]
         for correction in message.corrections {
             parts.append("تصحيح: \(correction.original) يصبح \(correction.replacement). \(correction.reason)")
         }

@@ -156,7 +156,7 @@ struct AccountView: View {
     @State private var isWorking = false
 
     private enum Mode: String, CaseIterable { case signIn, register
-        var titleAr: String { self == .signIn ? "تسجيل الدخول" : "حساب جديد" }
+        var titleAr: String { self == .signIn ? L("تسجيل الدخول") : L("حساب جديد") }
     }
 
     private var authForm: some View {

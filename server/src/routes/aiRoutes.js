@@ -58,22 +58,66 @@ function sendAiError(res, e) {
   return res.status(502).json({ error: "ai_failed" });
 }
 
-// POST /ai/tutor { message, level? } -> { reply }
-// A concise English tutor for Arabic-speaking learners.
+// POST /ai/tutor { message, level? } -> { reply, corrections[], suggestedReplies[] }
+// A concise English tutor for Arabic-speaking learners. Returns structured JSON
+// so the app can show corrections and suggested replies, and so responses are
+// clean (no leaked markdown) and complete (not cut off mid-sentence).
 aiRouter.post("/tutor", requireAuth, aiLimit, async (req, res) => {
   const message = String(req.body.message || "").slice(0, 2000).trim();
   const level = String(req.body.level || "A2").slice(0, 4);
   if (!message) return res.status(400).json({ error: "empty_message" });
 
   const system =
-    `You are a friendly English tutor for an Arabic-speaking learner at CEFR level ${level}. ` +
-    `Reply briefly and encouragingly. Gently correct mistakes, give one clear example, ` +
-    `and add a short Arabic note explaining the key point. Keep it concise.`;
+    `You are a warm, patient English tutor for an Arabic-speaking learner at CEFR ` +
+    `level ${level}. Correct their English mistakes kindly. Write "reply" in simple ` +
+    `English (keep it short and always a COMPLETE sentence, never cut off), and put ` +
+    `Arabic explanations only inside "corrections.reason". Do NOT use markdown, ` +
+    `asterisks, headings, or numbered lists — plain text only.`;
+  const userText =
+    `The learner wrote: "${message}"\n` +
+    `Give: reply (a short, encouraging English response that directly answers or ` +
+    `continues, and models correct English), corrections (array of {original, ` +
+    `replacement, reason} for each real mistake; reason in Arabic; empty array if ` +
+    `none), suggestedReplies (2-3 short natural English phrases the learner could say next).`;
 
   try {
-    const reply = await callGemini({ system, userText: message });
+    const raw = await callGemini({
+      system,
+      userText,
+      config: {
+        temperature: 0.5,
+        maxOutputTokens: 800,
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "object",
+          properties: {
+            reply: { type: "string" },
+            corrections: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  original: { type: "string" },
+                  replacement: { type: "string" },
+                  reason: { type: "string" },
+                },
+                required: ["original", "replacement", "reason"],
+              },
+            },
+            suggestedReplies: { type: "array", items: { type: "string" } },
+          },
+          required: ["reply"],
+        },
+      },
+    });
+    let parsed = {};
+    try { parsed = JSON.parse(raw || "{}"); } catch { parsed = { reply: raw.trim() }; }
     logEvent(req.userId, "ai_tutor", { level });
-    res.json({ reply: reply.trim() });
+    res.json({
+      reply: (parsed.reply || "").trim(),
+      corrections: Array.isArray(parsed.corrections) ? parsed.corrections : [],
+      suggestedReplies: Array.isArray(parsed.suggestedReplies) ? parsed.suggestedReplies : [],
+    });
   } catch (e) {
     sendAiError(res, e);
   }

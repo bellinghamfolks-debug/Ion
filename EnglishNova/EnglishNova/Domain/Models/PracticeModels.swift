@@ -43,8 +43,8 @@ enum AccentVariant: String, Codable, CaseIterable, Identifiable, Hashable {
 
     var titleAr: String {
         switch self {
-        case .american: return "أمريكية"
-        case .british: return "بريطانية"
+        case .american: return L("أمريكية")
+        case .british: return L("بريطانية")
         }
     }
 
@@ -80,11 +80,11 @@ enum PronunciationIssueKind: String, Codable, Hashable {
 
     var titleAr: String {
         switch self {
-        case .accurate: return "دقيق"
-        case .close: return "قريب"
-        case .substituted: return "استبدال"
-        case .omitted: return "محذوف"
-        case .extra: return "إضافة"
+        case .accurate: return L("دقيق")
+        case .close: return L("قريب")
+        case .substituted: return L("استبدال")
+        case .omitted: return L("محذوف")
+        case .extra: return L("إضافة")
         }
     }
 
@@ -160,16 +160,16 @@ enum ExamTrack: String, Codable, CaseIterable, Identifiable, Hashable {
     var titleAr: String {
         switch self {
         case .ieltsSpeaking: return "IELTS Speaking"
-        case .step: return "اختبار STEP"
-        case .workplace: return "الإنجليزية المهنية"
+        case .step: return L("اختبار STEP")
+        case .workplace: return L("الإنجليزية المهنية")
         }
     }
 
     var detailAr: String {
         switch self {
-        case .ieltsSpeaking: return "تدريب على الطلاقة، الترابط، المفردات، وإجابة السؤال مباشرة."
-        case .step: return "مفردات وقواعد وقراءة بأسلوب اختيار من متعدد."
-        case .workplace: return "رسائل واجتماعات ومواقف عملية باللغة الإنجليزية."
+        case .ieltsSpeaking: return L("تدريب على الطلاقة، الترابط، المفردات، وإجابة السؤال مباشرة.")
+        case .step: return L("مفردات وقواعد وقراءة بأسلوب اختيار من متعدد.")
+        case .workplace: return L("رسائل واجتماعات ومواقف عملية باللغة الإنجليزية.")
         }
     }
 }
@@ -212,10 +212,10 @@ enum InterviewCategory: String, Codable, CaseIterable, Identifiable, Hashable {
 
     var titleAr: String {
         switch self {
-        case .introduction: return "التعريف والخلفية"
-        case .behavioral: return "الأسئلة السلوكية"
-        case .legalGovernance: return "القانون والحوكمة"
-        case .difficult: return "الأسئلة الصعبة"
+        case .introduction: return L("التعريف والخلفية")
+        case .behavioral: return L("الأسئلة السلوكية")
+        case .legalGovernance: return L("القانون والحوكمة")
+        case .difficult: return L("الأسئلة الصعبة")
         }
     }
 }

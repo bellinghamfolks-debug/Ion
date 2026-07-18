@@ -11,11 +11,11 @@ enum LanguageSkill: String, Codable, CaseIterable, Identifiable, Hashable {
 
     var titleAr: String {
         switch self {
-        case .vocabulary: return "المفردات"
-        case .grammar: return "القواعد"
-        case .reading: return "القراءة"
-        case .listening: return "الاستماع"
-        case .practicalCommunication: return "التواصل العملي"
+        case .vocabulary: return L("المفردات")
+        case .grammar: return L("القواعد")
+        case .reading: return L("القراءة")
+        case .listening: return L("الاستماع")
+        case .practicalCommunication: return L("التواصل العملي")
         }
     }
 

@@ -33,10 +33,19 @@ struct HomeView: View {
         } message: { Text(model.errorMessage ?? "") }
     }
 
+    /// The name to greet with: the local profile name, else the signed-in
+    /// account's name (so a user who signed up without an onboarding name still
+    /// sees their name), else empty for a generic greeting.
+    private var greetingName: String {
+        let local = session.displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !local.isEmpty { return local }
+        return container.accountService.currentUser?.displayName.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    }
+
     private var hero: some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 6) {
-                Text(session.displayName.isEmpty ? L("مرحبًا بك 👋") : Lf("مرحبًا، %@ 👋", "\(session.displayName)"))
+                Text(greetingName.isEmpty ? L("مرحبًا بك 👋") : Lf("مرحبًا، %@ 👋", "\(greetingName)"))
                     .font(.title.bold())
                     .foregroundStyle(.white)
                 Text(settings.reduceLearningPressure ? L("اليوم يكفي أن تتقدم بهدوء.") : L("خطوة صغيرة اليوم تصنع لغة كاملة غدًا."))

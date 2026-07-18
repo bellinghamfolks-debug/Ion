@@ -73,7 +73,7 @@ struct ReadingComprehensionLabView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text(passage.titleAr).font(.largeTitle.bold())
+                Text(L(passage.titleAr)).font(.largeTitle.bold())
                 HStack {
                     Label(passage.level.rawValue, systemImage: "gauge.with.dots.needle.33percent")
                     Label(passage.topicAr, systemImage: "tag.fill")
@@ -119,7 +119,7 @@ struct ReadingComprehensionLabView: View {
     private func questionCard(_ question: ComprehensionQuestion, number: Int) -> some View {
         InfoCard(title: "السؤال \(number)", systemImage: "questionmark.circle.fill") {
             Text(question.prompt).font(.headline).environment(\.layoutDirection, .leftToRight)
-            Text(question.promptAr).font(.caption).foregroundStyle(.secondary)
+            Text(L(question.promptAr)).font(.caption).foregroundStyle(.secondary)
             ForEach(question.choices, id: \.self) { choice in
                 Button {
                     guard !submitted else { return }
@@ -225,7 +225,7 @@ struct ListeningComprehensionLabView: View {
     var body: some View {
         Form {
             Section("الموقف") {
-                Text(item.titleAr).font(.title2.bold())
+                Text(L(item.titleAr)).font(.title2.bold())
                 Text(item.contextAr).foregroundStyle(.secondary)
                 Label("المستوى \(item.level.rawValue)", systemImage: "gauge.with.dots.needle.33percent")
                 Button {
@@ -335,12 +335,12 @@ struct WritingStudioView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text(prompt.titleAr).font(.largeTitle.bold())
-                Text(prompt.kind.titleAr).font(.headline).foregroundStyle(.secondary)
+                Text(L(prompt.titleAr)).font(.largeTitle.bold())
+                Text(L(prompt.kind.titleAr)).font(.headline).foregroundStyle(.secondary)
 
                 InfoCard(title: "المهمة", systemImage: "doc.text.fill") {
                     Text(prompt.prompt).font(.title3).environment(\.layoutDirection, .leftToRight)
-                    Text(prompt.promptAr).foregroundStyle(.secondary)
+                    Text(L(prompt.promptAr)).foregroundStyle(.secondary)
                     Label("الحد الأدنى \(prompt.minimumWords) كلمة", systemImage: "number")
                     Text("مفردات مقترحة: \(prompt.suggestedWords.joined(separator: "، "))")
                         .font(.caption)

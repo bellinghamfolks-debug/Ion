@@ -29,7 +29,7 @@ struct ConversationStudioView: View {
                                 ConversationSessionView(scenario: scenario)
                             } label: {
                                 VStack(alignment: .leading, spacing: 5) {
-                                    Text(scenario.titleAr).font(.headline)
+                                    Text(L(scenario.titleAr)).font(.headline)
                                     Text(scenario.titleEn).environment(\.layoutDirection, .leftToRight)
                                     Text(scenario.roleAr).font(.caption).foregroundStyle(.secondary)
                                 }
@@ -63,7 +63,7 @@ private struct ConversationSessionView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text(scenario.titleAr).font(.largeTitle.bold())
+                Text(L(scenario.titleAr)).font(.largeTitle.bold())
                 Text(scenario.roleAr).foregroundStyle(.secondary)
                 AccessibleProgressView(
                     title: "الدور \(min(turnIndex + 1, scenario.turns.count)) من \(scenario.turns.count)",
@@ -87,7 +87,7 @@ private struct ConversationSessionView: View {
                     resultCard
                 } else if let turn = currentTurn {
                     InfoCard(title: "مهمتك", systemImage: "target") {
-                        Text(turn.promptAr).font(.headline)
+                        Text(L(turn.promptAr)).font(.headline)
                         Text("لا يلزم أن تطابق النموذج حرفيًا. عبّر بطريقتك واذكر الفكرة الأساسية.")
                             .font(.caption).foregroundStyle(.secondary)
                     }
@@ -244,7 +244,7 @@ struct VoiceCoachView: View {
             Section("إعداد الجلسة") {
                 Picker("اللكنة", selection: $settings.accentVariant) {
                     ForEach(AccentVariant.allCases) { accent in
-                        Text(accent.titleAr).tag(accent)
+                        Text(L(accent.titleAr)).tag(accent)
                     }
                 }
                 Toggle("نطق سؤال المدرب تلقائيًا", isOn: $settings.autoSpeakCoachPrompts)
@@ -256,7 +256,7 @@ struct VoiceCoachView: View {
                         VoiceCoachSessionView(scenario: scenario)
                     } label: {
                         VStack(alignment: .leading, spacing: 5) {
-                            Text(scenario.titleAr).font(.headline)
+                            Text(L(scenario.titleAr)).font(.headline)
                             Text(scenario.titleEn).environment(\.layoutDirection, .leftToRight)
                             Text("\(scenario.turns.count) جولات • \(scenario.roleAr)")
                                 .font(.caption).foregroundStyle(.secondary)
@@ -301,7 +301,7 @@ private struct VoiceCoachSessionView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text(scenario.titleAr).font(.largeTitle.bold())
+                Text(L(scenario.titleAr)).font(.largeTitle.bold())
                 Text(scenario.roleAr).foregroundStyle(.secondary)
                 AccessibleProgressView(
                     title: "الجولة \(min(turnIndex + 1, scenario.turns.count)) من \(scenario.turns.count)",
@@ -319,7 +319,7 @@ private struct VoiceCoachSessionView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle(settings.accentVariant.titleAr)
+        .navigationTitle(L(settings.accentVariant.titleAr))
         .navigationBarTitleDisplayMode(.inline)
         .task {
             partnerLine = scenario.openingLine
@@ -355,7 +355,7 @@ private struct VoiceCoachSessionView: View {
     @ViewBuilder
     private func activeTurnView(_ turn: ConversationTurn) -> some View {
         InfoCard(title: "مهمتك", systemImage: "target") {
-            Text(turn.promptAr).font(.headline)
+            Text(L(turn.promptAr)).font(.headline)
             Text("النموذج المستخدم للمقارنة الصوتية:")
                 .font(.caption).foregroundStyle(.secondary)
             Text(turn.sampleAnswer)
@@ -450,7 +450,7 @@ private struct VoiceCoachSessionView: View {
                                 .font(.headline)
                                 .environment(\.layoutDirection, .leftToRight)
                             Spacer()
-                            Text(word.issue.titleAr).font(.caption.bold())
+                            Text(L(word.issue.titleAr)).font(.caption.bold())
                         }
                         if let recognized = word.recognized, recognized != word.expected {
                             Text("سمعها النظام: \(recognized)")

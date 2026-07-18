@@ -38,7 +38,7 @@ private struct GrammarTopicView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text(topic.titleAr).font(.largeTitle.bold())
+                Text(L(topic.titleAr)).font(.largeTitle.bold())
                 Text(topic.titleEn).font(.title2).foregroundStyle(.secondary).environment(\.layoutDirection, .leftToRight)
                 InfoCard(title: "الفكرة", systemImage: "lightbulb.fill") { Text(topic.summaryAr) }
                 InfoCard(title: "البنية", systemImage: "function") {

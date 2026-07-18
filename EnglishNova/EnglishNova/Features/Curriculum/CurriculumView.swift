@@ -22,8 +22,8 @@ struct CurriculumView: View {
                 }
 
                 if let course = model.selectedCourse {
-                    Text(course.titleAr).font(.largeTitle.bold())
-                    Text(course.descriptionAr).foregroundStyle(.secondary)
+                    Text(L(course.titleAr)).font(.largeTitle.bold())
+                    Text(L(course.descriptionAr)).foregroundStyle(.secondary)
                     ForEach(course.units) { unit in
                         UnitCard(unit: unit, completion: model.completion(for: unit), progress: model.progress)
                     }
@@ -51,7 +51,7 @@ private struct UnitCard: View {
 
     var body: some View {
         InfoCard(title: unit.titleAr, systemImage: unit.icon) {
-            Text(unit.descriptionAr).foregroundStyle(.secondary)
+            Text(L(unit.descriptionAr)).foregroundStyle(.secondary)
             AccessibleProgressView(title: "تقدم الوحدة", value: completion)
             VStack(spacing: 8) {
                 ForEach(unit.lessons) { lesson in
@@ -59,7 +59,7 @@ private struct UnitCard: View {
                         HStack(spacing: 12) {
                             Image(systemName: progress.lessons[lesson.id]?.completedAt == nil ? "circle" : "checkmark.circle.fill")
                             VStack(alignment: .leading) {
-                                Text(lesson.titleAr).font(.headline)
+                                Text(L(lesson.titleAr)).font(.headline)
                                 Text("\(lesson.estimatedMinutes) دقائق • \(lesson.points) نقطة").font(.caption).foregroundStyle(.secondary)
                             }
                             Spacer()

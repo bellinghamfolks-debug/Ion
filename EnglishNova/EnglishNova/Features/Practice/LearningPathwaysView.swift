@@ -74,7 +74,7 @@ struct LearningPathwaysView: View {
                         Image(systemName: index < progress.completedMilestones ? "checkmark.circle.fill" : "circle")
                             .accessibilityHidden(true)
                         VStack(alignment: .leading) {
-                            Text(milestone.titleAr).font(.subheadline.bold())
+                            Text(L(milestone.titleAr)).font(.subheadline.bold())
                             Text("\(milestone.requiredSessions) جلسة، متوسط \(Int(milestone.requiredAverageScore * 100))٪")
                                 .font(.caption).foregroundStyle(.secondary)
                         }

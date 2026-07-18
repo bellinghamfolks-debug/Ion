@@ -12,8 +12,8 @@ struct AchievementsView: View {
                     .frame(width: 42, height: 42)
                     .background(.thinMaterial, in: Circle())
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(achievement.titleAr).font(.headline)
-                    Text(achievement.descriptionAr).font(.subheadline).foregroundStyle(.secondary)
+                    Text(L(achievement.titleAr)).font(.headline)
+                    Text(L(achievement.descriptionAr)).font(.subheadline).foregroundStyle(.secondary)
                     if !unlocked {
                         Text("متبقي \(max(0, achievement.requiredPoints - session.points)) نقطة")
                             .font(.caption).foregroundStyle(.secondary)

@@ -59,7 +59,7 @@ struct PronunciationLabView: View {
                 TextField("الجملة", text: $target, axis: .vertical).environment(\.layoutDirection, .leftToRight)
                 Picker("اللكنة", selection: $settings.accentVariant) {
                     ForEach(AccentVariant.allCases) { accent in
-                        Text(accent.titleAr).tag(accent)
+                        Text(L(accent.titleAr)).tag(accent)
                     }
                 }
                 Button("استمع للنموذج") {
@@ -104,7 +104,7 @@ struct PronunciationLabView: View {
                                 Text(word.expected.isEmpty ? word.recognized ?? "" : word.expected)
                                     .font(.headline)
                                     .environment(\.layoutDirection, .leftToRight)
-                                Text(word.issue.titleAr).font(.caption.bold())
+                                Text(L(word.issue.titleAr)).font(.caption.bold())
                                 if let tip = word.tipAr { Text(tip).font(.caption).foregroundStyle(.secondary) }
                             }
                             .accessibilityElement(children: .combine)

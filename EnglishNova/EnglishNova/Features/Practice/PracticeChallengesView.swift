@@ -210,7 +210,7 @@ struct IELTSSpeakingSimulatorView: View {
                     AccessibleProgressView(title: "السؤال \(index + 1) من 3", value: Double(index) / 3)
                     InfoCard(title: "السؤال", systemImage: "quote.bubble.fill") {
                         Text(question.prompt).font(.title2.bold()).environment(\.layoutDirection, .leftToRight)
-                        Text(question.promptAr).foregroundStyle(.secondary)
+                        Text(L(question.promptAr)).foregroundStyle(.secondary)
                         Button("استمع للسؤال") {
                             container.textToSpeech.speak(question.prompt, accent: settings.accentVariant, rate: Float(settings.speechRate))
                         }
@@ -358,7 +358,7 @@ struct STEPPracticeView: View {
                 let question = questions[index]
                 AccessibleProgressView(title: "السؤال \(index + 1) من \(questions.count)", value: Double(index) / Double(questions.count))
                 Text(question.prompt).font(.title2.bold()).environment(\.layoutDirection, .leftToRight)
-                Text(question.promptAr).foregroundStyle(.secondary)
+                Text(L(question.promptAr)).foregroundStyle(.secondary)
                 ForEach(question.choices, id: \.self) { choice in
                     Button {
                         if !checked { selected = choice }
@@ -545,7 +545,7 @@ private struct InterviewQuestionView: View {
             }
             .disabled(answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && evaluation == nil)
         }
-        .navigationTitle(question.category.titleAr)
+        .navigationTitle(L(question.category.titleAr))
         .onChange(of: speechService.transcript) { _, value in
             if speechService.state == .listening { answer = value }
         }

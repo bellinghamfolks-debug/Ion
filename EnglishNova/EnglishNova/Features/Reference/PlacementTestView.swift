@@ -77,7 +77,7 @@ struct PlacementTestView: View {
                 HStack {
                     Label(question.level.rawValue, systemImage: question.skill.systemImage)
                     Spacer()
-                    Text(question.skill.titleAr)
+                    Text(L(question.skill.titleAr))
                 }
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.secondary)
@@ -150,7 +150,7 @@ struct PlacementTestView: View {
                 Text("المستوى المقترح: \(result.recommendedLevel.rawValue)")
                     .font(.largeTitle.bold())
                     .multilineTextAlignment(.center)
-                Text(result.recommendedLevel.titleAr).font(.title2)
+                Text(L(result.recommendedLevel.titleAr)).font(.title2)
                 Text("أجبت عن \(result.correctCount) من \(result.responses.count) إجابة صحيحة. ثقة التقدير \(Int(result.confidence * 100))٪.")
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.secondary)

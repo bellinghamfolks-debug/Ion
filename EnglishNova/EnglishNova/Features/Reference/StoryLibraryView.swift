@@ -64,7 +64,7 @@ private struct StoryReaderView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Text(story.titleAr).font(.largeTitle.bold())
+                Text(L(story.titleAr)).font(.largeTitle.bold())
                 Text(story.titleEn).font(.title2).foregroundStyle(.secondary).environment(\.layoutDirection, .leftToRight)
                 ForEach(story.paragraphs) { paragraph in
                     InfoCard(title: "فقرة", systemImage: "text.alignleft") {
@@ -91,7 +91,7 @@ private struct StoryReaderView: View {
                 }
                 ForEach(story.questions) { question in
                     InfoCard(title: "سؤال فهم", systemImage: "questionmark.circle.fill") {
-                        Text(question.promptAr).font(.headline)
+                        Text(L(question.promptAr)).font(.headline)
                         ForEach(question.choices, id: \.self) { choice in
                             Button {
                                 selectedAnswers[question.id] = choice
@@ -140,7 +140,7 @@ private struct InteractiveStoryPlayerView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text(story.titleAr).font(.largeTitle.bold())
+                Text(L(story.titleAr)).font(.largeTitle.bold())
                 Text(story.titleEn).font(.title2).foregroundStyle(.secondary).environment(\.layoutDirection, .leftToRight)
                 AccessibleProgressView(title: "النقاط: \(points) من 20", value: min(1, Double(points) / 20))
 

@@ -42,11 +42,11 @@ struct DailyPlanView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 if model.isLoading {
-                    ProgressView("جاري بناء خطتك من بياناتك المحلية")
+                    ProgressView(L("جاري بناء خطتك من بياناتك المحلية"))
                 } else if let plan = model.plan {
                     Text("خطة \(plan.targetMinutes) دقيقة")
                         .font(.largeTitle.bold())
-                    Text("تتغير الخطة حسب الدروس غير المكتملة، الكلمات المستحقة، ومستوى المهارات.")
+                    Text(L("تتغير الخطة حسب الدروس غير المكتملة، الكلمات المستحقة، ومستوى المهارات."))
                         .foregroundStyle(.secondary)
                     AccessibleProgressView(title: "إنجاز الخطة", value: plan.progress)
 
@@ -55,9 +55,9 @@ struct DailyPlanView: View {
                     }
 
                     InfoCard(title: "لماذا هذه الخطة؟", systemImage: "wand.and.stars") {
-                        Text("تبدأ بمهمة أساسية، ثم تضيف مراجعة أو تدريب مهارة حتى تقترب من هدفك دون حشو أو ضغط زائد.")
+                        Text(L("تبدأ بمهمة أساسية، ثم تضيف مراجعة أو تدريب مهارة حتى تقترب من هدفك دون حشو أو ضغط زائد."))
                         if container.settings.reduceLearningPressure {
-                            Text("وضع التعلّم الهادئ مفعّل، لذلك حُدّدت الخطة بعشر دقائق كحد أقصى.")
+                            Text(L("وضع التعلّم الهادئ مفعّل، لذلك حُدّدت الخطة بعشر دقائق كحد أقصى."))
                                 .font(.caption).foregroundStyle(.secondary)
                         }
                     }
@@ -68,7 +68,7 @@ struct DailyPlanView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("خطتي الذكية")
+        .navigationTitle(L("خطتي الذكية"))
         .refreshable { await model.load(container: container) }
         .task { await model.load(container: container) }
     }

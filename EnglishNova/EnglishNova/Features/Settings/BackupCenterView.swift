@@ -13,19 +13,19 @@ struct BackupCenterView: View {
     var body: some View {
         List {
             if account.isAuthenticated {
-                Section("النسخ الاحتياطي عبر حسابك") {
-                    Text("يُحفظ تقدّمك تلقائيًا في حسابك بعد كل درس، وتستعيده على أي جهاز بمجرد تسجيل الدخول.")
+                Section(L("النسخ الاحتياطي عبر حسابك")) {
+                    Text(L("يُحفظ تقدّمك تلقائيًا في حسابك بعد كل درس، وتستعيده على أي جهاز بمجرد تسجيل الدخول."))
                         .font(.subheadline).foregroundStyle(.secondary)
                     Button {
                         Task { await sync.push() }
                     } label: {
-                        Label("احفظ الآن في حسابي", systemImage: "icloud.and.arrow.up")
+                        Label(L("احفظ الآن في حسابي"), systemImage: "icloud.and.arrow.up")
                     }
                     .disabled(sync.isSyncing)
                     Button {
                         Task { await sync.pull() }
                     } label: {
-                        Label("استعادة من حسابي", systemImage: "icloud.and.arrow.down")
+                        Label(L("استعادة من حسابي"), systemImage: "icloud.and.arrow.down")
                     }
                     .disabled(sync.isSyncing)
                     if let message = sync.syncMessage {
@@ -33,37 +33,37 @@ struct BackupCenterView: View {
                     }
                 }
             } else {
-                Section("احفظ تقدّمك في السحابة") {
+                Section(L("احفظ تقدّمك في السحابة")) {
                     NavigationLink {
                         AccountView()
                     } label: {
-                        Label("أنشئ حسابًا أو سجّل الدخول", systemImage: "person.crop.circle.badge.plus")
+                        Label(L("أنشئ حسابًا أو سجّل الدخول"), systemImage: "person.crop.circle.badge.plus")
                     }
-                    Text("النسخ الاحتياطي أصبح عبر الحساب: أنشئ حسابًا ليُحفظ تقدّمك تلقائيًا في الخادم ويُزامَن عبر أجهزتك.")
+                    Text(L("النسخ الاحتياطي أصبح عبر الحساب: أنشئ حسابًا ليُحفظ تقدّمك تلقائيًا في الخادم ويُزامَن عبر أجهزتك."))
                         .font(.caption).foregroundStyle(.secondary)
                 }
             }
 
-            Section("تصدير محلي (اختياري)") {
+            Section(L("تصدير محلي (اختياري)")) {
                 Button {
                     Task { await createBackup() }
                 } label: {
-                    Label("تصدير نسخة كملف", systemImage: "square.and.arrow.up")
+                    Label(L("تصدير نسخة كملف"), systemImage: "square.and.arrow.up")
                 }
                 if let exportURL {
                     ShareLink(item: exportURL) {
-                        Label("مشاركة الملف", systemImage: "square.and.arrow.up.on.square")
+                        Label(L("مشاركة الملف"), systemImage: "square.and.arrow.up.on.square")
                     }
                 }
-                Text("للاحتفاظ بنسخة إضافية على جهازك أو مشاركتها. الاستعادة الأساسية تتم من حسابك.")
+                Text(L("للاحتفاظ بنسخة إضافية على جهازك أو مشاركتها. الاستعادة الأساسية تتم من حسابك."))
                     .font(.caption).foregroundStyle(.secondary)
             }
 
             if let statusMessage {
-                Section("الحالة") { Text(statusMessage) }
+                Section(L("الحالة")) { Text(statusMessage) }
             }
         }
-        .navigationTitle("النسخ الاحتياطي")
+        .navigationTitle(L("النسخ الاحتياطي"))
     }
 
     private func createBackup() async {

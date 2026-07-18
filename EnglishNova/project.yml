@@ -39,6 +39,11 @@ targets:
       - path: EnglishNova/Resources/Curriculum
         type: folder
         buildPhase: resources
+      # Runtime localization data (ar->en map). Folder reference so the bundle
+      # contains LocalizationData/translations.json, loaded by Localizer.
+      - path: EnglishNova/Resources/LocalizationData
+        type: folder
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.englishnova.app

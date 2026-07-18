@@ -43,24 +43,24 @@ struct LessonPlayerView: View {
             if model.phase == .lesson {
                 ToolbarItem(placement: .topBarLeading) {
                     Button { showExitConfirm = true } label: {
-                        Label("إنهاء", systemImage: "xmark")
+                        Label(L("إنهاء"), systemImage: "xmark")
                     }
-                    .accessibilityLabel("إنهاء الدرس")
+                    .accessibilityLabel(L("إنهاء الدرس"))
                 }
             }
         }
-        .alert("إنهاء الدرس؟", isPresented: $showExitConfirm) {
-            Button("متابعة الدرس", role: .cancel) {}
-            Button("إنهاء وخروج", role: .destructive) { dismiss() }
+        .alert(L("إنهاء الدرس؟"), isPresented: $showExitConfirm) {
+            Button(L("متابعة الدرس"), role: .cancel) {}
+            Button(L("إنهاء وخروج"), role: .destructive) { dismiss() }
         } message: {
-            Text("إذا خرجت الآن فلن يُحتسب تقدّمك في هذا الدرس. هل تريد الخروج؟")
+            Text(L("إذا خرجت الآن فلن يُحتسب تقدّمك في هذا الدرس. هل تريد الخروج؟"))
         }
         .sheet(item: $explainConcept) { concept in
             NavigationStack {
                 ExplainView(initialConcept: concept.text)
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
-                            Button("تم") { explainConcept = nil }
+                            Button(L("تم")) { explainConcept = nil }
                         }
                     }
             }
@@ -115,12 +115,12 @@ struct LessonPlayerView: View {
                 Button {
                     explainConcept = ExplainConcept(text: explainSeed)
                 } label: {
-                    Label("اشرح لي أكثر", systemImage: "sparkles")
+                    Label(L("اشرح لي أكثر"), systemImage: "sparkles")
                         .font(.subheadline.weight(.semibold))
                 }
                 .buttonStyle(.bordered)
                 .tint(AppTheme.accentTeal)
-                .accessibilityHint("شرح إضافي من المدرّب الذكي")
+                .accessibilityHint(L("شرح إضافي من المدرّب الذكي"))
             }
         }
         .accessibilityLabel(model.lastWasCorrect ? "إجابة صحيحة" : "إجابة غير صحيحة. الصحيح \(model.current.answer). \(model.current.explanationAr)")
@@ -157,7 +157,7 @@ struct LessonPlayerView: View {
                         .animation(.easeInOut(duration: 0.7), value: model.score)
                     VStack(spacing: 0) {
                         Text("\(scorePercent)٪").font(.system(size: 38, weight: .bold, design: .rounded))
-                        Text("تقييمك").font(.caption).foregroundStyle(.secondary)
+                        Text(L("تقييمك")).font(.caption).foregroundStyle(.secondary)
                     }
                 }
                 .frame(width: 150, height: 150)

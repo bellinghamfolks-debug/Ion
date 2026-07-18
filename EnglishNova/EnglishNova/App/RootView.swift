@@ -34,15 +34,15 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             NavigationStack { HomeView() }
-                .tabItem { Label("الرئيسية", systemImage: "house.fill") }
+                .tabItem { Label(L("الرئيسية"), systemImage: "house.fill") }
             NavigationStack { CurriculumView() }
-                .tabItem { Label("التعلّم", systemImage: "graduationcap.fill") }
+                .tabItem { Label(L("التعلّم"), systemImage: "graduationcap.fill") }
             NavigationStack { PracticeHubView() }
-                .tabItem { Label("التدريب", systemImage: "waveform.badge.mic") }
+                .tabItem { Label(L("التدريب"), systemImage: "waveform.badge.mic") }
             NavigationStack { ReviewView() }
-                .tabItem { Label("المراجعة", systemImage: "arrow.triangle.2.circlepath") }
+                .tabItem { Label(L("المراجعة"), systemImage: "arrow.triangle.2.circlepath") }
             NavigationStack { SettingsView() }
-                .tabItem { Label("الإعدادات", systemImage: "gearshape.fill") }
+                .tabItem { Label(L("الإعدادات"), systemImage: "gearshape.fill") }
         }
         .tint(AppTheme.brand)   // brand accent across tabs, links and controls
     }

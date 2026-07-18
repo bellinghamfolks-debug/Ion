@@ -57,12 +57,12 @@ struct PlacementTestView: View {
             } else if let question = model.currentQuestion {
                 questionView(question)
             } else {
-                ProgressView("جاري إعداد السؤال التالي")
+                ProgressView(L("جاري إعداد السؤال التالي"))
             }
         }
         .padding(AppTheme.screenPadding)
         .screenBackground()
-        .navigationTitle("اختبار تحديد المستوى")
+        .navigationTitle(L("اختبار تحديد المستوى"))
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -94,10 +94,10 @@ struct PlacementTestView: View {
                     Button {
                         container.textToSpeech.speak(speechText)
                     } label: {
-                        Label("تشغيل المقطع", systemImage: "speaker.wave.2.fill")
+                        Label(L("تشغيل المقطع"), systemImage: "speaker.wave.2.fill")
                     }
                     .buttonStyle(.borderedProminent)
-                    .accessibilityHint("يشغّل نص السؤال باللغة الإنجليزية")
+                    .accessibilityHint(L("يشغّل نص السؤال باللغة الإنجليزية"))
                 }
 
                 ForEach(question.choices, id: \.self) { choice in
@@ -122,7 +122,7 @@ struct PlacementTestView: View {
                 if let feedback = model.feedbackAr {
                     InfoCard(title: "التغذية الراجعة", systemImage: "lightbulb.fill") {
                         Text(feedback)
-                        Text("السؤال التالي قد يصبح أسهل أو أصعب بناءً على إجابتك.")
+                        Text(L("السؤال التالي قد يصبح أسهل أو أصعب بناءً على إجابتك."))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -164,7 +164,7 @@ struct PlacementTestView: View {
                     }
                 }
 
-                Text("هذا تقدير تكيفي إرشادي يختار الأسئلة وفق أدائك، وليس شهادة لغوية معيارية.")
+                Text(L("هذا تقدير تكيفي إرشادي يختار الأسئلة وفق أدائك، وليس شهادة لغوية معيارية."))
                     .font(.caption)
                     .foregroundStyle(.secondary)
 

@@ -5,19 +5,19 @@ struct ConversationStudioView: View {
 
     var body: some View {
         List {
-            Section("المدرب الصوتي الجديد") {
+            Section(L("المدرب الصوتي الجديد")) {
                 NavigationLink {
                     VoiceCoachView()
                 } label: {
-                    Label("محادثة صوتية ذكية", systemImage: "waveform.badge.mic")
+                    Label(L("محادثة صوتية ذكية"), systemImage: "waveform.badge.mic")
                 }
-                Text("يحاورك التطبيق، يحلل الرد كلمة بكلمة، ويحفظ الكلمات والأخطاء المتكررة في ذاكرتك التعليمية.")
+                Text(L("يحاورك التطبيق، يحلل الرد كلمة بكلمة، ويحفظ الكلمات والأخطاء المتكررة في ذاكرتك التعليمية."))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
             Section {
-                Text("تدرّب على موقف كامل بالكتابة أو الصوت. يعمل التقييم الأساسي محليًا، ويبحث عن الأفكار المهمة لا عن التطابق الحرفي فقط.")
+                Text(L("تدرّب على موقف كامل بالكتابة أو الصوت. يعمل التقييم الأساسي محليًا، ويبحث عن الأفكار المهمة لا عن التطابق الحرفي فقط."))
                     .font(.subheadline).foregroundStyle(.secondary)
             }
             ForEach(CEFRLevel.allCases) { level in
@@ -39,7 +39,7 @@ struct ConversationStudioView: View {
                 }
             }
         }
-        .navigationTitle("استوديو المحادثة")
+        .navigationTitle(L("استوديو المحادثة"))
     }
 }
 
@@ -78,7 +78,7 @@ private struct ConversationSessionView: View {
                         Button { container.textToSpeech.speak(line, accent: settings.accentVariant, rate: Float(settings.speechRate)) } label: {
                             Image(systemName: "speaker.wave.2.fill")
                         }
-                        .accessibilityLabel("نطق كلام الطرف الآخر")
+                        .accessibilityLabel(L("نطق كلام الطرف الآخر"))
                     }
                     if turnIndex == 0 { Text(scenario.openingLineAr).foregroundStyle(.secondary) }
                 }
@@ -88,11 +88,11 @@ private struct ConversationSessionView: View {
                 } else if let turn = currentTurn {
                     InfoCard(title: "مهمتك", systemImage: "target") {
                         Text(L(turn.promptAr)).font(.headline)
-                        Text("لا يلزم أن تطابق النموذج حرفيًا. عبّر بطريقتك واذكر الفكرة الأساسية.")
+                        Text(L("لا يلزم أن تطابق النموذج حرفيًا. عبّر بطريقتك واذكر الفكرة الأساسية."))
                             .font(.caption).foregroundStyle(.secondary)
                     }
 
-                    TextField("اكتب ردك بالإنجليزية", text: $response, axis: .vertical)
+                    TextField(L("اكتب ردك بالإنجليزية"), text: $response, axis: .vertical)
                         .textFieldStyle(.roundedBorder)
                         .lineLimit(3...7)
                         .environment(\.layoutDirection, .leftToRight)
@@ -115,7 +115,7 @@ private struct ConversationSessionView: View {
                         Button {
                             container.textToSpeech.speak(turn.sampleAnswer, accent: settings.accentVariant, rate: Float(settings.speechRate))
                         } label: {
-                            Label("سماع نموذج", systemImage: "ear.fill")
+                            Label(L("سماع نموذج"), systemImage: "ear.fill")
                         }
                         .buttonStyle(.bordered)
                     }
@@ -129,7 +129,7 @@ private struct ConversationSessionView: View {
                                     .font(.caption).foregroundStyle(.secondary)
                             }
                             Divider()
-                            Text("نموذج ممكن:").font(.caption.bold())
+                            Text(L("نموذج ممكن:")).font(.caption.bold())
                             Text(turn.sampleAnswer).environment(\.layoutDirection, .leftToRight)
                         }
                     }
@@ -165,7 +165,7 @@ private struct ConversationSessionView: View {
         return InfoCard(title: "اكتملت المحادثة", systemImage: "flag.checkered") {
             AccessibleProgressView(title: "النتيجة العامة \(Int(average * 100))٪", value: average)
             Text(average >= 0.8 ? "أدرت الموقف بوضوح وثقة." : "أنهيت الموقف. أعده مرة أخرى وحاول إدخال الأفكار التي ظهرت في النماذج.")
-            Button("إعادة المحادثة") {
+            Button(L("إعادة المحادثة")) {
                 turnIndex = 0
                 response = ""
                 evaluation = nil
@@ -236,18 +236,18 @@ struct VoiceCoachView: View {
     var body: some View {
         List {
             Section {
-                Text("جلسة صوتية متدرجة: استمع، أجب، ثم راجع الدقة والاكتمال والطلاقة والكلمات التي تحتاج تدريبًا. يمكن للخادم الاختياري توليد رد سياقي، وإلا يعمل المدرب المحلي.")
+                Text(L("جلسة صوتية متدرجة: استمع، أجب، ثم راجع الدقة والاكتمال والطلاقة والكلمات التي تحتاج تدريبًا. يمكن للخادم الاختياري توليد رد سياقي، وإلا يعمل المدرب المحلي."))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
 
-            Section("إعداد الجلسة") {
-                Picker("اللكنة", selection: $settings.accentVariant) {
+            Section(L("إعداد الجلسة")) {
+                Picker(L("اللكنة"), selection: $settings.accentVariant) {
                     ForEach(AccentVariant.allCases) { accent in
                         Text(L(accent.titleAr)).tag(accent)
                     }
                 }
-                Toggle("نطق سؤال المدرب تلقائيًا", isOn: $settings.autoSpeakCoachPrompts)
+                Toggle(L("نطق سؤال المدرب تلقائيًا"), isOn: $settings.autoSpeakCoachPrompts)
             }
 
             Section("مناسب لمستواك \(session.selectedLevel.rawValue)") {
@@ -265,7 +265,7 @@ struct VoiceCoachView: View {
                 }
             }
 
-            Section("جميع المستويات") {
+            Section(L("جميع المستويات")) {
                 ForEach(ConversationLibrary.scenarios.filter { !recommended.contains($0) }) { scenario in
                     NavigationLink("\(scenario.level.rawValue) • \(scenario.titleAr)") {
                         VoiceCoachSessionView(scenario: scenario)
@@ -273,7 +273,7 @@ struct VoiceCoachView: View {
                 }
             }
         }
-        .navigationTitle("المدرب الصوتي")
+        .navigationTitle(L("المدرب الصوتي"))
     }
 }
 
@@ -341,7 +341,7 @@ private struct VoiceCoachSessionView: View {
                 .font(.title3)
                 .environment(\.layoutDirection, .leftToRight)
             HStack {
-                Button("استمع") { speakPartnerLine() }
+                Button(L("استمع")) { speakPartnerLine() }
                     .buttonStyle(.bordered)
                 Text(coachReply?.source == "remote" ? "رد عبر الإنترنت" : "رد محلي أو احتياطي")
                     .font(.caption).foregroundStyle(.secondary)
@@ -356,16 +356,16 @@ private struct VoiceCoachSessionView: View {
     private func activeTurnView(_ turn: ConversationTurn) -> some View {
         InfoCard(title: "مهمتك", systemImage: "target") {
             Text(L(turn.promptAr)).font(.headline)
-            Text("النموذج المستخدم للمقارنة الصوتية:")
+            Text(L("النموذج المستخدم للمقارنة الصوتية:"))
                 .font(.caption).foregroundStyle(.secondary)
             Text(turn.sampleAnswer)
                 .environment(\.layoutDirection, .leftToRight)
-            Button("سماع نموذج الإجابة") {
+            Button(L("سماع نموذج الإجابة")) {
                 container.textToSpeech.speak(turn.sampleAnswer, accent: settings.accentVariant, rate: Float(settings.speechRate))
             }
         }
 
-        TextField("سيظهر ردك هنا، ويمكنك تعديله قبل التقييم", text: $transcript, axis: .vertical)
+        TextField(L("سيظهر ردك هنا، ويمكنك تعديله قبل التقييم"), text: $transcript, axis: .vertical)
             .textFieldStyle(.roundedBorder)
             .lineLimit(3...8)
             .environment(\.layoutDirection, .leftToRight)
@@ -381,13 +381,13 @@ private struct VoiceCoachSessionView: View {
             .disabled(isEvaluating || report != nil)
 
             if speechService.state == .listening {
-                Text("يستمع الآن")
+                Text(L("يستمع الآن"))
                     .font(.caption.bold())
                     .accessibilityAddTraits(.updatesFrequently)
             }
         }
 
-        if isEvaluating { ProgressView("يحلل الرد ويجهز الجولة التالية") }
+        if isEvaluating { ProgressView(L("يحلل الرد ويجهز الجولة التالية")) }
         if let statusMessage { Text(statusMessage).font(.caption).foregroundStyle(.secondary) }
 
         if let report, let ideaEvaluation {
@@ -398,7 +398,7 @@ private struct VoiceCoachSessionView: View {
             InfoCard(title: "ملاحظة المدرب", systemImage: "brain.head.profile") {
                 Text(coachReply.feedbackAr)
                 if let suggestion = coachReply.suggestedAnswer {
-                    Text("صياغة مقترحة:").font(.caption.bold())
+                    Text(L("صياغة مقترحة:")).font(.caption.bold())
                     Text(suggestion).environment(\.layoutDirection, .leftToRight)
                 }
             }
@@ -422,7 +422,7 @@ private struct VoiceCoachSessionView: View {
         return InfoCard(title: "اكتملت الجلسة الصوتية", systemImage: "checkmark.seal.fill") {
             AccessibleProgressView(title: "متوسط الجلسة \(Int(average * 100))٪", value: average)
             Text(average >= 0.82 ? "استجابتك واضحة ومتوازنة. انتقل إلى موقف أعلى قليلًا." : "اكتملت الجلسة. راجع الكلمات المسجلة في دفتر الأخطاء ثم أعد الموقف.")
-            Button("إعادة الجلسة") { resetSession() }
+            Button(L("إعادة الجلسة")) { resetSession() }
                 .buttonStyle(.borderedProminent)
         }
     }
@@ -431,17 +431,17 @@ private struct VoiceCoachSessionView: View {
     private func pronunciationReportCard(_ report: PronunciationReport, ideaEvaluation: ConversationEvaluation) -> some View {
         InfoCard(title: "تقرير الكلام", systemImage: "chart.bar.doc.horizontal.fill") {
             AccessibleProgressView(title: "النتيجة الكلية \(Int(report.overall * 100))٪", value: report.overall)
-            LabeledContent("دقة الكلمات", value: "\(Int(report.accuracy * 100))٪")
-            LabeledContent("اكتمال الجملة", value: "\(Int(report.completeness * 100))٪")
-            LabeledContent("الطلاقة", value: "\(Int(report.fluency * 100))٪")
-            LabeledContent("السرعة", value: "\(Int(report.wordsPerMinute)) كلمة في الدقيقة")
-            LabeledContent("اكتمال أفكار الموقف", value: "\(Int(ideaEvaluation.score * 100))٪")
-            Text("التقييم الصوتي هنا يعتمد على تفريغ الكلام وتوقيته وثقة نظام التعرف، وليس فحصًا مخبريًا لمخارج الحروف.")
+            LabeledContent(L("دقة الكلمات"), value: "\(Int(report.accuracy * 100))٪")
+            LabeledContent(L("اكتمال الجملة"), value: "\(Int(report.completeness * 100))٪")
+            LabeledContent(L("الطلاقة"), value: "\(Int(report.fluency * 100))٪")
+            LabeledContent(L("السرعة"), value: "\(Int(report.wordsPerMinute)) كلمة في الدقيقة")
+            LabeledContent(L("اكتمال أفكار الموقف"), value: "\(Int(ideaEvaluation.score * 100))٪")
+            Text(L("التقييم الصوتي هنا يعتمد على تفريغ الكلام وتوقيته وثقة نظام التعرف، وليس فحصًا مخبريًا لمخارج الحروف."))
                 .font(.caption).foregroundStyle(.secondary)
 
             if !report.needsPractice.isEmpty {
                 Divider()
-                Text("كلمات تحتاج انتباهًا").font(.headline)
+                Text(L("كلمات تحتاج انتباهًا")).font(.headline)
                 ForEach(report.needsPractice.prefix(8)) { word in
                     VStack(alignment: .leading, spacing: 3) {
                         HStack {

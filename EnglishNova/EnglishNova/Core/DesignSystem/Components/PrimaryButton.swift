@@ -15,7 +15,7 @@ struct PrimaryButton: View {
                 } else if let systemImage {
                     Image(systemName: systemImage)
                 }
-                Text(title).font(.headline)
+                Text(L(title)).font(.headline)
             }
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity)
@@ -27,7 +27,7 @@ struct PrimaryButton: View {
         }
         .buttonStyle(PressableButtonStyle())
         .disabled(isDisabled || isLoading)
-        .accessibilityLabel(title)
+        .accessibilityLabel(L(title))
         .accessibilityAddTraits(.isButton)
     }
 }

@@ -15,7 +15,7 @@ struct WritingCoachView: View {
         ScrollView {
             VStack(spacing: 16) {
                 InfoCard(title: "مصحّح الكتابة", systemImage: "pencil.and.scribble") {
-                    Text("اكتب جملة أو فقرة بالإنجليزية، وسيصححها المدرّب، ويمنحها درجة، ويشرح الأخطاء بالعربية.")
+                    Text(L("اكتب جملة أو فقرة بالإنجليزية، وسيصححها المدرّب، ويمنحها درجة، ويشرح الأخطاء بالعربية."))
                         .font(.footnote).foregroundStyle(.secondary)
 
                     TextEditor(text: $text)
@@ -40,7 +40,7 @@ struct WritingCoachView: View {
                         InfoCard(title: "التقييم", systemImage: "gauge.with.dots.needle.67percent",
                                  tint: AppTheme.accentTeal) {
                             AccessibleProgressView(title: "جودة الكتابة", value: Double(score) / 100)
-                            LabeledContent("الدرجة", value: "\(score)/100")
+                            LabeledContent(L("الدرجة"), value: "\(score)/100")
                         }
                     }
                     InfoCard(title: "النص المصحّح", systemImage: "text.badge.checkmark", tint: AppTheme.success) {
@@ -57,7 +57,7 @@ struct WritingCoachView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle("مصحّح الكتابة")
+        .navigationTitle(L("مصحّح الكتابة"))
         .navigationBarTitleDisplayMode(.inline)
     }
 

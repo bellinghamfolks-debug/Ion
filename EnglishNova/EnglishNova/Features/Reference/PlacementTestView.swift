@@ -116,7 +116,7 @@ struct PlacementTestView: View {
                     .buttonStyle(.bordered)
                     .disabled(model.isAnswerLocked)
                     .accessibilityLabel(choice)
-                    .accessibilityValue(model.selectedAnswer == choice ? "محدد" : "غير محدد")
+                    .accessibilityValue(model.selectedAnswer == choice ? L("محدد") : L("غير محدد"))
                 }
 
                 if let feedback = model.feedbackAr {
@@ -130,7 +130,7 @@ struct PlacementTestView: View {
                 }
 
                 PrimaryButton(
-                    title: model.isAnswerLocked ? "السؤال التالي" : "تحقق من الإجابة",
+                    title: model.isAnswerLocked ? L("السؤال التالي") : L("تحقق من الإجابة"),
                     systemImage: model.isAnswerLocked ? "arrow.forward.circle.fill" : "checkmark.circle.fill",
                     isDisabled: model.selectedAnswer.isEmpty
                 ) {

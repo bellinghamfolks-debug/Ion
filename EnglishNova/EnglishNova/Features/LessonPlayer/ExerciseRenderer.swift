@@ -69,7 +69,7 @@ private struct ChoiceButton: View {
             .background(selected ? Color.accentColor.opacity(0.15) : Color(uiColor: .secondarySystemBackground), in: RoundedRectangle(cornerRadius: 14))
         }
         .buttonStyle(.plain)
-        .accessibilityValue(selected ? "محدد" : "غير محدد")
+        .accessibilityValue(selected ? L("محدد") : L("غير محدد"))
     }
 }
 
@@ -81,7 +81,7 @@ private struct ArrangeWordsView: View {
             Text("الجملة الحالية: \(arranged.joined(separator: " "))")
                 .font(.headline)
                 .environment(\.layoutDirection, .leftToRight)
-                .accessibilityLabel(arranged.isEmpty ? "لم تختر كلمات بعد" : "الجملة الحالية \(arranged.joined(separator: " "))")
+                .accessibilityLabel(arranged.isEmpty ? L("لم تختر كلمات بعد") : "الجملة الحالية \(arranged.joined(separator: " "))")
             ForEach(Array(tokens.enumerated()), id: \.offset) { index, token in
                 Button("\(index + 1). \(token)") { arranged.append(token) }
                     .buttonStyle(.bordered)
@@ -113,7 +113,7 @@ private struct SpeakExerciseView: View {
                     else { await speechService.start() }
                 }
             } label: {
-                Label(speechService.state == .listening ? "إيقاف التسجيل" : "ابدأ النطق", systemImage: speechService.state == .listening ? "stop.circle.fill" : "mic.circle.fill")
+                Label(speechService.state == .listening ? L("إيقاف التسجيل") : L("ابدأ النطق"), systemImage: speechService.state == .listening ? "stop.circle.fill" : "mic.circle.fill")
                     .frame(maxWidth: .infinity, minHeight: 52)
             }
             .buttonStyle(.borderedProminent)

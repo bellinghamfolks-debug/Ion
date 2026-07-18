@@ -130,7 +130,7 @@ struct WordbookView: View {
                             await model.load(repository: container.vocabularyRepository)
                         }
                     } label: {
-                        Label(card.isFavorite ? "إلغاء المفضلة" : "مفضلة", systemImage: card.isFavorite ? "star.slash" : "star")
+                        Label(card.isFavorite ? L("إلغاء المفضلة") : L("مفضلة"), systemImage: card.isFavorite ? "star.slash" : "star")
                     }
                 }
             }

@@ -108,7 +108,7 @@ struct LessonPlayerView: View {
     }
 
     private var feedback: some View {
-        InfoCard(title: model.lastWasCorrect ? "إجابة صحيحة" : "لنصححها معًا", systemImage: model.lastWasCorrect ? "checkmark.seal.fill" : "lightbulb.fill") {
+        InfoCard(title: model.lastWasCorrect ? L("إجابة صحيحة") : L("لنصححها معًا"), systemImage: model.lastWasCorrect ? "checkmark.seal.fill" : "lightbulb.fill") {
             if !model.lastWasCorrect { Text("الإجابة: \(model.current.answer)").font(.headline) }
             Text(model.current.explanationAr)
             if !explainSeed.isEmpty {
@@ -123,7 +123,7 @@ struct LessonPlayerView: View {
                 .accessibilityHint(L("شرح إضافي من المدرّب الذكي"))
             }
         }
-        .accessibilityLabel(model.lastWasCorrect ? "إجابة صحيحة" : "إجابة غير صحيحة. الصحيح \(model.current.answer). \(model.current.explanationAr)")
+        .accessibilityLabel(model.lastWasCorrect ? L("إجابة صحيحة") : "إجابة غير صحيحة. الصحيح \(model.current.answer). \(model.current.explanationAr)")
     }
 
     /// The English text we ask the AI to explain — prefer the correct answer,

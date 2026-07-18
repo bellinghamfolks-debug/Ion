@@ -23,7 +23,7 @@ struct AchievementsView: View {
                 if unlocked { Image(systemName: "checkmark.seal.fill").foregroundStyle(.tint) }
             }
             .accessibilityElement(children: .combine)
-            .accessibilityValue(unlocked ? "مفتوح" : "مغلق")
+            .accessibilityValue(unlocked ? L("مفتوح") : L("مغلق"))
         }
         .navigationTitle(L("الإنجازات"))
     }

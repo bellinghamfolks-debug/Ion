@@ -37,7 +37,7 @@ struct DictationChallengeView: View {
                 }
             }
 
-            Button(checked ? "جملة أخرى" : "تحقق") {
+            Button(checked ? L("جملة أخرى") : L("تحقق")) {
                 if checked {
                     index = (index + 1) % prompts.count
                     answer = ""
@@ -233,7 +233,7 @@ struct IELTSSpeakingSimulatorView: View {
                             }
                         }
                     } label: {
-                        Label(speechService.state == .listening ? "إيقاف الإجابة" : "الإجابة بالصوت", systemImage: "mic.fill")
+                        Label(speechService.state == .listening ? L("إيقاف الإجابة") : L("الإجابة بالصوت"), systemImage: "mic.fill")
                     }
                     .buttonStyle(.borderedProminent)
                     .disabled(evaluation != nil)
@@ -251,7 +251,7 @@ struct IELTSSpeakingSimulatorView: View {
                     }
 
                     PrimaryButton(
-                        title: evaluation == nil ? "قيّم الإجابة" : "السؤال التالي",
+                        title: evaluation == nil ? L("قيّم الإجابة") : L("السؤال التالي"),
                         systemImage: evaluation == nil ? "checkmark.circle" : "arrow.forward.circle",
                         isDisabled: answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                     ) {
@@ -374,14 +374,14 @@ struct STEPPracticeView: View {
                     .disabled(checked)
                 }
                 if checked {
-                    InfoCard(title: selected == question.answer ? "إجابة صحيحة" : "الإجابة تحتاج مراجعة", systemImage: selected == question.answer ? "checkmark.circle.fill" : "xmark.circle.fill") {
+                    InfoCard(title: selected == question.answer ? L("إجابة صحيحة") : L("الإجابة تحتاج مراجعة"), systemImage: selected == question.answer ? "checkmark.circle.fill" : "xmark.circle.fill") {
                         Text("الإجابة الصحيحة: \(question.answer ?? "")")
                             .environment(\.layoutDirection, .leftToRight)
                         Text(question.explanationAr)
                     }
                 }
                 PrimaryButton(
-                    title: checked ? "التالي" : "تحقق",
+                    title: checked ? L("التالي") : L("تحقق"),
                     systemImage: checked ? "arrow.forward" : "checkmark",
                     isDisabled: selected.isEmpty
                 ) {
@@ -513,7 +513,7 @@ private struct InterviewQuestionView: View {
                         }
                     }
                 } label: {
-                    Label(speechService.state == .listening ? "إيقاف" : "إجابة صوتية", systemImage: "mic.fill")
+                    Label(speechService.state == .listening ? L("إيقاف") : L("إجابة صوتية"), systemImage: "mic.fill")
                 }
                 .disabled(evaluation != nil)
             }
@@ -535,7 +535,7 @@ private struct InterviewQuestionView: View {
                 }
             }
 
-            Button(evaluation == nil ? "قيّم الإجابة" : "محاولة جديدة") {
+            Button(evaluation == nil ? L("قيّم الإجابة") : L("محاولة جديدة")) {
                 if evaluation == nil { evaluate() }
                 else {
                     answer = ""
@@ -626,7 +626,7 @@ struct MistakeNotebookView: View {
                         }
                         Text(mistake.explanationAr).foregroundStyle(.secondary)
                         LabeledContent(L("مرات الظهور أو المراجعة"), value: "\(mistake.reviewCount + 1)")
-                        Button(mistake.resolved ? "إعادته للمراجعة" : "تعليمه كمحسوم") {
+                        Button(mistake.resolved ? L("إعادته للمراجعة") : L("تعليمه كمحسوم")) {
                             Task {
                                 await container.learningMemoryRepository.markMistakeResolved(id: mistake.id, resolved: !mistake.resolved)
                                 await load()

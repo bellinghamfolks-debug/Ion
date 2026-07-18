@@ -101,7 +101,7 @@ struct ReadingComprehensionLabView: View {
                 if submitted {
                     InfoCard(title: "النتيجة", systemImage: score >= 0.70 ? "checkmark.seal.fill" : "arrow.clockwise.circle.fill") {
                         AccessibleProgressView(title: "\(Int(score * 100))٪", value: score)
-                        Text(score >= 0.70 ? "فهم جيد. راجع الشرح ثم انتقل إلى نص جديد." : "أعد قراءة النص وابحث عن الكلمات التي تحمل الإجابة مباشرة.")
+                        Text(score >= 0.70 ? L("فهم جيد. راجع الشرح ثم انتقل إلى نص جديد.") : L("أعد قراءة النص وابحث عن الكلمات التي تحمل الإجابة مباشرة."))
                         PrimaryButton(title: "النص التالي", systemImage: "arrow.forward.circle.fill") { nextPassage() }
                     }
                 } else {
@@ -232,7 +232,7 @@ struct ListeningComprehensionLabView: View {
                     replayCount += 1
                     textToSpeech.speak(item.transcript, accent: settings.accentVariant, rate: Float(settings.speechRate))
                 } label: {
-                    Label(replayCount == 0 ? "تشغيل المقطع" : "إعادة المقطع، شُغّل \(replayCount) مرة", systemImage: "play.circle.fill")
+                    Label(replayCount == 0 ? L("تشغيل المقطع") : "إعادة المقطع، شُغّل \(replayCount) مرة", systemImage: "play.circle.fill")
                 }
                 .buttonStyle(.borderedProminent)
                 Text("المقترح: \(item.recommendedReplays) تشغيلات أو أقل.")
@@ -253,7 +253,7 @@ struct ListeningComprehensionLabView: View {
                         .accessibilityLabel(answers[question.id] == choice ? "\(choice)، محدد" : choice)
                     }
                     if submitted {
-                        Text(answers[question.id] == question.answer ? "إجابة صحيحة" : "الصحيح: \(question.answer)")
+                        Text(answers[question.id] == question.answer ? L("إجابة صحيحة") : "الصحيح: \(question.answer)")
                             .font(.caption.bold())
                         Text(question.explanationAr).font(.caption).foregroundStyle(.secondary)
                     }

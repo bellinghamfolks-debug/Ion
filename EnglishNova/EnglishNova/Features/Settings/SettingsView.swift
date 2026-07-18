@@ -24,7 +24,7 @@ struct SettingsView: View {
                                  ? (account.currentUser?.displayName.isEmpty == false ? account.currentUser!.displayName : (account.currentUser?.email ?? "حسابك"))
                                  : "إنشاء حساب وحفظ التقدّم")
                                 .font(.headline)
-                            Text(account.isAuthenticated ? "الحساب والمزامنة" : "سجّل الدخول لمزامنة تعلّمك عبر أجهزتك")
+                            Text(account.isAuthenticated ? L("الحساب والمزامنة") : L("سجّل الدخول لمزامنة تعلّمك عبر أجهزتك"))
                                 .font(.caption).foregroundStyle(.secondary)
                         }
                     }
@@ -203,8 +203,7 @@ struct SettingsView: View {
                 minute: settings.reminderMinute
             )
             settings.reminderEnabled = granted
-            ToastCenter.shared.show(granted ? "تم تفعيل التذكير اليومي"
-                                            : "لم يُمنح إذن الإشعارات",
+            ToastCenter.shared.show(granted ? L("تم تفعيل التذكير اليومي") : L("لم يُمنح إذن الإشعارات"),
                                     style: granted ? .success : .error)
         } else {
             reminderService.cancel()

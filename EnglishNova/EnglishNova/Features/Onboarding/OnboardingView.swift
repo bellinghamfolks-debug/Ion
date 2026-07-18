@@ -17,7 +17,7 @@ struct OnboardingView: View {
                 }
                 .tabViewStyle(.page(indexDisplayMode: .always))
 
-                PrimaryButton(title: page < 2 ? "متابعة" : "ابدأ التعلّم", systemImage: "arrow.forward", isLoading: saving) {
+                PrimaryButton(title: page < 2 ? L("متابعة") : L("ابدأ التعلّم"), systemImage: "arrow.forward", isLoading: saving) {
                     if page < 2 { withAnimation { page += 1 } }
                     else {
                         saving = true
@@ -66,7 +66,7 @@ struct OnboardingView: View {
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("\(item.rawValue)، \(item.titleAr)، \(item.summaryAr)")
-                        .accessibilityValue(level == item ? "محدد" : "غير محدد")
+                        .accessibilityValue(level == item ? L("محدد") : L("غير محدد"))
                     }
                 }
             }

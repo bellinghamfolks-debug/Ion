@@ -105,9 +105,9 @@ private struct StoryReaderView: View {
                             .buttonStyle(.bordered)
                         }
                         if let selected = selectedAnswers[question.id] {
-                            Text(selected == question.answer ? "إجابة صحيحة" : "الصحيح: \(question.answer)")
+                            Text(selected == question.answer ? L("إجابة صحيحة") : "الصحيح: \(question.answer)")
                                 .font(.headline)
-                                .accessibilityLabel(selected == question.answer ? "إجابة صحيحة" : "إجابة غير صحيحة. الصحيح \(question.answer)")
+                                .accessibilityLabel(selected == question.answer ? L("إجابة صحيحة") : "إجابة غير صحيحة. الصحيح \(question.answer)")
                         }
                     }
                 }

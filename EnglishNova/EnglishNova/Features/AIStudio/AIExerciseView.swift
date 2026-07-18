@@ -152,7 +152,7 @@ struct AIExerciseView: View {
                 let result = try await service.generateExercise(
                     topic: value, level: session.selectedLevel.rawValue, count: 5)
                 questions = result.questions
-                if questions.isEmpty { errorMessage = "لم تُولَّد تمارين. جرّب موضوعًا آخر." }
+                if questions.isEmpty { errorMessage = L("لم تُولَّد تمارين. جرّب موضوعًا آخر.") }
             } catch {
                 errorMessage = (error as? LocalizedError)?.errorDescription ?? "تعذّر توليد التمارين."
             }

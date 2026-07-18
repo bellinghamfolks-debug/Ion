@@ -18,11 +18,12 @@ final class RoutingTutorRepository: TutorRepositoryProtocol {
 
     func reply(to message: String, sessionID: String, level: CEFRLevel, locale: String, context: String?) async throws -> TutorMessage {
         switch await settings.tutorProvider {
-        case .gemini:
-            return await geminiReply(message: message, level: level, locale: locale)
         case .device:
             return local.reply(to: message, level: level)
-        case .smart:
+        // The personal-key Gemini path is retired: the app's AI runs on the
+        // server now, so both smart and the legacy gemini option use the server
+        // tutor (with a graceful on-device fallback).
+        case .smart, .gemini:
             return await smartReply(message: message, sessionID: sessionID, level: level, locale: locale, context: context)
         }
     }

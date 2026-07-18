@@ -36,10 +36,10 @@ struct HomeView: View {
     private var hero: some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 6) {
-                Text(session.displayName.isEmpty ? "مرحبًا بك 👋" : "مرحبًا، \(session.displayName) 👋")
+                Text(session.displayName.isEmpty ? L("مرحبًا بك 👋") : "مرحبًا، \(session.displayName) 👋")
                     .font(.title.bold())
                     .foregroundStyle(.white)
-                Text(settings.reduceLearningPressure ? "اليوم يكفي أن تتقدم بهدوء." : "خطوة صغيرة اليوم تصنع لغة كاملة غدًا.")
+                Text(settings.reduceLearningPressure ? L("اليوم يكفي أن تتقدم بهدوء.") : L("خطوة صغيرة اليوم تصنع لغة كاملة غدًا."))
                     .font(.subheadline)
                     .foregroundStyle(.white.opacity(0.9))
             }

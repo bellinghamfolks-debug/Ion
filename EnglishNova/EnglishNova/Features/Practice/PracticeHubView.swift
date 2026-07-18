@@ -67,7 +67,7 @@ struct PronunciationLabView: View {
                 }
             }
             Section(L("تسجيلك")) {
-                Button(speechService.state == .listening ? "إيقاف" : "ابدأ النطق") {
+                Button(speechService.state == .listening ? L("إيقاف") : L("ابدأ النطق")) {
                     Task {
                         if speechService.state == .listening {
                             speechService.stop()

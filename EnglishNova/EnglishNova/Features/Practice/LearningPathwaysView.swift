@@ -60,13 +60,13 @@ struct LearningPathwaysView: View {
             } else if progress.completedMilestones == progress.totalMilestones {
                 Label(L("اكتملت مراحل المسار المسجلة"), systemImage: "checkmark.seal.fill")
             }
-            Button(selected ? "المسار المحدد" : "اختيار هذا المسار") {
+            Button(selected ? L("المسار المحدد") : L("اختيار هذا المسار")) {
                 settings.selectedLearningPathway = pathway.id
                 settings.studyMode = suggestedMode(for: pathway.id)
             }
             .buttonStyle(.borderedProminent)
             .disabled(selected)
-            .accessibilityHint(selected ? "هذا هو المسار الحالي" : "يضبط أولويات الخطة اليومية ولا يحذف تقدمك")
+            .accessibilityHint(selected ? L("هذا هو المسار الحالي") : L("يضبط أولويات الخطة اليومية ولا يحذف تقدمك"))
 
             DisclosureGroup("مراحل المسار") {
                 ForEach(Array(pathway.milestones.enumerated()), id: \.element.id) { index, milestone in

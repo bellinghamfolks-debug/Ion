@@ -13,5 +13,15 @@
 		<key>UIImageRespectsSafeAreaInsets</key>
 		<true/>
 	</dict>
+	<!-- Supported UI languages. Arabic is the development language; English is
+	     provided via Localization/en.lproj. Users switch in Settings (which then
+	     prompts a restart so the whole bundle re-resolves). -->
+	<key>CFBundleDevelopmentRegion</key>
+	<string>ar</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>ar</string>
+		<string>en</string>
+	</array>
 </dict>
 </plist>

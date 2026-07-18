@@ -11,21 +11,21 @@ enum StudyMode: String, Codable, CaseIterable, Identifiable, Hashable {
 
     var titleAr: String {
         switch self {
-        case .balanced: return "متوازن"
-        case .exam: return "استعداد للاختبارات"
-        case .conversation: return "محادثة وطلاقة"
-        case .career: return "عمل ومقابلات"
-        case .calm: return "هادئ ومختصر"
+        case .balanced: return L("متوازن")
+        case .exam: return L("استعداد للاختبارات")
+        case .conversation: return L("محادثة وطلاقة")
+        case .career: return L("عمل ومقابلات")
+        case .calm: return L("هادئ ومختصر")
         }
     }
 
     var detailAr: String {
         switch self {
-        case .balanced: return "يمزج الدروس والمراجعة والاستماع والكتابة دون تغليب مهارة واحدة."
-        case .exam: return "يرفع أولوية القراءة والقواعد والكتابة وأسئلة IELTS وSTEP."
-        case .conversation: return "يركز على الاستماع والنطق والرد السريع في المواقف اليومية."
-        case .career: return "يركز على البريد المهني والاجتماعات والمقابلات والقانون والحوكمة."
-        case .calm: return "يختار أقل عدد من الأنشطة مع الحفاظ على الاستمرارية."
+        case .balanced: return L("يمزج الدروس والمراجعة والاستماع والكتابة دون تغليب مهارة واحدة.")
+        case .exam: return L("يرفع أولوية القراءة والقواعد والكتابة وأسئلة IELTS وSTEP.")
+        case .conversation: return L("يركز على الاستماع والنطق والرد السريع في المواقف اليومية.")
+        case .career: return L("يركز على البريد المهني والاجتماعات والمقابلات والقانون والحوكمة.")
+        case .calm: return L("يختار أقل عدد من الأنشطة مع الحفاظ على الاستمرارية.")
         }
     }
 }
@@ -42,12 +42,12 @@ enum LearningPathwayID: String, Codable, CaseIterable, Identifiable, Hashable {
 
     var titleAr: String {
         switch self {
-        case .foundations: return "تأسيس من الصفر"
-        case .dailyFluency: return "الطلاقة اليومية"
-        case .academicIELTS: return "المسار الأكاديمي وIELTS"
-        case .stepMastery: return "إتقان STEP"
-        case .careerEnglish: return "الإنجليزية المهنية"
-        case .legalGovernance: return "القانون والحوكمة"
+        case .foundations: return L("تأسيس من الصفر")
+        case .dailyFluency: return L("الطلاقة اليومية")
+        case .academicIELTS: return L("المسار الأكاديمي وIELTS")
+        case .stepMastery: return L("إتقان STEP")
+        case .careerEnglish: return L("الإنجليزية المهنية")
+        case .legalGovernance: return L("القانون والحوكمة")
         }
     }
 
@@ -75,12 +75,12 @@ enum AdvancedSkillDomain: String, Codable, CaseIterable, Identifiable, Hashable 
 
     var titleAr: String {
         switch self {
-        case .reading: return "القراءة"
-        case .listening: return "الاستماع"
-        case .writing: return "الكتابة"
-        case .speaking: return "التحدث"
-        case .grammar: return "القواعد"
-        case .vocabulary: return "المفردات"
+        case .reading: return L("القراءة")
+        case .listening: return L("الاستماع")
+        case .writing: return L("الكتابة")
+        case .speaking: return L("التحدث")
+        case .grammar: return L("القواعد")
+        case .vocabulary: return L("المفردات")
         }
     }
 
@@ -216,12 +216,12 @@ enum WritingPromptKind: String, Codable, CaseIterable, Identifiable, Hashable {
 
     var titleAr: String {
         switch self {
-        case .sentence: return "جمل قصيرة"
-        case .message: return "رسالة يومية"
-        case .email: return "بريد إلكتروني"
-        case .paragraph: return "فقرة مترابطة"
-        case .opinion: return "رأي وحجة"
-        case .report: return "تقرير مهني"
+        case .sentence: return L("جمل قصيرة")
+        case .message: return L("رسالة يومية")
+        case .email: return L("بريد إلكتروني")
+        case .paragraph: return L("فقرة مترابطة")
+        case .opinion: return L("رأي وحجة")
+        case .report: return L("تقرير مهني")
         }
     }
 }

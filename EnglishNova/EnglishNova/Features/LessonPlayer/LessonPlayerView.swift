@@ -109,7 +109,7 @@ struct LessonPlayerView: View {
 
     private var feedback: some View {
         InfoCard(title: model.lastWasCorrect ? L("إجابة صحيحة") : L("لنصححها معًا"), systemImage: model.lastWasCorrect ? "checkmark.seal.fill" : "lightbulb.fill") {
-            if !model.lastWasCorrect { Text("الإجابة: \(model.current.answer)").font(.headline) }
+            if !model.lastWasCorrect { Text(Lf("الإجابة: %@", "\(model.current.answer)")).font(.headline) }
             Text(model.current.explanationAr)
             if !explainSeed.isEmpty {
                 Button {

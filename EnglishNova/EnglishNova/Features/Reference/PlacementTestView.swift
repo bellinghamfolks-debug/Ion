@@ -70,7 +70,7 @@ struct PlacementTestView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 AccessibleProgressView(
-                    title: "أجبت عن \(model.answeredCount) سؤالًا، والاختبار يتكيف مع إجاباتك",
+                    title: Lf("أجبت عن %@ سؤالًا، والاختبار يتكيف مع إجاباتك", "\(model.answeredCount)"),
                     value: min(1, Double(model.answeredCount) / 16)
                 )
 
@@ -147,18 +147,18 @@ struct PlacementTestView: View {
                     .accessibilityHidden(true)
                     .font(.system(size: 64))
                     .foregroundStyle(.tint)
-                Text("المستوى المقترح: \(result.recommendedLevel.rawValue)")
+                Text(Lf("المستوى المقترح: %@", "\(result.recommendedLevel.rawValue)"))
                     .font(.largeTitle.bold())
                     .multilineTextAlignment(.center)
                 Text(L(result.recommendedLevel.titleAr)).font(.title2)
-                Text("أجبت عن \(result.correctCount) من \(result.responses.count) إجابة صحيحة. ثقة التقدير \(Int(result.confidence * 100))٪.")
+                Text(Lf("أجبت عن %@ من %@ إجابة صحيحة. ثقة التقدير %@٪.", "\(result.correctCount)", "\(result.responses.count)", "\(Int(result.confidence * 100))"))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.secondary)
 
                 InfoCard(title: "خريطة المهارات", systemImage: "chart.bar.xaxis") {
                     ForEach(result.skills) { skill in
                         AccessibleProgressView(
-                            title: "\(skill.skill.titleAr): \(Int(skill.score * 100))٪ من \(skill.answered) أسئلة",
+                            title: Lf("%@: %@٪ من %@ أسئلة", "\(skill.skill.titleAr)", "\(Int(skill.score * 100))", "\(skill.answered)"),
                             value: skill.score
                         )
                     }

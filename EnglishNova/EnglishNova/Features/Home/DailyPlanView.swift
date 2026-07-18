@@ -44,7 +44,7 @@ struct DailyPlanView: View {
                 if model.isLoading {
                     ProgressView(L("جاري بناء خطتك من بياناتك المحلية"))
                 } else if let plan = model.plan {
-                    Text("خطة \(plan.targetMinutes) دقيقة")
+                    Text(Lf("خطة %@ دقيقة", "\(plan.targetMinutes)"))
                         .font(.largeTitle.bold())
                     Text(L("تتغير الخطة حسب الدروس غير المكتملة، الكلمات المستحقة، ومستوى المهارات."))
                         .foregroundStyle(.secondary)
@@ -78,7 +78,7 @@ struct DailyPlanView: View {
         let card = InfoCard(title: "\(number). \(item.kind.titleAr)", systemImage: item.kind.systemImage) {
             Text(L(item.titleAr)).font(.title3.bold())
             Text(item.subtitleAr).foregroundStyle(.secondary)
-            Label("\(item.estimatedMinutes) دقائق", systemImage: "clock")
+            Label(Lf("%@ دقائق", "\(item.estimatedMinutes)"), systemImage: "clock")
         }
 
         switch item.kind {

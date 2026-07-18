@@ -46,3 +46,16 @@ final class Localizer {
 /// Localize an Arabic source string. Use for any user-facing text — both dynamic
 /// String values and (via the wrapping applied across the views) literal labels.
 func L(_ arabic: String) -> String { Localizer.shared.translate(arabic) }
+
+/// Localize an Arabic template that contains `%@` placeholders, substituting the
+/// given (already stringified) values in order. Used for interpolated strings
+/// like "%@ دقيقة" -> "%@ minutes". Manual %@ replacement avoids String(format:)
+/// pitfalls with `%` and integer specifiers.
+func Lf(_ arabicTemplate: String, _ args: String...) -> String {
+    var result = Localizer.shared.translate(arabicTemplate)
+    for arg in args {
+        guard let range = result.range(of: "%@") else { break }
+        result.replaceSubrange(range, with: arg)
+    }
+    return result
+}

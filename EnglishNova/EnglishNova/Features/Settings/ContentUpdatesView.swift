@@ -60,7 +60,7 @@ struct ContentUpdatesView: View {
                 case .installing:
                     ProgressView(L("جاري التحقق والتثبيت"))
                 case let .installed(version):
-                    Label("تم تثبيت الإصدار \(version)", systemImage: "checkmark.seal.fill")
+                    Label(Lf("تم تثبيت الإصدار %@", "\(version)"), systemImage: "checkmark.seal.fill")
                 case let .failed(message):
                     Label(message, systemImage: "exclamationmark.triangle.fill")
                 }

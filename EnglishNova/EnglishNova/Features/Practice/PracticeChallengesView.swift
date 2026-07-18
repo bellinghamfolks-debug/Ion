@@ -18,7 +18,7 @@ struct DictationChallengeView: View {
 
     var body: some View {
         Form {
-            Section("الإملاء \(index + 1)") {
+            Section(Lf("الإملاء %@", "\(index + 1)")) {
                 Button { container.textToSpeech.speak(prompt.sentence) } label: {
                     Label(L("تشغيل الجملة"), systemImage: "speaker.wave.2.fill")
                 }
@@ -32,8 +32,8 @@ struct DictationChallengeView: View {
             if checked {
                 let similarity = StringSimilarity.score(prompt.sentence, answer)
                 Section(L("النتيجة")) {
-                    AccessibleProgressView(title: "الدقة \(Int(similarity * 100))٪", value: similarity)
-                    Text("النص الصحيح: \(prompt.sentence)").environment(\.layoutDirection, .leftToRight)
+                    AccessibleProgressView(title: Lf("الدقة %@٪", "\(Int(similarity * 100))"), value: similarity)
+                    Text(Lf("النص الصحيح: %@", "\(prompt.sentence)")).environment(\.layoutDirection, .leftToRight)
                 }
             }
 
@@ -78,12 +78,12 @@ struct FiveMinuteChallengeView: View {
                 PrimaryButton(title: "ابدأ التحدي", systemImage: "play.fill") { start() }
             } else if isFinished {
                 Image(systemName: "flag.checkered").font(.system(size: 64)).foregroundStyle(.tint).accessibilityHidden(true)
-                Text("النتيجة \(correct) من \(questions.count)").font(.largeTitle.bold())
+                Text(Lf("النتيجة %@ من %@", "\(correct)", "\(questions.count)")).font(.largeTitle.bold())
                 Text("الوقت المتبقي: \(formattedTime)")
                 PrimaryButton(title: "إعادة التحدي", systemImage: "arrow.clockwise") { start() }
             } else if questions.indices.contains(index) {
                 Text(formattedTime).font(.title.monospacedDigit().bold()).accessibilityLabel("الوقت المتبقي \(formattedTime)")
-                AccessibleProgressView(title: "السؤال \(index + 1) من \(questions.count)", value: Double(index) / Double(questions.count))
+                AccessibleProgressView(title: Lf("السؤال %@ من %@", "\(index + 1)", "\(questions.count)"), value: Double(index) / Double(questions.count))
                 Text(questions[index].prompt).font(.title2.bold()).environment(\.layoutDirection, .leftToRight)
                 ForEach(questions[index].choices, id: \.self) { choice in
                     Button {
@@ -207,7 +207,7 @@ struct IELTSSpeakingSimulatorView: View {
                 if isFinished {
                     completion
                 } else {
-                    AccessibleProgressView(title: "السؤال \(index + 1) من 3", value: Double(index) / 3)
+                    AccessibleProgressView(title: Lf("السؤال %@ من 3", "\(index + 1)"), value: Double(index) / 3)
                     InfoCard(title: "السؤال", systemImage: "quote.bubble.fill") {
                         Text(question.prompt).font(.title2.bold()).environment(\.layoutDirection, .leftToRight)
                         Text(L(question.promptAr)).foregroundStyle(.secondary)
@@ -240,7 +240,7 @@ struct IELTSSpeakingSimulatorView: View {
 
                     if let evaluation {
                         InfoCard(title: "تقييم تدريبي", systemImage: "chart.bar.fill") {
-                            AccessibleProgressView(title: "النتيجة \(Int(evaluation.overall * 100))٪", value: evaluation.overall)
+                            AccessibleProgressView(title: Lf("النتيجة %@٪", "\(Int(evaluation.overall * 100))"), value: evaluation.overall)
                             LabeledContent(L("الإجابة عن السؤال"), value: "\(Int(evaluation.relevance * 100))٪")
                             LabeledContent(L("الترابط والبناء"), value: "\(Int(evaluation.structure * 100))٪")
                             LabeledContent(L("تنوع اللغة"), value: "\(Int(evaluation.language * 100))٪")
@@ -272,7 +272,7 @@ struct IELTSSpeakingSimulatorView: View {
     private var completion: some View {
         let average = completedScores.isEmpty ? 0 : completedScores.reduce(0, +) / Double(completedScores.count)
         return InfoCard(title: "اكتملت المحاكاة", systemImage: "flag.checkered") {
-            AccessibleProgressView(title: "متوسط الجلسة \(Int(average * 100))٪", value: average)
+            AccessibleProgressView(title: Lf("متوسط الجلسة %@٪", "\(Int(average * 100))"), value: average)
             Text(L("راجع الملاحظات المسجلة في دفتر الأخطاء، ثم أعد سؤالًا واحدًا بصياغة أفضل بدل تكرار الجلسة كاملة فورًا."))
             Button(L("جلسة جديدة")) {
                 index = 0
@@ -350,13 +350,13 @@ struct STEPPracticeView: View {
                 PrimaryButton(title: "ابدأ الجلسة", systemImage: "play.fill") { start() }
             } else if isFinished {
                 InfoCard(title: "نتيجة STEP التدريبية", systemImage: "checkmark.seal.fill") {
-                    AccessibleProgressView(title: "\(correct) من \(questions.count)", value: Double(correct) / Double(max(1, questions.count)))
+                    AccessibleProgressView(title: Lf("%@ من %@", "\(correct)", "\(questions.count)"), value: Double(correct) / Double(max(1, questions.count)))
                     Text(L("هذه نتيجة جلسة تدريبية قصيرة وليست تحويلًا رسميًا إلى درجة STEP."))
                     Button(L("جلسة جديدة")) { start() }.buttonStyle(.borderedProminent)
                 }
             } else if questions.indices.contains(index) {
                 let question = questions[index]
-                AccessibleProgressView(title: "السؤال \(index + 1) من \(questions.count)", value: Double(index) / Double(questions.count))
+                AccessibleProgressView(title: Lf("السؤال %@ من %@", "\(index + 1)", "\(questions.count)"), value: Double(index) / Double(questions.count))
                 Text(question.prompt).font(.title2.bold()).environment(\.layoutDirection, .leftToRight)
                 Text(L(question.promptAr)).foregroundStyle(.secondary)
                 ForEach(question.choices, id: \.self) { choice in
@@ -520,7 +520,7 @@ private struct InterviewQuestionView: View {
 
             if let evaluation {
                 Section(L("التقييم")) {
-                    AccessibleProgressView(title: "النتيجة \(Int(evaluation.overall * 100))٪", value: evaluation.overall)
+                    AccessibleProgressView(title: Lf("النتيجة %@٪", "\(Int(evaluation.overall * 100))"), value: evaluation.overall)
                     LabeledContent(L("صلة الإجابة"), value: "\(Int(evaluation.relevance * 100))٪")
                     LabeledContent(L("البناء"), value: "\(Int(evaluation.structure * 100))٪")
                     LabeledContent(L("اللغة"), value: "\(Int(evaluation.language * 100))٪")

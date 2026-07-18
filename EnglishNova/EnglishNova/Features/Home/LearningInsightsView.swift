@@ -38,7 +38,7 @@ struct LearningInsightsView: View {
 
                     InfoCard(title: "دقة الدروس", systemImage: "scope") {
                         AccessibleProgressView(
-                            title: "متوسط أفضل نتيجة \(Int(insights.averageLessonScore * 100))٪",
+                            title: Lf("متوسط أفضل نتيجة %@٪", "\(Int(insights.averageLessonScore * 100))"),
                             value: insights.averageLessonScore
                         )
                         LabeledContent(L("إجمالي المحاولات"), value: "\(insights.totalAttempts)")
@@ -48,7 +48,7 @@ struct LearningInsightsView: View {
                     if let strongest = insights.strongestSkill {
                         InfoCard(title: "أقوى مهارة مسجلة", systemImage: "crown.fill") {
                             Text(L(strongest.skill.titleAr)).font(.title2.bold())
-                            AccessibleProgressView(title: "الدقة \(Int(strongest.accuracy * 100))٪", value: strongest.accuracy)
+                            AccessibleProgressView(title: Lf("الدقة %@٪", "\(Int(strongest.accuracy * 100))"), value: strongest.accuracy)
                         }
                     }
 

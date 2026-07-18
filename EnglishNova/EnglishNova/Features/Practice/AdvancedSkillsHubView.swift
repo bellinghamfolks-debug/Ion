@@ -23,7 +23,7 @@ struct AdvancedSkillsHubView: View {
 
             Section(L("المسار والتحليل")) {
                 NavigationLink { LearningPathwaysView() } label: {
-                    Label("مساري: \(settings.selectedLearningPathway.titleAr)", systemImage: settings.selectedLearningPathway.systemImage)
+                    Label(Lf("مساري: %@", "\(settings.selectedLearningPathway.titleAr)"), systemImage: settings.selectedLearningPathway.systemImage)
                 }
                 NavigationLink { WeeklyProgressReportView() } label: {
                     Label(L("تقرير الأسبوع القابل للمشاركة"), systemImage: "doc.text.image.fill")
@@ -47,7 +47,7 @@ struct AdvancedSkillsHubView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(title).font(.headline)
                 Text(detail).font(.caption).foregroundStyle(.secondary)
-                Text("\(count) نشاطًا محليًا").font(.caption.bold())
+                Text(Lf("%@ نشاطًا محليًا", "\(count)")).font(.caption.bold())
             }
         }
         .accessibilityElement(children: .combine)
@@ -77,7 +77,7 @@ struct ReadingComprehensionLabView: View {
                 HStack {
                     Label(passage.level.rawValue, systemImage: "gauge.with.dots.needle.33percent")
                     Label(passage.topicAr, systemImage: "tag.fill")
-                    Label("\(passage.estimatedMinutes) د", systemImage: "clock")
+                    Label(Lf("%@ د", "\(passage.estimatedMinutes)"), systemImage: "clock")
                 }
                 .font(.subheadline)
 
@@ -86,7 +86,7 @@ struct ReadingComprehensionLabView: View {
                         .font(.title3)
                         .lineSpacing(7)
                         .environment(\.layoutDirection, .leftToRight)
-                        .accessibilityLabel("النص الإنجليزي. \(passage.text)")
+                        .accessibilityLabel(Lf("النص الإنجليزي. %@", "\(passage.text)"))
                     Button {
                         textToSpeech.speak(passage.text)
                     } label: {
@@ -117,7 +117,7 @@ struct ReadingComprehensionLabView: View {
     }
 
     private func questionCard(_ question: ComprehensionQuestion, number: Int) -> some View {
-        InfoCard(title: "السؤال \(number)", systemImage: "questionmark.circle.fill") {
+        InfoCard(title: Lf("السؤال %@", "\(number)"), systemImage: "questionmark.circle.fill") {
             Text(question.prompt).font(.headline).environment(\.layoutDirection, .leftToRight)
             Text(L(question.promptAr)).font(.caption).foregroundStyle(.secondary)
             ForEach(question.choices, id: \.self) { choice in
@@ -227,7 +227,7 @@ struct ListeningComprehensionLabView: View {
             Section(L("الموقف")) {
                 Text(L(item.titleAr)).font(.title2.bold())
                 Text(item.contextAr).foregroundStyle(.secondary)
-                Label("المستوى \(item.level.rawValue)", systemImage: "gauge.with.dots.needle.33percent")
+                Label(Lf("المستوى %@", "\(item.level.rawValue)"), systemImage: "gauge.with.dots.needle.33percent")
                 Button {
                     replayCount += 1
                     textToSpeech.speak(item.transcript, accent: settings.accentVariant, rate: Float(settings.speechRate))
@@ -235,12 +235,12 @@ struct ListeningComprehensionLabView: View {
                     Label(replayCount == 0 ? L("تشغيل المقطع") : "إعادة المقطع، شُغّل \(replayCount) مرة", systemImage: "play.circle.fill")
                 }
                 .buttonStyle(.borderedProminent)
-                Text("المقترح: \(item.recommendedReplays) تشغيلات أو أقل.")
+                Text(Lf("المقترح: %@ تشغيلات أو أقل.", "\(item.recommendedReplays)"))
                     .font(.caption).foregroundStyle(.secondary)
             }
 
             ForEach(Array(item.questions.enumerated()), id: \.element.id) { number, question in
-                Section("السؤال \(number + 1)") {
+                Section(Lf("السؤال %@", "\(number + 1)")) {
                     Text(question.prompt).font(.headline).environment(\.layoutDirection, .leftToRight)
                     ForEach(question.choices, id: \.self) { choice in
                         Button {
@@ -341,7 +341,7 @@ struct WritingStudioView: View {
                 InfoCard(title: "المهمة", systemImage: "doc.text.fill") {
                     Text(prompt.prompt).font(.title3).environment(\.layoutDirection, .leftToRight)
                     Text(L(prompt.promptAr)).foregroundStyle(.secondary)
-                    Label("الحد الأدنى \(prompt.minimumWords) كلمة", systemImage: "number")
+                    Label(Lf("الحد الأدنى %@ كلمة", "\(prompt.minimumWords)"), systemImage: "number")
                     Text("مفردات مقترحة: \(prompt.suggestedWords.joined(separator: "، "))")
                         .font(.caption)
                         .environment(\.layoutDirection, .leftToRight)
@@ -361,7 +361,7 @@ struct WritingStudioView: View {
                         .background(.background, in: RoundedRectangle(cornerRadius: 14))
                         .environment(\.layoutDirection, .leftToRight)
                         .accessibilityLabel(L("حقل كتابة المسودة باللغة الإنجليزية"))
-                    Text("\(wordCount) كلمة")
+                    Text(Lf("%@ كلمة", "\(wordCount)"))
                         .font(.caption.monospacedDigit())
                         .foregroundStyle(wordCount >= prompt.minimumWords ? Color.secondary : Color.orange)
                 }
@@ -394,7 +394,7 @@ struct WritingStudioView: View {
     private func evaluationView(_ value: WritingEvaluation) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             InfoCard(title: "تقرير الكتابة", systemImage: "chart.bar.doc.horizontal.fill") {
-                AccessibleProgressView(title: "النتيجة الكلية \(Int(value.overall * 100))٪", value: value.overall)
+                AccessibleProgressView(title: Lf("النتيجة الكلية %@٪", "\(Int(value.overall * 100))"), value: value.overall)
                 scoreRow("إنجاز المهمة", value.taskAchievement)
                 scoreRow("التنظيم والترابط", value.organization)
                 scoreRow("تنوع اللغة", value.languageRange)

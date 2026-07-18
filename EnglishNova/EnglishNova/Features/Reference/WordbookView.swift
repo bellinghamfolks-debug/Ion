@@ -75,7 +75,7 @@ struct WordbookView: View {
                         ForEach(model.tags, id: \.self) { Text($0).tag($0) }
                     }
                 }
-                Text("\(model.filtered.count) كلمة ظاهرة من أصل \(model.cards.count)")
+                Text(Lf("%@ كلمة ظاهرة من أصل %@", "\(model.filtered.count)", "\(model.cards.count)"))
                     .font(.caption).foregroundStyle(.secondary)
             }
 
@@ -174,7 +174,7 @@ private struct WordDetailView: View {
                     Button { container.textToSpeech.speak(card.word.english) } label: {
                         Image(systemName: "speaker.wave.2.fill").font(.title)
                     }
-                    .accessibilityLabel("نطق \(card.word.english)")
+                    .accessibilityLabel(Lf("نطق %@", "\(card.word.english)"))
                 }
                 Text(card.word.example).environment(\.layoutDirection, .leftToRight)
                 Text(card.word.exampleArabic).foregroundStyle(.secondary)
@@ -187,9 +187,9 @@ private struct WordDetailView: View {
             }
 
             Section(L("التقدم")) {
-                AccessibleProgressView(title: "درجة الإتقان \(Int(card.confidence * 100))٪", value: card.confidence)
+                AccessibleProgressView(title: Lf("درجة الإتقان %@٪", "\(Int(card.confidence * 100))"), value: card.confidence)
                 LabeledContent(L("عدد النجاحات المتتالية"), value: "\(card.repetitions)")
-                LabeledContent(L("الفاصل الحالي"), value: "\(card.intervalDays) يوم")
+                LabeledContent(L("الفاصل الحالي"), value: Lf("%@ يوم", "\(card.intervalDays)"))
                 LabeledContent(L("المراجعة القادمة"), value: card.dueDate.formatted(date: .abbreviated, time: .omitted))
             }
 
@@ -230,7 +230,7 @@ private struct WordDetailView: View {
             }
             Button(L("إلغاء"), role: .cancel) {}
         } message: {
-            Text("سيُحذف \(card.word.english) من قاموسك.")
+            Text(Lf("سيُحذف %@ من قاموسك.", "\(card.word.english)"))
         }
     }
 }

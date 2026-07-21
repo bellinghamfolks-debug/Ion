@@ -19,17 +19,27 @@ final class LessonPlayerViewModel: ObservableObject {
 
     var current: Exercise { lesson.exercises[currentIndex] }
     var progress: Double { Double(currentIndex + (answered ? 1 : 0)) / Double(max(lesson.exercises.count, 1)) }
-    var score: Double { Double(correctCount) / Double(max(lesson.exercises.count, 1)) }
+
+    /// Only real questions are graded; explanations and flashcards are
+    /// informational and must NOT count toward the score.
+    private static func isGraded(_ type: ExerciseType) -> Bool {
+        type != .explanation && type != .flashcard
+    }
+    private var gradedCount: Int { lesson.exercises.filter { Self.isGraded($0.type) }.count }
+
+    /// Score over graded questions only. A lesson with no graded questions
+    /// (pure explanation) counts as fully complete.
+    var score: Double { gradedCount == 0 ? 1 : Double(correctCount) / Double(gradedCount) }
 
     func submit(response: String? = nil) {
         guard !answered else { return }
         let value = response ?? selectedAnswer
-        if current.type == .explanation || current.type == .flashcard {
-            lastWasCorrect = true
-        } else {
+        if Self.isGraded(current.type) {
             lastWasCorrect = current.isCorrect(value)
+            if lastWasCorrect { correctCount += 1 }   // only graded answers score
+        } else {
+            lastWasCorrect = true   // informational: shown as done, not scored
         }
-        if lastWasCorrect { correctCount += 1 }
         answered = true
     }
 

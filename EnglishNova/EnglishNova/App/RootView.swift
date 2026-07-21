@@ -22,6 +22,9 @@ struct RootView: View {
         }
         .toastLayer()
         .task { await session.load() }
+        // Pull any server-published translation corrections (OTA i18n) so wrong
+        // translations can be fixed without shipping a new build.
+        .task { await Localizer.shared.refreshFromServer() }
         .task {
             // Keep the branded splash for ~3 seconds, then reveal the app.
             try? await Task.sleep(nanoseconds: 3_000_000_000)

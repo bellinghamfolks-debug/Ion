@@ -17,13 +17,20 @@ final class Localizer {
     /// Toggled by AppSettings to match the chosen interface language.
     var isEnglish = false
 
-    private var map: [String: String] = [:]
+    private var map: [String: String] = [:]           // bundled base translations
+    private var overrides: [String: String] = [:]     // server (OTA) corrections
+
+    private var overridesCacheURL: URL? {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?
+            .appendingPathComponent("i18n-overrides.json")
+    }
 
     private init() {
         // Synchronous read so the very first render is already in the right
         // language (AppSettings mirrors the choice here on every change).
         isEnglish = UserDefaults.standard.string(forKey: "ui.language") == "en"
         load()
+        loadCachedOverrides()
     }
 
     private func load() {
@@ -37,9 +44,45 @@ final class Localizer {
         map = dict
     }
 
+    private func loadCachedOverrides() {
+        guard let url = overridesCacheURL,
+              let data = try? Data(contentsOf: url),
+              let dict = try? JSONDecoder().decode([String: String].self, from: data)
+        else { return }
+        overrides = dict
+    }
+
     func translate(_ arabic: String) -> String {
         guard isEnglish else { return arabic }
-        return map[arabic] ?? arabic
+        return overrides[arabic] ?? map[arabic] ?? arabic
+    }
+
+    /// Fetch translation corrections published on the server (channel "i18n")
+    /// so wrong translations can be fixed WITHOUT a new app build. The payload
+    /// is a plain { arabic: english } map; it's cached on disk so it also
+    /// applies offline on the next launch.
+    func refreshFromServer() async {
+        guard let base = ServerEndpoint.currentURL else { return }
+        var comps = URLComponents(url: base.appendingPathComponent("content"),
+                                  resolvingAgainstBaseURL: false)
+        comps?.queryItems = [URLQueryItem(name: "channel", value: "i18n")]
+        guard let url = comps?.url else { return }
+        struct ContentResponse: Decodable { let payload: [String: String]? }
+        do {
+            var request = URLRequest(url: url)
+            request.timeoutInterval = 15
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode),
+                  data.count <= 5 * 1_024 * 1_024 else { return }
+            let decoded = try JSONDecoder().decode(ContentResponse.self, from: data)
+            guard let payload = decoded.payload, !payload.isEmpty else { return }
+            overrides = payload
+            if let cache = overridesCacheURL, let encoded = try? JSONEncoder().encode(payload) {
+                try? encoded.write(to: cache, options: .atomic)
+            }
+        } catch {
+            // Offline or unavailable — keep the cached/bundled translations.
+        }
     }
 }
 

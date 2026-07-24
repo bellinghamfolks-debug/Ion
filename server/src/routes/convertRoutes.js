@@ -6,7 +6,10 @@ import { Router } from "express";
 import express from "express";
 import crypto from "crypto";
 import { PDFDocument } from "pdf-lib";
-import { Document, Packer, Paragraph, HeadingLevel, TextRun } from "docx";
+import {
+  Document, Packer, Paragraph, HeadingLevel, TextRun,
+  Table, TableRow, TableCell, WidthType, Footer, PageNumber, AlignmentType,
+} from "docx";
 import { pool } from "../db.js";
 import { rateLimit } from "../middleware/rateLimit.js";
 
@@ -27,8 +30,14 @@ function buildPrompt(options = {}) {
     parts.push("Put each heading/title on its own line prefixed with '## '.");
   }
   if (options.describeImages) {
-    parts.push("For every image, figure, chart or diagram, insert a concise Arabic " +
-      "description in square brackets on its own line, like: [صورة: وصف موجز للصورة].");
+    parts.push("For every image, logo, icon, QR/barcode, chart, diagram, photo or " +
+      "figure, insert a DETAILED Arabic description in square brackets on its own " +
+      "line, like [صورة: ...]. Be specific and comprehensive: for a logo name the " +
+      "brand and describe it; for a QR/barcode say it is a QR/barcode and that its " +
+      "encoded content cannot be read visually; for icons say which apps/platforms " +
+      "they represent (e.g. App Store, Google Play, Twitter, WhatsApp); for photos " +
+      "describe the scene, objects, people and colors; for charts state the chart " +
+      "type and the key values/labels shown.");
   }
   if (options.math === "words") {
     parts.push("Transcribe every mathematical equation into clear, readable Arabic " +
@@ -37,7 +46,10 @@ function buildPrompt(options = {}) {
     parts.push("Transcribe every mathematical equation into LaTeX delimited by $...$.");
   }
   if (options.preserveTables) {
-    parts.push("Render tables as readable rows, one cell per column separated by ' | '.");
+    parts.push("Render every table as a GitHub-style Markdown pipe table: each row " +
+      "on its own line like '| cell | cell | cell |', and put a separator row " +
+      "'|---|---|---|' right after the first (header) row. Keep the SAME number of " +
+      "columns in every row (use empty cells to align). Do not add text between rows.");
   }
   parts.push("Output ONLY the document content — no commentary, no markdown code " +
     "fences, and no page numbers.");
@@ -145,13 +157,20 @@ async function finalize(jobId) {
        COUNT(*) FILTER (WHERE status <> 'done')::int  AS notdone
      FROM conversion_pages WHERE job_id = $1`, [jobId]);
   const { failed, notdone } = counts.rows[0];
-  const assembled = await pool.query(
-    "SELECT string_agg(COALESCE(text, ''), E'\\n\\n' ORDER BY page_no) AS full FROM conversion_pages WHERE job_id = $1 AND status = 'done'",
+
+  const job = await pool.query("SELECT options FROM conversion_jobs WHERE id = $1", [jobId]);
+  const pageNumbers = !!(job.rows[0]?.options?.pageNumbers);
+  const pages = await pool.query(
+    "SELECT page_no, COALESCE(text, '') AS text FROM conversion_pages WHERE job_id = $1 AND status = 'done' ORDER BY page_no",
     [jobId]);
+  const full = pages.rows
+    .map((p) => (pageNumbers ? `## صفحة ${p.page_no}\n${p.text}` : p.text))
+    .join("\n\n");
+
   const status = notdone === 0 ? "done" : (failed > 0 ? "partial" : "processing");
   await pool.query(
     "UPDATE conversion_jobs SET status = $2, result_text = $3, updated_at = now() WHERE id = $1",
-    [jobId, status, assembled.rows[0].full || ""]);
+    [jobId, status, full]);
 }
 
 /// Re-queue any jobs left mid-flight by a server restart. Call once on startup.
@@ -285,17 +304,64 @@ function sanitizeXml(s) {
   return String(s || "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g, "");
 }
 
-// Turn the assembled text (with "## " heading markers) into a real .docx.
-// Uses the minimal, version-stable docx API (string Paragraphs) so it can't
-// break across docx releases.
+// --- Markdown pipe-table parsing -> real Word tables ------------------------
+function isTableRow(line) {
+  const t = line.trim();
+  return t.startsWith("|") && t.length > 1;
+}
+function parseCells(line) {
+  let t = line.trim();
+  if (t.startsWith("|")) t = t.slice(1);
+  if (t.endsWith("|")) t = t.slice(0, -1);
+  return t.split("|").map((c) => c.trim());
+}
+function isSeparatorRow(cells) {
+  return cells.length > 0 && cells.every((c) => c === "" || /^:?-{2,}:?$/.test(c));
+}
+function makeTable(blockLines) {
+  const rows = blockLines.map(parseCells).filter((c) => !isSeparatorRow(c));
+  if (!rows.length) return null;
+  const cols = Math.max(...rows.map((r) => r.length));
+  return new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE },
+    rows: rows.map((r) => new TableRow({
+      children: Array.from({ length: cols }, (_, c) =>
+        new TableCell({ children: [new Paragraph(r[c] || "")] })),
+    })),
+  });
+}
+
+// Turn the assembled text into a real .docx: headings (## ), Markdown pipe
+// tables (| a | b |), and paragraphs; with a page-number footer.
 function buildDocx(text) {
-  const clean = sanitizeXml(text);
-  const paras = clean.split("\n").map((line) =>
-    line.startsWith("## ")
+  const lines = sanitizeXml(text).split("\n");
+  const children = [];
+  let i = 0;
+  while (i < lines.length) {
+    if (isTableRow(lines[i])) {
+      const block = [];
+      while (i < lines.length && isTableRow(lines[i])) { block.push(lines[i]); i++; }
+      const table = makeTable(block);
+      if (table) { children.push(table); children.push(new Paragraph("")); }
+      continue;
+    }
+    const line = lines[i];
+    children.push(line.startsWith("## ")
       ? new Paragraph({ text: line.slice(3), heading: HeadingLevel.HEADING_1 })
       : new Paragraph(line));
-  if (!paras.length) paras.push(new Paragraph(""));
-  return Packer.toBuffer(new Document({ sections: [{ children: paras }] }));
+    i++;
+  }
+  if (!children.length) children.push(new Paragraph(""));
+
+  const footer = new Footer({
+    children: [new Paragraph({
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun("صفحة "), new TextRun({ children: [PageNumber.CURRENT] })],
+    })],
+  });
+  return Packer.toBuffer(new Document({
+    sections: [{ footers: { default: footer }, children }],
+  }));
 }
 
 // GET /convert/jobs/:id/result.docx -> a real Word (.docx) document

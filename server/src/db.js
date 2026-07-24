@@ -55,18 +55,24 @@ export async function initSchema() {
     );
 
     -- Server-side PDF->text conversion jobs (background, resumable per page).
+    -- When the encrypted flag is true, pdf_bytes / result_docx hold AES-256-GCM
+    -- ciphertext and result_text / conversion_pages.text hold base64 ciphertext,
+    -- all under a per-job key the CLIENT derives and holds. The server only ever
+    -- receives that key transiently (in RAM) while a job is actively processing
+    -- and never stores it, so the data at rest is unreadable to the DB/host.
     CREATE TABLE IF NOT EXISTS conversion_jobs (
       id          TEXT PRIMARY KEY,
       device_id   TEXT,
       filename    TEXT,
       model       TEXT,
-      status      TEXT NOT NULL DEFAULT 'processing',  -- processing|done|partial|failed
+      status      TEXT NOT NULL DEFAULT 'processing',  -- processing|done|partial|failed|key_required
       total_pages INTEGER NOT NULL DEFAULT 0,
       pdf_bytes   BYTEA,
       result_text TEXT,
       result_docx BYTEA,
       mode        TEXT NOT NULL DEFAULT 'accessible',  -- accessible|layout
       options     JSONB NOT NULL DEFAULT '{}',
+      encrypted   BOOLEAN NOT NULL DEFAULT false,
       error       TEXT,
       created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
       updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -90,6 +96,7 @@ export async function initSchema() {
     ALTER TABLE conversion_jobs ADD COLUMN IF NOT EXISTS options JSONB NOT NULL DEFAULT '{}';
     ALTER TABLE conversion_jobs ADD COLUMN IF NOT EXISTS result_docx BYTEA;
     ALTER TABLE conversion_jobs ADD COLUMN IF NOT EXISTS mode TEXT NOT NULL DEFAULT 'accessible';
+    ALTER TABLE conversion_jobs ADD COLUMN IF NOT EXISTS encrypted BOOLEAN NOT NULL DEFAULT false;
   `);
 
   // Backfill existing rows whose points/streak were stored as 0 before we knew

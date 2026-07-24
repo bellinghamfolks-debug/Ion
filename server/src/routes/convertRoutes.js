@@ -512,6 +512,38 @@ async function geminiTranscribe(jpegBase64, model, options = {}) {
   return (data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") || "").trim();
 }
 
+// ---- Live OCR (for the eSight glasses reader) ------------------------------
+// Read ALL visible text in a single camera frame, Arabic + English, verbatim.
+// Short + fast (small output budget) for near-real-time reading aloud.
+async function geminiReadText(imageBase64, model) {
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) { const e = new Error("ai_unavailable"); e.status = 503; throw e; }
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+  const prompt = "Read ALL the text visible in this image exactly as written, in natural reading order. " +
+    "Keep the original language (Arabic stays Arabic, English stays English). Do not translate, " +
+    "summarise, or add anything. Output ONLY the text. If there is no readable text, output nothing.";
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{
+        role: "user",
+        parts: [
+          { text: prompt },
+          { inline_data: { mime_type: imageMimeFromB64(imageBase64), data: imageBase64 } },
+        ],
+      }],
+      generationConfig: { temperature: 1.0, maxOutputTokens: 2048 },
+    }),
+  });
+  if (!res.ok) {
+    const detail = await res.text();
+    throw new Error(`gemini ${res.status}: ${detail.slice(0, 200)}`);
+  }
+  const data = await res.json();
+  return (data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") || "").trim();
+}
+
 // Run the Python converter on the whole PDF. Returns the .docx bytes, or throws
 // (e.g. Python/pdf2docx not installed) so the caller can fall back.
 async function convertLayout(pdfBytes) {
@@ -722,6 +754,26 @@ export async function resumePendingConversions() {
 // ---- Routes -----------------------------------------------------------------
 
 const bigJson = express.json({ limit: "28mb" });
+const frameJson = express.json({ limit: "8mb" });
+
+// Per-device budget for the live reader: many small frames per minute.
+const liveLimit = rateLimit({ name: "live-ocr", windowMs: 60 * 1000, max: 40 });
+
+// POST /convert/live-ocr { imageBase64, model? } -> { text }
+// Reads all visible text in one camera frame (Arabic + English) for the glasses
+// live reader. Fast and stateless — no job, no DB.
+convertRouter.post("/live-ocr", frameJson, liveLimit, async (req, res) => {
+  const b64 = String(req.body?.imageBase64 || "");
+  if (!b64) return res.status(400).json({ error: "missing_image" });
+  const model = String(req.body?.model || MODEL_DEFAULT).slice(0, 60);
+  try {
+    const text = await geminiReadText(b64, model);
+    res.json({ text });
+  } catch (e) {
+    if (e.status) return res.status(e.status).json({ error: e.message });
+    res.status(502).json({ error: "ocr_failed", detail: String(e.message || e).slice(0, 200) });
+  }
+});
 
 // GET /convert/selftest -> runs a tiny known page through the EXACT vision path
 // and reports what happened, so conversion problems are diagnosable in a browser

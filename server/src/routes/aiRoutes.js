@@ -357,7 +357,7 @@ aiRouter.post("/exercise", requireAuth, aiLimit, async (req, res) => {
 //  - seenGeminiEnvVars: names (only) of any env var containing "gemini"
 // Bump this whenever the server changes so /ai/status confirms which build is
 // actually live on Railway (helps verify a redeploy took effect).
-const SERVER_BUILD = "2024-basir-exact-call-selftest-v25";
+const SERVER_BUILD = "2024-live-ocr-glasses-v26";
 
 aiRouter.get("/status", (_req, res) => {
   const key = process.env.GEMINI_API_KEY || "";

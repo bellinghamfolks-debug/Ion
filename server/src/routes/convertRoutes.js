@@ -30,6 +30,47 @@ export const convertRouter = Router();
 const MODEL_DEFAULT = process.env.CONVERT_MODEL || "gemini-3.5-flash-lite";
 const MAX_PDF_BYTES = 20 * 1024 * 1024; // 20 MB
 
+// ---- Client-held-key encryption (zero-knowledge at rest) -------------------
+//
+// The client derives a per-job 256-bit key and sends it ONLY while a job is
+// actively processing. We keep it in RAM (never in the DB) and use AES-256-GCM
+// with Apple CryptoKit's "combined" layout: nonce(12) || ciphertext || tag(16),
+// so iOS and Node interoperate byte-for-byte. At rest the DB holds only
+// ciphertext, unreadable to the database/host without the client's key.
+const GCM_NONCE = 12;
+const GCM_TAG = 16;
+
+// jobId -> Buffer(32) per-job key. Populated on create/resume, dropped when a
+// processing pass ends. Never persisted.
+const jobKeys = new Map();
+
+function encBlob(dek, buf) {
+  const nonce = crypto.randomBytes(GCM_NONCE);
+  const c = crypto.createCipheriv("aes-256-gcm", dek, nonce);
+  const ct = Buffer.concat([c.update(buf), c.final()]);
+  return Buffer.concat([nonce, ct, c.getAuthTag()]);
+}
+function decBlob(dek, buf) {
+  const b = Buffer.isBuffer(buf) ? buf : Buffer.from(buf);
+  if (b.length < GCM_NONCE + GCM_TAG) throw new Error("ciphertext too short");
+  const nonce = b.subarray(0, GCM_NONCE);
+  const tag = b.subarray(b.length - GCM_TAG);
+  const ct = b.subarray(GCM_NONCE, b.length - GCM_TAG);
+  const d = crypto.createDecipheriv("aes-256-gcm", dek, nonce);
+  d.setAuthTag(tag);
+  return Buffer.concat([d.update(ct), d.final()]);
+}
+// Encrypt/decrypt a UTF-8 string to/from a base64 blob (for TEXT columns).
+function encText(dek, s) { return encBlob(dek, Buffer.from(String(s ?? ""), "utf8")).toString("base64"); }
+function decText(dek, b64) { return decBlob(dek, Buffer.from(String(b64 || ""), "base64")).toString("utf8"); }
+
+// Parse a base64 32-byte key from the client; throws on anything malformed.
+function parseDek(b64) {
+  const buf = Buffer.from(String(b64 || ""), "base64");
+  if (buf.length !== 32) throw new Error("bad_key");
+  return buf;
+}
+
 // Build the per-page extraction prompt from the user's chosen options. Headings
 // are marked with "## " and image descriptions with "[صورة: ...]" so the DOCX
 // builder can style them.
@@ -268,9 +309,8 @@ async function processJob(jobId) {
   running.add(jobId);
   try {
     const { rows } = await pool.query(
-      "SELECT pdf_bytes, model, options, mode FROM conversion_jobs WHERE id = $1", [jobId]);
+      "SELECT pdf_bytes, model, options, mode, encrypted FROM conversion_jobs WHERE id = $1", [jobId]);
     if (!rows[0] || !rows[0].pdf_bytes) return;
-    const pdfBytes = rows[0].pdf_bytes; // Buffer (bytea)
     const model = rows[0].model || MODEL_DEFAULT;
     const jobOptions = rows[0].options || {};
     const prompt = buildPrompt(jobOptions);
@@ -278,14 +318,34 @@ async function processJob(jobId) {
     // from altering names/numbers). Set faithful:false to force AI vision OCR.
     const faithful = jobOptions.faithful !== false;
 
+    // Encrypted jobs: the per-job key must be supplied by the client (in RAM).
+    // If it isn't here (e.g. after a server restart), pause and ask the client
+    // to re-supply it via /resume — we never store or reconstruct it ourselves.
+    const encrypted = rows[0].encrypted === true;
+    const dek = encrypted ? jobKeys.get(jobId) : null;
+    if (encrypted && !dek) {
+      await pool.query(
+        "UPDATE conversion_jobs SET status = 'key_required', updated_at = now() WHERE id = $1", [jobId]);
+      return;
+    }
+    // Decrypt the PDF transiently, in RAM only, for processing.
+    let pdfBytes = rows[0].pdf_bytes; // Buffer (bytea) — ciphertext when encrypted
+    if (encrypted) {
+      try { pdfBytes = decBlob(dek, pdfBytes); }
+      catch (e) { throw new Error("bad_encryption: " + e.message); }
+    }
+    // Helper: store page/result text, encrypting first for encrypted jobs.
+    const packText = (s) => (encrypted ? encText(dek, s) : s);
+
     // Professional layout mode: convert the whole file with pdf2docx. If the
     // engine isn't available, fall back to the accessible per-page pipeline.
     if (rows[0].mode === "layout") {
       try {
         const docx = await convertLayout(pdfBytes);
+        const storedDocx = encrypted ? encBlob(dek, docx) : docx;
         await pool.query(
           "UPDATE conversion_jobs SET status = 'done', result_docx = $2, updated_at = now() WHERE id = $1",
-          [jobId, docx]);
+          [jobId, storedDocx]);
         await pool.query("UPDATE conversion_pages SET status = 'done' WHERE job_id = $1", [jobId]);
         return;
       } catch (e) {
@@ -339,7 +399,7 @@ async function processJob(jobId) {
           }
           await pool.query(
             "UPDATE conversion_pages SET status = 'done', text = $3 WHERE job_id = $1 AND page_no = $2",
-            [jobId, pageNo, text]);
+            [jobId, pageNo, packText(text)]);
         } catch (e) {
           await pool.query(
             "UPDATE conversion_pages SET status = 'failed' WHERE job_id = $1 AND page_no = $2",
@@ -352,7 +412,7 @@ async function processJob(jobId) {
       fsp.rm(tmpDir, { recursive: true, force: true }).catch(() => {});
     }
 
-    await finalize(jobId);
+    await finalize(jobId, dek);
   } catch (e) {
     console.error(`convert job ${jobId} crashed:`, e.message);
     await pool.query(
@@ -360,11 +420,17 @@ async function processJob(jobId) {
       [jobId, e.message]).catch(() => {});
   } finally {
     running.delete(jobId);
+    // Drop the per-job key from RAM after every processing pass. Resume
+    // re-supplies it; downloads use the already-encrypted stored result.
+    jobKeys.delete(jobId);
   }
 }
 
-// Assemble the finished text and set the final status (done vs partial).
-async function finalize(jobId) {
+// Assemble the finished text and set the final status (done vs partial). For
+// encrypted jobs (dek given) the per-page ciphertext is decrypted in RAM to
+// build the full text and a real DOCX, both re-encrypted before storage so the
+// download path never needs the key.
+async function finalize(jobId, dek = null) {
   const counts = await pool.query(
     `SELECT
        COUNT(*) FILTER (WHERE status = 'failed')::int AS failed,
@@ -378,13 +444,27 @@ async function finalize(jobId) {
     "SELECT page_no, COALESCE(text, '') AS text FROM conversion_pages WHERE job_id = $1 AND status = 'done' ORDER BY page_no",
     [jobId]);
   const full = pages.rows
-    .map((p) => (pageNumbers ? `## صفحة ${p.page_no}\n${p.text}` : p.text))
+    .map((p) => {
+      const t = dek ? decText(dek, p.text) : p.text;
+      return pageNumbers ? `## صفحة ${p.page_no}\n${t}` : t;
+    })
     .join("\n\n");
 
   const status = notdone === 0 ? "done" : (failed > 0 ? "partial" : "processing");
-  await pool.query(
-    "UPDATE conversion_jobs SET status = $2, result_text = $3, updated_at = now() WHERE id = $1",
-    [jobId, status, full]);
+  if (dek) {
+    // Pre-build the DOCX now, while we hold the key, and store it encrypted so
+    // the download endpoint just serves ciphertext for the client to decrypt.
+    let docxCipher = null;
+    try { docxCipher = encBlob(dek, await buildDocx(full)); }
+    catch (e) { console.error(`encrypted docx build failed for ${jobId}:`, e.message); }
+    await pool.query(
+      "UPDATE conversion_jobs SET status = $2, result_text = $3, result_docx = $4, updated_at = now() WHERE id = $1",
+      [jobId, status, encText(dek, full), docxCipher]);
+  } else {
+    await pool.query(
+      "UPDATE conversion_jobs SET status = $2, result_text = $3, updated_at = now() WHERE id = $1",
+      [jobId, status, full]);
+  }
 }
 
 /// Re-queue any jobs left mid-flight by a server restart. Call once on startup.
@@ -402,7 +482,10 @@ export async function resumePendingConversions() {
 
 const bigJson = express.json({ limit: "28mb" });
 
-// POST /convert/jobs { filename, pdfBase64, model? }  (header: X-Device-Id)
+// POST /convert/jobs { filename, pdfBase64, model?, id?, encrypted?, key? }
+// (header: X-Device-Id). For encrypted jobs, `pdfBase64` is AES-GCM ciphertext,
+// `key` is the base64 per-job key (kept in RAM only), and `id` is the client's
+// UUID (so the client can re-derive the key for history/resume).
 convertRouter.post("/jobs", bigJson, convertLimit, async (req, res) => {
   const filename = String(req.body?.filename || "document.pdf").slice(0, 200);
   const model = String(req.body?.model || MODEL_DEFAULT).slice(0, 60);
@@ -411,36 +494,57 @@ convertRouter.post("/jobs", bigJson, convertLimit, async (req, res) => {
   const b64 = String(req.body?.pdfBase64 || "");
   if (!b64) return res.status(400).json({ error: "missing_pdf" });
 
-  let pdfBytes;
-  try { pdfBytes = Buffer.from(b64, "base64"); } catch { return res.status(400).json({ error: "bad_base64" }); }
-  if (!pdfBytes.length || pdfBytes.length > MAX_PDF_BYTES) {
+  const encrypted = req.body?.encrypted === true;
+  let dek = null;
+  if (encrypted) {
+    try { dek = parseDek(req.body?.key); } catch { return res.status(400).json({ error: "bad_key" }); }
+  }
+
+  // For encrypted jobs the client supplies its own UUID (used to derive the key).
+  let id = String(req.body?.id || "");
+  if (!/^[0-9a-fA-F-]{36}$/.test(id)) id = crypto.randomUUID();
+
+  // Stored bytes are exactly what the client sent (ciphertext when encrypted);
+  // we only decrypt transiently, in RAM, to read the page count.
+  let storedPdf;
+  try { storedPdf = Buffer.from(b64, "base64"); } catch { return res.status(400).json({ error: "bad_base64" }); }
+  if (!storedPdf.length || storedPdf.length > MAX_PDF_BYTES + 4096) {
     return res.status(413).json({ error: "pdf_too_large" });
+  }
+
+  let workingPdf = storedPdf;
+  if (encrypted) {
+    try { workingPdf = decBlob(dek, storedPdf); }
+    catch { return res.status(400).json({ error: "bad_encryption" }); }
   }
 
   let totalPages;
   try {
-    const doc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+    const doc = await PDFDocument.load(workingPdf, { ignoreEncryption: true });
     totalPages = doc.getPageCount();
   } catch { return res.status(400).json({ error: "invalid_pdf" }); }
   if (totalPages < 1) return res.status(400).json({ error: "empty_pdf" });
 
-  const id = crypto.randomUUID();
+  if (encrypted) jobKeys.set(id, dek); // RAM only; never written to the DB
   await pool.query(
-    `INSERT INTO conversion_jobs (id, device_id, filename, model, mode, status, total_pages, pdf_bytes, options)
-     VALUES ($1, $2, $3, $4, $5, 'processing', $6, $7, $8)`,
-    [id, deviceId(req), filename, model, mode, totalPages, pdfBytes, options]);
+    `INSERT INTO conversion_jobs (id, device_id, filename, model, mode, status, total_pages, pdf_bytes, options, encrypted)
+     VALUES ($1, $2, $3, $4, $5, 'processing', $6, $7, $8, $9)
+     ON CONFLICT (id) DO NOTHING`,
+    [id, deviceId(req), filename, model, mode, totalPages, storedPdf, options, encrypted]);
   // Seed one row per page.
   const values = Array.from({ length: totalPages }, (_, i) => `($1, ${i + 1})`).join(",");
-  await pool.query(`INSERT INTO conversion_pages (job_id, page_no) VALUES ${values}`, [id]);
+  await pool.query(`INSERT INTO conversion_pages (job_id, page_no) VALUES ${values} ON CONFLICT DO NOTHING`, [id]);
 
   processJob(id); // fire-and-forget background work
-  res.status(202).json({ jobId: id, filename, totalPages, status: "processing" });
+  res.status(202).json({ jobId: id, filename, totalPages, status: "processing", encrypted });
 });
 
-// Shared status shape.
+// Shared status shape. For encrypted jobs, resultText is base64 ciphertext the
+// client decrypts locally; `encrypted` flags that and `docxUrl` points at the
+// (encrypted) DOCX blob endpoint.
 async function jobStatus(id) {
   const { rows } = await pool.query(
-    "SELECT id, filename, status, total_pages, result_text, error, updated_at FROM conversion_jobs WHERE id = $1",
+    "SELECT id, filename, status, total_pages, result_text, error, updated_at, encrypted FROM conversion_jobs WHERE id = $1",
     [id]);
   if (!rows[0]) return null;
   const j = rows[0];
@@ -457,6 +561,7 @@ async function jobStatus(id) {
     donePages: p.rows[0].done,
     failedPages: p.rows[0].failed,
     updatedAt: j.updated_at,
+    encrypted: j.encrypted === true,
     resultText: (j.status === "done" || j.status === "partial") ? (j.result_text || "") : null,
     error: j.error || null,
   };
@@ -483,9 +588,18 @@ convertRouter.get("/jobs", async (req, res) => {
   })) });
 });
 
-// POST /convert/jobs/:id/resume -> retry failed pages, continue processing
-convertRouter.post("/jobs/:id/resume", async (req, res) => {
+// POST /convert/jobs/:id/resume { key? } -> retry failed pages, continue.
+// Encrypted jobs MUST include the base64 per-job key so the server can process;
+// it is held in RAM only for this pass and never stored.
+convertRouter.post("/jobs/:id/resume", bigJson, async (req, res) => {
   const id = req.params.id;
+  const { rows } = await pool.query("SELECT encrypted FROM conversion_jobs WHERE id = $1", [id]);
+  if (!rows[0]) return res.status(404).json({ error: "not_found" });
+  if (rows[0].encrypted === true) {
+    let dek;
+    try { dek = parseDek(req.body?.key); } catch { return res.status(400).json({ error: "key_required" }); }
+    jobKeys.set(id, dek);
+  }
   const { rowCount } = await pool.query(
     "UPDATE conversion_pages SET status = 'pending' WHERE job_id = $1 AND status = 'failed'", [id]);
   await pool.query(
@@ -506,8 +620,9 @@ function contentDisposition(base, ext) {
 
 convertRouter.get("/jobs/:id/result.rtf", async (req, res) => {
   const { rows } = await pool.query(
-    "SELECT filename, result_text FROM conversion_jobs WHERE id = $1", [req.params.id]);
+    "SELECT filename, result_text, encrypted FROM conversion_jobs WHERE id = $1", [req.params.id]);
   if (!rows[0]) return res.status(404).json({ error: "not_found" });
+  if (rows[0].encrypted === true) return res.status(409).json({ error: "encrypted" });
   const text = rows[0].result_text || "";
   // Minimal RTF: escape backslashes/braces, encode non-ASCII as \uN, newlines as \par.
   const body = text.replace(/[\\{}]/g, (m) => "\\" + m).split("\n").map((line) =>
@@ -590,8 +705,10 @@ function buildDocx(text) {
 // GET /convert/jobs/:id/result.docx -> a real Word (.docx) document
 convertRouter.get("/jobs/:id/result.docx", async (req, res) => {
   const { rows } = await pool.query(
-    "SELECT filename, result_text, result_docx FROM conversion_jobs WHERE id = $1", [req.params.id]);
+    "SELECT filename, result_text, result_docx, encrypted FROM conversion_jobs WHERE id = $1", [req.params.id]);
   if (!rows[0]) return res.status(404).json({ error: "not_found" });
+  // Encrypted jobs must be fetched as ciphertext and decrypted on the device.
+  if (rows[0].encrypted === true) return res.status(409).json({ error: "encrypted", enc: "result.docx.enc" });
   try {
     // Layout mode produced a real .docx directly (pdf2docx); serve it as-is.
     const buffer = rows[0].result_docx || await buildDocx(rows[0].result_text || "");
@@ -607,11 +724,27 @@ convertRouter.get("/jobs/:id/result.docx", async (req, res) => {
   }
 });
 
+// GET /convert/jobs/:id/result.docx.enc -> the ENCRYPTED .docx blob (AES-GCM
+// ciphertext, CryptoKit combined layout). The client decrypts it with its
+// per-job key to obtain the real .docx. The server never holds the key here.
+convertRouter.get("/jobs/:id/result.docx.enc", async (req, res) => {
+  const { rows } = await pool.query(
+    "SELECT result_docx, encrypted FROM conversion_jobs WHERE id = $1", [req.params.id]);
+  if (!rows[0]) return res.status(404).json({ error: "not_found" });
+  if (rows[0].encrypted !== true) return res.status(409).json({ error: "not_encrypted" });
+  if (!rows[0].result_docx) return res.status(404).json({ error: "not_ready" });
+  res.setHeader("Content-Type", "application/octet-stream");
+  res.send(rows[0].result_docx); // raw ciphertext bytes
+});
+
 // GET /convert/jobs/:id/result.txt -> plain text (most accessible)
 convertRouter.get("/jobs/:id/result.txt", async (req, res) => {
   const { rows } = await pool.query(
-    "SELECT filename, result_text FROM conversion_jobs WHERE id = $1", [req.params.id]);
+    "SELECT filename, result_text, encrypted FROM conversion_jobs WHERE id = $1", [req.params.id]);
   if (!rows[0]) return res.status(404).json({ error: "not_found" });
+  // Encrypted: the client already has result_text (ciphertext) via status and
+  // decrypts it locally; there is no server-readable plaintext to serve.
+  if (rows[0].encrypted === true) return res.status(409).json({ error: "encrypted" });
   const base = (rows[0].filename || "document").replace(/\.[^.]+$/, "");
   res.setHeader("Content-Type", "text/plain; charset=utf-8");
   res.setHeader("Content-Disposition", contentDisposition(base, "txt"));

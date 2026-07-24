@@ -13,13 +13,15 @@ struct PDFToWordAccessibilityApp: App {
 
 // MARK: - Models
 enum GoogleModel: String, CaseIterable {
-    case pro = "gemini-1.5-pro"
-    case flash = "gemini-1.5-flash"
+    // Gemini 3 family (2026). 3.6 Flash = strongest/most accurate; 3.5 Flash-Lite
+    // = fastest and cheapest, and is optimized for document parsing (ideal here).
+    case pro = "gemini-3.6-flash"
+    case flash = "gemini-3.5-flash-lite"
 
     var displayName: String {
         switch self {
-        case .pro: return "نموذج جوجل برو (عالي الدقة)"
-        case .flash: return "نموذج جوجل فلاش (سريع)"
+        case .pro: return "جيميني 3.6 (أعلى دقة)"
+        case .flash: return "جيميني 3.5 لايت (أسرع وأوفر)"
         }
     }
 }

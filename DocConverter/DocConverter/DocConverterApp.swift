@@ -498,7 +498,16 @@ enum LocalStore {
 // MARK: - API client (server: off / at-rest levels)
 
 struct ConvertAPI {
-    private var session: URLSession { .shared }
+    // A configured session with finite timeouts so a stuck server makes the
+    // upload FAIL with a clear error instead of hanging forever.
+    private static let sharedSession: URLSession = {
+        let cfg = URLSessionConfiguration.default
+        cfg.timeoutIntervalForRequest = 90     // per-request inactivity
+        cfg.timeoutIntervalForResource = 300   // whole transfer
+        cfg.waitsForConnectivity = true
+        return URLSession(configuration: cfg)
+    }()
+    private var session: URLSession { Self.sharedSession }
 
     private func request(_ path: String, method: String = "GET") -> URLRequest {
         var r = URLRequest(url: Server.baseURL.appendingPathComponent(path))
@@ -766,6 +775,8 @@ final class AppViewModel {
                 announce("بدأ التحويل على الخادم. يمكنك إغلاق التطبيق؛ ستجد الملف في السجل.")
                 startPolling(jobId)
             }
+        } catch let error as URLError where error.code == .timedOut || error.code == .cannotConnectToHost || error.code == .notConnectedToInternet {
+            announce("تعذّر الاتصال بالخادم. قد يكون الخادم متوقفًا أو قاعدة البيانات غير متصلة. تحقّق من الاتصال ثم أعد المحاولة.")
         } catch {
             announce("تعذّر بدء التحويل: \(error.localizedDescription)")
         }

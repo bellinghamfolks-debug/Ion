@@ -6,10 +6,14 @@ import { authRouter } from "./routes/authRoutes.js";
 import { progressRouter } from "./routes/progressRoutes.js";
 import { aiRouter } from "./routes/aiRoutes.js";
 import { contentRouter } from "./routes/contentRoutes.js";
+import { convertRouter, resumePendingConversions } from "./routes/convertRoutes.js";
 import { analyticsRouter } from "./analytics.js";
 
 const app = express();
 app.use(cors());
+// Conversion uploads (PDFs) can exceed the default limit, so /convert is mounted
+// before the global JSON parser and uses its own larger body limit internally.
+app.use("/convert", convertRouter);
 app.use(express.json({ limit: "5mb" }));
 
 // Tracks whether the database schema is ready. Auth/progress need it; /health
@@ -44,6 +48,8 @@ async function initWithRetry(attempt = 1) {
     await initSchema();
     dbReady = true;
     console.log("Database schema ready.");
+    // Continue any conversion jobs interrupted by a restart.
+    resumePendingConversions();
   } catch (err) {
     console.error(`DB init failed (attempt ${attempt}): ${err.message}`);
     if (attempt < 60) {

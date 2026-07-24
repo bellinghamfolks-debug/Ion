@@ -27,7 +27,10 @@ import { rateLimit } from "../middleware/rateLimit.js";
 
 export const convertRouter = Router();
 
-const MODEL_DEFAULT = process.env.CONVERT_MODEL || "gemini-3.5-flash-lite";
+// Default to Gemini 3.6 Flash for conversion. Basir's brief defaults conversion
+// to Flash (not Flash-Lite) because Lite is the cheapest and LEAST accurate —
+// on scanned Arabic it invents plausible text. Flash markedly reduces that.
+const MODEL_DEFAULT = process.env.CONVERT_MODEL || "gemini-3.6-flash";
 const MAX_PDF_BYTES = 20 * 1024 * 1024; // 20 MB
 
 // ---- Client-held-key encryption (zero-knowledge at rest) -------------------
@@ -582,27 +585,55 @@ async function processJob(jobId) {
         if (!next.rows[0]) break;
         const pageNo = next.rows[0].page_no;
         try {
-          // Basir v3.4 method: RASTERIZE the page to a high-res JPEG and send
-          // the IMAGE to Gemini with a single natural, no-schema prompt. The
-          // model reads the actual pixels and returns verbatim Markdown, which
-          // fixes both fabrication (schema was the obstacle) and garbled text
-          // layers (we never trust the embedded text).
+          // Extraction strategy controlled by the `faithful` option (default true):
+          //
+          // faithful=true  → trust the PDF's own text layer first (PyMuPDF then JS).
+          //   Zero AI for digital docs → zero fabrication. Fall back to AI vision
+          //   ONLY for pages with an empty text layer (scanned / image-only pages).
+          //
+          // faithful=false → force AI vision OCR (Basir v3.4 rasterize → Gemini),
+          //   useful when the embedded text is garbled or deliberately wrong.
           let text = "";
           try {
-            const jpeg = await renderPageJpeg(tmpPdf, pageNo - 1);
-            if (jpeg) {
-              text = await geminiTranscribe(jpeg, model, jobOptions);
+            if (faithful) {
+              // 1. Try PyMuPDF direct text extraction (correct Arabic/RTL order).
+              let nativeText = "";
+              const r = await extractPageTextPy(tmpPdf, pageNo - 1, { preserveTables: wantTables });
+              if (r.ran && r.text.replace(/\s/g, "").length >= 3) {
+                nativeText = r.text;
+              } else if (!r.ran) {
+                // PyMuPDF unavailable: try the JS extractor.
+                nativeText = await extractPageText(pdfBytes, pageNo - 1, { preserveTables: wantTables }).catch(() => "");
+              }
+              if (nativeText.replace(/\s/g, "").length >= 3) {
+                text = nativeText; // digital page — use verbatim text, no AI
+              } else {
+                // Scanned / image-only page: AI vision is the only option.
+                const jpeg = await renderPageJpeg(tmpPdf, pageNo - 1);
+                if (jpeg) {
+                  text = await geminiTranscribe(jpeg, model, jobOptions);
+                } else {
+                  const pdf64 = await singlePageBase64(pdfBytes, pageNo - 1);
+                  text = await geminiExtract(pdf64, model, prompt);
+                }
+              }
             } else {
-              // Rasterizer unavailable -> send the single-page PDF instead.
-              const pdf64 = await singlePageBase64(pdfBytes, pageNo - 1);
-              text = await geminiExtract(pdf64, model, prompt);
+              // faithful=false: Basir v3.4 method — rasterize then send image to Gemini.
+              const jpeg = await renderPageJpeg(tmpPdf, pageNo - 1);
+              if (jpeg) {
+                text = await geminiTranscribe(jpeg, model, jobOptions);
+              } else {
+                // Rasterizer unavailable -> send the single-page PDF instead.
+                const pdf64 = await singlePageBase64(pdfBytes, pageNo - 1);
+                text = await geminiExtract(pdf64, model, prompt);
+              }
             }
           } catch (e) {
-            console.error(`vision transcribe failed for ${jobId} p${pageNo}:`, e.message);
+            console.error(`page extract failed for ${jobId} p${pageNo}:`, e.message);
             text = "";
           }
-          // Fallback only if Gemini is unavailable/empty: use the faithful
-          // on-server text layer (PyMuPDF, then JS) so the page is not lost.
+          // Last-resort: if everything above returned empty (Gemini down, etc.)
+          // pull whatever the text layer has so the page is not lost entirely.
           if (text.replace(/\s/g, "").length < 3) {
             try {
               const r = await extractPageTextPy(tmpPdf, pageNo - 1, { preserveTables: wantTables });

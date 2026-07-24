@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -76,6 +77,20 @@ class LiveReaderActivity : AppCompatActivity() {
         root.addView(bigButton("إيقاف") {
             stopService(Intent(this, ScreenReaderService::class.java))
             status.text = "أُوقفت القراءة."
+        })
+
+        // Smart auto-stop when the user looks away from the text.
+        root.addView(CheckBox(this).apply {
+            text = "إيقاف ذكي: توقّف تلقائيًا عند تحويل النظر عن النص"
+            textSize = 17f
+            val prefs = getSharedPreferences("live_reader", Context.MODE_PRIVATE)
+            isChecked = prefs.getBoolean("autostop", true)
+            val lp = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            lp.topMargin = 24; layoutParams = lp
+            setOnCheckedChangeListener { _, checked ->
+                prefs.edit().putBoolean("autostop", checked).apply()
+            }
         })
 
         // --- Reading speed ---

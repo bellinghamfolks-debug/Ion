@@ -21,6 +21,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import kotlinx.coroutines.CoroutineScope
@@ -45,6 +46,8 @@ class ScreenReaderService : Service() {
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     private var lastSpoken = ""
+    private var speakingNorm = ""      // normalised text currently being read
+    private var currentUtterId = ""
     private var inFlight = false
     private var lastSentAt = 0L
     private val model = "gemini-3.6-flash"
@@ -59,6 +62,12 @@ class ScreenReaderService : Service() {
             startForeground(1, buildNotification())
         }
         tts = TextToSpeech(this) { }
+        tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String?) {}
+            override fun onDone(utteranceId: String?) { if (utteranceId == currentUtterId) speakingNorm = "" }
+            @Deprecated("Deprecated in Java")
+            override fun onError(utteranceId: String?) { if (utteranceId == currentUtterId) speakingNorm = "" }
+        })
         val code = intent?.getIntExtra("code", Activity.RESULT_CANCELED) ?: Activity.RESULT_CANCELED
         @Suppress("DEPRECATION")
         val data: Intent? = intent?.getParcelableExtra("data")
@@ -117,6 +126,14 @@ class ScreenReaderService : Service() {
         scope.launch {
             try {
                 val text = ConvertApi.liveOcr(jpeg, model).trim()
+                val newNorm = normalize(text)
+                // Smart auto-stop: if the text being read is no longer in view
+                // (the user looked away / moved the glasses), stop reading it.
+                if (autoStopEnabled() && speakingNorm.isNotEmpty() && !stillVisible(newNorm, speakingNorm)) {
+                    tts?.stop()
+                    speakingNorm = ""
+                    lastSpoken = ""   // allow re-reading if the user looks back
+                }
                 if (text.isNotEmpty() && !isNearDuplicate(text)) {
                     lastSpoken = text
                     speak(text)
@@ -126,6 +143,17 @@ class ScreenReaderService : Service() {
                 inFlight = false
             }
         }
+    }
+
+    private fun autoStopEnabled(): Boolean =
+        getSharedPreferences("live_reader", Context.MODE_PRIVATE).getBoolean("autostop", true)
+
+    /** Is the currently-read text still visible in the new frame? */
+    private fun stillVisible(newNorm: String, spokenNorm: String): Boolean {
+        if (newNorm.isEmpty()) return false
+        if (newNorm.contains(spokenNorm) || spokenNorm.contains(newNorm)) return true
+        val sig = spokenNorm.take(24)
+        return sig.length >= 6 && newNorm.contains(sig)
     }
 
     private fun isNearDuplicate(text: String): Boolean {
@@ -143,7 +171,12 @@ class ScreenReaderService : Service() {
         // Apply the user's chosen reading speed (updated live from the UI).
         val rate = getSharedPreferences("live_reader", Context.MODE_PRIVATE).getFloat("rate", 1.0f)
         tts?.setSpeechRate(rate)
-        tts?.speak(text, TextToSpeech.QUEUE_ADD, null, System.nanoTime().toString())
+        speakingNorm = normalize(text)
+        val id = System.nanoTime().toString()
+        currentUtterId = id
+        // FLUSH so a new/looked-at text replaces the current read (with the
+        // dedup above, the same text in view keeps reading without restarting).
+        tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id)
     }
 
     private fun buildNotification(): Notification {

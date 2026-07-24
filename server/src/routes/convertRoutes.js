@@ -10,7 +10,7 @@ import { promises as fsp } from "fs";
 import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, StandardFonts } from "pdf-lib";
 // NOTE: We deliberately do NOT statically import pdfjs-dist here. Its ESM build
 // instantiates DOM globals (new DOMMatrix()) at module-load time, which do not
 // exist in Node and crash the WHOLE server on startup (ReferenceError:
@@ -497,10 +497,11 @@ async function geminiTranscribe(jpegBase64, model, options = {}) {
           { inline_data: { mime_type: imageMimeFromB64(jpegBase64), data: jpegBase64 } },
         ],
       }],
-      // temperature 1.0 (Gemini 3.x default), generous output budget, and HIGH
-      // media resolution so small Arabic glyphs are read as sharply as the
-      // Gemini phone app reads a photo.
-      generationConfig: { temperature: 1.0, maxOutputTokens: 16384, mediaResolution: "MEDIA_RESOLUTION_HIGH" },
+      // EXACTLY like Basir's shipping generateText/baseBody: temperature 1.0 and
+      // maxOutputTokens 16384, and NOTHING else — no mediaResolution, no schema.
+      // (An extra/unsupported generationConfig field can make the call error and
+      // silently degrade the whole conversion.)
+      generationConfig: { temperature: 1.0, maxOutputTokens: 16384 },
     }),
   });
   if (!res.ok) {
@@ -721,6 +722,41 @@ export async function resumePendingConversions() {
 // ---- Routes -----------------------------------------------------------------
 
 const bigJson = express.json({ limit: "28mb" });
+
+// GET /convert/selftest -> runs a tiny known page through the EXACT vision path
+// and reports what happened, so conversion problems are diagnosable in a browser
+// without any DB or app. Shows: is the Gemini key set, did rasterization work,
+// what did the model return, and the exact error if the call failed.
+convertRouter.get("/selftest", async (req, res) => {
+  const model = String(req.query.model || MODEL_DEFAULT).slice(0, 60);
+  const out = { model, hasGeminiKey: !!process.env.GEMINI_API_KEY, rasterized: false, visionOutput: "", error: null };
+  const dir = await fsp.mkdtemp(path.join(os.tmpdir(), "selftest-"));
+  try {
+    const doc = await PDFDocument.create();
+    const page = doc.addPage([320, 140]);
+    const font = await doc.embedFont(StandardFonts.Helvetica);
+    page.drawText("Selftest 12345 ABC xyz", { x: 20, y: 70, size: 20, font });
+    const bytes = Buffer.from(await doc.save());
+    const tmpPdf = path.join(dir, "s.pdf");
+    await fsp.writeFile(tmpPdf, bytes);
+
+    const jpeg = await renderPageJpeg(tmpPdf, 0);
+    out.rasterized = !!jpeg;
+    try {
+      out.visionOutput = jpeg
+        ? await geminiTranscribe(jpeg, model, {})
+        : await geminiExtract(await singlePageBase64(bytes, 0), model, buildPrompt({}));
+    } catch (e) { out.error = String(e.message || e).slice(0, 500); }
+    out.visionOutput = String(out.visionOutput).slice(0, 500);
+    out.expected = "Selftest 12345 ABC xyz";
+    out.pass = out.visionOutput.includes("12345");
+    res.json(out);
+  } catch (e) {
+    res.status(500).json({ ...out, error: String(e.message || e).slice(0, 500) });
+  } finally {
+    fsp.rm(dir, { recursive: true, force: true }).catch(() => {});
+  }
+});
 
 // POST /convert/jobs { filename, pdfBase64, model?, id?, encrypted?, key? }
 // (header: X-Device-Id). For encrypted jobs, `pdfBase64` is AES-GCM ciphertext,

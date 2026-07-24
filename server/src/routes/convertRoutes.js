@@ -280,23 +280,22 @@ convertRouter.get("/jobs/:id/result.rtf", async (req, res) => {
   res.send(rtf);
 });
 
+// Strip characters that are invalid in XML 1.0 (they make the .docx writer throw).
+function sanitizeXml(s) {
+  return String(s || "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g, "");
+}
+
 // Turn the assembled text (with "## " heading markers) into a real .docx.
+// Uses the minimal, version-stable docx API (string Paragraphs) so it can't
+// break across docx releases.
 function buildDocx(text) {
-  const paras = (text || "").split("\n").map((line) => {
-    if (line.startsWith("## ")) {
-      return new Paragraph({
-        heading: HeadingLevel.HEADING_1,
-        bidirectional: true,
-        children: [new TextRun({ text: line.slice(3), rightToLeft: true })],
-      });
-    }
-    return new Paragraph({
-      bidirectional: true,
-      children: [new TextRun({ text: line, rightToLeft: true })],
-    });
-  });
-  const doc = new Document({ sections: [{ children: paras.length ? paras : [new Paragraph("")] }] });
-  return Packer.toBuffer(doc);
+  const clean = sanitizeXml(text);
+  const paras = clean.split("\n").map((line) =>
+    line.startsWith("## ")
+      ? new Paragraph({ text: line.slice(3), heading: HeadingLevel.HEADING_1 })
+      : new Paragraph(line));
+  if (!paras.length) paras.push(new Paragraph(""));
+  return Packer.toBuffer(new Document({ sections: [{ children: paras }] }));
 }
 
 // GET /convert/jobs/:id/result.docx -> a real Word (.docx) document
@@ -312,8 +311,9 @@ convertRouter.get("/jobs/:id/result.docx", async (req, res) => {
     res.setHeader("Content-Disposition", `attachment; filename="${base}.docx"`);
     res.send(buffer);
   } catch (e) {
-    console.error("docx build failed:", e.message);
-    res.status(500).json({ error: "docx_failed" });
+    // Surface the real reason so the client/logs can show it (diagnostic).
+    console.error("docx build failed:", e.stack || e.message);
+    res.status(500).json({ error: "docx_failed", detail: String(e.message || e).slice(0, 300) });
   }
 });
 

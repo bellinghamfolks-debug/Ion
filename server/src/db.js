@@ -53,6 +53,31 @@ export async function initSchema() {
       payload    JSONB NOT NULL,
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
+
+    -- Server-side PDF->text conversion jobs (background, resumable per page).
+    CREATE TABLE IF NOT EXISTS conversion_jobs (
+      id          TEXT PRIMARY KEY,
+      device_id   TEXT,
+      filename    TEXT,
+      model       TEXT,
+      status      TEXT NOT NULL DEFAULT 'processing',  -- processing|done|partial|failed
+      total_pages INTEGER NOT NULL DEFAULT 0,
+      pdf_bytes   BYTEA,
+      result_text TEXT,
+      error       TEXT,
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+      updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+    CREATE INDEX IF NOT EXISTS conversion_jobs_device_idx
+      ON conversion_jobs (device_id, created_at DESC);
+
+    CREATE TABLE IF NOT EXISTS conversion_pages (
+      job_id  TEXT NOT NULL REFERENCES conversion_jobs(id) ON DELETE CASCADE,
+      page_no INTEGER NOT NULL,
+      status  TEXT NOT NULL DEFAULT 'pending',  -- pending|done|failed
+      text    TEXT,
+      PRIMARY KEY (job_id, page_no)
+    );
   `);
 
   // Columns added after the first release: tolerate pre-existing progress tables.

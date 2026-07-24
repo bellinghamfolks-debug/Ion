@@ -20,9 +20,17 @@ targets:
     platform: iOS
     sources:
       - path: DocConverter
+    dependencies:
+      - target: DocConverterBroadcast
+        embed: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.bellinghamfolks.docconverter
+    entitlements:
+      path: DocConverter/DocConverter.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.bellinghamfolks.docconverter
     info:
       path: DocConverter/Info.plist
       properties:
@@ -37,6 +45,10 @@ targets:
         LSApplicationCategoryType: public.app-category.productivity
         UILaunchScreen: {}
         UIApplicationSupportsIndirectInputEvents: true
+        # Background audio so the glasses live reader can speak while the user is
+        # in the eSight app.
+        UIBackgroundModes:
+          - audio
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
@@ -50,3 +62,28 @@ targets:
             LSHandlerRank: Alternate
             LSItemContentTypes:
               - com.adobe.pdf
+
+  # Broadcast Upload Extension: captures the phone screen (eSight camera view),
+  # OCRs each frame on the server, and hands text to the app to read aloud.
+  DocConverterBroadcast:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: DocConverter/BroadcastExtension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.bellinghamfolks.docconverter.broadcast
+    entitlements:
+      path: DocConverter/BroadcastExtension/Broadcast.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.bellinghamfolks.docconverter
+    info:
+      path: DocConverter/BroadcastExtension/Info.plist
+      properties:
+        CFBundleDisplayName: قارئ النظارة
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.broadcast-services-upload
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).SampleHandler
+          RPBroadcastProcessMode: RPBroadcastProcessModeSampleBuffer

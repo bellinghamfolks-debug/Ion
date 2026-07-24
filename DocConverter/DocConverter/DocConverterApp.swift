@@ -976,6 +976,7 @@ struct ContentView: View {
     @State private var showingPreview = false
     @State private var showingTranslate = false
     @State private var showCancelConfirm = false
+    @State private var showingLiveReader = false
 
     var body: some View {
         NavigationStack {
@@ -1017,6 +1018,10 @@ struct ContentView: View {
                     .accessibilityLabel("سجل التحويلات السابقة")
                 }
                 ToolbarItem(placement: .topBarTrailing) {
+                    Button { showingLiveReader = true } label: { Image(systemName: "eyeglasses") }
+                        .accessibilityLabel("القارئ اللحظي لنظارة eSight")
+                }
+                ToolbarItem(placement: .topBarTrailing) {
                     Button { showingSettings = true } label: { Image(systemName: "gearshape") }
                         .accessibilityLabel("الإعدادات")
                 }
@@ -1044,6 +1049,9 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingSettings) {
                 SettingsView(vm: vm)
+            }
+            .sheet(isPresented: $showingLiveReader) {
+                LiveReaderView()
             }
             .alert("إلغاء التحويل؟", isPresented: $showCancelConfirm) {
                 Button("إلغاء العملية", role: .destructive) { Task { await vm.cancelConversion() } }

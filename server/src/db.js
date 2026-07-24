@@ -64,6 +64,8 @@ export async function initSchema() {
       total_pages INTEGER NOT NULL DEFAULT 0,
       pdf_bytes   BYTEA,
       result_text TEXT,
+      result_docx BYTEA,
+      mode        TEXT NOT NULL DEFAULT 'accessible',  -- accessible|layout
       options     JSONB NOT NULL DEFAULT '{}',
       error       TEXT,
       created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -86,6 +88,8 @@ export async function initSchema() {
     ALTER TABLE progress ADD COLUMN IF NOT EXISTS points INTEGER NOT NULL DEFAULT 0;
     ALTER TABLE progress ADD COLUMN IF NOT EXISTS streak INTEGER NOT NULL DEFAULT 0;
     ALTER TABLE conversion_jobs ADD COLUMN IF NOT EXISTS options JSONB NOT NULL DEFAULT '{}';
+    ALTER TABLE conversion_jobs ADD COLUMN IF NOT EXISTS result_docx BYTEA;
+    ALTER TABLE conversion_jobs ADD COLUMN IF NOT EXISTS mode TEXT NOT NULL DEFAULT 'accessible';
   `);
 
   // Backfill existing rows whose points/streak were stored as 0 before we knew

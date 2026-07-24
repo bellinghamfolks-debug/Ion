@@ -1,0 +1,22 @@
+# OPTIONAL build image that adds the layout-preserving conversion engine
+# (pdf2docx / PyMuPDF) on top of the Node server. It is NOT used automatically —
+# activate it by setting the Railway service's Dockerfile path to "Dockerfile.layout".
+# Without it, mode=layout gracefully falls back to the accessible text pipeline.
+FROM node:20-bookworm-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      python3 python3-venv python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# pdf2docx (and PyMuPDF) in an isolated venv; put it first on PATH so `python3`
+# used by the Node server resolves to it.
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:${PATH}"
+RUN pip install --no-cache-dir pdf2docx
+
+WORKDIR /app
+COPY server/package*.json server/
+RUN cd server && (npm ci || npm install)
+COPY server server
+ENV NODE_ENV=production
+CMD ["node", "server/src/index.js"]

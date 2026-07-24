@@ -1,0 +1,2 @@
+# Python deps for the optional layout-preserving conversion engine (mode=layout).
+pdf2docx>=0.5.8

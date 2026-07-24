@@ -65,19 +65,54 @@ def main():
         os.write(real_stdout_fd, text.encode("utf-8"))
         sys.exit(0)
 
+    def unavailable():
+        # Distinct from emit(""): exit 20 tells the caller "PyMuPDF could not run
+        # at all" so it falls back to the JS extractor, whereas emit("") means
+        # "ran fine, but this page should go to AI vision".
+        os.dup2(real_stdout_fd, 1)
+        sys.exit(20)
+
     try:
         import fitz  # PyMuPDF
     except Exception:
-        # PyMuPDF not installed — let the caller fall back to the JS path.
-        emit("")
+        unavailable()  # not installed -> JS fallback
 
     try:
         doc = fitz.open(path)
     except Exception:
-        emit("")
+        unavailable()
     if page_index < 0 or page_index >= doc.page_count:
         emit("")
     page = doc.load_page(page_index)
+
+    # --- Auto-detect pages that should go to AI vision instead of the text
+    # layer. Most scanned documents either have no text layer or carry an
+    # unreliable prior-OCR one; vision reads those far better and faithfully.
+    raw = page.get_text("text")
+    try:
+        info = page.get_image_info()
+        img_area = sum(
+            max(0.0, d["bbox"][2] - d["bbox"][0]) * max(0.0, d["bbox"][3] - d["bbox"][1])
+            for d in info
+        )
+        parea = page.rect.width * page.rect.height
+        img_ratio = (img_area / parea) if parea > 0 else 0.0
+    except Exception:
+        img_ratio = 0.0
+
+    # 1) Scanned/photo page: an image covers most of the page. Defer to vision.
+    if img_ratio > 0.6:
+        emit("")
+
+    # 2) Garbled text layer (symbolic fonts with no ToUnicode map): many
+    #    replacement / private-use glyphs, or almost no real letters/digits.
+    nonspace = [ch for ch in raw if not ch.isspace()]
+    n = len(nonspace)
+    if n >= 20:
+        bad = sum(1 for ch in nonspace if ch == "�" or 0xE000 <= ord(ch) <= 0xF8FF)
+        alnum = sum(1 for ch in nonspace if ch.isalnum())
+        if bad / n > 0.03 or alnum / n < 0.30:
+            emit("")  # unreliable text layer -> vision
 
     # Collect tables (with their vertical position) so we can interleave them
     # with the surrounding prose in the correct reading order.

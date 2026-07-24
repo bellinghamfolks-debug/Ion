@@ -26,6 +26,13 @@ targets:
     info:
       path: DocConverter/Info.plist
       properties:
+        # Arabic-only localization so iOS renders ALL system UI (QuickLook
+        # preview, document scanner, share sheet, alert buttons, etc.) in Arabic
+        # regardless of the device language — this app has no English UI.
+        CFBundleDevelopmentRegion: ar
+        CFBundleLocalizations:
+          - ar
+        CFBundleAllowMixedLocalizations: true
         CFBundleDisplayName: محول المستندات
         LSApplicationCategoryType: public.app-category.productivity
         UILaunchScreen: {}

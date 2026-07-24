@@ -17,6 +17,8 @@ struct PDFToWordAccessibilityApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(vm: vm)
+                .environment(\.locale, Locale(identifier: "ar"))
+                .environment(\.layoutDirection, .rightToLeft)
                 .onOpenURL { url in vm.acceptIncoming(url) }
         }
     }

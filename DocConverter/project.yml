@@ -11,12 +11,6 @@ settings:
     CODE_SIGN_STYLE: Automatic
     CURRENT_PROJECT_VERSION: 1
     MARKETING_VERSION: 1.0.0
-    INFOPLIST_KEY_CFBundleDisplayName: محول المستندات
-    INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
-    INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
-    INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
-    INFOPLIST_KEY_UILaunchScreen_Generation: true
-    GENERATE_INFOPLIST_FILE: YES
     ENABLE_USER_SCRIPT_SANDBOXING: YES
     ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
@@ -29,3 +23,23 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.bellinghamfolks.docconverter
+    info:
+      path: DocConverter/Info.plist
+      properties:
+        CFBundleDisplayName: محول المستندات
+        LSApplicationCategoryType: public.app-category.productivity
+        UILaunchScreen: {}
+        UIApplicationSupportsIndirectInputEvents: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        # Camera scanning (VisionKit document scanner).
+        NSCameraUsageDescription: تُستخدم الكاميرا لمسح المستندات الورقية وتحويلها إلى ملف Word.
+        # Receive PDFs opened/shared from other apps ("فتح في محوّل المستندات").
+        LSSupportsOpeningDocumentsInPlace: true
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: مستند PDF
+            LSHandlerRank: Alternate
+            LSItemContentTypes:
+              - com.adobe.pdf

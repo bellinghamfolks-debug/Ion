@@ -6,12 +6,18 @@ import Security
 import PDFKit
 import Vision
 import QuickLook
+import VisionKit
+import UserNotifications
+import Translation
 
 @main
 struct PDFToWordAccessibilityApp: App {
+    // Owned here so a PDF opened from another app (onOpenURL) reaches the model.
+    @State private var vm = AppViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(vm: vm)
+                .onOpenURL { url in vm.acceptIncoming(url) }
         }
     }
 }
@@ -621,6 +627,16 @@ final class AppViewModel {
     var isUploading = false
     var statusMessage = "جاهز للبدء. اختر ملف PDF لتحويله."
 
+    // Page-range selection.
+    var pageCount = 0
+    var pageRangeEnabled = false
+    var startPage = 1
+    var endPage = 1
+
+    // Batch progress.
+    var batchTotal = 0
+    var batchDone = 0
+
     private let api = ConvertAPI()
     private var pollTask: Task<Void, Never>?
 
@@ -637,23 +653,69 @@ final class AppViewModel {
         UIAccessibility.post(notification: .announcement, argument: message)
     }
 
+    /// Set the active PDF and read its page count (for the page-range control).
+    func selectPDF(_ url: URL) {
+        selectedPDFURL = url
+        resultURL = nil
+        current = nil
+        var count = 0
+        let needsStop = url.startAccessingSecurityScopedResource()
+        if let doc = PDFDocument(url: url) { count = doc.pageCount }
+        if needsStop { url.stopAccessingSecurityScopedResource() }
+        pageCount = count
+        startPage = 1
+        endPage = max(1, count)
+        pageRangeEnabled = false
+        announce(count > 0 ? "تم اختيار ملف من \(count) صفحة. اضغط ابدأ التحويل." : "تم اختيار الملف.")
+    }
+
+    /// A PDF opened from another app (share sheet / Files "Open in…").
+    func acceptIncoming(_ url: URL) {
+        let needsStop = url.startAccessingSecurityScopedResource()
+        defer { if needsStop { url.stopAccessingSecurityScopedResource() } }
+        let dst = FileManager.default.temporaryDirectory
+            .appendingPathComponent("incoming-\(UUID().uuidString).pdf")
+        do {
+            let data = try Data(contentsOf: url)
+            try data.write(to: dst, options: .atomic)
+            selectPDF(dst)
+        } catch { announce("تعذّر فتح الملف الوارد: \(error.localizedDescription)") }
+    }
+
+    /// Read the selected PDF, applying the chosen page range if enabled.
+    private func pdfDataForConversion() throws -> Data {
+        guard let url = selectedPDFURL else { throw NSError(domain: "PDF", code: 1) }
+        let needsStop = url.startAccessingSecurityScopedResource()
+        defer { if needsStop { url.stopAccessingSecurityScopedResource() } }
+        let data = try Data(contentsOf: url)
+        guard pageRangeEnabled, pageCount > 1,
+              let src = PDFDocument(data: data) else { return data }
+        let out = PDFDocument()
+        let lo = max(1, min(startPage, endPage))
+        let hi = min(pageCount, max(startPage, endPage))
+        var idx = 0
+        for p in (lo - 1)...(hi - 1) {
+            if let page = src.page(at: p) { out.insert(page, at: idx); idx += 1 }
+        }
+        return out.dataRepresentation() ?? data
+    }
+
     func startConversion() async {
-        guard let pdfURL = selectedPDFURL else { announce("اختر ملف PDF أولًا."); return }
+        guard selectedPDFURL != nil else { announce("اختر ملف PDF أولًا."); return }
         isUploading = true
         defer { isUploading = false }
         do {
-            let needsStop = pdfURL.startAccessingSecurityScopedResource()
-            defer { if needsStop { pdfURL.stopAccessingSecurityScopedResource() } }
-            let data = try Data(contentsOf: pdfURL)
+            let data = try pdfDataForConversion()
+            let filename = selectedPDFURL!.lastPathComponent
             resultURL = nil
             current = nil
 
             if privacy == .e2e {
-                await convertOnDevice(data: data, filename: pdfURL.lastPathComponent)
+                await convertOnDevice(data: data, filename: filename)
             } else {
                 announce(privacy == .atRest ? "جارٍ رفع الملف مشفّرًا…" : "جارٍ رفع الملف…")
                 let jobId = try await api.createJob(
-                    pdf: data, filename: pdfURL.lastPathComponent,
+                    pdf: data, filename: filename,
                     model: selectedModel.rawValue, mode: mode.rawValue,
                     options: options.dictionary, encrypt: privacy == .atRest)
                 announce("بدأ التحويل على الخادم. يمكنك إغلاق التطبيق؛ ستجد الملف في السجل.")
@@ -661,6 +723,80 @@ final class AppViewModel {
             }
         } catch {
             announce("تعذّر بدء التحويل: \(error.localizedDescription)")
+        }
+    }
+
+    // MARK: Batch
+
+    /// Convert several PDFs one after another (server modes fire independent
+    /// jobs that appear in history; E2E converts each on-device in turn).
+    func startBatch(_ urls: [URL]) async {
+        let pdfs = urls.filter { $0.pathExtension.lowercased() == "pdf" }
+        guard !pdfs.isEmpty else { return }
+        batchTotal = pdfs.count; batchDone = 0
+        for url in pdfs {
+            let needsStop = url.startAccessingSecurityScopedResource()
+            let filename = url.lastPathComponent
+            defer { if needsStop { url.stopAccessingSecurityScopedResource() } }
+            do {
+                let data = try Data(contentsOf: url)
+                if privacy == .e2e {
+                    await convertOnDevice(data: data, filename: filename)
+                } else {
+                    _ = try await api.createJob(
+                        pdf: data, filename: filename,
+                        model: selectedModel.rawValue, mode: mode.rawValue,
+                        options: options.dictionary, encrypt: privacy == .atRest)
+                }
+            } catch { /* skip this file, continue the batch */ }
+            batchDone += 1
+            statusMessage = "الدفعة: \(batchDone) من \(batchTotal)"
+        }
+        await refreshHistory()
+        notifyDone("اكتملت الدفعة (\(batchTotal) ملف)")
+        announce("اكتملت الدفعة: \(batchTotal) ملف. تجدها في السجل.")
+        batchTotal = 0; batchDone = 0
+    }
+
+    // MARK: Notifications (local)
+
+    func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
+    }
+
+    func notifyDone(_ body: String) {
+        let content = UNMutableNotificationContent()
+        content.title = "مُحوّل المستندات"
+        content.body = body
+        content.sound = .default
+        let req = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(req)
+    }
+
+    // MARK: Translation source
+
+    /// The plain text of the current result (decrypted for at-rest / read from
+    /// the local file), used as the translation source.
+    func currentPlainText() -> String {
+        if let d = current, d.encrypted == true { return ConvertAPI.decryptedText(d) }
+        if let d = current, let rt = d.resultText { return rt }
+        if let url = resultURL, let s = try? String(contentsOf: url, encoding: .utf8) { return s }
+        return ""
+    }
+
+    /// Save a translated document as a new local file and preview it.
+    func saveTranslated(_ text: String, langCode: String) {
+        let base = (selectedPDFURL?.lastPathComponent as NSString?)?.deletingPathExtension ?? "document"
+        let out: Data
+        switch outputFormat {
+        case .docx: out = DocxBuilder.build(text)
+        case .rtf:  out = Data(makeRTF(text).utf8)
+        case .txt:  out = Data(text.utf8)
+        }
+        if let saved = LocalStore.save(filename: "\(base)-\(langCode).\(outputFormat.rawValue)", format: outputFormat, data: out) {
+            resultURL = saved.url
+            localHistory = LocalStore.list()
+            announce("✅ الترجمة جاهزة — يمكنك معاينتها أو حفظها.")
         }
     }
 
@@ -683,6 +819,7 @@ final class AppViewModel {
         if let saved = LocalStore.save(filename: filename, format: fmt, data: out) {
             resultURL = saved.url
             localHistory = LocalStore.list()
+            notifyDone("اكتمل تحويل: \(filename)")
             announce("✅ الملف جاهز على جهازك — يمكنك معاينته داخل التطبيق أو حفظه ومشاركته.")
         } else {
             announce("تعذّر حفظ الملف الناتج على الجهاز.")
@@ -704,10 +841,12 @@ final class AppViewModel {
                         try? await api.resume(detail.jobId, encrypted: true)
                     case .done:
                         announce("اكتمل التحويل. جارٍ تجهيز الملف.")
-                        await fetchResult(detail); await refreshHistory(); return
+                        await fetchResult(detail); await refreshHistory()
+                        notifyDone("اكتمل تحويل: \(detail.filename)"); return
                     case .partial:
                         announce("اكتمل جزئيًا: نجحت \(detail.donePages) وفشلت \(detail.failedPages) صفحة.")
-                        await fetchResult(detail); await refreshHistory(); return
+                        await fetchResult(detail); await refreshHistory()
+                        notifyDone("اكتمل تحويل \(detail.filename) جزئيًا"); return
                     case .failed:
                         announce("فشل التحويل: \(detail.error ?? "خطأ غير معروف")"); return
                     }
@@ -765,12 +904,15 @@ final class AppViewModel {
 // MARK: - Main View
 
 struct ContentView: View {
-    @State private var vm = AppViewModel()
+    @Bindable var vm: AppViewModel
     @State private var showingFilePicker = false
+    @State private var showingBatchPicker = false
+    @State private var showingScanner = false
     @State private var showingShareSheet = false
     @State private var showingHistory = false
     @State private var showingSettings = false
     @State private var showingPreview = false
+    @State private var showingTranslate = false
 
     var body: some View {
         NavigationStack {
@@ -817,13 +959,22 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showingFilePicker) {
-                DocumentPickerView(selectedURL: $vm.selectedPDFURL)
+                DocumentPickerView(onPick: { urls in if let u = urls.first { vm.selectPDF(u) } })
+            }
+            .sheet(isPresented: $showingBatchPicker) {
+                DocumentPickerView(allowsMultiple: true, onPick: { urls in Task { await vm.startBatch(urls) } })
+            }
+            .sheet(isPresented: $showingScanner) {
+                DocumentScannerView { url in vm.selectPDF(url) }
             }
             .sheet(isPresented: $showingShareSheet) {
                 if let url = vm.resultURL { ShareSheetView(activityItems: [url]) }
             }
             .sheet(isPresented: $showingPreview) {
-                if let url = vm.resultURL { QuickLookView(url: url) }
+                if let url = vm.resultURL { QuickLookView(url: url) { showingPreview = false } }
+            }
+            .sheet(isPresented: $showingTranslate) {
+                TranslateView(vm: vm)
             }
             .sheet(isPresented: $showingHistory) {
                 HistoryView(vm: vm, openShare: { showingShareSheet = true })
@@ -831,7 +982,7 @@ struct ContentView: View {
             .sheet(isPresented: $showingSettings) {
                 SettingsView(vm: vm)
             }
-            .task { await vm.refreshHistory() }
+            .task { await vm.refreshHistory(); vm.requestNotificationPermission() }
         }
     }
 
@@ -856,6 +1007,11 @@ struct ContentView: View {
             bigButton(vm.selectedPDFURL == nil ? "اختيار ملف PDF" : "تغيير الملف: \(vm.selectedPDFURL!.lastPathComponent)",
                       icon: "doc.text.viewfinder", color: .blue) { showingFilePicker = true }
 
+            bigButton("مسح بالكاميرا", icon: "camera", color: .teal) { showingScanner = true }
+            bigButton("تحويل عدّة ملفات (دفعة)", icon: "square.stack.3d.up", color: .purple) { showingBatchPicker = true }
+
+            if vm.pageCount > 1 { pageRangeSection }
+
             if vm.selectedPDFURL != nil {
                 bigButton(vm.isUploading ? "جارٍ التحويل…" : "ابدأ التحويل",
                           icon: "arrow.up.doc", color: vm.isUploading ? .gray : .green,
@@ -863,6 +1019,11 @@ struct ContentView: View {
                     Task { await vm.startConversion() }
                 }
                 .disabled(vm.isUploading)
+            }
+
+            if vm.batchTotal > 0 {
+                Text("الدفعة: \(vm.batchDone) من \(vm.batchTotal)")
+                    .font(.headline).foregroundStyle(.secondary)
             }
 
             if vm.current?.status == .partial {
@@ -876,11 +1037,33 @@ struct ContentView: View {
                 bigButton("معاينة الملف داخل التطبيق", icon: "eye", color: .indigo) {
                     showingPreview = true
                 }
+                bigButton("ترجمة المستند", icon: "character.book.closed", color: .pink) {
+                    showingTranslate = true
+                }
                 bigButton("مشاركة وحفظ الملف", icon: "square.and.arrow.up", color: .orange) {
                     showingShareSheet = true
                 }
             }
         }
+    }
+
+    private var pageRangeSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Toggle("تحويل نطاق صفحات محدّد", isOn: $vm.pageRangeEnabled).font(.headline)
+            if vm.pageRangeEnabled {
+                HStack {
+                    Stepper("من صفحة \(vm.startPage)", value: $vm.startPage, in: 1...vm.pageCount)
+                }
+                HStack {
+                    Stepper("إلى صفحة \(vm.endPage)", value: $vm.endPage, in: vm.startPage...vm.pageCount)
+                }
+                Text("سيُحوّل من الصفحة \(vm.startPage) إلى \(vm.endPage) من أصل \(vm.pageCount).")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+        }
+        .padding()
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
     private var readyBanner: some View {
@@ -1039,12 +1222,13 @@ struct HistoryView: View {
 // MARK: - Document Picker
 
 struct DocumentPickerView: UIViewControllerRepresentable {
-    @Binding var selectedURL: URL?
+    var allowsMultiple: Bool = false
+    var onPick: ([URL]) -> Void
 
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
         let picker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.pdf], asCopy: true)
         picker.delegate = context.coordinator
-        picker.allowsMultipleSelection = false
+        picker.allowsMultipleSelection = allowsMultiple
         return picker
     }
 
@@ -1057,13 +1241,113 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         init(_ parent: DocumentPickerView) { self.parent = parent }
 
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            guard let url = urls.first else { return }
-            parent.selectedURL = url
+            guard !urls.isEmpty else { return }
+            parent.onPick(urls)
             UIAccessibility.post(notification: .announcement, argument: "تم اختيار الملف. اضغط بدء التحويل.")
         }
 
         func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
             UIAccessibility.post(notification: .announcement, argument: "تم إلغاء اختيار الملف.")
+        }
+    }
+}
+
+// MARK: - Camera document scanner (VisionKit)
+
+/// Scans paper with the camera and builds a PDF from the captured pages, then
+/// hands its file URL back so it flows through the normal conversion pipeline.
+struct DocumentScannerView: UIViewControllerRepresentable {
+    var onScanned: (URL) -> Void
+    @Environment(\.dismiss) private var dismiss
+
+    func makeUIViewController(context: Context) -> VNDocumentCameraViewController {
+        let scanner = VNDocumentCameraViewController()
+        scanner.delegate = context.coordinator
+        return scanner
+    }
+    func updateUIViewController(_ uiViewController: VNDocumentCameraViewController, context: Context) {}
+    func makeCoordinator() -> Coordinator { Coordinator(self) }
+
+    final class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
+        let parent: DocumentScannerView
+        init(_ parent: DocumentScannerView) { self.parent = parent }
+
+        func documentCameraViewController(_ controller: VNDocumentCameraViewController,
+                                          didFinishWith scan: VNDocumentCameraScan) {
+            let doc = PDFDocument()
+            for i in 0..<scan.pageCount {
+                if let page = PDFPage(image: scan.imageOfPage(at: i)) { doc.insert(page, at: i) }
+            }
+            let url = FileManager.default.temporaryDirectory
+                .appendingPathComponent("scan-\(UUID().uuidString).pdf")
+            if let data = doc.dataRepresentation(), (try? data.write(to: url, options: .atomic)) != nil {
+                parent.onScanned(url)
+            }
+            controller.dismiss(animated: true)
+        }
+        func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
+            controller.dismiss(animated: true)
+        }
+        func documentCameraViewController(_ controller: VNDocumentCameraViewController,
+                                          didFailWithError error: Error) {
+            controller.dismiss(animated: true)
+        }
+    }
+}
+
+// MARK: - Translation (on-device, Apple Translation framework)
+
+/// Translates the current document text ON DEVICE (nothing is uploaded) and
+/// saves the result as a new file. The user picks a target language.
+struct TranslateView: View {
+    @Bindable var vm: AppViewModel
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var target = "en"
+    @State private var config: TranslationSession.Configuration?
+    @State private var working = false
+    @State private var note = ""
+
+    private let languages: [(code: String, name: String)] = [
+        ("en", "الإنجليزية"), ("ar", "العربية"), ("fr", "الفرنسية"),
+        ("es", "الإسبانية"), ("de", "الألمانية"), ("tr", "التركية"), ("ur", "الأردية"),
+    ]
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("اللغة الهدف") {
+                    Picker("اللغة", selection: $target) {
+                        ForEach(languages, id: \.code) { Text($0.name).tag($0.code) }
+                    }
+                }
+                Section {
+                    Button(working ? "جارٍ الترجمة…" : "ترجمة المستند") {
+                        note = "جارٍ الترجمة على جهازك…"
+                        working = true
+                        config = TranslationSession.Configuration(
+                            target: Locale.Language(identifier: target))
+                    }
+                    .disabled(working)
+                }
+                if !note.isEmpty {
+                    Section { Text(note).font(.caption).foregroundStyle(.secondary) }
+                }
+            }
+            .navigationTitle("ترجمة المستند")
+            .toolbar { ToolbarItem(placement: .topBarLeading) { Button("تم") { dismiss() } } }
+            .translationTask(config) { session in
+                do {
+                    let source = vm.currentPlainText()
+                    let response = try await session.translate(source)
+                    vm.saveTranslated(response.targetText, langCode: target)
+                    working = false
+                    dismiss()
+                } catch {
+                    working = false
+                    note = "تعذّرت الترجمة: قد تحتاج تنزيل حزمة اللغة من إعدادات النظام."
+                }
+            }
         }
     }
 }
@@ -1082,26 +1366,34 @@ struct ShareSheetView: UIViewControllerRepresentable {
 
 /// Previews the converted file (docx/rtf/txt/pdf) INSIDE the app, so the user
 /// can read a sample before saving or sharing — no external app needed.
+/// Wraps the preview in a navigation bar with an explicit close ("تم") button,
+/// because QLPreviewController shows no dismiss control on its own inside a sheet.
 struct QuickLookView: UIViewControllerRepresentable {
     let url: URL
+    var onClose: () -> Void
 
     func makeUIViewController(context: Context) -> UINavigationController {
         let controller = QLPreviewController()
         controller.dataSource = context.coordinator
-        // Wrap in a navigation controller so it presents with a title/close bar.
-        return UINavigationController(rootViewController: controller)
+        controller.navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "تم", style: .done, target: context.coordinator, action: #selector(Coordinator.close))
+        let nav = UINavigationController(rootViewController: controller)
+        nav.navigationBar.prefersLargeTitles = false
+        return nav
     }
 
     func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {}
 
-    func makeCoordinator() -> Coordinator { Coordinator(url: url) }
+    func makeCoordinator() -> Coordinator { Coordinator(url: url, onClose: onClose) }
 
     final class Coordinator: NSObject, QLPreviewControllerDataSource {
         let url: URL
-        init(url: URL) { self.url = url }
+        let onClose: () -> Void
+        init(url: URL, onClose: @escaping () -> Void) { self.url = url; self.onClose = onClose }
         func numberOfPreviewItems(in controller: QLPreviewController) -> Int { 1 }
         func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
             url as NSURL
         }
+        @objc func close() { onClose() }
     }
 }

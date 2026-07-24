@@ -280,6 +280,15 @@ convertRouter.post("/jobs/:id/resume", async (req, res) => {
 });
 
 // GET /convert/jobs/:id/result.rtf -> the assembled text as a Word-openable RTF
+// HTTP headers must be latin1, so a non-ASCII (e.g. Arabic) filename throws.
+// Provide an ASCII-safe filename plus an RFC 5987 UTF-8 filename* for the real name.
+function contentDisposition(base, ext) {
+  const name = (base && base.trim()) ? base.trim() : "document";
+  const ascii = name.replace(/[^\x20-\x7E]/g, "_").replace(/["\\]/g, "_").trim() || "document";
+  const encoded = encodeURIComponent(`${name}.${ext}`);
+  return `attachment; filename="${ascii}.${ext}"; filename*=UTF-8''${encoded}`;
+}
+
 convertRouter.get("/jobs/:id/result.rtf", async (req, res) => {
   const { rows } = await pool.query(
     "SELECT filename, result_text FROM conversion_jobs WHERE id = $1", [req.params.id]);
@@ -294,8 +303,7 @@ convertRouter.get("/jobs/:id/result.rtf", async (req, res) => {
   ).join("\\par\n");
   const rtf = `{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0 Arial;}}\\f0\\fs28 ${body}}`;
   res.setHeader("Content-Type", "application/rtf");
-  res.setHeader("Content-Disposition",
-    `attachment; filename="${(rows[0].filename || "document").replace(/\.[^.]+$/, "")}.rtf"`);
+  res.setHeader("Content-Disposition", contentDisposition((rows[0].filename || "document").replace(/\.[^.]+$/, ""), "rtf"));
   res.send(rtf);
 });
 
@@ -374,7 +382,7 @@ convertRouter.get("/jobs/:id/result.docx", async (req, res) => {
     const base = (rows[0].filename || "document").replace(/\.[^.]+$/, "");
     res.setHeader("Content-Type",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-    res.setHeader("Content-Disposition", `attachment; filename="${base}.docx"`);
+    res.setHeader("Content-Disposition", contentDisposition(base, "docx"));
     res.send(buffer);
   } catch (e) {
     // Surface the real reason so the client/logs can show it (diagnostic).
@@ -390,7 +398,7 @@ convertRouter.get("/jobs/:id/result.txt", async (req, res) => {
   if (!rows[0]) return res.status(404).json({ error: "not_found" });
   const base = (rows[0].filename || "document").replace(/\.[^.]+$/, "");
   res.setHeader("Content-Type", "text/plain; charset=utf-8");
-  res.setHeader("Content-Disposition", `attachment; filename="${base}.txt"`);
+  res.setHeader("Content-Disposition", contentDisposition(base, "txt"));
   res.send(rows[0].result_text || "");
 });
 

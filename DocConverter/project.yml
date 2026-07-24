@@ -70,17 +70,17 @@ targets:
     platform: iOS
     deploymentTarget: "26.0"
     sources:
-      - path: DocConverter/BroadcastExtension
+      - path: BroadcastExtension
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.bellinghamfolks.docconverter.broadcast
     entitlements:
-      path: DocConverter/BroadcastExtension/Broadcast.entitlements
+      path: BroadcastExtension/Broadcast.entitlements
       properties:
         com.apple.security.application-groups:
           - group.com.bellinghamfolks.docconverter
     info:
-      path: DocConverter/BroadcastExtension/Info.plist
+      path: BroadcastExtension/Info.plist
       properties:
         CFBundleDisplayName: قارئ النظارة
         NSExtension:

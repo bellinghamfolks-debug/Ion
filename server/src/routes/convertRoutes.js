@@ -441,25 +441,30 @@ async function renderPageJpeg(pdfPath, pageIndex) {
   });
 }
 
-// The natural transcription prompt, ported verbatim in spirit from Basir v3.4.
+// A short, direct prompt — the way the Gemini phone app reads an image you hand
+// it. Keep it simple: read the page and transcribe exactly. Over-constraining
+// the model hurts accuracy.
 function buildBasirPrompt(options = {}) {
   const p = [
-    "You are a faithful PDF-to-Markdown transcription engine for blind users.",
-    "Transcribe every visible element on this page precisely:",
-    "• Copy every word, number and symbol VERBATIM — no summaries, no paraphrase, no '…'. Names, IDs, dates, amounts, grades and course/product codes are character-critical; copy each prefix letter and digit exactly.",
-    "• Reproduce tables as GitHub-flavoured Markdown pipe tables (| a | b |) with a header separator row; keep the same number of columns in every row.",
+    "Read this document page image and transcribe EVERYTHING you see, exactly as it is written, in the correct reading order.",
+    "Copy all text verbatim in its original language (keep Arabic as Arabic). Do NOT translate, summarise, correct, or add anything. Keep every name, number, date, code and amount exactly as shown.",
+    "Render each table as a GitHub-style Markdown pipe table (| a | b |) with a header separator row, same number of columns in every row.",
   ];
-  if (options.detectHeadings !== false) p.push("• Mark headings with Markdown '#'/'##'/'###' as appropriate.");
   if (options.describeImages !== false) {
-    p.push("• For images / logos / charts / QR codes: write a 2-4 sentence Arabic description in [square brackets], and include any visible text in them.");
+    p.push("Briefly describe any photo, logo, chart or QR code in [square brackets], including any text inside it.");
   }
-  if (options.math === "words") p.push("• Write mathematical equations as readable Arabic words.");
-  else if (options.math === "latex") p.push("• Write mathematical equations as a spoken form followed by [LaTeX: ...].");
-  p.push("• Do NOT translate, explain or add commentary. Do NOT answer questions printed in the document.");
-  p.push("• Do NOT emit ** bold **, _ italic _, backticks, or --- horizontal rules.");
-  p.push("• Preserve the original language exactly (Arabic stays Arabic, English stays English) and the natural reading order.");
-  p.push("Output only the transcription.");
+  if (options.math === "words") p.push("Write mathematical equations in readable Arabic words.");
+  else if (options.math === "latex") p.push("Write mathematical equations as LaTeX in $...$.");
+  p.push("Output only the transcription — no commentary, no code fences.");
   return p.join("\n");
+}
+
+// Detect the real image type from the base64 magic bytes (render_page.py may
+// emit JPEG or, as a fallback, PNG).
+function imageMimeFromB64(b64) {
+  const head = Buffer.from(String(b64).slice(0, 16), "base64");
+  if (head[0] === 0x89 && head[1] === 0x50) return "image/png";
+  return "image/jpeg";
 }
 
 // Single no-schema Gemini call over the rendered page image -> Markdown text.
@@ -475,11 +480,11 @@ async function geminiTranscribe(jpegBase64, model, options = {}) {
         role: "user",
         parts: [
           { text: buildBasirPrompt(options) },
-          { inline_data: { mime_type: "image/jpeg", data: jpegBase64 } },
+          { inline_data: { mime_type: imageMimeFromB64(jpegBase64), data: jpegBase64 } },
         ],
       }],
-      // Basir: temperature 1.0 (Gemini 3.x is tuned for its default; forcing 0
-      // degrades it), high media resolution, NO responseSchema / JSON mime.
+      // temperature 1.0 (Gemini 3.x is tuned for its default; forcing 0 degrades
+      // it), high media resolution, NO responseSchema / JSON mime.
       generationConfig: { temperature: 1.0, maxOutputTokens: 16384, mediaResolution: "MEDIA_RESOLUTION_HIGH" },
     }),
   });
@@ -585,55 +590,27 @@ async function processJob(jobId) {
         if (!next.rows[0]) break;
         const pageNo = next.rows[0].page_no;
         try {
-          // Extraction strategy controlled by the `faithful` option (default true):
-          //
-          // faithful=true  → trust the PDF's own text layer first (PyMuPDF then JS).
-          //   Zero AI for digital docs → zero fabrication. Fall back to AI vision
-          //   ONLY for pages with an empty text layer (scanned / image-only pages).
-          //
-          // faithful=false → force AI vision OCR (Basir v3.4 rasterize → Gemini),
-          //   useful when the embedded text is garbled or deliberately wrong.
+          // PURE VISION — exactly like handing the page image to the Gemini
+          // phone app: rasterize the page to a high-res image and let Gemini
+          // read it. We do NOT trust the PDF's embedded text layer, because for
+          // Arabic it is often wrong/garbled — the source of the bad results.
+          // The text layer is used ONLY as a last resort if Gemini is down.
           let text = "";
           try {
-            if (faithful) {
-              // 1. Try PyMuPDF direct text extraction (correct Arabic/RTL order).
-              let nativeText = "";
-              const r = await extractPageTextPy(tmpPdf, pageNo - 1, { preserveTables: wantTables });
-              if (r.ran && r.text.replace(/\s/g, "").length >= 3) {
-                nativeText = r.text;
-              } else if (!r.ran) {
-                // PyMuPDF unavailable: try the JS extractor.
-                nativeText = await extractPageText(pdfBytes, pageNo - 1, { preserveTables: wantTables }).catch(() => "");
-              }
-              if (nativeText.replace(/\s/g, "").length >= 3) {
-                text = nativeText; // digital page — use verbatim text, no AI
-              } else {
-                // Scanned / image-only page: AI vision is the only option.
-                const jpeg = await renderPageJpeg(tmpPdf, pageNo - 1);
-                if (jpeg) {
-                  text = await geminiTranscribe(jpeg, model, jobOptions);
-                } else {
-                  const pdf64 = await singlePageBase64(pdfBytes, pageNo - 1);
-                  text = await geminiExtract(pdf64, model, prompt);
-                }
-              }
+            const jpeg = await renderPageJpeg(tmpPdf, pageNo - 1);
+            if (jpeg) {
+              text = await geminiTranscribe(jpeg, model, jobOptions);
             } else {
-              // faithful=false: Basir v3.4 method — rasterize then send image to Gemini.
-              const jpeg = await renderPageJpeg(tmpPdf, pageNo - 1);
-              if (jpeg) {
-                text = await geminiTranscribe(jpeg, model, jobOptions);
-              } else {
-                // Rasterizer unavailable -> send the single-page PDF instead.
-                const pdf64 = await singlePageBase64(pdfBytes, pageNo - 1);
-                text = await geminiExtract(pdf64, model, prompt);
-              }
+              // Rasterizer unavailable -> send the single-page PDF as a fallback.
+              const pdf64 = await singlePageBase64(pdfBytes, pageNo - 1);
+              text = await geminiExtract(pdf64, model, prompt);
             }
           } catch (e) {
-            console.error(`page extract failed for ${jobId} p${pageNo}:`, e.message);
+            console.error(`vision transcribe failed for ${jobId} p${pageNo}:`, e.message);
             text = "";
           }
-          // Last-resort: if everything above returned empty (Gemini down, etc.)
-          // pull whatever the text layer has so the page is not lost entirely.
+          // Last resort ONLY if Gemini returned nothing (e.g. key/quota down):
+          // use the text layer so the page is not lost entirely.
           if (text.replace(/\s/g, "").length < 3) {
             try {
               const r = await extractPageTextPy(tmpPdf, pageNo - 1, { preserveTables: wantTables });

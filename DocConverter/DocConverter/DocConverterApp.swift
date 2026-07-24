@@ -388,6 +388,7 @@ enum LocalConverter {
         let n = doc.pageCount
         var out: [String] = []
         for i in 0..<n {
+            if Task.isCancelled { break }   // allow the user to cancel mid-file
             var text = ""
             if let page = doc.page(at: i) {
                 text = page.string ?? ""
@@ -639,6 +640,13 @@ final class AppViewModel {
 
     private let api = ConvertAPI()
     private var pollTask: Task<Void, Never>?
+    private var convertTask: Task<Void, Never>?
+
+    /// True while a conversion (server, on-device, or batch) is in flight.
+    var isBusy: Bool {
+        isUploading || batchTotal > 0
+            || current?.status == .processing || current?.status == .keyRequired
+    }
 
     init() {
         let d = UserDefaults.standard
@@ -700,6 +708,31 @@ final class AppViewModel {
         return out.dataRepresentation() ?? data
     }
 
+    /// Start a single conversion in a cancellable task.
+    func beginConversion() {
+        convertTask?.cancel()
+        convertTask = Task { await self.startConversion() }
+    }
+
+    /// Start a batch conversion in a cancellable task.
+    func beginBatch(_ urls: [URL]) {
+        convertTask?.cancel()
+        convertTask = Task { await self.startBatch(urls) }
+    }
+
+    /// Cancel whatever conversion is running: stop polling and the on-device
+    /// task, and delete the server job so it stops processing/storing.
+    func cancelConversion() async {
+        pollTask?.cancel(); pollTask = nil
+        convertTask?.cancel(); convertTask = nil
+        let jobId = current?.jobId
+        isUploading = false
+        batchTotal = 0; batchDone = 0
+        current = nil
+        if let jobId { try? await api.delete(jobId) }
+        announce("أُلغيت عملية التحويل.")
+    }
+
     func startConversion() async {
         guard selectedPDFURL != nil else { announce("اختر ملف PDF أولًا."); return }
         isUploading = true
@@ -735,6 +768,7 @@ final class AppViewModel {
         guard !pdfs.isEmpty else { return }
         batchTotal = pdfs.count; batchDone = 0
         for url in pdfs {
+            if Task.isCancelled { break }
             let needsStop = url.startAccessingSecurityScopedResource()
             let filename = url.lastPathComponent
             defer { if needsStop { url.stopAccessingSecurityScopedResource() } }
@@ -753,8 +787,11 @@ final class AppViewModel {
             statusMessage = "الدفعة: \(batchDone) من \(batchTotal)"
         }
         await refreshHistory()
-        notifyDone("اكتملت الدفعة (\(batchTotal) ملف)")
-        announce("اكتملت الدفعة: \(batchTotal) ملف. تجدها في السجل.")
+        if !Task.isCancelled {
+            let count = batchTotal
+            notifyDone("اكتملت الدفعة (\(count) ملف)")
+            announce("اكتملت الدفعة: \(count) ملف. تجدها في السجل.")
+        }
         batchTotal = 0; batchDone = 0
     }
 
@@ -809,6 +846,7 @@ final class AppViewModel {
                 self.statusMessage = "المعالجة على الجهاز: \(done) من \(total) صفحة."
             }
         }
+        if Task.isCancelled { return }   // user cancelled — don't save a partial file
         let fmt = outputFormat
         let out: Data
         switch fmt {
@@ -913,6 +951,7 @@ struct ContentView: View {
     @State private var showingSettings = false
     @State private var showingPreview = false
     @State private var showingTranslate = false
+    @State private var showCancelConfirm = false
 
     var body: some View {
         NavigationStack {
@@ -962,7 +1001,7 @@ struct ContentView: View {
                 DocumentPickerView(onPick: { urls in if let u = urls.first { vm.selectPDF(u) } })
             }
             .sheet(isPresented: $showingBatchPicker) {
-                DocumentPickerView(allowsMultiple: true, onPick: { urls in Task { await vm.startBatch(urls) } })
+                DocumentPickerView(allowsMultiple: true, onPick: { urls in vm.beginBatch(urls) })
             }
             .sheet(isPresented: $showingScanner) {
                 DocumentScannerView { url in vm.selectPDF(url) }
@@ -981,6 +1020,12 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingSettings) {
                 SettingsView(vm: vm)
+            }
+            .alert("إلغاء التحويل؟", isPresented: $showCancelConfirm) {
+                Button("إلغاء العملية", role: .destructive) { Task { await vm.cancelConversion() } }
+                Button("متابعة التحويل", role: .cancel) {}
+            } message: {
+                Text("سيتوقف التحويل الحالي ولن يُحفظ الملف الناتج.")
             }
             .task { await vm.refreshHistory(); vm.requestNotificationPermission() }
         }
@@ -1012,13 +1057,16 @@ struct ContentView: View {
 
             if vm.pageCount > 1 { pageRangeSection }
 
-            if vm.selectedPDFURL != nil {
-                bigButton(vm.isUploading ? "جارٍ التحويل…" : "ابدأ التحويل",
-                          icon: "arrow.up.doc", color: vm.isUploading ? .gray : .green,
-                          loading: vm.isUploading) {
-                    Task { await vm.startConversion() }
+            if vm.selectedPDFURL != nil && !vm.isBusy {
+                bigButton("ابدأ التحويل", icon: "arrow.up.doc", color: .green) {
+                    vm.beginConversion()
                 }
-                .disabled(vm.isUploading)
+            }
+
+            if vm.isBusy {
+                bigButton("إلغاء التحويل", icon: "xmark.circle", color: .red) {
+                    showCancelConfirm = true
+                }
             }
 
             if vm.batchTotal > 0 {
@@ -1167,6 +1215,9 @@ struct HistoryView: View {
     var openShare: () -> Void
     @Environment(\.dismiss) private var dismiss
 
+    @State private var serverToDelete: JobSummary?
+    @State private var localToDelete: LocalJob?
+
     var body: some View {
         NavigationStack {
             List {
@@ -1184,7 +1235,7 @@ struct HistoryView: View {
                                 .accessibilityLabel("\(job.filename)، مشفّر على الجهاز")
                             }
                             .swipeActions {
-                                Button("حذف", role: .destructive) { vm.deleteLocal(job) }
+                                Button("حذف", role: .destructive) { localToDelete = job }
                             }
                         }
                     }
@@ -1207,7 +1258,7 @@ struct HistoryView: View {
                             .accessibilityLabel("\(job.filename)، \(job.status.titleAr)، \(job.donePages) من \(job.totalPages) صفحة")
                         }
                         .swipeActions {
-                            Button("حذف", role: .destructive) { Task { await vm.delete(job) } }
+                            Button("حذف", role: .destructive) { serverToDelete = job }
                         }
                     }
                 }
@@ -1215,6 +1266,18 @@ struct HistoryView: View {
             .navigationTitle("سجل التحويلات")
             .toolbar { ToolbarItem(placement: .topBarLeading) { Button("تم") { dismiss() } } }
             .refreshable { await vm.refreshHistory() }
+            .confirmationDialog("حذف هذا الملف من السجل؟", isPresented: Binding(
+                get: { serverToDelete != nil },
+                set: { if !$0 { serverToDelete = nil } }), presenting: serverToDelete) { job in
+                Button("حذف", role: .destructive) { Task { await vm.delete(job) }; serverToDelete = nil }
+                Button("إلغاء", role: .cancel) { serverToDelete = nil }
+            } message: { _ in Text("لا يمكن التراجع عن هذا الإجراء.") }
+            .confirmationDialog("حذف هذا الملف من الجهاز؟", isPresented: Binding(
+                get: { localToDelete != nil },
+                set: { if !$0 { localToDelete = nil } }), presenting: localToDelete) { job in
+                Button("حذف", role: .destructive) { vm.deleteLocal(job); localToDelete = nil }
+                Button("إلغاء", role: .cancel) { localToDelete = nil }
+            } message: { _ in Text("سيُحذف الملف المحوّل من جهازك نهائيًا.") }
         }
     }
 }

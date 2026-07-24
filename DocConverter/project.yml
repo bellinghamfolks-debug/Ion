@@ -1,0 +1,31 @@
+name: DocConverter
+options:
+  bundleIdPrefix: com.bellinghamfolks
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: 5.10
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 1.0.0
+    INFOPLIST_KEY_CFBundleDisplayName: محول المستندات
+    INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
+    INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
+    INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
+    INFOPLIST_KEY_UILaunchScreen_Generation: true
+    GENERATE_INFOPLIST_FILE: YES
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+targets:
+  DocConverter:
+    type: application
+    platform: iOS
+    sources:
+      - path: DocConverter
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.bellinghamfolks.docconverter

@@ -1,13 +1,7 @@
-# EnglishNova iOS — GitHub Actions build + test check.
+# DocConverter iOS — GitHub Actions build check.
 #
-# Generates the Xcode project with XcodeGen, builds for the iOS
-# Simulator, runs the unit tests (which decode the bundled
-# curriculum.json with the real Swift models), and verifies the
-# curriculum resource is inside the built .app bundle. The device IPA
-# + signing live in Codemagic (see codemagic.yaml).
-#
-# Basir's code is preserved on its own branch; this workflow builds the
-# repo's active project, EnglishNova.
+# Generates the Xcode project with XcodeGen and builds for the iOS
+# Simulator. The device IPA + signing live in Codemagic (codemagic.yaml).
 
 name: Swift
 
@@ -22,12 +16,12 @@ concurrency:
 
 jobs:
   build:
-    name: Build & test (iOS Simulator)
+    name: Build (iOS Simulator)
     runs-on: macos-14
 
     defaults:
       run:
-        working-directory: EnglishNova
+        working-directory: DocConverter
 
     steps:
       - name: Checkout
@@ -44,38 +38,25 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
-      - name: Pick an available iPhone simulator
-        id: sim
-        run: |
-          UDID=$(xcrun simctl list devices available --json | python3 -c "
-          import json, sys
-          data = json.load(sys.stdin)
-          devices = [d for devs in data['devices'].values() for d in devs
-                     if d.get('isAvailable') and 'iPhone' in d['name']]
-          print(devices[-1]['udid'])
-          ")
-          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
-          xcrun simctl list devices available | grep iPhone
-
-      - name: Build and run unit tests (decodes bundled curriculum)
+      - name: Build (iOS Simulator)
         run: |
           set -o pipefail
-          xcodebuild test \
-            -project EnglishNova.xcodeproj \
-            -scheme EnglishNova \
-            -destination "id=${{ steps.sim.outputs.udid }}" \
+          xcodebuild build \
+            -project DocConverter.xcodeproj \
+            -scheme DocConverter \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
             -configuration Debug \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
-            COMPILER_INDEX_STORE_ENABLE=NO
+            COMPILER_INDEX_STORE_ENABLE=NO \
+            ONLY_ACTIVE_ARCH=YES
 
-      - name: Verify curriculum.json is inside the app bundle
+      - name: Verify .app bundle was produced
         run: |
-          APP="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
-          echo "--- bundle contents ---"
-          ls -R "$APP" | head -40
-          if [ ! -f "$APP/Curriculum/curriculum.json" ]; then
-            echo "❌ Curriculum/curriculum.json missing from app bundle"
+          APP="build/Build/Products/Debug-iphonesimulator/DocConverter.app"
+          if [ ! -d "$APP" ]; then
+            echo "❌ Build did not produce $APP"
             exit 1
           fi
-          echo "✅ Curriculum/curriculum.json bundled correctly"
+          echo "✅ Built $APP"

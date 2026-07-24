@@ -27,10 +27,10 @@ import { rateLimit } from "../middleware/rateLimit.js";
 
 export const convertRouter = Router();
 
-// Default to Gemini 3.6 Flash for conversion. Basir's brief defaults conversion
-// to Flash (not Flash-Lite) because Lite is the cheapest and LEAST accurate —
-// on scanned Arabic it invents plausible text. Flash markedly reduces that.
-const MODEL_DEFAULT = process.env.CONVERT_MODEL || "gemini-3.6-flash";
+// EXACT model Basir uses for document conversion: gemini-3.5-flash. Matching
+// its model id is essential — a different/invalid id (e.g. gemini-3.6-flash)
+// silently degrades or errors and drops us to the garbled text-layer fallback.
+const MODEL_DEFAULT = process.env.CONVERT_MODEL || "gemini-3.5-flash";
 const MAX_PDF_BYTES = 20 * 1024 * 1024; // 20 MB
 
 // ---- Client-held-key encryption (zero-knowledge at rest) -------------------
@@ -441,21 +441,35 @@ async function renderPageJpeg(pdfPath, pageIndex) {
   });
 }
 
-// Professional document-layout + OCR prompt (provided by the product owner).
-// Auto-detects language (Arabic stays Arabic, RTL preserved), reconstructs
-// tables/headings/lists, describes images in the native language, uses LaTeX
-// for maths, and outputs raw Markdown ready for Word — no filler.
-function buildBasirPrompt(_options = {}) {
-  return [
-    "You are an elite Document Layout Analysis and OCR AI. Your primary objective is to extract, process, and perfectly reconstruct all content from the provided document for seamless compilation into a professional Microsoft Word file. You must strictly execute the following directives:",
-    "* Language Adaptability & Localization: Auto-detect the primary language of the document. All extracted content, formatting structures, and generated metadata (e.g., image descriptions) MUST completely match the document's native language. If the document is in Arabic, all image descriptions must be written in Arabic, and Right-to-Left (RTL) logical flow must be strictly preserved.",
-    "* Comprehensive Image Analysis: Identify all images, graphs, diagrams, and illustrations. Replace them in the text flow with highly detailed, context-aware descriptions enclosed in brackets, such as [Image Description: ...], written exclusively in the document's detected native language.",
-    "* Complex Tabular Data: Reconstruct all tables with absolute structural precision. Preserve exact row/column integrity, hierarchical headers, merged cells, and data alignment using standard Markdown table syntax.",
-    "* Mathematical & Scientific Equations: If mathematical formulas or scientific notations are present, accurately detect and transcribe them using standard LaTeX formatting (enclosed in $ ... $ for inline equations and $$ ... $$ for block equations) to ensure flawless document rendering.",
-    "* Structural Integrity & Pagination: Retain the exact logical hierarchy of the document. Perfectly recreate all headings, subheadings, bulleted lists, numbered lists, multi-level numbering, footnotes, headers, and footers. Indicate page transitions explicitly using [Page Break].",
-    "* Fidelity: Transcribe every character exactly as written — never translate, correct, summarise, or invent. Copy every name, number, date, code and amount precisely.",
-    "* Output Constraints: Do not add any conversational filler, introductions, or summaries. Output exclusively the raw, highly formatted text ready for immediate Word document generation.",
-  ].join("\n");
+// Basir's EXACT shipping prompt (AiClient.buildNaturalPrompt) — the one that
+// produces the Android app's accuracy. Paired with the system instruction set
+// in geminiTranscribe. Short and targeted beats long and over-constrained.
+const BASIR_SYSTEM = "You are Basir, a faithful PDF-to-Markdown transcription engine. Never paraphrase, never invent.";
+
+function buildBasirPrompt(options = {}) {
+  const p = [
+    "Transcribe this PDF page into clean GitHub-flavoured Markdown.",
+    "",
+    "Rules:",
+    "- Output ONLY the Markdown. No code fences, no commentary, no apology.",
+    "- Use # for the page title, ## for section headings, ### for sub-headings.",
+    "- Format every visible TABLE as a Markdown table with `|` pipes and a separator row `|---|---|`.",
+    "- Read EVERY cell, EVERY row, EVERY column. Do not truncate the table.",
+    "- Preserve every visible character exactly: course codes, grade letters, numbers, dates, punctuation.",
+    "- If the page is bilingual (Arabic + English side-by-side), include BOTH in order. Do not drop the English half.",
+    "- Never paraphrase, never summarise, never \"clean up\" the original.",
+    "- If a character is unreadable, write [غير واضح] (Arabic) or [unclear] (English).",
+    "- DO NOT add Markdown bold (**...**), italic (*...*), or underline emphasis around labels. Plain text only. The Word renderer applies its own styling.",
+    "- DO NOT insert horizontal rules (--- or ___).",
+    "- If the page contains a CHART, PHOTO, DIAGRAM, LOGO, SIGNATURE, STAMP, BARCODE / QR, or any non-text visual: emit a paragraph that starts with the literal label \"[وصف الصورة]\" (Arabic) or \"[Image description]\" (English) followed by a short factual description (kind, content, position on the page, any visible text or numbers). Never identify real people by face.",
+  ];
+  if (options.math === "latex") {
+    p.push("- Transcribe mathematical equations using LaTeX: $ ... $ inline and $$ ... $$ for block equations.");
+  } else if (options.math === "words") {
+    p.push("- Write mathematical equations in readable Arabic words.");
+  }
+  p.push("- Respond in the same language as the source document.");
+  return p.join("\n");
 }
 
 // Detect the real image type from the base64 magic bytes (render_page.py may
@@ -475,6 +489,7 @@ async function geminiTranscribe(jpegBase64, model, options = {}) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      systemInstruction: { parts: [{ text: BASIR_SYSTEM }] },
       contents: [{
         role: "user",
         parts: [
@@ -482,9 +497,9 @@ async function geminiTranscribe(jpegBase64, model, options = {}) {
           { inline_data: { mime_type: imageMimeFromB64(jpegBase64), data: jpegBase64 } },
         ],
       }],
-      // temperature 1.0 (Gemini 3.x is tuned for its default; forcing 0 degrades
-      // it), high media resolution, NO responseSchema / JSON mime.
-      generationConfig: { temperature: 1.0, maxOutputTokens: 16384, mediaResolution: "MEDIA_RESOLUTION_HIGH" },
+      // Basir baseBody: temperature 1.0, maxOutputTokens 16384. (Basir's
+      // generateText does NOT set mediaResolution, so neither do we now.)
+      generationConfig: { temperature: 1.0, maxOutputTokens: 16384 },
     }),
   });
   if (!res.ok) {

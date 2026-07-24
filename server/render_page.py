@@ -15,9 +15,9 @@ import base64
 import os
 import sys
 
-TARGET_LONG_EDGE = 3000     # px, like Basir's 3072
-MAX_PIXELS = 12_000_000     # cap total pixels
-JPEG_QUALITY = 85
+TARGET_LONG_EDGE = 3072     # px, like Basir
+MAX_PIXELS = 16_000_000     # cap total pixels
+JPEG_QUALITY = 92           # high quality so small Arabic glyphs stay crisp
 
 
 def main():
@@ -65,10 +65,25 @@ def main():
 
     try:
         pix = page.get_pixmap(matrix=fitz.Matrix(scale, scale), alpha=False)
-        jpeg = pix.tobytes(output="jpg", jpg_quality=JPEG_QUALITY)
     except Exception:
         unavailable()
-    emit(jpeg)
+    # Prefer high-quality JPEG; fall back across API variants, then PNG. The Node
+    # side detects the real format from the magic bytes.
+    img = None
+    for attempt in (
+        lambda: pix.tobytes(output="jpg", jpg_quality=JPEG_QUALITY),
+        lambda: pix.tobytes(output="jpeg"),
+        lambda: pix.tobytes(output="png"),
+    ):
+        try:
+            img = attempt()
+            if img:
+                break
+        except Exception:
+            continue
+    if not img:
+        unavailable()
+    emit(img)
 
 
 if __name__ == "__main__":

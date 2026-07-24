@@ -27,10 +27,10 @@ import { rateLimit } from "../middleware/rateLimit.js";
 
 export const convertRouter = Router();
 
-// EXACT model Basir uses for document conversion: gemini-3.5-flash. Matching
-// its model id is essential — a different/invalid id (e.g. gemini-3.6-flash)
-// silently degrades or errors and drops us to the garbled text-layer fallback.
-const MODEL_DEFAULT = process.env.CONVERT_MODEL || "gemini-3.5-flash";
+// Default to the NEWEST GA Flash model, gemini-3.6-flash (released 2026-07-21) —
+// newer and stronger than the 3.5-flash Basir shipped with. Same method, better
+// model. Override with CONVERT_MODEL if a newer id appears.
+const MODEL_DEFAULT = process.env.CONVERT_MODEL || "gemini-3.6-flash";
 const MAX_PDF_BYTES = 20 * 1024 * 1024; // 20 MB
 
 // ---- Client-held-key encryption (zero-knowledge at rest) -------------------
@@ -497,9 +497,10 @@ async function geminiTranscribe(jpegBase64, model, options = {}) {
           { inline_data: { mime_type: imageMimeFromB64(jpegBase64), data: jpegBase64 } },
         ],
       }],
-      // Basir baseBody: temperature 1.0, maxOutputTokens 16384. (Basir's
-      // generateText does NOT set mediaResolution, so neither do we now.)
-      generationConfig: { temperature: 1.0, maxOutputTokens: 16384 },
+      // temperature 1.0 (Gemini 3.x default), generous output budget, and HIGH
+      // media resolution so small Arabic glyphs are read as sharply as the
+      // Gemini phone app reads a photo.
+      generationConfig: { temperature: 1.0, maxOutputTokens: 16384, mediaResolution: "MEDIA_RESOLUTION_HIGH" },
     }),
   });
   if (!res.ok) {

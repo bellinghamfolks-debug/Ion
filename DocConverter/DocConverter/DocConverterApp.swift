@@ -1,6 +1,5 @@
 import SwiftUI
 import UniformTypeIdentifiers
-import PDFKit
 
 @main
 struct PDFToWordAccessibilityApp: App {
@@ -11,268 +10,398 @@ struct PDFToWordAccessibilityApp: App {
     }
 }
 
-// MARK: - Models
-enum GoogleModel: String, CaseIterable {
-    // Gemini 3 family (2026). 3.6 Flash = strongest/most accurate; 3.5 Flash-Lite
-    // = fastest and cheapest, and is optimized for document parsing (ideal here).
-    case pro = "gemini-3.6-flash"
-    case flash = "gemini-3.5-flash-lite"
+// MARK: - Server config
 
+enum Server {
+    /// The shared EnglishNova/Ion backend that runs the conversion in the
+    /// background (no per-user API key needed).
+    static let baseURL = URL(string: "https://ion-production-da28.up.railway.app")!
+
+    /// A stable per-device id so each device sees only its own jobs.
+    static var deviceID: String {
+        if let existing = UserDefaults.standard.string(forKey: "device.id") { return existing }
+        let new = UUID().uuidString
+        UserDefaults.standard.set(new, forKey: "device.id")
+        return new
+    }
+}
+
+// MARK: - Models
+
+enum JobStatus: String, Codable {
+    case processing, done, partial, failed
+
+    var titleAr: String {
+        switch self {
+        case .processing: return "قيد المعالجة"
+        case .done: return "اكتمل"
+        case .partial: return "اكتمل جزئيًا (توجد صفحات فشلت)"
+        case .failed: return "فشل"
+        }
+    }
+}
+
+struct JobDetail: Codable {
+    let jobId: String
+    let filename: String
+    let status: JobStatus
+    let totalPages: Int
+    let donePages: Int
+    let failedPages: Int
+    let resultText: String?
+    let error: String?
+}
+
+struct JobSummary: Codable, Identifiable {
+    let jobId: String
+    let filename: String
+    let status: JobStatus
+    let totalPages: Int
+    let donePages: Int
+    var id: String { jobId }
+}
+
+// MARK: - API client
+
+struct ConvertAPI {
+    private var session: URLSession { .shared }
+
+    private func request(_ path: String, method: String = "GET") -> URLRequest {
+        var r = URLRequest(url: Server.baseURL.appendingPathComponent(path))
+        r.httpMethod = method
+        r.setValue(Server.deviceID, forHTTPHeaderField: "X-Device-Id")
+        r.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        return r
+    }
+
+    func createJob(pdf: Data, filename: String, model: String) async throws -> String {
+        var r = request("convert/jobs", method: "POST")
+        let body: [String: Any] = [
+            "filename": filename,
+            "model": model,
+            "pdfBase64": pdf.base64EncodedString(),
+        ]
+        r.httpBody = try JSONSerialization.data(withJSONObject: body)
+        let (data, resp) = try await session.data(for: r)
+        try Self.check(resp, data)
+        struct Created: Decodable { let jobId: String }
+        return try JSONDecoder().decode(Created.self, from: data).jobId
+    }
+
+    func status(_ jobId: String) async throws -> JobDetail {
+        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)"))
+        try Self.check(resp, data)
+        return try JSONDecoder().decode(JobDetail.self, from: data)
+    }
+
+    func list() async throws -> [JobSummary] {
+        let (data, resp) = try await session.data(for: request("convert/jobs"))
+        try Self.check(resp, data)
+        struct Wrap: Decodable { let jobs: [JobSummary] }
+        return try JSONDecoder().decode(Wrap.self, from: data).jobs
+    }
+
+    func resume(_ jobId: String) async throws {
+        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)/resume", method: "POST"))
+        try Self.check(resp, data)
+    }
+
+    func delete(_ jobId: String) async throws {
+        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)", method: "DELETE"))
+        try Self.check(resp, data)
+    }
+
+    /// Downloads the assembled result as an RTF (Word-openable) file to a temp URL.
+    func downloadResult(_ jobId: String, filename: String) async throws -> URL {
+        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)/result.rtf"))
+        try Self.check(resp, data)
+        let base = (filename as NSString).deletingPathExtension
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("\(base.isEmpty ? "document" : base).rtf")
+        try data.write(to: url, options: .atomic)
+        return url
+    }
+
+    private static func check(_ resp: URLResponse, _ data: Data) throws {
+        guard let http = resp as? HTTPURLResponse else { throw URLError(.badServerResponse) }
+        guard (200..<300).contains(http.statusCode) else {
+            let msg = String(data: data.prefix(200), encoding: .utf8) ?? ""
+            throw NSError(domain: "Convert", code: http.statusCode,
+                          userInfo: [NSLocalizedDescriptionKey: "خطأ من الخادم (\(http.statusCode)) \(msg)"])
+        }
+    }
+}
+
+// MARK: - AI model choice
+
+enum GoogleModel: String, CaseIterable, Identifiable {
+    case flashLite = "gemini-3.5-flash-lite"
+    case flash = "gemini-3.6-flash"
+    var id: String { rawValue }
     var displayName: String {
         switch self {
-        case .pro: return "جيميني 3.6 (أعلى دقة)"
-        case .flash: return "جيميني 3.5 لايت (أسرع وأوفر)"
+        case .flashLite: return "جيميني 3.5 لايت (أسرع وأوفر)"
+        case .flash: return "جيميني 3.6 (أعلى دقة)"
         }
     }
 }
 
 // MARK: - View Model
+
 @MainActor
-class AppViewModel: ObservableObject {
-    @AppStorage("apiKey") var apiKey: String = ""
-    @Published var selectedModel: GoogleModel = .pro
+final class AppViewModel: ObservableObject {
+    @AppStorage("model") private var modelRaw: String = GoogleModel.flashLite.rawValue
+    @Published var selectedModel: GoogleModel = .flashLite
+
     @Published var selectedPDFURL: URL?
-    @Published var convertedFileURL: URL?
-    @Published var isConverting: Bool = false
-    @Published var statusMessage: String = "جاهز للبدء. الرجاء إدخال مفتاح API واختيار ملف PDF."
+    @Published var current: JobDetail?
+    @Published var resultURL: URL?
+    @Published var history: [JobSummary] = []
+    @Published var isUploading = false
+    @Published var statusMessage = "جاهز للبدء. اختر ملف PDF لتحويله على الخادم."
 
-    func convertPDF() async {
-        guard !apiKey.isEmpty else {
-            announce(message: "خطأ: يرجى إدخال مفتاح API أولاً.")
-            return
-        }
-        guard let pdfURL = selectedPDFURL else {
-            announce(message: "خطأ: يرجى اختيار ملف PDF.")
-            return
-        }
+    private let api = ConvertAPI()
+    private var pollTask: Task<Void, Never>?
 
-        isConverting = true
-        announce(message: "جاري تحويل الملف، يرجى الانتظار.")
+    init() { selectedModel = GoogleModel(rawValue: modelRaw) ?? .flashLite }
 
-        do {
-            let pdfData = try Data(contentsOf: pdfURL)
-            let base64String = pdfData.base64EncodedString()
+    func setModel(_ m: GoogleModel) { selectedModel = m; modelRaw = m.rawValue }
 
-            let extractedText = try await callGoogleAPI(base64PDF: base64String)
-            if let wordURL = try createWordDocument(from: extractedText) {
-                self.convertedFileURL = wordURL
-                announce(message: "تم التحويل بنجاح. يمكنك الآن مشاركة أو حفظ ملف الوورد.")
-            }
-        } catch {
-            announce(message: "حدث خطأ أثناء التحويل: \(error.localizedDescription)")
-        }
-
-        isConverting = false
-    }
-
-    private func callGoogleAPI(base64PDF: String) async throws -> String {
-        let urlString = "https://generativelanguage.googleapis.com/v1beta/models/\(selectedModel.rawValue):generateContent?key=\(apiKey)"
-        guard let url = URL(string: urlString) else {
-            throw URLError(.badURL)
-        }
-
-        let parameters: [String: Any] = [
-            "contents": [
-                [
-                    "parts": [
-                        ["text": "قم باستخراج جميع النصوص من هذا الملف وتنسيقها بشكل ممتاز وصحيح لغوياً لتكون جاهزة للحفظ كملف وورد."],
-                        [
-                            "inline_data": [
-                                "mime_type": "application/pdf",
-                                "data": base64PDF
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ]
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            throw URLError(.badServerResponse)
-        }
-
-        let json = try JSONDecoder().decode(GoogleAPIResponse.self, from: data)
-        return json.candidates?.first?.content.parts.first?.text ?? "لم يتم العثور على نص."
-    }
-
-    private func createWordDocument(from text: String) throws -> URL? {
-        let attributedString = NSAttributedString(string: text, attributes: [
-            .font: UIFont.systemFont(ofSize: 16)
-        ])
-
-        let rtfData = try attributedString.data(from: NSRange(location: 0, length: attributedString.length), documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf])
-
-        let tempDirectory = FileManager.default.temporaryDirectory
-        let fileName = "ConvertedDocument_\(UUID().uuidString.prefix(5)).rtf"
-        let fileURL = tempDirectory.appendingPathComponent(fileName)
-
-        try rtfData.write(to: fileURL)
-        return fileURL
-    }
-
-    func announce(message: String) {
-        self.statusMessage = message
+    func announce(_ message: String) {
+        statusMessage = message
         UIAccessibility.post(notification: .announcement, argument: message)
     }
+
+    func startConversion() async {
+        guard let pdfURL = selectedPDFURL else { announce("اختر ملف PDF أولًا."); return }
+        isUploading = true
+        announce("جارٍ رفع الملف إلى الخادم…")
+        do {
+            let needsStop = pdfURL.startAccessingSecurityScopedResource()
+            defer { if needsStop { pdfURL.stopAccessingSecurityScopedResource() } }
+            let data = try Data(contentsOf: pdfURL)
+            let jobId = try await api.createJob(pdf: data, filename: pdfURL.lastPathComponent,
+                                                model: selectedModel.rawValue)
+            resultURL = nil
+            announce("بدأ التحويل على الخادم. يمكنك إغلاق التطبيق؛ ستجد الملف في السجل.")
+            startPolling(jobId)
+        } catch {
+            announce("تعذّر بدء التحويل: \(error.localizedDescription)")
+        }
+        isUploading = false
+    }
+
+    func startPolling(_ jobId: String) {
+        pollTask?.cancel()
+        pollTask = Task {
+            while !Task.isCancelled {
+                do {
+                    let detail = try await api.status(jobId)
+                    current = detail
+                    switch detail.status {
+                    case .processing:
+                        statusMessage = "قيد المعالجة: \(detail.donePages) من \(detail.totalPages) صفحة."
+                    case .done:
+                        announce("اكتمل التحويل. جارٍ تجهيز ملف الوورد.")
+                        await fetchResult(detail)
+                        await refreshHistory()
+                        return
+                    case .partial:
+                        announce("اكتمل جزئيًا: نجحت \(detail.donePages) وفشلت \(detail.failedPages) صفحة. يمكنك إعادة المحاولة.")
+                        await fetchResult(detail)
+                        await refreshHistory()
+                        return
+                    case .failed:
+                        announce("فشل التحويل: \(detail.error ?? "خطأ غير معروف")")
+                        return
+                    }
+                } catch {
+                    // transient network error — keep polling
+                }
+                try? await Task.sleep(nanoseconds: 2_500_000_000)
+            }
+        }
+    }
+
+    private func fetchResult(_ detail: JobDetail) async {
+        do { resultURL = try await api.downloadResult(detail.jobId, filename: detail.filename) }
+        catch { announce("تعذّر تنزيل الملف الناتج: \(error.localizedDescription)") }
+    }
+
+    func openJob(_ summary: JobSummary) async {
+        do {
+            let detail = try await api.status(summary.jobId)
+            current = detail
+            if detail.status == .done || detail.status == .partial { await fetchResult(detail) }
+            if detail.status == .processing { startPolling(detail.jobId) }
+        } catch { announce("تعذّر فتح المهمة: \(error.localizedDescription)") }
+    }
+
+    func resumeCurrent() async {
+        guard let jobId = current?.jobId else { return }
+        do {
+            try await api.resume(jobId)
+            announce("جارٍ إعادة محاولة الصفحات الفاشلة…")
+            startPolling(jobId)
+        } catch { announce("تعذّرت إعادة المحاولة: \(error.localizedDescription)") }
+    }
+
+    func refreshHistory() async {
+        do { history = try await api.list() } catch { }
+    }
+
+    func delete(_ summary: JobSummary) async {
+        try? await api.delete(summary.jobId)
+        await refreshHistory()
+    }
 }
 
-// MARK: - API Response Models
-struct GoogleAPIResponse: Codable {
-    let candidates: [Candidate]?
-}
-struct Candidate: Codable {
-    let content: Content
-}
-struct Content: Codable {
-    let parts: [Part]
-}
-struct Part: Codable {
-    let text: String?
-}
+// MARK: - Main View
 
-// MARK: - UI Views
 struct ContentView: View {
-    @StateObject private var viewModel = AppViewModel()
+    @StateObject private var vm = AppViewModel()
     @State private var showingFilePicker = false
     @State private var showingShareSheet = false
+    @State private var showingHistory = false
 
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 30) {
-
-                    // حقل إدخال مفتاح API
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("مفتاح API الخاص بجوجل")
-                            .font(.headline)
-                            .accessibilityHidden(true)
-
-                        SecureField("أدخل مفتاح API هنا", text: $viewModel.apiKey)
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(10)
-                            .accessibilityLabel("حقل إدخال مفتاح API الخاص بجوجل")
-                            .accessibilityHint("أدخل المفتاح للتمكن من الاتصال بخوادم الذكاء الاصطناعي")
+                VStack(spacing: 26) {
+                    Picker("نموذج الذكاء الاصطناعي", selection: Binding(
+                        get: { vm.selectedModel }, set: { vm.setModel($0) })) {
+                        ForEach(GoogleModel.allCases) { Text($0.displayName).tag($0) }
                     }
+                    .pickerStyle(.segmented)
+                    .accessibilityLabel("اختيار نموذج الذكاء الاصطناعي")
+                    .accessibilityValue(vm.selectedModel.displayName)
 
-                    // اختيار النموذج
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("اختر نموذج الذكاء الاصطناعي")
-                            .font(.headline)
-                            .accessibilityHidden(true)
-
-                        Picker("نموذج الذكاء الاصطناعي", selection: $viewModel.selectedModel) {
-                            ForEach(GoogleModel.allCases, id: \.self) { model in
-                                Text(model.displayName).tag(model)
-                            }
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .accessibilityLabel("اختيار نموذج الذكاء الاصطناعي")
-                        .accessibilityValue(viewModel.selectedModel.displayName)
-                        .accessibilityHint("اسحب لأعلى أو لأسفل لاختيار النموذج المناسب للتحويل")
-                    }
-
-                    Divider()
-
-                    // حالة التطبيق والتوجيهات الصوتية
-                    Text(viewModel.statusMessage)
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(viewModel.isConverting ? .blue : .primary)
+                    Text(vm.statusMessage)
+                        .font(.title3).fontWeight(.bold).multilineTextAlignment(.center)
                         .padding()
-                        .accessibilityLabel("حالة التطبيق: \(viewModel.statusMessage)")
+                        .accessibilityLabel("حالة التطبيق: \(vm.statusMessage)")
 
-                    // أزرار التحكم
-                    VStack(spacing: 20) {
-                        Button(action: {
-                            showingFilePicker = true
-                        }) {
-                            HStack {
-                                Image(systemName: "doc.text.viewfinder")
-                                Text(viewModel.selectedPDFURL == nil ? "اختيار ملف PDF" : "تم اختيار الملف. اضغط لتغييره")
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .font(.title2)
-                            .cornerRadius(15)
-                        }
-                        .accessibilityLabel(viewModel.selectedPDFURL == nil ? "زر اختيار ملف PDF" : "زر تغيير ملف PDF المختار")
-                        .accessibilityHint("يفتح تطبيق الملفات لاختيار المستند المراد تحويله")
-
-                        if viewModel.selectedPDFURL != nil {
-                            Button(action: {
-                                Task {
-                                    await viewModel.convertPDF()
-                                }
-                            }) {
-                                HStack {
-                                    if viewModel.isConverting {
-                                        ProgressView()
-                                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                        Text("جاري التحويل...")
-                                    } else {
-                                        Image(systemName: "arrow.right.doc.on.clipboard")
-                                        Text("بدء تحويل الملف إلى وورد")
-                                    }
-                                }
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(viewModel.isConverting ? Color.gray : Color.green)
-                                .foregroundColor(.white)
-                                .font(.title2)
-                                .cornerRadius(15)
-                            }
-                            .disabled(viewModel.isConverting)
-                            .accessibilityLabel(viewModel.isConverting ? "جاري التحويل الآن، يرجى الانتظار" : "زر بدء تحويل الملف إلى وورد")
-                        }
-
-                        if viewModel.convertedFileURL != nil {
-                            Button(action: {
-                                showingShareSheet = true
-                            }) {
-                                HStack {
-                                    Image(systemName: "square.and.arrow.up")
-                                    Text("مشاركة وحفظ ملف الوورد")
-                                }
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.orange)
-                                .foregroundColor(.white)
-                                .font(.title2)
-                                .cornerRadius(15)
-                            }
-                            .accessibilityLabel("زر مشاركة وحفظ ملف الوورد الناتج")
-                            .accessibilityHint("يفتح قائمة المشاركة لإرسال الملف أو حفظه في الجهاز")
-                        }
+                    if let job = vm.current, job.status == .processing {
+                        ProgressView(value: Double(job.donePages), total: Double(max(job.totalPages, 1)))
+                            .accessibilityLabel("التقدم: \(job.donePages) من \(job.totalPages) صفحة")
                     }
+
+                    controls
                 }
                 .padding()
             }
             .navigationTitle("محول المستندات للمكفوفين")
-            .sheet(isPresented: $showingFilePicker) {
-                DocumentPickerView(selectedURL: $viewModel.selectedPDFURL)
-            }
-            .sheet(isPresented: $showingShareSheet) {
-                if let url = viewModel.convertedFileURL {
-                    ShareSheetView(activityItems: [url])
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        Task { await vm.refreshHistory() }
+                        showingHistory = true
+                    } label: { Image(systemName: "clock.arrow.circlepath") }
+                    .accessibilityLabel("سجل التحويلات السابقة")
                 }
             }
+            .sheet(isPresented: $showingFilePicker) {
+                DocumentPickerView(selectedURL: $vm.selectedPDFURL)
+            }
+            .sheet(isPresented: $showingShareSheet) {
+                if let url = vm.resultURL { ShareSheetView(activityItems: [url]) }
+            }
+            .sheet(isPresented: $showingHistory) {
+                HistoryView(vm: vm, openShare: { showingShareSheet = true })
+            }
+            .task { await vm.refreshHistory() }
+        }
+        .navigationViewStyle(.stack)
+    }
+
+    @ViewBuilder private var controls: some View {
+        VStack(spacing: 18) {
+            bigButton(vm.selectedPDFURL == nil ? "اختيار ملف PDF" : "تغيير الملف (\(vm.selectedPDFURL!.lastPathComponent))",
+                      icon: "doc.text.viewfinder", color: .blue) { showingFilePicker = true }
+
+            if vm.selectedPDFURL != nil {
+                bigButton(vm.isUploading ? "جارٍ الرفع…" : "بدء التحويل على الخادم",
+                          icon: "arrow.up.doc", color: vm.isUploading ? .gray : .green,
+                          loading: vm.isUploading) {
+                    Task { await vm.startConversion() }
+                }
+                .disabled(vm.isUploading)
+            }
+
+            if vm.current?.status == .partial {
+                bigButton("إعادة محاولة الصفحات الفاشلة", icon: "arrow.clockwise", color: .orange) {
+                    Task { await vm.resumeCurrent() }
+                }
+            }
+
+            if vm.resultURL != nil {
+                bigButton("مشاركة وحفظ ملف الوورد", icon: "square.and.arrow.up", color: .orange) {
+                    showingShareSheet = true
+                }
+            }
+        }
+    }
+
+    private func bigButton(_ title: String, icon: String, color: Color,
+                           loading: Bool = false, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                if loading { ProgressView().tint(.white) } else { Image(systemName: icon) }
+                Text(title)
+            }
+            .frame(maxWidth: .infinity).padding()
+            .background(color).foregroundColor(.white).font(.title2).cornerRadius(15)
+        }
+        .accessibilityLabel(title)
+    }
+}
+
+// MARK: - History View
+
+struct HistoryView: View {
+    @ObservedObject var vm: AppViewModel
+    var openShare: () -> Void
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationView {
+            List {
+                if vm.history.isEmpty {
+                    Text("لا توجد تحويلات سابقة بعد.").foregroundColor(.secondary)
+                }
+                ForEach(vm.history) { job in
+                    Button {
+                        Task {
+                            await vm.openJob(job)
+                            dismiss()
+                            if vm.resultURL != nil { openShare() }
+                        }
+                    } label: {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(job.filename).font(.headline).lineLimit(1)
+                            Text("\(job.status.titleAr) — \(job.donePages)/\(job.totalPages) صفحة")
+                                .font(.caption).foregroundColor(.secondary)
+                        }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("\(job.filename)، \(job.status.titleAr)، \(job.donePages) من \(job.totalPages) صفحة")
+                    }
+                    .swipeActions {
+                        Button("حذف", role: .destructive) { Task { await vm.delete(job) } }
+                    }
+                }
+            }
+            .navigationTitle("سجل التحويلات")
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) { Button("تم") { dismiss() } }
+            }
+            .refreshable { await vm.refreshHistory() }
         }
         .navigationViewStyle(.stack)
     }
 }
 
 // MARK: - Document Picker
+
 struct DocumentPickerView: UIViewControllerRepresentable {
     @Binding var selectedURL: URL?
 
@@ -285,21 +414,16 @@ struct DocumentPickerView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {}
 
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
+    func makeCoordinator() -> Coordinator { Coordinator(self) }
 
-    class Coordinator: NSObject, UIDocumentPickerDelegate {
-        var parent: DocumentPickerView
-
-        init(_ parent: DocumentPickerView) {
-            self.parent = parent
-        }
+    final class Coordinator: NSObject, UIDocumentPickerDelegate {
+        let parent: DocumentPickerView
+        init(_ parent: DocumentPickerView) { self.parent = parent }
 
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
             guard let url = urls.first else { return }
             parent.selectedURL = url
-            UIAccessibility.post(notification: .announcement, argument: "تم اختيار الملف بنجاح، يمكنك الآن الضغط على زر بدء التحويل.")
+            UIAccessibility.post(notification: .announcement, argument: "تم اختيار الملف. اضغط بدء التحويل.")
         }
 
         func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
@@ -309,14 +433,11 @@ struct DocumentPickerView: UIViewControllerRepresentable {
 }
 
 // MARK: - Share Sheet
+
 struct ShareSheetView: UIViewControllerRepresentable {
     var activityItems: [Any]
-    var applicationActivities: [UIActivity]? = nil
-
     func makeUIViewController(context: Context) -> UIActivityViewController {
-        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
-        return controller
+        UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
     }
-
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }

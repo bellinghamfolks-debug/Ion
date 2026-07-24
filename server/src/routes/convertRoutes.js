@@ -206,6 +206,28 @@ async function singlePageBase64(pdfBytes, pageIndex) {
 // ---- Layout-preserving conversion (professional path, pdf2docx/Python) ------
 
 const SCRIPT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "pdf2docx_convert.py");
+const EXTRACT_SCRIPT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "extract_page.py");
+
+// Faithful text extraction via PyMuPDF (Python). Unlike the JS pdfjs path, this
+// returns Arabic/RTL text in correct reading order WITH spacing and recovers
+// glyphs the browser build mangles — fixing the "scrambled Arabic" output.
+// Returns the page text (with Markdown tables when requested) or "" if Python /
+// PyMuPDF is unavailable or the page has no text layer, so the caller falls
+// back to the JS extractor and then to AI vision.
+async function extractPageTextPy(pdfPath, pageIndex, opts = {}) {
+  const argsv = [EXTRACT_SCRIPT, pdfPath, String(pageIndex)];
+  if (opts.preserveTables) argsv.push("--tables");
+  return await new Promise((resolve) => {
+    let out = Buffer.alloc(0);
+    let py;
+    try {
+      py = spawn("python3", argsv, { stdio: ["ignore", "pipe", "ignore"] });
+    } catch { return resolve(""); }
+    py.stdout.on("data", (d) => { out = Buffer.concat([out, d]); });
+    py.on("error", () => resolve("")); // python3 not found
+    py.on("close", (code) => resolve(code === 0 ? out.toString("utf-8") : ""));
+  });
+}
 
 // Run the Python converter on the whole PDF. Returns the .docx bytes, or throws
 // (e.g. Python/pdf2docx not installed) so the caller can fall back.
@@ -266,37 +288,53 @@ async function processJob(jobId) {
       }
     }
 
-    // Process every page that isn't done yet, one at a time.
-    for (;;) {
-      const next = await pool.query(
-        "SELECT page_no FROM conversion_pages WHERE job_id = $1 AND status <> 'done' ORDER BY page_no LIMIT 1",
-        [jobId]);
-      if (!next.rows[0]) break;
-      const pageNo = next.rows[0].page_no;
-      try {
-        // 1) Prefer the exact embedded text layer (no AI = no fabrication).
-        let text = "";
-        if (faithful) {
-          try {
-            text = await extractPageText(pdfBytes, pageNo - 1,
-              { preserveTables: jobOptions.preserveTables !== false });
-          } catch { text = ""; }
+    // Write the PDF to a temp file once so the PyMuPDF extractor can read it
+    // per page without us re-serialising the bytes each time.
+    const wantTables = jobOptions.preserveTables !== false;
+    const tmpDir = await fsp.mkdtemp(path.join(os.tmpdir(), "extract-"));
+    const tmpPdf = path.join(tmpDir, "in.pdf");
+    await fsp.writeFile(tmpPdf, pdfBytes).catch(() => {});
+
+    try {
+      // Process every page that isn't done yet, one at a time.
+      for (;;) {
+        const next = await pool.query(
+          "SELECT page_no FROM conversion_pages WHERE job_id = $1 AND status <> 'done' ORDER BY page_no LIMIT 1",
+          [jobId]);
+        if (!next.rows[0]) break;
+        const pageNo = next.rows[0].page_no;
+        try {
+          let text = "";
+          if (faithful) {
+            // 1) Best: PyMuPDF (correct Arabic/RTL order + spacing, real tables).
+            try {
+              text = await extractPageTextPy(tmpPdf, pageNo - 1, { preserveTables: wantTables });
+            } catch { text = ""; }
+            // 2) Fallback: the JS pdfjs (unpdf) extractor if Python is missing.
+            if (text.replace(/\s/g, "").length < 15) {
+              try {
+                text = await extractPageText(pdfBytes, pageNo - 1, { preserveTables: wantTables });
+              } catch { text = ""; }
+            }
+          }
+          // 3) Only if the page has no real text (a scanned image) use AI vision.
+          if (text.replace(/\s/g, "").length < 15) {
+            const b64 = await singlePageBase64(pdfBytes, pageNo - 1);
+            text = await geminiExtract(b64, model, prompt);
+          }
+          await pool.query(
+            "UPDATE conversion_pages SET status = 'done', text = $3 WHERE job_id = $1 AND page_no = $2",
+            [jobId, pageNo, text]);
+        } catch (e) {
+          await pool.query(
+            "UPDATE conversion_pages SET status = 'failed' WHERE job_id = $1 AND page_no = $2",
+            [jobId, pageNo]);
+          console.error(`convert job ${jobId} page ${pageNo} failed:`, e.message);
         }
-        // 2) Only if the page has no real text (a scanned image) use AI vision.
-        if (text.replace(/\s/g, "").length < 15) {
-          const b64 = await singlePageBase64(pdfBytes, pageNo - 1);
-          text = await geminiExtract(b64, model, prompt);
-        }
-        await pool.query(
-          "UPDATE conversion_pages SET status = 'done', text = $3 WHERE job_id = $1 AND page_no = $2",
-          [jobId, pageNo, text]);
-      } catch (e) {
-        await pool.query(
-          "UPDATE conversion_pages SET status = 'failed' WHERE job_id = $1 AND page_no = $2",
-          [jobId, pageNo]);
-        console.error(`convert job ${jobId} page ${pageNo} failed:`, e.message);
+        await pool.query("UPDATE conversion_jobs SET updated_at = now() WHERE id = $1", [jobId]);
       }
-      await pool.query("UPDATE conversion_jobs SET updated_at = now() WHERE id = $1", [jobId]);
+    } finally {
+      fsp.rm(tmpDir, { recursive: true, force: true }).catch(() => {});
     }
 
     await finalize(jobId);

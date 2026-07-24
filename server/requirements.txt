@@ -1,2 +1,7 @@
-# Python deps for the optional layout-preserving conversion engine (mode=layout).
+# Python deps for the server-side conversion engines.
+#  - pdf2docx  : layout-preserving PDF -> DOCX (mode=layout, "professional").
+#  - PyMuPDF   : faithful per-page text extraction for the accessible mode
+#                (correct Arabic/RTL reading order + spacing + real tables).
+#                find_tables() needs PyMuPDF >= 1.23.
 pdf2docx>=0.5.8
+PyMuPDF>=1.23.0

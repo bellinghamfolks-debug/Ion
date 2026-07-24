@@ -105,7 +105,29 @@ async function geminiExtract(pageBase64, model, prompt) {
 // Extract the EMBEDDED text layer of a page EXACTLY as authored (no AI, so no
 // hallucination — names/numbers are the real glyphs). Returns "" for scanned
 // (image-only) pages that have no text layer.
-async function extractPageText(pdfBytes, pageIndex) {
+// Split one line's items into cells by detecting large horizontal gaps (table
+// columns). Returns the exact cell texts (verbatim) ordered for the language.
+function lineToCells(line) {
+  const sorted = [...line].sort((a, b) => a.x - b.x);
+  // Absolute gap threshold (points): a column gap is far wider than a word
+  // space. Scale a little with the text height so large fonts still work.
+  const h = sorted.reduce((m, it) => Math.max(m, it.h || 0), 0);
+  const threshold = Math.max(24, h * 1.6);
+  const groups = [[sorted[0]]];
+  for (let i = 1; i < sorted.length; i++) {
+    const gap = sorted[i].x - (sorted[i - 1].x + (sorted[i - 1].w || 0));
+    if (gap > threshold) groups.push([sorted[i]]);
+    else groups[groups.length - 1].push(sorted[i]);
+  }
+  const cells = groups.map((g) => g.map((i) => i.str).join("").replace(/[ \t]+/g, " ").trim());
+  const isArabic = /[ء-ي]/.test(cells.join(""));
+  return isArabic ? cells.reverse() : cells; // RTL order for Arabic tables
+}
+
+// Faithfully extract a page's embedded text. Multi-column runs are detected and
+// emitted as Markdown pipe tables so the DOCX builder makes REAL tables — the
+// cell text is still the exact glyphs from the file (no AI, no changes).
+async function extractPageText(pdfBytes, pageIndex, opts = {}) {
   const doc = await getDocument({
     data: new Uint8Array(pdfBytes),
     isEvalSupported: false,
@@ -116,28 +138,52 @@ async function extractPageText(pdfBytes, pageIndex) {
     const page = await doc.getPage(pageIndex + 1);
     const content = await page.getTextContent();
     const items = content.items
-      .filter((it) => typeof it.str === "string")
-      .map((it) => ({ str: it.str, x: it.transform[4], y: it.transform[5] }));
+      .filter((it) => typeof it.str === "string" && it.str.trim() !== "")
+      .map((it) => ({ str: it.str, x: it.transform[4], y: it.transform[5], w: it.width || 0, h: it.height || 0 }));
     if (!items.length) return "";
-    items.sort((a, b) => (b.y - a.y) || (a.x - b.x)); // top-to-bottom
-    const lines = [];
+    items.sort((a, b) => (b.y - a.y) || (a.x - b.x));
+
+    // Group into visual lines by y.
+    const rawLines = [];
     let cur = [];
     let lastY = null;
     for (const it of items) {
-      if (lastY !== null && Math.abs(it.y - lastY) > 3) { lines.push(cur); cur = []; }
+      if (lastY !== null && Math.abs(it.y - lastY) > 3) { rawLines.push(cur); cur = []; }
       cur.push(it);
       lastY = it.y;
     }
-    if (cur.length) lines.push(cur);
-    return lines
-      .map((line) => {
-        const joined = line.map((i) => i.str).join("");
-        // Order words RTL for Arabic lines, LTR otherwise (words stay verbatim).
-        line.sort((a, b) => (/[ء-ي]/.test(joined) ? b.x - a.x : a.x - b.x));
-        return line.map((i) => i.str).join("").replace(/[ \t]+/g, " ").trim();
-      })
-      .filter((l) => l !== "")
-      .join("\n");
+    if (cur.length) rawLines.push(cur);
+
+    // For each line: its exact plain text (unchanged) and detected cells.
+    const lines = rawLines.map((line) => {
+      const joined = line.map((i) => i.str).join("");
+      const arabic = /[ء-ي]/.test(joined);
+      const ordered = [...line].sort((a, b) => arabic ? b.x - a.x : a.x - b.x);
+      const plain = ordered.map((i) => i.str).join("").replace(/[ \t]+/g, " ").trim();
+      const cells = lineToCells(line);
+      return { cells, plain, isTableRow: cells.length >= 2 };
+    });
+
+    const out = [];
+    let i = 0;
+    while (i < lines.length) {
+      // A run of >= 2 consecutive multi-column lines becomes a real table.
+      if (opts.preserveTables && lines[i].isTableRow &&
+          i + 1 < lines.length && lines[i + 1].isTableRow) {
+        const block = [];
+        while (i < lines.length && lines[i].isTableRow) { block.push(lines[i]); i++; }
+        const cols = Math.max(...block.map((r) => r.cells.length));
+        out.push(`| ${Array.from({ length: cols }, (_, k) => block[0].cells[k] || "").join(" | ")} |`);
+        out.push(`|${Array.from({ length: cols }, () => "---").join("|")}|`);
+        for (let r = 1; r < block.length; r++) {
+          out.push(`| ${Array.from({ length: cols }, (_, k) => block[r].cells[k] || "").join(" | ")} |`);
+        }
+        continue;
+      }
+      if (lines[i].plain) out.push(lines[i].plain);
+      i++;
+    }
+    return out.join("\n");
   } finally {
     try { await doc.destroy(); } catch { /* ignore */ }
   }
@@ -227,7 +273,10 @@ async function processJob(jobId) {
         // 1) Prefer the exact embedded text layer (no AI = no fabrication).
         let text = "";
         if (faithful) {
-          try { text = await extractPageText(pdfBytes, pageNo - 1); } catch { text = ""; }
+          try {
+            text = await extractPageText(pdfBytes, pageNo - 1,
+              { preserveTables: jobOptions.preserveTables !== false });
+          } catch { text = ""; }
         }
         // 2) Only if the page has no real text (a scanned image) use AI vision.
         if (text.replace(/\s/g, "").length < 15) {

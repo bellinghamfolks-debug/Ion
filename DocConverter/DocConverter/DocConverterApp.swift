@@ -358,7 +358,18 @@ struct ContentView: View {
                         Text(vm.mode.hintAr).font(.caption).foregroundColor(.secondary)
                     }
 
-                    if vm.mode == .accessible { optionsSection }
+                    if vm.mode == .accessible {
+                        optionsSection
+                    } else {
+                        // In layout mode the engine rebuilds fonts, tables, images
+                        // and positions automatically, so the per-item options
+                        // below do not apply. Explain that instead of just hiding.
+                        Text("في هذا النمط يعيد المحرّك بناء تنسيق الملف الأصلي تلقائياً (خطوط، جداول، صور، مواضع)، لذلك لا تظهر الخيارات الإضافية. للتحكم في العناوين ووصف الصور والجداول اختر النمط الوصولي.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .accessibilityLabel("ملاحظة: النمط المحافظ على التنسيق يبني التنسيق تلقائياً، والخيارات الإضافية متاحة في النمط الوصولي فقط.")
+                    }
 
                     Text(vm.statusMessage)
                         .font(.title3).fontWeight(.bold).multilineTextAlignment(.center)

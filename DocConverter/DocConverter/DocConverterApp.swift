@@ -191,6 +191,7 @@ enum OutputFormat: String, CaseIterable, Identifiable {
 }
 
 struct ConversionOptions {
+    var faithful = true
     var describeImages = true
     var math: MathMode = .off
     var detectHeadings = true
@@ -199,6 +200,7 @@ struct ConversionOptions {
 
     var dictionary: [String: Any] {
         [
+            "faithful": faithful,
             "describeImages": describeImages,
             "math": math == .off ? "" : math.rawValue,
             "detectHeadings": detectHeadings,
@@ -397,6 +399,11 @@ struct ContentView: View {
     @ViewBuilder private var optionsSection: some View {
         DisclosureGroup("خيارات التحويل (اختيارية)") {
             VStack(alignment: .leading, spacing: 14) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Toggle("دقّة حرفية (بلا تعديل من الذكاء)", isOn: $vm.options.faithful)
+                    Text("يستخرج النص الأصلي من الملف كما هو دون أن يغيّر الذكاء الأسماء أو الأرقام. يُنصَح بإبقائه مُفعّلًا للمستندات الرسمية.")
+                        .font(.caption2).foregroundColor(.secondary)
+                }
                 Toggle("اكتشاف العناوين وتنسيقها", isOn: $vm.options.detectHeadings)
                 Toggle("إدراج وصف مفصّل للصور المُضمَّنة", isOn: $vm.options.describeImages)
                 Toggle("تحويل الجداول إلى جداول حقيقية", isOn: $vm.options.preserveTables)

@@ -6,6 +6,7 @@ import { Router } from "express";
 import express from "express";
 import crypto from "crypto";
 import { PDFDocument } from "pdf-lib";
+import { Document, Packer, Paragraph, HeadingLevel, TextRun } from "docx";
 import { pool } from "../db.js";
 import { rateLimit } from "../middleware/rateLimit.js";
 
@@ -13,10 +14,35 @@ export const convertRouter = Router();
 
 const MODEL_DEFAULT = process.env.CONVERT_MODEL || "gemini-3.5-flash-lite";
 const MAX_PDF_BYTES = 20 * 1024 * 1024; // 20 MB
-const PROMPT =
-  "Extract ALL the text from this single PDF page, preserving the reading order " +
-  "and paragraph breaks. Fix obvious OCR/spacing errors. Output ONLY the text, " +
-  "with no commentary, no markdown fences, and no page numbers.";
+
+// Build the per-page extraction prompt from the user's chosen options. Headings
+// are marked with "## " and image descriptions with "[صورة: ...]" so the DOCX
+// builder can style them.
+function buildPrompt(options = {}) {
+  const parts = [
+    "Extract ALL the text from this single PDF page, preserving the reading order " +
+    "and paragraph breaks. Fix obvious OCR/spacing errors.",
+  ];
+  if (options.detectHeadings) {
+    parts.push("Put each heading/title on its own line prefixed with '## '.");
+  }
+  if (options.describeImages) {
+    parts.push("For every image, figure, chart or diagram, insert a concise Arabic " +
+      "description in square brackets on its own line, like: [صورة: وصف موجز للصورة].");
+  }
+  if (options.math === "words") {
+    parts.push("Transcribe every mathematical equation into clear, readable Arabic " +
+      "words (e.g. 'س تربيع زائد اثنان س') so a screen reader can read it.");
+  } else if (options.math === "latex") {
+    parts.push("Transcribe every mathematical equation into LaTeX delimited by $...$.");
+  }
+  if (options.preserveTables) {
+    parts.push("Render tables as readable rows, one cell per column separated by ' | '.");
+  }
+  parts.push("Output ONLY the document content — no commentary, no markdown code " +
+    "fences, and no page numbers.");
+  return parts.join(" ");
+}
 
 // Per-device budget so one device can't monopolise the shared Gemini key.
 const convertLimit = rateLimit({ name: "convert", windowMs: 60 * 60 * 1000, max: 40 });
@@ -27,7 +53,7 @@ function deviceId(req) {
 
 // ---- Gemini (one page at a time) -------------------------------------------
 
-async function geminiExtract(pageBase64, model) {
+async function geminiExtract(pageBase64, model, prompt) {
   const key = process.env.GEMINI_API_KEY;
   if (!key) { const e = new Error("ai_unavailable"); e.status = 503; throw e; }
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
@@ -38,7 +64,7 @@ async function geminiExtract(pageBase64, model) {
       contents: [{
         role: "user",
         parts: [
-          { text: PROMPT },
+          { text: prompt },
           { inline_data: { mime_type: "application/pdf", data: pageBase64 } },
         ],
       }],
@@ -72,10 +98,11 @@ async function processJob(jobId) {
   running.add(jobId);
   try {
     const { rows } = await pool.query(
-      "SELECT pdf_bytes, model FROM conversion_jobs WHERE id = $1", [jobId]);
+      "SELECT pdf_bytes, model, options FROM conversion_jobs WHERE id = $1", [jobId]);
     if (!rows[0] || !rows[0].pdf_bytes) return;
     const pdfBytes = rows[0].pdf_bytes; // Buffer (bytea)
     const model = rows[0].model || MODEL_DEFAULT;
+    const prompt = buildPrompt(rows[0].options || {});
 
     // Process every page that isn't done yet, one at a time.
     for (;;) {
@@ -86,7 +113,7 @@ async function processJob(jobId) {
       const pageNo = next.rows[0].page_no;
       try {
         const b64 = await singlePageBase64(pdfBytes, pageNo - 1);
-        const text = await geminiExtract(b64, model);
+        const text = await geminiExtract(b64, model, prompt);
         await pool.query(
           "UPDATE conversion_pages SET status = 'done', text = $3 WHERE job_id = $1 AND page_no = $2",
           [jobId, pageNo, text]);
@@ -146,6 +173,7 @@ const bigJson = express.json({ limit: "28mb" });
 convertRouter.post("/jobs", bigJson, convertLimit, async (req, res) => {
   const filename = String(req.body?.filename || "document.pdf").slice(0, 200);
   const model = String(req.body?.model || MODEL_DEFAULT).slice(0, 60);
+  const options = (req.body?.options && typeof req.body.options === "object") ? req.body.options : {};
   const b64 = String(req.body?.pdfBase64 || "");
   if (!b64) return res.status(400).json({ error: "missing_pdf" });
 
@@ -164,9 +192,9 @@ convertRouter.post("/jobs", bigJson, convertLimit, async (req, res) => {
 
   const id = crypto.randomUUID();
   await pool.query(
-    `INSERT INTO conversion_jobs (id, device_id, filename, model, status, total_pages, pdf_bytes)
-     VALUES ($1, $2, $3, $4, 'processing', $5, $6)`,
-    [id, deviceId(req), filename, model, totalPages, pdfBytes]);
+    `INSERT INTO conversion_jobs (id, device_id, filename, model, status, total_pages, pdf_bytes, options)
+     VALUES ($1, $2, $3, $4, 'processing', $5, $6, $7)`,
+    [id, deviceId(req), filename, model, totalPages, pdfBytes, options]);
   // Seed one row per page.
   const values = Array.from({ length: totalPages }, (_, i) => `($1, ${i + 1})`).join(",");
   await pool.query(`INSERT INTO conversion_pages (job_id, page_no) VALUES ${values}`, [id]);
@@ -250,6 +278,54 @@ convertRouter.get("/jobs/:id/result.rtf", async (req, res) => {
   res.setHeader("Content-Disposition",
     `attachment; filename="${(rows[0].filename || "document").replace(/\.[^.]+$/, "")}.rtf"`);
   res.send(rtf);
+});
+
+// Turn the assembled text (with "## " heading markers) into a real .docx.
+function buildDocx(text) {
+  const paras = (text || "").split("\n").map((line) => {
+    if (line.startsWith("## ")) {
+      return new Paragraph({
+        heading: HeadingLevel.HEADING_1,
+        bidirectional: true,
+        children: [new TextRun({ text: line.slice(3), rightToLeft: true })],
+      });
+    }
+    return new Paragraph({
+      bidirectional: true,
+      children: [new TextRun({ text: line, rightToLeft: true })],
+    });
+  });
+  const doc = new Document({ sections: [{ children: paras.length ? paras : [new Paragraph("")] }] });
+  return Packer.toBuffer(doc);
+}
+
+// GET /convert/jobs/:id/result.docx -> a real Word (.docx) document
+convertRouter.get("/jobs/:id/result.docx", async (req, res) => {
+  const { rows } = await pool.query(
+    "SELECT filename, result_text FROM conversion_jobs WHERE id = $1", [req.params.id]);
+  if (!rows[0]) return res.status(404).json({ error: "not_found" });
+  try {
+    const buffer = await buildDocx(rows[0].result_text || "");
+    const base = (rows[0].filename || "document").replace(/\.[^.]+$/, "");
+    res.setHeader("Content-Type",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    res.setHeader("Content-Disposition", `attachment; filename="${base}.docx"`);
+    res.send(buffer);
+  } catch (e) {
+    console.error("docx build failed:", e.message);
+    res.status(500).json({ error: "docx_failed" });
+  }
+});
+
+// GET /convert/jobs/:id/result.txt -> plain text (most accessible)
+convertRouter.get("/jobs/:id/result.txt", async (req, res) => {
+  const { rows } = await pool.query(
+    "SELECT filename, result_text FROM conversion_jobs WHERE id = $1", [req.params.id]);
+  if (!rows[0]) return res.status(404).json({ error: "not_found" });
+  const base = (rows[0].filename || "document").replace(/\.[^.]+$/, "");
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.setHeader("Content-Disposition", `attachment; filename="${base}.txt"`);
+  res.send(rows[0].result_text || "");
 });
 
 // DELETE /convert/jobs/:id -> remove a job and its pages (frees storage)

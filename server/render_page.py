@@ -17,7 +17,7 @@ import sys
 
 TARGET_LONG_EDGE = 3072     # px, like Basir
 MAX_PIXELS = 16_000_000     # cap total pixels
-JPEG_QUALITY = 92           # high quality so small Arabic glyphs stay crisp
+JPEG_QUALITY = 95           # match Basir's rasterizer exactly
 
 
 def main():

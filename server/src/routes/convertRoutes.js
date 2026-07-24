@@ -11,6 +11,7 @@ import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
 import { PDFDocument } from "pdf-lib";
+import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 import {
   Document, Packer, Paragraph, HeadingLevel, TextRun,
   Table, TableRow, TableCell, WidthType, Footer, PageNumber, AlignmentType,
@@ -28,8 +29,13 @@ const MAX_PDF_BYTES = 20 * 1024 * 1024; // 20 MB
 // builder can style them.
 function buildPrompt(options = {}) {
   const parts = [
-    "Extract ALL the text from this single PDF page, preserving the reading order " +
-    "and paragraph breaks. Fix obvious OCR/spacing errors.",
+    "Transcribe the text on this page EXACTLY as it is written, character for " +
+    "character, preserving reading order and line/paragraph breaks. This is a " +
+    "faithful transcription task: do NOT correct, complete, translate, normalize, " +
+    "rephrase, or guess. Copy every name, number, IBAN, date, amount and word " +
+    "precisely as printed. If a character is unclear, give your best LITERAL " +
+    "reading of what is actually there — NEVER replace it with a more common or " +
+    "more plausible word, name, or number.",
   ];
   if (options.detectHeadings) {
     parts.push("Put each heading/title on its own line prefixed with '## '.");
@@ -85,7 +91,7 @@ async function geminiExtract(pageBase64, model, prompt) {
           { inline_data: { mime_type: "application/pdf", data: pageBase64 } },
         ],
       }],
-      generationConfig: { temperature: 0.1, maxOutputTokens: 4096 },
+      generationConfig: { temperature: 0, maxOutputTokens: 4096 },
     }),
   });
   if (!res.ok) {
@@ -94,6 +100,47 @@ async function geminiExtract(pageBase64, model, prompt) {
   }
   const data = await res.json();
   return (data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") || "").trim();
+}
+
+// Extract the EMBEDDED text layer of a page EXACTLY as authored (no AI, so no
+// hallucination — names/numbers are the real glyphs). Returns "" for scanned
+// (image-only) pages that have no text layer.
+async function extractPageText(pdfBytes, pageIndex) {
+  const doc = await getDocument({
+    data: new Uint8Array(pdfBytes),
+    isEvalSupported: false,
+    disableFontFace: true,
+    useSystemFonts: false,
+  }).promise;
+  try {
+    const page = await doc.getPage(pageIndex + 1);
+    const content = await page.getTextContent();
+    const items = content.items
+      .filter((it) => typeof it.str === "string")
+      .map((it) => ({ str: it.str, x: it.transform[4], y: it.transform[5] }));
+    if (!items.length) return "";
+    items.sort((a, b) => (b.y - a.y) || (a.x - b.x)); // top-to-bottom
+    const lines = [];
+    let cur = [];
+    let lastY = null;
+    for (const it of items) {
+      if (lastY !== null && Math.abs(it.y - lastY) > 3) { lines.push(cur); cur = []; }
+      cur.push(it);
+      lastY = it.y;
+    }
+    if (cur.length) lines.push(cur);
+    return lines
+      .map((line) => {
+        const joined = line.map((i) => i.str).join("");
+        // Order words RTL for Arabic lines, LTR otherwise (words stay verbatim).
+        line.sort((a, b) => (/[ء-ي]/.test(joined) ? b.x - a.x : a.x - b.x));
+        return line.map((i) => i.str).join("").replace(/[ \t]+/g, " ").trim();
+      })
+      .filter((l) => l !== "")
+      .join("\n");
+  } finally {
+    try { await doc.destroy(); } catch { /* ignore */ }
+  }
 }
 
 // Extract a single page from the original PDF as its own one-page PDF (base64).
@@ -144,7 +191,11 @@ async function processJob(jobId) {
     if (!rows[0] || !rows[0].pdf_bytes) return;
     const pdfBytes = rows[0].pdf_bytes; // Buffer (bytea)
     const model = rows[0].model || MODEL_DEFAULT;
-    const prompt = buildPrompt(rows[0].options || {});
+    const jobOptions = rows[0].options || {};
+    const prompt = buildPrompt(jobOptions);
+    // Default ON: trust the PDF's real text layer over the AI (prevents the AI
+    // from altering names/numbers). Set faithful:false to force AI vision OCR.
+    const faithful = jobOptions.faithful !== false;
 
     // Professional layout mode: convert the whole file with pdf2docx. If the
     // engine isn't available, fall back to the accessible per-page pipeline.
@@ -173,8 +224,16 @@ async function processJob(jobId) {
       if (!next.rows[0]) break;
       const pageNo = next.rows[0].page_no;
       try {
-        const b64 = await singlePageBase64(pdfBytes, pageNo - 1);
-        const text = await geminiExtract(b64, model, prompt);
+        // 1) Prefer the exact embedded text layer (no AI = no fabrication).
+        let text = "";
+        if (faithful) {
+          try { text = await extractPageText(pdfBytes, pageNo - 1); } catch { text = ""; }
+        }
+        // 2) Only if the page has no real text (a scanned image) use AI vision.
+        if (text.replace(/\s/g, "").length < 15) {
+          const b64 = await singlePageBase64(pdfBytes, pageNo - 1);
+          text = await geminiExtract(b64, model, prompt);
+        }
         await pool.query(
           "UPDATE conversion_pages SET status = 'done', text = $3 WHERE job_id = $1 AND page_no = $2",
           [jobId, pageNo, text]);

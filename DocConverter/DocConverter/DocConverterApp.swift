@@ -140,11 +140,13 @@ struct ConvertAPI {
 enum GoogleModel: String, CaseIterable, Identifiable {
     case flashLite = "gemini-3.5-flash-lite"
     case flash = "gemini-3.6-flash"
+    case pro = "gemini-3.1-pro-preview"
     var id: String { rawValue }
     var displayName: String {
         switch self {
         case .flashLite: return "جيميني 3.5 لايت (أسرع وأوفر)"
         case .flash: return "جيميني 3.6 (أعلى دقة)"
+        case .pro: return "جيميني 3.1 برو (الأقوى)"
         }
     }
 }

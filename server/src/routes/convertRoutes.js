@@ -11,7 +11,13 @@ import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
 import { PDFDocument } from "pdf-lib";
-import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
+// NOTE: We deliberately do NOT statically import pdfjs-dist here. Its ESM build
+// instantiates DOM globals (new DOMMatrix()) at module-load time, which do not
+// exist in Node and crash the WHOLE server on startup (ReferenceError:
+// DOMMatrix is not defined). We use `unpdf` instead — a Node-safe distribution
+// of pdfjs that polyfills those globals — and load it lazily inside
+// extractPageText so even a load failure degrades gracefully (falls back to AI
+// vision) instead of taking the process down.
 import {
   Document, Packer, Paragraph, HeadingLevel, TextRun,
   Table, TableRow, TableCell, WidthType, Footer, PageNumber, AlignmentType,
@@ -128,12 +134,10 @@ function lineToCells(line) {
 // emitted as Markdown pipe tables so the DOCX builder makes REAL tables — the
 // cell text is still the exact glyphs from the file (no AI, no changes).
 async function extractPageText(pdfBytes, pageIndex, opts = {}) {
-  const doc = await getDocument({
-    data: new Uint8Array(pdfBytes),
-    isEvalSupported: false,
-    disableFontFace: true,
-    useSystemFonts: false,
-  }).promise;
+  // Lazy, Node-safe pdfjs (see the import note above). Loaded on first use so a
+  // failure here never crashes startup.
+  const { getDocumentProxy } = await import("unpdf");
+  const doc = await getDocumentProxy(new Uint8Array(pdfBytes));
   try {
     const page = await doc.getPage(pageIndex + 1);
     const content = await page.getTextContent();

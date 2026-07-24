@@ -210,10 +210,16 @@ const EXTRACT_SCRIPT = path.join(path.dirname(fileURLToPath(import.meta.url)), "
 
 // Faithful text extraction via PyMuPDF (Python). Unlike the JS pdfjs path, this
 // returns Arabic/RTL text in correct reading order WITH spacing and recovers
-// glyphs the browser build mangles — fixing the "scrambled Arabic" output.
-// Returns the page text (with Markdown tables when requested) or "" if Python /
-// PyMuPDF is unavailable or the page has no text layer, so the caller falls
-// back to the JS extractor and then to AI vision.
+// glyphs the browser build mangles — fixing the "scrambled Arabic" output. It
+// also auto-detects scanned/garbled pages and asks the caller to use AI vision
+// for those (most scanned documents read better via vision).
+//
+// Returns { ran, text }:
+//   ran:false  -> PyMuPDF could not run (not installed / bad file); try the JS
+//                 extractor next.
+//   ran:true, text:"..."  -> use this faithful text.
+//   ran:true, text:""     -> ran fine but this page is scanned/unreliable; the
+//                            caller should go straight to AI vision.
 async function extractPageTextPy(pdfPath, pageIndex, opts = {}) {
   const argsv = [EXTRACT_SCRIPT, pdfPath, String(pageIndex)];
   if (opts.preserveTables) argsv.push("--tables");
@@ -222,10 +228,13 @@ async function extractPageTextPy(pdfPath, pageIndex, opts = {}) {
     let py;
     try {
       py = spawn("python3", argsv, { stdio: ["ignore", "pipe", "ignore"] });
-    } catch { return resolve(""); }
+    } catch { return resolve({ ran: false, text: "" }); }
     py.stdout.on("data", (d) => { out = Buffer.concat([out, d]); });
-    py.on("error", () => resolve("")); // python3 not found
-    py.on("close", (code) => resolve(code === 0 ? out.toString("utf-8") : ""));
+    py.on("error", () => resolve({ ran: false, text: "" })); // python3 not found
+    // Exit 20 = PyMuPDF unavailable (fall back to JS); exit 0 = ran (text may be
+    // empty, meaning "send this page to vision"); anything else = treat as failed.
+    py.on("close", (code) => resolve(
+      code === 0 ? { ran: true, text: out.toString("utf-8") } : { ran: false, text: "" }));
   });
 }
 
@@ -307,17 +316,23 @@ async function processJob(jobId) {
           let text = "";
           if (faithful) {
             // 1) Best: PyMuPDF (correct Arabic/RTL order + spacing, real tables).
+            //    It auto-detects scanned/garbled pages and returns ran:true with
+            //    empty text to signal "use vision" — we honour that and do NOT
+            //    fall through to the JS extractor's (possibly garbled) text.
+            let pyRan = false;
             try {
-              text = await extractPageTextPy(tmpPdf, pageNo - 1, { preserveTables: wantTables });
-            } catch { text = ""; }
-            // 2) Fallback: the JS pdfjs (unpdf) extractor if Python is missing.
-            if (text.replace(/\s/g, "").length < 15) {
+              const r = await extractPageTextPy(tmpPdf, pageNo - 1, { preserveTables: wantTables });
+              pyRan = r.ran;
+              text = r.text || "";
+            } catch { pyRan = false; text = ""; }
+            // 2) Only if PyMuPDF could not run at all, try the JS pdfjs extractor.
+            if (!pyRan && text.replace(/\s/g, "").length < 15) {
               try {
                 text = await extractPageText(pdfBytes, pageNo - 1, { preserveTables: wantTables });
               } catch { text = ""; }
             }
           }
-          // 3) Only if the page has no real text (a scanned image) use AI vision.
+          // 3) No reliable text (scanned image / garbled layer) -> AI vision OCR.
           if (text.replace(/\s/g, "").length < 15) {
             const b64 = await singlePageBase64(pdfBytes, pageNo - 1);
             text = await geminiExtract(b64, model, prompt);

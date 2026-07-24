@@ -182,14 +182,15 @@ struct JobSummary: Codable, Identifiable {
 // MARK: - Conversion choices
 
 enum GoogleModel: String, CaseIterable, Identifiable {
-    case flashLite = "gemini-3.5-flash-lite"
-    case flash = "gemini-3.6-flash"
+    // EXACT model ids the Basir Android app uses, so accuracy matches it.
+    case flashLite = "gemini-3.1-flash-lite"
+    case flash = "gemini-3.5-flash"
     case pro = "gemini-3.1-pro-preview"
     var id: String { rawValue }
     var displayName: String {
         switch self {
-        case .flashLite: return "جيميني 3.5 لايت (أسرع وأوفر)"
-        case .flash: return "جيميني 3.6 (أعلى دقة)"
+        case .flashLite: return "جيميني 3.1 لايت (أسرع وأوفر)"
+        case .flash: return "جيميني 3.5 فلاش (موصى به)"
         case .pro: return "جيميني 3.1 برو (الأقوى)"
         }
     }
@@ -659,18 +660,15 @@ final class AppViewModel {
 
     init() {
         let d = UserDefaults.standard
-        // Default to the higher-accuracy Flash model (Flash-Lite invents text on
-        // scanned Arabic). New installs get Flash; existing users still on the old
-        // Lite default are migrated up ONCE, then remain free to choose Lite again.
+        // Default to Flash (gemini-3.5-flash, the exact model Basir uses). Any old
+        // or now-invalid stored model id (e.g. the previous gemini-3.6-flash)
+        // migrates cleanly to Flash and is persisted.
         let storedModel = d.string(forKey: "model") ?? ""
-        if storedModel.isEmpty {
-            selectedModel = .flash
-        } else if storedModel == GoogleModel.flashLite.rawValue && !d.bool(forKey: "model.migratedToFlash") {
-            d.set(true, forKey: "model.migratedToFlash")
-            d.set(GoogleModel.flash.rawValue, forKey: "model")
-            selectedModel = .flash
+        if let m = GoogleModel(rawValue: storedModel) {
+            selectedModel = m
         } else {
-            selectedModel = GoogleModel(rawValue: storedModel) ?? .flash
+            selectedModel = .flash
+            d.set(GoogleModel.flash.rawValue, forKey: "model")
         }
         privacy = EncryptionLevel(rawValue: d.string(forKey: "privacy.level") ?? "") ?? .atRest
         outputFormat = OutputFormat(rawValue: d.string(forKey: "output.format") ?? "") ?? .docx

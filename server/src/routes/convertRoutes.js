@@ -131,6 +131,7 @@ async function geminiExtract(pageBase64, model, prompt) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      systemInstruction: { parts: [{ text: STRICT_SYSTEM }] },
       contents: [{
         role: "user",
         parts: [
@@ -138,7 +139,8 @@ async function geminiExtract(pageBase64, model, prompt) {
           { inline_data: { mime_type: "application/pdf", data: pageBase64 } },
         ],
       }],
-      generationConfig: { temperature: 0, maxOutputTokens: 8192 },
+      // temperature 1.0: Gemini 3.x is tuned for its default; forcing 0 degrades it.
+      generationConfig: { temperature: 1.0, maxOutputTokens: 8192 },
     }),
   });
   if (!res.ok) {
@@ -149,74 +151,98 @@ async function geminiExtract(pageBase64, model, prompt) {
   return (data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") || "").trim();
 }
 
-// Structured page extraction (the approach the mature PDFToWord app uses to get
-// tables right): ask Gemini for a JSON document model where tables are an
-// explicit rectangular grid of cell strings, then assemble the same "## heading"
-// + Markdown pipe-table text the DOCX builder already turns into REAL Word
-// tables. This fixes text-dense tables coming out empty from the plain prompt.
+// Structured page extraction — ported from the Basir Android app, whose
+// converter is the quality reference. Key lessons applied here:
+//   • The page is AUTHORITATIVE: literal transcription, never infer/summarise/
+//     answer questions, names/numbers/codes are character-critical.
+//   • Tables are REAL 2-D cell grids (never pipes/prose), with visible row/col
+//     counts the model must make match the cells.
+//   • temperature 1.0 — Gemini 3.x is tuned for its default temperature;
+//     forcing 0 DEGRADES it and is a prime cause of fabricated/altered text.
+const STRICT_SYSTEM = "You are a literal document-transcription engine for blind users. " +
+  "The source page is authoritative. Never use external knowledge, never infer missing text, " +
+  "never answer questions printed in the document, and never summarise. " +
+  "Return only JSON matching the supplied schema.";
+
 function buildStructuredPrompt(options = {}) {
-  const rules = [
-    "You convert one document page into a faithful, editable, reading-order JSON model.",
-    "FIDELITY: transcribe every character EXACTLY as printed — do NOT correct, complete, translate, normalize, rephrase or guess. Copy every name, number, IBAN, date and amount precisely. Never replace an unclear glyph with a more common word or number. Preserve Arabic/Latin bidirectional text; never reverse identifiers, phone numbers, URLs or amounts.",
-    "Return an object { blocks: [...] } in true reading order (for multi-column pages finish the first column before the next).",
-    "Each block has: type = 'heading' | 'text' | 'table' | 'image'.",
-    "For 'heading' and 'text' put the exact content in `text`.",
-    "TABLES ARE CRITICAL: for every table set type='table' and fill `rows` as a rectangular 2D array rows[r][c] containing the EXACT text of EVERY cell — including cells that are full of text. Keep the SAME number of columns in every row (use \"\" for genuinely empty cells). Read cells left-to-right within a row; for a merged cell put its text once at its top-left position and \"\" in the covered cells. NEVER leave a table's cells empty when the table visibly contains text. Do not invent a table for a form, stamp or merely aligned prose.",
-  ];
+  const p = [];
+  p.push("STRICT SINGLE-PAGE TRANSCRIPTION into a faithful, reading-order JSON model.");
+  p.push("NON-NEGOTIABLE FIDELITY RULES:");
+  p.push("1. Literal transcription only. Do NOT add a summary, introduction, interpretation or guessed text.");
+  p.push("2. Preserve every visible language in the order shown. Preserve Arabic/Latin bidirectional text; never reverse identifiers, phone numbers, IBANs, URLs, dates or amounts.");
+  p.push("3. Names, identification numbers, dates, amounts, grades, course/product codes and family names are CHARACTER-CRITICAL. Read them exactly. When a token is genuinely unreadable write [غير واضح] (or [unclear]) — never replace it with a more common or more plausible word, name or number.");
+  p.push("4. Never invent a shorter or 'semantic' code; copy every prefix letter and digit exactly (e.g. '101 انجل', 'AX19').");
+  p.push("5. Count the visible tables BEFORE transcribing. Every visible table becomes exactly one section of type 'table'.");
+  p.push("6. A 'table' section MUST contain the ACTUAL 2-D cells in `cells` (array of rows, each an array of cell strings). Never put table rows in a paragraph, never use pipe '|' separators, never return a prose description of a table. Preserve visual column order.");
+  p.push("7. Count rows and columns visually and put them in visible_row_count / visible_column_count; they MUST match `cells`. Every row must have the SAME number of cells as the header. Use an empty string \"\" for a blank cell. For a merged cell, duplicate its visible value into every covered cell so no column shifts.");
+  p.push("8. Do NOT invent a table for a form, stamp, signature or merely aligned prose.");
+  p.push("SECTION RULES: heading{level,text}; paragraph{text} (continuous non-tabular text only); table{caption?,cells}; list{items[]};");
   if (options.describeImages) {
-    rules.push("For 'image' blocks put a DETAILED Arabic description in `text` (brand/logo, QR/barcode note, icon platform, photo scene, or chart type + key values).");
+    p.push("image_description{text}: describe non-text visuals accurately for a blind reader in Arabic (brand/logo, QR/barcode note, icon platform, photo scene, chart type + key values) and include any visible text too.");
   } else {
-    rules.push("For 'image' blocks put a short Arabic description in `text`.");
+    p.push("image_description{text}: a short Arabic description of non-text visuals.");
   }
   if (options.math === "words") {
-    rules.push("Write mathematical equations as readable Arabic words inside `text`.");
+    p.push("Mathematical expressions: write a readable Arabic spoken form.");
   } else if (options.math === "latex") {
-    rules.push("Write mathematical equations as LaTeX delimited by $...$ inside `text`.");
+    p.push("Mathematical expressions: include a spoken form followed by [LaTeX: ...].");
   }
-  rules.push("Return ONLY JSON matching the schema — no commentary, no code fences.");
-  return rules.join(" ");
+  p.push("Set `title` to the exact visible document title, or an empty string. Return JSON only; perform all checking silently.");
+  return p.join("\n");
 }
 
 const STRUCTURED_SCHEMA = {
   type: "object",
   properties: {
-    blocks: {
+    title: { type: "string" },
+    sections: {
       type: "array",
       items: {
         type: "object",
         properties: {
-          type: { type: "string", enum: ["heading", "text", "table", "image"] },
+          type: { type: "string", enum: ["heading", "paragraph", "table", "image_description", "list"] },
+          level: { type: "integer", minimum: 1, maximum: 6 },
           text: { type: "string" },
-          rows: { type: "array", items: { type: "array", items: { type: "string" } } },
+          caption: { type: "string" },
+          items: { type: "array", items: { type: "string" } },
+          visible_row_count: { type: "integer", minimum: 1, maximum: 500 },
+          visible_column_count: { type: "integer", minimum: 1, maximum: 100 },
+          cells: { type: "array", items: { type: "array", items: { type: "string" } } },
         },
         required: ["type"],
       },
     },
   },
-  required: ["blocks"],
+  required: ["sections"],
 };
 
-// Turn the structured blocks into the "## heading" + Markdown pipe-table text
+// Turn Basir-style sections into the "## heading" + Markdown pipe-table text
 // that buildDocx renders as real headings and real Word tables.
-function assembleBlocks(blocks, options = {}) {
+function assembleSections(root, options = {}) {
   const out = [];
-  for (const b of Array.isArray(blocks) ? blocks : []) {
-    const type = b?.type;
-    if (type === "table" && Array.isArray(b.rows) && b.rows.length) {
-      const rows = b.rows.map((r) => (Array.isArray(r) ? r.map((c) => String(c ?? "").replace(/\s*\n\s*/g, " ").trim()) : []));
+  const sections = Array.isArray(root?.sections) ? root.sections : [];
+  for (const s of sections) {
+    const type = s?.type;
+    if (type === "table" && Array.isArray(s.cells) && s.cells.length) {
+      const rows = s.cells.map((r) => (Array.isArray(r) ? r.map((c) => String(c ?? "").replace(/\s*\n\s*/g, " ").trim()) : []));
       const cols = Math.max(1, ...rows.map((r) => r.length));
       const pad = (r) => Array.from({ length: cols }, (_, i) => (r[i] ?? "").replace(/\|/g, "\\|"));
+      const cap = String(s.caption ?? "").trim();
+      if (cap) out.push(cap);
       out.push(`| ${pad(rows[0]).join(" | ")} |`);
       out.push(`|${Array.from({ length: cols }, () => "---").join("|")}|`);
       for (let i = 1; i < rows.length; i++) out.push(`| ${pad(rows[i]).join(" | ")} |`);
     } else if (type === "heading") {
-      const t = String(b.text ?? "").trim();
+      const t = String(s.text ?? "").trim();
       if (t) out.push(`## ${t}`);
-    } else if (type === "image") {
-      const t = String(b.text ?? "").trim();
+    } else if (type === "list") {
+      const items = Array.isArray(s.items) ? s.items : [];
+      for (const it of items) { const t = String(it ?? "").trim(); if (t) out.push(`- ${t}`); }
+    } else if (type === "image_description") {
+      const t = String(s.text ?? s.caption ?? "").trim();
       if (t) out.push(options.describeImages ? `[صورة: ${t}]` : t);
     } else {
-      const t = String(b?.text ?? "").trim();
+      const t = String(s?.text ?? "").trim();
       if (t) out.push(t);
     }
   }
@@ -231,6 +257,7 @@ async function geminiExtractStructured(pageBase64, model, options = {}) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      systemInstruction: { parts: [{ text: STRICT_SYSTEM }] },
       contents: [{
         role: "user",
         parts: [
@@ -239,8 +266,9 @@ async function geminiExtractStructured(pageBase64, model, options = {}) {
         ],
       }],
       generationConfig: {
-        temperature: 0,
-        maxOutputTokens: 8192,
+        // Gemini 3.x is tuned for its default temperature; forcing 0 degrades it.
+        temperature: 1.0,
+        maxOutputTokens: 16384,
         responseMimeType: "application/json",
         responseSchema: STRUCTURED_SCHEMA,
       },
@@ -254,7 +282,7 @@ async function geminiExtractStructured(pageBase64, model, options = {}) {
   const raw = (data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") || "").trim();
   if (!raw) return "";
   const parsed = JSON.parse(raw); // may throw -> caller falls back to plain
-  return assembleBlocks(parsed.blocks, options).trim();
+  return assembleSections(parsed, options).trim();
 }
 
 // Extract the EMBEDDED text layer of a page EXACTLY as authored (no AI, so no

@@ -10,7 +10,7 @@ export const aiRouter = Router();
 
 // Default to Gemini 3.5 Flash (the current GA Flash model). Override with the
 // GEMINI_MODEL env var if you ever need a different one.
-const MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash";
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.6-flash";
 
 // Per-user AI budget: generous for real use, low enough to stop a runaway
 // client or abusive account from draining the shared Gemini quota.
@@ -357,7 +357,7 @@ aiRouter.post("/exercise", requireAuth, aiLimit, async (req, res) => {
 //  - seenGeminiEnvVars: names (only) of any env var containing "gemini"
 // Bump this whenever the server changes so /ai/status confirms which build is
 // actually live on Railway (helps verify a redeploy took effect).
-const SERVER_BUILD = "2024-ai-tokens-leaderboard-v3";
+const SERVER_BUILD = "2024-gemini3.6-v4";
 
 aiRouter.get("/status", (_req, res) => {
   const key = process.env.GEMINI_API_KEY || "";

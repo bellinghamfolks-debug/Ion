@@ -1,6 +1,7 @@
 package com.bellinghamfolks.docconverter
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.media.projection.MediaProjectionManager
 import android.os.Build
@@ -9,6 +10,7 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +19,7 @@ import androidx.core.app.ActivityCompat
 /**
  * Starts the glasses live reader: asks for screen-capture permission, then hands
  * the projection to ScreenReaderService which OCRs the eSight camera view.
+ * Also lets the user pick the reading speed and go back.
  */
 class LiveReaderActivity : AppCompatActivity() {
 
@@ -45,37 +48,69 @@ class LiveReaderActivity : AppCompatActivity() {
         }
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(48, 96, 48, 48)
+            setPadding(48, 48, 48, 48)
             layoutDirection = ViewGroup.LAYOUT_DIRECTION_RTL
         }
-        val title = TextView(this).apply {
+
+        // Back button (present on this screen so the user can always return).
+        root.addView(Button(this).apply {
+            text = "‹ رجوع"
+            textSize = 18f
+            setOnClickListener { finish() }
+        })
+
+        root.addView(TextView(this).apply {
             text = "القارئ اللحظي للنظارة"; textSize = 24f; gravity = Gravity.CENTER
-        }
+            setPadding(0, 24, 0, 8)
+        })
         status = TextView(this).apply {
             text = "يقرأ النص الظاهر من كاميرا نظارة eSight تلقائيًا بصوت عربي/إنجليزي."
-            textSize = 17f; setPadding(0, 24, 0, 24)
+            textSize = 17f; setPadding(0, 8, 0, 24)
         }
-        val startBtn = Button(this).apply {
-            text = "بدء القراءة (مشاركة الشاشة)"; textSize = 20f
-            setOnClickListener {
-                val mpm = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-                projectionLauncher.launch(mpm.createScreenCaptureIntent())
-            }
-        }
-        val stopBtn = Button(this).apply {
-            text = "إيقاف"; textSize = 20f
-            val lp = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.topMargin = 24; layoutParams = lp
-            setOnClickListener {
-                stopService(Intent(this@LiveReaderActivity, ScreenReaderService::class.java))
-                status.text = "أُوقفت القراءة."
-            }
-        }
-        root.addView(title)
         root.addView(status)
-        root.addView(startBtn)
-        root.addView(stopBtn)
-        setContentView(root)
+
+        root.addView(bigButton("بدء القراءة (مشاركة الشاشة)") {
+            val mpm = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+            projectionLauncher.launch(mpm.createScreenCaptureIntent())
+        })
+        root.addView(bigButton("إيقاف") {
+            stopService(Intent(this, ScreenReaderService::class.java))
+            status.text = "أُوقفت القراءة."
+        })
+
+        // --- Reading speed ---
+        root.addView(TextView(this).apply {
+            text = "سرعة القراءة:"; textSize = 18f; setPadding(0, 32, 0, 8)
+        })
+        val speedRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutDirection = ViewGroup.LAYOUT_DIRECTION_RTL
+        }
+        speedRow.addView(speedButton("بطيء", 0.7f))
+        speedRow.addView(speedButton("عادي", 1.0f))
+        speedRow.addView(speedButton("سريع", 1.4f))
+        speedRow.addView(speedButton("أسرع", 1.8f))
+        root.addView(speedRow)
+
+        setContentView(ScrollView(this).apply { addView(root) })
+    }
+
+    private fun bigButton(text: String, onClick: () -> Unit): Button = Button(this).apply {
+        this.text = text; textSize = 20f
+        val lp = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        lp.topMargin = 20; layoutParams = lp
+        setOnClickListener { onClick() }
+    }
+
+    private fun speedButton(label: String, rate: Float): Button = Button(this).apply {
+        text = label; textSize = 17f
+        val lp = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        lp.marginStart = 8; lp.marginEnd = 8; layoutParams = lp
+        setOnClickListener {
+            getSharedPreferences("live_reader", Context.MODE_PRIVATE)
+                .edit().putFloat("rate", rate).apply()
+            status.text = "سرعة القراءة: $label"
+        }
     }
 }

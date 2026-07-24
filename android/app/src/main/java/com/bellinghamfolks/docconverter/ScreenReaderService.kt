@@ -140,6 +140,9 @@ class ScreenReaderService : Service() {
     private fun speak(text: String) {
         val isArabic = text.any { it.code in 0x0600..0x06FF }
         tts?.language = if (isArabic) Locale("ar") else Locale.ENGLISH
+        // Apply the user's chosen reading speed (updated live from the UI).
+        val rate = getSharedPreferences("live_reader", Context.MODE_PRIVATE).getFloat("rate", 1.0f)
+        tts?.setSpeechRate(rate)
         tts?.speak(text, TextToSpeech.QUEUE_ADD, null, System.nanoTime().toString())
     }
 

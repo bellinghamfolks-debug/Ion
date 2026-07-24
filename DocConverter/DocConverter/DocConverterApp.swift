@@ -74,11 +74,13 @@ struct ConvertAPI {
         return r
     }
 
-    func createJob(pdf: Data, filename: String, model: String) async throws -> String {
+    func createJob(pdf: Data, filename: String, model: String,
+                   options: [String: Any]) async throws -> String {
         var r = request("convert/jobs", method: "POST")
         let body: [String: Any] = [
             "filename": filename,
             "model": model,
+            "options": options,
             "pdfBase64": pdf.base64EncodedString(),
         ]
         r.httpBody = try JSONSerialization.data(withJSONObject: body)
@@ -111,13 +113,13 @@ struct ConvertAPI {
         try Self.check(resp, data)
     }
 
-    /// Downloads the assembled result as an RTF (Word-openable) file to a temp URL.
-    func downloadResult(_ jobId: String, filename: String) async throws -> URL {
-        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)/result.rtf"))
+    /// Downloads the assembled result in the chosen format (docx/rtf/txt) to a temp URL.
+    func downloadResult(_ jobId: String, filename: String, format: OutputFormat) async throws -> URL {
+        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)/result.\(format.rawValue)"))
         try Self.check(resp, data)
         let base = (filename as NSString).deletingPathExtension
         let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent("\(base.isEmpty ? "document" : base).rtf")
+            .appendingPathComponent("\(base.isEmpty ? "document" : base).\(format.rawValue)")
         try data.write(to: url, options: .atomic)
         return url
     }
@@ -146,12 +148,55 @@ enum GoogleModel: String, CaseIterable, Identifiable {
     }
 }
 
+enum MathMode: String, CaseIterable, Identifiable {
+    case off, words, latex
+    var id: String { rawValue }
+    var titleAr: String {
+        switch self {
+        case .off: return "بدون"
+        case .words: return "كلمات مقروءة"
+        case .latex: return "LaTeX"
+        }
+    }
+}
+
+enum OutputFormat: String, CaseIterable, Identifiable {
+    case docx, rtf, txt
+    var id: String { rawValue }
+    var titleAr: String {
+        switch self {
+        case .docx: return "وورد (DOCX)"
+        case .rtf: return "RTF"
+        case .txt: return "نص عادي"
+        }
+    }
+}
+
+struct ConversionOptions {
+    var describeImages = false
+    var math: MathMode = .off
+    var detectHeadings = true
+    var preserveTables = false
+
+    var dictionary: [String: Any] {
+        [
+            "describeImages": describeImages,
+            "math": math == .off ? "" : math.rawValue,
+            "detectHeadings": detectHeadings,
+            "preserveTables": preserveTables,
+        ]
+    }
+}
+
 // MARK: - View Model
 
 @MainActor
 final class AppViewModel: ObservableObject {
     @AppStorage("model") private var modelRaw: String = GoogleModel.flashLite.rawValue
     @Published var selectedModel: GoogleModel = .flashLite
+
+    @Published var options = ConversionOptions()
+    @Published var outputFormat: OutputFormat = .docx
 
     @Published var selectedPDFURL: URL?
     @Published var current: JobDetail?
@@ -181,7 +226,8 @@ final class AppViewModel: ObservableObject {
             defer { if needsStop { pdfURL.stopAccessingSecurityScopedResource() } }
             let data = try Data(contentsOf: pdfURL)
             let jobId = try await api.createJob(pdf: data, filename: pdfURL.lastPathComponent,
-                                                model: selectedModel.rawValue)
+                                                model: selectedModel.rawValue,
+                                                options: options.dictionary)
             resultURL = nil
             announce("بدأ التحويل على الخادم. يمكنك إغلاق التطبيق؛ ستجد الملف في السجل.")
             startPolling(jobId)
@@ -224,7 +270,7 @@ final class AppViewModel: ObservableObject {
     }
 
     private func fetchResult(_ detail: JobDetail) async {
-        do { resultURL = try await api.downloadResult(detail.jobId, filename: detail.filename) }
+        do { resultURL = try await api.downloadResult(detail.jobId, filename: detail.filename, format: outputFormat) }
         catch { announce("تعذّر تنزيل الملف الناتج: \(error.localizedDescription)") }
     }
 
@@ -276,6 +322,8 @@ struct ContentView: View {
                     .accessibilityLabel("اختيار نموذج الذكاء الاصطناعي")
                     .accessibilityValue(vm.selectedModel.displayName)
 
+                    optionsSection
+
                     Text(vm.statusMessage)
                         .font(.title3).fontWeight(.bold).multilineTextAlignment(.center)
                         .padding()
@@ -312,6 +360,39 @@ struct ContentView: View {
             .task { await vm.refreshHistory() }
         }
         .navigationViewStyle(.stack)
+    }
+
+    @ViewBuilder private var optionsSection: some View {
+        DisclosureGroup("خيارات التحويل (اختيارية)") {
+            VStack(alignment: .leading, spacing: 14) {
+                Toggle("اكتشاف العناوين وتنسيقها", isOn: $vm.options.detectHeadings)
+                Toggle("إدراج وصف للصور المُضمَّنة", isOn: $vm.options.describeImages)
+                Toggle("الحفاظ على الجداول", isOn: $vm.options.preserveTables)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("صياغة المعادلات الرياضية").font(.subheadline)
+                    Picker("صياغة المعادلات", selection: $vm.options.math) {
+                        ForEach(MathMode.allCases) { Text($0.titleAr).tag($0) }
+                    }
+                    .pickerStyle(.segmented)
+                    .accessibilityValue(vm.options.math.titleAr)
+                }
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("صيغة الملف الناتج").font(.subheadline)
+                    Picker("صيغة الملف", selection: $vm.outputFormat) {
+                        ForEach(OutputFormat.allCases) { Text($0.titleAr).tag($0) }
+                    }
+                    .pickerStyle(.segmented)
+                    .accessibilityValue(vm.outputFormat.titleAr)
+                }
+            }
+            .padding(.top, 8)
+        }
+        .font(.headline)
+        .padding()
+        .background(Color(.secondarySystemBackground))
+        .cornerRadius(12)
     }
 
     @ViewBuilder private var controls: some View {

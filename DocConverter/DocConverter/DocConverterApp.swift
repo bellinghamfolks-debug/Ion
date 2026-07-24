@@ -5,6 +5,7 @@ import CryptoKit
 import Security
 import PDFKit
 import Vision
+import QuickLook
 
 @main
 struct PDFToWordAccessibilityApp: App {
@@ -659,7 +660,7 @@ final class AppViewModel {
         if let saved = LocalStore.save(filename: filename, format: fmt, data: out) {
             resultURL = saved.url
             localHistory = LocalStore.list()
-            announce("اكتمل التحويل على جهازك. جاهز للحفظ والمشاركة.")
+            announce("✅ الملف جاهز على جهازك — يمكنك معاينته داخل التطبيق أو حفظه ومشاركته.")
         } else {
             announce("تعذّر حفظ الملف الناتج على الجهاز.")
         }
@@ -694,8 +695,12 @@ final class AppViewModel {
     }
 
     private func fetchResult(_ detail: JobDetail) async {
-        do { resultURL = try await api.downloadResult(detail, format: outputFormat) }
-        catch { announce("تعذّر تنزيل الملف الناتج: \(error.localizedDescription)") }
+        do {
+            resultURL = try await api.downloadResult(detail, format: outputFormat)
+            announce("✅ الملف جاهز — يمكنك معاينته داخل التطبيق أو حفظه ومشاركته.")
+        } catch {
+            announce("تعذّر تنزيل الملف الناتج: \(error.localizedDescription)")
+        }
     }
 
     func openJob(_ summary: JobSummary) async {
@@ -742,6 +747,7 @@ struct ContentView: View {
     @State private var showingShareSheet = false
     @State private var showingHistory = false
     @State private var showingSettings = false
+    @State private var showingPreview = false
 
     var body: some View {
         NavigationStack {
@@ -793,6 +799,9 @@ struct ContentView: View {
             .sheet(isPresented: $showingShareSheet) {
                 if let url = vm.resultURL { ShareSheetView(activityItems: [url]) }
             }
+            .sheet(isPresented: $showingPreview) {
+                if let url = vm.resultURL { QuickLookView(url: url) }
+            }
             .sheet(isPresented: $showingHistory) {
                 HistoryView(vm: vm, openShare: { showingShareSheet = true })
             }
@@ -840,11 +849,28 @@ struct ContentView: View {
             }
 
             if vm.resultURL != nil {
+                readyBanner
+                bigButton("معاينة الملف داخل التطبيق", icon: "eye", color: .indigo) {
+                    showingPreview = true
+                }
                 bigButton("مشاركة وحفظ الملف", icon: "square.and.arrow.up", color: .orange) {
                     showingShareSheet = true
                 }
             }
         }
+    }
+
+    private var readyBanner: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "checkmark.seal.fill").foregroundStyle(.green).font(.title2)
+            Text("اكتمل التحويل — الملف جاهز").fontWeight(.bold)
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(Color.green.opacity(0.15))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("اكتمل التحويل، الملف جاهز للمعاينة أو المشاركة")
     }
 
     private func bigButton(_ title: String, icon: String, color: Color,
@@ -1027,4 +1053,32 @@ struct ShareSheetView: UIViewControllerRepresentable {
         UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
     }
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
+
+// MARK: - In-app preview (QuickLook)
+
+/// Previews the converted file (docx/rtf/txt/pdf) INSIDE the app, so the user
+/// can read a sample before saving or sharing — no external app needed.
+struct QuickLookView: UIViewControllerRepresentable {
+    let url: URL
+
+    func makeUIViewController(context: Context) -> UINavigationController {
+        let controller = QLPreviewController()
+        controller.dataSource = context.coordinator
+        // Wrap in a navigation controller so it presents with a title/close bar.
+        return UINavigationController(rootViewController: controller)
+    }
+
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator { Coordinator(url: url) }
+
+    final class Coordinator: NSObject, QLPreviewControllerDataSource {
+        let url: URL
+        init(url: URL) { self.url = url }
+        func numberOfPreviewItems(in controller: QLPreviewController) -> Int { 1 }
+        func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+            url as NSURL
+        }
+    }
 }

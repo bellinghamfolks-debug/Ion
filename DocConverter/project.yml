@@ -2,7 +2,7 @@ name: DocConverter
 options:
   bundleIdPrefix: com.bellinghamfolks
   deploymentTarget:
-    iOS: "16.0"
+    iOS: "26.0"
   createIntermediateGroups: true
 settings:
   base:

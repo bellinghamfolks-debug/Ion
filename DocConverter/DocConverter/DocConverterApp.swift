@@ -1,7 +1,10 @@
 import SwiftUI
+import Observation
 import UniformTypeIdentifiers
 import CryptoKit
 import Security
+import PDFKit
+import Vision
 
 @main
 struct PDFToWordAccessibilityApp: App {
@@ -12,19 +15,71 @@ struct PDFToWordAccessibilityApp: App {
     }
 }
 
-// MARK: - Client-held-key encryption (zero-knowledge storage)
+// MARK: - Server config
+
+enum Server {
+    /// The shared EnglishNova/Ion backend that runs the conversion in the
+    /// background (no per-user API key needed). Used for the "off" and
+    /// "encrypted at rest" privacy levels — NOT for strict end-to-end, which
+    /// never contacts the server.
+    static let baseURL = URL(string: "https://ion-production-da28.up.railway.app")!
+
+    /// A stable per-device id so each device sees only its own jobs.
+    static var deviceID: String {
+        if let existing = UserDefaults.standard.string(forKey: "device.id") { return existing }
+        let new = UUID().uuidString
+        UserDefaults.standard.set(new, forKey: "device.id")
+        return new
+    }
+}
+
+// MARK: - Privacy levels
+
+enum EncryptionLevel: String, CaseIterable, Identifiable {
+    case off        // server processes; stored in plaintext
+    case atRest     // client-held-key encryption at rest (server processes in RAM)
+    case e2e        // strict end-to-end: converted entirely ON DEVICE, never uploaded
+
+    var id: String { rawValue }
+
+    var titleAr: String {
+        switch self {
+        case .off:    return "بدون تشفير"
+        case .atRest: return "تخزين مشفّر (موصى به)"
+        case .e2e:    return "طرف-لطرف صارم (على الجهاز)"
+        }
+    }
+
+    var subtitleAr: String {
+        switch self {
+        case .off:
+            return "يعالج الخادم الملف ويخزّنه كنص صريح. الأسرع، والأقل خصوصية."
+        case .atRest:
+            return "يُشفَّر الملف ونواتجه بمفتاح على جهازك، فلا تقرأها قاعدة البيانات ولا المضيف وقت التخزين. يعالج الخادم المحتوى للحظات في الذاكرة فقط، والصفحات الممسوحة تُقرأ عبر Google."
+        case .e2e:
+            return "يتم التحويل بالكامل داخل جهازك (قراءة نصية + تعرّف ضوئي عربي من Apple)، ولا يُرفع الملف ولا أي جزء منه إلى أي خادم أو إلى Google إطلاقاً. الأعلى خصوصية — للملفات الحساسة. لا يعمل في الخلفية."
+        }
+    }
+
+    var badgeAr: String {
+        switch self {
+        case .off:    return "🔓 بدون تشفير"
+        case .atRest: return "🔒 تخزين مشفّر"
+        case .e2e:    return "🛡️ طرف-لطرف صارم"
+        }
+    }
+}
+
+// MARK: - Client-held-key encryption (for the "at rest" level)
 //
 // The device holds a 256-bit master key in the Keychain. For each job we derive
 // a per-job key from (masterKey, jobId) via HKDF, so any past job's key can be
-// recomputed for history/resume WITHOUT storing it. The PDF and its results are
-// encrypted with that key before they leave the device; the server only ever
-// receives the per-job key transiently (in RAM) while actively converting, and
-// stores nothing but ciphertext. AES-GCM here uses CryptoKit's "combined"
-// layout (nonce||ciphertext||tag), byte-for-byte compatible with the Node server.
+// recomputed for history/resume WITHOUT storing it. AES-GCM uses CryptoKit's
+// "combined" layout (nonce||ciphertext||tag), byte-for-byte compatible with the
+// Node server.
 enum CryptoBox {
     private static let account = "docconverter.master.key.v1"
 
-    /// The device master key — created once, then read from the Keychain.
     static func masterKey() -> SymmetricKey {
         if let data = load(), data.count == 32 { return SymmetricKey(data: data) }
         let key = SymmetricKey(size: .bits256)
@@ -32,7 +87,6 @@ enum CryptoBox {
         return key
     }
 
-    /// Per-job 256-bit key = HKDF-SHA256(masterKey, salt=jobId, info="…-DEK-v1").
     static func jobKey(_ jobId: String) -> SymmetricKey {
         HKDF<SHA256>.deriveKey(
             inputKeyMaterial: masterKey(),
@@ -48,14 +102,13 @@ enum CryptoBox {
     static func seal(_ plaintext: Data, key: SymmetricKey) throws -> Data {
         let box = try AES.GCM.seal(plaintext, using: key)
         guard let combined = box.combined else { throw Err.seal }
-        return combined // nonce(12) || ciphertext || tag(16)
+        return combined
     }
     static func open(_ blob: Data, key: SymmetricKey) throws -> Data {
         try AES.GCM.open(try AES.GCM.SealedBox(combined: blob), using: key)
     }
     enum Err: Error { case seal }
 
-    // --- Keychain (device-only, not synced to iCloud) ---
     private static func save(_ data: Data) {
         let base: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
@@ -78,22 +131,6 @@ enum CryptoBox {
         guard SecItemCopyMatching(query as CFDictionary, &out) == errSecSuccess,
               let data = out as? Data else { return nil }
         return data
-    }
-}
-
-// MARK: - Server config
-
-enum Server {
-    /// The shared EnglishNova/Ion backend that runs the conversion in the
-    /// background (no per-user API key needed).
-    static let baseURL = URL(string: "https://ion-production-da28.up.railway.app")!
-
-    /// A stable per-device id so each device sees only its own jobs.
-    static var deviceID: String {
-        if let existing = UserDefaults.standard.string(forKey: "device.id") { return existing }
-        let new = UUID().uuidString
-        UserDefaults.standard.set(new, forKey: "device.id")
-        return new
     }
 }
 
@@ -135,139 +172,7 @@ struct JobSummary: Codable, Identifiable {
     var id: String { jobId }
 }
 
-// MARK: - API client
-
-struct ConvertAPI {
-    private var session: URLSession { .shared }
-
-    private func request(_ path: String, method: String = "GET") -> URLRequest {
-        var r = URLRequest(url: Server.baseURL.appendingPathComponent(path))
-        r.httpMethod = method
-        r.setValue(Server.deviceID, forHTTPHeaderField: "X-Device-Id")
-        r.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        return r
-    }
-
-    func createJob(pdf: Data, filename: String, model: String, mode: String,
-                   options: [String: Any], encrypt: Bool) async throws -> String {
-        var r = request("convert/jobs", method: "POST")
-        var body: [String: Any] = [
-            "filename": filename,
-            "model": model,
-            "mode": mode,
-            "options": options,
-        ]
-        if encrypt {
-            // Client-generated id lets us re-derive the key later (history/resume).
-            let jobId = UUID().uuidString.lowercased()
-            let key = CryptoBox.jobKey(jobId)
-            let cipher = try CryptoBox.seal(pdf, key: key)
-            body["id"] = jobId
-            body["encrypted"] = true
-            body["key"] = CryptoBox.keyBase64(key)   // transient; RAM-only on server
-            body["pdfBase64"] = cipher.base64EncodedString()
-        } else {
-            body["pdfBase64"] = pdf.base64EncodedString()
-        }
-        r.httpBody = try JSONSerialization.data(withJSONObject: body)
-        let (data, resp) = try await session.data(for: r)
-        try Self.check(resp, data)
-        struct Created: Decodable { let jobId: String }
-        return try JSONDecoder().decode(Created.self, from: data).jobId
-    }
-
-    func status(_ jobId: String) async throws -> JobDetail {
-        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)"))
-        try Self.check(resp, data)
-        return try JSONDecoder().decode(JobDetail.self, from: data)
-    }
-
-    func list() async throws -> [JobSummary] {
-        let (data, resp) = try await session.data(for: request("convert/jobs"))
-        try Self.check(resp, data)
-        struct Wrap: Decodable { let jobs: [JobSummary] }
-        return try JSONDecoder().decode(Wrap.self, from: data).jobs
-    }
-
-    func resume(_ jobId: String, encrypted: Bool) async throws {
-        var r = request("convert/jobs/\(jobId)/resume", method: "POST")
-        if encrypted {
-            // Re-supply the per-job key so the server can continue processing.
-            r.httpBody = try JSONSerialization.data(withJSONObject: ["key": CryptoBox.keyBase64(CryptoBox.jobKey(jobId))])
-        }
-        let (data, resp) = try await session.data(for: r)
-        try Self.check(resp, data)
-    }
-
-    func delete(_ jobId: String) async throws {
-        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)", method: "DELETE"))
-        try Self.check(resp, data)
-    }
-
-    /// Downloads the assembled result in the chosen format (docx/rtf/txt) to a
-    /// temp URL. For encrypted jobs the ciphertext is fetched (or taken from the
-    /// already-fetched resultText) and decrypted ON DEVICE with the per-job key,
-    /// so the plaintext file only ever exists locally.
-    func downloadResult(_ detail: JobDetail, format: OutputFormat) async throws -> URL {
-        let base = (detail.filename as NSString).deletingPathExtension
-        let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent("\(base.isEmpty ? "document" : base).\(format.rawValue)")
-
-        if detail.encrypted == true {
-            let key = CryptoBox.jobKey(detail.jobId)
-            switch format {
-            case .docx:
-                let (data, resp) = try await session.data(for: request("convert/jobs/\(detail.jobId)/result.docx.enc"))
-                try Self.check(resp, data)
-                try CryptoBox.open(data, key: key).write(to: url, options: .atomic)
-            case .txt:
-                try Data(Self.decryptedText(detail).utf8).write(to: url, options: .atomic)
-            case .rtf:
-                try Data(Self.makeRTF(Self.decryptedText(detail)).utf8).write(to: url, options: .atomic)
-            }
-            return url
-        }
-
-        let (data, resp) = try await session.data(for: request("convert/jobs/\(detail.jobId)/result.\(format.rawValue)"))
-        try Self.check(resp, data)
-        try data.write(to: url, options: .atomic)
-        return url
-    }
-
-    /// Decrypt the assembled text of an encrypted job (base64 ciphertext in
-    /// resultText) using its per-job key; returns "" if unavailable.
-    static func decryptedText(_ detail: JobDetail) -> String {
-        guard detail.encrypted == true, let rt = detail.resultText, !rt.isEmpty,
-              let blob = Data(base64Encoded: rt) else { return detail.resultText ?? "" }
-        let key = CryptoBox.jobKey(detail.jobId)
-        guard let plain = try? CryptoBox.open(blob, key: key) else { return "" }
-        return String(data: plain, encoding: .utf8) ?? ""
-    }
-
-    /// Minimal RTF (matches the server): escape, encode non-ASCII as \uN, \par.
-    static func makeRTF(_ text: String) -> String {
-        let body = text.replacingOccurrences(of: "\\", with: "\\\\")
-            .replacingOccurrences(of: "{", with: "\\{")
-            .replacingOccurrences(of: "}", with: "\\}")
-            .split(separator: "\n", omittingEmptySubsequences: false)
-            .map { line in
-                line.unicodeScalars.map { $0.value > 127 ? "\\u\($0.value)?" : String($0) }.joined()
-            }
-            .joined(separator: "\\par\n")
-        return "{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0 Arial;}}\\f0\\fs28 \(body)}"
-    }
-
-    private static func check(_ resp: URLResponse, _ data: Data) throws {
-        guard let http = resp as? HTTPURLResponse else { throw URLError(.badServerResponse) }
-        guard (200..<300).contains(http.statusCode) else {
-            let msg = String(data: data.prefix(200), encoding: .utf8) ?? ""
-            throw NSError(domain: "Convert", code: http.statusCode,
-                          userInfo: [NSLocalizedDescriptionKey: "خطأ من الخادم (\(http.statusCode)) \(msg)"])
-        }
-    }
-}
-
-// MARK: - AI model choice
+// MARK: - Conversion choices
 
 enum GoogleModel: String, CaseIterable, Identifiable {
     case flashLite = "gemini-3.5-flash-lite"
@@ -344,35 +249,364 @@ struct ConversionOptions {
     }
 }
 
+// MARK: - Document builders (used by the on-device / E2E path)
+
+/// Minimal RTF — escapes braces/backslashes, encodes non-ASCII as \uN, \par per line.
+func makeRTF(_ text: String) -> String {
+    let body = text.replacingOccurrences(of: "\\", with: "\\\\")
+        .replacingOccurrences(of: "{", with: "\\{")
+        .replacingOccurrences(of: "}", with: "\\}")
+        .split(separator: "\n", omittingEmptySubsequences: false)
+        .map { line in
+            line.unicodeScalars.map { $0.value > 127 ? "\\u\($0.value)?" : String($0) }.joined()
+        }
+        .joined(separator: "\\par\n")
+    return "{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0 Arial;}}\\f0\\fs28 \(body)}"
+}
+
+/// CRC-32 (used by the store-only ZIP writer for on-device .docx).
+enum CRC32 {
+    static let table: [UInt32] = (0..<256).map { i -> UInt32 in
+        var c = UInt32(i)
+        for _ in 0..<8 { c = (c & 1) != 0 ? (0xEDB88320 ^ (c >> 1)) : (c >> 1) }
+        return c
+    }
+    static func checksum(_ data: Data) -> UInt32 {
+        var c: UInt32 = 0xFFFFFFFF
+        for b in data { c = table[Int((c ^ UInt32(b)) & 0xFF)] ^ (c >> 8) }
+        return c ^ 0xFFFFFFFF
+    }
+}
+
+/// A tiny store-only (no compression) ZIP writer — enough to package a .docx
+/// entirely on-device, so strict E2E never needs the server to build the file.
+enum ZipStore {
+    private static func le16(_ v: UInt16) -> Data { withUnsafeBytes(of: v.littleEndian) { Data($0) } }
+    private static func le32(_ v: UInt32) -> Data { withUnsafeBytes(of: v.littleEndian) { Data($0) } }
+
+    static func archive(_ files: [(name: String, data: Data)]) -> Data {
+        var out = Data(), central = Data()
+        var offset: UInt32 = 0
+        for f in files {
+            let name = Array(f.name.utf8)
+            let crc = CRC32.checksum(f.data)
+            let size = UInt32(f.data.count)
+            let localOffset = offset
+
+            var lh = Data()
+            lh.append(le32(0x04034b50)); lh.append(le16(20)); lh.append(le16(0)); lh.append(le16(0))
+            lh.append(le16(0)); lh.append(le16(0))                      // mod time/date
+            lh.append(le32(crc)); lh.append(le32(size)); lh.append(le32(size))
+            lh.append(le16(UInt16(name.count))); lh.append(le16(0))     // name len, extra len
+            lh.append(Data(name))
+            out.append(lh); out.append(f.data)
+            offset += UInt32(lh.count) + size
+
+            var cd = Data()
+            cd.append(le32(0x02014b50)); cd.append(le16(20)); cd.append(le16(20))
+            cd.append(le16(0)); cd.append(le16(0)); cd.append(le16(0)); cd.append(le16(0))
+            cd.append(le32(crc)); cd.append(le32(size)); cd.append(le32(size))
+            cd.append(le16(UInt16(name.count))); cd.append(le16(0)); cd.append(le16(0))
+            cd.append(le16(0)); cd.append(le16(0)); cd.append(le32(0))
+            cd.append(le32(localOffset))
+            cd.append(Data(name))
+            central.append(cd)
+        }
+        let centralOffset = offset
+        out.append(central)
+        var eocd = Data()
+        eocd.append(le32(0x06054b50)); eocd.append(le16(0)); eocd.append(le16(0))
+        eocd.append(le16(UInt16(files.count))); eocd.append(le16(UInt16(files.count)))
+        eocd.append(le32(UInt32(central.count))); eocd.append(le32(centralOffset)); eocd.append(le16(0))
+        out.append(eocd)
+        return out
+    }
+}
+
+/// Builds a real .docx from assembled text (paragraphs + "## " headings), RTL
+/// aware for Arabic. Tables are kept as text lines (E2E extraction is plain).
+enum DocxBuilder {
+    private static func esc(_ s: String) -> String {
+        s.replacingOccurrences(of: "&", with: "&amp;")
+            .replacingOccurrences(of: "<", with: "&lt;")
+            .replacingOccurrences(of: ">", with: "&gt;")
+            .replacingOccurrences(of: "\"", with: "&quot;")
+    }
+    private static func sanitize(_ s: String) -> String {
+        String(s.unicodeScalars.filter { sc in
+            let v = sc.value
+            return v == 0x09 || v == 0x0A || (v >= 0x20 && v != 0xFFFE && v != 0xFFFF)
+        })
+    }
+
+    static func build(_ text: String) -> Data {
+        let paras = sanitize(text).split(separator: "\n", omittingEmptySubsequences: false).map { raw -> String in
+            let line = String(raw)
+            let isHeading = line.hasPrefix("## ")
+            let content = isHeading ? String(line.dropFirst(3)) : line
+            let rpr = "<w:rPr><w:rtl/>" + (isHeading ? "<w:b/><w:sz w:val=\"32\"/>" : "") + "</w:rPr>"
+            return "<w:p><w:pPr><w:bidi/></w:pPr><w:r>\(rpr)<w:t xml:space=\"preserve\">\(esc(content))</w:t></w:r></w:p>"
+        }.joined()
+
+        let document = """
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>\(paras)<w:sectPr/></w:body></w:document>
+        """
+        let contentTypes = """
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>
+        """
+        let rels = """
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>
+        """
+        return ZipStore.archive([
+            (name: "[Content_Types].xml", data: Data(contentTypes.utf8)),
+            (name: "_rels/.rels", data: Data(rels.utf8)),
+            (name: "word/document.xml", data: Data(document.utf8)),
+        ])
+    }
+}
+
+// MARK: - On-device converter (strict end-to-end)
+
+/// Converts a PDF entirely on the device: embedded text via PDFKit, and Apple's
+/// on-device OCR (Vision, Arabic + English) for scanned pages. Nothing leaves
+/// the device.
+enum LocalConverter {
+    /// Returns the assembled document text. `progress` is called (done,total).
+    static func extractText(pdfData: Data, pageNumbers: Bool,
+                            progress: @escaping (Int, Int) -> Void) async -> String {
+        guard let doc = PDFDocument(data: pdfData) else { return "" }
+        let n = doc.pageCount
+        var out: [String] = []
+        for i in 0..<n {
+            var text = ""
+            if let page = doc.page(at: i) {
+                text = page.string ?? ""
+                if text.trimmingCharacters(in: .whitespacesAndNewlines).count < 15 {
+                    text = await ocr(page: page)   // scanned -> on-device OCR
+                }
+            }
+            out.append(pageNumbers ? "## صفحة \(i + 1)\n\(text)" : text)
+            progress(i + 1, n)
+        }
+        return out.joined(separator: "\n\n")
+    }
+
+    private static func ocr(page: PDFPage) async -> String {
+        let bounds = page.bounds(for: .mediaBox)
+        let scale: CGFloat = 2.0
+        let size = CGSize(width: max(1, bounds.width * scale), height: max(1, bounds.height * scale))
+        let image = page.thumbnail(of: size, for: .mediaBox)
+        guard let cg = image.cgImage else { return "" }
+        return await withCheckedContinuation { (cont: CheckedContinuation<String, Never>) in
+            let request = VNRecognizeTextRequest { req, _ in
+                let obs = req.results as? [VNRecognizedTextObservation] ?? []
+                let lines = obs.compactMap { $0.topCandidates(1).first?.string }
+                cont.resume(returning: lines.joined(separator: "\n"))
+            }
+            request.recognitionLevel = .accurate
+            request.usesLanguageCorrection = true
+            request.recognitionLanguages = ["ar-SA", "en-US"]
+            let handler = VNImageRequestHandler(cgImage: cg, options: [:])
+            do { try handler.perform([request]) } catch { cont.resume(returning: "") }
+        }
+    }
+}
+
+// MARK: - Local (on-device) history for E2E conversions
+
+struct LocalJob: Codable, Identifiable {
+    let id: String
+    let filename: String
+    let createdAt: Date
+    let relativePath: String   // inside Documents/e2e
+    let format: String
+}
+
+enum LocalStore {
+    private static let key = "e2e.history.v1"
+    private static var dir: URL {
+        let d = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("e2e", isDirectory: true)
+        try? FileManager.default.createDirectory(at: d, withIntermediateDirectories: true)
+        return d
+    }
+
+    static func list() -> [LocalJob] {
+        guard let data = UserDefaults.standard.data(forKey: key),
+              let jobs = try? JSONDecoder().decode([LocalJob].self, from: data) else { return [] }
+        return jobs.sorted { $0.createdAt > $1.createdAt }
+    }
+
+    static func url(for job: LocalJob) -> URL { dir.appendingPathComponent(job.relativePath) }
+
+    /// Persist an output file locally and record it in history. Returns its URL.
+    static func save(filename: String, format: OutputFormat, data: Data) -> (job: LocalJob, url: URL)? {
+        let id = UUID().uuidString
+        let base = (filename as NSString).deletingPathExtension
+        let safe = base.isEmpty ? "document" : base
+        let rel = "\(id).\(format.rawValue)"
+        let fileURL = dir.appendingPathComponent(rel)
+        do { try data.write(to: fileURL, options: .atomic) } catch { return nil }
+        let job = LocalJob(id: id, filename: "\(safe).\(format.rawValue)",
+                           createdAt: Date(), relativePath: rel, format: format.rawValue)
+        var all = list(); all.append(job)
+        if let enc = try? JSONEncoder().encode(all) { UserDefaults.standard.set(enc, forKey: key) }
+        return (job, fileURL)
+    }
+
+    static func delete(_ job: LocalJob) {
+        try? FileManager.default.removeItem(at: url(for: job))
+        let all = list().filter { $0.id != job.id }
+        if let enc = try? JSONEncoder().encode(all) { UserDefaults.standard.set(enc, forKey: key) }
+    }
+}
+
+// MARK: - API client (server: off / at-rest levels)
+
+struct ConvertAPI {
+    private var session: URLSession { .shared }
+
+    private func request(_ path: String, method: String = "GET") -> URLRequest {
+        var r = URLRequest(url: Server.baseURL.appendingPathComponent(path))
+        r.httpMethod = method
+        r.setValue(Server.deviceID, forHTTPHeaderField: "X-Device-Id")
+        r.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        return r
+    }
+
+    func createJob(pdf: Data, filename: String, model: String, mode: String,
+                   options: [String: Any], encrypt: Bool) async throws -> String {
+        var r = request("convert/jobs", method: "POST")
+        var body: [String: Any] = [
+            "filename": filename, "model": model, "mode": mode, "options": options,
+        ]
+        if encrypt {
+            let jobId = UUID().uuidString.lowercased()
+            let key = CryptoBox.jobKey(jobId)
+            let cipher = try CryptoBox.seal(pdf, key: key)
+            body["id"] = jobId
+            body["encrypted"] = true
+            body["key"] = CryptoBox.keyBase64(key)
+            body["pdfBase64"] = cipher.base64EncodedString()
+        } else {
+            body["pdfBase64"] = pdf.base64EncodedString()
+        }
+        r.httpBody = try JSONSerialization.data(withJSONObject: body)
+        let (data, resp) = try await session.data(for: r)
+        try Self.check(resp, data)
+        struct Created: Decodable { let jobId: String }
+        return try JSONDecoder().decode(Created.self, from: data).jobId
+    }
+
+    func status(_ jobId: String) async throws -> JobDetail {
+        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)"))
+        try Self.check(resp, data)
+        return try JSONDecoder().decode(JobDetail.self, from: data)
+    }
+
+    func list() async throws -> [JobSummary] {
+        let (data, resp) = try await session.data(for: request("convert/jobs"))
+        try Self.check(resp, data)
+        struct Wrap: Decodable { let jobs: [JobSummary] }
+        return try JSONDecoder().decode(Wrap.self, from: data).jobs
+    }
+
+    func resume(_ jobId: String, encrypted: Bool) async throws {
+        var r = request("convert/jobs/\(jobId)/resume", method: "POST")
+        if encrypted {
+            r.httpBody = try JSONSerialization.data(withJSONObject: ["key": CryptoBox.keyBase64(CryptoBox.jobKey(jobId))])
+        }
+        let (data, resp) = try await session.data(for: r)
+        try Self.check(resp, data)
+    }
+
+    func delete(_ jobId: String) async throws {
+        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)", method: "DELETE"))
+        try Self.check(resp, data)
+    }
+
+    func downloadResult(_ detail: JobDetail, format: OutputFormat) async throws -> URL {
+        let base = (detail.filename as NSString).deletingPathExtension
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("\(base.isEmpty ? "document" : base).\(format.rawValue)")
+        if detail.encrypted == true {
+            let key = CryptoBox.jobKey(detail.jobId)
+            switch format {
+            case .docx:
+                let (data, resp) = try await session.data(for: request("convert/jobs/\(detail.jobId)/result.docx.enc"))
+                try Self.check(resp, data)
+                try CryptoBox.open(data, key: key).write(to: url, options: .atomic)
+            case .txt:
+                try Data(Self.decryptedText(detail).utf8).write(to: url, options: .atomic)
+            case .rtf:
+                try Data(makeRTF(Self.decryptedText(detail)).utf8).write(to: url, options: .atomic)
+            }
+            return url
+        }
+        let (data, resp) = try await session.data(for: request("convert/jobs/\(detail.jobId)/result.\(format.rawValue)"))
+        try Self.check(resp, data)
+        try data.write(to: url, options: .atomic)
+        return url
+    }
+
+    static func decryptedText(_ detail: JobDetail) -> String {
+        guard detail.encrypted == true, let rt = detail.resultText, !rt.isEmpty,
+              let blob = Data(base64Encoded: rt) else { return detail.resultText ?? "" }
+        let key = CryptoBox.jobKey(detail.jobId)
+        guard let plain = try? CryptoBox.open(blob, key: key) else { return "" }
+        return String(data: plain, encoding: .utf8) ?? ""
+    }
+
+    private static func check(_ resp: URLResponse, _ data: Data) throws {
+        guard let http = resp as? HTTPURLResponse else { throw URLError(.badServerResponse) }
+        guard (200..<300).contains(http.statusCode) else {
+            let msg = String(data: data.prefix(200), encoding: .utf8) ?? ""
+            throw NSError(domain: "Convert", code: http.statusCode,
+                          userInfo: [NSLocalizedDescriptionKey: "خطأ من الخادم (\(http.statusCode)) \(msg)"])
+        }
+    }
+}
+
 // MARK: - View Model
 
 @MainActor
-final class AppViewModel: ObservableObject {
-    @AppStorage("model") private var modelRaw: String = GoogleModel.flashLite.rawValue
-    @Published var selectedModel: GoogleModel = .flashLite
-
-    @Published var mode: ConversionMode = .accessible
-    @Published var options = ConversionOptions()
-    @Published var outputFormat: OutputFormat = .docx
-
-    /// Client-held-key encryption (default ON for maximum privacy). Persisted.
-    @Published var encryptUploads: Bool = (UserDefaults.standard.object(forKey: "encrypt.enabled") as? Bool ?? true) {
-        didSet { UserDefaults.standard.set(encryptUploads, forKey: "encrypt.enabled") }
+@Observable
+final class AppViewModel {
+    // Settings (persisted).
+    var selectedModel: GoogleModel {
+        didSet { UserDefaults.standard.set(selectedModel.rawValue, forKey: "model") }
     }
+    var privacy: EncryptionLevel {
+        didSet { UserDefaults.standard.set(privacy.rawValue, forKey: "privacy.level") }
+    }
+    var outputFormat: OutputFormat {
+        didSet { UserDefaults.standard.set(outputFormat.rawValue, forKey: "output.format") }
+    }
+    var mode: ConversionMode = .accessible
+    var options = ConversionOptions()
 
-    @Published var selectedPDFURL: URL?
-    @Published var current: JobDetail?
-    @Published var resultURL: URL?
-    @Published var history: [JobSummary] = []
-    @Published var isUploading = false
-    @Published var statusMessage = "جاهز للبدء. اختر ملف PDF لتحويله على الخادم."
+    // Runtime state.
+    var selectedPDFURL: URL?
+    var current: JobDetail?
+    var resultURL: URL?
+    var history: [JobSummary] = []
+    var localHistory: [LocalJob] = []
+    var isUploading = false
+    var statusMessage = "جاهز للبدء. اختر ملف PDF لتحويله."
 
     private let api = ConvertAPI()
     private var pollTask: Task<Void, Never>?
 
-    init() { selectedModel = GoogleModel(rawValue: modelRaw) ?? .flashLite }
-
-    func setModel(_ m: GoogleModel) { selectedModel = m; modelRaw = m.rawValue }
+    init() {
+        let d = UserDefaults.standard
+        selectedModel = GoogleModel(rawValue: d.string(forKey: "model") ?? "") ?? .flashLite
+        privacy = EncryptionLevel(rawValue: d.string(forKey: "privacy.level") ?? "") ?? .atRest
+        outputFormat = OutputFormat(rawValue: d.string(forKey: "output.format") ?? "") ?? .docx
+        localHistory = LocalStore.list()
+    }
 
     func announce(_ message: String) {
         statusMessage = message
@@ -382,25 +616,53 @@ final class AppViewModel: ObservableObject {
     func startConversion() async {
         guard let pdfURL = selectedPDFURL else { announce("اختر ملف PDF أولًا."); return }
         isUploading = true
-        announce("جارٍ رفع الملف إلى الخادم…")
+        defer { isUploading = false }
         do {
             let needsStop = pdfURL.startAccessingSecurityScopedResource()
             defer { if needsStop { pdfURL.stopAccessingSecurityScopedResource() } }
             let data = try Data(contentsOf: pdfURL)
-            let jobId = try await api.createJob(pdf: data, filename: pdfURL.lastPathComponent,
-                                                model: selectedModel.rawValue,
-                                                mode: mode.rawValue,
-                                                options: options.dictionary,
-                                                encrypt: encryptUploads)
             resultURL = nil
-            announce(encryptUploads
-                ? "بدأ التحويل المشفّر على الخادم. يمكنك إغلاق التطبيق؛ ستجد الملف في السجل."
-                : "بدأ التحويل على الخادم. يمكنك إغلاق التطبيق؛ ستجد الملف في السجل.")
-            startPolling(jobId)
+            current = nil
+
+            if privacy == .e2e {
+                await convertOnDevice(data: data, filename: pdfURL.lastPathComponent)
+            } else {
+                announce(privacy == .atRest ? "جارٍ رفع الملف مشفّرًا…" : "جارٍ رفع الملف…")
+                let jobId = try await api.createJob(
+                    pdf: data, filename: pdfURL.lastPathComponent,
+                    model: selectedModel.rawValue, mode: mode.rawValue,
+                    options: options.dictionary, encrypt: privacy == .atRest)
+                announce("بدأ التحويل على الخادم. يمكنك إغلاق التطبيق؛ ستجد الملف في السجل.")
+                startPolling(jobId)
+            }
         } catch {
             announce("تعذّر بدء التحويل: \(error.localizedDescription)")
         }
-        isUploading = false
+    }
+
+    /// Strict end-to-end: convert fully on-device and save the output locally.
+    private func convertOnDevice(data: Data, filename: String) async {
+        announce("تحويل آمن على الجهاز… لا يُرفع أي شيء.")
+        let pageNumbers = options.pageNumbers
+        let text = await LocalConverter.extractText(pdfData: data, pageNumbers: pageNumbers) { done, total in
+            Task { @MainActor in
+                self.statusMessage = "المعالجة على الجهاز: \(done) من \(total) صفحة."
+            }
+        }
+        let fmt = outputFormat
+        let out: Data
+        switch fmt {
+        case .docx: out = DocxBuilder.build(text)
+        case .rtf:  out = Data(makeRTF(text).utf8)
+        case .txt:  out = Data(text.utf8)
+        }
+        if let saved = LocalStore.save(filename: filename, format: fmt, data: out) {
+            resultURL = saved.url
+            localHistory = LocalStore.list()
+            announce("اكتمل التحويل على جهازك. جاهز للحفظ والمشاركة.")
+        } else {
+            announce("تعذّر حفظ الملف الناتج على الجهاز.")
+        }
     }
 
     func startPolling(_ jobId: String) {
@@ -414,27 +676,18 @@ final class AppViewModel: ObservableObject {
                     case .processing:
                         statusMessage = "قيد المعالجة: \(detail.donePages) من \(detail.totalPages) صفحة."
                     case .keyRequired:
-                        // The server restarted and lost the in-RAM key; re-supply
-                        // it automatically and keep polling.
                         statusMessage = "استئناف آمن للمعالجة…"
                         try? await api.resume(detail.jobId, encrypted: true)
                     case .done:
-                        announce("اكتمل التحويل. جارٍ تجهيز ملف الوورد.")
-                        await fetchResult(detail)
-                        await refreshHistory()
-                        return
+                        announce("اكتمل التحويل. جارٍ تجهيز الملف.")
+                        await fetchResult(detail); await refreshHistory(); return
                     case .partial:
-                        announce("اكتمل جزئيًا: نجحت \(detail.donePages) وفشلت \(detail.failedPages) صفحة. يمكنك إعادة المحاولة.")
-                        await fetchResult(detail)
-                        await refreshHistory()
-                        return
+                        announce("اكتمل جزئيًا: نجحت \(detail.donePages) وفشلت \(detail.failedPages) صفحة.")
+                        await fetchResult(detail); await refreshHistory(); return
                     case .failed:
-                        announce("فشل التحويل: \(detail.error ?? "خطأ غير معروف")")
-                        return
+                        announce("فشل التحويل: \(detail.error ?? "خطأ غير معروف")"); return
                     }
-                } catch {
-                    // transient network error — keep polling
-                }
+                } catch { /* transient — keep polling */ }
                 try? await Task.sleep(nanoseconds: 2_500_000_000)
             }
         }
@@ -450,9 +703,11 @@ final class AppViewModel: ObservableObject {
             let detail = try await api.status(summary.jobId)
             current = detail
             if detail.status == .done || detail.status == .partial { await fetchResult(detail) }
-            if detail.status == .processing { startPolling(detail.jobId) }
+            if detail.status == .processing || detail.status == .keyRequired { startPolling(detail.jobId) }
         } catch { announce("تعذّر فتح المهمة: \(error.localizedDescription)") }
     }
+
+    func openLocal(_ job: LocalJob) { resultURL = LocalStore.url(for: job) }
 
     func resumeCurrent() async {
         guard let job = current else { return }
@@ -464,6 +719,7 @@ final class AppViewModel: ObservableObject {
     }
 
     func refreshHistory() async {
+        localHistory = LocalStore.list()
         do { history = try await api.list() } catch { }
     }
 
@@ -471,27 +727,27 @@ final class AppViewModel: ObservableObject {
         try? await api.delete(summary.jobId)
         await refreshHistory()
     }
+
+    func deleteLocal(_ job: LocalJob) {
+        LocalStore.delete(job)
+        localHistory = LocalStore.list()
+    }
 }
 
 // MARK: - Main View
 
 struct ContentView: View {
-    @StateObject private var vm = AppViewModel()
+    @State private var vm = AppViewModel()
     @State private var showingFilePicker = false
     @State private var showingShareSheet = false
     @State private var showingHistory = false
+    @State private var showingSettings = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
-                VStack(spacing: 26) {
-                    Picker("نموذج الذكاء الاصطناعي", selection: Binding(
-                        get: { vm.selectedModel }, set: { vm.setModel($0) })) {
-                        ForEach(GoogleModel.allCases) { Text($0.displayName).tag($0) }
-                    }
-                    .pickerStyle(.segmented)
-                    .accessibilityLabel("اختيار نموذج الذكاء الاصطناعي")
-                    .accessibilityValue(vm.selectedModel.displayName)
+                VStack(spacing: 22) {
+                    privacyChip
 
                     VStack(alignment: .leading, spacing: 6) {
                         Text("نمط التحويل").font(.headline)
@@ -500,33 +756,8 @@ struct ContentView: View {
                         }
                         .pickerStyle(.segmented)
                         .accessibilityValue(vm.mode.titleAr)
-                        Text(vm.mode.hintAr).font(.caption).foregroundColor(.secondary)
-                    }
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        Toggle("تشفير من طرفك (خصوصية قصوى)", isOn: $vm.encryptUploads)
-                            .font(.headline)
-                        Text("يُشفَّر الملف ونواتجه على جهازك بمفتاح لا يملكه الخادم؛ فلا تستطيع الشركة المستضيفة ولا قاعدة البيانات قراءة محتواها. يبقى السجل والاستئناف يعملان. ملاحظة: الصفحات الممسوحة تُقرأ عبر Google، والمفتاح محفوظ على هذا الجهاز فقط.")
-                            .font(.caption2).foregroundColor(.secondary)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(12)
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel("تشفير من طرفك، خصوصية قصوى، \(vm.encryptUploads ? "مُفعّل" : "مُعطّل")")
-
-                    if vm.mode == .accessible {
-                        optionsSection
-                    } else {
-                        // In layout mode the engine rebuilds fonts, tables, images
-                        // and positions automatically, so the per-item options
-                        // below do not apply. Explain that instead of just hiding.
-                        Text("في هذا النمط يعيد المحرّك بناء تنسيق الملف الأصلي تلقائياً (خطوط، جداول، صور، مواضع)، لذلك لا تظهر الخيارات الإضافية. للتحكم في العناوين ووصف الصور والجداول اختر النمط الوصولي.")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .accessibilityLabel("ملاحظة: النمط المحافظ على التنسيق يبني التنسيق تلقائياً، والخيارات الإضافية متاحة في النمط الوصولي فقط.")
+                        Text(vm.privacy == .e2e ? "على الجهاز: يُستخرج النص والتعرّف الضوئي محليًا." : vm.mode.hintAr)
+                            .font(.caption).foregroundStyle(.secondary)
                     }
 
                     Text(vm.statusMessage)
@@ -543,14 +774,17 @@ struct ContentView: View {
                 }
                 .padding()
             }
-            .navigationTitle("محول المستندات للمكفوفين")
+            .navigationTitle("محول المستندات")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        Task { await vm.refreshHistory() }
-                        showingHistory = true
-                    } label: { Image(systemName: "clock.arrow.circlepath") }
+                    Button { Task { await vm.refreshHistory() }; showingHistory = true } label: {
+                        Image(systemName: "clock.arrow.circlepath")
+                    }
                     .accessibilityLabel("سجل التحويلات السابقة")
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { showingSettings = true } label: { Image(systemName: "gearshape") }
+                        .accessibilityLabel("الإعدادات")
                 }
             }
             .sheet(isPresented: $showingFilePicker) {
@@ -562,57 +796,36 @@ struct ContentView: View {
             .sheet(isPresented: $showingHistory) {
                 HistoryView(vm: vm, openShare: { showingShareSheet = true })
             }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView(vm: vm)
+            }
             .task { await vm.refreshHistory() }
         }
-        .navigationViewStyle(.stack)
     }
 
-    @ViewBuilder private var optionsSection: some View {
-        DisclosureGroup("خيارات التحويل (اختيارية)") {
-            VStack(alignment: .leading, spacing: 14) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Toggle("دقّة حرفية (بلا تعديل من الذكاء)", isOn: $vm.options.faithful)
-                    Text("يستخرج النص الأصلي من الملف كما هو دون أن يغيّر الذكاء الأسماء أو الأرقام. يُنصَح بإبقائه مُفعّلًا للمستندات الرسمية.")
-                        .font(.caption2).foregroundColor(.secondary)
-                }
-                Toggle("اكتشاف العناوين وتنسيقها", isOn: $vm.options.detectHeadings)
-                Toggle("إدراج وصف مفصّل للصور المُضمَّنة", isOn: $vm.options.describeImages)
-                Toggle("تحويل الجداول إلى جداول حقيقية", isOn: $vm.options.preserveTables)
-                Toggle("ترقيم الصفحات", isOn: $vm.options.pageNumbers)
-
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("صياغة المعادلات الرياضية").font(.subheadline)
-                    Picker("صياغة المعادلات", selection: $vm.options.math) {
-                        ForEach(MathMode.allCases) { Text($0.titleAr).tag($0) }
-                    }
-                    .pickerStyle(.segmented)
-                    .accessibilityValue(vm.options.math.titleAr)
-                }
-
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("صيغة الملف الناتج").font(.subheadline)
-                    Picker("صيغة الملف", selection: $vm.outputFormat) {
-                        ForEach(OutputFormat.allCases) { Text($0.titleAr).tag($0) }
-                    }
-                    .pickerStyle(.segmented)
-                    .accessibilityValue(vm.outputFormat.titleAr)
-                }
+    private var privacyChip: some View {
+        Button { showingSettings = true } label: {
+            HStack {
+                Text(vm.privacy.badgeAr).fontWeight(.semibold)
+                Spacer()
+                Image(systemName: "chevron.left").font(.footnote)
             }
-            .padding(.top, 8)
+            .padding(12)
+            .frame(maxWidth: .infinity)
+            .background(Color(.secondarySystemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         }
-        .font(.headline)
-        .padding()
-        .background(Color(.secondarySystemBackground))
-        .cornerRadius(12)
+        .buttonStyle(.plain)
+        .accessibilityLabel("مستوى الخصوصية: \(vm.privacy.titleAr). اضغط للتغيير من الإعدادات.")
     }
 
     @ViewBuilder private var controls: some View {
-        VStack(spacing: 18) {
+        VStack(spacing: 16) {
             bigButton(vm.selectedPDFURL == nil ? "اختيار ملف PDF" : "تغيير الملف (\(vm.selectedPDFURL!.lastPathComponent))",
                       icon: "doc.text.viewfinder", color: .blue) { showingFilePicker = true }
 
             if vm.selectedPDFURL != nil {
-                bigButton(vm.isUploading ? "جارٍ الرفع…" : "بدء التحويل على الخادم",
+                bigButton(vm.isUploading ? "جارٍ التحويل…" : (vm.privacy == .e2e ? "بدء التحويل على الجهاز" : "بدء التحويل على الخادم"),
                           icon: "arrow.up.doc", color: vm.isUploading ? .gray : .green,
                           loading: vm.isUploading) {
                     Task { await vm.startConversion() }
@@ -627,7 +840,7 @@ struct ContentView: View {
             }
 
             if vm.resultURL != nil {
-                bigButton("مشاركة وحفظ ملف الوورد", icon: "square.and.arrow.up", color: .orange) {
+                bigButton("مشاركة وحفظ الملف", icon: "square.and.arrow.up", color: .orange) {
                     showingShareSheet = true
                 }
             }
@@ -642,53 +855,135 @@ struct ContentView: View {
                 Text(title)
             }
             .frame(maxWidth: .infinity).padding()
-            .background(color).foregroundColor(.white).font(.title2).cornerRadius(15)
+            .background(color).foregroundStyle(.white).font(.title2)
+            .clipShape(RoundedRectangle(cornerRadius: 15))
         }
         .accessibilityLabel(title)
     }
 }
 
-// MARK: - History View
+// MARK: - Settings
+
+struct SettingsView: View {
+    @Bindable var vm: AppViewModel
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("الخصوصية والتشفير") {
+                    Picker("مستوى الخصوصية", selection: $vm.privacy) {
+                        ForEach(EncryptionLevel.allCases) { Text($0.titleAr).tag($0) }
+                    }
+                    .pickerStyle(.inline)
+                    Text(vm.privacy.subtitleAr)
+                        .font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Section("الذكاء الاصطناعي (للخادم فقط)") {
+                    Picker("النموذج", selection: $vm.selectedModel) {
+                        ForEach(GoogleModel.allCases) { Text($0.displayName).tag($0) }
+                    }
+                    if vm.privacy == .e2e {
+                        Text("غير مستخدم في وضع طرف-لطرف: القراءة تتم بمحرّك Apple على الجهاز.")
+                            .font(.caption2).foregroundStyle(.secondary)
+                    }
+                }
+
+                Section("صيغة الملف الناتج") {
+                    Picker("الصيغة", selection: $vm.outputFormat) {
+                        ForEach(OutputFormat.allCases) { Text($0.titleAr).tag($0) }
+                    }
+                    .pickerStyle(.segmented)
+                }
+
+                if vm.privacy != .e2e {
+                    Section("خيارات التحويل (الوضع الوصولي)") {
+                        Toggle("دقّة حرفية (بلا تعديل من الذكاء)", isOn: $vm.options.faithful)
+                        Toggle("اكتشاف العناوين وتنسيقها", isOn: $vm.options.detectHeadings)
+                        Toggle("وصف مفصّل للصور المُضمَّنة", isOn: $vm.options.describeImages)
+                        Toggle("تحويل الجداول إلى جداول حقيقية", isOn: $vm.options.preserveTables)
+                        Toggle("ترقيم الصفحات", isOn: $vm.options.pageNumbers)
+                        Picker("صياغة المعادلات الرياضية", selection: $vm.options.math) {
+                            ForEach(MathMode.allCases) { Text($0.titleAr).tag($0) }
+                        }
+                    }
+                } else {
+                    Section("خيارات التحويل") {
+                        Toggle("ترقيم الصفحات", isOn: $vm.options.pageNumbers)
+                        Text("في الوضع الصارم يُستخرج النص كما هو من الجهاز؛ خيارات الذكاء غير متاحة لأنها تتطلب الخادم.")
+                            .font(.caption2).foregroundStyle(.secondary)
+                    }
+                }
+
+                Section {
+                    Text("المفتاح محفوظ على هذا الجهاز فقط (Keychain) ولا يُنسخ سحابيًا. إن فقدت الجهاز يتعذّر فك الملفات القديمة.")
+                        .font(.caption2).foregroundStyle(.secondary)
+                }
+            }
+            .navigationTitle("الإعدادات")
+            .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("تم") { dismiss() } } }
+        }
+    }
+}
+
+// MARK: - History (server + on-device)
 
 struct HistoryView: View {
-    @ObservedObject var vm: AppViewModel
+    @Bindable var vm: AppViewModel
     var openShare: () -> Void
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
-                if vm.history.isEmpty {
-                    Text("لا توجد تحويلات سابقة بعد.").foregroundColor(.secondary)
-                }
-                ForEach(vm.history) { job in
-                    Button {
-                        Task {
-                            await vm.openJob(job)
-                            dismiss()
-                            if vm.resultURL != nil { openShare() }
+                if !vm.localHistory.isEmpty {
+                    Section("على الجهاز (طرف-لطرف)") {
+                        ForEach(vm.localHistory) { job in
+                            Button {
+                                vm.openLocal(job); dismiss(); openShare()
+                            } label: {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(job.filename).font(.headline).lineLimit(1)
+                                    Text("🛡️ مشفّر على الجهاز").font(.caption).foregroundStyle(.secondary)
+                                }
+                                .accessibilityElement(children: .combine)
+                                .accessibilityLabel("\(job.filename)، مشفّر على الجهاز")
+                            }
+                            .swipeActions {
+                                Button("حذف", role: .destructive) { vm.deleteLocal(job) }
+                            }
                         }
-                    } label: {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(job.filename).font(.headline).lineLimit(1)
-                            Text("\(job.status.titleAr) — \(job.donePages)/\(job.totalPages) صفحة")
-                                .font(.caption).foregroundColor(.secondary)
-                        }
-                        .accessibilityElement(children: .combine)
-                        .accessibilityLabel("\(job.filename)، \(job.status.titleAr)، \(job.donePages) من \(job.totalPages) صفحة")
                     }
-                    .swipeActions {
-                        Button("حذف", role: .destructive) { Task { await vm.delete(job) } }
+                }
+
+                Section("على الخادم") {
+                    if vm.history.isEmpty {
+                        Text("لا توجد تحويلات على الخادم.").foregroundStyle(.secondary)
+                    }
+                    ForEach(vm.history) { job in
+                        Button {
+                            Task { await vm.openJob(job); dismiss(); if vm.resultURL != nil { openShare() } }
+                        } label: {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(job.filename).font(.headline).lineLimit(1)
+                                Text("\(job.status.titleAr) — \(job.donePages)/\(job.totalPages) صفحة")
+                                    .font(.caption).foregroundStyle(.secondary)
+                            }
+                            .accessibilityElement(children: .combine)
+                            .accessibilityLabel("\(job.filename)، \(job.status.titleAr)، \(job.donePages) من \(job.totalPages) صفحة")
+                        }
+                        .swipeActions {
+                            Button("حذف", role: .destructive) { Task { await vm.delete(job) } }
+                        }
                     }
                 }
             }
             .navigationTitle("سجل التحويلات")
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) { Button("تم") { dismiss() } }
-            }
+            .toolbar { ToolbarItem(placement: .topBarLeading) { Button("تم") { dismiss() } } }
             .refreshable { await vm.refreshHistory() }
         }
-        .navigationViewStyle(.stack)
     }
 }
 

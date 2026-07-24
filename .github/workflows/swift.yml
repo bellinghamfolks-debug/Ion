@@ -17,7 +17,8 @@ concurrency:
 jobs:
   build:
     name: Build (iOS Simulator)
-    runs-on: macos-14
+    # iOS 26 SDK ships with Xcode 26, which needs a recent macOS runner image.
+    runs-on: macos-15
 
     defaults:
       run:

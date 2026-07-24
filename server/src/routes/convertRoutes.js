@@ -5,6 +5,11 @@
 import { Router } from "express";
 import express from "express";
 import crypto from "crypto";
+import { spawn } from "child_process";
+import { promises as fsp } from "fs";
+import os from "os";
+import path from "path";
+import { fileURLToPath } from "url";
 import { PDFDocument } from "pdf-lib";
 import {
   Document, Packer, Paragraph, HeadingLevel, TextRun,
@@ -101,6 +106,31 @@ async function singlePageBase64(pdfBytes, pageIndex) {
   return Buffer.from(bytes).toString("base64");
 }
 
+// ---- Layout-preserving conversion (professional path, pdf2docx/Python) ------
+
+const SCRIPT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "pdf2docx_convert.py");
+
+// Run the Python converter on the whole PDF. Returns the .docx bytes, or throws
+// (e.g. Python/pdf2docx not installed) so the caller can fall back.
+async function convertLayout(pdfBytes) {
+  const dir = await fsp.mkdtemp(path.join(os.tmpdir(), "conv-"));
+  const inPath = path.join(dir, "in.pdf");
+  const outPath = path.join(dir, "out.docx");
+  try {
+    await fsp.writeFile(inPath, pdfBytes);
+    await new Promise((resolve, reject) => {
+      const py = spawn("python3", [SCRIPT, inPath, outPath], { stdio: ["ignore", "ignore", "pipe"] });
+      let err = "";
+      py.stderr.on("data", (d) => { err += d.toString(); });
+      py.on("error", reject); // python3 not found
+      py.on("close", (code) => code === 0 ? resolve() : reject(new Error(err || `python exit ${code}`)));
+    });
+    return await fsp.readFile(outPath);
+  } finally {
+    fsp.rm(dir, { recursive: true, force: true }).catch(() => {});
+  }
+}
+
 // ---- Background worker ------------------------------------------------------
 
 const running = new Set(); // jobIds currently being processed (single instance)
@@ -110,11 +140,30 @@ async function processJob(jobId) {
   running.add(jobId);
   try {
     const { rows } = await pool.query(
-      "SELECT pdf_bytes, model, options FROM conversion_jobs WHERE id = $1", [jobId]);
+      "SELECT pdf_bytes, model, options, mode FROM conversion_jobs WHERE id = $1", [jobId]);
     if (!rows[0] || !rows[0].pdf_bytes) return;
     const pdfBytes = rows[0].pdf_bytes; // Buffer (bytea)
     const model = rows[0].model || MODEL_DEFAULT;
     const prompt = buildPrompt(rows[0].options || {});
+
+    // Professional layout mode: convert the whole file with pdf2docx. If the
+    // engine isn't available, fall back to the accessible per-page pipeline.
+    if (rows[0].mode === "layout") {
+      try {
+        const docx = await convertLayout(pdfBytes);
+        await pool.query(
+          "UPDATE conversion_jobs SET status = 'done', result_docx = $2, updated_at = now() WHERE id = $1",
+          [jobId, docx]);
+        await pool.query("UPDATE conversion_pages SET status = 'done' WHERE job_id = $1", [jobId]);
+        return;
+      } catch (e) {
+        console.error(`layout convert unavailable for ${jobId}, falling back:`, e.message);
+        await pool.query(
+          "UPDATE conversion_jobs SET mode = 'accessible', error = $2, updated_at = now() WHERE id = $1",
+          [jobId, "layout engine unavailable — used accessible text mode"]);
+        // continue to the accessible pipeline below
+      }
+    }
 
     // Process every page that isn't done yet, one at a time.
     for (;;) {
@@ -192,6 +241,7 @@ const bigJson = express.json({ limit: "28mb" });
 convertRouter.post("/jobs", bigJson, convertLimit, async (req, res) => {
   const filename = String(req.body?.filename || "document.pdf").slice(0, 200);
   const model = String(req.body?.model || MODEL_DEFAULT).slice(0, 60);
+  const mode = req.body?.mode === "layout" ? "layout" : "accessible";
   const options = (req.body?.options && typeof req.body.options === "object") ? req.body.options : {};
   const b64 = String(req.body?.pdfBase64 || "");
   if (!b64) return res.status(400).json({ error: "missing_pdf" });
@@ -211,9 +261,9 @@ convertRouter.post("/jobs", bigJson, convertLimit, async (req, res) => {
 
   const id = crypto.randomUUID();
   await pool.query(
-    `INSERT INTO conversion_jobs (id, device_id, filename, model, status, total_pages, pdf_bytes, options)
-     VALUES ($1, $2, $3, $4, 'processing', $5, $6, $7)`,
-    [id, deviceId(req), filename, model, totalPages, pdfBytes, options]);
+    `INSERT INTO conversion_jobs (id, device_id, filename, model, mode, status, total_pages, pdf_bytes, options)
+     VALUES ($1, $2, $3, $4, $5, 'processing', $6, $7, $8)`,
+    [id, deviceId(req), filename, model, mode, totalPages, pdfBytes, options]);
   // Seed one row per page.
   const values = Array.from({ length: totalPages }, (_, i) => `($1, ${i + 1})`).join(",");
   await pool.query(`INSERT INTO conversion_pages (job_id, page_no) VALUES ${values}`, [id]);
@@ -375,10 +425,11 @@ function buildDocx(text) {
 // GET /convert/jobs/:id/result.docx -> a real Word (.docx) document
 convertRouter.get("/jobs/:id/result.docx", async (req, res) => {
   const { rows } = await pool.query(
-    "SELECT filename, result_text FROM conversion_jobs WHERE id = $1", [req.params.id]);
+    "SELECT filename, result_text, result_docx FROM conversion_jobs WHERE id = $1", [req.params.id]);
   if (!rows[0]) return res.status(404).json({ error: "not_found" });
   try {
-    const buffer = await buildDocx(rows[0].result_text || "");
+    // Layout mode produced a real .docx directly (pdf2docx); serve it as-is.
+    const buffer = rows[0].result_docx || await buildDocx(rows[0].result_text || "");
     const base = (rows[0].filename || "document").replace(/\.[^.]+$/, "");
     res.setHeader("Content-Type",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document");

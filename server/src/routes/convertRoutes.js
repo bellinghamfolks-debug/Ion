@@ -384,6 +384,7 @@ async function singlePageBase64(pdfBytes, pageIndex) {
 
 const SCRIPT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "pdf2docx_convert.py");
 const EXTRACT_SCRIPT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "extract_page.py");
+const RENDER_SCRIPT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "render_page.py");
 
 // Faithful text extraction via PyMuPDF (Python). Unlike the JS pdfjs path, this
 // returns Arabic/RTL text in correct reading order WITH spacing and recovers
@@ -413,6 +414,78 @@ async function extractPageTextPy(pdfPath, pageIndex, opts = {}) {
     py.on("close", (code) => resolve(
       code === 0 ? { ran: true, text: out.toString("utf-8") } : { ran: false, text: "" }));
   });
+}
+
+// ---- Basir v3.4 vision transcription (the reference method) -----------------
+//
+// Basir's shipping converter RASTERIZES each page to a high-res JPEG and sends
+// that image to Gemini with a NATURAL prompt and NO response schema — the model
+// returns plain Markdown, exactly like the Gemini web app. Its brief is explicit
+// that the strict JSON schema was the OBSTACLE (≈100% rejection on real docs),
+// not the model; removing it restores faithful, verbatim transcription.
+
+// Rasterize a page to base64(JPEG) via PyMuPDF. Returns "" if unavailable.
+async function renderPageJpeg(pdfPath, pageIndex) {
+  return await new Promise((resolve) => {
+    let out = Buffer.alloc(0);
+    let py;
+    try {
+      py = spawn("python3", [RENDER_SCRIPT, pdfPath, String(pageIndex)], { stdio: ["ignore", "pipe", "ignore"] });
+    } catch { return resolve(""); }
+    py.stdout.on("data", (d) => { out = Buffer.concat([out, d]); });
+    py.on("error", () => resolve(""));
+    py.on("close", (code) => resolve(code === 0 ? out.toString("utf-8") : ""));
+  });
+}
+
+// The natural transcription prompt, ported verbatim in spirit from Basir v3.4.
+function buildBasirPrompt(options = {}) {
+  const p = [
+    "You are a faithful PDF-to-Markdown transcription engine for blind users.",
+    "Transcribe every visible element on this page precisely:",
+    "• Copy every word, number and symbol VERBATIM — no summaries, no paraphrase, no '…'. Names, IDs, dates, amounts, grades and course/product codes are character-critical; copy each prefix letter and digit exactly.",
+    "• Reproduce tables as GitHub-flavoured Markdown pipe tables (| a | b |) with a header separator row; keep the same number of columns in every row.",
+  ];
+  if (options.detectHeadings !== false) p.push("• Mark headings with Markdown '#'/'##'/'###' as appropriate.");
+  if (options.describeImages !== false) {
+    p.push("• For images / logos / charts / QR codes: write a 2-4 sentence Arabic description in [square brackets], and include any visible text in them.");
+  }
+  if (options.math === "words") p.push("• Write mathematical equations as readable Arabic words.");
+  else if (options.math === "latex") p.push("• Write mathematical equations as a spoken form followed by [LaTeX: ...].");
+  p.push("• Do NOT translate, explain or add commentary. Do NOT answer questions printed in the document.");
+  p.push("• Do NOT emit ** bold **, _ italic _, backticks, or --- horizontal rules.");
+  p.push("• Preserve the original language exactly (Arabic stays Arabic, English stays English) and the natural reading order.");
+  p.push("Output only the transcription.");
+  return p.join("\n");
+}
+
+// Single no-schema Gemini call over the rendered page image -> Markdown text.
+async function geminiTranscribe(jpegBase64, model, options = {}) {
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) { const e = new Error("ai_unavailable"); e.status = 503; throw e; }
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{
+        role: "user",
+        parts: [
+          { text: buildBasirPrompt(options) },
+          { inline_data: { mime_type: "image/jpeg", data: jpegBase64 } },
+        ],
+      }],
+      // Basir: temperature 1.0 (Gemini 3.x is tuned for its default; forcing 0
+      // degrades it), high media resolution, NO responseSchema / JSON mime.
+      generationConfig: { temperature: 1.0, maxOutputTokens: 16384, mediaResolution: "MEDIA_RESOLUTION_HIGH" },
+    }),
+  });
+  if (!res.ok) {
+    const detail = await res.text();
+    throw new Error(`gemini ${res.status}: ${detail.slice(0, 200)}`);
+  }
+  const data = await res.json();
+  return (data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") || "").trim();
 }
 
 // Run the Python converter on the whole PDF. Returns the .docx bytes, or throws
@@ -509,40 +582,37 @@ async function processJob(jobId) {
         if (!next.rows[0]) break;
         const pageNo = next.rows[0].page_no;
         try {
+          // Basir v3.4 method: RASTERIZE the page to a high-res JPEG and send
+          // the IMAGE to Gemini with a single natural, no-schema prompt. The
+          // model reads the actual pixels and returns verbatim Markdown, which
+          // fixes both fabrication (schema was the obstacle) and garbled text
+          // layers (we never trust the embedded text).
           let text = "";
-          if (faithful) {
-            // 1) Best: PyMuPDF (correct Arabic/RTL order + spacing, real tables).
-            //    It auto-detects scanned/garbled pages and returns ran:true with
-            //    empty text to signal "use vision" — we honour that and do NOT
-            //    fall through to the JS extractor's (possibly garbled) text.
-            let pyRan = false;
+          try {
+            const jpeg = await renderPageJpeg(tmpPdf, pageNo - 1);
+            if (jpeg) {
+              text = await geminiTranscribe(jpeg, model, jobOptions);
+            } else {
+              // Rasterizer unavailable -> send the single-page PDF instead.
+              const pdf64 = await singlePageBase64(pdfBytes, pageNo - 1);
+              text = await geminiExtract(pdf64, model, prompt);
+            }
+          } catch (e) {
+            console.error(`vision transcribe failed for ${jobId} p${pageNo}:`, e.message);
+            text = "";
+          }
+          // Fallback only if Gemini is unavailable/empty: use the faithful
+          // on-server text layer (PyMuPDF, then JS) so the page is not lost.
+          if (text.replace(/\s/g, "").length < 3) {
             try {
               const r = await extractPageTextPy(tmpPdf, pageNo - 1, { preserveTables: wantTables });
-              pyRan = r.ran;
-              text = r.text || "";
-            } catch { pyRan = false; text = ""; }
-            // 2) Only if PyMuPDF could not run at all, try the JS pdfjs extractor.
-            if (!pyRan && text.replace(/\s/g, "").length < 15) {
-              try {
-                text = await extractPageText(pdfBytes, pageNo - 1, { preserveTables: wantTables });
-              } catch { text = ""; }
-            }
-          }
-          // 3) No reliable text (scanned image / garbled layer) -> AI vision OCR.
-          //    Use STRUCTURED extraction so text-dense tables are captured as
-          //    real tables (like the mature PDFToWord app); fall back to the
-          //    plain transcription prompt if the JSON can't be produced/parsed.
-          if (text.replace(/\s/g, "").length < 15) {
-            const b64 = await singlePageBase64(pdfBytes, pageNo - 1);
-            try {
-              text = await geminiExtractStructured(b64, model, jobOptions);
-            } catch (e) {
-              console.error(`structured extract failed for ${jobId} p${pageNo}, using plain:`, e.message);
-              text = "";
-            }
-            if (text.replace(/\s/g, "").length < 3) {
-              text = await geminiExtract(b64, model, prompt);
-            }
+              if (r.ran && r.text.replace(/\s/g, "").length >= 3) {
+                text = r.text;
+              } else {
+                const js = await extractPageText(pdfBytes, pageNo - 1, { preserveTables: wantTables }).catch(() => "");
+                if (js.replace(/\s/g, "").length >= 3) text = js;
+              }
+            } catch { /* keep whatever we have */ }
           }
           await pool.query(
             "UPDATE conversion_pages SET status = 'done', text = $3 WHERE job_id = $1 AND page_no = $2",
@@ -789,7 +859,20 @@ function sanitizeXml(s) {
   return String(s || "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g, "");
 }
 
-// --- Markdown pipe-table parsing -> real Word tables ------------------------
+// --- Markdown -> real Word structures ---------------------------------------
+// Basir emits natural GitHub-flavoured Markdown, so we strip inline emphasis
+// (it must never appear as literal * _ ` in Word) and drop horizontal rules.
+function stripInlineMarkdown(s) {
+  return String(s || "")
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/__(.+?)__/g, "$1")
+    .replace(/\*(.+?)\*/g, "$1")
+    .replace(/_(.+?)_/g, "$1")
+    .replace(/`(.+?)`/g, "$1");
+}
+function isHorizontalRule(line) {
+  return /^\s*[-*_]{3,}\s*$/.test(line);
+}
 function isTableRow(line) {
   const t = line.trim();
   return t.startsWith("|") && t.length > 1;
@@ -798,7 +881,7 @@ function parseCells(line) {
   let t = line.trim();
   if (t.startsWith("|")) t = t.slice(1);
   if (t.endsWith("|")) t = t.slice(0, -1);
-  return t.split("|").map((c) => c.trim());
+  return t.split("|").map((c) => stripInlineMarkdown(c.trim()));
 }
 function isSeparatorRow(cells) {
   return cells.length > 0 && cells.every((c) => c === "" || /^:?-{2,}:?$/.test(c));
@@ -816,24 +899,37 @@ function makeTable(blockLines) {
   });
 }
 
-// Turn the assembled text into a real .docx: headings (## ), Markdown pipe
-// tables (| a | b |), and paragraphs; with a page-number footer.
+// Turn the assembled Markdown into a real .docx: headings (#/##/###), pipe
+// tables, bullet lists and paragraphs; inline emphasis stripped, rules dropped;
+// with a page-number footer.
 function buildDocx(text) {
   const lines = sanitizeXml(text).split("\n");
   const children = [];
   let i = 0;
   while (i < lines.length) {
-    if (isTableRow(lines[i])) {
+    const line = lines[i];
+    if (isTableRow(line)) {
       const block = [];
       while (i < lines.length && isTableRow(lines[i])) { block.push(lines[i]); i++; }
       const table = makeTable(block);
       if (table) { children.push(table); children.push(new Paragraph("")); }
       continue;
     }
-    const line = lines[i];
-    children.push(line.startsWith("## ")
-      ? new Paragraph({ text: line.slice(3), heading: HeadingLevel.HEADING_1 })
-      : new Paragraph(line));
+    if (isHorizontalRule(line)) { i++; continue; }
+    const hm = line.match(/^(#{1,6})\s+(.*)$/);
+    if (hm) {
+      const lvl = hm[1].length;
+      const level = lvl <= 1 ? HeadingLevel.HEADING_1
+        : lvl === 2 ? HeadingLevel.HEADING_2 : HeadingLevel.HEADING_3;
+      children.push(new Paragraph({ text: stripInlineMarkdown(hm[2]), heading: level }));
+      i++; continue;
+    }
+    const bm = line.match(/^\s*[-*+]\s+(.*)$/);
+    if (bm) {
+      children.push(new Paragraph({ text: stripInlineMarkdown(bm[1]), bullet: { level: 0 } }));
+      i++; continue;
+    }
+    children.push(new Paragraph(stripInlineMarkdown(line)));
     i++;
   }
   if (!children.length) children.push(new Paragraph(""));

@@ -173,10 +173,11 @@ enum OutputFormat: String, CaseIterable, Identifiable {
 }
 
 struct ConversionOptions {
-    var describeImages = false
+    var describeImages = true
     var math: MathMode = .off
     var detectHeadings = true
-    var preserveTables = false
+    var preserveTables = true
+    var pageNumbers = true
 
     var dictionary: [String: Any] {
         [
@@ -184,6 +185,7 @@ struct ConversionOptions {
             "math": math == .off ? "" : math.rawValue,
             "detectHeadings": detectHeadings,
             "preserveTables": preserveTables,
+            "pageNumbers": pageNumbers,
         ]
     }
 }
@@ -366,8 +368,9 @@ struct ContentView: View {
         DisclosureGroup("خيارات التحويل (اختيارية)") {
             VStack(alignment: .leading, spacing: 14) {
                 Toggle("اكتشاف العناوين وتنسيقها", isOn: $vm.options.detectHeadings)
-                Toggle("إدراج وصف للصور المُضمَّنة", isOn: $vm.options.describeImages)
-                Toggle("الحفاظ على الجداول", isOn: $vm.options.preserveTables)
+                Toggle("إدراج وصف مفصّل للصور المُضمَّنة", isOn: $vm.options.describeImages)
+                Toggle("تحويل الجداول إلى جداول حقيقية", isOn: $vm.options.preserveTables)
+                Toggle("ترقيم الصفحات", isOn: $vm.options.pageNumbers)
 
                 VStack(alignment: .leading, spacing: 6) {
                     Text("صياغة المعادلات الرياضية").font(.subheadline)

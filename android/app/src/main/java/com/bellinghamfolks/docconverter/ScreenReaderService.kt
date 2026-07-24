@@ -50,6 +50,7 @@ class ScreenReaderService : Service() {
     private var currentUtterId = ""
     private var inFlight = false
     private var lastSentAt = 0L
+    private var lastSignature: IntArray? = null   // last frame we paid to OCR
     private val model = "gemini-3.6-flash"
     private val channelId = "live_reader"
 
@@ -101,13 +102,23 @@ class ScreenReaderService : Service() {
             val image = r.acquireLatestImage() ?: return@setOnImageAvailableListener
             val now = System.currentTimeMillis()
             if (inFlight || now - lastSentAt < 2000) { image.close(); return@setOnImageAvailableListener }
+            val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
+            if (bmp == null) return@setOnImageAvailableListener
+            val sig = signature(bmp)
+            // FREE on-device cost savers: skip a blank/near-uniform view (no text)
+            // and skip a view identical to the last one we sent (you are still
+            // looking at the same thing). Only genuinely NEW content costs a call.
+            if (isBlank(sig) || similar(sig, lastSignature)) { bmp.recycle(); return@setOnImageAvailableListener }
+            lastSignature = sig
             lastSentAt = now
-            val jpeg = try { toJpeg(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
-            if (jpeg != null) { inFlight = true; send(jpeg) }
+            val jpeg = compressJpeg(bmp)
+            bmp.recycle()
+            inFlight = true
+            send(jpeg)
         }, Handler(Looper.getMainLooper()))
     }
 
-    private fun toJpeg(image: Image, dw: Int, dh: Int): ByteArray {
+    private fun imageToBitmap(image: Image, dw: Int, dh: Int): Bitmap {
         val plane = image.planes[0]
         val buffer = plane.buffer
         val pixelStride = plane.pixelStride
@@ -115,11 +126,45 @@ class ScreenReaderService : Service() {
         val rowPadding = rowStride - pixelStride * dw
         val bmp = Bitmap.createBitmap(dw + rowPadding / pixelStride, dh, Bitmap.Config.ARGB_8888)
         bmp.copyPixelsFromBuffer(buffer)
+        if (rowPadding == 0) return bmp
         val cropped = Bitmap.createBitmap(bmp, 0, 0, dw, dh)
+        bmp.recycle()
+        return cropped
+    }
+
+    private fun compressJpeg(bmp: Bitmap): ByteArray {
         val out = ByteArrayOutputStream()
-        cropped.compress(Bitmap.CompressFormat.JPEG, 70, out)
-        bmp.recycle(); cropped.recycle()
+        bmp.compress(Bitmap.CompressFormat.JPEG, 70, out)
         return out.toByteArray()
+    }
+
+    /** Cheap 8x8 grayscale perceptual signature for change/blank detection. */
+    private fun signature(bmp: Bitmap): IntArray {
+        val n = 8
+        val small = Bitmap.createScaledBitmap(bmp, n, n, true)
+        val sig = IntArray(n * n)
+        for (y in 0 until n) for (x in 0 until n) {
+            val c = small.getPixel(x, y)
+            sig[y * n + x] = (0.299 * ((c shr 16) and 0xFF) +
+                0.587 * ((c shr 8) and 0xFF) + 0.114 * (c and 0xFF)).toInt()
+        }
+        small.recycle()
+        return sig
+    }
+
+    private fun similar(a: IntArray, b: IntArray?): Boolean {
+        if (b == null || a.size != b.size) return false
+        var diff = 0
+        for (i in a.indices) diff += kotlin.math.abs(a[i] - b[i])
+        return diff < 8 * a.size   // avg per-cell luma change < 8/255 => same view
+    }
+
+    private fun isBlank(sig: IntArray): Boolean {
+        val mean = sig.average()
+        var variance = 0.0
+        for (v in sig) { val d = v - mean; variance += d * d }
+        variance /= sig.size
+        return variance < 40.0     // near-uniform => no text to read
     }
 
     private fun send(jpeg: ByteArray) {

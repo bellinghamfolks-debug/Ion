@@ -74,12 +74,13 @@ struct ConvertAPI {
         return r
     }
 
-    func createJob(pdf: Data, filename: String, model: String,
+    func createJob(pdf: Data, filename: String, model: String, mode: String,
                    options: [String: Any]) async throws -> String {
         var r = request("convert/jobs", method: "POST")
         let body: [String: Any] = [
             "filename": filename,
             "model": model,
+            "mode": mode,
             "options": options,
             "pdfBase64": pdf.base64EncodedString(),
         ]
@@ -148,6 +149,23 @@ enum GoogleModel: String, CaseIterable, Identifiable {
     }
 }
 
+enum ConversionMode: String, CaseIterable, Identifiable {
+    case accessible, layout
+    var id: String { rawValue }
+    var titleAr: String {
+        switch self {
+        case .accessible: return "وصولي (نص نظيف)"
+        case .layout: return "محافظ على التنسيق"
+        }
+    }
+    var hintAr: String {
+        switch self {
+        case .accessible: return "نص خطّي مرتّب — الأفضل لقارئ الشاشة."
+        case .layout: return "يعيد بناء تخطيط الملف الأصلي (خطوط، جداول، صور، مواضع)."
+        }
+    }
+}
+
 enum MathMode: String, CaseIterable, Identifiable {
     case off, words, latex
     var id: String { rawValue }
@@ -197,6 +215,7 @@ final class AppViewModel: ObservableObject {
     @AppStorage("model") private var modelRaw: String = GoogleModel.flashLite.rawValue
     @Published var selectedModel: GoogleModel = .flashLite
 
+    @Published var mode: ConversionMode = .accessible
     @Published var options = ConversionOptions()
     @Published var outputFormat: OutputFormat = .docx
 
@@ -229,6 +248,7 @@ final class AppViewModel: ObservableObject {
             let data = try Data(contentsOf: pdfURL)
             let jobId = try await api.createJob(pdf: data, filename: pdfURL.lastPathComponent,
                                                 model: selectedModel.rawValue,
+                                                mode: mode.rawValue,
                                                 options: options.dictionary)
             resultURL = nil
             announce("بدأ التحويل على الخادم. يمكنك إغلاق التطبيق؛ ستجد الملف في السجل.")
@@ -324,7 +344,17 @@ struct ContentView: View {
                     .accessibilityLabel("اختيار نموذج الذكاء الاصطناعي")
                     .accessibilityValue(vm.selectedModel.displayName)
 
-                    optionsSection
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("نمط التحويل").font(.headline)
+                        Picker("نمط التحويل", selection: $vm.mode) {
+                            ForEach(ConversionMode.allCases) { Text($0.titleAr).tag($0) }
+                        }
+                        .pickerStyle(.segmented)
+                        .accessibilityValue(vm.mode.titleAr)
+                        Text(vm.mode.hintAr).font(.caption).foregroundColor(.secondary)
+                    }
+
+                    if vm.mode == .accessible { optionsSection }
 
                     Text(vm.statusMessage)
                         .font(.title3).fontWeight(.bold).multilineTextAlignment(.center)

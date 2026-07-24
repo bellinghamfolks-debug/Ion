@@ -19,7 +19,7 @@ import { PDFDocument } from "pdf-lib";
 // extractPageText so even a load failure degrades gracefully (falls back to AI
 // vision) instead of taking the process down.
 import {
-  Document, Packer, Paragraph, HeadingLevel, TextRun,
+  Document, Packer, Paragraph, HeadingLevel, TextRun, PageBreak,
   Table, TableRow, TableCell, WidthType, Footer, PageNumber, AlignmentType,
 } from "docx";
 import { pool } from "../db.js";
@@ -441,22 +441,21 @@ async function renderPageJpeg(pdfPath, pageIndex) {
   });
 }
 
-// A short, direct prompt — the way the Gemini phone app reads an image you hand
-// it. Keep it simple: read the page and transcribe exactly. Over-constraining
-// the model hurts accuracy.
-function buildBasirPrompt(options = {}) {
-  const p = [
-    "Read this document page image and transcribe EVERYTHING you see, exactly as it is written, in the correct reading order.",
-    "Copy all text verbatim in its original language (keep Arabic as Arabic). Do NOT translate, summarise, correct, or add anything. Keep every name, number, date, code and amount exactly as shown.",
-    "Render each table as a GitHub-style Markdown pipe table (| a | b |) with a header separator row, same number of columns in every row.",
-  ];
-  if (options.describeImages !== false) {
-    p.push("Briefly describe any photo, logo, chart or QR code in [square brackets], including any text inside it.");
-  }
-  if (options.math === "words") p.push("Write mathematical equations in readable Arabic words.");
-  else if (options.math === "latex") p.push("Write mathematical equations as LaTeX in $...$.");
-  p.push("Output only the transcription — no commentary, no code fences.");
-  return p.join("\n");
+// Professional document-layout + OCR prompt (provided by the product owner).
+// Auto-detects language (Arabic stays Arabic, RTL preserved), reconstructs
+// tables/headings/lists, describes images in the native language, uses LaTeX
+// for maths, and outputs raw Markdown ready for Word — no filler.
+function buildBasirPrompt(_options = {}) {
+  return [
+    "You are an elite Document Layout Analysis and OCR AI. Your primary objective is to extract, process, and perfectly reconstruct all content from the provided document for seamless compilation into a professional Microsoft Word file. You must strictly execute the following directives:",
+    "* Language Adaptability & Localization: Auto-detect the primary language of the document. All extracted content, formatting structures, and generated metadata (e.g., image descriptions) MUST completely match the document's native language. If the document is in Arabic, all image descriptions must be written in Arabic, and Right-to-Left (RTL) logical flow must be strictly preserved.",
+    "* Comprehensive Image Analysis: Identify all images, graphs, diagrams, and illustrations. Replace them in the text flow with highly detailed, context-aware descriptions enclosed in brackets, such as [Image Description: ...], written exclusively in the document's detected native language.",
+    "* Complex Tabular Data: Reconstruct all tables with absolute structural precision. Preserve exact row/column integrity, hierarchical headers, merged cells, and data alignment using standard Markdown table syntax.",
+    "* Mathematical & Scientific Equations: If mathematical formulas or scientific notations are present, accurately detect and transcribe them using standard LaTeX formatting (enclosed in $ ... $ for inline equations and $$ ... $$ for block equations) to ensure flawless document rendering.",
+    "* Structural Integrity & Pagination: Retain the exact logical hierarchy of the document. Perfectly recreate all headings, subheadings, bulleted lists, numbered lists, multi-level numbering, footnotes, headers, and footers. Indicate page transitions explicitly using [Page Break].",
+    "* Fidelity: Transcribe every character exactly as written — never translate, correct, summarise, or invent. Copy every name, number, date, code and amount precisely.",
+    "* Output Constraints: Do not add any conversational filler, introductions, or summaries. Output exclusively the raw, highly formatted text ready for immediate Word document generation.",
+  ].join("\n");
 }
 
 // Detect the real image type from the base64 magic bytes (render_page.py may
@@ -924,6 +923,10 @@ function buildDocx(text) {
       continue;
     }
     if (isHorizontalRule(line)) { i++; continue; }
+    if (/^\s*\[page\s*break\]\s*$/i.test(line)) {
+      children.push(new Paragraph({ children: [new PageBreak()] }));
+      i++; continue;
+    }
     const hm = line.match(/^(#{1,6})\s+(.*)$/);
     if (hm) {
       const lvl = hm[1].length;

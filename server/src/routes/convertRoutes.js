@@ -138,7 +138,7 @@ async function geminiExtract(pageBase64, model, prompt) {
           { inline_data: { mime_type: "application/pdf", data: pageBase64 } },
         ],
       }],
-      generationConfig: { temperature: 0, maxOutputTokens: 4096 },
+      generationConfig: { temperature: 0, maxOutputTokens: 8192 },
     }),
   });
   if (!res.ok) {
@@ -147,6 +147,114 @@ async function geminiExtract(pageBase64, model, prompt) {
   }
   const data = await res.json();
   return (data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") || "").trim();
+}
+
+// Structured page extraction (the approach the mature PDFToWord app uses to get
+// tables right): ask Gemini for a JSON document model where tables are an
+// explicit rectangular grid of cell strings, then assemble the same "## heading"
+// + Markdown pipe-table text the DOCX builder already turns into REAL Word
+// tables. This fixes text-dense tables coming out empty from the plain prompt.
+function buildStructuredPrompt(options = {}) {
+  const rules = [
+    "You convert one document page into a faithful, editable, reading-order JSON model.",
+    "FIDELITY: transcribe every character EXACTLY as printed — do NOT correct, complete, translate, normalize, rephrase or guess. Copy every name, number, IBAN, date and amount precisely. Never replace an unclear glyph with a more common word or number. Preserve Arabic/Latin bidirectional text; never reverse identifiers, phone numbers, URLs or amounts.",
+    "Return an object { blocks: [...] } in true reading order (for multi-column pages finish the first column before the next).",
+    "Each block has: type = 'heading' | 'text' | 'table' | 'image'.",
+    "For 'heading' and 'text' put the exact content in `text`.",
+    "TABLES ARE CRITICAL: for every table set type='table' and fill `rows` as a rectangular 2D array rows[r][c] containing the EXACT text of EVERY cell — including cells that are full of text. Keep the SAME number of columns in every row (use \"\" for genuinely empty cells). Read cells left-to-right within a row; for a merged cell put its text once at its top-left position and \"\" in the covered cells. NEVER leave a table's cells empty when the table visibly contains text. Do not invent a table for a form, stamp or merely aligned prose.",
+  ];
+  if (options.describeImages) {
+    rules.push("For 'image' blocks put a DETAILED Arabic description in `text` (brand/logo, QR/barcode note, icon platform, photo scene, or chart type + key values).");
+  } else {
+    rules.push("For 'image' blocks put a short Arabic description in `text`.");
+  }
+  if (options.math === "words") {
+    rules.push("Write mathematical equations as readable Arabic words inside `text`.");
+  } else if (options.math === "latex") {
+    rules.push("Write mathematical equations as LaTeX delimited by $...$ inside `text`.");
+  }
+  rules.push("Return ONLY JSON matching the schema — no commentary, no code fences.");
+  return rules.join(" ");
+}
+
+const STRUCTURED_SCHEMA = {
+  type: "object",
+  properties: {
+    blocks: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          type: { type: "string", enum: ["heading", "text", "table", "image"] },
+          text: { type: "string" },
+          rows: { type: "array", items: { type: "array", items: { type: "string" } } },
+        },
+        required: ["type"],
+      },
+    },
+  },
+  required: ["blocks"],
+};
+
+// Turn the structured blocks into the "## heading" + Markdown pipe-table text
+// that buildDocx renders as real headings and real Word tables.
+function assembleBlocks(blocks, options = {}) {
+  const out = [];
+  for (const b of Array.isArray(blocks) ? blocks : []) {
+    const type = b?.type;
+    if (type === "table" && Array.isArray(b.rows) && b.rows.length) {
+      const rows = b.rows.map((r) => (Array.isArray(r) ? r.map((c) => String(c ?? "").replace(/\s*\n\s*/g, " ").trim()) : []));
+      const cols = Math.max(1, ...rows.map((r) => r.length));
+      const pad = (r) => Array.from({ length: cols }, (_, i) => (r[i] ?? "").replace(/\|/g, "\\|"));
+      out.push(`| ${pad(rows[0]).join(" | ")} |`);
+      out.push(`|${Array.from({ length: cols }, () => "---").join("|")}|`);
+      for (let i = 1; i < rows.length; i++) out.push(`| ${pad(rows[i]).join(" | ")} |`);
+    } else if (type === "heading") {
+      const t = String(b.text ?? "").trim();
+      if (t) out.push(`## ${t}`);
+    } else if (type === "image") {
+      const t = String(b.text ?? "").trim();
+      if (t) out.push(options.describeImages ? `[صورة: ${t}]` : t);
+    } else {
+      const t = String(b?.text ?? "").trim();
+      if (t) out.push(t);
+    }
+  }
+  return out.join("\n");
+}
+
+async function geminiExtractStructured(pageBase64, model, options = {}) {
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) { const e = new Error("ai_unavailable"); e.status = 503; throw e; }
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{
+        role: "user",
+        parts: [
+          { text: buildStructuredPrompt(options) },
+          { inline_data: { mime_type: "application/pdf", data: pageBase64 } },
+        ],
+      }],
+      generationConfig: {
+        temperature: 0,
+        maxOutputTokens: 8192,
+        responseMimeType: "application/json",
+        responseSchema: STRUCTURED_SCHEMA,
+      },
+    }),
+  });
+  if (!res.ok) {
+    const detail = await res.text();
+    throw new Error(`gemini ${res.status}: ${detail.slice(0, 200)}`);
+  }
+  const data = await res.json();
+  const raw = (data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") || "").trim();
+  if (!raw) return "";
+  const parsed = JSON.parse(raw); // may throw -> caller falls back to plain
+  return assembleBlocks(parsed.blocks, options).trim();
 }
 
 // Extract the EMBEDDED text layer of a page EXACTLY as authored (no AI, so no
@@ -393,9 +501,20 @@ async function processJob(jobId) {
             }
           }
           // 3) No reliable text (scanned image / garbled layer) -> AI vision OCR.
+          //    Use STRUCTURED extraction so text-dense tables are captured as
+          //    real tables (like the mature PDFToWord app); fall back to the
+          //    plain transcription prompt if the JSON can't be produced/parsed.
           if (text.replace(/\s/g, "").length < 15) {
             const b64 = await singlePageBase64(pdfBytes, pageNo - 1);
-            text = await geminiExtract(b64, model, prompt);
+            try {
+              text = await geminiExtractStructured(b64, model, jobOptions);
+            } catch (e) {
+              console.error(`structured extract failed for ${jobId} p${pageNo}, using plain:`, e.message);
+              text = "";
+            }
+            if (text.replace(/\s/g, "").length < 3) {
+              text = await geminiExtract(b64, model, prompt);
+            }
           }
           await pool.query(
             "UPDATE conversion_pages SET status = 'done', text = $3 WHERE job_id = $1 AND page_no = $2",

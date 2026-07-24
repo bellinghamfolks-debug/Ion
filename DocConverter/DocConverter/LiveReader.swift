@@ -22,6 +22,7 @@ final class LiveReaderModel {
     var model = "gemini-3.6-flash"
 
     private let synth = AVSpeechSynthesizer()
+    private var lastSpokenNorm = ""
 
     func start() {
         // Background playback so speech continues while the user is in eSight.
@@ -52,14 +53,35 @@ final class LiveReaderModel {
         running = false
     }
 
-    /// New text arrived from the extension: read it and speak it.
+    /// New text arrived from the extension: read it automatically. Skips
+    /// near-duplicates (same normalised text, or one contained in the other) so
+    /// panning the glasses over the same text doesn't re-read it.
     func pickup() {
         guard let d = UserDefaults(suiteName: Self.appGroup),
               let text = d.string(forKey: "live.text") else { return }
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, trimmed != lastText else { return }
+        guard !trimmed.isEmpty else { return }
+        let norm = normalize(trimmed)
+        guard norm.count >= 2 else { return }
+        if norm == lastSpokenNorm
+            || (lastSpokenNorm.count >= 8 && (lastSpokenNorm.contains(norm) || norm.contains(lastSpokenNorm))) {
+            return
+        }
+        lastSpokenNorm = norm
         lastText = trimmed
         speak(trimmed)
+    }
+
+    /// Normalise for duplicate detection: collapse whitespace, drop Arabic
+    /// diacritics/tatweel, lowercase.
+    private func normalize(_ s: String) -> String {
+        let stripped = s.unicodeScalars.filter { sc in
+            !(0x064B...0x0652).contains(sc.value) && sc.value != 0x0640
+        }
+        return String(String.UnicodeScalarView(stripped))
+            .replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased()
     }
 
     func speak(_ text: String) {

@@ -182,15 +182,16 @@ struct JobSummary: Codable, Identifiable {
 // MARK: - Conversion choices
 
 enum GoogleModel: String, CaseIterable, Identifiable {
-    // EXACT model ids the Basir Android app uses, so accuracy matches it.
-    case flashLite = "gemini-3.1-flash-lite"
-    case flash = "gemini-3.5-flash"
+    // Newest available Gemini models (gemini-3.6-flash is the latest GA Flash,
+    // released 2026-07-21 — newer/stronger than what Basir shipped with).
+    case flashLite = "gemini-3.5-flash-lite"
+    case flash = "gemini-3.6-flash"
     case pro = "gemini-3.1-pro-preview"
     var id: String { rawValue }
     var displayName: String {
         switch self {
-        case .flashLite: return "جيميني 3.1 لايت (أسرع وأوفر)"
-        case .flash: return "جيميني 3.5 فلاش (موصى به)"
+        case .flashLite: return "جيميني 3.5 لايت (أسرع وأوفر)"
+        case .flash: return "جيميني 3.6 فلاش (الأحدث، موصى به)"
         case .pro: return "جيميني 3.1 برو (الأقوى)"
         }
     }

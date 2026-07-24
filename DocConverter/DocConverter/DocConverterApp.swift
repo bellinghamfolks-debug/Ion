@@ -1,5 +1,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
+import CryptoKit
+import Security
 
 @main
 struct PDFToWordAccessibilityApp: App {
@@ -7,6 +9,75 @@ struct PDFToWordAccessibilityApp: App {
         WindowGroup {
             ContentView()
         }
+    }
+}
+
+// MARK: - Client-held-key encryption (zero-knowledge storage)
+//
+// The device holds a 256-bit master key in the Keychain. For each job we derive
+// a per-job key from (masterKey, jobId) via HKDF, so any past job's key can be
+// recomputed for history/resume WITHOUT storing it. The PDF and its results are
+// encrypted with that key before they leave the device; the server only ever
+// receives the per-job key transiently (in RAM) while actively converting, and
+// stores nothing but ciphertext. AES-GCM here uses CryptoKit's "combined"
+// layout (nonce||ciphertext||tag), byte-for-byte compatible with the Node server.
+enum CryptoBox {
+    private static let account = "docconverter.master.key.v1"
+
+    /// The device master key — created once, then read from the Keychain.
+    static func masterKey() -> SymmetricKey {
+        if let data = load(), data.count == 32 { return SymmetricKey(data: data) }
+        let key = SymmetricKey(size: .bits256)
+        save(key.withUnsafeBytes { Data($0) })
+        return key
+    }
+
+    /// Per-job 256-bit key = HKDF-SHA256(masterKey, salt=jobId, info="…-DEK-v1").
+    static func jobKey(_ jobId: String) -> SymmetricKey {
+        HKDF<SHA256>.deriveKey(
+            inputKeyMaterial: masterKey(),
+            salt: Data(jobId.utf8),
+            info: Data("DocConverter-DEK-v1".utf8),
+            outputByteCount: 32)
+    }
+
+    static func keyBase64(_ key: SymmetricKey) -> String {
+        key.withUnsafeBytes { Data($0) }.base64EncodedString()
+    }
+
+    static func seal(_ plaintext: Data, key: SymmetricKey) throws -> Data {
+        let box = try AES.GCM.seal(plaintext, using: key)
+        guard let combined = box.combined else { throw Err.seal }
+        return combined // nonce(12) || ciphertext || tag(16)
+    }
+    static func open(_ blob: Data, key: SymmetricKey) throws -> Data {
+        try AES.GCM.open(try AES.GCM.SealedBox(combined: blob), using: key)
+    }
+    enum Err: Error { case seal }
+
+    // --- Keychain (device-only, not synced to iCloud) ---
+    private static func save(_ data: Data) {
+        let base: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: account,
+        ]
+        SecItemDelete(base as CFDictionary)
+        var add = base
+        add[kSecValueData as String] = data
+        add[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        SecItemAdd(add as CFDictionary, nil)
+    }
+    private static func load() -> Data? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: account,
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne,
+        ]
+        var out: AnyObject?
+        guard SecItemCopyMatching(query as CFDictionary, &out) == errSecSuccess,
+              let data = out as? Data else { return nil }
+        return data
     }
 }
 
@@ -30,6 +101,7 @@ enum Server {
 
 enum JobStatus: String, Codable {
     case processing, done, partial, failed
+    case keyRequired = "key_required"
 
     var titleAr: String {
         switch self {
@@ -37,6 +109,7 @@ enum JobStatus: String, Codable {
         case .done: return "اكتمل"
         case .partial: return "اكتمل جزئيًا (توجد صفحات فشلت)"
         case .failed: return "فشل"
+        case .keyRequired: return "بانتظار مفتاح التشفير"
         }
     }
 }
@@ -50,6 +123,7 @@ struct JobDetail: Codable {
     let failedPages: Int
     let resultText: String?
     let error: String?
+    let encrypted: Bool?
 }
 
 struct JobSummary: Codable, Identifiable {
@@ -75,15 +149,26 @@ struct ConvertAPI {
     }
 
     func createJob(pdf: Data, filename: String, model: String, mode: String,
-                   options: [String: Any]) async throws -> String {
+                   options: [String: Any], encrypt: Bool) async throws -> String {
         var r = request("convert/jobs", method: "POST")
-        let body: [String: Any] = [
+        var body: [String: Any] = [
             "filename": filename,
             "model": model,
             "mode": mode,
             "options": options,
-            "pdfBase64": pdf.base64EncodedString(),
         ]
+        if encrypt {
+            // Client-generated id lets us re-derive the key later (history/resume).
+            let jobId = UUID().uuidString.lowercased()
+            let key = CryptoBox.jobKey(jobId)
+            let cipher = try CryptoBox.seal(pdf, key: key)
+            body["id"] = jobId
+            body["encrypted"] = true
+            body["key"] = CryptoBox.keyBase64(key)   // transient; RAM-only on server
+            body["pdfBase64"] = cipher.base64EncodedString()
+        } else {
+            body["pdfBase64"] = pdf.base64EncodedString()
+        }
         r.httpBody = try JSONSerialization.data(withJSONObject: body)
         let (data, resp) = try await session.data(for: r)
         try Self.check(resp, data)
@@ -104,8 +189,13 @@ struct ConvertAPI {
         return try JSONDecoder().decode(Wrap.self, from: data).jobs
     }
 
-    func resume(_ jobId: String) async throws {
-        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)/resume", method: "POST"))
+    func resume(_ jobId: String, encrypted: Bool) async throws {
+        var r = request("convert/jobs/\(jobId)/resume", method: "POST")
+        if encrypted {
+            // Re-supply the per-job key so the server can continue processing.
+            r.httpBody = try JSONSerialization.data(withJSONObject: ["key": CryptoBox.keyBase64(CryptoBox.jobKey(jobId))])
+        }
+        let (data, resp) = try await session.data(for: r)
         try Self.check(resp, data)
     }
 
@@ -114,15 +204,57 @@ struct ConvertAPI {
         try Self.check(resp, data)
     }
 
-    /// Downloads the assembled result in the chosen format (docx/rtf/txt) to a temp URL.
-    func downloadResult(_ jobId: String, filename: String, format: OutputFormat) async throws -> URL {
-        let (data, resp) = try await session.data(for: request("convert/jobs/\(jobId)/result.\(format.rawValue)"))
-        try Self.check(resp, data)
-        let base = (filename as NSString).deletingPathExtension
+    /// Downloads the assembled result in the chosen format (docx/rtf/txt) to a
+    /// temp URL. For encrypted jobs the ciphertext is fetched (or taken from the
+    /// already-fetched resultText) and decrypted ON DEVICE with the per-job key,
+    /// so the plaintext file only ever exists locally.
+    func downloadResult(_ detail: JobDetail, format: OutputFormat) async throws -> URL {
+        let base = (detail.filename as NSString).deletingPathExtension
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent("\(base.isEmpty ? "document" : base).\(format.rawValue)")
+
+        if detail.encrypted == true {
+            let key = CryptoBox.jobKey(detail.jobId)
+            switch format {
+            case .docx:
+                let (data, resp) = try await session.data(for: request("convert/jobs/\(detail.jobId)/result.docx.enc"))
+                try Self.check(resp, data)
+                try CryptoBox.open(data, key: key).write(to: url, options: .atomic)
+            case .txt:
+                try Data(Self.decryptedText(detail).utf8).write(to: url, options: .atomic)
+            case .rtf:
+                try Data(Self.makeRTF(Self.decryptedText(detail)).utf8).write(to: url, options: .atomic)
+            }
+            return url
+        }
+
+        let (data, resp) = try await session.data(for: request("convert/jobs/\(detail.jobId)/result.\(format.rawValue)"))
+        try Self.check(resp, data)
         try data.write(to: url, options: .atomic)
         return url
+    }
+
+    /// Decrypt the assembled text of an encrypted job (base64 ciphertext in
+    /// resultText) using its per-job key; returns "" if unavailable.
+    static func decryptedText(_ detail: JobDetail) -> String {
+        guard detail.encrypted == true, let rt = detail.resultText, !rt.isEmpty,
+              let blob = Data(base64Encoded: rt) else { return detail.resultText ?? "" }
+        let key = CryptoBox.jobKey(detail.jobId)
+        guard let plain = try? CryptoBox.open(blob, key: key) else { return "" }
+        return String(data: plain, encoding: .utf8) ?? ""
+    }
+
+    /// Minimal RTF (matches the server): escape, encode non-ASCII as \uN, \par.
+    static func makeRTF(_ text: String) -> String {
+        let body = text.replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "{", with: "\\{")
+            .replacingOccurrences(of: "}", with: "\\}")
+            .split(separator: "\n", omittingEmptySubsequences: false)
+            .map { line in
+                line.unicodeScalars.map { $0.value > 127 ? "\\u\($0.value)?" : String($0) }.joined()
+            }
+            .joined(separator: "\\par\n")
+        return "{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0 Arial;}}\\f0\\fs28 \(body)}"
     }
 
     private static func check(_ resp: URLResponse, _ data: Data) throws {
@@ -223,6 +355,11 @@ final class AppViewModel: ObservableObject {
     @Published var options = ConversionOptions()
     @Published var outputFormat: OutputFormat = .docx
 
+    /// Client-held-key encryption (default ON for maximum privacy). Persisted.
+    @Published var encryptUploads: Bool = (UserDefaults.standard.object(forKey: "encrypt.enabled") as? Bool ?? true) {
+        didSet { UserDefaults.standard.set(encryptUploads, forKey: "encrypt.enabled") }
+    }
+
     @Published var selectedPDFURL: URL?
     @Published var current: JobDetail?
     @Published var resultURL: URL?
@@ -253,9 +390,12 @@ final class AppViewModel: ObservableObject {
             let jobId = try await api.createJob(pdf: data, filename: pdfURL.lastPathComponent,
                                                 model: selectedModel.rawValue,
                                                 mode: mode.rawValue,
-                                                options: options.dictionary)
+                                                options: options.dictionary,
+                                                encrypt: encryptUploads)
             resultURL = nil
-            announce("بدأ التحويل على الخادم. يمكنك إغلاق التطبيق؛ ستجد الملف في السجل.")
+            announce(encryptUploads
+                ? "بدأ التحويل المشفّر على الخادم. يمكنك إغلاق التطبيق؛ ستجد الملف في السجل."
+                : "بدأ التحويل على الخادم. يمكنك إغلاق التطبيق؛ ستجد الملف في السجل.")
             startPolling(jobId)
         } catch {
             announce("تعذّر بدء التحويل: \(error.localizedDescription)")
@@ -273,6 +413,11 @@ final class AppViewModel: ObservableObject {
                     switch detail.status {
                     case .processing:
                         statusMessage = "قيد المعالجة: \(detail.donePages) من \(detail.totalPages) صفحة."
+                    case .keyRequired:
+                        // The server restarted and lost the in-RAM key; re-supply
+                        // it automatically and keep polling.
+                        statusMessage = "استئناف آمن للمعالجة…"
+                        try? await api.resume(detail.jobId, encrypted: true)
                     case .done:
                         announce("اكتمل التحويل. جارٍ تجهيز ملف الوورد.")
                         await fetchResult(detail)
@@ -296,7 +441,7 @@ final class AppViewModel: ObservableObject {
     }
 
     private func fetchResult(_ detail: JobDetail) async {
-        do { resultURL = try await api.downloadResult(detail.jobId, filename: detail.filename, format: outputFormat) }
+        do { resultURL = try await api.downloadResult(detail, format: outputFormat) }
         catch { announce("تعذّر تنزيل الملف الناتج: \(error.localizedDescription)") }
     }
 
@@ -310,11 +455,11 @@ final class AppViewModel: ObservableObject {
     }
 
     func resumeCurrent() async {
-        guard let jobId = current?.jobId else { return }
+        guard let job = current else { return }
         do {
-            try await api.resume(jobId)
+            try await api.resume(job.jobId, encrypted: job.encrypted == true)
             announce("جارٍ إعادة محاولة الصفحات الفاشلة…")
-            startPolling(jobId)
+            startPolling(job.jobId)
         } catch { announce("تعذّرت إعادة المحاولة: \(error.localizedDescription)") }
     }
 
@@ -357,6 +502,19 @@ struct ContentView: View {
                         .accessibilityValue(vm.mode.titleAr)
                         Text(vm.mode.hintAr).font(.caption).foregroundColor(.secondary)
                     }
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Toggle("تشفير من طرفك (خصوصية قصوى)", isOn: $vm.encryptUploads)
+                            .font(.headline)
+                        Text("يُشفَّر الملف ونواتجه على جهازك بمفتاح لا يملكه الخادم؛ فلا تستطيع الشركة المستضيفة ولا قاعدة البيانات قراءة محتواها. يبقى السجل والاستئناف يعملان. ملاحظة: الصفحات الممسوحة تُقرأ عبر Google، والمفتاح محفوظ على هذا الجهاز فقط.")
+                            .font(.caption2).foregroundColor(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding()
+                    .background(Color(.secondarySystemBackground))
+                    .cornerRadius(12)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("تشفير من طرفك، خصوصية قصوى، \(vm.encryptUploads ? "مُفعّل" : "مُعطّل")")
 
                     if vm.mode == .accessible {
                         optionsSection

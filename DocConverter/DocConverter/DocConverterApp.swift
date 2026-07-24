@@ -46,27 +46,27 @@ enum EncryptionLevel: String, CaseIterable, Identifiable {
     var titleAr: String {
         switch self {
         case .off:    return "بدون تشفير"
-        case .atRest: return "تخزين مشفّر (موصى به)"
-        case .e2e:    return "طرف-لطرف صارم (على الجهاز)"
+        case .atRest: return "تشفير عند الحفظ (موصى به)"
+        case .e2e:    return "تشفير تامّ على جهازك"
         }
     }
 
     var subtitleAr: String {
         switch self {
         case .off:
-            return "يعالج الخادم الملف ويخزّنه كنص صريح. الأسرع، والأقل خصوصية."
+            return "يُعالَج الملف على الخادم ويُحفَظ كنصّ ظاهر. الأسرع، والأقلّ خصوصية."
         case .atRest:
-            return "يُشفَّر الملف ونواتجه بمفتاح على جهازك، فلا تقرأها قاعدة البيانات ولا المضيف وقت التخزين. يعالج الخادم المحتوى للحظات في الذاكرة فقط، والصفحات الممسوحة تُقرأ عبر Google."
+            return "يُشفَّر الملف ونتائجه بمفتاح لا يملكه إلا جهازك، فلا يقرؤها الخادم ولا قاعدة البيانات عند الحفظ. تُعالَج على الخادم لحظيًّا في الذاكرة فقط، والصفحات الممسوحة تُقرأ عبر خدمة Google."
         case .e2e:
-            return "يتم التحويل بالكامل داخل جهازك (قراءة نصية + تعرّف ضوئي عربي من Apple)، ولا يُرفع الملف ولا أي جزء منه إلى أي خادم أو إلى Google إطلاقاً. الأعلى خصوصية — للملفات الحساسة. لا يعمل في الخلفية."
+            return "يجري التحويل بالكامل داخل جهازك (قراءة النص + تعرّف ضوئي عربي من Apple)، ولا يُرفَع الملف ولا أيّ جزء منه إلى أيّ خادم أو إلى Google. الأعلى خصوصية، للملفات الحسّاسة — ولا يعمل في الخلفية."
         }
     }
 
     var badgeAr: String {
         switch self {
         case .off:    return "🔓 بدون تشفير"
-        case .atRest: return "🔒 تخزين مشفّر"
-        case .e2e:    return "🛡️ طرف-لطرف صارم"
+        case .atRest: return "🔒 تشفير عند الحفظ"
+        case .e2e:    return "🛡️ تشفير تامّ على جهازك"
         }
     }
 }
@@ -194,14 +194,14 @@ enum ConversionMode: String, CaseIterable, Identifiable {
     var id: String { rawValue }
     var titleAr: String {
         switch self {
-        case .accessible: return "وصولي (نص نظيف)"
-        case .layout: return "محافظ على التنسيق"
+        case .accessible: return "نص مُيسّر للقراءة"
+        case .layout: return "بتنسيق المستند الأصلي"
         }
     }
     var hintAr: String {
         switch self {
-        case .accessible: return "نص خطّي مرتّب — الأفضل لقارئ الشاشة."
-        case .layout: return "يعيد بناء تخطيط الملف الأصلي (خطوط، جداول، صور، مواضع)."
+        case .accessible: return "نص مرتّب ومتسلسل، الأنسب لقارئ الشاشة والقراءة الصوتية."
+        case .layout: return "يعيد بناء شكل المستند الأصلي: الخطوط والجداول والصور ومواضعها."
         }
     }
 }
@@ -212,7 +212,7 @@ enum MathMode: String, CaseIterable, Identifiable {
     var titleAr: String {
         switch self {
         case .off: return "بدون"
-        case .words: return "كلمات مقروءة"
+        case .words: return "نُطق بالكلمات"
         case .latex: return "LaTeX"
         }
     }
@@ -385,14 +385,37 @@ enum LocalConverter {
             var text = ""
             if let page = doc.page(at: i) {
                 text = page.string ?? ""
-                if text.trimmingCharacters(in: .whitespacesAndNewlines).count < 15 {
-                    text = await ocr(page: page)   // scanned -> on-device OCR
+                // The embedded text layer is often EMPTY (scanned) or GARBLED
+                // (symbolic fonts with no ToUnicode map — Arabic comes out as
+                // latin gibberish). In both cases render the page and read it
+                // with Apple's on-device OCR (Vision), which reads the actual
+                // pixels: faithful, private, and never fabricates like an LLM.
+                if text.trimmingCharacters(in: .whitespacesAndNewlines).count < 15
+                    || looksGarbled(text) {
+                    text = await ocr(page: page)
                 }
             }
             out.append(pageNumbers ? "## صفحة \(i + 1)\n\(text)" : text)
             progress(i + 1, n)
         }
         return out.joined(separator: "\n\n")
+    }
+
+    /// Detect an unreliable/garbled text layer (mirrors the server's
+    /// extract_page.py): many replacement / private-use glyphs, or a very low
+    /// ratio of real letters/digits (a page mostly of odd symbols).
+    static func looksGarbled(_ s: String) -> Bool {
+        let scalars = s.unicodeScalars.filter { !CharacterSet.whitespacesAndNewlines.contains($0) }
+        let n = scalars.count
+        guard n >= 20 else { return false }
+        var bad = 0, alnum = 0
+        for u in scalars {
+            if u.value == 0xFFFD || (0xE000...0xF8FF).contains(u.value) { bad += 1 }
+            if CharacterSet.alphanumerics.contains(u) { alnum += 1 }
+        }
+        if Double(bad) / Double(n) > 0.02 { return true }
+        if Double(alnum) / Double(n) < 0.5 { return true }
+        return false
     }
 
     private static func ocr(page: PDFPage) async -> String {
@@ -780,7 +803,7 @@ struct ContentView: View {
                 }
                 .padding()
             }
-            .navigationTitle("محول المستندات")
+            .navigationTitle("مُحوّل المستندات")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button { Task { await vm.refreshHistory() }; showingHistory = true } label: {
@@ -830,11 +853,11 @@ struct ContentView: View {
 
     @ViewBuilder private var controls: some View {
         VStack(spacing: 16) {
-            bigButton(vm.selectedPDFURL == nil ? "اختيار ملف PDF" : "تغيير الملف (\(vm.selectedPDFURL!.lastPathComponent))",
+            bigButton(vm.selectedPDFURL == nil ? "اختيار ملف PDF" : "تغيير الملف: \(vm.selectedPDFURL!.lastPathComponent)",
                       icon: "doc.text.viewfinder", color: .blue) { showingFilePicker = true }
 
             if vm.selectedPDFURL != nil {
-                bigButton(vm.isUploading ? "جارٍ التحويل…" : (vm.privacy == .e2e ? "بدء التحويل على الجهاز" : "بدء التحويل على الخادم"),
+                bigButton(vm.isUploading ? "جارٍ التحويل…" : "ابدأ التحويل",
                           icon: "arrow.up.doc", color: vm.isUploading ? .gray : .green,
                           loading: vm.isUploading) {
                     Task { await vm.startConversion() }
@@ -843,7 +866,7 @@ struct ContentView: View {
             }
 
             if vm.current?.status == .partial {
-                bigButton("إعادة محاولة الصفحات الفاشلة", icon: "arrow.clockwise", color: .orange) {
+                bigButton("إعادة محاولة الصفحات التي لم تكتمل", icon: "arrow.clockwise", color: .orange) {
                     Task { await vm.resumeCurrent() }
                 }
             }
@@ -925,7 +948,7 @@ struct SettingsView: View {
                 }
 
                 if vm.privacy != .e2e {
-                    Section("خيارات التحويل (الوضع الوصولي)") {
+                    Section("خيارات النص المُيسّر") {
                         Toggle("دقّة حرفية (بلا تعديل من الذكاء)", isOn: $vm.options.faithful)
                         Toggle("اكتشاف العناوين وتنسيقها", isOn: $vm.options.detectHeadings)
                         Toggle("وصف مفصّل للصور المُضمَّنة", isOn: $vm.options.describeImages)

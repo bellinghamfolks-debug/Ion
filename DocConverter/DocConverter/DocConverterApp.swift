@@ -650,7 +650,19 @@ final class AppViewModel {
 
     init() {
         let d = UserDefaults.standard
-        selectedModel = GoogleModel(rawValue: d.string(forKey: "model") ?? "") ?? .flashLite
+        // Default to the higher-accuracy Flash model (Flash-Lite invents text on
+        // scanned Arabic). New installs get Flash; existing users still on the old
+        // Lite default are migrated up ONCE, then remain free to choose Lite again.
+        let storedModel = d.string(forKey: "model") ?? ""
+        if storedModel.isEmpty {
+            selectedModel = .flash
+        } else if storedModel == GoogleModel.flashLite.rawValue && !d.bool(forKey: "model.migratedToFlash") {
+            d.set(true, forKey: "model.migratedToFlash")
+            d.set(GoogleModel.flash.rawValue, forKey: "model")
+            selectedModel = .flash
+        } else {
+            selectedModel = GoogleModel(rawValue: storedModel) ?? .flash
+        }
         privacy = EncryptionLevel(rawValue: d.string(forKey: "privacy.level") ?? "") ?? .atRest
         outputFormat = OutputFormat(rawValue: d.string(forKey: "output.format") ?? "") ?? .docx
         localHistory = LocalStore.list()

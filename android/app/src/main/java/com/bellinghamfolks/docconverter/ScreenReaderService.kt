@@ -739,7 +739,7 @@ class ScreenReaderService : Service() {
         }
         val gxN = 8; val gyN = 8
         val cellEdges = IntArray(gxN * gyN)
-        val cellGrad = LongArray(gxN * gyN)
+        val cellGrad = IntArray(gxN * gyN)   // cell gradient sums fit in Int (<~1.2M)
         var total = 0
         val thr = 36                       // strong-edge threshold
         for (y in 1 until h - 1) {

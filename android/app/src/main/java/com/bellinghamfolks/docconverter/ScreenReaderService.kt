@@ -241,12 +241,45 @@ class ScreenReaderService : Service() {
 
     private fun recognizeLocal(bmp: Bitmap): String {
         val api = localOcr ?: return ""
+        val prepped = preprocessForOcr(bmp)
         return synchronized(api) {
-            api.setImage(bmp)
+            api.setImage(prepped)
             val t = api.getUTF8Text() ?: ""
             api.clear()
+            if (prepped !== bmp) prepped.recycle()
             t.trim()
         }
+    }
+
+    /**
+     * Grayscale + global contrast stretch. Tesseract binarises internally (Otsu),
+     * which fails on low-contrast/photographic camera frames; normalising the
+     * luminance range first makes real-world text far more readable on-device.
+     */
+    private fun preprocessForOcr(src: Bitmap): Bitmap {
+        val w = src.width; val h = src.height
+        if (w <= 0 || h <= 0) return src
+        val px = IntArray(w * h)
+        src.getPixels(px, 0, w, 0, 0, w, h)
+        val lum = IntArray(w * h)
+        var mn = 255; var mx = 0
+        for (i in px.indices) {
+            val c = px[i]
+            val g = (0.299 * ((c shr 16) and 0xFF) +
+                0.587 * ((c shr 8) and 0xFF) + 0.114 * (c and 0xFF)).toInt()
+            lum[i] = g
+            if (g < mn) mn = g
+            if (g > mx) mx = g
+        }
+        val range = (mx - mn).coerceAtLeast(1)
+        for (i in lum.indices) {
+            var v = (lum[i] - mn) * 255 / range
+            if (v < 0) v = 0 else if (v > 255) v = 255
+            px[i] = (0xFF shl 24) or (v shl 16) or (v shl 8) or v
+        }
+        val out = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        out.setPixels(px, 0, w, 0, 0, w, h)
+        return out
     }
 
     /**
@@ -333,7 +366,10 @@ class ScreenReaderService : Service() {
                 ensureTraineddata(dataDir)
                 val api = TessBaseAPI()
                 if (api.init(dataDir.absolutePath, "ara+eng")) {
-                    api.pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO
+                    // SPARSE_TEXT finds text anywhere in a real-world scene without
+                    // assuming a clean page layout — far more robust than PSM_AUTO
+                    // on photographic camera frames (signs, labels, held pages).
+                    api.pageSegMode = TessBaseAPI.PageSegMode.PSM_SPARSE_TEXT
                     localOcr = api
                     localReady = true
                     announce("الماسح المحلي جاهز، يعمل الآن بدون إنترنت.")

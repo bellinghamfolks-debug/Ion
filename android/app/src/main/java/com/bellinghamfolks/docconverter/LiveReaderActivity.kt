@@ -22,6 +22,10 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Sets up and starts the glasses live reader. Lets the user choose the analysis
@@ -162,6 +166,34 @@ class LiveReaderActivity : AppCompatActivity() {
             else "بث مباشر مفعّل."
         }
         root.addView(trigGroup)
+
+        // --- Pre-download local models (with precise progress) ---
+        root.addView(sectionLabel("النماذج المحلية"))
+        root.addView(TextView(this).apply {
+            text = "نزّل نماذج الوضع المحلي/PaddleOCR قبل البدء ليعمل بلا إنترنت. اختر الوضع المحلي أعلاه ثم نزّل."
+            textSize = 15f; setPadding(0, 8, 0, 8)
+        })
+        val dlStatus = TextView(this).apply { text = ""; textSize = 16f; setPadding(0, 4, 0, 8) }
+        root.addView(dlStatus)
+        root.addView(bigButton("تنزيل النماذج المحلية (بتقدّم)") {
+            val mode = prefs.getString("ocr_mode", "online")
+            if (mode == "online") { dlStatus.text = "اختر «محلي» أو «PaddleOCR» أولًا."; return@bigButton }
+            dlStatus.text = "بدء التنزيل…"
+            lifecycleScope.launch {
+                val err = withContext(Dispatchers.IO) {
+                    if (mode == "paddle")
+                        PaddleOcr(this@LiveReaderActivity).downloadModels { p ->
+                            runOnUiThread { dlStatus.text = "تنزيل PaddleOCR: $p%" }
+                        }
+                    else
+                        ModelStore.downloadTess(this@LiveReaderActivity) { p ->
+                            runOnUiThread { dlStatus.text = "تنزيل النموذج المحلي: $p%" }
+                        }
+                }
+                dlStatus.text = if (err == null) "اكتمل التنزيل ✅ — النماذج جاهزة للعمل بلا إنترنت."
+                else "تعذّر التنزيل: $err — تأكّد من الإنترنت وأعد المحاولة."
+            }
+        })
 
         // Floating button lets on-demand work WITHOUT leaving the eSight app.
         root.addView(TextView(this).apply {

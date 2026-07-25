@@ -83,6 +83,31 @@ class PaddleOcr(private val ctx: Context) {
         }
     }
 
+    /** Pre-download the models (same paths setup() uses) with 0..100 progress. */
+    fun downloadModels(onProgress: (Int) -> Unit): String? {
+        return try {
+            val dir = File(ctx.filesDir, "paddle").apply { mkdirs() }
+            val detFile = File(dir, "det.onnx")
+            val recFile = File(dir, "rec.onnx")
+            val dictFile = File(dir, "dict.txt")
+            if (!nonEmpty(detFile)) {
+                var ok = false
+                for (u in detUrls) { detFile.delete(); if (ModelStore.download(u, detFile) { p -> onProgress(p / 2) }) { ok = true; break } }
+                if (!ok) return "det_download"
+            } else onProgress(50)
+            if (!(nonEmpty(recFile) && nonEmpty(dictFile))) {
+                var ok = false
+                for ((ru, du) in recDictPairs) {
+                    recFile.delete(); dictFile.delete()
+                    if (ModelStore.download(ru, recFile) { p -> onProgress(50 + p / 2) } && ModelStore.download(du, dictFile) { }) { ok = true; break }
+                }
+                if (!ok) return "rec_download"
+            }
+            onProgress(100)
+            null
+        } catch (e: Exception) { "paddle:" + (e.message ?: "err").take(40) }
+    }
+
     private fun nonEmpty(f: File): Boolean = f.exists() && f.length() > 0
 
     /** Download url -> f, returning true only on an HTTP 2xx with real bytes. */
@@ -109,11 +134,12 @@ class PaddleOcr(private val ctx: Context) {
         val e = env ?: return ""
         val d = det ?: return ""
         val r = rec ?: return ""
-        val boxes = try { detect(e, d, src) } catch (ex: Exception) { emptyList() }
+        val boxes = try { detect(e, d, src) } catch (ex: Exception) { DiagLog.err("PADDLE", ex); emptyList() }
+        DiagLog.log("PADDLE", "detected ${boxes.size} text box(es)")
         if (boxes.isEmpty()) return ""
         val sb = StringBuilder()
         for (b in boxes) {
-            var line = try { recognizeBox(e, r, src, b) } catch (ex: Exception) { "" }
+            var line = try { recognizeBox(e, r, src, b) } catch (ex: Exception) { DiagLog.err("PADDLE", ex); "" }
             if (line.isNotBlank()) {
                 // PaddleOCR recognises Arabic glyphs correctly but emits them
                 // LEFT-to-right; reverse to restore right-to-left reading order

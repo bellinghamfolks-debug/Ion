@@ -73,6 +73,7 @@ class ScreenReaderService : Service() {
     @Volatile private var captureRequested = false  // on-demand: read/describe once now
     private var blankStreak = 0                      // consecutive black/blank captured frames
     private var blurStreak = 0                       // consecutive blurry frames skipped
+    private var frameSeq = 0                         // evaluated-frame counter (for the diagnostic log)
     @Volatile private var blankHintSpoken = false    // one-shot "screen looks black" hint
     private var narrationSig: IntArray? = null       // frame signature when a describe narration began
     @Volatile private var released = false           // service torn down; stop touching bitmaps
@@ -200,9 +201,11 @@ class ScreenReaderService : Service() {
                 if (bmp == null) { DiagLog.log("FRAME", "null bitmap from capture"); return@setOnImageAvailableListener }
                 val sig = signature(bmp)
                 val info = analyzeFrame(bmp)
+                val fno = ++frameSeq
+                val m = "gFrac=${fmt4(info.globalFrac)} maxCell=${fmt2(info.maxCell)} maxGrad=${fmt1(info.maxGrad)}"
                 if (!info.hasText) {
                     blankStreak++
-                    DiagLog.log("FRAME", "skip: no text detected (blankStreak=$blankStreak)")
+                    DiagLog.log("FRAME", "#$fno skip no-text ($m) blankStreak=$blankStreak")
                     if (blankStreak >= 4 && !blankHintSpoken) {
                         blankHintSpoken = true
                         announce("لا ألتقط نصًا من الشاشة. إذا كان مشهد النظارة معروضًا الآن، فقد لا يستطيع النظام تصويره؛ جرّب التقاط لقطة شاشة للتأكّد.")
@@ -212,15 +215,15 @@ class ScreenReaderService : Service() {
                 blankStreak = 0
                 if (!info.sharp && blurStreak < 3) {
                     blurStreak++
-                    DiagLog.log("FRAME", "skip: blurry (blurStreak=$blurStreak)")
+                    DiagLog.log("FRAME", "#$fno skip blurry ($m) blurStreak=$blurStreak")
                     bmp.recycle(); return@setOnImageAvailableListener
                 }
                 blurStreak = 0
-                if (similar(sig, lastSignature)) { DiagLog.log("FRAME", "skip: unchanged view"); bmp.recycle(); return@setOnImageAvailableListener }
+                if (similar(sig, lastSignature)) { DiagLog.log("FRAME", "#$fno skip unchanged ($m)"); bmp.recycle(); return@setOnImageAvailableListener }
                 lastSignature = sig
                 lastSentAt = now
                 inFlight = true
-                DiagLog.log("FRAME", "NEW content, sharp=${info.sharp} -> process eng=${engine()}")
+                DiagLog.log("FRAME", "#$fno NEW sharp=${info.sharp} ($m) -> eng=${engine()}")
                 process(bmp)
             } catch (e: Exception) {
                 DiagLog.err("FRAME", e)
@@ -299,7 +302,7 @@ class ScreenReaderService : Service() {
                 DiagLog.log("OCR", "FAILED eng=$eng ${dt}ms: $failure")
                 announceError(failure)
             } else {
-                DiagLog.log("OCR", "ok eng=$eng ${dt}ms chars=${text.length} \"${text.take(60).replace('\n', ' ')}\"")
+                DiagLog.log("OCR", "ok eng=$eng ${dt}ms chars=${text.length} \"${text.take(120).replace('\n', ' ')}\"")
             }
             try { handleText(text) } catch (e: Exception) { DiagLog.err("HANDLE", e); inFlight = false }
         }
@@ -431,6 +434,7 @@ class ScreenReaderService : Service() {
         val result = synchronized(api) {
             var bestText = ""
             var bestConf = -1
+            var bestPsm = -1
             // Best-of-PSM: a held page/paragraph reads best as a single block,
             // a sign/scattered scene as sparse text. Try both, keep the more
             // confident non-empty result.
@@ -442,10 +446,10 @@ class ScreenReaderService : Service() {
                 val t = api.getUTF8Text() ?: ""
                 val conf = try { api.meanConfidence() } catch (_: Exception) { 0 }
                 api.clear()
-                if (t.isNotBlank() && conf > bestConf) { bestConf = conf; bestText = t }
+                if (t.isNotBlank() && conf > bestConf) { bestConf = conf; bestText = t; bestPsm = psm }
             }
-            // Below this confidence Tesseract is guessing at noise -> say nothing
-            // rather than reading out garbled symbols.
+            DiagLog.log("LOCAL", "bestConf=$bestConf psm=$bestPsm gate=55 chars=${bestText.length}")
+            // Below this confidence Tesseract is guessing at noise -> say nothing.
             if (bestConf < 55) "" else bestText
         }
         if (prepped !== norm) prepped.recycle()
@@ -551,7 +555,7 @@ class ScreenReaderService : Service() {
     private fun handleText(text: String) {
         inFlight = false
         if (text.isBlank()) {
-            // On-demand: the user pressed and got nothing — tell them, don't stay silent.
+            DiagLog.log("HANDLE", "empty result (engine returned nothing)")
             if (demandMode()) announce("لا يوجد نص واضح لأقرأه في هذا المشهد.")
             return
         }
@@ -567,17 +571,17 @@ class ScreenReaderService : Service() {
 
         if (isSpeaking) {
             if (describing) {
-                // A description finishes uninterrupted UNLESS the scene itself
-                // changed a lot (the user moved to something new).
                 val cur = lastSignature
                 if (cur != null && narrationSig != null && !similar(cur, narrationSig)) {
+                    DiagLog.log("HANDLE", "describe: scene changed -> re-describe")
                     lastSpoken = text
                     speak(text)
-                }
+                } else DiagLog.log("HANDLE", "describe: continuing narration")
                 switchStreak = 0
                 return
             }
             if (similarity(newNorm, speakingNorm) >= 0.5) {
+                DiagLog.log("HANDLE", "same text still in view, keep reading")
                 switchStreak = 0            // same text still in view -> keep reading
                 return
             }
@@ -612,6 +616,10 @@ class ScreenReaderService : Service() {
     // ---- Settings -----------------------------------------------------------
 
     private fun prefs() = getSharedPreferences("live_reader", Context.MODE_PRIVATE)
+
+    private fun fmt1(v: Double) = String.format(Locale.US, "%.1f", v)
+    private fun fmt2(v: Double) = String.format(Locale.US, "%.2f", v)
+    private fun fmt4(v: Double) = String.format(Locale.US, "%.4f", v)
 
     private fun describeEnabled(): Boolean = prefs().getBoolean("describe", false)
 
@@ -768,7 +776,9 @@ class ScreenReaderService : Service() {
         return diff < 8 * a.size   // avg per-cell luma change < 8/255 => same view
     }
 
-    private data class FrameInfo(val hasText: Boolean, val sharp: Boolean)
+    private data class FrameInfo(
+        val hasText: Boolean, val sharp: Boolean,
+        val globalFrac: Double, val maxCell: Double, val maxGrad: Double)
 
     /**
      * Smart on-device frame analysis in one pass:
@@ -818,7 +828,7 @@ class ScreenReaderService : Service() {
         }
         val hasText = globalFrac > 0.004 || maxCell > 0.10
         val sharp = maxGrad > 8.0          // sharpest region crisp enough to OCR
-        return FrameInfo(hasText, sharp)
+        return FrameInfo(hasText, sharp, globalFrac, maxCell, maxGrad)
     }
 
     // ---- Text helpers -------------------------------------------------------

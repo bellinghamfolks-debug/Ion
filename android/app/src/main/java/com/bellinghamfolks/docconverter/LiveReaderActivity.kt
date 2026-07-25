@@ -6,8 +6,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.media.projection.MediaProjectionManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
@@ -127,10 +129,25 @@ class LiveReaderActivity : AppCompatActivity() {
             val t = if (id == 202) "demand" else "live"
             prefs.edit().putString("trigger", t).apply()
             status.text = if (t == "demand")
-                "وضع الطلب: اضغط «اقرأ/صِف الآن» أو زر الإشعار عند الحاجة."
+                "وضع الطلب: اضغط الزر العائم فوق تطبيق eSight، أو زر الإشعار."
             else "بث مباشر مفعّل."
         }
         root.addView(trigGroup)
+
+        // Floating button lets on-demand work WITHOUT leaving the eSight app.
+        root.addView(TextView(this).apply {
+            text = "الزر العائم: يظهر زر كبير فوق تطبيق eSight تضغطه للقراءة/الوصف " +
+                "دون الخروج من التطبيق. يتطلب إذن «العرض فوق التطبيقات» مرة واحدة."
+            textSize = 15f; setPadding(0, 8, 0, 8)
+        })
+        root.addView(bigButton("تفعيل الزر العائم (فوق التطبيقات)") {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+                startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:$packageName")))
+            } else {
+                status.text = "الزر العائم مُفعّل — اختر «عند الطلب» ثم «بدء القراءة»."
+            }
+        })
 
         // --- Start / stop ---
         root.addView(bigButton("بدء القراءة (مشاركة الشاشة)") {

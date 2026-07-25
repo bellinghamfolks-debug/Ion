@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.hardware.display.DisplayManager
 import android.hardware.display.VirtualDisplay
@@ -21,10 +22,14 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.provider.Settings
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.util.DisplayMetrics
+import android.view.Gravity
+import android.view.View
 import android.view.WindowManager
+import android.widget.Button
 import com.googlecode.tesseract.android.TessBaseAPI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -68,6 +73,7 @@ class ScreenReaderService : Service() {
 
     private var localOcr: TessBaseAPI? = null
     @Volatile private var localReady = false
+    private var overlayButton: View? = null   // floating trigger over other apps
     // Fast, cheap model for near-real-time reading (Gemini Lite).
     private val onlineModel = "gemini-3.5-flash-lite"
     private val channelId = "live_reader"
@@ -157,6 +163,51 @@ class ScreenReaderService : Service() {
             inFlight = true
             process(bmp)
         }, Handler(Looper.getMainLooper()))
+
+        // On-demand: show a big floating button ON TOP of the eSight app so the
+        // user can trigger a read/describe without switching apps.
+        if (demandMode() && canOverlay()) addOverlayButton()
+    }
+
+    private fun canOverlay(): Boolean =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(this)
+
+    private fun addOverlayButton() {
+        if (overlayButton != null) return
+        val btn = Button(this).apply {
+            text = if (describeEnabled()) "صِف الآن" else "اقرأ الآن"
+            textSize = 22f
+            setPadding(80, 48, 80, 48)
+            setTextColor(Color.WHITE)
+            setBackgroundColor(Color.parseColor("#D32F2F"))
+            setOnClickListener {
+                captureRequested = true
+                @Suppress("DEPRECATION")
+                it.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            }
+        }
+        val type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+        else @Suppress("DEPRECATION") WindowManager.LayoutParams.TYPE_PHONE
+        val lp = WindowManager.LayoutParams(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            type,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            PixelFormat.TRANSLUCENT)
+        lp.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+        lp.y = 140
+        try {
+            (getSystemService(WINDOW_SERVICE) as WindowManager).addView(btn, lp)
+            overlayButton = btn
+        } catch (_: Exception) { /* overlay not permitted -> notification action still works */ }
+    }
+
+    private fun removeOverlayButton() {
+        overlayButton?.let { v ->
+            try { (getSystemService(WINDOW_SERVICE) as WindowManager).removeView(v) } catch (_: Exception) {}
+        }
+        overlayButton = null
     }
 
     private fun process(bmp: Bitmap) {
@@ -410,6 +461,7 @@ class ScreenReaderService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        removeOverlayButton()
         scope.cancel()
         virtualDisplay?.release()
         imageReader?.close()

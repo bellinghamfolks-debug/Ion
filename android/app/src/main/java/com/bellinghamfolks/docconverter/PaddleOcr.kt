@@ -113,8 +113,15 @@ class PaddleOcr(private val ctx: Context) {
         if (boxes.isEmpty()) return ""
         val sb = StringBuilder()
         for (b in boxes) {
-            val line = try { recognizeBox(e, r, src, b) } catch (ex: Exception) { "" }
-            if (line.isNotBlank()) sb.append(line).append('\n')
+            var line = try { recognizeBox(e, r, src, b) } catch (ex: Exception) { "" }
+            if (line.isNotBlank()) {
+                // PaddleOCR recognises Arabic glyphs correctly but emits them
+                // LEFT-to-right; reverse to restore right-to-left reading order
+                // (this is exactly what PaddleOCR's own post-process does for
+                // Arabic). Without it the text is backwards -> gibberish to TTS.
+                line = line.reversed()
+                sb.append(line).append('\n')
+            }
         }
         return sb.toString().trim()
     }
@@ -159,7 +166,7 @@ class PaddleOcr(private val ctx: Context) {
         }
         val invScale = 1f / scale
         val unclip = 1.6f
-        return connectedBoxes(bin, tw, th).mapNotNull { bx ->
+        val mapped = connectedBoxes(bin, tw, th).mapNotNull { bx ->
             var x0 = bx.x0; var y0 = bx.y0; var x1 = bx.x1; var y1 = bx.y1
             val bw = x1 - x0; val bh = y1 - y0
             if (bw < 3 || bh < 3) return@mapNotNull null
@@ -172,7 +179,10 @@ class PaddleOcr(private val ctx: Context) {
                 (x1 * invScale).toInt().coerceIn(1, src.width),
                 (y1 * invScale).toInt().coerceIn(1, src.height))
         }.filter { it.x1 - it.x0 > 6 && it.y1 - it.y0 > 6 }
-            .sortedBy { it.y0 }
+        // Reading order: group into lines top-to-bottom, and RIGHT-to-left within
+        // a line (Arabic), so multi-box lines join in the correct order.
+        val avgH = mapped.map { it.y1 - it.y0 }.average().let { if (it.isNaN() || it < 1.0) 20.0 else it }
+        return mapped.sortedWith(compareBy({ (it.y0 / (avgH * 0.7)).toInt() }, { -it.x0 }))
     }
 
     private fun connectedBoxes(bin: BooleanArray, w: Int, h: Int): List<Box> {

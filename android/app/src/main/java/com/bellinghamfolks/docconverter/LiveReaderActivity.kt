@@ -111,6 +111,27 @@ class LiveReaderActivity : AppCompatActivity() {
         }
         root.addView(modeGroup)
 
+        // --- Trigger: continuous live vs on-demand (applies to read AND describe) ---
+        root.addView(sectionLabel("طريقة التشغيل"))
+        val trigGroup = RadioGroup(this).apply { orientation = RadioGroup.VERTICAL }
+        val liveBtn = RadioButton(this).apply {
+            text = "بث مباشر — قراءة/وصف تلقائي مستمر"; textSize = 17f; id = 201
+        }
+        val demandBtn = RadioButton(this).apply {
+            text = "عند الطلب — يقرأ/يصف فقط عند الضغط"; textSize = 17f; id = 202
+        }
+        trigGroup.addView(liveBtn)
+        trigGroup.addView(demandBtn)
+        if (prefs.getString("trigger", "live") == "demand") demandBtn.isChecked = true else liveBtn.isChecked = true
+        trigGroup.setOnCheckedChangeListener { _, id ->
+            val t = if (id == 202) "demand" else "live"
+            prefs.edit().putString("trigger", t).apply()
+            status.text = if (t == "demand")
+                "وضع الطلب: اضغط «اقرأ/صِف الآن» أو زر الإشعار عند الحاجة."
+            else "بث مباشر مفعّل."
+        }
+        root.addView(trigGroup)
+
         // --- Start / stop ---
         root.addView(bigButton("بدء القراءة (مشاركة الشاشة)") {
             val mpm = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
@@ -119,6 +140,14 @@ class LiveReaderActivity : AppCompatActivity() {
         root.addView(bigButton("إيقاف") {
             stopService(Intent(this, ScreenReaderService::class.java))
             status.text = "أُوقفت القراءة."
+        })
+
+        // On-demand trigger: read/describe the current view once. (Also available
+        // as a notification action so it works while the eSight app is in front.)
+        root.addView(bigButton("اقرأ/صِف الآن (عند الطلب)") {
+            startService(Intent(this, ScreenReaderService::class.java)
+                .setAction(ScreenReaderService.ACTION_CAPTURE))
+            status.text = "تمّ الطلب…"
         })
 
         // Smart auto-switch when the user moves to a different text.

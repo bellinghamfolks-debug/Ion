@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -63,6 +64,7 @@ class ScreenReaderService : Service() {
     private var lastSignature: IntArray? = null   // last frame we actually processed
     @Volatile private var isSpeaking = false       // an utterance is playing now
     private var switchStreak = 0                    // debounce for jumping to new text
+    @Volatile private var captureRequested = false  // on-demand: read/describe once now
 
     private var localOcr: TessBaseAPI? = null
     @Volatile private var localReady = false
@@ -73,6 +75,13 @@ class ScreenReaderService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // On-demand trigger from the notification action / in-app button: the
+        // service is already running, just arm a single capture.
+        if (intent?.action == ACTION_CAPTURE) {
+            if (projection == null) { stopSelf(); return START_NOT_STICKY }  // not started yet
+            captureRequested = true
+            return START_NOT_STICKY
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(1, buildNotification(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
         } else {
@@ -117,6 +126,20 @@ class ScreenReaderService : Service() {
 
         reader.setOnImageAvailableListener({ r ->
             val image = r.acquireLatestImage() ?: return@setOnImageAvailableListener
+            // On-demand mode: ignore every frame until the user asks (notification
+            // action or in-app button), then read/describe the current view once,
+            // unconditionally (no change/blank skip — they explicitly requested it).
+            if (demandMode()) {
+                if (!captureRequested || inFlight) { image.close(); return@setOnImageAvailableListener }
+                captureRequested = false
+                val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
+                if (bmp == null) return@setOnImageAvailableListener
+                lastSignature = signature(bmp)
+                inFlight = true
+                process(bmp)
+                return@setOnImageAvailableListener
+            }
+            // Live stream mode: continuous auto-reading.
             val now = System.currentTimeMillis()
             // Local OCR has no network cost, so it can refresh much faster and
             // feel instant; the online path stays at ~2s (Gemini Lite).
@@ -173,6 +196,13 @@ class ScreenReaderService : Service() {
     private fun handleText(text: String) {
         inFlight = false
         if (text.isBlank()) return
+        // On-demand: the user explicitly asked, so read/describe it now — even if
+        // it repeats the last thing and even if something is already playing.
+        if (demandMode()) {
+            lastSpoken = text
+            speak(text)
+            return
+        }
         val newNorm = normalize(text)
         val dontInterrupt = describeEnabled()
 
@@ -216,6 +246,9 @@ class ScreenReaderService : Service() {
     private fun autoStopEnabled(): Boolean = prefs().getBoolean("autostop", true)
 
     private fun localSelected(): Boolean = prefs().getString("ocr_mode", "online") == "local"
+
+    /** "live" = continuous auto-reading; "demand" = only on an explicit trigger. */
+    private fun demandMode(): Boolean = prefs().getString("trigger", "live") == "demand"
 
     // ---- On-device OCR (Tesseract) -----------------------------------------
 
@@ -354,11 +387,25 @@ class ScreenReaderService : Service() {
         @Suppress("DEPRECATION")
         val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             Notification.Builder(this, channelId) else Notification.Builder(this)
-        return builder
+        builder
             .setContentTitle("القارئ اللحظي للنظارة")
-            .setContentText("يقرأ النص من كاميرا النظارة…")
+            .setContentText(if (demandMode()) "اضغط الزر لقراءة/وصف ما تراه النظارة." else "يقرأ النص من كاميرا النظارة…")
             .setSmallIcon(android.R.drawable.ic_menu_view)
-            .build()
+        // On-demand: a tappable action so the user can trigger a single read
+        // without leaving the eSight app (pull down the notification, tap).
+        if (demandMode()) {
+            val label = if (describeEnabled()) "صِف الآن" else "اقرأ الآن"
+            @Suppress("DEPRECATION")
+            builder.addAction(android.R.drawable.ic_menu_view, label, capturePendingIntent())
+        }
+        return builder.build()
+    }
+
+    private fun capturePendingIntent(): PendingIntent {
+        val i = Intent(this, ScreenReaderService::class.java).setAction(ACTION_CAPTURE)
+        var flags = PendingIntent.FLAG_UPDATE_CURRENT
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) flags = flags or PendingIntent.FLAG_IMMUTABLE
+        return PendingIntent.getService(this, 0, i, flags)
     }
 
     override fun onDestroy() {
@@ -370,5 +417,9 @@ class ScreenReaderService : Service() {
         tts?.stop()
         tts?.shutdown()
         localOcr?.recycle()
+    }
+
+    companion object {
+        const val ACTION_CAPTURE = "com.bellinghamfolks.docconverter.CAPTURE"
     }
 }

@@ -55,6 +55,7 @@ class LiveReaderActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1)
         }
+        NetManager.setPreferCellular(this, prefs.getBoolean("prefer_cellular", false))
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(48, 48, 48, 48)
@@ -112,6 +113,22 @@ class LiveReaderActivity : AppCompatActivity() {
             if (mode == "local") status.text = "الوضع المحلي: ستُحمَّل بيانات اللغة مرة واحدة عند أول تشغيل."
         }
         root.addView(modeGroup)
+
+        // Use cellular data for the server even when joined to the glasses' Wi-Fi
+        // (which has no internet). Fixes "online won't work while on glasses Wi-Fi".
+        root.addView(CheckBox(this).apply {
+            text = "استخدم بيانات الجوّال للاتصال بالخادم (لو النظارة على واي‑فاي بلا إنترنت)"
+            textSize = 16f
+            isChecked = prefs.getBoolean("prefer_cellular", false)
+            val lp = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            lp.topMargin = 12; layoutParams = lp
+            setOnCheckedChangeListener { _, checked ->
+                prefs.edit().putBoolean("prefer_cellular", checked).apply()
+                NetManager.setPreferCellular(this@LiveReaderActivity, checked)
+                status.text = if (checked) "سيتصل بالخادم عبر بيانات الجوّال." else "اتصال عادي."
+            }
+        })
 
         // --- Trigger: continuous live vs on-demand (applies to read AND describe) ---
         root.addView(sectionLabel("طريقة التشغيل"))

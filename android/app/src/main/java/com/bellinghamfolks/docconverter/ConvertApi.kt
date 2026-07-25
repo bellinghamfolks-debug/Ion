@@ -5,7 +5,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.HttpURLConnection
-import java.net.URL
 
 /** Talks to the shared Ion backend (same server as the iOS app). */
 object ConvertApi {
@@ -47,7 +46,7 @@ object ConvertApi {
 
     // ---- HTTP helpers (no third-party deps) --------------------------------
     private fun postJson(urlStr: String, json: String): String {
-        val conn = URL(urlStr).openConnection() as HttpURLConnection
+        val conn = NetManager.open(urlStr)
         try {
             conn.requestMethod = "POST"
             conn.doOutput = true
@@ -60,7 +59,7 @@ object ConvertApi {
     }
 
     private fun getText(urlStr: String): String {
-        val conn = URL(urlStr).openConnection() as HttpURLConnection
+        val conn = NetManager.open(urlStr)
         try {
             conn.connectTimeout = 20000
             conn.readTimeout = 60000
@@ -69,7 +68,7 @@ object ConvertApi {
     }
 
     private fun getBytes(urlStr: String): ByteArray {
-        val conn = URL(urlStr).openConnection() as HttpURLConnection
+        val conn = NetManager.open(urlStr)
         try {
             conn.connectTimeout = 20000
             conn.readTimeout = 120000

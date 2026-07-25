@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        NetManager.setPreferCellular(
+            this, getSharedPreferences("live_reader", MODE_PRIVATE).getBoolean("prefer_cellular", false))
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(48, 96, 48, 48)

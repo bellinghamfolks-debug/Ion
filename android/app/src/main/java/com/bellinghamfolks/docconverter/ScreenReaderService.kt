@@ -103,6 +103,7 @@ class ScreenReaderService : Service() {
             override fun onError(utteranceId: String?) { if (utteranceId == currentUtterId) { isSpeaking = false; speakingNorm = "" } }
         })
         initLocalOcrIfNeeded()
+        NetManager.setPreferCellular(this, prefs().getBoolean("prefer_cellular", false))
         val code = intent?.getIntExtra("code", Activity.RESULT_CANCELED) ?: Activity.RESULT_CANCELED
         @Suppress("DEPRECATION")
         val data: Intent? = intent?.getParcelableExtra("data")
@@ -242,19 +243,24 @@ class ScreenReaderService : Service() {
     private fun recognizeLocal(bmp: Bitmap): String {
         val api = localOcr ?: return ""
         val prepped = preprocessForOcr(bmp)
-        return synchronized(api) {
+        val text = synchronized(api) {
             api.setImage(prepped)
             val t = api.getUTF8Text() ?: ""
+            val conf = try { api.meanConfidence() } catch (_: Exception) { 0 }
             api.clear()
-            if (prepped !== bmp) prepped.recycle()
-            t.trim()
+            // Below this confidence Tesseract is guessing at noise -> say nothing
+            // rather than reading out garbled symbols.
+            if (conf < 55) "" else t
         }
+        if (prepped !== bmp) prepped.recycle()
+        return cleanOcr(text)
     }
 
     /**
-     * Grayscale + global contrast stretch. Tesseract binarises internally (Otsu),
-     * which fails on low-contrast/photographic camera frames; normalising the
-     * luminance range first makes real-world text far more readable on-device.
+     * Adaptive (Bradley) thresholding: binarise each pixel against the mean of a
+     * local window using an integral image. Unlike a global stretch this handles
+     * UNEVEN camera lighting, which is what turned local OCR into garbage on the
+     * glasses feed — text now comes out clean black-on-white for Tesseract.
      */
     private fun preprocessForOcr(src: Bitmap): Bitmap {
         val w = src.width; val h = src.height
@@ -262,24 +268,50 @@ class ScreenReaderService : Service() {
         val px = IntArray(w * h)
         src.getPixels(px, 0, w, 0, 0, w, h)
         val lum = IntArray(w * h)
-        var mn = 255; var mx = 0
         for (i in px.indices) {
             val c = px[i]
-            val g = (0.299 * ((c shr 16) and 0xFF) +
+            lum[i] = (0.299 * ((c shr 16) and 0xFF) +
                 0.587 * ((c shr 8) and 0xFF) + 0.114 * (c and 0xFF)).toInt()
-            lum[i] = g
-            if (g < mn) mn = g
-            if (g > mx) mx = g
         }
-        val range = (mx - mn).coerceAtLeast(1)
-        for (i in lum.indices) {
-            var v = (lum[i] - mn) * 255 / range
-            if (v < 0) v = 0 else if (v > 255) v = 255
-            px[i] = (0xFF shl 24) or (v shl 16) or (v shl 8) or v
+        val iw = w + 1
+        val integral = LongArray(iw * (h + 1))
+        for (y in 0 until h) {
+            var rowSum = 0L
+            for (x in 0 until w) {
+                rowSum += lum[y * w + x]
+                integral[(y + 1) * iw + (x + 1)] = integral[y * iw + (x + 1)] + rowSum
+            }
         }
-        val out = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-        out.setPixels(px, 0, w, 0, 0, w, h)
-        return out
+        val s = (w / 16).coerceAtLeast(8)   // local window side ~ image/16
+        val half = s / 2
+        val t = 15                          // Bradley threshold percent below local mean
+        val out = IntArray(w * h)
+        for (y in 0 until h) {
+            val y1 = (y - half).coerceAtLeast(0)
+            val y2 = (y + half).coerceAtMost(h - 1)
+            for (x in 0 until w) {
+                val x1 = (x - half).coerceAtLeast(0)
+                val x2 = (x + half).coerceAtMost(w - 1)
+                val count = ((x2 - x1 + 1) * (y2 - y1 + 1)).toLong()
+                val sum = integral[(y2 + 1) * iw + (x2 + 1)] - integral[y1 * iw + (x2 + 1)] -
+                    integral[(y2 + 1) * iw + x1] + integral[y1 * iw + x1]
+                val black = lum[y * w + x].toLong() * count * 100 <= sum * (100 - t)
+                out[y * w + x] = if (black) 0xFF000000.toInt() else 0xFFFFFFFF.toInt()
+            }
+        }
+        val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        bmp.setPixels(out, 0, w, 0, 0, w, h)
+        return bmp
+    }
+
+    /** Drop noise lines (mostly symbols); keep lines that are real words. */
+    private fun cleanOcr(raw: String): String {
+        val kept = raw.split('\n').map { it.trim() }.filter { line ->
+            if (line.isEmpty()) return@filter false
+            val letters = line.count { it.isLetter() }
+            letters >= 2 && letters.toDouble() / line.length >= 0.5
+        }
+        return kept.joinToString(" ").trim()
     }
 
     /**

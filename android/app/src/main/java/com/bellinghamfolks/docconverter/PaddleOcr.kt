@@ -23,11 +23,22 @@ import kotlin.math.roundToInt
  */
 class PaddleOcr(private val ctx: Context) {
 
-    // Best-guess public ONNX model URLs. If the first run fails to download or
-    // load, these are what to adjust (the service announces the failing stage).
-    private val detUrl = "https://huggingface.co/SWHL/RapidOCR/resolve/main/PP-OCRv4/ch_PP-OCRv4_det_infer.onnx"
-    private val recUrl = "https://huggingface.co/SWHL/RapidOCR/resolve/main/PP-OCRv3/multi_language/arabic_PP-OCRv3_rec_infer.onnx"
-    private val dictUrl = "https://raw.githubusercontent.com/PaddlePaddle/PaddleOCR/main/ppocr/utils/dict/arabic_dict.txt"
+    // Detection is language-agnostic; this SWHL/RapidOCR file is confirmed to exist.
+    private val detUrls = listOf(
+        "https://huggingface.co/SWHL/RapidOCR/resolve/main/PP-OCRv4/ch_PP-OCRv4_det_infer.onnx",
+        "https://huggingface.co/SWHL/RapidOCR/resolve/main/PP-OCRv4/ch_PP-OCRv4_det_server_infer.onnx"
+    )
+    // Arabic recognition + its MATCHING dictionary, paired from the same repo so
+    // the CTC labels line up. Several candidate paths are tried in order because
+    // the exact folder name can't be verified from here (HuggingFace is blocked).
+    private val recDictPairs = listOf(
+        "https://huggingface.co/monkt/paddleocr-onnx/resolve/main/languages/arabic/rec.onnx"
+            to "https://huggingface.co/monkt/paddleocr-onnx/resolve/main/languages/arabic/dict.txt",
+        "https://huggingface.co/monkt/paddleocr-onnx/resolve/main/languages/ar/rec.onnx"
+            to "https://huggingface.co/monkt/paddleocr-onnx/resolve/main/languages/ar/dict.txt",
+        "https://huggingface.co/deepghs/paddleocr/resolve/main/arabic/rec.onnx"
+            to "https://huggingface.co/deepghs/paddleocr/resolve/main/arabic/dict.txt"
+    )
 
     private var env: OrtEnvironment? = null
     private var det: OrtSession? = null
@@ -41,33 +52,51 @@ class PaddleOcr(private val ctx: Context) {
     fun setup(): String? {
         return try {
             val dir = File(ctx.filesDir, "paddle").apply { mkdirs() }
-            ensure(dir, "det.onnx", detUrl) ?: return "det_download"
-            ensure(dir, "rec.onnx", recUrl) ?: return "rec_download"
-            val dictFile = ensure(dir, "arabic_dict.txt", dictUrl) ?: return "dict_download"
+            val detFile = File(dir, "det.onnx")
+            val recFile = File(dir, "rec.onnx")
+            val dictFile = File(dir, "dict.txt")
+
+            if (!nonEmpty(detFile)) {
+                var ok = false
+                for (u in detUrls) { detFile.delete(); if (download(detFile, u)) { ok = true; break } }
+                if (!ok) return "det_download"
+            }
+            if (!(nonEmpty(recFile) && nonEmpty(dictFile))) {
+                var ok = false
+                for ((ru, du) in recDictPairs) {
+                    recFile.delete(); dictFile.delete()
+                    if (download(recFile, ru) && download(dictFile, du)) { ok = true; break }
+                }
+                if (!ok) return "rec_download"
+            }
+
             dict = dictFile.readLines().map { it.trimEnd('\n', '\r') }
+            if (dict.isEmpty()) return "dict_empty"
             val e = OrtEnvironment.getEnvironment()
             env = e
-            det = e.createSession(File(dir, "det.onnx").absolutePath, OrtSession.SessionOptions())
-            rec = e.createSession(File(dir, "rec.onnx").absolutePath, OrtSession.SessionOptions())
+            det = e.createSession(detFile.absolutePath, OrtSession.SessionOptions())
+            rec = e.createSession(recFile.absolutePath, OrtSession.SessionOptions())
             isReady = true
             null
         } catch (ex: Exception) {
-            "init:" + (ex.message ?: "err").take(40)
+            "init:" + (ex.message ?: "err").take(60)
         }
     }
 
-    private fun ensure(dir: File, name: String, url: String): File? {
-        val f = File(dir, name)
-        if (f.exists() && f.length() > 0) return f
+    private fun nonEmpty(f: File): Boolean = f.exists() && f.length() > 0
+
+    /** Download url -> f, returning true only on an HTTP 2xx with real bytes. */
+    private fun download(f: File, url: String): Boolean {
         return try {
             val conn = URL(url).openConnection() as HttpURLConnection
             conn.connectTimeout = 20000
             conn.readTimeout = 240000
             conn.instanceFollowRedirects = true
+            if (conn.responseCode !in 200..299) { conn.disconnect(); return false }
             conn.inputStream.use { i -> f.outputStream().use { o -> i.copyTo(o) } }
             conn.disconnect()
-            if (f.exists() && f.length() > 0) f else null
-        } catch (e: Exception) { null }
+            nonEmpty(f)
+        } catch (e: Exception) { false }
     }
 
     fun close() {

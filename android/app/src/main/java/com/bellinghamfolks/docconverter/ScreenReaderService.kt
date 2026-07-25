@@ -123,7 +123,9 @@ class ScreenReaderService : Service() {
         val metrics = DisplayMetrics()
         @Suppress("DEPRECATION")
         (getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay.getRealMetrics(metrics)
-        val scale = minOf(1f, 1440f / maxOf(metrics.widthPixels, metrics.heightPixels))
+        // Capture at high resolution (2160 long edge) so on-device OCR has enough
+        // pixels for small text; online frames are downscaled again before upload.
+        val scale = minOf(1f, 2160f / maxOf(metrics.widthPixels, metrics.heightPixels))
         val dw = (metrics.widthPixels * scale).toInt().coerceAtLeast(1)
         val dh = (metrics.heightPixels * scale).toInt().coerceAtLeast(1)
 
@@ -235,9 +237,20 @@ class ScreenReaderService : Service() {
     }
 
     private suspend fun recognizeOnline(bmp: Bitmap): String {
-        val jpeg = compressJpeg(bmp)
+        // Keep the upload light/fast: online doesn't need the full 2160 capture.
+        val scaled = scaleToLongEdge(bmp, 1440)
+        val jpeg = compressJpeg(scaled)
+        if (scaled !== bmp) scaled.recycle()
         val mode = if (describeEnabled()) "describe" else "ocr"
         return ConvertApi.liveOcr(jpeg, onlineModel, mode).trim()
+    }
+
+    private fun scaleToLongEdge(src: Bitmap, maxEdge: Int): Bitmap {
+        val longEdge = maxOf(src.width, src.height)
+        if (longEdge <= maxEdge) return src
+        val s = maxEdge.toFloat() / longEdge
+        return Bitmap.createScaledBitmap(
+            src, (src.width * s).toInt().coerceAtLeast(1), (src.height * s).toInt().coerceAtLeast(1), true)
     }
 
     private fun recognizeLocal(bmp: Bitmap): String {

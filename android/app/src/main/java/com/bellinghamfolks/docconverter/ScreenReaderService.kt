@@ -219,11 +219,23 @@ class ScreenReaderService : Service() {
                     bmp.recycle(); return@setOnImageAvailableListener
                 }
                 blurStreak = 0
-                if (similar(sig, lastSignature)) { DiagLog.log("FRAME", "#$fno skip unchanged ($m)"); bmp.recycle(); return@setOnImageAvailableListener }
+                // Change-detection skips a view that looks identical to the last
+                // one we processed — BUT a coarse 16x16 luma signature can't tell
+                // one page of text from another, so it would lock onto the first
+                // frame and skip everything after ("only the first frame works").
+                // Never skip for longer than maxHold: this guarantees the reader
+                // keeps re-reading as content changes; text-level dedup stops it
+                // from re-speaking the same words.
+                val held = now - lastSentAt
+                val maxHold = if (engine() == "online") 2500L else 1200L
+                if (similar(sig, lastSignature) && held < maxHold) {
+                    DiagLog.log("FRAME", "#$fno skip unchanged held=${held}ms ($m)")
+                    bmp.recycle(); return@setOnImageAvailableListener
+                }
                 lastSignature = sig
                 lastSentAt = now
                 inFlight = true
-                DiagLog.log("FRAME", "#$fno NEW sharp=${info.sharp} ($m) -> eng=${engine()}")
+                DiagLog.log("FRAME", "#$fno READ held=${held}ms sharp=${info.sharp} ($m) -> eng=${engine()}")
                 process(bmp)
             } catch (e: Exception) {
                 DiagLog.err("FRAME", e)

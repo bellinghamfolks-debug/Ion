@@ -267,6 +267,7 @@ class PaddleOcr(private val ctx: Context) {
         val seq = ((v as Array<*>)[0] as Array<FloatArray>)   // [T][C]
         input.close(); out.close()
         val (text, conf) = ctcDecode(seq)
+        DiagLog.log("PADDLE", "box conf=${(conf * 100).toInt()}% rawChars=${text.length} gate=50%")
         // Drop low-confidence lines so garbled/noise boxes are never spoken.
         return if (conf >= 0.5) text else ""
     }

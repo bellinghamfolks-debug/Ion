@@ -256,18 +256,79 @@ class ScreenReaderService : Service() {
     private fun recognizePaddle(bmp: Bitmap): String {
         val p = paddle ?: return ""
         val work = scaleToLongEdge(bmp, 1600)
-        val t = try { p.recognize(work) } catch (_: Exception) { "" }
+        val norm = normalizeLighting(work)       // adapt to the scene's lighting
         if (work !== bmp) work.recycle()
+        val t = try { p.recognize(norm) } catch (_: Exception) { "" }
+        norm.recycle()
         return cleanOcr(t)
     }
 
     private suspend fun recognizeOnline(bmp: Bitmap): String {
         // Keep the upload light/fast: online doesn't need the full 2160 capture.
         val scaled = scaleToLongEdge(bmp, 1440)
-        val jpeg = compressJpeg(scaled)
+        val norm = normalizeLighting(scaled)     // adapt to the scene's lighting
         if (scaled !== bmp) scaled.recycle()
+        val jpeg = compressJpeg(norm)
+        norm.recycle()
         val mode = if (describeEnabled()) "describe" else "ocr"
         return ConvertApi.liveOcr(jpeg, onlineModel, mode).trim()
+    }
+
+    /**
+     * Lighting-adaptive correction shared by ALL modes so the reader copes with
+     * dim, bright, washed-out, back-lit or low-contrast scenes. Robust contrast
+     * stretch (1st/99th percentile) + auto-gamma driven by mean brightness,
+     * applied to RGB via a per-luminance scale so colour is preserved. It is
+     * near-identity in already-good lighting, so it never hurts a clean frame.
+     * Always returns a NEW bitmap.
+     */
+    private fun normalizeLighting(src: Bitmap): Bitmap {
+        val w = src.width; val h = src.height
+        val out = Bitmap.createBitmap(w.coerceAtLeast(1), h.coerceAtLeast(1), Bitmap.Config.ARGB_8888)
+        if (w <= 0 || h <= 0) return out
+        val px = IntArray(w * h)
+        src.getPixels(px, 0, w, 0, 0, w, h)
+        val luma = IntArray(w * h)
+        val hist = IntArray(256)
+        var sum = 0L
+        for (i in px.indices) {
+            val c = px[i]
+            val y = (0.299 * ((c shr 16) and 0xFF) +
+                0.587 * ((c shr 8) and 0xFF) + 0.114 * (c and 0xFF)).toInt().coerceIn(0, 255)
+            luma[i] = y; hist[y]++; sum += y
+        }
+        val total = w * h
+        val lowCut = (total * 0.01).toInt(); val highCut = (total * 0.99).toInt()
+        var acc = 0; var lo = 0; var hi = 255
+        for (v in 0..255) { acc += hist[v]; if (acc >= lowCut) { lo = v; break } }
+        acc = 0; for (v in 0..255) { acc += hist[v]; if (acc >= highCut) { hi = v; break } }
+        if (hi <= lo) { lo = 0; hi = 255 }
+        val range = (hi - lo).coerceAtLeast(1)
+        val mean = sum.toDouble() / total
+        val gamma = when {
+            mean < 90 -> 0.6      // very dark -> brighten strongly
+            mean < 130 -> 0.8     // dim -> brighten
+            mean > 190 -> 1.4     // washed out -> darken
+            mean > 160 -> 1.2
+            else -> 1.0           // good light -> leave it
+        }
+        val lut = IntArray(256)
+        for (v in 0..255) {
+            val t = ((v - lo).toFloat() / range).coerceIn(0f, 1f)
+            lut[v] = (Math.pow(t.toDouble(), gamma) * 255).toInt().coerceIn(0, 255)
+        }
+        val res = IntArray(w * h)
+        for (i in px.indices) {
+            val c = px[i]; val y = luma[i]; val ny = lut[y]
+            if (y == 0) { res[i] = (0xFF shl 24) or (ny shl 16) or (ny shl 8) or ny; continue }
+            val scale = ny.toFloat() / y
+            val r = (((c shr 16) and 0xFF) * scale).toInt().coerceIn(0, 255)
+            val g = (((c shr 8) and 0xFF) * scale).toInt().coerceIn(0, 255)
+            val b = ((c and 0xFF) * scale).toInt().coerceIn(0, 255)
+            res[i] = (0xFF shl 24) or (r shl 16) or (g shl 8) or b
+        }
+        out.setPixels(res, 0, w, 0, 0, w, h)
+        return out
     }
 
     private fun scaleToLongEdge(src: Bitmap, maxEdge: Int): Bitmap {
@@ -283,7 +344,9 @@ class ScreenReaderService : Service() {
         // Cap the work size: the best model is heavy; 1800px keeps each pass usable
         // while still giving small text plenty of detail.
         val work = scaleToLongEdge(bmp, 1800)
-        val prepped = preprocessForOcr(work)
+        val norm = normalizeLighting(work)       // adapt to lighting, THEN binarise
+        if (work !== bmp) work.recycle()
+        val prepped = preprocessForOcr(norm)
         val result = synchronized(api) {
             var bestText = ""
             var bestConf = -1
@@ -304,8 +367,8 @@ class ScreenReaderService : Service() {
             // rather than reading out garbled symbols.
             if (bestConf < 55) "" else bestText
         }
-        if (prepped !== work) prepped.recycle()
-        if (work !== bmp) work.recycle()
+        if (prepped !== norm) prepped.recycle()
+        norm.recycle()
         return cleanOcr(result)
     }
 

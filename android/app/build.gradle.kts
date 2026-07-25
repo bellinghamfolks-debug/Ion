@@ -38,4 +38,7 @@ dependencies {
     // On-device (offline) OCR engine for the fast local reader mode. Arabic
     // isn't supported by ML Kit, so we use Tesseract (ara+eng) on the device.
     implementation("cz.adaptech.tesseract4android:tesseract4android:4.9.0")
+    // EXPERIMENTAL highest-accuracy on-device Arabic OCR: PaddleOCR (PP-OCR)
+    // models run on ONNX Runtime. Models are downloaded at runtime.
+    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.19.2")
 }

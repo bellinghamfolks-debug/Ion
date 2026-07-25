@@ -102,15 +102,27 @@ class LiveReaderActivity : AppCompatActivity() {
             text = "أونلاين — دقيق (Gemini Lite، كل ثانيتين)"; textSize = 17f; id = 101
         }
         val localBtn = RadioButton(this).apply {
-            text = "محلي — فوري بدون إنترنت (تجريبي، دقة أقل)"; textSize = 17f; id = 102
+            text = "محلي — فوري بدون إنترنت (Tesseract)"; textSize = 17f; id = 102
+        }
+        val paddleBtn = RadioButton(this).apply {
+            text = "PaddleOCR — الأدقّ محليًا (تجريبي، بدون إنترنت)"; textSize = 17f; id = 103
         }
         modeGroup.addView(onlineBtn)
         modeGroup.addView(localBtn)
-        if (prefs.getString("ocr_mode", "online") == "local") localBtn.isChecked = true else onlineBtn.isChecked = true
+        modeGroup.addView(paddleBtn)
+        when (prefs.getString("ocr_mode", "online")) {
+            "local" -> localBtn.isChecked = true
+            "paddle" -> paddleBtn.isChecked = true
+            else -> onlineBtn.isChecked = true
+        }
         modeGroup.setOnCheckedChangeListener { _, id ->
-            val mode = if (id == 102) "local" else "online"
+            val mode = when (id) { 102 -> "local"; 103 -> "paddle"; else -> "online" }
             prefs.edit().putString("ocr_mode", mode).apply()
-            if (mode == "local") status.text = "الوضع المحلي: ستُحمَّل بيانات اللغة مرة واحدة عند أول تشغيل."
+            status.text = when (mode) {
+                "local" -> "الوضع المحلي: ستُحمَّل بيانات اللغة مرة واحدة عند أول تشغيل."
+                "paddle" -> "PaddleOCR: سيُنزّل المحرّك عند أول تشغيل (تجريبي، قد يحتاج ضبطًا)."
+                else -> "الوضع الأونلاين."
+            }
         }
         root.addView(modeGroup)
 

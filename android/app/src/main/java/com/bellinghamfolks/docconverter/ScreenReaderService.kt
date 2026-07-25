@@ -75,6 +75,7 @@ class ScreenReaderService : Service() {
 
     private var localOcr: TessBaseAPI? = null
     @Volatile private var localReady = false
+    private var paddle: PaddleOcr? = null      // experimental high-accuracy on-device engine
     private var overlayButton: View? = null   // floating trigger over other apps
     private val tessVariant = "best"          // tessdata_best = highest on-device accuracy
     // Fast, cheap model for near-real-time reading (Gemini Lite).
@@ -104,6 +105,7 @@ class ScreenReaderService : Service() {
             override fun onError(utteranceId: String?) { if (utteranceId == currentUtterId) { isSpeaking = false; speakingNorm = "" } }
         })
         initLocalOcrIfNeeded()
+        initPaddleIfNeeded()
         NetManager.setPreferCellular(this, prefs().getBoolean("prefer_cellular", false))
         val code = intent?.getIntExtra("code", Activity.RESULT_CANCELED) ?: Activity.RESULT_CANCELED
         @Suppress("DEPRECATION")
@@ -153,9 +155,9 @@ class ScreenReaderService : Service() {
             }
             // Live stream mode: continuous auto-reading.
             val now = System.currentTimeMillis()
-            // Local OCR has no network cost, so it can refresh much faster and
-            // feel instant; the online path stays at ~2s (Gemini Lite).
-            val minInterval = if (useLocal()) 700L else 2000L
+            // Offline engines have no network cost, so they can refresh faster;
+            // the online path stays at ~2s (Gemini Lite).
+            val minInterval = if (engine() == "online") 2000L else 700L
             if (inFlight || now - lastSentAt < minInterval) { image.close(); return@setOnImageAvailableListener }
             val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
             if (bmp == null) return@setOnImageAvailableListener
@@ -231,10 +233,32 @@ class ScreenReaderService : Service() {
     private fun process(bmp: Bitmap) {
         scope.launch {
             val text = try {
-                if (useLocal()) recognizeLocal(bmp) else recognizeOnline(bmp)
+                when (engine()) {
+                    "paddle" -> recognizePaddle(bmp)
+                    "local" -> recognizeLocal(bmp)
+                    else -> recognizeOnline(bmp)
+                }
             } catch (_: Exception) { "" } finally { bmp.recycle() }
             handleText(text)
         }
+    }
+
+    /** Which engine to use for this frame (describe always needs online). */
+    private fun engine(): String {
+        if (describeEnabled()) return "online"
+        return when (prefs().getString("ocr_mode", "online")) {
+            "paddle" -> if (paddle?.ready() == true) "paddle" else "online"
+            "local" -> if (localReady) "local" else "online"
+            else -> "online"
+        }
+    }
+
+    private fun recognizePaddle(bmp: Bitmap): String {
+        val p = paddle ?: return ""
+        val work = scaleToLongEdge(bmp, 1600)
+        val t = try { p.recognize(work) } catch (_: Exception) { "" }
+        if (work !== bmp) work.recycle()
+        return cleanOcr(t)
     }
 
     private suspend fun recognizeOnline(bmp: Bitmap): String {
@@ -421,10 +445,6 @@ class ScreenReaderService : Service() {
 
     private fun prefs() = getSharedPreferences("live_reader", Context.MODE_PRIVATE)
 
-    /** Local (Tesseract) OCR is only used when selected AND ready AND not describing. */
-    private fun useLocal(): Boolean =
-        localReady && prefs().getString("ocr_mode", "online") == "local" && !describeEnabled()
-
     private fun describeEnabled(): Boolean = prefs().getBoolean("describe", false)
 
     private fun autoStopEnabled(): Boolean = prefs().getBoolean("autostop", true)
@@ -433,6 +453,25 @@ class ScreenReaderService : Service() {
 
     /** "live" = continuous auto-reading; "demand" = only on an explicit trigger. */
     private fun demandMode(): Boolean = prefs().getString("trigger", "live") == "demand"
+
+    private fun paddleSelected(): Boolean = prefs().getString("ocr_mode", "online") == "paddle"
+
+    // ---- Experimental on-device OCR (PaddleOCR / ONNX) ---------------------
+
+    private fun initPaddleIfNeeded() {
+        if (!paddleSelected()) return
+        scope.launch {
+            val p = PaddleOcr(this@ScreenReaderService)
+            announce("جارٍ تجهيز محرّك PaddleOCR عالي الدقّة، قد يأخذ دقائق عند أول مرة.")
+            val err = p.setup()
+            if (err == null) {
+                paddle = p
+                announce("محرّك PaddleOCR جاهز.")
+            } else {
+                announce("تعذّر تجهيز PaddleOCR، سيتم استخدام البديل. السبب: $err")
+            }
+        }
+    }
 
     // ---- On-device OCR (Tesseract) -----------------------------------------
 
@@ -642,6 +681,7 @@ class ScreenReaderService : Service() {
         tts?.stop()
         tts?.shutdown()
         localOcr?.recycle()
+        paddle?.close()
     }
 
     companion object {

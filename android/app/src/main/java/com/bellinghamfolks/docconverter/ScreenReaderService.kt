@@ -92,6 +92,16 @@ class ScreenReaderService : Service() {
             captureRequested = true
             return START_NOT_STICKY
         }
+        // Live switch between reading text and describing the scene, from the
+        // notification, without leaving the eSight app.
+        if (intent?.action == ACTION_TOGGLE_DESCRIBE) {
+            val now = !describeEnabled()
+            prefs().edit().putBoolean("describe", now).apply()
+            tts?.stop()
+            announce(if (now) "تم تشغيل الوصف، وأُوقفت القراءة." else "تم إيقاف الوصف، والعودة للقراءة.")
+            try { getSystemService(NotificationManager::class.java).notify(1, buildNotification()) } catch (_: Exception) {}
+            return START_NOT_STICKY
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(1, buildNotification(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
         } else {
@@ -165,7 +175,7 @@ class ScreenReaderService : Service() {
             // FREE on-device savers: skip a blank/near-uniform view (no text) and
             // skip a view identical to the last one we processed (you are still
             // looking at the same thing). Only genuinely NEW content is analysed.
-            if (isBlank(sig)) {
+            if (isUniform(bmp)) {
                 // Diagnose the common "eSight camera view is a secure/overlay
                 // surface -> captured as black" case, so the user hears WHY it is
                 // silent instead of nothing at all.
@@ -657,13 +667,27 @@ class ScreenReaderService : Service() {
         return diff < 8 * a.size   // avg per-cell luma change < 8/255 => same view
     }
 
-    private fun isBlank(sig: IntArray): Boolean {
-        val mean = sig.average()
-        var variance = 0.0
-        for (v in sig) { val d = v - mean; variance += d * d }
-        variance /= sig.size
-        return variance < 15.0     // near-uniform => no text to read (lowered so
-                                   // dim-but-real camera frames still get a chance)
+    /**
+     * True only for a genuinely uniform frame (a blank wall / black capture).
+     * Measured on a 32x32 grid with a very low threshold so that MEDIUM and SMALL
+     * text — which occupies little of the frame and washes out on a coarse 8x8
+     * grid — is never mistaken for "blank" and skipped. This was why clear
+     * small/medium text went unread in every mode.
+     */
+    private fun isUniform(bmp: Bitmap): Boolean {
+        val n = 32
+        val small = Bitmap.createScaledBitmap(bmp, n, n, true)
+        var sum = 0.0; var sumSq = 0.0
+        for (y in 0 until n) for (x in 0 until n) {
+            val c = small.getPixel(x, y)
+            val l = 0.299 * ((c shr 16) and 0xFF) + 0.587 * ((c shr 8) and 0xFF) + 0.114 * (c and 0xFF)
+            sum += l; sumSq += l * l
+        }
+        small.recycle()
+        val count = n * n
+        val mean = sum / count
+        val variance = sumSq / count - mean * mean
+        return variance < 6.0
     }
 
     // ---- Text helpers -------------------------------------------------------
@@ -724,14 +748,21 @@ class ScreenReaderService : Service() {
             @Suppress("DEPRECATION")
             builder.addAction(android.R.drawable.ic_menu_view, label, capturePendingIntent())
         }
+        // Always: flip between reading text and describing the scene, live.
+        val descLabel = if (describeEnabled()) "إيقاف الوصف (قراءة)" else "تشغيل الوصف"
+        @Suppress("DEPRECATION")
+        builder.addAction(android.R.drawable.ic_menu_info_details, descLabel, describePendingIntent())
         return builder.build()
     }
 
-    private fun capturePendingIntent(): PendingIntent {
-        val i = Intent(this, ScreenReaderService::class.java).setAction(ACTION_CAPTURE)
+    private fun capturePendingIntent(): PendingIntent = servicePendingIntent(ACTION_CAPTURE, 0)
+    private fun describePendingIntent(): PendingIntent = servicePendingIntent(ACTION_TOGGLE_DESCRIBE, 1)
+
+    private fun servicePendingIntent(action: String, requestCode: Int): PendingIntent {
+        val i = Intent(this, ScreenReaderService::class.java).setAction(action)
         var flags = PendingIntent.FLAG_UPDATE_CURRENT
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) flags = flags or PendingIntent.FLAG_IMMUTABLE
-        return PendingIntent.getService(this, 0, i, flags)
+        return PendingIntent.getService(this, requestCode, i, flags)
     }
 
     override fun onDestroy() {
@@ -749,5 +780,6 @@ class ScreenReaderService : Service() {
 
     companion object {
         const val ACTION_CAPTURE = "com.bellinghamfolks.docconverter.CAPTURE"
+        const val ACTION_TOGGLE_DESCRIBE = "com.bellinghamfolks.docconverter.TOGGLE_DESCRIBE"
     }
 }

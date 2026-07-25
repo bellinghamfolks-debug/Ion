@@ -240,20 +240,31 @@ class PaddleOcr(private val ctx: Context) {
         @Suppress("UNCHECKED_CAST")
         val seq = ((v as Array<*>)[0] as Array<FloatArray>)   // [T][C]
         input.close(); out.close()
-        return ctcDecode(seq)
+        val (text, conf) = ctcDecode(seq)
+        // Drop low-confidence lines so garbled/noise boxes are never spoken.
+        return if (conf >= 0.5) text else ""
     }
 
-    private fun ctcDecode(seq: Array<FloatArray>): String {
+    /** Greedy CTC decode; also returns mean softmax confidence of emitted chars. */
+    private fun ctcDecode(seq: Array<FloatArray>): Pair<String, Double> {
         val sb = StringBuilder()
         var prev = -1
+        var probSum = 0.0; var probN = 0
         for (t in seq.indices) {
             val row = seq[t]
             var best = 0; var bestV = row[0]
             for (c in 1 until row.size) if (row[c] > bestV) { bestV = row[c]; best = c }
-            if (best != 0 && best != prev) charFor(best)?.let { sb.append(it) }
+            if (best != 0 && best != prev) {
+                charFor(best)?.let { sb.append(it) }
+                // stable softmax probability of the winning class at this step
+                var denom = 0.0
+                for (c in row.indices) denom += Math.exp((row[c] - bestV).toDouble())
+                if (denom > 0) { probSum += 1.0 / denom; probN++ }
+            }
             prev = best
         }
-        return sb.toString().trim()
+        val conf = if (probN == 0) 0.0 else probSum / probN
+        return Pair(sb.toString().trim(), conf)
     }
 
     /** index 0 = CTC blank; 1..dict.size map to the dictionary; last = space. */

@@ -62,16 +62,22 @@ class ScreenReaderService : Service() {
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     private var lastSpoken = ""
-    private var speakingNorm = ""       // normalised text of the current utterance
-    private var currentUtterId = ""
-    private var inFlight = false
+    @Volatile private var speakingNorm = ""       // normalised text of the current utterance
+    @Volatile private var currentUtterId = ""
+    @Volatile private var inFlight = false
     private var lastSentAt = 0L
-    private var lastSignature: IntArray? = null   // last frame we actually processed
+    @Volatile private var lastSignature: IntArray? = null   // last frame we actually processed
     @Volatile private var isSpeaking = false       // an utterance is playing now
+    @Volatile private var announcing = false       // an important status announcement is playing
     private var switchStreak = 0                    // debounce for jumping to new text
     @Volatile private var captureRequested = false  // on-demand: read/describe once now
     private var blankStreak = 0                      // consecutive black/blank captured frames
+    private var blurStreak = 0                       // consecutive blurry frames skipped
     @Volatile private var blankHintSpoken = false    // one-shot "screen looks black" hint
+    private var pendingNorm = ""                     // a read awaiting 2-frame confirmation
+    private var narrationSig: IntArray? = null       // frame signature when a describe narration began
+    @Volatile private var released = false           // service torn down; stop touching bitmaps
+    private var captureThread: android.os.HandlerThread? = null
 
     private var localOcr: TessBaseAPI? = null
     @Volatile private var localReady = false
@@ -110,9 +116,15 @@ class ScreenReaderService : Service() {
         tts = TextToSpeech(this) { }
         tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onStart(utteranceId: String?) { if (utteranceId == currentUtterId) isSpeaking = true }
-            override fun onDone(utteranceId: String?) { if (utteranceId == currentUtterId) { isSpeaking = false; speakingNorm = "" } }
+            override fun onDone(utteranceId: String?) {
+                if (utteranceId?.startsWith("announce") == true) announcing = false
+                if (utteranceId == currentUtterId) { isSpeaking = false; speakingNorm = "" }
+            }
             @Deprecated("Deprecated in Java")
-            override fun onError(utteranceId: String?) { if (utteranceId == currentUtterId) { isSpeaking = false; speakingNorm = "" } }
+            override fun onError(utteranceId: String?) {
+                if (utteranceId?.startsWith("announce") == true) announcing = false
+                if (utteranceId == currentUtterId) { isSpeaking = false; speakingNorm = "" }
+            }
         })
         initLocalOcrIfNeeded()
         initPaddleIfNeeded()
@@ -148,51 +160,57 @@ class ScreenReaderService : Service() {
             "live-reader", dw, dh, metrics.densityDpi,
             DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, reader.surface, null, null)
 
+        // Run the per-frame CPU work on a dedicated thread, never the UI thread.
+        val ct = android.os.HandlerThread("live-capture").apply { start() }
+        captureThread = ct
+        val captureHandler = Handler(ct.looper)
+
         reader.setOnImageAvailableListener({ r ->
-            val image = r.acquireLatestImage() ?: return@setOnImageAvailableListener
-            // On-demand mode: ignore every frame until the user asks (notification
-            // action or in-app button), then read/describe the current view once,
-            // unconditionally (no change/blank skip — they explicitly requested it).
-            if (demandMode()) {
-                if (!captureRequested || inFlight) { image.close(); return@setOnImageAvailableListener }
-                captureRequested = false
+            try {
+                val image = r.acquireLatestImage() ?: return@setOnImageAvailableListener
+                // On-demand: ignore frames until the user asks, then read the
+                // current view once, unconditionally (they explicitly requested it).
+                if (demandMode()) {
+                    if (!captureRequested || inFlight) { image.close(); return@setOnImageAvailableListener }
+                    captureRequested = false
+                    val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
+                    if (bmp == null) return@setOnImageAvailableListener
+                    lastSignature = signature(bmp)
+                    inFlight = true
+                    process(bmp)
+                    return@setOnImageAvailableListener
+                }
+                // Live stream mode: continuous auto-reading.
+                val now = System.currentTimeMillis()
+                val minInterval = if (engine() == "online") 2000L else 700L
+                if (inFlight || now - lastSentAt < minInterval) { image.close(); return@setOnImageAvailableListener }
                 val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
                 if (bmp == null) return@setOnImageAvailableListener
-                lastSignature = signature(bmp)
+                val sig = signature(bmp)
+                val info = analyzeFrame(bmp)
+                if (!info.hasText) {
+                    // Diagnose the "captured as black" case so the user hears WHY.
+                    blankStreak++
+                    if (blankStreak >= 4 && !blankHintSpoken) {
+                        blankHintSpoken = true
+                        announce("لا ألتقط نصًا من الشاشة. إذا كان مشهد النظارة معروضًا الآن، فقد لا يستطيع النظام تصويره؛ جرّب التقاط لقطة شاشة للتأكّد.")
+                    }
+                    bmp.recycle(); return@setOnImageAvailableListener
+                }
+                blankStreak = 0
+                // Skip blurry/moving frames so OCR only sees a sharp view — but
+                // never starve: read anyway after a few soft frames.
+                if (!info.sharp && blurStreak < 3) { blurStreak++; bmp.recycle(); return@setOnImageAvailableListener }
+                blurStreak = 0
+                if (similar(sig, lastSignature)) { bmp.recycle(); return@setOnImageAvailableListener }
+                lastSignature = sig
+                lastSentAt = now
                 inFlight = true
                 process(bmp)
-                return@setOnImageAvailableListener
+            } catch (_: Exception) {
+                // A single frame error must never crash the capture thread/service.
             }
-            // Live stream mode: continuous auto-reading.
-            val now = System.currentTimeMillis()
-            // Offline engines have no network cost, so they can refresh faster;
-            // the online path stays at ~2s (Gemini Lite).
-            val minInterval = if (engine() == "online") 2000L else 700L
-            if (inFlight || now - lastSentAt < minInterval) { image.close(); return@setOnImageAvailableListener }
-            val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
-            if (bmp == null) return@setOnImageAvailableListener
-            val sig = signature(bmp)
-            // FREE on-device savers: skip a blank/near-uniform view (no text) and
-            // skip a view identical to the last one we processed (you are still
-            // looking at the same thing). Only genuinely NEW content is analysed.
-            if (!hasText(bmp)) {
-                // Diagnose the common "eSight camera view is a secure/overlay
-                // surface -> captured as black" case, so the user hears WHY it is
-                // silent instead of nothing at all.
-                blankStreak++
-                if (blankStreak >= 4 && !blankHintSpoken) {
-                    blankHintSpoken = true
-                    announce("لا ألتقط نصًا من الشاشة. إذا كان مشهد النظارة معروضًا الآن، فقد لا يستطيع النظام تصويره؛ جرّب التقاط لقطة شاشة للتأكّد.")
-                }
-                bmp.recycle(); return@setOnImageAvailableListener
-            }
-            blankStreak = 0
-            if (similar(sig, lastSignature)) { bmp.recycle(); return@setOnImageAvailableListener }
-            lastSignature = sig
-            lastSentAt = now
-            inFlight = true
-            process(bmp)
-        }, Handler(Looper.getMainLooper()))
+        }, captureHandler)
 
         // On-demand: show a big floating button ON TOP of the eSight app so the
         // user can trigger a read/describe without switching apps.
@@ -241,6 +259,7 @@ class ScreenReaderService : Service() {
     }
 
     private fun process(bmp: Bitmap) {
+        if (released) { bmp.recycle(); inFlight = false; return }
         scope.launch {
             val text = try {
                 when (engine()) {
@@ -249,7 +268,7 @@ class ScreenReaderService : Service() {
                     else -> recognizeOnline(bmp)
                 }
             } catch (_: Exception) { "" } finally { bmp.recycle() }
-            handleText(text)
+            try { handleText(text) } catch (_: Exception) { inFlight = false }
         }
     }
 
@@ -399,10 +418,12 @@ class ScreenReaderService : Service() {
             lum[i] = (0.299 * ((c shr 16) and 0xFF) +
                 0.587 * ((c shr 8) and 0xFF) + 0.114 * (c and 0xFF)).toInt()
         }
+        // Integral image as Int (not Long): work size is capped at 1800px, so the
+        // max prefix sum (255 * ~1.8M px) stays well under Int.MAX — halves memory.
         val iw = w + 1
-        val integral = LongArray(iw * (h + 1))
+        val integral = IntArray(iw * (h + 1))
         for (y in 0 until h) {
-            var rowSum = 0L
+            var rowSum = 0
             for (x in 0 until w) {
                 rowSum += lum[y * w + x]
                 integral[(y + 1) * iw + (x + 1)] = integral[y * iw + (x + 1)] + rowSum
@@ -418,9 +439,9 @@ class ScreenReaderService : Service() {
             for (x in 0 until w) {
                 val x1 = (x - half).coerceAtLeast(0)
                 val x2 = (x + half).coerceAtMost(w - 1)
-                val count = ((x2 - x1 + 1) * (y2 - y1 + 1)).toLong()
-                val sum = integral[(y2 + 1) * iw + (x2 + 1)] - integral[y1 * iw + (x2 + 1)] -
-                    integral[(y2 + 1) * iw + x1] + integral[y1 * iw + x1]
+                val count = (x2 - x1 + 1) * (y2 - y1 + 1)
+                val sum = (integral[(y2 + 1) * iw + (x2 + 1)] - integral[y1 * iw + (x2 + 1)] -
+                    integral[(y2 + 1) * iw + x1] + integral[y1 * iw + x1]).toLong()
                 val black = lum[y * w + x].toLong() * count * 100 <= sum * (100 - t)
                 out[y * w + x] = if (black) 0xFF000000.toInt() else 0xFFFFFFFF.toInt()
             }
@@ -451,14 +472,19 @@ class ScreenReaderService : Service() {
         }
     }
 
-    /** Drop noise lines (mostly symbols); keep lines that are real words. */
+    /**
+     * Drop noise lines (mostly symbols) but KEEP real content — including
+     * numbers-only lines (prices, times, phone/room numbers). Letters AND digits
+     * count as meaningful. Lines are kept as separate lines so TTS pauses between
+     * them (natural reading structure).
+     */
     private fun cleanOcr(raw: String): String {
         val kept = raw.split('\n').map { it.trim() }.filter { line ->
             if (line.isEmpty()) return@filter false
-            val letters = line.count { it.isLetter() }
-            letters >= 2 && letters.toDouble() / line.length >= 0.5
+            val meaningful = line.count { it.isLetterOrDigit() }
+            meaningful >= 2 && meaningful.toDouble() / line.length >= 0.5
         }
-        return kept.joinToString(" ").trim()
+        return kept.joinToString("\n").trim()
     }
 
     /**
@@ -485,11 +511,22 @@ class ScreenReaderService : Service() {
             return
         }
         val newNorm = normalize(text)
-        val dontInterrupt = describeEnabled()
+        val describing = describeEnabled()
 
         if (isSpeaking) {
-            if (dontInterrupt || similarity(newNorm, speakingNorm) >= 0.5) {
-                switchStreak = 0            // same text / narrating -> keep going, no restart
+            if (describing) {
+                // A description finishes uninterrupted UNLESS the scene itself
+                // changed a lot (the user moved to something new).
+                val cur = lastSignature
+                if (cur != null && narrationSig != null && !similar(cur, narrationSig)) {
+                    lastSpoken = text
+                    speak(text)
+                }
+                switchStreak = 0
+                return
+            }
+            if (similarity(newNorm, speakingNorm) >= 0.5) {
+                switchStreak = 0            // same text still in view -> keep reading
                 return
             }
             // A genuinely different text appeared. Only jump to it once it
@@ -506,11 +543,16 @@ class ScreenReaderService : Service() {
             return
         }
 
-        // Idle: read new text, but not something we just finished reading.
+        // Idle. Confirm a new reading across TWO frames before speaking, so a
+        // single noisy frame can never produce a wrong or partial read.
         switchStreak = 0
-        if (!isNearDuplicate(text)) {
+        if (isNearDuplicate(text)) { pendingNorm = ""; return }
+        if (pendingNorm.isNotEmpty() && similarity(newNorm, pendingNorm) >= 0.7) {
+            pendingNorm = ""
             lastSpoken = text
             speak(text)
+        } else {
+            pendingNorm = newNorm       // wait for the next frame to confirm
         }
     }
 
@@ -586,6 +628,7 @@ class ScreenReaderService : Service() {
 
     /** Speak a short spoken status update (used for local-scanner setup). */
     private fun announce(msg: String) {
+        announcing = true
         tts?.language = Locale("ar")
         tts?.speak(msg, TextToSpeech.QUEUE_ADD, null, "announce-" + System.nanoTime())
     }
@@ -646,9 +689,10 @@ class ScreenReaderService : Service() {
         return out.toByteArray()
     }
 
-    /** Cheap 8x8 grayscale perceptual signature for change/blank detection. */
+    /** 16x16 grayscale perceptual signature for change detection — fine enough
+     *  to notice a single changed word/line on an otherwise-similar page. */
     private fun signature(bmp: Bitmap): IntArray {
-        val n = 8
+        val n = 16
         val small = Bitmap.createScaledBitmap(bmp, n, n, true)
         val sig = IntArray(n * n)
         for (y in 0 until n) for (x in 0 until n) {
@@ -667,15 +711,18 @@ class ScreenReaderService : Service() {
         return diff < 8 * a.size   // avg per-cell luma change < 8/255 => same view
     }
 
+    private data class FrameInfo(val hasText: Boolean, val sharp: Boolean)
+
     /**
-     * Smart on-device text detector. Text — even small/medium — is a dense
-     * cluster of sharp stroke edges, unlike a blank wall or a smooth surface.
-     * We measure edge density (gradient magnitude) globally AND per grid cell,
-     * so a small block of text in a corner still triggers a read while truly
-     * empty frames are skipped. Sensitive by design: a false positive just costs
-     * one OCR call (which reads nothing), but missing real text is never OK.
+     * Smart on-device frame analysis in one pass:
+     *  - hasText: text — even small/medium — is a dense cluster of sharp stroke
+     *    edges (measured globally AND per grid cell), so a small block of text in
+     *    a corner still triggers a read while blank/smooth frames are skipped.
+     *  - sharp: the sharpest text region's edge strength; a motion-blurred or
+     *    out-of-focus frame has weak edges even where text is, so we can wait for
+     *    a crisp frame before OCR. Both are size-robust (per-cell, not global).
      */
-    private fun hasText(bmp: Bitmap): Boolean {
+    private fun analyzeFrame(bmp: Bitmap): FrameInfo {
         val target = 512
         val scale = minOf(1f, target.toFloat() / maxOf(bmp.width, bmp.height))
         val w = (bmp.width * scale).toInt().coerceAtLeast(16)
@@ -692,25 +739,29 @@ class ScreenReaderService : Service() {
         }
         val gxN = 8; val gyN = 8
         val cellEdges = IntArray(gxN * gyN)
+        val cellGrad = LongArray(gxN * gyN)
         var total = 0
         val thr = 36                       // strong-edge threshold
         for (y in 1 until h - 1) {
             for (x in 1 until w - 1) {
                 val g = kotlin.math.abs(lum[y * w + x + 1] - lum[y * w + x - 1]) +
                     kotlin.math.abs(lum[(y + 1) * w + x] - lum[(y - 1) * w + x])
-                if (g > thr) {
-                    total++
-                    cellEdges[(y * gyN / h) * gxN + (x * gxN / w)]++
-                }
+                val ci = (y * gyN / h) * gxN + (x * gxN / w)
+                cellGrad[ci] += g
+                if (g > thr) { total++; cellEdges[ci]++ }
             }
         }
         val area = ((w - 2).coerceAtLeast(1)) * ((h - 2).coerceAtLeast(1))
         val globalFrac = total.toDouble() / area
-        val cellArea = (w / gxN).coerceAtLeast(1) * (h / gyN).coerceAtLeast(1)
-        var maxCell = 0.0
-        for (v in cellEdges) maxCell = maxOf(maxCell, v.toDouble() / cellArea)
-        // Global edges (spread text) OR a dense local cell (small/corner text).
-        return globalFrac > 0.004 || maxCell > 0.10
+        val cellArea = ((w / gxN).coerceAtLeast(1) * (h / gyN).coerceAtLeast(1)).toDouble()
+        var maxCell = 0.0; var maxGrad = 0.0
+        for (ci in cellEdges.indices) {
+            maxCell = maxOf(maxCell, cellEdges[ci] / cellArea)
+            maxGrad = maxOf(maxGrad, cellGrad[ci] / cellArea)
+        }
+        val hasText = globalFrac > 0.004 || maxCell > 0.10
+        val sharp = maxGrad > 8.0          // sharpest region crisp enough to OCR
+        return FrameInfo(hasText, sharp)
     }
 
     // ---- Text helpers -------------------------------------------------------
@@ -738,18 +789,48 @@ class ScreenReaderService : Service() {
         s.replace(Regex("[\\u064B-\\u0652\\u0640\\s]+"), " ").trim().lowercase()
 
     private fun speak(text: String) {
-        val isArabic = text.any { it.code in 0x0600..0x06FF }
-        tts?.language = if (isArabic) Locale("ar") else Locale.ENGLISH
-        // Apply the user's chosen reading speed (updated live from the UI).
         val rate = prefs().getFloat("rate", 1.0f)
         tts?.setSpeechRate(rate)
         speakingNorm = normalize(text)
         isSpeaking = true
-        val id = System.nanoTime().toString()
-        currentUtterId = id
-        // FLUSH is safe here: handleText only calls speak() for genuinely new
-        // text, never to restart the same passage the user is still reading.
-        tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id)
+        if (describeEnabled()) narrationSig = lastSignature   // for scene-change interruption
+        val baseId = System.nanoTime().toString()
+        currentUtterId = baseId
+        // Speak each script run in its own language so mixed Arabic/English text
+        // isn't voiced entirely in one language (mispronunciation).
+        val runs = splitByScript(text)
+        // Don't clobber an important status announcement mid-sentence: append if
+        // one is still playing, otherwise flush the previous read.
+        var mode = if (announcing) TextToSpeech.QUEUE_ADD else TextToSpeech.QUEUE_FLUSH
+        for ((idx, run) in runs.withIndex()) {
+            val ar = run.any { it.code in 0x0600..0x06FF }
+            tts?.language = if (ar) Locale("ar") else Locale.ENGLISH
+            // The LAST run carries currentUtterId so onDone clears isSpeaking.
+            val id = if (idx == runs.size - 1) baseId else "$baseId-$idx"
+            tts?.speak(run, mode, null, id)
+            mode = TextToSpeech.QUEUE_ADD
+        }
+    }
+
+    /** Split text into maximal runs of Arabic vs non-Arabic letters; spaces,
+     *  digits and punctuation stay attached to the current run. */
+    private fun splitByScript(text: String): List<String> {
+        val runs = ArrayList<String>()
+        val sb = StringBuilder()
+        var curAr: Boolean? = null
+        for (ch in text) {
+            if (!ch.isLetter()) { sb.append(ch); continue }
+            val ar = ch.code in 0x0600..0x06FF
+            if (curAr == null) curAr = ar
+            if (ar != curAr) {
+                if (sb.isNotBlank()) runs.add(sb.toString())
+                sb.setLength(0)
+                curAr = ar
+            }
+            sb.append(ch)
+        }
+        if (sb.isNotBlank()) runs.add(sb.toString())
+        return if (runs.isEmpty()) listOf(text) else runs
     }
 
     private fun buildNotification(): Notification {
@@ -790,8 +871,11 @@ class ScreenReaderService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        released = true                 // stop any in-flight coroutine from touching bitmaps
         removeOverlayButton()
         scope.cancel()
+        try { captureThread?.quitSafely() } catch (_: Exception) {}
+        captureThread = null
         virtualDisplay?.release()
         imageReader?.close()
         projection?.stop()

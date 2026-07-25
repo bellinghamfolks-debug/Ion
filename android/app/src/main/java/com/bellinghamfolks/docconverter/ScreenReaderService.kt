@@ -175,7 +175,7 @@ class ScreenReaderService : Service() {
             // FREE on-device savers: skip a blank/near-uniform view (no text) and
             // skip a view identical to the last one we processed (you are still
             // looking at the same thing). Only genuinely NEW content is analysed.
-            if (isUniform(bmp)) {
+            if (!hasText(bmp)) {
                 // Diagnose the common "eSight camera view is a secure/overlay
                 // surface -> captured as black" case, so the user hears WHY it is
                 // silent instead of nothing at all.
@@ -668,26 +668,49 @@ class ScreenReaderService : Service() {
     }
 
     /**
-     * True only for a genuinely uniform frame (a blank wall / black capture).
-     * Measured on a 32x32 grid with a very low threshold so that MEDIUM and SMALL
-     * text — which occupies little of the frame and washes out on a coarse 8x8
-     * grid — is never mistaken for "blank" and skipped. This was why clear
-     * small/medium text went unread in every mode.
+     * Smart on-device text detector. Text — even small/medium — is a dense
+     * cluster of sharp stroke edges, unlike a blank wall or a smooth surface.
+     * We measure edge density (gradient magnitude) globally AND per grid cell,
+     * so a small block of text in a corner still triggers a read while truly
+     * empty frames are skipped. Sensitive by design: a false positive just costs
+     * one OCR call (which reads nothing), but missing real text is never OK.
      */
-    private fun isUniform(bmp: Bitmap): Boolean {
-        val n = 32
-        val small = Bitmap.createScaledBitmap(bmp, n, n, true)
-        var sum = 0.0; var sumSq = 0.0
-        for (y in 0 until n) for (x in 0 until n) {
-            val c = small.getPixel(x, y)
-            val l = 0.299 * ((c shr 16) and 0xFF) + 0.587 * ((c shr 8) and 0xFF) + 0.114 * (c and 0xFF)
-            sum += l; sumSq += l * l
-        }
+    private fun hasText(bmp: Bitmap): Boolean {
+        val target = 512
+        val scale = minOf(1f, target.toFloat() / maxOf(bmp.width, bmp.height))
+        val w = (bmp.width * scale).toInt().coerceAtLeast(16)
+        val h = (bmp.height * scale).toInt().coerceAtLeast(16)
+        val small = Bitmap.createScaledBitmap(bmp, w, h, true)
+        val px = IntArray(w * h)
+        small.getPixels(px, 0, w, 0, 0, w, h)
         small.recycle()
-        val count = n * n
-        val mean = sum / count
-        val variance = sumSq / count - mean * mean
-        return variance < 6.0
+        val lum = IntArray(w * h)
+        for (i in px.indices) {
+            val c = px[i]
+            lum[i] = (0.299 * ((c shr 16) and 0xFF) +
+                0.587 * ((c shr 8) and 0xFF) + 0.114 * (c and 0xFF)).toInt()
+        }
+        val gxN = 8; val gyN = 8
+        val cellEdges = IntArray(gxN * gyN)
+        var total = 0
+        val thr = 36                       // strong-edge threshold
+        for (y in 1 until h - 1) {
+            for (x in 1 until w - 1) {
+                val g = kotlin.math.abs(lum[y * w + x + 1] - lum[y * w + x - 1]) +
+                    kotlin.math.abs(lum[(y + 1) * w + x] - lum[(y - 1) * w + x])
+                if (g > thr) {
+                    total++
+                    cellEdges[(y * gyN / h) * gxN + (x * gxN / w)]++
+                }
+            }
+        }
+        val area = ((w - 2).coerceAtLeast(1)) * ((h - 2).coerceAtLeast(1))
+        val globalFrac = total.toDouble() / area
+        val cellArea = (w / gxN).coerceAtLeast(1) * (h / gyN).coerceAtLeast(1)
+        var maxCell = 0.0
+        for (v in cellEdges) maxCell = maxOf(maxCell, v.toDouble() / cellArea)
+        // Global edges (spread text) OR a dense local cell (small/corner text).
+        return globalFrac > 0.004 || maxCell > 0.10
     }
 
     // ---- Text helpers -------------------------------------------------------

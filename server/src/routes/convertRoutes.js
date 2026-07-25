@@ -515,13 +515,25 @@ async function geminiTranscribe(jpegBase64, model, options = {}) {
 // ---- Live OCR (for the eSight glasses reader) ------------------------------
 // Read ALL visible text in a single camera frame, Arabic + English, verbatim.
 // Short + fast (small output budget) for near-real-time reading aloud.
-async function geminiReadText(imageBase64, model) {
+async function geminiReadText(imageBase64, model, mode = "ocr") {
   const key = process.env.GEMINI_API_KEY;
   if (!key) { const e = new Error("ai_unavailable"); e.status = 503; throw e; }
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-  const prompt = "Read ALL the text visible in this image exactly as written, in natural reading order. " +
+  // Two live modes for the glasses reader:
+  //  - "ocr": read visible text verbatim (fast, for reading documents/signs).
+  //  - "describe": a rich live narration for a blind user — the scene, key
+  //    objects/people and their layout, then any visible text, all in Arabic.
+  const OCR_PROMPT =
+    "Read ALL the text visible in this image exactly as written, in natural reading order. " +
     "Keep the original language (Arabic stays Arabic, English stays English). Do not translate, " +
     "summarise, or add anything. Output ONLY the text. If there is no readable text, output nothing.";
+  const DESCRIBE_PROMPT =
+    "أنت راوٍ وصفي لحظي لمستخدم كفيف يرتدي نظارة كاميرا. صِف بإيجاز وغنى ما يظهر أمامه الآن " +
+    "بالعربية: المكان والمشهد، الأشخاص والأشياء المهمة ومواضعها، أي لافتات أو شاشات، ثم اقرأ أي " +
+    "نص ظاهر حرفيًا (اترك العربية عربية والإنجليزية إنجليزية). كن مباشرًا ومفيدًا في جملة إلى ثلاث " +
+    "جُمل قصيرة. إذا كان المشهد فارغًا أو غير واضح فلا تُخرج شيئًا.";
+  const describe = mode === "describe";
+  const prompt = describe ? DESCRIBE_PROMPT : OCR_PROMPT;
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -533,7 +545,7 @@ async function geminiReadText(imageBase64, model) {
           { inline_data: { mime_type: imageMimeFromB64(imageBase64), data: imageBase64 } },
         ],
       }],
-      generationConfig: { temperature: 1.0, maxOutputTokens: 2048 },
+      generationConfig: { temperature: 1.0, maxOutputTokens: describe ? 512 : 2048 },
     }),
   });
   if (!res.ok) {
@@ -766,8 +778,9 @@ convertRouter.post("/live-ocr", frameJson, liveLimit, async (req, res) => {
   const b64 = String(req.body?.imageBase64 || "");
   if (!b64) return res.status(400).json({ error: "missing_image" });
   const model = String(req.body?.model || MODEL_DEFAULT).slice(0, 60);
+  const mode = req.body?.mode === "describe" ? "describe" : "ocr";
   try {
-    const text = await geminiReadText(b64, model);
+    const text = await geminiReadText(b64, model, mode);
     res.json({ text });
   } catch (e) {
     if (e.status) return res.status(e.status).json({ error: e.message });

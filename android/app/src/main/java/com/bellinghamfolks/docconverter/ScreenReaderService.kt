@@ -308,19 +308,39 @@ class ScreenReaderService : Service() {
         scope.launch {
             try {
                 val dataDir = filesDir                     // parent of the tessdata/ folder
+                // First run only: the language data is fetched once (needs
+                // internet), then the local scanner works fully offline. Speak
+                // the state so a blind user knows what's happening.
+                if (!traineddataPresent(dataDir)) announce("جارٍ تنزيل بيانات القراءة المحلية، لحظة من فضلك.")
                 ensureTraineddata(dataDir)
                 val api = TessBaseAPI()
                 if (api.init(dataDir.absolutePath, "ara+eng")) {
                     api.pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO
                     localOcr = api
                     localReady = true
+                    announce("الماسح المحلي جاهز، يعمل الآن بدون إنترنت.")
                 } else {
                     api.recycle()
+                    announce("تعذّر تجهيز القراءة المحلية، سيتم استخدام الإنترنت.")
                 }
             } catch (_: Exception) {
                 localReady = false            // fall back to online OCR
+                announce("تعذّر تنزيل بيانات القراءة المحلية، سيتم استخدام الإنترنت.")
             }
         }
+    }
+
+    private fun traineddataPresent(dataDir: File): Boolean {
+        val tess = File(dataDir, "tessdata")
+        val ara = File(tess, "ara.traineddata")
+        val eng = File(tess, "eng.traineddata")
+        return ara.exists() && ara.length() > 0 && eng.exists() && eng.length() > 0
+    }
+
+    /** Speak a short spoken status update (used for local-scanner setup). */
+    private fun announce(msg: String) {
+        tts?.language = Locale("ar")
+        tts?.speak(msg, TextToSpeech.QUEUE_ADD, null, "announce-" + System.nanoTime())
     }
 
     /** Download the fast ara/eng models once into filesDir/tessdata/. */

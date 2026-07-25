@@ -32,9 +32,15 @@ object NetManager {
         if (callback != null) return
         val c = ctx.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         cm = c
+        // VALIDATED is critical: only bind to a cellular network Android has
+        // CONFIRMED reaches the internet. Without it we could bind to a cellular
+        // link with no real data, and every app request would fail while the
+        // browser (on Wi-Fi) still works. If no validated cellular exists,
+        // `cellular` stays null and open() falls back to the default network.
         val req = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
             .build()
         val cb = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) { cellular = network }

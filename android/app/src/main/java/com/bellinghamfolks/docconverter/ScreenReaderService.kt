@@ -76,6 +76,7 @@ class ScreenReaderService : Service() {
     @Volatile private var blankHintSpoken = false    // one-shot "screen looks black" hint
     private var narrationSig: IntArray? = null       // frame signature when a describe narration began
     @Volatile private var released = false           // service torn down; stop touching bitmaps
+    @Volatile private var fallbackAnnounced = false  // told the user local fell back to online
     private var captureThread: android.os.HandlerThread? = null
 
     private var localOcr: TessBaseAPI? = null
@@ -112,7 +113,12 @@ class ScreenReaderService : Service() {
         } else {
             startForeground(1, buildNotification())
         }
-        tts = TextToSpeech(this) { }
+        tts = TextToSpeech(this) { status ->
+            // Audible proof that the service is alive AND text-to-speech works.
+            // If the user hears nothing at all, the service is being killed by the
+            // OS (battery manager) or the TTS engine is unavailable.
+            if (status == TextToSpeech.SUCCESS) announce("القارئ جاهز.")
+        }
         tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onStart(utteranceId: String?) { if (utteranceId == currentUtterId) isSpeaking = true }
             override fun onDone(utteranceId: String?) {
@@ -260,15 +266,43 @@ class ScreenReaderService : Service() {
     private fun process(bmp: Bitmap) {
         if (released) { bmp.recycle(); inFlight = false; return }
         scope.launch {
+            // If the user picked an offline engine but it isn't ready yet, we fall
+            // back to online — say so once so they know why it needs the internet.
+            val selected = prefs().getString("ocr_mode", "online")
+            if (!describeEnabled() && !fallbackAnnounced &&
+                ((selected == "local" && !localReady) || (selected == "paddle" && paddle?.ready() != true))) {
+                fallbackAnnounced = true
+                announce("المحرّك المحلي غير جاهز بعد، سأستخدم الإنترنت مؤقتًا.")
+            }
+            var failure: String? = null
             val text = try {
                 when (engine()) {
                     "paddle" -> recognizePaddle(bmp)
                     "local" -> recognizeLocal(bmp)
                     else -> recognizeOnline(bmp)
                 }
-            } catch (_: Exception) { "" } finally { bmp.recycle() }
+            } catch (e: Exception) { failure = e.message; "" } finally { bmp.recycle() }
+            if (failure != null) announceError(failure)
             try { handleText(text) } catch (_: Exception) { inFlight = false }
         }
+    }
+
+    private var lastErrAt = 0L
+    /** Speak WHY a read failed (throttled) so silent failures become diagnosable. */
+    private fun announceError(msg: String?) {
+        val now = System.currentTimeMillis()
+        if (now - lastErrAt < 8000) return
+        lastErrAt = now
+        val m = msg ?: ""
+        val human = when {
+            m.contains("Unable to resolve host") || m.contains("failed to connect") ||
+                m.contains("timeout", true) || m.contains("timed out", true) ->
+                "تعذّر اتصال التطبيق بالإنترنت. إن كنت على واي‑فاي النظارة فعّل «استخدم بيانات الجوّال»، أو تأكّد من الإنترنت."
+            m.contains("HTTP 5") -> "خطأ من الخادم، حاول بعد قليل."
+            m.contains("HTTP 4") || m.contains("ocr_failed") -> "تعذّرت القراءة من الخادم."
+            else -> "تعذّرت القراءة، تحقّق من الاتصال."
+        }
+        announce(human)
     }
 
     /** Which engine to use for this frame (describe always needs online). */

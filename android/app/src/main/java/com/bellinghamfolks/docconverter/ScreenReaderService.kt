@@ -76,6 +76,7 @@ class ScreenReaderService : Service() {
     private var localOcr: TessBaseAPI? = null
     @Volatile private var localReady = false
     private var overlayButton: View? = null   // floating trigger over other apps
+    private val tessVariant = "best"          // tessdata_best = highest on-device accuracy
     // Fast, cheap model for near-real-time reading (Gemini Lite).
     private val onlineModel = "gemini-3.5-flash-lite"
     private val channelId = "live_reader"
@@ -255,18 +256,33 @@ class ScreenReaderService : Service() {
 
     private fun recognizeLocal(bmp: Bitmap): String {
         val api = localOcr ?: return ""
-        val prepped = preprocessForOcr(bmp)
-        val text = synchronized(api) {
-            api.setImage(prepped)
-            val t = api.getUTF8Text() ?: ""
-            val conf = try { api.meanConfidence() } catch (_: Exception) { 0 }
-            api.clear()
+        // Cap the work size: the best model is heavy; 1800px keeps each pass usable
+        // while still giving small text plenty of detail.
+        val work = scaleToLongEdge(bmp, 1800)
+        val prepped = preprocessForOcr(work)
+        val result = synchronized(api) {
+            var bestText = ""
+            var bestConf = -1
+            // Best-of-PSM: a held page/paragraph reads best as a single block,
+            // a sign/scattered scene as sparse text. Try both, keep the more
+            // confident non-empty result.
+            for (psm in intArrayOf(
+                    TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK,
+                    TessBaseAPI.PageSegMode.PSM_SPARSE_TEXT)) {
+                api.pageSegMode = psm
+                api.setImage(prepped)
+                val t = api.getUTF8Text() ?: ""
+                val conf = try { api.meanConfidence() } catch (_: Exception) { 0 }
+                api.clear()
+                if (t.isNotBlank() && conf > bestConf) { bestConf = conf; bestText = t }
+            }
             // Below this confidence Tesseract is guessing at noise -> say nothing
             // rather than reading out garbled symbols.
-            if (conf < 55) "" else t
+            if (bestConf < 55) "" else bestText
         }
-        if (prepped !== bmp) prepped.recycle()
-        return cleanOcr(text)
+        if (prepped !== work) prepped.recycle()
+        if (work !== bmp) work.recycle()
+        return cleanOcr(result)
     }
 
     /**
@@ -312,9 +328,30 @@ class ScreenReaderService : Service() {
                 out[y * w + x] = if (black) 0xFF000000.toInt() else 0xFFFFFFFF.toInt()
             }
         }
+        despeckle(out, w, h)
         val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         bmp.setPixels(out, 0, w, 0, 0, w, h)
         return bmp
+    }
+
+    /** Remove isolated black speckles and fill lone white holes (3x3 majority). */
+    private fun despeckle(bin: IntArray, w: Int, h: Int) {
+        if (w < 3 || h < 3) return
+        val black = 0xFF000000.toInt()
+        val white = 0xFFFFFFFF.toInt()
+        val copy = bin.copyOf()
+        for (y in 1 until h - 1) {
+            for (x in 1 until w - 1) {
+                var blk = 0
+                for (dy in -1..1) for (dx in -1..1) {
+                    if (dx == 0 && dy == 0) continue
+                    if (copy[(y + dy) * w + (x + dx)] == black) blk++
+                }
+                val i = y * w + x
+                if (copy[i] == black && blk <= 1) bin[i] = white
+                else if (copy[i] == white && blk >= 7) bin[i] = black
+            }
+        }
     }
 
     /** Drop noise lines (mostly symbols); keep lines that are real words. */
@@ -404,17 +441,16 @@ class ScreenReaderService : Service() {
         scope.launch {
             try {
                 val dataDir = filesDir                     // parent of the tessdata/ folder
-                // First run only: the language data is fetched once (needs
-                // internet), then the local scanner works fully offline. Speak
-                // the state so a blind user knows what's happening.
-                if (!traineddataPresent(dataDir)) announce("جارٍ تنزيل بيانات القراءة المحلية، لحظة من فضلك.")
+                // First run only: the high-accuracy language data is fetched once
+                // (needs internet, larger than before), then the local scanner
+                // works fully offline. Speak the state so a blind user knows.
+                if (needsTessDownload(dataDir)) announce("جارٍ تنزيل بيانات القراءة المحلية عالية الدقّة، قد تأخذ دقيقة.")
                 ensureTraineddata(dataDir)
+                // OEM_LSTM_ONLY: the neural engine required by the best models.
                 val api = TessBaseAPI()
-                if (api.init(dataDir.absolutePath, "ara+eng")) {
-                    // SPARSE_TEXT finds text anywhere in a real-world scene without
-                    // assuming a clean page layout — far more robust than PSM_AUTO
-                    // on photographic camera frames (signs, labels, held pages).
-                    api.pageSegMode = TessBaseAPI.PageSegMode.PSM_SPARSE_TEXT
+                if (api.init(dataDir.absolutePath, "ara+eng", TessBaseAPI.OEM_LSTM_ONLY)) {
+                    api.setVariable("user_defined_dpi", "300")        // Tesseract targets ~300 DPI
+                    api.setVariable("preserve_interword_spaces", "1")
                     localOcr = api
                     localReady = true
                     announce("الماسح المحلي جاهز، يعمل الآن بدون إنترنت.")
@@ -442,21 +478,38 @@ class ScreenReaderService : Service() {
         tts?.speak(msg, TextToSpeech.QUEUE_ADD, null, "announce-" + System.nanoTime())
     }
 
-    /** Download the fast ara/eng models once into filesDir/tessdata/. */
+    private fun needsTessDownload(dataDir: File): Boolean {
+        val tess = File(dataDir, "tessdata")
+        val marker = File(tess, ".variant")
+        val variant = if (marker.exists()) marker.runCatching { readText().trim() }.getOrDefault("") else ""
+        return variant != tessVariant || !traineddataPresent(dataDir)
+    }
+
+    /**
+     * Download the HIGH-ACCURACY ara/eng models (tessdata_best) once into
+     * filesDir/tessdata/. If an older (fast) variant is present it is replaced.
+     */
     private fun ensureTraineddata(dataDir: File) {
         val tess = File(dataDir, "tessdata").apply { mkdirs() }
+        val marker = File(tess, ".variant")
+        val variant = if (marker.exists()) marker.runCatching { readText().trim() }.getOrDefault("") else ""
+        if (variant != tessVariant) {
+            File(tess, "ara.traineddata").delete()
+            File(tess, "eng.traineddata").delete()
+        }
         for (lang in listOf("ara", "eng")) {
             val f = File(tess, "$lang.traineddata")
             if (f.exists() && f.length() > 0) continue
-            val url = URL("https://github.com/tesseract-ocr/tessdata_fast/raw/main/$lang.traineddata")
+            val url = URL("https://github.com/tesseract-ocr/tessdata_best/raw/main/$lang.traineddata")
             val conn = url.openConnection() as HttpURLConnection
             try {
                 conn.connectTimeout = 20000
-                conn.readTimeout = 120000
+                conn.readTimeout = 240000        // best models are larger
                 conn.instanceFollowRedirects = true
                 conn.inputStream.use { input -> f.outputStream().use { input.copyTo(it) } }
             } finally { conn.disconnect() }
         }
+        marker.runCatching { writeText(tessVariant) }
     }
 
     // ---- Frame helpers ------------------------------------------------------

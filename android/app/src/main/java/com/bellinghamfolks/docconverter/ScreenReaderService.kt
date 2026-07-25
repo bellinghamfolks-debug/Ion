@@ -70,6 +70,8 @@ class ScreenReaderService : Service() {
     @Volatile private var isSpeaking = false       // an utterance is playing now
     private var switchStreak = 0                    // debounce for jumping to new text
     @Volatile private var captureRequested = false  // on-demand: read/describe once now
+    private var blankStreak = 0                      // consecutive black/blank captured frames
+    @Volatile private var blankHintSpoken = false    // one-shot "screen looks black" hint
 
     private var localOcr: TessBaseAPI? = null
     @Volatile private var localReady = false
@@ -157,7 +159,19 @@ class ScreenReaderService : Service() {
             // FREE on-device savers: skip a blank/near-uniform view (no text) and
             // skip a view identical to the last one we processed (you are still
             // looking at the same thing). Only genuinely NEW content is analysed.
-            if (isBlank(sig) || similar(sig, lastSignature)) { bmp.recycle(); return@setOnImageAvailableListener }
+            if (isBlank(sig)) {
+                // Diagnose the common "eSight camera view is a secure/overlay
+                // surface -> captured as black" case, so the user hears WHY it is
+                // silent instead of nothing at all.
+                blankStreak++
+                if (blankStreak >= 4 && !blankHintSpoken) {
+                    blankHintSpoken = true
+                    announce("لا ألتقط نصًا من الشاشة. إذا كان مشهد النظارة معروضًا الآن، فقد لا يستطيع النظام تصويره؛ جرّب التقاط لقطة شاشة للتأكّد.")
+                }
+                bmp.recycle(); return@setOnImageAvailableListener
+            }
+            blankStreak = 0
+            if (similar(sig, lastSignature)) { bmp.recycle(); return@setOnImageAvailableListener }
             lastSignature = sig
             lastSentAt = now
             inFlight = true
@@ -246,7 +260,11 @@ class ScreenReaderService : Service() {
      */
     private fun handleText(text: String) {
         inFlight = false
-        if (text.isBlank()) return
+        if (text.isBlank()) {
+            // On-demand: the user pressed and got nothing — tell them, don't stay silent.
+            if (demandMode()) announce("لا يوجد نص واضح لأقرأه في هذا المشهد.")
+            return
+        }
         // On-demand: the user explicitly asked, so read/describe it now — even if
         // it repeats the last thing and even if something is already playing.
         if (demandMode()) {
@@ -408,7 +426,8 @@ class ScreenReaderService : Service() {
         var variance = 0.0
         for (v in sig) { val d = v - mean; variance += d * d }
         variance /= sig.size
-        return variance < 40.0     // near-uniform => no text to read
+        return variance < 15.0     // near-uniform => no text to read (lowered so
+                                   // dim-but-real camera frames still get a chance)
     }
 
     // ---- Text helpers -------------------------------------------------------

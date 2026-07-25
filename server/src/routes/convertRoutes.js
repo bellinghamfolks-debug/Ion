@@ -518,7 +518,6 @@ async function geminiTranscribe(jpegBase64, model, options = {}) {
 async function geminiReadText(imageBase64, model, mode = "ocr") {
   const key = process.env.GEMINI_API_KEY;
   if (!key) { const e = new Error("ai_unavailable"); e.status = 503; throw e; }
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
   // Two live modes for the glasses reader:
   //  - "ocr": read visible text verbatim (fast, for reading documents/signs).
   //  - "describe": a rich live narration for a blind user — the scene, key
@@ -534,20 +533,33 @@ async function geminiReadText(imageBase64, model, mode = "ocr") {
     "جُمل قصيرة. إذا كان المشهد فارغًا أو غير واضح فلا تُخرج شيئًا.";
   const describe = mode === "describe";
   const prompt = describe ? DESCRIBE_PROMPT : OCR_PROMPT;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [{
-        role: "user",
-        parts: [
-          { text: prompt },
-          { inline_data: { mime_type: imageMimeFromB64(imageBase64), data: imageBase64 } },
-        ],
-      }],
-      generationConfig: { temperature: 1.0, maxOutputTokens: describe ? 512 : 2048 },
-    }),
-  });
+
+  async function callOnce(m) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{
+          role: "user",
+          parts: [
+            { text: prompt },
+            { inline_data: { mime_type: imageMimeFromB64(imageBase64), data: imageBase64 } },
+          ],
+        }],
+        generationConfig: { temperature: 1.0, maxOutputTokens: describe ? 512 : 2048 },
+      }),
+    });
+    return res;
+  }
+
+  let res = await callOnce(model);
+  // Resilience: if the requested model id is unknown/retired (e.g. Google renamed
+  // a Lite id), don't let the live reader go silent — retry once with the known
+  // GA default so the glasses keep working.
+  if (res.status === 404 && model !== MODEL_DEFAULT) {
+    res = await callOnce(MODEL_DEFAULT);
+  }
   if (!res.ok) {
     const detail = await res.text();
     throw new Error(`gemini ${res.status}: ${detail.slice(0, 200)}`);

@@ -94,6 +94,7 @@ class ScreenReaderService : Service() {
         // On-demand trigger from the notification action / in-app button: the
         // service is already running, just arm a single capture.
         if (intent?.action == ACTION_CAPTURE) {
+            DiagLog.log("ACTION", "capture requested (running=${projection != null})")
             if (projection == null) { stopSelf(); return START_NOT_STICKY }  // not started yet
             captureRequested = true
             return START_NOT_STICKY
@@ -102,6 +103,7 @@ class ScreenReaderService : Service() {
         // notification, without leaving the eSight app.
         if (intent?.action == ACTION_TOGGLE_DESCRIBE) {
             val now = !describeEnabled()
+            DiagLog.log("ACTION", "toggle describe -> $now")
             prefs().edit().putBoolean("describe", now).apply()
             tts?.stop()
             announce(if (now) "تم تشغيل الوصف، وأُوقفت القراءة." else "تم إيقاف الوصف، والعودة للقراءة.")
@@ -113,10 +115,13 @@ class ScreenReaderService : Service() {
         } else {
             startForeground(1, buildNotification())
         }
+        DiagLog.startSession(this, "device=${Build.MANUFACTURER} ${Build.MODEL} android=${Build.VERSION.SDK_INT}" +
+            " | mode=${prefs().getString("ocr_mode", "online")} trigger=${prefs().getString("trigger", "live")}" +
+            " describe=${describeEnabled()} preferCellular=${prefs().getBoolean("prefer_cellular", false)}" +
+            " onlineModel=$onlineModel")
         tts = TextToSpeech(this) { status ->
             // Audible proof that the service is alive AND text-to-speech works.
-            // If the user hears nothing at all, the service is being killed by the
-            // OS (battery manager) or the TTS engine is unavailable.
+            DiagLog.log("TTS", "init status=$status (0=SUCCESS)")
             if (status == TextToSpeech.SUCCESS) announce("القارئ جاهز.")
         }
         tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
@@ -159,6 +164,7 @@ class ScreenReaderService : Service() {
         val dw = (metrics.widthPixels * scale).toInt().coerceAtLeast(1)
         val dh = (metrics.heightPixels * scale).toInt().coerceAtLeast(1)
 
+        DiagLog.log("CAPTURE", "start dw=$dw dh=$dh scale=$scale dpi=${metrics.densityDpi}")
         val reader = ImageReader.newInstance(dw, dh, PixelFormat.RGBA_8888, 2)
         imageReader = reader
         virtualDisplay = proj.createVirtualDisplay(
@@ -179,7 +185,8 @@ class ScreenReaderService : Service() {
                     if (!captureRequested || inFlight) { image.close(); return@setOnImageAvailableListener }
                     captureRequested = false
                     val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
-                    if (bmp == null) return@setOnImageAvailableListener
+                    if (bmp == null) { DiagLog.log("FRAME", "demand: null bitmap"); return@setOnImageAvailableListener }
+                    DiagLog.log("FRAME", "demand -> process eng=${engine()}")
                     lastSignature = signature(bmp)
                     inFlight = true
                     process(bmp)
@@ -190,12 +197,12 @@ class ScreenReaderService : Service() {
                 val minInterval = if (engine() == "online") 2000L else 700L
                 if (inFlight || now - lastSentAt < minInterval) { image.close(); return@setOnImageAvailableListener }
                 val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
-                if (bmp == null) return@setOnImageAvailableListener
+                if (bmp == null) { DiagLog.log("FRAME", "null bitmap from capture"); return@setOnImageAvailableListener }
                 val sig = signature(bmp)
                 val info = analyzeFrame(bmp)
                 if (!info.hasText) {
-                    // Diagnose the "captured as black" case so the user hears WHY.
                     blankStreak++
+                    DiagLog.log("FRAME", "skip: no text detected (blankStreak=$blankStreak)")
                     if (blankStreak >= 4 && !blankHintSpoken) {
                         blankHintSpoken = true
                         announce("لا ألتقط نصًا من الشاشة. إذا كان مشهد النظارة معروضًا الآن، فقد لا يستطيع النظام تصويره؛ جرّب التقاط لقطة شاشة للتأكّد.")
@@ -203,17 +210,20 @@ class ScreenReaderService : Service() {
                     bmp.recycle(); return@setOnImageAvailableListener
                 }
                 blankStreak = 0
-                // Skip blurry/moving frames so OCR only sees a sharp view — but
-                // never starve: read anyway after a few soft frames.
-                if (!info.sharp && blurStreak < 3) { blurStreak++; bmp.recycle(); return@setOnImageAvailableListener }
+                if (!info.sharp && blurStreak < 3) {
+                    blurStreak++
+                    DiagLog.log("FRAME", "skip: blurry (blurStreak=$blurStreak)")
+                    bmp.recycle(); return@setOnImageAvailableListener
+                }
                 blurStreak = 0
-                if (similar(sig, lastSignature)) { bmp.recycle(); return@setOnImageAvailableListener }
+                if (similar(sig, lastSignature)) { DiagLog.log("FRAME", "skip: unchanged view"); bmp.recycle(); return@setOnImageAvailableListener }
                 lastSignature = sig
                 lastSentAt = now
                 inFlight = true
+                DiagLog.log("FRAME", "NEW content, sharp=${info.sharp} -> process eng=${engine()}")
                 process(bmp)
-            } catch (_: Exception) {
-                // A single frame error must never crash the capture thread/service.
+            } catch (e: Exception) {
+                DiagLog.err("FRAME", e)
             }
         }, captureHandler)
 
@@ -274,16 +284,24 @@ class ScreenReaderService : Service() {
                 fallbackAnnounced = true
                 announce("المحرّك المحلي غير جاهز بعد، سأستخدم الإنترنت مؤقتًا.")
             }
+            val eng = engine()
+            val t0 = System.currentTimeMillis()
             var failure: String? = null
             val text = try {
-                when (engine()) {
+                when (eng) {
                     "paddle" -> recognizePaddle(bmp)
                     "local" -> recognizeLocal(bmp)
                     else -> recognizeOnline(bmp)
                 }
-            } catch (e: Exception) { failure = e.message; "" } finally { bmp.recycle() }
-            if (failure != null) announceError(failure)
-            try { handleText(text) } catch (_: Exception) { inFlight = false }
+            } catch (e: Exception) { failure = e.message; DiagLog.err("OCR", e); "" } finally { bmp.recycle() }
+            val dt = System.currentTimeMillis() - t0
+            if (failure != null) {
+                DiagLog.log("OCR", "FAILED eng=$eng ${dt}ms: $failure")
+                announceError(failure)
+            } else {
+                DiagLog.log("OCR", "ok eng=$eng ${dt}ms chars=${text.length} \"${text.take(60).replace('\n', ' ')}\"")
+            }
+            try { handleText(text) } catch (e: Exception) { DiagLog.err("HANDLE", e); inFlight = false }
         }
     }
 
@@ -333,6 +351,7 @@ class ScreenReaderService : Service() {
         val jpeg = compressJpeg(norm)
         norm.recycle()
         val mode = if (describeEnabled()) "describe" else "ocr"
+        DiagLog.log("NET", "online request model=$onlineModel mode=$mode jpeg=${jpeg.size}B")
         return ConvertApi.liveOcr(jpeg, onlineModel, mode).trim()
     }
 
@@ -585,6 +604,8 @@ class ScreenReaderService : Service() {
         if (!isNearDuplicate(text)) {
             lastSpoken = text
             speak(text)
+        } else {
+            DiagLog.log("HANDLE", "skip: near-duplicate of last read")
         }
     }
 
@@ -608,13 +629,16 @@ class ScreenReaderService : Service() {
     private fun initPaddleIfNeeded() {
         if (!paddleSelected()) return
         scope.launch {
+            DiagLog.log("PADDLE", "setup start")
             val p = PaddleOcr(this@ScreenReaderService)
             announce("جارٍ تجهيز محرّك PaddleOCR عالي الدقّة، قد يأخذ دقائق عند أول مرة.")
             val err = p.setup()
             if (err == null) {
                 paddle = p
+                DiagLog.log("PADDLE", "ready")
                 announce("محرّك PaddleOCR جاهز.")
             } else {
+                DiagLog.log("PADDLE", "setup FAILED: $err")
                 announce("تعذّر تجهيز PaddleOCR، سيتم استخدام البديل. السبب: $err")
             }
         }
@@ -627,25 +651,26 @@ class ScreenReaderService : Service() {
         scope.launch {
             try {
                 val dataDir = filesDir                     // parent of the tessdata/ folder
-                // First run only: the high-accuracy language data is fetched once
-                // (needs internet, larger than before), then the local scanner
-                // works fully offline. Speak the state so a blind user knows.
-                if (needsTessDownload(dataDir)) announce("جارٍ تنزيل بيانات القراءة المحلية عالية الدقّة، قد تأخذ دقيقة.")
+                val needed = needsTessDownload(dataDir)
+                DiagLog.log("LOCAL", "tesseract setup start (needDownload=$needed)")
+                if (needed) announce("جارٍ تنزيل بيانات القراءة المحلية عالية الدقّة، قد تأخذ دقيقة.")
                 ensureTraineddata(dataDir)
-                // OEM_LSTM_ONLY: the neural engine required by the best models.
                 val api = TessBaseAPI()
                 if (api.init(dataDir.absolutePath, "ara+eng", TessBaseAPI.OEM_LSTM_ONLY)) {
                     api.setVariable("user_defined_dpi", "300")        // Tesseract targets ~300 DPI
                     api.setVariable("preserve_interword_spaces", "1")
                     localOcr = api
                     localReady = true
+                    DiagLog.log("LOCAL", "tesseract ready")
                     announce("الماسح المحلي جاهز، يعمل الآن بدون إنترنت.")
                 } else {
                     api.recycle()
+                    DiagLog.log("LOCAL", "tesseract init FAILED")
                     announce("تعذّر تجهيز القراءة المحلية، سيتم استخدام الإنترنت.")
                 }
-            } catch (_: Exception) {
+            } catch (e: Exception) {
                 localReady = false            // fall back to online OCR
+                DiagLog.err("LOCAL", e)
                 announce("تعذّر تنزيل بيانات القراءة المحلية، سيتم استخدام الإنترنت.")
             }
         }
@@ -831,6 +856,7 @@ class ScreenReaderService : Service() {
         // Speak each script run in its own language so mixed Arabic/English text
         // isn't voiced entirely in one language (mispronunciation).
         val runs = splitByScript(text)
+        DiagLog.log("SPEAK", "runs=${runs.size} rate=$rate \"${text.take(60).replace('\n', ' ')}\"")
         // Don't clobber an important status announcement mid-sentence: append if
         // one is still playing, otherwise flush the previous read.
         var mode = if (announcing) TextToSpeech.QUEUE_ADD else TextToSpeech.QUEUE_FLUSH
@@ -903,6 +929,7 @@ class ScreenReaderService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        DiagLog.log("SVC", "onDestroy — session ending")
         released = true                 // stop any in-flight coroutine from touching bitmaps
         removeOverlayButton()
         scope.cancel()

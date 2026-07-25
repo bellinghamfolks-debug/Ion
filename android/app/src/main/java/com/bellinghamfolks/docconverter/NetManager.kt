@@ -25,6 +25,7 @@ object NetManager {
 
     fun setPreferCellular(ctx: Context, enabled: Boolean) {
         preferCellular = enabled
+        DiagLog.log("NET", "preferCellular=$enabled")
         if (enabled) requestCellular(ctx) else release()
     }
 
@@ -43,8 +44,8 @@ object NetManager {
             .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
             .build()
         val cb = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) { cellular = network }
-            override fun onLost(network: Network) { if (cellular == network) cellular = null }
+            override fun onAvailable(network: Network) { cellular = network; DiagLog.log("NET", "validated cellular available") }
+            override fun onLost(network: Network) { if (cellular == network) { cellular = null; DiagLog.log("NET", "cellular lost") } }
         }
         callback = cb
         try { c.requestNetwork(req, cb) } catch (_: Exception) {}
@@ -60,8 +61,10 @@ object NetManager {
     fun open(urlStr: String): HttpURLConnection {
         val url = URL(urlStr)
         val net = cellular
-        return if (preferCellular && net != null)
-            net.openConnection(url) as HttpURLConnection
+        val useCell = preferCellular && net != null
+        DiagLog.log("NET", "open via ${if (useCell) "CELLULAR" else "default network"} (preferCellular=$preferCellular cellularReady=${net != null})")
+        return if (useCell)
+            net!!.openConnection(url) as HttpURLConnection
         else
             url.openConnection() as HttpURLConnection
     }

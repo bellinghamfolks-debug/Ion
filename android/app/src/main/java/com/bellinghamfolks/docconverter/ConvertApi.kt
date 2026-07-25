@@ -46,6 +46,7 @@ object ConvertApi {
 
     // ---- HTTP helpers (no third-party deps) --------------------------------
     private fun postJson(urlStr: String, json: String): String {
+        val t0 = System.currentTimeMillis()
         val conn = NetManager.open(urlStr)
         try {
             conn.requestMethod = "POST"
@@ -54,7 +55,12 @@ object ConvertApi {
             conn.readTimeout = 90000
             conn.setRequestProperty("Content-Type", "application/json")
             conn.outputStream.use { it.write(json.toByteArray(Charsets.UTF_8)) }
-            return readResponse(conn)
+            val out = readResponse(conn)
+            DiagLog.log("HTTP", "POST ${urlStr.substringAfterLast('/')} -> ${conn.responseCode} in ${System.currentTimeMillis() - t0}ms")
+            return out
+        } catch (e: Exception) {
+            DiagLog.log("HTTP", "POST ${urlStr.substringAfterLast('/')} FAILED in ${System.currentTimeMillis() - t0}ms: ${e.message}")
+            throw e
         } finally { conn.disconnect() }
     }
 

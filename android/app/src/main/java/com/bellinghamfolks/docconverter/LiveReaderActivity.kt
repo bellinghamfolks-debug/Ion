@@ -221,6 +221,34 @@ class LiveReaderActivity : AppCompatActivity() {
         speedRow.addView(speedButton("أسرع", 1.8f))
         root.addView(speedRow)
 
+        // --- Diagnostics ---
+        root.addView(sectionLabel("التشخيص"))
+        root.addView(TextView(this).apply {
+            text = "يسجّل التطبيق كل خطوة (التقاط، كشف، اتصال، قراءة، أخطاء) في ملف. " +
+                "شغّل القراءة ثم شارك الملف معي لتحديد أي مشكلة بدقّة."
+            textSize = 15f; setPadding(0, 8, 0, 8)
+        })
+        root.addView(bigButton("مشاركة ملف التشخيص") {
+            try {
+                val f = DiagLog.file(this)
+                if (!f.exists() || f.length() == 0L) { status.text = "لا يوجد سجل بعد — شغّل القراءة أولًا."; return@bigButton }
+                val uri = androidx.core.content.FileProvider.getUriForFile(this, "$packageName.fileprovider", f)
+                val send = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                    putExtra(Intent.EXTRA_SUBJECT, "DocConverter live-reader diagnostic")
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+                startActivity(Intent.createChooser(send, "مشاركة ملف التشخيص"))
+            } catch (e: Exception) {
+                status.text = "تعذّرت المشاركة: ${e.message}"
+            }
+        })
+        root.addView(bigButton("مسح ملف التشخيص") {
+            DiagLog.clear(this)
+            status.text = "مُسح ملف التشخيص."
+        })
+
         setContentView(ScrollView(this).apply { addView(root) })
     }
 

@@ -74,7 +74,6 @@ class ScreenReaderService : Service() {
     private var blankStreak = 0                      // consecutive black/blank captured frames
     private var blurStreak = 0                       // consecutive blurry frames skipped
     @Volatile private var blankHintSpoken = false    // one-shot "screen looks black" hint
-    private var pendingNorm = ""                     // a read awaiting 2-frame confirmation
     private var narrationSig: IntArray? = null       // frame signature when a describe narration began
     @Volatile private var released = false           // service torn down; stop touching bitmaps
     private var captureThread: android.os.HandlerThread? = null
@@ -543,16 +542,15 @@ class ScreenReaderService : Service() {
             return
         }
 
-        // Idle. Confirm a new reading across TWO frames before speaking, so a
-        // single noisy frame can never produce a wrong or partial read.
+        // Idle: read new text right away (but not what we just finished reading).
+        // NOTE: a two-frame "temporal confirmation" was tried here and REMOVED —
+        // it dead-locked with the change-detection gate (the confirming second
+        // frame is the SAME view, so it gets skipped and nothing was ever spoken).
+        // The change-detection + near-duplicate checks already prevent misfires.
         switchStreak = 0
-        if (isNearDuplicate(text)) { pendingNorm = ""; return }
-        if (pendingNorm.isNotEmpty() && similarity(newNorm, pendingNorm) >= 0.7) {
-            pendingNorm = ""
+        if (!isNearDuplicate(text)) {
             lastSpoken = text
             speak(text)
-        } else {
-            pendingNorm = newNorm       // wait for the next frame to confirm
         }
     }
 

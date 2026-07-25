@@ -32,11 +32,16 @@ object ConvertApi {
         getBytes("$BASE/convert/jobs/$jobId/result.docx")
     }
 
-    /** Live OCR of one camera frame -> visible text (Arabic + English). */
-    suspend fun liveOcr(jpeg: ByteArray, model: String): String = withContext(Dispatchers.IO) {
+    /**
+     * Live analysis of one camera frame -> text (Arabic + English).
+     * mode = "ocr" reads visible text verbatim; mode = "describe" returns a rich
+     * live scene narration for a blind user.
+     */
+    suspend fun liveOcr(jpeg: ByteArray, model: String, mode: String = "ocr"): String = withContext(Dispatchers.IO) {
         val body = JSONObject()
             .put("imageBase64", Base64.encodeToString(jpeg, Base64.NO_WRAP))
             .put("model", model)
+            .put("mode", mode)
         JSONObject(postJson("$BASE/convert/live-ocr", body.toString())).optString("text", "")
     }
 

@@ -24,18 +24,28 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.util.DisplayMetrics
 import android.view.WindowManager
+import com.googlecode.tesseract.android.TessBaseAPI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.net.HttpURLConnection
+import java.net.URL
 import java.util.Locale
 
 /**
- * Foreground service: mirrors the screen (the eSight Companion camera view),
- * throttles to ~1 frame/2s, OCRs each frame on the server, and speaks new text
- * aloud in Arabic/English. No on-device OCR — just capture + network + TTS.
+ * Foreground service that powers the glasses live reader. It mirrors the screen
+ * (the eSight Companion camera view), detects when the view genuinely changes,
+ * turns the frame into text, and speaks it aloud in Arabic/English.
+ *
+ * Three modes, chosen from the live-reader settings:
+ *   - Online OCR (Gemini Flash-Lite): reads visible text, refreshed ~every 2s.
+ *   - Local OCR  (Tesseract ara+eng): offline, instant, free — lower accuracy.
+ *   - Rich live description: a spoken narration of the whole scene for a blind
+ *     user (online only — Tesseract can only read text, not describe).
  */
 class ScreenReaderService : Service() {
 
@@ -46,12 +56,18 @@ class ScreenReaderService : Service() {
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     private var lastSpoken = ""
-    private var speakingNorm = ""      // normalised text currently being read
+    private var speakingNorm = ""       // normalised text of the current utterance
     private var currentUtterId = ""
     private var inFlight = false
     private var lastSentAt = 0L
-    private var lastSignature: IntArray? = null   // last frame we paid to OCR
-    private val model = "gemini-3.6-flash"
+    private var lastSignature: IntArray? = null   // last frame we actually processed
+    @Volatile private var isSpeaking = false       // an utterance is playing now
+    private var switchStreak = 0                    // debounce for jumping to new text
+
+    private var localOcr: TessBaseAPI? = null
+    @Volatile private var localReady = false
+    // Fast, cheap model for near-real-time reading (Gemini Lite).
+    private val onlineModel = "gemini-3.5-flash-lite"
     private val channelId = "live_reader"
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -64,11 +80,12 @@ class ScreenReaderService : Service() {
         }
         tts = TextToSpeech(this) { }
         tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-            override fun onStart(utteranceId: String?) {}
-            override fun onDone(utteranceId: String?) { if (utteranceId == currentUtterId) speakingNorm = "" }
+            override fun onStart(utteranceId: String?) { if (utteranceId == currentUtterId) isSpeaking = true }
+            override fun onDone(utteranceId: String?) { if (utteranceId == currentUtterId) { isSpeaking = false; speakingNorm = "" } }
             @Deprecated("Deprecated in Java")
-            override fun onError(utteranceId: String?) { if (utteranceId == currentUtterId) speakingNorm = "" }
+            override fun onError(utteranceId: String?) { if (utteranceId == currentUtterId) { isSpeaking = false; speakingNorm = "" } }
         })
+        initLocalOcrIfNeeded()
         val code = intent?.getIntExtra("code", Activity.RESULT_CANCELED) ?: Activity.RESULT_CANCELED
         @Suppress("DEPRECATION")
         val data: Intent? = intent?.getParcelableExtra("data")
@@ -101,22 +118,145 @@ class ScreenReaderService : Service() {
         reader.setOnImageAvailableListener({ r ->
             val image = r.acquireLatestImage() ?: return@setOnImageAvailableListener
             val now = System.currentTimeMillis()
-            if (inFlight || now - lastSentAt < 2000) { image.close(); return@setOnImageAvailableListener }
+            // Local OCR has no network cost, so it can refresh much faster and
+            // feel instant; the online path stays at ~2s (Gemini Lite).
+            val minInterval = if (useLocal()) 700L else 2000L
+            if (inFlight || now - lastSentAt < minInterval) { image.close(); return@setOnImageAvailableListener }
             val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
             if (bmp == null) return@setOnImageAvailableListener
             val sig = signature(bmp)
-            // FREE on-device cost savers: skip a blank/near-uniform view (no text)
-            // and skip a view identical to the last one we sent (you are still
-            // looking at the same thing). Only genuinely NEW content costs a call.
+            // FREE on-device savers: skip a blank/near-uniform view (no text) and
+            // skip a view identical to the last one we processed (you are still
+            // looking at the same thing). Only genuinely NEW content is analysed.
             if (isBlank(sig) || similar(sig, lastSignature)) { bmp.recycle(); return@setOnImageAvailableListener }
             lastSignature = sig
             lastSentAt = now
-            val jpeg = compressJpeg(bmp)
-            bmp.recycle()
             inFlight = true
-            send(jpeg)
+            process(bmp)
         }, Handler(Looper.getMainLooper()))
     }
+
+    private fun process(bmp: Bitmap) {
+        scope.launch {
+            val text = try {
+                if (useLocal()) recognizeLocal(bmp) else recognizeOnline(bmp)
+            } catch (_: Exception) { "" } finally { bmp.recycle() }
+            handleText(text)
+        }
+    }
+
+    private suspend fun recognizeOnline(bmp: Bitmap): String {
+        val jpeg = compressJpeg(bmp)
+        val mode = if (describeEnabled()) "describe" else "ocr"
+        return ConvertApi.liveOcr(jpeg, onlineModel, mode).trim()
+    }
+
+    private fun recognizeLocal(bmp: Bitmap): String {
+        val api = localOcr ?: return ""
+        return synchronized(api) {
+            api.setImage(bmp)
+            val t = api.getUTF8Text() ?: ""
+            api.clear()
+            t.trim()
+        }
+    }
+
+    /**
+     * Decide what (if anything) to speak for a freshly recognised frame.
+     *
+     * Key fix for the "reads, restarts, reads, restarts… never finishes" loop:
+     * while an utterance is playing we do NOT restart it for text that is
+     * essentially the same (tiny eye movements make the OCR jitter). We only jump
+     * to new text once a genuinely different reading persists for 2 frames. In
+     * rich-description mode we never interrupt — the narration always finishes.
+     */
+    private fun handleText(text: String) {
+        inFlight = false
+        if (text.isBlank()) return
+        val newNorm = normalize(text)
+        val dontInterrupt = describeEnabled()
+
+        if (isSpeaking) {
+            if (dontInterrupt || similarity(newNorm, speakingNorm) >= 0.5) {
+                switchStreak = 0            // same text / narrating -> keep going, no restart
+                return
+            }
+            // A genuinely different text appeared. Only jump to it once it
+            // persists for a couple of frames (debounce), and only when
+            // auto-switch is on — a single jittery frame must not interrupt.
+            if (autoStopEnabled()) {
+                switchStreak++
+                if (switchStreak >= 2) {
+                    switchStreak = 0
+                    lastSpoken = text
+                    speak(text)
+                }
+            }
+            return
+        }
+
+        // Idle: read new text, but not something we just finished reading.
+        switchStreak = 0
+        if (!isNearDuplicate(text)) {
+            lastSpoken = text
+            speak(text)
+        }
+    }
+
+    // ---- Settings -----------------------------------------------------------
+
+    private fun prefs() = getSharedPreferences("live_reader", Context.MODE_PRIVATE)
+
+    /** Local (Tesseract) OCR is only used when selected AND ready AND not describing. */
+    private fun useLocal(): Boolean =
+        localReady && prefs().getString("ocr_mode", "online") == "local" && !describeEnabled()
+
+    private fun describeEnabled(): Boolean = prefs().getBoolean("describe", false)
+
+    private fun autoStopEnabled(): Boolean = prefs().getBoolean("autostop", true)
+
+    private fun localSelected(): Boolean = prefs().getString("ocr_mode", "online") == "local"
+
+    // ---- On-device OCR (Tesseract) -----------------------------------------
+
+    private fun initLocalOcrIfNeeded() {
+        if (!localSelected()) return
+        scope.launch {
+            try {
+                val dataDir = filesDir                     // parent of the tessdata/ folder
+                ensureTraineddata(dataDir)
+                val api = TessBaseAPI()
+                if (api.init(dataDir.absolutePath, "ara+eng")) {
+                    api.pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO
+                    localOcr = api
+                    localReady = true
+                } else {
+                    api.recycle()
+                }
+            } catch (_: Exception) {
+                localReady = false            // fall back to online OCR
+            }
+        }
+    }
+
+    /** Download the fast ara/eng models once into filesDir/tessdata/. */
+    private fun ensureTraineddata(dataDir: File) {
+        val tess = File(dataDir, "tessdata").apply { mkdirs() }
+        for (lang in listOf("ara", "eng")) {
+            val f = File(tess, "$lang.traineddata")
+            if (f.exists() && f.length() > 0) continue
+            val url = URL("https://github.com/tesseract-ocr/tessdata_fast/raw/main/$lang.traineddata")
+            val conn = url.openConnection() as HttpURLConnection
+            try {
+                conn.connectTimeout = 20000
+                conn.readTimeout = 120000
+                conn.instanceFollowRedirects = true
+                conn.inputStream.use { input -> f.outputStream().use { input.copyTo(it) } }
+            } finally { conn.disconnect() }
+        }
+    }
+
+    // ---- Frame helpers ------------------------------------------------------
 
     private fun imageToBitmap(image: Image, dw: Int, dh: Int): Bitmap {
         val plane = image.planes[0]
@@ -167,44 +307,25 @@ class ScreenReaderService : Service() {
         return variance < 40.0     // near-uniform => no text to read
     }
 
-    private fun send(jpeg: ByteArray) {
-        scope.launch {
-            try {
-                val text = ConvertApi.liveOcr(jpeg, model).trim()
-                val newNorm = normalize(text)
-                // Smart auto-stop: if the text being read is no longer in view
-                // (the user looked away / moved the glasses), stop reading it.
-                if (autoStopEnabled() && speakingNorm.isNotEmpty() && !stillVisible(newNorm, speakingNorm)) {
-                    tts?.stop()
-                    speakingNorm = ""
-                    lastSpoken = ""   // allow re-reading if the user looks back
-                }
-                if (text.isNotEmpty() && !isNearDuplicate(text)) {
-                    lastSpoken = text
-                    speak(text)
-                }
-            } catch (_: Exception) {
-            } finally {
-                inFlight = false
-            }
-        }
-    }
+    // ---- Text helpers -------------------------------------------------------
 
-    private fun autoStopEnabled(): Boolean =
-        getSharedPreferences("live_reader", Context.MODE_PRIVATE).getBoolean("autostop", true)
-
-    /** Is the currently-read text still visible in the new frame? */
-    private fun stillVisible(newNorm: String, spokenNorm: String): Boolean {
-        if (newNorm.isEmpty()) return false
-        if (newNorm.contains(spokenNorm) || spokenNorm.contains(newNorm)) return true
-        val sig = spokenNorm.take(24)
-        return sig.length >= 6 && newNorm.contains(sig)
+    /** Token overlap (Jaccard) — tolerant of OCR jitter and word reordering. */
+    private fun similarity(a: String, b: String): Double {
+        if (a.isEmpty() || b.isEmpty()) return 0.0
+        val sa = a.split(' ').filter { it.isNotBlank() }.toHashSet()
+        val sb = b.split(' ').filter { it.isNotBlank() }.toHashSet()
+        if (sa.isEmpty() || sb.isEmpty()) return 0.0
+        val inter = sa.count { it in sb }
+        val union = sa.size + sb.size - inter
+        return if (union == 0) 0.0 else inter.toDouble() / union
     }
 
     private fun isNearDuplicate(text: String): Boolean {
         val a = normalize(text)
         val b = normalize(lastSpoken)
-        return a == b || (b.length >= 8 && (a.contains(b) || b.contains(a)))
+        if (a == b) return true
+        if (b.length >= 8 && (a.contains(b) || b.contains(a))) return true
+        return similarity(a, b) >= 0.6
     }
 
     private fun normalize(s: String): String =
@@ -214,13 +335,14 @@ class ScreenReaderService : Service() {
         val isArabic = text.any { it.code in 0x0600..0x06FF }
         tts?.language = if (isArabic) Locale("ar") else Locale.ENGLISH
         // Apply the user's chosen reading speed (updated live from the UI).
-        val rate = getSharedPreferences("live_reader", Context.MODE_PRIVATE).getFloat("rate", 1.0f)
+        val rate = prefs().getFloat("rate", 1.0f)
         tts?.setSpeechRate(rate)
         speakingNorm = normalize(text)
+        isSpeaking = true
         val id = System.nanoTime().toString()
         currentUtterId = id
-        // FLUSH so a new/looked-at text replaces the current read (with the
-        // dedup above, the same text in view keeps reading without restarting).
+        // FLUSH is safe here: handleText only calls speak() for genuinely new
+        // text, never to restart the same passage the user is still reading.
         tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id)
     }
 
@@ -247,5 +369,6 @@ class ScreenReaderService : Service() {
         projection?.stop()
         tts?.stop()
         tts?.shutdown()
+        localOcr?.recycle()
     }
 }

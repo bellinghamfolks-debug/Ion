@@ -3,6 +3,8 @@ package com.bellinghamfolks.docconverter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.media.projection.MediaProjectionManager
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +13,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,13 +22,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 
 /**
- * Starts the glasses live reader: asks for screen-capture permission, then hands
- * the projection to ScreenReaderService which OCRs the eSight camera view.
- * Also lets the user pick the reading speed and go back.
+ * Sets up and starts the glasses live reader. Lets the user choose the analysis
+ * mode (online Gemini Lite / local offline OCR), turn on rich live scene
+ * description, set reading speed, and go back — then hands the screen-capture
+ * projection to ScreenReaderService.
  */
 class LiveReaderActivity : AppCompatActivity() {
 
     private lateinit var status: TextView
+    private val prefs by lazy { getSharedPreferences("live_reader", Context.MODE_PRIVATE) }
 
     private val projectionLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -65,11 +71,47 @@ class LiveReaderActivity : AppCompatActivity() {
             setPadding(0, 24, 0, 8)
         })
         status = TextView(this).apply {
-            text = "يقرأ النص الظاهر من كاميرا نظارة eSight تلقائيًا بصوت عربي/إنجليزي."
-            textSize = 17f; setPadding(0, 8, 0, 24)
+            text = "يقرأ ما تراه كاميرا نظارة eSight تلقائيًا بصوت عربي/إنجليزي."
+            textSize = 17f; setPadding(0, 8, 0, 16)
         }
         root.addView(status)
 
+        // --- Rich live description (flagship toggle) ---
+        root.addView(sectionLabel("الوصف الحي الغني"))
+        root.addView(TextView(this).apply {
+            text = "بدل قراءة النص فقط، يصف لك المشهد كاملًا: المكان، الأشخاص والأشياء " +
+                "ومواضعها، ثم يقرأ أي نص ظاهر. (يتطلب الإنترنت)"
+            textSize = 15f; setPadding(0, 0, 0, 8)
+        })
+        root.addView(CheckBox(this).apply {
+            text = "تفعيل الوصف الحي الغني للمشهد"
+            textSize = 18f
+            isChecked = prefs.getBoolean("describe", false)
+            setOnCheckedChangeListener { _, checked ->
+                prefs.edit().putBoolean("describe", checked).apply()
+            }
+        })
+
+        // --- Analysis mode ---
+        root.addView(sectionLabel("طريقة القراءة"))
+        val modeGroup = RadioGroup(this).apply { orientation = RadioGroup.VERTICAL }
+        val onlineBtn = RadioButton(this).apply {
+            text = "أونلاين — دقيق (Gemini Lite، كل ثانيتين)"; textSize = 17f; id = 101
+        }
+        val localBtn = RadioButton(this).apply {
+            text = "محلي — فوري بدون إنترنت (تجريبي، دقة أقل)"; textSize = 17f; id = 102
+        }
+        modeGroup.addView(onlineBtn)
+        modeGroup.addView(localBtn)
+        if (prefs.getString("ocr_mode", "online") == "local") localBtn.isChecked = true else onlineBtn.isChecked = true
+        modeGroup.setOnCheckedChangeListener { _, id ->
+            val mode = if (id == 102) "local" else "online"
+            prefs.edit().putString("ocr_mode", mode).apply()
+            if (mode == "local") status.text = "الوضع المحلي: ستُحمَّل بيانات اللغة مرة واحدة عند أول تشغيل."
+        }
+        root.addView(modeGroup)
+
+        // --- Start / stop ---
         root.addView(bigButton("بدء القراءة (مشاركة الشاشة)") {
             val mpm = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
             projectionLauncher.launch(mpm.createScreenCaptureIntent())
@@ -79,11 +121,10 @@ class LiveReaderActivity : AppCompatActivity() {
             status.text = "أُوقفت القراءة."
         })
 
-        // Smart auto-stop when the user looks away from the text.
+        // Smart auto-switch when the user moves to a different text.
         root.addView(CheckBox(this).apply {
-            text = "إيقاف ذكي: توقّف تلقائيًا عند تحويل النظر عن النص"
-            textSize = 17f
-            val prefs = getSharedPreferences("live_reader", Context.MODE_PRIVATE)
+            text = "الانتقال التلقائي عند النظر إلى نص جديد"
+            textSize = 16f
             isChecked = prefs.getBoolean("autostop", true)
             val lp = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -94,9 +135,7 @@ class LiveReaderActivity : AppCompatActivity() {
         })
 
         // --- Reading speed ---
-        root.addView(TextView(this).apply {
-            text = "سرعة القراءة:"; textSize = 18f; setPadding(0, 32, 0, 8)
-        })
+        root.addView(sectionLabel("سرعة القراءة"))
         val speedRow = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutDirection = ViewGroup.LAYOUT_DIRECTION_RTL
@@ -108,6 +147,12 @@ class LiveReaderActivity : AppCompatActivity() {
         root.addView(speedRow)
 
         setContentView(ScrollView(this).apply { addView(root) })
+    }
+
+    private fun sectionLabel(text: String): TextView = TextView(this).apply {
+        this.text = text; textSize = 19f; setTypeface(null, Typeface.BOLD)
+        setTextColor(Color.parseColor("#1565C0"))
+        setPadding(0, 32, 0, 8)
     }
 
     private fun bigButton(text: String, onClick: () -> Unit): Button = Button(this).apply {
@@ -123,8 +168,7 @@ class LiveReaderActivity : AppCompatActivity() {
         val lp = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         lp.marginStart = 8; lp.marginEnd = 8; layoutParams = lp
         setOnClickListener {
-            getSharedPreferences("live_reader", Context.MODE_PRIVATE)
-                .edit().putFloat("rate", rate).apply()
+            prefs.edit().putFloat("rate", rate).apply()
             status.text = "سرعة القراءة: $label"
         }
     }

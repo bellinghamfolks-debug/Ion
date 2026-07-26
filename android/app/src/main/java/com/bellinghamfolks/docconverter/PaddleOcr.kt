@@ -28,10 +28,18 @@ class PaddleOcr(private val ctx: Context) {
         "https://huggingface.co/SWHL/RapidOCR/resolve/main/PP-OCRv4/ch_PP-OCRv4_det_infer.onnx",
         "https://huggingface.co/SWHL/RapidOCR/resolve/main/PP-OCRv4/ch_PP-OCRv4_det_server_infer.onnx"
     )
-    // Arabic recognition + its MATCHING dictionary, paired from the same repo so
-    // the CTC labels line up. Several candidate paths are tried in order because
-    // the exact folder name can't be verified from here (HuggingFace is blocked).
+    // Bump this when the preferred recognition model changes so existing installs
+    // discard the old model file and download the new one.
+    private val recVersion = "v5"
+
+    // Arabic recognition + its MATCHING dictionary. FIRST choice is the official
+    // PP-OCRv5 Arabic model, which we convert to ONNX in CI and publish as a
+    // GitHub Release (its dictionary is the model's OWN embedded 747-char list,
+    // so the CTC labels line up exactly). The monkt/deepghs v3 models remain as
+    // fallbacks if the release can't be reached.
     private val recDictPairs = listOf(
+        "https://github.com/bellinghamfolks-debug/Ion/releases/download/arabic-ocr-v5/arabic_v5_rec.onnx"
+            to "https://github.com/bellinghamfolks-debug/Ion/releases/download/arabic-ocr-v5/arabic_v5_dict.txt",
         "https://huggingface.co/monkt/paddleocr-onnx/resolve/main/languages/arabic/rec.onnx"
             to "https://huggingface.co/monkt/paddleocr-onnx/resolve/main/languages/arabic/dict.txt",
         "https://huggingface.co/monkt/paddleocr-onnx/resolve/main/languages/ar/rec.onnx"
@@ -55,6 +63,9 @@ class PaddleOcr(private val ctx: Context) {
             val detFile = File(dir, "det.onnx")
             val recFile = File(dir, "rec.onnx")
             val dictFile = File(dir, "dict.txt")
+            // If the preferred recognition model changed, drop the old one so the
+            // new (e.g. v5) model is downloaded instead of the stale cached file.
+            purgeStaleRec(dir, recFile, dictFile)
 
             if (!nonEmpty(detFile)) {
                 var ok = false
@@ -68,6 +79,7 @@ class PaddleOcr(private val ctx: Context) {
                     if (download(recFile, ru) && download(dictFile, du)) { ok = true; break }
                 }
                 if (!ok) return "rec_download"
+                markRecVersion(dir)
             }
 
             dict = dictFile.readLines().map { it.trimEnd('\n', '\r') }
@@ -90,6 +102,7 @@ class PaddleOcr(private val ctx: Context) {
             val detFile = File(dir, "det.onnx")
             val recFile = File(dir, "rec.onnx")
             val dictFile = File(dir, "dict.txt")
+            purgeStaleRec(dir, recFile, dictFile)
             if (!nonEmpty(detFile)) {
                 var ok = false
                 for (u in detUrls) { detFile.delete(); if (ModelStore.download(u, detFile) { p -> onProgress(p / 2) }) { ok = true; break } }
@@ -102,6 +115,7 @@ class PaddleOcr(private val ctx: Context) {
                     if (ModelStore.download(ru, recFile) { p -> onProgress(50 + p / 2) } && ModelStore.download(du, dictFile) { }) { ok = true; break }
                 }
                 if (!ok) return "rec_download"
+                markRecVersion(dir)
             }
             onProgress(100)
             null
@@ -109,6 +123,18 @@ class PaddleOcr(private val ctx: Context) {
     }
 
     private fun nonEmpty(f: File): Boolean = f.exists() && f.length() > 0
+
+    /** Delete the cached rec model/dict if they were fetched for an older
+     *  recVersion, forcing a fresh download of the current preferred model. */
+    private fun purgeStaleRec(dir: File, recFile: File, dictFile: File) {
+        val marker = File(dir, ".recver")
+        val have = if (marker.exists()) marker.runCatching { readText().trim() }.getOrDefault("") else ""
+        if (have != recVersion) { recFile.delete(); dictFile.delete() }
+    }
+
+    private fun markRecVersion(dir: File) {
+        File(dir, ".recver").runCatching { writeText(recVersion) }
+    }
 
     /** Download url -> f, returning true only on an HTTP 2xx with real bytes. */
     private fun download(f: File, url: String): Boolean {

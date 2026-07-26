@@ -75,7 +75,10 @@ class ScreenReaderService : Service() {
     private var blurStreak = 0                       // consecutive blurry frames skipped
     private var frameSeq = 0                         // evaluated-frame counter (for the diagnostic log)
     @Volatile private var blankHintSpoken = false    // one-shot "screen looks black" hint
-    private var narrationSig: IntArray? = null       // frame signature when a describe narration began
+    private var narrationSig: IntArray? = null       // (kept for compatibility)
+    private var readSig: IntArray? = null            // signature of the frame currently being read
+    private var lastLookAt = 0L                       // last look-away check while speaking
+    @Volatile private var speakStartAt = 0L           // when the current utterance started (watchdog)
     @Volatile private var released = false           // service torn down; stop touching bitmaps
     @Volatile private var fallbackAnnounced = false  // told the user local fell back to online
     private var captureThread: android.os.HandlerThread? = null
@@ -193,49 +196,57 @@ class ScreenReaderService : Service() {
                     process(bmp)
                     return@setOnImageAvailableListener
                 }
-                // Live stream mode: continuous auto-reading.
+                // Live stream mode.
                 val now = System.currentTimeMillis()
-                val minInterval = if (engine() == "online") 2000L else 700L
-                if (inFlight || now - lastSentAt < minInterval) { image.close(); return@setOnImageAvailableListener }
+
+                // While an utterance is playing we do NOT start a new read — the
+                // current text finishes first. But we cheaply watch (via the frame
+                // signature, no OCR) whether the user is still looking at it. If
+                // they LOOK AWAY — the view goes blank, or (while reading text)
+                // becomes very different — we stop. Description just finishes.
+                if (isSpeaking) {
+                    if (now - speakStartAt > 45000L) { isSpeaking = false; speakingNorm = "" }  // watchdog: stuck flag
+                    if (isSpeaking) {
+                        if (now - lastLookAt < 600L) { image.close(); return@setOnImageAvailableListener }
+                        lastLookAt = now
+                        val b = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
+                        if (b == null) return@setOnImageAvailableListener
+                        val sig = signature(b); b.recycle()
+                        val blank = blankSig(sig)
+                        val movedOff = readSig != null && !similar(sig, readSig)
+                        val lookedAway = blank || (!describeEnabled() && movedOff)
+                        if (autoStopEnabled() && lookedAway) {
+                            DiagLog.log("HANDLE", "looked away (blank=$blank movedOff=$movedOff) -> stop")
+                            tts?.stop(); isSpeaking = false; speakingNorm = ""
+                        }
+                        return@setOnImageAvailableListener
+                    }
+                }
+
+                val interval = if (engine() == "online") 2000L else 1000L
+                if (inFlight || now - lastSentAt < interval) { image.close(); return@setOnImageAvailableListener }
                 val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
                 if (bmp == null) { DiagLog.log("FRAME", "null bitmap from capture"); return@setOnImageAvailableListener }
-                val sig = signature(bmp)
-                val info = analyzeFrame(bmp)
                 val fno = ++frameSeq
-                val m = "gFrac=${fmt4(info.globalFrac)} maxCell=${fmt2(info.maxCell)} maxGrad=${fmt1(info.maxGrad)}"
-                if (!info.hasText) {
+                val sig = signature(bmp)
+                // Only skip a TRULY blank/black frame. Everything else — small or
+                // medium text, AND non-text scenes for description — is read. (The
+                // old text-detector/sharpness/change gates were dropped: they were
+                // missing medium text, blocking description, and causing silence.)
+                if (blankSig(sig)) {
                     blankStreak++
-                    DiagLog.log("FRAME", "#$fno skip no-text ($m) blankStreak=$blankStreak")
-                    if (blankStreak >= 4 && !blankHintSpoken) {
+                    DiagLog.log("FRAME", "#$fno skip blank/black (blankStreak=$blankStreak)")
+                    if (blankStreak >= 5 && !blankHintSpoken) {
                         blankHintSpoken = true
                         announce("لا ألتقط نصًا من الشاشة. إذا كان مشهد النظارة معروضًا الآن، فقد لا يستطيع النظام تصويره؛ جرّب التقاط لقطة شاشة للتأكّد.")
                     }
                     bmp.recycle(); return@setOnImageAvailableListener
                 }
                 blankStreak = 0
-                if (!info.sharp && blurStreak < 3) {
-                    blurStreak++
-                    DiagLog.log("FRAME", "#$fno skip blurry ($m) blurStreak=$blurStreak")
-                    bmp.recycle(); return@setOnImageAvailableListener
-                }
-                blurStreak = 0
-                // Change-detection skips a view that looks identical to the last
-                // one we processed — BUT a coarse 16x16 luma signature can't tell
-                // one page of text from another, so it would lock onto the first
-                // frame and skip everything after ("only the first frame works").
-                // Never skip for longer than maxHold: this guarantees the reader
-                // keeps re-reading as content changes; text-level dedup stops it
-                // from re-speaking the same words.
-                val held = now - lastSentAt
-                val maxHold = if (engine() == "online") 2500L else 1200L
-                if (similar(sig, lastSignature) && held < maxHold) {
-                    DiagLog.log("FRAME", "#$fno skip unchanged held=${held}ms ($m)")
-                    bmp.recycle(); return@setOnImageAvailableListener
-                }
                 lastSignature = sig
                 lastSentAt = now
                 inFlight = true
-                DiagLog.log("FRAME", "#$fno READ held=${held}ms sharp=${info.sharp} ($m) -> eng=${engine()}")
+                DiagLog.log("FRAME", "#$fno READ -> eng=${engine()}")
                 process(bmp)
             } catch (e: Exception) {
                 DiagLog.err("FRAME", e)
@@ -312,7 +323,10 @@ class ScreenReaderService : Service() {
             val dt = System.currentTimeMillis() - t0
             if (failure != null) {
                 DiagLog.log("OCR", "FAILED eng=$eng ${dt}ms: $failure")
-                announceError(failure)
+                // Only the ONLINE path talks to a server — a local/Paddle failure
+                // is a recognition error, NOT a connection problem, so don't say
+                // "server error" in offline mode. Just retry on the next frame.
+                if (eng == "online") announceError(failure)
             } else {
                 DiagLog.log("OCR", "ok eng=$eng ${dt}ms chars=${text.length} \"${text.take(120).replace('\n', ' ')}\"")
             }
@@ -437,9 +451,10 @@ class ScreenReaderService : Service() {
 
     private fun recognizeLocal(bmp: Bitmap): String {
         val api = localOcr ?: return ""
-        // Cap the work size: the best model is heavy; 1800px keeps each pass usable
-        // while still giving small text plenty of detail.
-        val work = scaleToLongEdge(bmp, 1800)
+        // Cap the work size: the best model is heavy on memory; 1400px keeps each
+        // pass fast and avoids the periodic OOM/native crash on sustained use,
+        // while still giving small/medium text enough detail.
+        val work = scaleToLongEdge(bmp, 1400)
         val norm = normalizeLighting(work)       // adapt to lighting, THEN binarise
         if (work !== bmp) work.recycle()
         val prepped = preprocessForOcr(norm)
@@ -556,13 +571,9 @@ class ScreenReaderService : Service() {
     }
 
     /**
-     * Decide what (if anything) to speak for a freshly recognised frame.
-     *
-     * Key fix for the "reads, restarts, reads, restarts… never finishes" loop:
-     * while an utterance is playing we do NOT restart it for text that is
-     * essentially the same (tiny eye movements make the OCR jitter). We only jump
-     * to new text once a genuinely different reading persists for 2 frames. In
-     * rich-description mode we never interrupt — the narration always finishes.
+     * Decide what to speak. handleText only runs when we are NOT already speaking
+     * (the capture loop never OCRs during an utterance — it just watches for
+     * look-away), so this is simple: read new, non-duplicate text.
      */
     private fun handleText(text: String) {
         inFlight = false
@@ -571,52 +582,11 @@ class ScreenReaderService : Service() {
             if (demandMode()) announce("لا يوجد نص واضح لأقرأه في هذا المشهد.")
             return
         }
-        // On-demand: the user explicitly asked, so read/describe it now — even if
-        // it repeats the last thing and even if something is already playing.
         if (demandMode()) {
             lastSpoken = text
             speak(text)
             return
         }
-        val newNorm = normalize(text)
-        val describing = describeEnabled()
-
-        if (isSpeaking) {
-            if (describing) {
-                val cur = lastSignature
-                if (cur != null && narrationSig != null && !similar(cur, narrationSig)) {
-                    DiagLog.log("HANDLE", "describe: scene changed -> re-describe")
-                    lastSpoken = text
-                    speak(text)
-                } else DiagLog.log("HANDLE", "describe: continuing narration")
-                switchStreak = 0
-                return
-            }
-            if (similarity(newNorm, speakingNorm) >= 0.5) {
-                DiagLog.log("HANDLE", "same text still in view, keep reading")
-                switchStreak = 0            // same text still in view -> keep reading
-                return
-            }
-            // A genuinely different text appeared. Only jump to it once it
-            // persists for a couple of frames (debounce), and only when
-            // auto-switch is on — a single jittery frame must not interrupt.
-            if (autoStopEnabled()) {
-                switchStreak++
-                if (switchStreak >= 2) {
-                    switchStreak = 0
-                    lastSpoken = text
-                    speak(text)
-                }
-            }
-            return
-        }
-
-        // Idle: read new text right away (but not what we just finished reading).
-        // NOTE: a two-frame "temporal confirmation" was tried here and REMOVED —
-        // it dead-locked with the change-detection gate (the confirming second
-        // frame is the SAME view, so it gets skipped and nothing was ever spoken).
-        // The change-detection + near-duplicate checks already prevent misfires.
-        switchStreak = 0
         if (!isNearDuplicate(text)) {
             lastSpoken = text
             speak(text)
@@ -788,6 +758,17 @@ class ScreenReaderService : Service() {
         return diff < 8 * a.size   // avg per-cell luma change < 8/255 => same view
     }
 
+    /** True only for a genuinely uniform frame (blank wall / black capture).
+     *  Threshold is very low so even small/medium text easily passes. */
+    private fun blankSig(sig: IntArray): Boolean {
+        var sum = 0.0; var sumSq = 0.0
+        for (v in sig) { sum += v; sumSq += v.toDouble() * v }
+        val n = sig.size
+        val mean = sum / n
+        val variance = sumSq / n - mean * mean
+        return variance < 2.0
+    }
+
     private data class FrameInfo(
         val hasText: Boolean, val sharp: Boolean,
         val globalFrac: Double, val maxCell: Double, val maxGrad: Double)
@@ -872,7 +853,8 @@ class ScreenReaderService : Service() {
         tts?.setSpeechRate(rate)
         speakingNorm = normalize(text)
         isSpeaking = true
-        if (describeEnabled()) narrationSig = lastSignature   // for scene-change interruption
+        speakStartAt = System.currentTimeMillis()
+        readSig = lastSignature                 // the view we're reading — for look-away detection
         val baseId = System.nanoTime().toString()
         currentUtterId = baseId
         // Speak each script run in its own language so mixed Arabic/English text

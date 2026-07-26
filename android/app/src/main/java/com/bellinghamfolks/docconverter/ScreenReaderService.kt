@@ -583,8 +583,12 @@ class ScreenReaderService : Service() {
     private fun handleText(text: String) {
         inFlight = false
         if (text.isBlank()) {
-            DiagLog.log("HANDLE", "empty result (engine returned nothing)")
-            if (!demandMode() && isSpeaking && autoStopEnabled()) { tts?.stop(); isSpeaking = false; speakingNorm = "" }
+            // An empty result can mean the engine failed (a Gemini timeout, or
+            // PaddleOCR missing a frame) — NOT that the user looked away. Do NOT
+            // stop the current read here or every latency spike would cut off a
+            // good read. Genuine look-away (a blank/black view) is detected by
+            // the frame-signature check in the capture loop, which stops there.
+            DiagLog.log("HANDLE", "empty result (engine returned nothing) -> keep current read")
             if (demandMode()) announce("لا يوجد نص واضح لأقرأه في هذا المشهد.")
             return
         }

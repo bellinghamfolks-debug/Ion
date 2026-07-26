@@ -141,16 +141,41 @@ class PaddleOcr(private val ctx: Context) {
         for (b in boxes) {
             var line = try { recognizeBox(e, r, src, b) } catch (ex: Exception) { DiagLog.err("PADDLE", ex); "" }
             if (line.isNotBlank()) {
-                // PaddleOCR recognises Arabic glyphs correctly but emits them
-                // LEFT-to-right; reverse to restore right-to-left reading order
-                // (this is exactly what PaddleOCR's own post-process does for
-                // Arabic). Without it the text is backwards -> gibberish to TTS.
-                line = line.reversed()
+                // PaddleOCR recognises Arabic glyphs correctly but emits the line
+                // in visual LEFT-to-right order; restore logical reading order.
+                // A plain reverse fixes Arabic but flips embedded Latin/number
+                // runs ("Google" -> "elgooG"), so reverse the whole line then
+                // un-reverse each Latin/digit run.
+                line = fixVisualOrder(line)
                 sb.append(line).append('\n')
             }
         }
         return sb.toString().trim()
     }
+
+    /** Reverse the visual line into logical order, keeping Latin/digit runs
+     *  (which read left-to-right even inside Arabic) in their correct order. */
+    private fun fixVisualOrder(s: String): String {
+        val rev = StringBuilder(s).reverse().toString()
+        val out = StringBuilder(rev.length)
+        var i = 0
+        while (i < rev.length) {
+            if (isLtr(rev[i])) {
+                var j = i
+                while (j < rev.length && isLtr(rev[j])) j++
+                out.append(StringBuilder(rev.substring(i, j)).reverse())
+                i = j
+            } else { out.append(rev[i]); i++ }
+        }
+        return out.toString()
+    }
+
+    /** Characters that flow left-to-right: ASCII letters/digits, Arabic-Indic
+     *  digits, and the joiners common inside numbers/versions/URLs. */
+    private fun isLtr(c: Char): Boolean =
+        c in 'A'..'Z' || c in 'a'..'z' || c in '0'..'9' ||
+        c in '٠'..'٩' || c in '۰'..'۹' ||
+        c == '.' || c == ',' || c == '-' || c == '+' || c == ':' || c == '/' || c == '@'
 
     // ---- Detection (DB) -----------------------------------------------------
     private data class Box(val x0: Int, val y0: Int, val x1: Int, val y1: Int)
@@ -278,7 +303,7 @@ class PaddleOcr(private val ctx: Context) {
         return if (conf >= 0.3) text else ""
     }
 
-    /** Greedy CTC decode; also returns mean softmax confidence of emitted chars. */
+    /** Greedy CTC decode; also returns mean confidence of the emitted chars. */
     private fun ctcDecode(seq: Array<FloatArray>): Pair<String, Double> {
         val sb = StringBuilder()
         var prev = -1
@@ -289,10 +314,12 @@ class PaddleOcr(private val ctx: Context) {
             for (c in 1 until row.size) if (row[c] > bestV) { bestV = row[c]; best = c }
             if (best != 0 && best != prev) {
                 charFor(best)?.let { sb.append(it) }
-                // stable softmax probability of the winning class at this step
-                var denom = 0.0
-                for (c in row.indices) denom += Math.exp((row[c] - bestV).toDouble())
-                if (denom > 0) { probSum += 1.0 / denom; probN++ }
+                // The PP-OCR CTC head already outputs per-class probabilities, so
+                // the winning class's confidence IS its row max. (Re-applying
+                // softmax here divided every score by ~numClasses, crushing real
+                // ~0.9 confidences down to ~1/163 ≈ 1%; the 0.3 gate below then
+                // dropped every box and the engine produced nothing at all.)
+                probSum += bestV; probN++
             }
             prev = best
         }

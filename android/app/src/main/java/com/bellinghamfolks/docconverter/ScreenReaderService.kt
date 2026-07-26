@@ -66,7 +66,7 @@ class ScreenReaderService : Service() {
     @Volatile private var currentUtterId = ""
     @Volatile private var inFlight = false
     private var lastSentAt = 0L
-    @Volatile private var lastSignature: IntArray? = null   // last frame we actually processed
+    @Volatile private var readGray: FloatArray? = null   // N×N luma of the frame being read (phase-correlation reference)
     @Volatile private var isSpeaking = false       // an utterance is playing now
     @Volatile private var announcing = false       // an important status announcement is playing
     private var switchStreak = 0                    // debounce for jumping to new text
@@ -75,9 +75,6 @@ class ScreenReaderService : Service() {
     private var blurStreak = 0                       // consecutive blurry frames skipped
     private var frameSeq = 0                         // evaluated-frame counter (for the diagnostic log)
     @Volatile private var blankHintSpoken = false    // one-shot "screen looks black" hint
-    private var narrationSig: IntArray? = null       // (kept for compatibility)
-    private var readSig: IntArray? = null            // signature of the frame currently being read
-    private var lastLookAt = 0L                       // last look-away check while speaking
     @Volatile private var speakStartAt = 0L           // when the current utterance started (watchdog)
     @Volatile private var released = false           // service torn down; stop touching bitmaps
     @Volatile private var fallbackAnnounced = false  // told the user local fell back to online
@@ -192,10 +189,9 @@ class ScreenReaderService : Service() {
                     val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
                     if (bmp == null) { DiagLog.log("FRAME", "demand: null bitmap"); return@setOnImageAvailableListener }
                     DiagLog.log("FRAME", "demand -> process eng=${engine()}")
-                    val dsig = signature(bmp)
-                    lastSignature = dsig
+                    val gray = MotionEstimator.grayGrid(bmp)
                     inFlight = true
-                    process(bmp, dsig)
+                    process(bmp, gray)
                     return@setOnImageAvailableListener
                 }
                 // Live stream mode: OCR the current view at the interval REGARDLESS
@@ -229,11 +225,11 @@ class ScreenReaderService : Service() {
                     bmp.recycle(); return@setOnImageAvailableListener
                 }
                 blankStreak = 0
-                lastSignature = sig
                 lastSentAt = now
                 inFlight = true
+                val gray = MotionEstimator.grayGrid(bmp)   // for phase-correlation motion check
                 DiagLog.log("FRAME", "#$fno READ -> eng=${engine()}")
-                process(bmp, sig)
+                process(bmp, gray)
             } catch (e: Exception) {
                 DiagLog.err("FRAME", e)
             }
@@ -285,7 +281,7 @@ class ScreenReaderService : Service() {
         overlayButton = null
     }
 
-    private fun process(bmp: Bitmap, sig: IntArray) {
+    private fun process(bmp: Bitmap, gray: FloatArray) {
         if (released) { bmp.recycle(); inFlight = false; return }
         scope.launch {
             // If the user picked an offline engine but it isn't ready yet, we fall
@@ -316,7 +312,7 @@ class ScreenReaderService : Service() {
             } else {
                 DiagLog.log("OCR", "ok eng=$eng ${dt}ms chars=${text.length} \"${text.take(120).replace('\n', ' ')}\"")
             }
-            try { handleText(text, sig) } catch (e: Exception) { DiagLog.err("HANDLE", e); inFlight = false }
+            try { handleText(text, gray) } catch (e: Exception) { DiagLog.err("HANDLE", e); inFlight = false }
         }
     }
 
@@ -579,17 +575,18 @@ class ScreenReaderService : Service() {
 
     /**
      * Decide what to speak for a freshly recognised frame, using BOTH the text
-     * and the frame's visual signature. We OCR every interval even while
-     * speaking, so a new read must only interrupt when the view REALLY changed:
+     * and PHASE-CORRELATION motion between this frame and the one being read. We
+     * OCR every interval even while speaking, so a new read must only interrupt
+     * when the view REALLY changed:
      *  - SAME text as what is playing -> keep reading (no restart).
-     *  - DIFFERENT text BUT the frame barely moved (signature ~ the frame being
-     *    read) -> this is OCR jitter from a slight glasses movement, NOT a new
+     *  - DIFFERENT text BUT the frame only shifted (a slight glasses movement:
+     *    consistent translation, low aligned residual) -> OCR jitter, NOT a new
      *    screen -> keep reading. (Fixes "any tiny movement restarts the read".)
-     *  - DIFFERENT text AND the frame actually changed -> you moved to a new
-     *    screen -> speak() with QUEUE_FLUSH interrupts and reads it now.
+     *  - DIFFERENT text AND the content actually changed (no consistent shift /
+     *    high residual) -> new screen -> speak() flushes and reads it now.
      *  - empty result -> engine miss/timeout, keep the current read.
      */
-    private fun handleText(text: String, sig: IntArray) {
+    private fun handleText(text: String, gray: FloatArray) {
         inFlight = false
         if (text.isBlank()) {
             // An empty result can mean the engine failed (a Gemini timeout, or
@@ -602,7 +599,7 @@ class ScreenReaderService : Service() {
             return
         }
         if (demandMode()) {
-            readSig = sig
+            readGray = gray
             lastSpoken = text
             speak(text)
             return
@@ -611,16 +608,21 @@ class ScreenReaderService : Service() {
             DiagLog.log("HANDLE", "same content -> keep reading (no restart)")
             return
         }
-        // Text differs — but only treat it as a NEW screen if the view actually
-        // moved. If the frame is visually stable vs the frame we're reading, the
-        // text change is OCR jitter from a slight movement; keep reading.
-        if (readSig != null && similar(sig, readSig)) {
-            DiagLog.log("HANDLE", "text differs but view is stable (slight movement) -> keep reading")
-            return
+        // Text differs — but only treat it as a NEW screen if the view's CONTENT
+        // actually changed. Phase-correlate against the frame we're reading: if
+        // it's just a translation (slight movement) that aligns with a low
+        // residual, the text difference is OCR jitter -> keep reading.
+        val ref = readGray
+        if (ref != null) {
+            val m = MotionEstimator.estimate(ref, gray)
+            if (m.valid && m.residual <= MotionEstimator.SAME_RESIDUAL) {
+                DiagLog.log("HANDLE", "aligned view (dx=${m.dx} dy=${m.dy} res=${fmt1(m.residual)}) -> slight movement, keep reading")
+                return
+            }
+            DiagLog.log("HANDLE", "content changed (valid=${m.valid} dx=${m.dx} dy=${m.dy} res=${fmt1(m.residual)}) -> new screen")
         }
-        // Different content on a changed view — read it now (flushes current).
-        DiagLog.log("HANDLE", "new content on moved view -> speak (interrupts current)")
-        readSig = sig
+        // New content — read it now (flushes any current utterance).
+        readGray = gray
         lastSpoken = text
         speak(text)
     }
@@ -781,13 +783,6 @@ class ScreenReaderService : Service() {
         return sig
     }
 
-    private fun similar(a: IntArray, b: IntArray?): Boolean {
-        if (b == null || a.size != b.size) return false
-        var diff = 0
-        for (i in a.indices) diff += kotlin.math.abs(a[i] - b[i])
-        return diff < 8 * a.size   // avg per-cell luma change < 8/255 => same view
-    }
-
     /** True only for a genuinely uniform frame (blank wall / black capture).
      *  Threshold is very low so even small/medium text easily passes. */
     private fun blankSig(sig: IntArray): Boolean {
@@ -884,8 +879,8 @@ class ScreenReaderService : Service() {
         speakingNorm = normalize(text)
         isSpeaking = true
         speakStartAt = System.currentTimeMillis()
-        // readSig (the view being read) is set by the caller (handleText) from
-        // that frame's own signature, so it can't race the capture thread here.
+        // readGray (the frame being read) is set by the caller (handleText) from
+        // that frame's own grid, so it can't race the capture thread here.
         val baseId = System.nanoTime().toString()
         currentUtterId = baseId
         // Speak each script run in its own language so mixed Arabic/English text

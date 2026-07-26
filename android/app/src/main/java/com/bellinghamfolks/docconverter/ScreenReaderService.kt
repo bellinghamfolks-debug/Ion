@@ -334,6 +334,7 @@ class ScreenReaderService : Service() {
         DiagLog.log("NET", "online STREAM model=$model mode=$mode jpeg=${jpeg.size}B")
         var first = true
         var any = false
+        var streamFailed = false
         try {
             ConvertApi.liveOcrStream(jpeg, model, mode) { sentence ->
                 any = true
@@ -341,8 +342,20 @@ class ScreenReaderService : Service() {
                 first = false
             }
         } catch (e: Exception) {
-            DiagLog.log("OCR", "FAILED eng=online STREAM: ${e.message}")
-            announceError(e.message)
+            streamFailed = true
+            DiagLog.log("OCR", "STREAM failed (${e.message?.take(60)}) -> non-stream fallback")
+        }
+        // If the streaming endpoint isn't available (e.g. server not yet
+        // deployed) and nothing was spoken, fall back to the non-streaming read
+        // so online keeps working; speak the whole result at once.
+        if (streamFailed && !any) {
+            try {
+                val text = ConvertApi.liveOcr(jpeg, model, mode).trim()
+                if (text.isNotBlank()) { any = true; speak(text) }
+            } catch (e: Exception) {
+                DiagLog.log("OCR", "non-stream fallback FAILED: ${e.message}")
+                announceError(e.message)
+            }
         }
         if (!any && demandMode()) announce("لا يوجد نص واضح لأقرأه في هذا المشهد.")
         inFlight = false

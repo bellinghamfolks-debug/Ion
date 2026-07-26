@@ -156,6 +156,8 @@ class PaddleOcr(private val ctx: Context) {
         isReady = false
     }
 
+    private class Rec(val b: Box, val text: String)
+
     fun recognize(src: Bitmap): String {
         val e = env ?: return ""
         val d = det ?: return ""
@@ -163,18 +165,30 @@ class PaddleOcr(private val ctx: Context) {
         val boxes = try { detect(e, d, src) } catch (ex: Exception) { DiagLog.err("PADDLE", ex); emptyList() }
         DiagLog.log("PADDLE", "detected ${boxes.size} text box(es)")
         if (boxes.isEmpty()) return ""
-        val sb = StringBuilder()
+        // Recognize each box in the model's RAW emitted order (no reversal yet).
+        val recs = ArrayList<Rec>()
         for (b in boxes) {
-            var line = try { recognizeBox(e, r, src, b) } catch (ex: Exception) { DiagLog.err("PADDLE", ex); "" }
-            if (line.isNotBlank()) {
-                // PaddleOCR recognises Arabic glyphs correctly but emits the line
-                // in visual LEFT-to-right order; restore logical reading order.
-                // A plain reverse fixes Arabic but flips embedded Latin/number
-                // runs ("Google" -> "elgooG"), so reverse the whole line then
-                // un-reverse each Latin/digit run.
-                line = fixVisualOrder(line)
-                sb.append(line).append('\n')
-            }
+            val t = try { recognizeBox(e, r, src, b) } catch (ex: Exception) { DiagLog.err("PADDLE", ex); "" }
+            if (t.isNotBlank()) recs.add(Rec(b, t))
+        }
+        if (recs.isEmpty()) return ""
+        // Assemble PER LINE, PER SCRIPT. PP-OCRv5 emits characters in VISUAL
+        // (left-to-right) order, which is already correct for Latin/English but
+        // reversed for Arabic. So:
+        //   - Latin line -> boxes left-to-right, text as-is (fixes "Good morning"
+        //     no longer becoming "morning Good").
+        //   - Arabic line -> boxes right-to-left, and reverse each box to logical
+        //     RTL (keeping embedded Latin/number runs upright).
+        val avgH = recs.map { it.b.y1 - it.b.y0 }.average().let { if (it.isNaN() || it < 1.0) 20.0 else it }
+        val lines = recs.groupBy { (it.b.y0 / (avgH * 0.7)).toInt() }.toSortedMap()
+        val sb = StringBuilder()
+        for ((_, lineRecs) in lines) {
+            val ar = lineRecs.sumOf { rc -> rc.text.count { it.code in 0x0600..0x06FF } }
+            val la = lineRecs.sumOf { rc -> rc.text.count { it in 'A'..'Z' || it in 'a'..'z' } }
+            val arabic = ar > la
+            val ordered = if (arabic) lineRecs.sortedByDescending { it.b.x0 } else lineRecs.sortedBy { it.b.x0 }
+            val parts = ordered.map { if (arabic) fixVisualOrder(it.text) else it.text }
+            sb.append(parts.joinToString(" ")).append('\n')
         }
         return sb.toString().trim()
     }

@@ -192,9 +192,10 @@ class ScreenReaderService : Service() {
                     val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
                     if (bmp == null) { DiagLog.log("FRAME", "demand: null bitmap"); return@setOnImageAvailableListener }
                     DiagLog.log("FRAME", "demand -> process eng=${engine()}")
-                    lastSignature = signature(bmp)
+                    val dsig = signature(bmp)
+                    lastSignature = dsig
                     inFlight = true
-                    process(bmp)
+                    process(bmp, dsig)
                     return@setOnImageAvailableListener
                 }
                 // Live stream mode: OCR the current view at the interval REGARDLESS
@@ -232,7 +233,7 @@ class ScreenReaderService : Service() {
                 lastSentAt = now
                 inFlight = true
                 DiagLog.log("FRAME", "#$fno READ -> eng=${engine()}")
-                process(bmp)
+                process(bmp, sig)
             } catch (e: Exception) {
                 DiagLog.err("FRAME", e)
             }
@@ -284,7 +285,7 @@ class ScreenReaderService : Service() {
         overlayButton = null
     }
 
-    private fun process(bmp: Bitmap) {
+    private fun process(bmp: Bitmap, sig: IntArray) {
         if (released) { bmp.recycle(); inFlight = false; return }
         scope.launch {
             // If the user picked an offline engine but it isn't ready yet, we fall
@@ -315,7 +316,7 @@ class ScreenReaderService : Service() {
             } else {
                 DiagLog.log("OCR", "ok eng=$eng ${dt}ms chars=${text.length} \"${text.take(120).replace('\n', ' ')}\"")
             }
-            try { handleText(text) } catch (e: Exception) { DiagLog.err("HANDLE", e); inFlight = false }
+            try { handleText(text, sig) } catch (e: Exception) { DiagLog.err("HANDLE", e); inFlight = false }
         }
     }
 
@@ -358,13 +359,19 @@ class ScreenReaderService : Service() {
     }
 
     private suspend fun recognizeOnline(bmp: Bitmap): String {
-        // Keep the upload light/fast: online doesn't need the full 2160 capture.
-        val scaled = scaleToLongEdge(bmp, 1440)
+        val describe = describeEnabled()
+        // For READING, send near-full resolution + high JPEG quality so small and
+        // medium text stays legible — a downscaled/over-compressed frame makes
+        // Gemini GUESS unreadable words (fabrication). Describe doesn't need the
+        // detail, so keep it light for fast narration.
+        val maxEdge = if (describe) 1280 else 2048
+        val quality = if (describe) 65 else 85
+        val scaled = scaleToLongEdge(bmp, maxEdge)
         val norm = normalizeLighting(scaled)     // adapt to the scene's lighting
         if (scaled !== bmp) scaled.recycle()
-        val jpeg = compressJpeg(norm)
+        val jpeg = compressJpeg(norm, quality)
         norm.recycle()
-        val mode = if (describeEnabled()) "describe" else "ocr"
+        val mode = if (describe) "describe" else "ocr"
         DiagLog.log("NET", "online request model=$onlineModel mode=$mode jpeg=${jpeg.size}B")
         return ConvertApi.liveOcr(jpeg, onlineModel, mode).trim()
     }
@@ -571,16 +578,18 @@ class ScreenReaderService : Service() {
     }
 
     /**
-     * Decide what to speak for a freshly recognised frame. We OCR every interval
-     * even while speaking, so:
-     *  - SAME text as what is playing / just read -> ignore (keep reading it, no
-     *    restart) — this is "don't cut off the current text".
-     *  - DIFFERENT text (you moved to a new screen) -> speak it now; speak() uses
-     *    QUEUE_FLUSH so it interrupts the old read immediately.
-     *  - empty result while speaking -> you looked at something with no text ->
-     *    stop.
+     * Decide what to speak for a freshly recognised frame, using BOTH the text
+     * and the frame's visual signature. We OCR every interval even while
+     * speaking, so a new read must only interrupt when the view REALLY changed:
+     *  - SAME text as what is playing -> keep reading (no restart).
+     *  - DIFFERENT text BUT the frame barely moved (signature ~ the frame being
+     *    read) -> this is OCR jitter from a slight glasses movement, NOT a new
+     *    screen -> keep reading. (Fixes "any tiny movement restarts the read".)
+     *  - DIFFERENT text AND the frame actually changed -> you moved to a new
+     *    screen -> speak() with QUEUE_FLUSH interrupts and reads it now.
+     *  - empty result -> engine miss/timeout, keep the current read.
      */
-    private fun handleText(text: String) {
+    private fun handleText(text: String, sig: IntArray) {
         inFlight = false
         if (text.isBlank()) {
             // An empty result can mean the engine failed (a Gemini timeout, or
@@ -593,6 +602,7 @@ class ScreenReaderService : Service() {
             return
         }
         if (demandMode()) {
+            readSig = sig
             lastSpoken = text
             speak(text)
             return
@@ -601,8 +611,16 @@ class ScreenReaderService : Service() {
             DiagLog.log("HANDLE", "same content -> keep reading (no restart)")
             return
         }
-        // Different content — read it now (speak flushes any current utterance).
-        DiagLog.log("HANDLE", "new content -> speak (interrupts current)")
+        // Text differs — but only treat it as a NEW screen if the view actually
+        // moved. If the frame is visually stable vs the frame we're reading, the
+        // text change is OCR jitter from a slight movement; keep reading.
+        if (readSig != null && similar(sig, readSig)) {
+            DiagLog.log("HANDLE", "text differs but view is stable (slight movement) -> keep reading")
+            return
+        }
+        // Different content on a changed view — read it now (flushes current).
+        DiagLog.log("HANDLE", "new content on moved view -> speak (interrupts current)")
+        readSig = sig
         lastSpoken = text
         speak(text)
     }
@@ -742,9 +760,9 @@ class ScreenReaderService : Service() {
         return cropped
     }
 
-    private fun compressJpeg(bmp: Bitmap): ByteArray {
+    private fun compressJpeg(bmp: Bitmap, quality: Int = 70): ByteArray {
         val out = ByteArrayOutputStream()
-        bmp.compress(Bitmap.CompressFormat.JPEG, 70, out)
+        bmp.compress(Bitmap.CompressFormat.JPEG, quality.coerceIn(1, 100), out)
         return out.toByteArray()
     }
 
@@ -866,7 +884,8 @@ class ScreenReaderService : Service() {
         speakingNorm = normalize(text)
         isSpeaking = true
         speakStartAt = System.currentTimeMillis()
-        readSig = lastSignature                 // the view we're reading — for look-away detection
+        // readSig (the view being read) is set by the caller (handleText) from
+        // that frame's own signature, so it can't race the capture thread here.
         val baseId = System.nanoTime().toString()
         currentUtterId = baseId
         // Speak each script run in its own language so mixed Arabic/English text

@@ -186,10 +186,12 @@ class PaddleOcr(private val ctx: Context) {
 
         val thr = 0.3f
         val bin = BooleanArray(area)
+        var above = 0
         for (y in 0 until th) {
             val row = map[y]
-            for (x in 0 until tw) bin[y * tw + x] = row[x] > thr
+            for (x in 0 until tw) { val on = row[x] > thr; bin[y * tw + x] = on; if (on) above++ }
         }
+        DiagLog.log("PADDLE", "det input ${tw}x${th}, pixels>thr=$above (${(above * 100L / area)}%)")
         val invScale = 1f / scale
         val unclip = 1.6f
         val mapped = connectedBoxes(bin, tw, th).mapNotNull { bx ->
@@ -264,12 +266,16 @@ class PaddleOcr(private val ctx: Context) {
         val out = sess.run(mapOf(name to input))
         val v = out[0].value
         @Suppress("UNCHECKED_CAST")
-        val seq = ((v as Array<*>)[0] as Array<FloatArray>)   // [T][C]
+        val seq = ((v as Array<*>)[0] as Array<FloatArray>)   // expected [T][C]
         input.close(); out.close()
+        val tT = seq.size
+        val tC = if (tT > 0) seq[0].size else 0
         val (text, conf) = ctcDecode(seq)
-        DiagLog.log("PADDLE", "box conf=${(conf * 100).toInt()}% rawChars=${text.length} gate=50%")
-        // Drop low-confidence lines so garbled/noise boxes are never spoken.
-        return if (conf >= 0.5) text else ""
+        // Deep diagnostics: box size, rec tensor dims vs dict size (C should be
+        // ~dict+2), and the raw decode — pinpoints detection-merge vs shape/dict.
+        DiagLog.log("PADDLE", "box ${bw}x${bh} rec T=$tT C=$tC dict=${dict.size} conf=${(conf * 100).toInt()}% chars=${text.length} raw='${text.take(40).replace('\n', ' ')}'")
+        // Gate low-confidence lines (loosened to 0.3 while tuning the engine).
+        return if (conf >= 0.3) text else ""
     }
 
     /** Greedy CTC decode; also returns mean softmax confidence of emitted chars. */

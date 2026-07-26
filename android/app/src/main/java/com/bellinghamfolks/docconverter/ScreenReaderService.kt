@@ -85,6 +85,7 @@ class ScreenReaderService : Service() {
 
     private var localOcr: TessBaseAPI? = null
     @Volatile private var localReady = false
+    private var localFailures = 0                    // consecutive local-OCR failures (self-heal)
     private var paddle: PaddleOcr? = null      // experimental high-accuracy on-device engine
     private var overlayButton: View? = null   // floating trigger over other apps
     private val tessVariant = "best"          // tessdata_best = highest on-device accuracy
@@ -451,37 +452,51 @@ class ScreenReaderService : Service() {
 
     private fun recognizeLocal(bmp: Bitmap): String {
         val api = localOcr ?: return ""
-        // Cap the work size: the best model is heavy on memory; 1400px keeps each
-        // pass fast and avoids the periodic OOM/native crash on sustained use,
-        // while still giving small/medium text enough detail.
-        val work = scaleToLongEdge(bmp, 1400)
-        val norm = normalizeLighting(work)       // adapt to lighting, THEN binarise
+        // Plenty of RAM available; 1500px keeps good detail. Single segmentation
+        // pass + early frees + the try/catch self-heal below keep it robust.
+        val work = scaleToLongEdge(bmp, 1500)
+        val norm = normalizeLighting(work)
         if (work !== bmp) work.recycle()
         val prepped = preprocessForOcr(norm)
-        val result = synchronized(api) {
-            var bestText = ""
-            var bestConf = -1
-            var bestPsm = -1
-            // Best-of-PSM: a held page/paragraph reads best as a single block,
-            // a sign/scattered scene as sparse text. Try both, keep the more
-            // confident non-empty result.
-            for (psm in intArrayOf(
-                    TessBaseAPI.PageSegMode.PSM_SINGLE_BLOCK,
-                    TessBaseAPI.PageSegMode.PSM_SPARSE_TEXT)) {
-                api.pageSegMode = psm
+        if (prepped !== norm) norm.recycle()          // free the RGB copy before OCR
+        val result: String = try {
+            synchronized(api) {
+                api.pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO
                 api.setImage(prepped)
                 val t = api.getUTF8Text() ?: ""
                 val conf = try { api.meanConfidence() } catch (_: Exception) { 0 }
                 api.clear()
-                if (t.isNotBlank() && conf > bestConf) { bestConf = conf; bestText = t; bestPsm = psm }
+                DiagLog.log("LOCAL", "conf=$conf gate=50 chars=${t.length}")
+                localFailures = 0
+                if (conf < 50) "" else t
             }
-            DiagLog.log("LOCAL", "bestConf=$bestConf psm=$bestPsm gate=55 chars=${bestText.length}")
-            // Below this confidence Tesseract is guessing at noise -> say nothing.
-            if (bestConf < 55) "" else bestText
+        } catch (t: Throwable) {                       // includes OutOfMemoryError
+            DiagLog.log("LOCAL", "OCR error: ${t.javaClass.simpleName}: ${t.message}")
+            localFailures++
+            if (localFailures >= 2) { localFailures = 0; reinitLocal() }
+            ""
+        } finally {
+            prepped.recycle()
         }
-        if (prepped !== norm) prepped.recycle()
-        norm.recycle()
         return cleanOcr(result)
+    }
+
+    /** Self-heal: rebuild the Tesseract engine after repeated failures. */
+    private fun reinitLocal() {
+        DiagLog.log("LOCAL", "re-initializing engine after failures")
+        try { localOcr?.recycle() } catch (_: Exception) {}
+        localOcr = null; localReady = false
+        scope.launch {
+            try {
+                val api = TessBaseAPI()
+                if (api.init(filesDir.absolutePath, "ara+eng", TessBaseAPI.OEM_LSTM_ONLY)) {
+                    api.setVariable("user_defined_dpi", "300")
+                    api.setVariable("preserve_interword_spaces", "1")
+                    localOcr = api; localReady = true
+                    DiagLog.log("LOCAL", "re-init ok")
+                } else { api.recycle(); DiagLog.log("LOCAL", "re-init failed") }
+            } catch (e: Exception) { DiagLog.err("LOCAL", e) }
+        }
     }
 
     /**
@@ -529,7 +544,8 @@ class ScreenReaderService : Service() {
                 out[y * w + x] = if (black) 0xFF000000.toInt() else 0xFFFFFFFF.toInt()
             }
         }
-        despeckle(out, w, h)
+        // (despeckle removed: its full-image copy added memory pressure for a
+        //  marginal quality gain; the adaptive threshold already yields clean text.)
         val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         bmp.setPixels(out, 0, w, 0, 0, w, h)
         return bmp

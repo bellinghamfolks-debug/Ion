@@ -41,18 +41,20 @@ object ConvertApi {
             .put("imageBase64", Base64.encodeToString(jpeg, Base64.NO_WRAP))
             .put("model", model)
             .put("mode", mode)
-        JSONObject(postJson("$BASE/convert/live-ocr", body.toString())).optString("text", "")
+        // Short read timeout for the live reader: if Gemini is having a latency
+        // spike, abandon at 20s and let the next frame retry rather than freezing.
+        JSONObject(postJson("$BASE/convert/live-ocr", body.toString(), 20000)).optString("text", "")
     }
 
     // ---- HTTP helpers (no third-party deps) --------------------------------
-    private fun postJson(urlStr: String, json: String): String {
+    private fun postJson(urlStr: String, json: String, readTimeoutMs: Int = 90000): String {
         val t0 = System.currentTimeMillis()
         val conn = NetManager.open(urlStr)
         try {
             conn.requestMethod = "POST"
             conn.doOutput = true
             conn.connectTimeout = 20000
-            conn.readTimeout = 90000
+            conn.readTimeout = readTimeoutMs
             conn.setRequestProperty("Content-Type", "application/json")
             conn.outputStream.use { it.write(json.toByteArray(Charsets.UTF_8)) }
             val out = readResponse(conn)

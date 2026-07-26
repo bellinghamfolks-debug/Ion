@@ -215,7 +215,10 @@ class ScreenReaderService : Service() {
                         val sig = signature(b); b.recycle()
                         val blank = blankSig(sig)
                         val movedOff = readSig != null && !similar(sig, readSig)
-                        val lookedAway = blank || (!describeEnabled() && movedOff)
+                        // Stop if the view goes blank OR changes to new content —
+                        // in reading AND describe modes — so moving to a new screen
+                        // doesn't wait out a long read. Same view -> finish it.
+                        val lookedAway = blank || movedOff
                         if (autoStopEnabled() && lookedAway) {
                             DiagLog.log("HANDLE", "looked away (blank=$blank movedOff=$movedOff) -> stop")
                             tts?.stop(); isSpeaking = false; speakingNorm = ""

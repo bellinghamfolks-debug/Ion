@@ -13,6 +13,12 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        // Ship native libraries for arm64 only (every modern phone). The OCR
+        // engines (ONNX + Tesseract) otherwise bundle .so for 4 CPU types,
+        // roughly doubling the APK size and slowing the download.
+        ndk {
+            abiFilters.add("arm64-v8a")
+        }
     }
 
     buildTypes {

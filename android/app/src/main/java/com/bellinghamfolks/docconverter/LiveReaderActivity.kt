@@ -124,6 +124,30 @@ class LiveReaderActivity : AppCompatActivity() {
         }
         root.addView(modeGroup)
 
+        // --- Online model choice (applies to the online mode) ---
+        root.addView(sectionLabel("نموذج الأونلاين"))
+        root.addView(TextView(this).apply {
+            text = "اختر النموذج للوضع الأونلاين: السريع للاستجابة الأقل تأخيرًا، أو الدقيق للنصوص الصعبة."
+            textSize = 15f; setPadding(0, 0, 0, 8)
+        })
+        val modelGroup = RadioGroup(this).apply { orientation = RadioGroup.VERTICAL }
+        val liteBtn = RadioButton(this).apply {
+            text = "سريع — Gemini Flash Lite (أقل تأخيرًا)"; textSize = 17f; id = 301
+        }
+        val flashBtn = RadioButton(this).apply {
+            text = "دقيق — Gemini 3.6 Flash (أفضل دقّة)"; textSize = 17f; id = 302
+        }
+        modelGroup.addView(liteBtn)
+        modelGroup.addView(flashBtn)
+        if (prefs.getString("online_model", "gemini-3.5-flash-lite") == "gemini-3.6-flash")
+            flashBtn.isChecked = true else liteBtn.isChecked = true
+        modelGroup.setOnCheckedChangeListener { _, id ->
+            val m = if (id == 302) "gemini-3.6-flash" else "gemini-3.5-flash-lite"
+            prefs.edit().putString("online_model", m).apply()
+            status.text = if (m == "gemini-3.6-flash") "النموذج: 3.6 Flash (دقيق)." else "النموذج: Flash Lite (سريع)."
+        }
+        root.addView(modelGroup)
+
         // Use cellular data for the server even when joined to the glasses' Wi-Fi
         // (which has no internet). Fixes "online won't work while on glasses Wi-Fi".
         root.addView(CheckBox(this).apply {

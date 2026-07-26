@@ -78,8 +78,7 @@ class ScreenReaderService : Service() {
     private var paddle: PaddleOcr? = null      // offline on-device engine (Arabic PP-OCRv5)
     @Volatile private var paddleIniting = false // guard against double setup on restart
     private var overlayButton: View? = null    // floating trigger over other apps
-    // Fast, cheap model for near-real-time reading.
-    private val onlineModel = "gemini-3.5-flash-lite"
+    @Volatile private var readSeq = 0           // utterance id counter for streamed sentences
     private val channelId = "live_reader"
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -112,7 +111,7 @@ class ScreenReaderService : Service() {
         DiagLog.startSession(this, "device=${Build.MANUFACTURER} ${Build.MODEL} android=${Build.VERSION.SDK_INT}" +
             " | mode=${prefs().getString("ocr_mode", "online")} trigger=${prefs().getString("trigger", "live")}" +
             " describe=${describeEnabled()} preferCellular=${prefs().getBoolean("prefer_cellular", false)}" +
-            " onlineModel=$onlineModel")
+            " onlineModel=${onlineModel()}")
         tts = TextToSpeech(this) { status ->
             // Audible proof that the service is alive AND text-to-speech works.
             DiagLog.log("TTS", "init status=$status (0=SUCCESS)")
@@ -283,27 +282,88 @@ class ScreenReaderService : Service() {
                 announce("محرّك عدم الاتصال غير جاهز بعد، سأستخدم الإنترنت مؤقتًا.")
             }
             val eng = engine()
+            if (eng == "online") {
+                // Online path STREAMS the read and speaks it sentence-by-sentence
+                // for low latency; it decides new-vs-same from frame motion.
+                try { processOnlineStreaming(bmp, gray) }
+                catch (e: Exception) { DiagLog.err("OCR", e); bmp.recycle(); inFlight = false }
+                return@launch
+            }
+            // Offline (PaddleOCR): single-shot recognition, then the text decision.
             val t0 = System.currentTimeMillis()
             var failure: String? = null
             val text = try {
-                when (eng) {
-                    "paddle" -> recognizePaddle(bmp)
-                    else -> recognizeOnline(bmp)
-                }
+                recognizePaddle(bmp)
             } catch (e: Exception) { failure = e.message; DiagLog.err("OCR", e); "" } finally { bmp.recycle() }
             val dt = System.currentTimeMillis() - t0
             if (failure != null) {
                 DiagLog.log("OCR", "FAILED eng=$eng ${dt}ms: $failure")
-                // Only the ONLINE path talks to a server — an offline failure is a
-                // recognition error, NOT a connection problem, so don't say
-                // "server error" offline. Just retry on the next frame.
-                if (eng == "online") announceError(failure)
             } else {
                 DiagLog.log("OCR", "ok eng=$eng ${dt}ms chars=${text.length} \"${text.take(120).replace('\n', ' ')}\"")
             }
             try { handleText(text, gray) } catch (e: Exception) { DiagLog.err("HANDLE", e); inFlight = false }
         }
     }
+
+    /**
+     * Online reading via streaming: decide new-vs-same from PHASE-CORRELATION
+     * motion (no need to wait for text), then stream the recognition and speak
+     * each complete sentence as it arrives. inFlight is held only while the
+     * stream is being RECEIVED (a couple of seconds); TTS then plays on after,
+     * during which the capture loop can detect a new screen and interrupt.
+     */
+    private suspend fun processOnlineStreaming(bmp: Bitmap, gray: FloatArray) {
+        // Same-view gate (live mode): skip re-reading the view we're already
+        // reading / just read. A slight movement aligns with a low residual.
+        if (!demandMode()) {
+            val ref = readGray
+            if (ref != null) {
+                val m = MotionEstimator.estimate(ref, gray)
+                if (m.valid && m.residual <= MotionEstimator.SAME_RESIDUAL) {
+                    DiagLog.log("HANDLE", "aligned view (dx=${m.dx} dy=${m.dy} res=${fmt1(m.residual)}) -> keep, no re-read")
+                    bmp.recycle(); inFlight = false; return
+                }
+            }
+        }
+        readGray = gray
+        val describe = describeEnabled()
+        val jpeg = buildOnlineJpeg(bmp, describe)
+        bmp.recycle()
+        val model = onlineModel()
+        val mode = if (describe) "describe" else "ocr"
+        DiagLog.log("NET", "online STREAM model=$model mode=$mode jpeg=${jpeg.size}B")
+        var first = true
+        var any = false
+        try {
+            ConvertApi.liveOcrStream(jpeg, model, mode) { sentence ->
+                any = true
+                speakSentence(sentence, first)
+                first = false
+            }
+        } catch (e: Exception) {
+            DiagLog.log("OCR", "FAILED eng=online STREAM: ${e.message}")
+            announceError(e.message)
+        }
+        if (!any && demandMode()) announce("لا يوجد نص واضح لأقرأه في هذا المشهد.")
+        inFlight = false
+    }
+
+    /** Build the JPEG uploaded to the server. Reading frames go near-full-res +
+     *  high quality so small text stays legible; describe frames stay light. */
+    private fun buildOnlineJpeg(bmp: Bitmap, describe: Boolean): ByteArray {
+        val maxEdge = if (describe) 1280 else 2048
+        val quality = if (describe) 65 else 85
+        val scaled = scaleToLongEdge(bmp, maxEdge)
+        val norm = normalizeLighting(scaled)     // CLAHE lighting adaptation
+        if (scaled !== bmp) scaled.recycle()
+        val jpeg = compressJpeg(norm, quality)
+        norm.recycle()
+        return jpeg
+    }
+
+    /** The chosen Gemini model (user-selectable; defaults to the fast Lite). */
+    private fun onlineModel(): String =
+        prefs().getString("online_model", "gemini-3.5-flash-lite") ?: "gemini-3.5-flash-lite"
 
     private var lastErrAt = 0L
     /** Speak WHY a read failed (throttled) so silent failures become diagnosable. */
@@ -342,23 +402,6 @@ class ScreenReaderService : Service() {
         return cleanOcr(t)
     }
 
-    private suspend fun recognizeOnline(bmp: Bitmap): String {
-        val describe = describeEnabled()
-        // For READING, send near-full resolution + high JPEG quality so small and
-        // medium text stays legible — a downscaled/over-compressed frame makes
-        // Gemini GUESS unreadable words (fabrication). Describe doesn't need the
-        // detail, so keep it light for fast narration.
-        val maxEdge = if (describe) 1280 else 2048
-        val quality = if (describe) 65 else 85
-        val scaled = scaleToLongEdge(bmp, maxEdge)
-        val norm = normalizeLighting(scaled)     // adapt to the scene's lighting
-        if (scaled !== bmp) scaled.recycle()
-        val jpeg = compressJpeg(norm, quality)
-        norm.recycle()
-        val mode = if (describe) "describe" else "ocr"
-        DiagLog.log("NET", "online request model=$onlineModel mode=$mode jpeg=${jpeg.size}B")
-        return ConvertApi.liveOcr(jpeg, onlineModel, mode).trim()
-    }
 
     /**
      * Lighting-adaptive correction shared by ALL modes so the reader copes with
@@ -669,6 +712,32 @@ class ScreenReaderService : Service() {
             val ar = run.any { it.code in 0x0600..0x06FF }
             tts?.language = if (ar) Locale("ar") else Locale.ENGLISH
             // The LAST run carries currentUtterId so onDone clears isSpeaking.
+            val id = if (idx == runs.size - 1) baseId else "$baseId-$idx"
+            tts?.speak(run, mode, null, id)
+            mode = TextToSpeech.QUEUE_ADD
+        }
+    }
+
+    /**
+     * Speak ONE streamed sentence. The first sentence of a new read flushes the
+     * previous utterance (interrupt); the rest queue after it, so a long read
+     * plays as continuous natural sentences. Each sentence becomes the "current"
+     * utterance, so isSpeaking only clears when the LAST sentence finishes.
+     */
+    private fun speakSentence(text: String, first: Boolean) {
+        val rate = prefs().getFloat("rate", 1.0f)
+        tts?.setSpeechRate(rate)
+        isSpeaking = true
+        speakStartAt = System.currentTimeMillis()
+        speakingNorm = normalize(text)
+        val baseId = "read-" + (readSeq++)
+        currentUtterId = baseId
+        val runs = splitByScript(text)
+        DiagLog.log("SPEAK", "sentence first=$first runs=${runs.size} \"${text.take(50).replace('\n', ' ')}\"")
+        var mode = if (first && !announcing) TextToSpeech.QUEUE_FLUSH else TextToSpeech.QUEUE_ADD
+        for ((idx, run) in runs.withIndex()) {
+            val ar = run.any { it.code in 0x0600..0x06FF }
+            tts?.language = if (ar) Locale("ar") else Locale.ENGLISH
             val id = if (idx == runs.size - 1) baseId else "$baseId-$idx"
             tts?.speak(run, mode, null, id)
             mode = TextToSpeech.QUEUE_ADD

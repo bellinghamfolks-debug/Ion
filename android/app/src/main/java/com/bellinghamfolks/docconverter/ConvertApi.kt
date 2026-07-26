@@ -25,6 +25,64 @@ object ConvertApi {
         JSONObject(postJson("$BASE/convert/live-ocr", body.toString(), 20000)).optString("text", "")
     }
 
+    /**
+     * Streaming live OCR/description. Streams the recognized text as Gemini
+     * generates it; `onSentence` is invoked with each COMPLETE sentence (the app
+     * buffers words until a sentence boundary so TTS gets natural intonation).
+     * Returns the full text when the stream ends.
+     */
+    suspend fun liveOcrStream(
+        jpeg: ByteArray, model: String, mode: String, onSentence: (String) -> Unit,
+    ): String = withContext(Dispatchers.IO) {
+        val body = JSONObject()
+            .put("imageBase64", Base64.encodeToString(jpeg, Base64.NO_WRAP))
+            .put("model", model)
+            .put("mode", mode)
+        val conn = NetManager.open("$BASE/convert/live-ocr-stream")
+        val t0 = System.currentTimeMillis()
+        try {
+            conn.requestMethod = "POST"
+            conn.doOutput = true
+            conn.connectTimeout = 20000
+            conn.readTimeout = 30000
+            conn.setRequestProperty("Content-Type", "application/json")
+            conn.outputStream.use { it.write(body.toString().toByteArray(Charsets.UTF_8)) }
+            val code = conn.responseCode
+            if (code !in 200..299) {
+                val err = conn.errorStream?.bufferedReader()?.use { it.readText() } ?: ""
+                DiagLog.log("HTTP", "STREAM live-ocr -> $code in ${System.currentTimeMillis() - t0}ms")
+                throw RuntimeException("HTTP $code: ${err.take(200)}")
+            }
+            val full = StringBuilder()
+            val sent = StringBuilder()
+            conn.inputStream.bufferedReader(Charsets.UTF_8).use { r ->
+                val cbuf = CharArray(512)
+                while (true) {
+                    val n = r.read(cbuf)
+                    if (n < 0) break
+                    for (i in 0 until n) {
+                        val c = cbuf[i]
+                        full.append(c); sent.append(c)
+                        // Flush a complete sentence to TTS at a natural boundary.
+                        if (isSentenceEnd(c) && sent.toString().trim().length >= 2) {
+                            val s = sent.toString().trim(); sent.setLength(0)
+                            if (s.isNotEmpty()) onSentence(s)
+                        }
+                    }
+                }
+            }
+            val rem = sent.toString().trim()
+            if (rem.isNotEmpty()) onSentence(rem)
+            DiagLog.log("HTTP", "STREAM live-ocr done ${full.length} chars in ${System.currentTimeMillis() - t0}ms")
+            full.toString().trim()
+        } finally { conn.disconnect() }
+    }
+
+    /** Sentence terminators (Arabic + Latin) that end a TTS chunk. */
+    private fun isSentenceEnd(c: Char): Boolean =
+        c == '.' || c == '!' || c == '?' || c == '\n' ||
+        c == '،' || c == '؛' || c == '؟' || c == ':' || c == '؍'
+
     // ---- HTTP helpers (no third-party deps) --------------------------------
     private fun postJson(urlStr: String, json: String, readTimeoutMs: Int = 90000): String {
         val t0 = System.currentTimeMillis()

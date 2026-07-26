@@ -197,36 +197,13 @@ class ScreenReaderService : Service() {
                     process(bmp)
                     return@setOnImageAvailableListener
                 }
-                // Live stream mode.
+                // Live stream mode: OCR the current view at the interval REGARDLESS
+                // of whether we're speaking. handleText decides — same text as what
+                // is playing -> keep reading (no restart); DIFFERENT text (you moved
+                // to a new screen) -> interrupt and read it. A blank view while
+                // speaking -> you looked away -> stop.
                 val now = System.currentTimeMillis()
-
-                // While an utterance is playing we do NOT start a new read — the
-                // current text finishes first. But we cheaply watch (via the frame
-                // signature, no OCR) whether the user is still looking at it. If
-                // they LOOK AWAY — the view goes blank, or (while reading text)
-                // becomes very different — we stop. Description just finishes.
-                if (isSpeaking) {
-                    if (now - speakStartAt > 45000L) { isSpeaking = false; speakingNorm = "" }  // watchdog: stuck flag
-                    if (isSpeaking) {
-                        if (now - lastLookAt < 600L) { image.close(); return@setOnImageAvailableListener }
-                        lastLookAt = now
-                        val b = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
-                        if (b == null) return@setOnImageAvailableListener
-                        val sig = signature(b); b.recycle()
-                        val blank = blankSig(sig)
-                        val movedOff = readSig != null && !similar(sig, readSig)
-                        // Stop if the view goes blank OR changes to new content —
-                        // in reading AND describe modes — so moving to a new screen
-                        // doesn't wait out a long read. Same view -> finish it.
-                        val lookedAway = blank || movedOff
-                        if (autoStopEnabled() && lookedAway) {
-                            DiagLog.log("HANDLE", "looked away (blank=$blank movedOff=$movedOff) -> stop")
-                            tts?.stop(); isSpeaking = false; speakingNorm = ""
-                        }
-                        return@setOnImageAvailableListener
-                    }
-                }
-
+                if (isSpeaking && now - speakStartAt > 45000L) { isSpeaking = false; speakingNorm = "" }  // watchdog
                 val interval = if (engine() == "online") 2000L else 1000L
                 if (inFlight || now - lastSentAt < interval) { image.close(); return@setOnImageAvailableListener }
                 val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
@@ -238,6 +215,10 @@ class ScreenReaderService : Service() {
                 // old text-detector/sharpness/change gates were dropped: they were
                 // missing medium text, blocking description, and causing silence.)
                 if (blankSig(sig)) {
+                    if (isSpeaking && autoStopEnabled()) {
+                        DiagLog.log("HANDLE", "blank view while speaking -> stop (looked away)")
+                        tts?.stop(); isSpeaking = false; speakingNorm = ""
+                    }
                     blankStreak++
                     DiagLog.log("FRAME", "#$fno skip blank/black (blankStreak=$blankStreak)")
                     if (blankStreak >= 5 && !blankHintSpoken) {
@@ -590,14 +571,20 @@ class ScreenReaderService : Service() {
     }
 
     /**
-     * Decide what to speak. handleText only runs when we are NOT already speaking
-     * (the capture loop never OCRs during an utterance — it just watches for
-     * look-away), so this is simple: read new, non-duplicate text.
+     * Decide what to speak for a freshly recognised frame. We OCR every interval
+     * even while speaking, so:
+     *  - SAME text as what is playing / just read -> ignore (keep reading it, no
+     *    restart) — this is "don't cut off the current text".
+     *  - DIFFERENT text (you moved to a new screen) -> speak it now; speak() uses
+     *    QUEUE_FLUSH so it interrupts the old read immediately.
+     *  - empty result while speaking -> you looked at something with no text ->
+     *    stop.
      */
     private fun handleText(text: String) {
         inFlight = false
         if (text.isBlank()) {
             DiagLog.log("HANDLE", "empty result (engine returned nothing)")
+            if (!demandMode() && isSpeaking && autoStopEnabled()) { tts?.stop(); isSpeaking = false; speakingNorm = "" }
             if (demandMode()) announce("لا يوجد نص واضح لأقرأه في هذا المشهد.")
             return
         }
@@ -606,12 +593,14 @@ class ScreenReaderService : Service() {
             speak(text)
             return
         }
-        if (!isNearDuplicate(text)) {
-            lastSpoken = text
-            speak(text)
-        } else {
-            DiagLog.log("HANDLE", "skip: near-duplicate of last read")
+        if (isNearDuplicate(text)) {
+            DiagLog.log("HANDLE", "same content -> keep reading (no restart)")
+            return
         }
+        // Different content — read it now (speak flushes any current utterance).
+        DiagLog.log("HANDLE", "new content -> speak (interrupts current)")
+        lastSpoken = text
+        speak(text)
     }
 
     // ---- Settings -----------------------------------------------------------

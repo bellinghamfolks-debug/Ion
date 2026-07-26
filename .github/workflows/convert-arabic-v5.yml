@@ -1,0 +1,113 @@
+name: Convert Arabic PP-OCRv5 to ONNX
+
+# Converts the OFFICIAL PaddlePaddle/arabic_PP-OCRv5_mobile_rec model (published
+# only in Paddle inference format) into ONNX so the on-device reader (ONNX
+# Runtime) can use the newer, more accurate Arabic recognizer. The result is
+# published as a GitHub Release the Android app downloads at runtime.
+on:
+  push:
+    paths:
+      - ".github/workflows/convert-arabic-v5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install PaddlePaddle + paddle2onnx
+        run: |
+          python -m pip install --upgrade pip
+          # CPU PaddlePaddle 3.x (v5 models are exported with Paddle 3.x) + the
+          # ONNX exporter + the HuggingFace downloader.
+          pip install "paddlepaddle==3.0.0" "paddle2onnx" "huggingface_hub" "pyyaml"
+
+      - name: Download the Arabic v5 recognition model
+        run: |
+          python - <<'PY'
+          import os
+          from huggingface_hub import snapshot_download
+          d = snapshot_download("PaddlePaddle/arabic_PP-OCRv5_mobile_rec", local_dir="rec_model")
+          print("Downloaded to", d)
+          for root, _, files in os.walk("rec_model"):
+              for f in files:
+                  p = os.path.join(root, f)
+                  print("FILE:", p, os.path.getsize(p), "bytes")
+          PY
+
+      - name: Convert Paddle -> ONNX
+        run: |
+          set -euo pipefail
+          ls -la rec_model
+          # PaddleX 3.x inference models ship as inference.json (+ .pdiparams);
+          # older ones as inference.pdmodel. Detect whichever exists.
+          MODELFILE=""
+          if [ -f rec_model/inference.json ]; then MODELFILE=inference.json; fi
+          if [ -f rec_model/inference.pdmodel ]; then MODELFILE=inference.pdmodel; fi
+          if [ -z "$MODELFILE" ]; then echo "No paddle model file found"; ls -la rec_model; exit 1; fi
+          echo "Using model file: $MODELFILE"
+          paddle2onnx \
+            --model_dir rec_model \
+            --model_filename "$MODELFILE" \
+            --params_filename inference.pdiparams \
+            --save_file arabic_v5_rec.onnx \
+            --opset_version 14
+          ls -la arabic_v5_rec.onnx
+
+      - name: Extract the matching character dictionary
+        run: |
+          python - <<'PY'
+          import os, yaml, urllib.request
+          out = "arabic_v5_dict.txt"
+          chars = None
+          yml = "rec_model/inference.yml"
+          if os.path.exists(yml):
+              with open(yml, "r", encoding="utf-8") as f:
+                  cfg = yaml.safe_load(f)
+              # PaddleX embeds the label list under PostProcess.character_dict
+              def find_dict(o):
+                  if isinstance(o, dict):
+                      for k, v in o.items():
+                          if k in ("character_dict", "character_dict_list") and isinstance(v, list):
+                              return v
+                          r = find_dict(v)
+                          if r: return r
+                  elif isinstance(o, list):
+                      for v in o:
+                          r = find_dict(v)
+                          if r: return r
+                  return None
+              chars = find_dict(cfg)
+          if chars:
+              print(f"Using embedded dict from inference.yml ({len(chars)} entries)")
+              with open(out, "w", encoding="utf-8") as f:
+                  f.write("\n".join(str(c) for c in chars))
+          else:
+              print("No embedded dict; falling back to PaddleOCR canonical arabic_dict.txt")
+              url = "https://raw.githubusercontent.com/PaddlePaddle/PaddleOCR/main/ppocr/utils/dict/arabic_dict.txt"
+              urllib.request.urlretrieve(url, out)
+          n = sum(1 for _ in open(out, "r", encoding="utf-8"))
+          print(f"{out}: {n} lines")
+          PY
+          head -5 arabic_v5_dict.txt || true
+          wc -l arabic_v5_dict.txt
+
+      - name: Publish as a GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete arabic-ocr-v5 -y --cleanup-tag || true
+          gh release create arabic-ocr-v5 \
+            arabic_v5_rec.onnx arabic_v5_dict.txt \
+            --title "Arabic PP-OCRv5 recognizer (ONNX)" \
+            --notes "Auto-converted PaddlePaddle/arabic_PP-OCRv5_mobile_rec to ONNX for the on-device live reader. rec model + matching dictionary."

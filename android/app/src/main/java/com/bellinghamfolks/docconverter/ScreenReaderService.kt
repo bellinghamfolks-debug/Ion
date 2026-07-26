@@ -30,28 +30,25 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
-import com.googlecode.tesseract.android.TessBaseAPI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.net.HttpURLConnection
-import java.net.URL
 import java.util.Locale
 
 /**
  * Foreground service that powers the glasses live reader. It mirrors the screen
- * (the eSight Companion camera view), detects when the view genuinely changes,
- * turns the frame into text, and speaks it aloud in Arabic/English.
+ * (the eSight Companion camera view), decides — from phase-correlation motion —
+ * when the view genuinely changes, turns the frame into text, and speaks it
+ * aloud in Arabic/English.
  *
- * Three modes, chosen from the live-reader settings:
- *   - Online OCR (Gemini Flash-Lite): reads visible text, refreshed ~every 2s.
- *   - Local OCR  (Tesseract ara+eng): offline, instant, free — lower accuracy.
+ * Modes, chosen from the settings:
+ *   - Online (Gemini): reads visible text, refreshed ~every 2s (most accurate).
+ *   - Offline (PaddleOCR, Arabic PP-OCRv5): on-device, no internet.
  *   - Rich live description: a spoken narration of the whole scene for a blind
- *     user (online only — Tesseract can only read text, not describe).
+ *     user (online only — the offline engine only reads text).
  */
 class ScreenReaderService : Service() {
 
@@ -69,24 +66,19 @@ class ScreenReaderService : Service() {
     @Volatile private var readGray: FloatArray? = null   // N×N luma of the frame being read (phase-correlation reference)
     @Volatile private var isSpeaking = false       // an utterance is playing now
     @Volatile private var announcing = false       // an important status announcement is playing
-    private var switchStreak = 0                    // debounce for jumping to new text
     @Volatile private var captureRequested = false  // on-demand: read/describe once now
     private var blankStreak = 0                      // consecutive black/blank captured frames
-    private var blurStreak = 0                       // consecutive blurry frames skipped
     private var frameSeq = 0                         // evaluated-frame counter (for the diagnostic log)
     @Volatile private var blankHintSpoken = false    // one-shot "screen looks black" hint
     @Volatile private var speakStartAt = 0L           // when the current utterance started (watchdog)
     @Volatile private var released = false           // service torn down; stop touching bitmaps
-    @Volatile private var fallbackAnnounced = false  // told the user local fell back to online
+    @Volatile private var fallbackAnnounced = false  // told the user the offline engine fell back to online
     private var captureThread: android.os.HandlerThread? = null
 
-    private var localOcr: TessBaseAPI? = null
-    @Volatile private var localReady = false
-    private var localFailures = 0                    // consecutive local-OCR failures (self-heal)
-    private var paddle: PaddleOcr? = null      // experimental high-accuracy on-device engine
-    private var overlayButton: View? = null   // floating trigger over other apps
-    private val tessVariant = "best"          // tessdata_best = highest on-device accuracy
-    // Fast, cheap model for near-real-time reading (Gemini Lite).
+    private var paddle: PaddleOcr? = null      // offline on-device engine (Arabic PP-OCRv5)
+    @Volatile private var paddleIniting = false // guard against double setup on restart
+    private var overlayButton: View? = null    // floating trigger over other apps
+    // Fast, cheap model for near-real-time reading.
     private val onlineModel = "gemini-3.5-flash-lite"
     private val channelId = "live_reader"
 
@@ -138,7 +130,6 @@ class ScreenReaderService : Service() {
                 if (utteranceId == currentUtterId) { isSpeaking = false; speakingNorm = "" }
             }
         })
-        initLocalOcrIfNeeded()
         initPaddleIfNeeded()
         NetManager.setPreferCellular(this, prefs().getBoolean("prefer_cellular", false))
         val code = intent?.getIntExtra("code", Activity.RESULT_CANCELED) ?: Activity.RESULT_CANCELED
@@ -284,13 +275,12 @@ class ScreenReaderService : Service() {
     private fun process(bmp: Bitmap, gray: FloatArray) {
         if (released) { bmp.recycle(); inFlight = false; return }
         scope.launch {
-            // If the user picked an offline engine but it isn't ready yet, we fall
-            // back to online — say so once so they know why it needs the internet.
-            val selected = prefs().getString("ocr_mode", "online")
+            // If the user picked the offline engine but it isn't ready yet, we
+            // fall back to online — say so once so they know why it needs internet.
             if (!describeEnabled() && !fallbackAnnounced &&
-                ((selected == "local" && !localReady) || (selected == "paddle" && paddle?.ready() != true))) {
+                prefs().getString("ocr_mode", "online") == "paddle" && paddle?.ready() != true) {
                 fallbackAnnounced = true
-                announce("المحرّك المحلي غير جاهز بعد، سأستخدم الإنترنت مؤقتًا.")
+                announce("محرّك عدم الاتصال غير جاهز بعد، سأستخدم الإنترنت مؤقتًا.")
             }
             val eng = engine()
             val t0 = System.currentTimeMillis()
@@ -298,16 +288,15 @@ class ScreenReaderService : Service() {
             val text = try {
                 when (eng) {
                     "paddle" -> recognizePaddle(bmp)
-                    "local" -> recognizeLocal(bmp)
                     else -> recognizeOnline(bmp)
                 }
             } catch (e: Exception) { failure = e.message; DiagLog.err("OCR", e); "" } finally { bmp.recycle() }
             val dt = System.currentTimeMillis() - t0
             if (failure != null) {
                 DiagLog.log("OCR", "FAILED eng=$eng ${dt}ms: $failure")
-                // Only the ONLINE path talks to a server — a local/Paddle failure
-                // is a recognition error, NOT a connection problem, so don't say
-                // "server error" in offline mode. Just retry on the next frame.
+                // Only the ONLINE path talks to a server — an offline failure is a
+                // recognition error, NOT a connection problem, so don't say
+                // "server error" offline. Just retry on the next frame.
                 if (eng == "online") announceError(failure)
             } else {
                 DiagLog.log("OCR", "ok eng=$eng ${dt}ms chars=${text.length} \"${text.take(120).replace('\n', ' ')}\"")
@@ -339,7 +328,6 @@ class ScreenReaderService : Service() {
         if (describeEnabled()) return "online"
         return when (prefs().getString("ocr_mode", "online")) {
             "paddle" -> if (paddle?.ready() == true) "paddle" else "online"
-            "local" -> if (localReady) "local" else "online"
             else -> "online"
         }
     }
@@ -374,10 +362,12 @@ class ScreenReaderService : Service() {
 
     /**
      * Lighting-adaptive correction shared by ALL modes so the reader copes with
-     * dim, bright, washed-out, back-lit or low-contrast scenes. Robust contrast
-     * stretch (1st/99th percentile) + auto-gamma driven by mean brightness,
-     * applied to RGB via a per-luminance scale so colour is preserved. It is
-     * near-identity in already-good lighting, so it never hurts a clean frame.
+     * dim, bright, back-lit, shadowed or low-contrast scenes. Uses CLAHE
+     * (Contrast Limited Adaptive Histogram Equalization) on the luminance
+     * channel — tile-local histogram equalization with a clip limit that lifts
+     * shadows and boosts local text contrast WITHOUT amplifying noise, far
+     * stronger on uneven lighting than a single global stretch. The equalized
+     * luma is applied back to RGB via a per-pixel scale so colour is preserved.
      * Always returns a NEW bitmap.
      */
     private fun normalizeLighting(src: Bitmap): Bitmap {
@@ -387,38 +377,16 @@ class ScreenReaderService : Service() {
         val px = IntArray(w * h)
         src.getPixels(px, 0, w, 0, 0, w, h)
         val luma = IntArray(w * h)
-        val hist = IntArray(256)
-        var sum = 0L
         for (i in px.indices) {
             val c = px[i]
-            val y = (0.299 * ((c shr 16) and 0xFF) +
+            luma[i] = (0.299 * ((c shr 16) and 0xFF) +
                 0.587 * ((c shr 8) and 0xFF) + 0.114 * (c and 0xFF)).toInt().coerceIn(0, 255)
-            luma[i] = y; hist[y]++; sum += y
         }
-        val total = w * h
-        val lowCut = (total * 0.01).toInt(); val highCut = (total * 0.99).toInt()
-        var acc = 0; var lo = 0; var hi = 255
-        for (v in 0..255) { acc += hist[v]; if (acc >= lowCut) { lo = v; break } }
-        acc = 0; for (v in 0..255) { acc += hist[v]; if (acc >= highCut) { hi = v; break } }
-        if (hi <= lo) { lo = 0; hi = 255 }
-        val range = (hi - lo).coerceAtLeast(1)
-        val mean = sum.toDouble() / total
-        val gamma = when {
-            mean < 90 -> 0.6      // very dark -> brighten strongly
-            mean < 130 -> 0.8     // dim -> brighten
-            mean > 190 -> 1.4     // washed out -> darken
-            mean > 160 -> 1.2
-            else -> 1.0           // good light -> leave it
-        }
-        val lut = IntArray(256)
-        for (v in 0..255) {
-            val t = ((v - lo).toFloat() / range).coerceIn(0f, 1f)
-            lut[v] = (Math.pow(t.toDouble(), gamma) * 255).toInt().coerceIn(0, 255)
-        }
+        val eq = clahe(luma, w, h)
         val res = IntArray(w * h)
         for (i in px.indices) {
-            val c = px[i]; val y = luma[i]; val ny = lut[y]
-            if (y == 0) { res[i] = (0xFF shl 24) or (ny shl 16) or (ny shl 8) or ny; continue }
+            val c = px[i]; val y = luma[i]; val ny = eq[i]
+            if (y <= 0) { res[i] = (0xFF shl 24) or (ny shl 16) or (ny shl 8) or ny; continue }
             val scale = ny.toFloat() / y
             val r = (((c shr 16) and 0xFF) * scale).toInt().coerceIn(0, 255)
             val g = (((c shr 8) and 0xFF) * scale).toInt().coerceIn(0, 255)
@@ -429,133 +397,70 @@ class ScreenReaderService : Service() {
         return out
     }
 
+    /**
+     * CLAHE on a grayscale plane: split into an 8×8 grid of tiles, build a
+     * clipped, equalized 0..255 mapping per tile (the clip limit caps how much
+     * any single intensity is amplified — this is what prevents noise blow-up),
+     * then map each pixel by BILINEARLY interpolating the four surrounding tile
+     * mappings so no block edges appear. Returns the new luminance plane.
+     */
+    private fun clahe(luma: IntArray, w: Int, h: Int): IntArray {
+        val tilesX = 8; val tilesY = 8
+        val tw = (w + tilesX - 1) / tilesX
+        val th = (h + tilesY - 1) / tilesY
+        val clip = maxOf(1, (3.0 * tw * th / 256).toInt())   // contrast limit
+        val maps = Array(tilesX * tilesY) { IntArray(256) }
+        for (ty in 0 until tilesY) {
+            val y0 = ty * th; val y1 = minOf(y0 + th, h)
+            for (tx in 0 until tilesX) {
+                val x0 = tx * tw; val x1 = minOf(x0 + tw, w)
+                val hist = IntArray(256)
+                var count = 0
+                for (y in y0 until y1) {
+                    val row = y * w
+                    for (x in x0 until x1) { hist[luma[row + x]]++; count++ }
+                }
+                val map = maps[ty * tilesX + tx]
+                if (count == 0) { for (v in 0..255) map[v] = v; continue }
+                var excess = 0                       // clip the histogram
+                for (v in 0..255) if (hist[v] > clip) { excess += hist[v] - clip; hist[v] = clip }
+                val inc = excess / 256; val rem = excess % 256
+                for (v in 0..255) hist[v] += inc     // redistribute clipped mass
+                for (v in 0 until rem) hist[v]++
+                var cdf = 0
+                val sc = 255.0 / count
+                for (v in 0..255) { cdf += hist[v]; map[v] = (cdf * sc).toInt().coerceIn(0, 255) }
+            }
+        }
+        val outL = IntArray(w * h)
+        for (y in 0 until h) {
+            val gy = y.toFloat() / th - 0.5f
+            val fy0 = kotlin.math.floor(gy).toInt()
+            val fy = gy - fy0
+            val ty0 = fy0.coerceIn(0, tilesY - 1); val ty1 = (fy0 + 1).coerceIn(0, tilesY - 1)
+            val row = y * w
+            for (x in 0 until w) {
+                val gx = x.toFloat() / tw - 0.5f
+                val fx0 = kotlin.math.floor(gx).toInt()
+                val fx = gx - fx0
+                val tx0 = fx0.coerceIn(0, tilesX - 1); val tx1 = (fx0 + 1).coerceIn(0, tilesX - 1)
+                val v = luma[row + x]
+                val m00 = maps[ty0 * tilesX + tx0][v]; val m01 = maps[ty0 * tilesX + tx1][v]
+                val m10 = maps[ty1 * tilesX + tx0][v]; val m11 = maps[ty1 * tilesX + tx1][v]
+                val top = m00 + (m01 - m00) * fx
+                val bot = m10 + (m11 - m10) * fx
+                outL[row + x] = (top + (bot - top) * fy).toInt().coerceIn(0, 255)
+            }
+        }
+        return outL
+    }
+
     private fun scaleToLongEdge(src: Bitmap, maxEdge: Int): Bitmap {
         val longEdge = maxOf(src.width, src.height)
         if (longEdge <= maxEdge) return src
         val s = maxEdge.toFloat() / longEdge
         return Bitmap.createScaledBitmap(
             src, (src.width * s).toInt().coerceAtLeast(1), (src.height * s).toInt().coerceAtLeast(1), true)
-    }
-
-    private fun recognizeLocal(bmp: Bitmap): String {
-        val api = localOcr ?: return ""
-        // Plenty of RAM available; 1500px keeps good detail. Single segmentation
-        // pass + early frees + the try/catch self-heal below keep it robust.
-        val work = scaleToLongEdge(bmp, 1500)
-        val norm = normalizeLighting(work)
-        if (work !== bmp) work.recycle()
-        val prepped = preprocessForOcr(norm)
-        if (prepped !== norm) norm.recycle()          // free the RGB copy before OCR
-        val result: String = try {
-            synchronized(api) {
-                api.pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO
-                api.setImage(prepped)
-                val t = api.getUTF8Text() ?: ""
-                val conf = try { api.meanConfidence() } catch (_: Exception) { 0 }
-                api.clear()
-                DiagLog.log("LOCAL", "conf=$conf gate=50 chars=${t.length}")
-                localFailures = 0
-                if (conf < 50) "" else t
-            }
-        } catch (t: Throwable) {                       // includes OutOfMemoryError
-            DiagLog.log("LOCAL", "OCR error: ${t.javaClass.simpleName}: ${t.message}")
-            localFailures++
-            if (localFailures >= 2) { localFailures = 0; reinitLocal() }
-            ""
-        } finally {
-            prepped.recycle()
-        }
-        return cleanOcr(result)
-    }
-
-    /** Self-heal: rebuild the Tesseract engine after repeated failures. */
-    private fun reinitLocal() {
-        DiagLog.log("LOCAL", "re-initializing engine after failures")
-        try { localOcr?.recycle() } catch (_: Exception) {}
-        localOcr = null; localReady = false
-        scope.launch {
-            try {
-                val api = TessBaseAPI()
-                if (api.init(filesDir.absolutePath, "ara+eng", TessBaseAPI.OEM_LSTM_ONLY)) {
-                    api.setVariable("user_defined_dpi", "300")
-                    api.setVariable("preserve_interword_spaces", "1")
-                    localOcr = api; localReady = true
-                    DiagLog.log("LOCAL", "re-init ok")
-                } else { api.recycle(); DiagLog.log("LOCAL", "re-init failed") }
-            } catch (e: Exception) { DiagLog.err("LOCAL", e) }
-        }
-    }
-
-    /**
-     * Adaptive (Bradley) thresholding: binarise each pixel against the mean of a
-     * local window using an integral image. Unlike a global stretch this handles
-     * UNEVEN camera lighting, which is what turned local OCR into garbage on the
-     * glasses feed — text now comes out clean black-on-white for Tesseract.
-     */
-    private fun preprocessForOcr(src: Bitmap): Bitmap {
-        val w = src.width; val h = src.height
-        if (w <= 0 || h <= 0) return src
-        val px = IntArray(w * h)
-        src.getPixels(px, 0, w, 0, 0, w, h)
-        val lum = IntArray(w * h)
-        for (i in px.indices) {
-            val c = px[i]
-            lum[i] = (0.299 * ((c shr 16) and 0xFF) +
-                0.587 * ((c shr 8) and 0xFF) + 0.114 * (c and 0xFF)).toInt()
-        }
-        // Integral image as Int (not Long): work size is capped at 1800px, so the
-        // max prefix sum (255 * ~1.8M px) stays well under Int.MAX — halves memory.
-        val iw = w + 1
-        val integral = IntArray(iw * (h + 1))
-        for (y in 0 until h) {
-            var rowSum = 0
-            for (x in 0 until w) {
-                rowSum += lum[y * w + x]
-                integral[(y + 1) * iw + (x + 1)] = integral[y * iw + (x + 1)] + rowSum
-            }
-        }
-        val s = (w / 16).coerceAtLeast(8)   // local window side ~ image/16
-        val half = s / 2
-        val t = 15                          // Bradley threshold percent below local mean
-        val out = IntArray(w * h)
-        for (y in 0 until h) {
-            val y1 = (y - half).coerceAtLeast(0)
-            val y2 = (y + half).coerceAtMost(h - 1)
-            for (x in 0 until w) {
-                val x1 = (x - half).coerceAtLeast(0)
-                val x2 = (x + half).coerceAtMost(w - 1)
-                val count = (x2 - x1 + 1) * (y2 - y1 + 1)
-                val sum = (integral[(y2 + 1) * iw + (x2 + 1)] - integral[y1 * iw + (x2 + 1)] -
-                    integral[(y2 + 1) * iw + x1] + integral[y1 * iw + x1]).toLong()
-                val black = lum[y * w + x].toLong() * count * 100 <= sum * (100 - t)
-                out[y * w + x] = if (black) 0xFF000000.toInt() else 0xFFFFFFFF.toInt()
-            }
-        }
-        // (despeckle removed: its full-image copy added memory pressure for a
-        //  marginal quality gain; the adaptive threshold already yields clean text.)
-        val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-        bmp.setPixels(out, 0, w, 0, 0, w, h)
-        return bmp
-    }
-
-    /** Remove isolated black speckles and fill lone white holes (3x3 majority). */
-    private fun despeckle(bin: IntArray, w: Int, h: Int) {
-        if (w < 3 || h < 3) return
-        val black = 0xFF000000.toInt()
-        val white = 0xFFFFFFFF.toInt()
-        val copy = bin.copyOf()
-        for (y in 1 until h - 1) {
-            for (x in 1 until w - 1) {
-                var blk = 0
-                for (dy in -1..1) for (dx in -1..1) {
-                    if (dx == 0 && dy == 0) continue
-                    if (copy[(y + dy) * w + (x + dx)] == black) blk++
-                }
-                val i = y * w + x
-                if (copy[i] == black && blk <= 1) bin[i] = white
-                else if (copy[i] == white && blk >= 7) bin[i] = black
-            }
-        }
     }
 
     /**
@@ -632,118 +537,43 @@ class ScreenReaderService : Service() {
     private fun prefs() = getSharedPreferences("live_reader", Context.MODE_PRIVATE)
 
     private fun fmt1(v: Double) = String.format(Locale.US, "%.1f", v)
-    private fun fmt2(v: Double) = String.format(Locale.US, "%.2f", v)
-    private fun fmt4(v: Double) = String.format(Locale.US, "%.4f", v)
 
     private fun describeEnabled(): Boolean = prefs().getBoolean("describe", false)
 
     private fun autoStopEnabled(): Boolean = prefs().getBoolean("autostop", true)
-
-    private fun localSelected(): Boolean = prefs().getString("ocr_mode", "online") == "local"
 
     /** "live" = continuous auto-reading; "demand" = only on an explicit trigger. */
     private fun demandMode(): Boolean = prefs().getString("trigger", "live") == "demand"
 
     private fun paddleSelected(): Boolean = prefs().getString("ocr_mode", "online") == "paddle"
 
-    // ---- Experimental on-device OCR (PaddleOCR / ONNX) ---------------------
+    // ---- Offline on-device OCR (PaddleOCR Arabic PP-OCRv5 / ONNX) -----------
 
     private fun initPaddleIfNeeded() {
-        if (!paddleSelected()) return
+        if (!paddleSelected() || paddle != null || paddleIniting) return
+        paddleIniting = true
         scope.launch {
             DiagLog.log("PADDLE", "setup start")
             val p = PaddleOcr(this@ScreenReaderService)
-            announce("جارٍ تجهيز محرّك PaddleOCR عالي الدقّة، قد يأخذ دقائق عند أول مرة.")
+            announce("جارٍ تجهيز محرّك عدم الاتصال العربي، قد يأخذ دقائق عند أول مرة.")
             val err = p.setup()
             if (err == null) {
                 paddle = p
                 DiagLog.log("PADDLE", "ready")
-                announce("محرّك PaddleOCR جاهز.")
+                announce("محرّك عدم الاتصال جاهز، يعمل الآن بدون إنترنت.")
             } else {
                 DiagLog.log("PADDLE", "setup FAILED: $err")
-                announce("تعذّر تجهيز PaddleOCR، سيتم استخدام البديل. السبب: $err")
+                announce("تعذّر تجهيز محرّك عدم الاتصال، سيتم استخدام الإنترنت. السبب: $err")
             }
+            paddleIniting = false
         }
     }
 
-    // ---- On-device OCR (Tesseract) -----------------------------------------
-
-    private fun initLocalOcrIfNeeded() {
-        if (!localSelected()) return
-        scope.launch {
-            try {
-                val dataDir = filesDir                     // parent of the tessdata/ folder
-                val needed = needsTessDownload(dataDir)
-                DiagLog.log("LOCAL", "tesseract setup start (needDownload=$needed)")
-                if (needed) announce("جارٍ تنزيل بيانات القراءة المحلية عالية الدقّة، قد تأخذ دقيقة.")
-                ensureTraineddata(dataDir)
-                val api = TessBaseAPI()
-                if (api.init(dataDir.absolutePath, "ara+eng", TessBaseAPI.OEM_LSTM_ONLY)) {
-                    api.setVariable("user_defined_dpi", "300")        // Tesseract targets ~300 DPI
-                    api.setVariable("preserve_interword_spaces", "1")
-                    localOcr = api
-                    localReady = true
-                    DiagLog.log("LOCAL", "tesseract ready")
-                    announce("الماسح المحلي جاهز، يعمل الآن بدون إنترنت.")
-                } else {
-                    api.recycle()
-                    DiagLog.log("LOCAL", "tesseract init FAILED")
-                    announce("تعذّر تجهيز القراءة المحلية، سيتم استخدام الإنترنت.")
-                }
-            } catch (e: Exception) {
-                localReady = false            // fall back to online OCR
-                DiagLog.err("LOCAL", e)
-                announce("تعذّر تنزيل بيانات القراءة المحلية، سيتم استخدام الإنترنت.")
-            }
-        }
-    }
-
-    private fun traineddataPresent(dataDir: File): Boolean {
-        val tess = File(dataDir, "tessdata")
-        val ara = File(tess, "ara.traineddata")
-        val eng = File(tess, "eng.traineddata")
-        return ara.exists() && ara.length() > 0 && eng.exists() && eng.length() > 0
-    }
-
-    /** Speak a short spoken status update (used for local-scanner setup). */
+    /** Speak a short spoken status update. */
     private fun announce(msg: String) {
         announcing = true
         tts?.language = Locale("ar")
         tts?.speak(msg, TextToSpeech.QUEUE_ADD, null, "announce-" + System.nanoTime())
-    }
-
-    private fun needsTessDownload(dataDir: File): Boolean {
-        val tess = File(dataDir, "tessdata")
-        val marker = File(tess, ".variant")
-        val variant = if (marker.exists()) marker.runCatching { readText().trim() }.getOrDefault("") else ""
-        return variant != tessVariant || !traineddataPresent(dataDir)
-    }
-
-    /**
-     * Download the HIGH-ACCURACY ara/eng models (tessdata_best) once into
-     * filesDir/tessdata/. If an older (fast) variant is present it is replaced.
-     */
-    private fun ensureTraineddata(dataDir: File) {
-        val tess = File(dataDir, "tessdata").apply { mkdirs() }
-        val marker = File(tess, ".variant")
-        val variant = if (marker.exists()) marker.runCatching { readText().trim() }.getOrDefault("") else ""
-        if (variant != tessVariant) {
-            File(tess, "ara.traineddata").delete()
-            File(tess, "eng.traineddata").delete()
-        }
-        for (lang in listOf("ara", "eng")) {
-            val f = File(tess, "$lang.traineddata")
-            if (f.exists() && f.length() > 0) continue
-            val url = URL("https://github.com/tesseract-ocr/tessdata_best/raw/main/$lang.traineddata")
-            val conn = url.openConnection() as HttpURLConnection
-            try {
-                conn.connectTimeout = 20000
-                conn.readTimeout = 240000        // best models are larger
-                conn.instanceFollowRedirects = true
-                conn.inputStream.use { input -> f.outputStream().use { input.copyTo(it) } }
-            } finally { conn.disconnect() }
-        }
-        marker.runCatching { writeText(tessVariant) }
     }
 
     // ---- Frame helpers ------------------------------------------------------
@@ -792,61 +622,6 @@ class ScreenReaderService : Service() {
         val mean = sum / n
         val variance = sumSq / n - mean * mean
         return variance < 2.0
-    }
-
-    private data class FrameInfo(
-        val hasText: Boolean, val sharp: Boolean,
-        val globalFrac: Double, val maxCell: Double, val maxGrad: Double)
-
-    /**
-     * Smart on-device frame analysis in one pass:
-     *  - hasText: text — even small/medium — is a dense cluster of sharp stroke
-     *    edges (measured globally AND per grid cell), so a small block of text in
-     *    a corner still triggers a read while blank/smooth frames are skipped.
-     *  - sharp: the sharpest text region's edge strength; a motion-blurred or
-     *    out-of-focus frame has weak edges even where text is, so we can wait for
-     *    a crisp frame before OCR. Both are size-robust (per-cell, not global).
-     */
-    private fun analyzeFrame(bmp: Bitmap): FrameInfo {
-        val target = 512
-        val scale = minOf(1f, target.toFloat() / maxOf(bmp.width, bmp.height))
-        val w = (bmp.width * scale).toInt().coerceAtLeast(16)
-        val h = (bmp.height * scale).toInt().coerceAtLeast(16)
-        val small = Bitmap.createScaledBitmap(bmp, w, h, true)
-        val px = IntArray(w * h)
-        small.getPixels(px, 0, w, 0, 0, w, h)
-        small.recycle()
-        val lum = IntArray(w * h)
-        for (i in px.indices) {
-            val c = px[i]
-            lum[i] = (0.299 * ((c shr 16) and 0xFF) +
-                0.587 * ((c shr 8) and 0xFF) + 0.114 * (c and 0xFF)).toInt()
-        }
-        val gxN = 8; val gyN = 8
-        val cellEdges = IntArray(gxN * gyN)
-        val cellGrad = IntArray(gxN * gyN)   // cell gradient sums fit in Int (<~1.2M)
-        var total = 0
-        val thr = 36                       // strong-edge threshold
-        for (y in 1 until h - 1) {
-            for (x in 1 until w - 1) {
-                val g = kotlin.math.abs(lum[y * w + x + 1] - lum[y * w + x - 1]) +
-                    kotlin.math.abs(lum[(y + 1) * w + x] - lum[(y - 1) * w + x])
-                val ci = (y * gyN / h) * gxN + (x * gxN / w)
-                cellGrad[ci] += g
-                if (g > thr) { total++; cellEdges[ci]++ }
-            }
-        }
-        val area = ((w - 2).coerceAtLeast(1)) * ((h - 2).coerceAtLeast(1))
-        val globalFrac = total.toDouble() / area
-        val cellArea = ((w / gxN).coerceAtLeast(1) * (h / gyN).coerceAtLeast(1)).toDouble()
-        var maxCell = 0.0; var maxGrad = 0.0
-        for (ci in cellEdges.indices) {
-            maxCell = maxOf(maxCell, cellEdges[ci] / cellArea)
-            maxGrad = maxOf(maxGrad, cellGrad[ci] / cellArea)
-        }
-        val hasText = globalFrac > 0.004 || maxCell > 0.10
-        val sharp = maxGrad > 8.0          // sharpest region crisp enough to OCR
-        return FrameInfo(hasText, sharp, globalFrac, maxCell, maxGrad)
     }
 
     // ---- Text helpers -------------------------------------------------------
@@ -930,7 +705,7 @@ class ScreenReaderService : Service() {
         val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             Notification.Builder(this, channelId) else Notification.Builder(this)
         builder
-            .setContentTitle("القارئ اللحظي للنظارة")
+            .setContentTitle("نور — قارئ النظارة")
             .setContentText(if (demandMode()) "اضغط الزر لقراءة/وصف ما تراه النظارة." else "يقرأ النص من كاميرا النظارة…")
             .setSmallIcon(android.R.drawable.ic_menu_view)
         // On-demand: a tappable action so the user can trigger a single read
@@ -970,7 +745,6 @@ class ScreenReaderService : Service() {
         projection?.stop()
         tts?.stop()
         tts?.shutdown()
-        localOcr?.recycle()
         paddle?.close()
     }
 

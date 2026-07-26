@@ -29,7 +29,7 @@ import kotlinx.coroutines.withContext
 
 /**
  * Sets up and starts the glasses live reader. Lets the user choose the analysis
- * mode (online Gemini Lite / local offline OCR), turn on rich live scene
+ * mode (online Gemini / offline on-device PaddleOCR), turn on rich live scene
  * description, set reading speed, and go back — then hands the screen-capture
  * projection to ScreenReaderService.
  */
@@ -74,7 +74,7 @@ class LiveReaderActivity : AppCompatActivity() {
         })
 
         root.addView(TextView(this).apply {
-            text = "القارئ اللحظي للنظارة"; textSize = 24f; gravity = Gravity.CENTER
+            text = "نور — قارئ النظارة"; textSize = 24f; gravity = Gravity.CENTER
             setPadding(0, 24, 0, 8)
         })
         status = TextView(this).apply {
@@ -103,28 +103,22 @@ class LiveReaderActivity : AppCompatActivity() {
         root.addView(sectionLabel("طريقة القراءة"))
         val modeGroup = RadioGroup(this).apply { orientation = RadioGroup.VERTICAL }
         val onlineBtn = RadioButton(this).apply {
-            text = "أونلاين — دقيق (Gemini Lite، كل ثانيتين)"; textSize = 17f; id = 101
-        }
-        val localBtn = RadioButton(this).apply {
-            text = "محلي — فوري بدون إنترنت (Tesseract)"; textSize = 17f; id = 102
+            text = "أونلاين — دقيق (Gemini، كل ثانيتين، يتطلب إنترنت)"; textSize = 17f; id = 101
         }
         val paddleBtn = RadioButton(this).apply {
-            text = "PaddleOCR — الأدقّ محليًا (تجريبي، بدون إنترنت)"; textSize = 17f; id = 103
+            text = "بدون إنترنت — على الجهاز (PaddleOCR عربي)"; textSize = 17f; id = 103
         }
         modeGroup.addView(onlineBtn)
-        modeGroup.addView(localBtn)
         modeGroup.addView(paddleBtn)
         when (prefs.getString("ocr_mode", "online")) {
-            "local" -> localBtn.isChecked = true
             "paddle" -> paddleBtn.isChecked = true
             else -> onlineBtn.isChecked = true
         }
         modeGroup.setOnCheckedChangeListener { _, id ->
-            val mode = when (id) { 102 -> "local"; 103 -> "paddle"; else -> "online" }
+            val mode = if (id == 103) "paddle" else "online"
             prefs.edit().putString("ocr_mode", mode).apply()
             status.text = when (mode) {
-                "local" -> "الوضع المحلي: ستُحمَّل بيانات اللغة مرة واحدة عند أول تشغيل."
-                "paddle" -> "PaddleOCR: سيُنزّل المحرّك عند أول تشغيل (تجريبي، قد يحتاج ضبطًا)."
+                "paddle" -> "وضع عدم الاتصال: يُنزّل المحرّك مرة واحدة عند أول تشغيل ثم يعمل بلا إنترنت."
                 else -> "الوضع الأونلاين."
             }
         }
@@ -167,30 +161,26 @@ class LiveReaderActivity : AppCompatActivity() {
         }
         root.addView(trigGroup)
 
-        // --- Pre-download local models (with precise progress) ---
-        root.addView(sectionLabel("النماذج المحلية"))
+        // --- Pre-download the offline model (with precise progress) ---
+        root.addView(sectionLabel("نموذج عدم الاتصال"))
         root.addView(TextView(this).apply {
-            text = "نزّل نماذج الوضع المحلي/PaddleOCR قبل البدء ليعمل بلا إنترنت. اختر الوضع المحلي أعلاه ثم نزّل."
+            text = "نزّل نموذج PaddleOCR العربي قبل البدء ليعمل بلا إنترنت. اختر «بدون إنترنت» أعلاه ثم نزّل."
             textSize = 15f; setPadding(0, 8, 0, 8)
         })
         val dlStatus = TextView(this).apply { text = ""; textSize = 16f; setPadding(0, 4, 0, 8) }
         root.addView(dlStatus)
-        root.addView(bigButton("تنزيل النماذج المحلية (بتقدّم)") {
-            val mode = prefs.getString("ocr_mode", "online")
-            if (mode == "online") { dlStatus.text = "اختر «محلي» أو «PaddleOCR» أولًا."; return@bigButton }
+        root.addView(bigButton("تنزيل النموذج (بتقدّم)") {
+            if (prefs.getString("ocr_mode", "online") != "paddle") {
+                dlStatus.text = "اختر «بدون إنترنت» أولًا."; return@bigButton
+            }
             dlStatus.text = "بدء التنزيل…"
             lifecycleScope.launch {
                 val err = withContext(Dispatchers.IO) {
-                    if (mode == "paddle")
-                        PaddleOcr(this@LiveReaderActivity).downloadModels { p ->
-                            runOnUiThread { dlStatus.text = "تنزيل PaddleOCR: $p%" }
-                        }
-                    else
-                        ModelStore.downloadTess(this@LiveReaderActivity) { p ->
-                            runOnUiThread { dlStatus.text = "تنزيل النموذج المحلي: $p%" }
-                        }
+                    PaddleOcr(this@LiveReaderActivity).downloadModels { p ->
+                        runOnUiThread { dlStatus.text = "تنزيل النموذج: $p%" }
+                    }
                 }
-                dlStatus.text = if (err == null) "اكتمل التنزيل ✅ — النماذج جاهزة للعمل بلا إنترنت."
+                dlStatus.text = if (err == null) "اكتمل التنزيل ✅ — النموذج جاهز للعمل بلا إنترنت."
                 else "تعذّر التنزيل: $err — تأكّد من الإنترنت وأعد المحاولة."
             }
         })
@@ -228,9 +218,9 @@ class LiveReaderActivity : AppCompatActivity() {
             status.text = "تمّ الطلب…"
         })
 
-        // Smart auto-switch when the user moves to a different text.
+        // Stop reading automatically when the view goes blank (you looked away).
         root.addView(CheckBox(this).apply {
-            text = "الانتقال التلقائي عند النظر إلى نص جديد"
+            text = "إيقاف القراءة تلقائيًا عند النظر بعيدًا (شاشة فارغة)"
             textSize = 16f
             isChecked = prefs.getBoolean("autostop", true)
             val lp = LinearLayout.LayoutParams(
@@ -268,7 +258,7 @@ class LiveReaderActivity : AppCompatActivity() {
                 val send = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
                     putExtra(Intent.EXTRA_STREAM, uri)
-                    putExtra(Intent.EXTRA_SUBJECT, "DocConverter live-reader diagnostic")
+                    putExtra(Intent.EXTRA_SUBJECT, "نور live-reader diagnostic")
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }
                 startActivity(Intent.createChooser(send, "مشاركة ملف التشخيص"))

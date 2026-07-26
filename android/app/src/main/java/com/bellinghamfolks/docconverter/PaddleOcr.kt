@@ -206,8 +206,25 @@ class PaddleOcr(private val ctx: Context) {
     // ---- Detection (DB) -----------------------------------------------------
     private data class Box(val x0: Int, val y0: Int, val x1: Int, val y1: Int)
 
+    /**
+     * Multi-scale (image-pyramid) detection: run the DB detector at a HIGH input
+     * scale (small text stays legible) AND a LOW scale (large text / full
+     * context), then merge the boxes with non-max suppression. This makes the
+     * reader robust to very small AND very large text on the same screen.
+     */
     private fun detect(e: OrtEnvironment, sess: OrtSession, src: Bitmap): List<Box> {
-        val maxSide = 960
+        val boxes = ArrayList<Box>()
+        boxes += detectAt(e, sess, src, 1280)   // high scale -> small text
+        boxes += detectAt(e, sess, src, 736)    // low scale  -> large text / context
+        val merged = mergeBoxes(boxes)
+        // Reading order: group into lines top-to-bottom, and RIGHT-to-left within
+        // a line (Arabic), so multi-box lines join in the correct order.
+        val avgH = merged.map { it.y1 - it.y0 }.average().let { if (it.isNaN() || it < 1.0) 20.0 else it }
+        return merged.sortedWith(compareBy({ (it.y0 / (avgH * 0.7)).toInt() }, { -it.x0 }))
+    }
+
+    /** DB text detection at a single input scale; returns boxes in src coords. */
+    private fun detectAt(e: OrtEnvironment, sess: OrtSession, src: Bitmap, maxSide: Int): List<Box> {
         val scale = min(1f, maxSide.toFloat() / max(src.width, src.height))
         var tw = (src.width * scale).roundToInt().coerceAtLeast(32)
         var th = (src.height * scale).roundToInt().coerceAtLeast(32)
@@ -242,10 +259,10 @@ class PaddleOcr(private val ctx: Context) {
             val row = map[y]
             for (x in 0 until tw) { val on = row[x] > thr; bin[y * tw + x] = on; if (on) above++ }
         }
-        DiagLog.log("PADDLE", "det input ${tw}x${th}, pixels>thr=$above (${(above * 100L / area)}%)")
+        DiagLog.log("PADDLE", "det@$maxSide input ${tw}x${th}, pixels>thr=$above (${(above * 100L / area)}%)")
         val invScale = 1f / scale
         val unclip = 1.6f
-        val mapped = connectedBoxes(bin, tw, th).mapNotNull { bx ->
+        return connectedBoxes(bin, tw, th).mapNotNull { bx ->
             var x0 = bx.x0; var y0 = bx.y0; var x1 = bx.x1; var y1 = bx.y1
             val bw = x1 - x0; val bh = y1 - y0
             if (bw < 3 || bh < 3) return@mapNotNull null
@@ -258,10 +275,29 @@ class PaddleOcr(private val ctx: Context) {
                 (x1 * invScale).toInt().coerceIn(1, src.width),
                 (y1 * invScale).toInt().coerceIn(1, src.height))
         }.filter { it.x1 - it.x0 > 6 && it.y1 - it.y0 > 6 }
-        // Reading order: group into lines top-to-bottom, and RIGHT-to-left within
-        // a line (Arabic), so multi-box lines join in the correct order.
-        val avgH = mapped.map { it.y1 - it.y0 }.average().let { if (it.isNaN() || it < 1.0) 20.0 else it }
-        return mapped.sortedWith(compareBy({ (it.y0 / (avgH * 0.7)).toInt() }, { -it.x0 }))
+    }
+
+    /** Non-max suppression across the two scales: drop a box that overlaps an
+     *  already-kept (larger) box by IoU > 0.3, so cross-scale duplicates
+     *  collapse while uniquely-found small/large boxes survive. */
+    private fun mergeBoxes(boxes: List<Box>): List<Box> {
+        val sorted = boxes.sortedByDescending { (it.x1 - it.x0).toLong() * (it.y1 - it.y0) }
+        val kept = ArrayList<Box>()
+        for (b in sorted) {
+            if (kept.none { iou(b, it) > 0.3f }) kept.add(b)
+        }
+        return kept
+    }
+
+    private fun iou(a: Box, b: Box): Float {
+        val ix0 = max(a.x0, b.x0); val iy0 = max(a.y0, b.y0)
+        val ix1 = min(a.x1, b.x1); val iy1 = min(a.y1, b.y1)
+        val iw = ix1 - ix0; val ih = iy1 - iy0
+        if (iw <= 0 || ih <= 0) return 0f
+        val inter = iw.toFloat() * ih
+        val ua = (a.x1 - a.x0).toFloat() * (a.y1 - a.y0)
+        val ub = (b.x1 - b.x0).toFloat() * (b.y1 - b.y0)
+        return inter / (ua + ub - inter)
     }
 
     private fun connectedBoxes(bin: BooleanArray, w: Int, h: Int): List<Box> {

@@ -515,26 +515,48 @@ async function geminiTranscribe(jpegBase64, model, options = {}) {
 // ---- Live OCR (for the eSight glasses reader) ------------------------------
 // Read ALL visible text in a single camera frame, Arabic + English, verbatim.
 // Short + fast (small output budget) for near-real-time reading aloud.
-async function geminiReadText(imageBase64, model) {
+// Shared prompt for the live reader. mode "ocr" = verbatim transcription of
+// clearly legible text only (anti-hallucination: the model must NOT invent
+// unreadable words). mode "describe" = a rich Arabic scene narration for a
+// blind user, including any visible text.
+function livePrompt(mode) {
+  if (mode === "describe") {
+    return "You are the eyes of a blind user wearing camera glasses. In clear, natural ARABIC, " +
+      "describe what is in front of them: the setting, key objects, people, layout and colours, " +
+      "and anything important on any screen or sign. Read aloud any text that appears, as part " +
+      "of the description. Be concise but informative (2–4 sentences). Output only the Arabic description.";
+  }
+  return "Transcribe ONLY the text that is clearly legible in this image, exactly as written, " +
+    "character for character, in natural reading order. Keep the original language (Arabic " +
+    "stays Arabic, English stays English). Do NOT guess, complete, correct, translate, or " +
+    "summarise. If a word or line is blurry, cut off, or uncertain, OMIT it. Never output any " +
+    "text that is not actually visible. If there is no clearly readable text, output nothing.";
+}
+
+// OCR must be deterministic (no creative filling); description can be freer.
+function liveTemperature(mode) { return mode === "describe" ? 0.7 : 0.0; }
+
+function liveBody(imageBase64, mode) {
+  return JSON.stringify({
+    contents: [{
+      role: "user",
+      parts: [
+        { text: livePrompt(mode) },
+        { inline_data: { mime_type: imageMimeFromB64(imageBase64), data: imageBase64 } },
+      ],
+    }],
+    generationConfig: { temperature: liveTemperature(mode), maxOutputTokens: 2048 },
+  });
+}
+
+async function geminiReadText(imageBase64, model, mode = "ocr") {
   const key = process.env.GEMINI_API_KEY;
   if (!key) { const e = new Error("ai_unavailable"); e.status = 503; throw e; }
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-  const prompt = "Read ALL the text visible in this image exactly as written, in natural reading order. " +
-    "Keep the original language (Arabic stays Arabic, English stays English). Do not translate, " +
-    "summarise, or add anything. Output ONLY the text. If there is no readable text, output nothing.";
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [{
-        role: "user",
-        parts: [
-          { text: prompt },
-          { inline_data: { mime_type: imageMimeFromB64(imageBase64), data: imageBase64 } },
-        ],
-      }],
-      generationConfig: { temperature: 1.0, maxOutputTokens: 2048 },
-    }),
+    body: liveBody(imageBase64, mode),
   });
   if (!res.ok) {
     const detail = await res.text();
@@ -542,6 +564,41 @@ async function geminiReadText(imageBase64, model) {
   }
   const data = await res.json();
   return (data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") || "").trim();
+}
+
+// Streaming variant: calls Gemini streamGenerateContent (SSE) and invokes
+// onDelta(textChunk) for each partial-text token as it arrives, so the client
+// can start speaking the first sentence long before the whole read completes.
+async function geminiReadTextStream(imageBase64, model, mode, onDelta) {
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) { const e = new Error("ai_unavailable"); e.status = 503; throw e; }
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${key}`;
+  const gres = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: liveBody(imageBase64, mode),
+  });
+  if (!gres.ok) {
+    const detail = await gres.text();
+    throw new Error(`gemini ${gres.status}: ${detail.slice(0, 200)}`);
+  }
+  let buf = "";
+  for await (const chunk of gres.body) {
+    buf += chunk.toString("utf8");
+    let idx;
+    while ((idx = buf.indexOf("\n")) >= 0) {
+      const line = buf.slice(0, idx).trim();
+      buf = buf.slice(idx + 1);
+      if (!line.startsWith("data:")) continue;
+      const payload = line.slice(5).trim();
+      if (!payload || payload === "[DONE]") continue;
+      try {
+        const j = JSON.parse(payload);
+        const t = (j?.candidates?.[0]?.content?.parts || []).map((p) => p.text || "").join("");
+        if (t) onDelta(t);
+      } catch (_) { /* ignore keep-alive / partial lines */ }
+    }
+  }
 }
 
 // Run the Python converter on the whole PDF. Returns the .docx bytes, or throws
@@ -759,19 +816,44 @@ const frameJson = express.json({ limit: "8mb" });
 // Per-device budget for the live reader: many small frames per minute.
 const liveLimit = rateLimit({ name: "live-ocr", windowMs: 60 * 1000, max: 40 });
 
-// POST /convert/live-ocr { imageBase64, model? } -> { text }
-// Reads all visible text in one camera frame (Arabic + English) for the glasses
-// live reader. Fast and stateless — no job, no DB.
+// POST /convert/live-ocr { imageBase64, model?, mode? } -> { text }
+// mode "ocr" (default) reads visible text verbatim; mode "describe" returns a
+// rich Arabic scene narration for a blind user. Fast and stateless — no job, no DB.
 convertRouter.post("/live-ocr", frameJson, liveLimit, async (req, res) => {
   const b64 = String(req.body?.imageBase64 || "");
   if (!b64) return res.status(400).json({ error: "missing_image" });
   const model = String(req.body?.model || MODEL_DEFAULT).slice(0, 60);
+  const mode = req.body?.mode === "describe" ? "describe" : "ocr";
   try {
-    const text = await geminiReadText(b64, model);
+    const text = await geminiReadText(b64, model, mode);
     res.json({ text });
   } catch (e) {
     if (e.status) return res.status(e.status).json({ error: e.message });
     res.status(502).json({ error: "ocr_failed", detail: String(e.message || e).slice(0, 200) });
+  }
+});
+
+// POST /convert/live-ocr-stream { imageBase64, model?, mode? } -> streamed text.
+// Same as /live-ocr but streams the recognition/description as plain UTF-8 text
+// as Gemini generates it, so the app speaks the first sentence with far lower
+// latency than waiting for the whole read.
+convertRouter.post("/live-ocr-stream", frameJson, liveLimit, async (req, res) => {
+  const b64 = String(req.body?.imageBase64 || "");
+  if (!b64) return res.status(400).json({ error: "missing_image" });
+  const model = String(req.body?.model || MODEL_DEFAULT).slice(0, 60);
+  const mode = req.body?.mode === "describe" ? "describe" : "ocr";
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("X-Accel-Buffering", "no"); // don't let a proxy buffer the stream
+  try {
+    await geminiReadTextStream(b64, model, mode, (t) => res.write(t));
+    res.end();
+  } catch (e) {
+    if (!res.headersSent) {
+      if (e.status) return res.status(e.status).json({ error: e.message });
+      return res.status(502).json({ error: "ocr_failed", detail: String(e.message || e).slice(0, 200) });
+    }
+    res.end();
   }
 });
 

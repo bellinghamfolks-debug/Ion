@@ -64,12 +64,31 @@ object NetManager {
     /** Open a connection, over cellular when preferred and available. */
     fun open(urlStr: String): HttpURLConnection {
         val url = URL(urlStr)
-        val net = if (preferCellular) (cellular ?: findCellular()) else null
+        // requestNetwork is asynchronous. The previous implementation threw as
+        // soon as its callback had not fired yet, which made every first request
+        // fail on many phones and looked like the server was completely down.
+        // Give Android a short window to bring cellular up, then preserve the
+        // old safe fallback to the default network (useful away from glasses).
+        val net = if (preferCellular) awaitCellular(4_000L) else null
         DiagLog.log("NET", "open via ${if (net != null) "CELLULAR" else "default network"} (preferCellular=$preferCellular cellularReady=${net != null})")
-        return if (net != null)
-            net.openConnection(url) as HttpURLConnection
-        else
-            url.openConnection() as HttpURLConnection
+        return if (net != null) net.openConnection(url) as HttpURLConnection
+        else url.openConnection() as HttpURLConnection
+    }
+
+    private fun awaitCellular(timeoutMs: Long): Network? {
+        cellular?.let { return it }
+        findCellular()?.let { return it }
+        requestCellular()
+        val deadline = System.currentTimeMillis() + timeoutMs
+        while (System.currentTimeMillis() < deadline) {
+            try { Thread.sleep(200L) } catch (_: InterruptedException) {
+                Thread.currentThread().interrupt(); return null
+            }
+            cellular?.let { return it }
+            findCellular()?.let { return it }
+        }
+        DiagLog.log("NET", "cellular not ready after ${timeoutMs}ms; trying default network")
+        return null
     }
 
     /**

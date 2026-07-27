@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
@@ -80,6 +81,8 @@ class LiveReaderActivity : AppCompatActivity() {
         status = TextView(this).apply {
             text = "يقرأ ما تراه كاميرا نظارة eSight تلقائيًا بصوت عربي/إنجليزي."
             textSize = 17f; setPadding(0, 8, 0, 16)
+            accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
+            isFocusable = true
         }
         root.addView(status)
 
@@ -96,14 +99,31 @@ class LiveReaderActivity : AppCompatActivity() {
             isChecked = prefs.getBoolean("describe", false)
             setOnCheckedChangeListener { _, checked ->
                 prefs.edit().putBoolean("describe", checked).apply()
+                // Notify an already-running reader too. Updating preferences
+                // alone does not invalidate its current OCR frame reference.
+                startService(Intent(this@LiveReaderActivity, ScreenReaderService::class.java)
+                    .setAction(ScreenReaderService.ACTION_SET_DESCRIBE)
+                    .putExtra(ScreenReaderService.EXTRA_DESCRIBE_ENABLED, checked))
+                status.text = if (checked)
+                    "تم تشغيل الوصف الحي — سيصف المشهد الحالي الآن."
+                else "تم إيقاف الوصف الحي — عاد القارئ إلى قراءة النص."
             }
         })
 
+        // Less-frequently changed options stay collapsed so the daily controls
+        // fit on one screen and TalkBack users do not traverse dozens of items.
+        val advanced = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            visibility = View.GONE
+            isFocusable = true
+            contentDescription = "الإعدادات المتقدمة"
+        }
+
         // --- Analysis mode ---
-        root.addView(sectionLabel("طريقة القراءة"))
+        advanced.addView(sectionLabel("طريقة القراءة"))
         val modeGroup = RadioGroup(this).apply { orientation = RadioGroup.VERTICAL }
         val onlineBtn = RadioButton(this).apply {
-            text = "أونلاين — دقيق (Gemini، كل ثانيتين، يتطلب إنترنت)"; textSize = 17f; id = 101
+            text = "أونلاين — يحلل المشهد عند تغيّره (يتطلب إنترنت)"; textSize = 17f; id = 101
         }
         val paddleBtn = RadioButton(this).apply {
             text = "بدون إنترنت — على الجهاز (PaddleOCR عربي)"; textSize = 17f; id = 103
@@ -117,16 +137,17 @@ class LiveReaderActivity : AppCompatActivity() {
         modeGroup.setOnCheckedChangeListener { _, id ->
             val mode = if (id == 103) "paddle" else "online"
             prefs.edit().putString("ocr_mode", mode).apply()
+            notifyRunningReaderSettingsChanged()
             status.text = when (mode) {
                 "paddle" -> "وضع عدم الاتصال: يُنزّل المحرّك مرة واحدة عند أول تشغيل ثم يعمل بلا إنترنت."
                 else -> "الوضع الأونلاين."
             }
         }
-        root.addView(modeGroup)
+        advanced.addView(modeGroup)
 
         // --- Online model choice (applies to the online mode) ---
-        root.addView(sectionLabel("نموذج الأونلاين"))
-        root.addView(TextView(this).apply {
+        advanced.addView(sectionLabel("نموذج الأونلاين"))
+        advanced.addView(TextView(this).apply {
             text = "اختر النموذج للوضع الأونلاين: السريع للاستجابة الأقل تأخيرًا، أو الدقيق للنصوص الصعبة."
             textSize = 15f; setPadding(0, 0, 0, 8)
         })
@@ -146,11 +167,11 @@ class LiveReaderActivity : AppCompatActivity() {
             prefs.edit().putString("online_model", m).apply()
             status.text = if (m == "gemini-3.6-flash") "النموذج: 3.6 Flash (دقيق)." else "النموذج: Flash Lite (سريع)."
         }
-        root.addView(modelGroup)
+        advanced.addView(modelGroup)
 
         // Use cellular data for the server even when joined to the glasses' Wi-Fi
         // (which has no internet). Fixes "online won't work while on glasses Wi-Fi".
-        root.addView(CheckBox(this).apply {
+        advanced.addView(CheckBox(this).apply {
             text = "استخدم بيانات الجوّال للاتصال بالخادم (لو النظارة على واي‑فاي بلا إنترنت)"
             textSize = 16f
             isChecked = prefs.getBoolean("prefer_cellular", false)
@@ -160,12 +181,12 @@ class LiveReaderActivity : AppCompatActivity() {
             setOnCheckedChangeListener { _, checked ->
                 prefs.edit().putBoolean("prefer_cellular", checked).apply()
                 NetManager.setPreferCellular(this@LiveReaderActivity, checked)
-                status.text = if (checked) "سيتصل بالخادم عبر بيانات الجوّال." else "اتصال عادي."
+                status.text = if (checked) "جارٍ تجهيز بيانات الجوّال للاتصال بالخادم." else "اتصال عادي."
             }
         })
 
         // --- Trigger: continuous live vs on-demand (applies to read AND describe) ---
-        root.addView(sectionLabel("طريقة التشغيل"))
+        advanced.addView(sectionLabel("طريقة التشغيل"))
         val trigGroup = RadioGroup(this).apply { orientation = RadioGroup.VERTICAL }
         val liveBtn = RadioButton(this).apply {
             text = "بث مباشر — قراءة/وصف تلقائي مستمر"; textSize = 17f; id = 201
@@ -179,21 +200,22 @@ class LiveReaderActivity : AppCompatActivity() {
         trigGroup.setOnCheckedChangeListener { _, id ->
             val t = if (id == 202) "demand" else "live"
             prefs.edit().putString("trigger", t).apply()
+            notifyRunningReaderSettingsChanged()
             status.text = if (t == "demand")
                 "وضع الطلب: اضغط الزر العائم فوق تطبيق eSight، أو زر الإشعار."
             else "بث مباشر مفعّل."
         }
-        root.addView(trigGroup)
+        advanced.addView(trigGroup)
 
         // --- Pre-download the offline model (with precise progress) ---
-        root.addView(sectionLabel("نموذج عدم الاتصال"))
-        root.addView(TextView(this).apply {
+        advanced.addView(sectionLabel("نموذج عدم الاتصال"))
+        advanced.addView(TextView(this).apply {
             text = "نزّل نموذج PaddleOCR العربي قبل البدء ليعمل بلا إنترنت. اختر «بدون إنترنت» أعلاه ثم نزّل."
             textSize = 15f; setPadding(0, 8, 0, 8)
         })
         val dlStatus = TextView(this).apply { text = ""; textSize = 16f; setPadding(0, 4, 0, 8) }
-        root.addView(dlStatus)
-        root.addView(bigButton("تنزيل النموذج (بتقدّم)") {
+        advanced.addView(dlStatus)
+        advanced.addView(bigButton("تنزيل النموذج (بتقدّم)") {
             if (prefs.getString("ocr_mode", "online") != "paddle") {
                 dlStatus.text = "اختر «بدون إنترنت» أولًا."; return@bigButton
             }
@@ -210,12 +232,12 @@ class LiveReaderActivity : AppCompatActivity() {
         })
 
         // Floating button lets on-demand work WITHOUT leaving the eSight app.
-        root.addView(TextView(this).apply {
+        advanced.addView(TextView(this).apply {
             text = "الزر العائم: يظهر زر كبير فوق تطبيق eSight تضغطه للقراءة/الوصف " +
                 "دون الخروج من التطبيق. يتطلب إذن «العرض فوق التطبيقات» مرة واحدة."
             textSize = 15f; setPadding(0, 8, 0, 8)
         })
-        root.addView(bigButton("تفعيل الزر العائم (فوق التطبيقات)") {
+        advanced.addView(bigButton("تفعيل الزر العائم (فوق التطبيقات)") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
                 startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:$packageName")))
@@ -225,6 +247,7 @@ class LiveReaderActivity : AppCompatActivity() {
         })
 
         // --- Start / stop ---
+        root.addView(sectionLabel("الأوامر الرئيسية"))
         root.addView(bigButton("بدء القراءة (مشاركة الشاشة)") {
             val mpm = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
             projectionLauncher.launch(mpm.createScreenCaptureIntent())
@@ -242,9 +265,22 @@ class LiveReaderActivity : AppCompatActivity() {
             status.text = "تمّ الطلب…"
         })
 
+        val advancedToggle = bigButton("إظهار الإعدادات المتقدمة") { }
+        advancedToggle.setOnClickListener {
+            val show = advanced.visibility != View.VISIBLE
+            advanced.visibility = if (show) View.VISIBLE else View.GONE
+            advancedToggle.text = if (show) "إخفاء الإعدادات المتقدمة" else "إظهار الإعدادات المتقدمة"
+            advancedToggle.contentDescription = advancedToggle.text
+            advancedToggle.announceForAccessibility(
+                if (show) "تم إظهار الإعدادات المتقدمة" else "تم إخفاء الإعدادات المتقدمة")
+            if (show) advanced.post { advanced.requestFocus() }
+        }
+        root.addView(advancedToggle)
+        root.addView(advanced)
+
         // Stop reading automatically when the view goes blank (you looked away).
-        root.addView(CheckBox(this).apply {
-            text = "إيقاف القراءة تلقائيًا عند النظر بعيدًا (شاشة فارغة)"
+        advanced.addView(CheckBox(this).apply {
+            text = "إيقاف القراءة عند انقطاع صورة مشاركة الشاشة"
             textSize = 16f
             isChecked = prefs.getBoolean("autostop", true)
             val lp = LinearLayout.LayoutParams(
@@ -256,7 +292,7 @@ class LiveReaderActivity : AppCompatActivity() {
         })
 
         // --- Reading speed ---
-        root.addView(sectionLabel("سرعة القراءة"))
+        advanced.addView(sectionLabel("سرعة القراءة"))
         val speedRow = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutDirection = ViewGroup.LAYOUT_DIRECTION_RTL
@@ -265,16 +301,16 @@ class LiveReaderActivity : AppCompatActivity() {
         speedRow.addView(speedButton("عادي", 1.0f))
         speedRow.addView(speedButton("سريع", 1.4f))
         speedRow.addView(speedButton("أسرع", 1.8f))
-        root.addView(speedRow)
+        advanced.addView(speedRow)
 
         // --- Diagnostics ---
-        root.addView(sectionLabel("التشخيص"))
-        root.addView(TextView(this).apply {
+        advanced.addView(sectionLabel("التشخيص"))
+        advanced.addView(TextView(this).apply {
             text = "يسجّل التطبيق كل خطوة (التقاط، كشف، اتصال، قراءة، أخطاء) في ملف. " +
                 "شغّل القراءة ثم شارك الملف معي لتحديد أي مشكلة بدقّة."
             textSize = 15f; setPadding(0, 8, 0, 8)
         })
-        root.addView(bigButton("مشاركة ملف التشخيص") {
+        advanced.addView(bigButton("مشاركة ملف التشخيص") {
             try {
                 val f = DiagLog.file(this)
                 if (!f.exists() || f.length() == 0L) { status.text = "لا يوجد سجل بعد — شغّل القراءة أولًا."; return@bigButton }
@@ -290,7 +326,7 @@ class LiveReaderActivity : AppCompatActivity() {
                 status.text = "تعذّرت المشاركة: ${e.message}"
             }
         })
-        root.addView(bigButton("مسح ملف التشخيص") {
+        advanced.addView(bigButton("مسح ملف التشخيص") {
             DiagLog.clear(this)
             status.text = "مُسح ملف التشخيص."
         })
@@ -302,6 +338,7 @@ class LiveReaderActivity : AppCompatActivity() {
         this.text = text; textSize = 19f; setTypeface(null, Typeface.BOLD)
         setTextColor(Color.parseColor("#1565C0"))
         setPadding(0, 32, 0, 8)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) isAccessibilityHeading = true
     }
 
     private fun bigButton(text: String, onClick: () -> Unit): Button = Button(this).apply {
@@ -318,7 +355,14 @@ class LiveReaderActivity : AppCompatActivity() {
         lp.marginStart = 8; lp.marginEnd = 8; layoutParams = lp
         setOnClickListener {
             prefs.edit().putFloat("rate", rate).apply()
+            contentDescription = "$label، محدد"
             status.text = "سرعة القراءة: $label"
+            status.announceForAccessibility(status.text)
         }
+    }
+
+    private fun notifyRunningReaderSettingsChanged() {
+        startService(Intent(this, ScreenReaderService::class.java)
+            .setAction(ScreenReaderService.ACTION_SETTINGS_CHANGED))
     }
 }

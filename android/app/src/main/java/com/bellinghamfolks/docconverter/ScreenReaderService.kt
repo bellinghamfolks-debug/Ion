@@ -63,7 +63,11 @@ class ScreenReaderService : Service() {
     @Volatile private var currentUtterId = ""
     @Volatile private var inFlight = false
     private var lastSentAt = 0L
+    private var lastObservedAt = 0L
+    @Volatile private var latestGray: FloatArray? = null
     @Volatile private var readGray: FloatArray? = null   // N×N luma of the frame being read (phase-correlation reference)
+    @Volatile private var pendingGray: FloatArray? = null // possible new view; must remain stable before interrupting
+    @Volatile private var pendingViewCount = 0
     @Volatile private var isSpeaking = false       // an utterance is playing now
     @Volatile private var announcing = false       // an important status announcement is playing
     @Volatile private var captureRequested = false  // on-demand: read/describe once now
@@ -78,7 +82,6 @@ class ScreenReaderService : Service() {
     private var paddle: PaddleOcr? = null      // offline on-device engine (Arabic PP-OCRv5)
     @Volatile private var paddleIniting = false // guard against double setup on restart
     private var overlayButton: View? = null    // floating trigger over other apps
-    @Volatile private var readSeq = 0           // utterance id counter for streamed sentences
     private val channelId = "live_reader"
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -92,13 +95,27 @@ class ScreenReaderService : Service() {
             captureRequested = true
             return START_NOT_STICKY
         }
-        // Live switch between reading text and describing the scene, from the
-        // notification, without leaving the eSight app.
-        if (intent?.action == ACTION_TOGGLE_DESCRIBE) {
-            val now = !describeEnabled()
-            DiagLog.log("ACTION", "toggle describe -> $now")
+        // Live switch between reading text and describing the scene. The
+        // settings screen sends the explicit value while the notification
+        // toggles it. Handling both here is essential: changing only the shared
+        // preference leaves the current frame reference intact, so a running
+        // reader can keep classifying every description frame as already seen.
+        if (intent?.action == ACTION_TOGGLE_DESCRIBE || intent?.action == ACTION_SET_DESCRIBE) {
+            val now = if (intent.action == ACTION_SET_DESCRIBE)
+                intent.getBooleanExtra(EXTRA_DESCRIBE_ENABLED, false)
+            else !describeEnabled()
+            DiagLog.log("ACTION", "set describe -> $now (running=${projection != null})")
             prefs().edit().putBoolean("describe", now).apply()
             tts?.stop()
+            // The same pixels now require a different analysis prompt. Keeping
+            // the old OCR motion reference would classify the first description
+            // frame as "unchanged" and skip it indefinitely.
+            readGray = null
+            pendingGray = null
+            pendingViewCount = 0
+            lastSpoken = ""
+            if (demandMode()) captureRequested = true
+            if (projection == null) { stopSelf(); return START_NOT_STICKY }
             announce(if (now) "تم تشغيل الوصف، وأُوقفت القراءة." else "تم إيقاف الوصف، والعودة للقراءة.")
             try { getSystemService(NotificationManager::class.java).notify(1, buildNotification()) } catch (_: Exception) {}
             return START_NOT_STICKY
@@ -192,9 +209,19 @@ class ScreenReaderService : Service() {
                 val now = System.currentTimeMillis()
                 if (isSpeaking && now - speakStartAt > 45000L) { isSpeaking = false; speakingNorm = "" }  // watchdog
                 val interval = if (engine() == "online") 2000L else 1000L
-                if (inFlight || now - lastSentAt < interval) { image.close(); return@setOnImageAvailableListener }
+                // Keep observing while recognition is in flight. The old code
+                // discarded every frame here, so a slow response could be read
+                // aloud even after the user had moved to a different page.
+                val observeInterval = if (inFlight) 350L else interval
+                if (now - lastObservedAt < observeInterval || (!inFlight && now - lastSentAt < interval)) {
+                    image.close(); return@setOnImageAvailableListener
+                }
+                lastObservedAt = now
                 val bmp = try { imageToBitmap(image, dw, dh) } catch (e: Exception) { null } finally { image.close() }
                 if (bmp == null) { DiagLog.log("FRAME", "null bitmap from capture"); return@setOnImageAvailableListener }
+                val gray = MotionEstimator.grayGrid(bmp)
+                latestGray = gray
+                if (inFlight) { bmp.recycle(); return@setOnImageAvailableListener }
                 val fno = ++frameSeq
                 val sig = signature(bmp)
                 // Only skip a TRULY blank/black frame. Everything else — small or
@@ -202,11 +229,14 @@ class ScreenReaderService : Service() {
                 // old text-detector/sharpness/change gates were dropped: they were
                 // missing medium text, blocking description, and causing silence.)
                 if (blankSig(sig)) {
-                    if (isSpeaking && autoStopEnabled()) {
-                        DiagLog.log("HANDLE", "blank view while speaking -> stop (looked away)")
+                    blankStreak++
+                    // MediaProjection can emit an isolated blank frame during a
+                    // tiny movement, focus/exposure adjustment, or app redraw.
+                    // Only a sustained blank view means the user looked away.
+                    if (blankStreak >= BLANK_STOP_CONFIRMATIONS && isSpeaking && autoStopEnabled()) {
+                        DiagLog.log("HANDLE", "sustained blank view -> stop (looked away)")
                         tts?.stop(); isSpeaking = false; speakingNorm = ""
                     }
-                    blankStreak++
                     DiagLog.log("FRAME", "#$fno skip blank/black (blankStreak=$blankStreak)")
                     if (blankStreak >= 5 && !blankHintSpoken) {
                         blankHintSpoken = true
@@ -217,7 +247,6 @@ class ScreenReaderService : Service() {
                 blankStreak = 0
                 lastSentAt = now
                 inFlight = true
-                val gray = MotionEstimator.grayGrid(bmp)   // for phase-correlation motion check
                 DiagLog.log("FRAME", "#$fno READ -> eng=${engine()}")
                 process(bmp, gray)
             } catch (e: Exception) {
@@ -315,50 +344,91 @@ class ScreenReaderService : Service() {
     private suspend fun processOnlineStreaming(bmp: Bitmap, gray: FloatArray) {
         // Same-view gate (live mode): skip re-reading the view we're already
         // reading / just read. A slight movement aligns with a low residual.
-        if (!demandMode()) {
-            val ref = readGray
-            if (ref != null) {
-                val m = MotionEstimator.estimate(ref, gray)
-                if (m.valid && m.residual <= MotionEstimator.SAME_RESIDUAL) {
-                    DiagLog.log("HANDLE", "aligned view (dx=${m.dx} dy=${m.dy} res=${fmt1(m.residual)}) -> keep, no re-read")
-                    bmp.recycle(); inFlight = false; return
-                }
-            }
+        if (!demandMode() && !acceptStableView(gray)) {
+            bmp.recycle(); inFlight = false; return
         }
-        readGray = gray
         val describe = describeEnabled()
         val jpeg = buildOnlineJpeg(bmp, describe)
         bmp.recycle()
         val model = onlineModel()
         val mode = if (describe) "describe" else "ocr"
         DiagLog.log("NET", "online STREAM model=$model mode=$mode jpeg=${jpeg.size}B")
-        var first = true
-        var any = false
-        var streamFailed = false
+        var text = ""
         try {
-            ConvertApi.liveOcrStream(jpeg, model, mode) { sentence ->
-                any = true
-                speakSentence(sentence, first)
-                first = false
-            }
+            // Buffer the stream instead of speaking unverified partial chunks.
+            // This lets us reject stale results and de-duplicate the COMPLETE
+            // answer before it can flush the current narration.
+            text = ConvertApi.liveOcrStream(jpeg, model, mode) { }.trim()
         } catch (e: Exception) {
-            streamFailed = true
-            DiagLog.log("OCR", "STREAM failed (${e.message?.take(60)}) -> non-stream fallback")
+            // The server already performs model fallback inside this one
+            // request. Starting a second 20-second HTTP call here doubled both
+            // worst-case latency and the chance of speaking an obsolete frame.
+            DiagLog.log("OCR", "STREAM failed: ${e.message?.take(80)}")
+            announceError(e.message)
         }
-        // If the streaming endpoint isn't available (e.g. server not yet
-        // deployed) and nothing was spoken, fall back to the non-streaming read
-        // so online keeps working; speak the whole result at once.
-        if (streamFailed && !any) {
-            try {
-                val text = ConvertApi.liveOcr(jpeg, model, mode).trim()
-                if (text.isNotBlank()) { any = true; speak(text) }
-            } catch (e: Exception) {
-                DiagLog.log("OCR", "non-stream fallback FAILED: ${e.message}")
-                announceError(e.message)
+        if (text.isBlank()) {
+            if (describe) announceError("empty_description")
+            else if (demandMode()) announce("لا يوجد نص واضح لأقرأه في هذا المشهد.")
+        } else if (resultStillCurrent(gray)) {
+            if (isNearDuplicate(text) || (describe && similarity(normalize(text), normalize(lastSpoken)) >= 0.4)) {
+                DiagLog.log("HANDLE", "online duplicate -> keep current narration")
+            } else {
+                readGray = gray
+                pendingGray = null; pendingViewCount = 0
+                lastSpoken = text
+                speak(text)
             }
+        } else {
+            DiagLog.log("HANDLE", "discard stale online result; view changed during request")
         }
-        if (!any && demandMode()) announce("لا يوجد نص واضح لأقرأه في هذا المشهد.")
         inFlight = false
+    }
+
+    /** A network result may speak only if the latest observed frame is still
+     * the requested scene (translation/jitter is allowed). */
+    private fun resultStillCurrent(requestGray: FloatArray): Boolean {
+        val latest = latestGray ?: return true
+        if (latest === requestGray) return true
+        val motion = MotionEstimator.estimate(requestGray, latest)
+        return motion.valid && motion.residual <= MotionEstimator.SAME_RESIDUAL
+    }
+
+    /**
+     * Suppress camera jitter before it can flush TTS. A frame aligned with the
+     * active view is immediately rejected. A genuinely different view must be
+     * seen twice in succession and those two candidate frames must align with
+     * one another. Thus a single involuntary movement, autofocus pulse, dropped
+     * frame, or FFT miss cannot restart/stop the current narration.
+     */
+    private fun acceptStableView(gray: FloatArray): Boolean {
+        val active = readGray ?: run {
+            pendingGray = null; pendingViewCount = 0
+            return true
+        }
+        val motion = MotionEstimator.estimate(active, gray)
+        if (motion.valid && motion.residual <= MotionEstimator.SAME_RESIDUAL) {
+            pendingGray = null; pendingViewCount = 0
+            DiagLog.log("HANDLE", "aligned active view (dx=${motion.dx} dy=${motion.dy} res=${fmt1(motion.residual)}) -> keep")
+            return false
+        }
+
+        val candidate = pendingGray
+        if (candidate == null) {
+            pendingGray = gray.copyOf(); pendingViewCount = 1
+            DiagLog.log("HANDLE", "possible new view -> wait for stable confirmation")
+            return false
+        }
+        val confirmation = MotionEstimator.estimate(candidate, gray)
+        if (!confirmation.valid || confirmation.residual > MotionEstimator.SAME_RESIDUAL) {
+            pendingGray = gray.copyOf(); pendingViewCount = 1
+            DiagLog.log("HANDLE", "unstable candidate -> reset confirmation")
+            return false
+        }
+        pendingViewCount++
+        if (pendingViewCount < NEW_VIEW_CONFIRMATIONS) return false
+        pendingGray = null; pendingViewCount = 0
+        DiagLog.log("HANDLE", "stable new view confirmed -> analyze")
+        return true
     }
 
     /** Build the JPEG uploaded to the server. Reading frames go near-full-res +
@@ -367,10 +437,19 @@ class ScreenReaderService : Service() {
         val maxEdge = if (describe) 1280 else 2048
         val quality = if (describe) 65 else 85
         val scaled = scaleToLongEdge(bmp, maxEdge)
-        val norm = normalizeLighting(scaled)     // CLAHE lighting adaptation
+        // CLAHE is useful for extracting faint lettering but alters colours and
+        // local brightness. Sending that modified image for scene description
+        // can produce incorrect colours/objects, so Describe gets the faithful
+        // camera frame while OCR keeps the contrast-enhanced version.
+        if (describe) {
+            val jpeg = compressJpeg(scaled, quality)
+            if (scaled !== bmp) scaled.recycle()
+            return jpeg
+        }
+        val normalized = normalizeLighting(scaled)
         if (scaled !== bmp) scaled.recycle()
-        val jpeg = compressJpeg(norm, quality)
-        norm.recycle()
+        val jpeg = compressJpeg(normalized, quality)
+        normalized.recycle()
         return jpeg
     }
 
@@ -391,6 +470,7 @@ class ScreenReaderService : Service() {
                 "تعذّر اتصال التطبيق بالإنترنت. إن كنت على واي‑فاي النظارة فعّل «استخدم بيانات الجوّال»، أو تأكّد من الإنترنت."
             m.contains("HTTP 5") -> "خطأ من الخادم، حاول بعد قليل."
             m.contains("HTTP 4") || m.contains("ocr_failed") -> "تعذّرت القراءة من الخادم."
+            m.contains("empty_description") -> "تعذّر إنشاء وصف لهذا المشهد، سأحاول مرة أخرى."
             else -> "تعذّرت القراءة، تحقّق من الاتصال."
         }
         announce(human)
@@ -561,27 +641,19 @@ class ScreenReaderService : Service() {
         }
         if (demandMode()) {
             readGray = gray
+            pendingGray = null; pendingViewCount = 0
             lastSpoken = text
             speak(text)
             return
         }
         if (isNearDuplicate(text)) {
+            pendingGray = null; pendingViewCount = 0
             DiagLog.log("HANDLE", "same content -> keep reading (no restart)")
             return
         }
-        // Text differs — but only treat it as a NEW screen if the view's CONTENT
-        // actually changed. Phase-correlate against the frame we're reading: if
-        // it's just a translation (slight movement) that aligns with a low
-        // residual, the text difference is OCR jitter -> keep reading.
-        val ref = readGray
-        if (ref != null) {
-            val m = MotionEstimator.estimate(ref, gray)
-            if (m.valid && m.residual <= MotionEstimator.SAME_RESIDUAL) {
-                DiagLog.log("HANDLE", "aligned view (dx=${m.dx} dy=${m.dy} res=${fmt1(m.residual)}) -> slight movement, keep reading")
-                return
-            }
-            DiagLog.log("HANDLE", "content changed (valid=${m.valid} dx=${m.dx} dy=${m.dy} res=${fmt1(m.residual)}) -> new screen")
-        }
+        // Text differs, but a single jittery/off-axis frame must not flush TTS.
+        // Use the same stable two-frame confirmation as the online path.
+        if (!acceptStableView(gray)) return
         // New content — read it now (flushes any current utterance).
         readGray = gray
         lastSpoken = text
@@ -669,40 +741,31 @@ class ScreenReaderService : Service() {
         return sig
     }
 
-    /** True only for a genuinely uniform frame (blank wall / black capture).
-     *  Threshold is very low so even small/medium text easily passes. */
+    /** True only for a genuinely black MediaProjection frame. A uniform real
+     *  camera scene (a white wall, paper, sky, etc.) is valid input for Describe
+     *  and must never stop narration merely because it has little texture. */
     private fun blankSig(sig: IntArray): Boolean {
         var sum = 0.0; var sumSq = 0.0
         for (v in sig) { sum += v; sumSq += v.toDouble() * v }
         val n = sig.size
         val mean = sum / n
         val variance = sumSq / n - mean * mean
-        return variance < 2.0
+        return mean < 8.0 && variance < 4.0
     }
 
     // ---- Text helpers -------------------------------------------------------
 
     /** Token overlap (Jaccard) — tolerant of OCR jitter and word reordering. */
     private fun similarity(a: String, b: String): Double {
-        if (a.isEmpty() || b.isEmpty()) return 0.0
-        val sa = a.split(' ').filter { it.isNotBlank() }.toHashSet()
-        val sb = b.split(' ').filter { it.isNotBlank() }.toHashSet()
-        if (sa.isEmpty() || sb.isEmpty()) return 0.0
-        val inter = sa.count { it in sb }
-        val union = sa.size + sb.size - inter
-        return if (union == 0) 0.0 else inter.toDouble() / union
+        return ReaderTextPolicy.similarity(a, b)
     }
 
     private fun isNearDuplicate(text: String): Boolean {
-        val a = normalize(text)
-        val b = normalize(lastSpoken)
-        if (a == b) return true
-        if (b.length >= 8 && (a.contains(b) || b.contains(a))) return true
-        return similarity(a, b) >= 0.6
+        return ReaderTextPolicy.isNearDuplicate(text, lastSpoken)
     }
 
     private fun normalize(s: String): String =
-        s.replace(Regex("[\\u064B-\\u0652\\u0640\\s]+"), " ").trim().lowercase()
+        ReaderTextPolicy.normalize(s)
 
     private fun speak(text: String) {
         val rate = prefs().getFloat("rate", 1.0f)
@@ -714,68 +777,21 @@ class ScreenReaderService : Service() {
         // that frame's own grid, so it can't race the capture thread here.
         val baseId = System.nanoTime().toString()
         currentUtterId = baseId
-        // Speak each script run in its own language so mixed Arabic/English text
-        // isn't voiced entirely in one language (mispronunciation).
-        val runs = splitByScript(text)
-        DiagLog.log("SPEAK", "runs=${runs.size} rate=$rate \"${text.take(60).replace('\n', ' ')}\"")
+        // TextToSpeech language is engine-global, not reliably attached to each
+        // queued utterance. Rapidly changing it while queueing script runs made
+        // some engines read earlier runs with the final run's voice. Use one
+        // utterance in the dominant language for deterministic ordering.
+        val locale = dominantLocale(text)
+        DiagLog.log("SPEAK", "locale=$locale rate=$rate \"${text.take(60).replace('\n', ' ')}\"")
         // Don't clobber an important status announcement mid-sentence: append if
         // one is still playing, otherwise flush the previous read.
-        var mode = if (announcing) TextToSpeech.QUEUE_ADD else TextToSpeech.QUEUE_FLUSH
-        for ((idx, run) in runs.withIndex()) {
-            val ar = run.any { it.code in 0x0600..0x06FF }
-            tts?.language = if (ar) Locale("ar") else Locale.ENGLISH
-            // The LAST run carries currentUtterId so onDone clears isSpeaking.
-            val id = if (idx == runs.size - 1) baseId else "$baseId-$idx"
-            tts?.speak(run, mode, null, id)
-            mode = TextToSpeech.QUEUE_ADD
-        }
+        tts?.language = locale
+        val mode = if (announcing) TextToSpeech.QUEUE_ADD else TextToSpeech.QUEUE_FLUSH
+        tts?.speak(text, mode, null, baseId)
     }
 
-    /**
-     * Speak ONE streamed sentence. The first sentence of a new read flushes the
-     * previous utterance (interrupt); the rest queue after it, so a long read
-     * plays as continuous natural sentences. Each sentence becomes the "current"
-     * utterance, so isSpeaking only clears when the LAST sentence finishes.
-     */
-    private fun speakSentence(text: String, first: Boolean) {
-        val rate = prefs().getFloat("rate", 1.0f)
-        tts?.setSpeechRate(rate)
-        isSpeaking = true
-        speakStartAt = System.currentTimeMillis()
-        speakingNorm = normalize(text)
-        val baseId = "read-" + (readSeq++)
-        currentUtterId = baseId
-        val runs = splitByScript(text)
-        DiagLog.log("SPEAK", "sentence first=$first runs=${runs.size} \"${text.take(50).replace('\n', ' ')}\"")
-        var mode = if (first && !announcing) TextToSpeech.QUEUE_FLUSH else TextToSpeech.QUEUE_ADD
-        for ((idx, run) in runs.withIndex()) {
-            val ar = run.any { it.code in 0x0600..0x06FF }
-            tts?.language = if (ar) Locale("ar") else Locale.ENGLISH
-            val id = if (idx == runs.size - 1) baseId else "$baseId-$idx"
-            tts?.speak(run, mode, null, id)
-            mode = TextToSpeech.QUEUE_ADD
-        }
-    }
-
-    /** Split text into maximal runs of Arabic vs non-Arabic letters; spaces,
-     *  digits and punctuation stay attached to the current run. */
-    private fun splitByScript(text: String): List<String> {
-        val runs = ArrayList<String>()
-        val sb = StringBuilder()
-        var curAr: Boolean? = null
-        for (ch in text) {
-            if (!ch.isLetter()) { sb.append(ch); continue }
-            val ar = ch.code in 0x0600..0x06FF
-            if (curAr == null) curAr = ar
-            if (ar != curAr) {
-                if (sb.isNotBlank()) runs.add(sb.toString())
-                sb.setLength(0)
-                curAr = ar
-            }
-            sb.append(ch)
-        }
-        if (sb.isNotBlank()) runs.add(sb.toString())
-        return if (runs.isEmpty()) listOf(text) else runs
+    private fun dominantLocale(text: String): Locale {
+        return ReaderTextPolicy.dominantLocale(text)
     }
 
     private fun buildNotification(): Notification {
@@ -833,5 +849,9 @@ class ScreenReaderService : Service() {
     companion object {
         const val ACTION_CAPTURE = "com.bellinghamfolks.docconverter.CAPTURE"
         const val ACTION_TOGGLE_DESCRIBE = "com.bellinghamfolks.docconverter.TOGGLE_DESCRIBE"
+        const val ACTION_SET_DESCRIBE = "com.bellinghamfolks.docconverter.SET_DESCRIBE"
+        const val EXTRA_DESCRIBE_ENABLED = "describe_enabled"
+        private const val NEW_VIEW_CONFIRMATIONS = 2
+        private const val BLANK_STOP_CONFIRMATIONS = 3
     }
 }

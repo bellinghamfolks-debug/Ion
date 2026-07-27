@@ -96,6 +96,14 @@ class LiveReaderActivity : AppCompatActivity() {
             isChecked = prefs.getBoolean("describe", false)
             setOnCheckedChangeListener { _, checked ->
                 prefs.edit().putBoolean("describe", checked).apply()
+                // Notify an already-running reader too. Updating preferences
+                // alone does not invalidate its current OCR frame reference.
+                startService(Intent(this@LiveReaderActivity, ScreenReaderService::class.java)
+                    .setAction(ScreenReaderService.ACTION_SET_DESCRIBE)
+                    .putExtra(ScreenReaderService.EXTRA_DESCRIBE_ENABLED, checked))
+                status.text = if (checked)
+                    "تم تشغيل الوصف الحي — سيصف المشهد الحالي الآن."
+                else "تم إيقاف الوصف الحي — عاد القارئ إلى قراءة النص."
             }
         })
 

@@ -26,8 +26,8 @@ object MotionEstimator {
 
     const val N = 128                  // power-of-two grid side for the FFT
 
-    /** dx,dy in grid units; residual = mean |luma| diff after alignment (0..255);
-     *  valid = a consistent translation was found within bounds. */
+    /** dx,dy in grid units; residual = PERCENT of pixels that changed after
+     *  alignment (0..100); valid = a consistent translation was found. */
     data class Motion(val dx: Int, val dy: Int, val residual: Double, val valid: Boolean)
 
     // A consistent peak must stand out from the mean of the correlation surface.
@@ -35,8 +35,15 @@ object MotionEstimator {
     // Max plausible inter-frame shift (guards against circular-FFT wraparound
     // matches). Beyond this the views are treated as unrelated.
     private val MAX_SHIFT = (N * 0.35).toInt()
-    // Aligned mean-luma difference at or below this = same content (tune on device).
-    const val SAME_RESIDUAL = 16.0
+    // A pixel counts as "changed" if its luma moved by more than this (ignores
+    // sensor noise / minor lighting drift).
+    private const val CHANGE_DELTA = 24f
+    // If AT MOST this percent of the aligned pixels changed, it's the same view
+    // (slight movement / jitter). Using a changed-pixel FRACTION — not the mean
+    // difference — is what lets us tell two text-on-white screens apart: their
+    // means are nearly identical, but a real text change flips a clear fraction
+    // of pixels. (tune on device)
+    const val SAME_RESIDUAL = 3.5
 
     /** Downscale a frame to an N×N grayscale grid for motion estimation. */
     fun grayGrid(bmp: Bitmap): FloatArray {
@@ -106,10 +113,12 @@ object MotionEstimator {
         return Motion(dx, dy, alignedResidual(a, b, dx, dy), true)
     }
 
-    /** Mean absolute luma difference over the region where b, shifted by
-     *  (dx,dy), overlaps a. 0 = identical content, up to 255. */
+    /** Percent of pixels that changed by more than CHANGE_DELTA over the region
+     *  where b, shifted by (dx,dy), overlaps a. 0 = identical, up to 100. This
+     *  detects localized text changes even on mostly-white pages, where a mean
+     *  difference would be washed out by the unchanged background. */
     private fun alignedResidual(a: FloatArray, b: FloatArray, dx: Int, dy: Int): Double {
-        var sum = 0.0; var cnt = 0
+        var changed = 0; var cnt = 0
         for (y in 0 until N) {
             val by = y + dy
             if (by < 0 || by >= N) continue
@@ -117,11 +126,11 @@ object MotionEstimator {
             for (x in 0 until N) {
                 val bx = x + dx
                 if (bx < 0 || bx >= N) continue
-                sum += abs(a[ar + x] - b[br + bx])
+                if (abs(a[ar + x] - b[br + bx]) > CHANGE_DELTA) changed++
                 cnt++
             }
         }
-        return if (cnt == 0) 255.0 else sum / cnt
+        return if (cnt == 0) 100.0 else 100.0 * changed / cnt
     }
 
     // ---- Radix-2 FFT: rows then columns, in place -------------------------

@@ -1,7 +1,6 @@
 import SwiftUI
 
-/// Lists the locally-stored provenance of previously corrected photos (from
-/// Documents/Provenance). Read-only and fully accessible.
+/// Local audit history for corrected copies saved by TrueFrame.
 struct RecentView: View {
     @EnvironmentObject var settings: AppSettings
     @State private var items: [Item] = []
@@ -15,17 +14,34 @@ struct RecentView: View {
     var body: some View {
         List {
             if items.isEmpty {
-                Text(settings.t("No corrected photos yet."))
-                    .foregroundStyle(.secondary)
+                ContentUnavailableView(
+                    settings.t("No corrected photos yet."),
+                    systemImage: "photo"
+                )
+                .listRowBackground(Color.clear)
             } else {
                 ForEach(items) { item in
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(item.date, style: .date).font(.headline)
-                        Text("\(settings.t("Rotation")): \(rot(item.provenance))°   ·   \(settings.t("Cropped")): \(pct(item.provenance))%")
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label {
+                            Text(item.date, format: .dateTime.year().month().day().hour().minute())
+                                .font(.headline)
+                        } icon: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
+                                .accessibilityHidden(true)
+                        }
+
+                        Text("\(settings.t("Rotation")): \(rotation(item.provenance))°")
                             .font(.subheadline)
-                        Text("\(settings.t("Generative")): \(item.provenance.generativeModelAlteredPixels ? "" : settings.t("None"))")
-                            .font(.footnote).foregroundStyle(.secondary)
+
+                        Text("\(settings.t("Cropped")): \(croppedPercent(item.provenance))%")
+                            .font(.subheadline)
+
+                        Text("\(settings.t("Generative")): \(item.provenance.generativeModelAlteredPixels ? settings.t("Yes") : settings.t("None"))")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
                     }
+                    .padding(.vertical, 6)
                     .accessibilityElement(children: .combine)
                 }
             }
@@ -34,23 +50,43 @@ struct RecentView: View {
         .onAppear(perform: load)
     }
 
-    private func rot(_ p: EditingProvenance) -> String { String(format: "%.1f", p.rotationDegrees) }
-    private func pct(_ p: EditingProvenance) -> String { String(format: "%.1f", p.croppedAreaFraction * 100) }
+    private func rotation(_ provenance: EditingProvenance) -> String {
+        String(format: "%.1f", provenance.rotationDegrees)
+    }
+
+    private func croppedPercent(_ provenance: EditingProvenance) -> String {
+        String(format: "%.1f", provenance.croppedAreaFraction * 100)
+    }
 
     private func load() {
-        guard let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        let folder = dir.appendingPathComponent("Provenance", isDirectory: true)
-        let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
+        guard let directory = FileManager.default.urls(for: .documentDirectory,
+                                                       in: .userDomainMask).first else {
+            return
+        }
+
+        let folder = directory.appendingPathComponent("Provenance", isDirectory: true)
+        let files = (try? FileManager.default.contentsOfDirectory(
+            at: folder,
+            includingPropertiesForKeys: nil
+        )) ?? []
+
         let decoded: [Item] = files.compactMap { url in
             guard url.pathExtension == "json",
                   let data = try? Data(contentsOf: url),
-                  let prov = try? JSONDecoder().decode(EditingProvenance.self, from: data) else { return nil }
-            // Timestamp is encoded in the filename: provenance-<epoch>.json
-            let ts = url.deletingPathExtension().lastPathComponent
-                .replacingOccurrences(of: "provenance-", with: "")
-            let date = Date(timeIntervalSince1970: TimeInterval(ts) ?? 0)
-            return Item(id: url.lastPathComponent, date: date, provenance: prov)
+                  let provenance = try? JSONDecoder().decode(EditingProvenance.self, from: data) else {
+                return nil
+            }
+
+            let attributes = try? FileManager.default.attributesOfItem(atPath: url.path)
+            let fileDate = attributes?[.creationDate] as? Date
+            let fallbackDate = attributes?[.modificationDate] as? Date
+            let date = fileDate ?? fallbackDate ?? .distantPast
+
+            return Item(id: url.lastPathComponent,
+                        date: date,
+                        provenance: provenance)
         }
+
         items = decoded.sorted { $0.date > $1.date }
     }
 }

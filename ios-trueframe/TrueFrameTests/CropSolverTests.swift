@@ -12,24 +12,22 @@ final class CropSolverTests: XCTestCase {
     }
 
     func testSquareAt45DegreesLosesAboutHalf() {
-        // The largest inscribed axis-aligned square in a square rotated 45° has
-        // side w/√2, so ~50% of the area is cropped.
         let rect = CropSolver.largestValidCrop(imageSize: CGSize(width: 1000, height: 1000), degrees: 45)
         XCTAssertEqual(CropSolver.croppedAreaFraction(rect), 0.5, accuracy: 0.02)
     }
 
     func testSmallAngleCropsLittle() {
         let rect = CropSolver.largestValidCrop(imageSize: CGSize(width: 4000, height: 3000), degrees: 5)
-        let frac = CropSolver.croppedAreaFraction(rect)
-        XCTAssertGreaterThan(frac, 0)
-        XCTAssertLessThan(frac, 0.25)
+        let fraction = CropSolver.croppedAreaFraction(rect)
+        XCTAssertGreaterThan(fraction, 0)
+        XCTAssertLessThan(fraction, 0.25)
     }
 
     func testCropIsSymmetricInAngle() {
-        let a = CropSolver.largestValidCrop(imageSize: CGSize(width: 4000, height: 3000), degrees: 12)
-        let b = CropSolver.largestValidCrop(imageSize: CGSize(width: 4000, height: 3000), degrees: -12)
-        XCTAssertEqual(a.width, b.width, accuracy: 1e-9)
-        XCTAssertEqual(a.height, b.height, accuracy: 1e-9)
+        let positive = CropSolver.largestValidCrop(imageSize: CGSize(width: 4000, height: 3000), degrees: 12)
+        let negative = CropSolver.largestValidCrop(imageSize: CGSize(width: 4000, height: 3000), degrees: -12)
+        XCTAssertEqual(positive.width, negative.width, accuracy: 1e-9)
+        XCTAssertEqual(positive.height, negative.height, accuracy: 1e-9)
     }
 
     func testCropIsCenteredAndInBounds() {
@@ -41,8 +39,29 @@ final class CropSolverTests: XCTestCase {
     }
 
     func testLargerAngleCropsMore() {
-        let small = CropSolver.croppedAreaFraction(CropSolver.largestValidCrop(imageSize: .init(width: 4000, height: 3000), degrees: 5))
-        let large = CropSolver.croppedAreaFraction(CropSolver.largestValidCrop(imageSize: .init(width: 4000, height: 3000), degrees: 20))
+        let small = CropSolver.croppedAreaFraction(
+            CropSolver.largestValidCrop(imageSize: .init(width: 4000, height: 3000), degrees: 5)
+        )
+        let large = CropSolver.croppedAreaFraction(
+            CropSolver.largestValidCrop(imageSize: .init(width: 4000, height: 3000), degrees: 20)
+        )
         XCTAssertGreaterThan(large, small)
+    }
+
+    func testSafeAspectCropPreservesOriginalAspectRatio() {
+        let imageSize = CGSize(width: 4000, height: 3000)
+        let rect = CropSolver.safeAspectCrop(imageSize: imageSize, degrees: 13)
+        let pixelWidth = rect.width * imageSize.width
+        let pixelHeight = rect.height * imageSize.height
+        XCTAssertEqual(pixelWidth / pixelHeight,
+                       imageSize.width / imageSize.height,
+                       accuracy: 1e-9)
+    }
+
+    func testSafeAspectCropFitsInsideLargestValidCrop() {
+        let maximum = CropSolver.largestValidCrop(imageSize: CGSize(width: 4000, height: 3000), degrees: 13)
+        let safe = CropSolver.safeAspectCrop(imageSize: CGSize(width: 4000, height: 3000), degrees: 13)
+        XCTAssertLessThanOrEqual(safe.width, maximum.width + 1e-9)
+        XCTAssertLessThanOrEqual(safe.height, maximum.height + 1e-9)
     }
 }

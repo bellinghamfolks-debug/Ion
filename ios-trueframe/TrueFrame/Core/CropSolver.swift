@@ -1,69 +1,82 @@
 import Foundation
 import CoreGraphics
 
-/// Pure geometry for deciding how much of a rotated image is real (non-empty)
-/// content. When we rotate an image to level it, the corners become empty; the
-/// authenticity-safe policy CROPS those corners rather than inventing pixels.
-///
-/// `largestValidCrop` returns the largest axis-aligned rectangle, centered in
-/// the image, that contains ONLY source pixels after a rotation of `degrees`.
+/// Pure geometry for cropping empty corners created by rotation.
 public enum CropSolver {
 
-    /// Largest inscribed axis-aligned rectangle (w, h) inside a `w0 x h0`
-    /// rectangle rotated by `angle` radians. Classic closed-form solution.
-    public static func largestInscribed(w0: Double, h0: Double, angle: Double) -> (w: Double, h: Double) {
+    public static func largestInscribed(w0: Double,
+                                        h0: Double,
+                                        angle: Double) -> (w: Double, h: Double) {
         guard w0 > 0, h0 > 0 else { return (0, 0) }
-        let sinA = abs(sin(angle))
-        let cosA = abs(cos(angle))
-        if sinA < 1e-9 { return (w0, h0) }          // no rotation
+
+        let sinAngle = abs(sin(angle))
+        let cosAngle = abs(cos(angle))
+        if sinAngle < 1e-9 { return (w0, h0) }
 
         let widthIsLonger = w0 >= h0
-        let sideLong = widthIsLonger ? w0 : h0
-        let sideShort = widthIsLonger ? h0 : w0
+        let longSide = widthIsLonger ? w0 : h0
+        let shortSide = widthIsLonger ? h0 : w0
 
-        let wr: Double, hr: Double
-        if sideShort <= 2 * sinA * cosA * sideLong || abs(sinA - cosA) < 1e-10 {
-            // Half-constrained: the crop touches the mid-points of the long sides.
-            let x = 0.5 * sideShort
-            if widthIsLonger { wr = x / sinA; hr = x / cosA }
-            else { wr = x / cosA; hr = x / sinA }
+        let width: Double
+        let height: Double
+
+        if shortSide <= 2 * sinAngle * cosAngle * longSide
+            || abs(sinAngle - cosAngle) < 1e-10 {
+            let halfShortSide = 0.5 * shortSide
+            if widthIsLonger {
+                width = halfShortSide / sinAngle
+                height = halfShortSide / cosAngle
+            } else {
+                width = halfShortSide / cosAngle
+                height = halfShortSide / sinAngle
+            }
         } else {
-            let cos2A = cosA * cosA - sinA * sinA
-            wr = (w0 * cosA - h0 * sinA) / cos2A
-            hr = (h0 * cosA - w0 * sinA) / cos2A
+            let cos2 = cosAngle * cosAngle - sinAngle * sinAngle
+            width = (w0 * cosAngle - h0 * sinAngle) / cos2
+            height = (h0 * cosAngle - w0 * sinAngle) / cos2
         }
-        return (max(0, min(wr, w0)), max(0, min(hr, h0)))
+
+        return (max(0, min(width, w0)),
+                max(0, min(height, h0)))
     }
 
-    /// The centered largest-valid crop as a normalized rect for a rotation.
-    public static func largestValidCrop(imageSize: CGSize, degrees: Double) -> NormalizedRect {
-        let w0 = Double(imageSize.width), h0 = Double(imageSize.height)
-        guard w0 > 0, h0 > 0 else { return .full }
-        let (wr, hr) = largestInscribed(w0: w0, h0: h0, angle: degrees * .pi / 180)
-        let nw = wr / w0, nh = hr / h0
-        let nx = (1 - nw) / 2, ny = (1 - nh) / 2
-        return NormalizedRect(x: nx, y: ny, width: nw, height: nh)
+    public static func largestValidCrop(imageSize: CGSize,
+                                        degrees: Double) -> NormalizedRect {
+        let originalWidth = Double(imageSize.width)
+        let originalHeight = Double(imageSize.height)
+        guard originalWidth > 0, originalHeight > 0 else { return .full }
+
+        let result = largestInscribed(w0: originalWidth,
+                                      h0: originalHeight,
+                                      angle: degrees * .pi / 180)
+        let normalizedWidth = result.w / originalWidth
+        let normalizedHeight = result.h / originalHeight
+        return NormalizedRect(x: (1 - normalizedWidth) / 2,
+                              y: (1 - normalizedHeight) / 2,
+                              width: normalizedWidth,
+                              height: normalizedHeight)
     }
 
-    /// Fraction of the original AREA removed by cropping to `rect` (0..1).
     public static func croppedAreaFraction(_ rect: NormalizedRect) -> Double {
         max(0, min(1, 1 - rect.areaFraction))
     }
 
-    /// A conservative "safe" crop that keeps the original aspect ratio and is
-    /// slightly inside the largest valid crop (a 1% inset guards against
-    /// sub-pixel interpolation bleed at the very edge).
-    public static func safeAspectCrop(imageSize: CGSize, degrees: Double, insetFraction: Double = 0.01) -> NormalizedRect {
-        let maxCrop = largestValidCrop(imageSize: imageSize, degrees: degrees)
-        // Fit the source aspect ratio inside maxCrop, centered.
-        let srcAspect = imageSize.width / max(imageSize.height, 1)
-        var w = maxCrop.width, h = maxCrop.height
-        // maxCrop already has the source aspect from largestInscribed for same
-        // aspect; keep it and apply the inset.
-        let inset = insetFraction
-        w *= (1 - inset); h *= (1 - inset)
-        _ = srcAspect
-        let x = (1 - w) / 2, y = (1 - h) / 2
-        return NormalizedRect(x: x, y: y, width: w, height: h)
+    /// Centered crop that stays inside the valid post-rotation region while
+    /// preserving the source aspect ratio. In normalized source coordinates,
+    /// preserving the source aspect ratio means using the same scale factor for
+    /// width and height.
+    public static func safeAspectCrop(imageSize: CGSize,
+                                      degrees: Double,
+                                      insetFraction: Double = 0.01) -> NormalizedRect {
+        guard imageSize.width > 0, imageSize.height > 0 else { return .full }
+
+        let maximum = largestValidCrop(imageSize: imageSize, degrees: degrees)
+        let inset = min(0.25, max(0, insetFraction))
+        let uniformScale = max(0, min(maximum.width, maximum.height) * (1 - inset))
+
+        return NormalizedRect(x: (1 - uniformScale) / 2,
+                              y: (1 - uniformScale) / 2,
+                              width: uniformScale,
+                              height: uniformScale)
     }
 }

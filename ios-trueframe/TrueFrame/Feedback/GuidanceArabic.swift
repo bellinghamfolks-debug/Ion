@@ -1,65 +1,84 @@
 import Foundation
 
-/// Renders the current guidance message in Arabic. The prioritization/throttling
-/// logic stays in `GuidanceRules` (pure, English, unit-tested); this only
-/// produces the spoken/displayed Arabic string for the chosen key, using the
-/// same analysis for the dynamic parts. If a key isn't translated, the English
-/// text is used as a safe fallback.
+/// Natural Arabic rendering for live camera guidance.
+/// The goal is short, actionable speech that works well with VoiceOver and does
+/// not sound like a literal translation of camera-engine terminology.
 public enum GuidanceArabic {
 
-    public static func text(for msg: GuidanceMessage, analysis a: FrameAnalysis, verbosity: Verbosity) -> String {
-        let roll = a.level.rollDegrees
-        switch msg.key {
-        case "obstruction":
-            return "الكاميرا مغطّاة عند \(regionAr(a.obstruction.region)). حرّك إصبعك."
-        case "mostlySky":
-            return "معظم الصورة سماء. اخفض الكاميرا."
-        case "mostlyGround":
-            return "معظم الصورة أرض. ارفع الكاميرا."
-        case "tilt":
-            if a.level.isLevel { return "مستوٍ." }
-            if a.level.isNearLevel { return "اقتربت من الاستواء." }
-            let dir = roll > 0 ? "لليسار" : "لليمين"
-            if abs(roll) >= 8 {
-                if verbosity == .minimal { return "أدر \(dir)." }
-                let sense = roll > 0 ? "باتجاه عقارب الساعة" : "عكس عقارب الساعة"
-                return "\(Int(abs(roll).rounded())) درجة ميلان \(sense). أدر \(dir)."
-            }
-            return "أدر قليلًا \(dir)."
-        case "clipTop":
-            return "الرأس قريب من الأعلى. اخفض الكاميرا."
-        case "clipBottom":
-            return "القدمان مقصوصتان. ارفع الكاميرا أو تراجع إن كان آمنًا."
-        case "subjectEdge":
-            let right = (a.framing.horizontalOffset ?? 0) > 0
-            return right ? "الهدف قرب الحافة اليمنى. حرّك الكاميرا يمينًا." : "الهدف قرب الحافة اليسرى. حرّك الكاميرا يسارًا."
-        case "motion":
-            return "أمسك الجهاز بثبات."
-        case "blur":
-            return "قد تكون الصورة غير واضحة."
-        case "exposure":
-            switch a.exposure {
-            case .veryDark: return "المشهد مظلم جدًا."
-            case .overexposed: return "المناطق الساطعة محترقة."
-            case .dark: return "المشهد مظلم قليلًا."
-            case .bright: return "الإضاءة ساطعة قليلًا."
-            case .good: return "الإضاءة جيدة."
-            }
-        case "ok":
-            return "مستوٍ."
-        default:
-            return msg.text
-        }
-    }
+    public static let captureReady = "ممتاز. ثبّت الهاتف، سيتم التقاط الصورة الآن."
 
-    private static func regionAr(_ r: ObstructionRegion) -> String {
-        switch r {
-        case .lowerLeft: return "أسفل اليسار"
-        case .lowerRight: return "أسفل اليمين"
-        case .upperLeft: return "أعلى اليسار"
-        case .upperRight: return "أعلى اليمين"
-        case .center: return "المنتصف"
-        case .unknown: return "جزء"
+    public static func text(for message: GuidanceMessage,
+                            analysis: FrameAnalysis,
+                            verbosity: Verbosity) -> String {
+        let roll = analysis.level.rollDegrees
+
+        switch message.key {
+        case "obstruction":
+            return "يبدو أن جزءًا من العدسة مغطى. أبعد إصبعك عن الكاميرا."
+
+        case "mostlySky":
+            return "معظم الإطار للسماء. اخفض الهاتف قليلًا."
+
+        case "mostlyGround":
+            return "معظم الإطار للأرض. ارفع الهاتف قليلًا."
+
+        case "tilt":
+            if analysis.level.isLevel {
+                return "الهاتف مستقيم."
+            }
+            if analysis.level.isNearLevel {
+                return "بقي تعديل بسيط."
+            }
+
+            let direction = roll > 0 ? "إلى اليسار" : "إلى اليمين"
+            if abs(roll) >= 8 {
+                if verbosity == .minimal {
+                    return "لف الهاتف \(direction)."
+                }
+                return "الميل نحو \(Int(abs(roll).rounded())) درجات. لف الهاتف \(direction)."
+            }
+            return "لف الهاتف قليلًا \(direction)."
+
+        case "visualHorizon":
+            return "خط الأفق في المشهد ما زال مائلًا. عدّل دوران الهاتف قليلًا."
+
+        case "clipTop":
+            return "رأس الشخص قريب جدًا من أعلى الإطار. اخفض الهاتف قليلًا."
+
+        case "clipBottom":
+            return "قدما الشخص خارج الإطار. ارفع الهاتف أو ابتعد قليلًا إن كان ذلك آمنًا."
+
+        case "subjectEdge":
+            let onRight = (analysis.framing.horizontalOffset ?? 0) > 0
+            return onRight
+                ? "العنصر الرئيسي قريب من الحافة اليمنى. حرّك الهاتف قليلًا إلى اليمين."
+                : "العنصر الرئيسي قريب من الحافة اليسرى. حرّك الهاتف قليلًا إلى اليسار."
+
+        case "motion":
+            return "ثبّت الهاتف قليلًا."
+
+        case "blur":
+            return "الصورة غير واضحة بعد. ثبّت الهاتف لحظة حتى يكتمل التركيز."
+
+        case "exposure":
+            switch analysis.exposure {
+            case .veryDark:
+                return "الإضاءة ضعيفة جدًا. اقترب من مصدر ضوء إن أمكن."
+            case .overexposed:
+                return "هناك ضوء قوي يفقد الصورة بعض التفاصيل. أبعد الكاميرا قليلًا عن مصدر الضوء."
+            case .dark:
+                return "الإضاءة منخفضة قليلًا."
+            case .bright:
+                return "الإضاءة قوية قليلًا."
+            case .good:
+                return "الإضاءة مناسبة."
+            }
+
+        case "ok":
+            return "ممتاز، الإطار جاهز."
+
+        default:
+            return message.text
         }
     }
 }

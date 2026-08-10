@@ -1,136 +1,188 @@
 import Foundation
 
-/// Priority buckets, highest first. The guidance loop only ever speaks ONE thing
-/// at a time — the most important unresolved problem — so a blind user is guided
-/// progressively rather than flooded.
 public enum GuidancePriority: Int, Comparable, Sendable {
-    case safety = 0        // safety-critical (e.g. lens fully blocked -> can't shoot)
-    case majorFraming      // subject mostly outside / pointed at sky or ground
-    case severeTilt        // large roll
-    case subjectClipped    // head/feet/edges cut off
-    case blur              // motion / focus
-    case exposure          // too dark / blown out
-    case composition       // optional suggestions
-    case status            // "level", "ready" — reassurance only
+    case safety = 0
+    case majorFraming
+    case severeTilt
+    case subjectClipped
+    case blur
+    case exposure
+    case composition
+    case status
 
-    public static func < (a: GuidancePriority, b: GuidancePriority) -> Bool { a.rawValue < b.rawValue }
+    public static func < (lhs: GuidancePriority, rhs: GuidancePriority) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
 }
 
 public enum Verbosity: Int, Sendable { case minimal, normal, detailed }
 
-/// One spoken instruction. `key` identifies the CONDITION (so we don't repeat
-/// it), `level` is a coarse severity bucket (so we DO re-announce when severity
-/// meaningfully changes).
 public struct GuidanceMessage: Equatable, Sendable {
     public var priority: GuidancePriority
     public var text: String
     public var key: String
     public var level: Int
-    public init(_ priority: GuidancePriority, _ text: String, key: String, level: Int = 0) {
-        self.priority = priority; self.text = text; self.key = key; self.level = level
+
+    public init(_ priority: GuidancePriority,
+                _ text: String,
+                key: String,
+                level: Int = 0) {
+        self.priority = priority
+        self.text = text
+        self.key = key
+        self.level = level
     }
 }
 
-/// Turns a `FrameAnalysis` into the single most important instruction. Pure and
-/// deterministic — unit-tested without any camera.
+/// Chooses one instruction only: the highest-impact unresolved capture problem.
 public enum GuidanceRules {
 
-    public static func topMessage(_ a: FrameAnalysis, verbosity: Verbosity = .normal) -> GuidanceMessage {
-        // 1. Safety-critical: lens appears fully blocked -> no photo possible.
-        if a.obstruction.isObstructed && a.obstruction.confidence >= 0.85 {
-            return GuidanceMessage(.safety,
-                "Camera appears covered at the \(a.obstruction.region.spoken). Move your finger.",
-                key: "obstruction", level: 2)
+    public static func topMessage(_ analysis: FrameAnalysis,
+                                  verbosity: Verbosity = .normal) -> GuidanceMessage {
+        if analysis.obstruction.isObstructed,
+           analysis.obstruction.confidence >= 0.78 {
+            return GuidanceMessage(
+                .safety,
+                "Part of the camera may be covered. Move your finger away from the lens.",
+                key: "obstruction",
+                level: 2
+            )
         }
-        // 2. Major framing: pointed mostly at sky or ground.
-        if a.skyFraction >= 0.8 {
-            return GuidanceMessage(.majorFraming, "Mostly sky. Lower the camera.", key: "mostlySky")
+
+        // These cues are deliberately conservative. The frame analyzer now
+        // reports sky/ground only when those bands differ from the middle of the
+        // scene, and the high threshold further reduces false positives.
+        if analysis.skyFraction >= 0.92 {
+            return GuidanceMessage(.majorFraming,
+                                   "The frame is mostly sky. Lower the camera a little.",
+                                   key: "mostlySky")
         }
-        if a.groundFraction >= 0.8 {
-            return GuidanceMessage(.majorFraming, "Mostly ground. Raise the camera.", key: "mostlyGround")
+        if analysis.groundFraction >= 0.92 {
+            return GuidanceMessage(.majorFraming,
+                                   "The frame is mostly ground. Raise the camera a little.",
+                                   key: "mostlyGround")
         }
-        // 3. Severe tilt.
-        let roll = a.level.rollDegrees
+
+        let roll = analysis.level.rollDegrees
         if abs(roll) >= 8 {
-            let dir = roll > 0 ? "left" : "right"   // rotate the top toward level
+            let direction = roll > 0 ? "left" : "right"
             let bucket = Int((abs(roll) / 5).rounded(.down))
             let text = verbosity == .minimal
-                ? "Rotate \(dir)."
-                : "\(Int(abs(roll).rounded())) degrees tilted \(roll > 0 ? "clockwise" : "counter-clockwise"). Rotate \(dir)."
+                ? "Rotate \(direction)."
+                : "Tilt is about \(Int(abs(roll).rounded())) degrees. Rotate \(direction)."
             return GuidanceMessage(.severeTilt, text, key: "tilt", level: bucket)
         }
-        // 4. Subject clipped.
-        let f = a.framing
-        if f.clippedTop && f.personCount >= 1 {
-            return GuidanceMessage(.subjectClipped, "Head is close to the top. Lower the camera.", key: "clipTop")
+
+        if let visualHorizon = analysis.visualHorizonDegrees,
+           analysis.visualHorizonConfidence >= 0.65,
+           abs(visualHorizon) > 3.0 {
+            let bucket = Int((abs(visualHorizon) / 3).rounded(.down))
+            return GuidanceMessage(.severeTilt,
+                                   "The visible horizon still looks tilted. Adjust the phone rotation slightly.",
+                                   key: "visualHorizon",
+                                   level: bucket)
         }
-        if f.clippedBottom && f.personCount >= 1 {
-            return GuidanceMessage(.subjectClipped, "Feet are cut off. Raise the camera or step back if safe.", key: "clipBottom")
+
+        let framing = analysis.framing
+        if framing.clippedTop && framing.personCount >= 1 {
+            return GuidanceMessage(.subjectClipped,
+                                   "The person's head is too close to the top edge. Lower the camera a little.",
+                                   key: "clipTop")
         }
-        if let off = f.horizontalOffset, abs(off) > 0.45 {
-            let side = off > 0 ? "right" : "left"
-            return GuidanceMessage(.subjectClipped, "Subject near the \(side) edge. Move the camera \(side == "right" ? "right" : "left").", key: "subjectEdge", level: off > 0 ? 1 : 0)
+        if framing.clippedBottom && framing.personCount >= 1 {
+            return GuidanceMessage(.subjectClipped,
+                                   "The person's feet are cut off. Raise the camera or step back if it is safe.",
+                                   key: "clipBottom")
         }
-        // 5. Blur / motion.
-        if a.motionHigh {
-            return GuidanceMessage(.blur, "Hold steady.", key: "motion")
+
+        if let offset = framing.horizontalOffset, abs(offset) > 0.45 {
+            let side = offset > 0 ? "right" : "left"
+            return GuidanceMessage(.subjectClipped,
+                                   "The main subject is near the \(side) edge. Move the camera \(side).",
+                                   key: "subjectEdge",
+                                   level: offset > 0 ? 1 : 0)
         }
-        if a.sharpness == .blurry || a.sharpness == .severelyBlurry {
-            return GuidanceMessage(.blur, "Image may be blurry.", key: "blur")
+
+        if analysis.motionHigh {
+            return GuidanceMessage(.blur, "Hold the phone steady.", key: "motion")
         }
-        // 6. Exposure.
-        switch a.exposure {
-        case .veryDark: return GuidanceMessage(.exposure, "Scene is very dark.", key: "exposure", level: 2)
-        case .overexposed: return GuidanceMessage(.exposure, "Bright areas are overexposed.", key: "exposure", level: 1)
-        default: break
+        if analysis.sharpness == .blurry || analysis.sharpness == .severelyBlurry {
+            return GuidanceMessage(.blur,
+                                   "The image is not sharp yet. Hold steady and let the camera focus.",
+                                   key: "blur",
+                                   level: 2)
         }
-        // 7. Near-level nudge (gentle) when not yet within tolerance.
-        if !a.level.isLevel && a.level.isNearLevel {
-            return GuidanceMessage(.severeTilt, verbosity == .minimal ? "Almost level." : "Almost level.", key: "tilt", level: 0)
+        if analysis.sharpness == .slightlySoft {
+            return GuidanceMessage(.blur,
+                                   "Almost sharp. Hold steady for focus.",
+                                   key: "blur",
+                                   level: 1)
         }
-        if !a.level.isLevel {
-            let dir = roll > 0 ? "left" : "right"
-            return GuidanceMessage(.severeTilt, "Rotate slightly \(dir).", key: "tilt", level: 0)
+
+        switch analysis.exposure {
+        case .veryDark:
+            return GuidanceMessage(.exposure,
+                                   "The scene is very dark. Move toward more light if possible.",
+                                   key: "exposure",
+                                   level: 2)
+        case .overexposed:
+            return GuidanceMessage(.exposure,
+                                   "Bright areas are losing detail. Aim away from the strongest light.",
+                                   key: "exposure",
+                                   level: 1)
+        default:
+            break
         }
-        // All clear.
-        return GuidanceMessage(.status, "Level.", key: "ok")
+
+        if !analysis.level.isLevel && analysis.level.isNearLevel {
+            return GuidanceMessage(.severeTilt,
+                                   "Almost straight.",
+                                   key: "tilt",
+                                   level: 0)
+        }
+
+        if !analysis.level.isLevel {
+            let direction = roll > 0 ? "left" : "right"
+            return GuidanceMessage(.severeTilt,
+                                   "Rotate slightly \(direction).",
+                                   key: "tilt",
+                                   level: 0)
+        }
+
+        return GuidanceMessage(.status, "Ready.", key: "ok")
     }
 }
 
-/// Emission gate: decides whether the planned message is actually spoken now,
-/// implementing the "smart speech throttling" rules. Stateful but tiny and
-/// deterministic (time is injected), so it is unit-tested.
 public struct GuidanceThrottle {
     private var lastKey: String?
     private var lastLevel: Int = 0
     private var lastSpokenAt: TimeInterval = -.infinity
-    private var lastKeyClearedAt: TimeInterval = 0
-    public var minStatusInterval: TimeInterval = 6      // reassurance repeats slowly
-    public var minRepeatInterval: TimeInterval = 1.2     // floor between any two utterances
+    public var minStatusInterval: TimeInterval = 6
+    public var minRepeatInterval: TimeInterval = 1.2
 
     public init() {}
 
-    /// Returns the message to speak, or nil to stay silent.
-    public mutating func admit(_ msg: GuidanceMessage, now: TimeInterval) -> GuidanceMessage? {
-        // Never talk over ourselves too quickly.
-        if now - lastSpokenAt < minRepeatInterval { return nil }
+    public mutating func admit(_ message: GuidanceMessage,
+                               now: TimeInterval) -> GuidanceMessage? {
+        guard now - lastSpokenAt >= minRepeatInterval else { return nil }
 
-        let sameCondition = (msg.key == lastKey)
-        if sameCondition {
-            // Same problem persisting: only re-announce if severity changed, or
-            // (for status/reassurance) after a long interval.
-            if msg.priority == .status {
-                if now - lastSpokenAt < minStatusInterval { return nil }
-            } else if msg.level == lastLevel {
+        if message.key == lastKey {
+            if message.priority == .status {
+                guard now - lastSpokenAt >= minStatusInterval else { return nil }
+            } else if message.level == lastLevel {
                 return nil
             }
         }
-        lastKey = msg.key
-        lastLevel = msg.level
+
+        lastKey = message.key
+        lastLevel = message.level
         lastSpokenAt = now
-        return msg
+        return message
     }
 
-    /// Call when the condition set changes so a re-appearing problem is spoken.
-    public mutating func noteCleared(now: TimeInterval) { lastKeyClearedAt = now }
+    public mutating func reset() {
+        lastKey = nil
+        lastLevel = 0
+        lastSpokenAt = -.infinity
+    }
 }

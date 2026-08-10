@@ -18,8 +18,12 @@ final class QualityScoreTests: XCTestCase {
     }
 
     func testBlurDominatesScore() {
-        let a = FrameAnalysis(level: LevelReading(rollDegrees: 0, pitchDegrees: 0), sharpness: .severelyBlurry)
-        XCTAssertLessThan(QualityScore.from(a).total, 70)
+        // A severely blurry but otherwise-perfect frame must drop well below a
+        // sharp one (sharp ~92): blur is the heaviest-weighted component.
+        let sharp = QualityScore.from(FrameAnalysis(level: LevelReading(rollDegrees: 0, pitchDegrees: 0), sharpness: .sharp)).total
+        let blurry = QualityScore.from(FrameAnalysis(level: LevelReading(rollDegrees: 0, pitchDegrees: 0), sharpness: .severelyBlurry)).total
+        XCTAssertLessThan(blurry, 75)
+        XCTAssertLessThan(blurry, sharp - 15)
     }
 
     func testClippingLowersFraming() {

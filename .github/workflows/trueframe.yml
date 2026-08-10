@@ -1,0 +1,64 @@
+name: TrueFrame
+
+# Builds the TrueFrame iOS app for the Simulator and runs the pure-logic unit
+# tests (crop geometry, guidance prioritization/throttling, quality score,
+# authenticity guard). This is the compile + correctness gate for the app.
+on:
+  push:
+    branches: [main, master, develop, "claude/**"]
+    paths:
+      - "ios-trueframe/**"
+      - ".github/workflows/trueframe.yml"
+  pull_request:
+    paths:
+      - "ios-trueframe/**"
+
+concurrency:
+  group: trueframe-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & test (iOS Simulator)
+    runs-on: macos-14
+    defaults:
+      run:
+        working-directory: ios-trueframe
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select latest stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Pick an available iPhone simulator
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available --json | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          devices = [d for devs in data['devices'].values() for d in devs
+                     if d.get('isAvailable') and 'iPhone' in d['name']]
+          print(devices[-1]['udid'])
+          ")
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: Build and run unit tests
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project TrueFrame.xcodeproj \
+            -scheme TrueFrame \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -configuration Debug \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            COMPILER_INDEX_STORE_ENABLE=NO

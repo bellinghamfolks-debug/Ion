@@ -66,7 +66,7 @@ public struct GeometricImageProcessor {
             ci = ci.cropped(to: cropRect)
             ops.append(.crop)
         }
-        guard !ci.extent.isEmpty, ci.extent.isFinite else { throw ProcessingError.emptyImage }
+        guard !ci.extent.isEmpty, !ci.extent.isInfinite else { throw ProcessingError.emptyImage }
 
         guard let out = context.createCGImage(ci, from: ci.extent) else { throw ProcessingError.renderFailed }
 

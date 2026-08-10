@@ -6,6 +6,7 @@ import CoreGraphics
 /// time and feels leveling haptics; the big capture button announces readiness.
 struct CameraView: View {
     @StateObject private var coordinator = FrameGuidanceCoordinator()
+    @EnvironmentObject var settings: AppSettings
     @Environment(\.dismiss) private var dismiss
 
     @State private var captured: CGImage?
@@ -34,11 +35,11 @@ struct CameraView: View {
                 Spacer()
 
                 HStack(spacing: 24) {
-                    controlButton("Is it level?", systemImage: "level") {
+                    controlButton(settings.t("Is it level?"), systemImage: "level") {
                         coordinator.announceStatus()
                     }
                     captureButton
-                    controlButton("Close", systemImage: "xmark") {
+                    controlButton(settings.t("Close"), systemImage: "xmark") {
                         coordinator.stop(); dismiss()
                     }
                 }
@@ -46,6 +47,10 @@ struct CameraView: View {
             }
         }
         .onAppear {
+            coordinator.verbosity = settings.verbosity
+            coordinator.autoCaptureEnabled = settings.autoCapture
+            coordinator.feedback.hapticFirst = settings.hapticFirst
+            coordinator.language = settings.effectiveCode
             coordinator.camera.onPhoto = handlePhoto
             coordinator.onAutoCapture = { coordinator.camera.capturePhoto() }
             coordinator.start()
@@ -54,6 +59,7 @@ struct CameraView: View {
         .fullScreenCover(isPresented: $showReview) {
             if let cg = captured {
                 ReviewView(image: cg, capturedLevel: capturedLevel, analysis: capturedAnalysis)
+                    .environmentObject(settings)
             }
         }
     }
@@ -69,9 +75,9 @@ struct CameraView: View {
                 Circle().stroke(.black, lineWidth: 2).frame(width: 88, height: 88)
             }
         }
-        .accessibilityLabel("Capture")
-        .accessibilityValue(coordinator.level.isLevel ? "Camera is level" : "Camera is tilted")
-        .accessibilityHint("Takes the photo. You will hear a quality report.")
+        .accessibilityLabel(settings.t("Capture"))
+        .accessibilityValue(coordinator.level.isLevel ? settings.t("Camera is level") : settings.t("Camera is tilted"))
+        .accessibilityHint(settings.t("Takes the photo. You will hear a quality report."))
     }
 
     private func controlButton(_ title: String, systemImage: String, action: @escaping () -> Void) -> some View {
@@ -87,7 +93,7 @@ struct CameraView: View {
 
     private func handlePhoto(_ cg: CGImage?, _ meta: [String: Any]?) {
         guard let cg else {
-            coordinator.feedback.speak("Capture failed. Try again.", interrupt: true)
+            coordinator.feedback.speak(settings.t("Capture failed. Try again."), interrupt: true)
             return
         }
         coordinator.feedback.play(.captured)

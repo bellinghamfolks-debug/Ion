@@ -29,16 +29,37 @@ public final class CameraManager: NSObject, ObservableObject {
     /// Analyze ~every 3rd frame (adaptive sampling; ~10 Hz at 30 fps).
     public var analyzeEveryNthFrame = 3
 
-    public func requestAccessAndConfigure() {
-        AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-            guard let self else { return }
-            DispatchQueue.main.async { self.authorized = granted }
-            guard granted else { return }
-            self.sessionQueue.async { self.configure() }
+    private var configured = false
+
+    /// Single entry point: resolve authorization, configure the session ONCE,
+    /// and start it. The previous split (configure without start) left the
+    /// preview and captures black on first launch.
+    public func startCamera() {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            DispatchQueue.main.async { self.authorized = true }
+            sessionQueue.async { self.configureIfNeeded(); self.startRunning() }
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+                guard let self else { return }
+                DispatchQueue.main.async { self.authorized = granted }
+                guard granted else { return }
+                self.sessionQueue.async { self.configureIfNeeded(); self.startRunning() }
+            }
+        default:
+            DispatchQueue.main.async { self.authorized = false }
         }
     }
 
-    private func configure() {
+    private func startRunning() {
+        guard !session.isRunning else { return }
+        session.startRunning()
+        DispatchQueue.main.async { self.isRunning = self.session.isRunning }
+    }
+
+    private func configureIfNeeded() {
+        guard !configured else { return }
+        configured = true
         session.beginConfiguration()
         session.sessionPreset = .photo
         // Input: wide rear camera by default.
@@ -56,14 +77,6 @@ public final class CameraManager: NSObject, ObservableObject {
         if session.canAddOutput(videoOutput) { session.addOutput(videoOutput) }
         if session.canAddOutput(photoOutput) { session.addOutput(photoOutput) }
         session.commitConfiguration()
-    }
-
-    public func start() {
-        sessionQueue.async {
-            guard !self.session.isRunning else { return }
-            self.session.startRunning()
-            DispatchQueue.main.async { self.isRunning = self.session.isRunning }
-        }
     }
 
     public func stop() {

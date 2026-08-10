@@ -2,9 +2,14 @@ import SwiftUI
 
 @main
 struct TrueFrameApp: App {
+    @StateObject private var settings = AppSettings.shared
+
     var body: some Scene {
         WindowGroup {
             HomeView()
+                .environmentObject(settings)
+                .environment(\.locale, Locale(identifier: settings.effectiveCode))
+                .environment(\.layoutDirection, settings.layoutDirection)
         }
     }
 }

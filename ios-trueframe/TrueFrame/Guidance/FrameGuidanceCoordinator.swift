@@ -15,6 +15,8 @@ public final class FrameGuidanceCoordinator: ObservableObject {
     @Published public private(set) var latestAnalysis: FrameAnalysis?
     @Published public var verbosity: Verbosity = .normal
     @Published public var autoCaptureEnabled = false
+    /// "en" or "ar" — chosen in Settings. Localizes spoken/displayed guidance.
+    public var language: String = "en"
 
     public let camera = CameraManager()
     public let motion = MotionLevelManager()
@@ -43,7 +45,7 @@ public final class FrameGuidanceCoordinator: ObservableObject {
 
     public func start() {
         motion.start()
-        if camera.authorized { camera.start() } else { camera.requestAccessAndConfigure() }
+        camera.startCamera()   // resolves permission, configures once, and starts
     }
     public func stop() { motion.stop(); camera.stop() }
 
@@ -77,9 +79,12 @@ public final class FrameGuidanceCoordinator: ObservableObject {
         DispatchQueue.main.async {
             self.latestAnalysis = analysis
             if let spoken = self.throttle.admit(message, now: t) {
-                self.guidanceText = spoken.text
+                let line = self.language == "ar"
+                    ? GuidanceArabic.text(for: spoken, analysis: analysis, verbosity: self.verbosity)
+                    : spoken.text
+                self.guidanceText = line
                 if !(self.feedback.hapticFirst && spoken.priority == .status) {
-                    self.feedback.speak(spoken.text, interrupt: spoken.priority.rawValue <= GuidancePriority.severeTilt.rawValue)
+                    self.feedback.speak(line, interrupt: spoken.priority.rawValue <= GuidancePriority.severeTilt.rawValue)
                 }
                 // Directional haptic mirrors leveling cues.
                 if spoken.key == "tilt" {
@@ -100,6 +105,8 @@ public final class FrameGuidanceCoordinator: ObservableObject {
     /// One-shot spoken status when the user asks "is it level?".
     public func announceStatus() {
         let a = latestAnalysis ?? FrameAnalysis(level: level)
-        feedback.speak(GuidanceRules.topMessage(a, verbosity: .detailed).text, interrupt: true)
+        let msg = GuidanceRules.topMessage(a, verbosity: .detailed)
+        let line = language == "ar" ? GuidanceArabic.text(for: msg, analysis: a, verbosity: .detailed) : msg.text
+        feedback.speak(line, interrupt: true)
     }
 }

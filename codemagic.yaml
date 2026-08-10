@@ -1,35 +1,34 @@
-# Codemagic CI/CD for EnglishNova (iOS).
+# Codemagic CI/CD for TrueFrame (iOS).
 #
-# This repo's active iOS build is now EnglishNova. Basir's code is
-# preserved on its own branch (claude/file-extraction-repo-migration-hqgNY)
-# and can be restored or updated there at any time.
+# TrueFrame is the accessible, non-generative camera + photo-straightening app
+# for blind and low-vision photographers. This branch (claude/trueframe-ios) is
+# dedicated to it, so Codemagic here builds TrueFrame only.
 #
-# Building an iOS app needs macOS + Xcode, so we use Codemagic's hosted
-# macOS instances. XcodeGen regenerates EnglishNova.xcodeproj from
-# EnglishNova/project.yml at build time, so no binary Xcode project is
-# committed to git.
+# Building an iOS app needs macOS + Xcode, so we use Codemagic's hosted macOS
+# instances. XcodeGen regenerates TrueFrame.xcodeproj from ios-trueframe/
+# project.yml at build time, so no binary Xcode project is committed to git.
 #
-# Every push to claude/**, main, or master triggers BOTH:
-#   1. ios-simulator-build → fast .app compile smoke test (~3-5 min)
-#   2. ios-unsigned-ipa    → real .ipa archive (~5-8 min), emailed +
+# Two workflows:
+#   1. ios-simulator-build → fast .app compile + unit-test smoke test
+#   2. ios-unsigned-ipa    → real .ipa archive, sideloadable / resignable,
 #      posted as a downloadable Codemagic artifact.
 
 workflows:
 
   ios-simulator-build:
-    name: EnglishNova iOS — simulator build (no Apple Developer account needed)
+    name: TrueFrame iOS — simulator build + tests (no Apple account needed)
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
       xcode: latest
       vars:
-        XCODE_PROJECT_DIR: "EnglishNova"
+        XCODE_PROJECT_DIR: "ios-trueframe"
 
     triggering:
       events:
         - push
       branch_patterns:
-        - pattern: "claude/**"
+        - pattern: "claude/trueframe-ios"
           include: true
         - pattern: "main"
           include: true
@@ -46,42 +45,25 @@ workflows:
         script: |
           cd $XCODE_PROJECT_DIR
           xcodegen generate
-          ls -la EnglishNova.xcodeproj/
+          ls -la TrueFrame.xcodeproj/
 
-      - name: Build for iOS Simulator
+      - name: Build & test for iOS Simulator
         script: |
           cd $XCODE_PROJECT_DIR
-          xcodebuild build \
-            -project EnglishNova.xcodeproj \
-            -scheme EnglishNova \
-            -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
+          UDID=$(xcrun simctl list devices available --json | python3 -c "
+          import json,sys
+          d=json.load(sys.stdin)
+          x=[v for devs in d['devices'].values() for v in devs if v.get('isAvailable') and 'iPhone' in v['name']]
+          print(x[-1]['udid'])")
+          xcodebuild test \
+            -project TrueFrame.xcodeproj \
+            -scheme TrueFrame \
+            -destination "id=$UDID" \
             -configuration Debug \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             COMPILER_INDEX_STORE_ENABLE=NO \
-            ONLY_ACTIVE_ARCH=YES \
             | xcpretty || exit 1
-
-      - name: Verify .app bundle was produced
-        script: |
-          cd $XCODE_PROJECT_DIR
-          APP_PATH="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
-          if [ ! -d "$APP_PATH" ]; then
-            echo "❌ Build did not produce $APP_PATH"
-            exit 1
-          fi
-          echo "✅ Built $APP_PATH"
-          du -sh "$APP_PATH"
-          if [ ! -f "$APP_PATH/Curriculum/curriculum.json" ]; then
-            echo "❌ Curriculum/curriculum.json missing from app bundle"
-            ls -R "$APP_PATH" | head -40
-            exit 1
-          fi
-          echo "✅ Curriculum/curriculum.json bundled correctly"
-
-    artifacts:
-      - EnglishNova/build/Build/Products/Debug-iphonesimulator/EnglishNova.app
 
     publishing:
       email:
@@ -92,24 +74,24 @@ workflows:
           failure: true
 
   # ---------------------------------------------------------------------
-  # Device-ready unsigned IPA. Wraps the archived .app into an .ipa that
-  # can be installed on a real iPhone with a sideloading tool (AltStore /
-  # Sideloadly / Signulous) or resigned with a developer certificate.
+  # Device-ready UNSIGNED IPA. Wraps the archived .app into an .ipa that can be
+  # installed on a real iPhone with a sideloading tool (AltStore / Sideloadly /
+  # Signulous) or resigned with your own developer certificate.
   # ---------------------------------------------------------------------
   ios-unsigned-ipa:
-    name: EnglishNova iOS — unsigned IPA (auto-built on every push)
+    name: TrueFrame iOS — unsigned IPA (auto-built on every push)
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
       xcode: latest
       vars:
-        XCODE_PROJECT_DIR: "EnglishNova"
+        XCODE_PROJECT_DIR: "ios-trueframe"
 
     triggering:
       events:
         - push
       branch_patterns:
-        - pattern: "claude/**"
+        - pattern: "claude/trueframe-ios"
           include: true
         - pattern: "main"
           include: true
@@ -131,14 +113,14 @@ workflows:
           BUILD_NUMBER=$(git rev-list HEAD --count)
           agvtool new-version -all $BUILD_NUMBER || true
 
-      - name: Archive (unsigned, for inspection or external resigning)
+      - name: Archive (unsigned, for sideloading or external resigning)
         script: |
           cd $XCODE_PROJECT_DIR
           xcodebuild archive \
-            -project EnglishNova.xcodeproj \
-            -scheme EnglishNova \
+            -project TrueFrame.xcodeproj \
+            -scheme TrueFrame \
             -configuration Release \
-            -archivePath build/EnglishNova.xcarchive \
+            -archivePath build/TrueFrame.xcarchive \
             -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
@@ -150,32 +132,25 @@ workflows:
           set -euo pipefail
           cd "$CM_BUILD_DIR/$XCODE_PROJECT_DIR/build"
 
-          APP_PATH="EnglishNova.xcarchive/Products/Applications/EnglishNova.app"
+          APP_PATH="TrueFrame.xcarchive/Products/Applications/TrueFrame.app"
           if [ ! -d "$APP_PATH" ]; then
             echo "❌ Missing app bundle: $APP_PATH"
             find . -maxdepth 5 -type d -name "*.app" -print
             exit 1
           fi
 
-          if [ ! -f "$APP_PATH/Curriculum/curriculum.json" ]; then
-            echo "❌ Curriculum/curriculum.json missing from app bundle"
-            ls -R "$APP_PATH" | head -40
-            exit 1
-          fi
-          echo "✅ Curriculum/curriculum.json bundled correctly"
-
           rm -rf Payload
           mkdir -p Payload
           cp -R "$APP_PATH" Payload/
 
           SHORT_SHA=$(git -C "$CM_BUILD_DIR" rev-parse --short HEAD)
-          IPA_NAME="EnglishNova-${SHORT_SHA}-unsigned.ipa"
+          IPA_NAME="TrueFrame-${SHORT_SHA}-unsigned.ipa"
           /usr/bin/zip -qry "$IPA_NAME" Payload
-          cp "$IPA_NAME" EnglishNova-unsigned.ipa
+          cp "$IPA_NAME" TrueFrame-unsigned.ipa
 
           mkdir -p "$CM_BUILD_DIR/artifacts"
           cp "$IPA_NAME" "$CM_BUILD_DIR/artifacts/"
-          cp EnglishNova-unsigned.ipa "$CM_BUILD_DIR/artifacts/"
+          cp TrueFrame-unsigned.ipa "$CM_BUILD_DIR/artifacts/"
 
           echo "✅ IPA files ready:"
           ls -lh "$CM_BUILD_DIR/artifacts"/*.ipa
@@ -183,7 +158,7 @@ workflows:
 
     artifacts:
       - artifacts/*.ipa
-      - EnglishNova/build/EnglishNova.xcarchive
+      - ios-trueframe/build/TrueFrame.xcarchive
 
     publishing:
       email:

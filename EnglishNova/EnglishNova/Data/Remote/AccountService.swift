@@ -1,9 +1,6 @@
 import Foundation
 import Combine
 
-/// Owns the signed-in account state and talks to the EnglishNova server for
-/// registration, login and Sign in with Apple. The session token is kept in the
-/// Keychain (encrypted at rest, this device only).
 @MainActor
 final class AccountService: ObservableObject {
     @Published private(set) var currentUser: AuthUser?
@@ -26,13 +23,15 @@ final class AccountService: ObservableObject {
 
     var token: String? { keychain.string(for: tokenAccount) }
 
-    // MARK: - Auth flows
-
     func register(email: String, password: String, displayName: String) async -> Bool {
         await run {
             let body = RegisterBody(email: email, password: password, displayName: displayName)
-            let response = try await self.api.send(path: "auth/register", method: "POST",
-                                              body: body, response: AuthResponse.self)
+            let response = try await self.api.send(
+                path: "auth/register",
+                method: "POST",
+                body: body,
+                response: AuthResponse.self
+            )
             try self.persist(response)
         }
     }
@@ -40,8 +39,12 @@ final class AccountService: ObservableObject {
     func login(email: String, password: String) async -> Bool {
         await run {
             let body = LoginBody(email: email, password: password)
-            let response = try await self.api.send(path: "auth/login", method: "POST",
-                                              body: body, response: AuthResponse.self)
+            let response = try await self.api.send(
+                path: "auth/login",
+                method: "POST",
+                body: body,
+                response: AuthResponse.self
+            )
             try self.persist(response)
         }
     }
@@ -49,8 +52,12 @@ final class AccountService: ObservableObject {
     func signInWithApple(identityToken: String, displayName: String) async -> Bool {
         await run {
             let body = AppleSignInBody(identityToken: identityToken, displayName: displayName)
-            let response = try await self.api.send(path: "auth/apple", method: "POST",
-                                              body: body, response: AuthResponse.self)
+            let response = try await self.api.send(
+                path: "auth/apple",
+                method: "POST",
+                body: body,
+                response: AuthResponse.self
+            )
             try self.persist(response)
         }
     }
@@ -62,28 +69,38 @@ final class AccountService: ObservableObject {
             currentUser = response.user
             isAuthenticated = true
         } catch {
-            // A 401 means the token is stale — sign out locally.
-            if case APIError.server(let status, _) = error, status == 401 { logout() }
+            if case APIError.server(let status, _) = error, status == 401 {
+                logout(showMessage: false)
+            }
         }
     }
 
     func logout() {
+        logout(showMessage: true)
+    }
+
+    private func logout(showMessage: Bool) {
         keychain.delete(tokenAccount)
         currentUser = nil
         isAuthenticated = false
-        ToastCenter.shared.show("تم تسجيل الخروج", style: .info)
+        if showMessage {
+            ToastCenter.shared.show(L("تم تسجيل الخروج"), style: .info)
+        }
     }
 
-    /// Permanently delete the account and all its data from the server.
     func deleteAccount() async -> Bool {
         guard let token else { return false }
         struct DeleteResponse: Decodable { let deleted: Bool }
         do {
-            _ = try await api.send(path: "me", method: "DELETE",
-                                   body: Optional<EmptyBody>.none,
-                                   response: DeleteResponse.self, bearerToken: token)
-            logout()
-            ToastCenter.shared.show("تم حذف الحساب نهائيًا", style: .info)
+            _ = try await api.send(
+                path: "me",
+                method: "DELETE",
+                body: Optional<EmptyBody>.none,
+                response: DeleteResponse.self,
+                bearerToken: token
+            )
+            logout(showMessage: false)
+            ToastCenter.shared.show(L("تم حذف الحساب من الخادم"), style: .info)
             return true
         } catch {
             lastError = friendlyMessage(for: error)
@@ -91,14 +108,14 @@ final class AccountService: ObservableObject {
         }
     }
 
-    // MARK: - Helpers
-
     private func persist(_ response: AuthResponse) throws {
         try keychain.setString(response.token, for: tokenAccount)
         currentUser = response.user
         isAuthenticated = true
-        let name = response.user.displayName.isEmpty ? "" : "، \(response.user.displayName)"
-        ToastCenter.shared.show("مرحبًا بك\(name)")
+        let displayName = response.user.displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+        ToastCenter.shared.show(
+            displayName.isEmpty ? L("تم تسجيل الدخول") : Lf("مرحبًا، %@", displayName)
+        )
     }
 
     private func run(_ operation: @escaping () async throws -> Void) async -> Bool {
@@ -114,14 +131,29 @@ final class AccountService: ObservableObject {
 
     private func friendlyMessage(for error: Error) -> String {
         if case APIError.server(let status, let message) = error {
-            if message.contains("email_taken") { return "هذا البريد مُسجَّل بالفعل." }
-            if message.contains("invalid_credentials") { return "البريد أو كلمة المرور غير صحيحة." }
-            if message.contains("weak_password") { return "كلمة المرور يجب أن تكون ٨ أحرف على الأقل وتحتوي أحرفًا وأرقامًا." }
-            if message.contains("invalid_email") { return "صيغة البريد غير صحيحة." }
-            return "تعذّر إتمام الطلب (\(status))."
+            if message.contains("email_taken") {
+                return L("يوجد حساب بهذا البريد بالفعل. جرّب تسجيل الدخول.")
+            }
+            if message.contains("invalid_credentials") {
+                return L("البريد الإلكتروني أو كلمة المرور غير صحيحين.")
+            }
+            if message.contains("weak_password") {
+                return L("استخدم كلمة مرور من 8 أحرف على الأقل، وبها حرف ورقم.")
+            }
+            if message.contains("invalid_email") {
+                return L("تحقق من كتابة البريد الإلكتروني.")
+            }
+            if status >= 500 {
+                return L("الخدمة غير متاحة الآن. حاول مرة أخرى بعد قليل.")
+            }
+            return Lf("تعذر إتمام الطلب. رمز الاستجابة: %@.", "\(status)")
         }
-        if case APIError.missingBaseURL = error { return "لم يتم تعيين عنوان الخادم في الإعدادات." }
-        if case APIError.insecureBaseURL = error { return "عنوان الخادم يجب أن يكون HTTPS صالحًا." }
-        return (error as? LocalizedError)?.errorDescription ?? "تعذّر الاتصال بالخادم."
+        if case APIError.missingBaseURL = error {
+            return L("تعذر الوصول إلى خدمة EnglishNova.")
+        }
+        if case APIError.insecureBaseURL = error {
+            return L("تعذر الاتصال لأن عنوان الخدمة غير آمن.")
+        }
+        return (error as? LocalizedError)?.errorDescription ?? L("تعذر الاتصال. تحقق من الإنترنت ثم حاول مرة أخرى.")
     }
 }

@@ -2,7 +2,8 @@ import Foundation
 
 /// Build-independent localization.
 /// Arabic is the source language. English is resolved from the bundled map or
-/// an OTA correction, while Arabic goes through a conservative editorial pass.
+/// an OTA correction. Arabic receives only safe typographic/editorial cleanup;
+/// product copy itself should be written naturally at its source.
 final class Localizer {
     static let shared = Localizer()
 
@@ -43,7 +44,10 @@ final class Localizer {
 
     func translate(_ arabic: String) -> String {
         if isEnglish {
-            return overrides[arabic] ?? map[arabic] ?? arabic
+            return overrides[arabic]
+                ?? map[arabic]
+                ?? EnglishInterfaceCopy.exact[arabic]
+                ?? arabic
         }
         return ArabicInterfaceCopy.polish(arabic)
     }
@@ -67,39 +71,46 @@ final class Localizer {
                 try? encoded.write(to: cache, options: .atomic)
             }
         } catch {
-            // Keep the cached/bundled localization when offline.
+            // Keep cached/bundled localization when offline.
         }
     }
 }
 
-/// High-confidence Arabic UI copy corrections. Exact replacements are preferred
-/// so the editor never rewrites user content or English learning material.
+/// Last-line Arabic sanitation. This is deliberately NOT a translation engine.
+/// Natural product copy belongs in the view/model that owns it. These rules only
+/// correct high-confidence spelling, punctuation and a few legacy names that may
+/// still arrive from old bundled/remote content.
 enum ArabicInterfaceCopy {
     private static let exact: [String: String] = [
         "خطتك الذكية": "خطة اليوم",
-        "افتح الخطة لمعرفة سبب اختيار كل نشاط.": "افتح الخطة لمعرفة سبب اختيار هذه الأنشطة.",
-        "مدربك الشخصي": "اقتراحات مخصصة لك",
-        "هذه الاقتراحات مبنية على تقدمك وأخطائك الحديثة، لا على ترتيب ثابت.": "تتغير هذه الاقتراحات بحسب تقدمك والأخطاء التي تحتاج إلى مراجعة.",
-        "وصول سريع": "تدريب إضافي",
-        "مختبرات": "مهارات متقدمة",
-        "مراجعة ذكية": "مراجعة مستحقة",
-        "استماع مركز": "تدريب استماع",
-        "دقيقة نطق واضحة": "تدريب نطق قصير",
-        "ردود محادثة فورية": "تدريب محادثة",
-        "نص وفهم عميق": "قراءة وفهم",
-        "مسودة كتابة قصيرة": "تدريب كتابة قصير",
-        "محاكاة اختبار مركزة": "محاكاة اختبار قصيرة",
-        "توصياتنا لك": "ما الخطوة التالية؟",
+        "خطتي الذكية": "خطة اليوم",
+        "مدربك الشخصي": "اقتراحات لك",
+        "مختبرات": "تدريب المهارات",
+        "مختبرات المستوى المتقدم": "تدريب المهارات",
+        "ذكاء الخادم": "أدوات الذكاء الاصطناعي",
+        "استوديو المحادثة": "تدريب المحادثة",
+        "مختبر النطق": "تدريب النطق",
+        "مختبر الاستماع": "تدريب الاستماع",
+        "مصنع الجمل": "بناء الجمل",
+        "المراجعة الذكية": "المراجعة",
+        "مدرب الكتابة الذكي": "تدريب الكتابة",
+        "المدرب الصوتي الجديد": "المحادثة بالصوت",
+        "محادثة صوتية ذكية": "تدريب المحادثة بالصوت",
+        "تدريب ذكي": "تدريب مخصص",
+        "درّبني على نقاط ضعفي": "اختر تدريبًا مناسبًا لي",
+        "الأخطاء التي سيتذكرها المدرب": "تصحيحات محفوظة للتدريب القادم",
+        "مراجعة ذكية": "مراجعة",
+        "مصحّح الكتابة": "تدريب الكتابة",
+        "مولّد التمارين": "تمارين مخصصة",
+        "موجز المدرب الذكي": "اقتراح المدرب",
+        "أنشئ تدريبًا من نقاط ضعفي": "أنشئ تدريبًا يناسب احتياجي",
+        "لوحة الصدارة": "الترتيب",
+        "تحليلات التقدم": "تحليل التقدّم",
+        "قاموسي الشخصي": "دفتر المفردات",
+        "توصياتنا لك": "الخطوة التالية",
         "إجابة صحيحة": "صحيح",
         "لنصححها معًا": "راجع الإجابة",
         "تقييمك": "نتيجتك",
-        "أداء جيد، وتستطيع أفضل": "جيد. راجع النقاط التي أخطأت فيها.",
-        "بداية جيدة، لنقوّها معًا": "راجع الدرس وحاول مرة أخرى.",
-        "خطوة صغيرة اليوم تصنع لغة كاملة غدًا.": "ابدأ بما يمكنك اليوم، وسنبني عليه غدًا.",
-        "جاري تجهيز رحلتك التعليمية": "جارٍ تجهيز خطتك التعليمية",
-        "لا بأس، أعد الدرس بهدوء وركّز على الشرح أولًا.": "راجع الشرح ثم أعد المحاولة عندما تكون جاهزًا.",
-        "محادثة موقف": "تدريب محادثة",
-        "تدريب اختبار": "محاكاة اختبار",
         "فوق المتوسط": "متوسط متقدم",
         "تمهيدي من الصفر": "تمهيدي",
         "أداء ممتاز! 🎉": "ممتاز! 🎉",
@@ -113,8 +124,16 @@ enum ArabicInterfaceCopy {
         ("إستمع", "استمع"),
         ("إستخدم", "استخدم"),
         ("إكتب", "اكتب"),
+        ("اولا", "أولًا"),
+        ("ثانيا", "ثانيًا"),
         ("اللغة الانجليزية", "اللغة الإنجليزية"),
-        ("اللغه الإنجليزية", "اللغة الإنجليزية")
+        ("اللغه الإنجليزية", "اللغة الإنجليزية"),
+        ("اللغة العربيه", "اللغة العربية"),
+        ("  ", " "),
+        (" ،", "،"),
+        (" .", "."),
+        (" ؟", "؟"),
+        (" !", "!")
     ]
 
     static func polish(_ input: String) -> String {
@@ -124,8 +143,52 @@ enum ArabicInterfaceCopy {
         for (bad, good) in phraseReplacements {
             text = text.replacingOccurrences(of: bad, with: good)
         }
-        return text
+        return text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
+}
+
+/// Small fallback table for new source-level UI copy added after the original
+/// localization bundle was generated. It prevents the English interface from
+/// unexpectedly showing Arabic while the OTA/bundled catalog catches up.
+private enum EnglishInterfaceCopy {
+    static let exact: [String: String] = [
+        "الدراسة": "Learning",
+        "تفضيلات التعلّم": "Learning preferences",
+        "الصوت والمحادثة": "Speech and conversation",
+        "المدرّب والذكاء الاصطناعي": "Tutor and AI",
+        "التذكيرات": "Reminders",
+        "البيانات والمزامنة": "Data and sync",
+        "الخصوصية والمعلومات": "Privacy and information",
+        "المساعدة والتواصل": "Help and contact",
+        "شروط الاستخدام": "Terms of Use",
+        "الخصوصية": "Privacy",
+        "البيانات التي نستخدمها": "Data we use",
+        "كيف نستخدم الذكاء الاصطناعي": "How we use AI",
+        "بيانات تبقى على جهازك": "Data that stays on your device",
+        "حذف الحساب والبيانات": "Account and data deletion",
+        "التعلّم وليس ضمانًا للنتيجة": "Learning, not a guaranteed result",
+        "الاستخدام المقبول": "Acceptable use",
+        "توفر الخدمة": "Service availability",
+        "حسابك": "Your account",
+        "المحتوى والحقوق": "Content and rights",
+        "التغييرات": "Changes",
+        "تواصل معنا": "Contact us",
+        "آخر تحديث: 12 أغسطس 2026": "Last updated: August 12, 2026",
+        "اقتراح المدرب": "Tutor suggestion",
+        "تدريب النطق": "Pronunciation practice",
+        "تدريب الاستماع": "Listening practice",
+        "تدريب المحادثة": "Conversation practice",
+        "بناء الجمل": "Sentence building",
+        "تمارين مخصصة": "Personalized exercises",
+        "تدريب الكتابة": "Writing practice",
+        "دفتر المفردات": "Vocabulary notebook",
+        "تحليل التقدّم": "Progress insights",
+        "الترتيب": "Leaderboard",
+        "تدريب المهارات": "Skills practice",
+        "الخطوة التالية": "Next step",
+        "راجع الإجابة": "Review the answer",
+        "نتيجتك": "Your result"
+    ]
 }
 
 func L(_ arabic: String) -> String { Localizer.shared.translate(arabic) }

@@ -1,9 +1,6 @@
 import Foundation
 import Combine
 
-/// Syncs the full local learning state with the EnglishNova server. User-driven
-/// syncs show feedback; AI personalization can request a quiet, throttled sync
-/// so the server profile stays current without producing a toast on every visit.
 @MainActor
 final class ProgressSyncService: ObservableObject {
     @Published private(set) var isSyncing = false
@@ -22,64 +19,76 @@ final class ProgressSyncService: ObservableObject {
         self.api = api
     }
 
-    /// Upload the current local progress to the server.
     @discardableResult
     func push(showFeedback: Bool = true) async -> Bool {
         guard let token = account.token else { return false }
         if isSyncing { return false }
         isSyncing = true
         defer { isSyncing = false }
+
         do {
             let blob = try await backup.makeBackupData()
             let value = try JSONValue.from(data: blob)
-            _ = try await api.send(path: "progress", method: "PUT",
-                                   body: ProgressPushBody(data: value),
-                                   response: ProgressPushResponse.self,
-                                   bearerToken: token)
+            _ = try await api.send(
+                path: "progress",
+                method: "PUT",
+                body: ProgressPushBody(data: value),
+                response: ProgressPushResponse.self,
+                bearerToken: token
+            )
             lastSyncedAt = Date()
-            syncMessage = "تم حفظ تقدّمك في حسابك."
-            if showFeedback { ToastCenter.shared.show("تم حفظ تقدّمك") }
+            syncMessage = L("تم حفظ نسخة من تقدّمك في الحساب.")
+            if showFeedback {
+                ToastCenter.shared.show(L("تم حفظ التقدّم"))
+            }
             return true
         } catch {
-            syncMessage = "تعذّرت المزامنة: \((error as? LocalizedError)?.errorDescription ?? "خطأ")"
-            if showFeedback { ToastCenter.shared.show("تعذّرت المزامنة", style: .error) }
+            let detail = (error as? LocalizedError)?.errorDescription ?? L("خطأ غير معروف")
+            syncMessage = Lf("تعذر حفظ التقدّم: %@", detail)
+            if showFeedback {
+                ToastCenter.shared.show(L("تعذر حفظ التقدّم"), style: .error)
+            }
             return false
         }
     }
 
-    /// Keep the server-side learner profile reasonably fresh for AI requests,
-    /// while avoiding repeated uploads when Home is opened several times.
     @discardableResult
     func pushIfStale(maxAge: TimeInterval = 5 * 60) async -> Bool {
-        if let lastSyncedAt, Date().timeIntervalSince(lastSyncedAt) < maxAge { return true }
+        if let lastSyncedAt, Date().timeIntervalSince(lastSyncedAt) < maxAge {
+            return true
+        }
         return await push(showFeedback: false)
     }
 
-    /// Download and apply the server's progress (used on sign-in / new device).
     @discardableResult
     func pull() async -> Bool {
         guard let token = account.token else { return false }
         if isSyncing { return false }
         isSyncing = true
         defer { isSyncing = false }
+
         do {
-            let response = try await api.get(path: "progress",
-                                             response: ProgressPullResponse.self,
-                                             bearerToken: token)
+            let response = try await api.get(
+                path: "progress",
+                response: ProgressPullResponse.self,
+                bearerToken: token
+            )
             guard let value = response.data else {
-                syncMessage = "لا يوجد تقدّم محفوظ في الخادم بعد."
-                ToastCenter.shared.show("لا يوجد تقدّم محفوظ بعد", style: .info)
+                syncMessage = L("لا توجد نسخة محفوظة في الحساب حتى الآن.")
+                ToastCenter.shared.show(L("لا توجد نسخة محفوظة"), style: .info)
                 return true
             }
+
             let blob = try value.encodedData()
             try await backup.restore(from: blob)
             lastSyncedAt = Date()
-            syncMessage = "تمت استعادة تقدّمك من حسابك."
-            ToastCenter.shared.show("تمت استعادة تقدّمك")
+            syncMessage = L("تمت استعادة النسخة المحفوظة إلى هذا الجهاز.")
+            ToastCenter.shared.show(L("تمت استعادة التقدّم"))
             return true
         } catch {
-            syncMessage = "تعذّرت الاستعادة: \((error as? LocalizedError)?.errorDescription ?? "خطأ")"
-            ToastCenter.shared.show("تعذّرت الاستعادة", style: .error)
+            let detail = (error as? LocalizedError)?.errorDescription ?? L("خطأ غير معروف")
+            syncMessage = Lf("تعذرت استعادة التقدّم: %@", detail)
+            ToastCenter.shared.show(L("تعذرت استعادة التقدّم"), style: .error)
             return false
         }
     }

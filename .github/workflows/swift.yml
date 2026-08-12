@@ -1,7 +1,4 @@
 # EnglishNova iOS + integrated server checks.
-# Builds/tests the iOS app, decodes the real curriculum, verifies bundled
-# resources, and syntax-checks the server AI orchestration changed alongside it.
-
 name: Swift
 
 on:
@@ -25,6 +22,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Audit Arabic interface copy
+        run: python3 Scripts/audit_arabic_ui.py
 
       - name: Validate integrated server AI syntax
         working-directory: .
@@ -76,8 +76,6 @@ jobs:
       - name: Verify curriculum.json is inside the app bundle
         run: |
           APP="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
-          echo "--- bundle contents ---"
-          ls -R "$APP" | head -40
           if [ ! -f "$APP/Curriculum/curriculum.json" ]; then
             echo "❌ Curriculum/curriculum.json missing from app bundle"
             exit 1

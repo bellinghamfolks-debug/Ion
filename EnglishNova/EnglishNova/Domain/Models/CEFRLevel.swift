@@ -9,24 +9,26 @@ enum CEFRLevel: String, Codable, CaseIterable, Identifiable {
     case c1 = "C1"
 
     var id: String { rawValue }
+
     var titleAr: String {
         switch self {
-        case .a0: return L("تمهيدي من الصفر")
+        case .a0: return L("تمهيدي")
         case .a1: return L("مبتدئ")
         case .a2: return L("أساسي")
         case .b1: return L("متوسط")
-        case .b2: return L("فوق المتوسط")
+        case .b2: return L("متوسط متقدم")
         case .c1: return L("متقدم")
         }
     }
+
     var summaryAr: String {
         switch self {
-        case .a0: return L("الحروف والأصوات والكلمات اليومية الأولى")
-        case .a1: return L("التعريف بالنفس والجمل البسيطة")
-        case .a2: return L("المواقف اليومية والوصف المباشر")
-        case .b1: return L("محادثات مستقلة وكتابة واضحة")
-        case .b2: return L("نقاشات موسعة وفهم محتوى متقدم")
-        case .c1: return L("طلاقة أكاديمية ومهنية عالية")
+        case .a0: return L("ابدأ بالحروف والأصوات والكلمات الأكثر استخدامًا.")
+        case .a1: return L("عرّف بنفسك وافهم عبارات وجملًا يومية بسيطة.")
+        case .a2: return L("تعامل مع المواقف اليومية واكتب وصفًا قصيرًا وواضحًا.")
+        case .b1: return L("تحدث باستقلالية أكبر واكتب نصوصًا مترابطة عن موضوعات مألوفة.")
+        case .b2: return L("ناقش أفكارًا أوسع وافهم نصوصًا ومحادثات أكثر تعقيدًا.")
+        case .c1: return L("استخدم الإنجليزية بمرونة في الدراسة والعمل والنقاشات المتقدمة.")
         }
     }
 }

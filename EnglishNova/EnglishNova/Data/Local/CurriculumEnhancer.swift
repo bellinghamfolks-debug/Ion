@@ -1,7 +1,7 @@
 import Foundation
 
 /// Applies editorial and pedagogical improvements to the bundled curriculum at load time.
-/// The source JSON remains immutable; learners always receive the refined in-memory catalog.
+/// The source JSON remains immutable; learners receive the refined in-memory catalog.
 enum CurriculumEnhancer {
     static func enhance(_ source: CourseCatalog) -> CourseCatalog {
         var catalog = source
@@ -57,7 +57,7 @@ enum CurriculumEnhancer {
 
     /// Recognition alone does not demonstrate usable language. If an older lesson
     /// contains no output task, append one short transfer task using material that
-    /// is already taught in the lesson. This is deterministic and offline.
+    /// is already taught in the lesson. This remains deterministic and offline.
     private static func ensureProductiveTransfer(
         in exercises: [Exercise],
         vocabulary: [VocabularyWord],
@@ -82,13 +82,13 @@ enum CurriculumEnhancer {
             transfer = Exercise(
                 id: id,
                 type: .speak,
-                promptAr: "طبّق ما تعلمته: استمع إلى النموذج ثم قله بصوت واضح.",
+                promptAr: "استمع إلى النموذج، ثم قل العبارة بصوتك.",
                 promptEn: target,
                 answer: target,
                 choices: nil,
                 tokens: nil,
-                explanationAr: "الهدف هنا استخدام العبارة بصوتك، لا الاكتفاء بالتعرّف عليها.",
-                accessibilityHint: "استمع إلى النموذج، ثم اضغط زر بدء النطق وكرر العبارة.",
+                explanationAr: "هنا تستخدم العبارة بنفسك بدل الاكتفاء بالتعرّف عليها.",
+                accessibilityHint: "استمع إلى النموذج، ثم ابدأ التسجيل وكرر العبارة.",
                 speechText: target,
                 acceptableAnswers: nil
             )
@@ -97,13 +97,13 @@ enum CurriculumEnhancer {
                 transfer = Exercise(
                     id: id,
                     type: .translation,
-                    promptAr: "استخدم الإنجليزية من ذاكرتك لترجمة الجملة التالية: \(arabicExample)",
+                    promptAr: "ترجم إلى الإنجليزية من ذاكرتك: \(arabicExample)",
                     promptEn: nil,
                     answer: englishExample,
                     choices: nil,
                     tokens: nil,
-                    explanationAr: "هذا تمرين استرجاع: حاول صياغة الجملة قبل الرجوع إلى المثال.",
-                    accessibilityHint: "اكتب الجملة بالإنجليزية من دون نسخ المثال.",
+                    explanationAr: "حاول صياغة الجملة أولًا، ثم قارنها بالإجابة.",
+                    accessibilityHint: "اكتب الجملة بالإنجليزية من ذاكرتك.",
                     speechText: nil,
                     acceptableAnswers: nil
                 )
@@ -111,13 +111,13 @@ enum CurriculumEnhancer {
                 transfer = Exercise(
                     id: id,
                     type: .speak,
-                    promptAr: "استخدم العبارة في تدريب نطق قصير.",
+                    promptAr: "قل العبارة بطريقتك، مع الحفاظ على معناها.",
                     promptEn: target,
                     answer: target,
                     choices: nil,
                     tokens: nil,
-                    explanationAr: "كرر العبارة بطلاقة واهتم بالإيقاع والوضوح.",
-                    accessibilityHint: "استمع إلى النموذج ثم كرر العبارة بصوت واضح.",
+                    explanationAr: "اهتم بالوضوح والإيقاع، ولا تحاول تقليد الصوت حرفيًا.",
+                    accessibilityHint: "استمع إلى النموذج، ثم كرر العبارة بصوت واضح.",
                     speechText: target,
                     acceptableAnswers: nil
                 )
@@ -127,10 +127,26 @@ enum CurriculumEnhancer {
     }
 }
 
-/// Conservative Arabic editorial pass for educational copy. It intentionally
-/// avoids changing English examples or answers and only fixes high-confidence
-/// wording, spelling, punctuation and common machine-translation patterns.
+/// Editorial pass for Arabic learning copy. It is intentionally conservative:
+/// it fixes recurrent generated phrasing and spelling without touching English
+/// answers, changing grammar rules, or inventing new teaching content.
 enum ArabicLearningCopy {
+    private static let exact: [String: String] = [
+        "Hello تحية.": "Hello تعني «مرحبًا»، وتُستخدم للتحية.",
+        "This للمفرد القريب.": "نستخدم This للإشارة إلى شيء مفرد قريب.",
+        "How much تستخدم للسؤال عن السعر.": "نستخدم How much للسؤال عن السعر أو الكمية غير المعدودة.",
+        "Yesterday يحتاج إلى الماضي.": "وجود Yesterday يدل عادةً على حدث وقع في الماضي.",
+        "Interested in تركيب ثابت.": "تأتي Interested مع in في هذا الاستخدام.",
+        "since مع نقطة بداية زمنية.": "نستخدم since مع نقطة بداية زمنية.",
+        "faster صيغة المقارنة من fast.": "faster هي صيغة المقارنة من fast.",
+        "deadline هو الموعد النهائي.": "deadline تعني الموعد النهائي.",
+        "appointment تعني موعدًا محددًا.": "appointment تعني موعدًا محددًا مسبقًا.",
+        "أجب هل تريد شيئًا آخر.": "أجب عن سؤال ما إذا كنت تريد شيئًا آخر.",
+        "أداء جيد، وتستطيع أفضل": "جيد. راجع ما أخطأت فيه ثم حاول مرة أخرى.",
+        "أداء جيد جدًا 👏": "جيد جدًا 👏",
+        "أداء ممتاز! 🎉": "ممتاز! 🎉"
+    ]
+
     private static let phraseReplacements: [(String, String)] = [
         ("قم باختيار", "اختر"),
         ("قم بإختيار", "اختر"),
@@ -142,10 +158,18 @@ enum ArabicLearningCopy {
         ("قم بملء الفراغ", "أكمل الفراغ"),
         ("قم بملء", "أكمل"),
         ("قم بترجمة", "ترجم"),
+        ("قم بكتابة", "اكتب"),
         ("اختر الإجابة الصحيحة من الخيارات التالية", "اختر الإجابة الصحيحة"),
+        ("اختر الخيار الصحيح من الخيارات التالية", "اختر الإجابة الصحيحة"),
         ("ترجم الجملة التالية إلى اللغة الإنجليزية", "ترجم الجملة التالية إلى الإنجليزية"),
         ("ترجم العبارة التالية إلى اللغة الإنجليزية", "ترجم العبارة التالية إلى الإنجليزية"),
         ("قل الجملة التالية بصوت عالٍ", "قل الجملة التالية بصوت واضح"),
+        ("الهدف من هذا التمرين هو أن", "في هذا التمرين،"),
+        ("الهدف من هذا التمرين هو", "هدف هذا التمرين"),
+        ("هذا التمرين يساعدك على", "يساعدك هذا التمرين على"),
+        ("يتم استخدام", "يُستخدم"),
+        ("يتم استعمال", "يُستخدم"),
+        ("من أجل أن", "لكي"),
         ("اللغة الانجليزية", "اللغة الإنجليزية"),
         ("اللغة العربيه", "اللغة العربية"),
         ("الإجابة الصحيح", "الإجابة الصحيحة"),
@@ -153,16 +177,21 @@ enum ArabicLearningCopy {
         ("إختار", "اختر"),
         ("إستمع", "استمع"),
         ("إستخدم", "استخدم"),
-        ("إكتب", "اكتب")
+        ("إكتب", "اكتب"),
+        ("جاري ", "جارٍ ")
     ]
 
     static func polish(_ input: String) -> String {
         guard !input.isEmpty else { return input }
+        if let replacement = exact[input] { return replacement }
+
         var text = input
         for (bad, good) in phraseReplacements {
             text = text.replacingOccurrences(of: bad, with: good)
         }
-        text = text.replacingOccurrences(of: "  ", with: " ")
+        while text.contains("  ") {
+            text = text.replacingOccurrences(of: "  ", with: " ")
+        }
         text = text.replacingOccurrences(of: " ،", with: "،")
         text = text.replacingOccurrences(of: " .", with: ".")
         text = text.replacingOccurrences(of: " ؟", with: "؟")

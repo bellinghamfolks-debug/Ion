@@ -7,55 +7,80 @@ struct ReviewView: View {
     var body: some View {
         VStack(spacing: 20) {
             if model.isLoading {
-                ProgressView(L("جاري تجهيز البطاقات"))
+                ProgressView(L("جارٍ تجهيز المراجعة"))
             } else if let card = model.current {
-                Text(Lf("متبقي %@", "\(model.remaining)")).font(.subheadline).foregroundStyle(.secondary)
-                Spacer()
-                VStack(spacing: 18) {
-                    Text(card.word.english).font(.system(size: 44, weight: .bold, design: .rounded)).environment(\.layoutDirection, .leftToRight)
-                    if let phonetic = card.word.phonetic { Text(phonetic).foregroundStyle(.secondary) }
-                    VStack(spacing: 4) {
-                        Text(Lf("احتمال التذكر الآن %@٪", "\(Int(card.estimatedRetrievability() * 100))"))
-                        Text(Lf("ثبات الذاكرة %@ يوم • الانتكاسات %@", String(format: "%.1f", card.stabilityDays), "\(card.lapses)"))
-                    }
-                    .font(.caption)
+                Text(Lf("باقي %@", "\(model.remaining)"))
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
-                    .accessibilityElement(children: .combine)
-                    Button { container.textToSpeech.speak(card.word.english) } label: { Label(L("استمع"), systemImage: "speaker.wave.2.fill") }
+
+                Spacer()
+
+                VStack(spacing: 18) {
+                    Text(card.word.english)
+                        .font(.system(size: 44, weight: .bold, design: .rounded))
+                        .environment(\.layoutDirection, .leftToRight)
+
+                    if let phonetic = card.word.phonetic {
+                        Text(phonetic).foregroundStyle(.secondary)
+                    }
+
+                    Button {
+                        container.textToSpeech.speak(card.word.english)
+                    } label: {
+                        Label(L("سماع الكلمة"), systemImage: "speaker.wave.2.fill")
+                    }
+
                     if model.showingAnswer {
                         Divider()
-                        Text(card.word.arabic).font(.title.bold())
-                        Text(card.word.example).environment(\.layoutDirection, .leftToRight)
-                        Text(card.word.exampleArabic).foregroundStyle(.secondary)
+                        Text(L(card.word.arabic)).font(.title.bold())
+                        Text(card.word.example)
+                            .environment(\.layoutDirection, .leftToRight)
+                        Text(L(card.word.exampleArabic))
+                            .foregroundStyle(.secondary)
                     }
                 }
                 .frame(maxWidth: .infinity)
                 .padding(30)
                 .background(.background, in: RoundedRectangle(cornerRadius: 24))
                 .accessibilityElement(children: .contain)
+
                 Spacer()
+
                 if model.showingAnswer {
                     VStack(spacing: 10) {
-                        Text(L("ما مدى سهولة تذكرك؟")).font(.headline)
-                        Text(L("ستحدد الإجابة موعد البطاقة القادم وفق ثباتها وصعوبتها، لا بفاصل ثابت لجميع الكلمات."))
-                            .font(.caption).foregroundStyle(.secondary)
+                        Text(L("كيف كان تذكرك للكلمة؟"))
+                            .font(.headline)
+                        Text(L("اختر التقييم الأقرب لما حدث فعلًا؛ سيستخدمه التطبيق لتحديد موعد المراجعة التالية."))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+
                         HStack {
                             ForEach(ReviewGrade.allCases, id: \.rawValue) { grade in
-                                Button(grade.titleAr) { Task { await model.grade(grade, repository: container.vocabularyRepository) } }
-                                    .buttonStyle(.bordered)
+                                Button(grade.titleAr) {
+                                    Task {
+                                        await model.grade(grade, repository: container.vocabularyRepository)
+                                    }
+                                }
+                                .buttonStyle(.bordered)
                             }
                         }
                     }
                 } else {
-                    PrimaryButton(title: L("إظهار المعنى"), systemImage: "eye.fill") { model.showingAnswer = true }
+                    PrimaryButton(title: L("إظهار المعنى"), systemImage: "eye.fill") {
+                        model.showingAnswer = true
+                    }
                 }
             } else {
-                ContentUnavailableView(L("لا توجد مراجعات مستحقة"), systemImage: "checkmark.seal.fill", description: Text(L("عُد بعد دراسة بعض الدروس أو عندما يحين موعد البطاقات.")))
+                ContentUnavailableView(
+                    L("لا توجد كلمات للمراجعة الآن"),
+                    systemImage: "checkmark.seal.fill",
+                    description: Text(L("ستظهر هنا الكلمات عندما يحين موعد مراجعتها."))
+                )
             }
         }
         .padding(AppTheme.screenPadding)
         .screenBackground()
-        .navigationTitle(L("المراجعة الذكية"))
+        .navigationTitle(L("المراجعة"))
         .task { await model.load(repository: container.vocabularyRepository) }
     }
 }

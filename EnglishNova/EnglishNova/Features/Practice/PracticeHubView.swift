@@ -3,44 +3,97 @@ import SwiftUI
 struct PracticeHubView: View {
     var body: some View {
         List {
-            Section(L("المدرب الذكي")) {
-                NavigationLink { TutorView() } label: { Label(L("المدرّس النصي"), systemImage: "bubble.left.and.bubble.right.fill") }
-                NavigationLink { VoiceCoachView() } label: { Label(L("محادثة صوتية ذكية"), systemImage: "waveform.badge.mic") }
-                NavigationLink { AdvancedPreparationHubView() } label: { Label(L("IELTS وSTEP والمقابلات"), systemImage: "doc.text.magnifyingglass") }
-                NavigationLink { MistakeNotebookView() } label: { Label(L("دفتر الأخطاء"), systemImage: "exclamationmark.bubble.fill") }
+            Section(L("تدريب مباشر")) {
+                NavigationLink { TutorView() } label: {
+                    Label(L("المدرّب النصي"), systemImage: "bubble.left.and.bubble.right.fill")
+                }
+                NavigationLink { VoiceCoachView() } label: {
+                    Label(L("تدريب المحادثة بالصوت"), systemImage: "waveform.badge.mic")
+                }
+                NavigationLink { MistakeNotebookView() } label: {
+                    Label(L("راجع أخطاءك"), systemImage: "exclamationmark.bubble.fill")
+                }
             }
-            Section(L("ذكاء الخادم")) {
-                NavigationLink { ExplainView() } label: { Label(L("اشرح لي"), systemImage: "sparkles") }
-                NavigationLink { WritingCoachView() } label: { Label(L("مصحّح الكتابة"), systemImage: "pencil.and.scribble") }
-                NavigationLink { AIExerciseView() } label: { Label(L("مولّد التمارين"), systemImage: "wand.and.stars") }
-                NavigationLink { LeaderboardView() } label: { Label(L("لوحة الصدارة"), systemImage: "trophy.fill") }
+
+            Section(L("تدريب مخصص")) {
+                NavigationLink { ExplainView() } label: {
+                    Label(L("شرح كلمة أو قاعدة"), systemImage: "sparkles")
+                }
+                NavigationLink { WritingCoachView() } label: {
+                    Label(L("تدريب الكتابة"), systemImage: "pencil.and.scribble")
+                }
+                NavigationLink { AIExerciseView() } label: {
+                    Label(L("تمارين مخصصة"), systemImage: "wand.and.stars")
+                }
             }
-            Section(L("مختبرات المستوى المتقدم")) {
-                NavigationLink { AdvancedSkillsHubView() } label: { Label(L("القراءة والاستماع والكتابة"), systemImage: "books.vertical.fill") }
-                NavigationLink { LearningPathwaysView() } label: { Label(L("مسارات الهدف"), systemImage: "point.topleft.down.to.point.bottomright.curvepath") }
-                NavigationLink { WeeklyProgressReportView() } label: { Label(L("التقرير الأسبوعي"), systemImage: "doc.text.image.fill") }
+
+            Section(L("المهارات")) {
+                NavigationLink { PronunciationLabView() } label: {
+                    Label(L("تدريب النطق"), systemImage: "waveform.and.mic")
+                }
+                NavigationLink { ListeningLabView() } label: {
+                    Label(L("تدريب الاستماع"), systemImage: "headphones")
+                }
+                NavigationLink { AdvancedSkillsHubView() } label: {
+                    Label(L("القراءة والكتابة والاستماع"), systemImage: "books.vertical.fill")
+                }
+                NavigationLink { SentenceBuilderView() } label: {
+                    Label(L("بناء الجمل"), systemImage: "text.word.spacing")
+                }
             }
-            Section(L("تدريب تفاعلي")) {
-                NavigationLink { ConversationStudioView() } label: { Label(L("استوديو المحادثة"), systemImage: "person.2.wave.2.fill") }
-                NavigationLink { DictationChallengeView() } label: { Label(L("تحدي الإملاء"), systemImage: "pencil.and.outline") }
-                NavigationLink { FiveMinuteChallengeView() } label: { Label(L("تحدي خمس دقائق"), systemImage: "timer") }
+
+            Section(L("اختبارات وأهداف")) {
+                NavigationLink { AdvancedPreparationHubView() } label: {
+                    Label(L("IELTS وSTEP والمقابلات"), systemImage: "doc.text.magnifyingglass")
+                }
+                NavigationLink { PlacementTestView() } label: {
+                    Label(L("اختبار تحديد المستوى"), systemImage: "scope")
+                }
+                NavigationLink { LearningPathwaysView() } label: {
+                    Label(L("مسارات التعلّم"), systemImage: "point.topleft.down.to.point.bottomright.curvepath")
+                }
             }
-            Section(L("مهارات اللغة")) {
-                NavigationLink { PronunciationLabView() } label: { Label(L("مختبر النطق"), systemImage: "waveform.and.mic") }
-                NavigationLink { ListeningLabView() } label: { Label(L("مختبر الاستماع"), systemImage: "headphones") }
-                NavigationLink { SentenceBuilderView() } label: { Label(L("مصنع الجمل"), systemImage: "text.word.spacing") }
+
+            Section(L("تدريب قصير")) {
+                NavigationLink { DictationChallengeView() } label: {
+                    Label(L("إملاء"), systemImage: "pencil.and.outline")
+                }
+                NavigationLink { FiveMinuteChallengeView() } label: {
+                    Label(L("خمس دقائق"), systemImage: "timer")
+                }
+                NavigationLink { ConversationStudioView() } label: {
+                    Label(L("مواقف محادثة"), systemImage: "person.2.wave.2.fill")
+                }
             }
-            Section(L("مكتبة التعلّم")) {
-                NavigationLink { PlacementTestView() } label: { Label(L("اختبار تحديد المستوى التكيفي"), systemImage: "scope") }
-                NavigationLink { GrammarLibraryView() } label: { Label(L("مكتبة القواعد"), systemImage: "function") }
-                NavigationLink { StoryLibraryView() } label: { Label(L("القصص المتدرجة والتفاعلية"), systemImage: "book.pages.fill") }
-                NavigationLink { WordbookView() } label: { Label(L("قاموسي الشخصي"), systemImage: "character.book.closed.fill") }
-                NavigationLink { DailyPlanView() } label: { Label(L("خطتي الذكية"), systemImage: "wand.and.stars") }
-                NavigationLink { LearningInsightsView() } label: { Label(L("تحليلات التقدم"), systemImage: "chart.xyaxis.line") }
-                NavigationLink { AchievementsView() } label: { Label(L("الإنجازات"), systemImage: "trophy.fill") }
+
+            Section(L("مراجع وتقارير")) {
+                NavigationLink { GrammarLibraryView() } label: {
+                    Label(L("مرجع القواعد"), systemImage: "function")
+                }
+                NavigationLink { StoryLibraryView() } label: {
+                    Label(L("قصص متدرجة"), systemImage: "book.pages.fill")
+                }
+                NavigationLink { WordbookView() } label: {
+                    Label(L("دفتر المفردات"), systemImage: "character.book.closed.fill")
+                }
+                NavigationLink { DailyPlanView() } label: {
+                    Label(L("خطة اليوم"), systemImage: "checklist")
+                }
+                NavigationLink { WeeklyProgressReportView() } label: {
+                    Label(L("التقرير الأسبوعي"), systemImage: "doc.text.image.fill")
+                }
+                NavigationLink { LearningInsightsView() } label: {
+                    Label(L("تحليل التقدّم"), systemImage: "chart.xyaxis.line")
+                }
+                NavigationLink { AchievementsView() } label: {
+                    Label(L("الإنجازات"), systemImage: "trophy.fill")
+                }
+                NavigationLink { LeaderboardView() } label: {
+                    Label(L("الترتيب"), systemImage: "list.number")
+                }
             }
         }
-        .navigationTitle(L("مركز التدريب"))
+        .navigationTitle(L("التدريب"))
     }
 }
 
@@ -55,19 +108,25 @@ struct PronunciationLabView: View {
 
     var body: some View {
         Form {
-            Section(L("الجملة المستهدفة")) {
-                TextField(L("الجملة"), text: $target, axis: .vertical).environment(\.layoutDirection, .leftToRight)
+            Section(L("النص الذي ستقوله")) {
+                TextField(L("الجملة"), text: $target, axis: .vertical)
+                    .environment(\.layoutDirection, .leftToRight)
                 Picker(L("اللكنة"), selection: $settings.accentVariant) {
                     ForEach(AccentVariant.allCases) { accent in
-                        Text(L(accent.titleAr)).tag(accent)
+                        Text(accent.titleAr).tag(accent)
                     }
                 }
-                Button(L("استمع للنموذج")) {
-                    textToSpeech.speak(target, accent: settings.accentVariant, rate: Float(settings.speechRate))
+                Button(L("سماع النموذج")) {
+                    textToSpeech.speak(
+                        target,
+                        accent: settings.accentVariant,
+                        rate: Float(settings.speechRate)
+                    )
                 }
             }
+
             Section(L("تسجيلك")) {
-                Button(speechService.state == .listening ? L("إيقاف") : L("ابدأ النطق")) {
+                Button(speechService.state == .listening ? L("إيقاف التسجيل") : L("ابدأ التسجيل")) {
                     Task {
                         if speechService.state == .listening {
                             speechService.stop()
@@ -79,46 +138,55 @@ struct PronunciationLabView: View {
                         }
                     }
                 }
-                Text(speechService.transcript.isEmpty ? L("لا يوجد تفريغ بعد") : speechService.transcript)
+
+                Text(speechService.transcript.isEmpty ? L("لم يلتقط التطبيق كلامًا بعد.") : speechService.transcript)
                     .environment(\.layoutDirection, .leftToRight)
+
                 if !speechService.transcript.isEmpty && speechService.state != .listening {
-                    Button(L("تحليل النطق")) { analyze() }
+                    Button(L("عرض التقييم")) { analyze() }
                         .buttonStyle(.borderedProminent)
                 }
             }
 
             if let report {
-                Section(L("التقرير")) {
-                    AccessibleProgressView(title: L("النتيجة الكلية"), value: report.overall)
+                Section(L("النتيجة")) {
+                    AccessibleProgressView(title: L("النتيجة العامة"), value: report.overall)
                     LabeledContent(L("دقة الكلمات"), value: "\(Int(report.accuracy * 100))٪")
                     LabeledContent(L("اكتمال الجملة"), value: "\(Int(report.completeness * 100))٪")
                     LabeledContent(L("الطلاقة"), value: "\(Int(report.fluency * 100))٪")
                     LabeledContent(L("السرعة"), value: Lf("%@ كلمة في الدقيقة", "\(Int(report.wordsPerMinute))"))
-                    Text(L("هذا التحليل يعتمد على تفريغ الكلام والتوقيت وثقة نظام التعرف، وليس قياسًا صوتيًا مخبريًا لمخارج الحروف."))
-                        .font(.caption).foregroundStyle(.secondary)
+                    Text(L("هذه نتيجة تدريبية تقريبية تعتمد على النص الذي تعرّف إليه النظام والتوقيت. لا تقيس مخارج الحروف قياسًا مخبريًا."))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
+
                 if !report.needsPractice.isEmpty {
-                    Section(L("كلمات تحتاج تدريبًا")) {
+                    Section(L("كلمات تستحق إعادة المحاولة")) {
                         ForEach(report.needsPractice) { word in
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(word.expected.isEmpty ? word.recognized ?? "" : word.expected)
                                     .font(.headline)
                                     .environment(\.layoutDirection, .leftToRight)
-                                Text(L(word.issue.titleAr)).font(.caption.bold())
-                                if let tip = word.tipAr { Text(tip).font(.caption).foregroundStyle(.secondary) }
+                                Text(word.issue.titleAr).font(.caption.bold())
+                                if let tip = word.tipAr {
+                                    Text(tip).font(.caption).foregroundStyle(.secondary)
+                                }
                             }
                             .accessibilityElement(children: .combine)
                         }
                     }
                 }
-                Section(L("نصائح")) {
-                    ForEach(report.tipsAr, id: \.self) { tip in
-                        Label(tip, systemImage: "lightbulb.fill")
+
+                if !report.tipsAr.isEmpty {
+                    Section(L("ملاحظات")) {
+                        ForEach(report.tipsAr, id: \.self) { tip in
+                            Label(tip, systemImage: "lightbulb.fill")
+                        }
                     }
                 }
             }
         }
-        .navigationTitle(L("مختبر النطق"))
+        .navigationTitle(L("تدريب النطق"))
         .onDisappear { speechService.stop() }
     }
 
@@ -133,18 +201,23 @@ struct PronunciationLabView: View {
         report = value
         guard !didRecord else { return }
         didRecord = true
+
         Task {
             await container.learningMemoryRepository.recordPronunciation(value)
-            await container.progressRepository.recordSkill(.practicalCommunication, correct: value.overall >= 0.72, at: .now)
+            await container.progressRepository.recordSkill(
+                .practicalCommunication,
+                correct: value.overall >= 0.72,
+                at: .now
+            )
             for word in value.needsPractice.prefix(3) where !word.expected.isEmpty {
                 await container.learningMemoryRepository.recordMistake(.init(
                     id: UUID().uuidString,
                     category: L("النطق"),
-                    source: L("مختبر النطق"),
+                    source: L("تدريب النطق"),
                     prompt: word.expected,
                     learnerAnswer: word.recognized ?? L("لم تُلتقط"),
                     correction: word.expected,
-                    explanationAr: word.tipAr ?? L("أعد الكلمة منفردة ثم داخل الجملة."),
+                    explanationAr: word.tipAr ?? L("قل الكلمة وحدها أولًا، ثم ضعها داخل الجملة."),
                     createdAt: .now,
                     reviewCount: 0,
                     resolved: false
@@ -164,22 +237,41 @@ struct ListeningLabView: View {
 
     var body: some View {
         Form {
-            Button(L("تشغيل المقطع")) {
-                textToSpeech.speak(sentence, accent: settings.accentVariant, rate: Float(settings.speechRate))
-            }
-            TextField(L("اكتب ما سمعت"), text: $answer, axis: .vertical).environment(\.layoutDirection, .leftToRight)
-            if !answer.isEmpty {
-                let score = StringSimilarity.score(sentence, answer)
-                AccessibleProgressView(title: L("الدقة"), value: score)
-                Button(L("تسجيل النتيجة")) {
-                    guard !didRecord else { return }
-                    didRecord = true
-                    Task { await container.progressRepository.recordSkill(.listening, correct: score >= 0.82, at: .now) }
+            Section {
+                Text(L("استمع إلى الجملة، ثم اكتب ما سمعته بالإنجليزية."))
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                Button(L("تشغيل الجملة")) {
+                    textToSpeech.speak(
+                        sentence,
+                        accent: settings.accentVariant,
+                        rate: Float(settings.speechRate)
+                    )
                 }
-                .disabled(didRecord)
+                TextField(L("اكتب ما سمعت"), text: $answer, axis: .vertical)
+                    .environment(\.layoutDirection, .leftToRight)
+            }
+
+            if !answer.isEmpty {
+                Section(L("النتيجة")) {
+                    let score = StringSimilarity.score(sentence, answer)
+                    AccessibleProgressView(title: L("التطابق"), value: score)
+                    Button(L("حفظ النتيجة")) {
+                        guard !didRecord else { return }
+                        didRecord = true
+                        Task {
+                            await container.progressRepository.recordSkill(
+                                .listening,
+                                correct: score >= 0.82,
+                                at: .now
+                            )
+                        }
+                    }
+                    .disabled(didRecord)
+                }
             }
         }
-        .navigationTitle(L("مختبر الاستماع"))
+        .navigationTitle(L("تدريب الاستماع"))
     }
 }
 
@@ -190,16 +282,17 @@ struct SentenceBuilderView: View {
 
     var body: some View {
         Form {
-            Section(L("ابنِ الجملة")) {
+            Section(L("اكتب أجزاء الجملة")) {
                 TextField(L("الفاعل"), text: $subject)
                 TextField(L("الفعل"), text: $verb)
-                TextField(L("التكملة"), text: $complement)
+                TextField(L("بقية الجملة"), text: $complement)
             }
-            Section(L("النتيجة")) {
+            Section(L("الجملة")) {
                 Text("\(subject) \(verb) \(complement).")
-                    .font(.title2.bold()).environment(\.layoutDirection, .leftToRight)
+                    .font(.title2.bold())
+                    .environment(\.layoutDirection, .leftToRight)
             }
         }
-        .navigationTitle(L("مصنع الجمل"))
+        .navigationTitle(L("بناء الجمل"))
     }
 }

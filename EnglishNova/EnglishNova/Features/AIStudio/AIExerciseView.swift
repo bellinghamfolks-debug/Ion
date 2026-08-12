@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// AI-generated practice. It can follow a learner-selected topic or let the
-/// server choose the focus from synced weaknesses, mistakes and recent scores.
+/// Generated practice can follow a learner-selected topic or let the server
+/// choose a focus from synced learning needs and recent results.
 struct AIExerciseView: View {
     @EnvironmentObject private var container: AppContainer
     @EnvironmentObject private var session: UserSession
@@ -28,12 +28,13 @@ struct AIExerciseView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                InfoCard(title: L("تدريب ذكي"), systemImage: "wand.and.stars") {
-                    Text(L("اختر موضوعًا، أو دع المدرب يختار التدريب تلقائيًا من أخطائك ونتائجك الأخيرة."))
-                        .font(.footnote).foregroundStyle(.secondary)
+                InfoCard(title: L("تمارين مخصصة"), systemImage: "wand.and.stars") {
+                    Text(L("اكتب موضوعًا تريد التدرب عليه، أو دع المدرّب يختار تمرينًا من أدائك وأخطائك الأخيرة."))
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
 
                     PrimaryButton(
-                        title: L("درّبني على نقاط ضعفي"),
+                        title: L("اختر تدريبًا مناسبًا لي"),
                         systemImage: "brain.head.profile",
                         isLoading: loading,
                         isDisabled: loading
@@ -42,7 +43,9 @@ struct AIExerciseView: View {
                     Divider()
 
                     HStack {
-                        Image(systemName: "tag").foregroundStyle(.secondary).frame(width: 22)
+                        Image(systemName: "tag")
+                            .foregroundStyle(.secondary)
+                            .frame(width: 22)
                         TextField(L("موضوع، مثل Travel"), text: $topic)
                             .environment(\.layoutDirection, .leftToRight)
                             .submitLabel(.go)
@@ -54,20 +57,27 @@ struct AIExerciseView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
                             ForEach(topics, id: \.self) { item in
-                                Button(item) { topic = item; generate(adaptive: false) }
-                                    .font(.caption)
-                                    .buttonStyle(.bordered)
-                                    .environment(\.layoutDirection, .leftToRight)
+                                Button(item) {
+                                    topic = item
+                                    generate(adaptive: false)
+                                }
+                                .font(.caption)
+                                .buttonStyle(.bordered)
+                                .environment(\.layoutDirection, .leftToRight)
                             }
                         }
                     }
 
-                    PrimaryButton(title: L("أنشئ تمارين عن الموضوع"), systemImage: "sparkles", isLoading: loading,
-                                  isDisabled: trimmed.isEmpty || loading) { generate(adaptive: false) }
+                    PrimaryButton(
+                        title: L("إنشاء تمارين عن الموضوع"),
+                        systemImage: "sparkles",
+                        isLoading: loading,
+                        isDisabled: trimmed.isEmpty || loading
+                    ) { generate(adaptive: false) }
                 }
 
                 if let focusAr, !focusAr.isEmpty {
-                    InfoCard(title: L("لماذا هذا التدريب؟"), systemImage: "scope", tint: AppTheme.accentTeal) {
+                    InfoCard(title: L("اختيار التدريب"), systemImage: "scope", tint: AppTheme.accentTeal) {
                         Text(focusAr).font(.headline)
                         if let reasonAr, !reasonAr.isEmpty {
                             Text(reasonAr).foregroundStyle(.secondary)
@@ -77,7 +87,8 @@ struct AIExerciseView: View {
 
                 if let errorMessage {
                     Label(errorMessage, systemImage: "exclamationmark.triangle.fill")
-                        .font(.footnote).foregroundStyle(.orange)
+                        .font(.footnote)
+                        .foregroundStyle(.orange)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
@@ -88,23 +99,27 @@ struct AIExerciseView: View {
                 if !questions.isEmpty {
                     if revealed {
                         InfoCard(title: L("النتيجة"), systemImage: "rosette", tint: AppTheme.success) {
-                            AccessibleProgressView(title: L("إجاباتك الصحيحة"), value: scoreRatio)
+                            AccessibleProgressView(title: L("الإجابات الصحيحة"), value: scoreRatio)
                             LabeledContent(L("الصحيحة"), value: "\(correctCount)/\(questions.count)")
-                            Text(L("أُضيفت النتيجة إلى ملف تعلمك لتؤثر في التدريبات الذكية القادمة."))
-                                .font(.caption).foregroundStyle(.secondary)
-                            Button(L("تمرين جديد")) { reset() }
+                            Text(L("حُفظت النتيجة ضمن تقدّمك حتى تساعد في اختيار التدريب القادم."))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            Button(L("إنشاء تدريب آخر")) { reset() }
                                 .buttonStyle(.bordered)
                         }
                     } else {
-                        PrimaryButton(title: L("تحقق من الإجابات"), systemImage: "checkmark.circle.fill",
-                                      isDisabled: selections.count < questions.count) { check() }
+                        PrimaryButton(
+                            title: L("تحقق من الإجابات"),
+                            systemImage: "checkmark.circle.fill",
+                            isDisabled: selections.count < questions.count
+                        ) { check() }
                     }
                 }
             }
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle(L("التدريب الذكي"))
+        .navigationTitle(L("تمارين مخصصة"))
         .navigationBarTitleDisplayMode(.inline)
         .task {
             guard startAdaptive, !autoStarted else { return }
@@ -133,15 +148,19 @@ struct AIExerciseView: View {
                         Spacer()
                     }
                     .padding(10)
-                    .background(optionTint(question: question, optionIndex: optionIndex).opacity(0.08),
-                                in: RoundedRectangle(cornerRadius: 10))
+                    .background(
+                        optionTint(question: question, optionIndex: optionIndex).opacity(0.08),
+                        in: RoundedRectangle(cornerRadius: 10)
+                    )
                 }
                 .buttonStyle(.plain)
                 .accessibilityValue(selections[question.id] == optionIndex ? L("محدد") : L("غير محدد"))
             }
 
             if revealed, let hint = question.hintAr, !hint.isEmpty {
-                Label(hint, systemImage: "lightbulb").font(.caption).foregroundStyle(.secondary)
+                Label(hint, systemImage: "lightbulb")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
     }
@@ -180,20 +199,30 @@ struct AIExerciseView: View {
         loading = true
         errorMessage = nil
         reset(keepTopic: true)
+
         Task {
             do {
                 let result: ExerciseResult
                 if adaptive {
                     _ = await container.progressSyncService.pushIfStale()
-                    result = try await service.generateAdaptiveExercise(level: session.selectedLevel.rawValue, count: 5)
+                    result = try await service.generateAdaptiveExercise(
+                        level: session.selectedLevel.rawValue,
+                        count: 5
+                    )
                 } else {
-                    result = try await service.generateExercise(topic: trimmed, level: session.selectedLevel.rawValue, count: 5)
+                    result = try await service.generateExercise(
+                        topic: trimmed,
+                        level: session.selectedLevel.rawValue,
+                        count: 5
+                    )
                 }
                 questions = result.questions
                 focusAr = result.focusAr
                 reasonAr = result.reasonAr
                 generatedDomain = result.domain
-                if questions.isEmpty { errorMessage = L("لم تُنشأ تمارين. جرّب مرة أخرى.") }
+                if questions.isEmpty {
+                    errorMessage = L("لم تصل تمارين صالحة. حاول مرة أخرى.")
+                }
             } catch {
                 errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذر إنشاء التمارين.")
             }
@@ -203,7 +232,7 @@ struct AIExerciseView: View {
 
     private func check() {
         withAnimation { revealed = true }
-        ToastCenter.shared.show(Lf("أصبت %@ من %@", "\(correctCount)", "\(questions.count)"))
+        ToastCenter.shared.show(Lf("إجابات صحيحة: %@ من %@", "\(correctCount)", "\(questions.count)"))
         guard !recordedResult else { return }
         recordedResult = true
         Task { await recordLearningResult() }
@@ -211,7 +240,10 @@ struct AIExerciseView: View {
 
     private func recordLearningResult() async {
         let domain = mappedDomain(generatedDomain)
-        let title = focusAr?.isEmpty == false ? focusAr! : (trimmed.isEmpty ? L("تدريب ذكي تكيفي") : trimmed)
+        let title = focusAr?.isEmpty == false
+            ? focusAr!
+            : (trimmed.isEmpty ? L("تدريب مخصص") : trimmed)
+
         let record = PracticeSessionRecord(
             id: UUID().uuidString,
             domain: domain,

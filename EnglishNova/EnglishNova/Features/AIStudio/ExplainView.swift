@@ -1,7 +1,5 @@
 import SwiftUI
 
-/// "اشرح لي" — ask the server AI to explain any English grammar point or word
-/// in Arabic, with a simple example. Powered by /ai/explain (cached server-side).
 struct ExplainView: View {
     @EnvironmentObject private var session: UserSession
     @State private var concept = ""
@@ -9,8 +7,6 @@ struct ExplainView: View {
     @State private var loading = false
     @State private var errorMessage: String?
 
-    /// When set (e.g. from a lesson), the view pre-fills this concept and
-    /// explains it automatically on appear.
     var initialConcept: String? = nil
 
     private let service = AIStudioService()
@@ -19,12 +15,15 @@ struct ExplainView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                InfoCard(title: L("اشرح لي"), systemImage: "sparkles") {
-                    Text(L("اكتب أي قاعدة أو كلمة إنجليزية وسيشرحها لك المدرّب بالعربية مع مثال بسيط."))
-                        .font(.footnote).foregroundStyle(.secondary)
+                InfoCard(title: L("شرح كلمة أو قاعدة"), systemImage: "text.book.closed.fill") {
+                    Text(L("اكتب كلمة أو قاعدة بالإنجليزية. سيشرحها المدرّب بالعربية بما يناسب مستواك، مع مثال بالإنجليزية."))
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
 
                     HStack {
-                        Image(systemName: "text.book.closed").foregroundStyle(.secondary).frame(width: 22)
+                        Image(systemName: "text.book.closed")
+                            .foregroundStyle(.secondary)
+                            .frame(width: 22)
                         TextField(L("مثال: Present Perfect"), text: $concept)
                             .environment(\.layoutDirection, .leftToRight)
                             .submitLabel(.go)
@@ -36,21 +35,29 @@ struct ExplainView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
                             ForEach(suggestions, id: \.self) { item in
-                                Button(item) { concept = item; run() }
-                                    .font(.caption)
-                                    .buttonStyle(.bordered)
-                                    .environment(\.layoutDirection, .leftToRight)
+                                Button(item) {
+                                    concept = item
+                                    run()
+                                }
+                                .font(.caption)
+                                .buttonStyle(.bordered)
+                                .environment(\.layoutDirection, .leftToRight)
                             }
                         }
                     }
 
-                    PrimaryButton(title: L("اشرح"), systemImage: "wand.and.stars", isLoading: loading,
-                                  isDisabled: trimmed.isEmpty) { run() }
+                    PrimaryButton(
+                        title: L("عرض الشرح"),
+                        systemImage: "sparkles",
+                        isLoading: loading,
+                        isDisabled: trimmed.isEmpty
+                    ) { run() }
                 }
 
                 if let errorMessage {
                     Label(errorMessage, systemImage: "exclamationmark.triangle.fill")
-                        .font(.footnote).foregroundStyle(.orange)
+                        .font(.footnote)
+                        .foregroundStyle(.orange)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
@@ -59,8 +66,9 @@ struct ExplainView: View {
                         Text(result.explanationAr)
                         if let example = result.exampleEn, !example.isEmpty {
                             Divider()
-                            Label(L("مثال"), systemImage: "quote.opening")
-                                .font(.caption.bold()).foregroundStyle(.secondary)
+                            Text(L("مثال"))
+                                .font(.caption.bold())
+                                .foregroundStyle(.secondary)
                             Text(example)
                                 .font(.body.weight(.medium))
                                 .environment(\.layoutDirection, .leftToRight)
@@ -71,7 +79,7 @@ struct ExplainView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle(L("اشرح لي"))
+        .navigationTitle(L("شرح كلمة أو قاعدة"))
         .navigationBarTitleDisplayMode(.inline)
         .task {
             if let initialConcept, concept.isEmpty, result == nil {
@@ -81,18 +89,24 @@ struct ExplainView: View {
         }
     }
 
-    private var trimmed: String { concept.trimmingCharacters(in: .whitespacesAndNewlines) }
+    private var trimmed: String {
+        concept.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
     private func run() {
         let query = trimmed
         guard !query.isEmpty, !loading else { return }
         loading = true
         errorMessage = nil
+
         Task {
             do {
-                result = try await service.explain(concept: query, level: session.selectedLevel.rawValue)
+                result = try await service.explain(
+                    concept: query,
+                    level: session.selectedLevel.rawValue
+                )
             } catch {
-                errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذّر الشرح.")
+                errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذر إعداد الشرح.")
             }
             loading = false
         }

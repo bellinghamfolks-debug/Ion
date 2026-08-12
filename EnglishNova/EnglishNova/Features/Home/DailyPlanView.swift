@@ -17,7 +17,9 @@ final class DailyPlanViewModel: ObservableObject {
             let catalog = try await catalogValue
             let progress = await progressValue
             let due = await dueValue
-            lessonByID = Dictionary(uniqueKeysWithValues: catalog.levels.flatMap(\.units).flatMap(\.lessons).map { ($0.id, $0) })
+            lessonByID = Dictionary(
+                uniqueKeysWithValues: catalog.levels.flatMap(\.units).flatMap(\.lessons).map { ($0.id, $0) }
+            )
             plan = LearningPlanner.makePlan(
                 catalog: catalog,
                 progress: progress,
@@ -42,29 +44,35 @@ struct DailyPlanView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 if model.isLoading {
-                    ProgressView(L("جارٍ إعداد خطة اليوم من تقدمك الحالي"))
+                    ProgressView(L("جارٍ إعداد خطة اليوم"))
                 } else if let plan = model.plan {
-                    Text(Lf("خطة لمدة %@ دقيقة", "\(plan.targetMinutes)"))
+                    Text(Lf("خطة اليوم • %@ دقيقة", "\(plan.targetMinutes)"))
                         .font(.largeTitle.bold())
                         .accessibilityAddTraits(.isHeader)
-                    Text(L("تتغير الخطة بحسب الدروس غير المكتملة، والمراجعات المستحقة، والمهارات التي تحتاج إلى تدريب."))
+
+                    Text(L("اخترنا هذه الأنشطة من الدروس غير المكتملة والمراجعات المستحقة والمهارات التي تحتاج إلى تدريب."))
                         .foregroundStyle(.secondary)
-                    AccessibleProgressView(title: L("إنجاز خطة اليوم"), value: plan.progress)
+
+                    AccessibleProgressView(title: L("ما أنجزته من الخطة"), value: plan.progress)
 
                     ForEach(Array(plan.items.enumerated()), id: \.element.id) { index, item in
                         planItem(item, number: index + 1)
                     }
 
-                    InfoCard(title: L("كيف اختيرت هذه الأنشطة؟"), systemImage: "wand.and.stars") {
-                        Text(L("تبدأ الخطة بأهم مهمة تعليمية، ثم تضيف المراجعة أو تدريب المهارة بما يناسب وقتك الحالي."))
+                    InfoCard(title: L("لماذا هذه الخطة؟"), systemImage: "info.circle.fill") {
+                        Text(L("تبدأ الخطة بالنشاط الأعلى أولوية، ثم تضيف المراجعة أو تدريب مهارة بما يناسب الوقت الذي حددته."))
                         if container.settings.reduceLearningPressure {
-                            Text(L("وضع التعلّم الهادئ مفعّل، لذلك لا تتجاوز الخطة عشر دقائق."))
+                            Text(L("أنت تستخدم الخطة المختصرة، لذلك يقل عدد الأنشطة المقترحة."))
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
                     }
                 } else if let error = model.errorMessage {
-                    ContentUnavailableView(L("تعذر إعداد خطة اليوم"), systemImage: "exclamationmark.triangle", description: Text(error))
+                    ContentUnavailableView(
+                        L("تعذر إعداد الخطة"),
+                        systemImage: "exclamationmark.triangle",
+                        description: Text(error)
+                    )
                 }
             }
             .padding(AppTheme.screenPadding)
@@ -88,7 +96,9 @@ struct DailyPlanView: View {
             if let id = item.referenceID, let lesson = model.lessonByID[id] {
                 NavigationLink { LessonPlayerView(lesson: lesson) } label: { card }
                     .buttonStyle(.plain)
-            } else { card }
+            } else {
+                card
+            }
         case .review:
             NavigationLink { ReviewView() } label: { card }.buttonStyle(.plain)
         case .listening:

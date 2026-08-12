@@ -44,36 +44,46 @@ struct ContentUpdatesView: View {
 
     var body: some View {
         List {
-            Section(L("الحالة")) {
+            Section(L("حالة المحتوى")) {
                 switch model.status {
                 case .idle:
-                    Text(L("اضغط فحص التحديثات للبحث عن منهج أحدث من الخادم الذي حددته."))
+                    Text(L("يمكنك التحقق من وجود نسخة أحدث من محتوى المنهج."))
                 case .checking:
-                    ProgressView(L("جاري فحص التحديثات"))
+                    ProgressView(L("جارٍ التحقق من التحديثات"))
                 case let .available(version, notes):
                     LabeledContent(L("الإصدار المتاح"), value: "\(version)")
-                    Text(notes)
-                    Button(L("تنزيل وتثبيت المحتوى")) {
-                        Task { await model.install(service: container.contentUpdateService, repository: container.courseRepository) }
+                    if !notes.isEmpty { Text(L(notes)) }
+                    Button(L("تنزيل التحديث")) {
+                        Task {
+                            await model.install(
+                                service: container.contentUpdateService,
+                                repository: container.courseRepository
+                            )
+                        }
                     }
                     .buttonStyle(.borderedProminent)
                 case .installing:
-                    ProgressView(L("جاري التحقق والتثبيت"))
+                    ProgressView(L("جارٍ تثبيت المحتوى"))
                 case let .installed(version):
                     Label(Lf("تم تثبيت الإصدار %@", "\(version)"), systemImage: "checkmark.seal.fill")
                 case let .failed(message):
                     Label(message, systemImage: "exclamationmark.triangle.fill")
                 }
             }
-            Section(L("الأمان")) {
-                Text(L("لا تُثبت الحزمة إلا عبر HTTPS، وبعد مطابقة بصمة SHA-256 وفك ترميز المنهج كاملًا بنجاح."))
-                Text(L("يُحفظ المحتوى المحدّث في مساحة التطبيق، ويمكن الرجوع إلى المحتوى المدمج بحذف بيانات التطبيق."))
+
+            Section(L("التحقق من الملف")) {
+                Text(L("قبل استخدام أي تحديث، يتحقق التطبيق من الاتصال الآمن وبصمة الملف ثم يحاول قراءة المنهج كاملًا."))
+                    .font(.subheadline)
+                Text(L("إذا لم يثبت التحديث بنجاح، يبقى المنهج المدمج مع التطبيق متاحًا."))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
-            Button(L("فحص التحديثات")) {
+
+            Button(L("التحقق من وجود تحديث")) {
                 Task { await model.check(service: container.contentUpdateService) }
             }
             .disabled(container.settings.serverURL == nil)
         }
-        .navigationTitle(L("تحديثات المنهج"))
+        .navigationTitle(L("تحديث المنهج"))
     }
 }

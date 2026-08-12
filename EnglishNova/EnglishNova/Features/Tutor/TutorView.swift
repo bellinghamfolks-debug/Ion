@@ -11,9 +11,13 @@ struct TutorView: View {
     var body: some View {
         VStack(spacing: 0) {
             if !networkMonitor.isConnected && container.settings.tutorProvider != .device {
-                Label(L("وضع دون إنترنت: يعمل المصحح المحلي"), systemImage: "wifi.slash")
-                    .font(.caption).padding(8).frame(maxWidth: .infinity).background(.thinMaterial)
+                Label(L("لا يوجد اتصال بالإنترنت. سيستخدم التطبيق المدرّب المحلي."), systemImage: "wifi.slash")
+                    .font(.caption)
+                    .padding(8)
+                    .frame(maxWidth: .infinity)
+                    .background(.thinMaterial)
             }
+
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(spacing: 14) {
@@ -26,24 +30,34 @@ struct TutorView: View {
                             )
                             .id(message.id)
                         }
+
                         if model.isSending {
-                            ProgressView(L("يفكر المدرّس"))
-                                .accessibilityLabel(L("المدرّس يكتب الرد"))
+                            ProgressView(L("جارٍ إعداد الرد"))
+                                .accessibilityLabel(L("المدرّب يجهز الرد"))
                         }
                     }
                     .padding()
                 }
                 .onChange(of: model.messages.count) { _, _ in
-                    if let last = model.messages.last { withAnimation { proxy.scrollTo(last.id, anchor: .bottom) } }
+                    if let last = model.messages.last {
+                        withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
+                    }
                 }
             }
+
             Divider()
+
             HStack(alignment: .bottom, spacing: 10) {
-                TextField(L("اكتب رسالتك بالإنجليزية أو العربية"), text: $model.draft, axis: .vertical)
-                    .textFieldStyle(.roundedBorder).lineLimit(1...5)
+                TextField(L("اكتب سؤالًا أو جملة"), text: $model.draft, axis: .vertical)
+                    .textFieldStyle(.roundedBorder)
+                    .lineLimit(1...5)
+
                 Button {
                     Task { await model.send(container: container, level: session.selectedLevel) }
-                } label: { Image(systemName: "paperplane.fill").frame(width: 44, height: 44) }
+                } label: {
+                    Image(systemName: "paperplane.fill")
+                        .frame(width: 44, height: 44)
+                }
                 .buttonStyle(.borderedProminent)
                 .disabled(model.draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || model.isSending)
                 .accessibilityLabel(L("إرسال"))
@@ -51,19 +65,23 @@ struct TutorView: View {
             .padding()
         }
         .screenBackground()
-        .navigationTitle(L("المدرّس التفاعلي"))
+        .navigationTitle(L("المدرّب"))
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button {
                     model.startNewConversation(container: container)
-                } label: { Image(systemName: "square.and.pencil") }
-                .accessibilityLabel(L("محادثة جديدة"))
+                } label: {
+                    Image(systemName: "square.and.pencil")
+                }
+                .accessibilityLabel(L("بدء محادثة جديدة"))
 
                 Button {
                     Task { await model.loadHistory(container: container) }
                     showHistory = true
-                } label: { Image(systemName: "clock.arrow.circlepath") }
-                .accessibilityLabel(L("المحادثات المحفوظة"))
+                } label: {
+                    Image(systemName: "clock.arrow.circlepath")
+                }
+                .accessibilityLabel(L("سجل المحادثات"))
             }
         }
         .sheet(isPresented: $showHistory) {
@@ -72,9 +90,14 @@ struct TutorView: View {
         }
         .task { await model.loadHistory(container: container) }
         .onDisappear { model.stopSpeaking(container: container) }
-        .alert(L("تعذر الإرسال"), isPresented: .constant(model.errorMessage != nil)) {
+        .alert(L("تعذر إرسال الرسالة"), isPresented: Binding(
+            get: { model.errorMessage != nil },
+            set: { if !$0 { model.errorMessage = nil } }
+        )) {
             Button(L("حسنًا")) { model.errorMessage = nil }
-        } message: { Text(model.errorMessage ?? "") }
+        } message: {
+            Text(model.errorMessage ?? "")
+        }
     }
 }
 
@@ -91,51 +114,83 @@ private struct MessageBubble: View {
             Text(message.text)
                 .padding(14)
                 .background(
-                    message.role == .user ? Color.accentColor.opacity(0.18) : Color(uiColor: .secondarySystemBackground),
+                    message.role == .user
+                        ? Color.accentColor.opacity(0.18)
+                        : Color(uiColor: .secondarySystemBackground),
                     in: RoundedRectangle(cornerRadius: 16)
                 )
+
             ForEach(message.corrections, id: \.self) { correction in
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("\(correction.original) → \(correction.replacement)").font(.headline).environment(\.layoutDirection, .leftToRight)
-                    Text(correction.reason).font(.caption).foregroundStyle(.secondary)
+                    Text("\(correction.original) → \(correction.replacement)")
+                        .font(.headline)
+                        .environment(\.layoutDirection, .leftToRight)
+                    Text(correction.reason)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
-                .padding(10).background(.background, in: RoundedRectangle(cornerRadius: 12))
+                .padding(10)
+                .background(.background, in: RoundedRectangle(cornerRadius: 12))
             }
+
             if !message.suggestedReplies.isEmpty {
-                Text(Lf("اقتراحات: %@", "\(message.suggestedReplies.joined(separator: "، "))")).font(.caption).foregroundStyle(.secondary)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(L("يمكنك أن تقول:"))
+                        .font(.caption.bold())
+                    ForEach(message.suggestedReplies, id: \.self) { reply in
+                        Text(reply)
+                            .font(.caption)
+                            .environment(\.layoutDirection, .leftToRight)
+                    }
+                }
+                .foregroundStyle(.secondary)
             }
+
             if isAssistant {
                 Button {
                     isSpeaking ? onStop() : onSpeak()
                 } label: {
-                    Label(isSpeaking ? L("إيقاف") : L("استماع"), systemImage: isSpeaking ? "stop.circle" : "speaker.wave.2.circle")
-                        .font(.caption)
+                    Label(
+                        isSpeaking ? L("إيقاف الصوت") : L("سماع الرد"),
+                        systemImage: isSpeaking ? "stop.circle" : "speaker.wave.2.circle"
+                    )
+                    .font(.caption)
                 }
                 .buttonStyle(.bordered)
-                .accessibilityLabel(isSpeaking ? L("إيقاف نطق رد المدرّس") : L("استماع إلى رد المدرّس"))
             }
         }
         .frame(maxWidth: .infinity, alignment: isAssistant ? .leading : .trailing)
-        // One VoiceOver element that actually reads the message content, with a
-        // rotor/double-tap action to hear it spoken aloud by the synthesizer.
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(accessibilityText)
-        .accessibilityAction(named: isAssistant ? L("استماع إلى الرد") : L("استماع")) { onSpeak() }
+        .accessibilityAction(named: isAssistant ? L("سماع رد المدرّب") : L("سماع الرسالة")) {
+            onSpeak()
+        }
     }
 
     private var accessibilityText: String {
-        var parts: [String] = [isAssistant ? L("رد المدرّس:") : L("رسالتك:"), message.text]
+        var parts: [String] = [
+            isAssistant ? L("رد المدرّب:") : L("رسالتك:"),
+            message.text
+        ]
+
         for correction in message.corrections {
-            parts.append(Lf("تصحيح: %@ يصبح %@. %@", "\(correction.original)", "\(correction.replacement)", "\(correction.reason)"))
+            parts.append(
+                Lf(
+                    "تصحيح: %@ تصبح %@. %@",
+                    correction.original,
+                    correction.replacement,
+                    correction.reason
+                )
+            )
         }
+
         if !message.suggestedReplies.isEmpty {
-            parts.append(Lf("اقتراحات: %@", "\(message.suggestedReplies.joined(separator: "، "))"))
+            parts.append(Lf("ردود مقترحة: %@", message.suggestedReplies.joined(separator: "، ")))
         }
         return parts.joined(separator: " ")
     }
 }
 
-/// Browseable list of saved tutor conversations.
 struct ConversationHistoryView: View {
     @ObservedObject var model: TutorViewModel
     @EnvironmentObject private var container: AppContainer
@@ -146,9 +201,9 @@ struct ConversationHistoryView: View {
             Group {
                 if model.savedConversations.isEmpty {
                     ContentUnavailableView(
-                        L("لا توجد محادثات محفوظة بعد"),
+                        L("لا توجد محادثات محفوظة"),
                         systemImage: "bubble.left.and.bubble.right",
-                        description: Text(L("ستُحفظ محادثاتك مع المدرّس هنا تلقائيًا على هذا الجهاز."))
+                        description: Text(L("ستظهر هنا محادثاتك السابقة مع المدرّب على هذا الجهاز."))
                     )
                 } else {
                     List {
@@ -158,31 +213,38 @@ struct ConversationHistoryView: View {
                                 dismiss()
                             } label: {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(conversation.title).font(.headline).lineLimit(1)
+                                    Text(conversation.title)
+                                        .font(.headline)
+                                        .lineLimit(1)
                                     HStack(spacing: 8) {
                                         Text(conversation.updatedAt, style: .date)
-                                        Text(L(conversation.provider.titleAr))
+                                        Text(conversation.provider.titleAr)
                                     }
-                                    .font(.caption).foregroundStyle(.secondary)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
                                 }
                             }
-                            .accessibilityLabel(Lf("محادثة: %@، %@", "\(conversation.title)", "\(conversation.provider.titleAr)"))
+                            .accessibilityLabel(
+                                Lf("محادثة: %@، %@", conversation.title, conversation.provider.titleAr)
+                            )
                         }
                         .onDelete { indexSet in
                             let targets = indexSet.map { model.savedConversations[$0] }
                             Task {
-                                for target in targets { await model.delete(target, container: container) }
+                                for target in targets {
+                                    await model.delete(target, container: container)
+                                }
                                 ToastCenter.shared.show(L("تم حذف المحادثة"), style: .info)
                             }
                         }
                     }
                 }
             }
-            .navigationTitle(L("المحادثات المحفوظة"))
+            .navigationTitle(L("سجل المحادثات"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button(L("تم")) { dismiss() }
+                    Button(L("إغلاق")) { dismiss() }
                 }
             }
         }

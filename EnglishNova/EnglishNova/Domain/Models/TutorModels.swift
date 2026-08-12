@@ -2,28 +2,28 @@ import Foundation
 
 /// Which engine answers in the interactive tutor.
 enum TutorProvider: String, Codable, CaseIterable, Identifiable {
-    /// Use the configured app server when set, otherwise the on-device engine.
     case smart
-    /// Always answer fully on-device (no network).
     case device
-    /// Use Google's Gemini API with the user's own key (stored encrypted).
+    /// Legacy value kept only so older settings continue to decode. The UI
+    /// migrates it to `.smart` because personal Gemini keys are no longer used.
     case gemini
 
     var id: String { rawValue }
 
     var titleAr: String {
         switch self {
-        case .smart: return L("تلقائي (الخادم أو المحلي)")
-        case .device: return L("محلي على الجهاز")
-        case .gemini: return L("Gemini API (مفتاحك الخاص)")
+        case .smart: return L("تلقائي")
+        case .device: return L("على الجهاز فقط")
+        case .gemini: return L("تلقائي")
         }
     }
 
     var detailAr: String {
         switch self {
-        case .smart: return L("يستخدم خادم التطبيق إن عُيّن، وإلا فالمدرّس المحلي. لا يحتاج مفتاحًا.")
-        case .device: return L("يعمل دون إنترنت بالكامل ولا يرسل أي نص خارج الجهاز.")
-        case .gemini: return L("يرسل رسالتك إلى Gemini باستخدام مفتاحك المحفوظ مشفّرًا على الجهاز.")
+        case .smart, .gemini:
+            return L("يستخدم المدرّب عبر الإنترنت عندما تكون الخدمة متاحة، ويرجع إلى المدرّب المحلي عند تعذر الاتصال.")
+        case .device:
+            return L("يبقي المحادثة داخل الجهاز ولا يستخدم خدمة المدرّب عبر الإنترنت.")
         }
     }
 }
@@ -71,7 +71,6 @@ struct TutorResponse: Codable {
     }
 }
 
-/// A full tutor chat saved on the device so the learner can revisit it.
 struct TutorConversation: Codable, Identifiable, Hashable {
     var id: UUID = UUID()
     var createdAt: Date = .now
@@ -79,7 +78,6 @@ struct TutorConversation: Codable, Identifiable, Hashable {
     var provider: TutorProvider = .smart
     var messages: [TutorMessage] = []
 
-    /// A human-readable title derived from the first learner message.
     var title: String {
         if let firstUser = messages.first(where: { $0.role == .user })?.text
             .trimmingCharacters(in: .whitespacesAndNewlines), !firstUser.isEmpty {
@@ -88,8 +86,9 @@ struct TutorConversation: Codable, Identifiable, Hashable {
         return L("محادثة جديدة")
     }
 
-    /// True once the learner has actually said something worth keeping.
     var hasLearnerContent: Bool {
-        messages.contains { $0.role == .user && !$0.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+        messages.contains {
+            $0.role == .user && !$0.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
     }
 }

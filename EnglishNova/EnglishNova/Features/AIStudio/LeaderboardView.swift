@@ -1,8 +1,6 @@
 import SwiftUI
 
-/// Leaderboard — top learners by points, plus the signed-in user's own rank.
-/// Powered by /leaderboard (reads points/streak the server denormalises from
-/// each user's synced progress).
+/// Shows learners ranked by synced points, plus the signed-in learner's rank.
 struct LeaderboardView: View {
     @State private var result: LeaderboardResult?
     @State private var loading = true
@@ -28,21 +26,26 @@ struct LeaderboardView: View {
                 }
             }
 
-            Section(L("أفضل المتعلّمين")) {
+            Section(L("أعلى النقاط")) {
                 if loading {
-                    HStack(spacing: 10) { ProgressView(); Text(L("جارٍ التحميل…")).foregroundStyle(.secondary) }
+                    HStack(spacing: 10) {
+                        ProgressView()
+                        Text(L("جارٍ تحميل الترتيب")).foregroundStyle(.secondary)
+                    }
                 } else if let errorMessage {
                     Label(errorMessage, systemImage: "exclamationmark.triangle.fill")
-                        .font(.footnote).foregroundStyle(.orange)
+                        .font(.footnote)
+                        .foregroundStyle(.orange)
                 } else if (result?.top.isEmpty ?? true) {
-                    Text(L("لا يوجد متصدّرون بعد. احفظ تقدّمك من شاشة الحساب لتكون أول المتصدّرين!"))
-                        .font(.footnote).foregroundStyle(.secondary)
+                    Text(L("لا توجد نتائج في الترتيب حتى الآن."))
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 } else {
                     ForEach(result?.top ?? []) { entry in row(entry) }
                 }
             }
         }
-        .navigationTitle(L("لوحة الصدارة"))
+        .navigationTitle(L("الترتيب"))
         .navigationBarTitleDisplayMode(.inline)
         .task { await load() }
         .refreshable { await load() }
@@ -55,21 +58,27 @@ struct LeaderboardView: View {
                 .font(.subheadline.weight(entry.isMe ? .bold : .regular))
                 .foregroundStyle(entry.isMe ? AppTheme.brand : .primary)
             if entry.isMe {
-                Text(L("أنت")).font(.caption2.bold())
-                    .padding(.horizontal, 6).padding(.vertical, 2)
+                Text(L("أنت"))
+                    .font(.caption2.bold())
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
                     .background(AppTheme.brand.opacity(0.15), in: Capsule())
                     .foregroundStyle(AppTheme.brand)
             }
             Spacer()
             Label("\(entry.points)", systemImage: "star.fill")
-                .font(.caption).foregroundStyle(AppTheme.warning)
+                .font(.caption)
+                .foregroundStyle(AppTheme.warning)
             if entry.streak > 0 {
                 Label("\(entry.streak)", systemImage: "flame.fill")
-                    .font(.caption).foregroundStyle(AppTheme.streak)
+                    .font(.caption)
+                    .foregroundStyle(AppTheme.streak)
             }
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(Lf("المركز %@، %@، %@ نقطة", "\(entry.rank)", "\(entry.name)", "\(entry.points)"))
+        .accessibilityLabel(
+            Lf("المركز %@، %@، %@ نقطة", "\(entry.rank)", "\(entry.name)", "\(entry.points)")
+        )
     }
 
     @ViewBuilder
@@ -91,7 +100,7 @@ struct LeaderboardView: View {
         do {
             result = try await service.leaderboard()
         } catch {
-            errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذّر تحميل لوحة الصدارة.")
+            errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذر تحميل الترتيب.")
         }
         loading = false
     }

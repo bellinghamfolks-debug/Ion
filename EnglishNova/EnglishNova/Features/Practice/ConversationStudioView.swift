@@ -5,21 +5,23 @@ struct ConversationStudioView: View {
 
     var body: some View {
         List {
-            Section(L("المدرب الصوتي الجديد")) {
+            Section(L("المحادثة بالصوت")) {
                 NavigationLink {
                     VoiceCoachView()
                 } label: {
-                    Label(L("محادثة صوتية ذكية"), systemImage: "waveform.badge.mic")
+                    Label(L("تدريب المحادثة بالصوت"), systemImage: "waveform.badge.mic")
                 }
-                Text(L("يحاورك التطبيق، يحلل الرد كلمة بكلمة، ويحفظ الكلمات والأخطاء المتكررة في ذاكرتك التعليمية."))
+                Text(L("استمع إلى الطرف الآخر، أجب بصوتك، ثم راجع ملاحظات النطق ومحتوى الإجابة قبل متابعة الحوار."))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
             Section {
-                Text(L("تدرّب على موقف كامل بالكتابة أو الصوت. يعمل التقييم الأساسي محليًا، ويبحث عن الأفكار المهمة لا عن التطابق الحرفي فقط."))
-                    .font(.subheadline).foregroundStyle(.secondary)
+                Text(L("يمكنك أيضًا التدرب على مواقف كاملة بالكتابة أو الصوت. لا يلزم أن تطابق نموذج الإجابة حرفيًا؛ المهم أن توصل الفكرة المطلوبة بوضوح."))
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             }
+
             ForEach(CEFRLevel.allCases) { level in
                 let scenarios = ConversationLibrary.scenarios.filter { $0.level == level }
                 if !scenarios.isEmpty {
@@ -30,8 +32,11 @@ struct ConversationStudioView: View {
                             } label: {
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text(L(scenario.titleAr)).font(.headline)
-                                    Text(scenario.titleEn).environment(\.layoutDirection, .leftToRight)
-                                    Text(scenario.roleAr).font(.caption).foregroundStyle(.secondary)
+                                    Text(scenario.titleEn)
+                                        .environment(\.layoutDirection, .leftToRight)
+                                    Text(scenario.roleAr)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
                                 }
                             }
                         }
@@ -39,7 +44,7 @@ struct ConversationStudioView: View {
                 }
             }
         }
-        .navigationTitle(L("استوديو المحادثة"))
+        .navigationTitle(L("تدريب المحادثة"))
     }
 }
 
@@ -73,14 +78,24 @@ private struct ConversationSessionView: View {
                 InfoCard(title: L("الطرف الآخر"), systemImage: "person.crop.circle.fill") {
                     let line = turnIndex == 0 ? scenario.openingLine : responseLine
                     HStack(alignment: .top) {
-                        Text(line).font(.title3).environment(\.layoutDirection, .leftToRight)
+                        Text(line)
+                            .font(.title3)
+                            .environment(\.layoutDirection, .leftToRight)
                         Spacer()
-                        Button { container.textToSpeech.speak(line, accent: settings.accentVariant, rate: Float(settings.speechRate)) } label: {
+                        Button {
+                            container.textToSpeech.speak(
+                                line,
+                                accent: settings.accentVariant,
+                                rate: Float(settings.speechRate)
+                            )
+                        } label: {
                             Image(systemName: "speaker.wave.2.fill")
                         }
-                        .accessibilityLabel(L("نطق كلام الطرف الآخر"))
+                        .accessibilityLabel(L("سماع كلام الطرف الآخر"))
                     }
-                    if turnIndex == 0 { Text(scenario.openingLineAr).foregroundStyle(.secondary) }
+                    if turnIndex == 0 {
+                        Text(scenario.openingLineAr).foregroundStyle(.secondary)
+                    }
                 }
 
                 if isFinished {
@@ -88,8 +103,9 @@ private struct ConversationSessionView: View {
                 } else if let turn = currentTurn {
                     InfoCard(title: L("مهمتك"), systemImage: "target") {
                         Text(L(turn.promptAr)).font(.headline)
-                        Text(L("لا يلزم أن تطابق النموذج حرفيًا. عبّر بطريقتك واذكر الفكرة الأساسية."))
-                            .font(.caption).foregroundStyle(.secondary)
+                        Text(L("عبّر بطريقتك. ليس مطلوبًا أن تطابق النموذج كلمةً بكلمة."))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     }
 
                     TextField(L("اكتب ردك بالإنجليزية"), text: $response, axis: .vertical)
@@ -105,37 +121,56 @@ private struct ConversationSessionView: View {
                                     speechService.stop()
                                     response = speechService.transcript
                                 } else {
-                                    await speechService.start(localeIdentifier: settings.accentVariant.localeIdentifier)
+                                    await speechService.start(
+                                        localeIdentifier: settings.accentVariant.localeIdentifier
+                                    )
                                 }
                             }
                         } label: {
-                            Label(speechService.state == .listening ? L("إيقاف التسجيل") : L("الإجابة بالصوت"), systemImage: "mic.fill")
+                            Label(
+                                speechService.state == .listening ? L("إيقاف التسجيل") : L("الإجابة بالصوت"),
+                                systemImage: "mic.fill"
+                            )
                         }
                         .buttonStyle(.bordered)
+
                         Button {
-                            container.textToSpeech.speak(turn.sampleAnswer, accent: settings.accentVariant, rate: Float(settings.speechRate))
+                            container.textToSpeech.speak(
+                                turn.sampleAnswer,
+                                accent: settings.accentVariant,
+                                rate: Float(settings.speechRate)
+                            )
                         } label: {
-                            Label(L("سماع نموذج"), systemImage: "ear.fill")
+                            Label(L("سماع مثال"), systemImage: "ear.fill")
                         }
                         .buttonStyle(.bordered)
                     }
 
                     if let evaluation {
-                        InfoCard(title: L("تقييم محلي"), systemImage: evaluation.score >= 0.8 ? "checkmark.seal.fill" : "lightbulb.fill") {
-                            AccessibleProgressView(title: Lf("اكتمال الأفكار %@٪", "\(Int(evaluation.score * 100))"), value: evaluation.score)
+                        InfoCard(
+                            title: L("مراجعة الإجابة"),
+                            systemImage: evaluation.score >= 0.8 ? "checkmark.seal.fill" : "lightbulb.fill"
+                        ) {
+                            AccessibleProgressView(
+                                title: Lf("تغطية الأفكار %@٪", "\(Int(evaluation.score * 100))"),
+                                value: evaluation.score
+                            )
                             Text(evaluation.feedbackAr)
                             if !evaluation.matchedIdeas.isEmpty {
-                                Text(Lf("الأفكار التي التقطها التقييم: %@", "\(evaluation.matchedIdeas.joined(separator: "، "))"))
-                                    .font(.caption).foregroundStyle(.secondary)
+                                Text(Lf("أفكار ظهرت في إجابتك: %@", "\(evaluation.matchedIdeas.joined(separator: "، "))"))
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
                             }
                             Divider()
-                            Text(L("نموذج ممكن:")).font(.caption.bold())
-                            Text(turn.sampleAnswer).environment(\.layoutDirection, .leftToRight)
+                            Text(L("مثال لإجابة ممكنة"))
+                                .font(.caption.bold())
+                            Text(turn.sampleAnswer)
+                                .environment(\.layoutDirection, .leftToRight)
                         }
                     }
 
                     PrimaryButton(
-                        title: evaluation == nil ? L("تقييم الرد") : L("متابعة الحوار"),
+                        title: evaluation == nil ? L("مراجعة الرد") : L("متابعة الحوار"),
                         systemImage: evaluation == nil ? "checkmark.circle.fill" : "arrow.forward.circle.fill",
                         isDisabled: response.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                     ) {
@@ -163,8 +198,15 @@ private struct ConversationSessionView: View {
     private var resultCard: some View {
         let average = completedScores.isEmpty ? 0 : completedScores.reduce(0, +) / Double(completedScores.count)
         return InfoCard(title: L("اكتملت المحادثة"), systemImage: "flag.checkered") {
-            AccessibleProgressView(title: Lf("النتيجة العامة %@٪", "\(Int(average * 100))"), value: average)
-            Text(average >= 0.8 ? L("أدرت الموقف بوضوح وثقة.") : L("أنهيت الموقف. أعده مرة أخرى وحاول إدخال الأفكار التي ظهرت في النماذج."))
+            AccessibleProgressView(
+                title: Lf("النتيجة العامة %@٪", "\(Int(average * 100))"),
+                value: average
+            )
+            Text(
+                average >= 0.8
+                    ? L("وصلت أفكارك بوضوح في معظم الموقف.")
+                    : L("أكملت الموقف. راجع الملاحظات ثم أعده وحاول تغطية الأفكار التي فاتتك.")
+            )
             Button(L("إعادة المحادثة")) {
                 turnIndex = 0
                 response = ""
@@ -180,7 +222,11 @@ private struct ConversationSessionView: View {
         let result = ConversationLibrary.evaluate(response, for: turn)
         evaluation = result
         Task {
-            await container.progressRepository.recordSkill(.practicalCommunication, correct: result.score >= 0.6, at: .now)
+            await container.progressRepository.recordSkill(
+                .practicalCommunication,
+                correct: result.score >= 0.6,
+                at: .now
+            )
             let entry = ConversationMemoryEntry(
                 id: UUID().uuidString,
                 scenarioID: scenario.id,
@@ -222,7 +268,7 @@ private struct ConversationSessionView: View {
     }
 }
 
-// MARK: - Voice Coach
+// MARK: - Voice conversation
 
 struct VoiceCoachView: View {
     @EnvironmentObject private var session: UserSession
@@ -236,7 +282,7 @@ struct VoiceCoachView: View {
     var body: some View {
         List {
             Section {
-                Text(L("جلسة صوتية متدرجة: استمع، أجب، ثم راجع الدقة والاكتمال والطلاقة والكلمات التي تحتاج تدريبًا. يمكن للخادم الاختياري توليد رد سياقي، وإلا يعمل المدرب المحلي."))
+                Text(L("في كل جولة تسمع سؤالًا، تجيب بصوتك، ثم ترى تقييمًا تقريبيًا للكلام وملاحظات على محتوى الإجابة. وإذا كان المدرّب عبر الإنترنت متاحًا، يمكنه متابعة الحوار برد جديد."))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
@@ -247,7 +293,7 @@ struct VoiceCoachView: View {
                         Text(L(accent.titleAr)).tag(accent)
                     }
                 }
-                Toggle(L("نطق سؤال المدرب تلقائيًا"), isOn: $settings.autoSpeakCoachPrompts)
+                Toggle(L("اقرأ سؤال المحادثة تلقائيًا"), isOn: $settings.autoSpeakCoachPrompts)
             }
 
             Section(Lf("مناسب لمستواك %@", "\(session.selectedLevel.rawValue)")) {
@@ -257,9 +303,11 @@ struct VoiceCoachView: View {
                     } label: {
                         VStack(alignment: .leading, spacing: 5) {
                             Text(L(scenario.titleAr)).font(.headline)
-                            Text(scenario.titleEn).environment(\.layoutDirection, .leftToRight)
+                            Text(scenario.titleEn)
+                                .environment(\.layoutDirection, .leftToRight)
                             Text(Lf("%@ جولات • %@", "\(scenario.turns.count)", "\(scenario.roleAr)"))
-                                .font(.caption).foregroundStyle(.secondary)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
                     }
                 }
@@ -273,7 +321,7 @@ struct VoiceCoachView: View {
                 }
             }
         }
-        .navigationTitle(L("المدرب الصوتي"))
+        .navigationTitle(L("المحادثة بالصوت"))
     }
 }
 
@@ -336,15 +384,18 @@ private struct VoiceCoachSessionView: View {
 
     @ViewBuilder
     private var coachCard: some View {
-        InfoCard(title: L("المدرب"), systemImage: "waveform.circle.fill") {
+        InfoCard(title: L("الطرف الآخر"), systemImage: "waveform.circle.fill") {
             Text(partnerLine.isEmpty ? scenario.openingLine : partnerLine)
                 .font(.title3)
                 .environment(\.layoutDirection, .leftToRight)
             HStack {
                 Button(L("استمع")) { speakPartnerLine() }
                     .buttonStyle(.bordered)
-                Text(coachReply?.source == "remote" ? L("رد عبر الإنترنت") : L("رد محلي أو احتياطي"))
-                    .font(.caption).foregroundStyle(.secondary)
+                if let source = coachReply?.source {
+                    Text(source == "remote" || source == "server" ? L("رد من المدرّب عبر الإنترنت") : L("رد محلي"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
             if settings.showArabicCoachHints, let translation = coachReply?.translationAr {
                 Text(translation).foregroundStyle(.secondary)
@@ -356,16 +407,21 @@ private struct VoiceCoachSessionView: View {
     private func activeTurnView(_ turn: ConversationTurn) -> some View {
         InfoCard(title: L("مهمتك"), systemImage: "target") {
             Text(L(turn.promptAr)).font(.headline)
-            Text(L("النموذج المستخدم للمقارنة الصوتية:"))
-                .font(.caption).foregroundStyle(.secondary)
+            Text(L("مثال تستخدمه المقارنة الصوتية"))
+                .font(.caption)
+                .foregroundStyle(.secondary)
             Text(turn.sampleAnswer)
                 .environment(\.layoutDirection, .leftToRight)
-            Button(L("سماع نموذج الإجابة")) {
-                container.textToSpeech.speak(turn.sampleAnswer, accent: settings.accentVariant, rate: Float(settings.speechRate))
+            Button(L("سماع المثال")) {
+                container.textToSpeech.speak(
+                    turn.sampleAnswer,
+                    accent: settings.accentVariant,
+                    rate: Float(settings.speechRate)
+                )
             }
         }
 
-        TextField(L("سيظهر ردك هنا، ويمكنك تعديله قبل التقييم"), text: $transcript, axis: .vertical)
+        TextField(L("سيظهر كلامك هنا، ويمكنك تعديله قبل التقييم"), text: $transcript, axis: .vertical)
             .textFieldStyle(.roundedBorder)
             .lineLimit(3...8)
             .environment(\.layoutDirection, .leftToRight)
@@ -375,7 +431,10 @@ private struct VoiceCoachSessionView: View {
             Button {
                 Task { await toggleRecording() }
             } label: {
-                Label(speechService.state == .listening ? L("إيقاف التسجيل") : L("ابدأ الإجابة"), systemImage: speechService.state == .listening ? "stop.circle.fill" : "mic.circle.fill")
+                Label(
+                    speechService.state == .listening ? L("إيقاف التسجيل") : L("ابدأ الإجابة"),
+                    systemImage: speechService.state == .listening ? "stop.circle.fill" : "mic.circle.fill"
+                )
             }
             .buttonStyle(.borderedProminent)
             .disabled(isEvaluating || report != nil)
@@ -387,25 +446,33 @@ private struct VoiceCoachSessionView: View {
             }
         }
 
-        if isEvaluating { ProgressView(L("يحلل الرد ويجهز الجولة التالية")) }
-        if let statusMessage { Text(statusMessage).font(.caption).foregroundStyle(.secondary) }
+        if isEvaluating {
+            ProgressView(L("جارٍ تحليل الرد"))
+        }
+        if let statusMessage {
+            Text(statusMessage)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
 
         if let report, let ideaEvaluation {
             pronunciationReportCard(report, ideaEvaluation: ideaEvaluation)
         }
 
         if let coachReply {
-            InfoCard(title: L("ملاحظة المدرب"), systemImage: "brain.head.profile") {
+            InfoCard(title: L("ملاحظة المدرّب"), systemImage: "brain.head.profile") {
                 Text(coachReply.feedbackAr)
                 if let suggestion = coachReply.suggestedAnswer {
-                    Text(L("صياغة مقترحة:")).font(.caption.bold())
-                    Text(suggestion).environment(\.layoutDirection, .leftToRight)
+                    Text(L("صياغة مقترحة"))
+                        .font(.caption.bold())
+                    Text(suggestion)
+                        .environment(\.layoutDirection, .leftToRight)
                 }
             }
         }
 
         PrimaryButton(
-            title: report == nil ? L("حلل الرد") : L("انتقل إلى الجولة التالية"),
+            title: report == nil ? L("تحليل الرد") : L("الجولة التالية"),
             systemImage: report == nil ? "waveform.path.ecg" : "arrow.forward.circle.fill",
             isDisabled: transcript.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isEvaluating
         ) {
@@ -419,29 +486,43 @@ private struct VoiceCoachSessionView: View {
 
     private var completionCard: some View {
         let average = scores.isEmpty ? 0 : scores.reduce(0, +) / Double(scores.count)
-        return InfoCard(title: L("اكتملت الجلسة الصوتية"), systemImage: "checkmark.seal.fill") {
-            AccessibleProgressView(title: Lf("متوسط الجلسة %@٪", "\(Int(average * 100))"), value: average)
-            Text(average >= 0.82 ? L("استجابتك واضحة ومتوازنة. انتقل إلى موقف أعلى قليلًا.") : L("اكتملت الجلسة. راجع الكلمات المسجلة في دفتر الأخطاء ثم أعد الموقف."))
+        return InfoCard(title: L("اكتملت جلسة المحادثة"), systemImage: "checkmark.seal.fill") {
+            AccessibleProgressView(
+                title: Lf("متوسط الجلسة %@٪", "\(Int(average * 100))"),
+                value: average
+            )
+            Text(
+                average >= 0.82
+                    ? L("كان كلامك واضحًا وغطيت معظم المطلوب.")
+                    : L("راجع الكلمات والملاحظات المسجلة ثم أعد الموقف عندما تكون جاهزًا.")
+            )
             Button(L("إعادة الجلسة")) { resetSession() }
                 .buttonStyle(.borderedProminent)
         }
     }
 
     @ViewBuilder
-    private func pronunciationReportCard(_ report: PronunciationReport, ideaEvaluation: ConversationEvaluation) -> some View {
-        InfoCard(title: L("تقرير الكلام"), systemImage: "chart.bar.doc.horizontal.fill") {
-            AccessibleProgressView(title: Lf("النتيجة الكلية %@٪", "\(Int(report.overall * 100))"), value: report.overall)
+    private func pronunciationReportCard(
+        _ report: PronunciationReport,
+        ideaEvaluation: ConversationEvaluation
+    ) -> some View {
+        InfoCard(title: L("مراجعة الكلام"), systemImage: "chart.bar.doc.horizontal.fill") {
+            AccessibleProgressView(
+                title: Lf("النتيجة الكلية %@٪", "\(Int(report.overall * 100))"),
+                value: report.overall
+            )
             LabeledContent(L("دقة الكلمات"), value: "\(Int(report.accuracy * 100))٪")
             LabeledContent(L("اكتمال الجملة"), value: "\(Int(report.completeness * 100))٪")
             LabeledContent(L("الطلاقة"), value: "\(Int(report.fluency * 100))٪")
             LabeledContent(L("السرعة"), value: Lf("%@ كلمة في الدقيقة", "\(Int(report.wordsPerMinute))"))
-            LabeledContent(L("اكتمال أفكار الموقف"), value: "\(Int(ideaEvaluation.score * 100))٪")
-            Text(L("التقييم الصوتي هنا يعتمد على تفريغ الكلام وتوقيته وثقة نظام التعرف، وليس فحصًا مخبريًا لمخارج الحروف."))
-                .font(.caption).foregroundStyle(.secondary)
+            LabeledContent(L("تغطية أفكار الموقف"), value: "\(Int(ideaEvaluation.score * 100))٪")
+            Text(L("هذه نتيجة تدريبية تقريبية تعتمد على النص الذي تعرّف إليه النظام والتوقيت والثقة، ولا تقيس مخارج الحروف قياسًا مخبريًا."))
+                .font(.caption)
+                .foregroundStyle(.secondary)
 
             if !report.needsPractice.isEmpty {
                 Divider()
-                Text(L("كلمات تحتاج انتباهًا")).font(.headline)
+                Text(L("كلمات تستحق إعادة المحاولة")).font(.headline)
                 ForEach(report.needsPractice.prefix(8)) { word in
                     VStack(alignment: .leading, spacing: 3) {
                         HStack {
@@ -453,10 +534,13 @@ private struct VoiceCoachSessionView: View {
                             Text(L(word.issue.titleAr)).font(.caption.bold())
                         }
                         if let recognized = word.recognized, recognized != word.expected {
-                            Text(Lf("سمعها النظام: %@", "\(recognized)"))
-                                .font(.caption).environment(\.layoutDirection, .leftToRight)
+                            Text(Lf("تعرّف إليه النظام على أنه: %@", "\(recognized)"))
+                                .font(.caption)
+                                .environment(\.layoutDirection, .leftToRight)
                         }
-                        if let tip = word.tipAr { Text(tip).font(.caption).foregroundStyle(.secondary) }
+                        if let tip = word.tipAr {
+                            Text(tip).font(.caption).foregroundStyle(.secondary)
+                        }
                     }
                     .accessibilityElement(children: .combine)
                 }
@@ -471,7 +555,11 @@ private struct VoiceCoachSessionView: View {
 
     private func speakPartnerLine() {
         let line = partnerLine.isEmpty ? scenario.openingLine : partnerLine
-        container.textToSpeech.speak(line, accent: settings.accentVariant, rate: Float(settings.speechRate))
+        container.textToSpeech.speak(
+            line,
+            accent: settings.accentVariant,
+            rate: Float(settings.speechRate)
+        )
     }
 
     private func toggleRecording() async {
@@ -513,7 +601,11 @@ private struct VoiceCoachSessionView: View {
             prompt: partnerLine,
             learnerTranscript: transcript,
             localScore: combinedScore,
-            previousTurns: Array(memory.conversations.filter { $0.scenarioID == scenario.id }.prefix(6))
+            previousTurns: Array(
+                memory.conversations
+                    .filter { $0.scenarioID == scenario.id }
+                    .prefix(6)
+            )
         )
 
         do {
@@ -534,7 +626,11 @@ private struct VoiceCoachSessionView: View {
             score: combinedScore,
             createdAt: .now
         ))
-        await container.progressRepository.recordSkill(.practicalCommunication, correct: combinedScore >= 0.68, at: .now)
+        await container.progressRepository.recordSkill(
+            .practicalCommunication,
+            correct: combinedScore >= 0.68,
+            at: .now
+        )
 
         for weakWord in localReport.needsPractice.prefix(3) where !weakWord.expected.isEmpty {
             await container.learningMemoryRepository.recordMistake(.init(
@@ -544,12 +640,13 @@ private struct VoiceCoachSessionView: View {
                 prompt: weakWord.expected,
                 learnerAnswer: weakWord.recognized ?? L("لم تُلتقط"),
                 correction: weakWord.expected,
-                explanationAr: weakWord.tipAr ?? L("أعد الكلمة منفردة ثم داخل الجملة."),
+                explanationAr: weakWord.tipAr ?? L("قل الكلمة وحدها أولًا، ثم ضعها داخل الجملة."),
                 createdAt: .now,
                 reviewCount: 0,
                 resolved: false
             ))
         }
+
         if localIdeas.score < 0.5 {
             await container.learningMemoryRepository.recordMistake(.init(
                 id: UUID().uuidString,

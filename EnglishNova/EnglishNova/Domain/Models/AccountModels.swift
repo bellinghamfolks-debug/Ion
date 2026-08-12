@@ -1,6 +1,5 @@
 import Foundation
 
-/// A user account as returned by the server.
 struct AuthUser: Codable, Equatable, Identifiable {
     let id: Int
     let email: String?
@@ -10,8 +9,6 @@ struct AuthUser: Codable, Equatable, Identifiable {
         case id, email, displayName
     }
 }
-
-// MARK: - Auth request / response bodies
 
 struct AuthResponse: Decodable {
     let token: String
@@ -29,8 +26,8 @@ struct LoginBody: Encodable {
     let password: String
 }
 
-struct AppleSignInBody: Encodable {
-    let identityToken: String
+struct GoogleSignInBody: Encodable {
+    let idToken: String
     let displayName: String
 }
 
@@ -38,16 +35,11 @@ struct MeResponse: Decodable {
     let user: AuthUser
 }
 
-// MARK: - Progress sync bodies
-
 struct ProgressPushBody: Encodable {
     let data: JSONValue
 }
 
 struct ProgressPushResponse: Decodable {
-    // Server timestamp as a raw ISO string (Postgres includes fractional
-    // seconds, which Swift's .iso8601 decoder rejects — so we keep it as text
-    // and stamp the local sync time ourselves).
     let updatedAt: String?
 }
 
@@ -56,9 +48,6 @@ struct ProgressPullResponse: Decodable {
     let updatedAt: String?
 }
 
-/// A minimal, lossless representation of arbitrary JSON. Used to carry the
-/// opaque progress backup blob to and from the server without modelling every
-/// field. Round-trips through `JSONEncoder`/`JSONDecoder`.
 indirect enum JSONValue: Codable, Equatable {
     case null
     case bool(Bool)
@@ -98,12 +87,10 @@ indirect enum JSONValue: Codable, Equatable {
         }
     }
 
-    /// Decode raw JSON bytes (e.g. a backup blob) into a `JSONValue`.
     static func from(data: Data) throws -> JSONValue {
         try JSONDecoder().decode(JSONValue.self, from: data)
     }
 
-    /// Re-encode this value back into raw JSON bytes.
     func encodedData() throws -> Data {
         try JSONEncoder().encode(self)
     }

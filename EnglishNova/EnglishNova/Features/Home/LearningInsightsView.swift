@@ -22,11 +22,11 @@ struct LearningInsightsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 if model.isLoading {
-                    ProgressView(L("جاري تحليل تقدمك محليًا"))
+                    ProgressView(L("جارٍ تحليل تقدّمك"))
                 } else if let insights = model.insights {
-                    Text(L("لوحة التقدم"))
+                    Text(L("تحليل التقدّم"))
                         .font(.largeTitle.bold())
-                    Text(L("لا توجد مقارنات مع مستخدمين آخرين. الأرقام تخص رحلتك فقط."))
+                    Text(L("هذه الأرقام تخص تعلّمك على هذا الجهاز، ولا تقارنك بمستخدمين آخرين."))
                         .foregroundStyle(.secondary)
 
                     ForEach(insights.insights) { insight in
@@ -36,26 +36,29 @@ struct LearningInsightsView: View {
                         }
                     }
 
-                    InfoCard(title: L("دقة الدروس"), systemImage: "scope") {
+                    InfoCard(title: L("نتائج الدروس"), systemImage: "scope") {
                         AccessibleProgressView(
                             title: Lf("متوسط أفضل نتيجة %@٪", "\(Int(insights.averageLessonScore * 100))"),
                             value: insights.averageLessonScore
                         )
                         LabeledContent(L("إجمالي المحاولات"), value: "\(insights.totalAttempts)")
-                        LabeledContent(L("كلمات مستحقة"), value: "\(insights.dueVocabulary)")
+                        LabeledContent(L("كلمات مستحقة للمراجعة"), value: "\(insights.dueVocabulary)")
                     }
 
                     if let strongest = insights.strongestSkill {
                         InfoCard(title: L("أقوى مهارة مسجلة"), systemImage: "crown.fill") {
                             Text(L(strongest.skill.titleAr)).font(.title2.bold())
-                            AccessibleProgressView(title: Lf("الدقة %@٪", "\(Int(strongest.accuracy * 100))"), value: strongest.accuracy)
+                            AccessibleProgressView(
+                                title: Lf("الدقة %@٪", "\(Int(strongest.accuracy * 100))"),
+                                value: strongest.accuracy
+                            )
                         }
                     }
 
                     if let focus = insights.focusSkill {
-                        InfoCard(title: L("المهارة المقترحة للتركيز"), systemImage: "location.fill") {
+                        InfoCard(title: L("مهارة تستحق تدريبًا إضافيًا"), systemImage: "location.fill") {
                             Text(L(focus.skill.titleAr)).font(.title2.bold())
-                            Text(L("اختر نشاطًا قصيرًا لهذه المهارة، ثم عد إلى خطتك الأساسية."))
+                            Text(L("اختر تدريبًا قصيرًا لهذه المهارة، ثم عد إلى خطتك الأساسية."))
                             NavigationLink(L("فتح مركز التدريب")) { PracticeHubView() }
                         }
                     }
@@ -64,7 +67,7 @@ struct LearningInsightsView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle(L("التحليلات"))
+        .navigationTitle(L("تحليل التقدّم"))
         .task { await model.load(container: container) }
         .refreshable { await model.load(container: container) }
     }

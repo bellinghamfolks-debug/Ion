@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Fail CI on high-confidence Arabic UI regressions.
 
-This is intentionally narrow. It does not try to judge literary quality; it
-catches machine-translation patterns, legacy product jargon we deliberately
-retired, raw markdown in UI strings, and common spelling mistakes.
+This audit is intentionally conservative about grammar, but strict about copy
+patterns and product labels that EnglishNova has explicitly retired. It scans
+Swift string literals so old translated jargon cannot silently return later.
 """
 from __future__ import annotations
 
@@ -13,8 +13,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "EnglishNova"
 
-# L.swift contains compatibility aliases for old saved/remote strings; those
-# aliases must not count as visible UI copy.
+# Compatibility aliases intentionally contain old strings so saved/remote
+# content can be migrated safely. They are not user-facing source copy.
 EXCLUDED = {
     SOURCE / "Core" / "Localization" / "L.swift",
     SOURCE / "Data" / "Local" / "CurriculumEnhancer.swift",
@@ -29,14 +29,27 @@ PATTERNS = [
 
 RETIRED_LABELS = {
     "ذكاء الخادم",
+    "مختبرات",
     "مختبرات المستوى المتقدم",
+    "مختبر النطق",
+    "مختبر الاستماع",
     "مصنع الجمل",
     "استوديو المحادثة",
+    "المدرب الصوتي الجديد",
+    "محادثة صوتية ذكية",
     "المراجعة الذكية",
     "خطتي الذكية",
+    "خطتك الذكية",
+    "مدربك الشخصي",
     "مدرب الكتابة الذكي",
+    "مدرب الكتابة",
     "مصحّح الكتابة",
     "مولّد التمارين",
+    "تدريب ذكي",
+    "التدريب الذكي",
+    "قاموسي الشخصي",
+    "لوحة الصدارة",
+    "التحليلات",
 }
 
 STRING = re.compile(r'"((?:\\.|[^"\\])*)"')
@@ -51,11 +64,9 @@ def swift_files():
 
 def main() -> int:
     failures: list[str] = []
-    warnings: list[str] = []
     for path in swift_files():
         text = path.read_text(encoding="utf-8")
         for number, line in enumerate(text.splitlines(), 1):
-            # Ignore comments without string literals.
             literals = [m.group(1) for m in STRING.finditer(line)]
             if not literals:
                 continue
@@ -64,10 +75,12 @@ def main() -> int:
                     continue
                 for pattern, reason in PATTERNS:
                     if pattern.search(literal):
-                        failures.append(f"{path.relative_to(ROOT)}:{number}: {reason}: {literal}")
+                        failures.append(
+                            f"{path.relative_to(ROOT)}:{number}: {reason}: {literal}"
+                        )
                 if literal.strip() in RETIRED_LABELS:
-                    warnings.append(
-                        f"{path.relative_to(ROOT)}:{number}: legacy label normalized at runtime: {literal}"
+                    failures.append(
+                        f"{path.relative_to(ROOT)}:{number}: retired product label: {literal}"
                     )
 
     legal = SOURCE / "Features" / "Settings" / "LegalViews.swift"
@@ -75,15 +88,13 @@ def main() -> int:
         failures.append("Features/Settings/LegalViews.swift: missing dedicated legal views")
     else:
         legal_text = legal.read_text(encoding="utf-8")
-        for symbol in ("struct PrivacyView", "struct TermsOfUseView", "struct AccessibilityStatementView"):
+        for symbol in (
+            "struct PrivacyView",
+            "struct TermsOfUseView",
+            "struct AccessibilityStatementView",
+        ):
             if symbol not in legal_text:
                 failures.append(f"LegalViews.swift: missing {symbol}")
-
-    if warnings:
-        print("Arabic UI copy audit warnings:")
-        for item in warnings:
-            print(f"- {item}")
-        print()
 
     if failures:
         print("Arabic UI copy audit failed:\n")

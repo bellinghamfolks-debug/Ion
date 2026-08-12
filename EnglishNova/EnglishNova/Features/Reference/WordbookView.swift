@@ -50,7 +50,9 @@ final class WordbookViewModel: ObservableObject {
 
     func load(repository: VocabularyRepositoryProtocol) async {
         isLoading = true
-        cards = await repository.allCards().sorted { $0.word.english.localizedCaseInsensitiveCompare($1.word.english) == .orderedAscending }
+        cards = await repository.allCards().sorted {
+            $0.word.english.localizedCaseInsensitiveCompare($1.word.english) == .orderedAscending
+        }
         isLoading = false
     }
 }
@@ -76,11 +78,12 @@ struct WordbookView: View {
                     }
                 }
                 Text(Lf("%@ كلمة ظاهرة من أصل %@", "\(model.filtered.count)", "\(model.cards.count)"))
-                    .font(.caption).foregroundStyle(.secondary)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
 
             if model.isLoading {
-                ProgressView(L("جاري تحميل كلماتك"))
+                ProgressView(L("جارٍ تحميل الكلمات"))
             } else if model.filtered.isEmpty {
                 ContentUnavailableView(
                     L("لا توجد كلمات مطابقة"),
@@ -97,7 +100,9 @@ struct WordbookView: View {
                 } label: {
                     VStack(alignment: .leading, spacing: 7) {
                         HStack {
-                            Text(card.word.english).font(.headline).environment(\.layoutDirection, .leftToRight)
+                            Text(card.word.english)
+                                .font(.headline)
+                                .environment(\.layoutDirection, .leftToRight)
                             if card.isFavorite {
                                 Image(systemName: "star.fill").accessibilityLabel(L("مفضلة"))
                             }
@@ -107,14 +112,17 @@ struct WordbookView: View {
                         }
                         Text(card.word.arabic)
                         Text(card.word.example)
-                            .font(.caption).foregroundStyle(.secondary)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                             .environment(\.layoutDirection, .leftToRight)
                         if !card.tags.isEmpty {
                             Text(Lf("التصنيفات: %@", "\(card.tags.joined(separator: "، "))"))
-                                .font(.caption2).foregroundStyle(.secondary)
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
                         }
                         Text("المراجعة القادمة: \(card.dueDate, format: .dateTime.day().month().year())")
-                            .font(.caption2).foregroundStyle(.secondary)
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
                     }
                     .accessibilityElement(children: .combine)
                 }
@@ -130,13 +138,16 @@ struct WordbookView: View {
                             await model.load(repository: container.vocabularyRepository)
                         }
                     } label: {
-                        Label(card.isFavorite ? L("إلغاء المفضلة") : L("مفضلة"), systemImage: card.isFavorite ? "star.slash" : "star")
+                        Label(
+                            card.isFavorite ? L("إلغاء المفضلة") : L("مفضلة"),
+                            systemImage: card.isFavorite ? "star.slash" : "star"
+                        )
                     }
                 }
             }
         }
         .searchable(text: $model.query, prompt: L("ابحث بالكلمة أو المعنى أو الملاحظة"))
-        .navigationTitle(L("قاموسي الشخصي"))
+        .navigationTitle(L("دفتر المفردات"))
         .task { await model.load(repository: container.vocabularyRepository) }
         .refreshable { await model.load(repository: container.vocabularyRepository) }
     }
@@ -166,9 +177,13 @@ private struct WordDetailView: View {
             Section(L("الكلمة")) {
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(card.word.english).font(.largeTitle.bold()).environment(\.layoutDirection, .leftToRight)
+                        Text(card.word.english)
+                            .font(.largeTitle.bold())
+                            .environment(\.layoutDirection, .leftToRight)
                         Text(card.word.arabic).font(.title2)
-                        if let phonetic = card.word.phonetic { Text(phonetic).foregroundStyle(.secondary) }
+                        if let phonetic = card.word.phonetic {
+                            Text(phonetic).foregroundStyle(.secondary)
+                        }
                     }
                     Spacer()
                     Button { container.textToSpeech.speak(card.word.english) } label: {
@@ -186,11 +201,17 @@ private struct WordDetailView: View {
                 TextField(L("ملاحظة شخصية أو وسيلة تذكّر"), text: $note, axis: .vertical)
             }
 
-            Section(L("التقدم")) {
-                AccessibleProgressView(title: Lf("درجة الإتقان %@٪", "\(Int(card.confidence * 100))"), value: card.confidence)
-                LabeledContent(L("عدد النجاحات المتتالية"), value: "\(card.repetitions)")
+            Section(L("التقدّم")) {
+                AccessibleProgressView(
+                    title: Lf("درجة الإتقان %@٪", "\(Int(card.confidence * 100))"),
+                    value: card.confidence
+                )
+                LabeledContent(L("مرات التذكّر الناجح"), value: "\(card.repetitions)")
                 LabeledContent(L("الفاصل الحالي"), value: Lf("%@ يوم", "\(card.intervalDays)"))
-                LabeledContent(L("المراجعة القادمة"), value: card.dueDate.formatted(date: .abbreviated, time: .omitted))
+                LabeledContent(
+                    L("المراجعة القادمة"),
+                    value: card.dueDate.formatted(date: .abbreviated, time: .omitted)
+                )
             }
 
             Section {
@@ -212,14 +233,17 @@ private struct WordDetailView: View {
                 }
                 .buttonStyle(.borderedProminent)
 
-                Button(L("حذف الكلمة من القاموس"), role: .destructive) {
+                Button(L("حذف الكلمة من الدفتر"), role: .destructive) {
                     showDeleteConfirmation = true
                 }
             }
         }
         .navigationTitle(L("تفاصيل الكلمة"))
-        .confirmationDialog(Lf("حذف %@؟", "\(card.word.english)"), isPresented: $showDeleteConfirmation,
-                            titleVisibility: .visible) {
+        .confirmationDialog(
+            Lf("حذف %@؟", "\(card.word.english)"),
+            isPresented: $showDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
             Button(L("حذف"), role: .destructive) {
                 Task {
                     await container.vocabularyRepository.remove(cardID: card.id)
@@ -230,7 +254,7 @@ private struct WordDetailView: View {
             }
             Button(L("إلغاء"), role: .cancel) {}
         } message: {
-            Text(Lf("سيُحذف %@ من قاموسك.", "\(card.word.english)"))
+            Text(Lf("سيُحذف %@ من دفتر المفردات.", "\(card.word.english)"))
         }
     }
 }

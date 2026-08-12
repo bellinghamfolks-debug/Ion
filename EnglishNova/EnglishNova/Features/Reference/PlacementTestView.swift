@@ -22,7 +22,9 @@ final class AdaptivePlacementViewModel: ObservableObject {
         answeredCount = engine.responses.count
         isAnswerLocked = true
         let correct = selectedAnswer == question.answer
-        feedbackAr = correct ? Lf("إجابة صحيحة. %@", "\(question.explanationAr)") : Lf("الإجابة الصحيحة: %@. %@", "\(question.answer)", "\(question.explanationAr)")
+        feedbackAr = correct
+            ? Lf("إجابة صحيحة. %@", "\(question.explanationAr)")
+            : Lf("الإجابة الصحيحة: %@. %@", "\(question.answer)", "\(question.explanationAr)")
     }
 
     func advance() {
@@ -57,7 +59,7 @@ struct PlacementTestView: View {
             } else if let question = model.currentQuestion {
                 questionView(question)
             } else {
-                ProgressView(L("جاري إعداد السؤال التالي"))
+                ProgressView(L("جارٍ إعداد السؤال التالي"))
             }
         }
         .padding(AppTheme.screenPadding)
@@ -120,9 +122,9 @@ struct PlacementTestView: View {
                 }
 
                 if let feedback = model.feedbackAr {
-                    InfoCard(title: L("التغذية الراجعة"), systemImage: "lightbulb.fill") {
+                    InfoCard(title: L("التصحيح"), systemImage: "lightbulb.fill") {
                         Text(feedback)
-                        Text(L("السؤال التالي قد يصبح أسهل أو أصعب بناءً على إجابتك."))
+                        Text(L("قد يصبح السؤال التالي أسهل أو أصعب بحسب إجابتك."))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -155,7 +157,7 @@ struct PlacementTestView: View {
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.secondary)
 
-                InfoCard(title: L("خريطة المهارات"), systemImage: "chart.bar.xaxis") {
+                InfoCard(title: L("نتائج المهارات"), systemImage: "chart.bar.xaxis") {
                     ForEach(result.skills) { skill in
                         AccessibleProgressView(
                             title: Lf("%@: %@٪ من %@ أسئلة", "\(skill.skill.titleAr)", "\(Int(skill.score * 100))", "\(skill.answered)"),
@@ -164,11 +166,11 @@ struct PlacementTestView: View {
                     }
                 }
 
-                Text(L("هذا تقدير تكيفي إرشادي يختار الأسئلة وفق أدائك، وليس شهادة لغوية معيارية."))
+                Text(L("هذا تقدير إرشادي يتغير مع إجاباتك، وليس شهادة رسمية لمستواك اللغوي."))
                     .font(.caption)
                     .foregroundStyle(.secondary)
 
-                PrimaryButton(title: L("اعتماد المستوى"), systemImage: "checkmark.seal.fill") {
+                PrimaryButton(title: L("استخدام هذا المستوى"), systemImage: "checkmark.seal.fill") {
                     Task {
                         session.selectedLevel = result.recommendedLevel
                         await session.save()

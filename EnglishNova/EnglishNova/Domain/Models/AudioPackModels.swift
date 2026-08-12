@@ -33,9 +33,9 @@ enum AudioPackState: Equatable {
     var accessibilityDescription: String {
         switch self {
         case .notDownloaded: return "غير محمّلة"
-        case let .downloading(progress): return "جاري التنزيل بنسبة \(Int(progress * 100)) بالمئة"
+        case let .downloading(progress): return "جارٍ التنزيل بنسبة \(Int(progress * 100)) بالمئة"
         case let .ready(size): return "جاهزة دون إنترنت، الحجم \(ByteCountFormatter.string(fromByteCount: size, countStyle: .file))"
-        case let .failed(message): return "فشل التنزيل: \(message)"
+        case let .failed(message): return "تعذر التنزيل: \(message)"
         }
     }
 }

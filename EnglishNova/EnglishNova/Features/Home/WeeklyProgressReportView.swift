@@ -28,7 +28,7 @@ struct WeeklyProgressReportView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 if model.isLoading {
-                    ProgressView(L("جاري إعداد التقرير محليًا"))
+                    ProgressView(L("جارٍ إعداد التقرير"))
                 } else if let report = model.report {
                     Text(L("تقرير الأسبوع")).font(.largeTitle.bold())
                     Text("من \(report.startDate.formatted(date: .abbreviated, time: .omitted)) إلى \(report.endDate.formatted(date: .abbreviated, time: .omitted))")
@@ -42,12 +42,12 @@ struct WeeklyProgressReportView: View {
                         Text(report.narrativeAr)
                     }
 
-                    InfoCard(title: L("الأرقام"), systemImage: "chart.bar.fill") {
-                        LabeledContent(L("وقت التعلم"), value: Lf("%@ دقيقة", "\(report.totalMinutes)"))
+                    InfoCard(title: L("ملخص الأسبوع"), systemImage: "chart.bar.fill") {
+                        LabeledContent(L("وقت التعلّم"), value: Lf("%@ دقيقة", "\(report.totalMinutes)"))
                         LabeledContent(L("الدروس المكتملة"), value: "\(report.completedLessons)")
-                        LabeledContent(L("جلسات المهارات"), value: "\(report.practiceSessions)")
-                        LabeledContent(L("متوسط المهارات"), value: "\(Int(report.averagePracticeScore * 100))٪")
-                        LabeledContent(L("بطاقات مستحقة"), value: "\(report.dueReviewCount)")
+                        LabeledContent(L("جلسات التدريب"), value: "\(report.practiceSessions)")
+                        LabeledContent(L("متوسط نتائج التدريب"), value: "\(Int(report.averagePracticeScore * 100))٪")
+                        LabeledContent(L("مراجعات مستحقة"), value: "\(report.dueReviewCount)")
                     }
 
                     if let strongest = report.strongestDomain {
@@ -57,13 +57,13 @@ struct WeeklyProgressReportView: View {
                         }
                     }
                     if let focus = report.focusDomain {
-                        InfoCard(title: L("بوصلة الأسبوع القادم"), systemImage: "location.fill") {
+                        InfoCard(title: L("مجال مقترح للأسبوع القادم"), systemImage: "location.fill") {
                             Label(focus.titleAr, systemImage: focus.systemImage)
                                 .font(.title2.bold())
                         }
                     }
 
-                    InfoCard(title: L("خطة الأسبوع القادم"), systemImage: "list.bullet.clipboard.fill") {
+                    InfoCard(title: L("خطوات الأسبوع القادم"), systemImage: "list.bullet.clipboard.fill") {
                         ForEach(Array(report.nextWeekActions.enumerated()), id: \.offset) { index, action in
                             Text("\(index + 1). \(action)")
                         }
@@ -75,8 +75,9 @@ struct WeeklyProgressReportView: View {
                     }
                     .buttonStyle(.borderedProminent)
 
-                    Text(L("التقرير خاص بجهازك ويُبنى من بيانات التعلّم المحلية. لا تُرفع بياناته تلقائيًا."))
-                        .font(.caption).foregroundStyle(.secondary)
+                    Text(L("يُنشأ هذا التقرير من بيانات التعلّم الموجودة في التطبيق. لا تؤدي مشاهدة التقرير وحدها إلى إرسال بيانات جديدة."))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             }
             .padding(AppTheme.screenPadding)

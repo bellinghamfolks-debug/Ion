@@ -13,7 +13,8 @@ final class CourseSearchViewModel: ObservableObject {
             $0.titleEn.localizedCaseInsensitiveContains(query) ||
             $0.objectiveAr.localizedCaseInsensitiveContains(query) ||
             $0.vocabulary.contains { word in
-                word.english.localizedCaseInsensitiveContains(query) || word.arabic.localizedCaseInsensitiveContains(query)
+                word.english.localizedCaseInsensitiveContains(query) ||
+                word.arabic.localizedCaseInsensitiveContains(query)
             }
         }
     }
@@ -33,13 +34,20 @@ struct CourseSearchView: View {
 
     var body: some View {
         List {
-            if model.isLoading { ProgressView(L("جاري فهرسة المنهج")) }
+            if model.isLoading {
+                ProgressView(L("جارٍ تجهيز البحث"))
+            }
             ForEach(model.filtered) { lesson in
                 NavigationLink(value: lesson) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(L(lesson.titleAr)).font(.headline)
-                        Text(lesson.titleEn).foregroundStyle(.secondary).environment(\.layoutDirection, .leftToRight)
-                        Text(L(lesson.objectiveAr)).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                        Text(lesson.titleEn)
+                            .foregroundStyle(.secondary)
+                            .environment(\.layoutDirection, .leftToRight)
+                        Text(L(lesson.objectiveAr))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(2)
                     }
                 }
             }

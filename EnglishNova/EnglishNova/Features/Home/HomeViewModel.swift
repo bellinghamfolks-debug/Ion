@@ -10,12 +10,14 @@ final class HomeViewModel: ObservableObject {
     @Published var dailyPlan: DailyLearningPlan?
     @Published var insights: LearningInsights?
     @Published var personalizedRecommendations: [PersonalizedRecommendation] = []
+    @Published var aiBrief: AILearningBrief?
+    @Published var isLoadingAIBrief = false
     @Published var isLoading = true
     @Published var errorMessage: String?
 
     func load(container: AppContainer) async {
         isLoading = true
-        defer { isLoading = false }
+        errorMessage = nil
         do {
             async let catalogValue = container.courseRepository.catalog()
             async let snapshotValue = container.progressRepository.snapshot()
@@ -47,6 +49,30 @@ final class HomeViewModel: ObservableObject {
             )
         } catch {
             errorMessage = error.localizedDescription
+        }
+        isLoading = false
+
+        // The local plan appears immediately. AI is an enhancement and loads in
+        // parallel afterward so a slow network never blocks the learning home.
+        await loadAIBrief(container: container)
+    }
+
+    private func loadAIBrief(container: AppContainer) async {
+        guard container.accountService.isAuthenticated else {
+            aiBrief = nil
+            return
+        }
+        isLoadingAIBrief = true
+        defer { isLoadingAIBrief = false }
+
+        // Quietly refresh the server learner profile at most every few minutes.
+        _ = await container.progressSyncService.pushIfStale()
+        do {
+            aiBrief = try await AIStudioService().learningBrief()
+        } catch {
+            // Personalization is additive. Keep Home fully usable when AI or the
+            // server is unavailable instead of presenting a blocking alert.
+            aiBrief = nil
         }
     }
 

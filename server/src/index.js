@@ -11,13 +11,16 @@ import { analyticsRouter } from "./analytics.js";
 
 const app = express();
 app.use(cors());
-// Conversion uploads (PDFs) can exceed the default limit, so /convert is mounted
-// before the global JSON parser and uses its own larger body limit internally.
+
+// Conversion uploads manage their own larger body limits.
 app.use("/convert", convertRouter);
+
+// A full EnglishNova backup can legitimately approach 25 MB. Give only the
+// authenticated progress-sync path enough room for that payload, then keep the
+// normal 5 MB ceiling for AI/auth/content endpoints.
+app.use("/progress", express.json({ limit: "26mb" }));
 app.use(express.json({ limit: "5mb" }));
 
-// Tracks whether the database schema is ready. Auth/progress need it; /health
-// reports it so problems are easy to diagnose without the whole app going down.
 let dbReady = false;
 
 app.get("/", (_req, res) =>
@@ -29,26 +32,19 @@ app.use("/analytics", analyticsRouter);
 app.use("/", contentRouter);
 app.use("/", progressRouter);
 
-// Catch-all error handler so failures return JSON, not HTML.
 app.use((err, _req, res, _next) => {
   console.error(err);
   res.status(500).json({ error: "server_error" });
 });
 
 const port = process.env.PORT || 3000;
-
-// Always start listening first so the platform sees a healthy web server even
-// before the database is reachable (avoids "Application failed to respond").
 app.listen(port, () => console.log(`EnglishNova server listening on :${port}`));
 
-// Initialise the schema with retries; a missing/slow database no longer
-// crashes the process — it just retries and leaves dbReady=false meanwhile.
 async function initWithRetry(attempt = 1) {
   try {
     await initSchema();
     dbReady = true;
     console.log("Database schema ready.");
-    // Continue any conversion jobs interrupted by a restart.
     resumePendingConversions();
   } catch (err) {
     console.error(`DB init failed (attempt ${attempt}): ${err.message}`);

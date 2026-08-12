@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// A task-first home screen. It answers "what should I study now?" before
-/// showing secondary metrics, which keeps the first VoiceOver sweep short.
+/// A task-first home screen. Local recommendations render first; the optional
+/// server AI brief appears when a signed-in learner has synced progress.
 struct LearningHomeView: View {
     @EnvironmentObject private var container: AppContainer
     @EnvironmentObject private var session: UserSession
@@ -15,6 +15,7 @@ struct LearningHomeView: View {
                 continueLearning
                 dueReview
                 todayPlan
+                aiLearningBrief
                 progressSummary
                 practiceShortcuts
             }
@@ -111,6 +112,45 @@ struct LearningHomeView: View {
                 }
             }
             .buttonStyle(.plain)
+        }
+    }
+
+    @ViewBuilder private var aiLearningBrief: some View {
+        if let brief = model.aiBrief {
+            InfoCard(title: L("موجز المدرب الذكي"), systemImage: "brain.head.profile", tint: AppTheme.accentTeal) {
+                Text(brief.headlineAr)
+                    .font(.title3.bold())
+                    .accessibilityAddTraits(.isHeader)
+                if !brief.focusAr.isEmpty {
+                    Text(brief.focusAr)
+                        .font(.headline)
+                }
+                if !brief.whyAr.isEmpty {
+                    Text(brief.whyAr)
+                        .foregroundStyle(.secondary)
+                }
+                ForEach(brief.actionsAr, id: \.self) { action in
+                    Label(action, systemImage: "checkmark.circle")
+                        .font(.subheadline)
+                }
+                if !brief.challengeEn.isEmpty {
+                    Divider()
+                    Text(L("تحدٍ قصير بالإنجليزية"))
+                        .font(.caption.bold())
+                    Text(brief.challengeEn)
+                        .environment(\.layoutDirection, .leftToRight)
+                        .textSelection(.enabled)
+                }
+                NavigationLink { AIExerciseView(startAdaptive: true) } label: {
+                    Label(L("أنشئ تدريبًا من نقاط ضعفي"), systemImage: "wand.and.stars")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(minHeight: 48)
+                }
+                .accessibilityHint(L("ينشئ الخادم تمارين جديدة اعتمادًا على أخطائك ونتائجك الأخيرة"))
+            }
+        } else if model.isLoadingAIBrief && container.accountService.isAuthenticated {
+            ProgressView(L("يجهز المدرب الذكي موجزك"))
+                .frame(maxWidth: .infinity, minHeight: 52, alignment: .leading)
         }
     }
 

@@ -1,8 +1,9 @@
 import SwiftUI
 
-/// Writing coach — the learner writes English, the server AI corrects it,
-/// scores it, and explains the fixes in Arabic. Powered by /ai/writing.
+/// Server-AI writing coach. Rich feedback is written back into the learner's
+/// progress and mistake memory, so future tutoring can target recurring issues.
 struct WritingCoachView: View {
+    @EnvironmentObject private var container: AppContainer
     @EnvironmentObject private var session: UserSession
     @State private var text = ""
     @State private var result: WritingResult?
@@ -14,8 +15,8 @@ struct WritingCoachView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                InfoCard(title: L("مصحّح الكتابة"), systemImage: "pencil.and.scribble") {
-                    Text(L("اكتب جملة أو فقرة بالإنجليزية، وسيصححها المدرّب، ويمنحها درجة، ويشرح الأخطاء بالعربية."))
+                InfoCard(title: L("مدرب الكتابة الذكي"), systemImage: "pencil.and.scribble") {
+                    Text(L("اكتب جملة أو فقرة بالإنجليزية. سيصححها المدرب وفق مستواك، يشرح أهم الأخطاء، ثم يستخدم النتيجة لتحسين تدريبك القادم."))
                         .font(.footnote).foregroundStyle(.secondary)
 
                     TextEditor(text: $text)
@@ -25,7 +26,7 @@ struct WritingCoachView: View {
                         .padding(8)
                         .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 12))
 
-                    PrimaryButton(title: L("صحّح كتابتي"), systemImage: "checkmark.seal.fill", isLoading: loading,
+                    PrimaryButton(title: L("حلل كتابتي"), systemImage: "checkmark.seal.fill", isLoading: loading,
                                   isDisabled: trimmed.isEmpty) { run() }
                 }
 
@@ -43,21 +44,72 @@ struct WritingCoachView: View {
                             LabeledContent(L("الدرجة"), value: "\(score)/100")
                         }
                     }
-                    InfoCard(title: L("النص المصحّح"), systemImage: "text.badge.checkmark", tint: AppTheme.success) {
+
+                    InfoCard(title: L("النص المصحح"), systemImage: "text.badge.checkmark", tint: AppTheme.success) {
                         Text(result.corrected)
                             .font(.body.weight(.medium))
                             .environment(\.layoutDirection, .leftToRight)
                             .textSelection(.enabled)
                     }
-                    InfoCard(title: L("الملاحظات"), systemImage: "text.bubble.fill", tint: AppTheme.warning) {
+
+                    InfoCard(title: L("تحليل المدرب"), systemImage: "brain.head.profile", tint: AppTheme.warning) {
                         Text(result.feedbackAr)
+                        if !result.strengthsAr.isEmpty {
+                            Divider()
+                            Text(L("نقاط جيدة"))
+                                .font(.headline)
+                            ForEach(result.strengthsAr, id: \.self) { item in
+                                Label(item, systemImage: "checkmark.circle.fill")
+                            }
+                        }
+                        if !result.improvementsAr.isEmpty {
+                            Divider()
+                            Text(L("الأولوية التالية"))
+                                .font(.headline)
+                            ForEach(result.improvementsAr, id: \.self) { item in
+                                Label(item, systemImage: "arrow.up.circle.fill")
+                            }
+                        }
+                    }
+
+                    if !result.corrections.isEmpty {
+                        InfoCard(title: L("الأخطاء التي سيتذكرها المدرب"), systemImage: "bookmark.fill", tint: AppTheme.brandSecondary) {
+                            ForEach(result.corrections) { correction in
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(correction.original)
+                                        .strikethrough()
+                                        .environment(\.layoutDirection, .leftToRight)
+                                    Text(correction.replacement)
+                                        .font(.headline)
+                                        .environment(\.layoutDirection, .leftToRight)
+                                    Text(correction.reasonAr)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                .accessibilityElement(children: .combine)
+                                if correction.id != result.corrections.last?.id { Divider() }
+                            }
+                        }
+                    }
+
+                    if let task = result.nextTaskEn, !task.isEmpty {
+                        InfoCard(title: L("استخدم ما تعلمته الآن"), systemImage: "arrow.triangle.2.circlepath") {
+                            Text(task)
+                                .environment(\.layoutDirection, .leftToRight)
+                            Button(L("استخدم المهمة كنص جديد")) {
+                                text = ""
+                                self.result = nil
+                                ToastCenter.shared.show(L("اكتب إجابتك للمهمة الجديدة"), style: .info)
+                            }
+                            .buttonStyle(.bordered)
+                        }
                     }
                 }
             }
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle(L("مصحّح الكتابة"))
+        .navigationTitle(L("مدرب الكتابة"))
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -70,12 +122,52 @@ struct WritingCoachView: View {
         errorMessage = nil
         Task {
             do {
-                result = try await service.correctWriting(text: value, level: session.selectedLevel.rawValue)
-                ToastCenter.shared.show(L("تم تصحيح كتابتك"))
+                _ = await container.progressSyncService.pushIfStale()
+                let analyzed = try await service.correctWriting(text: value, level: session.selectedLevel.rawValue)
+                result = analyzed
+                await recordLearning(from: analyzed, originalText: value)
+                ToastCenter.shared.show(L("تم تحليل كتابتك وإضافة النتيجة إلى ملف تعلمك"))
             } catch {
-                errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذّر التصحيح.")
+                errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذر تحليل الكتابة.")
             }
             loading = false
+        }
+    }
+
+    private func recordLearning(from result: WritingResult, originalText: String) async {
+        for correction in result.corrections.prefix(8) {
+            await container.learningMemoryRepository.recordMistake(.init(
+                id: UUID().uuidString,
+                category: L("الكتابة"),
+                source: L("مدرب الكتابة الذكي"),
+                prompt: correction.original,
+                learnerAnswer: correction.original,
+                correction: correction.replacement,
+                explanationAr: correction.reasonAr,
+                createdAt: .now,
+                reviewCount: 0,
+                resolved: false
+            ))
+        }
+
+        if let score = result.score {
+            let wordCount = originalText.split { $0.isWhitespace || $0.isNewline }.count
+            let record = PracticeSessionRecord(
+                id: UUID().uuidString,
+                domain: .writing,
+                sourceID: "ai-writing",
+                titleAr: L("تحليل كتابة بالذكاء الاصطناعي"),
+                level: session.selectedLevel,
+                score: Double(score) / 100,
+                minutes: min(15, max(2, wordCount / 20 + 1)),
+                createdAt: .now,
+                details: Array((result.strengthsAr + result.improvementsAr).prefix(6))
+            )
+            await container.progressRepository.recordPracticeSession(record)
+        }
+
+        if container.accountService.isAuthenticated {
+            _ = await container.progressSyncService.push(showFeedback: false)
         }
     }
 }

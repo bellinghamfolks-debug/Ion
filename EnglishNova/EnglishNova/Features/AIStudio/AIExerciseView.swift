@@ -1,33 +1,52 @@
 import SwiftUI
 
-/// Generated practice — the learner picks a topic, the server AI generates
-/// multiple-choice questions at their level, they answer, and get scored.
-/// Powered by /ai/exercise (cached server-side per topic+level).
+/// AI-generated practice. It can follow a learner-selected topic or let the
+/// server choose the focus from synced weaknesses, mistakes and recent scores.
 struct AIExerciseView: View {
+    @EnvironmentObject private var container: AppContainer
     @EnvironmentObject private var session: UserSession
     @State private var topic = ""
     @State private var questions: [ExerciseQuestion] = []
-    @State private var selections: [String: Int] = [:]   // question id -> chosen option index
+    @State private var selections: [String: Int] = [:]
     @State private var revealed = false
     @State private var loading = false
     @State private var errorMessage: String?
+    @State private var focusAr: String?
+    @State private var reasonAr: String?
+    @State private var generatedDomain: String?
+    @State private var recordedResult = false
+    @State private var autoStarted = false
 
+    let startAdaptive: Bool
     private let service = AIStudioService()
     private let topics = ["Travel", "Daily routine", "Business email", "Food", "Present tenses"]
+
+    init(startAdaptive: Bool = false) {
+        self.startAdaptive = startAdaptive
+    }
 
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                InfoCard(title: L("مولّد التمارين"), systemImage: "wand.and.stars") {
-                    Text(L("اختر موضوعًا وسيولّد لك المدرّب تمارين اختيار من متعدد مناسبة لمستواك."))
+                InfoCard(title: L("تدريب ذكي"), systemImage: "wand.and.stars") {
+                    Text(L("اختر موضوعًا، أو دع المدرب يختار التدريب تلقائيًا من أخطائك ونتائجك الأخيرة."))
                         .font(.footnote).foregroundStyle(.secondary)
+
+                    PrimaryButton(
+                        title: L("درّبني على نقاط ضعفي"),
+                        systemImage: "brain.head.profile",
+                        isLoading: loading,
+                        isDisabled: loading
+                    ) { generate(adaptive: true) }
+
+                    Divider()
 
                     HStack {
                         Image(systemName: "tag").foregroundStyle(.secondary).frame(width: 22)
-                        TextField(L("موضوع (مثال: Travel)"), text: $topic)
+                        TextField(L("موضوع، مثل Travel"), text: $topic)
                             .environment(\.layoutDirection, .leftToRight)
                             .submitLabel(.go)
-                            .onSubmit(generate)
+                            .onSubmit { generate(adaptive: false) }
                     }
                     .padding(12)
                     .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 12))
@@ -35,7 +54,7 @@ struct AIExerciseView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
                             ForEach(topics, id: \.self) { item in
-                                Button(item) { topic = item; generate() }
+                                Button(item) { topic = item; generate(adaptive: false) }
                                     .font(.caption)
                                     .buttonStyle(.bordered)
                                     .environment(\.layoutDirection, .leftToRight)
@@ -43,8 +62,17 @@ struct AIExerciseView: View {
                         }
                     }
 
-                    PrimaryButton(title: L("ولّد التمارين"), systemImage: "sparkles", isLoading: loading,
-                                  isDisabled: trimmed.isEmpty) { generate() }
+                    PrimaryButton(title: L("أنشئ تمارين عن الموضوع"), systemImage: "sparkles", isLoading: loading,
+                                  isDisabled: trimmed.isEmpty || loading) { generate(adaptive: false) }
+                }
+
+                if let focusAr, !focusAr.isEmpty {
+                    InfoCard(title: L("لماذا هذا التدريب؟"), systemImage: "scope", tint: AppTheme.accentTeal) {
+                        Text(focusAr).font(.headline)
+                        if let reasonAr, !reasonAr.isEmpty {
+                            Text(reasonAr).foregroundStyle(.secondary)
+                        }
+                    }
                 }
 
                 if let errorMessage {
@@ -62,11 +90,13 @@ struct AIExerciseView: View {
                         InfoCard(title: L("النتيجة"), systemImage: "rosette", tint: AppTheme.success) {
                             AccessibleProgressView(title: L("إجاباتك الصحيحة"), value: scoreRatio)
                             LabeledContent(L("الصحيحة"), value: "\(correctCount)/\(questions.count)")
+                            Text(L("أُضيفت النتيجة إلى ملف تعلمك لتؤثر في التدريبات الذكية القادمة."))
+                                .font(.caption).foregroundStyle(.secondary)
                             Button(L("تمرين جديد")) { reset() }
                                 .buttonStyle(.bordered)
                         }
                     } else {
-                        PrimaryButton(title: L("تحقّق من الإجابات"), systemImage: "checkmark.circle.fill",
+                        PrimaryButton(title: L("تحقق من الإجابات"), systemImage: "checkmark.circle.fill",
                                       isDisabled: selections.count < questions.count) { check() }
                     }
                 }
@@ -74,8 +104,13 @@ struct AIExerciseView: View {
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle(L("مولّد التمارين"))
+        .navigationTitle(L("التدريب الذكي"))
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            guard startAdaptive, !autoStarted else { return }
+            autoStarted = true
+            generate(adaptive: true)
+        }
     }
 
     private func questionCard(number: Int, question: ExerciseQuestion) -> some View {
@@ -102,6 +137,7 @@ struct AIExerciseView: View {
                                 in: RoundedRectangle(cornerRadius: 10))
                 }
                 .buttonStyle(.plain)
+                .accessibilityValue(selections[question.id] == optionIndex ? L("محدد") : L("غير محدد"))
             }
 
             if revealed, let hint = question.hintAr, !hint.isEmpty {
@@ -109,8 +145,6 @@ struct AIExerciseView: View {
             }
         }
     }
-
-    // MARK: - Option styling
 
     private func optionIcon(question: ExerciseQuestion, optionIndex: Int) -> String {
         if revealed {
@@ -130,31 +164,38 @@ struct AIExerciseView: View {
         return selections[question.id] == optionIndex ? AppTheme.brand : .secondary
     }
 
-    // MARK: - Scoring
-
     private var trimmed: String { topic.trimmingCharacters(in: .whitespacesAndNewlines) }
 
     private var correctCount: Int {
         questions.reduce(0) { $0 + (selections[$1.id] == $1.answerIndex ? 1 : 0) }
     }
+
     private var scoreRatio: Double {
         questions.isEmpty ? 0 : Double(correctCount) / Double(questions.count)
     }
 
-    private func generate() {
-        let value = trimmed
-        guard !value.isEmpty, !loading else { return }
+    private func generate(adaptive: Bool) {
+        guard !loading else { return }
+        if !adaptive && trimmed.isEmpty { return }
         loading = true
         errorMessage = nil
-        reset()
+        reset(keepTopic: true)
         Task {
             do {
-                let result = try await service.generateExercise(
-                    topic: value, level: session.selectedLevel.rawValue, count: 5)
+                let result: ExerciseResult
+                if adaptive {
+                    _ = await container.progressSyncService.pushIfStale()
+                    result = try await service.generateAdaptiveExercise(level: session.selectedLevel.rawValue, count: 5)
+                } else {
+                    result = try await service.generateExercise(topic: trimmed, level: session.selectedLevel.rawValue, count: 5)
+                }
                 questions = result.questions
-                if questions.isEmpty { errorMessage = L("لم تُولَّد تمارين. جرّب موضوعًا آخر.") }
+                focusAr = result.focusAr
+                reasonAr = result.reasonAr
+                generatedDomain = result.domain
+                if questions.isEmpty { errorMessage = L("لم تُنشأ تمارين. جرّب مرة أخرى.") }
             } catch {
-                errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذّر توليد التمارين.")
+                errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذر إنشاء التمارين.")
             }
             loading = false
         }
@@ -163,10 +204,53 @@ struct AIExerciseView: View {
     private func check() {
         withAnimation { revealed = true }
         ToastCenter.shared.show(Lf("أصبت %@ من %@", "\(correctCount)", "\(questions.count)"))
+        guard !recordedResult else { return }
+        recordedResult = true
+        Task { await recordLearningResult() }
     }
 
-    private func reset() {
+    private func recordLearningResult() async {
+        let domain = mappedDomain(generatedDomain)
+        let title = focusAr?.isEmpty == false ? focusAr! : (trimmed.isEmpty ? L("تدريب ذكي تكيفي") : trimmed)
+        let record = PracticeSessionRecord(
+            id: UUID().uuidString,
+            domain: domain,
+            sourceID: "ai-exercise-\(domain.rawValue)",
+            titleAr: title,
+            level: session.selectedLevel,
+            score: scoreRatio,
+            minutes: max(2, questions.count),
+            createdAt: .now,
+            details: [
+                Lf("إجابات صحيحة: %@ من %@", "\(correctCount)", "\(questions.count)"),
+                reasonAr ?? ""
+            ].filter { !$0.isEmpty }
+        )
+        await container.progressRepository.recordPracticeSession(record)
+        if container.accountService.isAuthenticated {
+            _ = await container.progressSyncService.push(showFeedback: false)
+        }
+    }
+
+    private func mappedDomain(_ raw: String?) -> AdvancedSkillDomain {
+        switch raw {
+        case "reading": return .reading
+        case "listening": return .listening
+        case "writing": return .writing
+        case "speaking": return .speaking
+        case "vocabulary": return .vocabulary
+        default: return .grammar
+        }
+    }
+
+    private func reset(keepTopic: Bool = false) {
+        questions = []
         selections = [:]
         revealed = false
+        focusAr = nil
+        reasonAr = nil
+        generatedDomain = nil
+        recordedResult = false
+        if !keepTopic { topic = "" }
     }
 }

@@ -1,9 +1,9 @@
 import Foundation
 import Combine
 
-/// Syncs the full local progress blob (produced by `BackupService`) with the
-/// server. Push after study sessions; pull on sign-in to restore progress on a
-/// new device. Simple last-write-wins by server timestamp.
+/// Syncs the full local learning state with the EnglishNova server. User-driven
+/// syncs show feedback; AI personalization can request a quiet, throttled sync
+/// so the server profile stays current without producing a toast on every visit.
 @MainActor
 final class ProgressSyncService: ObservableObject {
     @Published private(set) var isSyncing = false
@@ -24,8 +24,9 @@ final class ProgressSyncService: ObservableObject {
 
     /// Upload the current local progress to the server.
     @discardableResult
-    func push() async -> Bool {
+    func push(showFeedback: Bool = true) async -> Bool {
         guard let token = account.token else { return false }
+        if isSyncing { return false }
         isSyncing = true
         defer { isSyncing = false }
         do {
@@ -37,19 +38,28 @@ final class ProgressSyncService: ObservableObject {
                                    bearerToken: token)
             lastSyncedAt = Date()
             syncMessage = "تم حفظ تقدّمك في حسابك."
-            ToastCenter.shared.show("تم حفظ تقدّمك")
+            if showFeedback { ToastCenter.shared.show("تم حفظ تقدّمك") }
             return true
         } catch {
             syncMessage = "تعذّرت المزامنة: \((error as? LocalizedError)?.errorDescription ?? "خطأ")"
-            ToastCenter.shared.show("تعذّرت المزامنة", style: .error)
+            if showFeedback { ToastCenter.shared.show("تعذّرت المزامنة", style: .error) }
             return false
         }
+    }
+
+    /// Keep the server-side learner profile reasonably fresh for AI requests,
+    /// while avoiding repeated uploads when Home is opened several times.
+    @discardableResult
+    func pushIfStale(maxAge: TimeInterval = 5 * 60) async -> Bool {
+        if let lastSyncedAt, Date().timeIntervalSince(lastSyncedAt) < maxAge { return true }
+        return await push(showFeedback: false)
     }
 
     /// Download and apply the server's progress (used on sign-in / new device).
     @discardableResult
     func pull() async -> Bool {
         guard let token = account.token else { return false }
+        if isSyncing { return false }
         isSyncing = true
         defer { isSyncing = false }
         do {

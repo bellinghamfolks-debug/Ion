@@ -1,13 +1,6 @@
-# EnglishNova iOS — GitHub Actions build + test check.
-#
-# Generates the Xcode project with XcodeGen, builds for the iOS
-# Simulator, runs the unit tests (which decode the bundled
-# curriculum.json with the real Swift models), and verifies the
-# curriculum resource is inside the built .app bundle. The device IPA
-# + signing live in Codemagic (see codemagic.yaml).
-#
-# Basir's code is preserved on its own branch; this workflow builds the
-# repo's active project, EnglishNova.
+# EnglishNova iOS + integrated server checks.
+# Builds/tests the iOS app, decodes the real curriculum, verifies bundled
+# resources, and syntax-checks the server AI orchestration changed alongside it.
 
 name: Swift
 
@@ -32,6 +25,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Validate integrated server AI syntax
+        working-directory: .
+        run: |
+          node --check server/src/learnerProfile.js
+          node --check server/src/routes/aiCore.js
+          node --check server/src/routes/aiTutorRoutes.js
+          node --check server/src/routes/aiLearningRoutes.js
+          node --check server/src/routes/aiRoutes.js
+          node --check server/src/routes/progressRoutes.js
+          node --check server/src/index.js
 
       - name: Select latest stable Xcode
         uses: maxim-lobanov/setup-xcode@v1

@@ -8,12 +8,12 @@ struct BundledContentLoader {
         var errorDescription: String? {
             switch self {
             case .missingResource:
-                return "ملف المنهج غير موجود داخل حزمة التطبيق (curriculum.json)."
+                return "تعذر العثور على ملف المنهج داخل التطبيق."
             case .decoding(let underlying):
                 if let decodingError = underlying as? DecodingError {
-                    return "تعذّر فك ترميز المنهج: \(Self.describe(decodingError))"
+                    return "تعذر قراءة بنية المنهج: \(Self.describe(decodingError))"
                 }
-                return "تعذّر قراءة المنهج: \(underlying.localizedDescription)"
+                return "تعذر فتح المنهج: \(underlying.localizedDescription)"
             }
         }
 
@@ -23,13 +23,13 @@ struct BundledContentLoader {
             }
             switch error {
             case .keyNotFound(let key, let context):
-                return "مفتاح مفقود '\(key.stringValue)' عند \(path(context))"
+                return "الحقل '\(key.stringValue)' غير موجود عند \(path(context))"
             case .typeMismatch(let type, let context):
-                return "نوع غير متطابق (\(type)) عند \(path(context))"
+                return "نوع البيانات غير صحيح (\(type)) عند \(path(context))"
             case .valueNotFound(let type, let context):
-                return "قيمة مفقودة (\(type)) عند \(path(context))"
+                return "قيمة مطلوبة غير موجودة (\(type)) عند \(path(context))"
             case .dataCorrupted(let context):
-                return "بيانات تالفة عند \(path(context)): \(context.debugDescription)"
+                return "بيانات غير صالحة عند \(path(context)): \(context.debugDescription)"
             @unknown default:
                 return String(describing: error)
             }
@@ -49,7 +49,8 @@ struct BundledContentLoader {
         }
         do {
             let data = try Data(contentsOf: url)
-            return try JSONDecoder().decode(CourseCatalog.self, from: data)
+            let decoded = try JSONDecoder().decode(CourseCatalog.self, from: data)
+            return CurriculumEnhancer.enhance(decoded)
         } catch {
             throw LoaderError.decoding(error)
         }

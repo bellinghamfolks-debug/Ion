@@ -1,24 +1,15 @@
 import Foundation
 
 /// Build-independent localization.
-///
-/// SwiftUI's implicit `.strings`/`.lproj` localization proved unreliable through
-/// XcodeGen/CI (the English variant group didn't always end up in the bundle),
-/// so the app does NOT depend on it. Instead every user-facing Arabic string is
-/// looked up in `translations.json` (a plain bundled resource, copied exactly
-/// like curriculum.json) and swapped to English when the UI language is English.
-///
-/// Arabic is the source language: keys ARE the Arabic text. In Arabic mode we
-/// return the key unchanged; in English mode we return the mapped translation
-/// (or the Arabic key as a safe fallback when a string isn't mapped yet).
+/// Arabic is the source language. English is resolved from the bundled map or
+/// an OTA correction, while Arabic goes through a conservative editorial pass.
 final class Localizer {
     static let shared = Localizer()
 
-    /// Toggled by AppSettings to match the chosen interface language.
     var isEnglish = false
 
-    private var map: [String: String] = [:]           // bundled base translations
-    private var overrides: [String: String] = [:]     // server (OTA) corrections
+    private var map: [String: String] = [:]
+    private var overrides: [String: String] = [:]
 
     private var overridesCacheURL: URL? {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?
@@ -26,8 +17,6 @@ final class Localizer {
     }
 
     private init() {
-        // Synchronous read so the very first render is already in the right
-        // language (AppSettings mirrors the choice here on every change).
         isEnglish = UserDefaults.standard.string(forKey: "ui.language") == "en"
         load()
         loadCachedOverrides()
@@ -53,18 +42,15 @@ final class Localizer {
     }
 
     func translate(_ arabic: String) -> String {
-        guard isEnglish else { return arabic }
-        return overrides[arabic] ?? map[arabic] ?? arabic
+        if isEnglish {
+            return overrides[arabic] ?? map[arabic] ?? arabic
+        }
+        return ArabicInterfaceCopy.polish(arabic)
     }
 
-    /// Fetch translation corrections published on the server (channel "i18n")
-    /// so wrong translations can be fixed WITHOUT a new app build. The payload
-    /// is a plain { arabic: english } map; it's cached on disk so it also
-    /// applies offline on the next launch.
     func refreshFromServer() async {
         guard let base = ServerEndpoint.currentURL else { return }
-        var comps = URLComponents(url: base.appendingPathComponent("content"),
-                                  resolvingAgainstBaseURL: false)
+        var comps = URLComponents(url: base.appendingPathComponent("content"), resolvingAgainstBaseURL: false)
         comps?.queryItems = [URLQueryItem(name: "channel", value: "i18n")]
         guard let url = comps?.url else { return }
         struct ContentResponse: Decodable { let payload: [String: String]? }
@@ -81,19 +67,69 @@ final class Localizer {
                 try? encoded.write(to: cache, options: .atomic)
             }
         } catch {
-            // Offline or unavailable — keep the cached/bundled translations.
+            // Keep the cached/bundled localization when offline.
         }
     }
 }
 
-/// Localize an Arabic source string. Use for any user-facing text — both dynamic
-/// String values and (via the wrapping applied across the views) literal labels.
+/// High-confidence Arabic UI copy corrections. Exact replacements are preferred
+/// so the editor never rewrites user content or English learning material.
+enum ArabicInterfaceCopy {
+    private static let exact: [String: String] = [
+        "خطتك الذكية": "خطة اليوم",
+        "افتح الخطة لمعرفة سبب اختيار كل نشاط.": "افتح الخطة لمعرفة سبب اختيار هذه الأنشطة.",
+        "مدربك الشخصي": "اقتراحات مخصصة لك",
+        "هذه الاقتراحات مبنية على تقدمك وأخطائك الحديثة، لا على ترتيب ثابت.": "تتغير هذه الاقتراحات بحسب تقدمك والأخطاء التي تحتاج إلى مراجعة.",
+        "وصول سريع": "تدريب إضافي",
+        "مختبرات": "مهارات متقدمة",
+        "مراجعة ذكية": "مراجعة مستحقة",
+        "استماع مركز": "تدريب استماع",
+        "دقيقة نطق واضحة": "تدريب نطق قصير",
+        "ردود محادثة فورية": "تدريب محادثة",
+        "نص وفهم عميق": "قراءة وفهم",
+        "مسودة كتابة قصيرة": "تدريب كتابة قصير",
+        "محاكاة اختبار مركزة": "محاكاة اختبار قصيرة",
+        "توصياتنا لك": "ما الخطوة التالية؟",
+        "إجابة صحيحة": "صحيح",
+        "لنصححها معًا": "راجع الإجابة",
+        "تقييمك": "نتيجتك",
+        "أداء جيد، وتستطيع أفضل": "جيد. راجع النقاط التي أخطأت فيها.",
+        "بداية جيدة، لنقوّها معًا": "راجع الدرس وحاول مرة أخرى.",
+        "خطوة صغيرة اليوم تصنع لغة كاملة غدًا.": "ابدأ بما يمكنك اليوم، وسنبني عليه غدًا.",
+        "جاري تجهيز رحلتك التعليمية": "جارٍ تجهيز خطتك التعليمية",
+        "لا بأس، أعد الدرس بهدوء وركّز على الشرح أولًا.": "راجع الشرح ثم أعد المحاولة عندما تكون جاهزًا.",
+        "محادثة موقف": "تدريب محادثة",
+        "تدريب اختبار": "محاكاة اختبار",
+        "فوق المتوسط": "متوسط متقدم",
+        "تمهيدي من الصفر": "تمهيدي",
+        "أداء ممتاز! 🎉": "ممتاز! 🎉",
+        "أداء جيد جدًا 👏": "جيد جدًا 👏"
+    ]
+
+    private static let phraseReplacements: [(String, String)] = [
+        ("جاري ", "جارٍ "),
+        ("إضغط", "اضغط"),
+        ("إختار", "اختر"),
+        ("إستمع", "استمع"),
+        ("إستخدم", "استخدم"),
+        ("إكتب", "اكتب"),
+        ("اللغة الانجليزية", "اللغة الإنجليزية"),
+        ("اللغه الإنجليزية", "اللغة الإنجليزية")
+    ]
+
+    static func polish(_ input: String) -> String {
+        guard !input.isEmpty else { return input }
+        if let replacement = exact[input] { return replacement }
+        var text = input
+        for (bad, good) in phraseReplacements {
+            text = text.replacingOccurrences(of: bad, with: good)
+        }
+        return text
+    }
+}
+
 func L(_ arabic: String) -> String { Localizer.shared.translate(arabic) }
 
-/// Localize an Arabic template that contains `%@` placeholders, substituting the
-/// given (already stringified) values in order. Used for interpolated strings
-/// like "%@ دقيقة" -> "%@ minutes". Manual %@ replacement avoids String(format:)
-/// pitfalls with `%` and integer specifiers.
 func Lf(_ arabicTemplate: String, _ args: String...) -> String {
     var result = Localizer.shared.translate(arabicTemplate)
     for arg in args {

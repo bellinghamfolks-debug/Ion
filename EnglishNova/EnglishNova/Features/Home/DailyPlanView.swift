@@ -42,33 +42,35 @@ struct DailyPlanView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 if model.isLoading {
-                    ProgressView(L("جاري بناء خطتك من بياناتك المحلية"))
+                    ProgressView(L("جارٍ إعداد خطة اليوم من تقدمك الحالي"))
                 } else if let plan = model.plan {
-                    Text(Lf("خطة %@ دقيقة", "\(plan.targetMinutes)"))
+                    Text(Lf("خطة لمدة %@ دقيقة", "\(plan.targetMinutes)"))
                         .font(.largeTitle.bold())
-                    Text(L("تتغير الخطة حسب الدروس غير المكتملة، الكلمات المستحقة، ومستوى المهارات."))
+                        .accessibilityAddTraits(.isHeader)
+                    Text(L("تتغير الخطة بحسب الدروس غير المكتملة، والمراجعات المستحقة، والمهارات التي تحتاج إلى تدريب."))
                         .foregroundStyle(.secondary)
-                    AccessibleProgressView(title: L("إنجاز الخطة"), value: plan.progress)
+                    AccessibleProgressView(title: L("إنجاز خطة اليوم"), value: plan.progress)
 
                     ForEach(Array(plan.items.enumerated()), id: \.element.id) { index, item in
                         planItem(item, number: index + 1)
                     }
 
-                    InfoCard(title: L("لماذا هذه الخطة؟"), systemImage: "wand.and.stars") {
-                        Text(L("تبدأ بمهمة أساسية، ثم تضيف مراجعة أو تدريب مهارة حتى تقترب من هدفك دون حشو أو ضغط زائد."))
+                    InfoCard(title: L("كيف اختيرت هذه الأنشطة؟"), systemImage: "wand.and.stars") {
+                        Text(L("تبدأ الخطة بأهم مهمة تعليمية، ثم تضيف المراجعة أو تدريب المهارة بما يناسب وقتك الحالي."))
                         if container.settings.reduceLearningPressure {
-                            Text(L("وضع التعلّم الهادئ مفعّل، لذلك حُدّدت الخطة بعشر دقائق كحد أقصى."))
-                                .font(.caption).foregroundStyle(.secondary)
+                            Text(L("وضع التعلّم الهادئ مفعّل، لذلك لا تتجاوز الخطة عشر دقائق."))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
                     }
                 } else if let error = model.errorMessage {
-                    ContentUnavailableView(L("تعذر بناء الخطة"), systemImage: "exclamationmark.triangle", description: Text(error))
+                    ContentUnavailableView(L("تعذر إعداد خطة اليوم"), systemImage: "exclamationmark.triangle", description: Text(error))
                 }
             }
             .padding(AppTheme.screenPadding)
         }
         .screenBackground()
-        .navigationTitle(L("خطتي الذكية"))
+        .navigationTitle(L("خطة اليوم"))
         .refreshable { await model.load(container: container) }
         .task { await model.load(container: container) }
     }
@@ -77,7 +79,7 @@ struct DailyPlanView: View {
     private func planItem(_ item: LearningPlanItem, number: Int) -> some View {
         let card = InfoCard(title: "\(number). \(item.kind.titleAr)", systemImage: item.kind.systemImage) {
             Text(L(item.titleAr)).font(.title3.bold())
-            Text(item.subtitleAr).foregroundStyle(.secondary)
+            Text(L(item.subtitleAr)).foregroundStyle(.secondary)
             Label(Lf("%@ دقائق", "\(item.estimatedMinutes)"), systemImage: "clock")
         }
 

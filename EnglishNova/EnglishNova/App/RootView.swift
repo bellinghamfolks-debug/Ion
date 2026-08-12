@@ -2,13 +2,14 @@ import SwiftUI
 
 struct RootView: View {
     @EnvironmentObject private var session: UserSession
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showSplash = true
 
     var body: some View {
         ZStack {
             if showSplash {
                 SplashView()
-                    .transition(.opacity)
+                    .transition(reduceMotion ? .identity : .opacity)
             } else {
                 Group {
                     if session.hasCompletedOnboarding {
@@ -17,18 +18,20 @@ struct RootView: View {
                         OnboardingView()
                     }
                 }
-                .transition(.opacity)
+                .transition(reduceMotion ? .identity : .opacity)
             }
         }
         .toastLayer()
         .task { await session.load() }
-        // Pull any server-published translation corrections (OTA i18n) so wrong
-        // translations can be fixed without shipping a new build.
         .task { await Localizer.shared.refreshFromServer() }
         .task {
-            // Keep the branded splash for ~3 seconds, then reveal the app.
-            try? await Task.sleep(nanoseconds: 3_000_000_000)
-            withAnimation(.easeInOut(duration: 0.4)) { showSplash = false }
+            let delay: UInt64 = reduceMotion ? 120_000_000 : 700_000_000
+            try? await Task.sleep(nanoseconds: delay)
+            if reduceMotion {
+                showSplash = false
+            } else {
+                withAnimation(.easeOut(duration: 0.22)) { showSplash = false }
+            }
         }
     }
 }
@@ -36,7 +39,7 @@ struct RootView: View {
 struct MainTabView: View {
     var body: some View {
         TabView {
-            NavigationStack { HomeView() }
+            NavigationStack { LearningHomeView() }
                 .tabItem { Label(L("الرئيسية"), systemImage: "house.fill") }
             NavigationStack { CurriculumView() }
                 .tabItem { Label(L("التعلّم"), systemImage: "graduationcap.fill") }
@@ -47,6 +50,6 @@ struct MainTabView: View {
             NavigationStack { SettingsView() }
                 .tabItem { Label(L("الإعدادات"), systemImage: "gearshape.fill") }
         }
-        .tint(AppTheme.brand)   // brand accent across tabs, links and controls
+        .tint(AppTheme.brand)
     }
 }

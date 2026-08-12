@@ -1,5 +1,7 @@
 import SwiftUI
 
+/// Calm, high-contrast content card. The title is exposed as a VoiceOver header
+/// and the icon is decorative so it never adds noise to the reading order.
 struct InfoCard<Content: View>: View {
     let title: String
     let systemImage: String
@@ -19,12 +21,13 @@ struct InfoCard<Content: View>: View {
             HStack(spacing: 10) {
                 Image(systemName: systemImage)
                     .font(.subheadline.weight(.bold))
-                    .foregroundStyle(.white)
-                    .frame(width: 30, height: 30)
-                    .background(AppTheme.gradient([tint, tint.opacity(0.7)]),
-                                in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+                    .foregroundStyle(tint)
+                    .frame(width: 32, height: 32)
+                    .background(tint.opacity(0.13), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                     .accessibilityHidden(true)
-                Text(L(title)).font(.headline)
+                Text(L(title))
+                    .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
             }
             content
         }
@@ -34,9 +37,9 @@ struct InfoCard<Content: View>: View {
                     in: RoundedRectangle(cornerRadius: AppTheme.cornerRadius, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: AppTheme.cornerRadius, style: .continuous)
-                .strokeBorder(Color.primary.opacity(0.05), lineWidth: 1)
+                .strokeBorder(Color.primary.opacity(0.09), lineWidth: 1)
         )
-        .cardShadow()
+        .shadow(color: Color.black.opacity(0.055), radius: 8, x: 0, y: 3)
         .accessibilityElement(children: .contain)
     }
 }

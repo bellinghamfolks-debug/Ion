@@ -5,6 +5,10 @@ options:
     iOS: "17.0"
   createIntermediateGroups: true
   developmentLanguage: ar
+packages:
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    from: 9.0.0
 settings:
   base:
     SWIFT_VERSION: 5.10
@@ -33,22 +37,20 @@ targets:
         excludes:
           - Resources
           - Info.plist
-      # Folder reference so the bundle contains Curriculum/curriculum.json,
-      # matching BundledContentLoader's subdirectory: "Curriculum" lookup.
-      # (A top-level `resources:` key is not part of the XcodeGen spec.)
       - path: EnglishNova/Resources/Curriculum
         type: folder
         buildPhase: resources
-      # Runtime localization data (ar->en map). Folder reference so the bundle
-      # contains LocalizationData/translations.json, loaded by Localizer.
       - path: EnglishNova/Resources/LocalizationData
         type: folder
         buildPhase: resources
+    dependencies:
+      - package: GoogleSignIn
+        product: GoogleSignIn
+      - package: GoogleSignIn
+        product: GoogleSignInSwift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.englishnova.app
-        # Base Info.plist providing the launch-screen background color; Xcode
-        # merges the generated INFOPLIST_KEY_* values on top of it.
         INFOPLIST_FILE: EnglishNova/Info.plist
     scheme:
       testTargets:

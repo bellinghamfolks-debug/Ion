@@ -18,7 +18,7 @@ actor ProgressRepository: ProgressRepositoryProtocol {
         await snapshot().lessons[lessonID]
     }
 
-    func recordLesson(lessonID: String, score: Double, points: Int, minutes: Int) async {
+    func recordLesson(lessonID: String, score: Double, passed: Bool, points: Int, minutes: Int) async {
         var value = await snapshot()
         var lesson = value.lessons[lessonID] ?? LessonProgress(
             lessonID: lessonID,
@@ -30,7 +30,7 @@ actor ProgressRepository: ProgressRepositoryProtocol {
         lesson.attempts += 1
         lesson.bestScore = max(lesson.bestScore, score)
         lesson.earnedPoints = max(lesson.earnedPoints, points)
-        if score >= 0.7 { lesson.completedAt = .now }
+        if passed { lesson.completedAt = .now }
         value.lessons[lessonID] = lesson
         recordActivity(in: &value, minutes: minutes, exercises: 1, points: points)
         await persist(value)
@@ -147,9 +147,7 @@ actor LearningMemoryRepository: LearningMemoryRepositoryProtocol {
     private let key = "learning-memory.json"
     private var cached: LearnerMemorySnapshot?
 
-    init(store: FileStore) {
-        self.store = store
-    }
+    init(store: FileStore) { self.store = store }
 
     func snapshot() async -> LearnerMemorySnapshot {
         if let cached { return cached }
@@ -168,9 +166,7 @@ actor LearningMemoryRepository: LearningMemoryRepositoryProtocol {
     func recordMistake(_ mistake: LearningMistake) async {
         var value = await snapshot()
         if let index = value.mistakes.firstIndex(where: {
-            $0.category == mistake.category &&
-            $0.prompt.caseInsensitiveCompare(mistake.prompt) == .orderedSame &&
-            !$0.resolved
+            $0.category == mistake.category && $0.prompt.caseInsensitiveCompare(mistake.prompt) == .orderedSame && !$0.resolved
         }) {
             value.mistakes[index].reviewCount += 1
             value.mistakes[index].resolved = false

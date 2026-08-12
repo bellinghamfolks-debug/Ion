@@ -1,4 +1,5 @@
 import SwiftUI
+import GoogleSignIn
 
 @main
 struct EnglishNovaApp: App {
@@ -17,10 +18,10 @@ struct EnglishNovaApp: App {
                 .environmentObject(container.accountService)
                 .environmentObject(container.progressSyncService)
                 .environment(\.layoutDirection, container.settings.interfaceLanguage == .arabic ? .rightToLeft : .leftToRight)
-                // Force the interface locale so system-rendered strings (weekday
-                // names, Stepper's Increment/Decrement, date formats…) follow the
-                // chosen language instead of leaking English.
                 .environment(\.locale, Locale(identifier: container.settings.interfaceLanguage == .arabic ? "ar" : "en"))
+                .onOpenURL { url in
+                    _ = GIDSignIn.sharedInstance.handle(url)
+                }
         }
     }
 }

@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- Base Info.plist. Xcode merges the generated keys (INFOPLIST_KEY_*)
-	     on top of this at build time. We only need the launch-screen dict,
-	     which build settings can't express: a deep indigo background so the
-	     launch screen never flashes white before SplashView appears. -->
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>
@@ -13,15 +9,31 @@
 		<key>UIImageRespectsSafeAreaInsets</key>
 		<true/>
 	</dict>
-	<!-- Supported UI languages. Arabic is the development language; English is
-	     provided via Localization/en.lproj. Users switch in Settings (which then
-	     prompts a restart so the whole bundle re-resolves). -->
 	<key>CFBundleDevelopmentRegion</key>
 	<string>ar</string>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>ar</string>
 		<string>en</string>
+	</array>
+
+	<!-- Google Sign-In. Supply these three user-defined build settings from the
+	     Google Cloud project used for EnglishNova. Keeping them out of source
+	     prevents accidentally committing production OAuth identifiers. -->
+	<key>GIDClientID</key>
+	<string>$(GOOGLE_IOS_CLIENT_ID)</string>
+	<key>GIDServerClientID</key>
+	<string>$(GOOGLE_SERVER_CLIENT_ID)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(GOOGLE_REVERSED_CLIENT_ID)</string>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>

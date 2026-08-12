@@ -1,20 +1,14 @@
 // PostgreSQL connection pool + schema bootstrap.
-//
-// Railway injects DATABASE_URL for the attached PostgreSQL plugin. SSL is
-// required in production; locally you can run without it.
 import pg from "pg";
 
 const { Pool } = pg;
-
 const connectionString = process.env.DATABASE_URL;
 
 export const pool = new Pool({
   connectionString,
-  // Railway/managed Postgres needs SSL; disable cert check for their proxy.
   ssl: process.env.PGSSL === "disable" ? false : { rejectUnauthorized: false },
 });
 
-/// Create the tables if they don't exist. Called once on startup.
 export async function initSchema() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -22,6 +16,7 @@ export async function initSchema() {
       email         TEXT UNIQUE,
       password_hash TEXT,
       apple_sub     TEXT UNIQUE,
+      google_sub    TEXT UNIQUE,
       display_name  TEXT NOT NULL DEFAULT '',
       created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
     );
@@ -29,13 +24,11 @@ export async function initSchema() {
     CREATE TABLE IF NOT EXISTS progress (
       user_id    INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
       data       JSONB NOT NULL,
-      -- Denormalised for the leaderboard so we don't scan JSONB on every read.
       points     INTEGER NOT NULL DEFAULT 0,
       streak     INTEGER NOT NULL DEFAULT 0,
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
 
-    -- Learning analytics events (fire-and-forget writes).
     CREATE TABLE IF NOT EXISTS events (
       id         BIGSERIAL PRIMARY KEY,
       user_id    INTEGER REFERENCES users(id) ON DELETE SET NULL,
@@ -46,7 +39,6 @@ export async function initSchema() {
     CREATE INDEX IF NOT EXISTS events_created_at_idx ON events (created_at);
     CREATE INDEX IF NOT EXISTS events_type_idx ON events (type);
 
-    -- Over-the-air content channels (curriculum, config, ...).
     CREATE TABLE IF NOT EXISTS content (
       channel    TEXT PRIMARY KEY,
       version    INTEGER NOT NULL,
@@ -54,43 +46,36 @@ export async function initSchema() {
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
 
-    -- Server-side PDF->text conversion jobs (background, resumable per page).
-    -- When the encrypted flag is true, pdf_bytes / result_docx hold AES-256-GCM
-    -- ciphertext and result_text / conversion_pages.text hold base64 ciphertext,
-    -- all under a per-job key the CLIENT derives and holds. The server only ever
-    -- receives that key transiently (in RAM) while a job is actively processing
-    -- and never stores it, so the data at rest is unreadable to the DB/host.
     CREATE TABLE IF NOT EXISTS conversion_jobs (
       id          TEXT PRIMARY KEY,
       device_id   TEXT,
       filename    TEXT,
       model       TEXT,
-      status      TEXT NOT NULL DEFAULT 'processing',  -- processing|done|partial|failed|key_required
+      status      TEXT NOT NULL DEFAULT 'processing',
       total_pages INTEGER NOT NULL DEFAULT 0,
       pdf_bytes   BYTEA,
       result_text TEXT,
       result_docx BYTEA,
-      mode        TEXT NOT NULL DEFAULT 'accessible',  -- accessible|layout
+      mode        TEXT NOT NULL DEFAULT 'accessible',
       options     JSONB NOT NULL DEFAULT '{}',
       encrypted   BOOLEAN NOT NULL DEFAULT false,
       error       TEXT,
       created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
       updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
     );
-    CREATE INDEX IF NOT EXISTS conversion_jobs_device_idx
-      ON conversion_jobs (device_id, created_at DESC);
+    CREATE INDEX IF NOT EXISTS conversion_jobs_device_idx ON conversion_jobs (device_id, created_at DESC);
 
     CREATE TABLE IF NOT EXISTS conversion_pages (
       job_id  TEXT NOT NULL REFERENCES conversion_jobs(id) ON DELETE CASCADE,
       page_no INTEGER NOT NULL,
-      status  TEXT NOT NULL DEFAULT 'pending',  -- pending|done|failed
+      status  TEXT NOT NULL DEFAULT 'pending',
       text    TEXT,
       PRIMARY KEY (job_id, page_no)
     );
   `);
 
-  // Columns added after the first release: tolerate pre-existing progress tables.
   await pool.query(`
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS google_sub TEXT UNIQUE;
     ALTER TABLE progress ADD COLUMN IF NOT EXISTS points INTEGER NOT NULL DEFAULT 0;
     ALTER TABLE progress ADD COLUMN IF NOT EXISTS streak INTEGER NOT NULL DEFAULT 0;
     ALTER TABLE conversion_jobs ADD COLUMN IF NOT EXISTS options JSONB NOT NULL DEFAULT '{}';
@@ -99,9 +84,6 @@ export async function initSchema() {
     ALTER TABLE conversion_jobs ADD COLUMN IF NOT EXISTS encrypted BOOLEAN NOT NULL DEFAULT false;
   `);
 
-  // Backfill existing rows whose points/streak were stored as 0 before we knew
-  // the app nests them under `session`. Best-effort: only numeric values, and
-  // never let a bad row break startup.
   try {
     await pool.query(`
       UPDATE progress SET
@@ -115,7 +97,6 @@ export async function initSchema() {
   }
 }
 
-/// Public shape of a user returned to clients (never expose the hash).
 export function publicUser(row) {
   return {
     id: row.id,

@@ -2,8 +2,7 @@ import Foundation
 
 /// Build-independent localization.
 /// Arabic is the source language. English is resolved from the bundled map or
-/// an OTA correction. Arabic receives only safe typographic/editorial cleanup;
-/// product copy itself should be written naturally at its source.
+/// an OTA correction. Arabic receives only safe typographic/editorial cleanup.
 final class Localizer {
     static let shared = Localizer()
 
@@ -43,13 +42,25 @@ final class Localizer {
     }
 
     func translate(_ arabic: String) -> String {
-        if isEnglish {
-            return overrides[arabic]
-                ?? map[arabic]
-                ?? EnglishInterfaceCopy.exact[arabic]
-                ?? arabic
+        guard isEnglish else { return ArabicInterfaceCopy.polish(arabic) }
+
+        if let translated = overrides[arabic] ?? map[arabic] ?? EnglishInterfaceCopy.exact[arabic] {
+            return translated
         }
-        return ArabicInterfaceCopy.polish(arabic)
+        if let translated = EnglishInterfaceCopy.dynamic(arabic) {
+            return translated
+        }
+
+        // A localization miss must never silently leak Arabic into an English UI.
+        // The visible fallback is intentional: it makes missing coverage obvious
+        // in QA while keeping the screen readable for an English-only user.
+        if Self.containsArabic(arabic) {
+            #if DEBUG
+            print("[Localization] Missing English copy: \(arabic)")
+            #endif
+            return "Translation unavailable"
+        }
+        return arabic
     }
 
     func refreshFromServer() async {
@@ -74,12 +85,16 @@ final class Localizer {
             // Keep cached/bundled localization when offline.
         }
     }
+
+    private static func containsArabic(_ value: String) -> Bool {
+        value.unicodeScalars.contains { scalar in
+            (0x0600...0x06FF).contains(Int(scalar.value)) ||
+            (0x0750...0x077F).contains(Int(scalar.value)) ||
+            (0x08A0...0x08FF).contains(Int(scalar.value))
+        }
+    }
 }
 
-/// Last-line Arabic sanitation. This is deliberately NOT a translation engine.
-/// Natural product copy belongs in the view/model that owns it. These rules only
-/// correct high-confidence spelling, punctuation and a few legacy names that may
-/// still arrive from old bundled/remote content.
 enum ArabicInterfaceCopy {
     private static let exact: [String: String] = [
         "خطتك الذكية": "خطة اليوم",
@@ -118,22 +133,12 @@ enum ArabicInterfaceCopy {
     ]
 
     private static let phraseReplacements: [(String, String)] = [
-        ("جاري ", "جارٍ "),
-        ("إضغط", "اضغط"),
-        ("إختار", "اختر"),
-        ("إستمع", "استمع"),
-        ("إستخدم", "استخدم"),
-        ("إكتب", "اكتب"),
-        ("اولا", "أولًا"),
-        ("ثانيا", "ثانيًا"),
-        ("اللغة الانجليزية", "اللغة الإنجليزية"),
-        ("اللغه الإنجليزية", "اللغة الإنجليزية"),
-        ("اللغة العربيه", "اللغة العربية"),
-        ("  ", " "),
-        (" ،", "،"),
-        (" .", "."),
-        (" ؟", "؟"),
-        (" !", "!")
+        ("جاري ", "جارٍ "), ("إضغط", "اضغط"), ("إختار", "اختر"),
+        ("إستمع", "استمع"), ("إستخدم", "استخدم"), ("إكتب", "اكتب"),
+        ("اولا", "أولًا"), ("ثانيا", "ثانيًا"),
+        ("اللغة الانجليزية", "اللغة الإنجليزية"), ("اللغه الإنجليزية", "اللغة الإنجليزية"),
+        ("اللغة العربيه", "اللغة العربية"), ("  ", " "), (" ،", "،"),
+        (" .", "."), (" ؟", "؟"), (" !", "!")
     ]
 
     static func polish(_ input: String) -> String {
@@ -147,54 +152,87 @@ enum ArabicInterfaceCopy {
     }
 }
 
-/// Small fallback table for new source-level UI copy added after the original
-/// localization bundle was generated. It prevents the English interface from
-/// unexpectedly showing Arabic while the OTA/bundled catalog catches up.
 private enum EnglishInterfaceCopy {
     static let exact: [String: String] = [
-        "الدراسة": "Learning",
-        "تفضيلات التعلّم": "Learning preferences",
-        "الصوت والمحادثة": "Speech and conversation",
-        "المدرّب والذكاء الاصطناعي": "Tutor and AI",
-        "التذكيرات": "Reminders",
-        "البيانات والمزامنة": "Data and sync",
-        "الخصوصية والمعلومات": "Privacy and information",
-        "المساعدة والتواصل": "Help and contact",
-        "شروط الاستخدام": "Terms of Use",
-        "الخصوصية": "Privacy",
-        "البيانات التي نستخدمها": "Data we use",
-        "كيف نستخدم الذكاء الاصطناعي": "How we use AI",
-        "بيانات تبقى على جهازك": "Data that stays on your device",
-        "حذف الحساب والبيانات": "Account and data deletion",
-        "التعلّم وليس ضمانًا للنتيجة": "Learning, not a guaranteed result",
-        "الاستخدام المقبول": "Acceptable use",
-        "توفر الخدمة": "Service availability",
-        "حسابك": "Your account",
-        "المحتوى والحقوق": "Content and rights",
-        "التغييرات": "Changes",
-        "تواصل معنا": "Contact us",
-        "آخر تحديث: 12 أغسطس 2026": "Last updated: August 12, 2026",
-        "اقتراح المدرب": "Tutor suggestion",
-        "تدريب النطق": "Pronunciation practice",
-        "تدريب الاستماع": "Listening practice",
-        "تدريب المحادثة": "Conversation practice",
-        "بناء الجمل": "Sentence building",
-        "تمارين مخصصة": "Personalized exercises",
-        "تدريب الكتابة": "Writing practice",
-        "دفتر المفردات": "Vocabulary notebook",
-        "تحليل التقدّم": "Progress insights",
-        "الترتيب": "Leaderboard",
-        "تدريب المهارات": "Skills practice",
-        "الخطوة التالية": "Next step",
-        "راجع الإجابة": "Review the answer",
-        "نتيجتك": "Your result"
+        "الدراسة": "Learning", "تفضيلات التعلّم": "Learning preferences",
+        "الصوت والمحادثة": "Speech and conversation", "المدرّب والذكاء الاصطناعي": "Tutor and AI",
+        "التذكيرات": "Reminders", "البيانات والمزامنة": "Data and sync",
+        "الخصوصية والمعلومات": "Privacy and information", "المساعدة والتواصل": "Help and contact",
+        "شروط الاستخدام": "Terms of Use", "الخصوصية": "Privacy", "البيانات التي نستخدمها": "Data we use",
+        "كيف نستخدم الذكاء الاصطناعي": "How we use AI", "بيانات تبقى على جهازك": "Data that stays on your device",
+        "حذف الحساب والبيانات": "Account and data deletion", "التعلّم وليس ضمانًا للنتيجة": "Learning, not a guaranteed result",
+        "الاستخدام المقبول": "Acceptable use", "توفر الخدمة": "Service availability", "حسابك": "Your account",
+        "المحتوى والحقوق": "Content and rights", "التغييرات": "Changes", "تواصل معنا": "Contact us",
+        "آخر تحديث: 12 أغسطس 2026": "Last updated: August 12, 2026", "اقتراح المدرب": "Tutor suggestion",
+        "تدريب النطق": "Pronunciation practice", "تدريب الاستماع": "Listening practice",
+        "تدريب المحادثة": "Conversation practice", "بناء الجمل": "Sentence building",
+        "تمارين مخصصة": "Personalized exercises", "تدريب الكتابة": "Writing practice",
+        "دفتر المفردات": "Vocabulary notebook", "تحليل التقدّم": "Progress insights", "الترتيب": "Leaderboard",
+        "تدريب المهارات": "Skills practice", "الخطوة التالية": "Next step", "راجع الإجابة": "Review the answer",
+        "نتيجتك": "Your result", "مراجعة ذكية قصيرة لتثبيت الذاكرة": "A short spaced-review session to strengthen retention",
+        "جارٍ إعداد خطة اليوم": "Preparing today's plan", "جارٍ إعداد التقرير": "Preparing your report",
+        "أسبوع ثابت وقوي. الاستمرارية هنا أهم من جلسة طويلة منفردة.": "A strong, consistent week. Regular practice matters more than one long session.",
+        "الإيقاع جيد، ويحتاج يومين قصيرين إضافيين حتى تصبح اللغة عادة أسبوعية.": "Your rhythm is good. Two more short days would make practice more consistent.",
+        "النشاط متقطع. ثلاث جلسات من عشر دقائق ستكون أكثر فائدة من انتظار يوم مثالي.": "Practice was irregular. Three ten-minute sessions would be more useful than waiting for a perfect day.",
+        "اكتب مسودة واحدة ثم أعد كتابتها بعد قراءة التقييم.": "Write one draft, review the feedback, then rewrite it.",
+        "نفّذ مقطعي استماع، الأول دون نص والثاني مع كشف النص في النهاية.": "Complete two listening tasks: first without a transcript, then reveal it at the end of the second.",
+        "حافظ على أربع جلسات قصيرة موزعة بدل جلسة واحدة ثقيلة.": "Aim for four short sessions across the week instead of one heavy session."
     ]
+
+    static func dynamic(_ source: String) -> String? {
+        if let captures = match(source, pattern: #"^(\d+) دقائق، (\d+) كلمات جديدة$"#) {
+            return "\(captures[0]) min, \(captures[1]) new words"
+        }
+        if let captures = match(source, pattern: #"^راجع (\d+) كلمة مستحقة$"#) {
+            return "Review \(captures[0]) due words"
+        }
+        if let captures = match(source, pattern: #"^راجع (\d+) بطاقة مستحقة على دفعتين\.$"#) {
+            return "Review \(captures[0]) due cards in two short sets."
+        }
+        if let captures = match(source, pattern: #"^نفّذ جلستين في مهارة (.+)\.$"#) {
+            return "Complete two sessions in \(captures[0])."
+        }
+        if let captures = match(source, pattern: #"^(\d+) يومًا$"#) {
+            return "\(captures[0]) days"
+        }
+        if let captures = match(source, pattern: #"^(\d+) دقيقة$"#) {
+            return "\(captures[0]) min"
+        }
+        if let captures = match(source, pattern: #"^دقتها الحالية (\d+)٪، لذا تستحق نشاطًا إضافيًا قصيرًا\.$"#) {
+            return "Current accuracy is \(captures[0])%, so a short extra activity is recommended."
+        }
+        return nil
+    }
+
+    private static func match(_ value: String, pattern: String) -> [String]? {
+        guard let regex = try? NSRegularExpression(pattern: pattern),
+              let result = regex.firstMatch(in: value, range: NSRange(value.startIndex..., in: value)),
+              result.range.location != NSNotFound else { return nil }
+        return (1..<result.numberOfRanges).compactMap { index in
+            guard let range = Range(result.range(at: index), in: value) else { return nil }
+            return String(value[range])
+        }
+    }
 }
 
 func L(_ arabic: String) -> String { Localizer.shared.translate(arabic) }
 
+/// Explicit bilingual copy for dynamic strings that should never depend on a lookup table.
+func LE(_ arabic: String, _ english: String) -> String {
+    Localizer.shared.isEnglish ? english : ArabicInterfaceCopy.polish(arabic)
+}
+
 func Lf(_ arabicTemplate: String, _ args: String...) -> String {
     var result = Localizer.shared.translate(arabicTemplate)
+    for arg in args {
+        guard let range = result.range(of: "%@") else { break }
+        result.replaceSubrange(range, with: arg)
+    }
+    return result
+}
+
+func LfE(_ arabicTemplate: String, _ englishTemplate: String, _ args: String...) -> String {
+    var result = Localizer.shared.isEnglish ? englishTemplate : ArabicInterfaceCopy.polish(arabicTemplate)
     for arg in args {
         guard let range = result.range(of: "%@") else { break }
         result.replaceSubrange(range, with: arg)

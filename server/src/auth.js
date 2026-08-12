@@ -1,5 +1,4 @@
-// Authentication helpers: our own JWTs (email/password sessions) and
-// verification of Apple identity tokens for "Sign in with Apple".
+// Authentication helpers: our own app-session JWTs plus Google ID-token verification.
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { createRemoteJWKSet, jwtVerify } from "jose";
@@ -7,17 +6,13 @@ import { createRemoteJWKSet, jwtVerify } from "jose";
 const JWT_SECRET = process.env.JWT_SECRET || "dev-insecure-secret-change-me";
 const TOKEN_TTL = "60d";
 
-// --- Our session tokens -----------------------------------------------------
-
 export function signToken(userId) {
   return jwt.sign({ sub: String(userId) }, JWT_SECRET, { expiresIn: TOKEN_TTL });
 }
 
 export function verifyToken(token) {
-  return jwt.verify(token, JWT_SECRET); // throws on invalid/expired
+  return jwt.verify(token, JWT_SECRET);
 }
-
-// --- Password hashing --------------------------------------------------------
 
 export async function hashPassword(plain) {
   return bcrypt.hash(plain, 12);
@@ -28,18 +23,25 @@ export async function checkPassword(plain, hash) {
   return bcrypt.compare(plain, hash);
 }
 
-// --- Sign in with Apple ------------------------------------------------------
+// Google publishes rotating public keys. jose caches and refreshes them.
+const googleKeys = createRemoteJWKSet(new URL("https://www.googleapis.com/oauth2/v3/certs"));
 
-// Apple publishes rotating public keys; jose caches them for us.
-const appleKeys = createRemoteJWKSet(new URL("https://appleid.apple.com/auth/keys"));
-
-/// Verify an Apple identity token and return { sub, email }.
-/// APPLE_CLIENT_ID must equal the app's bundle identifier (the token audience).
-export async function verifyAppleToken(identityToken) {
-  const audience = process.env.APPLE_CLIENT_ID;
-  const { payload } = await jwtVerify(identityToken, appleKeys, {
-    issuer: "https://appleid.apple.com",
-    audience: audience || undefined,
+export async function verifyGoogleToken(idToken) {
+  const audience = String(process.env.GOOGLE_SERVER_CLIENT_ID || "").trim();
+  if (!audience) {
+    const error = new Error("google_not_configured");
+    error.code = "google_not_configured";
+    throw error;
+  }
+  const { payload } = await jwtVerify(idToken, googleKeys, {
+    issuer: ["https://accounts.google.com", "accounts.google.com"],
+    audience,
   });
-  return { sub: payload.sub, email: payload.email || null };
+  if (!payload.sub) throw new Error("missing_google_sub");
+  if (payload.email && payload.email_verified === false) throw new Error("google_email_not_verified");
+  return {
+    sub: String(payload.sub),
+    email: payload.email ? String(payload.email).trim().toLowerCase() : null,
+    name: payload.name ? String(payload.name).trim() : "",
+  };
 }

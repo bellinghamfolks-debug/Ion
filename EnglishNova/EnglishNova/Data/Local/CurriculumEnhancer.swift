@@ -1,7 +1,9 @@
 import Foundation
 
-/// Applies editorial and pedagogical improvements to the bundled curriculum at load time.
-/// The source JSON remains immutable; learners receive the refined in-memory catalog.
+/// Applies editorial and pedagogical improvements to the effective curriculum.
+/// The transformation is deterministic, offline and level-aware: higher CEFR
+/// levels require progressively more productive language evidence rather than
+/// simply swapping in harder vocabulary.
 enum CurriculumEnhancer {
     static func enhance(_ source: CourseCatalog) -> CourseCatalog {
         var catalog = source
@@ -29,9 +31,11 @@ enum CurriculumEnhancer {
         var lesson = source
         lesson.titleAr = ArabicLearningCopy.polish(source.titleAr)
         lesson.objectiveAr = ArabicLearningCopy.polish(source.objectiveAr)
-        lesson.vocabulary = source.vocabulary.map(enhanceWord)
+        lesson.vocabulary = source.vocabulary
+            .map(enhanceWord)
+            .filter { !isWeakAdvancedVocabulary($0, level: level) }
         lesson.exercises = source.exercises.map(enhanceExercise)
-        lesson.exercises = ensureProductiveTransfer(
+        lesson.exercises = ensureLevelAppropriateTransfer(
             in: lesson.exercises,
             vocabulary: lesson.vocabulary,
             level: level,
@@ -55,81 +59,122 @@ enum CurriculumEnhancer {
         return exercise
     }
 
-    /// Recognition alone does not demonstrate usable language. If an older lesson
-    /// contains no output task, append one short transfer task using material that
-    /// is already taught in the lesson. This remains deterministic and offline.
-    private static func ensureProductiveTransfer(
+    /// Removes obvious generator artefacts from advanced vocabulary without
+    /// deleting legitimate function words used by a grammar lesson. We only
+    /// remove entries whose Arabic gloss itself identifies them as filler.
+    private static func isWeakAdvancedVocabulary(_ word: VocabularyWord, level: CEFRLevel) -> Bool {
+        guard level == .b2 || level == .c1 else { return false }
+        let gloss = word.arabic.lowercased()
+        let generatorMarkers = [
+            "كلمة من المثال", "كلمة في المثال", "بداية الجملة", "نهاية الجملة",
+            "أداة من المثال", "جزء من المثال", "كلمة مستخدمة في المثال"
+        ]
+        return generatorMarkers.contains { gloss.contains($0) }
+    }
+
+    /// Required productive evidence rises with the level. A0/A1 need one short
+    /// output task; A2/B1 need two; B2/C1 need three. This prevents advanced
+    /// lessons from being mostly recognition exercises with harder vocabulary.
+    private static func ensureLevelAppropriateTransfer(
         in exercises: [Exercise],
         vocabulary: [VocabularyWord],
         level: CEFRLevel,
         lessonID: String
     ) -> [Exercise] {
         let productiveTypes: Set<ExerciseType> = [.speak, .translation, .arrangeWords, .fillBlank]
-        guard !exercises.contains(where: { productiveTypes.contains($0.type) }),
-              let word = vocabulary.first
-        else { return exercises }
+        let required = CurriculumRigorAudit.requiredProductiveTasks(for: level)
+        let existing = exercises.filter { productiveTypes.contains($0.type) }.count
+        guard existing < required, !vocabulary.isEmpty else { return exercises }
 
-        let id = "\(lessonID)-productive-transfer"
-        guard !exercises.contains(where: { $0.id == id }) else { return exercises }
+        var result = exercises
+        var missing = required - existing
+        var slot = 0
+        let candidates = vocabulary.filter {
+            !$0.english.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
 
-        let englishExample = word.example.trimmingCharacters(in: .whitespacesAndNewlines)
-        let arabicExample = word.exampleArabic.trimmingCharacters(in: .whitespacesAndNewlines)
-        let target = englishExample.isEmpty ? word.english : englishExample
+        while missing > 0 && slot < max(required * 2, candidates.count) {
+            let word = candidates[slot % candidates.count]
+            let id = "\(lessonID)-transfer-\(slot + 1)"
+            slot += 1
+            guard !result.contains(where: { $0.id == id }) else { continue }
 
-        let transfer: Exercise
-        switch level {
-        case .a0, .a1:
-            transfer = Exercise(
-                id: id,
-                type: .speak,
-                promptAr: "استمع إلى النموذج، ثم قل العبارة بصوتك.",
-                promptEn: target,
-                answer: target,
-                choices: nil,
-                tokens: nil,
-                explanationAr: "هنا تستخدم العبارة بنفسك بدل الاكتفاء بالتعرّف عليها.",
-                accessibilityHint: "استمع إلى النموذج، ثم ابدأ التسجيل وكرر العبارة.",
-                speechText: target,
-                acceptableAnswers: nil
-            )
-        case .a2, .b1, .b2, .c1:
-            if !arabicExample.isEmpty && !englishExample.isEmpty {
-                transfer = Exercise(
+            let englishExample = word.example.trimmingCharacters(in: .whitespacesAndNewlines)
+            let arabicExample = word.exampleArabic.trimmingCharacters(in: .whitespacesAndNewlines)
+            let target = englishExample.isEmpty ? word.english : englishExample
+
+            let exercise: Exercise
+            if slot.isMultiple(of: 2), !arabicExample.isEmpty, !englishExample.isEmpty {
+                exercise = Exercise(
                     id: id,
                     type: .translation,
-                    promptAr: "ترجم إلى الإنجليزية من ذاكرتك: \(arabicExample)",
+                    promptAr: transferTranslationPrompt(level: level, arabicExample: arabicExample),
                     promptEn: nil,
                     answer: englishExample,
                     choices: nil,
                     tokens: nil,
-                    explanationAr: "حاول صياغة الجملة أولًا، ثم قارنها بالإجابة.",
-                    accessibilityHint: "اكتب الجملة بالإنجليزية من ذاكرتك.",
+                    explanationAr: transferExplanation(level: level),
+                    accessibilityHint: "اكتب إجابتك بالإنجليزية من دون الرجوع إلى المثال أولًا.",
                     speechText: nil,
                     acceptableAnswers: nil
                 )
             } else {
-                transfer = Exercise(
+                exercise = Exercise(
                     id: id,
                     type: .speak,
-                    promptAr: "قل العبارة بطريقتك، مع الحفاظ على معناها.",
+                    promptAr: transferSpeakingPrompt(level: level),
                     promptEn: target,
                     answer: target,
                     choices: nil,
                     tokens: nil,
-                    explanationAr: "اهتم بالوضوح والإيقاع، ولا تحاول تقليد الصوت حرفيًا.",
-                    accessibilityHint: "استمع إلى النموذج، ثم كرر العبارة بصوت واضح.",
+                    explanationAr: transferExplanation(level: level),
+                    accessibilityHint: "استمع عند الحاجة، ثم سجّل إجابتك بصوت واضح.",
                     speechText: target,
                     acceptableAnswers: nil
                 )
             }
+            result.append(exercise)
+            missing -= 1
         }
-        return exercises + [transfer]
+        return result
+    }
+
+    private static func transferTranslationPrompt(level: CEFRLevel, arabicExample: String) -> String {
+        switch level {
+        case .a0, .a1:
+            return "ترجم العبارة القصيرة إلى الإنجليزية: \(arabicExample)"
+        case .a2:
+            return "اكتب الجملة بالإنجليزية من ذاكرتك: \(arabicExample)"
+        case .b1:
+            return "عبّر عن المعنى التالي بالإنجليزية بجملة كاملة: \(arabicExample)"
+        case .b2:
+            return "صغ المعنى التالي بالإنجليزية بدقة، مع الحفاظ على العلاقة بين الأفكار: \(arabicExample)"
+        case .c1:
+            return "قدّم صياغة إنجليزية دقيقة وطبيعية للمعنى التالي، مع الانتباه إلى النبرة والدقة: \(arabicExample)"
+        }
+    }
+
+    private static func transferSpeakingPrompt(level: CEFRLevel) -> String {
+        switch level {
+        case .a0, .a1: return "استمع إلى النموذج، ثم قل العبارة بصوتك."
+        case .a2: return "قل الجملة بصوت واضح من دون قراءة كل كلمة حرفيًا إن استطعت."
+        case .b1: return "قل الفكرة بطلاقة، وركّز على المعنى قبل تقليد النموذج حرفيًا."
+        case .b2: return "قدّم العبارة بنبرة طبيعية وواضحة، ثم حاول قولها مرة ثانية بإيقاعك أنت."
+        case .c1: return "قدّم العبارة كأنك تستخدمها في نقاش حقيقي، مع وضوح النبرة والترابط."
+        }
+    }
+
+    private static func transferExplanation(level: CEFRLevel) -> String {
+        switch level {
+        case .a0, .a1: return "الهدف أن تنتقل من التعرّف على العبارة إلى استخدامها بنفسك."
+        case .a2: return "استرجاع الجملة من الذاكرة أقوى من اختيارها من قائمة جاهزة."
+        case .b1: return "يركز هذا الجزء على تحويل المعرفة إلى استخدام مستقل في جملة كاملة."
+        case .b2: return "في هذا المستوى نحتاج إلى دقة في المعنى إلى جانب صحة الشكل."
+        case .c1: return "المستوى المتقدم يتطلب استخدامًا دقيقًا وطبيعيًا للغة، لا مجرد التعرّف على الإجابة الصحيحة."
+        }
     }
 }
 
-/// Editorial pass for Arabic learning copy. It is intentionally conservative:
-/// it fixes recurrent generated phrasing and spelling without touching English
-/// answers, changing grammar rules, or inventing new teaching content.
 enum ArabicLearningCopy {
     private static let exact: [String: String] = [
         "Hello تحية.": "Hello تعني «مرحبًا»، وتُستخدم للتحية.",
@@ -148,17 +193,11 @@ enum ArabicLearningCopy {
     ]
 
     private static let phraseReplacements: [(String, String)] = [
-        ("قم باختيار", "اختر"),
-        ("قم بإختيار", "اختر"),
-        ("قم بترتيب", "رتّب"),
-        ("قم بالاستماع إلى", "استمع إلى"),
-        ("قم بالاستماع", "استمع"),
-        ("قم بالنطق", "انطق"),
-        ("قم بنطق", "انطق"),
-        ("قم بملء الفراغ", "أكمل الفراغ"),
-        ("قم بملء", "أكمل"),
-        ("قم بترجمة", "ترجم"),
-        ("قم بكتابة", "اكتب"),
+        ("قم باختيار", "اختر"), ("قم بإختيار", "اختر"), ("قم بترتيب", "رتّب"),
+        ("قم بالاستماع إلى", "استمع إلى"), ("قم بالاستماع", "استمع"),
+        ("قم بالنطق", "انطق"), ("قم بنطق", "انطق"),
+        ("قم بملء الفراغ", "أكمل الفراغ"), ("قم بملء", "أكمل"),
+        ("قم بترجمة", "ترجم"), ("قم بكتابة", "اكتب"),
         ("اختر الإجابة الصحيحة من الخيارات التالية", "اختر الإجابة الصحيحة"),
         ("اختر الخيار الصحيح من الخيارات التالية", "اختر الإجابة الصحيحة"),
         ("ترجم الجملة التالية إلى اللغة الإنجليزية", "ترجم الجملة التالية إلى الإنجليزية"),
@@ -167,31 +206,18 @@ enum ArabicLearningCopy {
         ("الهدف من هذا التمرين هو أن", "في هذا التمرين،"),
         ("الهدف من هذا التمرين هو", "هدف هذا التمرين"),
         ("هذا التمرين يساعدك على", "يساعدك هذا التمرين على"),
-        ("يتم استخدام", "يُستخدم"),
-        ("يتم استعمال", "يُستخدم"),
-        ("من أجل أن", "لكي"),
-        ("اللغة الانجليزية", "اللغة الإنجليزية"),
-        ("اللغة العربيه", "اللغة العربية"),
-        ("الإجابة الصحيح", "الإجابة الصحيحة"),
-        ("إضغط", "اضغط"),
-        ("إختار", "اختر"),
-        ("إستمع", "استمع"),
-        ("إستخدم", "استخدم"),
-        ("إكتب", "اكتب"),
-        ("جاري ", "جارٍ ")
+        ("يتم استخدام", "يُستخدم"), ("يتم استعمال", "يُستخدم"), ("من أجل أن", "لكي"),
+        ("اللغة الانجليزية", "اللغة الإنجليزية"), ("اللغة العربيه", "اللغة العربية"),
+        ("الإجابة الصحيح", "الإجابة الصحيحة"), ("إضغط", "اضغط"), ("إختار", "اختر"),
+        ("إستمع", "استمع"), ("إستخدم", "استخدم"), ("إكتب", "اكتب"), ("جاري ", "جارٍ ")
     ]
 
     static func polish(_ input: String) -> String {
         guard !input.isEmpty else { return input }
         if let replacement = exact[input] { return replacement }
-
         var text = input
-        for (bad, good) in phraseReplacements {
-            text = text.replacingOccurrences(of: bad, with: good)
-        }
-        while text.contains("  ") {
-            text = text.replacingOccurrences(of: "  ", with: " ")
-        }
+        for (bad, good) in phraseReplacements { text = text.replacingOccurrences(of: bad, with: good) }
+        while text.contains("  ") { text = text.replacingOccurrences(of: "  ", with: " ") }
         text = text.replacingOccurrences(of: " ،", with: "،")
         text = text.replacingOccurrences(of: " .", with: ".")
         text = text.replacingOccurrences(of: " ؟", with: "؟")
@@ -200,9 +226,6 @@ enum ArabicLearningCopy {
     }
 }
 
-/// Lightweight quality metrics used by tests and diagnostics. These metrics do
-/// not claim to measure CEFR certification; they catch curriculum regressions
-/// such as a level becoming recognition-only or losing listening/output work.
 struct CurriculumQualitySnapshot: Equatable {
     let lessonCount: Int
     let exerciseCount: Int
@@ -231,9 +254,25 @@ enum CurriculumQualityAudit {
             exerciseCount: exercises.count,
             productiveExerciseCount: exercises.filter { productive.contains($0.type) }.count,
             listeningExerciseCount: exercises.filter { $0.type == .listenAndChoose }.count,
-            lessonsWithProductiveWork: lessons.filter { lesson in
-                lesson.exercises.contains { productive.contains($0.type) }
-            }.count
+            lessonsWithProductiveWork: lessons.filter { lesson in lesson.exercises.contains { productive.contains($0.type) } }.count
         )
+    }
+}
+
+enum CurriculumRigorAudit {
+    static func requiredProductiveTasks(for level: CEFRLevel) -> Int {
+        switch level {
+        case .a0, .a1: return 1
+        case .a2, .b1: return 2
+        case .b2, .c1: return 3
+        }
+    }
+
+    static func lessonsBelowProductiveFloor(in level: CourseLevel) -> [String] {
+        let productive: Set<ExerciseType> = [.speak, .translation, .arrangeWords, .fillBlank]
+        let required = requiredProductiveTasks(for: level.level)
+        return level.units.flatMap(\.lessons).filter { lesson in
+            lesson.exercises.filter { productive.contains($0.type) }.count < required
+        }.map(\.id)
     }
 }

@@ -8,7 +8,7 @@ protocol CourseRepositoryProtocol {
 
 protocol ProgressRepositoryProtocol {
     func snapshot() async -> UserProgressSnapshot
-    func recordLesson(lessonID: String, score: Double, points: Int, minutes: Int) async
+    func recordLesson(lessonID: String, score: Double, passed: Bool, points: Int, minutes: Int) async
     func progress(for lessonID: String) async -> LessonProgress?
     func recordSkill(_ skill: LanguageSkill, correct: Bool, at date: Date) async
     func recordStory(storyID: String, score: Double, endingID: String) async

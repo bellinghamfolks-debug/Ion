@@ -138,16 +138,20 @@ class PaddleOcr(private val ctx: Context) {
 
     /** Download url -> f, returning true only on an HTTP 2xx with real bytes. */
     private fun download(f: File, url: String): Boolean {
+        val part = File(f.parentFile, f.name + ".part").also { it.delete() }
         return try {
             val conn = URL(url).openConnection() as HttpURLConnection
             conn.connectTimeout = 20000
             conn.readTimeout = 240000
             conn.instanceFollowRedirects = true
             if (conn.responseCode !in 200..299) { conn.disconnect(); return false }
-            conn.inputStream.use { i -> f.outputStream().use { o -> i.copyTo(o) } }
+            val total = conn.contentLengthLong
+            conn.inputStream.use { i -> part.outputStream().use { o -> i.copyTo(o) } }
             conn.disconnect()
-            nonEmpty(f)
-        } catch (e: Exception) { false }
+            val minimum = if (f.extension == "onnx") 100_000L else 100L
+            if (part.length() < minimum || (total > 0 && part.length() != total)) false
+            else part.renameTo(f)
+        } catch (e: Exception) { false } finally { if (part.exists()) part.delete() }
     }
 
     fun close() {
@@ -229,7 +233,10 @@ class PaddleOcr(private val ctx: Context) {
     private fun detect(e: OrtEnvironment, sess: OrtSession, src: Bitmap): List<Box> {
         val boxes = ArrayList<Box>()
         boxes += detectAt(e, sess, src, 1280)   // high scale -> small text
-        boxes += detectAt(e, sess, src, 736)    // low scale  -> large text / context
+        // The second full detector pass roughly doubles CPU/memory. Use it only
+        // when the high-resolution pass found nothing; large text remains easy
+        // at 1280 while the fallback recovers unusual full-frame layouts.
+        if (boxes.isEmpty()) boxes += detectAt(e, sess, src, 736)
         val merged = mergeBoxes(boxes)
         // Reading order: group into lines top-to-bottom, and RIGHT-to-left within
         // a line (Arabic), so multi-box lines join in the correct order.

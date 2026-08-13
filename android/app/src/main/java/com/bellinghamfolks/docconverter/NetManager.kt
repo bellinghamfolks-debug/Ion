@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import java.net.HttpURLConnection
 import java.net.URL
+import java.io.IOException
 
 /**
  * Routes the app's server calls over CELLULAR data on demand.
@@ -20,6 +21,7 @@ import java.net.URL
  * only our traffic moves, eSight is untouched.
  */
 object NetManager {
+    class CellularUnavailable : IOException("cellular_unavailable")
     @Volatile private var preferCellular = false
     @Volatile private var cellular: Network? = null
     private var cm: ConnectivityManager? = null
@@ -66,10 +68,9 @@ object NetManager {
         val url = URL(urlStr)
         val net = if (preferCellular) (cellular ?: findCellular()) else null
         DiagLog.log("NET", "open via ${if (net != null) "CELLULAR" else "default network"} (preferCellular=$preferCellular cellularReady=${net != null})")
-        return if (net != null)
-            net.openConnection(url) as HttpURLConnection
-        else
-            url.openConnection() as HttpURLConnection
+        if (preferCellular && net == null) throw CellularUnavailable()
+        return if (net != null) net.openConnection(url) as HttpURLConnection
+        else url.openConnection() as HttpURLConnection
     }
 
     /**

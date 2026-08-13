@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
@@ -80,6 +81,8 @@ class LiveReaderActivity : AppCompatActivity() {
         status = TextView(this).apply {
             text = "يقرأ ما تراه كاميرا نظارة eSight تلقائيًا بصوت عربي/إنجليزي."
             textSize = 17f; setPadding(0, 8, 0, 16)
+            accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
+            isFocusable = true
         }
         root.addView(status)
 
@@ -96,6 +99,14 @@ class LiveReaderActivity : AppCompatActivity() {
             isChecked = prefs.getBoolean("describe", false)
             setOnCheckedChangeListener { _, checked ->
                 prefs.edit().putBoolean("describe", checked).apply()
+                // Notify an already-running reader too. Updating preferences
+                // alone does not invalidate its current OCR frame reference.
+                startService(Intent(this@LiveReaderActivity, ScreenReaderService::class.java)
+                    .setAction(ScreenReaderService.ACTION_SET_DESCRIBE)
+                    .putExtra(ScreenReaderService.EXTRA_DESCRIBE_ENABLED, checked))
+                status.text = if (checked)
+                    "تم تشغيل الوصف الحي — سيصف المشهد الحالي الآن."
+                else "تم إيقاف الوصف الحي — عاد القارئ إلى قراءة النص."
             }
         })
 
@@ -103,7 +114,7 @@ class LiveReaderActivity : AppCompatActivity() {
         root.addView(sectionLabel("طريقة القراءة"))
         val modeGroup = RadioGroup(this).apply { orientation = RadioGroup.VERTICAL }
         val onlineBtn = RadioButton(this).apply {
-            text = "أونلاين — دقيق (Gemini، كل ثانيتين، يتطلب إنترنت)"; textSize = 17f; id = 101
+            text = "أونلاين — يحلل المشهد عند تغيّره (يتطلب إنترنت)"; textSize = 17f; id = 101
         }
         val paddleBtn = RadioButton(this).apply {
             text = "بدون إنترنت — على الجهاز (PaddleOCR عربي)"; textSize = 17f; id = 103
@@ -117,6 +128,7 @@ class LiveReaderActivity : AppCompatActivity() {
         modeGroup.setOnCheckedChangeListener { _, id ->
             val mode = if (id == 103) "paddle" else "online"
             prefs.edit().putString("ocr_mode", mode).apply()
+            notifyRunningReaderSettingsChanged()
             status.text = when (mode) {
                 "paddle" -> "وضع عدم الاتصال: يُنزّل المحرّك مرة واحدة عند أول تشغيل ثم يعمل بلا إنترنت."
                 else -> "الوضع الأونلاين."
@@ -160,7 +172,7 @@ class LiveReaderActivity : AppCompatActivity() {
             setOnCheckedChangeListener { _, checked ->
                 prefs.edit().putBoolean("prefer_cellular", checked).apply()
                 NetManager.setPreferCellular(this@LiveReaderActivity, checked)
-                status.text = if (checked) "سيتصل بالخادم عبر بيانات الجوّال." else "اتصال عادي."
+                status.text = if (checked) "جارٍ تجهيز بيانات الجوّال؛ سيظهر خطأ واضح إن لم تصبح متاحة." else "اتصال عادي."
             }
         })
 
@@ -179,6 +191,7 @@ class LiveReaderActivity : AppCompatActivity() {
         trigGroup.setOnCheckedChangeListener { _, id ->
             val t = if (id == 202) "demand" else "live"
             prefs.edit().putString("trigger", t).apply()
+            notifyRunningReaderSettingsChanged()
             status.text = if (t == "demand")
                 "وضع الطلب: اضغط الزر العائم فوق تطبيق eSight، أو زر الإشعار."
             else "بث مباشر مفعّل."
@@ -244,7 +257,7 @@ class LiveReaderActivity : AppCompatActivity() {
 
         // Stop reading automatically when the view goes blank (you looked away).
         root.addView(CheckBox(this).apply {
-            text = "إيقاف القراءة تلقائيًا عند النظر بعيدًا (شاشة فارغة)"
+            text = "إيقاف القراءة عند انقطاع صورة مشاركة الشاشة"
             textSize = 16f
             isChecked = prefs.getBoolean("autostop", true)
             val lp = LinearLayout.LayoutParams(
@@ -302,6 +315,7 @@ class LiveReaderActivity : AppCompatActivity() {
         this.text = text; textSize = 19f; setTypeface(null, Typeface.BOLD)
         setTextColor(Color.parseColor("#1565C0"))
         setPadding(0, 32, 0, 8)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) isAccessibilityHeading = true
     }
 
     private fun bigButton(text: String, onClick: () -> Unit): Button = Button(this).apply {
@@ -318,7 +332,14 @@ class LiveReaderActivity : AppCompatActivity() {
         lp.marginStart = 8; lp.marginEnd = 8; layoutParams = lp
         setOnClickListener {
             prefs.edit().putFloat("rate", rate).apply()
+            contentDescription = "$label، محدد"
             status.text = "سرعة القراءة: $label"
+            status.announceForAccessibility(status.text)
         }
+    }
+
+    private fun notifyRunningReaderSettingsChanged() {
+        startService(Intent(this, ScreenReaderService::class.java)
+            .setAction(ScreenReaderService.ACTION_SETTINGS_CHANGED))
     }
 }

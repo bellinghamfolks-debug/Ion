@@ -583,6 +583,7 @@ async function geminiReadTextStream(imageBase64, model, mode, onDelta) {
     throw new Error(`gemini ${gres.status}: ${detail.slice(0, 200)}`);
   }
   let buf = "";
+  let produced = false;
   for await (const chunk of gres.body) {
     buf += chunk.toString("utf8");
     let idx;
@@ -595,10 +596,48 @@ async function geminiReadTextStream(imageBase64, model, mode, onDelta) {
       try {
         const j = JSON.parse(payload);
         const t = (j?.candidates?.[0]?.content?.parts || []).map((p) => p.text || "").join("");
-        if (t) onDelta(t);
+        if (t) { produced = true; onDelta(t); }
       } catch (_) { /* ignore keep-alive / partial lines */ }
     }
   }
+  return produced;
+}
+
+// A model saved by an older APK can be retired while the server's configured
+// default remains current. Retry with MODEL_DEFAULT before turning that into a
+// permanently silent reader. Streaming retries are safe only before any text
+// was emitted, otherwise they would duplicate the beginning of a narration.
+async function liveReadWithFallback(imageBase64, requestedModel, mode) {
+  const models = [...new Set([requestedModel, MODEL_DEFAULT])];
+  let lastError;
+  for (const model of models) {
+    try {
+      const text = await geminiReadText(imageBase64, model, mode);
+      if (text || model === models.at(-1)) return text;
+    } catch (e) {
+      lastError = e;
+    }
+  }
+  throw lastError || new Error("empty_live_response");
+}
+
+async function liveReadStreamWithFallback(imageBase64, requestedModel, mode, onDelta) {
+  const models = [...new Set([requestedModel, MODEL_DEFAULT])];
+  let lastError;
+  for (const model of models) {
+    let produced = false;
+    try {
+      produced = await geminiReadTextStream(imageBase64, model, mode, (text) => {
+        produced = true;
+        onDelta(text);
+      });
+      if (produced || model === models.at(-1)) return;
+    } catch (e) {
+      if (produced) throw e;
+      lastError = e;
+    }
+  }
+  throw lastError || new Error("empty_live_stream");
 }
 
 // Run the Python converter on the whole PDF. Returns the .docx bytes, or throws
@@ -825,7 +864,7 @@ convertRouter.post("/live-ocr", frameJson, liveLimit, async (req, res) => {
   const model = String(req.body?.model || MODEL_DEFAULT).slice(0, 60);
   const mode = req.body?.mode === "describe" ? "describe" : "ocr";
   try {
-    const text = await geminiReadText(b64, model, mode);
+    const text = await liveReadWithFallback(b64, model, mode);
     res.json({ text });
   } catch (e) {
     if (e.status) return res.status(e.status).json({ error: e.message });
@@ -846,7 +885,7 @@ convertRouter.post("/live-ocr-stream", frameJson, liveLimit, async (req, res) =>
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("X-Accel-Buffering", "no"); // don't let a proxy buffer the stream
   try {
-    await geminiReadTextStream(b64, model, mode, (t) => res.write(t));
+    await liveReadStreamWithFallback(b64, model, mode, (t) => res.write(t));
     res.end();
   } catch (e) {
     if (!res.headersSent) {

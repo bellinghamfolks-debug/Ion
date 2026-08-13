@@ -44,7 +44,10 @@ object ConvertApi {
             conn.requestMethod = "POST"
             conn.doOutput = true
             conn.connectTimeout = 20000
-            conn.readTimeout = 30000
+            // Bound how old a camera result can become. The service continues
+            // observing frames and will discard stale output, but a live reader
+            // must not remain blocked on one request for half a minute.
+            conn.readTimeout = 12000
             conn.setRequestProperty("Content-Type", "application/json")
             conn.outputStream.use { it.write(body.toString().toByteArray(Charsets.UTF_8)) }
             val code = conn.responseCode

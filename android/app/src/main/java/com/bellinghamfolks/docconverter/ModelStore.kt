@@ -13,6 +13,8 @@ object ModelStore {
 
     /** Download url -> f with 0..100 progress derived from Content-Length. */
     fun download(url: String, f: File, onProgress: (Int) -> Unit): Boolean {
+        val part = File(f.parentFile, f.name + ".part")
+        part.delete()
         var conn: HttpURLConnection? = null
         return try {
             conn = URL(url).openConnection() as HttpURLConnection
@@ -22,7 +24,7 @@ object ModelStore {
             if (conn.responseCode !in 200..299) return false
             val total = conn.contentLengthLong
             conn.inputStream.use { input ->
-                f.outputStream().use { out ->
+                part.outputStream().use { out ->
                     val buf = ByteArray(64 * 1024)
                     var read = 0L
                     var got: Int
@@ -33,7 +35,9 @@ object ModelStore {
                     }
                 }
             }
-            f.exists() && f.length() > 0
-        } catch (e: Exception) { false } finally { conn?.disconnect() }
+            val minimum = if (f.extension == "onnx") 100_000L else 100L
+            if (part.length() < minimum || (total > 0 && part.length() != total)) false
+            else part.renameTo(f)
+        } catch (e: Exception) { false } finally { conn?.disconnect(); if (part.exists()) part.delete() }
     }
 }

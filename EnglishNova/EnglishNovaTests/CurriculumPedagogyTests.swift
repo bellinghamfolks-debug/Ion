@@ -69,6 +69,6 @@ final class CurriculumPedagogyTests: XCTestCase {
         let twiceExercises = twice.levels[0].units[0].lessons[0].exercises
         XCTAssertEqual(onceExercises.count, 2)
         XCTAssertEqual(twiceExercises.count, 2)
-        XCTAssertEqual(twiceExercises.last?.id, "lesson-productive-transfer")
+        XCTAssertEqual(twiceExercises.last?.id, "lesson-transfer-1")
     }
 }

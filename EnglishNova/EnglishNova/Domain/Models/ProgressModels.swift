@@ -9,6 +9,19 @@ struct LessonProgress: Codable, Identifiable, Hashable {
     var earnedPoints: Int
 }
 
+struct LessonReviewState: Codable, Identifiable, Hashable {
+    var id: String { lessonID }
+    var lessonID: String
+    var repetitions: Int = 0
+    var intervalDays: Int = 1
+    var dueDate: Date = .now
+    var lastReviewedAt: Date?
+    var lastScore: Double = 0
+    var bestScore: Double = 0
+    var lapses: Int = 0
+    var successfulStreak: Int = 0
+}
+
 struct DailyActivity: Codable, Identifiable, Hashable {
     var id: Date { date.startOfDay }
     var date: Date
@@ -19,6 +32,7 @@ struct DailyActivity: Codable, Identifiable, Hashable {
 
 struct UserProgressSnapshot: Codable {
     var lessons: [String: LessonProgress] = [:]
+    var lessonReviews: [String: LessonReviewState] = [:]
     var activity: [DailyActivity] = []
     var skills: [LanguageSkill: SkillProgress] = [:]
     var stories: [String: StoryProgress] = [:]
@@ -27,12 +41,13 @@ struct UserProgressSnapshot: Codable {
     var knowledgeStates: [String: KnowledgeState] = [:]
 
     enum CodingKeys: String, CodingKey {
-        case lessons, activity, skills, stories, lastPlacementResult
+        case lessons, lessonReviews, activity, skills, stories, lastPlacementResult
         case practiceSessions, knowledgeStates
     }
 
     init(
         lessons: [String: LessonProgress] = [:],
+        lessonReviews: [String: LessonReviewState] = [:],
         activity: [DailyActivity] = [],
         skills: [LanguageSkill: SkillProgress] = [:],
         stories: [String: StoryProgress] = [:],
@@ -41,6 +56,7 @@ struct UserProgressSnapshot: Codable {
         knowledgeStates: [String: KnowledgeState] = [:]
     ) {
         self.lessons = lessons
+        self.lessonReviews = lessonReviews
         self.activity = activity
         self.skills = skills
         self.stories = stories
@@ -52,6 +68,7 @@ struct UserProgressSnapshot: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         lessons = try container.decodeIfPresent([String: LessonProgress].self, forKey: .lessons) ?? [:]
+        lessonReviews = try container.decodeIfPresent([String: LessonReviewState].self, forKey: .lessonReviews) ?? [:]
         activity = try container.decodeIfPresent([DailyActivity].self, forKey: .activity) ?? []
         skills = try container.decodeIfPresent([LanguageSkill: SkillProgress].self, forKey: .skills) ?? [:]
         stories = try container.decodeIfPresent([String: StoryProgress].self, forKey: .stories) ?? [:]

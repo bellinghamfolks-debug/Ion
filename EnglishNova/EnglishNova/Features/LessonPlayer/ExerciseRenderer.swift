@@ -25,7 +25,7 @@ struct ExerciseRenderer: View {
                     .buttonStyle(.bordered)
                 }
                 ForEach(exercise.choices ?? [], id: \.self) { choice in
-                    ChoiceButton(title: choice, selected: selectedAnswer == choice) {
+                    ChoiceButton(title: L(choice), selected: selectedAnswer == choice) {
                         selectedAnswer = choice
                     }
                 }
@@ -44,7 +44,7 @@ struct ExerciseRenderer: View {
 
         case .flashcard:
             VStack(spacing: 16) {
-                Text(exercise.answer)
+                Text(L(exercise.answer))
                     .font(.system(.largeTitle, design: .rounded).bold())
                     .environment(\.layoutDirection, .leftToRight)
                 Button {
@@ -103,13 +103,14 @@ private struct ArrangeWordsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text(arranged.isEmpty ? L("لم تبدأ الجملة بعد.") : arranged.joined(separator: " "))
+            let visibleArranged = arranged.map(L).joined(separator: " ")
+            Text(arranged.isEmpty ? L("لم تبدأ الجملة بعد.") : visibleArranged)
                 .font(.headline)
                 .environment(\.layoutDirection, .leftToRight)
                 .accessibilityLabel(
                     arranged.isEmpty
                         ? L("لم تختر أي كلمة بعد")
-                        : Lf("الجملة الحالية: %@", arranged.joined(separator: " "))
+                        : Lf("الجملة الحالية: %@", visibleArranged)
                 )
 
             Text(L("اختر الكلمات بالترتيب الصحيح:"))
@@ -117,7 +118,7 @@ private struct ArrangeWordsView: View {
                 .foregroundStyle(.secondary)
 
             ForEach(Array(tokens.enumerated()), id: \.offset) { index, token in
-                Button("\(index + 1). \(token)") {
+                Button("\(index + 1). \(L(token))") {
                     arranged.append(token)
                 }
                 .buttonStyle(.bordered)

@@ -41,7 +41,7 @@ struct LessonPlayerView: View {
             }
         }
         .screenBackground()
-        .navigationTitle(L(model.lesson.titleAr))
+        .navigationTitle(LE(model.lesson.titleAr, model.lesson.titleEn))
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(model.phase == .lesson)
         .toolbar {
@@ -112,7 +112,7 @@ struct LessonPlayerView: View {
                  systemImage: model.lastWasCorrect ? "checkmark.seal.fill" : "lightbulb.fill") {
             if !model.lastWasCorrect {
                 Text(L("الإجابة الصحيحة")).font(.caption.bold()).foregroundStyle(.secondary)
-                Text(model.current.answer).font(.headline).environment(\.layoutDirection, .leftToRight)
+                Text(L(model.current.answer)).font(.headline).environment(\.layoutDirection, .leftToRight)
             }
             if !model.current.explanationAr.isEmpty { Text(L(model.current.explanationAr)) }
             if !explainSeed.isEmpty {
@@ -128,9 +128,15 @@ struct LessonPlayerView: View {
 
     private var feedbackAccessibilityLabel: String {
         if model.lastWasCorrect {
-            return model.current.explanationAr.isEmpty ? L("الإجابة صحيحة") : Lf("الإجابة صحيحة. %@", model.current.explanationAr)
+            return model.current.explanationAr.isEmpty
+                ? L("الإجابة صحيحة")
+                : Lf("الإجابة صحيحة. %@", L(model.current.explanationAr))
         }
-        return Lf("الإجابة غير صحيحة. الإجابة الصحيحة %@. %@", model.current.answer, model.current.explanationAr)
+        return Lf(
+            "الإجابة غير صحيحة. الإجابة الصحيحة %@. %@",
+            L(model.current.answer),
+            L(model.current.explanationAr)
+        )
     }
 
     private var explainSeed: String {

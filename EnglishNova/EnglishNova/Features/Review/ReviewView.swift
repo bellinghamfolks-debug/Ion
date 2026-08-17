@@ -8,7 +8,7 @@ struct ReviewView: View {
         ScrollView {
             VStack(spacing: 20) {
                 if model.isLoading {
-                    ProgressView(L("جارٍ تجهيز المراجعة"))
+                    ProgressView(LE("جارٍ تجهيز المراجعة", "Preparing review"))
                         .padding(.vertical, 40)
                 } else {
                     lessonReviewSection
@@ -19,12 +19,8 @@ struct ReviewView: View {
         }
         .screenBackground()
         .navigationTitle(L("المراجعة"))
-        .task {
-            await model.load(
-                vocabularyRepository: container.vocabularyRepository,
-                progressRepository: container.progressRepository,
-                courseRepository: container.courseRepository
-            )
+        .onAppear {
+            Task { await reload() }
         }
     }
 
@@ -33,11 +29,14 @@ struct ReviewView: View {
         VStack(alignment: .leading, spacing: 14) {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(L("مراجعة الدروس المجتازة"))
+                    Text(LE("مراجعة الدروس المجتازة", "Review completed lessons"))
                         .font(.title2.bold())
-                    Text(L("مراجعة ذكية قصيرة لتثبيت الذاكرة"))
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                    Text(LE(
+                        "جلسات قصيرة متباعدة لتثبيت ما تعلمته",
+                        "Short spaced sessions to strengthen retention"
+                    ))
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
                 }
                 Spacer()
                 if !model.dueLessonReviews.isEmpty {
@@ -46,55 +45,96 @@ struct ReviewView: View {
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
                         .background(.thinMaterial, in: Capsule())
-                        .accessibilityLabel(Lf("باقي %@", "\(model.dueLessonReviews.count)"))
+                        .accessibilityLabel(LfE(
+                            "%@ مراجعات مستحقة",
+                            "%@ reviews due",
+                            "\(model.dueLessonReviews.count)"
+                        ))
                 }
             }
 
-            if model.dueLessonReviews.isEmpty {
+            if model.lessonReviews.isEmpty {
                 ContentUnavailableView(
-                    L("لا توجد دروس للمراجعة الآن"),
+                    LE("لا توجد دروس مجتازة بعد", "No completed lessons yet"),
+                    systemImage: "books.vertical",
+                    description: Text(LE(
+                        "بعد اجتياز أول درس سيبدأ التطبيق بجدولة مراجعات قصيرة تلقائيًا.",
+                        "After you pass your first lesson, the app will automatically schedule short reviews."
+                    ))
+                )
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+            } else if model.dueLessonReviews.isEmpty {
+                ContentUnavailableView(
+                    LE("لا توجد دروس للمراجعة الآن", "No lesson reviews due now"),
                     systemImage: "checkmark.seal.fill",
-                    description: Text(L("ستظهر الدروس هنا عندما يحين وقت تثبيت ما تعلمته."))
+                    description: Text(LE(
+                        "جدول التكرار المتباعد سيعيد الدروس عندما يحين الوقت المناسب للتثبيت.",
+                        "Spaced review will bring lessons back when reinforcement is most useful."
+                    ))
                 )
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
             } else {
                 ForEach(model.dueLessonReviews.prefix(6)) { candidate in
                     NavigationLink {
-                        LessonPlayerView(lesson: candidate.reviewLesson)
+                        LessonReviewSessionView(candidate: candidate)
                     } label: {
                         lessonReviewCard(candidate)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityHint(L("يفتح جلسة مراجعة قصيرة من هذا الدرس"))
+                    .accessibilityHint(LE(
+                        "يفتح جلسة مراجعة قصيرة من تمارين هذا الدرس.",
+                        "Opens a short review session using exercises from this lesson."
+                    ))
                 }
             }
 
             if !model.upcomingLessonReviews.isEmpty {
-                DisclosureGroup(L("المراجعات القادمة")) {
+                DisclosureGroup(LE("المراجعات القادمة", "Upcoming reviews")) {
                     VStack(spacing: 10) {
                         ForEach(model.upcomingLessonReviews.prefix(5)) { candidate in
-                            HStack(spacing: 12) {
-                                Image(systemName: "clock.arrow.circlepath")
-                                    .accessibilityHidden(true)
-                                VStack(alignment: .leading, spacing: 3) {
-                                    Text(displayTitle(for: candidate.lesson))
-                                        .font(.subheadline.weight(.semibold))
-                                    Text(Lf("بعد %@ يوم", "\(max(1, candidate.reviewIntervalDays - candidate.daysSinceCompletion))"))
-                                        .font(.caption)
+                            NavigationLink {
+                                LessonReviewSessionView(candidate: candidate)
+                            } label: {
+                                HStack(spacing: 12) {
+                                    Image(systemName: "clock.arrow.circlepath")
+                                        .accessibilityHidden(true)
+                                    VStack(alignment: .leading, spacing: 3) {
+                                        Text(displayTitle(for: candidate.lesson))
+                                            .font(.subheadline.weight(.semibold))
+                                        Text(dueText(candidate))
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    Spacer()
+                                    Text("\(scorePercent(candidate))%")
+                                        .font(.caption.monospacedDigit())
                                         .foregroundStyle(.secondary)
+                                    Image(systemName: "chevron.forward")
+                                        .font(.caption.bold())
+                                        .foregroundStyle(.tertiary)
+                                        .accessibilityHidden(true)
                                 }
-                                Spacer()
-                                Text("\(candidate.scorePercent)%")
-                                    .font(.caption.monospacedDigit())
-                                    .foregroundStyle(.secondary)
+                                .padding(.vertical, 4)
                             }
-                            .padding(.vertical, 4)
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding(.top, 8)
                 }
                 .font(.subheadline.weight(.semibold))
+            }
+
+            if !model.lessonReviews.isEmpty {
+                NavigationLink {
+                    CompletedLessonReviewListView()
+                } label: {
+                    Label(LE("عرض كل الدروس المجتازة", "View all completed lessons"), systemImage: "list.bullet")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .buttonStyle(.bordered)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -113,13 +153,21 @@ struct ReviewView: View {
                     .font(.headline)
                     .multilineTextAlignment(.leading)
 
-                Text(Lf("النتيجة السابقة %@٪", "\(candidate.scorePercent)"))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                Text(LfE(
+                    "أفضل نتيجة في الدرس %@٪",
+                    "Lesson best %@%",
+                    "\(scorePercent(candidate))"
+                ))
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
 
-                Text(Lf("مراجعة قصيرة %@ دقائق", "\(candidate.reviewLesson.estimatedMinutes)"))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                Text(LfE(
+                    "مراجعة قصيرة، نحو %@ دقائق",
+                    "Short review, about %@ min",
+                    "\(reviewMinutes(candidate))"
+                ))
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
 
             Spacer()
@@ -212,6 +260,40 @@ struct ReviewView: View {
     }
 
     private func displayTitle(for lesson: Lesson) -> String {
-        Localizer.shared.isEnglish ? lesson.titleEn : lesson.titleAr
+        LE(lesson.titleAr, lesson.titleEn)
+    }
+
+    private func scorePercent(_ candidate: LessonReviewCandidate) -> Int {
+        Int((candidate.progress.bestScore * 100).rounded())
+    }
+
+    private func reviewMinutes(_ candidate: LessonReviewCandidate) -> Int {
+        let count = LessonReviewEngine.reviewExercises(
+            for: candidate.lesson,
+            reviewCount: candidate.state?.repetitions ?? 0
+        ).count
+        return max(3, min(8, count))
+    }
+
+    private func dueText(_ candidate: LessonReviewCandidate) -> String {
+        if candidate.isDue { return LE("مستحقة الآن", "Due now") }
+        let days = max(
+            1,
+            Calendar.current.dateComponents(
+                [.day],
+                from: Date().startOfDay,
+                to: candidate.dueDate.startOfDay
+            ).day ?? 1
+        )
+        if days == 1 { return LE("المراجعة غدًا", "Review tomorrow") }
+        return LfE("بعد %@ أيام", "In %@ days", "\(days)")
+    }
+
+    private func reload() async {
+        await model.load(
+            vocabularyRepository: container.vocabularyRepository,
+            progressRepository: container.progressRepository,
+            courseRepository: container.courseRepository
+        )
     }
 }

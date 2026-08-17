@@ -30,10 +30,51 @@ actor ProgressRepository: ProgressRepositoryProtocol {
         lesson.attempts += 1
         lesson.bestScore = max(lesson.bestScore, score)
         lesson.earnedPoints = max(lesson.earnedPoints, points)
-        if passed { lesson.completedAt = .now }
+        if passed && lesson.completedAt == nil {
+            lesson.completedAt = .now
+        }
         value.lessons[lessonID] = lesson
+
+        if passed,
+           value.lessonReviews[lessonID] == nil,
+           let completedAt = lesson.completedAt {
+            value.lessonReviews[lessonID] = LessonReviewState(
+                lessonID: lessonID,
+                dueDate: LessonReviewEngine.initialDueDate(completedAt: completedAt)
+            )
+        }
+
         recordActivity(in: &value, minutes: minutes, exercises: 1, points: points)
         await persist(value)
+    }
+
+    func recordLessonReview(
+        lessonID: String,
+        score: Double,
+        minutes: Int,
+        points: Int,
+        at date: Date = .now
+    ) async -> LessonReviewState {
+        var value = await snapshot()
+        let updated = LessonReviewEngine.updatedState(
+            lessonID: lessonID,
+            current: value.lessonReviews[lessonID],
+            score: score,
+            now: date
+        )
+        value.lessonReviews[lessonID] = updated
+
+        let knowledgeID = "lesson-review:\(lessonID)"
+        value.knowledgeStates[knowledgeID] = MasteryEngine.updatedState(
+            current: value.knowledgeStates[knowledgeID],
+            itemID: knowledgeID,
+            score: score,
+            now: date
+        )
+        trimKnowledgeStates(&value.knowledgeStates)
+        recordActivity(in: &value, minutes: minutes, exercises: 1, points: points, at: date)
+        await persist(value)
+        return updated
     }
 
     func recordSkill(_ skill: LanguageSkill, correct: Bool, at date: Date = .now) async {

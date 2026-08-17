@@ -5,15 +5,144 @@ struct ReviewView: View {
     @StateObject private var model = ReviewViewModel()
 
     var body: some View {
-        VStack(spacing: 20) {
-            if model.isLoading {
-                ProgressView(L("جارٍ تجهيز المراجعة"))
-            } else if let card = model.current {
-                Text(Lf("باقي %@", "\(model.remaining)"))
+        ScrollView {
+            VStack(spacing: 20) {
+                if model.isLoading {
+                    ProgressView(L("جارٍ تجهيز المراجعة"))
+                        .padding(.vertical, 40)
+                } else {
+                    lessonReviewSection
+                    wordReviewSection
+                }
+            }
+            .padding(AppTheme.screenPadding)
+        }
+        .screenBackground()
+        .navigationTitle(L("المراجعة"))
+        .task {
+            await model.load(
+                vocabularyRepository: container.vocabularyRepository,
+                progressRepository: container.progressRepository,
+                courseRepository: container.courseRepository
+            )
+        }
+    }
+
+    @ViewBuilder
+    private var lessonReviewSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .firstTextBaseline) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(L("مراجعة الدروس المجتازة"))
+                        .font(.title2.bold())
+                    Text(L("مراجعة ذكية قصيرة لتثبيت الذاكرة"))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                if !model.dueLessonReviews.isEmpty {
+                    Text("\(model.dueLessonReviews.count)")
+                        .font(.headline.monospacedDigit())
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(.thinMaterial, in: Capsule())
+                        .accessibilityLabel(Lf("باقي %@", "\(model.dueLessonReviews.count)"))
+                }
+            }
+
+            if model.dueLessonReviews.isEmpty {
+                ContentUnavailableView(
+                    L("لا توجد دروس للمراجعة الآن"),
+                    systemImage: "checkmark.seal.fill",
+                    description: Text(L("ستظهر الدروس هنا عندما يحين وقت تثبيت ما تعلمته."))
+                )
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+            } else {
+                ForEach(model.dueLessonReviews.prefix(6)) { candidate in
+                    NavigationLink {
+                        LessonPlayerView(lesson: candidate.reviewLesson)
+                    } label: {
+                        lessonReviewCard(candidate)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityHint(L("يفتح جلسة مراجعة قصيرة من هذا الدرس"))
+                }
+            }
+
+            if !model.upcomingLessonReviews.isEmpty {
+                DisclosureGroup(L("المراجعات القادمة")) {
+                    VStack(spacing: 10) {
+                        ForEach(model.upcomingLessonReviews.prefix(5)) { candidate in
+                            HStack(spacing: 12) {
+                                Image(systemName: "clock.arrow.circlepath")
+                                    .accessibilityHidden(true)
+                                VStack(alignment: .leading, spacing: 3) {
+                                    Text(displayTitle(for: candidate.lesson))
+                                        .font(.subheadline.weight(.semibold))
+                                    Text(Lf("بعد %@ يوم", "\(max(1, candidate.reviewIntervalDays - candidate.daysSinceCompletion))"))
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer()
+                                Text("\(candidate.scorePercent)%")
+                                    .font(.caption.monospacedDigit())
+                                    .foregroundStyle(.secondary)
+                            }
+                            .padding(.vertical, 4)
+                        }
+                    }
+                    .padding(.top, 8)
+                }
+                .font(.subheadline.weight(.semibold))
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(18)
+        .background(.background, in: RoundedRectangle(cornerRadius: 24))
+    }
+
+    private func lessonReviewCard(_ candidate: LessonReviewCandidate) -> some View {
+        HStack(spacing: 14) {
+            Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
+                .font(.title2)
+                .accessibilityHidden(true)
+
+            VStack(alignment: .leading, spacing: 5) {
+                Text(displayTitle(for: candidate.lesson))
+                    .font(.headline)
+                    .multilineTextAlignment(.leading)
+
+                Text(Lf("النتيجة السابقة %@٪", "\(candidate.scorePercent)"))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
-                Spacer()
+                Text(Lf("مراجعة قصيرة %@ دقائق", "\(candidate.reviewLesson.estimatedMinutes)"))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+            Image(systemName: "chevron.forward")
+                .font(.caption.bold())
+                .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
+        }
+        .padding(16)
+        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 18))
+        .contentShape(Rectangle())
+    }
+
+    @ViewBuilder
+    private var wordReviewSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(L("مراجعة الكلمات"))
+                .font(.title2.bold())
+
+            if let card = model.current {
+                Text(Lf("باقي %@", "\(model.remaining)"))
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
 
                 VStack(spacing: 18) {
                     Text(card.word.english)
@@ -40,11 +169,9 @@ struct ReviewView: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .padding(30)
-                .background(.background, in: RoundedRectangle(cornerRadius: 24))
+                .padding(24)
+                .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 20))
                 .accessibilityElement(children: .contain)
-
-                Spacer()
 
                 if model.showingAnswer {
                     VStack(spacing: 10) {
@@ -76,11 +203,15 @@ struct ReviewView: View {
                     systemImage: "checkmark.seal.fill",
                     description: Text(L("ستظهر هنا الكلمات عندما يحين موعد مراجعتها."))
                 )
+                .frame(maxWidth: .infinity)
             }
         }
-        .padding(AppTheme.screenPadding)
-        .screenBackground()
-        .navigationTitle(L("المراجعة"))
-        .task { await model.load(repository: container.vocabularyRepository) }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(18)
+        .background(.background, in: RoundedRectangle(cornerRadius: 24))
+    }
+
+    private func displayTitle(for lesson: Lesson) -> String {
+        Localizer.shared.isEnglish ? lesson.titleEn : lesson.titleAr
     }
 }

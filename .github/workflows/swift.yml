@@ -81,3 +81,60 @@ jobs:
             exit 1
           fi
           echo "✅ Curriculum/curriculum.json bundled correctly"
+
+  unsigned-ipa:
+    name: Unsigned IPA (iPhoneOS)
+    runs-on: macos-14
+
+    defaults:
+      run:
+        working-directory: EnglishNova
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select latest stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build unsigned iPhone app
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project EnglishNova.xcodeproj \
+            -scheme EnglishNova \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build-unsigned \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            COMPILER_INDEX_STORE_ENABLE=NO
+
+      - name: Verify bundled curriculum and create unsigned IPA
+        run: |
+          APP="build-unsigned/Build/Products/Release-iphoneos/EnglishNova.app"
+          test -d "$APP"
+          test -f "$APP/Curriculum/curriculum.json"
+          rm -rf Payload EnglishNova-latest-unsigned.ipa
+          mkdir -p Payload
+          cp -R "$APP" Payload/EnglishNova.app
+          zip -qry EnglishNova-latest-unsigned.ipa Payload
+          unzip -l EnglishNova-latest-unsigned.ipa | grep 'Payload/EnglishNova.app/Curriculum/curriculum.json'
+
+      - name: Upload unsigned IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: EnglishNova-latest-unsigned
+          path: EnglishNova/EnglishNova-latest-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 14

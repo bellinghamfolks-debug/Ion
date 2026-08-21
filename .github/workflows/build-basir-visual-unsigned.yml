@@ -1,0 +1,195 @@
+name: Build Basir Visual unsigned IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/basir-visual-ipa-final
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Visual-only edition
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import plistlib
+
+          root = Path('ios')
+
+          # Independent bundle IDs and App Group.
+          p = root/'project.yml'
+          s = p.read_text()
+          s = s.replace('PRODUCT_BUNDLE_IDENTIFIER: com.basir.ai.share', 'PRODUCT_BUNDLE_IDENTIFIER: com.basir.visual.share')
+          s = s.replace('PRODUCT_BUNDLE_IDENTIFIER: com.basir.ai.tests', 'PRODUCT_BUNDLE_IDENTIFIER: com.basir.visual.tests')
+          s = s.replace('PRODUCT_BUNDLE_IDENTIFIER: com.basir.ai', 'PRODUCT_BUNDLE_IDENTIFIER: com.basir.visual')
+          p.write_text(s)
+
+          for rel in ['Basir/Basir.entitlements','ShareExtension/BasirShare.entitlements','Basir/Helpers/ShareInbox.swift','ShareExtension/ShareViewController.swift']:
+              f = root/rel
+              if f.exists():
+                  f.write_text(f.read_text().replace('group.com.basir.shared','group.com.basir.visual.shared'))
+
+          # App metadata + Open In registrations.
+          info_path = root/'Basir/Info.plist'
+          with info_path.open('rb') as f: info = plistlib.load(f)
+          info['CFBundleDisplayName'] = 'بصير المرئي'
+          info['CFBundleShortVersionString'] = '4.4.1'
+          info['CFBundleVersion'] = '65'
+          info['CFBundleURLTypes'] = [{
+              'CFBundleURLName':'com.basir.visual.share',
+              'CFBundleTypeRole':'Editor',
+              'CFBundleURLSchemes':['basirvisual']
+          }]
+          info['LSSupportsOpeningDocumentsInPlace'] = True
+          info['CFBundleDocumentTypes'] = [
+              {'CFBundleTypeName':'Basir Images','CFBundleTypeRole':'Editor','LSHandlerRank':'Alternate','LSItemContentTypes':['public.image']},
+              {'CFBundleTypeName':'Basir PDF Documents','CFBundleTypeRole':'Editor','LSHandlerRank':'Alternate','LSItemContentTypes':['com.adobe.pdf']},
+              {'CFBundleTypeName':'Basir Text Documents','CFBundleTypeRole':'Editor','LSHandlerRank':'Alternate','LSItemContentTypes':['public.plain-text','public.comma-separated-values-text','public.rtf']},
+              {'CFBundleTypeName':'Basir Office Documents','CFBundleTypeRole':'Editor','LSHandlerRank':'Alternate','LSItemContentTypes':['org.openxmlformats.wordprocessingml.document','org.openxmlformats.presentationml.presentation']},
+          ]
+          with info_path.open('wb') as f: plistlib.dump(info,f,sort_keys=False)
+
+          ext_info_path = root/'ShareExtension/Info.plist'
+          with ext_info_path.open('rb') as f: ext_info = plistlib.load(f)
+          ext_info['CFBundleDisplayName'] = 'بصير المرئي'
+          ext_info['CFBundleShortVersionString'] = '4.4.1'
+          ext_info['CFBundleVersion'] = '65'
+          with ext_info_path.open('wb') as f: plistlib.dump(ext_info,f,sort_keys=False)
+
+          # Suppress all programmatic screen-reader announcements in host app.
+          for f in (root/'Basir').rglob('*.swift'):
+              text = f.read_text()
+              if 'UIAccessibility.post' in text:
+                  f.write_text(text.replace('UIAccessibility.post', 'BasirVisualAccessibility.post'))
+          helper = root/'Basir/Helpers/BasirVisualAccessibility.swift'
+          helper.write_text('''import UIKit\n\n/// Visual-only edition: programmatic accessibility announcements are disabled.\nenum BasirVisualAccessibility {\n    static func post(notification: UIAccessibility.Notification, argument: Any?) {}\n}\n''')
+
+          # Hide the complete SwiftUI hierarchy from VoiceOver/screen readers.
+          cv = root/'Basir/ContentView.swift'
+          text = cv.read_text()
+          marker = '        .tint(BasirTheme.brand)\n'
+          if '.accessibilityHidden(true)' not in text:
+              text = text.replace(marker, marker + '        .accessibilityHidden(true)\n', 1)
+          cv.write_text(text)
+
+          # Direct file:// Open In support without replacing ShareInbox.
+          bridge = root/'Basir/Helpers/BasirVisualFileOpen.swift'
+          bridge.write_text(r'''import Foundation
+
+@MainActor
+extension ShareInbox {
+    func handleVisualExternalURL(_ url: URL) {
+        if !url.isFileURL { handle(url); return }
+        let didAccess = url.startAccessingSecurityScopedResource()
+        defer { if didAccess { url.stopAccessingSecurityScopedResource() } }
+
+        let ext = url.pathExtension.lowercased()
+        let images: Set<String> = ["jpg","jpeg","png","heic","heif","gif","bmp","tif","tiff","webp"]
+        let text: Set<String> = ["txt","csv","md","markdown","json","xml","html","htm","log","rtf"]
+        let docs: Set<String> = ["pdf","docx","pptx"]
+        guard images.contains(ext) || text.contains(ext) || docs.contains(ext) else { return }
+        guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Self.appGroup) else { return }
+        let task = images.contains(ext) ? "describe_image" : (docs.contains(ext) ? "convert" : "ask")
+        let dst = container.appendingPathComponent("share-\(task)-\(UUID().uuidString).\(ext)")
+        do {
+            try? FileManager.default.removeItem(at: dst)
+            try FileManager.default.copyItem(at: url, to: dst)
+            pending = Incoming(task: task, fileURL: dst, fileExtension: ext)
+        } catch { }
+    }
+}
+''')
+
+          app = root/'Basir/BasirApp.swift'
+          text = app.read_text()
+          text = text.replace('.onOpenURL { shareInbox.handle($0) }', '.onOpenURL { shareInbox.handleVisualExternalURL($0) }')
+          app.write_text(text)
+
+          # Treat office/text formats as documents/text in the received-item UI.
+          shared = root/'Basir/Views/SharedItemView.swift'
+          text = shared.read_text()
+          text = text.replace('["jpg", "jpeg", "png", "heic", "heif", "gif"].contains(incoming.fileExtension)', '["jpg", "jpeg", "png", "heic", "heif", "gif", "bmp", "tif", "tiff", "webp"].contains(incoming.fileExtension)')
+          text = text.replace('private var isText: Bool { incoming.fileExtension == "txt" }', 'private var isText: Bool { ["txt", "csv", "md", "markdown", "json", "xml", "html", "htm", "log", "rtf"].contains(incoming.fileExtension) }')
+          text = text.replace('private var isDocument: Bool { incoming.fileExtension == "pdf" }', 'private var isDocument: Bool { ["pdf", "docx", "pptx"].contains(incoming.fileExtension) }')
+          shared.write_text(text)
+
+          # Visual-only Share Extension.
+          share = root/'ShareExtension/ShareViewController.swift'
+          text = share.read_text().replace('UIAccessibility.post', 'BasirShareVisualAccessibility.post')
+          needle = '        super.viewDidLoad()\n'
+          if 'accessibilityElementsHidden = true' not in text:
+              text = text.replace(needle, needle + '        view.isAccessibilityElement = false\n        view.accessibilityElementsHidden = true\n        view.accessibilityElements = []\n', 1)
+          text = text.replace('components.scheme = "basir"', 'components.scheme = "basirvisual"')
+          text = text.replace('domain: "com.basir.ai.share"', 'domain: "com.basir.visual.share"')
+          share.write_text(text)
+          (root/'ShareExtension/BasirShareVisualAccessibility.swift').write_text('''import UIKit\n\nenum BasirShareVisualAccessibility {\n    static func post(notification: UIAccessibility.Notification, argument: Any?) {}\n}\n''')
+          PY
+
+          grep -Fq 'PRODUCT_BUNDLE_IDENTIFIER: com.basir.visual' ios/project.yml
+          grep -Fq '.accessibilityHidden(true)' ios/Basir/ContentView.swift
+          grep -Fq 'handleVisualExternalURL' ios/Basir/BasirApp.swift
+          grep -Fq 'group.com.basir.visual.shared' ios/Basir/Basir.entitlements
+
+      - name: Install XcodeGen
+        run: |
+          brew install xcodegen
+          xcodegen --version
+          xcodebuild -version
+
+      - name: Generate project and build unsigned device app
+        working-directory: ios
+        run: |
+          set -euo pipefail
+          xcodegen generate
+          rm -rf build
+          xcodebuild build \
+            -project Basir.xcodeproj \
+            -scheme Basir \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$PWD/build/DerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY='' \
+            DEVELOPMENT_TEAM='' \
+            COMPILER_INDEX_STORE_ENABLE=NO \
+            ONLY_ACTIVE_ARCH=NO
+
+      - name: Validate and package IPA
+        working-directory: ios
+        run: |
+          set -euo pipefail
+          APP="$PWD/build/DerivedData/Build/Products/Release-iphoneos/Basir.app"
+          test -d "$APP"
+          test -f "$APP/Basir"
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP/Info.plist")" = 'com.basir.visual'
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleDisplayName' "$APP/Info.plist")" = 'بصير المرئي'
+          lipo -info "$APP/Basir" | tee /tmp/arch.txt
+          grep -q arm64 /tmp/arch.txt
+          test ! -d "$APP/_CodeSignature"
+          rm -rf build/Payload
+          mkdir -p build/Payload
+          ditto "$APP" build/Payload/Basir.app
+          (cd build && zip -qry Basir-Visual-v4.4.1-build65-unsigned.ipa Payload)
+          unzip -t build/Basir-Visual-v4.4.1-build65-unsigned.ipa
+          shasum -a 256 build/Basir-Visual-v4.4.1-build65-unsigned.ipa > build/Basir-Visual-v4.4.1-build65-unsigned.sha256
+
+      - name: Upload unsigned IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Basir-Visual-v4.4.1-build65-unsigned
+          path: |
+            ios/build/Basir-Visual-v4.4.1-build65-unsigned.ipa
+            ios/build/Basir-Visual-v4.4.1-build65-unsigned.sha256
+          if-no-files-found: error
+          retention-days: 14

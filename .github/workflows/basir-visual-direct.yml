@@ -7,7 +7,7 @@ on:
       - claude/file-extraction-repo-migration-hqgNY
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -74,3 +74,16 @@ jobs:
             ios/build/Basir-Visual-v4.4.1-build65-unsigned.sha256
           if-no-files-found: error
           retention-days: 14
+
+      - name: Publish neutral-accessibility IPA to build branch
+        if: github.event_name == 'pull_request' && github.head_ref == 'claude/basir-visual-neutral-accessibility'
+        run: |
+          set -euo pipefail
+          mkdir -p generated
+          cp ios/build/Basir-Visual-v4.4.1-build65-unsigned.ipa generated/Basir-Visual-v4.4.1-build65-no-hidden-accessibility-unsigned.ipa
+          shasum -a 256 generated/Basir-Visual-v4.4.1-build65-no-hidden-accessibility-unsigned.ipa > generated/Basir-Visual-v4.4.1-build65-no-hidden-accessibility-unsigned.sha256
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- generated/Basir-Visual-v4.4.1-build65-no-hidden-accessibility-unsigned.ipa generated/Basir-Visual-v4.4.1-build65-no-hidden-accessibility-unsigned.sha256
+          git commit -m 'Add neutral-accessibility unsigned Basir Visual IPA [skip ci]'
+          git push origin HEAD:claude/basir-visual-neutral-accessibility

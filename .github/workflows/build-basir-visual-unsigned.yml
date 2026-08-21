@@ -2,6 +2,7 @@ name: Build Basir Visual unsigned IPA
 
 on:
   workflow_dispatch:
+  pull_request:
   push:
     branches:
       - claude/basir-visual-ipa-final
@@ -25,7 +26,6 @@ jobs:
 
           root = Path('ios')
 
-          # Independent bundle IDs and App Group.
           p = root/'project.yml'
           s = p.read_text()
           s = s.replace('PRODUCT_BUNDLE_IDENTIFIER: com.basir.ai.share', 'PRODUCT_BUNDLE_IDENTIFIER: com.basir.visual.share')
@@ -38,17 +38,12 @@ jobs:
               if f.exists():
                   f.write_text(f.read_text().replace('group.com.basir.shared','group.com.basir.visual.shared'))
 
-          # App metadata + Open In registrations.
           info_path = root/'Basir/Info.plist'
           with info_path.open('rb') as f: info = plistlib.load(f)
           info['CFBundleDisplayName'] = 'بصير المرئي'
           info['CFBundleShortVersionString'] = '4.4.1'
           info['CFBundleVersion'] = '65'
-          info['CFBundleURLTypes'] = [{
-              'CFBundleURLName':'com.basir.visual.share',
-              'CFBundleTypeRole':'Editor',
-              'CFBundleURLSchemes':['basirvisual']
-          }]
+          info['CFBundleURLTypes'] = [{'CFBundleURLName':'com.basir.visual.share','CFBundleTypeRole':'Editor','CFBundleURLSchemes':['basirvisual']}]
           info['LSSupportsOpeningDocumentsInPlace'] = True
           info['CFBundleDocumentTypes'] = [
               {'CFBundleTypeName':'Basir Images','CFBundleTypeRole':'Editor','LSHandlerRank':'Alternate','LSItemContentTypes':['public.image']},
@@ -65,15 +60,12 @@ jobs:
           ext_info['CFBundleVersion'] = '65'
           with ext_info_path.open('wb') as f: plistlib.dump(ext_info,f,sort_keys=False)
 
-          # Suppress all programmatic screen-reader announcements in host app.
           for f in (root/'Basir').rglob('*.swift'):
               text = f.read_text()
               if 'UIAccessibility.post' in text:
                   f.write_text(text.replace('UIAccessibility.post', 'BasirVisualAccessibility.post'))
-          helper = root/'Basir/Helpers/BasirVisualAccessibility.swift'
-          helper.write_text('''import UIKit\n\n/// Visual-only edition: programmatic accessibility announcements are disabled.\nenum BasirVisualAccessibility {\n    static func post(notification: UIAccessibility.Notification, argument: Any?) {}\n}\n''')
+          (root/'Basir/Helpers/BasirVisualAccessibility.swift').write_text('''import UIKit\n\nenum BasirVisualAccessibility {\n    static func post(notification: UIAccessibility.Notification, argument: Any?) {}\n}\n''')
 
-          # Hide the complete SwiftUI hierarchy from VoiceOver/screen readers.
           cv = root/'Basir/ContentView.swift'
           text = cv.read_text()
           marker = '        .tint(BasirTheme.brand)\n'
@@ -81,9 +73,7 @@ jobs:
               text = text.replace(marker, marker + '        .accessibilityHidden(true)\n', 1)
           cv.write_text(text)
 
-          # Direct file:// Open In support without replacing ShareInbox.
-          bridge = root/'Basir/Helpers/BasirVisualFileOpen.swift'
-          bridge.write_text(r'''import Foundation
+          (root/'Basir/Helpers/BasirVisualFileOpen.swift').write_text(r'''import Foundation
 
 @MainActor
 extension ShareInbox {
@@ -91,7 +81,6 @@ extension ShareInbox {
         if !url.isFileURL { handle(url); return }
         let didAccess = url.startAccessingSecurityScopedResource()
         defer { if didAccess { url.stopAccessingSecurityScopedResource() } }
-
         let ext = url.pathExtension.lowercased()
         let images: Set<String> = ["jpg","jpeg","png","heic","heif","gif","bmp","tif","tiff","webp"]
         let text: Set<String> = ["txt","csv","md","markdown","json","xml","html","htm","log","rtf"]
@@ -110,11 +99,9 @@ extension ShareInbox {
 ''')
 
           app = root/'Basir/BasirApp.swift'
-          text = app.read_text()
-          text = text.replace('.onOpenURL { shareInbox.handle($0) }', '.onOpenURL { shareInbox.handleVisualExternalURL($0) }')
+          text = app.read_text().replace('.onOpenURL { shareInbox.handle($0) }', '.onOpenURL { shareInbox.handleVisualExternalURL($0) }')
           app.write_text(text)
 
-          # Treat office/text formats as documents/text in the received-item UI.
           shared = root/'Basir/Views/SharedItemView.swift'
           text = shared.read_text()
           text = text.replace('["jpg", "jpeg", "png", "heic", "heif", "gif"].contains(incoming.fileExtension)', '["jpg", "jpeg", "png", "heic", "heif", "gif", "bmp", "tif", "tiff", "webp"].contains(incoming.fileExtension)')
@@ -122,7 +109,6 @@ extension ShareInbox {
           text = text.replace('private var isDocument: Bool { incoming.fileExtension == "pdf" }', 'private var isDocument: Bool { ["pdf", "docx", "pptx"].contains(incoming.fileExtension) }')
           shared.write_text(text)
 
-          # Visual-only Share Extension.
           share = root/'ShareExtension/ShareViewController.swift'
           text = share.read_text().replace('UIAccessibility.post', 'BasirShareVisualAccessibility.post')
           needle = '        super.viewDidLoad()\n'

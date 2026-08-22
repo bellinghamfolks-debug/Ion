@@ -74,7 +74,8 @@ jobs:
           printf 'success\n' > generated/build-status.txt
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- generated
+          git add -f -- generated/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa
+          git add -- generated/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.sha256 generated/build-status.txt
           git commit -m 'Publish neutral-accessibility Basir Visual IPA [skip ci]'
           git push origin HEAD:claude/basir-visual-neutral-accessibility
 

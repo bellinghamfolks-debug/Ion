@@ -55,6 +55,7 @@ with share_info_path.open("wb") as f:
 # No deliberate accessibility exclusion in this edition.
 # Keep the platform and source project's normal VoiceOver behavior unchanged.
 # Do not hide the hierarchy, suppress announcements, or replace accessibility APIs.
+# CI sync marker: neutral-accessibility build.
 
 # Support direct file:// Open In without replacing the existing ShareInbox implementation.
 (root / "Basir/Helpers/BasirVisualFileOpen.swift").write_text(r'''import Foundation

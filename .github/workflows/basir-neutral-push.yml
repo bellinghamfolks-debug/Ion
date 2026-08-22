@@ -63,30 +63,34 @@ jobs:
           ditto "$APP" build/Payload/Basir.app
           (cd build && zip -qry Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa Payload)
           unzip -t build/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa
+          shasum -a 256 build/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa > build/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.sha256
 
-      - name: Publish IPA back to branch
+      - name: Upload IPA artifact
         if: success()
-        run: |
-          set -euo pipefail
-          mkdir -p generated
-          cp ios/build/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa generated/
-          shasum -a 256 generated/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa > generated/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.sha256
-          printf 'success\n' > generated/build-status.txt
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -f -- generated/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa
-          git add -- generated/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.sha256 generated/build-status.txt
-          git commit -m 'Publish neutral-accessibility Basir Visual IPA [skip ci]'
-          git push origin HEAD:claude/basir-visual-neutral-accessibility
+        uses: actions/upload-artifact@v4
+        with:
+          name: Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned
+          path: |
+            ios/build/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa
+            ios/build/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.sha256
+          if-no-files-found: error
+          retention-days: 14
 
-      - name: Publish failure status
-        if: failure()
+      - name: Publish build status
+        if: always()
         run: |
           set +e
           mkdir -p generated
-          printf 'failure\n' > generated/build-status.txt
+          {
+            echo "status=${{ job.status }}"
+            echo "run_id=${{ github.run_id }}"
+            echo "head=${{ github.sha }}"
+          } > generated/build-status.txt
+          if test -f ios/build/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.sha256; then
+            cp ios/build/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.sha256 generated/
+          fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- generated/build-status.txt
-          git commit -m 'Record neutral-accessibility build failure [skip ci]'
-          git push origin HEAD:claude/basir-visual-neutral-accessibility
+          git add -- generated/build-status.txt generated/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.sha256 2>/dev/null || true
+          git commit -m "Record neutral-accessibility build ${{ github.run_id }} [skip ci]" || true
+          git push origin HEAD:claude/basir-visual-neutral-accessibility || true

@@ -1,0 +1,1 @@
+Build Basir Visual without deliberate accessibility hiding.

@@ -1,0 +1,91 @@
+name: Basir neutral direct push build
+
+on:
+  push:
+    branches:
+      - claude/basir-visual-neutral-accessibility
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: claude/basir-visual-neutral-accessibility
+
+      - name: Transform visual edition without deliberate accessibility hiding
+        run: python3 scripts/make_basir_visual.py
+
+      - name: Install XcodeGen
+        run: |
+          brew install xcodegen
+          xcodegen --version
+          xcodebuild -version
+
+      - name: Build unsigned iPhone app
+        working-directory: ios
+        run: |
+          set -euo pipefail
+          xcodegen generate
+          rm -rf build
+          xcodebuild build \
+            -project Basir.xcodeproj \
+            -scheme Basir \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$PWD/build/DerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY='' \
+            DEVELOPMENT_TEAM='' \
+            COMPILER_INDEX_STORE_ENABLE=NO \
+            ONLY_ACTIVE_ARCH=NO
+
+      - name: Validate and package
+        working-directory: ios
+        run: |
+          set -euo pipefail
+          APP="$PWD/build/DerivedData/Build/Products/Release-iphoneos/Basir.app"
+          test -d "$APP"
+          test -f "$APP/Basir"
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP/Info.plist")" = 'com.basir.visual'
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleDisplayName' "$APP/Info.plist")" = 'بصير المرئي'
+          lipo -info "$APP/Basir" | grep arm64
+          test ! -d "$APP/_CodeSignature"
+          rm -rf build/Payload
+          mkdir -p build/Payload
+          ditto "$APP" build/Payload/Basir.app
+          (cd build && zip -qry Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa Payload)
+          unzip -t build/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa
+
+      - name: Publish IPA back to branch
+        if: success()
+        run: |
+          set -euo pipefail
+          mkdir -p generated
+          cp ios/build/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa generated/
+          shasum -a 256 generated/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.ipa > generated/Basir-Visual-v4.4.1-build65-neutral-accessibility-unsigned.sha256
+          printf 'success\n' > generated/build-status.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- generated
+          git commit -m 'Publish neutral-accessibility Basir Visual IPA [skip ci]'
+          git push origin HEAD:claude/basir-visual-neutral-accessibility
+
+      - name: Publish failure status
+        if: failure()
+        run: |
+          set +e
+          mkdir -p generated
+          printf 'failure\n' > generated/build-status.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- generated/build-status.txt
+          git commit -m 'Record neutral-accessibility build failure [skip ci]'
+          git push origin HEAD:claude/basir-visual-neutral-accessibility

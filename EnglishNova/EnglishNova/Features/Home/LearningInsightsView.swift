@@ -30,9 +30,9 @@ struct LearningInsightsView: View {
                         .foregroundStyle(.secondary)
 
                     ForEach(insights.insights) { insight in
-                        InfoCard(title: insight.titleAr, systemImage: insight.systemImage) {
-                            Text(insight.valueAr).font(.title.bold())
-                            Text(insight.detailAr).foregroundStyle(.secondary)
+                        InfoCard(title: L(insight.titleAr), systemImage: insight.systemImage) {
+                            Text(L(insight.valueAr)).font(.title.bold())
+                            Text(L(insight.detailAr)).foregroundStyle(.secondary)
                         }
                     }
 

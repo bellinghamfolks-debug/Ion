@@ -59,9 +59,6 @@ enum CurriculumEnhancer {
         return exercise
     }
 
-    /// Removes obvious generator artefacts from advanced vocabulary without
-    /// deleting legitimate function words used by a grammar lesson. We only
-    /// remove entries whose Arabic gloss itself identifies them as filler.
     private static func isWeakAdvancedVocabulary(_ word: VocabularyWord, level: CEFRLevel) -> Bool {
         guard level == .b2 || level == .c1 else { return false }
         let gloss = word.arabic.lowercased()
@@ -72,9 +69,6 @@ enum CurriculumEnhancer {
         return generatorMarkers.contains { gloss.contains($0) }
     }
 
-    /// Required productive evidence rises with the level. A0/A1 need one short
-    /// output task; A2/B1 need two; B2/C1 need three. This prevents advanced
-    /// lessons from being mostly recognition exercises with harder vocabulary.
     private static func ensureLevelAppropriateTransfer(
         in exercises: [Exercise],
         vocabulary: [VocabularyWord],
@@ -193,6 +187,16 @@ enum ArabicLearningCopy {
     ]
 
     private static let phraseReplacements: [(String, String)] = [
+        ("Arrange the words to form the sentence:", "رتّب الكلمات لتكوين الجملة:"),
+        ("Choose the correct answer:", "اختر الإجابة الصحيحة:"),
+        ("Choose the correct option:", "اختر الإجابة الصحيحة:"),
+        ("Listen and choose the correct answer:", "استمع ثم اختر الإجابة الصحيحة:"),
+        ("Translate the following sentence into English:", "ترجم الجملة التالية إلى الإنجليزية:"),
+        ("Translate the following phrase into English:", "ترجم العبارة التالية إلى الإنجليزية:"),
+        ("Say the following sentence aloud:", "قل الجملة التالية بصوت واضح:"),
+        ("Speak the following sentence:", "قل الجملة التالية بصوت واضح:"),
+        ("Fill in the blank:", "أكمل الفراغ:"),
+        ("Complete the sentence:", "أكمل الجملة:"),
         ("قم باختيار", "اختر"), ("قم بإختيار", "اختر"), ("قم بترتيب", "رتّب"),
         ("قم بالاستماع إلى", "استمع إلى"), ("قم بالاستماع", "استمع"),
         ("قم بالنطق", "انطق"), ("قم بنطق", "انطق"),

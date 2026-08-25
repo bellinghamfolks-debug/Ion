@@ -1,17 +1,29 @@
-// Authentication helpers: our own app-session JWTs plus Google ID-token verification.
+// Authentication helpers: app-session JWTs plus Google ID-token verification.
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { createRemoteJWKSet, jwtVerify } from "jose";
+import { isProductionEnvironment } from "./config.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || "dev-insecure-secret-change-me";
 const TOKEN_TTL = "60d";
+const LOCAL_DEV_SECRET = "englishnova-local-development-secret-only";
+
+function jwtSecret(env = process.env) {
+  const configured = String(env.JWT_SECRET || "").trim();
+  if (configured.length >= 32) return configured;
+  if (isProductionEnvironment(env)) {
+    const error = new Error("jwt_secret_not_configured");
+    error.code = "jwt_secret_not_configured";
+    throw error;
+  }
+  return LOCAL_DEV_SECRET;
+}
 
 export function signToken(userId) {
-  return jwt.sign({ sub: String(userId) }, JWT_SECRET, { expiresIn: TOKEN_TTL });
+  return jwt.sign({ sub: String(userId) }, jwtSecret(), { expiresIn: TOKEN_TTL });
 }
 
 export function verifyToken(token) {
-  return jwt.verify(token, JWT_SECRET);
+  return jwt.verify(token, jwtSecret());
 }
 
 export async function hashPassword(plain) {

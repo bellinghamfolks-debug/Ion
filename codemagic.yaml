@@ -1,103 +1,11 @@
-# Codemagic CI/CD for EnglishNova (iOS).
-#
-# This repo's active iOS build is now EnglishNova. Basir's code is
-# preserved on its own branch (claude/file-extraction-repo-migration-hqgNY)
-# and can be restored or updated there at any time.
-#
-# Building an iOS app needs macOS + Xcode, so we use Codemagic's hosted
-# macOS instances. XcodeGen regenerates EnglishNova.xcodeproj from
-# EnglishNova/project.yml at build time, so no binary Xcode project is
-# committed to git.
-#
-# Every push to claude/**, main, or master triggers BOTH:
-#   1. ios-simulator-build → fast .app compile smoke test (~3-5 min)
-#   2. ios-unsigned-ipa    → real .ipa archive (~5-8 min), emailed +
-#      posted as a downloadable Codemagic artifact.
+# Codemagic CI/CD for EnglishNova iOS.
+# Production IPA builds require Google OAuth variables configured as secrets in
+# the Codemagic UI: GOOGLE_IOS_CLIENT_ID, GOOGLE_SERVER_CLIENT_ID and
+# GOOGLE_REVERSED_CLIENT_ID.
 
 workflows:
-
   ios-simulator-build:
-    name: EnglishNova iOS — simulator build (no Apple Developer account needed)
-    instance_type: mac_mini_m2
-    max_build_duration: 30
-    environment:
-      xcode: latest
-      vars:
-        XCODE_PROJECT_DIR: "EnglishNova"
-
-    triggering:
-      events:
-        - push
-      branch_patterns:
-        - pattern: "claude/**"
-          include: true
-        - pattern: "main"
-          include: true
-        - pattern: "master"
-          include: true
-
-    scripts:
-      - name: Install XcodeGen
-        script: |
-          brew install xcodegen
-          xcodegen --version
-
-      - name: Generate Xcode project
-        script: |
-          cd $XCODE_PROJECT_DIR
-          xcodegen generate
-          ls -la EnglishNova.xcodeproj/
-
-      - name: Build for iOS Simulator
-        script: |
-          cd $XCODE_PROJECT_DIR
-          xcodebuild build \
-            -project EnglishNova.xcodeproj \
-            -scheme EnglishNova \
-            -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
-            -configuration Debug \
-            -derivedDataPath build \
-            CODE_SIGNING_ALLOWED=NO \
-            COMPILER_INDEX_STORE_ENABLE=NO \
-            ONLY_ACTIVE_ARCH=YES \
-            | xcpretty || exit 1
-
-      - name: Verify .app bundle was produced
-        script: |
-          cd $XCODE_PROJECT_DIR
-          APP_PATH="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
-          if [ ! -d "$APP_PATH" ]; then
-            echo "❌ Build did not produce $APP_PATH"
-            exit 1
-          fi
-          echo "✅ Built $APP_PATH"
-          du -sh "$APP_PATH"
-          if [ ! -f "$APP_PATH/Curriculum/curriculum.json" ]; then
-            echo "❌ Curriculum/curriculum.json missing from app bundle"
-            ls -R "$APP_PATH" | head -40
-            exit 1
-          fi
-          echo "✅ Curriculum/curriculum.json bundled correctly"
-
-    artifacts:
-      - EnglishNova/build/Build/Products/Debug-iphonesimulator/EnglishNova.app
-
-    publishing:
-      email:
-        recipients:
-          - ubdallahalrashdee@gmail.com
-        notify:
-          success: false
-          failure: true
-
-  # ---------------------------------------------------------------------
-  # Device-ready unsigned IPA. Wraps the archived .app into an .ipa that
-  # can be installed on a real iPhone with a sideloading tool (AltStore /
-  # Sideloadly / Signulous) or resigned with a developer certificate.
-  # ---------------------------------------------------------------------
-  ios-unsigned-ipa:
-    name: EnglishNova iOS — unsigned IPA (auto-built on every push)
+    name: EnglishNova iOS — simulator quality build
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
@@ -120,20 +28,95 @@ workflows:
       - name: Install XcodeGen
         script: brew install xcodegen
 
+      - name: Audit and validate source
+        script: |
+          cd "$XCODE_PROJECT_DIR"
+          python3 Scripts/audit_arabic_ui.py
+          python3 Scripts/validate_project.py
+
       - name: Generate Xcode project
         script: |
-          cd $XCODE_PROJECT_DIR
+          cd "$XCODE_PROJECT_DIR"
           xcodegen generate
 
-      - name: Stamp build number from commit count
+      - name: Build for iOS Simulator
         script: |
-          cd $XCODE_PROJECT_DIR
-          BUILD_NUMBER=$(git rev-list HEAD --count)
-          agvtool new-version -all $BUILD_NUMBER || true
+          cd "$XCODE_PROJECT_DIR"
+          set -o pipefail
+          xcodebuild build \
+            -project EnglishNova.xcodeproj \
+            -scheme EnglishNova \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -configuration Debug \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            COMPILER_INDEX_STORE_ENABLE=NO \
+            ONLY_ACTIVE_ARCH=YES \
+            | xcpretty || exit 1
 
-      - name: Archive (unsigned, for inspection or external resigning)
+      - name: Verify app bundle
         script: |
-          cd $XCODE_PROJECT_DIR
+          cd "$XCODE_PROJECT_DIR"
+          APP_PATH="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
+          test -d "$APP_PATH"
+          test -f "$APP_PATH/Curriculum/curriculum.json"
+
+    artifacts:
+      - EnglishNova/build/Build/Products/Debug-iphonesimulator/EnglishNova.app
+
+    publishing:
+      email:
+        recipients:
+          - ubdallahalrashdee@gmail.com
+        notify:
+          success: false
+          failure: true
+
+  ios-unsigned-ipa:
+    name: EnglishNova iOS — production-configured unsigned IPA
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      xcode: latest
+      vars:
+        XCODE_PROJECT_DIR: "EnglishNova"
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "claude/**"
+          include: true
+        - pattern: "main"
+          include: true
+        - pattern: "master"
+          include: true
+
+    scripts:
+      - name: Install XcodeGen
+        script: brew install xcodegen
+
+      - name: Require production Google OAuth settings
+        script: |
+          cd "$XCODE_PROJECT_DIR"
+          Scripts/validate_google_config.sh
+
+      - name: Audit and validate source
+        script: |
+          cd "$XCODE_PROJECT_DIR"
+          python3 Scripts/audit_arabic_ui.py
+          python3 Scripts/validate_project.py
+
+      - name: Generate Xcode project
+        script: |
+          cd "$XCODE_PROJECT_DIR"
+          xcodegen generate
+
+      - name: Archive unsigned app
+        script: |
+          cd "$XCODE_PROJECT_DIR"
+          set -o pipefail
           xcodebuild archive \
             -project EnglishNova.xcodeproj \
             -scheme EnglishNova \
@@ -143,46 +126,48 @@ workflows:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
+            GOOGLE_IOS_CLIENT_ID="$GOOGLE_IOS_CLIENT_ID" \
+            GOOGLE_SERVER_CLIENT_ID="$GOOGLE_SERVER_CLIENT_ID" \
+            GOOGLE_REVERSED_CLIENT_ID="$GOOGLE_REVERSED_CLIENT_ID" \
             | xcpretty || exit 1
 
-      - name: Wrap .app into unsigned .ipa
+      - name: Verify OAuth substitution and wrap IPA
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/$XCODE_PROJECT_DIR/build"
-
           APP_PATH="EnglishNova.xcarchive/Products/Applications/EnglishNova.app"
-          if [ ! -d "$APP_PATH" ]; then
-            echo "❌ Missing app bundle: $APP_PATH"
-            find . -maxdepth 5 -type d -name "*.app" -print
-            exit 1
-          fi
+          test -d "$APP_PATH"
+          test -f "$APP_PATH/Curriculum/curriculum.json"
 
-          if [ ! -f "$APP_PATH/Curriculum/curriculum.json" ]; then
-            echo "❌ Curriculum/curriculum.json missing from app bundle"
-            ls -R "$APP_PATH" | head -40
-            exit 1
-          fi
-          echo "✅ Curriculum/curriculum.json bundled correctly"
+          CLIENT=$(/usr/libexec/PlistBuddy -c 'Print :GIDClientID' "$APP_PATH/Info.plist")
+          SERVER=$(/usr/libexec/PlistBuddy -c 'Print :GIDServerClientID' "$APP_PATH/Info.plist")
+          SCHEME=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleURLTypes:0:CFBundleURLSchemes:0' "$APP_PATH/Info.plist")
+          test "$CLIENT" = "$GOOGLE_IOS_CLIENT_ID"
+          test "$SERVER" = "$GOOGLE_SERVER_CLIENT_ID"
+          test "$SCHEME" = "$GOOGLE_REVERSED_CLIENT_ID"
 
           rm -rf Payload
           mkdir -p Payload
           cp -R "$APP_PATH" Payload/
-
           SHORT_SHA=$(git -C "$CM_BUILD_DIR" rev-parse --short HEAD)
           IPA_NAME="EnglishNova-${SHORT_SHA}-unsigned.ipa"
           /usr/bin/zip -qry "$IPA_NAME" Payload
           cp "$IPA_NAME" EnglishNova-unsigned.ipa
-
           mkdir -p "$CM_BUILD_DIR/artifacts"
           cp "$IPA_NAME" "$CM_BUILD_DIR/artifacts/"
           cp EnglishNova-unsigned.ipa "$CM_BUILD_DIR/artifacts/"
-
-          echo "✅ IPA files ready:"
-          ls -lh "$CM_BUILD_DIR/artifacts"/*.ipa
           rm -rf Payload
+
+      - name: Create exact source snapshot
+        script: |
+          cd "$CM_BUILD_DIR"
+          git archive --format=zip --output=artifacts/EnglishNova-source-latest.zip HEAD \
+            EnglishNova server codemagic.yaml .github/workflows/swift.yml
+          unzip -t artifacts/EnglishNova-source-latest.zip >/dev/null
 
     artifacts:
       - artifacts/*.ipa
+      - artifacts/EnglishNova-source-latest.zip
       - EnglishNova/build/EnglishNova.xcarchive
 
     publishing:

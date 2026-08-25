@@ -38,4 +38,18 @@ final class ArabicCopyQualityTests: XCTestCase {
         }
     }
 
+    func testArabicLearningCopyRepairsEnglishInstructionPrefixes() {
+        XCTAssertEqual(
+            ArabicLearningCopy.polish("Arrange the words to form the sentence: أنا طالب"),
+            "رتّب الكلمات لتكوين الجملة: أنا طالب"
+        )
+        XCTAssertEqual(
+            ArabicLearningCopy.polish("Translate the following sentence into English: أنا جاهز"),
+            "ترجم الجملة التالية إلى الإنجليزية: أنا جاهز"
+        )
+        XCTAssertEqual(
+            ArabicLearningCopy.polish("Listen and choose the correct answer: اختر الإجابة"),
+            "استمع ثم اختر الإجابة الصحيحة: اختر الإجابة"
+        )
+    }
 }

@@ -2,6 +2,7 @@
 import express from "express";
 import cors from "cors";
 import { initSchema } from "./db.js";
+import { assertRuntimeConfig, runtimeConfigStatus } from "./config.js";
 import { authRouter } from "./routes/authRoutes.js";
 import { progressRouter } from "./routes/progressRoutes.js";
 import { aiRouter } from "./routes/aiRoutes.js";
@@ -9,7 +10,12 @@ import { contentRouter } from "./routes/contentRoutes.js";
 import { convertRouter, resumePendingConversions } from "./routes/convertRoutes.js";
 import { analyticsRouter } from "./analytics.js";
 
+// A hosted production deployment must never start with placeholder auth
+// secrets. Local development remains possible with NODE_ENV=development.
+assertRuntimeConfig();
+
 const app = express();
+app.set("trust proxy", 1);
 app.use(cors());
 
 // Conversion uploads manage their own larger body limits.
@@ -23,9 +29,21 @@ app.use(express.json({ limit: "5mb" }));
 
 let dbReady = false;
 
+function healthPayload() {
+  const config = runtimeConfigStatus();
+  return {
+    status: dbReady ? "ok" : "starting",
+    db: dbReady,
+    auth: { google: config.googleConfigured },
+  };
+}
+
 app.get("/", (_req, res) =>
-  res.json({ service: "EnglishNova", status: "ok", db: dbReady, health: "/health" }));
-app.get("/health", (_req, res) => res.json({ status: "ok", db: dbReady }));
+  res.json({ service: "EnglishNova", ...healthPayload(), health: "/health" }));
+app.get("/health", (_req, res) => {
+  const payload = healthPayload();
+  res.status(dbReady ? 200 : 503).json(payload);
+});
 app.use("/auth", authRouter);
 app.use("/ai", aiRouter);
 app.use("/analytics", analyticsRouter);
@@ -47,6 +65,7 @@ async function initWithRetry(attempt = 1) {
     console.log("Database schema ready.");
     resumePendingConversions();
   } catch (err) {
+    dbReady = false;
     console.error(`DB init failed (attempt ${attempt}): ${err.message}`);
     if (attempt < 60) {
       setTimeout(() => initWithRetry(attempt + 1), 5000);

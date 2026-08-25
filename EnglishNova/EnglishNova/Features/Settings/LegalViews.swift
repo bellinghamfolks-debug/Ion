@@ -40,7 +40,7 @@ struct PrivacyView: View {
     var body: some View {
         LegalDocumentView(
             title: L("سياسة الخصوصية"),
-            updated: L("آخر تحديث: 12 أغسطس 2026"),
+            updated: LE("آخر تحديث: 26 أغسطس 2026", "Last updated: August 26, 2026"),
             intro: privacyIntro,
             sections: privacySections
         )
@@ -62,7 +62,7 @@ struct PrivacyView: View {
         [
             .init(title: "الحساب", paragraphs: [
                 "إذا أنشأت حسابًا، يحفظ خادم EnglishNova بريدك الإلكتروني واسم العرض ومعرّف الحساب. كلمة المرور لا تُحفظ كنص قابل للقراءة؛ تُخزّن بصيغة تجزئة آمنة باستخدام bcrypt.",
-                "عند تسجيل الدخول باستخدام Apple، يستخدم الخادم بيانات الاعتماد اللازمة لربط تسجيل الدخول بحسابك. لا يطلب التطبيق من Apple بيانات لا يحتاجها لهذه العملية."
+                "عند تسجيل الدخول باستخدام Google، يرسل التطبيق رمز هوية صادرًا من Google إلى خادم EnglishNova للتحقق من صحة تسجيل الدخول وربطه بحسابك. لا يحفظ EnglishNova كلمة مرور حساب Google، ولا يطلب صلاحيات Google إضافية خارج بيانات الهوية اللازمة لتسجيل الدخول."
             ]),
             .init(title: "تقدّمك في التعلّم", paragraphs: [
                 "عند استخدام المزامنة، يرفع التطبيق نسخة من بيانات تعلّمك إلى حسابك. قد تشمل الدروس والنتائج والنقاط والمراجعات والمفردات والإعدادات وسجل التدريب والأخطاء التعليمية وتقارير النطق المبنية على النص الذي تعرّف إليه النظام.",
@@ -91,7 +91,7 @@ struct PrivacyView: View {
             ]),
             .init(title: "المشاركة والبيع", paragraphs: [
                 "لا يبيع EnglishNova بياناتك الشخصية للمعلنين، ولا يشاركها لأغراض الإعلانات السلوكية.",
-                "تُشارك البيانات مع خدمات خارجية فقط بالقدر اللازم لتقديم الوظائف التي تستخدمها، مثل مزود الذكاء الاصطناعي أو خدمات Apple على جهازك."
+                "تُشارك البيانات مع خدمات خارجية فقط بالقدر اللازم لتقديم الوظائف التي تستخدمها، مثل Google للتحقق من تسجيل الدخول وGoogle Gemini للميزات التي تختار تشغيلها بالذكاء الاصطناعي، أو خدمات Apple على جهازك للميكروفون والتعرّف على الكلام."
             ]),
             .init(title: "تواصل معنا", paragraphs: [
                 "للاستفسار عن الخصوصية أو طلب المساعدة بشأن بياناتك، تواصل عبر البريد ubdallahalrashdee@gmail.com أو حساب X: @abdullahuksu."
@@ -103,7 +103,7 @@ struct PrivacyView: View {
         [
             .init(title: "Account", paragraphs: [
                 "If you create an account, the EnglishNova server stores your email address, display name, and account identifier. Passwords are not stored as readable text; they are hashed using bcrypt.",
-                "Sign in with Apple uses the credentials needed to connect the Apple sign-in to your EnglishNova account."
+                "When you sign in with Google, the app sends a Google ID token to the EnglishNova server so the server can verify the sign-in and connect it to your account. EnglishNova does not store your Google password or request additional Google permissions beyond the identity data needed for sign-in."
             ]),
             .init(title: "Learning progress", paragraphs: [
                 "When sync is used, the app uploads a copy of your learning data to your account. This can include lessons, scores, points, reviews, vocabulary, settings, practice history, learning mistakes, and text-based pronunciation reports.",
@@ -129,6 +129,10 @@ struct PrivacyView: View {
                 "You can delete your account from the Account screen. This deletes the account and associated synced progress from the EnglishNova server under the current service behavior.",
                 "Deleting the account does not automatically erase every local copy on your device. Deleting the app and its data removes the app's local storage."
             ]),
+            .init(title: "Sharing and sale", paragraphs: [
+                "EnglishNova does not sell your personal data to advertisers or share it for behavioral advertising.",
+                "Data is shared with external services only as needed for features you choose to use, such as Google to verify sign-in, Google Gemini for selected AI features, hosting infrastructure required to operate the service, or Apple services on your device for microphone and speech recognition."
+            ]),
             .init(title: "Contact", paragraphs: [
                 "For privacy questions or help with your data, contact ubdallahalrashdee@gmail.com or @abdullahuksu on X."
             ])
@@ -140,7 +144,7 @@ struct TermsOfUseView: View {
     var body: some View {
         LegalDocumentView(
             title: L("شروط الاستخدام"),
-            updated: L("آخر تحديث: 12 أغسطس 2026"),
+            updated: LE("آخر تحديث: 26 أغسطس 2026", "Last updated: August 26, 2026"),
             intro: termsIntro,
             sections: termsSections
         )

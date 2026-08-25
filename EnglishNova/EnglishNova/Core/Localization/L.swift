@@ -27,14 +27,22 @@ final class Localizer {
     }
 
     private func load() {
-        let url = Bundle.main.url(forResource: "translations", withExtension: "json",
+        map = loadMap(named: "translations")
+        for index in 1...6 {
+            let supplemental = loadMap(named: "interface_en_\(index)")
+            map.merge(supplemental) { _, newer in newer }
+        }
+    }
+
+    private func loadMap(named name: String) -> [String: String] {
+        let url = Bundle.main.url(forResource: name, withExtension: "json",
                                   subdirectory: "LocalizationData")
-            ?? Bundle.main.url(forResource: "translations", withExtension: "json")
+            ?? Bundle.main.url(forResource: name, withExtension: "json")
         guard let url,
               let data = try? Data(contentsOf: url),
               let dict = try? JSONDecoder().decode([String: String].self, from: data)
-        else { return }
-        map = dict
+        else { return [:] }
+        return dict
     }
 
     private func loadCachedOverrides() {

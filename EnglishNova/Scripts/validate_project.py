@@ -12,7 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 APP = ROOT / "EnglishNova"
 TESTS = ROOT / "EnglishNovaTests"
 CURRICULUM = APP / "Resources" / "Curriculum" / "curriculum.json"
-TRANSLATIONS = APP / "Resources" / "LocalizationData" / "translations.json"
+LOCALIZATION_DATA = APP / "Resources" / "LocalizationData"
+TRANSLATIONS = LOCALIZATION_DATA / "translations.json"
 EN_STRINGS = APP / "Localization" / "en.lproj" / "Localizable.strings"
 AR_STRINGS = APP / "Localization" / "ar.lproj" / "Localizable.strings"
 MANIFEST = ROOT / "PROJECT_MANIFEST.json"
@@ -97,9 +98,16 @@ for prefix in sorted(english_prefixes):
             f"ArabicLearningCopy has no runtime repair for English prompt prefix: {prefix}")
 notes.append(f"English prompt prefixes covered by runtime enhancer: {len(english_prefixes)}")
 
-# Literal L()/Lf() copy can resolve through translations.json, the standard
-# en.lproj Localizable.strings bundle, or the intentionally small exact map.
+# Literal L()/Lf() copy can resolve through the primary JSON map, supplemental
+# interface maps, the standard en.lproj bundle, or the intentionally small exact map.
 translations = json.loads(TRANSLATIONS.read_text(encoding="utf-8"))
+supplemental_files = sorted(LOCALIZATION_DATA.glob("interface_en_*.json"))
+require(bool(supplemental_files), "Supplemental English UI localization files are missing")
+for supplemental in supplemental_files:
+    payload = json.loads(supplemental.read_text(encoding="utf-8"))
+    require(isinstance(payload, dict) and bool(payload), f"Invalid supplemental localization file: {supplemental.name}")
+    translations.update(payload)
+notes.append(f"Merged English JSON translation entries: {len(translations)} across {1 + len(supplemental_files)} files")
 en_strings = parse_strings(EN_STRINGS)
 ar_strings = parse_strings(AR_STRINGS)
 require(len(en_strings) > 0, "English Localizable.strings could not be parsed")
@@ -108,8 +116,10 @@ require("EnglishNova/Localization" in project_yml, "Localized .lproj resources a
 
 localizer_source = (APP / "Core" / "Localization" / "L.swift").read_text(encoding="utf-8")
 require("bundledEnglish" in localizer_source, "Localizer does not fall back to en.lproj")
-exact_match = re.search(r'static let exact:\s*\[String:\s*String\]\s*=\s*\[(.*?)\]\n\s*\]\n\n\s*static func dynamic', localizer_source, re.DOTALL)
-english_exact_keys = set(re.findall(r'"([^"\n]*[\u0600-\u06FF][^"\n]*)"\s*:', exact_match.group(1) if exact_match else ""))
+english_section = localizer_source.split("private enum EnglishInterfaceCopy", 1)[-1]
+english_exact_section = english_section.split("static func dynamic", 1)[0]
+english_exact_keys = set(re.findall(r'"([^"\n]*[\u0600-\u06FF][^"\n]*)"\s*:', english_exact_section))
+require(bool(english_exact_keys), "EnglishInterfaceCopy exact map could not be parsed")
 localization_calls = re.compile(r'\b(?:L|Lf)\(\s*\"((?:\\.|[^\"\\])*)\"')
 missing_literal_keys: set[str] = set()
 for path in app_files:
@@ -156,8 +166,13 @@ require("EnglishNova-source-latest" in workflow, "CI does not publish a source s
 
 readme = (ROOT / "README.md").read_text(encoding="utf-8")
 server_readme = (REPO / "server" / "README.md").read_text(encoding="utf-8")
+legal_copy = (APP / "Features" / "Settings" / "LegalViews.swift").read_text(encoding="utf-8")
 require("لا توجد مكتبات خارجية" not in readme, "README still claims there are no external dependencies")
 require("Sign in with Apple" not in server_readme, "Server README still documents removed Apple auth")
+require("Sign in with Apple" not in legal_copy and "تسجيل الدخول باستخدام Apple" not in legal_copy,
+        "Privacy copy still documents removed Apple sign-in")
+require("Google ID token" in legal_copy and "رمز هوية صادرًا من Google" in legal_copy,
+        "Privacy copy does not accurately document Google sign-in")
 
 if errors:
     print("EnglishNova release validation: FAILED\n")

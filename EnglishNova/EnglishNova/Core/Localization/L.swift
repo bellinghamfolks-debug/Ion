@@ -1,8 +1,8 @@
 import Foundation
 
 /// Build-independent localization.
-/// Arabic is the source language. English is resolved from the bundled map or
-/// an OTA correction. Arabic receives only safe typographic/editorial cleanup.
+/// Arabic is the source language. English resolves through OTA overrides,
+/// the bundled JSON map, standard en.lproj resources, then small dynamic rules.
 final class Localizer {
     static let shared = Localizer()
 
@@ -10,6 +10,10 @@ final class Localizer {
 
     private var map: [String: String] = [:]
     private var overrides: [String: String] = [:]
+    private lazy var englishBundle: Bundle? = {
+        guard let path = Bundle.main.path(forResource: "en", ofType: "lproj") else { return nil }
+        return Bundle(path: path)
+    }()
 
     private var overridesCacheURL: URL? {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?
@@ -44,23 +48,32 @@ final class Localizer {
     func translate(_ arabic: String) -> String {
         guard isEnglish else { return ArabicInterfaceCopy.polish(arabic) }
 
-        if let translated = overrides[arabic] ?? map[arabic] ?? EnglishInterfaceCopy.exact[arabic] {
-            return translated
-        }
-        if let translated = EnglishInterfaceCopy.dynamic(arabic) {
-            return translated
-        }
+        if let translated = valid(overrides[arabic], source: arabic) { return translated }
+        if let translated = valid(map[arabic], source: arabic) { return translated }
+        if let translated = valid(EnglishInterfaceCopy.exact[arabic], source: arabic) { return translated }
+        if let translated = bundledEnglish(for: arabic) { return translated }
+        if let translated = EnglishInterfaceCopy.dynamic(arabic) { return translated }
 
-        // A localization miss must never silently leak Arabic into an English UI.
-        // The visible fallback is intentional: it makes missing coverage obvious
-        // in QA while keeping the screen readable for an English-only user.
         if Self.containsArabic(arabic) {
             #if DEBUG
             print("[Localization] Missing English copy: \(arabic)")
             #endif
-            return "Translation unavailable"
+            return EnglishInterfaceCopy.unavailable
         }
         return arabic
+    }
+
+    private func valid(_ value: String?, source: String) -> String? {
+        guard let value = value?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !value.isEmpty,
+              value != source else { return nil }
+        return value
+    }
+
+    private func bundledEnglish(for key: String) -> String? {
+        guard let bundle = englishBundle else { return nil }
+        let value = bundle.localizedString(forKey: key, value: nil, table: "Localizable")
+        return valid(value, source: key)
     }
 
     func refreshFromServer() async {
@@ -73,7 +86,8 @@ final class Localizer {
             var request = URLRequest(url: url)
             request.timeoutInterval = 15
             let (data, response) = try await URLSession.shared.data(for: request)
-            guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode),
+            guard let http = response as? HTTPURLResponse,
+                  (200..<300).contains(http.statusCode),
                   data.count <= 5 * 1_024 * 1_024 else { return }
             let decoded = try JSONDecoder().decode(ContentResponse.self, from: data)
             guard let payload = decoded.payload, !payload.isEmpty else { return }
@@ -82,7 +96,7 @@ final class Localizer {
                 try? encoded.write(to: cache, options: .atomic)
             }
         } catch {
-            // Keep cached/bundled localization when offline.
+            // Keep cached and bundled localization when offline.
         }
     }
 
@@ -153,6 +167,8 @@ enum ArabicInterfaceCopy {
 }
 
 private enum EnglishInterfaceCopy {
+    static let unavailable = "Translation unavailable"
+
     static let exact: [String: String] = [
         "الدراسة": "Learning", "تفضيلات التعلّم": "Learning preferences",
         "الصوت والمحادثة": "Speech and conversation", "المدرّب والذكاء الاصطناعي": "Tutor and AI",
@@ -217,7 +233,6 @@ private enum EnglishInterfaceCopy {
 
 func L(_ arabic: String) -> String { Localizer.shared.translate(arabic) }
 
-/// Explicit bilingual copy for dynamic strings that should never depend on a lookup table.
 func LE(_ arabic: String, _ english: String) -> String {
     Localizer.shared.isEnglish ? english : ArabicInterfaceCopy.polish(arabic)
 }

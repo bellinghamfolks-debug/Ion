@@ -13,6 +13,8 @@ APP = ROOT / "EnglishNova"
 TESTS = ROOT / "EnglishNovaTests"
 CURRICULUM = APP / "Resources" / "Curriculum" / "curriculum.json"
 TRANSLATIONS = APP / "Resources" / "LocalizationData" / "translations.json"
+EN_STRINGS = APP / "Localization" / "en.lproj" / "Localizable.strings"
+AR_STRINGS = APP / "Localization" / "ar.lproj" / "Localizable.strings"
 MANIFEST = ROOT / "PROJECT_MANIFEST.json"
 PROJECT_YML = ROOT / "project.yml"
 INFO = APP / "Info.plist"
@@ -29,6 +31,17 @@ def require(condition: bool, message: str) -> None:
 
 def contains_arabic(value: str) -> bool:
     return bool(re.search(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]", value))
+
+
+def parse_strings(path: Path) -> dict[str, str]:
+    text = path.read_text(encoding="utf-8")
+    pattern = re.compile(r'^\s*"((?:\\.|[^"\\])*)"\s*=\s*"((?:\\.|[^"\\])*)"\s*;\s*$', re.MULTILINE)
+    result: dict[str, str] = {}
+    for key, value in pattern.findall(text):
+        key = key.replace(r'\"', '"').replace(r'\\', '\\')
+        value = value.replace(r'\n', '\n').replace(r'\"', '"').replace(r'\\', '\\')
+        result[key] = value
+    return result
 
 
 manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
@@ -49,7 +62,8 @@ if marketing:
     require(manifest.get("version") == marketing.group(1),
             f"Manifest version {manifest.get('version')} does not match MARKETING_VERSION {marketing.group(1)}")
 
-# Curriculum baseline and identity integrity.
+# Current curriculum integrity. Manifest equality catches accidental loss, while
+# minimum floors prevent a stale manifest from blessing a major regression.
 data = json.loads(CURRICULUM.read_text(encoding="utf-8"))
 levels = data.get("levels", [])
 lessons = [lesson for level in levels for unit in level.get("units", []) for lesson in unit.get("lessons", [])]
@@ -58,11 +72,11 @@ vocabulary = [word for lesson in lessons for word in lesson.get("vocabulary", []
 level_counts = {level.get("level", "").upper(): sum(len(unit.get("lessons", [])) for unit in level.get("units", [])) for level in levels}
 
 require(len(levels) == manifest.get("levels") == 6, f"Unexpected CEFR level count: {len(levels)}")
-require(len(lessons) == manifest.get("lessons") == 152, f"Unexpected lesson count: {len(lessons)}")
+require(len(lessons) == manifest.get("lessons") and len(lessons) >= 232, f"Unexpected lesson count: {len(lessons)}")
 require(level_counts.get("A0") == manifest.get("a0Lessons") == 60, f"Unexpected A0 lesson count: {level_counts.get('A0')}")
 require(level_counts.get("A1") == manifest.get("a1Lessons") == 60, f"Unexpected A1 lesson count: {level_counts.get('A1')}")
-require(len(exercises) == manifest.get("exercises") == 880, f"Unexpected base exercise count: {len(exercises)}")
-require(len(vocabulary) == manifest.get("vocabularyEntries") == 456, f"Unexpected vocabulary count: {len(vocabulary)}")
+require(len(exercises) == manifest.get("exercises") and len(exercises) >= 5940, f"Unexpected base exercise count: {len(exercises)}")
+require(len(vocabulary) == manifest.get("vocabularyEntries") and len(vocabulary) >= 1424, f"Unexpected vocabulary count: {len(vocabulary)}")
 for label, ids in {
     "lessons": [x.get("id") for x in lessons],
     "exercises": [x.get("id") for x in exercises],
@@ -70,9 +84,8 @@ for label, ids in {
     duplicates = [key for key, count in Counter(ids).items() if key and count > 1]
     require(not duplicates, f"Duplicate {label} IDs: {duplicates[:10]}")
 
-# Raw curriculum imported from earlier batches sometimes contains an English
-# instruction prefix in promptAr. The runtime enhancer must explicitly repair
-# every such prefix rather than leaking it into the Arabic UI.
+# Arabic prompts imported from older content may include an English instruction
+# prefix. Every prefix in the raw content must have an explicit runtime repair.
 enhancer = (APP / "Data" / "Local" / "CurriculumEnhancer.swift").read_text(encoding="utf-8")
 english_prefixes: set[str] = set()
 for exercise in exercises:
@@ -84,21 +97,34 @@ for prefix in sorted(english_prefixes):
             f"ArabicLearningCopy has no runtime repair for English prompt prefix: {prefix}")
 notes.append(f"English prompt prefixes covered by runtime enhancer: {len(english_prefixes)}")
 
-# Localization coverage for literal L()/Lf() interface copy.
+# Literal L()/Lf() copy can resolve through translations.json, the standard
+# en.lproj Localizable.strings bundle, or the intentionally small exact map.
 translations = json.loads(TRANSLATIONS.read_text(encoding="utf-8"))
+en_strings = parse_strings(EN_STRINGS)
+ar_strings = parse_strings(AR_STRINGS)
+require(len(en_strings) > 0, "English Localizable.strings could not be parsed")
+require(len(ar_strings) > 0, "Arabic Localizable.strings could not be parsed")
+require("EnglishNova/Localization" in project_yml, "Localized .lproj resources are not included in project.yml")
+
 localizer_source = (APP / "Core" / "Localization" / "L.swift").read_text(encoding="utf-8")
-english_exact_section = localizer_source.split("private enum EnglishInterfaceCopy", 1)[-1]
-english_exact_keys = set(re.findall(r'^\s*\"([^\"]*[\u0600-\u06FF][^\"]*)\"\s*:', english_exact_section, re.MULTILINE))
+require("bundledEnglish" in localizer_source, "Localizer does not fall back to en.lproj")
+exact_match = re.search(r'static let exact:\s*\[String:\s*String\]\s*=\s*\[(.*?)\]\n\s*\]\n\n\s*static func dynamic', localizer_source, re.DOTALL)
+english_exact_keys = set(re.findall(r'"([^"\n]*[\u0600-\u06FF][^"\n]*)"\s*:', exact_match.group(1) if exact_match else ""))
 localization_calls = re.compile(r'\b(?:L|Lf)\(\s*\"((?:\\.|[^\"\\])*)\"')
 missing_literal_keys: set[str] = set()
 for path in app_files:
     text = path.read_text(encoding="utf-8")
     for match in localization_calls.finditer(text):
         key = match.group(1).replace('\\\"', '\"')
-        if contains_arabic(key) and key not in translations and key not in english_exact_keys:
+        if not contains_arabic(key):
+            continue
+        candidates = [translations.get(key), en_strings.get(key)]
+        has_table_translation = any(value and value.strip() and value.strip() != key for value in candidates)
+        if not has_table_translation and key not in english_exact_keys:
             missing_literal_keys.add(key)
 require(not missing_literal_keys,
-        "Missing English translations for literal UI keys: " + " | ".join(sorted(missing_literal_keys)[:25]))
+        "Missing English translations for literal UI keys: " + " | ".join(sorted(missing_literal_keys)[:100]))
+notes.append(f"Bundled English string entries: {len(en_strings)}")
 
 # Google iOS wiring. Actual IDs remain environment values, never source secrets.
 for token in ("GoogleSignIn-iOS", "GoogleSignInSwift", "GoogleSignIn"):

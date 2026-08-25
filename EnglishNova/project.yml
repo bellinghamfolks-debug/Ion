@@ -36,12 +36,15 @@ targets:
       - path: EnglishNova
         excludes:
           - Resources
+          - Localization
           - Info.plist
       - path: EnglishNova/Resources/Curriculum
         type: folder
         buildPhase: resources
       - path: EnglishNova/Resources/LocalizationData
         type: folder
+        buildPhase: resources
+      - path: EnglishNova/Localization
         buildPhase: resources
     dependencies:
       - package: GoogleSignIn

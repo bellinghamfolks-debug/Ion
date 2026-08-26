@@ -10,6 +10,7 @@ workflows:
       xcode: latest
       vars:
         BASIR_SERVER_URL: "https://basir-convert-api-1045442243599.europe-west4.run.app"
+        BASIR_SOURCE_REF: "basir-ios-v2.3.0-codemagic"
 
     triggering:
       events:
@@ -28,8 +29,13 @@ workflows:
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR"
-          rm -rf _basir_build
+          rm -rf _basir_build basir_source_parts
           mkdir -p _basir_build
+
+          echo "Fetching Basir source parts from branch: $BASIR_SOURCE_REF"
+          git fetch --no-tags --depth=1 origin "$BASIR_SOURCE_REF"
+          git checkout FETCH_HEAD -- basir_source_parts
+
           python3 - <<'PY'
           import base64
           import hashlib

@@ -1,0 +1,154 @@
+--- a/BasirConvert/ViewModels/AppViewModel.swift
++++ b/BasirConvert/ViewModels/AppViewModel.swift
+@@ -633,7 +633,15 @@
+     }
+ 
+     private static func isNetworkWaitError(_ error: Error) -> Bool {
+-        if error is URLError { return true }
++        if let urlError = error as? URLError {
++            switch urlError.code {
++            case .notConnectedToInternet, .networkConnectionLost, .cannotConnectToHost,
++                 .cannotFindHost, .dnsLookupFailed, .dataNotAllowed:
++                return true
++            default:
++                return false
++            }
++        }
+         guard let basir = error as? BasirError else { return false }
+         switch basir {
+         case .networkUnavailable, .wifiRequired, .constrainedNetwork:
+@@ -656,9 +664,12 @@
+             case .secureConnectionFailed, .serverCertificateUntrusted, .serverCertificateHasBadDate:
+                 return l10n.t("تعذر إنشاء اتصال مشفر موثوق بالخادم.",
+                               "A trusted encrypted connection to the server could not be established.")
++            case .cannotCreateFile, .cannotWriteToFile, .cannotOpenFile, .cannotMoveFile:
++                return l10n.t("تعذر تجهيز ملف النقل المؤقت على الجهاز. جرّب إعادة المحاولة؛ سيستخدم بصير مسار نقل بديلًا.",
++                              "Basir could not stage a temporary transfer file. Retry; Basir will use an alternate transfer path.")
+             default:
+-                return l10n.t("تعذر الاتصال بالشبكة: \(urlError.localizedDescription)",
+-                              "Network error: \(urlError.localizedDescription)")
++                return l10n.t("تعذّر الاتصال أو نقل الملف: \(urlError.localizedDescription)",
++                              "Connection or transfer error: \(urlError.localizedDescription)")
+             }
+         }
+         guard let basir = error as? BasirError else {
+--- a/BasirConvert/Services/ProxyClient.swift
++++ b/BasirConvert/Services/ProxyClient.swift
+@@ -243,7 +243,7 @@
+             applyServerHeaders(to: &download, requestID: requestID)
+         }
+         progress(.init(current: 0, total: 0, stage: .downloading, detail: nil))
+-        let (temporary, downloadResponse) = try await BackgroundTransferCoordinator.shared.download(
++        let (temporary, downloadResponse) = try await downloadResult(
+             request: download
+         ) { received, total in
+             progress(.init(current: 0, total: 0, stage: .downloading, detail: nil,
+@@ -320,11 +320,25 @@
+         for attempt in 0..<4 {
+             try Task.checkCancellation()
+             do {
+-                let result = try await BackgroundTransferCoordinator.shared.upload(
+-                    request: request,
+-                    fromFile: fileURL,
+-                    progress: progress
+-                )
++                let result: (Data, HTTPURLResponse)
++                do {
++                    result = try await BackgroundTransferCoordinator.shared.upload(
++                        request: request,
++                        fromFile: fileURL,
++                        progress: progress
++                    )
++                } catch let urlError as URLError where Self.isBackgroundFileStagingError(urlError) {
++                    // Some sideloaded/signed builds can fail while the background URLSession
++                    // daemon stages its private body file even though the network is healthy.
++                    // Fall back to this actor's normal URLSession instead of reporting "offline".
++                    let (data, response) = try await session.upload(for: request, fromFile: fileURL)
++                    guard let http = response as? HTTPURLResponse else {
++                        throw BasirError.invalidResponse("Missing HTTP response.")
++                    }
++                    let bytes = Int64((try? fileURL.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0)
++                    progress(bytes, bytes)
++                    result = (data, http)
++                }
+                 if Self.retryableCodes.contains(result.1.statusCode), attempt < 3 {
+                     lastError = Self.httpError(result.1, data: result.0)
+                     try await Self.wait(attempt: attempt, response: result.1)
+@@ -340,6 +354,27 @@
+             }
+         }
+         throw lastError ?? BasirError.conversionFailed("Upload failed after retries.")
++    }
++
++    private func downloadResult(
++        request: URLRequest,
++        progress: @escaping @Sendable (Int64, Int64) -> Void
++    ) async throws -> (URL, HTTPURLResponse) {
++        do {
++            return try await BackgroundTransferCoordinator.shared.download(
++                request: request,
++                progress: progress
++            )
++        } catch let urlError as URLError where Self.isBackgroundFileStagingError(urlError) {
++            let (temporary, response) = try await session.download(for: request)
++            guard let http = response as? HTTPURLResponse else {
++                throw BasirError.invalidResponse("Missing HTTP response.")
++            }
++            let expected = max(0, http.expectedContentLength)
++            let actual = Int64((try? temporary.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0)
++            progress(actual, expected > 0 ? expected : actual)
++            return (temporary, http)
++        }
+     }
+ 
+     private func retryingData(request: URLRequest) async throws -> (Data, HTTPURLResponse) {
+@@ -441,6 +476,15 @@
+         return BasirError.conversionFailed("Server HTTP \(response.statusCode): \(message)")
+     }
+ 
++    private static func isBackgroundFileStagingError(_ error: URLError) -> Bool {
++        switch error.code {
++        case .cannotCreateFile, .cannotWriteToFile, .cannotOpenFile, .cannotMoveFile:
++            return true
++        default:
++            return false
++        }
++    }
++
+     private static func isRetryable(_ error: Error) -> Bool {
+         if let url = error as? URLError {
+             return [.timedOut, .networkConnectionLost, .notConnectedToInternet,
+--- a/BasirConvert/Services/BackgroundTransferCoordinator.swift
++++ b/BasirConvert/Services/BackgroundTransferCoordinator.swift
+@@ -7,6 +7,7 @@
+     private struct State {
+         var data = Data()
+         var downloadedURL: URL?
++        var transferError: Error?
+         let continuation: CheckedContinuation<(URL?, Data, HTTPURLResponse), Error>
+         let progress: @Sendable (Int64, Int64) -> Void
+     }
+@@ -133,6 +134,12 @@
+             try FileManager.default.moveItem(at: location, to: retained)
+             lock.lock(); states[downloadTask.taskIdentifier]?.downloadedURL = retained; lock.unlock()
+         } catch {
++            lock.lock()
++            if var state = states[downloadTask.taskIdentifier] {
++                state.transferError = error
++                states[downloadTask.taskIdentifier] = state
++            }
++            lock.unlock()
+             downloadTask.cancel()
+         }
+     }
+@@ -146,6 +153,10 @@
+         let state = states.removeValue(forKey: task.taskIdentifier)
+         lock.unlock()
+         guard let state else { return }
++        if let transferError = state.transferError {
++            state.continuation.resume(throwing: transferError)
++            return
++        }
+         if let error {
+             state.continuation.resume(throwing: error)
+             return

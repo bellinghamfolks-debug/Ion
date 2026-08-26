@@ -18,18 +18,17 @@ workflows:
       branch_patterns:
         - pattern: "basir-ios-v2.3.0-codemagic"
           include: true
-
-    cache:
-      cache_paths:
-        - $HOME/Library/Caches/org.swift.swiftpm
-        - $HOME/.cache/Homebrew
+        - pattern: "main"
+          include: true
+        - pattern: "claude/file-extraction-repo-migration-hqgNY"
+          include: true
 
     scripts:
       - name: Reconstruct and verify Basir source
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR"
-          rm -rf _basir_build basir_source_parts
+          rm -rf _basir_build basir_source_parts /tmp/Basir_iOS_source.zip /tmp/Basir_iOS_source.b64
           mkdir -p _basir_build
 
           echo "Fetching Basir source parts from branch: $BASIR_SOURCE_REF"
@@ -43,36 +42,33 @@ workflows:
 
           base = pathlib.Path("basir_source_parts")
           names = [
-              "part-00.b64",
-              "part-01.b64",
-              "part-02.b64",
-              "part-03.b64",
-              "part-04.b64",
-              "part-05.b64",
-              "part-06.b64",
-              "part-07.b64",
-              "part-08.b64",
-              "part-09a.b64",
-              "part-09b.b64",
-              "part-10.b64",
-              "part-11.b64",
-              "part-12a.b64",
-              "part-12b.b64",
+              "part-00.b64", "part-01.b64", "part-02.b64", "part-03.b64",
+              "part-04.b64", "part-05.b64", "part-06.b64", "part-07.b64",
+              "part-08.b64", "part-09a.b64", "part-09a-tail.b64", "part-09b.b64",
+              "part-10.b64", "part-11.b64", "part-12a.b64", "part-12b.b64",
               "part-13.b64",
           ]
-
           missing = [name for name in names if not (base / name).is_file()]
           if missing:
               raise SystemExit("Missing Basir source parts: " + ", ".join(missing))
 
-          encoded = "".join((base / name).read_text(encoding="utf-8").strip() for name in names)
+          chunks = []
+          for name in names:
+              value = "".join((base / name).read_text(encoding="utf-8").split())
+              print(f"{name}: {len(value)} chars")
+              chunks.append(value)
+
+          encoded = "".join(chunks)
+          print("Combined Base64 length:", len(encoded), "mod 4:", len(encoded) % 4)
+          if len(encoded) % 4:
+              raise SystemExit("Combined Base64 length is not divisible by 4")
+
           raw = base64.b64decode(encoded, validate=True)
           actual = hashlib.sha256(raw).hexdigest()
           expected = "584a26e03b6e1fe3a3505f15b552aec13c862a52f433c8fe3f656affb277f194"
           print("Basir source SHA-256:", actual)
           if actual != expected:
               raise SystemExit(f"Source archive checksum mismatch: {actual} != {expected}")
-
           pathlib.Path("/tmp/Basir_iOS_source.zip").write_bytes(raw)
           PY
 
@@ -87,7 +83,7 @@ workflows:
           xcodebuild -version
           swift --version
           if [ -z "${BASIR_CLIENT_TOKEN:-}" ]; then
-            echo "BASIR_CLIENT_TOKEN is missing. Add it as a secure variable in Codemagic group: basir_secrets"
+            echo "BASIR_CLIENT_TOKEN is missing from Codemagic group basir_secrets"
             exit 2
           fi
           echo "BASIR_SERVER_URL=$BASIR_SERVER_URL"
@@ -119,18 +115,13 @@ workflows:
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          xcodebuild -resolvePackageDependencies \
-            -project BasirConvert.xcodeproj \
-            -scheme BasirConvert
+          xcodebuild -resolvePackageDependencies -project BasirConvert.xcodeproj -scheme BasirConvert
 
       - name: Build unsigned IPA
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          REGENERATE_PROJECT=0 \
-          BASIR_SERVER_URL="$BASIR_SERVER_URL" \
-          BASIR_CLIENT_TOKEN="$BASIR_CLIENT_TOKEN" \
-          scripts/build_unsigned_ipa.sh
+          REGENERATE_PROJECT=0 BASIR_SERVER_URL="$BASIR_SERVER_URL" BASIR_CLIENT_TOKEN="$BASIR_CLIENT_TOKEN" scripts/build_unsigned_ipa.sh
 
       - name: Validate IPA and export artifacts
         script: |
@@ -139,15 +130,9 @@ workflows:
           IPA="dist/Basir_v2.3.0_unsigned.ipa"
           test -s "$IPA"
           unzip -t "$IPA"
-          ACTUAL=$(shasum -a 256 "$IPA" | awk '{print $1}')
-          echo "IPA SHA-256: $ACTUAL"
           mkdir -p "$CM_BUILD_DIR/artifacts"
           cp "$IPA" "$CM_BUILD_DIR/artifacts/"
-          if [ -f "$IPA.sha256" ]; then
-            cp "$IPA.sha256" "$CM_BUILD_DIR/artifacts/"
-          else
-            shasum -a 256 "$IPA" > "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_unsigned.ipa.sha256"
-          fi
+          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_unsigned.ipa.sha256"
 
     artifacts:
       - artifacts/*.ipa

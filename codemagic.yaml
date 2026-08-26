@@ -97,19 +97,19 @@ workflows:
           fi
           xcodegen --version
 
+      - name: Generate Xcode project
+        script: |
+          set -euo pipefail
+          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          xcodegen generate --spec project.yml
+          test -f BasirConvert.xcodeproj/project.pbxproj
+
       - name: Verify source integrity
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           chmod +x scripts/verify_project.sh scripts/build_unsigned_ipa.sh
           scripts/verify_project.sh
-
-      - name: Generate Xcode project
-        script: |
-          set -euo pipefail
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          xcodegen generate --spec project.yml
-          test -d BasirConvert.xcodeproj
 
       - name: Resolve Swift packages
         script: |

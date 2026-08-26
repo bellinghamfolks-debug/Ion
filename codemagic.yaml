@@ -28,12 +28,12 @@ workflows:
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR"
-          rm -rf _basir_build basir_source_parts /tmp/Basir_iOS_source.zip /tmp/Basir_iOS_source.b64
+          rm -rf _basir_build basir_source_parts basir_ci_overlay /tmp/Basir_iOS_source.zip /tmp/Basir_iOS_source.b64
           mkdir -p _basir_build
 
           echo "Fetching Basir source parts from branch: $BASIR_SOURCE_REF"
           git fetch --no-tags --depth=1 origin "$BASIR_SOURCE_REF"
-          git checkout FETCH_HEAD -- basir_source_parts
+          git checkout FETCH_HEAD -- basir_source_parts basir_ci_overlay
 
           python3 - <<'PY'
           import base64
@@ -73,7 +73,10 @@ workflows:
           PY
 
           ditto -x -k /tmp/Basir_iOS_source.zip "$CM_BUILD_DIR/_basir_build"
+          python3 "$CM_BUILD_DIR/basir_ci_overlay/apply_overlay.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/project.yml"
+          test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/cloud-project.yml"
+          test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/BasirConvertTests/Fixtures/expected.json"
           test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/scripts/verify_project.sh"
           test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/scripts/build_unsigned_ipa.sh"
 
@@ -103,6 +106,7 @@ workflows:
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           xcodegen generate --spec project.yml
           test -f BasirConvert.xcodeproj/project.pbxproj
+          test -f BasirConvert.xcodeproj/xcshareddata/xcschemes/BasirConvert.xcscheme
 
       - name: Verify source integrity
         script: |

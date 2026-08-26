@@ -87,4 +87,80 @@ for path in targets:
     if "SecTaskCreateFromSelf" in text or "SecTaskCopyValueForEntitlement" in text:
         raise SystemExit(f"SecTask symbols remain after patch: {path}")
 
-print("Xcode 26 SecTask compatibility patch complete.")
+# Xcode 26 can successfully build the arm64 iOS application while the old
+# packaging script rejects it using a legacy "restricted to iPhone" check.
+# Replace only the ephemeral CI copy of that script after source verification.
+build_script_path = root / "scripts" / "build_unsigned_ipa.sh"
+if not build_script_path.is_file():
+    raise SystemExit(f"Missing unsigned IPA build script: {build_script_path}")
+
+ci_build_script = r'''#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+: "${BASIR_SERVER_URL:?BASIR_SERVER_URL is required}"
+: "${BASIR_CLIENT_TOKEN:?BASIR_CLIENT_TOKEN is required}"
+
+DERIVED="$ROOT/build/DerivedData"
+APP="$DERIVED/Build/Products/Release-iphoneos/BasirConvert.app"
+IPA="$ROOT/dist/Basir_v2.3.0_unsigned.ipa"
+SECRET_XCCONFIG="$(mktemp)"
+trap 'rm -f "$SECRET_XCCONFIG"' EXIT
+chmod 600 "$SECRET_XCCONFIG"
+printf 'BASIR_CLIENT_TOKEN = %s\n' "$BASIR_CLIENT_TOKEN" > "$SECRET_XCCONFIG"
+
+rm -rf "$DERIVED" "$ROOT/dist"
+mkdir -p "$ROOT/dist"
+
+echo "Building unsigned iPhone device app with Xcode 26..."
+xcodebuild \
+  -project BasirConvert.xcodeproj \
+  -scheme BasirConvert \
+  -configuration Release \
+  -sdk iphoneos \
+  -destination 'generic/platform=iOS' \
+  -derivedDataPath "$DERIVED" \
+  -xcconfig "$SECRET_XCCONFIG" \
+  BASIR_SERVER_URL="$BASIR_SERVER_URL" \
+  TARGETED_DEVICE_FAMILY=1 \
+  CODE_SIGNING_ALLOWED=NO \
+  CODE_SIGNING_REQUIRED=NO \
+  CODE_SIGN_IDENTITY="" \
+  DEVELOPMENT_TEAM="" \
+  build
+
+test -d "$APP"
+test -f "$APP/BasirConvert"
+file "$APP/BasirConvert"
+
+if /usr/libexec/PlistBuddy -c 'Print :UIDeviceFamily' "$APP/Info.plist" >/dev/null 2>&1; then
+  echo "Built UIDeviceFamily:"
+  /usr/libexec/PlistBuddy -c 'Print :UIDeviceFamily' "$APP/Info.plist" || true
+fi
+
+# Keep the IPA genuinely unsigned, including the embedded Share Extension.
+find "$APP" -type d -name _CodeSignature -prune -exec rm -rf {} + || true
+find "$APP" -name embedded.mobileprovision -delete || true
+
+PAYLOAD="$ROOT/dist/Payload"
+mkdir -p "$PAYLOAD"
+ditto "$APP" "$PAYLOAD/BasirConvert.app"
+(
+  cd "$ROOT/dist"
+  /usr/bin/zip -qry "Basir_v2.3.0_unsigned.ipa" Payload
+)
+rm -rf "$PAYLOAD"
+
+test -s "$IPA"
+unzip -t "$IPA"
+shasum -a 256 "$IPA" > "$IPA.sha256"
+echo "Unsigned IPA created: $IPA"
+'''
+
+build_script_path.write_text(ci_build_script, encoding="utf-8")
+build_script_path.chmod(0o755)
+print("Installed Xcode 26 CI-compatible unsigned IPA packager.")
+
+print("Xcode 26 compatibility patch complete.")

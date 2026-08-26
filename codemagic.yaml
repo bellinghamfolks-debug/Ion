@@ -115,6 +115,11 @@ workflows:
           chmod +x scripts/verify_project.sh scripts/build_unsigned_ipa.sh
           scripts/verify_project.sh
 
+      - name: Patch Xcode 26 compatibility
+        script: |
+          set -euo pipefail
+          python3 "$CM_BUILD_DIR/basir_ci_overlay/patch_xcode26.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+
       - name: Resolve Swift packages
         script: |
           set -euo pipefail

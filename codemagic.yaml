@@ -1,6 +1,6 @@
 workflows:
   basir-ios-unsigned:
-    name: Basir iOS 2.3.0 — UI + Network Fix R2
+    name: Basir iOS 2.3.0 — Feature Restore R3
     instance_type: mac_mini_m2
     max_build_duration: 60
 
@@ -131,6 +131,22 @@ workflows:
             exit 3
           fi
 
+      - name: Restore symbols, audio, notifications and preview
+        script: |
+          set -euo pipefail
+          python3 -W ignore::SyntaxWarning "$CM_BUILD_DIR/basir_ci_overlay/restore_missing_features.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          grep -q 'BASIR_FEATURESET' "$CM_BUILD_DIR/basir_ci_overlay/restore_missing_features.py"
+          grep -q 'الحفاظ على الرموز ومعانيها' BasirConvert/Views/TaskComposerView.swift
+          grep -q 'audioExtensions' BasirConvert/Models/AppModels.swift
+          grep -q 'sharePreview' BasirConvert/Views/ImportControllers.swift
+          grep -q 'notifyProgress' BasirConvert/Services/OperationFeedback.swift
+          if grep -R -q -E 'فتح في Word أو Pages|Open in Word or Pages' BasirConvert --include='*.swift'; then
+            echo "Redundant Open in Word/Pages action is still present"
+            exit 4
+          fi
+          echo "BASIR_FEATURESET=ARABIC_SYMBOLS_AUDIO_NOTIFICATIONS_PREVIEW_R3"
+
       - name: Patch Xcode 26 compatibility
         script: |
           set -euo pipefail
@@ -156,8 +172,8 @@ workflows:
           test -s "$IPA"
           unzip -t "$IPA"
           mkdir -p "$CM_BUILD_DIR/artifacts"
-          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_UI_NETWORK_R2_unsigned.ipa"
-          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_UI_NETWORK_R2_unsigned.ipa.sha256"
+          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_FEATURE_RESTORE_R3_unsigned.ipa"
+          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_FEATURE_RESTORE_R3_unsigned.ipa.sha256"
 
     artifacts:
       - artifacts/*.ipa

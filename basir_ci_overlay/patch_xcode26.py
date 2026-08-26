@@ -32,15 +32,15 @@ old_static_block = '''    private static func runtimeApplicationGroups() -> [Str
 '''
 
 new_block = '''    private func runtimeApplicationGroups() -> [String] {
-        // SecTask entitlement inspection is not exposed to Swift in the iOS 26 SDK.
-        // The configured fallback App Group remains the source of truth.
+        // Xcode 26 no longer exposes SecTask entitlement inspection to Swift.
+        // The extension already falls back to its declared App Group identifier.
         return []
     }
 '''
 
 new_static_block = '''    private static func runtimeApplicationGroups() -> [String] {
-        // SecTask entitlement inspection is not exposed to Swift in the iOS 26 SDK.
-        // The configured App Group identifier remains the source of truth.
+        // Xcode 26 no longer exposes SecTask entitlement inspection to Swift.
+        // FileAccess already falls back to the declared App Group identifier.
         return []
     }
 '''
@@ -62,6 +62,25 @@ for path in targets:
             raise SystemExit(f"Unexpected SecTask block shape in {path}")
     path.write_text(text, encoding="utf-8")
     print(f"Patched for Xcode 26: {path.relative_to(root)}")
+
+verify_path = root / "tools" / "verify_project.py"
+if not verify_path.is_file():
+    raise SystemExit(f"Missing verifier for Xcode 26 patch: {verify_path}")
+verify = verify_path.read_text(encoding="utf-8")
+old_verify = '''    if "SecTaskCopyValueForEntitlement" not in share_source or "loadDataRepresentation" not in share_source:
+        fail("the resilient shared-container import path is missing")
+'''
+new_verify = '''    if "loadDataRepresentation" not in share_source:
+        fail("the resilient shared-container import path is missing")
+    if "SecTaskCopyValueForEntitlement" not in share_source and "fallbackAppGroup" not in share_source:
+        fail("the shared-container App Group fallback is missing")
+'''
+if old_verify in verify:
+    verify = verify.replace(old_verify, new_verify)
+elif "SecTaskCopyValueForEntitlement" in verify and "shared-container import path" in verify:
+    raise SystemExit("Unexpected verifier SecTask check shape")
+verify_path.write_text(verify, encoding="utf-8")
+print("Patched verifier for Xcode 26 App Group fallback.")
 
 for path in targets:
     text = path.read_text(encoding="utf-8")

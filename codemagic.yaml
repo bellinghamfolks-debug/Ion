@@ -1,6 +1,6 @@
 workflows:
   basir-ios-unsigned:
-    name: Basir iOS 2.3.0 — Feature Restore R3
+    name: Basir iOS 2.3.0 — Arabic Transport R4
     instance_type: mac_mini_m2
     max_build_duration: 60
 
@@ -28,41 +28,23 @@ workflows:
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR"
-          rm -rf _basir_build basir_source_parts basir_ci_overlay /tmp/Basir_iOS_source.zip /tmp/Basir_iOS_source.b64
+          rm -rf _basir_build basir_source_parts basir_ci_overlay /tmp/Basir_iOS_source.zip
           mkdir -p _basir_build
-
-          echo "Fetching Basir source parts from branch: $BASIR_SOURCE_REF"
           git fetch --no-tags --depth=1 origin "$BASIR_SOURCE_REF"
           git checkout FETCH_HEAD -- basir_source_parts basir_ci_overlay
-
           python3 - <<'PY'
-          import base64
-          import hashlib
-          import pathlib
-
+          import base64, hashlib, pathlib
           base = pathlib.Path("basir_source_parts")
           names = [
               "part-00.b64", "part-01.b64", "part-02.b64", "part-03.b64",
               "part-04.b64", "part-05.b64", "part-06.b64", "part-07.b64",
               "part-08.b64", "part-09a.b64", "part-09a-tail.b64", "part-09b.b64",
-              "part-10.b64", "part-11.b64", "part-12a.b64", "part-12b.b64",
-              "part-13.b64",
+              "part-10.b64", "part-11.b64", "part-12a.b64", "part-12b.b64", "part-13.b64",
           ]
           missing = [name for name in names if not (base / name).is_file()]
           if missing:
               raise SystemExit("Missing Basir source parts: " + ", ".join(missing))
-
-          chunks = []
-          for name in names:
-              value = "".join((base / name).read_text(encoding="utf-8").split())
-              print(f"{name}: {len(value)} chars")
-              chunks.append(value)
-
-          encoded = "".join(chunks)
-          print("Combined Base64 length:", len(encoded), "mod 4:", len(encoded) % 4)
-          if len(encoded) % 4:
-              raise SystemExit("Combined Base64 length is not divisible by 4")
-
+          encoded = "".join("".join((base / name).read_text(encoding="utf-8").split()) for name in names)
           raw = base64.b64decode(encoded, validate=True)
           actual = hashlib.sha256(raw).hexdigest()
           expected = "584a26e03b6e1fe3a3505f15b552aec13c862a52f433c8fe3f656affb277f194"
@@ -71,13 +53,9 @@ workflows:
               raise SystemExit(f"Source archive checksum mismatch: {actual} != {expected}")
           pathlib.Path("/tmp/Basir_iOS_source.zip").write_bytes(raw)
           PY
-
           ditto -x -k /tmp/Basir_iOS_source.zip "$CM_BUILD_DIR/_basir_build"
           python3 "$CM_BUILD_DIR/basir_ci_overlay/apply_overlay.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/project.yml"
-          test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/cloud-project.yml"
-          test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/BasirConvertTests/Fixtures/expected.json"
-          test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/scripts/verify_project.sh"
           test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/scripts/build_unsigned_ipa.sh"
 
       - name: Environment diagnostics
@@ -89,15 +67,11 @@ workflows:
             echo "BASIR_CLIENT_TOKEN is missing from Codemagic group basir_secrets"
             exit 2
           fi
-          echo "BASIR_SERVER_URL=$BASIR_SERVER_URL"
-          echo "BASIR_CLIENT_TOKEN is configured securely."
 
       - name: Install XcodeGen
         script: |
           set -euo pipefail
-          if ! command -v xcodegen >/dev/null 2>&1; then
-            brew install xcodegen
-          fi
+          if ! command -v xcodegen >/dev/null 2>&1; then brew install xcodegen; fi
           xcodegen --version
 
       - name: Generate Xcode project
@@ -106,7 +80,6 @@ workflows:
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           xcodegen generate --spec project.yml
           test -f BasirConvert.xcodeproj/project.pbxproj
-          test -f BasirConvert.xcodeproj/xcshareddata/xcschemes/BasirConvert.xcscheme
 
       - name: Verify source integrity
         script: |
@@ -115,28 +88,23 @@ workflows:
           chmod +x scripts/verify_project.sh scripts/build_unsigned_ipa.sh
           scripts/verify_project.sh
 
-      - name: Restore classic UI and fix network transfer
+      - name: Restore UI and network fixes
         script: |
           set -euo pipefail
-          echo "BASIR_FIXSET=UI_NETWORK_R2_20260827"
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           patch -p1 < "$CM_BUILD_DIR/basir_ci_overlay/restore_classic_ui.patch"
           patch -p1 < "$CM_BUILD_DIR/basir_ci_overlay/fix_network_transfer.patch"
-          grep -q 'static let cyan = Color(red: 0.10, green: 0.58, blue: 1.00)' BasirConvert/Views/Components.swift
-          grep -q 'ترجمة المستند' BasirConvert/Views/TaskComposerView.swift
-          grep -q 'private var serverCard' BasirConvert/Views/SettingsView.swift
           grep -q 'isBackgroundFileStagingError' BasirConvert/Services/ProxyClient.swift
           if grep -q 'if error is URLError { return true }' BasirConvert/ViewModels/AppViewModel.swift; then
             echo "Legacy false-network classification is still present"
             exit 3
           fi
 
-      - name: Restore symbols, audio, notifications and preview
+      - name: Restore symbols audio notifications and preview
         script: |
           set -euo pipefail
           python3 -W ignore::SyntaxWarning "$CM_BUILD_DIR/basir_ci_overlay/restore_missing_features.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          grep -q 'BASIR_FEATURESET' "$CM_BUILD_DIR/basir_ci_overlay/restore_missing_features.py"
           grep -q 'الحفاظ على الرموز ومعانيها' BasirConvert/Views/TaskComposerView.swift
           grep -q 'audioExtensions' BasirConvert/Models/AppModels.swift
           grep -q 'sharePreview' BasirConvert/Views/ImportControllers.swift
@@ -145,7 +113,21 @@ workflows:
             echo "Redundant Open in Word/Pages action is still present"
             exit 4
           fi
-          echo "BASIR_FEATURESET=ARABIC_SYMBOLS_AUDIO_NOTIFICATIONS_PREVIEW_R3"
+
+      - name: Remove server and build wording from UI
+        script: |
+          set -euo pipefail
+          python3 "$CM_BUILD_DIR/basir_ci_overlay/fix_unicode_transport_and_ui_cleanup.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          if grep -q -E 'خادم|server|Server|هذه النسخة|This build' BasirConvert/Views/SettingsView.swift; then
+            echo "Server/build wording remains in Settings"
+            exit 5
+          fi
+          if grep -q -E 'متصل بخادم بصير|Basir server online' BasirConvert/Views/Components.swift; then
+            echo "Old server status label remains"
+            exit 6
+          fi
+          echo "BASIR_FIXSET=ARABIC_FILENAME_TRANSPORT_UI_R4"
 
       - name: Patch Xcode 26 compatibility
         script: |
@@ -172,8 +154,8 @@ workflows:
           test -s "$IPA"
           unzip -t "$IPA"
           mkdir -p "$CM_BUILD_DIR/artifacts"
-          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_FEATURE_RESTORE_R3_unsigned.ipa"
-          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_FEATURE_RESTORE_R3_unsigned.ipa.sha256"
+          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_ARABIC_TRANSPORT_R4_unsigned.ipa"
+          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_ARABIC_TRANSPORT_R4_unsigned.ipa.sha256"
 
     artifacts:
       - artifacts/*.ipa

@@ -115,6 +115,21 @@ workflows:
           chmod +x scripts/verify_project.sh scripts/build_unsigned_ipa.sh
           scripts/verify_project.sh
 
+      - name: Restore classic UI and fix network transfer
+        script: |
+          set -euo pipefail
+          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          patch -p1 < "$CM_BUILD_DIR/basir_ci_overlay/restore_classic_ui.patch"
+          patch -p1 < "$CM_BUILD_DIR/basir_ci_overlay/fix_network_transfer.patch"
+          grep -q 'static let cyan = Color(red: 0.10, green: 0.58, blue: 1.00)' BasirConvert/Views/Components.swift
+          grep -q 'ترجمة المستند' BasirConvert/Views/TaskComposerView.swift
+          grep -q 'private var serverCard' BasirConvert/Views/SettingsView.swift
+          grep -q 'isBackgroundFileStagingError' BasirConvert/Services/ProxyClient.swift
+          if grep -q 'if error is URLError { return true }' BasirConvert/ViewModels/AppViewModel.swift; then
+            echo "Legacy false-network classification is still present"
+            exit 3
+          fi
+
       - name: Patch Xcode 26 compatibility
         script: |
           set -euo pipefail

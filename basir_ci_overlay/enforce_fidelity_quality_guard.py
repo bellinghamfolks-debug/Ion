@@ -23,9 +23,9 @@ def replace_once(text: str, old: str, new: str, label: str) -> str:
 
 
 # The service and the client both enforce fidelity. The client refuses stale
-# revisions, missing quality manifests and materially degraded terminal results.
-# This keeps a successful HTTP transaction from being mistaken for a trustworthy
-# document conversion.
+# revisions, missing quality manifests and every terminal result that the server
+# could not classify as fully passed. This is intentionally fail-closed: a file
+# is never saved merely because the HTTP transaction succeeded.
 rel = "BasirConvert/Services/ProxyClient.swift"
 s = load(rel)
 
@@ -37,8 +37,8 @@ if "BASIR_FIDELITY_GUARD_R7" not in s:
             "job_api", "direct_storage_upload", "checksums",
             "quality_manifest", "source_geometry_tables", "softmask_images"
         ])
-        guard Self.serverVersionAtLeast(serverStatus.apiVersion, minimum: "2.5.0") else {
-            logger.record("QUALITY rejected stale processing service version=\\(serverStatus.apiVersion) required=2.5.0")
+        guard Self.serverVersionAtLeast(serverStatus.apiVersion, minimum: "2.5.1") else {
+            logger.record("QUALITY rejected stale processing service version=\\(serverStatus.apiVersion) required=2.5.1")
             throw BasirError.invalidResponse("خدمة المعالجة لم تُحدّث بعد إلى محرك الجودة المطلوب. أعد المحاولة بعد اكتمال التحديث.")
         }
 ''',
@@ -66,29 +66,14 @@ if "BASIR_FIDELITY_GUARD_R7" not in s:
 
     terminal_line = '            if ["completed", "complete", "done", "succeeded", "partial"].contains(state) {\n'
     terminal_guard = '''            if ["completed", "complete", "done", "succeeded", "partial"].contains(state) {
-                guard let terminalQuality = qualityStatus,
-                      ["passed", "degraded"].contains(terminalQuality) else {
-                    logger.record("QUALITY terminal manifest missing-or-invalid status=\\(qualityStatus ?? \"none\")")
+                guard let terminalQuality = qualityStatus else {
+                    logger.record("QUALITY terminal manifest missing")
                     throw BasirError.invalidResponse("تعذر التحقق من جودة المستند الناتج. لم يتم اعتماد الملف.")
                 }
-                let blockingWarnings = Set([
-                    "literal_html_break",
-                    "native_table_loss",
-                    "source_image_loss",
-                    "numeric_fidelity_low",
-                    "source_page_boundaries_reduced",
-                    "page_fallback_used"
-                ])
-                let blocked = qualityWarnings.filter { blockingWarnings.contains($0.lowercased()) }
-                if terminalQuality == "degraded" && ((qualityScore ?? 0) < 0.90 || !blocked.isEmpty) {
-                    logger.record("QUALITY rejected degraded result score=\\(qualityScore ?? -1) warnings=\\(qualityWarnings.joined(separator: ","))")
+                logger.record("QUALITY terminal status=\\(terminalQuality) score=\\(qualityScore ?? -1) warnings=\\(qualityWarnings.joined(separator: ","))")
+                guard terminalQuality == "passed" else {
                     throw BasirError.conversionFailed("لم يصل المستند الناتج إلى مستوى الجودة الآمن للاعتماد. لم يتم حفظ نتيجة ناقصة أو مشوهة.")
                 }
-                if terminalQuality == "failed" {
-                    logger.record("QUALITY rejected failed result warnings=\\(qualityWarnings.joined(separator: ","))")
-                    throw BasirError.conversionFailed("فشل التحقق من سلامة المستند الناتج.")
-                }
-                logger.record("QUALITY terminal status=\\(terminalQuality) score=\\(qualityScore ?? -1) warnings=\\(qualityWarnings.joined(separator: ","))")
 '''
     s = replace_once(s, terminal_line, terminal_guard, "terminal quality enforcement")
 
@@ -178,12 +163,12 @@ save(rel, s)
 checks = {
     "BasirConvert/Services/ProxyClient.swift": [
         "BASIR_FIDELITY_GUARD_R7",
-        "serverVersionAtLeast(serverStatus.apiVersion, minimum: \"2.5.0\")",
+        "serverVersionAtLeast(serverStatus.apiVersion, minimum: \"2.5.1\")",
         '"quality_manifest", "source_geometry_tables", "softmask_images"',
         "quality_status",
         "quality_score",
         "quality_warnings",
-        "blockingWarnings",
+        'guard terminalQuality == "passed"',
         "expectedSourcePages",
         "expectedPages: expectedResultPages",
         "DocxBuilder.validate(url: temporary, expectedPages: expectedPages)",
@@ -200,4 +185,4 @@ for path, needles in checks.items():
         if needle not in text:
             raise SystemExit(f"fidelity gate failed: {needle!r} missing from {path}")
 
-print("BASIR_QUALITY_GUARD=SERVER_2_5_MANIFEST_AND_SOURCE_PAGE_VALIDATION_R7")
+print("BASIR_QUALITY_GUARD=SERVER_2_5_1_PASSED_MANIFEST_AND_SOURCE_PAGE_VALIDATION_R7")

@@ -133,6 +133,7 @@ workflows:
         script: |
           set -euo pipefail
           python3 "$CM_BUILD_DIR/basir_ci_overlay/enhance_live_diagnostics.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          python3 "$CM_BUILD_DIR/basir_ci_overlay/fix_diagnostic_swift_escapes.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           grep -q 'Basir-live.log' BasirConvert/Services/DiagnosticLogger.swift
           grep -q 'recordProgress(update)' BasirConvert/ViewModels/AppViewModel.swift
@@ -140,6 +141,10 @@ workflows:
           grep -q 'DOWNLOAD response' BasirConvert/Services/ProxyClient.swift
           grep -q 'مشاركة سجل التشخيص' BasirConvert/Views/JobView.swift
           grep -q 'مشاركة سجل التشخيص الكامل' BasirConvert/Views/SettingsView.swift
+          if grep -q '\\\\(' BasirConvert/Services/DiagnosticLogger.swift; then
+            echo "Double-escaped Swift interpolation remains in diagnostics"
+            exit 7
+          fi
           echo "BASIR_DIAGNOSTICS=CONTINUOUS_END_TO_END_R5"
 
       - name: Patch Xcode 26 compatibility

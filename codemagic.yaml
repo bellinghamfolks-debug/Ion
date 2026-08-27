@@ -1,6 +1,6 @@
 workflows:
   basir-ios-unsigned:
-    name: Basir iOS 2.3.0 — Arabic Transport R4
+    name: Basir iOS 2.3.0 — Continuous Diagnostics R5
     instance_type: mac_mini_m2
     max_build_duration: 60
 
@@ -129,6 +129,19 @@ workflows:
           fi
           echo "BASIR_FIXSET=ARABIC_FILENAME_TRANSPORT_UI_R4"
 
+      - name: Enable continuous end-to-end diagnostics
+        script: |
+          set -euo pipefail
+          python3 "$CM_BUILD_DIR/basir_ci_overlay/enhance_live_diagnostics.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          grep -q 'Basir-live.log' BasirConvert/Services/DiagnosticLogger.swift
+          grep -q 'recordProgress(update)' BasirConvert/ViewModels/AppViewModel.swift
+          grep -q 'PREFLIGHT begin' BasirConvert/Services/ProxyClient.swift
+          grep -q 'DOWNLOAD response' BasirConvert/Services/ProxyClient.swift
+          grep -q 'مشاركة سجل التشخيص' BasirConvert/Views/JobView.swift
+          grep -q 'مشاركة سجل التشخيص الكامل' BasirConvert/Views/SettingsView.swift
+          echo "BASIR_DIAGNOSTICS=CONTINUOUS_END_TO_END_R5"
+
       - name: Patch Xcode 26 compatibility
         script: |
           set -euo pipefail
@@ -154,8 +167,8 @@ workflows:
           test -s "$IPA"
           unzip -t "$IPA"
           mkdir -p "$CM_BUILD_DIR/artifacts"
-          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_ARABIC_TRANSPORT_R4_unsigned.ipa"
-          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_ARABIC_TRANSPORT_R4_unsigned.ipa.sha256"
+          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_DIAGNOSTICS_R5_unsigned.ipa"
+          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_DIAGNOSTICS_R5_unsigned.ipa.sha256"
 
     artifacts:
       - artifacts/*.ipa

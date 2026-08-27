@@ -1,9 +1,9 @@
 from pathlib import Path
-import plistlib
+import plistlib, runpy
 
 root = Path("ios")
 
-# Independent visual-edition identifiers.
+# Separate visual-edition identity.
 project = root / "project.yml"
 text = project.read_text()
 text = text.replace("PRODUCT_BUNDLE_IDENTIFIER: com.basir.ai.share", "PRODUCT_BUNDLE_IDENTIFIER: com.basir.visual.share")
@@ -21,7 +21,7 @@ for rel in [
     if path.exists():
         path.write_text(path.read_text().replace("group.com.basir.shared", "group.com.basir.visual.shared"))
 
-# Host app metadata and Open In file registrations.
+# App metadata and Open In registrations.
 info_path = root / "Basir/Info.plist"
 with info_path.open("rb") as f:
     info = plistlib.load(f)
@@ -52,28 +52,8 @@ share_info["CFBundleVersion"] = "65"
 with share_info_path.open("wb") as f:
     plistlib.dump(share_info, f, sort_keys=False)
 
-# Suppress programmatic screen-reader announcements throughout the host app.
-for swift in (root / "Basir").rglob("*.swift"):
-    source = swift.read_text()
-    if "UIAccessibility.post" in source:
-        swift.write_text(source.replace("UIAccessibility.post", "BasirVisualAccessibility.post"))
+# Preserve normal platform accessibility behavior. No hidden hierarchy or suppressed VoiceOver announcements.
 
-(root / "Basir/Helpers/BasirVisualAccessibility.swift").write_text(
-    "import UIKit\n\n"
-    "enum BasirVisualAccessibility {\n"
-    "    static func post(notification: UIAccessibility.Notification, argument: Any?) {}\n"
-    "}\n"
-)
-
-# Hide the complete SwiftUI hierarchy from VoiceOver and other screen readers.
-content_view = root / "Basir/ContentView.swift"
-source = content_view.read_text()
-marker = "        .tint(BasirTheme.brand)\n"
-if ".accessibilityHidden(true)" not in source:
-    source = source.replace(marker, marker + "        .accessibilityHidden(true)\n", 1)
-content_view.write_text(source)
-
-# Support direct file:// Open In without replacing the existing ShareInbox implementation.
 (root / "Basir/Helpers/BasirVisualFileOpen.swift").write_text(r'''import Foundation
 
 @MainActor
@@ -108,49 +88,37 @@ source = app.read_text().replace(
 )
 app.write_text(source)
 
-shared_item = root / "Basir/Views/SharedItemView.swift"
-source = shared_item.read_text()
+shared = root / "Basir/Views/SharedItemView.swift"
+source = shared.read_text()
 source = source.replace(
     '["jpg", "jpeg", "png", "heic", "heif", "gif"].contains(incoming.fileExtension)',
-    '["jpg", "jpeg", "png", "heic", "heif", "gif", "bmp", "tif", "tiff", "webp"].contains(incoming.fileExtension)',
+    '["jpg", "jpeg", "png", "heic", "heif", "gif", "bmp", "tif", "tiff", "webp"].contains(incoming.fileExtension)'
 )
 source = source.replace(
     'private var isText: Bool { incoming.fileExtension == "txt" }',
-    'private var isText: Bool { ["txt", "csv", "md", "markdown", "json", "xml", "html", "htm", "log", "rtf"].contains(incoming.fileExtension) }',
+    'private var isText: Bool { ["txt", "csv", "md", "markdown", "json", "xml", "html", "htm", "log", "rtf"].contains(incoming.fileExtension) }'
 )
 source = source.replace(
     'private var isDocument: Bool { incoming.fileExtension == "pdf" }',
-    'private var isDocument: Bool { ["pdf", "docx", "pptx"].contains(incoming.fileExtension) }',
+    'private var isDocument: Bool { ["pdf", "docx", "pptx"].contains(incoming.fileExtension) }'
 )
-shared_item.write_text(source)
+shared.write_text(source)
 
-# Visual-only Share Extension.
 share_controller = root / "ShareExtension/ShareViewController.swift"
-source = share_controller.read_text().replace("UIAccessibility.post", "BasirShareVisualAccessibility.post")
-needle = "        super.viewDidLoad()\n"
-if "accessibilityElementsHidden = true" not in source:
-    source = source.replace(
-        needle,
-        needle
-        + "        view.isAccessibilityElement = false\n"
-        + "        view.accessibilityElementsHidden = true\n"
-        + "        view.accessibilityElements = []\n",
-        1,
-    )
+source = share_controller.read_text()
 source = source.replace('components.scheme = "basir"', 'components.scheme = "basirvisual"')
 source = source.replace('domain: "com.basir.ai.share"', 'domain: "com.basir.visual.share"')
 share_controller.write_text(source)
 
-(root / "ShareExtension/BasirShareVisualAccessibility.swift").write_text(
-    "import UIKit\n\n"
-    "enum BasirShareVisualAccessibility {\n"
-    "    static func post(notification: UIAccessibility.Notification, argument: Any?) {}\n"
-    "}\n"
-)
+# Apply graphics-first UI after identity/file-open transforms.
+runpy.run_path("scripts/apply_graphics_redesign.py", run_name="__main__")
 
-# Hard build-time invariants.
 assert "PRODUCT_BUNDLE_IDENTIFIER: com.basir.visual" in project.read_text()
-assert ".accessibilityHidden(true)" in content_view.read_text()
 assert "handleVisualExternalURL" in app.read_text()
 assert "group.com.basir.visual.shared" in (root / "Basir/Basir.entitlements").read_text()
-print("Basir Visual transformation complete")
+assert ".accessibilityHidden(true)" not in (root / "Basir/ContentView.swift").read_text()
+assert "accessibilityElementsHidden = true" not in share_controller.read_text()
+assert not (root / "Basir/Helpers/BasirVisualAccessibility.swift").exists()
+assert not (root / "ShareExtension/BasirShareVisualAccessibility.swift").exists()
+assert "BasirFeatureGrid" in (root / "Basir/Design/BasirDesignSystem.swift").read_text()
+print("Basir graphics-first visual edition ready; normal accessibility behavior preserved")

@@ -22,23 +22,27 @@ def replace_once(text: str, old: str, new: str, label: str) -> str:
     return text.replace(old, new, 1)
 
 
-# Quality policy is enforced in the app as well as on the service. This prevents
-# a stale Cloud Run revision from silently accepting work after the app has been
-# upgraded for a newer fidelity engine.
+# The service and the client both enforce fidelity. The client refuses stale
+# revisions, missing quality manifests and materially degraded terminal results.
+# This keeps a successful HTTP transaction from being mistaken for a trustworthy
+# document conversion.
 rel = "BasirConvert/Services/ProxyClient.swift"
 s = load(rel)
 
-if "BASIR_FIDELITY_GUARD_R6" not in s:
+if "BASIR_FIDELITY_GUARD_R7" not in s:
     s = replace_once(
         s,
         '        let required = Set(["job_api", "direct_storage_upload", "checksums"])\n',
-        '''        let required = Set(["job_api", "direct_storage_upload", "checksums"])
-        guard Self.serverVersionAtLeast(serverStatus.apiVersion, minimum: "2.4.0") else {
-            logger.record("QUALITY rejected stale processing service version=\\(serverStatus.apiVersion) required=2.4.0")
+        '''        let required = Set([
+            "job_api", "direct_storage_upload", "checksums",
+            "quality_manifest", "source_geometry_tables", "softmask_images"
+        ])
+        guard Self.serverVersionAtLeast(serverStatus.apiVersion, minimum: "2.5.0") else {
+            logger.record("QUALITY rejected stale processing service version=\\(serverStatus.apiVersion) required=2.5.0")
             throw BasirError.invalidResponse("خدمة المعالجة لم تُحدّث بعد إلى محرك الجودة المطلوب. أعد المحاولة بعد اكتمال التحديث.")
         }
 ''',
-        "minimum processing version",
+        "minimum processing version and capabilities",
     )
 
     source_size = '        let sourceSize = Int64((try? sourceURL.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0)\n'
@@ -52,6 +56,41 @@ if "BASIR_FIDELITY_GUARD_R6" not in s:
         logger.record("QUALITY sourcePages=\\(expectedSourcePages) selection=\\(options.pageSelection.isEmpty ? \"all\" : options.pageSelection)")
 '''
     s = replace_once(s, source_size, source_size + quality_block, "source page expectation")
+
+    object_line = '            let object = (try JSONSerialization.jsonObject(with: statusData)) as? [String: Any]\n'
+    quality_parse = '''            let qualityStatus = (object?["quality_status"] as? String)?.lowercased()
+            let qualityScore = Self.doubleValue(object?["quality_score"])
+            let qualityWarnings = (object?["quality_warnings"] as? [String]) ?? []
+'''
+    s = replace_once(s, object_line, object_line + quality_parse, "quality manifest parsing")
+
+    terminal_line = '            if ["completed", "complete", "done", "succeeded", "partial"].contains(state) {\n'
+    terminal_guard = '''            if ["completed", "complete", "done", "succeeded", "partial"].contains(state) {
+                guard let terminalQuality = qualityStatus,
+                      ["passed", "degraded"].contains(terminalQuality) else {
+                    logger.record("QUALITY terminal manifest missing-or-invalid status=\\(qualityStatus ?? \"none\")")
+                    throw BasirError.invalidResponse("تعذر التحقق من جودة المستند الناتج. لم يتم اعتماد الملف.")
+                }
+                let blockingWarnings = Set([
+                    "literal_html_break",
+                    "native_table_loss",
+                    "source_image_loss",
+                    "numeric_fidelity_low",
+                    "source_page_boundaries_reduced",
+                    "page_fallback_used"
+                ])
+                let blocked = qualityWarnings.filter { blockingWarnings.contains($0.lowercased()) }
+                if terminalQuality == "degraded" && ((qualityScore ?? 0) < 0.90 || !blocked.isEmpty) {
+                    logger.record("QUALITY rejected degraded result score=\\(qualityScore ?? -1) warnings=\\(qualityWarnings.joined(separator: ","))")
+                    throw BasirError.conversionFailed("لم يصل المستند الناتج إلى مستوى الجودة الآمن للاعتماد. لم يتم حفظ نتيجة ناقصة أو مشوهة.")
+                }
+                if terminalQuality == "failed" {
+                    logger.record("QUALITY rejected failed result warnings=\\(qualityWarnings.joined(separator: ","))")
+                    throw BasirError.conversionFailed("فشل التحقق من سلامة المستند الناتج.")
+                }
+                logger.record("QUALITY terminal status=\\(terminalQuality) score=\\(qualityScore ?? -1) warnings=\\(qualityWarnings.joined(separator: ","))")
+'''
+    s = replace_once(s, terminal_line, terminal_guard, "terminal quality enforcement")
 
     s = replace_once(
         s,
@@ -82,10 +121,32 @@ if "BASIR_FIDELITY_GUARD_R6" not in s:
     s = replace_once(
         s,
         '            try DocxBuilder.validate(url: temporary)\n',
-        '''            try DocxBuilder.validate(url: temporary, expectedPages: expectedPages)
-''',
+        '            try DocxBuilder.validate(url: temporary, expectedPages: expectedPages)\n',
         "expected page validation",
     )
+
+    integer_helper = '''    private static func integer(_ value: Any?) -> Int? {
+        if let integer = value as? Int { return integer }
+        if let number = value as? NSNumber { return number.intValue }
+        if let text = value as? String { return Int(text) }
+        return nil
+    }
+'''
+    numeric_helpers = '''    private static func integer(_ value: Any?) -> Int? {
+        if let integer = value as? Int { return integer }
+        if let number = value as? NSNumber { return number.intValue }
+        if let text = value as? String { return Int(text) }
+        return nil
+    }
+
+    private static func doubleValue(_ value: Any?) -> Double? {
+        if let number = value as? NSNumber { return number.doubleValue }
+        if let value = value as? Double { return value }
+        if let text = value as? String { return Double(text) }
+        return nil
+    }
+'''
+    s = replace_once(s, integer_helper, numeric_helpers, "quality score parser")
 
     marker = '    private static func validateHTTP(_ response: HTTPURLResponse, data: Data) throws {\n'
     helper = '''    private static func serverVersionAtLeast(_ actual: String, minimum: String) -> Bool {
@@ -105,21 +166,32 @@ if "BASIR_FIDELITY_GUARD_R6" not in s:
         return true
     }
 
-    // BASIR_FIDELITY_GUARD_R6
+    // BASIR_FIDELITY_GUARD_R7
 '''
     s = replace_once(s, marker, helper + marker, "version helper")
 
 save(rel, s)
 
-# Build gates make the guard non-optional. If a future source refresh drops it,
-# Codemagic must fail instead of publishing a client that can use a stale engine.
+# Build gates make the guard non-optional. If a future source refresh drops any
+# part, Codemagic must fail instead of publishing a client that silently accepts
+# an unverifiable result.
 checks = {
     "BasirConvert/Services/ProxyClient.swift": [
-        "BASIR_FIDELITY_GUARD_R6",
-        "serverVersionAtLeast(serverStatus.apiVersion, minimum: \"2.4.0\")",
+        "BASIR_FIDELITY_GUARD_R7",
+        "serverVersionAtLeast(serverStatus.apiVersion, minimum: \"2.5.0\")",
+        '"quality_manifest", "source_geometry_tables", "softmask_images"',
+        "quality_status",
+        "quality_score",
+        "quality_warnings",
+        "blockingWarnings",
         "expectedSourcePages",
         "expectedPages: expectedResultPages",
         "DocxBuilder.validate(url: temporary, expectedPages: expectedPages)",
+    ],
+    "BasirConvert/Services/DocxBuilder.swift": [
+        "expectedPages: Int = 0",
+        'w:type=\\\"page\\\"',
+        "literal HTML line-break marker",
     ],
 }
 for path, needles in checks.items():
@@ -128,4 +200,4 @@ for path, needles in checks.items():
         if needle not in text:
             raise SystemExit(f"fidelity gate failed: {needle!r} missing from {path}")
 
-print("BASIR_QUALITY_GUARD=SERVER_2_4_AND_SOURCE_PAGE_VALIDATION_R6")
+print("BASIR_QUALITY_GUARD=SERVER_2_5_MANIFEST_AND_SOURCE_PAGE_VALIDATION_R7")

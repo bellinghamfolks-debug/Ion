@@ -153,10 +153,10 @@ workflows:
           python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_fidelity_quality_guard.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           grep -q 'BASIR_FIDELITY_GUARD_R7' BasirConvert/Services/ProxyClient.swift
-          grep -q 'minimum: "2.5.0"' BasirConvert/Services/ProxyClient.swift
+          grep -q 'minimum: "2.5.1"' BasirConvert/Services/ProxyClient.swift
           grep -q 'quality_manifest' BasirConvert/Services/ProxyClient.swift
           grep -q 'quality_status' BasirConvert/Services/ProxyClient.swift
-          grep -q 'blockingWarnings' BasirConvert/Services/ProxyClient.swift
+          grep -q 'guard terminalQuality == "passed"' BasirConvert/Services/ProxyClient.swift
           grep -q 'expectedPages: expectedResultPages' BasirConvert/Services/ProxyClient.swift
           echo "BASIR_QUALITY_GUARD=FIDELITY_R7"
 

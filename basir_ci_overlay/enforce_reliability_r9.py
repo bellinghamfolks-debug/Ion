@@ -325,21 +325,27 @@ new_terminal_guard = """                guard terminalQuality == "passed", faile
                     let resultImages = Self.integer(qualityMetrics["result_images"]) ?? -1
                     let resultImageDrawings = Self.integer(qualityMetrics["result_image_drawings"]) ?? -1
                     let missingAlt = Self.integer(qualityMetrics["images_missing_alt_text"]) ?? -1
-                    guard expectedTables >= 0, resultTables >= expectedTables,
-                          sourceImages >= 0, sourceUniqueImages >= 0,
-                          resultImages >= sourceUniqueImages,
-                          resultImageDrawings >= sourceImages, missingAlt == 0 else {
-                        throw BasirError.invalidResponse("The quality manifest structural counts are inconsistent.")
+                    if options.outputMode != .simple && options.outputMode != .descriptionsOnly {
+                        guard expectedTables >= 0, resultTables >= expectedTables else {
+                            throw BasirError.invalidResponse("The quality manifest table counts are inconsistent.")
+                        }
+                        let expectedColumns = Self.integerArray(qualityMetrics["expected_table_columns"]) ?? []
+                        let resultColumns = Self.integerArray(qualityMetrics["result_table_columns"]) ?? []
+                        guard resultColumns.count >= expectedColumns.count,
+                              Array(resultColumns.prefix(expectedColumns.count)) == expectedColumns else {
+                            throw BasirError.invalidResponse("The quality manifest table geometry is inconsistent.")
+                        }
+                        validatedExpectedTables = expectedTables
                     }
-                    let expectedColumns = Self.integerArray(qualityMetrics["expected_table_columns"]) ?? []
-                    let resultColumns = Self.integerArray(qualityMetrics["result_table_columns"]) ?? []
-                    guard resultColumns.count >= expectedColumns.count,
-                          Array(resultColumns.prefix(expectedColumns.count)) == expectedColumns else {
-                        throw BasirError.invalidResponse("The quality manifest table geometry is inconsistent.")
+                    if options.effectiveEmbedVisuals {
+                        guard sourceImages >= 0, sourceUniqueImages >= 0,
+                              resultImages >= sourceUniqueImages,
+                              resultImageDrawings >= sourceImages, missingAlt == 0 else {
+                            throw BasirError.invalidResponse("The quality manifest image counts are inconsistent.")
+                        }
+                        validatedExpectedImages = sourceUniqueImages
+                        validatedExpectedImageInstances = sourceImages
                     }
-                    validatedExpectedTables = expectedTables
-                    validatedExpectedImages = sourceUniqueImages
-                    validatedExpectedImageInstances = sourceImages
                 }
                 resultPath = object?["result_url"] as? String
 """

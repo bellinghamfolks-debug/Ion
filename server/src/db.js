@@ -1,13 +1,42 @@
 // PostgreSQL connection pool + schema bootstrap.
+// Supports both a conventional DATABASE_URL and Google Cloud SQL's Unix socket.
 import pg from "pg";
 
 const { Pool } = pg;
-const connectionString = process.env.DATABASE_URL;
 
-export const pool = new Pool({
-  connectionString,
-  ssl: process.env.PGSSL === "disable" ? false : { rejectUnauthorized: false },
-});
+function databasePoolConfig(env = process.env) {
+  const connectionString = String(env.DATABASE_URL || "").trim();
+  if (connectionString) {
+    return {
+      connectionString,
+      ssl: env.PGSSL === "disable" ? false : { rejectUnauthorized: false },
+      max: Math.max(2, Math.min(20, Number.parseInt(env.DB_POOL_MAX || "8", 10) || 8)),
+    };
+  }
+
+  const host = String(env.INSTANCE_UNIX_SOCKET || "").trim();
+  const user = String(env.DB_USER || "").trim();
+  const password = String(env.DB_PASS || "");
+  const database = String(env.DB_NAME || "").trim();
+
+  if (host && user && password && database) {
+    return {
+      host,
+      user,
+      password,
+      database,
+      // Cloud Run -> Cloud SQL uses the Cloud SQL Auth Proxy on this socket.
+      ssl: false,
+      max: Math.max(2, Math.min(20, Number.parseInt(env.DB_POOL_MAX || "8", 10) || 8)),
+    };
+  }
+
+  // Pool creation itself is harmless; runtime configuration validation gives a
+  // clearer error before the service begins accepting requests.
+  return { connectionString };
+}
+
+export const pool = new Pool(databasePoolConfig());
 
 export async function initSchema() {
   await pool.query(`

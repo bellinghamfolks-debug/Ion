@@ -33,6 +33,7 @@ workflows:
           cd "$XCODE_PROJECT_DIR"
           python3 Scripts/audit_arabic_ui.py
           python3 Scripts/validate_project.py
+          python3 Scripts/verify_release_recovery.py
 
       - name: Generate Xcode project
         script: |
@@ -55,12 +56,13 @@ workflows:
             ONLY_ACTIVE_ARCH=YES \
             | xcpretty || exit 1
 
-      - name: Verify app bundle
+      - name: Verify app bundle and recovery fingerprint
         script: |
           cd "$XCODE_PROJECT_DIR"
           APP_PATH="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
           test -d "$APP_PATH"
           test -f "$APP_PATH/Curriculum/curriculum.json"
+          python3 Scripts/verify_release_recovery.py --app "$APP_PATH"
 
     artifacts:
       - EnglishNova/build/Build/Products/Debug-iphonesimulator/EnglishNova.app
@@ -107,6 +109,7 @@ workflows:
           cd "$XCODE_PROJECT_DIR"
           python3 Scripts/audit_arabic_ui.py
           python3 Scripts/validate_project.py
+          python3 Scripts/verify_release_recovery.py
 
       - name: Generate Xcode project
         script: |
@@ -131,13 +134,15 @@ workflows:
             GOOGLE_REVERSED_CLIENT_ID="$GOOGLE_REVERSED_CLIENT_ID" \
             | xcpretty || exit 1
 
-      - name: Verify OAuth substitution and wrap IPA
+      - name: Verify OAuth substitution, recovery fingerprint and wrap IPA
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/$XCODE_PROJECT_DIR/build"
           APP_PATH="EnglishNova.xcarchive/Products/Applications/EnglishNova.app"
           test -d "$APP_PATH"
           test -f "$APP_PATH/Curriculum/curriculum.json"
+
+          python3 "$CM_BUILD_DIR/$XCODE_PROJECT_DIR/Scripts/verify_release_recovery.py" --app "$APP_PATH"
 
           CLIENT=$(/usr/libexec/PlistBuddy -c 'Print :GIDClientID' "$APP_PATH/Info.plist")
           SERVER=$(/usr/libexec/PlistBuddy -c 'Print :GIDServerClientID' "$APP_PATH/Info.plist")

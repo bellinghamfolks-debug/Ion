@@ -1,0 +1,3 @@
+EnglishNova Build 50 Codemagic recovery branch.
+Created to force Codemagic to refresh and index the current repository state.
+Expected root workflow file: codemagic.yaml

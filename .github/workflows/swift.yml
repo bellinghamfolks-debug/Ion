@@ -23,7 +23,6 @@ jobs:
           git archive --format=zip --output=EnglishNova-source-latest.zip HEAD \
             EnglishNova server codemagic.yaml .github/workflows/swift.yml
           unzip -t EnglishNova-source-latest.zip >/dev/null
-          ls -lh EnglishNova-source-latest.zip
       - name: Upload latest source
         uses: actions/upload-artifact@v4
         with:
@@ -35,28 +34,24 @@ jobs:
   build:
     name: Build & test (iOS Simulator)
     runs-on: macos-14
-
     defaults:
       run:
         working-directory: EnglishNova
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Audit Arabic interface copy
         run: python3 Scripts/audit_arabic_ui.py
-
       - name: Validate current project and localization coverage
         run: python3 Scripts/validate_project.py
-
+      - name: Verify recovered build 50 source fingerprint
+        run: python3 Scripts/verify_release_recovery.py
       - name: Validate all integrated server JavaScript syntax
         working-directory: .
         run: |
           set -euo pipefail
           find server/src -type f -name '*.js' -print0 | xargs -0 -n1 node --check
-
-      - name: Verify production configuration guard
+      - name: Verify production server configuration guard
         working-directory: .
         run: |
           NODE_ENV=production \
@@ -64,18 +59,14 @@ jobs:
           JWT_SECRET='ci-only-secret-012345678901234567890123456789' \
           GOOGLE_SERVER_CLIENT_ID='123456789-ci.apps.googleusercontent.com' \
           node --input-type=module -e "import('./server/src/config.js').then(m => m.assertRuntimeConfig())"
-
       - name: Select latest stable Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
-
       - name: Install XcodeGen
         run: brew install xcodegen
-
       - name: Generate Xcode project
         run: xcodegen generate
-
       - name: Pick an available iPhone simulator
         id: sim
         run: |
@@ -87,7 +78,6 @@ jobs:
           print(devices[-1]['udid'])
           ")
           echo "udid=$UDID" >> "$GITHUB_OUTPUT"
-
       - name: Build and run unit tests
         run: |
           set -o pipefail
@@ -99,46 +89,49 @@ jobs:
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             COMPILER_INDEX_STORE_ENABLE=NO
-
-      - name: Verify curriculum is bundled
+      - name: Verify built app recovery fingerprint
         run: |
           APP="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
           test -f "$APP/Curriculum/curriculum.json"
-          echo "Curriculum bundle check: PASS"
+          python3 Scripts/verify_release_recovery.py --app "$APP"
 
   unsigned-ipa:
-    name: Unsigned IPA (production-configured)
+    name: Unsigned IPA (recovered build 50)
     runs-on: macos-14
     env:
       GOOGLE_IOS_CLIENT_ID: ${{ secrets.GOOGLE_IOS_CLIENT_ID }}
       GOOGLE_SERVER_CLIENT_ID: ${{ secrets.GOOGLE_SERVER_CLIENT_ID }}
       GOOGLE_REVERSED_CLIENT_ID: ${{ secrets.GOOGLE_REVERSED_CLIENT_ID }}
-
     defaults:
       run:
         working-directory: EnglishNova
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Require production Google OAuth settings
-        run: Scripts/validate_google_config.sh
-
+      - name: Report optional Google OAuth settings
+        run: |
+          if [[ -n "${GOOGLE_IOS_CLIENT_ID:-}" && -n "${GOOGLE_SERVER_CLIENT_ID:-}" && -n "${GOOGLE_REVERSED_CLIENT_ID:-}" ]]; then
+            echo "Google OAuth identifiers supplied; they will be injected."
+          else
+            echo "Google OAuth identifiers absent; continuing to match the supplied reference IPA."
+          fi
       - name: Select latest stable Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
-
       - name: Install XcodeGen
         run: brew install xcodegen
-
+      - name: Verify recovered build 50 source fingerprint
+        run: python3 Scripts/verify_release_recovery.py
       - name: Generate Xcode project
         run: xcodegen generate
-
       - name: Build unsigned iPhone app
         run: |
           set -o pipefail
+          EXTRA_SETTINGS=()
+          if [[ -n "${GOOGLE_IOS_CLIENT_ID:-}" ]]; then EXTRA_SETTINGS+=("GOOGLE_IOS_CLIENT_ID=$GOOGLE_IOS_CLIENT_ID"); fi
+          if [[ -n "${GOOGLE_SERVER_CLIENT_ID:-}" ]]; then EXTRA_SETTINGS+=("GOOGLE_SERVER_CLIENT_ID=$GOOGLE_SERVER_CLIENT_ID"); fi
+          if [[ -n "${GOOGLE_REVERSED_CLIENT_ID:-}" ]]; then EXTRA_SETTINGS+=("GOOGLE_REVERSED_CLIENT_ID=$GOOGLE_REVERSED_CLIENT_ID"); fi
           xcodebuild build \
             -project EnglishNova.xcodeproj \
             -scheme EnglishNova \
@@ -150,31 +143,19 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             COMPILER_INDEX_STORE_ENABLE=NO \
-            GOOGLE_IOS_CLIENT_ID="$GOOGLE_IOS_CLIENT_ID" \
-            GOOGLE_SERVER_CLIENT_ID="$GOOGLE_SERVER_CLIENT_ID" \
-            GOOGLE_REVERSED_CLIENT_ID="$GOOGLE_REVERSED_CLIENT_ID"
-
-      - name: Verify OAuth settings, curriculum and create unsigned IPA
+            "${EXTRA_SETTINGS[@]}"
+      - name: Verify recovery fingerprint and create unsigned IPA
         run: |
           set -euo pipefail
           APP="build-unsigned/Build/Products/Release-iphoneos/EnglishNova.app"
           test -d "$APP"
           test -f "$APP/Curriculum/curriculum.json"
-
-          CLIENT=$(/usr/libexec/PlistBuddy -c 'Print :GIDClientID' "$APP/Info.plist")
-          SERVER=$(/usr/libexec/PlistBuddy -c 'Print :GIDServerClientID' "$APP/Info.plist")
-          SCHEME=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleURLTypes:0:CFBundleURLSchemes:0' "$APP/Info.plist")
-          test "$CLIENT" = "$GOOGLE_IOS_CLIENT_ID"
-          test "$SERVER" = "$GOOGLE_SERVER_CLIENT_ID"
-          test "$SCHEME" = "$GOOGLE_REVERSED_CLIENT_ID"
-
+          python3 Scripts/verify_release_recovery.py --app "$APP"
           rm -rf Payload EnglishNova-latest-unsigned.ipa
           mkdir -p Payload
           cp -R "$APP" Payload/EnglishNova.app
           zip -qry EnglishNova-latest-unsigned.ipa Payload
           unzip -l EnglishNova-latest-unsigned.ipa | grep 'Payload/EnglishNova.app/Curriculum/curriculum.json'
-          echo "Production OAuth substitution and IPA packaging: PASS"
-
       - name: Upload unsigned IPA
         uses: actions/upload-artifact@v4
         with:

@@ -1,7 +1,8 @@
-# Codemagic CI/CD for EnglishNova iOS.
-# Production IPA builds require Google OAuth variables configured as secrets in
-# the Codemagic UI: GOOGLE_IOS_CLIENT_ID, GOOGLE_SERVER_CLIENT_ID and
-# GOOGLE_REVERSED_CLIENT_ID.
+# Codemagic CI/CD for recovered EnglishNova iOS build 50.
+# Google OAuth identifiers are OPTIONAL here because the supplied reference IPA
+# (EnglishNova 1.0.0 build 50) contains empty GIDClientID/GIDServerClientID and
+# an empty reversed-client URL scheme. If Codemagic secrets are later supplied,
+# they will be injected and verified, but their absence must not block recovery.
 
 workflows:
   ios-simulator-build:
@@ -76,7 +77,7 @@ workflows:
           failure: true
 
   ios-unsigned-ipa:
-    name: EnglishNova iOS — production-configured unsigned IPA
+    name: EnglishNova iOS — recovered build 50 unsigned IPA
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
@@ -99,10 +100,13 @@ workflows:
       - name: Install XcodeGen
         script: brew install xcodegen
 
-      - name: Require production Google OAuth settings
+      - name: Report optional Google OAuth configuration
         script: |
-          cd "$XCODE_PROJECT_DIR"
-          Scripts/validate_google_config.sh
+          if [[ -n "${GOOGLE_IOS_CLIENT_ID:-}" && -n "${GOOGLE_SERVER_CLIENT_ID:-}" && -n "${GOOGLE_REVERSED_CLIENT_ID:-}" ]]; then
+            echo "Google OAuth identifiers supplied; they will be injected and verified."
+          else
+            echo "Google OAuth identifiers not supplied; continuing to match the provided build 50 reference IPA."
+          fi
 
       - name: Audit and validate source
         script: |
@@ -120,6 +124,18 @@ workflows:
         script: |
           cd "$XCODE_PROJECT_DIR"
           set -o pipefail
+
+          EXTRA_SETTINGS=()
+          if [[ -n "${GOOGLE_IOS_CLIENT_ID:-}" ]]; then
+            EXTRA_SETTINGS+=("GOOGLE_IOS_CLIENT_ID=$GOOGLE_IOS_CLIENT_ID")
+          fi
+          if [[ -n "${GOOGLE_SERVER_CLIENT_ID:-}" ]]; then
+            EXTRA_SETTINGS+=("GOOGLE_SERVER_CLIENT_ID=$GOOGLE_SERVER_CLIENT_ID")
+          fi
+          if [[ -n "${GOOGLE_REVERSED_CLIENT_ID:-}" ]]; then
+            EXTRA_SETTINGS+=("GOOGLE_REVERSED_CLIENT_ID=$GOOGLE_REVERSED_CLIENT_ID")
+          fi
+
           xcodebuild archive \
             -project EnglishNova.xcodeproj \
             -scheme EnglishNova \
@@ -129,12 +145,10 @@ workflows:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
-            GOOGLE_IOS_CLIENT_ID="$GOOGLE_IOS_CLIENT_ID" \
-            GOOGLE_SERVER_CLIENT_ID="$GOOGLE_SERVER_CLIENT_ID" \
-            GOOGLE_REVERSED_CLIENT_ID="$GOOGLE_REVERSED_CLIENT_ID" \
+            "${EXTRA_SETTINGS[@]}" \
             | xcpretty || exit 1
 
-      - name: Verify OAuth substitution, recovery fingerprint and wrap IPA
+      - name: Verify recovery fingerprint and wrap IPA
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/$XCODE_PROJECT_DIR/build"
@@ -144,12 +158,18 @@ workflows:
 
           python3 "$CM_BUILD_DIR/$XCODE_PROJECT_DIR/Scripts/verify_release_recovery.py" --app "$APP_PATH"
 
-          CLIENT=$(/usr/libexec/PlistBuddy -c 'Print :GIDClientID' "$APP_PATH/Info.plist")
-          SERVER=$(/usr/libexec/PlistBuddy -c 'Print :GIDServerClientID' "$APP_PATH/Info.plist")
-          SCHEME=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleURLTypes:0:CFBundleURLSchemes:0' "$APP_PATH/Info.plist")
-          test "$CLIENT" = "$GOOGLE_IOS_CLIENT_ID"
-          test "$SERVER" = "$GOOGLE_SERVER_CLIENT_ID"
-          test "$SCHEME" = "$GOOGLE_REVERSED_CLIENT_ID"
+          CLIENT=$(/usr/libexec/PlistBuddy -c 'Print :GIDClientID' "$APP_PATH/Info.plist" 2>/dev/null || true)
+          SERVER=$(/usr/libexec/PlistBuddy -c 'Print :GIDServerClientID' "$APP_PATH/Info.plist" 2>/dev/null || true)
+          SCHEME=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleURLTypes:0:CFBundleURLSchemes:0' "$APP_PATH/Info.plist" 2>/dev/null || true)
+
+          if [[ -n "${GOOGLE_IOS_CLIENT_ID:-}" || -n "${GOOGLE_SERVER_CLIENT_ID:-}" || -n "${GOOGLE_REVERSED_CLIENT_ID:-}" ]]; then
+            test "$CLIENT" = "${GOOGLE_IOS_CLIENT_ID:-}"
+            test "$SERVER" = "${GOOGLE_SERVER_CLIENT_ID:-}"
+            test "$SCHEME" = "${GOOGLE_REVERSED_CLIENT_ID:-}"
+            echo "Optional Google OAuth substitution: PASS"
+          else
+            echo "No Google OAuth identifiers configured, matching the supplied reference IPA behavior."
+          fi
 
           rm -rf Payload
           mkdir -p Payload
@@ -166,6 +186,7 @@ workflows:
       - name: Create exact source snapshot
         script: |
           cd "$CM_BUILD_DIR"
+          mkdir -p artifacts
           git archive --format=zip --output=artifacts/EnglishNova-source-latest.zip HEAD \
             EnglishNova server codemagic.yaml .github/workflows/swift.yml
           unzip -t artifacts/EnglishNova-source-latest.zip >/dev/null

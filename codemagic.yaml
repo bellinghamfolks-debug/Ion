@@ -1,6 +1,6 @@
 workflows:
   basir-ios-unsigned:
-    name: Basir iOS 2.3.0 — Geometry Reliability Guard R9
+    name: Basir iOS 2.3.0 — Background Continuation Guard R10
     instance_type: mac_mini_m2
     max_build_duration: 60
 
@@ -73,6 +73,20 @@ workflows:
           set -euo pipefail
           if ! command -v xcodegen >/dev/null 2>&1; then brew install xcodegen; fi
           xcodegen --version
+
+      - name: Preserve server conversion in background
+        script: |
+          set -euo pipefail
+          python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_background_continuation_r10.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          grep -q 'backgroundTimeExpired()' BasirConvert/ViewModels/AppViewModel.swift
+          grep -q 'server checkpoint preserved' BasirConvert/ViewModels/AppViewModel.swift
+          grep -q 'jobs\[index\].status = .queued' BasirConvert/Services/PersistentJobStore.swift
+          if grep -q 'backgroundExecution.begin { \[weak self\] in self?.pause() }' BasirConvert/ViewModels/AppViewModel.swift; then
+            echo "Background expiration still triggers a user pause"
+            exit 9
+          fi
+          echo "BASIR_BACKGROUND_CONTINUATION=SERVER_CHECKPOINT_R10"
 
       - name: Generate Xcode project
         script: |
@@ -212,8 +226,8 @@ workflows:
           test -s "$IPA"
           unzip -t "$IPA"
           mkdir -p "$CM_BUILD_DIR/artifacts"
-          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_GEOMETRY_R9_unsigned.ipa"
-          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_GEOMETRY_R9_unsigned.ipa.sha256"
+          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_BACKGROUND_R10_unsigned.ipa"
+          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_BACKGROUND_R10_unsigned.ipa.sha256"
 
     artifacts:
       - artifacts/*.ipa

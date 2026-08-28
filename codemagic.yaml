@@ -180,6 +180,7 @@ workflows:
           grep -q 'replaceItemAt' BasirConvert/Services/ProxyClient.swift
           grep -q 'downloadResultOnce' BasirConvert/Services/ProxyClient.swift
           grep -q 'didAdvanceLogicalProgress' BasirConvert/ViewModels/AppViewModel.swift
+          grep -q 'QUALITY rejected status=' BasirConvert/Services/ProxyClient.swift
           if grep -q -E 'minimum: "2\.[56]\.' BasirConvert/Services/ProxyClient.swift; then
             echo "Stale processing-service minimum remains"
             exit 8

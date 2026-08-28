@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 import sys
 
 
@@ -30,12 +31,12 @@ engine_path = "BasirConvert/Services/ConversionEngine.swift"
 engine = load(engine_path)
 engine = replace_once(
     engine,
-    """        logger: DiagnosticLogger,
-        checkpointDirectory: URL? = nil
+    """        configuration: ServerConfiguration,
+        progress: @escaping ProgressHandler,
 """,
-    """        logger: DiagnosticLogger,
+    """        configuration: ServerConfiguration,
         requestID: String,
-        checkpointDirectory: URL? = nil
+        progress: @escaping ProgressHandler,
 """,
     "conversion-engine request ID signature",
 )
@@ -352,6 +353,17 @@ new_terminal_guard = """                guard terminalQuality == "passed", faile
 proxy = replace_once(proxy, old_terminal_guard, new_terminal_guard, "terminal structural manifest")
 proxy = replace_once(
     proxy,
+    '''            if ["failed", "cancelled", "canceled"].contains(state) {
+                logger.record("STATUS terminalFailure state=\\(state) error=\\((object?["error"] as? String) ?? "missing")")
+''',
+    '''            if ["failed", "cancelled", "canceled"].contains(state) {
+                logger.record("QUALITY rejected status=\\(qualityStatus ?? "missing") score=\\(qualityScore ?? -1) warnings=\\(qualityWarnings.joined(separator: ","))")
+                logger.record("STATUS terminalFailure state=\\(state) error=\\((object?["error"] as? String) ?? "missing")")
+''',
+    "failed quality diagnostics",
+)
+proxy = replace_once(
+    proxy,
     """            outputURL: outputURL,
             expectedPages: expectedResultPages
 """,
@@ -590,6 +602,7 @@ checks = {
         'qualityMetrics["source_unique_images"]',
         'qualityMetrics["result_image_drawings"]',
         "failedItems.isEmpty",
+        "QUALITY rejected status=",
         "downloadResultOnce",
         "replaceItemAt",
         "requestID: String",
@@ -615,5 +628,28 @@ for relative, needles in checks.items():
 
 if 'minimum: "2.6.0"' in load(proxy_path):
     raise SystemExit("R9 stale 2.6.0 minimum remains")
+
+# Swift requires labeled arguments in declaration order. Verify the reconstructed
+# source here so this class of error is rejected before the expensive IPA step.
+engine_final = load(engine_path)
+view_model_final = load(view_model_path)
+signature_match = re.search(r"func convert\((.*?)\) async throws", engine_final, re.DOTALL)
+call_match = re.search(
+    r"let outcome = try await engine\.convert\((.*?)\n\s*\)",
+    view_model_final,
+    re.DOTALL,
+)
+if signature_match is None or call_match is None:
+    raise SystemExit("R9 could not inspect ConversionEngine argument order")
+
+def argument_labels(value: str) -> list[str]:
+    return re.findall(r"^\s*([A-Za-z][A-Za-z0-9]*):", value, re.MULTILINE)
+
+signature_labels = argument_labels(signature_match.group(1))
+call_labels = argument_labels(call_match.group(1))
+if signature_labels != call_labels:
+    raise SystemExit(
+        f"R9 ConversionEngine argument order mismatch: {call_labels} != {signature_labels}"
+    )
 
 print("BASIR_RELIABILITY_GUARD=GEOMETRY_RESUME_ATOMIC_R9")

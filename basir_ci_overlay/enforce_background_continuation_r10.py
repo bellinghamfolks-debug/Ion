@@ -101,13 +101,14 @@ save(store_path, store)
 
 
 # Keep the public version stable while giving this corrected IPA a distinct
-# build number for installation and diagnostics.
+# build number for installation and diagnostics. R11 includes this R10
+# background correction plus the universal result contract applied later.
 for project_path in ("project.yml", "cloud-project.yml"):
     project = load(project_path)
     count = project.count("CURRENT_PROJECT_VERSION: 9")
     if count != 2:
         raise SystemExit(f"R10 build number: expected two targets in {project_path}, found {count}")
-    save(project_path, project.replace("CURRENT_PROJECT_VERSION: 9", "CURRENT_PROJECT_VERSION: 10"))
+    save(project_path, project.replace("CURRENT_PROJECT_VERSION: 9", "CURRENT_PROJECT_VERSION: 11"))
 
 
 final_view_model = load(view_model_path)

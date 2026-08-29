@@ -70,11 +70,25 @@ def main() -> None:
     polish = overlay / "polish_r12_background.py"
     subprocess.run([sys.executable, str(polish), str(root)], check=True)
 
+    accounting_patch = overlay / "fix_r12_accounting_resume.patch"
+    if not accounting_patch.is_file():
+        raise SystemExit("R12 exact-accounting patch is missing")
+    subprocess.run(
+        ["patch", "-p1", "--forward", "--batch", "-i", str(accounting_patch)],
+        cwd=root,
+        check=True,
+    )
+
     checks = [
         ("BasirConvert/Models/SettingsStore.swift", "preferredModel"),
         ("BasirConvert/Models/AppModels.swift", "Gemini 3.7 Flash"),
+        ("BasirConvert/Models/AppModels.swift", "let skipped: Int?"),
         ("BasirConvert/Services/ProxyClient.swift", "preferred_model"),
+        ("BasirConvert/Services/ProxyClient.swift", "skipped: skippedItems.count"),
         ("BasirConvert/ViewModels/AppViewModel.swift", "resumeInterruptedJobsIfNeeded"),
+        ("BasirConvert/ViewModels/AppViewModel.swift", "TRANSPORT_CANCELLED resumable server task preserved"),
+        ("BasirConvert/Views/JobView.swift", "المحاسبة"),
+        ("BasirConvert/Views/JobView.swift", "الصفحات الفارغة التي تم تخطيها"),
         ("BasirConvert/Views/SettingsView.swift", "preferredModel"),
         ("BasirConvert/Views/SettingsView.swift", "checkmark.circle.fill"),
         ("BasirConvert/Views/SettingsView.swift", "xmark.circle.fill"),
@@ -95,7 +109,7 @@ def main() -> None:
         if forbidden in settings:
             raise SystemExit(f"R12 UI verification failed: unwanted text remains: {forbidden}")
 
-    print("BASIR_IOS_UPGRADE=UNIVERSAL_RELIABILITY_GUARD_R12")
+    print("BASIR_IOS_UPGRADE=UNIVERSAL_RELIABILITY_GUARD_R12_EXACT_ACCOUNTING")
 
 
 if __name__ == "__main__":

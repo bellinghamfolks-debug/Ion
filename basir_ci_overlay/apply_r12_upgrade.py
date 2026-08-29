@@ -37,9 +37,10 @@ def main() -> None:
 
     checks = {
         "BasirConvert/Models/SettingsStore.swift": "preferredModel",
+        "BasirConvert/Models/AppModels.swift": "Gemini 3.7 Flash",
         "BasirConvert/Services/ProxyClient.swift": "preferred_model",
         "BasirConvert/ViewModels/AppViewModel.swift": "resumeInterruptedJobsIfNeeded",
-        "BasirConvert/Views/SettingsView.swift": "Gemini 3.7 Flash",
+        "BasirConvert/Views/SettingsView.swift": "preferredModel",
         "R12_CHANGELOG_AR.md": "R12",
     }
     for relative, needle in checks.items():

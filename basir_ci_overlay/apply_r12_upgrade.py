@@ -28,7 +28,6 @@ def main() -> None:
     encoded = "".join((overlay / name).read_text(encoding="utf-8").strip() for name in names)
     patch_text = zlib.decompress(base64.b64decode(encoded, validate=True)).decode("utf-8")
 
-    # Remove stale reject files so this run is judged only on its own result.
     for reject in root.rglob("*.rej"):
         reject.unlink(missing_ok=True)
 
@@ -61,32 +60,25 @@ def main() -> None:
         raise SystemExit(f"R12 patch failed on required targets: {rendered}")
 
     if result.returncode != 0:
-        # The R12 payload also carries two optional compatibility files that are
-        # absent from the reconstructed R11 source. GNU patch returns 1 for
-        # those missing targets even though every required app hunk applied.
-        # We therefore permit only those exact reject files and verify the
-        # required R12 behavior below before declaring success.
         if not rejects or not rejects.issubset(OPTIONAL_REJECTS):
             raise SystemExit(f"R12 patch returned {result.returncode} without only approved optional rejects")
         print("R12 optional compatibility targets absent; continuing after strict verification.")
 
-    # Keep the R12 runtime behavior, but apply the requested user-facing cleanup
-    # as a separate deterministic layer. This restores explicit check/x symbols
-    # on option toggles and removes unnecessary implementation/server wording.
     cleanup = overlay / "cleanup_r12_user_ui.py"
     subprocess.run([sys.executable, str(cleanup), str(root)], check=True)
 
-    checks = {
-        "BasirConvert/Models/SettingsStore.swift": "preferredModel",
-        "BasirConvert/Models/AppModels.swift": "Gemini 3.7 Flash",
-        "BasirConvert/Services/ProxyClient.swift": "preferred_model",
-        "BasirConvert/ViewModels/AppViewModel.swift": "resumeInterruptedJobsIfNeeded",
-        "BasirConvert/Views/SettingsView.swift": "preferredModel",
-        "BasirConvert/Views/SettingsView.swift": "checkmark.circle.fill",
-        "R12_CHANGELOG_AR.md": "R12",
-        "tools/verify_project.py": "user_model_selection",
-    }
-    for relative, needle in checks.items():
+    checks = [
+        ("BasirConvert/Models/SettingsStore.swift", "preferredModel"),
+        ("BasirConvert/Models/AppModels.swift", "Gemini 3.7 Flash"),
+        ("BasirConvert/Services/ProxyClient.swift", "preferred_model"),
+        ("BasirConvert/ViewModels/AppViewModel.swift", "resumeInterruptedJobsIfNeeded"),
+        ("BasirConvert/Views/SettingsView.swift", "preferredModel"),
+        ("BasirConvert/Views/SettingsView.swift", "checkmark.circle.fill"),
+        ("BasirConvert/Views/SettingsView.swift", "xmark.circle.fill"),
+        ("R12_CHANGELOG_AR.md", "R12"),
+        ("tools/verify_project.py", "user_model_selection"),
+    ]
+    for relative, needle in checks:
         path = root / relative
         if not path.is_file():
             raise SystemExit(f"R12 verification failed: missing required file {relative}")

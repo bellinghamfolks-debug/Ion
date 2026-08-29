@@ -26,12 +26,10 @@ def remove_text_block_containing(text: str, needle: str) -> tuple[str, int]:
         while start > 0 and "Text(" not in lines[start]:
             start -= 1
         if "Text(" not in lines[start]:
-            # Fall back to removing only the offending line rather than widening blindly.
             del lines[index]
             removed += 1
             continue
 
-        # Track parentheses from the Text( line until the expression closes.
         depth = 0
         end = start
         seen = False
@@ -46,7 +44,6 @@ def remove_text_block_containing(text: str, needle: str) -> tuple[str, int]:
             if seen and depth <= 0:
                 break
 
-        # Remove immediately attached presentation modifiers too.
         while end < len(lines):
             stripped = lines[end].lstrip()
             if stripped.startswith(".font(") or stripped.startswith(".foregroundStyle(") or stripped.startswith(".multilineTextAlignment(") or stripped.startswith(".fixedSize("):
@@ -60,9 +57,6 @@ def remove_text_block_containing(text: str, needle: str) -> tuple[str, int]:
 
 
 def restore_toggle_status_icons(text: str) -> tuple[str, int]:
-    # Turn plain user-option toggles back into explicit ✓ / ✕ rows while keeping
-    # the real SwiftUI Toggle and binding. The icon is hidden from VoiceOver so
-    # the option title remains clean and the Toggle still exposes its state.
     pattern = re.compile(
         r'Toggle\(l10n\.t\("([^"\\]*(?:\\.[^"\\]*)*)",\s*"([^"\\]*(?:\\.[^"\\]*)*)"\),\s*isOn:\s*\$settings\.([A-Za-z_][A-Za-z0-9_]*)\)'
     )
@@ -85,8 +79,6 @@ def restore_toggle_status_icons(text: str) -> tuple[str, int]:
 settings = settings_path.read_text(encoding="utf-8")
 task = task_path.read_text(encoding="utf-8")
 
-# Remove the implementation lecture requested by the user. This is display-only;
-# preferredModel continues to be sent and enforced by the transport layer.
 for needle in (
     "هذا اختيار تنفيذي حقيقي",
     "يُرسل اسم النموذج إلى الخدمة",
@@ -95,7 +87,6 @@ for needle in (
     settings, _ = remove_text_block_containing(settings, needle)
     task, _ = remove_text_block_containing(task, needle)
 
-# Replace technical server wording in Settings with user-facing connection wording.
 replacements = {
     "خادم بصير": "الاتصال",
     "لم يُربط الخادم بهذه النسخة بعد": "الاتصال غير متاح في هذه النسخة",
@@ -107,6 +98,7 @@ replacements = {
 }
 for old, new in replacements.items():
     settings = settings.replace(old, new)
+    task = task.replace(old, new)
 
 settings, settings_toggle_count = restore_toggle_status_icons(settings)
 task, task_toggle_count = restore_toggle_status_icons(task)

@@ -170,13 +170,16 @@ workflows:
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           grep -q 'BASIR_FIDELITY_GUARD_R7' BasirConvert/Services/ProxyClient.swift
           grep -q 'BASIR_RELIABILITY_GUARD_R11' BasirConvert/Services/ProxyClient.swift
-          grep -q 'minimum: "2.8.0"' BasirConvert/Services/ProxyClient.swift
+          grep -q 'minimum: "2.9.0"' BasirConvert/Services/ProxyClient.swift
           grep -q 'adaptive_fidelity_repair' BasirConvert/Services/ProxyClient.swift
           grep -q 'pdf_structural_geometry' BasirConvert/Services/ProxyClient.swift
           grep -q 'geometry_validated_native_tables' BasirConvert/Services/ProxyClient.swift
           grep -q 'resumable_jobs' BasirConvert/Services/ProxyClient.swift
           grep -q 'universal_docx_validation' BasirConvert/Services/ProxyClient.swift
           grep -q 'lossless_degraded_results' BasirConvert/Services/ProxyClient.swift
+          grep -q 'source_page_accounting_exact' BasirConvert/Services/ProxyClient.swift
+          grep -q 'source_page_numbering_exact' BasirConvert/Services/ProxyClient.swift
+          grep -q 'fallback_page_numbers' BasirConvert/Services/ProxyClient.swift
           grep -q 'requestID: snapshot.requestID' BasirConvert/ViewModels/AppViewModel.swift
 
       - name: Verify R12 survived R11 and set final build metadata

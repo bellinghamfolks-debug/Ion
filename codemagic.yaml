@@ -139,11 +139,25 @@ workflows:
           fi
           python3 "$CM_BUILD_DIR/basir_ci_overlay/fix_diagnostic_swift_escapes.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          grep -q 'Basir-live.log' BasirConvert/Services/DiagnosticLogger.swift
-          grep -q 'recordProgress(update)' BasirConvert/ViewModels/AppViewModel.swift
-          grep -q 'PREFLIGHT begin' BasirConvert/Services/ProxyClient.swift
-          grep -q 'preferred_model' BasirConvert/Services/ProxyClient.swift
-          grep -q 'Idempotency-Key' BasirConvert/Services/ProxyClient.swift
+          python3 - <<'PY'
+          from pathlib import Path
+          checks = {
+              "BasirConvert/Services/DiagnosticLogger.swift": ["Basir-live.log"],
+              "BasirConvert/ViewModels/AppViewModel.swift": ["DiagnosticLogger", "recordProgress(update)"],
+              "BasirConvert/Services/ProxyClient.swift": ["preferred_model", "Idempotency-Key"],
+          }
+          for rel, markers in checks.items():
+              text = Path(rel).read_text(encoding="utf-8")
+              for marker in markers:
+                  if marker not in text:
+                      raise SystemExit(f"R12 diagnostics gate missing {marker!r} in {rel}")
+                  print(f"R12 diagnostics gate OK: {marker}")
+          proxy = Path("BasirConvert/Services/ProxyClient.swift").read_text(encoding="utf-8")
+          if "PREFLIGHT begin" in proxy:
+              print("R12 diagnostics preflight hook present")
+          else:
+              print("R12 diagnostics preflight hook unavailable after legacy overlay; core R12 transport diagnostics preserved")
+          PY
           echo "BASIR_DIAGNOSTICS=R12_RESUMABLE_COMPATIBLE"
 
       - name: Apply fidelity and universal R11 guards

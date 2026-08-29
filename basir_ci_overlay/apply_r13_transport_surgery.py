@@ -53,9 +53,29 @@ if "transportReconnectAttempts" not in vm:
         "    private var networkLossTask: Task<Void, Never>?\n",
         "    private var networkLossTask: Task<Void, Never>?\n"
         "    private var transportReconnectTasks: [UUID: Task<Void, Never>] = [:]\n"
-        "    private var transportReconnectAttempts: [UUID: Int] = [:]\n",
+        "    private var transportReconnectAttempts: [UUID: Int] = [:]\n"
+        "    private var progressRateEMA: [UUID: Double] = [:]\n"
+        "    private var lastProgressSample: [UUID: (current: Int, date: Date)] = [:]\n",
         "reconnect state",
     )
+
+old_eta = '''    var estimatedRemaining: TimeInterval? {
+        guard progress.current > 0, progress.total > progress.current, elapsedTime > 0 else { return nil }
+        return elapsedTime / Double(progress.current) * Double(progress.total - progress.current)
+    }
+'''
+new_eta = '''    var estimatedRemaining: TimeInterval? {
+        guard let job = selectedJob,
+              progress.total > progress.current,
+              let pagesPerSecond = progressRateEMA[job.id],
+              pagesPerSecond > 0.005 else { return nil }
+        return Double(progress.total - progress.current) / pagesPerSecond
+    }
+'''
+if old_eta in vm:
+    vm = vm.replace(old_eta, new_eta, 1)
+elif "let pagesPerSecond = progressRateEMA[job.id]" not in vm:
+    raise SystemExit("R13 rolling ETA: estimatedRemaining shape changed")
 
 old_head = '''    private func processNextIfPossible() {
         guard jobTask == nil,
@@ -110,6 +130,39 @@ if old_apply_start in vm:
 elif "(update.total == 0 || update.current < previous.current)" not in vm:
     raise SystemExit("R13 monotonic progress: apply() shape changed")
 
+old_apply_tail = '''        jobs[index].updatedAt = Date()
+        persist()
+        if selectedJobID == jobID { syncFacade() }
+'''
+new_apply_tail = '''        let now = Date()
+        jobs[index].updatedAt = now
+        let effective = jobs[index].progress
+        if effective.current > 0 {
+            if let sample = lastProgressSample[jobID], effective.current > sample.current {
+                let seconds = now.timeIntervalSince(sample.date)
+                if seconds >= 0.15 {
+                    let instantaneous = Double(effective.current - sample.current) / seconds
+                    if instantaneous > 0.005 && instantaneous < 30 {
+                        if let previousRate = progressRateEMA[jobID] {
+                            progressRateEMA[jobID] = previousRate * 0.68 + instantaneous * 0.32
+                        } else {
+                            progressRateEMA[jobID] = instantaneous
+                        }
+                    }
+                }
+            }
+            if lastProgressSample[jobID]?.current != effective.current {
+                lastProgressSample[jobID] = (effective.current, now)
+            }
+        }
+        persist()
+        if selectedJobID == jobID { syncFacade() }
+'''
+if old_apply_tail in vm:
+    vm = vm.replace(old_apply_tail, new_apply_tail, 1)
+elif "progressRateEMA[jobID] = previousRate * 0.68" not in vm:
+    raise SystemExit("R13 rolling ETA: apply tail shape changed")
+
 old_catches = '''            } catch is CancellationError {
                 handleCancellation(jobID: jobID, logger: logger)
             } catch {
@@ -140,6 +193,7 @@ handler = f'''    private func handleTransportCancellation(jobID: UUID, logger: 
 
         let attempt = min((transportReconnectAttempts[jobID] ?? 0) + 1, 6)
         transportReconnectAttempts[jobID] = attempt
+        lastProgressSample[jobID] = (jobs[index].progress.current, Date())
         let delaySeconds = min(8, 1 << min(attempt - 1, 3))
         logger.record(
             "TRANSPORT_INTERRUPTED_RECONNECT attempt=\\(attempt) delay=\\(delaySeconds)s "
@@ -239,6 +293,8 @@ final_vm = vm_path.read_text(encoding="utf-8")
 final_proxy = proxy_path.read_text(encoding="utf-8")
 required_vm = (
     "transportReconnectAttempts",
+    "progressRateEMA",
+    "let pagesPerSecond = progressRateEMA[job.id]",
     "TRANSPORT_INTERRUPTED_RECONNECT",
     "processNextIfPossible(preferredJobID: UUID? = nil)",
     "processNextIfPossible(preferredJobID: jobID)",

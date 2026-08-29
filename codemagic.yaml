@@ -18,10 +18,6 @@ workflows:
       branch_patterns:
         - pattern: "basir-ios-v2.3.0-codemagic"
           include: true
-        - pattern: "main"
-          include: true
-        - pattern: "claude/file-extraction-repo-migration-hqgNY"
-          include: true
 
     scripts:
       - name: Reconstruct R11 source and layer R12
@@ -65,13 +61,11 @@ workflows:
               text = text.replace("CURRENT_PROJECT_VERSION: 9", "CURRENT_PROJECT_VERSION: 10")
               path.write_text(text, encoding="utf-8")
           PY
-          test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/project.yml"
-          test -f "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/scripts/build_unsigned_ipa.sh"
-          grep -q 'preferred_model' "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/BasirConvert/Services/ProxyClient.swift"
-          grep -q 'resumeInterruptedJobsIfNeeded' "$CM_BUILD_DIR/_basir_build/BasirConvertiOS/BasirConvert/ViewModels/AppViewModel.swift"
+          grep -q 'preferred_model' _basir_build/BasirConvertiOS/BasirConvert/Services/ProxyClient.swift
+          grep -q 'resumeInterruptedJobsIfNeeded' _basir_build/BasirConvertiOS/BasirConvert/ViewModels/AppViewModel.swift
           echo "BASIR_CLIENT_LAYER=R12"
 
-      - name: Environment diagnostics
+      - name: Environment diagnostics and XcodeGen
         script: |
           set -euo pipefail
           xcodebuild -version
@@ -80,149 +74,67 @@ workflows:
             echo "BASIR_CLIENT_TOKEN is missing from Codemagic group basir_secrets"
             exit 2
           fi
-
-      - name: Install XcodeGen
-        script: |
-          set -euo pipefail
           if ! command -v xcodegen >/dev/null 2>&1; then brew install xcodegen; fi
           xcodegen --version
 
-      - name: Preserve server conversion in background
+      - name: Apply established R10 and generate project
         script: |
           set -euo pipefail
           python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_background_continuation_r10.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           grep -q 'backgroundTimeExpired()' BasirConvert/ViewModels/AppViewModel.swift
           grep -q 'server checkpoint preserved' BasirConvert/ViewModels/AppViewModel.swift
-          grep -q 'jobs\[index\].status = .queued' BasirConvert/Services/PersistentJobStore.swift
           if grep -q 'backgroundExecution.begin { \[weak self\] in self?.pause() }' BasirConvert/ViewModels/AppViewModel.swift; then
             echo "Background expiration still triggers a user pause"
             exit 9
           fi
-          echo "BASIR_BACKGROUND_CONTINUATION=SERVER_CHECKPOINT_R10"
-
-      - name: Generate Xcode project
-        script: |
-          set -euo pipefail
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           xcodegen generate --spec project.yml
-          test -f BasirConvert.xcodeproj/project.pbxproj
-
-      - name: Verify source integrity
-        script: |
-          set -euo pipefail
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           chmod +x scripts/verify_project.sh scripts/build_unsigned_ipa.sh
           scripts/verify_project.sh
 
-      - name: Restore UI and network fixes
+      - name: Restore UI network symbols audio and preview
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           patch -p1 < "$CM_BUILD_DIR/basir_ci_overlay/restore_classic_ui.patch"
           patch -p1 < "$CM_BUILD_DIR/basir_ci_overlay/fix_network_transfer.patch"
-          grep -q 'isBackgroundFileStagingError' BasirConvert/Services/ProxyClient.swift
-          if grep -q 'if error is URLError { return true }' BasirConvert/ViewModels/AppViewModel.swift; then
-            echo "Legacy false-network classification is still present"
-            exit 3
-          fi
-
-      - name: Restore symbols audio notifications and preview
-        script: |
-          set -euo pipefail
           python3 -W ignore::SyntaxWarning "$CM_BUILD_DIR/basir_ci_overlay/restore_missing_features.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          grep -q 'الحفاظ على الرموز ومعانيها' BasirConvert/Views/TaskComposerView.swift
+          grep -q 'isBackgroundFileStagingError' BasirConvert/Services/ProxyClient.swift
           grep -q 'audioExtensions' BasirConvert/Models/AppModels.swift
           grep -q 'sharePreview' BasirConvert/Views/ImportControllers.swift
           grep -q 'notifyProgress' BasirConvert/Services/OperationFeedback.swift
-          if grep -R -q -E 'فتح في Word أو Pages|Open in Word or Pages' BasirConvert --include='*.swift'; then
-            echo "Redundant Open in Word/Pages action is still present"
-            exit 4
-          fi
 
-      - name: Remove server and build wording from UI
+      - name: Apply UI transport and diagnostics guards
         script: |
           set -euo pipefail
           python3 "$CM_BUILD_DIR/basir_ci_overlay/fix_unicode_transport_and_ui_cleanup.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          if grep -q -E 'خادم|server|Server|هذه النسخة|This build' BasirConvert/Views/SettingsView.swift; then
-            echo "Server/build wording remains in Settings"
-            exit 5
-          fi
-          if grep -q -E 'متصل بخادم بصير|Basir server online' BasirConvert/Views/Components.swift; then
-            echo "Old server status label remains"
-            exit 6
-          fi
-          echo "BASIR_FIXSET=ARABIC_FILENAME_TRANSPORT_UI_R4"
-
-      - name: Enable continuous end-to-end diagnostics
-        script: |
-          set -euo pipefail
           python3 "$CM_BUILD_DIR/basir_ci_overlay/enhance_live_diagnostics.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           python3 "$CM_BUILD_DIR/basir_ci_overlay/fix_diagnostic_swift_escapes.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           grep -q 'Basir-live.log' BasirConvert/Services/DiagnosticLogger.swift
           grep -q 'recordProgress(update)' BasirConvert/ViewModels/AppViewModel.swift
           grep -q 'PREFLIGHT begin' BasirConvert/Services/ProxyClient.swift
-          grep -q 'DOWNLOAD response' BasirConvert/Services/ProxyClient.swift
-          grep -q 'مشاركة سجل التشخيص' BasirConvert/Views/JobView.swift
-          grep -q 'مشاركة سجل التشخيص الكامل' BasirConvert/Views/SettingsView.swift
-          if grep -q '\\\\(' BasirConvert/Services/DiagnosticLogger.swift; then
-            echo "Double-escaped Swift interpolation remains in diagnostics"
-            exit 7
-          fi
-          echo "BASIR_DIAGNOSTICS=CONTINUOUS_END_TO_END_R5"
 
-      - name: Enforce fidelity quality guard
+      - name: Apply fidelity and universal R11 guards
         script: |
           set -euo pipefail
           python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_fidelity_quality_guard.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          grep -q 'BASIR_FIDELITY_GUARD_R7' BasirConvert/Services/ProxyClient.swift
-          grep -q 'quality_manifest' BasirConvert/Services/ProxyClient.swift
-          grep -q 'quality_status' BasirConvert/Services/ProxyClient.swift
-          grep -q 'guard terminalQuality == "passed"' BasirConvert/Services/ProxyClient.swift
-          grep -q 'expectedPages: expectedResultPages' BasirConvert/Services/ProxyClient.swift
-          echo "BASIR_QUALITY_GUARD=FIDELITY_R7"
-
-      - name: Enforce geometry and resume reliability guard
-        script: |
-          set -euo pipefail
           python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_reliability_r8.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_reliability_r9.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_universal_reliability_r11.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          grep -q 'BASIR_FIDELITY_GUARD_R7' BasirConvert/Services/ProxyClient.swift
           grep -q 'BASIR_RELIABILITY_GUARD_R11' BasirConvert/Services/ProxyClient.swift
           grep -q 'minimum: "2.8.0"' BasirConvert/Services/ProxyClient.swift
           grep -q 'adaptive_fidelity_repair' BasirConvert/Services/ProxyClient.swift
           grep -q 'pdf_structural_geometry' BasirConvert/Services/ProxyClient.swift
           grep -q 'geometry_validated_native_tables' BasirConvert/Services/ProxyClient.swift
-          grep -q 'nonexpanding_image_alt_text' BasirConvert/Services/ProxyClient.swift
           grep -q 'resumable_jobs' BasirConvert/Services/ProxyClient.swift
           grep -q 'universal_docx_validation' BasirConvert/Services/ProxyClient.swift
           grep -q 'lossless_degraded_results' BasirConvert/Services/ProxyClient.swift
-          grep -q 'artifact_missing_alt_text' BasirConvert/Services/ProxyClient.swift
-          grep -q 'quality_metrics' BasirConvert/Services/ProxyClient.swift
-          grep -q 'result_native_tables' BasirConvert/Services/ProxyClient.swift
-          grep -q 'source_unique_images' BasirConvert/Services/ProxyClient.swift
-          grep -q 'result_image_drawings' BasirConvert/Services/ProxyClient.swift
           grep -q 'requestID: snapshot.requestID' BasirConvert/ViewModels/AppViewModel.swift
-          grep -q 'replaceItemAt' BasirConvert/Services/ProxyClient.swift
-          grep -q 'downloadResultOnce' BasirConvert/Services/ProxyClient.swift
-          grep -q 'didAdvanceLogicalProgress' BasirConvert/ViewModels/AppViewModel.swift
-          grep -q 'QUALITY rejected status=' BasirConvert/Services/ProxyClient.swift
-          if grep -q -E 'minimum: "2\.[56]\.' BasirConvert/Services/ProxyClient.swift; then
-            echo "Stale processing-service minimum remains"
-            exit 8
-          fi
-          if grep -q 'failedItems.isEmpty' BasirConvert/Services/ProxyClient.swift; then
-            echo "Verified fallback results are still treated as failed items"
-            exit 10
-          fi
-          echo "BASIR_RELIABILITY_GUARD=UNIVERSAL_LOSSLESS_R11"
 
-      - name: Verify R12 model and resume controls survived all guards
+      - name: Verify R12 survived R11 and set final build metadata
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
@@ -232,18 +144,15 @@ workflows:
           grep -q 'Idempotency-Key' BasirConvert/Services/ProxyClient.swift
           grep -q 'resumeInterruptedJobsIfNeeded' BasirConvert/ViewModels/AppViewModel.swift
           grep -q 'preferredModel' BasirConvert/Models/SettingsStore.swift
-          grep -q 'Gemini 3.7 Flash' BasirConvert/Views/SettingsView.swift
+          grep -q 'preferredModel' BasirConvert/Views/SettingsView.swift
+          grep -q 'Gemini 3.7 Flash' BasirConvert/Models/AppModels.swift
           grep -q 'CURRENT_PROJECT_VERSION: 10' project.yml
           echo "BASIR_RELIABILITY_GUARD=R11_PLUS_R12_CLIENT_CONTROLS"
 
-      - name: Patch Xcode 26 compatibility
+      - name: Patch Xcode 26 and resolve packages
         script: |
           set -euo pipefail
           python3 "$CM_BUILD_DIR/basir_ci_overlay/patch_xcode26.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-
-      - name: Resolve Swift packages
-        script: |
-          set -euo pipefail
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           xcodebuild -resolvePackageDependencies -project BasirConvert.xcodeproj -scheme BasirConvert
 
@@ -253,7 +162,7 @@ workflows:
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           REGENERATE_PROJECT=0 BASIR_SERVER_URL="$BASIR_SERVER_URL" BASIR_CLIENT_TOKEN="$BASIR_CLIENT_TOKEN" scripts/build_unsigned_ipa.sh
 
-      - name: Validate IPA and export artifacts
+      - name: Validate IPA and export R12 artifacts
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"

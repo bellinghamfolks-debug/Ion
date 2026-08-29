@@ -30,13 +30,24 @@ required_guard = '''        guard required.isSubset(of: serverStatus.capabilitie
 '''
 if required_guard not in proxy:
     raise SystemExit("R11/R12 capability guard not found")
-version_guard = '''        guard Self.serverVersionAtLeast(serverStatus.apiVersion, minimum: "2.8.0") else {
-            logger.record("QUALITY rejected stale processing service version=\\(serverStatus.apiVersion) required=2.8.0")
-            throw BasirError.invalidResponse("خدمة المعالجة لم تُحدّث بعد إلى محرك الجودة المطلوب. أعد المحاولة بعد اكتمال التحديث.")
+
+# R12.1 requires the server generation that reports exact source-page identity,
+# real source numbering, skipped blank-page numbers and fallback-page numbers.
+version_guard_29 = '''        guard Self.serverVersionAtLeast(serverStatus.apiVersion, minimum: "2.9.0") else {
+            logger.record("QUALITY rejected stale processing service version=\\(serverStatus.apiVersion) required=2.9.0")
+            throw BasirError.invalidResponse("خدمة المعالجة لم تُحدّث بعد إلى محرك ترقيم الصفحات والتحقق الكامل. أعد المحاولة بعد اكتمال التحديث.")
         }
 '''
-if 'minimum: "2.8.0"' not in proxy:
-    proxy = proxy.replace(required_guard, required_guard + version_guard, 1)
+old_version_guard = re.compile(
+    r'        guard Self\.serverVersionAtLeast\(serverStatus\.apiVersion, minimum: "2\.[0-9]+\.[0-9]+"\) else \{\n'
+    r'.*?\n        \}\n',
+    re.DOTALL,
+)
+version_match = old_version_guard.search(proxy)
+if version_match:
+    proxy = proxy[:version_match.start()] + version_guard_29 + proxy[version_match.end():]
+else:
+    proxy = proxy.replace(required_guard, required_guard + version_guard_29, 1)
 
 source_size = '        let sourceSize = Int64((try? sourceURL.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0)\n'
 quality_source = '''        let expectedSourcePages: Int = {
@@ -81,15 +92,24 @@ terminal_replacement = '''            if ["completed", "complete", "done", "succ
                     throw BasirError.invalidResponse("تعذر التحقق من جودة المستند الناتج. لم يتم اعتماد الملف.")
                 }
                 let qualityMetricKeys = qualityMetrics.keys.sorted().joined(separator: ",")
+                let retainedNumbers = Self.integerArray(qualityMetrics["retained_page_numbers"])
+                let skippedNumbers = Self.integerArray(qualityMetrics["skipped_blank_page_numbers"])
+                let fallbackNumbers = Self.integerArray(qualityMetrics["fallback_page_numbers"])
+                let relaxedNumbers = Self.integerArray(qualityMetrics["relaxed_layout_page_numbers"])
+                let accountingExact = Self.boolValue(qualityMetrics["source_page_accounting_exact"])
+                let numberingExact = Self.boolValue(qualityMetrics["source_page_numbering_exact"])
                 logger.record("QUALITY terminal status=\\(terminalQuality) score=\\(qualityScore ?? -1) warnings=\\(qualityWarnings.joined(separator: ",")) metrics=\\(qualityMetricKeys)")
+                logger.record("QUALITY pages retained=\\(retainedNumbers) skippedBlank=\\(skippedNumbers) fallback=\\(fallbackNumbers) relaxedLayout=\\(relaxedNumbers) accountingExact=\\(accountingExact.map(String.init) ?? \"nil\") numberingExact=\\(numberingExact.map(String.init) ?? \"nil\")")
                 guard terminalQuality == "passed" else {
                     throw BasirError.conversionFailed("لم يصل المستند الناتج إلى مستوى الجودة الآمن للاعتماد. لم يتم حفظ نتيجة ناقصة أو مشوهة.")
                 }
                 if expectedSourcePages > 0 {
                     let expectedResultPages = max(0, expectedSourcePages - skippedItems.count)
                     guard Self.integer(qualityMetrics["source_pages"]) == expectedSourcePages,
-                          Self.integer(qualityMetrics["expected_rendered_pages"]) == expectedResultPages else {
-                        throw BasirError.invalidResponse("The quality manifest source-page accounting is inconsistent.")
+                          Self.integer(qualityMetrics["expected_rendered_pages"]) == expectedResultPages,
+                          accountingExact == true,
+                          numberingExact == true else {
+                        throw BasirError.invalidResponse("The quality manifest source-page identity or numbering is inconsistent.")
                     }
                     let expectedTables = Self.integer(qualityMetrics["expected_native_tables"]) ?? 0
                     let sourceUniqueImages = Self.integer(qualityMetrics["source_unique_images"]) ?? 0
@@ -107,10 +127,22 @@ terminal_replacement = '''            if ["completed", "complete", "done", "succ
                     throw BasirError.invalidResponse("The quality manifest Word-package integrity is inconsistent.")
                 }
 '''
-if "QUALITY terminal manifest missing" not in proxy:
-    if terminal_anchor not in proxy:
-        raise SystemExit("R11/R12 terminal-state anchor not found")
-    proxy = proxy.replace(terminal_anchor, terminal_replacement, 1)
+if "QUALITY pages retained=" not in proxy:
+    if "QUALITY terminal manifest missing" in proxy:
+        # Replace the previously generated R11/R12 terminal block as a whole.
+        start = proxy.find('            if ["completed", "complete", "done", "succeeded", "partial"].contains(state) {')
+        if start < 0:
+            raise SystemExit("R12 terminal block start not found")
+        artifact_guard = '                guard artifactBytes > 0, artifactMembers >= 3, artifactMissingAlt == 0,\n                      artifactText > 0 || artifactTables > 0 || artifactDrawings > 0 else {\n                    throw BasirError.invalidResponse("The quality manifest Word-package integrity is inconsistent.")\n                }\n'
+        end_anchor = proxy.find(artifact_guard, start)
+        if end_anchor < 0:
+            raise SystemExit("R12 terminal block end not found")
+        end = end_anchor + len(artifact_guard)
+        proxy = proxy[:start] + terminal_replacement + proxy[end:]
+    else:
+        if terminal_anchor not in proxy:
+            raise SystemExit("R11/R12 terminal-state anchor not found")
+        proxy = proxy.replace(terminal_anchor, terminal_replacement, 1)
 
 verify_call = '        try verifyAndMove(temporary: temporary, response: downloadResponse, outputURL: outputURL)\n'
 verify_call_replacement = '''        let expectedResultPages = max(0, expectedSourcePages - outcome.skippedBlankItems.count)
@@ -148,21 +180,44 @@ integer_helper = '''    private static func integer(_ value: Any?) -> Int? {
         return nil
     }
 '''
-if "private static func doubleValue" not in proxy:
-    if integer_helper not in proxy:
-        raise SystemExit("R11/R12 numeric helper anchor not found")
-    proxy = proxy.replace(
-        integer_helper,
-        integer_helper + '''
+helpers = '''
     private static func doubleValue(_ value: Any?) -> Double? {
         if let number = value as? NSNumber { return number.doubleValue }
         if let value = value as? Double { return value }
         if let text = value as? String { return Double(text) }
         return nil
     }
-''',
-        1,
+
+    private static func integerArray(_ value: Any?) -> [Int] {
+        if let values = value as? [Int] { return values }
+        if let values = value as? [NSNumber] { return values.map(\\.intValue) }
+        if let values = value as? [Any] { return values.compactMap { integer($0) } }
+        return []
+    }
+
+    private static func boolValue(_ value: Any?) -> Bool? {
+        if let value = value as? Bool { return value }
+        if let value = value as? NSNumber { return value.boolValue }
+        if let value = value as? String {
+            if value.lowercased() == "true" { return true }
+            if value.lowercased() == "false" { return false }
+        }
+        return nil
+    }
+'''
+if "private static func integerArray" not in proxy:
+    if integer_helper not in proxy:
+        raise SystemExit("R11/R12 numeric helper anchor not found")
+    # Remove an older doubleValue helper if present so the complete helper block
+    # is inserted exactly once.
+    proxy = re.sub(
+        r'\n    private static func doubleValue\(_ value: Any\?\) -> Double\? \{.*?\n    \}\n',
+        '\n',
+        proxy,
+        count=1,
+        flags=re.DOTALL,
     )
+    proxy = proxy.replace(integer_helper, integer_helper + helpers, 1)
 
 http_marker = '    private static func validateHTTP(_ response: HTTPURLResponse, data: Data) throws {\n'
 if "private static func serverVersionAtLeast" not in proxy:
@@ -191,7 +246,7 @@ if "BASIR_RELIABILITY_GUARD_R11" not in proxy:
     markers = '''    // BASIR_FIDELITY_GUARD_R7
     // BASIR_RELIABILITY_GUARD_R8: adaptive fidelity repair
     // BASIR_RELIABILITY_GUARD_R9: resumable jobs + structural geometry
-    // BASIR_RELIABILITY_GUARD_R11: server 2.8.0 + universal artifact integrity + lossless degraded layout
+    // BASIR_RELIABILITY_GUARD_R11: server 2.9.0 + exact source-page identity + universal artifact integrity
 '''
     proxy = proxy.replace(http_marker, markers + http_marker, 1)
 
@@ -200,7 +255,7 @@ proxy_path.write_text(proxy, encoding="utf-8")
 checks = [
     "BASIR_FIDELITY_GUARD_R7",
     "BASIR_RELIABILITY_GUARD_R11",
-    'minimum: "2.8.0"',
+    'minimum: "2.9.0"',
     "adaptive_fidelity_repair",
     "pdf_structural_geometry",
     "geometry_validated_native_tables",
@@ -210,7 +265,10 @@ checks = [
     "user_model_selection",
     "executed_model_reporting",
     "quality_metrics",
-    'qualityMetrics["artifact_missing_alt_text"]',
+    'qualityMetrics["source_page_accounting_exact"]',
+    'qualityMetrics["source_page_numbering_exact"]',
+    'qualityMetrics["fallback_page_numbers"]',
+    "QUALITY pages retained=",
     "Idempotency-Key",
     "preferred_model",
 ]
@@ -219,4 +277,4 @@ missing = [marker for marker in checks if marker not in final]
 if missing:
     raise SystemExit("R11+R12 compatibility gate missing: " + ", ".join(missing))
 
-print("BASIR_RELIABILITY_GUARD=R11_PLUS_R12_SEMANTIC_COMPAT")
+print("BASIR_RELIABILITY_GUARD=R11_PLUS_R12_EXACT_ACCOUNTING")

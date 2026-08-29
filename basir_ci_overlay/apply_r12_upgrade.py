@@ -79,6 +79,9 @@ def main() -> None:
         check=True,
     )
 
+    finalize_ui = overlay / "finalize_r12_accounting_ui.py"
+    subprocess.run([sys.executable, str(finalize_ui), str(root)], check=True)
+
     checks = [
         ("BasirConvert/Models/SettingsStore.swift", "preferredModel"),
         ("BasirConvert/Models/AppModels.swift", "Gemini 3.7 Flash"),
@@ -89,6 +92,7 @@ def main() -> None:
         ("BasirConvert/ViewModels/AppViewModel.swift", "TRANSPORT_CANCELLED resumable server task preserved"),
         ("BasirConvert/Views/JobView.swift", "المحاسبة"),
         ("BasirConvert/Views/JobView.swift", "الصفحات الفارغة التي تم تخطيها"),
+        ("BasirConvert/Views/JobView.swift", "if !job.failedItems.isEmpty"),
         ("BasirConvert/Views/SettingsView.swift", "preferredModel"),
         ("BasirConvert/Views/SettingsView.swift", "checkmark.circle.fill"),
         ("BasirConvert/Views/SettingsView.swift", "xmark.circle.fill"),

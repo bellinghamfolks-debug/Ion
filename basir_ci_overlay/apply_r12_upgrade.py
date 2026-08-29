@@ -67,6 +67,9 @@ def main() -> None:
     cleanup = overlay / "cleanup_r12_user_ui.py"
     subprocess.run([sys.executable, str(cleanup), str(root)], check=True)
 
+    polish = overlay / "polish_r12_background.py"
+    subprocess.run([sys.executable, str(polish), str(root)], check=True)
+
     checks = [
         ("BasirConvert/Models/SettingsStore.swift", "preferredModel"),
         ("BasirConvert/Models/AppModels.swift", "Gemini 3.7 Flash"),
@@ -75,6 +78,7 @@ def main() -> None:
         ("BasirConvert/Views/SettingsView.swift", "preferredModel"),
         ("BasirConvert/Views/SettingsView.swift", "checkmark.circle.fill"),
         ("BasirConvert/Views/SettingsView.swift", "xmark.circle.fill"),
+        ("BasirConvert/Views/Components.swift", "BASIR_POLISHED_BACKGROUND_R12"),
         ("R12_CHANGELOG_AR.md", "R12"),
         ("tools/verify_project.py", "user_model_selection"),
     ]

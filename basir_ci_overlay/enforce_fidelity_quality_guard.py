@@ -6,8 +6,13 @@ import subprocess
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
-compat = Path(__file__).with_name("enforce_r11_r12_compat.py")
+overlay = Path(__file__).resolve().parent
+compat = overlay / "enforce_r11_r12_compat.py"
+refine = overlay / "refine_r12_exact_gate.py"
 if not compat.is_file():
     raise SystemExit("R11/R12 compatibility guard is missing")
+if not refine.is_file():
+    raise SystemExit("R12 exact-source gate refinement is missing")
 subprocess.run([sys.executable, str(compat), str(root)], check=True)
-print("BASIR_QUALITY_GUARD=R11_R12_SEMANTIC_COMPAT")
+subprocess.run([sys.executable, str(refine), str(root)], check=True)
+print("BASIR_QUALITY_GUARD=R11_R12_EXACT_SOURCE_COMPAT")

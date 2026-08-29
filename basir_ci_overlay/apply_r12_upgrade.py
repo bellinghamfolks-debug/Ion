@@ -70,12 +70,19 @@ def main() -> None:
             raise SystemExit(f"R12 patch returned {result.returncode} without only approved optional rejects")
         print("R12 optional compatibility targets absent; continuing after strict verification.")
 
+    # Keep the R12 runtime behavior, but apply the requested user-facing cleanup
+    # as a separate deterministic layer. This restores explicit check/x symbols
+    # on option toggles and removes unnecessary implementation/server wording.
+    cleanup = overlay / "cleanup_r12_user_ui.py"
+    subprocess.run([sys.executable, str(cleanup), str(root)], check=True)
+
     checks = {
         "BasirConvert/Models/SettingsStore.swift": "preferredModel",
         "BasirConvert/Models/AppModels.swift": "Gemini 3.7 Flash",
         "BasirConvert/Services/ProxyClient.swift": "preferred_model",
         "BasirConvert/ViewModels/AppViewModel.swift": "resumeInterruptedJobsIfNeeded",
         "BasirConvert/Views/SettingsView.swift": "preferredModel",
+        "BasirConvert/Views/SettingsView.swift": "checkmark.circle.fill",
         "R12_CHANGELOG_AR.md": "R12",
         "tools/verify_project.py": "user_model_selection",
     }
@@ -86,6 +93,11 @@ def main() -> None:
         text = path.read_text(encoding="utf-8")
         if needle not in text:
             raise SystemExit(f"R12 verification failed: {relative} missing {needle}")
+
+    settings = (root / "BasirConvert/Views/SettingsView.swift").read_text(encoding="utf-8")
+    for forbidden in ("هذا اختيار تنفيذي حقيقي", "خادم بصير", "فحص اتصال الخادم"):
+        if forbidden in settings:
+            raise SystemExit(f"R12 UI verification failed: unwanted text remains: {forbidden}")
 
     print("BASIR_IOS_UPGRADE=UNIVERSAL_RELIABILITY_GUARD_R12")
 

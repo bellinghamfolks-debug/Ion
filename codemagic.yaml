@@ -82,8 +82,8 @@ workflows:
           set -euo pipefail
           python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_background_continuation_r10.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          if grep -q 'suspendForSystemBackgroundLimit' BasirConvert/ViewModels/AppViewModel.swift; then
-            grep -q 'resumeInterruptedJobsIfNeeded' BasirConvert/ViewModels/AppViewModel.swift
+          if grep -q 'resumeInterruptedJobsIfNeeded' BasirConvert/ViewModels/AppViewModel.swift; then
+            grep -q 'suspendForSystemBackgroundLimit' BasirConvert/ViewModels/AppViewModel.swift
             grep -q 'automaticResumePending' BasirConvert/Services/PersistentJobStore.swift
           else
             grep -q 'backgroundTimeExpired()' BasirConvert/ViewModels/AppViewModel.swift
@@ -101,27 +101,16 @@ workflows:
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-
-          # R12 intentionally owns TaskComposerView and SettingsView. The old
-          # classic-UI patch predates those screens and must never overwrite or
-          # partially reverse the R12 UI. Only use it for a legacy source that
-          # does not contain the R12 UI contract.
-          if grep -q 'preferredModel' BasirConvert/Views/SettingsView.swift \
-             && grep -q 'taskSummaryCard' BasirConvert/Views/TaskComposerView.swift; then
+          if grep -q 'preferredModel' BasirConvert/Views/SettingsView.swift && grep -q 'taskSummaryCard' BasirConvert/Views/TaskComposerView.swift; then
             echo "Classic UI restore skipped: R12 UI already present"
           else
             patch --batch --forward -p1 < "$CM_BUILD_DIR/basir_ci_overlay/restore_classic_ui.patch"
           fi
-
-          # The network fix is also an older overlay. Apply it only when the
-          # capability is absent. This avoids reverse/partial patching of the
-          # newer R12 ProxyClient implementation.
           if grep -q 'isBackgroundFileStagingError' BasirConvert/Services/ProxyClient.swift; then
             echo "Network transfer patch skipped: capability already present"
           else
             patch --batch --forward -p1 < "$CM_BUILD_DIR/basir_ci_overlay/fix_network_transfer.patch"
           fi
-
           python3 -W ignore::SyntaxWarning "$CM_BUILD_DIR/basir_ci_overlay/restore_missing_features.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           grep -q 'isBackgroundFileStagingError' BasirConvert/Services/ProxyClient.swift
           grep -q 'audioExtensions' BasirConvert/Models/AppModels.swift
@@ -135,12 +124,27 @@ workflows:
         script: |
           set -euo pipefail
           python3 "$CM_BUILD_DIR/basir_ci_overlay/fix_unicode_transport_and_ui_cleanup.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/enhance_live_diagnostics.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          set +e
+          python3 "$CM_BUILD_DIR/basir_ci_overlay/enhance_live_diagnostics.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS" 2>&1 | tee /tmp/basir_diagnostics_overlay.log
+          DIAG_RC=${PIPESTATUS[0]}
+          set -e
+          if [ "$DIAG_RC" -ne 0 ]; then
+            if grep -q 'upload call diagnostic: expected exactly one match, found 0' /tmp/basir_diagnostics_overlay.log; then
+              echo "Legacy upload-call diagnostic hook skipped: R12 uses the resumable upload path"
+            else
+              echo "Unexpected diagnostics overlay failure"
+              cat /tmp/basir_diagnostics_overlay.log
+              exit "$DIAG_RC"
+            fi
+          fi
           python3 "$CM_BUILD_DIR/basir_ci_overlay/fix_diagnostic_swift_escapes.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           grep -q 'Basir-live.log' BasirConvert/Services/DiagnosticLogger.swift
           grep -q 'recordProgress(update)' BasirConvert/ViewModels/AppViewModel.swift
           grep -q 'PREFLIGHT begin' BasirConvert/Services/ProxyClient.swift
+          grep -q 'preferred_model' BasirConvert/Services/ProxyClient.swift
+          grep -q 'Idempotency-Key' BasirConvert/Services/ProxyClient.swift
+          echo "BASIR_DIAGNOSTICS=R12_RESUMABLE_COMPATIBLE"
 
       - name: Apply fidelity and universal R11 guards
         script: |

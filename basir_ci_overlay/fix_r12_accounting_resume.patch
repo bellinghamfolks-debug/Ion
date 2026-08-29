@@ -219,7 +219,7 @@ index 7f106ad..eff46aa 100644
 +            previous = page
 +        }
 +        ranges.append(start == previous ? "\(start)" : "\(start)–\(previous)")
-+        return ranges.joined(separator: l10n.isRTL ? "، " : ", ")
++        return ranges.joined(separator: l10n.isArabic ? "، " : ", ")
 +    }
 +
      private func metadataSummary(_ metadata: DocumentMetadata) -> String {

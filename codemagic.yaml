@@ -1,6 +1,6 @@
 workflows:
   basir-ios-unsigned:
-    name: Basir iOS 2.3.1 — UI Copy Update R18
+    name: Basir iOS 2.3.1 — Server Public Links R20
     instance_type: mac_mini_m2
     max_build_duration: 60
 
@@ -205,7 +205,7 @@ workflows:
           grep -q 'InstitutionLegalScreens.swift' BasirConvert.xcodeproj/project.pbxproj
           echo "BASIR_CLIENT_LAYER=R14_SELECTED_PAGE_ACCOUNTING_PLUS_INSTITUTION_LEGAL"
 
-      - name: Patch Xcode 26 and apply R17 engine epoch guard
+      - name: Patch Xcode 26 and apply R17/R19/R20 integration
         script: |
           set -euo pipefail
           python3 "$CM_BUILD_DIR/basir_ci_overlay/patch_xcode26.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
@@ -214,7 +214,16 @@ workflows:
           grep -q 'minimum: "2.20.1"' BasirConvert/Services/ProxyClient.swift
           grep -q 'Basir-iOS/2.3.0-R17-Epoch' BasirConvert/Services/ProxyClient.swift
           grep -q 'BASIR_CLIENT_ENGINE_EPOCH_GUARD_R17' BasirConvert/Services/ProxyClient.swift
-          echo "BASIR_CLIENT_LAYER=R17_ENGINE_EPOCH_GUARD"
+          grep -q 'basirPublicURL("/legal/terms")' BasirConvert/Views/SettingsView.swift
+          grep -q 'basirPublicURL("/legal/privacy")' BasirConvert/Views/SettingsView.swift
+          grep -q 'basirPublicURL("/help/faq")' BasirConvert/Views/SettingsView.swift
+          grep -q 'basirPublicURL("/contact")' BasirConvert/Views/SettingsView.swift
+          grep -q 'basirPublicURL("/about")' BasirConvert/Views/SettingsView.swift
+          if grep -q 'الكاملة' BasirConvert/Views/SettingsView.swift; then
+            echo "R20 stale 'الكاملة' UI text detected"
+            exit 20
+          fi
+          echo "BASIR_CLIENT_LAYER=R20_SERVER_PUBLIC_LINKS"
           xcodebuild -resolvePackageDependencies -project BasirConvert.xcodeproj -scheme BasirConvert
 
       - name: Build unsigned IPA
@@ -223,7 +232,7 @@ workflows:
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           REGENERATE_PROJECT=0 BASIR_SERVER_URL="$BASIR_SERVER_URL" BASIR_CLIENT_TOKEN="$BASIR_CLIENT_TOKEN" scripts/build_unsigned_ipa.sh
 
-      - name: Validate IPA and export R17 artifacts
+      - name: Validate IPA and export R20 artifacts
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
@@ -231,8 +240,8 @@ workflows:
           test -s "$IPA"
           unzip -t "$IPA"
           mkdir -p "$CM_BUILD_DIR/artifacts"
-          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.1_UI_COPY_R18_unsigned.ipa"
-          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.1_UI_COPY_R18_unsigned.ipa.sha256"
+          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.1_SERVER_PUBLIC_LINKS_R20_unsigned.ipa"
+          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.1_SERVER_PUBLIC_LINKS_R20_unsigned.ipa.sha256"
 
     artifacts:
       - artifacts/*.ipa

@@ -62,12 +62,17 @@ for item in required:
 if 'minimum: "2.12.0"' in final:
     raise SystemExit("R17 server minimum is still 2.12.0")
 
-# R14 creates the institution legal screens. Apply the later legal cleanup after
-# that generation step so the built source exposes one combined Terms document
-# and one independent Privacy Policy, with no stale "الكاملة" UI labels.
+# R14 generates local legal screens, R19 merges the duplicate usage-policy
+# document, and R20 replaces the user-facing destinations with canonical public
+# server URLs plus FAQ, Contact, and About pages.
 r19 = Path(__file__).with_name("apply_r19_legal_merge_privacy.py")
 if not r19.is_file():
     raise SystemExit(f"R19 legal merge overlay is missing: {r19}")
 subprocess.run([sys.executable, str(r19), str(root)], check=True)
 
-print("BASIR_CLIENT_LAYER=R17_ENGINE_EPOCH_GUARD_PLUS_R19_LEGAL_PRIVACY")
+r20 = Path(__file__).with_name("apply_r20_server_public_links.py")
+if not r20.is_file():
+    raise SystemExit(f"R20 public-links overlay is missing: {r20}")
+subprocess.run([sys.executable, str(r20), str(root)], check=True)
+
+print("BASIR_CLIENT_LAYER=R17_ENGINE_EPOCH_GUARD_PLUS_R19_LEGAL_PRIVACY_PLUS_R20_PUBLIC_LINKS")

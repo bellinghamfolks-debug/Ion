@@ -41,9 +41,6 @@ for old_ua in (
 if "Basir-iOS/2.3.0-R17-Epoch" not in proxy:
     raise SystemExit("R17 User-Agent anchor not found")
 
-# Keep the marker in source so Codemagic can verify that the guard survived all
-# overlays. The server itself is authoritative: its job IDs include the fidelity
-# engine epoch and legacy job status/result endpoints reject stale checkpoints.
 marker = "// BASIR_CLIENT_ENGINE_EPOCH_GUARD_R17 fidelity-2.20-stage8\n"
 if marker.strip() not in proxy:
     proxy += "\n" + marker
@@ -62,17 +59,17 @@ for item in required:
 if 'minimum: "2.12.0"' in final:
     raise SystemExit("R17 server minimum is still 2.12.0")
 
-# R14 generates local legal screens, R19 merges the duplicate usage-policy
-# document, and R20 replaces the user-facing destinations with canonical public
-# server URLs plus FAQ, Contact, and About pages.
-r19 = Path(__file__).with_name("apply_r19_legal_merge_privacy.py")
-if not r19.is_file():
-    raise SystemExit(f"R19 legal merge overlay is missing: {r19}")
-subprocess.run([sys.executable, str(r19), str(root)], check=True)
+# R14 creates the legal source file. R19 consolidates the duplicate usage policy,
+# R20 creates the public server destinations, then R21 replaces the external
+# Safari links with native SwiftUI screens backed by server JSON.
+for script_name in (
+    "apply_r19_legal_merge_privacy.py",
+    "apply_r20_server_public_links.py",
+    "apply_r21_native_public_content.py",
+):
+    script = Path(__file__).with_name(script_name)
+    if not script.is_file():
+        raise SystemExit(f"Required public-content overlay is missing: {script}")
+    subprocess.run([sys.executable, str(script), str(root)], check=True)
 
-r20 = Path(__file__).with_name("apply_r20_server_public_links.py")
-if not r20.is_file():
-    raise SystemExit(f"R20 public-links overlay is missing: {r20}")
-subprocess.run([sys.executable, str(r20), str(root)], check=True)
-
-print("BASIR_CLIENT_LAYER=R17_ENGINE_EPOCH_GUARD_PLUS_R19_LEGAL_PRIVACY_PLUS_R20_PUBLIC_LINKS")
+print("BASIR_CLIENT_LAYER=R17_EPOCH_PLUS_R21_NATIVE_PUBLIC_CONTENT")

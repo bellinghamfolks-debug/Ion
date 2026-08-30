@@ -87,6 +87,59 @@ for path in targets:
     if "SecTaskCreateFromSelf" in text or "SecTaskCopyValueForEntitlement" in text:
         raise SystemExit(f"SecTask symbols remain after patch: {path}")
 
+# R15: normalize localized page selections before the iOS quality manifest
+# validates the server result. The server already accepts Arabic-Indic input,
+# but the local PageSelectionParser historically expected ASCII punctuation and
+# digits. Without this, a selection such as "١،٦" falls back to the full source
+# page count and a valid [1, 6] result is rejected locally.
+proxy_path = root / "BasirConvert" / "Services" / "ProxyClient.swift"
+if not proxy_path.is_file():
+    raise SystemExit(f"Missing ProxyClient for localized page-selection patch: {proxy_path}")
+proxy = proxy_path.read_text(encoding="utf-8")
+old_selection = '''        let expectedSourcePages: Int = {
+            guard sourceDocumentPages > 0 else { return 0 }
+            return (try? PageSelectionParser.pages(from: options.pageSelection, total: sourceDocumentPages).count)
+                ?? sourceDocumentPages
+        }()
+        logger.record("QUALITY sourcePages=\\(sourceDocumentPages) selectedPages=\\(expectedSourcePages) selection=\\(options.pageSelection.isEmpty ? \"all\" : options.pageSelection)")
+'''
+new_selection = '''        let normalizedPageSelection: String = {
+            var value = options.pageSelection
+            let replacements: [(String, String)] = [
+                ("٠", "0"), ("١", "1"), ("٢", "2"), ("٣", "3"), ("٤", "4"),
+                ("٥", "5"), ("٦", "6"), ("٧", "7"), ("٨", "8"), ("٩", "9"),
+                ("۰", "0"), ("۱", "1"), ("۲", "2"), ("۳", "3"), ("۴", "4"),
+                ("۵", "5"), ("۶", "6"), ("۷", "7"), ("۸", "8"), ("۹", "9"),
+                ("،", ","), ("؛", ","), ("–", "-"), ("—", "-"), ("−", "-")
+            ]
+            for (source, target) in replacements {
+                value = value.replacingOccurrences(of: source, with: target)
+            }
+            return value
+        }()
+        let expectedSourcePages: Int = {
+            guard sourceDocumentPages > 0 else { return 0 }
+            return (try? PageSelectionParser.pages(from: normalizedPageSelection, total: sourceDocumentPages).count)
+                ?? sourceDocumentPages
+        }()
+        logger.record("QUALITY sourcePages=\\(sourceDocumentPages) selectedPages=\\(expectedSourcePages) selection=\\(options.pageSelection.isEmpty ? \"all\" : options.pageSelection) normalizedSelection=\\(normalizedPageSelection)")
+'''
+if old_selection in proxy:
+    proxy = proxy.replace(old_selection, new_selection, 1)
+elif "let normalizedPageSelection: String" not in proxy:
+    raise SystemExit("Localized page-selection accounting anchor not found after R14")
+for marker in (
+    "let normalizedPageSelection: String",
+    '("١", "1")',
+    '("،", ",")',
+    "PageSelectionParser.pages(from: normalizedPageSelection",
+    "normalizedSelection=\\(normalizedPageSelection)",
+):
+    if marker not in proxy:
+        raise SystemExit(f"Localized page-selection gate missing {marker!r}")
+proxy_path.write_text(proxy, encoding="utf-8")
+print("BASIR_CLIENT_LAYER=R15_LOCALIZED_PAGE_SELECTION_ACCOUNTING")
+
 # Xcode 26 can successfully build the arm64 iOS application while the old
 # packaging script rejects it using a legacy "restricted to iPhone" check.
 # Replace only the ephemeral CI copy of that script after source verification.

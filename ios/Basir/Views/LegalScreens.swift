@@ -10,7 +10,7 @@ struct TermsView: View {
                                 "Legal version 3, effective 5 June 2026"),
             content: L10n.t(termsArabic, termsEnglish)
         )
-        .navigationTitle(L10n.t("الشروط والأحكام", "Terms and Conditions"))
+        .navigationTitle(L10n.t("شروط الاستخدام", "Terms of Use"))
     }
 }
 
@@ -21,7 +21,7 @@ struct PrivacyView: View {
                                 "Legal version 3, effective 5 June 2026"),
             content: L10n.t(privacyArabic, privacyEnglish)
         )
-        .navigationTitle(L10n.t("سياسة الخصوصية", "Privacy Policy"))
+        .navigationTitle(L10n.t("سياسة الاستخدام", "Usage Policy"))
     }
 }
 

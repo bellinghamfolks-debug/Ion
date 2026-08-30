@@ -1,6 +1,6 @@
 workflows:
   basir-ios-unsigned:
-    name: Basir iOS 2.3.0 — Comprehensive Surgery R13
+    name: Basir iOS 2.3.0 — Comprehensive Surgery R14
     instance_type: mac_mini_m2
     max_build_duration: 60
 
@@ -209,6 +209,22 @@ workflows:
           grep -q 'minimum: "2.12.0"' BasirConvert/Services/ProxyClient.swift
           echo "BASIR_CLIENT_LAYER=R13_SAME_JOB_RECONNECT"
 
+      - name: Apply R14 selected-page and legal integration
+        script: |
+          set -euo pipefail
+          python3 "$CM_BUILD_DIR/basir_ci_overlay/apply_r14_selected_pages_and_legal.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
+          test -s BasirConvert/Views/InstitutionLegalScreens.swift
+          grep -q 'struct InstitutionLegalDocumentView' BasirConvert/Views/InstitutionLegalScreens.swift
+          grep -q 'InstitutionLegalDocumentView(kind: .terms' BasirConvert/Views/SettingsView.swift
+          grep -q 'InstitutionLegalDocumentView(kind: .usagePolicy' BasirConvert/Views/SettingsView.swift
+          grep -q 'let sourceDocumentPages: Int' BasirConvert/Services/ProxyClient.swift
+          # R14 creates a new Swift source after the earlier project generation.
+          # Regenerate so Xcode actually compiles InstitutionLegalScreens.swift.
+          xcodegen generate --spec project.yml
+          grep -q 'InstitutionLegalScreens.swift' BasirConvert.xcodeproj/project.pbxproj
+          echo "BASIR_CLIENT_LAYER=R14_SELECTED_PAGE_ACCOUNTING_PLUS_INSTITUTION_LEGAL"
+
       - name: Patch Xcode 26 and resolve packages
         script: |
           set -euo pipefail
@@ -222,7 +238,7 @@ workflows:
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
           REGENERATE_PROJECT=0 BASIR_SERVER_URL="$BASIR_SERVER_URL" BASIR_CLIENT_TOKEN="$BASIR_CLIENT_TOKEN" scripts/build_unsigned_ipa.sh
 
-      - name: Validate IPA and export R13 artifacts
+      - name: Validate IPA and export R14 artifacts
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
@@ -230,8 +246,8 @@ workflows:
           test -s "$IPA"
           unzip -t "$IPA"
           mkdir -p "$CM_BUILD_DIR/artifacts"
-          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_SURGERY_R13_unsigned.ipa"
-          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_SURGERY_R13_unsigned.ipa.sha256"
+          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_SURGERY_R14_unsigned.ipa"
+          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.0_SURGERY_R14_unsigned.ipa.sha256"
 
     artifacts:
       - artifacts/*.ipa

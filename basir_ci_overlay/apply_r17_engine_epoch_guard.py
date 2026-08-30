@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import subprocess
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
@@ -61,4 +62,12 @@ for item in required:
 if 'minimum: "2.12.0"' in final:
     raise SystemExit("R17 server minimum is still 2.12.0")
 
-print("BASIR_CLIENT_LAYER=R17_ENGINE_EPOCH_GUARD")
+# R14 creates the institution legal screens. Apply the later legal cleanup after
+# that generation step so the built source exposes one combined Terms document
+# and one independent Privacy Policy, with no stale "الكاملة" UI labels.
+r19 = Path(__file__).with_name("apply_r19_legal_merge_privacy.py")
+if not r19.is_file():
+    raise SystemExit(f"R19 legal merge overlay is missing: {r19}")
+subprocess.run([sys.executable, str(r19), str(root)], check=True)
+
+print("BASIR_CLIENT_LAYER=R17_ENGINE_EPOCH_GUARD_PLUS_R19_LEGAL_PRIVACY")

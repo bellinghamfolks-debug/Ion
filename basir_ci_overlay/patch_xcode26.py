@@ -137,8 +137,26 @@ for marker in (
 ):
     if marker not in proxy:
         raise SystemExit(f"Localized page-selection gate missing {marker!r}")
+
+# R16: the server quality metric `source_pages` is intentionally the count of
+# selected source pages inspected by fidelity validation, not the physical PDF
+# page count. R14 temporarily compared it with sourceDocumentPages, which makes
+# every subset selection fail even when retained_page_numbers and exact
+# accounting are perfect. Compare the metric with the normalized selected count
+# while continuing to retain sourceDocumentPages for diagnostics only.
+wrong_source_metric_guard = 'Self.integer(qualityMetrics["source_pages"]) == sourceDocumentPages,'
+correct_source_metric_guard = 'Self.integer(qualityMetrics["source_pages"]) == expectedSourcePages,'
+if wrong_source_metric_guard in proxy:
+    proxy = proxy.replace(wrong_source_metric_guard, correct_source_metric_guard, 1)
+elif correct_source_metric_guard not in proxy:
+    raise SystemExit("R16 selected-source quality metric guard not found")
+if 'Self.integer(qualityMetrics["expected_rendered_pages"]) == expectedResultPages' not in proxy:
+    raise SystemExit("R16 expected rendered-page guard missing")
+if "accountingExact == true" not in proxy or "numberingExact == true" not in proxy:
+    raise SystemExit("R16 exact page identity gates missing")
+
 proxy_path.write_text(proxy, encoding="utf-8")
-print("BASIR_CLIENT_LAYER=R15_LOCALIZED_PAGE_SELECTION_ACCOUNTING")
+print("BASIR_CLIENT_LAYER=R16_SELECTED_SOURCE_METRIC_SEMANTICS")
 
 # Xcode 26 can successfully build the arm64 iOS application while the old
 # packaging script rejects it using a legacy "restricted to iPhone" check.

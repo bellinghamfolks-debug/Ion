@@ -1,0 +1,103 @@
+name: BasirConvert
+options:
+  bundleIdPrefix: com.basir
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+  developmentLanguage: ar
+  xcodeVersion: "16.0"
+
+packages:
+  ZIPFoundation:
+    url: https://github.com/weichsel/ZIPFoundation.git
+    exactVersion: 0.9.20
+
+settings:
+  base:
+    SWIFT_VERSION: 5.0
+    IPHONEOS_DEPLOYMENT_TARGET: 16.0
+    TARGETED_DEVICE_FAMILY: "1"
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    CLANG_ENABLE_MODULES: YES
+    SWIFT_STRICT_CONCURRENCY: minimal
+
+targets:
+  BasirConvert:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: BasirConvert
+        excludes:
+          - Supporting/Info.plist
+          - Resources/BasirIcon.svg
+          - BasirConvert.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.basir.convert.ios
+        PRODUCT_NAME: BasirConvert
+        MARKETING_VERSION: 3.0.0
+        CURRENT_PROJECT_VERSION: 11
+        BASIR_SERVER_URL: "https://basir-convert-api-1045442243599.europe-west4.run.app"
+        BASIR_CLIENT_TOKEN: ""
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CODE_SIGN_STYLE: Automatic
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: BasirConvert/Supporting/Info.plist
+        CODE_SIGN_ENTITLEMENTS: BasirConvert/BasirConvert.entitlements
+    dependencies:
+      - package: ZIPFoundation
+      - target: BasirShareExtension
+        embed: true
+
+  BasirShareExtension:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: BasirShareExtension
+        excludes:
+          - Info.plist
+          - ShareExtension.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.basir.convert.ios.share
+        PRODUCT_NAME: BasirShareExtension
+        MARKETING_VERSION: 3.0.0
+        CURRENT_PROJECT_VERSION: 11
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: BasirShareExtension/Info.plist
+        CODE_SIGN_ENTITLEMENTS: BasirShareExtension/ShareExtension.entitlements
+        APPLICATION_EXTENSION_API_ONLY: YES
+        SKIP_INSTALL: YES
+
+  BasirConvertTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: BasirConvertTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.basir.convert.ios.tests
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: BasirConvert
+      - package: ZIPFoundation
+
+schemes:
+  BasirConvert:
+    build:
+      targets:
+        BasirConvert: all
+        BasirShareExtension: all
+        BasirConvertTests: [test]
+    test:
+      gatherCoverageData: true
+      targets:
+        - BasirConvertTests
+    run:
+      config: Debug
+    archive:
+      config: Release

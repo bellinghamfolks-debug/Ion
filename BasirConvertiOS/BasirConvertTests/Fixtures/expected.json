@@ -1,0 +1,31 @@
+{
+  "fixture": "Khutat_AlSiyasa",
+  "source_pages": 6,
+  "expected_word_pages": 6,
+  "expected_tables": 10,
+  "expected_table_rows": 98,
+  "maximum_repeated_logo_descriptions": 1,
+  "visual_embedding": {
+    "default_enabled": true,
+    "enabled_requires_real_word_media": true,
+    "enabled_requires_alt_text": true,
+    "reference_logo_images_when_enabled": 6,
+    "disabled_requires_zero_media_files": true,
+    "pdf_visuals_are_cropped_from_source_pixels": true,
+    "powerpoint_visuals_use_original_media": true
+  },
+  "forbidden_visible_tokens": [
+    "<br>",
+    "<br/>",
+    "[وصف الصورة] شعار جامعة الملك سعود"
+  ],
+  "required_accessibility_features": [
+    "structural_page_breaks",
+    "real_word_tables",
+    "repeating_table_headers",
+    "table_captions",
+    "rtl_paragraphs",
+    "content_aware_column_widths"
+  ]
+}
+

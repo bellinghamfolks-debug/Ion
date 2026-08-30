@@ -1,8 +1,8 @@
 workflows:
   basir-ios-unsigned:
-    name: Basir iOS 2.3.1 — Server Public Links R20
+    name: Basir iOS 3.0 — Clean Source Build
     instance_type: mac_mini_m2
-    max_build_duration: 60
+    max_build_duration: 90
 
     environment:
       groups:
@@ -10,7 +10,6 @@ workflows:
       xcode: latest
       vars:
         BASIR_SERVER_URL: "https://basir-convert-api-1045442243599.europe-west4.run.app"
-        BASIR_SOURCE_REF: "basir-ios-v2.3.0-codemagic"
 
     triggering:
       events:
@@ -20,230 +19,76 @@ workflows:
           include: true
 
     scripts:
-      - name: Reconstruct R11 source and layer R12
+      - name: Verify checked-in source
         script: |
           set -euo pipefail
-          cd "$CM_BUILD_DIR"
-          rm -rf _basir_build basir_source_parts basir_ci_overlay /tmp/Basir_iOS_source.zip
-          mkdir -p _basir_build
-          git fetch --no-tags --depth=1 origin "$BASIR_SOURCE_REF"
-          git checkout FETCH_HEAD -- basir_source_parts basir_ci_overlay
-          python3 - <<'PY'
-          import base64, hashlib, pathlib
-          base = pathlib.Path("basir_source_parts")
-          names = [
-              "part-00.b64", "part-01.b64", "part-02.b64", "part-03.b64",
-              "part-04.b64", "part-05.b64", "part-06.b64", "part-07.b64",
-              "part-08.b64", "part-09a.b64", "part-09a-tail.b64", "part-09b.b64",
-              "part-10.b64", "part-11.b64", "part-12a.b64", "part-12b.b64", "part-13.b64",
-          ]
-          missing = [name for name in names if not (base / name).is_file()]
-          if missing:
-              raise SystemExit("Missing Basir source parts: " + ", ".join(missing))
-          encoded = "".join("".join((base / name).read_text(encoding="utf-8").split()) for name in names)
-          raw = base64.b64decode(encoded, validate=True)
-          actual = hashlib.sha256(raw).hexdigest()
-          expected = "584a26e03b6e1fe3a3505f15b552aec13c862a52f433c8fe3f656affb277f194"
-          print("Basir R11 source SHA-256:", actual)
-          if actual != expected:
-              raise SystemExit(f"Source archive checksum mismatch: {actual} != {expected}")
-          pathlib.Path("/tmp/Basir_iOS_source.zip").write_bytes(raw)
-          PY
-          ditto -x -k /tmp/Basir_iOS_source.zip "$CM_BUILD_DIR/_basir_build"
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/apply_r12_upgrade.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/apply_overlay.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          python3 - <<'PY'
-          from pathlib import Path
-          root = Path("_basir_build/BasirConvertiOS")
-          for name in ("project.yml", "cloud-project.yml"):
-              path = root / name
-              text = path.read_text(encoding="utf-8")
-              text = text.replace("CURRENT_PROJECT_VERSION: 9", "CURRENT_PROJECT_VERSION: 10")
-              path.write_text(text, encoding="utf-8")
-          PY
-          grep -q 'preferred_model' _basir_build/BasirConvertiOS/BasirConvert/Services/ProxyClient.swift
-          grep -q 'resumeInterruptedJobsIfNeeded' _basir_build/BasirConvertiOS/BasirConvert/ViewModels/AppViewModel.swift
-          echo "BASIR_CLIENT_LAYER=R12"
-
-      - name: Environment diagnostics and XcodeGen
-        script: |
-          set -euo pipefail
-          xcodebuild -version
-          swift --version
-          if [ -z "${BASIR_CLIENT_TOKEN:-}" ]; then
-            echo "BASIR_CLIENT_TOKEN is missing from Codemagic group basir_secrets"
-            exit 2
+          cd "$CM_BUILD_DIR/BasirConvertiOS"
+          test -n "${BASIR_CLIENT_TOKEN:-}"
+          python3 tools/verify_project.py . --source-only
+          if ! command -v xcodegen >/dev/null 2>&1; then
+            brew install xcodegen
           fi
-          if ! command -v xcodegen >/dev/null 2>&1; then brew install xcodegen; fi
           xcodegen --version
 
-      - name: Apply established R10 and generate project
+      - name: Generate and verify Xcode project
         script: |
           set -euo pipefail
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_background_continuation_r10.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          if grep -q 'resumeInterruptedJobsIfNeeded' BasirConvert/ViewModels/AppViewModel.swift; then
-            grep -q 'suspendForSystemBackgroundLimit' BasirConvert/ViewModels/AppViewModel.swift
-            grep -q 'automaticResumePending' BasirConvert/Services/PersistentJobStore.swift
-          else
-            grep -q 'backgroundTimeExpired()' BasirConvert/ViewModels/AppViewModel.swift
-            grep -q 'server checkpoint preserved' BasirConvert/ViewModels/AppViewModel.swift
-          fi
-          if grep -q 'backgroundExecution.begin { \[weak self\] in self?.pause() }' BasirConvert/ViewModels/AppViewModel.swift; then
-            echo "Background expiration still triggers a user pause"
-            exit 9
-          fi
+          cd "$CM_BUILD_DIR/BasirConvertiOS"
           xcodegen generate --spec project.yml
           chmod +x scripts/verify_project.sh scripts/build_unsigned_ipa.sh
           scripts/verify_project.sh
+          xcodebuild -resolvePackageDependencies \
+            -project BasirConvert.xcodeproj \
+            -scheme BasirConvert
 
-      - name: Restore UI network symbols audio and preview
+      - name: Run unit tests
         script: |
           set -euo pipefail
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          if grep -q 'preferredModel' BasirConvert/Views/SettingsView.swift && grep -q 'taskSummaryCard' BasirConvert/Views/TaskComposerView.swift; then
-            echo "Classic UI restore skipped: R12 UI already present"
-          else
-            patch --batch --forward -p1 < "$CM_BUILD_DIR/basir_ci_overlay/restore_classic_ui.patch"
-          fi
-          if grep -q 'isBackgroundFileStagingError' BasirConvert/Services/ProxyClient.swift; then
-            echo "Network transfer patch skipped: capability already present"
-          else
-            patch --batch --forward -p1 < "$CM_BUILD_DIR/basir_ci_overlay/fix_network_transfer.patch"
-          fi
-          python3 -W ignore::SyntaxWarning "$CM_BUILD_DIR/basir_ci_overlay/restore_missing_features.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          grep -q 'isBackgroundFileStagingError' BasirConvert/Services/ProxyClient.swift
-          grep -q 'audioExtensions' BasirConvert/Models/AppModels.swift
-          grep -q 'sharePreview' BasirConvert/Views/ImportControllers.swift
-          grep -q 'notifyProgress' BasirConvert/Services/OperationFeedback.swift
-          grep -q 'preferredModel' BasirConvert/Views/SettingsView.swift
-          grep -q 'taskSummaryCard' BasirConvert/Views/TaskComposerView.swift
-          echo "BASIR_UI_RESTORE=R12_SAFE"
-
-      - name: Apply UI transport and diagnostics guards
-        script: |
-          set -euo pipefail
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/fix_unicode_transport_and_ui_cleanup.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          set +e
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/enhance_live_diagnostics.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS" 2>&1 | tee /tmp/basir_diagnostics_overlay.log
-          DIAG_RC=${PIPESTATUS[0]}
-          set -e
-          if [ "$DIAG_RC" -ne 0 ]; then
-            if grep -q 'upload call diagnostic: expected exactly one match, found 0' /tmp/basir_diagnostics_overlay.log; then
-              echo "Legacy upload-call diagnostic hook skipped: R12 uses the resumable upload path"
-            else
-              echo "Unexpected diagnostics overlay failure"
-              cat /tmp/basir_diagnostics_overlay.log
-              exit "$DIAG_RC"
-            fi
-          fi
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/fix_diagnostic_swift_escapes.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          python3 - <<'PY'
-          from pathlib import Path
-          checks = {
-              "BasirConvert/Services/DiagnosticLogger.swift": ["Basir-live.log"],
-              "BasirConvert/ViewModels/AppViewModel.swift": ["DiagnosticLogger", "recordProgress(update)"],
-              "BasirConvert/Services/ProxyClient.swift": ["preferred_model", "Idempotency-Key"],
-          }
-          for rel, markers in checks.items():
-              text = Path(rel).read_text(encoding="utf-8")
-              for marker in markers:
-                  if marker not in text:
-                      raise SystemExit(f"R12 diagnostics gate missing {marker!r} in {rel}")
-                  print(f"R12 diagnostics gate OK: {marker}")
-          PY
-          echo "BASIR_DIAGNOSTICS=R12_RESUMABLE_COMPATIBLE"
-
-      - name: Apply fidelity and universal R11 guards
-        script: |
-          set -euo pipefail
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_fidelity_quality_guard.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_reliability_r8.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_reliability_r9.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/enforce_universal_reliability_r11.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          grep -q 'BASIR_FIDELITY_GUARD_R7' BasirConvert/Services/ProxyClient.swift
-          grep -q 'BASIR_RELIABILITY_GUARD_R11' BasirConvert/Services/ProxyClient.swift
-          grep -q 'minimum: "2.9.0"' BasirConvert/Services/ProxyClient.swift
-          grep -q 'adaptive_fidelity_repair' BasirConvert/Services/ProxyClient.swift
-          grep -q 'resumable_jobs' BasirConvert/Services/ProxyClient.swift
-          grep -q 'source_page_accounting_exact' BasirConvert/Services/ProxyClient.swift
-          grep -q 'source_page_numbering_exact' BasirConvert/Services/ProxyClient.swift
-
-      - name: Verify R12 survived R11 and set final build metadata
-        script: |
-          set -euo pipefail
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          grep -q 'preferred_model' BasirConvert/Services/ProxyClient.swift
-          grep -q 'Idempotency-Key' BasirConvert/Services/ProxyClient.swift
-          grep -q 'resumeInterruptedJobsIfNeeded' BasirConvert/ViewModels/AppViewModel.swift
-          grep -q 'CURRENT_PROJECT_VERSION: 10' project.yml
-          echo "BASIR_RELIABILITY_GUARD=R11_PLUS_R12_CLIENT_CONTROLS"
-
-      - name: Apply R13 same-job reconnect surgery
-        script: |
-          set -euo pipefail
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/apply_r13_transport_surgery.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          grep -q 'TRANSPORT_INTERRUPTED_RECONNECT' BasirConvert/ViewModels/AppViewModel.swift
-          grep -q 'processNextIfPossible(preferredJobID: jobID)' BasirConvert/ViewModels/AppViewModel.swift
-          grep -q '.cancelled, .timedOut' BasirConvert/Services/ProxyClient.swift
-          grep -q 'Basir-iOS/2.3.0-R13' BasirConvert/Services/ProxyClient.swift
-          grep -q 'minimum: "2.12.0"' BasirConvert/Services/ProxyClient.swift
-          echo "BASIR_CLIENT_LAYER=R13_SAME_JOB_RECONNECT"
-
-      - name: Apply R14 selected-page and legal integration
-        script: |
-          set -euo pipefail
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/apply_r14_selected_pages_and_legal.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          test -s BasirConvert/Views/InstitutionLegalScreens.swift
-          grep -q 'struct InstitutionLegalDocumentView' BasirConvert/Views/InstitutionLegalScreens.swift
-          grep -q 'let sourceDocumentPages: Int' BasirConvert/Services/ProxyClient.swift
-          xcodegen generate --spec project.yml
-          grep -q 'InstitutionLegalScreens.swift' BasirConvert.xcodeproj/project.pbxproj
-          echo "BASIR_CLIENT_LAYER=R14_SELECTED_PAGE_ACCOUNTING_PLUS_INSTITUTION_LEGAL"
-
-      - name: Patch Xcode 26 and apply R17/R19/R20 integration
-        script: |
-          set -euo pipefail
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/patch_xcode26.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          python3 "$CM_BUILD_DIR/basir_ci_overlay/apply_r17_engine_epoch_guard.py" "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          grep -q 'minimum: "2.20.1"' BasirConvert/Services/ProxyClient.swift
-          grep -q 'Basir-iOS/2.3.0-R17-Epoch' BasirConvert/Services/ProxyClient.swift
-          grep -q 'BASIR_CLIENT_ENGINE_EPOCH_GUARD_R17' BasirConvert/Services/ProxyClient.swift
-          grep -q 'basirPublicURL("/legal/terms")' BasirConvert/Views/SettingsView.swift
-          grep -q 'basirPublicURL("/legal/privacy")' BasirConvert/Views/SettingsView.swift
-          grep -q 'basirPublicURL("/help/faq")' BasirConvert/Views/SettingsView.swift
-          grep -q 'basirPublicURL("/contact")' BasirConvert/Views/SettingsView.swift
-          grep -q 'basirPublicURL("/about")' BasirConvert/Views/SettingsView.swift
-          if grep -q 'الكاملة' BasirConvert/Views/SettingsView.swift; then
-            echo "R20 stale 'الكاملة' UI text detected"
-            exit 20
-          fi
-          echo "BASIR_CLIENT_LAYER=R20_SERVER_PUBLIC_LINKS"
-          xcodebuild -resolvePackageDependencies -project BasirConvert.xcodeproj -scheme BasirConvert
+          cd "$CM_BUILD_DIR/BasirConvertiOS"
+          SIMULATOR_ID="$(xcrun simctl list devices available -j | python3 -c 'import json,sys; data=json.load(sys.stdin)["devices"]; print(next(device["udid"] for devices in data.values() for device in devices if device.get("isAvailable") and device.get("name", "").startswith("iPhone")))')"
+          test -n "$SIMULATOR_ID"
+          xcodebuild test \
+            -project BasirConvert.xcodeproj \
+            -scheme BasirConvert \
+            -destination "platform=iOS Simulator,id=$SIMULATOR_ID" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO
 
       - name: Build unsigned IPA
         script: |
           set -euo pipefail
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          REGENERATE_PROJECT=0 BASIR_SERVER_URL="$BASIR_SERVER_URL" BASIR_CLIENT_TOKEN="$BASIR_CLIENT_TOKEN" scripts/build_unsigned_ipa.sh
+          cd "$CM_BUILD_DIR/BasirConvertiOS"
+          BASIR_SERVER_URL="$BASIR_SERVER_URL" \
+          BASIR_CLIENT_TOKEN="$BASIR_CLIENT_TOKEN" \
+          scripts/build_unsigned_ipa.sh
 
-      - name: Validate IPA and export R20 artifacts
+      - name: Validate unsigned artifact
         script: |
           set -euo pipefail
-          cd "$CM_BUILD_DIR/_basir_build/BasirConvertiOS"
-          IPA="dist/Basir_v2.3.0_unsigned.ipa"
+          cd "$CM_BUILD_DIR/BasirConvertiOS"
+          IPA="dist/Basir_v3.0.0_unsigned.ipa"
           test -s "$IPA"
+          shasum -a 256 -c "$IPA.sha256"
           unzip -t "$IPA"
-          mkdir -p "$CM_BUILD_DIR/artifacts"
-          cp "$IPA" "$CM_BUILD_DIR/artifacts/Basir_v2.3.1_SERVER_PUBLIC_LINKS_R20_unsigned.ipa"
-          shasum -a 256 "$IPA" | tee "$CM_BUILD_DIR/artifacts/Basir_v2.3.1_SERVER_PUBLIC_LINKS_R20_unsigned.ipa.sha256"
+          VERIFY_DIR="$(mktemp -d)"
+          trap 'rm -rf "$VERIFY_DIR"' EXIT
+          unzip -q "$IPA" -d "$VERIFY_DIR"
+          APP="$VERIFY_DIR/Payload/BasirConvert.app"
+          EXTENSION="$APP/PlugIns/BasirShareExtension.appex"
+          test -f "$APP/BasirConvert"
+          test -f "$EXTENSION/BasirShareExtension"
+          test -z "$(find "$APP" -type d -name _CodeSignature -print -quit)"
+          if codesign -dv "$APP" >/dev/null 2>&1; then
+            echo "IPA unexpectedly contains a code signature"
+            exit 1
+          fi
+          if codesign -dv "$EXTENSION" >/dev/null 2>&1; then
+            echo "Share Extension unexpectedly contains a code signature"
+            exit 1
+          fi
 
     artifacts:
-      - artifacts/*.ipa
-      - artifacts/*.sha256
-      - _basir_build/BasirConvertiOS/build/DerivedData/Build/Products/Release-iphoneos/BasirConvert.app.dSYM
+      - BasirConvertiOS/dist/Basir_v3.0.0_unsigned.ipa
+      - BasirConvertiOS/dist/Basir_v3.0.0_unsigned.ipa.sha256
+      - BasirConvertiOS/build/DerivedData/Build/Products/Release-iphoneos/BasirConvert.app.dSYM
+

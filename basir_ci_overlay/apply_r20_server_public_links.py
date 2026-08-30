@@ -62,7 +62,7 @@ new_legal_card = f'''
                     .frame(minHeight: 44)
             }}
             Link(destination: basirPublicURL("/about")) {{
-                Label(l10n.t("عن بصير", "About Basir"), systemImage: "info.circle.fill")
+                Label(l10n.t("عن التطبيق", "About the App"), systemImage: "info.circle.fill")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .frame(minHeight: 44)
             }}
@@ -100,7 +100,7 @@ required = (
     'l10n.t("سياسة الخصوصية", "Privacy Policy")',
     'l10n.t("الأسئلة المتكررة", "Frequently Asked Questions")',
     'l10n.t("التواصل", "Contact")',
-    'l10n.t("عن بصير", "About Basir")',
+    'l10n.t("عن التطبيق", "About the App")',
 )
 for marker in required:
     if marker not in final:

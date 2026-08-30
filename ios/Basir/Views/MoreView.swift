@@ -130,7 +130,7 @@ struct MoreView: View {
                 NavigationLink { TermsView() } label: {
                     BasirFeatureCard(
                         systemImage: "doc.plaintext.fill",
-                        title: L10n.t("الشروط والأحكام", "Terms and Conditions"),
+                        title: L10n.t("شروط الاستخدام", "Terms of Use"),
                         description: L10n.t(
                             "ضوابط الاستخدام، حدود الخدمة، ومسؤوليات المستخدم.",
                             "Usage rules, service limitations, and user responsibilities."
@@ -143,7 +143,7 @@ struct MoreView: View {
                 NavigationLink { PrivacyView() } label: {
                     BasirFeatureCard(
                         systemImage: "lock.shield.fill",
-                        title: L10n.t("سياسة الخصوصية", "Privacy Policy"),
+                        title: L10n.t("سياسة الاستخدام", "Usage Policy"),
                         description: L10n.t(
                             "ما يبقى على جهازك، وما يُرسل عند تشغيل ميزات الذكاء الاصطناعي.",
                             "What stays on your device and what is sent when AI features run."

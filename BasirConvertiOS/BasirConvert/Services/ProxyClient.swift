@@ -88,6 +88,13 @@ actor ProxyClient {
         var artifactTables: Int? = nil
         var artifactDrawings: Int? = nil
         var artifactMissingAltText: Int? = nil
+        var conversionEngine: String? = nil
+        var naturalMarkdownEngine: Bool? = nil
+        var parallelWorkers: Int? = nil
+        var detailReviewedPages: Int? = nil
+        var handwritingReviewedPages: Int? = nil
+        var visualReviewedPages: Int? = nil
+        var visualsWithoutModelDescription: Int? = nil
 
         enum CodingKeys: String, CodingKey {
             case retainedPageNumbers = "retained_page_numbers"
@@ -106,6 +113,18 @@ actor ProxyClient {
             case artifactTables = "artifact_tables"
             case artifactDrawings = "artifact_drawings"
             case artifactMissingAltText = "artifact_missing_alt_text"
+            case conversionEngine = "conversion_engine"
+            case naturalMarkdownEngine = "natural_markdown_engine"
+            case parallelWorkers = "parallel_workers"
+            case detailReviewedPages = "detail_reviewed_pages"
+            case handwritingReviewedPages = "handwriting_reviewed_pages"
+            case visualReviewedPages = "visual_reviewed_pages"
+            case visualsWithoutModelDescription = "visuals_without_model_description"
+        }
+
+        var isNaturalMarkdownEngine: Bool {
+            naturalMarkdownEngine == true
+                || conversionEngine?.lowercased().hasPrefix("natural_markdown") == true
         }
     }
 
@@ -299,6 +318,7 @@ actor ProxyClient {
         var resultPath: String?
         var outcome = ConversionOutcome.complete
         var completed = false
+        var naturalEngineResult = false
         var validatedExpectedTables = 0
         var validatedExpectedImages = 0
         var lastServerProgress: ConversionProgress?
@@ -340,32 +360,51 @@ actor ProxyClient {
                     throw BasirError.invalidResponse("تعذر التحقق من جودة المستند الناتج. لم يتم اعتماد الملف.")
                 }
                 let retainedNumbers = qualityMetrics.retainedPageNumbers ?? []
-                let skippedNumbers = qualityMetrics.skippedBlankPageNumbers ?? []
-                let fallbackNumbers = qualityMetrics.fallbackPageNumbers ?? []
+                let skippedNumbers = qualityMetrics.skippedBlankPageNumbers ?? skippedItems
+                let fallbackNumbers = qualityMetrics.fallbackPageNumbers ?? failedItems
                 let relaxedNumbers = qualityMetrics.relaxedLayoutPageNumbers ?? []
                 let accountingExact = qualityMetrics.sourcePageAccountingExact
                 let numberingExact = qualityMetrics.sourcePageNumberingExact
-                logger.record("QUALITY terminal status=\(terminalQuality) score=\(qualityScore ?? -1) warnings=\(qualityWarnings.joined(separator: ","))")
+                let isNaturalEngine = qualityMetrics.isNaturalMarkdownEngine
+                logger.record("QUALITY terminal status=\(terminalQuality) score=\(qualityScore ?? -1) warnings=\(qualityWarnings.joined(separator: ",")) engine=\(qualityMetrics.conversionEngine ?? "legacy") natural=\(isNaturalEngine)")
                 logger.record("QUALITY pages retained=\(retainedNumbers) skippedBlank=\(skippedNumbers) fallback=\(fallbackNumbers) relaxedLayout=\(relaxedNumbers) accountingExact=\(accountingExact.map(String.init) ?? "nil") numberingExact=\(numberingExact.map(String.init) ?? "nil")")
                 guard terminalQuality == "passed" else {
                     throw BasirError.conversionFailed("لم يصل المستند الناتج إلى مستوى الجودة الآمن للاعتماد. لم يتم حفظ نتيجة ناقصة أو مشوهة.")
                 }
                 if expectedSourcePages > 0 {
-                    let expectedResultPages = max(0, expectedSourcePages - skippedItems.count)
-                    guard qualityMetrics.sourcePages == expectedSourcePages,
-                          qualityMetrics.expectedRenderedPages == expectedResultPages else {
-                        throw BasirError.invalidResponse("The quality manifest source-page accounting is inconsistent.")
-                    }
-                    let requiresExactSourceIdentity = options.operation == .convert && options.outputMode != .simple
-                    if requiresExactSourceIdentity {
-                        guard accountingExact == true, numberingExact == true else {
-                            throw BasirError.invalidResponse("The quality manifest source-page identity or numbering is inconsistent.")
+                    if isNaturalEngine {
+                        guard Set(skippedNumbers) == Set(skippedItems),
+                              Set(fallbackNumbers) == Set(failedItems),
+                              BasirAPIContract.naturalPageAccountingIsValid(
+                                expectedSelectedPages: expectedSourcePages,
+                                retained: retainedNumbers,
+                                skippedBlank: skippedNumbers,
+                                failed: fallbackNumbers
+                              ) else {
+                            throw BasirError.invalidResponse("The natural-engine source-page accounting is inconsistent.")
                         }
+                        // The server has already structurally validated this DOCX.
+                        // Do not re-apply legacy PageIR physical-page/table/image
+                        // assumptions to a natural Markdown result.
+                        validatedExpectedTables = 0
+                        validatedExpectedImages = 0
+                    } else {
+                        let expectedResultPages = max(0, expectedSourcePages - skippedItems.count)
+                        guard qualityMetrics.sourcePages == expectedSourcePages,
+                              qualityMetrics.expectedRenderedPages == expectedResultPages else {
+                            throw BasirError.invalidResponse("The quality manifest source-page accounting is inconsistent.")
+                        }
+                        let requiresExactSourceIdentity = options.operation == .convert && options.outputMode != .simple
+                        if requiresExactSourceIdentity {
+                            guard accountingExact == true, numberingExact == true else {
+                                throw BasirError.invalidResponse("The quality manifest source-page identity or numbering is inconsistent.")
+                            }
+                        }
+                        let expectedTables = qualityMetrics.expectedNativeTables ?? 0
+                        let sourceUniqueImages = qualityMetrics.sourceUniqueImages ?? 0
+                        validatedExpectedTables = max(0, expectedTables)
+                        validatedExpectedImages = max(0, sourceUniqueImages)
                     }
-                    let expectedTables = qualityMetrics.expectedNativeTables ?? 0
-                    let sourceUniqueImages = qualityMetrics.sourceUniqueImages ?? 0
-                    validatedExpectedTables = max(0, expectedTables)
-                    validatedExpectedImages = max(0, sourceUniqueImages)
                 }
                 let artifactBytes = qualityMetrics.artifactBytes ?? 0
                 let artifactMembers = qualityMetrics.artifactMembers ?? 0
@@ -380,7 +419,7 @@ actor ProxyClient {
                 resultPath = status.resultURL
                 let requestedModel = status.requestedModel ?? options.effectivePreferredModel
                 let executedModel = status.executedModel
-                logger.record("job model requestID=\(stableRequestID) requested=\(requestedModel) executed=\(executedModel ?? "unknown")")
+                logger.record("job model requestID=\(stableRequestID) requested=\(requestedModel) executed=\(executedModel ?? "unknown") workers=\(qualityMetrics.parallelWorkers ?? 0) detailReviews=\(qualityMetrics.detailReviewedPages ?? 0) handwritingReviews=\(qualityMetrics.handwritingReviewedPages ?? 0) visualReviews=\(qualityMetrics.visualReviewedPages ?? 0)")
                 outcome = ConversionOutcome(
                     succeededItems: succeeded,
                     failedItems: failedItems,
@@ -388,6 +427,7 @@ actor ProxyClient {
                     requestedModel: requestedModel,
                     executedModel: executedModel
                 )
+                naturalEngineResult = isNaturalEngine
                 completed = true
                 break
             }
@@ -425,13 +465,15 @@ actor ProxyClient {
         defer { try? FileManager.default.removeItem(at: temporary) }
         try validateDownloadedHTTP(downloadResponse, temporary: temporary)
         try validateResultResponse(downloadResponse)
-        let expectedResultPages = max(0, expectedSourcePages - outcome.skippedBlankItems.count)
+        let expectedResultPages = naturalEngineResult
+            ? 0
+            : max(0, expectedSourcePages - outcome.skippedBlankItems.count)
         try verifyAndMove(
             temporary: temporary, response: downloadResponse, outputURL: outputURL,
             expectedPages: expectedResultPages, expectedTables: validatedExpectedTables,
             expectedImages: validatedExpectedImages
         )
-        logger.record("job completed requestID=\(stableRequestID)")
+        logger.record("job completed requestID=\(stableRequestID) naturalEngine=\(naturalEngineResult)")
         progress(.init(current: 1, total: 1, stage: .done, detail: nil))
         return outcome
     }

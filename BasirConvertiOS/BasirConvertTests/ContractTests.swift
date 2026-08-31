@@ -74,4 +74,24 @@ final class ContractTests: XCTestCase {
         XCTAssertEqual(options.effectivePreferredModel, "gemini-3.7-flash")
         XCTAssertTrue(options.encodedMode.contains("parallel:3"))
     }
+
+    @MainActor
+    func testSettingsStoreMigratesPersistedLegacyModelAndUsesThreePageDefault() {
+        let suite = "BasirContractTests-\(UUID().uuidString)"
+        guard let defaults = UserDefaults(suiteName: suite) else {
+            XCTFail("Unable to create isolated UserDefaults")
+            return
+        }
+        defer { defaults.removePersistentDomain(forName: suite) }
+        defaults.set("gemini-3.1-pro-preview", forKey: "ai_preferred_model")
+
+        let store = SettingsStore(
+            defaults: defaults,
+            configuration: ServerConfiguration(baseURL: "https://example.invalid", clientToken: "test")
+        )
+
+        XCTAssertEqual(store.preferredModel, .flash)
+        XCTAssertEqual(store.concurrentPages, 3)
+        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.7-flash")
+    }
 }

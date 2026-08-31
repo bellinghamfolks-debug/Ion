@@ -196,18 +196,32 @@ struct SupportedLanguage: Identifiable, Hashable, Codable, Sendable {
 enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
     case automatic = "auto"
     case flash = "gemini-3.7-flash"
+    // Legacy values remain decodable so existing saved settings migrate cleanly.
     case economy = "gemini-3.5-flash-lite"
     case pro = "gemini-3.1-pro-preview"
 
+    static var allCases: [AIModelChoice] { [.automatic, .flash] }
+
     var id: String { rawValue }
+
+    /// The current server conversion engine runs on Gemini 3.7 Flash. Old saved
+    /// model selections are migrated at the network boundary instead of sending
+    /// retired preview/lite identifiers back to Vertex AI.
+    var serverModelID: String {
+        switch self {
+        case .automatic:
+            return "auto"
+        case .flash, .economy, .pro:
+            return "gemini-3.7-flash"
+        }
+    }
 
     @MainActor
     func title(_ l10n: L10n) -> String {
         switch self {
         case .automatic: return l10n.t("تلقائي موصى به", "Automatic (recommended)")
         case .flash: return "Gemini 3.7 Flash"
-        case .economy: return "Gemini 3.5 Flash Lite"
-        case .pro: return "Gemini 3.1 Pro Preview"
+        case .economy, .pro: return "Gemini 3.7 Flash"
         }
     }
 
@@ -215,13 +229,9 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
     func detail(_ l10n: L10n) -> String {
         switch self {
         case .automatic:
-            return l10n.t("يختار الخادم النموذج الأنسب حسب نوع المهمة.", "The server chooses the best model for the task.")
-        case .flash:
-            return l10n.t("توازن قوي بين الجودة والسرعة.", "Strong balance of quality and speed.")
-        case .economy:
-            return l10n.t("أسرع وأخف للمهام البسيطة والترجمة.", "Faster and lighter for simple tasks and translation.")
-        case .pro:
-            return l10n.t("أعلى عمق للملفات الصعبة والمعادلات، وقد يكون أبطأ.", "Highest depth for difficult documents and math; may be slower.")
+            return l10n.t("يستخدم الخادم النموذج الإنتاجي الأنسب للمحرك الحالي.", "The server uses the production model appropriate for the current engine.")
+        case .flash, .economy, .pro:
+            return l10n.t("النموذج الإنتاجي الحالي للتحويل السريع والدقيق.", "Current production model for fast, faithful conversion.")
         }
     }
 }
@@ -261,7 +271,7 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         preserveLinks: Bool = true,
         skipBlankPages: Bool = true,
         preferPDFText: Bool = true,
-        concurrentPages: Int = 2,
+        concurrentPages: Int = 3,
         rotationCorrection: Int = 0,
         outputName: String? = nil,
         preferredModel: String? = nil
@@ -294,7 +304,9 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         embedVisuals && outputMode != .textOnly
     }
 
-    var effectivePreferredModel: String { preferredModel ?? "auto" }
+    var effectivePreferredModel: String {
+        AIModelChoice(rawValue: preferredModel ?? "auto")?.serverModelID ?? "auto"
+    }
 
     var encodedMode: String {
         var value: String
@@ -561,4 +573,3 @@ extension UTType {
         [.pdf, .basirPPTX, .basirPPT, .basirDOCX, .basirDOC, .image, .audio, .movie]
     }
 }
-

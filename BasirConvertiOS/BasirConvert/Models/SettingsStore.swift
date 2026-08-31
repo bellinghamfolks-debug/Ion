@@ -89,10 +89,23 @@ final class SettingsStore: ObservableObject {
         preferPDFText = defaults.object(forKey: Key.preferPDFText) == nil
             ? true : defaults.bool(forKey: Key.preferPDFText)
         concurrentPages = max(1, min(3, defaults.object(forKey: Key.concurrentPages) == nil
-                                    ? 2 : defaults.integer(forKey: Key.concurrentPages)))
+                                    ? 3 : defaults.integer(forKey: Key.concurrentPages)))
         let savedRotation = defaults.integer(forKey: Key.rotationCorrection)
         rotationCorrection = [0, 90, 180, 270].contains(savedRotation) ? savedRotation : 0
-        preferredModel = AIModelChoice(rawValue: defaults.string(forKey: Key.preferredModel) ?? "auto") ?? .automatic
+
+        let storedModel = AIModelChoice(
+            rawValue: defaults.string(forKey: Key.preferredModel) ?? "auto"
+        ) ?? .automatic
+        switch storedModel {
+        case .economy, .pro:
+            // Retired preview/lite selections from older app versions must not
+            // remain as an invisible Picker value or be sent to the current
+            // Vertex conversion engine. Migrate the persisted preference once.
+            preferredModel = .flash
+            defaults.set(AIModelChoice.flash.rawValue, forKey: Key.preferredModel)
+        case .automatic, .flash:
+            preferredModel = storedModel
+        }
     }
 
     var targetLanguage: SupportedLanguage {
@@ -122,7 +135,6 @@ final class SettingsStore: ObservableObject {
         defaults.set(preferPDFText, forKey: Key.preferPDFText)
         defaults.set(max(1, min(3, concurrentPages)), forKey: Key.concurrentPages)
         defaults.set(rotationCorrection, forKey: Key.rotationCorrection)
-        defaults.set(preferredModel.rawValue, forKey: Key.preferredModel)
+        defaults.set(preferredModel.serverModelID, forKey: Key.preferredModel)
     }
 }
-

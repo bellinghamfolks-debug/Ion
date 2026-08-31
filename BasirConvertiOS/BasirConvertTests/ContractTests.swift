@@ -52,4 +52,26 @@ final class ContractTests: XCTestCase {
             failed: []
         ))
     }
+
+    func testLegacyModelSelectionsMigrateToCurrentProductionModel() {
+        XCTAssertEqual(AIModelChoice.pro.serverModelID, "gemini-3.7-flash")
+        XCTAssertEqual(AIModelChoice.economy.serverModelID, "gemini-3.7-flash")
+        XCTAssertEqual(AIModelChoice.flash.serverModelID, "gemini-3.7-flash")
+        XCTAssertEqual(AIModelChoice.allCases, [.automatic, .flash])
+    }
+
+    func testConversionDefaultsToThreeParallelPagesAndMigratesSavedModel() {
+        let options = ConversionOptions(
+            operation: .convert,
+            outputMode: .full,
+            targetLanguage: nil,
+            embedVisuals: true,
+            includeMath: false,
+            interfaceLanguage: .arabic,
+            preferredModel: "gemini-3.1-pro-preview"
+        )
+        XCTAssertEqual(options.concurrentPages, 3)
+        XCTAssertEqual(options.effectivePreferredModel, "gemini-3.7-flash")
+        XCTAssertTrue(options.encodedMode.contains("parallel:3"))
+    }
 }

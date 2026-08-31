@@ -75,6 +75,17 @@ final class ContractTests: XCTestCase {
         XCTAssertTrue(options.encodedMode.contains("parallel:3"))
     }
 
+    func testResultDownloadSeparatesLocalFileFailuresFromNetworkFailures() {
+        XCTAssertTrue(BackgroundTransferCoordinator.isLocalFileFailure(URLError(.cannotCreateFile)))
+        XCTAssertTrue(BackgroundTransferCoordinator.isLocalFileFailure(URLError(.cannotOpenFile)))
+        XCTAssertTrue(BackgroundTransferCoordinator.isLocalFileFailure(URLError(.fileDoesNotExist)))
+        XCTAssertTrue(BackgroundTransferCoordinator.isLocalFileFailure(URLError(.noPermissionsToReadFile)))
+
+        XCTAssertFalse(BackgroundTransferCoordinator.isLocalFileFailure(URLError(.notConnectedToInternet)))
+        XCTAssertFalse(BackgroundTransferCoordinator.isLocalFileFailure(URLError(.networkConnectionLost)))
+        XCTAssertFalse(BackgroundTransferCoordinator.isLocalFileFailure(URLError(.timedOut)))
+    }
+
     @MainActor
     func testSettingsStoreMigratesPersistedLegacyModelAndUsesThreePageDefault() {
         let suite = "BasirContractTests-\(UUID().uuidString)"

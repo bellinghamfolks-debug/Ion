@@ -5,6 +5,24 @@ import VisionKit
 import QuickLook
 import UniformTypeIdentifiers
 
+struct StablePreviewItem: Identifiable, Equatable {
+    let url: URL
+
+    var id: String {
+        PreviewReloadPolicy.normalized(url).absoluteString
+    }
+}
+
+enum PreviewReloadPolicy {
+    static func normalized(_ url: URL) -> URL {
+        url.isFileURL ? url.standardizedFileURL : url
+    }
+
+    static func shouldReload(current: URL, incoming: URL) -> Bool {
+        normalized(current) != normalized(incoming)
+    }
+}
+
 struct PhotoLibraryPicker: UIViewControllerRepresentable {
     let onPick: ([URL]) -> Void
     let onError: (Error) -> Void
@@ -165,6 +183,9 @@ struct QuickLookPreview: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ controller: UINavigationController, context: Context) {
+        guard PreviewReloadPolicy.shouldReload(current: context.coordinator.url, incoming: url) else {
+            return
+        }
         context.coordinator.url = url
         context.coordinator.previewController?.reloadData()
     }
@@ -241,4 +262,3 @@ struct OpenInApplicationView: UIViewControllerRepresentable {
         }
     }
 }
-

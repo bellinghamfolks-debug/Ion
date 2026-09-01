@@ -404,12 +404,10 @@ struct JobView: View {
         return formatter.string(from: interval) ?? "—"
     }
 
-    private struct URLItem: Identifiable { let id = UUID(); let url: URL }
-    private func bindingURL(_ source: Binding<URL?>) -> Binding<URLItem?> {
-        Binding<URLItem?>(
-            get: { source.wrappedValue.map { URLItem(url: $0) } },
+    private func bindingURL(_ source: Binding<URL?>) -> Binding<StablePreviewItem?> {
+        Binding<StablePreviewItem?>(
+            get: { source.wrappedValue.map { StablePreviewItem(url: $0) } },
             set: { source.wrappedValue = $0?.url }
         )
     }
 }
-

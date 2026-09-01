@@ -53,14 +53,20 @@ final class ContractTests: XCTestCase {
         ))
     }
 
-    func testLegacyModelSelectionsMigrateToCurrentProductionModel() {
-        XCTAssertEqual(AIModelChoice.pro.serverModelID, "gemini-3.7-flash")
-        XCTAssertEqual(AIModelChoice.economy.serverModelID, "gemini-3.7-flash")
+    func testExplicitModelSelectionsPassThroughUnchanged() {
         XCTAssertEqual(AIModelChoice.flash.serverModelID, "gemini-3.7-flash")
-        XCTAssertEqual(AIModelChoice.allCases, [.automatic, .flash])
+        XCTAssertEqual(AIModelChoice.flash36.serverModelID, "gemini-3.6-flash")
+        XCTAssertEqual(AIModelChoice.flash35.serverModelID, "gemini-3.5-flash")
+        XCTAssertEqual(AIModelChoice.economy.serverModelID, "gemini-3.5-flash-lite")
+        XCTAssertEqual(AIModelChoice.pro.serverModelID, "gemini-3.1-pro-preview")
+        XCTAssertEqual(AIModelChoice.automatic.serverModelID, "auto")
+        XCTAssertEqual(
+            AIModelChoice.allCases,
+            [.automatic, .flash, .flash36, .flash35, .economy, .pro]
+        )
     }
 
-    func testConversionDefaultsToThreeParallelPagesAndMigratesSavedModel() {
+    func testConversionDefaultsToThreeParallelPagesAndPreservesSelectedModel() {
         let options = ConversionOptions(
             operation: .convert,
             outputMode: .full,
@@ -71,7 +77,7 @@ final class ContractTests: XCTestCase {
             preferredModel: "gemini-3.1-pro-preview"
         )
         XCTAssertEqual(options.concurrentPages, 3)
-        XCTAssertEqual(options.effectivePreferredModel, "gemini-3.7-flash")
+        XCTAssertEqual(options.effectivePreferredModel, "gemini-3.1-pro-preview")
         XCTAssertTrue(options.encodedMode.contains("parallel:3"))
     }
 
@@ -87,7 +93,7 @@ final class ContractTests: XCTestCase {
     }
 
     @MainActor
-    func testSettingsStoreMigratesPersistedLegacyModelAndUsesThreePageDefault() {
+    func testSettingsStorePreservesPersistedSupportedModelAndUsesThreePageDefault() {
         let suite = "BasirContractTests-\(UUID().uuidString)"
         guard let defaults = UserDefaults(suiteName: suite) else {
             XCTFail("Unable to create isolated UserDefaults")
@@ -101,8 +107,9 @@ final class ContractTests: XCTestCase {
             configuration: ServerConfiguration(baseURL: "https://example.invalid", clientToken: "test")
         )
 
-        XCTAssertEqual(store.preferredModel, .flash)
+        XCTAssertEqual(store.preferredModel, .pro)
         XCTAssertEqual(store.concurrentPages, 3)
-        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.7-flash")
+        store.save(defaults: defaults)
+        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.1-pro-preview")
     }
 }

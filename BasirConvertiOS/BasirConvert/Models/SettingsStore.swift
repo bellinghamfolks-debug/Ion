@@ -93,19 +93,9 @@ final class SettingsStore: ObservableObject {
         let savedRotation = defaults.integer(forKey: Key.rotationCorrection)
         rotationCorrection = [0, 90, 180, 270].contains(savedRotation) ? savedRotation : 0
 
-        let storedModel = AIModelChoice(
+        preferredModel = AIModelChoice(
             rawValue: defaults.string(forKey: Key.preferredModel) ?? "auto"
         ) ?? .automatic
-        switch storedModel {
-        case .economy, .pro:
-            // Retired preview/lite selections from older app versions must not
-            // remain as an invisible Picker value or be sent to the current
-            // Vertex conversion engine. Migrate the persisted preference once.
-            preferredModel = .flash
-            defaults.set(AIModelChoice.flash.rawValue, forKey: Key.preferredModel)
-        case .automatic, .flash:
-            preferredModel = storedModel
-        }
     }
 
     var targetLanguage: SupportedLanguage {

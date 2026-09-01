@@ -93,9 +93,15 @@ final class SettingsStore: ObservableObject {
         let savedRotation = defaults.integer(forKey: Key.rotationCorrection)
         rotationCorrection = [0, 90, 180, 270].contains(savedRotation) ? savedRotation : 0
 
-        preferredModel = AIModelChoice(
+        let storedModel = AIModelChoice(
             rawValue: defaults.string(forKey: Key.preferredModel) ?? "auto"
         ) ?? .automatic
+        if storedModel == .pro {
+            preferredModel = .flash
+            defaults.set(AIModelChoice.flash.rawValue, forKey: Key.preferredModel)
+        } else {
+            preferredModel = storedModel
+        }
     }
 
     var targetLanguage: SupportedLanguage {

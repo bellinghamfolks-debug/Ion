@@ -196,32 +196,37 @@ struct SupportedLanguage: Identifiable, Hashable, Codable, Sendable {
 enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
     case automatic = "auto"
     case flash = "gemini-3.7-flash"
-    // Legacy values remain decodable so existing saved settings migrate cleanly.
+    case flash36 = "gemini-3.6-flash"
+    case flash35 = "gemini-3.5-flash"
     case economy = "gemini-3.5-flash-lite"
     case pro = "gemini-3.1-pro-preview"
 
-    static var allCases: [AIModelChoice] { [.automatic, .flash] }
+    static var allCases: [AIModelChoice] {
+        [.automatic, .flash, .flash36, .flash35, .economy, .pro]
+    }
 
     var id: String { rawValue }
 
-    /// The current server conversion engine runs on Gemini 3.7 Flash. Old saved
-    /// model selections are migrated at the network boundary instead of sending
-    /// retired preview/lite identifiers back to Vertex AI.
-    var serverModelID: String {
-        switch self {
-        case .automatic:
-            return "auto"
-        case .flash, .economy, .pro:
-            return "gemini-3.7-flash"
-        }
-    }
+    /// Explicit choices are sent unchanged to the server. Automatic remains a
+    /// server-owned decision so the backend can change its recommended default
+    /// without requiring a new iOS build.
+    var serverModelID: String { rawValue }
 
     @MainActor
     func title(_ l10n: L10n) -> String {
         switch self {
-        case .automatic: return l10n.t("تلقائي موصى به", "Automatic (recommended)")
-        case .flash: return "Gemini 3.7 Flash"
-        case .economy, .pro: return "Gemini 3.7 Flash"
+        case .automatic:
+            return l10n.t("تلقائي موصى به", "Automatic (recommended)")
+        case .flash:
+            return "Gemini 3.7 Flash"
+        case .flash36:
+            return "Gemini 3.6 Flash"
+        case .flash35:
+            return "Gemini 3.5 Flash"
+        case .economy:
+            return "Gemini 3.5 Flash-Lite"
+        case .pro:
+            return l10n.t("Gemini 3.1 Pro (تجريبي)", "Gemini 3.1 Pro (Preview)")
         }
     }
 
@@ -229,9 +234,35 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
     func detail(_ l10n: L10n) -> String {
         switch self {
         case .automatic:
-            return l10n.t("يستخدم الخادم النموذج الإنتاجي الأنسب للمحرك الحالي.", "The server uses the production model appropriate for the current engine.")
-        case .flash, .economy, .pro:
-            return l10n.t("النموذج الإنتاجي الحالي للتحويل السريع والدقيق.", "Current production model for fast, faithful conversion.")
+            return l10n.t(
+                "يستخدم الخادم النموذج الموصى به حاليًا.",
+                "Uses the model currently recommended by the server."
+            )
+        case .flash:
+            return l10n.t(
+                "النموذج الإنتاجي الأحدث الموصى به للتحويل السريع والدقيق.",
+                "Newest recommended production model for fast, faithful conversion."
+            )
+        case .flash36:
+            return l10n.t(
+                "نموذج إنتاجي مستقر للمهام العامة والتحويل متعدد الخطوات.",
+                "Stable production model for general and multi-step conversion."
+            )
+        case .flash35:
+            return l10n.t(
+                "نموذج إنتاجي سريع وفعّال من حيث التكلفة.",
+                "Fast, cost-efficient production model."
+            )
+        case .economy:
+            return l10n.t(
+                "خيار أخف وأوفر للملفات المباشرة والبسيطة.",
+                "Lighter, lower-cost option for straightforward documents."
+            )
+        case .pro:
+            return l10n.t(
+                "نموذج استدلال أعمق للملفات المعقدة؛ إصدار تجريبي وقد يكون أبطأ.",
+                "Deeper-reasoning model for complex documents; Preview and may be slower."
+            )
         }
     }
 }

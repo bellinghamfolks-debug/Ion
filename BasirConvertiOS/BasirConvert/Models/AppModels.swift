@@ -199,18 +199,25 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
     case flash36 = "gemini-3.6-flash"
     case flash35 = "gemini-3.5-flash"
     case economy = "gemini-3.5-flash-lite"
+
+    // Kept only so a preference written by the immediately previous app build
+    // can still decode and migrate. It is never shown and never sent to Vertex.
     case pro = "gemini-3.1-pro-preview"
 
     static var allCases: [AIModelChoice] {
-        [.automatic, .flash, .flash36, .flash35, .economy, .pro]
+        [.automatic, .flash, .flash36, .flash35, .economy]
     }
 
     var id: String { rawValue }
 
-    /// Explicit choices are sent unchanged to the server. Automatic remains a
-    /// server-owned decision so the backend can change its recommended default
-    /// without requiring a new iOS build.
-    var serverModelID: String { rawValue }
+    var serverModelID: String {
+        switch self {
+        case .pro:
+            return AIModelChoice.flash.rawValue
+        case .automatic, .flash, .flash36, .flash35, .economy:
+            return rawValue
+        }
+    }
 
     @MainActor
     func title(_ l10n: L10n) -> String {
@@ -226,7 +233,7 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
         case .economy:
             return "Gemini 3.5 Flash-Lite"
         case .pro:
-            return l10n.t("Gemini 3.1 Pro (تجريبي)", "Gemini 3.1 Pro (Preview)")
+            return "Gemini 3.7 Flash"
         }
     }
 
@@ -235,33 +242,33 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
         switch self {
         case .automatic:
             return l10n.t(
-                "يستخدم الخادم النموذج الموصى به حاليًا.",
-                "Uses the model currently recommended by the server."
+                "يستخدم الخادم النموذج الإنتاجي الموصى به حاليًا.",
+                "Uses the production model currently recommended by the server."
             )
         case .flash:
             return l10n.t(
-                "النموذج الإنتاجي الأحدث الموصى به للتحويل السريع والدقيق.",
-                "Newest recommended production model for fast, faithful conversion."
+                "أحدث نموذج Flash معتمد للإنتاج، وهو الخيار الموصى به للتحويل.",
+                "Newest GA Flash model and the recommended conversion choice."
             )
         case .flash36:
             return l10n.t(
-                "نموذج إنتاجي مستقر للمهام العامة والتحويل متعدد الخطوات.",
-                "Stable production model for general and multi-step conversion."
+                "نموذج Flash معتمد للإنتاج للمهام العامة والتحويل متعدد الخطوات.",
+                "GA Flash model for general and multi-step conversion."
             )
         case .flash35:
             return l10n.t(
-                "نموذج إنتاجي سريع وفعّال من حيث التكلفة.",
-                "Fast, cost-efficient production model."
+                "نموذج Flash معتمد للإنتاج، سريع وفعّال من حيث التكلفة.",
+                "GA Flash model that is fast and cost-efficient."
             )
         case .economy:
             return l10n.t(
-                "خيار أخف وأوفر للملفات المباشرة والبسيطة.",
-                "Lighter, lower-cost option for straightforward documents."
+                "أحدث Flash-Lite معتمد للإنتاج للملفات الأبسط والأقل تكلفة.",
+                "Latest GA Flash-Lite for simpler, lower-cost documents."
             )
         case .pro:
             return l10n.t(
-                "نموذج استدلال أعمق للملفات المعقدة؛ إصدار تجريبي وقد يكون أبطأ.",
-                "Deeper-reasoning model for complex documents; Preview and may be slower."
+                "تم ترحيل هذا الاختيار القديم تلقائيًا إلى Gemini 3.7 Flash.",
+                "This legacy selection is automatically migrated to Gemini 3.7 Flash."
             )
         }
     }

@@ -53,20 +53,36 @@ final class ContractTests: XCTestCase {
         ))
     }
 
-    func testExplicitModelSelectionsPassThroughUnchanged() {
+    func testOnlyCurrentGAModelsAreVisibleAndPassThrough() {
         XCTAssertEqual(AIModelChoice.flash.serverModelID, "gemini-3.7-flash")
         XCTAssertEqual(AIModelChoice.flash36.serverModelID, "gemini-3.6-flash")
         XCTAssertEqual(AIModelChoice.flash35.serverModelID, "gemini-3.5-flash")
         XCTAssertEqual(AIModelChoice.economy.serverModelID, "gemini-3.5-flash-lite")
-        XCTAssertEqual(AIModelChoice.pro.serverModelID, "gemini-3.1-pro-preview")
         XCTAssertEqual(AIModelChoice.automatic.serverModelID, "auto")
         XCTAssertEqual(
             AIModelChoice.allCases,
-            [.automatic, .flash, .flash36, .flash35, .economy, .pro]
+            [.automatic, .flash, .flash36, .flash35, .economy]
         )
+        XCTAssertFalse(AIModelChoice.allCases.contains(.pro))
+        XCTAssertEqual(AIModelChoice.pro.serverModelID, "gemini-3.7-flash")
     }
 
-    func testConversionDefaultsToThreeParallelPagesAndPreservesSelectedModel() {
+    func testConversionDefaultsToThreeParallelPagesAndPreservesCurrentSelectedModel() {
+        let options = ConversionOptions(
+            operation: .convert,
+            outputMode: .full,
+            targetLanguage: nil,
+            embedVisuals: true,
+            includeMath: false,
+            interfaceLanguage: .arabic,
+            preferredModel: "gemini-3.6-flash"
+        )
+        XCTAssertEqual(options.concurrentPages, 3)
+        XCTAssertEqual(options.effectivePreferredModel, "gemini-3.6-flash")
+        XCTAssertTrue(options.encodedMode.contains("parallel:3"))
+    }
+
+    func testLegacyPreviewSelectionMapsToCurrentRecommendedModel() {
         let options = ConversionOptions(
             operation: .convert,
             outputMode: .full,
@@ -76,9 +92,7 @@ final class ContractTests: XCTestCase {
             interfaceLanguage: .arabic,
             preferredModel: "gemini-3.1-pro-preview"
         )
-        XCTAssertEqual(options.concurrentPages, 3)
-        XCTAssertEqual(options.effectivePreferredModel, "gemini-3.1-pro-preview")
-        XCTAssertTrue(options.encodedMode.contains("parallel:3"))
+        XCTAssertEqual(options.effectivePreferredModel, "gemini-3.7-flash")
     }
 
     func testResultDownloadSeparatesLocalFileFailuresFromNetworkFailures() {
@@ -93,7 +107,7 @@ final class ContractTests: XCTestCase {
     }
 
     @MainActor
-    func testSettingsStorePreservesPersistedSupportedModelAndUsesThreePageDefault() {
+    func testSettingsStoreMigratesPersistedPreviewModelAndUsesThreePageDefault() {
         let suite = "BasirContractTests-\(UUID().uuidString)"
         guard let defaults = UserDefaults(suiteName: suite) else {
             XCTFail("Unable to create isolated UserDefaults")
@@ -107,9 +121,10 @@ final class ContractTests: XCTestCase {
             configuration: ServerConfiguration(baseURL: "https://example.invalid", clientToken: "test")
         )
 
-        XCTAssertEqual(store.preferredModel, .pro)
+        XCTAssertEqual(store.preferredModel, .flash)
         XCTAssertEqual(store.concurrentPages, 3)
+        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.7-flash")
         store.save(defaults: defaults)
-        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.1-pro-preview")
+        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.7-flash")
     }
 }

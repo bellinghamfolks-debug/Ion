@@ -95,6 +95,30 @@ final class ContractTests: XCTestCase {
         XCTAssertEqual(options.effectivePreferredModel, "gemini-3.7-flash")
     }
 
+    func testStablePreviewIdentityUsesNormalizedFileURL() {
+        let first = StablePreviewItem(
+            url: URL(fileURLWithPath: "/tmp/basir/../result.docx")
+        )
+        let second = StablePreviewItem(
+            url: URL(fileURLWithPath: "/tmp/result.docx")
+        )
+        let different = StablePreviewItem(
+            url: URL(fileURLWithPath: "/tmp/other.docx")
+        )
+
+        XCTAssertEqual(first.id, second.id)
+        XCTAssertNotEqual(first.id, different.id)
+    }
+
+    func testQuickLookReloadPolicyReloadsOnlyWhenDocumentActuallyChanges() {
+        let current = URL(fileURLWithPath: "/tmp/basir/../result.docx")
+        let equivalent = URL(fileURLWithPath: "/tmp/result.docx")
+        let different = URL(fileURLWithPath: "/tmp/other.docx")
+
+        XCTAssertFalse(PreviewReloadPolicy.shouldReload(current: current, incoming: equivalent))
+        XCTAssertTrue(PreviewReloadPolicy.shouldReload(current: current, incoming: different))
+    }
+
     func testResultDownloadSeparatesLocalFileFailuresFromNetworkFailures() {
         XCTAssertTrue(BackgroundTransferCoordinator.isLocalFileFailure(URLError(.cannotCreateFile)))
         XCTAssertTrue(BackgroundTransferCoordinator.isLocalFileFailure(URLError(.cannotOpenFile)))

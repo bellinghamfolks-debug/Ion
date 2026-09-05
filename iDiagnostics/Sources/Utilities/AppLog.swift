@@ -10,10 +10,11 @@ enum AppLog {
     static let media = Logger(subsystem: subsystem, category: "media")
 }
 
-@MainActor
 enum AccessibilityAnnouncer {
     static func post(_ message: String) {
-        guard UIAccessibility.isVoiceOverRunning else { return }
-        UIAccessibility.post(notification: .announcement, argument: message)
+        DispatchQueue.main.async {
+            guard UIAccessibility.isVoiceOverRunning else { return }
+            UIAccessibility.post(notification: .announcement, argument: message)
+        }
     }
 }

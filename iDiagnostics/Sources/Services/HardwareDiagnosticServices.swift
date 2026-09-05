@@ -148,7 +148,7 @@ final class BiometricDiagnosticService: ObservableObject {
             case .faceID: typeTitle = "Face ID"
             case .touchID: typeTitle = "Touch ID"
             case .none: typeTitle = "غير متاح"
-            @unknown default: typeTitle = "نوع غير معروف"
+            default: typeTitle = "نوع غير معروف"
             }
         }
         errorMessage = isAvailable ? nil : biometricErrorTitle(error)

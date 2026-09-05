@@ -39,10 +39,12 @@ final class DiskSessionRepository: SessionRepository {
         }
 
         encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
+        // Keep Date's full floating-point precision. ISO 8601 without fractional
+        // seconds silently changed timestamps after a save/load round trip.
+        encoder.dateEncodingStrategy = .deferredToDate
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
         decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = .deferredToDate
     }
 
     func load() throws -> DiagnosticSession? {

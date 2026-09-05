@@ -25,6 +25,8 @@ workflows:
       branch_patterns:
         - pattern: "claude/**"
           include: true
+        - pattern: "codex/**"
+          include: true
         - pattern: "main"
           include: true
     scripts:
@@ -51,6 +53,28 @@ workflows:
             COMPILER_INDEX_STORE_ENABLE=NO \
             ONLY_ACTIVE_ARCH=YES \
             | xcpretty || exit 1
+      - name: Run iDiagnostics unit tests
+        script: |
+          set -euo pipefail
+          cd $XCODE_PROJECT_DIR
+          UDID=$(xcrun simctl list devices available --json | python3 -c '
+          import json, sys
+          data = json.load(sys.stdin)
+          devices = [d for runtime, values in data["devices"].items() if "iOS" in runtime for d in values if d.get("isAvailable") and "iPhone" in d.get("name", "")]
+          if not devices: raise SystemExit("No available iPhone simulator")
+          print(devices[-1]["udid"])
+          ')
+          xcrun simctl boot "$UDID" 2>/dev/null || true
+          xcrun simctl bootstatus "$UDID" -b
+          xcodebuild test \
+            -project iDiagnostics.xcodeproj \
+            -scheme iDiagnostics \
+            -destination "id=$UDID" \
+            -configuration Debug \
+            -derivedDataPath build-tests \
+            CODE_SIGNING_ALLOWED=NO \
+            COMPILER_INDEX_STORE_ENABLE=NO \
+            | xcpretty || exit 1
       - name: Verify .app bundle was produced
         script: |
           cd $XCODE_PROJECT_DIR
@@ -73,6 +97,8 @@ workflows:
         - push
       branch_patterns:
         - pattern: "claude/**"
+          include: true
+        - pattern: "codex/**"
           include: true
         - pattern: "main"
           include: true

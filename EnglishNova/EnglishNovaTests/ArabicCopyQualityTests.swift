@@ -51,5 +51,9 @@ final class ArabicCopyQualityTests: XCTestCase {
             ArabicLearningCopy.polish("Listen and choose the correct answer: اختر الإجابة"),
             "استمع ثم اختر الإجابة الصحيحة: اختر الإجابة"
         )
+        XCTAssertEqual(
+            ArabicLearningCopy.polish("اختر الإجابة الصحيحة من النص"),
+            "اختر الإجابة الصحيحة من النص"
+        )
     }
 }

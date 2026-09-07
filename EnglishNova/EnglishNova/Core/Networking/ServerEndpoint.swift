@@ -3,17 +3,22 @@ import Foundation
 enum ServerEndpoint {
     static let defaultsKey = "EnglishNova.serverURL"
 
+    /// Stable production Basir Cloud Run service. Codemagic/Xcode may override
+    /// this value, but a normal unsigned Build 53 works without extra setup.
+    private static let productionServiceURL = "https://basir-convert-api-1045442243599.europe-west4.run.app"
+
     /// Shared Basir Cloud Run service injected at build time from Codemagic/Xcode.
     /// EnglishNova owns a namespaced API below /api/englishnova, while Basir's
     /// existing conversion endpoints remain untouched.
     private static var bundledURLString: String {
-        (Bundle.main.object(forInfoDictionaryKey: "EnglishNovaServerURL") as? String ?? "")
+        let injected = (Bundle.main.object(forInfoDictionaryKey: "EnglishNovaServerURL") as? String ?? "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
+        return injected.isEmpty || injected.contains("$(") ? productionServiceURL : injected
     }
 
     static var currentURL: URL? {
-        // A production build-time endpoint always wins over an old URL saved on
-        // the device. This prevents a previous Railway/standalone test endpoint
+        // The production endpoint always wins over an old URL saved on the
+        // device. This prevents a previous Railway/standalone test endpoint
         // from silently overriding the shared Google Cloud backend.
         if let bundled = normalizedBaseURL(bundledURLString) {
             return bundled

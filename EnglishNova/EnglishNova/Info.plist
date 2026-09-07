@@ -17,9 +17,11 @@
 		<string>en</string>
 	</array>
 
-	<!-- Google Sign-In. Supply these three user-defined build settings from the
-	     Google Cloud project used for EnglishNova. Keeping them out of source
-	     prevents accidentally committing production OAuth identifiers. -->
+	<!-- Standalone EnglishNova Google Cloud backend. Injected by Codemagic/Xcode. -->
+	<key>EnglishNovaServerURL</key>
+	<string>$(ENGLISHNOVA_SERVER_URL)</string>
+
+	<!-- Google Sign-In identifiers from the same Google Cloud project. -->
 	<key>GIDClientID</key>
 	<string>$(GOOGLE_IOS_CLIENT_ID)</string>
 	<key>GIDServerClientID</key>

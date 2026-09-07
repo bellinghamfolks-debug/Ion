@@ -41,7 +41,7 @@ enum ServerEndpoint {
         let path = components.path
             .split(separator: "/")
             .map(String.init)
-        if path.suffix(2) != ["api", "englishnova"] {
+        if Array(path.suffix(2)) != ["api", "englishnova"] {
             components.path = "/" + (path + ["api", "englishnova"]).joined(separator: "/")
         }
         components.query = nil

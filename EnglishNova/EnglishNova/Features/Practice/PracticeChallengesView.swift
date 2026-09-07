@@ -158,6 +158,9 @@ struct AdvancedPreparationHubView: View {
                     .font(.subheadline).foregroundStyle(.secondary)
             }
             Section(L("الاختبارات")) {
+                NavigationLink { IELTSBandSixView() } label: {
+                    Label(L("منهج IELTS Academic إلى 6.0"), systemImage: "scope")
+                }
                 NavigationLink { IELTSSpeakingSimulatorView() } label: {
                     Label(L("محاكي IELTS Speaking"), systemImage: "person.wave.2.fill")
                 }
@@ -190,6 +193,7 @@ struct IELTSSpeakingSimulatorView: View {
     @State private var evaluation: InterviewEvaluation?
     @State private var completedScores: [Double] = []
     @State private var isFinished = false
+    @State private var startedAt = Date()
 
     private var questions: [ExamQuestion] {
         let levelIndex = CEFRLevel.allCases.firstIndex(of: session.selectedLevel) ?? 0
@@ -280,6 +284,7 @@ struct IELTSSpeakingSimulatorView: View {
                 evaluation = nil
                 completedScores = []
                 isFinished = false
+                startedAt = .now
             }
             .buttonStyle(.borderedProminent)
         }
@@ -312,6 +317,7 @@ struct IELTSSpeakingSimulatorView: View {
         if index >= 2 {
             isFinished = true
             let average = completedScores.isEmpty ? 0 : completedScores.reduce(0, +) / Double(completedScores.count)
+            let measuredMinutes = min(15, max(1, Int(Date().timeIntervalSince(startedAt) / 60)))
             Task {
                 await container.learningMemoryRepository.recordExamAttempt(.init(
                     id: UUID().uuidString,
@@ -321,6 +327,17 @@ struct IELTSSpeakingSimulatorView: View {
                     correct: completedScores.filter { $0 >= 0.68 }.count,
                     createdAt: .now,
                     notesAr: [L("مؤشر محلي للطلاقة والترابط وليس درجة IELTS رسمية.")]
+                ))
+                await container.progressRepository.recordPracticeSession(.init(
+                    id: UUID().uuidString,
+                    domain: .speaking,
+                    sourceID: "ielts-speaking-complete",
+                    titleAr: "IELTS Speaking",
+                    level: session.selectedLevel,
+                    score: average,
+                    minutes: measuredMinutes,
+                    createdAt: .now,
+                    details: [L("محاكاة من ثلاثة أسئلة"), L("تقييم محلي غير رسمي")]
                 ))
             }
         } else {

@@ -102,7 +102,7 @@ enum LearningPathwayCatalog {
         case .dailyFluency:
             return pathway(id, "استماع وردود سريعة ومواقف الحياة اليومية حتى مستوى B1.", .b1, 20, [.listening, .speaking, .vocabulary, .reading])
         case .academicIELTS:
-            return pathway(id, "قراءة أكاديمية وكتابة منظمة وتحدث ممتد حتى B2 أو C1.", .c1, 36, [.reading, .writing, .listening, .speaking])
+            return pathway(id, "منهج متدرج من مستواك الحالي إلى جاهزية IELTS Academic 6.0، بثلاث ساعات مقيسة يوميًا.", .b2, 36, [.reading, .writing, .listening, .speaking])
         case .stepMastery:
             return pathway(id, "تثبيت القواعد والمفردات والقراءة تحت ضغط الوقت.", .b2, 24, [.grammar, .vocabulary, .reading, .listening])
         case .careerEnglish:

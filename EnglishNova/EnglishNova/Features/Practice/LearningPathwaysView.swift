@@ -41,6 +41,10 @@ struct LearningPathwaysView: View {
         let selected = settings.selectedLearningPathway == pathway.id
         return InfoCard(title: pathway.titleAr, systemImage: pathway.id.systemImage) {
             Text(pathway.detailAr).foregroundStyle(.secondary)
+            if pathway.id == .academicIELTS {
+                Label(L("خطة يومية لا تقل عن 180 دقيقة، موزعة مع استراحات."), systemImage: "clock.badge.checkmark")
+                    .font(.subheadline.bold())
+            }
             HStack {
                 Label(Lf("الهدف %@", "\(pathway.targetLevel.rawValue)"), systemImage: "scope")
                 Spacer()
@@ -61,12 +65,21 @@ struct LearningPathwaysView: View {
                 Label(L("اكتملت مراحل المسار المسجلة"), systemImage: "checkmark.seal.fill")
             }
             Button(selected ? L("المسار المحدد") : L("اختيار هذا المسار")) {
-                settings.selectedLearningPathway = pathway.id
-                settings.studyMode = suggestedMode(for: pathway.id)
+                settings.selectLearningPathway(pathway.id)
+                if pathway.id != .academicIELTS {
+                    settings.studyMode = suggestedMode(for: pathway.id)
+                }
             }
             .buttonStyle(.borderedProminent)
             .disabled(selected)
             .accessibilityHint(selected ? L("هذا هو المسار الحالي") : L("يضبط أولويات الخطة اليومية ولا يحذف تقدمك"))
+
+            if pathway.id == .academicIELTS {
+                NavigationLink { IELTSBandSixView() } label: {
+                    Label(L("فتح مركز IELTS 6.0"), systemImage: "scope")
+                }
+                .frame(minHeight: 48)
+            }
 
             DisclosureGroup(L("مراحل المسار")) {
                 ForEach(Array(pathway.milestones.enumerated()), id: \.element.id) { index, milestone in

@@ -90,9 +90,9 @@ struct SettingsView: View {
     private var learningSection: some View {
         Section(L("تفضيلات التعلّم")) {
             Stepper(
-                Lf("هدف اليوم: %@ دقيقة", "\(settings.dailyGoalMinutes)"),
-                value: $settings.dailyGoalMinutes,
-                in: 5...120,
+                Lf("هدف اليوم: %@ دقيقة", "\(settings.effectiveDailyGoalMinutes)"),
+                value: dailyGoalBinding,
+                in: settings.selectedLearningPathway == .academicIELTS ? 180...240 : 5...240,
                 step: 5
             )
 
@@ -116,10 +116,24 @@ struct SettingsView: View {
             )
 
             Toggle(L("اختصر خطة اليوم"), isOn: $settings.reduceLearningPressure)
-            Text(L("عند تفعيله، يخفّض التطبيق عدد الأنشطة المقترحة ويحافظ على جلسة أقصر."))
+                .disabled(settings.selectedLearningPathway == .academicIELTS)
+            Text(settings.selectedLearningPathway == .academicIELTS
+                 ? L("مسار IELTS 6.0 يحافظ على 180 دقيقة يوميًا على الأقل، لذلك لا يعمل الاختصار داخله.")
+                 : L("عند تفعيله، يخفّض التطبيق عدد الأنشطة المقترحة ويحافظ على جلسة أقصر."))
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
+    }
+
+    private var dailyGoalBinding: Binding<Int> {
+        Binding(
+            get: { settings.effectiveDailyGoalMinutes },
+            set: { newValue in
+                settings.dailyGoalMinutes = settings.selectedLearningPathway == .academicIELTS
+                    ? max(IELTSBandSixEngine.minimumDailyMinutes, newValue)
+                    : newValue
+            }
+        )
     }
 
     private var speechSection: some View {

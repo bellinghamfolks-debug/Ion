@@ -12,10 +12,25 @@ enum LearningPlanner {
         pathway: LearningPathwayID = .foundations,
         date: Date = .now
     ) -> DailyLearningPlan {
-        let effectiveTarget = reducePressure ? min(targetMinutes, 10) : targetMinutes
         let lessons = catalog.levels.first(where: { $0.level == level })?.units.flatMap(\.lessons) ?? []
         let incomplete = lessons.filter { progress.lessons[$0.id]?.completedAt == nil }
         let nextLesson = incomplete.first ?? lessons.first
+
+        // The IELTS 6 pathway is an intensive programme. Its daily contract is
+        // always at least three measured hours, even if the generic app goal is
+        // lower or the short-plan preference was enabled previously.
+        if pathway == .academicIELTS {
+            return IELTSBandSixEngine.makeDailyLearningPlan(
+                level: level,
+                progress: progress,
+                dueCardCount: dueCards.count,
+                configuredMinutes: targetMinutes,
+                nextLesson: nextLesson,
+                date: date
+            )
+        }
+
+        let effectiveTarget = reducePressure ? min(targetMinutes, 10) : targetMinutes
         var items: [LearningPlanItem] = []
 
         if let nextLesson {
@@ -62,7 +77,15 @@ enum LearningPlanner {
             ))
         }
 
-        return DailyLearningPlan(date: date, targetMinutes: effectiveTarget, items: items)
+        let loggedMinutes = progress.activity
+            .filter { Calendar.current.isDate($0.date, inSameDayAs: date) }
+            .reduce(0) { $0 + max(0, $1.minutes) }
+        return DailyLearningPlan(
+            date: date,
+            targetMinutes: effectiveTarget,
+            items: items,
+            loggedMinutes: loggedMinutes
+        )
     }
 
     private static func priorityActivity(

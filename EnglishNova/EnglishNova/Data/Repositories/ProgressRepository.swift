@@ -106,22 +106,40 @@ actor ProgressRepository: ProgressRepositoryProtocol {
 
     func recordPracticeSession(_ session: PracticeSessionRecord) async {
         var value = await snapshot()
+        // Stable IDs are used by full IELTS mocks and sync retries. Replacing an
+        // existing record prevents a retry or a reopened result screen from
+        // inflating evidence, minutes, and readiness.
+        let replacedExisting = value.practiceSessions.first(where: { $0.id == session.id })
+        if let existing = replacedExisting {
+            value.practiceSessions.removeAll { $0.id == session.id }
+            subtractActivity(for: existing, from: &value)
+        }
         value.practiceSessions.insert(session, at: 0)
         value.practiceSessions = Array(value.practiceSessions.prefix(1_000))
-        var metric = value.skills[session.domain.languageSkill] ?? SkillProgress(skill: session.domain.languageSkill)
-        metric.attempts += 1
-        if session.score >= 0.70 { metric.correct += 1 }
-        metric.lastPracticedAt = session.createdAt
-        value.skills[session.domain.languageSkill] = metric
-        value.knowledgeStates[session.sourceID] = MasteryEngine.updatedState(
-            current: value.knowledgeStates[session.sourceID],
-            itemID: session.sourceID,
-            score: session.score,
-            now: session.createdAt
-        )
+        if replacedExisting == nil {
+            var metric = value.skills[session.domain.languageSkill] ?? SkillProgress(skill: session.domain.languageSkill)
+            metric.attempts += 1
+            if session.score >= 0.70 { metric.correct += 1 }
+            metric.lastPracticedAt = session.createdAt
+            value.skills[session.domain.languageSkill] = metric
+            value.knowledgeStates[session.sourceID] = MasteryEngine.updatedState(
+                current: value.knowledgeStates[session.sourceID],
+                itemID: session.sourceID,
+                score: session.score,
+                now: session.createdAt
+            )
+        }
         trimKnowledgeStates(&value.knowledgeStates)
         recordActivity(in: &value, minutes: session.minutes, exercises: 1, points: Int(session.score * 30), at: session.createdAt)
         await persist(value)
+    }
+
+    private func subtractActivity(for session: PracticeSessionRecord, from value: inout UserProgressSnapshot) {
+        let day = session.createdAt.startOfDay
+        guard let index = value.activity.firstIndex(where: { $0.date.startOfDay == day }) else { return }
+        value.activity[index].minutes = max(0, value.activity[index].minutes - max(0, session.minutes))
+        value.activity[index].exercises = max(0, value.activity[index].exercises - 1)
+        value.activity[index].points = max(0, value.activity[index].points - Int(session.score * 30))
     }
 
     func recordKnowledge(itemID: String, score: Double, at date: Date = .now) async {

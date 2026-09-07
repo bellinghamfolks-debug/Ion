@@ -57,15 +57,45 @@ struct DailyLearningPlan: Identifiable, Codable, Hashable {
     let date: Date
     let targetMinutes: Int
     var items: [LearningPlanItem]
+    /// Minutes actually persisted by completed learning activities today.
+    /// This keeps the progress meter honest: opening a plan card never counts
+    /// as study time, and old encoded plans remain decodable.
+    let loggedMinutes: Int
+
+    enum CodingKeys: String, CodingKey {
+        case date, targetMinutes, items, loggedMinutes
+    }
+
+    init(
+        date: Date,
+        targetMinutes: Int,
+        items: [LearningPlanItem],
+        loggedMinutes: Int = 0
+    ) {
+        self.date = date
+        self.targetMinutes = max(1, targetMinutes)
+        self.items = items
+        self.loggedMinutes = max(0, loggedMinutes)
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        date = try container.decode(Date.self, forKey: .date)
+        targetMinutes = max(1, try container.decode(Int.self, forKey: .targetMinutes))
+        items = try container.decode([LearningPlanItem].self, forKey: .items)
+        loggedMinutes = max(0, try container.decodeIfPresent(Int.self, forKey: .loggedMinutes) ?? 0)
+    }
 
     var completedMinutes: Int {
-        items.filter(\.isCompleted).reduce(0) { $0 + $1.estimatedMinutes }
+        let explicitlyCompleted = items.filter(\.isCompleted).reduce(0) { $0 + $1.estimatedMinutes }
+        return min(targetMinutes, max(loggedMinutes, explicitlyCompleted))
     }
 
     var progress: Double {
-        guard !items.isEmpty else { return 0 }
-        return Double(items.filter(\.isCompleted).count) / Double(items.count)
+        min(1, Double(completedMinutes) / Double(max(1, targetMinutes)))
     }
+
+    var remainingMinutes: Int { max(0, targetMinutes - completedMinutes) }
 }
 
 struct SkillProgress: Codable, Hashable {

@@ -187,6 +187,21 @@ final class AppSettings: ObservableObject {
 
     var serverURL: URL? { URL(string: serverURLString.trimmingCharacters(in: .whitespacesAndNewlines)) }
 
+    var effectiveDailyGoalMinutes: Int {
+        selectedLearningPathway == .academicIELTS
+            ? max(IELTSBandSixEngine.minimumDailyMinutes, dailyGoalMinutes)
+            : dailyGoalMinutes
+    }
+
+    func selectLearningPathway(_ pathway: LearningPathwayID) {
+        selectedLearningPathway = pathway
+        guard pathway == .academicIELTS else { return }
+        dailyGoalMinutes = max(IELTSBandSixEngine.minimumDailyMinutes, dailyGoalMinutes)
+        weeklyTargetDays = max(6, weeklyTargetDays)
+        studyMode = .exam
+        reduceLearningPressure = false
+    }
+
     var reminderDate: Date {
         Calendar.current.date(from: DateComponents(hour: reminderHour, minute: reminderMinute)) ?? .now
     }
@@ -233,7 +248,7 @@ final class AppSettings: ObservableObject {
 
     private func apply(_ snapshot: SettingsSnapshot) {
         interfaceLanguage = snapshot.interfaceLanguage
-        dailyGoalMinutes = min(120, max(5, snapshot.dailyGoalMinutes))
+        dailyGoalMinutes = min(240, max(5, snapshot.dailyGoalMinutes))
         speechRate = min(0.58, max(0.30, snapshot.speechRate))
         hapticsEnabled = snapshot.hapticsEnabled
         serverURLString = Self.sanitizedServerURL(snapshot.serverURLString)
@@ -249,6 +264,12 @@ final class AppSettings: ObservableObject {
         studyMode = snapshot.studyMode
         selectedLearningPathway = snapshot.selectedLearningPathway
         weeklyTargetDays = min(7, max(2, snapshot.weeklyTargetDays))
+        if selectedLearningPathway == .academicIELTS {
+            dailyGoalMinutes = max(IELTSBandSixEngine.minimumDailyMinutes, dailyGoalMinutes)
+            weeklyTargetDays = max(6, weeklyTargetDays)
+            studyMode = .exam
+            reduceLearningPressure = false
+        }
         revealListeningTranscriptAfterAnswer = snapshot.revealListeningTranscriptAfterAnswer
         tutorProvider = snapshot.tutorProvider
         autoSpeakTutorReplies = snapshot.autoSpeakTutorReplies

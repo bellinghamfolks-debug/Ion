@@ -155,10 +155,11 @@ struct LearningHomeView: View {
     }
 
     private var progressSummary: some View {
-        InfoCard(title: L("تقدّمك اليوم"), systemImage: "chart.line.uptrend.xyaxis", tint: AppTheme.success) {
+        let effectiveGoal = model.dailyPlan?.targetMinutes ?? settings.effectiveDailyGoalMinutes
+        return InfoCard(title: L("تقدّمك اليوم"), systemImage: "chart.line.uptrend.xyaxis", tint: AppTheme.success) {
             AccessibleProgressView(
-                title: Lf("%@ من %@ دقيقة", "\(model.todayMinutes)", "\(settings.dailyGoalMinutes)"),
-                value: min(1, Double(model.todayMinutes) / Double(max(1, settings.dailyGoalMinutes)))
+                title: Lf("%@ من %@ دقيقة", "\(model.todayMinutes)", "\(effectiveGoal)"),
+                value: min(1, Double(model.todayMinutes) / Double(max(1, effectiveGoal)))
             )
             if let insights = model.insights {
                 HStack(spacing: 12) {

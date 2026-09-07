@@ -1,26 +1,30 @@
 #!/usr/bin/env python3
-"""Verify the recovered EnglishNova 1.0.0 (build 50) release fingerprint.
+"""Verify current EnglishNova source and built-app release integrity.
 
-This guard checks only release facts that were recoverable from the provided
-IPA and can be matched deterministically to source.
+The file name is retained so existing CI integrations keep working. Unlike the
+old build-50 recovery guard, this validator reads the current release contract
+from PROJECT_MANIFEST.json and verifies that built resources are byte-for-byte
+identical to the reviewed source resources.
 """
 from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import plistlib
 import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED_VERSION = "1.0.0"
-EXPECTED_BUILD = "50"
-EXPECTED_BUNDLE_ID = "com.englishnova.app"
+MANIFEST = json.loads((ROOT / "PROJECT_MANIFEST.json").read_text(encoding="utf-8"))
+EXPECTED_VERSION = str(MANIFEST["version"])
+EXPECTED_BUILD = str(MANIFEST["build"])
+EXPECTED_BUNDLE_ID = str(MANIFEST["recoveryFingerprint"]["bundleIdentifier"])
 EXPECTED_FILES = {
     Path("EnglishNova/Resources/Curriculum/curriculum.json"):
-        "e43841428127c522a356472a8a6224e49c6b5eb16f647efcfbea934e2b722342",
+        str(MANIFEST["recoveryFingerprint"]["curriculumSHA256"]),
     Path("EnglishNova/Resources/LocalizationData/translations.json"):
-        "aa22188327185049a637a0cd15d024c9408be0e86f9e88cbdcea5c881b8578e3",
+        str(MANIFEST["recoveryFingerprint"]["translationsSHA256"]),
 }
 
 
@@ -34,7 +38,7 @@ def sha256(path: Path) -> str:
 
 def require(condition: bool, message: str) -> None:
     if not condition:
-        raise SystemExit(f"release fingerprint mismatch: {message}")
+        raise SystemExit(f"release integrity mismatch: {message}")
 
 
 def verify_source() -> None:
@@ -44,16 +48,16 @@ def verify_source() -> None:
     require(bool(build), "CURRENT_PROJECT_VERSION is missing from project.yml")
     require(bool(version), "MARKETING_VERSION is missing from project.yml")
     require(build.group(1).strip("\"'") == EXPECTED_BUILD,
-            f"source build is {build.group(1)}, expected {EXPECTED_BUILD}")
+            f"source build is {build.group(1)}, manifest requires {EXPECTED_BUILD}")
     require(version.group(1).strip("\"'") == EXPECTED_VERSION,
-            f"source version is {version.group(1)}, expected {EXPECTED_VERSION}")
+            f"source version is {version.group(1)}, manifest requires {EXPECTED_VERSION}")
 
     for relative, expected in EXPECTED_FILES.items():
         path = ROOT / relative
         require(path.is_file(), f"missing source resource: {relative}")
         actual = sha256(path)
         require(actual == expected,
-                f"{relative} SHA-256 is {actual}, expected {expected}")
+                f"{relative} SHA-256 is {actual}, manifest requires {expected}")
 
 
 def verify_app(app: Path) -> None:
@@ -81,9 +85,7 @@ def verify_app(app: Path) -> None:
     for relative, expected in bundle_files.items():
         path = app / relative
         require(path.is_file(), f"missing app resource: {relative}")
-        actual = sha256(path)
-        require(actual == expected,
-                f"app {relative} SHA-256 is {actual}, expected {expected}")
+        require(sha256(path) == expected, f"built resource differs from reviewed source: {relative}")
 
 
 def main() -> None:
@@ -93,7 +95,7 @@ def main() -> None:
     verify_source()
     if args.app:
         verify_app(args.app)
-    print("EnglishNova recovery fingerprint OK: 1.0.0 build 50")
+    print(f"EnglishNova release integrity OK: {EXPECTED_VERSION} build {EXPECTED_BUILD}")
 
 
 if __name__ == "__main__":

@@ -7,6 +7,9 @@ trap 'rm -rf "$TMP"' EXIT
 cat > "$TMP/SemanticValidation.swift" <<'SWIFT'
 import Foundation
 
+// The semantic harness compiles the domain without the app bundle/localizer.
+func L(_ source: String) -> String { source }
+
 @main
 struct SemanticValidation {
     static func main() async throws {
@@ -15,7 +18,7 @@ struct SemanticValidation {
         let catalog = try JSONDecoder().decode(CourseCatalog.self, from: Data(contentsOf: curriculumURL))
         let lessons = catalog.levels.flatMap(\.units).flatMap(\.lessons)
         precondition(catalog.levels.count == 6)
-        precondition(lessons.count == 152)
+        precondition(lessons.count == 232)
         precondition(PlacementQuestionBank.all.count == 48)
         precondition(ConversationLibrary.scenarios.count == 12)
         precondition(InteractiveStoryLibrary.stories.count == 12)
@@ -26,6 +29,17 @@ struct SemanticValidation {
         precondition(AdvancedSkillsLibrary.listeningPassages.count == 24)
         precondition(AdvancedSkillsLibrary.writingPrompts.count == 24)
         precondition(LearningPathwayCatalog.all.count == 6)
+        precondition(IELTSObjectiveLibrary.readingModules.flatMap(\.questions).count == 40)
+        precondition(IELTSObjectiveLibrary.listeningModules.flatMap(\.questions).count == 40)
+        for level in CEFRLevel.allCases {
+            let blocks = IELTSBandSixEngine.dailyBlocks(
+                level: level,
+                progress: UserProgressSnapshot(),
+                dueCardCount: 0,
+                date: Date(timeIntervalSince1970: 1_788_739_200)
+            )
+            precondition(blocks.reduce(0) { $0 + $1.minutes } == 180)
+        }
 
         for story in InteractiveStoryLibrary.stories {
             let sceneIDs = Set(story.scenes.map(\.id))
@@ -146,9 +160,10 @@ struct SemanticValidation {
         precondition(plan.items.first?.kind == .lesson)
         precondition(plan.items.first?.referenceID == "a0-u1-l1")
 
-        print("نجح الفحص الدلالي لنواة EnglishNova 0.4.0.")
-        print("- فك ترميز 152 درسًا وترحيل بيانات قديمة")
+        print("نجح الفحص الدلالي لنواة EnglishNova 1.1.0.")
+        print("- فك ترميز 232 درسًا وترحيل بيانات قديمة")
         print("- 24 قراءة و24 استماع و24 كتابة")
+        print("- مسار IELTS 6.0 بثلاث ساعات يوميًا و80 سؤالًا موضوعيًا")
         print("- ستة مسارات تعلم وخطة يومية متوافقة")
         print("- مراجعة تكيفية بالصعوبة والثبات والانتكاسات واحتمال التذكر")
         print("- محرك إتقان وتقرير أسبوعي وتقييم كتابة محلي")
@@ -168,6 +183,7 @@ swiftc -parse-as-library -o "$TMP/validate" \
   EnglishNova/Domain/Models/PlacementModels.swift \
   EnglishNova/Domain/Models/LearningModels.swift \
   EnglishNova/Domain/Models/AdvancedLearningModels.swift \
+  EnglishNova/Domain/Models/IELTSBandSixModels.swift \
   EnglishNova/Domain/Models/ProgressModels.swift \
   EnglishNova/Domain/Models/PracticeModels.swift \
   EnglishNova/Domain/Models/InteractiveStoryModels.swift \
@@ -176,7 +192,10 @@ swiftc -parse-as-library -o "$TMP/validate" \
   EnglishNova/Domain/Protocols/Repositories.swift \
   EnglishNova/Core/Persistence/FileStore.swift \
   EnglishNova/Data/Local/MasteryEngine.swift \
+  EnglishNova/Data/Local/LessonReviewEngine.swift \
   EnglishNova/Data/Local/AdvancedSkillsLibrary.swift \
+  EnglishNova/Data/Local/IELTSBandSixEngine.swift \
+  EnglishNova/Data/Local/IELTSObjectiveLibrary.swift \
   EnglishNova/Data/Repositories/ProgressRepository.swift \
   EnglishNova/Data/Local/PlacementQuestionBank.swift \
   EnglishNova/Data/Local/AdaptivePlacementEngine.swift \

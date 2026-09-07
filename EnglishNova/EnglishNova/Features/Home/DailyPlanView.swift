@@ -54,13 +54,18 @@ struct DailyPlanView: View {
                         .foregroundStyle(.secondary)
 
                     AccessibleProgressView(title: L("ما أنجزته من الخطة"), value: plan.progress)
+                    Text(Lf("سُجلت %@ دقيقة، والمتبقي %@ دقيقة.", "\(plan.completedMinutes)", "\(plan.remainingMinutes)"))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
 
                     ForEach(Array(plan.items.enumerated()), id: \.element.id) { index, item in
                         planItem(item, number: index + 1)
                     }
 
                     InfoCard(title: L("لماذا هذه الخطة؟"), systemImage: "info.circle.fill") {
-                        Text(L("تبدأ الخطة بالنشاط الأعلى أولوية، ثم تضيف المراجعة أو تدريب مهارة بما يناسب الوقت الذي حددته."))
+                        Text(container.settings.selectedLearningPathway == .academicIELTS
+                             ? L("مسار IELTS يوزع 180 دقيقة على الأقل بين التأسيس والمهارات الأربع وتصحيح الأخطاء، ويزيد وقت أضعف مهارة دون إلغاء أي قسم.")
+                             : L("تبدأ الخطة بالنشاط الأعلى أولوية، ثم تضيف المراجعة أو تدريب مهارة بما يناسب الوقت الذي حددته."))
                         if container.settings.reduceLearningPressure {
                             Text(L("أنت تستخدم الخطة المختصرة، لذلك يقل عدد الأنشطة المقترحة."))
                                 .font(.caption)
@@ -100,9 +105,17 @@ struct DailyPlanView: View {
                 card
             }
         case .review:
-            NavigationLink { ReviewView() } label: { card }.buttonStyle(.plain)
+            if item.referenceID == "ielts:correction" {
+                NavigationLink { MistakeNotebookView() } label: { card }.buttonStyle(.plain)
+            } else {
+                NavigationLink { ReviewView() } label: { card }.buttonStyle(.plain)
+            }
         case .listening:
-            NavigationLink { ListeningLabView() } label: { card }.buttonStyle(.plain)
+            if item.referenceID == "ielts:listening" {
+                NavigationLink { IELTSObjectivePracticeView(section: .listening) } label: { card }.buttonStyle(.plain)
+            } else {
+                NavigationLink { ListeningLabView() } label: { card }.buttonStyle(.plain)
+            }
         case .pronunciation:
             NavigationLink { PronunciationLabView() } label: { card }.buttonStyle(.plain)
         case .story:
@@ -110,11 +123,25 @@ struct DailyPlanView: View {
         case .conversation:
             NavigationLink { ConversationStudioView() } label: { card }.buttonStyle(.plain)
         case .reading:
-            NavigationLink { ReadingComprehensionLabView() } label: { card }.buttonStyle(.plain)
+            if item.referenceID == "ielts:reading" {
+                NavigationLink { IELTSObjectivePracticeView(section: .reading) } label: { card }.buttonStyle(.plain)
+            } else {
+                NavigationLink { ReadingComprehensionLabView() } label: { card }.buttonStyle(.plain)
+            }
         case .writing:
-            NavigationLink { WritingStudioView() } label: { card }.buttonStyle(.plain)
+            if item.referenceID == "ielts:writing" {
+                NavigationLink { IELTSWritingPracticeView() } label: { card }.buttonStyle(.plain)
+            } else {
+                NavigationLink { WritingStudioView() } label: { card }.buttonStyle(.plain)
+            }
         case .exam:
-            NavigationLink { AdvancedPreparationHubView() } label: { card }.buttonStyle(.plain)
+            if item.referenceID == "ielts:speaking" {
+                NavigationLink { IELTSSpeakingSimulatorView() } label: { card }.buttonStyle(.plain)
+            } else if item.referenceID?.hasPrefix("ielts:") == true {
+                NavigationLink { IELTSBandSixView() } label: { card }.buttonStyle(.plain)
+            } else {
+                NavigationLink { AdvancedPreparationHubView() } label: { card }.buttonStyle(.plain)
+            }
         }
     }
 }

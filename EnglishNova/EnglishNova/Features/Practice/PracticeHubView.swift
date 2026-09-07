@@ -43,6 +43,9 @@ struct PracticeHubView: View {
             }
 
             Section(L("اختبارات وأهداف")) {
+                NavigationLink { IELTSBandSixView() } label: {
+                    Label(L("منهج IELTS 6.0 المكثف"), systemImage: "scope")
+                }
                 NavigationLink { AdvancedPreparationHubView() } label: {
                     Label(L("IELTS وSTEP والمقابلات"), systemImage: "doc.text.magnifyingglass")
                 }

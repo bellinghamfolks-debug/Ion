@@ -44,7 +44,7 @@ enum LearningPathwayID: String, Codable, CaseIterable, Identifiable, Hashable {
         switch self {
         case .foundations: return L("تأسيس من الصفر")
         case .dailyFluency: return L("الطلاقة اليومية")
-        case .academicIELTS: return L("المسار الأكاديمي وIELTS")
+        case .academicIELTS: return L("IELTS Academic إلى Band 6.0")
         case .stepMastery: return L("إتقان STEP")
         case .careerEnglish: return L("الإنجليزية المهنية")
         case .legalGovernance: return L("القانون والحوكمة")

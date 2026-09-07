@@ -1,8 +1,6 @@
-# Codemagic CI/CD for recovered EnglishNova iOS build 50.
-# Google OAuth identifiers are OPTIONAL here because the supplied reference IPA
-# (EnglishNova 1.0.0 build 50) contains empty GIDClientID/GIDServerClientID and
-# an empty reversed-client URL scheme. If Codemagic secrets are later supplied,
-# they will be injected and verified, but their absence must not block recovery.
+# Codemagic CI/CD for the current EnglishNova release.
+# Google OAuth is optional for unsigned local-learning builds. A partial OAuth
+# configuration is rejected so the account screen can never ship half-wired.
 
 workflows:
   ios-simulator-build:
@@ -19,6 +17,10 @@ workflows:
         - push
       branch_patterns:
         - pattern: "claude/**"
+          include: true
+        - pattern: "codex/**"
+          include: true
+        - pattern: "englishnova-build50"
           include: true
         - pattern: "main"
           include: true
@@ -57,7 +59,7 @@ workflows:
             ONLY_ACTIVE_ARCH=YES \
             | xcpretty || exit 1
 
-      - name: Verify app bundle and recovery fingerprint
+      - name: Verify app bundle and release integrity
         script: |
           cd "$XCODE_PROJECT_DIR"
           APP_PATH="build/Build/Products/Debug-iphonesimulator/EnglishNova.app"
@@ -77,7 +79,7 @@ workflows:
           failure: true
 
   ios-unsigned-ipa:
-    name: EnglishNova iOS — recovered build 50 unsigned IPA
+    name: EnglishNova iOS — current unsigned IPA
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
@@ -91,6 +93,10 @@ workflows:
       branch_patterns:
         - pattern: "claude/**"
           include: true
+        - pattern: "codex/**"
+          include: true
+        - pattern: "englishnova-build50"
+          include: true
         - pattern: "main"
           include: true
         - pattern: "master"
@@ -100,12 +106,20 @@ workflows:
       - name: Install XcodeGen
         script: brew install xcodegen
 
-      - name: Report optional Google OAuth configuration
+      - name: Validate optional Google OAuth configuration
         script: |
-          if [[ -n "${GOOGLE_IOS_CLIENT_ID:-}" && -n "${GOOGLE_SERVER_CLIENT_ID:-}" && -n "${GOOGLE_REVERSED_CLIENT_ID:-}" ]]; then
-            echo "Google OAuth identifiers supplied; they will be injected and verified."
+          configured=0
+          for name in GOOGLE_IOS_CLIENT_ID GOOGLE_SERVER_CLIENT_ID GOOGLE_REVERSED_CLIENT_ID; do
+            [[ -n "${!name:-}" ]] && configured=$((configured + 1))
+          done
+          if [[ "$configured" -eq 3 ]]; then
+            cd "$XCODE_PROJECT_DIR"
+            Scripts/validate_google_config.sh
+          elif [[ "$configured" -ne 0 ]]; then
+            echo "Google OAuth configuration is partial; refusing an inconsistent build."
+            exit 1
           else
-            echo "Google OAuth identifiers not supplied; continuing to match the provided build 50 reference IPA."
+            echo "Google OAuth is unavailable in this unsigned build; offline learning remains available."
           fi
 
       - name: Audit and validate source
@@ -148,7 +162,7 @@ workflows:
             "${EXTRA_SETTINGS[@]}" \
             | xcpretty || exit 1
 
-      - name: Verify recovery fingerprint and wrap IPA
+      - name: Verify release integrity and wrap IPA
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/$XCODE_PROJECT_DIR/build"
@@ -168,7 +182,7 @@ workflows:
             test "$SCHEME" = "${GOOGLE_REVERSED_CLIENT_ID:-}"
             echo "Optional Google OAuth substitution: PASS"
           else
-            echo "No Google OAuth identifiers configured, matching the supplied reference IPA behavior."
+            echo "No Google OAuth identifiers configured; account login is unavailable in this unsigned build."
           fi
 
           rm -rf Payload

@@ -58,10 +58,15 @@ require(manifest.get("testFiles") == len(test_files),
 require(len({p.relative_to(APP) for p in app_files}) == len(app_files), "Duplicate Swift source paths detected")
 
 marketing = re.search(r"MARKETING_VERSION:\s*([^\s]+)", project_yml)
+build = re.search(r"CURRENT_PROJECT_VERSION:\s*([^\s]+)", project_yml)
 require(marketing is not None, "MARKETING_VERSION is missing from project.yml")
+require(build is not None, "CURRENT_PROJECT_VERSION is missing from project.yml")
 if marketing:
     require(manifest.get("version") == marketing.group(1),
             f"Manifest version {manifest.get('version')} does not match MARKETING_VERSION {marketing.group(1)}")
+if build:
+    require(str(manifest.get("build")) == build.group(1),
+            f"Manifest build {manifest.get('build')} does not match CURRENT_PROJECT_VERSION {build.group(1)}")
 
 # Current curriculum integrity. Manifest equality catches accidental loss, while
 # minimum floors prevent a stale manifest from blessing a major regression.
@@ -113,6 +118,21 @@ ar_strings = parse_strings(AR_STRINGS)
 require(len(en_strings) > 0, "English Localizable.strings could not be parsed")
 require(len(ar_strings) > 0, "Arabic Localizable.strings could not be parsed")
 require("EnglishNova/Localization" in project_yml, "Localized .lproj resources are not included in project.yml")
+
+# IELTS 6.0 intensive-path contract. These are product safety rails rather than
+# marketing counts: a regression must not silently shorten the plan, remove
+# screen-reader-readable Task 1 data, or display a band without enough evidence.
+ielts_engine = (APP / "Data" / "Local" / "IELTSBandSixEngine.swift").read_text(encoding="utf-8")
+ielts_models = (APP / "Domain" / "Models" / "IELTSBandSixModels.swift").read_text(encoding="utf-8")
+ielts_view = (APP / "Features" / "Practice" / "IELTSBandSixView.swift").read_text(encoding="utf-8")
+require(manifest.get("ieltsDailyMinimumMinutes") == 180, "IELTS daily minimum is not 180 minutes in the manifest")
+require("minimumDailyMinutes = 180" in ielts_engine, "IELTS engine no longer enforces the 180-minute minimum")
+require("minimumSessionsPerSection = 4" in ielts_engine, "IELTS readiness evidence floor is missing")
+require("accessibleSourceDescription" in ielts_models and "وصف نصي كامل للبيانات" in ielts_view,
+        "IELTS Academic Task 1 accessible data descriptions are missing")
+require("ielts-full-listening-" in ielts_view and "ielts-full-reading-" in ielts_view,
+        "Idempotent full-mock result IDs are missing")
+require("ielts:\\(block.area.rawValue)" in ielts_engine, "IELTS daily blocks are not routed to measurable activities")
 
 localizer_source = (APP / "Core" / "Localization" / "L.swift").read_text(encoding="utf-8")
 require("bundledEnglish" in localizer_source, "Localizer does not fall back to en.lproj")

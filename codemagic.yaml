@@ -1,6 +1,7 @@
-# Codemagic CI/CD for the current EnglishNova release.
-# Google OAuth is optional for unsigned local-learning builds. A partial OAuth
-# configuration is rejected so the account screen can never ship half-wired.
+# Codemagic CI/CD for EnglishNova Build 52.
+# ENGLISHNOVA_SERVER_URL points the iOS app at the standalone Google Cloud Run backend.
+# Google OAuth remains optional for unsigned offline-only builds, but a partial OAuth
+# configuration is rejected.
 
 workflows:
   ios-simulator-build:
@@ -47,6 +48,10 @@ workflows:
         script: |
           cd "$XCODE_PROJECT_DIR"
           set -o pipefail
+          EXTRA_SETTINGS=()
+          if [[ -n "${ENGLISHNOVA_SERVER_URL:-}" ]]; then
+            EXTRA_SETTINGS+=("ENGLISHNOVA_SERVER_URL=$ENGLISHNOVA_SERVER_URL")
+          fi
           xcodebuild build \
             -project EnglishNova.xcodeproj \
             -scheme EnglishNova \
@@ -57,6 +62,7 @@ workflows:
             CODE_SIGNING_ALLOWED=NO \
             COMPILER_INDEX_STORE_ENABLE=NO \
             ONLY_ACTIVE_ARCH=YES \
+            "${EXTRA_SETTINGS[@]}" \
             | xcpretty || exit 1
 
       - name: Verify app bundle and release integrity
@@ -79,7 +85,7 @@ workflows:
           failure: true
 
   ios-unsigned-ipa:
-    name: EnglishNova iOS — current unsigned IPA
+    name: EnglishNova iOS — Build 52 unsigned IPA
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
@@ -106,8 +112,18 @@ workflows:
       - name: Install XcodeGen
         script: brew install xcodegen
 
-      - name: Validate optional Google OAuth configuration
+      - name: Validate cloud and Google configuration
         script: |
+          if [[ -n "${ENGLISHNOVA_SERVER_URL:-}" ]]; then
+            if [[ "$ENGLISHNOVA_SERVER_URL" != https://* ]]; then
+              echo "ENGLISHNOVA_SERVER_URL must use HTTPS."
+              exit 1
+            fi
+            echo "Standalone EnglishNova backend will be injected."
+          else
+            echo "ENGLISHNOVA_SERVER_URL is not set; hosted account and AI features will use local fallback only."
+          fi
+
           configured=0
           for name in GOOGLE_IOS_CLIENT_ID GOOGLE_SERVER_CLIENT_ID GOOGLE_REVERSED_CLIENT_ID; do
             [[ -n "${!name:-}" ]] && configured=$((configured + 1))
@@ -140,6 +156,9 @@ workflows:
           set -o pipefail
 
           EXTRA_SETTINGS=()
+          if [[ -n "${ENGLISHNOVA_SERVER_URL:-}" ]]; then
+            EXTRA_SETTINGS+=("ENGLISHNOVA_SERVER_URL=$ENGLISHNOVA_SERVER_URL")
+          fi
           if [[ -n "${GOOGLE_IOS_CLIENT_ID:-}" ]]; then
             EXTRA_SETTINGS+=("GOOGLE_IOS_CLIENT_ID=$GOOGLE_IOS_CLIENT_ID")
           fi
@@ -172,17 +191,20 @@ workflows:
 
           python3 "$CM_BUILD_DIR/$XCODE_PROJECT_DIR/Scripts/verify_release_recovery.py" --app "$APP_PATH"
 
+          BACKEND=$(/usr/libexec/PlistBuddy -c 'Print :EnglishNovaServerURL' "$APP_PATH/Info.plist" 2>/dev/null || true)
           CLIENT=$(/usr/libexec/PlistBuddy -c 'Print :GIDClientID' "$APP_PATH/Info.plist" 2>/dev/null || true)
           SERVER=$(/usr/libexec/PlistBuddy -c 'Print :GIDServerClientID' "$APP_PATH/Info.plist" 2>/dev/null || true)
           SCHEME=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleURLTypes:0:CFBundleURLSchemes:0' "$APP_PATH/Info.plist" 2>/dev/null || true)
 
+          if [[ -n "${ENGLISHNOVA_SERVER_URL:-}" ]]; then
+            test "$BACKEND" = "$ENGLISHNOVA_SERVER_URL"
+            echo "EnglishNova Cloud backend substitution: PASS"
+          fi
           if [[ -n "${GOOGLE_IOS_CLIENT_ID:-}" || -n "${GOOGLE_SERVER_CLIENT_ID:-}" || -n "${GOOGLE_REVERSED_CLIENT_ID:-}" ]]; then
             test "$CLIENT" = "${GOOGLE_IOS_CLIENT_ID:-}"
             test "$SERVER" = "${GOOGLE_SERVER_CLIENT_ID:-}"
             test "$SCHEME" = "${GOOGLE_REVERSED_CLIENT_ID:-}"
-            echo "Optional Google OAuth substitution: PASS"
-          else
-            echo "No Google OAuth identifiers configured; account login is unavailable in this unsigned build."
+            echo "Google OAuth substitution: PASS"
           fi
 
           rm -rf Payload

@@ -192,6 +192,7 @@ swiftc -parse-as-library -o "$TMP/validate" \
   EnglishNova/Domain/Protocols/Repositories.swift \
   EnglishNova/Core/Persistence/FileStore.swift \
   EnglishNova/Data/Local/MasteryEngine.swift \
+  EnglishNova/Data/Local/LessonReviewEngine.swift \
   EnglishNova/Data/Local/AdvancedSkillsLibrary.swift \
   EnglishNova/Data/Local/IELTSBandSixEngine.swift \
   EnglishNova/Data/Local/IELTSObjectiveLibrary.swift \

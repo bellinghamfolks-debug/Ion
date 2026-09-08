@@ -18,6 +18,41 @@ struct TutorView: View {
                     .background(.thinMaterial)
             }
 
+            HStack(spacing: 10) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(LE("المستوى الذي يستخدمه المدرّب", "Level used by the tutor"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Text("\(session.selectedLevel.rawValue) • \(session.selectedLevel.titleAr)")
+                        .font(.subheadline.bold())
+                }
+                Spacer()
+                Picker(LE("تغيير مستواي الحالي", "Change my current level"), selection: $session.selectedLevel) {
+                    ForEach(CEFRLevel.allCases) { level in
+                        Text("\(level.rawValue) • \(level.titleAr)").tag(level)
+                    }
+                }
+                .pickerStyle(.menu)
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+            .background(Color(uiColor: .secondarySystemBackground))
+            .accessibilityElement(children: .contain)
+            .onChange(of: session.selectedLevel) { _, newLevel in
+                Task {
+                    await session.save()
+                    _ = await container.progressSyncService.push(showFeedback: false)
+                }
+                ToastCenter.shared.show(
+                    LfE(
+                        "سيستخدم المدرّب الآن المستوى %@.",
+                        "The tutor will now use level %@.",
+                        "\(newLevel.rawValue)"
+                    ),
+                    style: .info
+                )
+            }
+
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(spacing: 14) {

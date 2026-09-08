@@ -42,6 +42,7 @@ final class TutorViewModel: ObservableObject {
 
             let context = """
             Current EnglishNova tutor conversation. Continue naturally and do not restart the interaction.
+            The learner's current explicitly selected CEFR level is \(level.rawValue). Treat this current value as authoritative if older synced profile data differs.
             Recent turns:
             \(recent)
             """

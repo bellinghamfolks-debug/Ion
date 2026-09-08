@@ -37,6 +37,50 @@ final class TutorImprovementsTests: XCTestCase {
         XCTAssertThrowsError(try GeminiTutorClient.parse(data))
     }
 
+    // MARK: - Local fallback must never corrupt learner input
+
+    func testLocalTutorArabicQuestionDoesNotCreateMixedBrokenSentence() {
+        let message = LocalTutorEngine().reply(to: "من انت", level: .a2)
+        XCTAssertFalse(message.text.isEmpty)
+        XCTAssertFalse(message.text.contains("because it was important"))
+        XCTAssertFalse(message.text.contains("من انت because"))
+        XCTAssertTrue(message.suggestedReplies.contains("Who are you?"))
+    }
+
+    func testLocalTutorUnknownEnglishDoesNotInventFixedBecauseSuffix() {
+        let message = LocalTutorEngine().reply(to: "I visited my friend", level: .a2)
+        XCTAssertFalse(message.text.contains("I visited my friend because it was important"))
+        XCTAssertTrue(message.text.contains("I visited my friend"))
+    }
+
+    func testLocalTutorKnownCorrectionStillWorks() {
+        let message = LocalTutorEngine().reply(to: "I am agree", level: .a2)
+        XCTAssertEqual(message.corrections.first?.replacement, "I agree")
+        XCTAssertTrue(message.text.contains("I agree"))
+    }
+
+    // MARK: - Learner-level source of truth
+
+    func testCurriculumBrowsingCannotMutateLearnerLevel() throws {
+        let source = try sourceText("Features/Curriculum/CurriculumView.swift")
+        XCTAssertTrue(source.contains("مستوى تصفح المنهج"))
+        XCTAssertFalse(source.contains("session.selectedLevel = newLevel"))
+    }
+
+    func testTutorMakesActiveLearnerLevelVisibleAndEditable() throws {
+        let source = try sourceText("Features/Tutor/TutorView.swift")
+        XCTAssertTrue(source.contains("المستوى الذي يستخدمه المدرّب"))
+        XCTAssertTrue(source.contains("selection: $session.selectedLevel"))
+        XCTAssertTrue(source.contains("progressSyncService.push(showFeedback: false)"))
+    }
+
+    func testSettingsProvidesExplicitLearnerLevelControl() throws {
+        let source = try sourceText("Features/Settings/SettingsView.swift")
+        XCTAssertTrue(source.contains("مستواي الحالي"))
+        XCTAssertTrue(source.contains("selection: $session.selectedLevel"))
+        XCTAssertTrue(source.contains("progressSync.push(showFeedback: false)"))
+    }
+
     // MARK: - Settings migration keeps new tutor fields safe
 
     func testOldSettingsDecodeWithTutorDefaults() throws {
@@ -99,5 +143,12 @@ final class TutorImprovementsTests: XCTestCase {
             XCTAssertTrue(keychain.delete(account))
             XCTAssertFalse(keychain.exists(account))
         }
+    }
+
+    private func sourceText(_ relativePath: String) throws -> String {
+        let testsDirectory = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+        let sourceRoot = testsDirectory.deletingLastPathComponent().appendingPathComponent("EnglishNova")
+        let url = sourceRoot.appendingPathComponent(relativePath)
+        return try String(contentsOf: url, encoding: .utf8)
     }
 }

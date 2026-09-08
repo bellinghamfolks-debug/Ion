@@ -51,7 +51,10 @@ final class RoutingTutorRepository: TutorRepositoryProtocol {
                 return localFallback(
                     message: message,
                     level: level,
-                    note: L("وصل رد فارغ من المدرّب الذكي، لذلك استُخدم المدرّب المحلي لهذه الرسالة.")
+                    note: LE(
+                        "وصل رد فارغ من المدرّب الذكي، لذلك استُخدم المدرّب المحلي لهذه الرسالة.",
+                        "The smart tutor returned an empty response, so the local tutor was used for this message."
+                    )
                 )
             }
             return TutorMessage(
@@ -67,54 +70,97 @@ final class RoutingTutorRepository: TutorRepositoryProtocol {
 
     private func fallbackNote(for error: Error) -> String {
         if case TutorRemoteError.notSignedIn = error {
-            return L("المدرّب الذكي يحتاج إلى تسجيل الدخول. استُخدم المدرّب المحلي لهذه الرسالة.")
+            return LE(
+                "المدرّب الذكي يحتاج إلى تسجيل الدخول. استُخدم المدرّب المحلي لهذه الرسالة.",
+                "The smart tutor requires sign-in. The local tutor was used for this message."
+            )
         }
 
         if case APIError.missingBaseURL = error {
-            return L("عنوان خدمة EnglishNova غير متاح في هذا البناء. استُخدم المدرّب المحلي.")
+            return LE(
+                "عنوان خدمة EnglishNova غير متاح في هذا البناء. استُخدم المدرّب المحلي.",
+                "The EnglishNova service address is unavailable in this build. The local tutor was used."
+            )
         }
         if case APIError.insecureBaseURL = error {
-            return L("تم رفض عنوان خدمة غير آمن. استُخدم المدرّب المحلي.")
+            return LE(
+                "تم رفض عنوان خدمة غير آمن. استُخدم المدرّب المحلي.",
+                "An insecure service address was rejected. The local tutor was used."
+            )
         }
         if case APIError.responseTooLarge = error {
-            return L("كانت استجابة الخادم أكبر من الحد الآمن. استُخدم المدرّب المحلي.")
+            return LE(
+                "كانت استجابة الخادم أكبر من الحد الآمن. استُخدم المدرّب المحلي.",
+                "The server response exceeded the safe size limit. The local tutor was used."
+            )
         }
         if case APIError.invalidResponse = error {
-            return L("وصلت استجابة شبكة غير صالحة. استُخدم المدرّب المحلي.")
+            return LE(
+                "وصلت استجابة شبكة غير صالحة. استُخدم المدرّب المحلي.",
+                "An invalid network response was received. The local tutor was used."
+            )
         }
         if case APIError.decoding = error {
-            return L("تعذر قراءة استجابة المدرّب الذكي. استُخدم المدرّب المحلي لهذه الرسالة.")
+            return LE(
+                "تعذر قراءة استجابة المدرّب الذكي. استُخدم المدرّب المحلي لهذه الرسالة.",
+                "The smart tutor response could not be read. The local tutor was used for this message."
+            )
         }
         if case APIError.server(let status, _) = error {
             switch status {
             case 401:
-                return L("انتهت جلسة تسجيل الدخول أو لم تعد صالحة. سجّل الدخول مجددًا لاستخدام المدرّب الذكي. استُخدم المدرّب المحلي الآن.")
+                return LE(
+                    "انتهت جلسة تسجيل الدخول أو لم تعد صالحة. سجّل الدخول مجددًا لاستخدام المدرّب الذكي. استُخدم المدرّب المحلي الآن.",
+                    "Your sign-in session expired or is no longer valid. Sign in again to use the smart tutor. The local tutor was used for now."
+                )
             case 429:
-                return L("وصل المدرّب الذكي إلى حد الاستخدام المؤقت. استُخدم المدرّب المحلي لهذه الرسالة.")
+                return LE(
+                    "وصل المدرّب الذكي إلى حد الاستخدام المؤقت. استُخدم المدرّب المحلي لهذه الرسالة.",
+                    "The smart tutor reached a temporary usage limit. The local tutor was used for this message."
+                )
             case 502, 503, 504:
-                return L("خدمة المدرّب الذكي غير متاحة مؤقتًا. استُخدم المدرّب المحلي لهذه الرسالة.")
+                return LE(
+                    "خدمة المدرّب الذكي غير متاحة مؤقتًا. استُخدم المدرّب المحلي لهذه الرسالة.",
+                    "The smart tutor service is temporarily unavailable. The local tutor was used for this message."
+                )
             default:
-                return Lf("تعذر طلب المدرّب الذكي، رمز الاستجابة %@. استُخدم المدرّب المحلي.", "\(status)")
+                return LfE(
+                    "تعذر طلب المدرّب الذكي، رمز الاستجابة %@. استُخدم المدرّب المحلي.",
+                    "The smart tutor request failed with response code %@. The local tutor was used.",
+                    "\(status)"
+                )
             }
         }
 
         if let urlError = error as? URLError {
             switch urlError.code {
             case .notConnectedToInternet, .networkConnectionLost:
-                return L("انقطع الاتصال بالإنترنت. استُخدم المدرّب المحلي لهذه الرسالة.")
+                return LE(
+                    "انقطع الاتصال بالإنترنت. استُخدم المدرّب المحلي لهذه الرسالة.",
+                    "The internet connection was lost. The local tutor was used for this message."
+                )
             case .timedOut:
-                return L("استغرق المدرّب الذكي وقتًا أطول من المتوقع. استُخدم المدرّب المحلي لهذه الرسالة.")
+                return LE(
+                    "استغرق المدرّب الذكي وقتًا أطول من المتوقع. استُخدم المدرّب المحلي لهذه الرسالة.",
+                    "The smart tutor took longer than expected. The local tutor was used for this message."
+                )
             default:
-                return L("تعذر الوصول إلى المدرّب الذكي عبر الشبكة. استُخدم المدرّب المحلي لهذه الرسالة.")
+                return LE(
+                    "تعذر الوصول إلى المدرّب الذكي عبر الشبكة. استُخدم المدرّب المحلي لهذه الرسالة.",
+                    "The smart tutor could not be reached over the network. The local tutor was used for this message."
+                )
             }
         }
 
-        return L("حدث خطأ غير متوقع أثناء طلب المدرّب الذكي. استُخدم المدرّب المحلي لهذه الرسالة.")
+        return LE(
+            "حدث خطأ غير متوقع أثناء طلب المدرّب الذكي. استُخدم المدرّب المحلي لهذه الرسالة.",
+            "An unexpected error occurred while requesting the smart tutor. The local tutor was used for this message."
+        )
     }
 
     private func localFallback(message: String, level: CEFRLevel, note: String) -> TutorMessage {
         var fallback = local.reply(to: message, level: level)
-        fallback.text += "\n\nملاحظة: \(note)"
+        fallback.text += "\n\n" + LE("ملاحظة: ", "Note: ") + note
         return fallback
     }
 }

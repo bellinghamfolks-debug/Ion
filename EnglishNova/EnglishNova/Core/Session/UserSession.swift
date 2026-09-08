@@ -37,12 +37,17 @@ final class UserSession: ObservableObject {
         selectedLevel = level
         hasCompletedOnboarding = true
         await save()
+        FeedbackSoundEngine.shared.play(.milestone)
     }
 
     func award(points newPoints: Int) async {
+        let previousStreak = streak
         points += newPoints
         updateStreak(for: .now)
         await save()
+        if previousStreak > 0, streak > previousStreak {
+            FeedbackSoundEngine.shared.play(.streak)
+        }
     }
 
     private func updateStreak(for date: Date) {

@@ -32,12 +32,13 @@ final class SpeechService: ObservableObject {
         let microphone = await MicrophonePermission.request()
         let granted = speech == .authorized && microphone
         state = granted ? .idle : .failed("يلزم السماح بالميكروفون والتعرف على الكلام.")
+        if !granted { FeedbackSoundEngine.shared.play(.failure) }
         return granted
     }
 
     func start(localeIdentifier: String = "en-US") async {
         guard await requestPermissions() else { return }
-        stop()
+        finishRecognition(playFeedback: false)
         transcript = ""
         segments = []
         elapsedTime = 0
@@ -46,6 +47,7 @@ final class SpeechService: ObservableObject {
 
         guard recognizer?.isAvailable == true else {
             state = .failed("التعرف على الكلام غير متاح حاليًا لهذه اللكنة.")
+            FeedbackSoundEngine.shared.play(.failure)
             return
         }
 
@@ -75,6 +77,7 @@ final class SpeechService: ObservableObject {
                 request.endAudio()
                 self.request = nil
                 state = .failed("الميكروفون غير متاح حاليًا. أغلق أي تطبيق يستخدمه ثم حاول مرة أخرى.")
+                FeedbackSoundEngine.shared.play(.failure)
                 return
             }
             node.removeTap(onBus: 0)
@@ -85,6 +88,7 @@ final class SpeechService: ObservableObject {
             try engine.start()
             startedAt = .now
             state = .listening
+            FeedbackSoundEngine.shared.play(.recordingStart)
             task = recognizer?.recognitionTask(with: request) { [weak self] result, error in
                 Task { @MainActor in
                     guard let self else { return }
@@ -100,17 +104,18 @@ final class SpeechService: ObservableObject {
                         }
                     }
                     if error != nil || result?.isFinal == true {
-                        self.finishRecognition()
+                        self.finishRecognition(playFeedback: true)
                     }
                 }
             }
         } catch {
             state = .failed(error.localizedDescription)
+            FeedbackSoundEngine.shared.play(.failure)
         }
     }
 
     func stop() {
-        finishRecognition()
+        finishRecognition(playFeedback: true)
     }
 
     func resetTranscript() {
@@ -119,7 +124,8 @@ final class SpeechService: ObservableObject {
         elapsedTime = 0
     }
 
-    private func finishRecognition() {
+    private func finishRecognition(playFeedback: Bool) {
+        let wasListening = state == .listening
         if let startedAt {
             elapsedTime = max(elapsedTime, Date().timeIntervalSince(startedAt))
         }
@@ -132,6 +138,9 @@ final class SpeechService: ObservableObject {
         task = nil
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         if case .failed = state {} else { state = .idle }
+        if playFeedback && wasListening {
+            FeedbackSoundEngine.shared.play(.recordingStop)
+        }
     }
 }
 

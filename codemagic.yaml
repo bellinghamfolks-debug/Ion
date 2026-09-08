@@ -1,7 +1,7 @@
-# Codemagic CI/CD for EnglishNova Build 52.
+# Codemagic CI/CD for EnglishNova Build 55.
 # ENGLISHNOVA_SERVER_URL points the iOS app at the standalone Google Cloud Run backend.
-# Google OAuth remains optional for unsigned offline-only builds, but a partial OAuth
-# configuration is rejected.
+# Google OAuth is required for the unsigned device build and is imported from
+# the Codemagic application variable group named englishnova_google.
 
 workflows:
   ios-simulator-build:
@@ -85,10 +85,12 @@ workflows:
           failure: true
 
   ios-unsigned-ipa:
-    name: EnglishNova iOS — Build 52 unsigned IPA
+    name: EnglishNova iOS — Build 55 unsigned IPA
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
+      groups:
+        - englishnova_google
       xcode: latest
       vars:
         XCODE_PROJECT_DIR: "EnglishNova"
@@ -121,22 +123,11 @@ workflows:
             fi
             echo "Standalone EnglishNova backend will be injected."
           else
-            echo "ENGLISHNOVA_SERVER_URL is not set; hosted account and AI features will use local fallback only."
+            echo "ENGLISHNOVA_SERVER_URL is not set; the app will use its built-in production fallback."
           fi
 
-          configured=0
-          for name in GOOGLE_IOS_CLIENT_ID GOOGLE_SERVER_CLIENT_ID GOOGLE_REVERSED_CLIENT_ID; do
-            [[ -n "${!name:-}" ]] && configured=$((configured + 1))
-          done
-          if [[ "$configured" -eq 3 ]]; then
-            cd "$XCODE_PROJECT_DIR"
-            Scripts/validate_google_config.sh
-          elif [[ "$configured" -ne 0 ]]; then
-            echo "Google OAuth configuration is partial; refusing an inconsistent build."
-            exit 1
-          else
-            echo "Google OAuth is unavailable in this unsigned build; offline learning remains available."
-          fi
+          cd "$XCODE_PROJECT_DIR"
+          Scripts/validate_google_config.sh
 
       - name: Audit and validate source
         script: |
@@ -155,18 +146,13 @@ workflows:
           cd "$XCODE_PROJECT_DIR"
           set -o pipefail
 
-          EXTRA_SETTINGS=()
+          EXTRA_SETTINGS=(
+            "GOOGLE_IOS_CLIENT_ID=$GOOGLE_IOS_CLIENT_ID"
+            "GOOGLE_SERVER_CLIENT_ID=$GOOGLE_SERVER_CLIENT_ID"
+            "GOOGLE_REVERSED_CLIENT_ID=$GOOGLE_REVERSED_CLIENT_ID"
+          )
           if [[ -n "${ENGLISHNOVA_SERVER_URL:-}" ]]; then
             EXTRA_SETTINGS+=("ENGLISHNOVA_SERVER_URL=$ENGLISHNOVA_SERVER_URL")
-          fi
-          if [[ -n "${GOOGLE_IOS_CLIENT_ID:-}" ]]; then
-            EXTRA_SETTINGS+=("GOOGLE_IOS_CLIENT_ID=$GOOGLE_IOS_CLIENT_ID")
-          fi
-          if [[ -n "${GOOGLE_SERVER_CLIENT_ID:-}" ]]; then
-            EXTRA_SETTINGS+=("GOOGLE_SERVER_CLIENT_ID=$GOOGLE_SERVER_CLIENT_ID")
-          fi
-          if [[ -n "${GOOGLE_REVERSED_CLIENT_ID:-}" ]]; then
-            EXTRA_SETTINGS+=("GOOGLE_REVERSED_CLIENT_ID=$GOOGLE_REVERSED_CLIENT_ID")
           fi
 
           xcodebuild archive \
@@ -200,12 +186,11 @@ workflows:
             test "$BACKEND" = "$ENGLISHNOVA_SERVER_URL"
             echo "EnglishNova Cloud backend substitution: PASS"
           fi
-          if [[ -n "${GOOGLE_IOS_CLIENT_ID:-}" || -n "${GOOGLE_SERVER_CLIENT_ID:-}" || -n "${GOOGLE_REVERSED_CLIENT_ID:-}" ]]; then
-            test "$CLIENT" = "${GOOGLE_IOS_CLIENT_ID:-}"
-            test "$SERVER" = "${GOOGLE_SERVER_CLIENT_ID:-}"
-            test "$SCHEME" = "${GOOGLE_REVERSED_CLIENT_ID:-}"
-            echo "Google OAuth substitution: PASS"
-          fi
+
+          test "$CLIENT" = "$GOOGLE_IOS_CLIENT_ID"
+          test "$SERVER" = "$GOOGLE_SERVER_CLIENT_ID"
+          test "$SCHEME" = "$GOOGLE_REVERSED_CLIENT_ID"
+          echo "Google OAuth substitution: PASS"
 
           rm -rf Payload
           mkdir -p Payload

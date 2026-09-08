@@ -20,14 +20,14 @@ struct TutorView: View {
 
             HStack(spacing: 10) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(L("المستوى الذي يستخدمه المدرّب"))
+                    Text(LE("المستوى الذي يستخدمه المدرّب", "Level used by the tutor"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     Text("\(session.selectedLevel.rawValue) • \(session.selectedLevel.titleAr)")
                         .font(.subheadline.bold())
                 }
                 Spacer()
-                Picker(L("تغيير مستواي الحالي"), selection: $session.selectedLevel) {
+                Picker(LE("تغيير مستواي الحالي", "Change my current level"), selection: $session.selectedLevel) {
                     ForEach(CEFRLevel.allCases) { level in
                         Text("\(level.rawValue) • \(level.titleAr)").tag(level)
                     }
@@ -41,7 +41,11 @@ struct TutorView: View {
             .onChange(of: session.selectedLevel) { _, newLevel in
                 Task { await session.save() }
                 ToastCenter.shared.show(
-                    Lf("سيستخدم المدرّب الآن المستوى %@.", "\(newLevel.rawValue)"),
+                    LfE(
+                        "سيستخدم المدرّب الآن المستوى %@.",
+                        "The tutor will now use level %@.",
+                        "\(newLevel.rawValue)"
+                    ),
                     style: .info
                 )
             }

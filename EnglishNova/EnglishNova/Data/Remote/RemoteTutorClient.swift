@@ -6,7 +6,10 @@ enum TutorRemoteError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .notSignedIn:
-            return L("سجّل الدخول لاستخدام المدرّب الذكي عبر الإنترنت.")
+            return LE(
+                "سجّل الدخول لاستخدام المدرّب الذكي عبر الإنترنت.",
+                "Sign in to use the smart tutor online."
+            )
         }
     }
 }

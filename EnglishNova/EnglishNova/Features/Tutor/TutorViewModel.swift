@@ -26,6 +26,7 @@ final class TutorViewModel: ObservableObject {
 
         let userMessage = TutorMessage(role: .user, text: text)
         messages.append(userMessage)
+        FeedbackSoundEngine.shared.play(.sent)
         draft = ""
         isSending = true
         defer { isSending = false }
@@ -53,6 +54,7 @@ final class TutorViewModel: ObservableObject {
                 context: context
             )
             messages.append(reply)
+            FeedbackSoundEngine.shared.play(.received)
             await persist(container: container)
 
             if container.settings.autoSpeakTutorReplies {
@@ -60,6 +62,7 @@ final class TutorViewModel: ObservableObject {
             }
         } catch {
             errorMessage = (error as? LocalizedError)?.errorDescription ?? L("تعذر الحصول على رد من المدرّب.")
+            FeedbackSoundEngine.shared.play(.failure)
             await persist(container: container)
         }
     }

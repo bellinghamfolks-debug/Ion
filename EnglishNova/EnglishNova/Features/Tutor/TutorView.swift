@@ -39,7 +39,10 @@ struct TutorView: View {
             .background(Color(uiColor: .secondarySystemBackground))
             .accessibilityElement(children: .contain)
             .onChange(of: session.selectedLevel) { _, newLevel in
-                Task { await session.save() }
+                Task {
+                    await session.save()
+                    _ = await container.progressSyncService.push(showFeedback: false)
+                }
                 ToastCenter.shared.show(
                     LfE(
                         "سيستخدم المدرّب الآن المستوى %@.",

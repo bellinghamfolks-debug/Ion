@@ -6,6 +6,7 @@ struct SettingsSnapshot: Codable {
     var dailyGoalMinutes: Int
     var speechRate: Double
     var hapticsEnabled: Bool
+    var soundEffectsEnabled: Bool
     var serverURLString: String
     var reminderEnabled: Bool
     var reminderHour: Int
@@ -25,7 +26,7 @@ struct SettingsSnapshot: Codable {
     var geminiModel: String
 
     enum CodingKeys: String, CodingKey {
-        case interfaceLanguage, dailyGoalMinutes, speechRate, hapticsEnabled, serverURLString
+        case interfaceLanguage, dailyGoalMinutes, speechRate, hapticsEnabled, soundEffectsEnabled, serverURLString
         case reminderEnabled, reminderHour, reminderMinute, autoPlayLessonAudio, reduceLearningPressure
         case accentVariant, adaptiveCoachEnabled, autoSpeakCoachPrompts, showArabicCoachHints
         case studyMode, selectedLearningPathway, weeklyTargetDays, revealListeningTranscriptAfterAnswer
@@ -37,6 +38,7 @@ struct SettingsSnapshot: Codable {
         dailyGoalMinutes: Int,
         speechRate: Double,
         hapticsEnabled: Bool,
+        soundEffectsEnabled: Bool,
         serverURLString: String,
         reminderEnabled: Bool,
         reminderHour: Int,
@@ -59,6 +61,7 @@ struct SettingsSnapshot: Codable {
         self.dailyGoalMinutes = dailyGoalMinutes
         self.speechRate = speechRate
         self.hapticsEnabled = hapticsEnabled
+        self.soundEffectsEnabled = soundEffectsEnabled
         self.serverURLString = serverURLString
         self.reminderEnabled = reminderEnabled
         self.reminderHour = reminderHour
@@ -84,6 +87,7 @@ struct SettingsSnapshot: Codable {
         dailyGoalMinutes = try container.decodeIfPresent(Int.self, forKey: .dailyGoalMinutes) ?? 15
         speechRate = try container.decodeIfPresent(Double.self, forKey: .speechRate) ?? 0.45
         hapticsEnabled = try container.decodeIfPresent(Bool.self, forKey: .hapticsEnabled) ?? true
+        soundEffectsEnabled = try container.decodeIfPresent(Bool.self, forKey: .soundEffectsEnabled) ?? true
         serverURLString = try container.decodeIfPresent(String.self, forKey: .serverURLString) ?? ""
         reminderEnabled = try container.decodeIfPresent(Bool.self, forKey: .reminderEnabled) ?? false
         reminderHour = try container.decodeIfPresent(Int.self, forKey: .reminderHour) ?? 19
@@ -125,7 +129,18 @@ final class AppSettings: ObservableObject {
     }
     @Published var dailyGoalMinutes: Int = 15 { didSet { persist() } }
     @Published var speechRate: Double = 0.45 { didSet { persist() } }
-    @Published var hapticsEnabled: Bool = true { didSet { persist() } }
+    @Published var hapticsEnabled: Bool = true {
+        didSet {
+            syncFeedbackEngine()
+            persist()
+        }
+    }
+    @Published var soundEffectsEnabled: Bool = true {
+        didSet {
+            syncFeedbackEngine()
+            persist()
+        }
+    }
     @Published var serverURLString: String = UserDefaults.standard.string(forKey: ServerEndpoint.defaultsKey) ?? "" { didSet { ServerEndpoint.save(serverURLString); persist() } }
     @Published var reminderEnabled = false { didSet { persist() } }
     @Published var reminderHour = 19 { didSet { persist() } }
@@ -157,6 +172,7 @@ final class AppSettings: ObservableObject {
         self.store = store
         self.keychain = keychain
         self.hasGeminiAPIKey = keychain.exists(geminiKeyAccount)
+        syncFeedbackEngine()
         Task { await load() }
     }
 
@@ -219,6 +235,7 @@ final class AppSettings: ObservableObject {
             dailyGoalMinutes: dailyGoalMinutes,
             speechRate: speechRate,
             hapticsEnabled: hapticsEnabled,
+            soundEffectsEnabled: soundEffectsEnabled,
             serverURLString: serverURLString,
             reminderEnabled: reminderEnabled,
             reminderHour: reminderHour,
@@ -251,6 +268,7 @@ final class AppSettings: ObservableObject {
         dailyGoalMinutes = min(240, max(5, snapshot.dailyGoalMinutes))
         speechRate = min(0.58, max(0.30, snapshot.speechRate))
         hapticsEnabled = snapshot.hapticsEnabled
+        soundEffectsEnabled = snapshot.soundEffectsEnabled
         serverURLString = Self.sanitizedServerURL(snapshot.serverURLString)
         reminderEnabled = snapshot.reminderEnabled
         reminderHour = min(23, max(0, snapshot.reminderHour))
@@ -275,6 +293,7 @@ final class AppSettings: ObservableObject {
         autoSpeakTutorReplies = snapshot.autoSpeakTutorReplies
         let model = snapshot.geminiModel.trimmingCharacters(in: .whitespacesAndNewlines)
         geminiModel = model.isEmpty ? "gemini-1.5-flash" : model
+        syncFeedbackEngine()
     }
 
     private static func sanitizedServerURL(_ value: String) -> String {
@@ -282,6 +301,13 @@ final class AppSettings: ObservableObject {
         guard !trimmed.isEmpty else { return "" }
         guard let url = URL(string: trimmed), url.scheme?.lowercased() == "https", url.host != nil else { return "" }
         return trimmed
+    }
+
+    private func syncFeedbackEngine() {
+        FeedbackSoundEngine.shared.configure(
+            soundEffectsEnabled: soundEffectsEnabled,
+            hapticsEnabled: hapticsEnabled
+        )
     }
 
     private func persist() {

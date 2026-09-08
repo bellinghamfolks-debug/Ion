@@ -42,6 +42,7 @@ final class LessonPlayerViewModel: ObservableObject {
                 wasCorrect: lastWasCorrect,
                 choiceCount: current.choices?.count ?? 0
             ))
+            FeedbackSoundEngine.shared.play(lastWasCorrect ? .correct : .incorrect)
         } else {
             lastWasCorrect = true
         }
@@ -60,6 +61,7 @@ final class LessonPlayerViewModel: ObservableObject {
             lastWasCorrect = false
         } else {
             phase = .result
+            FeedbackSoundEngine.shared.play(assessment.passed ? .lessonComplete : .failure)
         }
     }
 

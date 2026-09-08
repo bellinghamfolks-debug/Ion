@@ -153,6 +153,28 @@ struct SettingsView: View {
             Toggle(L("اقرأ سؤال المحادثة تلقائيًا"), isOn: $settings.autoSpeakCoachPrompts)
             Toggle(L("أظهر شرح المحادثة بالعربية"), isOn: $settings.showArabicCoachHints)
             Toggle(L("أظهر نص الاستماع بعد الإجابة"), isOn: $settings.revealListeningTranscriptAfterAnswer)
+
+            Toggle(LE("نغمات الواجهة", "Interface sounds"), isOn: $settings.soundEffectsEnabled)
+            Text(LE(
+                "نغمات قصيرة ومختلفة للنجاح والفشل والإجابة الصحيحة والخاطئة والتسجيل وإكمال الدرس والإنجازات. تُشغَّل كأصوات واجهة iOS، لذلك تتبع إعدادات الصوت ومفتاح الصامت.",
+                "Short, distinct cues for success, failure, correct and incorrect answers, recording, lesson completion, and milestones. They use iOS interface-sound behavior and follow the device sound and Silent settings."
+            ))
+            .font(.caption)
+            .foregroundStyle(.secondary)
+
+            Menu {
+                Button(LE("نجاح", "Success")) { FeedbackSoundEngine.shared.play(.success) }
+                Button(LE("فشل", "Failure")) { FeedbackSoundEngine.shared.play(.failure) }
+                Button(LE("إجابة صحيحة", "Correct answer")) { FeedbackSoundEngine.shared.play(.correct) }
+                Button(LE("إجابة خاطئة", "Incorrect answer")) { FeedbackSoundEngine.shared.play(.incorrect) }
+                Button(LE("بدء التسجيل", "Recording start")) { FeedbackSoundEngine.shared.play(.recordingStart) }
+                Button(LE("إكمال درس", "Lesson complete")) { FeedbackSoundEngine.shared.play(.lessonComplete) }
+                Button(LE("إنجاز", "Milestone")) { FeedbackSoundEngine.shared.play(.milestone) }
+            } label: {
+                Label(LE("معاينة النغمات", "Preview sounds"), systemImage: "waveform")
+            }
+            .disabled(!settings.soundEffectsEnabled)
+
             Toggle(L("الاهتزازات"), isOn: $settings.hapticsEnabled)
 
             NavigationLink(L("إدارة الأصوات المحمّلة")) { AudioPacksView() }

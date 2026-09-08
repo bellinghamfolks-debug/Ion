@@ -25,6 +25,14 @@ final class ToastCenter: ObservableObject {
             case .error: return AppTheme.streak
             }
         }
+
+        var feedbackCue: FeedbackSoundEngine.Cue {
+            switch self {
+            case .success: return .success
+            case .info: return .info
+            case .error: return .failure
+            }
+        }
     }
 
     struct Toast: Identifiable, Equatable {
@@ -40,8 +48,15 @@ final class ToastCenter: ObservableObject {
     private init() {}
 
     /// Show a confirmation. Replaces any visible toast; auto-hides after ~2.2s.
-    func show(_ message: String, style: Style = .success) {
+    /// Callers may supply a more specific aural icon while retaining the same
+    /// visual toast style, e.g. `.saved` for a successful cloud backup.
+    func show(
+        _ message: String,
+        style: Style = .success,
+        cue: FeedbackSoundEngine.Cue? = nil
+    ) {
         current = Toast(message: message, style: style)
+        FeedbackSoundEngine.shared.play(cue ?? style.feedbackCue)
         dismissTask?.cancel()
         dismissTask = Task { [weak self] in
             try? await Task.sleep(nanoseconds: 2_200_000_000)

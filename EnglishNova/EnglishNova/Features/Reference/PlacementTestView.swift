@@ -175,6 +175,7 @@ struct PlacementTestView: View {
                         session.selectedLevel = result.recommendedLevel
                         await session.save()
                         await container.progressRepository.savePlacementResult(result)
+                        _ = await container.progressSyncService.push(showFeedback: false)
                         dismiss()
                     }
                 }

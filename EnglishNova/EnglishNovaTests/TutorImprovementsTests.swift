@@ -22,7 +22,7 @@ final class TutorImprovementsTests: XCTestCase {
 
     func testGeminiPlainTextFallsBackToRawReply() throws {
         let envelope: [String: Any] = [
-            "candidates": [["content": ["parts": [["text": "Keep practising every day."]]]]]
+            "candidates": [["content": ["parts": [["text": "Keep practising every day."]]]]
         ]
         let data = try JSONSerialization.data(withJSONObject: envelope)
 
@@ -35,6 +35,27 @@ final class TutorImprovementsTests: XCTestCase {
     func testGeminiEmptyCandidatesThrows() {
         let data = Data(#"{"candidates":[]}"#.utf8)
         XCTAssertThrowsError(try GeminiTutorClient.parse(data))
+    }
+
+    // MARK: - Local fallback must never corrupt learner input
+
+    func testLocalTutorArabicQuestionDoesNotCreateMixedBrokenSentence() {
+        let message = LocalTutorEngine().reply(to: "من انت", level: .a2)
+        XCTAssertTrue(message.text.contains("المدرّب المحلي"))
+        XCTAssertFalse(message.text.contains("because it was important"))
+        XCTAssertFalse(message.text.contains("من انت because"))
+    }
+
+    func testLocalTutorUnknownEnglishDoesNotInventFixedBecauseSuffix() {
+        let message = LocalTutorEngine().reply(to: "I visited my friend", level: .a2)
+        XCTAssertFalse(message.text.contains("I visited my friend because it was important"))
+        XCTAssertTrue(message.text.contains("A2") || message.text.contains("معلومة"))
+    }
+
+    func testLocalTutorKnownCorrectionStillWorks() {
+        let message = LocalTutorEngine().reply(to: "I am agree", level: .a2)
+        XCTAssertEqual(message.corrections.first?.replacement, "I agree")
+        XCTAssertTrue(message.text.contains("I agree"))
     }
 
     // MARK: - Settings migration keeps new tutor fields safe

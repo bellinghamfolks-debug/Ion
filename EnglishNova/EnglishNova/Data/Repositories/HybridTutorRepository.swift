@@ -17,7 +17,11 @@ struct HybridTutorRepository: TutorRepositoryProtocol {
             ))
             let text = response.reply.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !text.isEmpty else {
-                return fallback(message: message, level: level, note: "وصل رد فارغ من الخادم.")
+                return fallback(
+                    message: message,
+                    level: level,
+                    note: LE("وصل رد فارغ من الخادم.", "The server returned an empty response.")
+                )
             }
             return TutorMessage(
                 role: .assistant,
@@ -32,7 +36,10 @@ struct HybridTutorRepository: TutorRepositoryProtocol {
 
     private func fallback(message: String, level: CEFRLevel, note: String) -> TutorMessage {
         var result = local.reply(to: message, level: level)
-        result.text += "\n\nملاحظة: \(note) استُخدم المدرّب المحلي لهذه الرسالة."
+        result.text += "\n\n" + LE("ملاحظة: ", "Note: ") + note + LE(
+            " استُخدم المدرّب المحلي لهذه الرسالة.",
+            " The local tutor was used for this message."
+        )
         return result
     }
 }
@@ -49,7 +56,10 @@ struct HybridVoiceCoachRepository: VoiceCoachRepositoryProtocol {
             return VoiceCoachReply(
                 reply: fallback.reply,
                 translationAr: fallback.translationAr,
-                feedbackAr: fallback.feedbackAr + " " + safeReason(for: error) + " استُخدم المدرب المحلي لهذه المحاولة.",
+                feedbackAr: fallback.feedbackAr + " " + safeReason(for: error) + LE(
+                    " استُخدم المدرب المحلي لهذه المحاولة.",
+                    " The local coach was used for this attempt."
+                ),
                 suggestedAnswer: fallback.suggestedAnswer,
                 source: "local-fallback"
             )
@@ -59,25 +69,51 @@ struct HybridVoiceCoachRepository: VoiceCoachRepositoryProtocol {
 
 private func safeReason(for error: Error) -> String {
     if case TutorRemoteError.notSignedIn = error {
-        return "الميزة الذكية تحتاج إلى تسجيل الدخول."
+        return LE(
+            "الميزة الذكية تحتاج إلى تسجيل الدخول.",
+            "The smart feature requires sign-in."
+        )
     }
     if case APIError.server(let status, _) = error {
         switch status {
-        case 401: return "انتهت جلسة تسجيل الدخول أو لم تعد صالحة."
-        case 429: return "وصلت الخدمة الذكية إلى حد الاستخدام المؤقت."
-        case 502, 503, 504: return "الخدمة الذكية غير متاحة مؤقتًا."
-        default: return "تعذر طلب الخدمة الذكية، رمز الاستجابة \(status)."
+        case 401:
+            return LE(
+                "انتهت جلسة تسجيل الدخول أو لم تعد صالحة.",
+                "The sign-in session expired or is no longer valid."
+            )
+        case 429:
+            return LE(
+                "وصلت الخدمة الذكية إلى حد الاستخدام المؤقت.",
+                "The smart service reached a temporary usage limit."
+            )
+        case 502, 503, 504:
+            return LE(
+                "الخدمة الذكية غير متاحة مؤقتًا.",
+                "The smart service is temporarily unavailable."
+            )
+        default:
+            return LfE(
+                "تعذر طلب الخدمة الذكية، رمز الاستجابة %@.",
+                "The smart service request failed with response code %@.",
+                "\(status)"
+            )
         }
     }
     if case APIError.decoding = error {
-        return "تعذر قراءة استجابة الخدمة الذكية."
+        return LE(
+            "تعذر قراءة استجابة الخدمة الذكية.",
+            "The smart service response could not be read."
+        )
     }
     if let urlError = error as? URLError {
         switch urlError.code {
-        case .notConnectedToInternet, .networkConnectionLost: return "لا يوجد اتصال مستقر بالإنترنت."
-        case .timedOut: return "انتهت مهلة الاتصال بالخدمة الذكية."
-        default: return "تعذر الوصول إلى الخدمة الذكية عبر الشبكة."
+        case .notConnectedToInternet, .networkConnectionLost:
+            return LE("لا يوجد اتصال مستقر بالإنترنت.", "There is no stable internet connection.")
+        case .timedOut:
+            return LE("انتهت مهلة الاتصال بالخدمة الذكية.", "The smart service request timed out.")
+        default:
+            return LE("تعذر الوصول إلى الخدمة الذكية عبر الشبكة.", "The smart service could not be reached over the network.")
         }
     }
-    return "تعذر الوصول إلى الخدمة الذكية."
+    return LE("تعذر الوصول إلى الخدمة الذكية.", "The smart service could not be reached.")
 }

@@ -39,7 +39,7 @@ final class ProgressSyncService: ObservableObject {
             lastSyncedAt = Date()
             syncMessage = L("تم حفظ نسخة من تقدّمك في الحساب.")
             if showFeedback {
-                ToastCenter.shared.show(L("تم حفظ التقدّم"))
+                ToastCenter.shared.show(L("تم حفظ التقدّم"), cue: .saved)
             }
             return true
         } catch {
@@ -83,7 +83,7 @@ final class ProgressSyncService: ObservableObject {
             try await backup.restore(from: blob)
             lastSyncedAt = Date()
             syncMessage = L("تمت استعادة النسخة المحفوظة إلى هذا الجهاز.")
-            ToastCenter.shared.show(L("تمت استعادة التقدّم"))
+            ToastCenter.shared.show(L("تمت استعادة التقدّم"), cue: .saved)
             return true
         } catch {
             let detail = (error as? LocalizedError)?.errorDescription ?? L("خطأ غير معروف")

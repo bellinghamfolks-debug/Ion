@@ -41,15 +41,16 @@ final class TutorImprovementsTests: XCTestCase {
 
     func testLocalTutorArabicQuestionDoesNotCreateMixedBrokenSentence() {
         let message = LocalTutorEngine().reply(to: "من انت", level: .a2)
-        XCTAssertTrue(message.text.contains("المدرّب المحلي"))
+        XCTAssertFalse(message.text.isEmpty)
         XCTAssertFalse(message.text.contains("because it was important"))
         XCTAssertFalse(message.text.contains("من انت because"))
+        XCTAssertTrue(message.suggestedReplies.contains("Who are you?"))
     }
 
     func testLocalTutorUnknownEnglishDoesNotInventFixedBecauseSuffix() {
         let message = LocalTutorEngine().reply(to: "I visited my friend", level: .a2)
         XCTAssertFalse(message.text.contains("I visited my friend because it was important"))
-        XCTAssertTrue(message.text.contains("A2") || message.text.contains("معلومة"))
+        XCTAssertTrue(message.text.contains("I visited my friend"))
     }
 
     func testLocalTutorKnownCorrectionStillWorks() {

@@ -9,19 +9,22 @@ struct CurriculumView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(L("مستوى تصفح المنهج"))
+                    Text(LE("مستوى تصفح المنهج", "Curriculum browsing level"))
                         .font(.caption.bold())
                         .foregroundStyle(.secondary)
-                    Picker(L("مستوى تصفح المنهج"), selection: $model.selectedLevel) {
+                    Picker(LE("مستوى تصفح المنهج", "Curriculum browsing level"), selection: $model.selectedLevel) {
                         ForEach(CEFRLevel.allCases) { level in
                             Text(level.rawValue).tag(level)
                         }
                     }
                     .pickerStyle(.segmented)
 
-                    Text(L("يمكنك استعراض أي مستوى هنا دون تغيير مستواك التعليمي المسجل. المدرّب وخطة اليوم يستخدمان مستواك الحالي، ويمكن تغييره صراحة من شاشة المدرّب أو اختبار تحديد المستوى."))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    Text(LE(
+                        "يمكنك استعراض أي مستوى هنا دون تغيير مستواك التعليمي المسجل. المدرّب وخطة اليوم يستخدمان مستواك الحالي، ويمكن تغييره صراحة من شاشة المدرّب أو اختبار تحديد المستوى.",
+                        "You can browse any level here without changing your saved learner level. The tutor and daily plan use your current level, which you can change explicitly from the tutor or placement test."
+                    ))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                 }
 
                 if let course = model.selectedCourse {

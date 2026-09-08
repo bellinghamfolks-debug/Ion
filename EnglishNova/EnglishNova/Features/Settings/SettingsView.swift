@@ -6,6 +6,7 @@ struct SettingsView: View {
     @EnvironmentObject private var reminderService: StudyReminderService
     @EnvironmentObject private var account: AccountService
     @EnvironmentObject private var network: NetworkMonitor
+    @EnvironmentObject private var progressSync: ProgressSyncService
 
     @State private var showResetConfirmation = false
     @State private var showLanguageNotice = false
@@ -89,6 +90,29 @@ struct SettingsView: View {
 
     private var learningSection: some View {
         Section(L("تفضيلات التعلّم")) {
+            Picker(LE("مستواي الحالي", "My current level"), selection: $session.selectedLevel) {
+                ForEach(CEFRLevel.allCases) { level in
+                    Text("\(level.rawValue) • \(level.titleAr)").tag(level)
+                }
+            }
+            .onChange(of: session.selectedLevel) { _, newLevel in
+                Task {
+                    await session.save()
+                    _ = await progressSync.push(showFeedback: false)
+                }
+                ToastCenter.shared.show(
+                    LfE("تم تحديث مستواك إلى %@.", "Your level was updated to %@.", newLevel.rawValue),
+                    style: .info
+                )
+            }
+
+            Text(LE(
+                "هذا هو المستوى الذي تعتمد عليه خطة اليوم والمدرّب. استعراض مستوى مختلف داخل شاشة المنهج لا يغيّر هذه القيمة.",
+                "This is the level used by the daily plan and tutor. Browsing another level in the curriculum does not change it."
+            ))
+            .font(.caption)
+            .foregroundStyle(.secondary)
+
             Stepper(
                 Lf("هدف اليوم: %@ دقيقة", "\(settings.effectiveDailyGoalMinutes)"),
                 value: dailyGoalBinding,

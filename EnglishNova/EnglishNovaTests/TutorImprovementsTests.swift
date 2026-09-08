@@ -70,6 +70,14 @@ final class TutorImprovementsTests: XCTestCase {
         let source = try sourceText("Features/Tutor/TutorView.swift")
         XCTAssertTrue(source.contains("المستوى الذي يستخدمه المدرّب"))
         XCTAssertTrue(source.contains("selection: $session.selectedLevel"))
+        XCTAssertTrue(source.contains("progressSyncService.push(showFeedback: false)"))
+    }
+
+    func testSettingsProvidesExplicitLearnerLevelControl() throws {
+        let source = try sourceText("Features/Settings/SettingsView.swift")
+        XCTAssertTrue(source.contains("مستواي الحالي"))
+        XCTAssertTrue(source.contains("selection: $session.selectedLevel"))
+        XCTAssertTrue(source.contains("progressSync.push(showFeedback: false)"))
     }
 
     // MARK: - Settings migration keeps new tutor fields safe

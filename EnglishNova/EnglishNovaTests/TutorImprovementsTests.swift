@@ -22,7 +22,7 @@ final class TutorImprovementsTests: XCTestCase {
 
     func testGeminiPlainTextFallsBackToRawReply() throws {
         let envelope: [String: Any] = [
-            "candidates": [["content": ["parts": [["text": "Keep practising every day."]]]]
+            "candidates": [["content": ["parts": [["text": "Keep practising every day."]]]]]
         ]
         let data = try JSONSerialization.data(withJSONObject: envelope)
 
@@ -56,6 +56,20 @@ final class TutorImprovementsTests: XCTestCase {
         let message = LocalTutorEngine().reply(to: "I am agree", level: .a2)
         XCTAssertEqual(message.corrections.first?.replacement, "I agree")
         XCTAssertTrue(message.text.contains("I agree"))
+    }
+
+    // MARK: - Learner-level source of truth
+
+    func testCurriculumBrowsingCannotMutateLearnerLevel() throws {
+        let source = try sourceText("Features/Curriculum/CurriculumView.swift")
+        XCTAssertTrue(source.contains("مستوى تصفح المنهج"))
+        XCTAssertFalse(source.contains("session.selectedLevel = newLevel"))
+    }
+
+    func testTutorMakesActiveLearnerLevelVisibleAndEditable() throws {
+        let source = try sourceText("Features/Tutor/TutorView.swift")
+        XCTAssertTrue(source.contains("المستوى الذي يستخدمه المدرّب"))
+        XCTAssertTrue(source.contains("selection: $session.selectedLevel"))
     }
 
     // MARK: - Settings migration keeps new tutor fields safe
@@ -120,5 +134,12 @@ final class TutorImprovementsTests: XCTestCase {
             XCTAssertTrue(keychain.delete(account))
             XCTAssertFalse(keychain.exists(account))
         }
+    }
+
+    private func sourceText(_ relativePath: String) throws -> String {
+        let testsDirectory = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+        let sourceRoot = testsDirectory.deletingLastPathComponent().appendingPathComponent("EnglishNova")
+        let url = sourceRoot.appendingPathComponent(relativePath)
+        return try String(contentsOf: url, encoding: .utf8)
     }
 }

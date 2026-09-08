@@ -14,8 +14,8 @@ settings:
     SWIFT_VERSION: 5.10
     DEVELOPMENT_TEAM: ""
     CODE_SIGN_STYLE: Automatic
-    CURRENT_PROJECT_VERSION: 54
-    MARKETING_VERSION: 1.1.3
+    CURRENT_PROJECT_VERSION: 55
+    MARKETING_VERSION: 1.1.4
     INFOPLIST_KEY_CFBundleDisplayName: EnglishNova
     INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.education
     INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true

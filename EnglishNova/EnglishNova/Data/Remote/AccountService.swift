@@ -5,7 +5,12 @@ import Combine
 final class AccountService: ObservableObject {
     @Published private(set) var currentUser: AuthUser?
     @Published private(set) var isAuthenticated = false
-    @Published var lastError: String?
+    @Published var lastError: String? {
+        didSet {
+            guard let message = lastError?.trimmingCharacters(in: .whitespacesAndNewlines), !message.isEmpty else { return }
+            ToastCenter.shared.show(message, style: .error)
+        }
+    }
 
     private let api: APIClient
     private let keychain: KeychainStore

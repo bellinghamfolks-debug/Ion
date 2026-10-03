@@ -40,6 +40,7 @@ struct BasirConvertApp: App {
     @StateObject private var viewModel = AppViewModel()
     @StateObject private var network = NetworkMonitor.shared
     @StateObject private var outputLibrary = OutputLibraryStore()
+    @StateObject private var intents = IntentRouter.shared
 
     init() {
         BackgroundExecution.shared.register()
@@ -53,9 +54,9 @@ struct BasirConvertApp: App {
                 .environmentObject(viewModel)
                 .environmentObject(network)
                 .environmentObject(outputLibrary)
+                .environmentObject(intents)
                 .environment(\.layoutDirection, l10n.layoutDirection)
                 .environment(\.locale, l10n.locale)
-                .preferredColorScheme(.dark)
                 .onChange(of: scenePhase) { phase in
                     if phase == .background {
                         BackgroundExecution.shared.schedule()

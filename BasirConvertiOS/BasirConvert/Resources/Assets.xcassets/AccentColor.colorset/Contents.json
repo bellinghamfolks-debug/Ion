@@ -3,20 +3,18 @@
     {
       "color" : {
         "color-space" : "srgb",
-        "components" : {
-          "alpha" : "1.000",
-          "blue" : "0.867",
-          "green" : "0.478",
-          "red" : "0.051"
-        }
+        "components" : { "alpha" : "1.000", "blue" : "0.580", "green" : "0.440", "red" : "0.000" }
+      },
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [ { "appearance" : "luminosity", "value" : "dark" } ],
+      "color" : {
+        "color-space" : "srgb",
+        "components" : { "alpha" : "1.000", "blue" : "1.000", "green" : "0.860", "red" : "0.360" }
       },
       "idiom" : "universal"
     }
   ],
-  "info" : {
-    "author" : "xcode",
-    "version" : 1
-  }
+  "info" : { "author" : "xcode", "version" : 1 }
 }
-
-

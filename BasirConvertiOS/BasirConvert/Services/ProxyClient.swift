@@ -420,12 +420,27 @@ actor ProxyClient {
                 let requestedModel = status.requestedModel ?? options.effectivePreferredModel
                 let executedModel = status.executedModel
                 logger.record("job model requestID=\(stableRequestID) requested=\(requestedModel) executed=\(executedModel ?? "unknown") workers=\(qualityMetrics.parallelWorkers ?? 0) detailReviews=\(qualityMetrics.detailReviewedPages ?? 0) handwritingReviews=\(qualityMetrics.handwritingReviewedPages ?? 0) visualReviews=\(qualityMetrics.visualReviewedPages ?? 0)")
+                let quality = QualityReport(
+                    score: qualityScore,
+                    warnings: qualityWarnings,
+                    sourcePages: qualityMetrics.sourcePages ?? (expectedSourcePages > 0 ? expectedSourcePages : nil),
+                    retainedPages: retainedNumbers.isEmpty ? succeeded : retainedNumbers.count,
+                    skippedBlankPages: skippedNumbers.count,
+                    fallbackPages: fallbackNumbers.count,
+                    tables: artifactTables,
+                    images: artifactDrawings,
+                    imagesMissingDescription: max(0, artifactMissingAlt),
+                    textCharacters: artifactText,
+                    // Set only after the downloaded package passes verifyAndMove below.
+                    wordPackageVerified: false
+                )
                 outcome = ConversionOutcome(
                     succeededItems: succeeded,
                     failedItems: failedItems,
                     skippedBlankItems: skippedItems,
                     requestedModel: requestedModel,
-                    executedModel: executedModel
+                    executedModel: executedModel,
+                    quality: quality
                 )
                 naturalEngineResult = isNaturalEngine
                 completed = true
@@ -475,7 +490,16 @@ actor ProxyClient {
         )
         logger.record("job completed requestID=\(stableRequestID) naturalEngine=\(naturalEngineResult)")
         progress(.init(current: 1, total: 1, stage: .done, detail: nil))
-        return outcome
+        var verifiedQuality = outcome.quality
+        verifiedQuality?.wordPackageVerified = true
+        return ConversionOutcome(
+            succeededItems: outcome.succeededItems,
+            failedItems: outcome.failedItems,
+            skippedBlankItems: outcome.skippedBlankItems,
+            requestedModel: outcome.requestedModel,
+            executedModel: outcome.executedModel,
+            quality: verifiedQuality
+        )
     }
 
     private func uploadInChunks(

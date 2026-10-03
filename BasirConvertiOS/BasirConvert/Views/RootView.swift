@@ -1,9 +1,9 @@
 import SwiftUI
+import UIKit
 
 private enum AppTab: Hashable {
-    case convert
-    case translate
-    case results
+    case new
+    case files
     case tasks
 }
 
@@ -13,57 +13,51 @@ struct RootView: View {
     @EnvironmentObject private var settings: SettingsStore
     @EnvironmentObject private var viewModel: AppViewModel
     @EnvironmentObject private var outputLibrary: OutputLibraryStore
-    @State private var selectedTab: AppTab = .convert
+    @EnvironmentObject private var intents: IntentRouter
+    @State private var selectedTab: AppTab = .new
+    @State private var operation: OperationKind = .convert
+    @AppStorage("onboarding_completed_v3_1") private var onboardingCompleted = false
+
+    private var isUnitTestHost: Bool {
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+    }
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            NavigationStack {
-                ConvertView().toolbar { commonToolbar }
-            }
-            .tabItem { Label(l10n.t("التحويل", "Convert"), systemImage: "doc.richtext") }
-            .accessibilityHint(l10n.t("علامة تبويب 1 من 4", "Tab 1 of 4"))
-            .tag(AppTab.convert)
+            tab { TaskComposerView(operation: $operation) }
+                .tabItem { Label(l10n.t("جديد", "New"), systemImage: "plus.circle.fill") }
+                .tag(AppTab.new)
 
-            NavigationStack {
-                TranslateView().toolbar { commonToolbar }
-            }
-            .tabItem { Label(l10n.t("الترجمة", "Translate"), systemImage: "character.book.closed") }
-            .accessibilityHint(l10n.t("علامة تبويب 2 من 4", "Tab 2 of 4"))
-            .tag(AppTab.translate)
+            tab { ResultLibraryView() }
+                .tabItem { Label(l10n.t("ملفاتي", "My files"), systemImage: "folder.fill") }
+                .tag(AppTab.files)
 
-            NavigationStack {
-                ResultLibraryView().toolbar { commonToolbar }
-            }
-            .tabItem { Label(l10n.t("ملفاتي", "My files"), systemImage: "folder.fill") }
-            .accessibilityHint(l10n.t("علامة تبويب 3 من 4", "Tab 3 of 4"))
-            .tag(AppTab.results)
-
-            NavigationStack {
-                JobQueueView().toolbar { commonToolbar }
-            }
-            .tabItem {
-                Label(l10n.t("المهام", "Tasks"), systemImage: "list.bullet.rectangle")
-            }
-            .accessibilityHint(l10n.t("علامة تبويب 4 من 4", "Tab 4 of 4"))
-            .badge(viewModel.pendingJobCount == 0 ? 0 : viewModel.pendingJobCount)
-            .tag(AppTab.tasks)
+            tab { JobQueueView() }
+                .tabItem { Label(l10n.t("المهام", "Tasks"), systemImage: "list.bullet.rectangle") }
+                .badge(viewModel.pendingJobCount)
+                .tag(AppTab.tasks)
         }
-        .tint(BasirPalette.cyan)
-        .toolbarBackground(Color.black.opacity(0.94), for: .tabBar)
-        .toolbarBackground(.visible, for: .tabBar)
-        .toolbarColorScheme(.dark, for: .tabBar)
+        .tint(BasirPalette.accent)
+        .accessibilityAction(.magicTap) { toggleCurrentJob() }
         .onOpenURL { viewModel.receiveExternalURL($0, l10n: l10n) }
         .onChange(of: viewModel.routedExternalBatch?.id) { _ in selectTabForRoutedDocument() }
         .onChange(of: viewModel.routedExternalDocument?.id) { _ in selectTabForRoutedDocument() }
+        .onChange(of: intents.pendingAction) { _ in handleIntents() }
+        .onChange(of: intents.pendingFiles) { _ in handleIntents() }
+        .onChange(of: settings.appearance) { _ in applyTheme() }
+        .onChange(of: settings.highContrast) { _ in applyTheme() }
         .onChange(of: scenePhase) { phase in
             guard phase == .active else { return }
+            applyTheme()
             viewModel.importSharedInbox()
             viewModel.resumeInterruptedJobsIfNeeded()
             outputLibrary.refresh()
         }
         .onAppear {
+            applyTheme()
             viewModel.attach(settings: settings, l10n: l10n, outputLibrary: outputLibrary)
             selectTabForRoutedDocument()
+            handleIntents()
         }
         .confirmationDialog(
             l10n.t("ماذا تريد أن تفعل بالعناصر؟", "What would you like to do with the items?"),
@@ -78,13 +72,13 @@ struct RootView: View {
                 ?? []
             if operations.contains(.convert) {
                 Button(l10n.t("تحويل إلى Word", "Convert to Word")) {
-                    selectedTab = .convert
+                    selectedTab = .new
                     viewModel.routeExternalImport(to: .convert, l10n: l10n)
                 }
             }
             if operations.contains(.translate) {
                 Button(l10n.t("ترجمة المستندات", "Translate documents")) {
-                    selectedTab = .translate
+                    selectedTab = .new
                     viewModel.routeExternalImport(to: .translate, l10n: l10n)
                 }
             }
@@ -103,32 +97,69 @@ struct RootView: View {
         ) {
             Button(l10n.t("حسنًا", "OK")) { viewModel.clearExternalImportError() }
         } message: { Text(viewModel.externalImportError ?? "") }
-        .fullScreenCover(isPresented: $viewModel.isSettingsPresented) {
+        .sheet(isPresented: $viewModel.isSettingsPresented) {
             SettingsView()
-                .environmentObject(l10n)
-                .environmentObject(settings)
-                .environmentObject(viewModel)
-                .environmentObject(NetworkMonitor.shared)
-                .environment(\.layoutDirection, l10n.layoutDirection)
-                .environment(\.locale, l10n.locale)
+                .withBasirEnvironment(l10n: l10n, settings: settings, viewModel: viewModel,
+                                      library: outputLibrary, intents: intents)
         }
-        .fullScreenCover(isPresented: $viewModel.isJobPresented) {
+        .sheet(isPresented: $viewModel.isJobPresented) {
             JobView()
-                .environmentObject(l10n)
-                .environmentObject(settings)
-                .environmentObject(viewModel)
-                .environmentObject(outputLibrary)
-                .environmentObject(NetworkMonitor.shared)
-                .environment(\.layoutDirection, l10n.layoutDirection)
-                .environment(\.locale, l10n.locale)
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+                .withBasirEnvironment(l10n: l10n, settings: settings, viewModel: viewModel,
+                                      library: outputLibrary, intents: intents)
+        }
+        .fullScreenCover(isPresented: Binding(
+            get: { !onboardingCompleted && !isUnitTestHost },
+            set: { if !$0 { onboardingCompleted = true } }
+        )) {
+            OnboardingView { onboardingCompleted = true }
+                .withBasirEnvironment(l10n: l10n, settings: settings, viewModel: viewModel,
+                                      library: outputLibrary, intents: intents)
         }
     }
 
+    private func tab<Content: View>(@ViewBuilder _ content: () -> Content) -> some View {
+        NavigationStack {
+            content().toolbar { commonToolbar }
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) { MiniJobBar() }
+    }
+
+    private func applyTheme() {
+        BasirTheme.apply(appearance: settings.appearance, highContrast: settings.highContrast)
+    }
+
     private func selectTabForRoutedDocument() {
-        let operation = viewModel.routedExternalBatch?.operation
-            ?? viewModel.routedExternalDocument?.operation
-        guard let operation else { return }
-        selectedTab = operation == .convert ? .convert : .translate
+        if viewModel.routedExternalBatch != nil || viewModel.routedExternalDocument != nil {
+            selectedTab = .new
+        }
+    }
+
+    private func handleIntents() {
+        if intents.pendingAction != nil { selectedTab = .new }
+        if !intents.pendingFiles.isEmpty {
+            let files = intents.pendingFiles
+            intents.pendingFiles = []
+            viewModel.receiveExternalURLs(files, l10n: l10n)
+        }
+    }
+
+    /// Two-finger double-tap (magic tap) pauses the running task or resumes
+    /// the most recent paused one, from anywhere in the app.
+    private func toggleCurrentJob() {
+        if viewModel.activeJob != nil {
+            viewModel.pause()
+            UIAccessibility.post(notification: .announcement,
+                                 argument: l10n.t("أُوقفت المهمة مؤقتًا", "Task paused"))
+        } else if let paused = viewModel.jobs.first(where: { $0.status == .paused }) {
+            viewModel.resume(jobID: paused.id)
+            UIAccessibility.post(notification: .announcement,
+                                 argument: l10n.t("استُؤنفت المهمة", "Task resumed"))
+        } else {
+            UIAccessibility.post(notification: .announcement,
+                                 argument: l10n.t("لا توجد مهمة جارية", "No task is running"))
+        }
     }
 
     @ToolbarContentBuilder
@@ -138,12 +169,138 @@ struct RootView: View {
             Button { viewModel.isSettingsPresented = true } label: {
                 Image(systemName: "gearshape.fill")
                     .font(.body.weight(.semibold))
-                    .foregroundStyle(BasirPalette.cyan)
+                    .foregroundStyle(BasirPalette.accent)
+                    .frame(minWidth: 44, minHeight: 44)
             }
             .accessibilityLabel(l10n.t("الإعدادات", "Settings"))
-            .accessibilityHint(l10n.t("تغيير اللغة وخيارات المستندات والأصوات.",
-                                      "Change language, document, and sound options."))
         }
     }
 }
 
+extension View {
+    /// Sheets get every shared object explicitly, so they behave the same on
+    /// every supported iOS version.
+    @MainActor
+    func withBasirEnvironment(
+        l10n: L10n,
+        settings: SettingsStore,
+        viewModel: AppViewModel,
+        library: OutputLibraryStore,
+        intents: IntentRouter
+    ) -> some View {
+        environmentObject(l10n)
+            .environmentObject(settings)
+            .environmentObject(viewModel)
+            .environmentObject(library)
+            .environmentObject(intents)
+            .environmentObject(NetworkMonitor.shared)
+            .environment(\.layoutDirection, l10n.layoutDirection)
+            .environment(\.locale, l10n.locale)
+    }
+}
+
+/// A compact card above the tab bar for the current task. Tapping it expands
+/// the full task details; the job no longer covers the whole screen.
+struct MiniJobBar: View {
+    @EnvironmentObject private var l10n: L10n
+    @EnvironmentObject private var viewModel: AppViewModel
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    var body: some View {
+        Group {
+            if let job = viewModel.barJob, !viewModel.isJobPresented {
+                content(job)
+                    .transition(reduceMotion ? .opacity : .move(edge: .bottom).combined(with: .opacity))
+            }
+        }
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: viewModel.barJob?.id)
+    }
+
+    private func content(_ job: BasirJob) -> some View {
+        let percent = JobStep.overallPercent(for: job.progress)
+        return HStack(spacing: BasirSpacing.m) {
+            Button { viewModel.selectJob(job.id) } label: {
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack(spacing: BasirSpacing.s) {
+                        Image(systemName: icon(job.status))
+                            .foregroundStyle(BasirPalette.accent)
+                            .accessibilityHidden(true)
+                        Text(job.sourceName)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(BasirPalette.primaryText)
+                            .lineLimit(1)
+                        Spacer(minLength: 0)
+                        if job.status == .running {
+                            Text("\(percent)%")
+                                .font(.subheadline.monospacedDigit().weight(.semibold))
+                                .foregroundStyle(BasirPalette.primaryText)
+                        }
+                    }
+                    Text(statusLine(job))
+                        .font(.caption)
+                        .foregroundStyle(BasirPalette.secondaryText)
+                        .lineLimit(2)
+                    if job.status == .running {
+                        ProgressView(value: Double(percent), total: 100)
+                            .tint(BasirPalette.accent)
+                    }
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(l10n.t("المهمة الحالية: \(job.sourceName)", "Current task: \(job.sourceName)"))
+            .accessibilityValue(statusLine(job))
+            .accessibilityHint(l10n.t("اضغط مرتين لعرض التفاصيل", "Double-tap to show details"))
+
+            toggleButton(job)
+        }
+        .padding(BasirSpacing.m)
+        .background(BasirPalette.surface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(BasirPalette.stroke, lineWidth: 1)
+        }
+        .shadow(color: .black.opacity(0.12), radius: 10, y: 3)
+        .padding(.horizontal, BasirSpacing.m)
+        .padding(.bottom, BasirSpacing.s)
+    }
+
+    @ViewBuilder
+    private func toggleButton(_ job: BasirJob) -> some View {
+        if job.status == .running {
+            Button { viewModel.pause() } label: {
+                Image(systemName: "pause.fill")
+                    .font(.title3)
+                    .frame(width: 44, height: 44)
+            }
+            .tint(BasirPalette.accent)
+            .accessibilityLabel(l10n.t("إيقاف مؤقت", "Pause"))
+        } else if [.paused, .waitingForNetwork].contains(job.status) {
+            Button { viewModel.resume(jobID: job.id) } label: {
+                Image(systemName: "play.fill")
+                    .font(.title3)
+                    .frame(width: 44, height: 44)
+            }
+            .tint(BasirPalette.accent)
+            .accessibilityLabel(l10n.t("استئناف", "Resume"))
+        }
+    }
+
+    private func statusLine(_ job: BasirJob) -> String {
+        switch job.status {
+        case .running: return JobStep.spokenStatus(for: job.progress, l10n: l10n)
+        case .queued: return l10n.t("بانتظار البدء", "Queued")
+        case .waitingForNetwork: return l10n.t("بانتظار الشبكة", "Waiting for network")
+        case .paused: return l10n.t("متوقفة مؤقتًا، تقدمك محفوظ", "Paused, progress saved")
+        default: return ""
+        }
+    }
+
+    private func icon(_ status: JobStatus) -> String {
+        switch status {
+        case .running: return "hourglass"
+        case .paused: return "pause.circle.fill"
+        case .waitingForNetwork: return "wifi.slash"
+        default: return "clock.fill"
+        }
+    }
+}

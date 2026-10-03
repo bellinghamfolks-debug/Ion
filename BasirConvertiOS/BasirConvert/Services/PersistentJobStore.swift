@@ -59,6 +59,7 @@ struct OutputRecord: Identifiable, Hashable, Sendable {
     let languageCode: String?
     let itemCount: Int?
     let imageCount: Int?
+    let quality: QualityReport?
 
     var displayName: String { url.deletingPathExtension().lastPathComponent }
     var humanReadableSize: String { ByteCountFormatter.string(fromByteCount: byteCount, countStyle: .file) }
@@ -72,6 +73,7 @@ private struct OutputSidecar: Codable {
     let imageCount: Int?
     let requestID: String
     let sourceChecksum: String?
+    let quality: QualityReport?
 }
 
 @MainActor
@@ -93,7 +95,8 @@ final class OutputLibraryStore: ObservableObject {
                     operation: sidecar?.operation,
                     languageCode: sidecar?.languageCode,
                     itemCount: sidecar?.itemCount,
-                    imageCount: sidecar?.imageCount
+                    imageCount: sidecar?.imageCount,
+                    quality: sidecar?.quality
                 )
             }
             errorMessage = nil
@@ -110,7 +113,8 @@ final class OutputLibraryStore: ObservableObject {
             itemCount: job.sourceMetadata?.itemCount,
             imageCount: imageCount,
             requestID: job.requestID,
-            sourceChecksum: job.sourceMetadata?.checksum
+            sourceChecksum: job.sourceMetadata?.checksum,
+            quality: job.qualityReport
         )
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]

@@ -33,9 +33,20 @@ final class SettingsStore: ObservableObject {
         static let concurrentPages = "concurrent_pdf_pages"
         static let rotationCorrection = "pdf_rotation_correction"
         static let preferredModel = "ai_preferred_model"
+        static let appearance = "interface_appearance"
+        static let highContrast = "interface_high_contrast"
     }
 
     private let bundledConfiguration: ServerConfiguration
+    private let defaults: UserDefaults
+
+    /// Appearance options take effect and persist immediately.
+    @Published var appearance: AppAppearance {
+        didSet { defaults.set(appearance.rawValue, forKey: Key.appearance) }
+    }
+    @Published var highContrast: Bool {
+        didSet { defaults.set(highContrast, forKey: Key.highContrast) }
+    }
 
     @Published var outputMode: OutputMode
     @Published var embedVisuals: Bool
@@ -63,6 +74,9 @@ final class SettingsStore: ObservableObject {
         configuration: ServerConfiguration = BundledServerConfiguration.current()
     ) {
         bundledConfiguration = configuration
+        self.defaults = defaults
+        appearance = AppAppearance(rawValue: defaults.string(forKey: Key.appearance) ?? "system") ?? .system
+        highContrast = defaults.bool(forKey: Key.highContrast)
         outputMode = OutputMode(rawValue: defaults.string(forKey: Key.outputMode) ?? "full") ?? .full
         embedVisuals = defaults.object(forKey: Key.embedVisuals) == nil
             ? true : defaults.bool(forKey: Key.embedVisuals)

@@ -29,6 +29,8 @@ final class AppViewModel: ObservableObject {
     private var jobTask: Task<Void, Never>?
     private var externalImportTask: Task<Void, Never>?
     private var lastAnnouncedStage: ConversionStage?
+    private var lastAnnouncedStep: JobStep?
+    private let liveActivity = JobLiveActivityController()
     private var lastAnnouncedProgress: [UUID: (current: Int, total: Int)] = [:]
     private var pauseRequested = false
     private var networkPauseRequested = false
@@ -49,6 +51,10 @@ final class AppViewModel: ObservableObject {
     var selectedJob: BasirJob? {
         guard let selectedJobID else { return activeJob ?? jobs.first }
         return jobs.first(where: { $0.id == selectedJobID })
+    }
+    /// The job shown in the compact bar above the tab bar.
+    var barJob: BasirJob? {
+        activeJob ?? jobs.first(where: { [.queued, .waitingForNetwork, .paused].contains($0.status) })
     }
     var pendingJobCount: Int {
         jobs.filter { [.queued, .waitingForNetwork, .paused, .running].contains($0.status) }.count
@@ -238,7 +244,12 @@ final class AppViewModel: ObservableObject {
             return
         }
         lastConfiguration = configuration
-        isJobPresented = true
+        // 3.1: the task appears in the compact bar instead of covering the screen.
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: l10n.t("بدأت المهمة. تابعها من الشريط أسفل الشاشة.",
+                             "The task has started. Follow it in the bar at the bottom of the screen.")
+        )
         Task { [weak self] in
             guard let self else { return }
             var newJobs: [BasirJob] = []
@@ -273,7 +284,8 @@ final class AppViewModel: ObservableObject {
                         startedAt: nil,
                         completedAt: nil,
                         automaticResumePending: false,
-                        executedModel: nil
+                        executedModel: nil,
+                        qualityReport: nil
                     ))
                     discardExternalSource(pickerURL)
                 } catch {
@@ -463,6 +475,7 @@ final class AppViewModel: ObservableObject {
                 jobs[finishedIndex].failedItems = outcome.failedItems
                 jobs[finishedIndex].skippedBlankItems = outcome.skippedBlankItems
                 jobs[finishedIndex].executedModel = outcome.executedModel
+                jobs[finishedIndex].qualityReport = outcome.quality
                 jobs[finishedIndex].status = outcome.failedItems.isEmpty ? .completed : .partial
                 jobs[finishedIndex].completedAt = Date()
                 jobs[finishedIndex].updatedAt = Date()
@@ -564,24 +577,23 @@ final class AppViewModel: ObservableObject {
         }
         persist()
         if selectedJobID == jobID { syncFacade() }
-        if lastAnnouncedStage != update.stage {
+        let step = JobStep.current(for: effective)
+        if lastAnnouncedStep != step {
+            lastAnnouncedStep = step
             lastAnnouncedStage = update.stage
             if let l10n {
-                UIAccessibility.post(notification: .announcement, argument: update.stage.label(l10n))
+                UIAccessibility.post(notification: .announcement,
+                                     argument: JobStep.spokenStatus(for: effective, l10n: l10n))
             }
-        }
-        if update.total > 0 {
+        } else if update.total > 0 {
             let previous = lastAnnouncedProgress[jobID]
             let changed = previous?.current != update.current || previous?.total != update.total
             if changed {
                 lastAnnouncedProgress[jobID] = (update.current, update.total)
                 if (update.current == 1 || update.current == update.total || update.current % 5 == 0),
                    let l10n {
-                    UIAccessibility.post(
-                        notification: .announcement,
-                        argument: l10n.t("تمت معالجة \(update.current) من \(update.total).",
-                                         "Processed \(update.current) of \(update.total).")
-                    )
+                    UIAccessibility.post(notification: .announcement,
+                                         argument: JobStep.spokenStatus(for: effective, l10n: l10n))
                 }
             }
         }
@@ -790,6 +802,7 @@ final class AppViewModel: ObservableObject {
 
     private func persist() {
         let snapshot = jobs
+        if let l10n { liveActivity.sync(jobs: snapshot, l10n: l10n) }
         Task { try? await jobStore.save(snapshot) }
     }
 

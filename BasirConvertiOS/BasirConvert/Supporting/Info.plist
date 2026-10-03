@@ -62,6 +62,8 @@
         <string>com.basir.convert.ios.processing</string>
         <string>com.basir.convert.ios.refresh</string>
     </array>
+    <key>NSSupportsLiveActivities</key>
+    <true/>
     <key>UIBackgroundModes</key>
     <array>
         <string>processing</string>

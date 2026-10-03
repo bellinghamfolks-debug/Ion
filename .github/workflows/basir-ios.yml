@@ -61,23 +61,20 @@ jobs:
           set -euo pipefail
           SDK_VERSION="$(xcrun --sdk iphonesimulator --show-sdk-version)"
           echo "Simulator SDK: $SDK_VERSION"
-          RUNTIME_ID="$(xcrun simctl list runtimes available -j | SDK_VERSION="$SDK_VERSION" python3 -c '
-          import json, os, sys
+          read -r RUNTIME_ID DEVICE_TYPE <<< "$(xcrun simctl list runtimes available -j | SDK_VERSION="$SDK_VERSION" python3 -c '
+          import json, os, re, sys
           sdk = os.environ["SDK_VERSION"]
           runtimes = [r for r in json.load(sys.stdin)["runtimes"]
-                      if r.get("isAvailable") and r.get("platform", "iOS") == "iOS"
+                      if r.get("isAvailable")
                       and r["identifier"].startswith("com.apple.CoreSimulator.SimRuntime.iOS")]
           exact = [r for r in runtimes if r["version"] == sdk or r["version"].startswith(sdk + ".")]
           major = [r for r in runtimes if r["version"].split(".")[0] == sdk.split(".")[0]]
-          pick = (exact or major or runtimes)[-1]
-          print(pick["identifier"])
-          ')"
-          DEVICE_TYPE="$(xcrun simctl list devicetypes -j | python3 -c '
-          import json, sys
-          types = [t for t in json.load(sys.stdin)["devicetypes"]
-                   if t["name"].startswith("iPhone") and "Plus" not in t["name"]
-                   and "Max" not in t["name"] and "SE" not in t["name"]]
-          print(types[-1]["identifier"])
+          runtime = (exact or major or runtimes)[-1]
+          phones = [d for d in runtime.get("supportedDeviceTypes", [])
+                    if d.get("productFamily") == "iPhone" or d["name"].startswith("iPhone")]
+          plain = [d for d in phones if not re.search(r"Plus|Max|SE|mini|Air|\d+e\b", d["name"])]
+          device = (plain or phones)[-1]
+          print(runtime["identifier"], device["identifier"])
           ')"
           UDID="$(xcrun simctl create "Basir CI" "$DEVICE_TYPE" "$RUNTIME_ID")"
           echo "Created $UDID ($DEVICE_TYPE on $RUNTIME_ID)"

@@ -1,63 +1,139 @@
 import SwiftUI
+import UIKit
 
+/// Basir 3.1 colour system. Every colour adapts to light and dark appearance
+/// and to Increase Contrast (system setting or the in-app high-contrast
+/// option, which is applied as a trait override on iOS 17 and later).
 enum BasirPalette {
-    static let cyan = Color(red: 0.32, green: 0.88, blue: 1.00)
-    static let cyanDeep = Color(red: 0.00, green: 0.36, blue: 0.48)
-    static let indigo = Color(red: 0.03, green: 0.03, blue: 0.04)
-    static let violet = Color(red: 0.18, green: 0.18, blue: 0.22)
-    static let primaryText = Color.white
-    static let secondaryText = Color.white.opacity(0.76)
-    static let tertiaryText = Color.white.opacity(0.58)
+    static let cyan = dynamic(light: rgb(0.00, 0.44, 0.58), dark: rgb(0.36, 0.86, 1.00),
+                              lightHigh: rgb(0.00, 0.30, 0.42), darkHigh: rgb(0.62, 0.95, 1.00))
+    static let accent = cyan
+    static let cyanDeep = dynamic(light: rgb(0.00, 0.33, 0.45), dark: rgb(0.00, 0.36, 0.48),
+                                  lightHigh: rgb(0.00, 0.22, 0.32), darkHigh: rgb(0.00, 0.45, 0.58))
+    static let indigo = dynamic(light: rgb(0.22, 0.27, 0.62), dark: rgb(0.48, 0.55, 1.00),
+                                lightHigh: rgb(0.14, 0.18, 0.48), darkHigh: rgb(0.70, 0.75, 1.00))
+    static let violet = dynamic(light: rgb(0.42, 0.30, 0.70), dark: rgb(0.62, 0.52, 0.95),
+                                lightHigh: rgb(0.30, 0.18, 0.55), darkHigh: rgb(0.80, 0.72, 1.00))
+
+    static let primaryText = dynamic(light: rgb(0.06, 0.08, 0.11), dark: .white,
+                                     lightHigh: .black, darkHigh: .white)
+    static let secondaryText = dynamic(light: rgb(0.25, 0.29, 0.34), dark: UIColor(white: 1, alpha: 0.78),
+                                       lightHigh: rgb(0.10, 0.12, 0.15), darkHigh: UIColor(white: 1, alpha: 0.94))
+    static let tertiaryText = dynamic(light: rgb(0.36, 0.40, 0.45), dark: UIColor(white: 1, alpha: 0.62),
+                                      lightHigh: rgb(0.18, 0.20, 0.24), darkHigh: UIColor(white: 1, alpha: 0.86))
+    /// Text and icons placed on a filled accent surface.
+    static let onAccent = dynamic(light: .white, dark: rgb(0.00, 0.10, 0.14),
+                                  lightHigh: .white, darkHigh: .black)
+
+    static let background = dynamic(light: rgb(0.955, 0.965, 0.975), dark: rgb(0.020, 0.035, 0.060),
+                                    lightHigh: .white, darkHigh: .black)
+    static let surface = dynamic(light: .white, dark: rgb(0.075, 0.085, 0.105),
+                                 lightHigh: .white, darkHigh: rgb(0.04, 0.04, 0.05))
+    static let subtleFill = dynamic(light: UIColor(white: 0, alpha: 0.045), dark: UIColor(white: 1, alpha: 0.075),
+                                    lightHigh: UIColor(white: 0, alpha: 0.08), darkHigh: UIColor(white: 1, alpha: 0.14))
+    static let stroke = dynamic(light: UIColor(white: 0, alpha: 0.10), dark: UIColor(white: 1, alpha: 0.12),
+                                lightHigh: UIColor(white: 0, alpha: 0.75), darkHigh: UIColor(white: 1, alpha: 0.80))
+
+    static let success = dynamic(light: rgb(0.00, 0.48, 0.24), dark: rgb(0.36, 0.86, 0.55),
+                                 lightHigh: rgb(0.00, 0.36, 0.16), darkHigh: rgb(0.55, 1.00, 0.70))
+    static let warning = dynamic(light: rgb(0.66, 0.34, 0.00), dark: rgb(1.00, 0.70, 0.30),
+                                 lightHigh: rgb(0.50, 0.24, 0.00), darkHigh: rgb(1.00, 0.82, 0.50))
+    static let danger = dynamic(light: rgb(0.72, 0.10, 0.12), dark: rgb(1.00, 0.52, 0.52),
+                                lightHigh: rgb(0.55, 0.00, 0.04), darkHigh: rgb(1.00, 0.72, 0.72))
+
+    private static func rgb(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat) -> UIColor {
+        UIColor(red: red, green: green, blue: blue, alpha: 1)
+    }
+
+    private static func dynamic(light: UIColor, dark: UIColor, lightHigh: UIColor, darkHigh: UIColor) -> Color {
+        Color(uiColor: UIColor { traits in
+            let high = traits.accessibilityContrast == .high
+            if traits.userInterfaceStyle == .dark { return high ? darkHigh : dark }
+            return high ? lightHigh : light
+        })
+    }
+}
+
+/// Consistent spacing scale used by every screen.
+enum BasirSpacing {
+    static let xs: CGFloat = 4
+    static let s: CGFloat = 8
+    static let m: CGFloat = 12
+    static let l: CGFloat = 16
+    static let xl: CGFloat = 24
+    static let cardRadius: CGFloat = 22
+}
+
+enum AppAppearance: String, CaseIterable, Identifiable, Codable, Sendable {
+    case system
+    case light
+    case dark
+
+    var id: String { rawValue }
+
+    var interfaceStyle: UIUserInterfaceStyle {
+        switch self {
+        case .system: return .unspecified
+        case .light: return .light
+        case .dark: return .dark
+        }
+    }
+
+    @MainActor
+    func title(_ l10n: L10n) -> String {
+        switch self {
+        case .system: return l10n.t("حسب النظام", "Match system")
+        case .light: return l10n.t("فاتح", "Light")
+        case .dark: return l10n.t("داكن", "Dark")
+        }
+    }
+}
+
+/// Applies the appearance and the in-app high-contrast option to every
+/// window, so sheets, alerts, and system controls follow them too.
+@MainActor
+enum BasirTheme {
+    static var supportsInAppHighContrast: Bool {
+        if #available(iOS 17.0, *) { return true }
+        return false
+    }
+
+    static func apply(appearance: AppAppearance, highContrast: Bool) {
+        for scene in UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }) {
+            for window in scene.windows {
+                window.overrideUserInterfaceStyle = appearance.interfaceStyle
+            }
+            if #available(iOS 17.0, *) {
+                if highContrast {
+                    scene.traitOverrides.accessibilityContrast = .high
+                } else if scene.traitOverrides.contains(UITraitAccessibilityContrast.self) {
+                    scene.traitOverrides.remove(UITraitAccessibilityContrast.self)
+                }
+            }
+        }
+    }
 }
 
 struct AuroraBackground: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.colorSchemeContrast) private var contrast
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                LinearGradient(
-                    colors: [
-                        Color.black,
-                        Color(red: 0.010, green: 0.035, blue: 0.075),
-                        Color(red: 0.012, green: 0.075, blue: 0.145),
-                        Color(red: 0.008, green: 0.030, blue: 0.065)
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-
-                if !reduceTransparency {
+                BasirPalette.background
+                if !reduceTransparency && contrast != .increased {
                     Circle()
-                        .fill(BasirPalette.cyan.opacity(0.10))
-                        .frame(width: geometry.size.width * 0.78)
-                        .blur(radius: 72)
-                        .offset(x: -geometry.size.width * 0.35,
-                                y: -geometry.size.height * 0.22)
-
-                    Circle()
-                        .fill(BasirPalette.violet.opacity(0.12))
-                        .frame(width: geometry.size.width * 0.92)
-                        .blur(radius: 86)
-                        .offset(x: geometry.size.width * 0.45,
-                                y: geometry.size.height * 0.10)
-
-                    RoundedRectangle(cornerRadius: 120, style: .continuous)
-                        .fill(BasirPalette.cyanDeep.opacity(0.10))
-                        .frame(width: geometry.size.width * 1.18,
-                               height: geometry.size.height * 0.30)
-                        .blur(radius: 72)
-                        .rotationEffect(.degrees(-12))
-                        .offset(x: -geometry.size.width * 0.18,
-                                y: geometry.size.height * 0.34)
-
-                    RoundedRectangle(cornerRadius: 140, style: .continuous)
-                        .fill(BasirPalette.cyan.opacity(0.055))
-                        .frame(width: geometry.size.width * 1.10,
-                               height: geometry.size.height * 0.20)
+                        .fill(BasirPalette.cyan.opacity(colorScheme == .dark ? 0.10 : 0.08))
+                        .frame(width: geometry.size.width * 0.80)
                         .blur(radius: 80)
-                        .offset(x: geometry.size.width * 0.10,
-                                y: geometry.size.height * 0.48)
+                        .offset(x: -geometry.size.width * 0.38, y: -geometry.size.height * 0.30)
+                    Circle()
+                        .fill(BasirPalette.violet.opacity(colorScheme == .dark ? 0.08 : 0.05))
+                        .frame(width: geometry.size.width * 0.90)
+                        .blur(radius: 96)
+                        .offset(x: geometry.size.width * 0.46, y: geometry.size.height * 0.18)
                 }
             }
             .ignoresSafeArea()
@@ -68,48 +144,37 @@ struct AuroraBackground: View {
 }
 
 private struct GlassSurface: ViewModifier {
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.colorSchemeContrast) private var contrast
+    @Environment(\.colorScheme) private var colorScheme
     let cornerRadius: CGFloat
     let padding: CGFloat
     let accent: Color
 
     func body(content: Content) -> some View {
+        let high = contrast == .increased
         content
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(padding)
             .background {
-                ZStack {
-                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .fill(reduceTransparency
-                              ? Color(red: 0.055, green: 0.055, blue: 0.065)
-                              : Color(red: 0.045, green: 0.045, blue: 0.055).opacity(0.96))
-                    if !reduceTransparency {
-                        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                            .fill(.thinMaterial)
-                        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                            .fill(
-                                LinearGradient(
-                                    colors: [Color.white.opacity(0.08), accent.opacity(0.08)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                    }
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .fill(BasirPalette.surface)
+            }
+            .overlay(alignment: .leading) {
+                if !high {
+                    // A thin accent edge on the leading side gives each card
+                    // its identity without colouring the area behind text.
+                    RoundedRectangle(cornerRadius: 2, style: .continuous)
+                        .fill(accent.opacity(0.85))
+                        .frame(width: 3)
+                        .padding(.vertical, cornerRadius * 0.7)
+                        .accessibilityHidden(true)
                 }
             }
             .overlay {
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .stroke(
-                        LinearGradient(
-                            colors: [accent.opacity(0.68), Color.white.opacity(0.14),
-                                     BasirPalette.violet.opacity(0.42)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 1
-                    )
+                    .stroke(BasirPalette.stroke, lineWidth: high ? 2 : 1)
             }
-            .shadow(color: accent.opacity(0.12), radius: 18, y: 8)
+            .shadow(color: .black.opacity(colorScheme == .dark || high ? 0 : 0.06), radius: 12, y: 4)
     }
 }
 
@@ -117,29 +182,37 @@ struct NetworkStatusPill: View {
     @EnvironmentObject private var l10n: L10n
     @EnvironmentObject private var settings: SettingsStore
     @EnvironmentObject private var network: NetworkMonitor
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
-        Label(label, systemImage: icon)
-            .font(.caption.weight(.semibold))
-            .foregroundStyle(color)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(color.opacity(0.12), in: Capsule())
-            .overlay { Capsule().stroke(color.opacity(0.38), lineWidth: 1) }
-            .accessibilityLabel(accessibilityText)
+        Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                Image(systemName: icon)
+            } else {
+                Label(label, systemImage: icon)
+            }
+        }
+        .font(.caption.weight(.semibold))
+        .foregroundStyle(color)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(color.opacity(0.12), in: Capsule())
+        .overlay { Capsule().stroke(color.opacity(0.45), lineWidth: 1) }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityText)
     }
 
     private var label: String {
         guard network.snapshot.isConnected else { return l10n.t("غير متصل", "Offline") }
         if settings.wifiOnly, !network.snapshot.usesWiFi { return l10n.t("بانتظار Wi‑Fi", "Waiting for Wi-Fi") }
-        return l10n.t("متصل بالإنترنت", "Online")
+        return l10n.t("متصل", "Online")
     }
 
     private var icon: String {
         network.snapshot.isConnected ? (network.snapshot.usesWiFi ? "wifi" : "antenna.radiowaves.left.and.right") : "wifi.slash"
     }
 
-    private var color: Color { network.snapshot.isConnected ? .green : .orange }
+    private var color: Color { network.snapshot.isConnected ? BasirPalette.success : BasirPalette.warning }
 
     private var accessibilityText: String {
         var value = label
@@ -155,34 +228,31 @@ struct BasirHeroCard: View {
     let systemImage: String
 
     var body: some View {
-        VStack(spacing: 12) {
+        HStack(alignment: .center, spacing: BasirSpacing.l) {
             Image(systemName: systemImage)
-                .font(.system(size: 34, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(width: 68, height: 68)
-                .background(Color.white.opacity(0.11), in: RoundedRectangle(cornerRadius: 20))
+                .font(.system(size: 26, weight: .semibold))
+                .foregroundStyle(BasirPalette.onAccent)
+                .frame(width: 54, height: 54)
+                .background(BasirPalette.accent, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .accessibilityHidden(true)
-            Text(title)
-                .font(.system(.title2, design: .rounded, weight: .bold))
-                .multilineTextAlignment(.center)
-                .accessibilityAddTraits(.isHeader)
-            if let subtitle, !subtitle.isEmpty {
-                Text(subtitle)
-                    .font(.callout)
-                    .foregroundStyle(BasirPalette.secondaryText)
-                    .multilineTextAlignment(.center)
-                    .lineSpacing(2)
+            VStack(alignment: .leading, spacing: BasirSpacing.xs) {
+                Text(title)
+                    .font(.system(.title2, design: .rounded, weight: .bold))
+                    .foregroundStyle(BasirPalette.primaryText)
                     .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityAddTraits(.isHeader)
+                if let subtitle, !subtitle.isEmpty {
+                    Text(subtitle)
+                        .font(.callout)
+                        .foregroundStyle(BasirPalette.secondaryText)
+                        .lineSpacing(2)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
+            Spacer(minLength: 0)
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 20)
-        .padding(.horizontal, 18)
-        .background(
-            Color(red: 0.055, green: 0.055, blue: 0.065),
-            in: RoundedRectangle(cornerRadius: 24, style: .continuous)
-        )
-        .overlay { RoundedRectangle(cornerRadius: 28).stroke(Color.white.opacity(0.18), lineWidth: 1) }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, BasirSpacing.s)
     }
 }
 
@@ -192,23 +262,28 @@ private struct AppScreenContent: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 16)
-            .padding(.top, 4)
+            .padding(.horizontal, BasirSpacing.l)
+            .padding(.top, BasirSpacing.xs)
             .padding(.bottom, bottomPadding)
     }
 }
 
 extension View {
     func glassSurface(
-        cornerRadius: CGFloat = 24,
-        padding: CGFloat = 18,
+        cornerRadius: CGFloat = BasirSpacing.cardRadius,
+        padding: CGFloat = BasirSpacing.l,
         accent: Color = BasirPalette.cyan
     ) -> some View {
         modifier(GlassSurface(cornerRadius: cornerRadius, padding: padding, accent: accent))
     }
 
-    func appScreenContent(bottomPadding: CGFloat = 24) -> some View {
+    func appScreenContent(bottomPadding: CGFloat = BasirSpacing.xl) -> some View {
         modifier(AppScreenContent(bottomPadding: bottomPadding))
+    }
+
+    /// Lets VoiceOver users dismiss a sheet with the two-finger Z (escape) gesture.
+    func escapeToDismiss(_ dismiss: @escaping () -> Void) -> some View {
+        accessibilityAction(.escape, dismiss)
     }
 }
 
@@ -218,19 +293,13 @@ struct ScreenHeader: View {
     let subtitle: String
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: BasirSpacing.s) {
             Text(section)
                 .font(.subheadline.weight(.semibold))
-                .foregroundStyle(BasirPalette.secondaryText)
+                .foregroundStyle(BasirPalette.accent)
             Text(title)
                 .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [.white, BasirPalette.cyan],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
+                .foregroundStyle(BasirPalette.primaryText)
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityAddTraits(.isHeader)
             Text(subtitle)
@@ -257,6 +326,7 @@ struct InfoCard: View {
                 Text(title)
                     .font(.headline)
                     .foregroundStyle(BasirPalette.primaryText)
+                    .fixedSize(horizontal: false, vertical: true)
                 Text(text)
                     .font(.subheadline)
                     .foregroundStyle(BasirPalette.secondaryText)
@@ -302,32 +372,19 @@ struct PrimaryActionButton: View {
         Button(action: action) {
             Label(title, systemImage: systemImage)
                 .font(.headline)
-                .foregroundStyle(.white)
+                .foregroundStyle(BasirPalette.onAccent)
+                .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
+                .frame(minHeight: 52)
+                .padding(.vertical, 4)
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .background {
-            RoundedRectangle(cornerRadius: 25, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        colors: [BasirPalette.cyanDeep, Color(red: 0.01, green: 0.27, blue: 0.43)],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
-        }
+        .background(BasirPalette.accent, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         .overlay {
-            RoundedRectangle(cornerRadius: 25, style: .continuous)
-                .stroke(BasirPalette.cyan.opacity(0.95), lineWidth: 1.5)
-                .padding(4)
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(BasirPalette.stroke, lineWidth: 1)
         }
-        .overlay {
-            RoundedRectangle(cornerRadius: 25, style: .continuous)
-                .stroke(Color.white.opacity(0.22), lineWidth: 1)
-        }
-        .shadow(color: BasirPalette.cyan.opacity(0.28), radius: 18, y: 5)
         .accessibilityAddTraits(.isButton)
     }
 }
@@ -342,15 +399,61 @@ struct SecondaryActionButton: View {
             Label(title, systemImage: systemImage)
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(BasirPalette.primaryText)
+                .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity)
                 .frame(minHeight: 44)
-                .padding(.vertical, 8)
+                .padding(.vertical, 6)
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .background(Color.white.opacity(0.10), in: RoundedRectangle(cornerRadius: 16))
+        .background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         .overlay {
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.white.opacity(0.20), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .stroke(BasirPalette.stroke, lineWidth: 1)
+        }
+    }
+}
+
+/// A compact bordered action used inside result and job cards.
+struct CardActionButton: View {
+    let title: String
+    let systemImage: String
+    var prominent = false
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Label(title, systemImage: systemImage)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(prominent ? BasirPalette.onAccent : BasirPalette.accent)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+                .frame(minHeight: 44)
+                .padding(.horizontal, 6)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .background(prominent ? BasirPalette.accent : BasirPalette.accent.opacity(0.10),
+                    in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .stroke(prominent ? Color.clear : BasirPalette.accent.opacity(0.35), lineWidth: 1)
+        }
+    }
+}
+
+/// Lays children out horizontally, switching to a vertical stack at
+/// accessibility text sizes so labels never truncate.
+struct AdaptiveStack<Content: View>: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    var spacing: CGFloat = BasirSpacing.s
+    @ViewBuilder let content: () -> Content
+
+    var body: some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            VStack(alignment: .leading, spacing: spacing, content: content)
+        } else {
+            HStack(spacing: spacing, content: content)
         }
     }
 }
@@ -375,7 +478,7 @@ struct SelectedFileCard: View {
                                   systemImage: "arrow.triangle.2.circlepath",
                                   action: changeAction)
         }
-        .glassSurface(accent: .green)
+        .glassSurface(accent: BasirPalette.success)
         .accessibilityElement(children: .contain)
     }
 }
@@ -387,11 +490,11 @@ struct InlineMessage: View {
     var body: some View {
         Label(text, systemImage: isError ? "exclamationmark.triangle.fill" : "checkmark.circle.fill")
             .font(.subheadline.weight(.medium))
-            .foregroundStyle(isError ? Color(red: 1, green: 0.72, blue: 0.72) : BasirPalette.cyan)
+            .foregroundStyle(isError ? BasirPalette.danger : BasirPalette.cyan)
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity, alignment: .leading)
             .glassSurface(cornerRadius: 18, padding: 14,
-                          accent: isError ? .red : BasirPalette.cyan)
+                          accent: isError ? BasirPalette.danger : BasirPalette.cyan)
             .accessibilityLabel(text)
     }
 }
@@ -431,12 +534,11 @@ struct AccessibleSelectionRow: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .background(selected ? BasirPalette.cyan.opacity(0.12) : Color.white.opacity(0.05),
-                    in: RoundedRectangle(cornerRadius: 15))
+        .background(selected ? BasirPalette.cyan.opacity(0.12) : BasirPalette.subtleFill,
+                    in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         .overlay {
-            RoundedRectangle(cornerRadius: 15)
-                .stroke(selected ? BasirPalette.cyan.opacity(0.65) : Color.white.opacity(0.10),
-                        lineWidth: 1)
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .stroke(selected ? BasirPalette.cyan.opacity(0.75) : BasirPalette.stroke, lineWidth: 1)
         }
         .accessibilityElement(children: .combine)
         .accessibilityValue(selected ? selectedValue : "")
@@ -458,7 +560,23 @@ struct GlassSectionTitle: View {
             Text(title)
                 .font(.headline)
                 .foregroundStyle(BasirPalette.primaryText)
+                .fixedSize(horizontal: false, vertical: true)
         }
+        .accessibilityElement(children: .combine)
         .accessibilityAddTraits(.isHeader)
+    }
+}
+
+/// Section heading placed above a group of cards (not inside one).
+struct SectionHeading: View {
+    let title: String
+
+    var body: some View {
+        Text(title)
+            .font(.title3.weight(.bold))
+            .foregroundStyle(BasirPalette.primaryText)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.top, BasirSpacing.s)
+            .accessibilityAddTraits(.isHeader)
     }
 }

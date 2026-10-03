@@ -3,16 +3,21 @@ import UIKit
 import VisionKit
 import UniformTypeIdentifiers
 
+/// The "New" tab: one place to convert or translate. Large source buttons
+/// come first, the chosen files and options follow, and the latest result
+/// stays one tap away underneath.
 struct TaskComposerView: View {
-    let operation: OperationKind
+    @Binding var operation: OperationKind
 
     @EnvironmentObject private var l10n: L10n
     @EnvironmentObject private var settings: SettingsStore
     @EnvironmentObject private var viewModel: AppViewModel
     @EnvironmentObject private var network: NetworkMonitor
+    @EnvironmentObject private var library: OutputLibraryStore
+    @EnvironmentObject private var intents: IntentRouter
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var pendingURLs: [URL] = []
     @State private var metadata: [String: DocumentMetadata] = [:]
-    @State private var showSourceMenu = false
     @State private var showFiles = false
     @State private var showPhotos = false
     @State private var showCamera = false
@@ -21,9 +26,11 @@ struct TaskComposerView: View {
     @State private var showConfigurationRequired = false
     @State private var pickerError: String?
     @State private var previewItem: PreviewItem?
+    @State private var shareItem: OutputRecord?
     @State private var customOutputName = ""
     @State private var passwordURL: URL?
     @State private var pdfPassword = ""
+    @AccessibilityFocusState private var focusSelectedFiles: Bool
 
     private var isTranslation: Bool { operation == .translate }
     private var supportedExtensions: Set<String> {
@@ -62,84 +69,68 @@ struct TaskComposerView: View {
         ZStack {
             AuroraBackground()
             ScrollView {
-                VStack(alignment: .leading, spacing: 14) {
-                    BasirHeroCard(
-                        title: isTranslation
-                            ? l10n.t("ترجمة", "Translate")
-                            : l10n.t("تحويل", "Convert"),
-                        systemImage: isTranslation ? "character.book.closed.fill" : "doc.richtext.fill"
-                    )
+                VStack(alignment: .leading, spacing: BasirSpacing.l) {
+                    Text(l10n.t("مهمة جديدة", "New task"))
+                        .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                        .foregroundStyle(BasirPalette.primaryText)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityAddTraits(.isHeader)
+
+                    operationPicker
 
                     if pendingURLs.isEmpty {
-                        PrimaryActionButton(
-                            title: l10n.t("اختيار ملف أو صورة أو تسجيل صوتي", "Choose a file, image, or audio recording"),
-                            systemImage: "plus.circle.fill"
-                        ) { showSourceMenu = true }
+                        SectionHeading(title: l10n.t("من أين الملف؟", "Where is the file?"))
+                        sourceGrid
+                        if !isTranslation {
+                            Text(l10n.t(
+                                "يقبل التحويل ملفات PDF والعروض والصور والتسجيلات الصوتية.",
+                                "Conversion accepts PDF, presentations, images, and audio recordings."
+                            ))
+                            .font(.footnote)
+                            .foregroundStyle(BasirPalette.secondaryText)
+                            .fixedSize(horizontal: false, vertical: true)
+                        }
                     } else {
                         selectedFilesSection
+                        if isTranslation { languageCard }
+                        taskSummaryCard
+                        resultNameCard
                     }
-
-                    if isTranslation { languageCard }
-                    taskSummaryCard
-
-                    VStack(alignment: .leading, spacing: 10) {
-                        GlassSectionTitle(title: l10n.t("اسم النتيجة", "Result name"), systemImage: "pencil")
-                        TextField(l10n.t("اختياري", "Optional"), text: $customOutputName)
-                            .textInputAutocapitalization(.sentences)
-                            .padding(14)
-                            .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 14))
-                    }
-                    .glassSurface()
 
                     if let pickerError { InlineMessage(text: pickerError, isError: true) }
 
                     if !pendingURLs.isEmpty {
                         PrimaryActionButton(
-                            title: isTranslation ? l10n.t("بدء الترجمة", "Start translation")
-                                                 : l10n.t("بدء التحويل", "Start conversion"),
+                            title: isTranslation ? l10n.t("ابدأ الترجمة", "Start translation")
+                                                 : l10n.t("ابدأ التحويل", "Start conversion"),
                             systemImage: "play.fill"
                         ) {
                             if !settings.isConfigured { showConfigurationRequired = true }
                             else { showPrivacyConfirmation = true }
                         }
                     }
+
+                    if pendingURLs.isEmpty, let last = library.items.first {
+                        SectionHeading(title: l10n.t("آخر نتيجة", "Latest result"))
+                        lastResultCard(last)
+                    }
                 }
                 .appScreenContent(bottomPadding: 28)
             }
-            .safeAreaInset(edge: .bottom) { Color.clear.frame(height: 8) }
         }
         .foregroundStyle(BasirPalette.primaryText)
-        .navigationTitle("")
+        .navigationTitle(l10n.t("جديد", "New"))
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(.hidden, for: .navigationBar)
-        .confirmationDialog(l10n.t("مصدر المستند", "Document source"),
-                            isPresented: $showSourceMenu,
-                            titleVisibility: .visible) {
-            Button(l10n.t("تطبيق الملفات", "Files"), systemImage: "folder") { showFiles = true }
-            Button(l10n.t("مكتبة الصور", "Photos"), systemImage: "photo.on.rectangle.angled") { showPhotos = true }
-            Button(l10n.t("التقاط صورة", "Take a photo"), systemImage: "camera") {
-                if UIImagePickerController.isSourceTypeAvailable(.camera) { showCamera = true }
-                else { pickerError = l10n.t("الكاميرا غير متاحة على هذا الجهاز.", "The camera is not available on this device.") }
-            }
-            Button(l10n.t("مسح مستند متعدد الصفحات", "Scan a multi-page document"), systemImage: "doc.viewfinder") {
-                if VNDocumentCameraViewController.isSupported { showScanner = true }
-                else { pickerError = l10n.t("ماسح المستندات غير متاح على هذا الجهاز.", "Document scanning is not available on this device.") }
-            }
-            Button(l10n.t("لصق صورة من الحافظة", "Paste an image from clipboard"), systemImage: "doc.on.clipboard") {
-                pasteImages()
-            }
-            Button(l10n.t("إلغاء", "Cancel"), role: .cancel) { }
-        }
         .alert(l10n.t("تأكيد الإرسال", "Confirm sending"), isPresented: $showPrivacyConfirmation) {
             Button(l10n.t("إلغاء", "Cancel"), role: .cancel) { }
-            Button(isTranslation ? l10n.t("بدء الترجمة", "Start translation")
-                                 : l10n.t("بدء التحويل", "Start conversion")) { enqueuePending() }
+            Button(isTranslation ? l10n.t("ابدأ الترجمة", "Start translation")
+                                 : l10n.t("ابدأ التحويل", "Start conversion")) { enqueuePending() }
         } message: { Text(privacyMessage) }
         .alert(l10n.t("تعذر بدء المهمة", "Unable to start"), isPresented: $showConfigurationRequired) {
             Button(l10n.t("حسنًا", "OK"), role: .cancel) { }
         } message: {
-            Text(l10n.t("التطبيق غير مرتبطة بالاتصال بعد. ثبّت النسخة النهائية المرتبطة بالخادم.",
-                        "The app is not connected to the Connection. Install the final server-enabled build."))
+            Text(l10n.t("هذه النسخة غير مرتبطة بخادم بصير بعد. ثبّت النسخة النهائية المرتبطة بالخادم.",
+                        "This build is not connected to the Basir server. Install the final server-enabled build."))
         }
         .alert(l10n.t("ملف PDF محمي", "Password-protected PDF"), isPresented: Binding(
             get: { passwordURL != nil },
@@ -194,37 +185,177 @@ struct TaskComposerView: View {
             .ignoresSafeArea()
         }
         .sheet(item: $previewItem) { QuickLookPreview(url: $0.url).ignoresSafeArea() }
-        .onAppear { receiveExternalIfNeeded() }
+        .sheet(item: $shareItem) { ActivityShareView(urls: [$0.url]) }
+        .onAppear {
+            receiveExternalIfNeeded()
+            handleIntentIfNeeded()
+        }
         .onChange(of: viewModel.routedExternalBatch?.id) { _ in receiveExternalIfNeeded() }
         .onChange(of: viewModel.routedExternalDocument?.id) { _ in receiveExternalIfNeeded() }
+        .onChange(of: intents.pendingAction) { _ in handleIntentIfNeeded() }
+        .onChange(of: operation) { _ in dropFilesUnsupportedByOperation() }
+    }
+
+    // MARK: - Operation
+
+    private var operationPicker: some View {
+        AdaptiveStack(spacing: BasirSpacing.s) {
+            operationButton(.convert,
+                            title: l10n.t("تحويل إلى Word", "Convert to Word"),
+                            systemImage: "doc.richtext.fill")
+            operationButton(.translate,
+                            title: l10n.t("ترجمة", "Translate"),
+                            systemImage: "character.book.closed.fill")
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel(l10n.t("نوع المهمة", "Task type"))
+    }
+
+    private func operationButton(_ kind: OperationKind, title: String, systemImage: String) -> some View {
+        let selected = operation == kind
+        return Button {
+            guard operation != kind else { return }
+            operation = kind
+            OperationFeedback.selectionChanged()
+        } label: {
+            Label(title, systemImage: systemImage)
+                .font(.headline)
+                .foregroundStyle(selected ? BasirPalette.onAccent : BasirPalette.primaryText)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+                .frame(minHeight: 50)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .background(selected ? BasirPalette.accent : BasirPalette.surface,
+                    in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .stroke(selected ? Color.clear : BasirPalette.stroke, lineWidth: 1)
+        }
+        .accessibilityAddTraits(selected ? .isSelected : [])
+    }
+
+    // MARK: - Sources
+
+    private var sourceGrid: some View {
+        let columns = dynamicTypeSize.isAccessibilitySize
+            ? [GridItem(.flexible())]
+            : [GridItem(.flexible(), spacing: BasirSpacing.m), GridItem(.flexible(), spacing: BasirSpacing.m)]
+        return LazyVGrid(columns: columns, spacing: BasirSpacing.m) {
+            SourceTile(title: l10n.t("ملف", "File"),
+                       detail: l10n.t("من تطبيق الملفات", "From the Files app"),
+                       systemImage: "folder.fill") { showFiles = true }
+            SourceTile(title: l10n.t("مسح ضوئي", "Scan"),
+                       detail: l10n.t("مستند متعدد الصفحات", "Multi-page document"),
+                       systemImage: "doc.viewfinder.fill") { openScanner() }
+            SourceTile(title: l10n.t("كاميرا", "Camera"),
+                       detail: l10n.t("التقاط صورة", "Take a photo"),
+                       systemImage: "camera.fill") { openCamera() }
+            SourceTile(title: l10n.t("لصق", "Paste"),
+                       detail: l10n.t("صورة من الحافظة", "Image from clipboard"),
+                       systemImage: "doc.on.clipboard.fill") { pasteImages() }
+            SourceTile(title: l10n.t("الصور", "Photos"),
+                       detail: l10n.t("من مكتبة الصور", "From your library"),
+                       systemImage: "photo.on.rectangle.angled") { showPhotos = true }
+        }
+    }
+
+    private var addMoreMenu: some View {
+        Menu {
+            Button { showFiles = true } label: { Label(l10n.t("ملف", "File"), systemImage: "folder") }
+            Button { openScanner() } label: { Label(l10n.t("مسح ضوئي", "Scan"), systemImage: "doc.viewfinder") }
+            Button { openCamera() } label: { Label(l10n.t("كاميرا", "Camera"), systemImage: "camera") }
+            Button { pasteImages() } label: { Label(l10n.t("لصق", "Paste"), systemImage: "doc.on.clipboard") }
+            Button { showPhotos = true } label: {
+                Label(l10n.t("الصور", "Photos"), systemImage: "photo.on.rectangle.angled")
+            }
+        } label: {
+            Label(l10n.t("إضافة المزيد", "Add more"), systemImage: "plus")
+                .font(.subheadline.weight(.semibold))
+                .frame(minHeight: 44)
+        }
+        .tint(BasirPalette.accent)
+    }
+
+    private func openCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) { showCamera = true }
+        else { pickerError = l10n.t("الكاميرا غير متاحة على هذا الجهاز.", "The camera is not available on this device.") }
+    }
+
+    private func openScanner() {
+        if VNDocumentCameraViewController.isSupported { showScanner = true }
+        else { pickerError = l10n.t("ماسح المستندات غير متاح على هذا الجهاز.", "Document scanning is not available on this device.") }
+    }
+
+    // MARK: - Selected files and options
+
+    private var selectedFilesSection: some View {
+        VStack(alignment: .leading, spacing: BasirSpacing.m) {
+            AdaptiveStack {
+                GlassSectionTitle(title: l10n.t("الملفات المختارة: \(pendingURLs.count)",
+                                                "Selected files: \(pendingURLs.count)"),
+                                  systemImage: "checkmark.circle.fill")
+                    .accessibilityFocused($focusSelectedFiles)
+                Spacer(minLength: 0)
+                addMoreMenu
+            }
+            ForEach(pendingURLs, id: \.standardizedFileURL) { url in
+                VStack(alignment: .leading, spacing: BasirSpacing.s) {
+                    Text(url.lastPathComponent)
+                        .font(.headline)
+                        .lineLimit(3)
+                        .fixedSize(horizontal: false, vertical: true)
+                    if let value = metadata[url.standardizedFileURL.path] {
+                        Text(metadataText(value))
+                            .font(.footnote)
+                            .foregroundStyle(BasirPalette.secondaryText)
+                            .fixedSize(horizontal: false, vertical: true)
+                    } else {
+                        ProgressView().tint(BasirPalette.cyan).accessibilityLabel(l10n.t("جارٍ فحص الملف", "Inspecting file"))
+                    }
+                    AdaptiveStack {
+                        CardActionButton(title: l10n.t("معاينة", "Preview"), systemImage: "eye") {
+                            previewItem = PreviewItem(url: url)
+                        }
+                        CardActionButton(title: l10n.t("إزالة", "Remove"), systemImage: "trash") { remove(url) }
+                    }
+                }
+                .padding(BasirSpacing.m)
+                .background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .accessibilityElement(children: .contain)
+            }
+        }
+        .glassSurface(accent: BasirPalette.success)
     }
 
     private var taskSummaryCard: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            GlassSectionTitle(title: l10n.t("إعدادات المهمة", "Task settings"), systemImage: "gearshape.2.fill")
-            Text(settings.preferredModel.title(l10n))
-                .font(.headline)
-            Text(settings.preferredModel.detail(l10n))
-                .font(.footnote)
+        VStack(alignment: .leading, spacing: BasirSpacing.s) {
+            GlassSectionTitle(title: l10n.t("خيارات المهمة", "Task options"), systemImage: "slider.horizontal.3")
+            Text(summaryText)
+                .font(.subheadline)
                 .foregroundStyle(BasirPalette.secondaryText)
-            Text(l10n.t(
-                "محتوى Word: \(settings.outputMode.title(l10n)) • الصور: \(settings.embedVisuals ? "نعم" : "لا") • المعادلات: \(settings.includeMath ? "نعم" : "لا")",
-                "Word content: \(settings.outputMode.title(l10n)) • images: \(settings.embedVisuals ? "on" : "off") • math: \(settings.includeMath ? "on" : "off")"
-            ))
-            .font(.footnote)
-            .foregroundStyle(BasirPalette.secondaryText)
+                .fixedSize(horizontal: false, vertical: true)
             Button { viewModel.isSettingsPresented = true } label: {
-                Label(l10n.t("تغيير إعدادات المهمة", "Change task settings"), systemImage: "slider.horizontal.3")
+                Label(l10n.t("تغيير الخيارات", "Change options"), systemImage: "gearshape")
+                    .font(.subheadline.weight(.semibold))
+                    .frame(minHeight: 44)
             }
-            .buttonStyle(.bordered)
-            .tint(BasirPalette.cyan)
-            .frame(minHeight: 44)
+            .tint(BasirPalette.accent)
         }
         .glassSurface()
     }
 
+    private var summaryText: String {
+        let yes = l10n.t("نعم", "on"), no = l10n.t("لا", "off")
+        return l10n.t(
+            "المحتوى: \(settings.outputMode.title(l10n)) • الصور: \(settings.embedVisuals ? yes : no) • المعادلات: \(settings.includeMath ? yes : no) • النموذج: \(settings.preferredModel.title(l10n))",
+            "Content: \(settings.outputMode.title(l10n)) • images: \(settings.embedVisuals ? yes : no) • math: \(settings.includeMath ? yes : no) • model: \(settings.preferredModel.title(l10n))"
+        )
+    }
+
     private var languageCard: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: BasirSpacing.m) {
             GlassSectionTitle(title: l10n.t("لغة الترجمة", "Translation language"), systemImage: "character.bubble")
             Picker(l10n.t("اختر لغة الترجمة", "Choose translation language"),
                    selection: Binding(get: { settings.targetLanguageCode }, set: {
@@ -233,105 +364,63 @@ struct TaskComposerView: View {
                 ForEach(SupportedLanguage.all) { Text($0.name(interface: l10n.language)).tag($0.code) }
             }
             .pickerStyle(.menu).tint(BasirPalette.cyan)
-            .padding(12).frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 14))
+            .padding(BasirSpacing.m).frame(maxWidth: .infinity, alignment: .leading)
+            .background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
         .glassSurface()
     }
 
-    private var resultStyleCard: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            GlassSectionTitle(title: l10n.t("محتوى ملف Word", "Word file content"), systemImage: "slider.horizontal.3")
-            Picker(l10n.t("محتوى الملف", "File content"), selection: Binding(get: { settings.outputMode }, set: {
-                settings.outputMode = $0; settings.save()
-            })) {
-                ForEach(OutputMode.allCases) { Text($0.title(l10n)).tag($0) }
-            }
-            .pickerStyle(.menu).tint(BasirPalette.cyan)
+    private var resultNameCard: some View {
+        VStack(alignment: .leading, spacing: BasirSpacing.s) {
+            GlassSectionTitle(title: l10n.t("اسم النتيجة (اختياري)", "Result name (optional)"), systemImage: "pencil")
+            TextField(l10n.t("يُستخدم اسم الملف الأصلي إذا تركته فارغًا", "The original name is used if left empty"),
+                      text: $customOutputName)
+                .textInputAutocapitalization(.sentences)
+                .padding(BasirSpacing.m)
+                .background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
         .glassSurface()
     }
 
-    private var sourceOptionsCard: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            Toggle(l10n.t("إدراج الصور والشعارات", "Include images and logos"), isOn: Binding(
-                get: { settings.embedVisuals }, set: { settings.embedVisuals = $0; settings.save(); OperationFeedback.selectionChanged() }
-            )).tint(BasirPalette.cyan)
-            Toggle(l10n.t("شرح المعادلات الرياضية", "Explain mathematical equations"), isOn: Binding(
-                get: { settings.includeMath }, set: { settings.includeMath = $0; settings.save(); OperationFeedback.selectionChanged() }
-            )).tint(BasirPalette.cyan)
-            Toggle(l10n.t("الحفاظ على الرموز ومعانيها", "Preserve symbols and their meaning"), isOn: Binding(
-                get: { settings.preserveSymbols }, set: { settings.preserveSymbols = $0; settings.save(); OperationFeedback.selectionChanged() }
-            )).tint(BasirPalette.cyan)
-            Text(l10n.t(
-                "يشمل علامات الصح والخطأ ومربعات الاختيار والتحذير والأسهم والرموز المشابهة مثل ✓ ✗ ☑ ☐ ⚠.",
-                "Includes check/cross marks, checkboxes, warnings, arrows, and similar symbols such as ✓ ✗ ☑ ☐ ⚠."
-            ))
-            .font(.footnote)
-            .foregroundStyle(BasirPalette.secondaryText)
-            if !isTranslation {
-                Text(l10n.t(
-                    "يدعم بصير أيضًا التسجيلات الصوتية من تطبيق الملفات ويحوّلها إلى تفريغ مكتوب داخل ملف Word، بما في ذلك التسجيلات الطويلة.",
-                    "Basir also accepts audio recordings from Files and creates a written Word transcript, including long recordings."
-                ))
+    // MARK: - Latest result
+
+    private func lastResultCard(_ item: OutputRecord) -> some View {
+        VStack(alignment: .leading, spacing: BasirSpacing.m) {
+            Label(item.displayName, systemImage: "doc.richtext.fill")
+                .font(.headline)
+                .lineLimit(3)
+                .fixedSize(horizontal: false, vertical: true)
+            Text(item.createdAt.formatted(.relative(presentation: .named)))
                 .font(.footnote)
                 .foregroundStyle(BasirPalette.secondaryText)
+            if let quality = item.quality {
+                QualityBadge(report: quality)
             }
-            VStack(alignment: .leading, spacing: 7) {
-                Text(l10n.t("صفحات PDF المطلوبة (اختياري)", "PDF pages (optional)")).font(.subheadline.weight(.semibold))
-                TextField(l10n.t("مثال: 1-20، 25، 30-40", "Example: 1-20, 25, 30-40"),
-                          text: Binding(get: { settings.pageSelection }, set: {
-                            settings.pageSelection = $0; settings.save()
-                          }))
-                    .keyboardType(.numbersAndPunctuation)
-                    .padding(12)
-                    .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 14))
+            AdaptiveStack {
+                CardActionButton(title: l10n.t("معاينة", "Preview"), systemImage: "eye.fill", prominent: true) {
+                    previewItem = PreviewItem(url: item.url)
+                }
+                CardActionButton(title: l10n.t("مشاركة", "Share"), systemImage: "square.and.arrow.up") {
+                    shareItem = item
+                }
             }
         }
         .glassSurface()
+        .accessibilityElement(children: .contain)
     }
 
-    private var selectedFilesSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                GlassSectionTitle(title: l10n.t("العناصر المختارة: \(pendingURLs.count)",
-                                                "Selected items: \(pendingURLs.count)"),
-                                  systemImage: "checkmark.circle.fill")
-                Spacer()
-                Button(l10n.t("إضافة", "Add")) { showSourceMenu = true }.buttonStyle(.bordered)
-            }
-            ForEach(pendingURLs, id: \.standardizedFileURL) { url in
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(url.lastPathComponent).font(.headline).lineLimit(3)
-                    if let value = metadata[url.standardizedFileURL.path] {
-                        Text(metadataText(value)).font(.footnote).foregroundStyle(BasirPalette.secondaryText)
-                    } else {
-                        ProgressView().tint(BasirPalette.cyan).accessibilityLabel(l10n.t("جارٍ فحص الملف", "Inspecting file"))
-                    }
-                    HStack {
-                        Button { previewItem = PreviewItem(url: url) } label: {
-                            Label(l10n.t("معاينة", "Preview"), systemImage: "eye")
-                        }
-                        .buttonStyle(.bordered).tint(BasirPalette.cyan)
-                        Button(role: .destructive) { remove(url) } label: {
-                            Label(l10n.t("إزالة", "Remove"), systemImage: "trash")
-                        }
-                        .buttonStyle(.bordered).tint(.red)
-                    }
-                }
-                .padding(12)
-                .background(Color.white.opacity(0.05), in: RoundedRectangle(cornerRadius: 16))
-            }
-        }
-        .glassSurface(accent: .green)
-    }
+    // MARK: - Intake
 
     private func handleSelected(_ urls: [URL]) {
         guard !urls.isEmpty else { return }
         pickerError = nil
         let valid = urls.filter { supportedExtensions.contains($0.pathExtension.lowercased()) }
         guard valid.count == urls.count else {
-            pickerError = l10n.t("أحد العناصر المختارة غير مدعوم في هذه العملية.", "One selected item is unsupported for this task.")
+            pickerError = isTranslation
+                ? l10n.t("أحد العناصر المختارة لا يمكن ترجمته. التسجيلات الصوتية تُحوَّل فقط.",
+                         "One selected item cannot be translated. Audio recordings can only be converted.")
+                : l10n.t("أحد العناصر المختارة لا يمكن تحويله. ملفات Word تُترجم فقط.",
+                         "One selected item cannot be converted. Word files can only be translated.")
             return
         }
         Task {
@@ -349,9 +438,19 @@ struct TaskComposerView: View {
                     inspect(url)
                 }
                 UIAccessibility.post(notification: .announcement,
-                                     argument: l10n.t("تم اختيار \(normalized.count) من العناصر.", "Added \(normalized.count) item(s)."))
+                                     argument: l10n.t("تمت إضافة \(normalized.count) من العناصر. اختر ابدأ عند الجاهزية.",
+                                                      "Added \(normalized.count) item(s). Choose Start when ready."))
+                focusSelectedFiles = true
             } catch { pickerError = error.localizedDescription }
         }
+    }
+
+    private func dropFilesUnsupportedByOperation() {
+        let unsupported = pendingURLs.filter { !supportedExtensions.contains($0.pathExtension.lowercased()) }
+        guard !unsupported.isEmpty else { return }
+        unsupported.forEach(remove)
+        pickerError = l10n.t("أُزيل \(unsupported.count) من العناصر لأنه لا يناسب هذه المهمة.",
+                             "Removed \(unsupported.count) item(s) that do not fit this task.")
     }
 
     private func inspect(_ url: URL) {
@@ -405,12 +504,32 @@ struct TaskComposerView: View {
     }
 
     private func receiveExternalIfNeeded() {
-        if let batch = viewModel.routedExternalBatch, batch.operation == operation {
+        if let batch = viewModel.routedExternalBatch {
             viewModel.consumeRoutedExternalBatch(id: batch.id)
+            operation = batch.operation
             handleSelected(batch.urls)
-        } else if let document = viewModel.routedExternalDocument, document.operation == operation {
+        } else if let document = viewModel.routedExternalDocument {
             viewModel.consumeRoutedExternalDocument(id: document.id)
+            operation = document.operation
             handleSelected([document.url])
+        }
+    }
+
+    private func handleIntentIfNeeded() {
+        guard let action = intents.pendingAction else { return }
+        switch action {
+        case .chooseFile(let requested):
+            intents.pendingAction = nil
+            operation = requested
+            showFiles = true
+        case .openLatestResult:
+            intents.pendingAction = nil
+            library.refresh()
+            if let latest = library.items.first {
+                previewItem = PreviewItem(url: latest.url)
+            } else {
+                pickerError = l10n.t("لا توجد نتيجة محفوظة بعد.", "There is no saved result yet.")
+            }
         }
     }
 
@@ -425,7 +544,7 @@ struct TaskComposerView: View {
     }
 
     private func metadataText(_ value: DocumentMetadata) -> String {
-        var parts = [value.humanReadableSize, value.contentType]
+        var parts = [value.humanReadableSize]
         if let count = value.itemCount { parts.append(l10n.t("\(count) صفحة أو صورة", "\(count) page(s) or image(s)")) }
         if let width = value.pixelWidth, let height = value.pixelHeight { parts.append("\(width)×\(height)") }
         return parts.joined(separator: " • ")
@@ -435,8 +554,8 @@ struct TaskComposerView: View {
         let networkNotice = network.snapshot.isExpensive
             ? l10n.t(" أنت تستخدم بيانات الهاتف.", " You are using cellular data.") : ""
         return l10n.t(
-            "سيُرسل محتوى \(pendingURLs.count) من العناصر إلى الاتصال لمعالجته، ثم تُنزّل النتيجة إلى جهازك.\(networkNotice)",
-            "Content from \(pendingURLs.count) item(s) will be sent to the Connection, then the result will be downloaded to your device.\(networkNotice)"
+            "سيُرسل محتوى \(pendingURLs.count) من العناصر إلى خادم بصير لمعالجته، ثم تُنزّل النتيجة إلى جهازك.\(networkNotice)",
+            "Content from \(pendingURLs.count) item(s) will be sent to the Basir server, then the result will be downloaded to your device.\(networkNotice)"
         )
     }
 
@@ -446,3 +565,40 @@ struct TaskComposerView: View {
     }
 }
 
+/// A large, high-contrast source button used on the start screen.
+struct SourceTile: View {
+    let title: String
+    let detail: String
+    let systemImage: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(alignment: .leading, spacing: BasirSpacing.s) {
+                Image(systemName: systemImage)
+                    .font(.system(size: 26, weight: .semibold))
+                    .foregroundStyle(BasirPalette.accent)
+                    .accessibilityHidden(true)
+                Text(title)
+                    .font(.headline)
+                    .foregroundStyle(BasirPalette.primaryText)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(detail)
+                    .font(.footnote)
+                    .foregroundStyle(BasirPalette.secondaryText)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .frame(maxWidth: .infinity, minHeight: 96, alignment: .topLeading)
+            .padding(BasirSpacing.l)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .background(BasirPalette.surface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(BasirPalette.stroke, lineWidth: 1)
+        }
+        .accessibilityLabel(title)
+        .accessibilityHint(detail)
+    }
+}

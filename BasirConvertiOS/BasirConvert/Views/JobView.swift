@@ -1,5 +1,7 @@
 import SwiftUI
 
+/// Task details, shown as an expandable sheet from the compact task bar or
+/// the Tasks tab. It no longer covers the whole app while a task runs.
 struct JobView: View {
     @EnvironmentObject private var l10n: L10n
     @EnvironmentObject private var settings: SettingsStore
@@ -15,11 +17,8 @@ struct JobView: View {
             ZStack {
                 AuroraBackground()
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 14) {
-                        BasirHeroCard(title: navigationTitle,
-                                      subtitle: statusSubtitle,
-                                      systemImage: statusIcon)
-                        statusCard
+                    VStack(alignment: .leading, spacing: BasirSpacing.l) {
+                        header
                         switch viewModel.status {
                         case .running:
                             runningContent
@@ -39,24 +38,19 @@ struct JobView: View {
                     }
                     .appScreenContent(bottomPadding: 28)
                 }
-                .safeAreaInset(edge: .bottom) { Color.clear.frame(height: 8) }
             }
             .foregroundStyle(BasirPalette.primaryText)
-            .navigationTitle("")
+            .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(.hidden, for: .navigationBar)
-            .interactiveDismissDisabled(viewModel.status == .running)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) { NetworkStatusPill() }
-                if viewModel.status != .running {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button(l10n.t("إغلاق", "Close")) { viewModel.dismissJob() }
-                            .fontWeight(.semibold)
-                            .foregroundStyle(BasirPalette.cyan)
-                    }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(l10n.t("إغلاق", "Close")) { viewModel.dismissJob() }
+                        .fontWeight(.semibold)
+                        .foregroundStyle(BasirPalette.accent)
                 }
             }
         }
+        .escapeToDismiss { viewModel.dismissJob() }
         .sheet(item: bindingURL($previewURL)) { QuickLookPreview(url: $0.url).ignoresSafeArea() }
         .sheet(item: bindingURL($shareURL)) { ActivityShareView(urls: [$0.url]) }
         .sheet(item: bindingURL($exportURL)) { ExportDocumentPicker(urls: [$0.url]) }
@@ -76,52 +70,64 @@ struct JobView: View {
         }
     }
 
-    private var statusCard: some View {
-        HStack(alignment: .top, spacing: 13) {
-            Image(systemName: statusIcon).font(.title).foregroundStyle(statusColor).accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 6) {
-                Text(navigationTitle).font(.headline)
+    private var header: some View {
+        HStack(alignment: .top, spacing: BasirSpacing.m) {
+            Image(systemName: statusIcon)
+                .font(.title)
+                .foregroundStyle(statusColor)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: BasirSpacing.xs) {
+                Text(navigationTitle)
+                    .font(.title2.weight(.bold))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityAddTraits(.isHeader)
                 Text(viewModel.sourceName)
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(BasirPalette.secondaryText)
                     .lineLimit(3)
+                    .fixedSize(horizontal: false, vertical: true)
                 if let metadata = viewModel.selectedJob?.sourceMetadata {
                     Text(metadataSummary(metadata))
-                        .font(.caption)
-                        .foregroundStyle(BasirPalette.tertiaryText)
-                }
-                if let job = viewModel.selectedJob {
-                    Text(modelSummary(job))
                         .font(.caption)
                         .foregroundStyle(BasirPalette.tertiaryText)
                 }
             }
             Spacer(minLength: 0)
         }
-        .glassSurface(accent: statusColor)
-        .accessibilityElement(children: .combine)
     }
 
     private var runningContent: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            GlassSectionTitle(title: viewModel.progress.stage.label(l10n), systemImage: "hourglass")
-            if let fraction = viewModel.progress.fraction {
-                ProgressView(value: fraction) {
-                    Text(l10n.t("التقدم", "Progress"))
-                } currentValueLabel: {
-                    Text("\(viewModel.progress.current) / \(viewModel.progress.total)")
+        let percent = JobStep.overallPercent(for: viewModel.progress)
+        return VStack(alignment: .leading, spacing: BasirSpacing.l) {
+            VStack(alignment: .leading, spacing: BasirSpacing.s) {
+                HStack {
+                    Text(JobStep.current(for: viewModel.progress)?.activeTitle(l10n) ?? navigationTitle)
+                        .font(.headline)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Spacer(minLength: 0)
+                    Text("\(percent)%").font(.headline.monospacedDigit())
                 }
-                .tint(BasirPalette.cyan)
-            } else { ProgressView().tint(BasirPalette.cyan).frame(maxWidth: .infinity) }
+                ProgressView(value: Double(percent), total: 100)
+                    .tint(BasirPalette.accent)
+            }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(l10n.t("التقدم", "Progress"))
+            .accessibilityValue(JobStep.spokenStatus(for: viewModel.progress, l10n: l10n))
+            .accessibilityAddTraits(.updatesFrequently)
+
+            JobStepTimeline(progress: viewModel.progress)
+
             if let detail = viewModel.progress.detail, !detail.isEmpty {
-                Text(localizedDetail(detail)).font(.headline).foregroundStyle(.white)
+                Text(localizedDetail(detail))
+                    .font(.subheadline)
+                    .foregroundStyle(BasirPalette.secondaryText)
             }
             if viewModel.progress.totalBytes > 0 {
                 Text("\(ByteCountFormatter.string(fromByteCount: viewModel.progress.transferredBytes, countStyle: .file)) / \(ByteCountFormatter.string(fromByteCount: viewModel.progress.totalBytes, countStyle: .file))")
                     .font(.footnote).foregroundStyle(BasirPalette.secondaryText)
             }
             TimelineView(.periodic(from: .now, by: 1)) { _ in
-                HStack {
+                AdaptiveStack {
                     metric(l10n.t("الوقت المنقضي", "Elapsed"), format(viewModel.elapsedTime))
                     if let remaining = viewModel.estimatedRemaining {
                         metric(l10n.t("المتبقي تقديريًا", "Estimated left"), format(remaining))
@@ -129,129 +135,120 @@ struct JobView: View {
                 }
                 .accessibilityElement(children: .combine)
             }
-            if viewModel.progress.succeeded > 0 || viewModel.progress.failed > 0 || (viewModel.progress.skipped ?? 0) > 0 {
-                Text(l10n.t(
-                    "أُدرجت \(viewModel.progress.succeeded) • فارغة متخطاة \(viewModel.progress.skipped ?? 0) • حفظ احتياطي \(viewModel.progress.failed)",
-                    "Retained \(viewModel.progress.succeeded) • blank skipped \(viewModel.progress.skipped ?? 0) • fallback \(viewModel.progress.failed)"
-                ))
+            AdaptiveStack {
+                CardActionButton(title: l10n.t("إيقاف مؤقت", "Pause"), systemImage: "pause.fill", prominent: true) {
+                    viewModel.pause()
+                }
+                CardActionButton(title: l10n.t("إلغاء", "Cancel"), systemImage: "stop.fill") {
+                    showCancelConfirmation = true
+                }
+            }
+            Text(l10n.t("تلميح: النقر مرتين بإصبعين يوقف المهمة أو يستأنفها من أي مكان.",
+                        "Tip: a two-finger double-tap pauses or resumes the task from anywhere."))
                 .font(.footnote)
-                .foregroundStyle(BasirPalette.secondaryText)
-            }
-            HStack {
-                Button { viewModel.pause() } label: {
-                    Label(l10n.t("إيقاف مؤقت", "Pause"), systemImage: "pause.circle.fill")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent).tint(.orange)
-                Button(role: .destructive) { showCancelConfirmation = true } label: {
-                    Label(l10n.t("إلغاء", "Cancel"), systemImage: "stop.circle.fill")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered).tint(.red)
-            }
+                .foregroundStyle(BasirPalette.tertiaryText)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .glassSurface()
     }
 
     private var waitingContent: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            GlassSectionTitle(title: viewModel.progress.stage.label(l10n), systemImage: "wifi.slash")
+        VStack(alignment: .leading, spacing: BasirSpacing.m) {
             Text(viewModel.errorMessage ?? l10n.t("ستبدأ المهمة تلقائيًا عندما يصبح الاتصال مناسبًا.",
                                                    "The task will start automatically when the connection is suitable."))
                 .foregroundStyle(BasirPalette.secondaryText)
-            Button { viewModel.resume() } label: {
-                Label(l10n.t("المحاولة الآن", "Try now"), systemImage: "arrow.clockwise")
-                    .frame(maxWidth: .infinity)
+                .fixedSize(horizontal: false, vertical: true)
+            PrimaryActionButton(title: l10n.t("المحاولة الآن", "Try now"), systemImage: "arrow.clockwise") {
+                viewModel.resume()
             }
-            .buttonStyle(.borderedProminent).tint(BasirPalette.cyan)
         }
-        .glassSurface(accent: .orange)
+        .glassSurface(accent: BasirPalette.warning)
     }
 
     private var pausedContent: some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: BasirSpacing.m) {
+            JobStepTimeline(progress: viewModel.progress)
             Text(l10n.t("تم حفظ تقدمك. عند الاستئناف، سيكمل بصير من آخر جزء انتهى منه.",
                         "Progress is saved. Basir will reuse completed pages when you resume."))
                 .foregroundStyle(BasirPalette.secondaryText)
+                .fixedSize(horizontal: false, vertical: true)
             PrimaryActionButton(title: l10n.t("استئناف المهمة", "Resume task"), systemImage: "play.fill") {
                 viewModel.resume()
             }
-            Button(role: .destructive) { showCancelConfirmation = true } label: {
-                Label(l10n.t("إلغاء المهمة", "Cancel task"), systemImage: "stop.circle")
+            SecondaryActionButton(title: l10n.t("إلغاء المهمة", "Cancel task"), systemImage: "stop.circle") {
+                showCancelConfirmation = true
             }
-            .buttonStyle(.bordered).tint(.red)
         }
-        .glassSurface(accent: .orange)
+        .glassSurface(accent: BasirPalette.warning)
     }
 
     private func completedContent(partial: Bool) -> some View {
-        VStack(alignment: .leading, spacing: 16) {
-            GlassSectionTitle(
-                title: partial ? l10n.t("نتيجة جزئية جاهزة", "Partial result ready")
-                    : l10n.t("ملف Word جاهز", "Word file ready"),
-                systemImage: partial ? "exclamationmark.circle.fill" : "checkmark.seal.fill"
-            )
-            if let job = viewModel.selectedJob {
-                completionAccounting(job)
-                if !job.failedItems.isEmpty {
+        VStack(alignment: .leading, spacing: BasirSpacing.l) {
+            VStack(alignment: .leading, spacing: BasirSpacing.m) {
+                if let result = viewModel.resultURL {
+                    Label(result.lastPathComponent, systemImage: "doc.richtext.fill")
+                        .font(.headline)
+                        .fixedSize(horizontal: false, vertical: true)
+                    PrimaryActionButton(title: l10n.t("معاينة ملف Word", "Preview Word file"), systemImage: "eye.fill") {
+                        previewURL = result
+                    }
+                    AdaptiveStack {
+                        CardActionButton(title: l10n.t("مشاركة", "Share"), systemImage: "square.and.arrow.up") {
+                            shareURL = result
+                        }
+                        CardActionButton(title: l10n.t("حفظ في الملفات", "Save to Files"), systemImage: "folder.badge.plus") {
+                            exportURL = result
+                        }
+                    }
+                }
+                if let job = viewModel.selectedJob, !job.failedItems.isEmpty {
                     Text(l10n.t(
-                        "صفحات احتاجت حفظًا احتياطيًا بعد تعذر إعادة بنائها دلاليًا: \(pageRanges(job.failedItems))",
-                        "Pages retained with a lossless fallback after semantic reconstruction failed: \(pageRanges(job.failedItems))"
+                        "صفحات حُفظت كصور موصوفة بعد تعذر قراءة نصها: \(pageRanges(job.failedItems))",
+                        "Pages kept as described images because their text could not be read: \(pageRanges(job.failedItems))"
                     ))
                     .font(.footnote)
-                    .foregroundStyle(.orange)
-                    Button { viewModel.retryFailedItems() } label: {
-                        Label(l10n.t("إعادة محاولة صفحات الحفظ الاحتياطي", "Retry fallback pages"), systemImage: "arrow.clockwise.circle")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.borderedProminent).tint(.orange)
+                    .foregroundStyle(BasirPalette.warning)
+                    .fixedSize(horizontal: false, vertical: true)
+                    SecondaryActionButton(title: l10n.t("إعادة محاولة هذه الصفحات", "Retry these pages"),
+                                          systemImage: "arrow.clockwise.circle") { viewModel.retryFailedItems() }
                 }
             }
-            if let result = viewModel.resultURL {
-                Text(result.lastPathComponent).font(.headline).fixedSize(horizontal: false, vertical: true)
-                resultActions(result)
+            .glassSurface(accent: partial ? BasirPalette.warning : BasirPalette.success)
+
+            if let job = viewModel.selectedJob {
+                if let report = job.qualityReport {
+                    QualityReportCard(report: report)
+                }
+                completionAccounting(job)
+                Text(modelSummary(job))
+                    .font(.caption)
+                    .foregroundStyle(BasirPalette.tertiaryText)
             }
             helpLink
         }
-        .glassSurface(accent: partial ? .orange : .green)
     }
 
     private var failureContent: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: BasirSpacing.l) {
             if let error = viewModel.errorMessage {
-                Text(error).foregroundStyle(viewModel.status == .failed ? Color.red.opacity(0.85) : .white)
+                Text(error)
+                    .foregroundStyle(viewModel.status == .failed ? BasirPalette.danger : BasirPalette.primaryText)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             PrimaryActionButton(title: l10n.t("إعادة المحاولة بنفس الملف", "Retry with the same file"),
                                 systemImage: "arrow.clockwise") { viewModel.retry() }
             helpLink
         }
-        .glassSurface(accent: viewModel.status == .failed ? .red : .orange)
-    }
-
-    private func resultActions(_ url: URL) -> some View {
-        VStack(spacing: 10) {
-            PrimaryActionButton(title: l10n.t("معاينة ملف Word", "Preview Word file"), systemImage: "eye.fill") {
-                previewURL = url
-            }
-            smallAction(l10n.t("مشاركة", "Share"), "square.and.arrow.up") { shareURL = url }
-            SecondaryActionButton(title: l10n.t("حفظ في تطبيق الملفات", "Save to Files"),
-                                  systemImage: "folder.badge.plus") { exportURL = url }
-        }
-    }
-
-    private func smallAction(_ title: String, _ icon: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Label(title, systemImage: icon).font(.subheadline.weight(.semibold)).frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.bordered).tint(BasirPalette.cyan)
+        .glassSurface(accent: viewModel.status == .failed ? BasirPalette.danger : BasirPalette.warning)
     }
 
     @ViewBuilder private var helpLink: some View {
         if let diagnostic = viewModel.diagnosticURL {
             ShareLink(item: diagnostic) {
                 Label(l10n.t("مشاركة معلومات المساعدة", "Share support information"), systemImage: "lifepreserver")
+                    .frame(minHeight: 44)
             }
-            .buttonStyle(.bordered).tint(BasirPalette.cyan)
+            .tint(BasirPalette.accent)
         }
     }
 
@@ -270,24 +267,10 @@ struct JobView: View {
         case .waitingForNetwork: return l10n.t("بانتظار الشبكة", "Waiting for network")
         case .running: return l10n.t("جارٍ تنفيذ المهمة", "Working")
         case .paused: return l10n.t("متوقفة مؤقتًا", "Paused")
-        case .partial: return l10n.t("نتيجة جزئية", "Partial result")
-        case .completed: return l10n.t("اكتملت العملية", "Completed")
+        case .partial: return l10n.t("نتيجة جزئية جاهزة", "Partial result ready")
+        case .completed: return l10n.t("ملف Word جاهز", "Word file ready")
         case .failed: return l10n.t("لم تكتمل العملية", "Could not complete")
         case .cancelled: return l10n.t("أُلغيت المهمة", "Task cancelled")
-        }
-    }
-
-    private var statusSubtitle: String {
-        switch viewModel.status {
-        case .running: return l10n.t("يمكنك إيقاف المهمة مؤقتًا، وسيُحفظ تقدمها تلقائيًا.",
-                                     "You can pause; checkpoints will remain saved.")
-        case .completed, .partial: return l10n.t("عاين النتيجة قبل فتحها أو مشاركتها.",
-                                                 "Preview the result before opening or sharing it.")
-        case .waitingForNetwork, .queued: return l10n.t("لن يبدأ الرفع حتى يصبح الاتصال مناسبًا.",
-                                                        "Uploading will not begin until the connection is suitable.")
-        case .paused: return l10n.t("الملف والتقدم محفوظان على جهازك.", "The source and progress are safely stored.")
-        default: return l10n.t("يمكنك إعادة المحاولة من دون اختيار الملف مرة أخرى.",
-                               "You can retry without choosing the file again.")
         }
     }
 
@@ -307,10 +290,10 @@ struct JobView: View {
 
     private var statusColor: Color {
         switch viewModel.status {
-        case .completed: return .green
-        case .failed: return .red
-        case .partial, .paused, .waitingForNetwork: return .orange
-        default: return BasirPalette.cyan
+        case .completed: return BasirPalette.success
+        case .failed: return BasirPalette.danger
+        case .partial, .paused, .waitingForNetwork: return BasirPalette.warning
+        default: return BasirPalette.accent
         }
     }
 
@@ -336,7 +319,8 @@ struct JobView: View {
                 "Source \(sourceTotal) • retained \(retained) • blank skipped \(skipped) • accounted \(accounted)/\(sourceTotal)"
             ))
             .font(.footnote.weight(.semibold))
-            .foregroundStyle(exact ? BasirPalette.secondaryText : Color.red)
+            .foregroundStyle(exact ? BasirPalette.secondaryText : BasirPalette.danger)
+            .fixedSize(horizontal: false, vertical: true)
 
             if !job.skippedBlankItems.isEmpty {
                 Text(l10n.t(
@@ -355,7 +339,7 @@ struct JobView: View {
                     systemImage: "exclamationmark.triangle.fill"
                 )
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.red)
+                .foregroundStyle(BasirPalette.danger)
             }
         }
         .accessibilityElement(children: .combine)

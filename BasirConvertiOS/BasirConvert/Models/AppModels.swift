@@ -483,25 +483,54 @@ struct DocumentMetadata: Codable, Hashable, Sendable {
     }
 }
 
+/// The server quality manifest and the app's own Word-package check,
+/// reduced to the facts a person needs to trust the result.
+struct QualityReport: Codable, Equatable, Hashable, Sendable {
+    var score: Double?
+    var warnings: [String]
+    var sourcePages: Int?
+    var retainedPages: Int
+    var skippedBlankPages: Int
+    var fallbackPages: Int
+    var tables: Int
+    var images: Int
+    var imagesMissingDescription: Int
+    var textCharacters: Int
+    var wordPackageVerified: Bool
+
+    /// Score on a 0–100 scale whether the server reports 0–1 or 0–100.
+    var percentScore: Int? {
+        guard let score, score >= 0 else { return nil }
+        return Int((score <= 1 ? score * 100 : score).rounded())
+    }
+
+    var hasConcerns: Bool {
+        fallbackPages > 0 || imagesMissingDescription > 0 || !warnings.isEmpty
+    }
+}
+
 struct ConversionOutcome: Sendable {
     let succeededItems: Int
     let failedItems: [Int]
     let skippedBlankItems: [Int]
     let requestedModel: String?
     let executedModel: String?
+    let quality: QualityReport?
 
     init(
         succeededItems: Int,
         failedItems: [Int],
         skippedBlankItems: [Int],
         requestedModel: String? = nil,
-        executedModel: String? = nil
+        executedModel: String? = nil,
+        quality: QualityReport? = nil
     ) {
         self.succeededItems = succeededItems
         self.failedItems = failedItems
         self.skippedBlankItems = skippedBlankItems
         self.requestedModel = requestedModel
         self.executedModel = executedModel
+        self.quality = quality
     }
 
     static let complete = ConversionOutcome(
@@ -531,6 +560,7 @@ struct BasirJob: Identifiable, Codable, Equatable, Sendable {
     var completedAt: Date?
     var automaticResumePending: Bool?
     var executedModel: String?
+    var qualityReport: QualityReport?
 
     var sourceURL: URL { URL(fileURLWithPath: sourcePath) }
     var resultURL: URL? { resultPath.map(URL.init(fileURLWithPath:)) }

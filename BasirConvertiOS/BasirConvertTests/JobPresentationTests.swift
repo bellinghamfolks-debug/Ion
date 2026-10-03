@@ -97,3 +97,12 @@ final class PublicLinkTests: XCTestCase {
         XCTAssertEqual(privacy.query, "lang=en")
     }
 }
+
+final class ContactEndpointTests: XCTestCase {
+    func testContactFormPostsToThePublicEndpoint() throws {
+        let url = try XCTUnwrap(BasirPublicLinks.endpoint("/api/public/contact"))
+        XCTAssertEqual(url.scheme, "https")
+        XCTAssertEqual(url.path, "/api/public/contact")
+        XCTAssertNil(url.query)
+    }
+}

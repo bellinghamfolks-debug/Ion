@@ -29,6 +29,11 @@ struct SettingsView: View {
                                                         "Model, Word content, PDF and presentation options"),
                                          systemImage: "slider.horizontal.3") { AdvancedSettingsView() }
                             Divider().padding(.leading, 44)
+                            settingsLink(l10n.t("تواصل معنا", "Contact us"),
+                                         detail: l10n.t("أرسل سؤالًا أو مشكلة أو اقتراحًا إلى فريق بصير",
+                                                        "Send a question, problem, or idea to the Basir team"),
+                                         systemImage: "envelope") { ContactFormView() }
+                            Divider().padding(.leading, 44)
                             settingsLink(l10n.t("عن بصير", "About Basir"),
                                          detail: l10n.t("الشروط والخصوصية والمساعدة", "Terms, privacy, and help"),
                                          systemImage: "info.circle") { AboutBasirView() }
@@ -330,6 +335,9 @@ enum BasirPublicLinks {
         components.queryItems = [URLQueryItem(name: "lang", value: isArabic ? "ar" : "en")]
         return components.url
     }
+    static func endpoint(_ path: String) -> URL? {
+        BundledServerConfiguration.current().secureBaseURL?.appendingPathComponent(path)
+    }
 }
 
 /// Native About screen: what Basir does, version, links, and the tour.
@@ -434,7 +442,14 @@ struct AboutBasirView: View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
             GlassSectionTitle(title: l10n.t("المساعدة والتواصل", "Help and contact"), systemImage: "questionmark.circle.fill")
             internalLink(l10n.t("الأسئلة المتكررة", "Frequently Asked Questions"), icon: "questionmark.bubble", slug: "faq")
-            internalLink(l10n.t("التواصل", "Contact"), icon: "envelope", slug: "contact")
+            NavigationLink {
+                ContactFormView()
+            } label: {
+                Label(l10n.t("تواصل معنا", "Contact us"), systemImage: "envelope")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(minHeight: 44)
+            }
+            .tint(BasirPalette.accent)
         }
         .glassSurface()
     }

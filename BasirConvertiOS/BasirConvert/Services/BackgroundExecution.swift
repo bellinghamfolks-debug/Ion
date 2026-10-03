@@ -8,8 +8,13 @@ final class BackgroundExecution {
     static let refreshIdentifier = "com.basir.convert.ios.refresh"
 
     private var identifier: UIBackgroundTaskIdentifier = .invalid
+    /// Resumes queued work and returns only when the queue is idle.
     var processingHandler: (@MainActor () async -> Void)?
+    /// Called when iOS is about to take back background time, so the running
+    /// job can be checkpointed and marked for automatic resume.
+    var expirationHandler: (@MainActor () -> Void)?
     private var processingTask: Task<Void, Never>?
+    private var refreshTask: Task<Void, Never>?
 
     func register() {
         BGTaskScheduler.shared.register(
@@ -30,19 +35,34 @@ final class BackgroundExecution {
                 task.setTaskCompleted(success: false)
                 return
             }
-            Task { @MainActor in
-                await self?.processingHandler?()
-                refresh.setTaskCompleted(success: true)
-            }
+            Task { @MainActor in self?.handle(refresh) }
         }
     }
 
+    /// Asks iOS for both kinds of background time. The app-refresh task is
+    /// the one iOS grants regularly (a short window every so often); the
+    /// processing task tends to run when the phone is idle or charging.
     func schedule(earliest: Date = Date(timeIntervalSinceNow: 60)) {
         let request = BGProcessingTaskRequest(identifier: Self.processingIdentifier)
         request.requiresNetworkConnectivity = true
         request.requiresExternalPower = false
         request.earliestBeginDate = earliest
-        try? BGTaskScheduler.shared.submit(request)
+        do {
+            try BGTaskScheduler.shared.submit(request)
+        } catch {
+            DiagnosticLogger.recordGlobal("BACKGROUND processing schedule failed description=\(error.localizedDescription)")
+        }
+        scheduleRefresh(earliest: earliest)
+    }
+
+    func scheduleRefresh(earliest: Date = Date(timeIntervalSinceNow: 60)) {
+        let request = BGAppRefreshTaskRequest(identifier: Self.refreshIdentifier)
+        request.earliestBeginDate = earliest
+        do {
+            try BGTaskScheduler.shared.submit(request)
+        } catch {
+            DiagnosticLogger.recordGlobal("BACKGROUND refresh schedule failed description=\(error.localizedDescription)")
+        }
     }
 
     func begin(expiration: @escaping @MainActor () -> Void) {
@@ -64,17 +84,37 @@ final class BackgroundExecution {
     private func handle(_ task: BGProcessingTask) {
         schedule(earliest: Date(timeIntervalSinceNow: 15 * 60))
         processingTask?.cancel()
-        processingTask = Task { [weak self] in
+        processingTask = run(task) { [weak self] in self?.processingTask = nil }
+    }
+
+    private func handle(_ task: BGAppRefreshTask) {
+        // Keep asking: each refresh window is short, so long conversions are
+        // followed across several wake-ups until they finish.
+        scheduleRefresh(earliest: Date(timeIntervalSinceNow: 15 * 60))
+        refreshTask?.cancel()
+        refreshTask = run(task) { [weak self] in self?.refreshTask = nil }
+    }
+
+    private func run(_ task: BGTask, finished: @escaping @MainActor () -> Void) -> Task<Void, Never> {
+        var completed = false
+        let complete: @MainActor (Bool) -> Void = { success in
+            guard !completed else { return }
+            completed = true
+            task.setTaskCompleted(success: success)
+            finished()
+        }
+        let work = Task { @MainActor [weak self] in
             await self?.processingHandler?()
-            guard !Task.isCancelled else {
-                task.setTaskCompleted(success: false)
-                return
-            }
-            task.setTaskCompleted(success: true)
+            complete(!Task.isCancelled)
         }
         task.expirationHandler = { [weak self] in
-            Task { @MainActor in self?.processingTask?.cancel() }
+            Task { @MainActor in
+                self?.expirationHandler?()
+                work.cancel()
+                complete(false)
+            }
         }
+        return work
     }
 }
 

@@ -98,6 +98,9 @@ final class AppViewModel: ObservableObject {
         backgroundExecution.processingHandler = { [weak self] in
             await self?.resumeQueueFromBackground()
         }
+        backgroundExecution.expirationHandler = { [weak self] in
+            self?.suspendRunningJobForBackgroundExpiry()
+        }
         if settings.notificationsEnabled {
             Task { _ = await OperationFeedback.requestNotificationPermission() }
         }
@@ -531,6 +534,26 @@ final class AppViewModel: ObservableObject {
         persist()
         syncFacade()
         jobTask?.cancel()
+        DiagnosticLogger.recordGlobal("BACKGROUND limit reached appJob=\(jobID.uuidString) percent=\(JobStep.overallPercent(for: jobs[index].progress))")
+        // Ask iOS to wake the app again soon, and tell the person what is happening
+        // instead of leaving a stale percentage as the last notification.
+        backgroundExecution.schedule(earliest: Date(timeIntervalSinceNow: 60))
+        if settings?.notificationsEnabled == true, let l10n {
+            OperationFeedback.notifyBackgroundPause(
+                title: jobs[index].sourceName,
+                body: l10n.t(
+                    "وصلت المهمة إلى \(JobStep.overallPercent(for: jobs[index].progress))٪. خادم بصير يواصل العمل، وسيعود التطبيق للمتابعة تلقائيًا عندما يسمح iOS. افتح بصير لإكمالها فورًا.",
+                    "The task reached \(JobStep.overallPercent(for: jobs[index].progress))%. The Basir server keeps working, and the app will check back automatically when iOS allows. Open Basir to finish it right away."
+                ),
+                jobID: jobID
+            )
+        }
+    }
+
+    /// Called when a background task iOS granted is about to expire.
+    private func suspendRunningJobForBackgroundExpiry() {
+        guard let running = activeJob else { return }
+        suspendForSystemBackgroundLimit(jobID: running.id)
     }
 
     private func apply(_ update: ConversionProgress, to jobID: UUID) {
@@ -597,14 +620,12 @@ final class AppViewModel: ObservableObject {
                 }
             }
         }
-        if update.total > 0, settings?.notificationsEnabled == true, let l10n {
+        if settings?.notificationsEnabled == true, let l10n {
             OperationFeedback.notifyProgress(
-                title: l10n.t("تقدم مهمة بصير", "Basir task progress"),
-                body: l10n.t("تمت معالجة \(update.current) من \(update.total).",
-                             "Processed \(update.current) of \(update.total)."),
+                title: jobs[index].sourceName,
+                body: JobStep.spokenStatus(for: effective, l10n: l10n),
                 jobID: jobID,
-                current: update.current,
-                total: update.total
+                percent: JobStep.overallPercent(for: effective)
             )
         }
         if update.current > 0, update.current % 10 == 0 {
@@ -780,8 +801,22 @@ final class AppViewModel: ObservableObject {
         processNextIfPossible()
     }
 
+    /// Runs while iOS gives the app background time (refresh or processing
+    /// task). It resumes interrupted work and keeps the task alive until the
+    /// queue is idle, instead of returning at once and being suspended again.
     private func resumeQueueFromBackground() async {
+        DiagnosticLogger.recordGlobal("BACKGROUND wake pending=\(pendingJobCount)")
         resumeInterruptedJobsIfNeeded()
+        while !Task.isCancelled, hasBackgroundWorkInFlight {
+            try? await Task.sleep(for: .seconds(1))
+        }
+        DiagnosticLogger.recordGlobal("BACKGROUND wake finished pending=\(pendingJobCount)")
+    }
+
+    private var hasBackgroundWorkInFlight: Bool {
+        jobTask != nil
+            || !transportReconnectTasks.isEmpty
+            || jobs.contains(where: { $0.status == .running })
     }
 
     private func route(stagedURLs: [URL], to operation: OperationKind, l10n: L10n) {

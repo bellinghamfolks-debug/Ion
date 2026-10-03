@@ -44,6 +44,7 @@ struct RootView: View {
         .onChange(of: viewModel.routedExternalDocument?.id) { _ in selectTabForRoutedDocument() }
         .onChange(of: intents.pendingAction) { _ in handleIntents() }
         .onChange(of: intents.pendingFiles) { _ in handleIntents() }
+        .onChange(of: intents.pendingJobID) { _ in handleIntents() }
         .onChange(of: settings.appearance) { _ in applyTheme() }
         .onChange(of: settings.highContrast) { _ in applyTheme() }
         .onChange(of: scenePhase) { phase in
@@ -138,6 +139,10 @@ struct RootView: View {
 
     private func handleIntents() {
         if intents.pendingAction != nil { selectedTab = .new }
+        if let jobID = intents.pendingJobID {
+            intents.pendingJobID = nil
+            viewModel.selectJob(jobID)
+        }
         if !intents.pendingFiles.isEmpty {
             let files = intents.pendingFiles
             intents.pendingFiles = []

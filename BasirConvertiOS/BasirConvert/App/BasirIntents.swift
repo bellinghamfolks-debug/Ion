@@ -16,6 +16,8 @@ final class IntentRouter: ObservableObject {
 
     @Published var pendingAction: IntentAction?
     @Published var pendingFiles: [URL] = []
+    /// Set when a notification for a specific task is tapped.
+    @Published var pendingJobID: UUID?
 
     private init() {}
 }

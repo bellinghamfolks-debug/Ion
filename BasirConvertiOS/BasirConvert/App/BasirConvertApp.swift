@@ -16,7 +16,26 @@ final class BasirAppDelegate: NSObject, UIApplicationDelegate, UNUserNotificatio
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
-        completionHandler([.banner, .list, .sound])
+        // In the foreground the app already shows progress, so progress updates
+        // only refresh Notification Center; results and failures still show a banner.
+        if notification.request.identifier.hasPrefix("basir-progress-") {
+            completionHandler([.list])
+        } else {
+            completionHandler([.banner, .list, .sound])
+        }
+    }
+
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        // Tapping a Basir notification opens that task's details.
+        if let value = response.notification.request.content.userInfo["job_id"] as? String,
+           let jobID = UUID(uuidString: value) {
+            Task { @MainActor in IntentRouter.shared.pendingJobID = jobID }
+        }
+        completionHandler()
     }
 
     func application(

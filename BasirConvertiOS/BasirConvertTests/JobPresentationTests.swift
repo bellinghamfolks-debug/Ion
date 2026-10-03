@@ -63,3 +63,26 @@ final class JobPresentationTests: XCTestCase {
         XCTAssertEqual(job.status, .completed)
     }
 }
+
+final class ProgressNotificationTests: XCTestCase {
+    func testEachTenPercentStepIsReportedOnceAndBannersAtMilestones() {
+        var bucket = 0
+        var banners: [Int] = []
+        var reported: [Int] = []
+        for percent in [3, 9, 10, 14, 19, 20, 35, 49, 50, 51, 66, 79, 80, 95, 99, 100] {
+            guard let decision = OperationFeedback.progressDecision(previousBucket: bucket, percent: percent) else { continue }
+            bucket = decision.bucket
+            reported.append(decision.bucket)
+            if decision.showsBanner { banners.append(decision.bucket) }
+        }
+        XCTAssertEqual(reported, [10, 20, 30, 40, 50, 60, 70, 80, 90])
+        XCTAssertEqual(banners, [20, 50, 80])
+    }
+
+    func testJumpOverMilestoneStillShowsBanner() {
+        let decision = OperationFeedback.progressDecision(previousBucket: 10, percent: 63)
+        XCTAssertEqual(decision?.bucket, 60)
+        XCTAssertEqual(decision?.showsBanner, true)
+        XCTAssertNil(OperationFeedback.progressDecision(previousBucket: 60, percent: 65))
+    }
+}

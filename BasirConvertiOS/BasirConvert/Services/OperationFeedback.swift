@@ -56,7 +56,7 @@ enum OperationFeedback {
         content.threadIdentifier = "basir-job-\(jobID.uuidString)"
         content.userInfo = ["job_id": jobID.uuidString]
         content.interruptionLevel = showsBanner ? .active : .passive
-        content.relevanceScore = Double(bucket) / 100
+        content.relevanceScore = Double(decision.bucket) / 100
         let request = UNNotificationRequest(identifier: progressIdentifier(jobID), content: content, trigger: nil)
         UNUserNotificationCenter.current().add(request)
     }

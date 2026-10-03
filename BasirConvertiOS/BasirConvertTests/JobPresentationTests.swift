@@ -86,3 +86,14 @@ final class ProgressNotificationTests: XCTestCase {
         XCTAssertNil(OperationFeedback.progressDecision(previousBucket: 60, percent: 65))
     }
 }
+
+final class PublicLinkTests: XCTestCase {
+    func testLegalPagesOpenOnTheSecureWebsiteInTheInterfaceLanguage() throws {
+        let terms = try XCTUnwrap(BasirPublicLinks.url("/legal/terms", isArabic: true))
+        XCTAssertEqual(terms.scheme, "https")
+        XCTAssertEqual(terms.path, "/legal/terms")
+        XCTAssertEqual(terms.query, "lang=ar")
+        let privacy = try XCTUnwrap(BasirPublicLinks.url("/legal/privacy", isArabic: false))
+        XCTAssertEqual(privacy.query, "lang=en")
+    }
+}

@@ -220,7 +220,8 @@ actor ProxyClient {
         options: ConversionOptions,
         requestID: String,
         progress: @escaping @Sendable (ConversionProgress) -> Void,
-        logger: DiagnosticLogger
+        logger: DiagnosticLogger,
+        serverJobCreated: (@Sendable (String) -> Void)? = nil
     ) async throws -> ConversionOutcome {
         let serverStatus = try await testConnection()
         guard BasirAPIContract.accepts(
@@ -283,6 +284,7 @@ actor ProxyClient {
         guard !created.jobID.isEmpty else {
             throw BasirError.invalidResponse("The server returned an invalid task identifier.")
         }
+        serverJobCreated?(created.jobID)
         if !created.resume {
             guard let uploadURL = created.uploadURL, uploadURL.scheme?.lowercased() == "https" else {
                 throw BasirError.invalidResponse("The server returned unsafe upload details.")
@@ -585,6 +587,42 @@ actor ProxyClient {
             }
         }
         throw lastError ?? BasirError.conversionFailed("Upload failed after retries.")
+    }
+
+    struct PushRegistrationBody: Encodable, Sendable {
+        let clientJobID: String
+        let deviceToken: String?
+        let liveActivityToken: String?
+        let environment: String
+        let language: String
+
+        enum CodingKeys: String, CodingKey {
+            case clientJobID = "client_job_id"
+            case deviceToken = "device_token"
+            case liveActivityToken = "live_activity_token"
+            case environment, language
+        }
+    }
+
+    private struct PushRegistrationResponse: Decodable {
+        let pushEnabled: Bool
+        enum CodingKeys: String, CodingKey { case pushEnabled = "push_enabled" }
+    }
+
+    /// Sends push tokens for a server job. Returns whether the server has
+    /// push delivery enabled.
+    func registerPush(serverJobID: String, body: PushRegistrationBody) async throws -> Bool {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/jobs/\(serverJobID)/push"))
+        request.httpMethod = "PUT"
+        request.timeoutInterval = 20
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpBody = try JSONEncoder().encode(body)
+        applyServerHeaders(to: &request, requestID: UUID().uuidString)
+        let (data, response) = try await retryingData(request: request)
+        try Self.validateHTTP(response, data: data)
+        return (try? JSONDecoder().decode(PushRegistrationResponse.self, from: data).pushEnabled) ?? false
     }
 
     private func retryingData(request: URLRequest) async throws -> (Data, HTTPURLResponse) {

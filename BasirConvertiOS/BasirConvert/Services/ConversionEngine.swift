@@ -11,7 +11,8 @@ actor ConversionEngine {
         requestID: String,
         progress: @escaping ProgressHandler,
         logger: DiagnosticLogger,
-        checkpointDirectory: URL? = nil
+        checkpointDirectory: URL? = nil,
+        serverJobCreated: (@Sendable (String) -> Void)? = nil
     ) async throws -> ConversionOutcome {
         guard configuration.isConfigured else { throw BasirError.notConfigured }
         try Task.checkCancellation()
@@ -23,7 +24,8 @@ actor ConversionEngine {
             options: options,
             requestID: requestID,
             progress: progress,
-            logger: logger
+            logger: logger,
+            serverJobCreated: serverJobCreated
         )
     }
 }

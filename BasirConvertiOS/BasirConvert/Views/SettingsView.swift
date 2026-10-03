@@ -176,7 +176,13 @@ struct SettingsView: View {
             Toggle(l10n.t("إشعار عند اكتمال المهمة", "Notify when a task completes"), isOn: $settings.notificationsEnabled)
                 .onChange(of: settings.notificationsEnabled) { enabled in
                     settings.save()
-                    if enabled { Task { _ = await OperationFeedback.requestNotificationPermission() } }
+                    if enabled {
+                        Task {
+                            if await OperationFeedback.requestNotificationPermission() {
+                                PushRegistrar.shared.registerForRemoteNotifications()
+                            }
+                        }
+                    }
                 }
         }
         .tint(BasirPalette.accent)
@@ -313,10 +319,24 @@ struct AdvancedSettingsView: View {
     }
 }
 
-/// Version, policies, help, and the welcome tour.
+/// Public website addresses. Terms and the privacy policy are legal
+/// documents, so they open on the website (always the current version);
+/// help pages stay inside the app.
+enum BasirPublicLinks {
+    static func url(_ path: String, isArabic: Bool) -> URL? {
+        guard let base = BundledServerConfiguration.current().secureBaseURL,
+              var components = URLComponents(url: base.appendingPathComponent(path),
+                                             resolvingAgainstBaseURL: false) else { return nil }
+        components.queryItems = [URLQueryItem(name: "lang", value: isArabic ? "ar" : "en")]
+        return components.url
+    }
+}
+
+/// Native About screen: what Basir does, version, links, and the tour.
 struct AboutBasirView: View {
     @EnvironmentObject private var l10n: L10n
     @EnvironmentObject private var viewModel: AppViewModel
+    @Environment(\.openURL) private var openURL
     @AppStorage("onboarding_completed_v3_1") private var onboardingCompleted = true
 
     private var version: String {
@@ -333,23 +353,18 @@ struct AboutBasirView: View {
                     BasirHeroCard(title: l10n.t("بصير", "Basir"),
                                   subtitle: l10n.t("الإصدار \(version)", "Version \(version)"),
                                   systemImage: "eye.fill")
-                    linksCard(title: l10n.t("القانونية والسياسات", "Legal and policies"), systemImage: "doc.text.fill", links: [
-                        DocumentLink(slug: "terms", title: l10n.t("الشروط والأحكام", "Terms and Conditions"), icon: "doc.text"),
-                        DocumentLink(slug: "privacy", title: l10n.t("سياسة الخصوصية", "Privacy Policy"), icon: "hand.raised.fill")
-                    ])
-                    linksCard(title: l10n.t("المساعدة والمعلومات", "Help and information"), systemImage: "questionmark.circle.fill", links: [
-                        DocumentLink(slug: "faq", title: l10n.t("الأسئلة المتكررة", "Frequently Asked Questions"), icon: "questionmark.bubble"),
-                        DocumentLink(slug: "contact", title: l10n.t("التواصل", "Contact"), icon: "envelope.fill"),
-                        DocumentLink(slug: "about", title: l10n.t("عن بصير", "About Basir"), icon: "info.circle.fill")
-                    ])
+                    aboutCard
+                    featuresCard
                     InfoCard(
                         title: l10n.t("الخصوصية", "Privacy"),
                         text: l10n.t(
-                            "يتصل التطبيق بخادم بصير المشفّر فقط. لا توجد إعلانات أو أدوات تتبع. اختيار النموذج يُرسل كمعرّف نموذج فقط ولا يضيف أي بيانات شخصية.",
-                            "The app connects only to the encrypted Basir server. It has no ads or tracking. Model selection sends only a model identifier and adds no personal data."
+                            "يتصل التطبيق بخادم بصير المشفّر فقط. لا توجد إعلانات أو أدوات تتبع. لا يُستخدم ملفك لتدريب نموذج خاص ببصير. احتفظ دائمًا بنسختك الأصلية؛ بصير ليس أرشيفًا.",
+                            "The app connects only to the encrypted Basir server. It has no ads or tracking. Your file is not used to train a Basir-specific model. Always keep your original; Basir is not an archive."
                         ),
                         systemImage: "hand.raised.fill"
                     )
+                    legalCard
+                    helpCard
                     SecondaryActionButton(title: l10n.t("عرض جولة الترحيب مجددًا", "Show the welcome tour again"),
                                           systemImage: "sparkles") {
                         // Close Settings first so the tour can be presented over the app.
@@ -365,28 +380,93 @@ struct AboutBasirView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
-    private struct DocumentLink: Identifiable {
-        let slug: String
-        let title: String
-        let icon: String
-        var id: String { slug }
-    }
-
-    private func linksCard(title: String, systemImage: String, links: [DocumentLink]) -> some View {
+    private var aboutCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
-            GlassSectionTitle(title: title, systemImage: systemImage)
-            ForEach(links) { link in
-                NavigationLink {
-                    ServerPublicDocumentView(slug: link.slug, isArabic: l10n.isArabic)
-                } label: {
-                    Label(link.title, systemImage: link.icon)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .frame(minHeight: 44)
-                }
-                .tint(BasirPalette.accent)
-            }
+            GlassSectionTitle(title: l10n.t("ما هو بصير؟", "What is Basir?"), systemImage: "eye")
+            Text(l10n.t(
+                "بصير يحوّل المستندات التي يصعب قراءتها إلى ملفات Word مرتبة يسهل التنقل فيها بقارئ الشاشة: عناوين حقيقية، وجداول قابلة للتنقل، وصور موصوفة بالنص. صُمم أولًا للمكفوفين وضعاف البصر، ويفيد كل من يحتاج نصًا واضحًا من ملف مصوّر.",
+                "Basir turns hard-to-read documents into well-structured Word files that are easy to navigate with a screen reader: real headings, navigable tables, and images described in text. It is designed first for blind and low-vision readers, and helps anyone who needs clear text from a scanned file."
+            ))
+            .font(.body)
+            .foregroundStyle(BasirPalette.secondaryText)
+            .fixedSize(horizontal: false, vertical: true)
         }
         .glassSurface()
+    }
+
+    private var featuresCard: some View {
+        VStack(alignment: .leading, spacing: BasirSpacing.m) {
+            GlassSectionTitle(title: l10n.t("ماذا يستطيع؟", "What can it do?"), systemImage: "checklist")
+            feature("doc.richtext", l10n.t("تحويل PDF والصور والعروض إلى Word.", "Convert PDFs, images, and presentations to Word."))
+            feature("waveform", l10n.t("تفريغ التسجيلات الصوتية، بما فيها الطويلة، إلى نص مكتوب.", "Transcribe audio recordings, including long ones, into written text."))
+            feature("character.book.closed", l10n.t("ترجمة المستندات إلى 15 لغة.", "Translate documents into 15 languages."))
+            feature("text.below.photo", l10n.t("وصف الصور والشعارات والرسوم داخل الملف.", "Describe images, logos, and charts inside the file."))
+            feature("checkmark.shield", l10n.t("التحقق من كل نتيجة قبل حفظها، مع تقرير بلغة بسيطة.", "Verify every result before saving it, with a plain-language report."))
+        }
+        .glassSurface()
+    }
+
+    private func feature(_ icon: String, _ text: String) -> some View {
+        HStack(alignment: .top, spacing: BasirSpacing.m) {
+            Image(systemName: icon)
+                .foregroundStyle(BasirPalette.accent)
+                .frame(width: 24)
+                .accessibilityHidden(true)
+            Text(text)
+                .font(.subheadline)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .accessibilityElement(children: .combine)
+    }
+
+    /// Terms and privacy open on the website in Safari.
+    private var legalCard: some View {
+        VStack(alignment: .leading, spacing: BasirSpacing.s) {
+            GlassSectionTitle(title: l10n.t("القانونية والسياسات", "Legal and policies"), systemImage: "doc.text.fill")
+            externalLink(l10n.t("الشروط والأحكام", "Terms and Conditions"), icon: "doc.text", path: "/legal/terms")
+            externalLink(l10n.t("سياسة الخصوصية", "Privacy Policy"), icon: "hand.raised", path: "/legal/privacy")
+        }
+        .glassSurface()
+    }
+
+    /// Help pages stay inside the app.
+    private var helpCard: some View {
+        VStack(alignment: .leading, spacing: BasirSpacing.s) {
+            GlassSectionTitle(title: l10n.t("المساعدة والتواصل", "Help and contact"), systemImage: "questionmark.circle.fill")
+            internalLink(l10n.t("الأسئلة المتكررة", "Frequently Asked Questions"), icon: "questionmark.bubble", slug: "faq")
+            internalLink(l10n.t("التواصل", "Contact"), icon: "envelope", slug: "contact")
+        }
+        .glassSurface()
+    }
+
+    private func externalLink(_ title: String, icon: String, path: String) -> some View {
+        Button {
+            if let url = BasirPublicLinks.url(path, isArabic: l10n.isArabic) { openURL(url) }
+        } label: {
+            HStack(spacing: BasirSpacing.m) {
+                Label(title, systemImage: icon)
+                Spacer(minLength: 0)
+                Image(systemName: "arrow.up.forward.square")
+                    .foregroundStyle(BasirPalette.tertiaryText)
+                    .accessibilityHidden(true)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(minHeight: 44)
+            .contentShape(Rectangle())
+        }
+        .tint(BasirPalette.accent)
+        .accessibilityHint(l10n.t("يفتح في Safari", "Opens in Safari"))
+    }
+
+    private func internalLink(_ title: String, icon: String, slug: String) -> some View {
+        NavigationLink {
+            ServerPublicDocumentView(slug: slug, isArabic: l10n.isArabic)
+        } label: {
+            Label(title, systemImage: icon)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(minHeight: 44)
+        }
+        .tint(BasirPalette.accent)
     }
 }
 

@@ -54,17 +54,29 @@ final class JobLiveActivityController {
             stepNames: JobStep.allCases.map { $0.title(l10n) }
         )
         let initial = state(for: job, l10n: l10n)
+        let content = ActivityContent(state: initial, staleDate: nil)
+        let started: Activity<BasirJobActivityAttributes>
         do {
-            activity = try Activity.request(
-                attributes: attributes,
-                content: ActivityContent(state: initial, staleDate: nil),
-                pushType: nil
-            )
-            trackedJobID = job.id
-            lastState = initial
-            lastUpdate = Date()
+            // A push token lets the server keep the activity current while
+            // iOS has suspended the app.
+            started = try Activity.request(attributes: attributes, content: content, pushType: .token)
         } catch {
-            DiagnosticLogger.recordGlobal("LIVE_ACTIVITY start failed description=\(error.localizedDescription)")
+            do {
+                started = try Activity.request(attributes: attributes, content: content, pushType: nil)
+            } catch {
+                DiagnosticLogger.recordGlobal("LIVE_ACTIVITY start failed description=\(error.localizedDescription)")
+                return
+            }
+        }
+        activity = started
+        trackedJobID = job.id
+        lastState = initial
+        lastUpdate = Date()
+        let jobID = job.id
+        Task { @MainActor in
+            for await token in started.pushTokenUpdates {
+                PushRegistrar.shared.liveActivityTokenChanged(clientJobID: jobID, token: token)
+            }
         }
     }
 

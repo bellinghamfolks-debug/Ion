@@ -102,7 +102,11 @@ final class AppViewModel: ObservableObject {
             self?.suspendRunningJobForBackgroundExpiry()
         }
         if settings.notificationsEnabled {
-            Task { _ = await OperationFeedback.requestNotificationPermission() }
+            Task {
+                if await OperationFeedback.requestNotificationPermission() {
+                    PushRegistrar.shared.registerForRemoteNotifications()
+                }
+            }
         }
         importSharedInbox()
         resumeInterruptedJobsIfNeeded()
@@ -468,7 +472,15 @@ final class AppViewModel: ObservableObject {
                         Task { @MainActor in self?.apply(update, to: jobID) }
                     },
                     logger: logger,
-                    checkpointDirectory: checkpoint
+                    checkpointDirectory: checkpoint,
+                    serverJobCreated: { [language = l10n.language.rawValue] serverJobID in
+                        Task { @MainActor in
+                            PushRegistrar.shared.serverJobCreated(
+                                clientJobID: jobID, serverJobID: serverJobID,
+                                configuration: configuration, language: language
+                            )
+                        }
+                    }
                 )
                 try Task.checkCancellation()
                 logger.record("SUCCESS output=\(output.lastPathComponent)")
@@ -509,6 +521,7 @@ final class AppViewModel: ObservableObject {
                         : l10n.t("اكتملت النتيجة جزئيًا. نجح \(outcome.succeededItems) وفشل \(outcome.failedItems.count).",
                                  "A partial result is ready. \(outcome.succeededItems) succeeded and \(outcome.failedItems.count) failed.")
                 )
+                PushRegistrar.shared.jobFinished(jobID)
                 completeCurrentTaskAndContinue()
             } catch is CancellationError {
                 handleCancellation(jobID: jobID, logger: logger)
@@ -538,7 +551,8 @@ final class AppViewModel: ObservableObject {
         // Ask iOS to wake the app again soon, and tell the person what is happening
         // instead of leaving a stale percentage as the last notification.
         backgroundExecution.schedule(earliest: Date(timeIntervalSinceNow: 60))
-        if settings?.notificationsEnabled == true, let l10n {
+        // With server push active the server keeps the notification current.
+        if settings?.notificationsEnabled == true, !PushRegistrar.shared.remoteProgressJobs.contains(jobID), let l10n {
             OperationFeedback.notifyBackgroundPause(
                 title: jobs[index].sourceName,
                 body: l10n.t(
@@ -620,7 +634,9 @@ final class AppViewModel: ObservableObject {
                 }
             }
         }
-        if settings?.notificationsEnabled == true, let l10n {
+        // Once the server reports this job's progress by push, the app stops
+        // sending its own progress notifications so nothing appears twice.
+        if settings?.notificationsEnabled == true, !PushRegistrar.shared.remoteProgressJobs.contains(jobID), let l10n {
             OperationFeedback.notifyProgress(
                 title: jobs[index].sourceName,
                 body: JobStep.spokenStatus(for: effective, l10n: l10n),
@@ -745,6 +761,7 @@ final class AppViewModel: ObservableObject {
                 jobID: jobID
             )
         }
+        PushRegistrar.shared.jobFinished(jobID)
         completeCurrentTaskAndContinue(allowNext: false)
     }
 

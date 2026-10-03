@@ -18,7 +18,8 @@ final class BasirAppDelegate: NSObject, UIApplicationDelegate, UNUserNotificatio
     ) {
         // In the foreground the app already shows progress, so progress updates
         // only refresh Notification Center; results and failures still show a banner.
-        if notification.request.identifier.hasPrefix("basir-progress-") {
+        if notification.request.identifier.hasPrefix("basir-progress-")
+            || notification.request.content.userInfo["basir_kind"] as? String == "progress" {
             completionHandler([.list])
         } else {
             completionHandler([.banner, .list, .sound])
@@ -36,6 +37,14 @@ final class BasirAppDelegate: NSObject, UIApplicationDelegate, UNUserNotificatio
             Task { @MainActor in IntentRouter.shared.pendingJobID = jobID }
         }
         completionHandler()
+    }
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Task { @MainActor in PushRegistrar.shared.didReceiveDeviceToken(deviceToken) }
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        Task { @MainActor in PushRegistrar.shared.didFailToRegister(error) }
     }
 
     func application(

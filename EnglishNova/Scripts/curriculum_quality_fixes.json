@@ -250,9 +250,9 @@
     },
     "b2-extra-2-w2": {
       "english": "challenge a claim",
-      "arabic": "يتحدى ادعاءً",
+      "arabic": "يطعن في ادعاء؛ يشكك فيه",
       "example": "A strong counterexample can challenge a claim that sounds convincing.",
-      "exampleArabic": "يمكن لمثال مضاد قوي أن يتحدى ادعاءً يبدو مقنعًا.",
+      "exampleArabic": "يمكن لمثال مضاد قوي أن يشكك في ادعاء يبدو مقنعًا.",
       "partOfSpeech": "verb phrase",
       "phonetic": null
     },
@@ -1341,6 +1341,62 @@
     },
     "b1-extra-7-w1": {
       "partOfSpeech": "verb"
+    },
+    "b2-extra-3-w1": {
+      "arabic": "كان سيأخذ؛ لَأخذ (بحسب السياق)"
+    },
+    "b2-extra-3-xv4": {
+      "arabic": "تحسبًا لـ؛ احتياطًا لاحتمال"
+    },
+    "b2-extra-4-xv1": {
+      "english": "be permitted to",
+      "arabic": "يُسمح له أن",
+      "example": "Visitors will be permitted to enter once the inspection is complete.",
+      "exampleArabic": "سيُسمح للزوار بالدخول عند اكتمال الفحص."
+    },
+    "b2-extra-7-xv1": {
+      "english": "meet halfway",
+      "arabic": "يتوصل إلى حل وسط",
+      "exampleArabic": "إذا أمكنكم خفض السعر قليلًا، فأعتقد أن بإمكاننا التوصل إلى حل وسط."
+    },
+    "b2-extra-2-xv3": {
+      "english": "substantiate"
+    },
+    "b2-extra-4-xv2": {
+      "english": "be implemented"
+    },
+    "b2-extra-4-xv3": {
+      "english": "be held"
+    },
+    "b2-extra-4-xv4": {
+      "english": "be made aware"
+    },
+    "b2-extra-5-xv1": {
+      "english": "claim"
+    },
+    "b2-extra-5-xv2": {
+      "english": "point out"
+    },
+    "b2-extra-5-xv3": {
+      "english": "admit"
+    },
+    "b2-extra-5-xv4": {
+      "english": "deny"
+    },
+    "b2-extra-6-xv1": {
+      "english": "elaborate on"
+    },
+    "b2-extra-6-xv2": {
+      "english": "sum up"
+    },
+    "b2-extra-6-xv4": {
+      "english": "draw your attention to"
+    },
+    "b2-extra-7-xv3": {
+      "english": "come to terms"
+    },
+    "b2-extra-8-xv2": {
+      "english": "misrepresent"
     }
   },
   "arabicGlossById": {

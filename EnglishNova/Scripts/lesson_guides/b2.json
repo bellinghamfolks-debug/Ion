@@ -1,0 +1,154 @@
+{
+  "b2-u1-l1": {
+    "focusAr": "تُفهم التعابير الاصطلاحية كوحدة: get to the bottom of البحث حتى تتضح الحقيقة أو السبب، وlook into بدء فحص المسألة دون ضمان حلها. read between the lines استنتاج معنى ضمني لا إثبات نية خفية. استخدم take something with a pinch of salt للتحفظ على المعلومة، مع استبدال something بالخبر المقصود.",
+    "focusEn": "Treat idioms as units: get to the bottom of means investigate until the truth or cause is understood, while look into means examine an issue without guaranteeing resolution. Read between the lines refers to interpreting implications, not proving hidden intentions. Use take something with a pinch of salt to express caution, replacing something with the information concerned.",
+    "taskAr": "فسّر لزميل لماذا ينبغي فحص شكوى قبل إصدار حكم، واطلب التحقق من السبب الحقيقي.",
+    "taskEn": "Explain to a colleague why a complaint should be examined before reaching a conclusion, and request investigation of the underlying cause.",
+    "exampleEn": "We should look into the complaint before we jump to conclusions. The first account may be incomplete, so let's gather the records and get to the bottom of what happened.",
+    "exampleAr": "ينبغي أن نفحص الشكوى قبل التسرع في الحكم. قد تكون الرواية الأولى ناقصة، فلنجمع السجلات ونتوصل إلى حقيقة ما حدث.",
+    "check": {
+      "promptEn": "A manager says, 'We will look into the complaint.' What has the manager committed to?",
+      "choices": [
+        "Examining the complaint.",
+        "Guaranteeing that the complainant is correct.",
+        "Announcing that the root cause is already known."
+      ],
+      "answer": "Examining the complaint.",
+      "explanationAr": "look into تعني الفحص، ولا تتضمن حكمًا مسبقًا بصحة الشكوى أو إعلان معرفة السبب. هذه النتائج تحتاج أدلة لاحقة.",
+      "explanationEn": "Look into means investigate. It does not prejudge the complaint or state that its cause is known; those conclusions require further evidence."
+    }
+  },
+  "b2-extra-2": {
+    "focusAr": "ابنِ الحجة من ادعاء ودليل يخصه وتفسير للصلة بينهما. evidence اسم غير معدود، ونقول the evidence suggests عندما تدعم الأدلة استنتاجًا دون حسمه. counterargument اعتراض منطقي يستحق الرد، وليس هجومًا على صاحبه. premise مقدمة تعتمد عليها الحجة؛ إذا كانت ضعيفة فقد يضعف الاستنتاج حتى لو بدا مقنعًا.",
+    "focusEn": "Build an argument from a claim, relevant evidence, and an explanation of the connection. Evidence is uncountable, and the evidence suggests signals support without certainty. A counterargument is a reasoned objection to address, not a personal attack. A premise is an assumption or statement supporting the argument; a weak premise can undermine an apparently convincing conclusion.",
+    "taskAr": "في تجربة تدريبية، ارتفع الحضور بعد تغيير الموعد، لكن تغير المدرس أيضًا. اكتب استنتاجًا حذرًا واعتراضًا على نسب التحسن إلى الموعد وحده.",
+    "taskEn": "In a practice trial, attendance rose after the session time changed, but the teacher also changed. Write a cautious conclusion and an objection to attributing the improvement only to timing.",
+    "exampleEn": "The evidence suggests that the new arrangement may have helped attendance. However, we cannot attribute the increase to the timetable alone, because a different teacher also led the sessions.",
+    "exampleAr": "تشير الأدلة إلى أن الترتيب الجديد ربما ساعد على زيادة الحضور. لكن لا يمكننا نسب الزيادة إلى الجدول وحده، لأن معلمًا مختلفًا تولى الدروس أيضًا.",
+    "check": {
+      "promptEn": "Attendance increased after both the teacher and the timetable changed. Which claim is best supported?",
+      "choices": [
+        "The new arrangement coincided with higher attendance.",
+        "The timetable alone certainly caused the increase.",
+        "Changing teachers can never affect attendance."
+      ],
+      "answer": "The new arrangement coincided with higher attendance.",
+      "explanationAr": "المعطيات تظهر تزامن التغييرين مع الزيادة، ولا تعزل أثر كل تغيير. الادعاء السببي القاطع أو استبعاد أثر المعلم يتجاوز الأدلة.",
+      "explanationEn": "The information shows that the changes coincided with the increase, without isolating either effect. A definite causal claim or dismissal of the teacher's effect goes beyond the evidence."
+    }
+  },
+  "b2-extra-3": {
+    "focusAr": "فرّق بين الشرط المحتمل مثل if we leave now, we will arrive on time والافتراض مثل if we had more time, we would walk. provided that وas long as قد تضعان شرطًا، وunless تعني if not. in case تبرر احتياطًا يُتخذ مسبقًا، أما even if فتقول إن النتيجة لا تتغير مع الشرط المذكور.",
+    "focusEn": "Distinguish a possible condition, such as if we leave now, we will arrive on time, from a hypothetical one, such as if we had more time, we would walk. Provided that and as long as can set conditions; unless means if not. In case explains a precaution taken beforehand, while even if says the result holds despite the stated condition.",
+    "taskAr": "اكتب شرطًا لتمديد موعد مشروع، ثم اذكر إجراءً احتياطيًا لاحتمال تأخر الموافقة.",
+    "taskEn": "State a condition for extending a project deadline, then name a precaution in case approval is delayed.",
+    "exampleEn": "We can extend the deadline provided that the client agrees. I'll keep the original schedule ready in case the approval does not arrive in time.",
+    "exampleAr": "يمكننا تمديد الموعد النهائي بشرط موافقة العميل. سأبقي الجدول الأصلي جاهزًا تحسبًا لعدم وصول الموافقة في الوقت المناسب.",
+    "check": {
+      "promptEn": "'Take a printed copy in case the internet fails.' When should the copy be taken?",
+      "choices": [
+        "Beforehand, as a precaution.",
+        "Only after the internet has failed.",
+        "Only if failure is already certain."
+      ],
+      "answer": "Beforehand, as a precaution.",
+      "explanationAr": "in case تبرر الاحتياط قبل معرفة هل سيحدث العطل. ليست أمرًا بانتظار العطل، ولا تفيد أنه مؤكد.",
+      "explanationEn": "In case explains a precaution taken before knowing whether failure will occur. It does not mean wait for failure or assume it is certain."
+    }
+  },
+  "b2-extra-4": {
+    "focusAr": "يُبنى المبني للمجهول من be بالزمن المناسب والتصريف الثالث: was signed أوwill be implemented. يفيد حين تكون النتيجة أهم من الفاعل، لكنه قد يخفي المسؤولية إذا حُذف الفاعل في موقف يحتاجها. أضف by عندما تهم هوية المنفذ، وميّز بين be required to للإلزام وbe permitted to للسماح.",
+    "focusEn": "The passive uses be in the appropriate tense plus a past participle: was signed or will be implemented. It helps foreground an outcome, but omitting the agent can obscure responsibility where it matters. Add by when the agent's identity is relevant, and distinguish be required to for obligation from be permitted to for permission.",
+    "taskAr": "حوّل إعلان فحص إلى صياغة تركز على العمل وموعده، مع ذكر أن فريقًا مستقلًا سينفذه.",
+    "taskEn": "Rewrite an inspection announcement to focus on the work and timing, while naming the independent team that will perform it.",
+    "exampleEn": "The inspection will be carried out on Monday by an independent team. Staff will be informed of the results once the report is complete.",
+    "exampleAr": "سيُجرى الفحص يوم الاثنين بواسطة فريق مستقل. وسيُبلّغ الموظفون بالنتائج عند اكتمال التقرير.",
+    "check": {
+      "promptEn": "Which sentence preserves both the future inspection and the identity of its agent?",
+      "choices": [
+        "The inspection will be carried out by an independent team.",
+        "An independent team was inspected last year.",
+        "The inspection has already been completed by the staff."
+      ],
+      "answer": "The inspection will be carried out by an independent team.",
+      "explanationAr": "الجواب الصحيح يحافظ على الزمن المستقبلي وعلى الفريق بوصفه منفذ الفحص. البديلان يغيران الزمن أو الأدوار أو حالة الإنجاز.",
+      "explanationEn": "The correct answer preserves future time and the team's role as agent. The alternatives change the time, roles, or completion status."
+    }
+  },
+  "b2-extra-5": {
+    "focusAr": "نقل الكلام يتطلب الحفاظ على المعنى ومرجع الضمائر والوقت. بعد said قد يتحول am إلى was، لكن لا يلزم تغيير الزمن آليًا إذا بقي الكلام صحيحًا وكان السياق يسمح بذلك. claim تنقل ادعاء دون تبنّيه، وadmit اعتراف، وdeny إنكار. reportedly تسند الخبر إلى تقارير ولا تثبت صحته بنفسها.",
+    "focusEn": "Reporting speech requires preserving meaning and correctly tracking pronouns and time references. After said, am can become was, but tense changes are not automatic when the statement remains true and context allows the original tense. Claim reports an assertion without endorsing it; admit acknowledges, and deny rejects. Reportedly attributes information to reports rather than independently verifying it.",
+    "taskAr": "قالت منى يوم الاثنين: «أنا مشغولة اليوم، لكنني سأرسل الملف غدًا». انقل كلامها يوم الأربعاء مع توضيح الأيام.",
+    "taskEn": "On Monday, Mona said, 'I'm busy today, but I'll send the file tomorrow.' Report her words on Wednesday, making the days clear.",
+    "exampleEn": "Mona said that she was busy on Monday but would send the file on Tuesday. That was her plan; I still need to check whether she sent it.",
+    "exampleAr": "قالت منى إنها كانت مشغولة يوم الاثنين لكنها سترسل الملف يوم الثلاثاء. كانت تلك خطتها؛ وما زلت بحاجة إلى التحقق مما إذا كانت أرسلته.",
+    "check": {
+      "promptEn": "On Monday, Mona said she would send the file the next day. Which report preserves the promised day?",
+      "choices": [
+        "She said she would send it on Tuesday.",
+        "She said she would send it on Wednesday.",
+        "She confirmed that she had already sent it on Sunday."
+      ],
+      "answer": "She said she would send it on Tuesday.",
+      "explanationAr": "اليوم التالي للاثنين هو الثلاثاء. نقل الوعد لا يثبت تنفيذه، لذلك لا نحوله إلى تأكيد أن الإرسال حدث بالفعل.",
+      "explanationEn": "The day after Monday is Tuesday. Reporting a promise does not prove it was fulfilled, so it must not be turned into confirmation of a completed action."
+    }
+  },
+  "b2-extra-6": {
+    "focusAr": "وجّه المستمع بخريطة واضحة: outline لعرض موجز، وmove on to أوturn to للانتقال، وelaborate on للتفصيل، وsum up للخلاصة. لا تجعل الروابط بديلًا عن المحتوى؛ سمِّ الفكرة التالية وعلاقتها بما سبق. عند الإشارة إلى أرقام، اقرأ المعلومة المهمة ولا تعتمد على رؤية الشريحة وحدها.",
+    "focusEn": "Guide listeners with clear signposting: outline gives an overview, move on to or turn to marks a transition, elaborate on adds detail, and sum up introduces a summary. Links should not replace content: name the next idea and connect it to the previous one. When referring to figures, state the key information aloud rather than relying only on the slide.",
+    "taskAr": "اكتب افتتاحية قصيرة لعرض عن تأخر التسليم، وانتقالًا من الأسباب إلى الحلول، وخلاصة بإجراء مقترح.",
+    "taskEn": "Write a short opening for a presentation on delivery delays, a transition from causes to solutions, and a summary proposing an action.",
+    "exampleEn": "I'll outline the main causes of the delays and then discuss two options. Having considered the causes, let's turn to possible solutions. To sum up, I suggest testing the new schedule for one month.",
+    "exampleAr": "سأعرض بإيجاز الأسباب الرئيسية للتأخير ثم أناقش خيارين. بعد النظر في الأسباب، لننتقل إلى الحلول الممكنة. وخلاصة القول، أقترح تجربة الجدول الجديد شهرًا واحدًا.",
+    "check": {
+      "promptEn": "A listener asks you to elaborate on your second point. What should you do?",
+      "choices": [
+        "Explain that point in greater detail.",
+        "Immediately end the presentation with no explanation.",
+        "Repeat only the title of the talk."
+      ],
+      "answer": "Explain that point in greater detail.",
+      "explanationAr": "elaborate on طلب للتوسع في نقطة محددة، وليس لإنهاء العرض أو تكرار عنوانه دون معلومات إضافية.",
+      "explanationEn": "Elaborate on requests more detail about a particular point, not an immediate ending or a repetition of the title without added information."
+    }
+  },
+  "b2-extra-7": {
+    "focusAr": "may be able to احتمال مشروط بالقدرة أو الموافقة، وليس وعدًا نهائيًا. counteroffer عرض يعدّل شروطًا سابقة، وconcession تنازل لتحقيق تقدم. meet halfway مجاز لحل وسط لا تقسيم حسابي لازم. عند عرض بديل، حدّد ما تقدمه وما تطلبه في المقابل وما يحتاج تأكيدًا حتى لا يلتبس الاقتراح بالاتفاق.",
+    "focusEn": "May be able to signals possibility depending on capacity or approval, not a final promise. A counteroffer changes earlier terms, and a concession gives ground to advance agreement. Meet halfway figuratively means compromise, not necessarily an exact numerical split. State what you offer, what you request in return, and what still needs confirmation so a proposal is not mistaken for an agreement.",
+    "taskAr": "قدّم عرضًا مضادًا: إمكانية تسليم جزء من الطلب الجمعة والباقي الاثنين، بشرط موافقة العميل، مع طلب تأكيد كتابي.",
+    "taskEn": "Make a counteroffer: possible delivery of part of an order on Friday and the remainder on Monday, subject to customer agreement, requesting written confirmation.",
+    "exampleEn": "We may be able to deliver half the order on Friday and the rest on Monday. Would those terms be acceptable? If so, please confirm them in writing so we can check the final schedule.",
+    "exampleAr": "قد نتمكن من تسليم نصف الطلب الجمعة والباقي الاثنين. هل هذه الشروط مقبولة؟ إذا كانت كذلك، يرجى تأكيدها كتابةً لنتحقق من الجدول النهائي.",
+    "check": {
+      "promptEn": "A supplier says, 'We may be able to reduce the price.' What should you infer?",
+      "choices": [
+        "A reduction is possible but has not been firmly promised.",
+        "The lower price is already contractually confirmed.",
+        "The supplier has refused any discussion."
+      ],
+      "answer": "A reduction is possible but has not been firmly promised.",
+      "explanationAr": "may be able to تترك القدرة على التخفيض غير مؤكدة. لا تتحول الإمكانية وحدها إلى التزام نهائي، ولا تعني رفض التفاوض.",
+      "explanationEn": "May be able to leaves the reduction uncertain. Possibility alone is not a firm commitment, and the phrase does not reject negotiation."
+    }
+  },
+  "b2-extra-8": {
+    "focusAr": "قد يعرض المقال one perspective دون أن تكون كل معلوماته خاطئة. selective framing انتقاء جوانب أو طريقة عرض تؤثر في الفهم؛ افحص ما أُبرز وما أُغفل. source credibility تتعلق بالخبرة والأدلة والشفافية، ولا تغني عن فحص الادعاء نفسه. ميّز بين لغة مثيرة، وتحيز يمكن تبريره بأمثلة، وخطأ واقعي.",
+    "focusEn": "An article can present one perspective without every fact being false. Selective framing emphasizes particular aspects, so examine what is highlighted and omitted. Source credibility concerns expertise, evidence, and transparency, but does not replace checking the claim itself. Distinguish dramatic language, bias supported by examples, and factual error rather than treating them as identical.",
+    "taskAr": "حلّل عنوانًا يقول «الجميع يكره الخطة الجديدة» بينما استُطلع عشرة أشخاص فقط في قسم واحد. حدّد التعميم واقترح صياغة أدق.",
+    "taskEn": "Analyse a headline saying 'Everyone hates the new plan' when only ten people in one department were surveyed. Identify the overstatement and propose a more precise wording.",
+    "exampleEn": "The headline generalizes from a small group to everyone. A more accurate version would be: 'Ten surveyed staff members in one department opposed the plan.' We would need wider evidence to describe the whole organization.",
+    "exampleAr": "يعمم العنوان رأي مجموعة صغيرة على الجميع. والصياغة الأدق: «عارض الخطة عشرة موظفين شملهم الاستطلاع في قسم واحد». نحتاج إلى أدلة أوسع لوصف المؤسسة كلها.",
+    "check": {
+      "promptEn": "Ten people in one department oppose a plan. Which headline stays within that evidence?",
+      "choices": [
+        "Ten surveyed employees in one department oppose the plan.",
+        "Every employee rejects the plan.",
+        "No employee will ever accept any future plan."
+      ],
+      "answer": "Ten surveyed employees in one department oppose the plan.",
+      "explanationAr": "يحافظ الجواب الصحيح على حجم المجموعة ونطاقها. الآخران يعممان على جميع الموظفين أو على المستقبل دون دليل.",
+      "explanationEn": "The correct answer preserves the group's size and scope. The alternatives generalize to all employees or future plans without evidence."
+    }
+  }
+}

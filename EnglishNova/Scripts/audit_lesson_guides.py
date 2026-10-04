@@ -13,6 +13,24 @@ from expand_curriculum import (
     load_quality_fixes, merge_new_vocabulary, model_sentence,
 )
 from lesson_guides import load_guides, validate_guides, apply_lesson_updates
+from build_new_lessons import load_seeds, build_unit
+from build_seed_json import SRC, parse
+
+
+def hydrate_authored_sources(catalog):
+    """Audit current source edits, even before generated resources are rebuilt."""
+    seeds = load_seeds()
+    for path in sorted(SRC.glob("*_expansion.txt")):
+        code, units = parse(path)
+        authored_ids = {u["id"] for u in units}
+        seeds[code] = [u for u in seeds[code] if u["id"] not in authored_ids] + units
+    for level in catalog["levels"]:
+        code = level["level"]
+        if code not in seeds:
+            continue
+        replacements = {u["id"]: u for u in seeds[code]}
+        level["units"] = [build_unit(code, replacements[u["id"]], u["order"])
+                          if u["id"] in replacements else u for u in level["units"]]
 
 
 def main():
@@ -20,6 +38,7 @@ def main():
     parser.add_argument("--allow-partial", action="store_true")
     args = parser.parse_args()
     catalog = json.loads(PATH.read_text(encoding="utf-8"))
+    hydrate_authored_sources(catalog)
     guides = load_guides()
     validate_guides(guides, catalog, require_complete=not args.allow_partial)
     apply_lesson_updates(catalog, guides)

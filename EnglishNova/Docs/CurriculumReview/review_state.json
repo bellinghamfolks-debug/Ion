@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "اكتملت مراجعة دروس A1 الستين: الدعوات والآراء والمقارنة والمشكلات اليومية؛ تصحيح الفرق بين interesting وuseful، وشرح lighter بسياق الوزن، وأسئلة على فهم المقصود لا مجرد تكرار التعريف.",
-  "nextStep": "Continue editorial review from a2-u1-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة الدروس الثمانية الأصلية في A2: ربط الأهداف بمواقف قابلة للتطبيق، وتصحيح أمثلة الإثراء التي لم تعد تناسب الكلمات، وتمييز عرض المرض من تشخيصه ومواعيد السفر من قواعد عامة غير مقيّدة.",
+  "nextStep": "Continue editorial review from a2-x-u1-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -1453,72 +1453,96 @@
       "level": "A2",
       "titleAr": "رسائل قصيرة واضحة",
       "titleEn": "Clear Short Messages",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-extra-2",
       "level": "A2",
       "titleAr": "الماضي البسيط",
       "titleEn": "Past Simple",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-extra-3",
       "level": "A2",
       "titleAr": "خطط المستقبل",
       "titleEn": "Future Plans",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-extra-4",
       "level": "A2",
       "titleAr": "السفر والمطار",
       "titleEn": "Travel and Airport",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-extra-5",
       "level": "A2",
       "titleAr": "الصحة والأعراض",
       "titleEn": "Health and Symptoms",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-extra-6",
       "level": "A2",
       "titleAr": "المقارنة",
       "titleEn": "Comparisons",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-extra-7",
       "level": "A2",
       "titleAr": "الدعوات والاقتراحات",
       "titleEn": "Invitations and Suggestions",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-extra-8",
       "level": "A2",
       "titleAr": "مهام العمل",
       "titleEn": "Work Tasks",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u1-l1",
@@ -3617,7 +3641,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 120,
-    "pending": 240
+    "reviewed": 128,
+    "pending": 232
   }
 }

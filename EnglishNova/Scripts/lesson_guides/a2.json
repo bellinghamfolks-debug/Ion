@@ -1,0 +1,170 @@
+{
+  "a2-u1-l1": {
+    "focusAr": "رسالة التأخر المفيدة تذكر المشكلة والوقت المتوقع أو تقترح موعدًا بديلًا. running late تعني التأخر عن الجدول، وon my way تعني أنك بدأت الطريق. apologize for تتبعها علة الاعتذار، مثل being late.",
+    "focusEn": "A useful delay message states the problem and expected arrival time or proposes another time. Running late means being behind schedule; on my way means the journey has started. Apologize for introduces the reason for the apology, such as being late.",
+    "taskAr": "اكتب رسالة اعتذار عن تأخر عشر دقائق مع بيان أنك في الطريق.",
+    "taskEn": "Write an apology for being ten minutes late and say that you are on your way.",
+    "exampleEn": "Sorry, I'm running late. I'm on my way and will arrive in ten minutes.",
+    "exampleAr": "آسف، أنا متأخر عن الموعد. أنا في الطريق وسأصل بعد عشر دقائق.",
+    "check": {
+      "promptEn": "Which message proposes changing the meeting time?",
+      "choices": [
+        "Can we reschedule the meeting for tomorrow?",
+        "I am on my way to the meeting.",
+        "I arrived ten minutes ago."
+      ],
+      "answer": "Can we reschedule the meeting for tomorrow?",
+      "explanationAr": "reschedule تطلب تغيير الموعد. الرسالتان الأخريان تصفان الطريق أو الوصول دون اقتراح موعد بديل.",
+      "explanationEn": "Reschedule asks to change the time. The other messages describe the journey or arrival without proposing another time."
+    }
+  },
+  "a2-extra-2": {
+    "focusAr": "اربط فعل الماضي بوقت واضح: visited مع last week أوtwo weeks ago. لا تستخدم will عندما تصف حدثًا انتهى. ضع ago بعد المدة، بينما last تأتي قبل الوحدة الزمنية: last month.",
+    "focusEn": "Link a past verb to a clear time: visited with last week or two weeks ago. Do not use will to describe a completed event. Ago follows the time period, whereas last comes before the time unit: last month.",
+    "taskAr": "اذكر زيارة لجدتك حدثت منذ أسبوعين.",
+    "taskEn": "Describe a visit to your grandmother two weeks ago.",
+    "exampleEn": "I visited my grandmother two weeks ago.",
+    "exampleAr": "زرت جدتي منذ أسبوعين.",
+    "check": {
+      "promptEn": "Which phrase identifies a finished past time?",
+      "choices": [
+        "two weeks ago",
+        "next week",
+        "tomorrow morning"
+      ],
+      "answer": "two weeks ago",
+      "explanationAr": "ago تنقل الوقت إلى الماضي. next week وtomorrow morning يشيران إلى المستقبل.",
+      "explanationEn": "Ago places the time in the past. Next week and tomorrow morning refer to the future."
+    },
+    "lessonUpdates": {
+      "objectiveAr": "أن تصف حدثًا ماضيًا وتحدد وقت وقوعه.",
+      "objectiveEn": "Describe a past event and specify when it happened."
+    }
+  },
+  "a2-extra-3": {
+    "focusAr": "ميّز الخطة من الأمل: plan to تدل على نية منظمة وhope to على رغبة في حدوث شيء. be going to تصف خطة أو نية؛ يحتاج I إلى am وshe إلى is. بعدها يأتي الفعل الأساسي.",
+    "focusEn": "Distinguish a plan from a hope: plan to expresses an intention, while hope to expresses a wish for an outcome. Be going to describes a plan or intention; I needs am and she needs is. A base verb follows.",
+    "taskAr": "اذكر خطة لدراسة الإنجليزية ساعة الليلة.",
+    "taskEn": "State a plan to study English for an hour tonight.",
+    "exampleEn": "I am going to study English for an hour tonight.",
+    "exampleAr": "سأدرس الإنجليزية لمدة ساعة الليلة.",
+    "check": {
+      "promptEn": "Complete: She _____ going to study tonight.",
+      "choices": [
+        "is",
+        "am",
+        "does"
+      ],
+      "answer": "is",
+      "explanationAr": "going to تحتاج هنا إلى صيغة be المناسبة، وهي is مع she.",
+      "explanationEn": "Going to needs the appropriate form of be here, which is is with she."
+    }
+  },
+  "a2-extra-4": {
+    "focusAr": "boarding gate مكان الصعود، وdeparture وقت المغادرة أو فعلها. check in إنهاء إجراءات السفر، وsecurity check التفتيش الأمني؛ ليست هذه إجراءات متطابقة. استخدم Where للمكان وWhat time للوقت.",
+    "focusEn": "A boarding gate is a place; departure names leaving or the time of leaving. Check in concerns travel registration, while a security check is a different process. Use Where for a location and What time for a time.",
+    "taskAr": "اسأل عن بوابة الصعود ثم عن موعد المغادرة.",
+    "taskEn": "Ask for the boarding gate and then the departure time.",
+    "exampleEn": "Where is the boarding gate? What time is our departure?",
+    "exampleAr": "أين بوابة الصعود؟ في أي وقت موعد مغادرتنا؟",
+    "check": {
+      "promptEn": "Which question asks for a place rather than a time?",
+      "choices": [
+        "Where is the boarding gate?",
+        "What time is departure?",
+        "When does the flight leave?"
+      ],
+      "answer": "Where is the boarding gate?",
+      "explanationAr": "Where تسأل عن المكان. What time وWhen تسألان عن الوقت.",
+      "explanationEn": "Where asks about location. What time and When ask about time."
+    },
+    "lessonUpdates": {
+      "objectiveAr": "أن تؤكد معلومات المغادرة بالسؤال عن الوقت والبوابة.",
+      "objectiveEn": "Confirm departure details by asking about the time and gate."
+    }
+  },
+  "a2-extra-5": {
+    "focusAr": "استخدم have مع أسماء الأعراض: a headache أوa cough، وfeel مع صفة مثل unwell. sore throat يصف ألم الحلق ولا يحدد سببه. لوصف أكثر من عرض، اربط جملتين بـ and دون أن تحوّل الوصف إلى تشخيص.",
+    "focusEn": "Use have with symptom nouns such as a headache or a cough, and feel with an adjective such as unwell. Sore throat describes discomfort without identifying its cause. Join symptoms with and when reporting how you feel.",
+    "taskAr": "صف ألمًا في الحلق مع شعور بالتوعك.",
+    "taskEn": "Describe a sore throat and feeling unwell.",
+    "exampleEn": "I have a sore throat and feel unwell.",
+    "exampleAr": "لدي ألم في الحلق وأشعر بتوعك.",
+    "check": {
+      "promptEn": "Which phrase correctly describes a feeling?",
+      "choices": [
+        "I feel unwell.",
+        "I feel a headache.",
+        "I am a cough."
+      ],
+      "answer": "I feel unwell.",
+      "explanationAr": "unwell صفة تناسب feel. نستخدم have مع a headache وa cough.",
+      "explanationEn": "Unwell is an adjective that follows feel. Use have with a headache and a cough."
+    },
+    "lessonUpdates": {
+      "objectiveAr": "أن تصف أعراضًا بسيطة بجمل واضحة.",
+      "objectiveEn": "Describe simple symptoms in clear sentences."
+    }
+  },
+  "a2-extra-6": {
+    "focusAr": "faster than تقارن السرعة، وas tall as تعبر عن تساوي الطول. احفظ حرف الجر مع الصفة: similar to وdifferent from. the best صيغة تفضيل تختار عنصرًا بين مجموعة، وليست مقارنة عادية بين عنصرين.",
+    "focusEn": "Faster than compares speed; as tall as expresses equal height. Learn the preposition with each adjective: similar to and different from. The best is a superlative selecting one member of a group rather than an ordinary two-item comparison.",
+    "taskAr": "قل إن هاتفك الجديد مختلف عن القديم.",
+    "taskEn": "Say that your new phone differs from your old one.",
+    "exampleEn": "My new phone is different from my old one.",
+    "exampleAr": "هاتفي الجديد مختلف عن هاتفي القديم.",
+    "check": {
+      "promptEn": "Complete: This model is similar _____ mine.",
+      "choices": [
+        "to",
+        "than",
+        "as"
+      ],
+      "answer": "to",
+      "explanationAr": "similar تتبعها to في هذا التركيب. than تأتي مع صفات المقارنة مثل faster.",
+      "explanationEn": "Similar takes to in this pattern. Than follows comparatives such as faster."
+    }
+  },
+  "a2-extra-7": {
+    "focusAr": "Would you like to دعوة، وWhy don't we اقتراح نشاط مشترك. Sounds good قبول للاقتراح في هذا السياق. Maybe another time رفض لطيف للموعد الحالي، ولا يؤكد موعدًا بديلًا محددًا.",
+    "focusEn": "Would you like to makes an invitation; Why don't we suggests a shared activity. Sounds good accepts a suggestion in this context. Maybe another time politely declines the current occasion without confirming a specific alternative time.",
+    "taskAr": "ارفض دعوة الليلة بأدب واقترح فرصة أخرى دون تحديد موعد.",
+    "taskEn": "Politely decline tonight's invitation and suggest another occasion without fixing a date.",
+    "exampleEn": "I can't come tonight. Maybe another time.",
+    "exampleAr": "لا أستطيع الحضور الليلة. ربما في وقت آخر.",
+    "check": {
+      "promptEn": "Maybe another time usually signals what here?",
+      "choices": [
+        "a polite refusal of the current invitation",
+        "a confirmed time for tonight",
+        "a request for directions"
+      ],
+      "answer": "a polite refusal of the current invitation",
+      "explanationAr": "العبارة ترفض المناسبة الحالية بلطف. لا تعطي وقتًا جديدًا مؤكدًا.",
+      "explanationEn": "The phrase politely declines the present invitation. It does not confirm a new time."
+    }
+  },
+  "a2-extra-8": {
+    "focusAr": "due date وdeadline يشيران إلى موعد التسليم النهائي في سياق المهمة؛ لا تختلق فرقًا بينهما دون سياق. in charge of تحدد الشخص المسؤول. اذكر المهمة ثم موعدها لتقديم تحديث عمل قابل للفهم.",
+    "focusEn": "Due date and deadline both identify when work must be submitted in this task context; do not invent a distinction without context. In charge of identifies responsibility. Name the task and its due date to give a clear update.",
+    "taskAr": "اذكر مسؤوليتك عن التقرير وأن موعد تسليمه الجمعة.",
+    "taskEn": "Say that you are responsible for the report and that it is due on Friday.",
+    "exampleEn": "I am in charge of the report. The due date is Friday.",
+    "exampleAr": "أنا مسؤول عن التقرير. موعد تسليمه يوم الجمعة.",
+    "check": {
+      "promptEn": "Complete: She is in charge _____ the project.",
+      "choices": [
+        "of",
+        "to",
+        "with"
+      ],
+      "answer": "of",
+      "explanationAr": "العبارة الكاملة هي in charge of بمعنى مسؤول عن، ويأتي بعدها الشيء أو الفريق المسؤول عنه.",
+      "explanationEn": "The complete phrase is in charge of, followed by the thing or team for which someone is responsible."
+    },
+    "lessonUpdates": {
+      "objectiveAr": "أن تقدم تحديثًا يحدد المهمة والمسؤول عنها وموعد تسليمها.",
+      "objectiveEn": "Give an update identifying a task, its owner and its due date."
+    }
+  }
+}

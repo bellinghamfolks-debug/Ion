@@ -4,15 +4,15 @@
       "english": "running late",
       "arabic": "متأخر عن الموعد",
       "example": "I'm running late, so I'll arrive in about ten minutes.",
-      "exampleArabic": "سأتأخر عن الموعد، لذلك سأصل خلال نحو عشر دقائق.",
+      "exampleArabic": "أنا متأخر عن الموعد، لذلك سأصل بعد نحو عشر دقائق.",
       "partOfSpeech": "phrase",
       "phonetic": null
     },
     "a2-u1-l1-w3": {
       "english": "reschedule",
-      "arabic": "يعيد جدولة",
+      "arabic": "يغيّر موعد",
       "example": "Can we reschedule the meeting for tomorrow afternoon?",
-      "exampleArabic": "هل يمكننا إعادة جدولة الاجتماع إلى عصر الغد؟",
+      "exampleArabic": "هل يمكننا تغيير موعد الاجتماع إلى عصر الغد؟",
       "partOfSpeech": "verb",
       "phonetic": null
     },
@@ -26,7 +26,7 @@
     },
     "a2-extra-3-w2": {
       "english": "plan to",
-      "arabic": "يخطط أن",
+      "arabic": "يخطط لـ",
       "example": "I plan to study for an hour tonight.",
       "exampleArabic": "أخطط للدراسة لمدة ساعة الليلة.",
       "partOfSpeech": "verb phrase",
@@ -1284,6 +1284,46 @@
     },
     "a1-057-wrong-2": {
       "arabic": "غير الصحيح / غير المطلوب"
+    },
+    "a2-u1-l1-xv1": {
+      "example": "There is a short delay at the station.",
+      "exampleArabic": "يوجد تأخير قصير في المحطة."
+    },
+    "a2-extra-2-w1": {
+      "partOfSpeech": "verb"
+    },
+    "a2-extra-3-w1": {
+      "arabic": "سوف (لخطة أو نية)"
+    },
+    "a2-extra-4-w1": {
+      "partOfSpeech": "noun phrase"
+    },
+    "a2-extra-4-xv4": {
+      "partOfSpeech": "phrasal verb",
+      "example": "I want to check in for my flight.",
+      "exampleArabic": "أريد إنهاء إجراءات السفر لرحلتي.",
+      "arabic": "ينهي إجراءات السفر"
+    },
+    "a2-extra-5-w1": {
+      "partOfSpeech": "noun"
+    },
+    "a2-extra-5-xv3": {
+      "arabic": "ألم في الحلق",
+      "exampleArabic": "لديها ألم في الحلق وتجد صعوبة في الكلام."
+    },
+    "a2-extra-5-xv4": {
+      "example": "The pharmacist explained how to take the medicine.",
+      "exampleArabic": "شرح الصيدلي كيفية تناول الدواء."
+    },
+    "a2-extra-5-xv1": {
+      "exampleArabic": "ابني مصاب بحمى مرتفعة."
+    },
+    "a2-extra-6-xv4": {
+      "arabic": "بطول ... نفسه"
+    },
+    "a2-extra-7-xv4": {
+      "example": "Thanks for inviting me. I'd love to come.",
+      "exampleArabic": "شكرًا على دعوتي. يسعدني الحضور."
     }
   },
   "arabicGlossById": {

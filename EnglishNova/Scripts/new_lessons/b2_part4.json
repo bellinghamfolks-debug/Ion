@@ -63,6 +63,38 @@
        "exampleArabic": "استخدام الألوان لافت للنظر.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "symbolism",
+       "arabic": "رمزية",
+       "example": "The use of empty chairs adds symbolism to the painting.",
+       "exampleArabic": "يضيف استخدام الكراسي الفارغة رمزية إلى اللوحة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "perspective",
+       "arabic": "منظور",
+       "example": "The unusual perspective makes the room appear larger than it is.",
+       "exampleArabic": "يجعل المنظور غير المعتاد الغرفة تبدو أكبر مما هي عليه.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "medium",
+       "arabic": "وسيط فني",
+       "example": "The artist combines paint and fabric as a mixed medium.",
+       "exampleArabic": "يجمع الفنان بين الطلاء والقماش كوسيط فني مختلط.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "evoke",
+       "arabic": "يستحضر",
+       "example": "The dark colours evoke a feeling of uncertainty.",
+       "exampleArabic": "تستحضر الألوان الداكنة شعورًا بعدم اليقين.",
+       "partOfSpeech": "verb",
+       "phonetic": null
       }
      ]
     },
@@ -119,6 +151,38 @@
        "arabic": "هوية",
        "example": "Language is part of our identity.",
        "exampleArabic": "اللغة جزء من هويتنا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "restoration",
+       "arabic": "ترميم",
+       "example": "The restoration took five years and used traditional materials.",
+       "exampleArabic": "استغرق الترميم خمس سنوات واستخدم مواد تقليدية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "conservation",
+       "arabic": "حفظ",
+       "example": "Conservation aims to protect historic fabric without unnecessary alteration.",
+       "exampleArabic": "يهدف الحفظ إلى حماية العناصر التاريخية دون تعديل غير ضروري.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "listed building",
+       "arabic": "مبنى مسجل تاريخيًا",
+       "example": "The listed building cannot be altered freely without approval.",
+       "exampleArabic": "لا يمكن تعديل المبنى المسجل تاريخيًا بحرية دون موافقة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "intangible heritage",
+       "arabic": "تراث غير مادي",
+       "example": "Traditional music can form part of a community's intangible heritage.",
+       "exampleArabic": "يمكن للموسيقى التقليدية أن تشكل جزءًا من التراث غير المادي للمجتمع.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -179,6 +243,38 @@
        "exampleArabic": "إنه من أكثر أفلام العقد التي لم تنل حقها من التقدير.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "cinematography",
+       "arabic": "تصوير سينمائي",
+       "example": "The cinematography makes ordinary streets look dramatic.",
+       "exampleArabic": "يجعل التصوير السينمائي الشوارع العادية تبدو درامية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "character development",
+       "arabic": "تطور الشخصية",
+       "example": "The novel has stronger character development than the film adaptation.",
+       "exampleArabic": "تتمتع الرواية بتطور أقوى للشخصيات من الفيلم المقتبس.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "source material",
+       "arabic": "المادة الأصلية",
+       "example": "The director changes the source material without losing its central theme.",
+       "exampleArabic": "يغير المخرج المادة الأصلية دون أن يفقد موضوعها المركزي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "nuanced",
+       "arabic": "دقيق ومتعدد الجوانب",
+       "example": "The critic gives a nuanced account of the film's strengths and weaknesses.",
+       "exampleArabic": "يقدم الناقد عرضًا دقيقًا ومتعدد الجوانب لنقاط قوة الفيلم وضعفه.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
       }
      ]
     },
@@ -236,6 +332,38 @@
        "example": "The food is a blend of Arabic and Indian styles.",
        "exampleArabic": "الطعام مزيج من الأسلوبين العربي والهندي.",
        "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "cultural homogenisation",
+       "arabic": "تجانس ثقافي",
+       "example": "Critics argue that cultural homogenisation can weaken distinctive local practices.",
+       "exampleArabic": "يرى منتقدون أن التجانس الثقافي قد يضعف الممارسات المحلية المميزة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "local identity",
+       "arabic": "هوية محلية",
+       "example": "Festivals can strengthen local identity while welcoming outside influences.",
+       "exampleArabic": "يمكن للمهرجانات تعزيز الهوية المحلية مع الترحيب بالتأثيرات الخارجية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "language preservation",
+       "arabic": "حفظ اللغة",
+       "example": "Community schools can support language preservation across generations.",
+       "exampleArabic": "يمكن للمدارس المجتمعية دعم حفظ اللغة عبر الأجيال.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "cross-cultural",
+       "arabic": "عابر للثقافات",
+       "example": "Cross-cultural exchange can create new forms of music and art.",
+       "exampleArabic": "يمكن للتبادل العابر للثقافات أن يخلق أشكالًا جديدة من الموسيقى والفن.",
+       "partOfSpeech": "adjective",
        "phonetic": null
       }
      ]
@@ -304,6 +432,38 @@
        "exampleArabic": "كان مجرد حادث بسيط.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "proportionate sentence",
+       "arabic": "عقوبة متناسبة",
+       "example": "A court aims to impose a proportionate sentence based on the offence and applicable law.",
+       "exampleArabic": "تهدف المحكمة إلى فرض عقوبة متناسبة وفق الجريمة والقانون المطبق.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "reoffending",
+       "arabic": "العودة إلى الجريمة",
+       "example": "Rehabilitation programmes are often assessed by whether they reduce reoffending.",
+       "exampleArabic": "تُقيّم برامج إعادة التأهيل غالبًا بحسب ما إذا كانت تقلل العودة إلى الجريمة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "restorative justice",
+       "arabic": "عدالة تصالحية",
+       "example": "Restorative justice can involve dialogue between those affected where the process is appropriate.",
+       "exampleArabic": "قد تشمل العدالة التصالحية حوارًا بين المتأثرين عندما يكون هذا المسار مناسبًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "legal representation",
+       "arabic": "تمثيل قانوني",
+       "example": "Access to legal representation can be crucial in criminal proceedings.",
+       "exampleArabic": "قد يكون الوصول إلى تمثيل قانوني بالغ الأهمية في الإجراءات الجنائية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -361,6 +521,38 @@
        "example": "The decision violates basic rights.",
        "exampleArabic": "ينتهك القرار حقوقًا أساسية.",
        "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "civil liberties",
+       "arabic": "حريات مدنية",
+       "example": "Civil liberties protect individuals against certain forms of state interference.",
+       "exampleArabic": "تحمي الحريات المدنية الأفراد من بعض أشكال تدخل الدولة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "due process",
+       "arabic": "إجراءات قانونية واجبة",
+       "example": "Due process requires decisions to follow established legal procedures.",
+       "exampleArabic": "تتطلب الإجراءات القانونية الواجبة اتباع إجراءات قانونية مقررة عند اتخاذ القرارات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "equal treatment",
+       "arabic": "معاملة متساوية",
+       "example": "Equal treatment before the law is a core legal principle.",
+       "exampleArabic": "المعاملة المتساوية أمام القانون مبدأ قانوني أساسي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "arbitrary",
+       "arabic": "تعسفي",
+       "example": "A restriction should not be arbitrary or applied without a lawful basis.",
+       "exampleArabic": "ينبغي ألا يكون القيد تعسفيًا أو مطبقًا دون أساس قانوني.",
+       "partOfSpeech": "adjective",
        "phonetic": null
       }
      ]
@@ -420,6 +612,38 @@
        "exampleArabic": "التدخين محظور في المباني العامة.",
        "partOfSpeech": "verb",
        "phonetic": null
+      },
+      {
+       "english": "regulatory body",
+       "arabic": "جهة تنظيمية",
+       "example": "A regulatory body may investigate serious breaches of sector rules.",
+       "exampleArabic": "قد تحقق جهة تنظيمية في المخالفات الجسيمة لقواعد القطاع.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "compliance",
+       "arabic": "امتثال",
+       "example": "The company introduced training to improve compliance with safety requirements.",
+       "exampleArabic": "أدخلت الشركة تدريبًا لتحسين الامتثال لمتطلبات السلامة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "penalty",
+       "arabic": "جزاء",
+       "example": "The possible penalty depends on the rule and the seriousness of the breach.",
+       "exampleArabic": "يعتمد الجزاء المحتمل على القاعدة وجسامة المخالفة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "exemption",
+       "arabic": "استثناء",
+       "example": "Some small organisations may qualify for an exemption under specific conditions.",
+       "exampleArabic": "قد تتأهل بعض المؤسسات الصغيرة لاستثناء وفق شروط محددة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -476,6 +700,38 @@
        "arabic": "تعويض",
        "example": "The airline paid compensation to passengers.",
        "exampleArabic": "دفعت شركة الطيران تعويضًا للركاب.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "consumer protection",
+       "arabic": "حماية المستهلك",
+       "example": "Consumer protection rules vary by jurisdiction and type of purchase.",
+       "exampleArabic": "تختلف قواعد حماية المستهلك باختلاف الولاية القضائية ونوع الشراء.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "misleading advertising",
+       "arabic": "إعلان مضلل",
+       "example": "Consumer law may restrict misleading advertising about a product's features.",
+       "exampleArabic": "قد يقيد قانون المستهلك الإعلان المضلل بشأن خصائص المنتج.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "statutory rights",
+       "arabic": "حقوق نظامية",
+       "example": "A store policy cannot necessarily remove statutory rights granted by law.",
+       "exampleArabic": "لا تستطيع سياسة المتجر بالضرورة إلغاء الحقوق النظامية التي يمنحها القانون.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "proof of purchase",
+       "arabic": "إثبات شراء",
+       "example": "Keep proof of purchase in case you need to make a claim.",
+       "exampleArabic": "احتفظ بإثبات الشراء في حال احتجت إلى تقديم مطالبة.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -545,6 +801,38 @@
        "exampleArabic": "أغلقت شركات كثيرة خلال الركود الاقتصادي.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "wage growth",
+       "arabic": "نمو الأجور",
+       "example": "If wage growth lags behind inflation, households may feel worse off.",
+       "exampleArabic": "إذا تأخر نمو الأجور عن التضخم فقد تشعر الأسر بتراجع قدرتها المالية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "household budget",
+       "arabic": "ميزانية الأسرة",
+       "example": "Higher food and energy prices can put pressure on a household budget.",
+       "exampleArabic": "يمكن لارتفاع أسعار الغذاء والطاقة أن يضغط على ميزانية الأسرة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "real income",
+       "arabic": "الدخل الحقيقي",
+       "example": "Real income falls when prices rise faster than earnings.",
+       "exampleArabic": "ينخفض الدخل الحقيقي عندما ترتفع الأسعار أسرع من الأرباح.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "price rise",
+       "arabic": "ارتفاع سعر",
+       "example": "A price rise in one product does not by itself show the overall inflation rate.",
+       "exampleArabic": "لا يدل ارتفاع سعر منتج واحد بمفرده على معدل التضخم العام.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -602,6 +890,38 @@
        "example": "Starting a business always involves risk.",
        "exampleArabic": "ينطوي تأسيس مشروع دائمًا على مخاطرة.",
        "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "cash flow",
+       "arabic": "تدفق نقدي",
+       "example": "A profitable business can still face cash flow problems if customers pay late.",
+       "exampleArabic": "قد تواجه شركة رابحة مشكلات في التدفق النقدي إذا تأخر العملاء في الدفع.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "market research",
+       "arabic": "بحث سوقي",
+       "example": "Market research can test whether customers actually want the product.",
+       "exampleArabic": "يمكن للبحث السوقي اختبار ما إذا كان العملاء يريدون المنتج فعلًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "funding",
+       "arabic": "تمويل",
+       "example": "The founders are seeking funding to expand the business.",
+       "exampleArabic": "يسعى المؤسسون إلى تمويل لتوسيع الشركة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "break even",
+       "arabic": "يصل إلى نقطة التعادل",
+       "example": "The company expects to break even by the end of its second year.",
+       "exampleArabic": "تتوقع الشركة الوصول إلى نقطة التعادل بحلول نهاية عامها الثاني.",
+       "partOfSpeech": "verb phrase",
        "phonetic": null
       }
      ]
@@ -661,6 +981,38 @@
        "exampleArabic": "كان السوق متقلبًا جدًا هذا العام.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "portfolio",
+       "arabic": "محفظة استثمارية",
+       "example": "A diversified portfolio can spread exposure across different assets.",
+       "exampleArabic": "يمكن لمحفظة استثمارية متنوعة توزيع التعرض على أصول مختلفة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "asset",
+       "arabic": "أصل مالي",
+       "example": "Shares and bonds are different types of asset.",
+       "exampleArabic": "الأسهم والسندات نوعان مختلفان من الأصول المالية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "risk tolerance",
+       "arabic": "قدرة على تحمل المخاطر",
+       "example": "Your investment choices should reflect your goals and risk tolerance.",
+       "exampleArabic": "ينبغي أن تعكس اختياراتك الاستثمارية أهدافك وقدرتك على تحمل المخاطر.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "dividend",
+       "arabic": "توزيعات أرباح",
+       "example": "A company may pay a dividend to shareholders, but payments are not guaranteed.",
+       "exampleArabic": "قد تدفع الشركة توزيعات أرباح للمساهمين، لكن هذه المدفوعات غير مضمونة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -718,6 +1070,38 @@
        "example": "Some platforms exploit their workers.",
        "exampleArabic": "تستغل بعض المنصات عامليها.",
        "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "platform worker",
+       "arabic": "عامل منصة",
+       "example": "A platform worker may receive jobs through an app rather than a traditional employer.",
+       "exampleArabic": "قد يتلقى عامل المنصة المهام عبر تطبيق بدل صاحب عمل تقليدي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "contract",
+       "arabic": "عقد",
+       "example": "The contract should state payment terms and responsibilities clearly.",
+       "exampleArabic": "ينبغي أن يوضح العقد شروط الدفع والمسؤوليات بوضوح.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "income volatility",
+       "arabic": "تقلب الدخل",
+       "example": "Income volatility can make budgeting difficult for freelance workers.",
+       "exampleArabic": "قد يجعل تقلب الدخل إعداد الميزانية صعبًا للعاملين المستقلين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "social protection",
+       "arabic": "حماية اجتماعية",
+       "example": "Debates about gig work often focus on access to social protection.",
+       "exampleArabic": "تركز نقاشات العمل المرن عبر المنصات غالبًا على الوصول إلى الحماية الاجتماعية.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -786,6 +1170,38 @@
        "exampleArabic": "أشار إلى بضعة أخطاء صغيرة.",
        "partOfSpeech": "phrasal verb",
        "phonetic": null
+      },
+      {
+       "english": "actionable",
+       "arabic": "قابل للتنفيذ",
+       "example": "Useful feedback is actionable because it tells the speaker what to change.",
+       "exampleArabic": "تكون الملاحظات المفيدة قابلة للتنفيذ لأنها تخبر المتحدث بما يمكن تغييره.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "balanced feedback",
+       "arabic": "ملاحظات متوازنة",
+       "example": "Balanced feedback recognises strengths as well as areas for improvement.",
+       "exampleArabic": "تعترف الملاحظات المتوازنة بنقاط القوة إلى جانب مجالات التحسين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "behaviour-focused",
+       "arabic": "مركز على السلوك",
+       "example": "Behaviour-focused feedback comments on observable actions rather than personality.",
+       "exampleArabic": "تركز الملاحظات المركزة على السلوك على الأفعال الملحوظة بدل الشخصية.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "follow-up",
+       "arabic": "متابعة",
+       "example": "A short follow-up can check whether the agreed change actually helped.",
+       "exampleArabic": "يمكن لمتابعة قصيرة التحقق مما إذا كان التغيير المتفق عليه قد أفاد فعلًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -843,6 +1259,38 @@
        "example": "She acknowledged that the plan had problems.",
        "exampleArabic": "أقرّت بأن الخطة فيها مشكلات.",
        "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "clarifying question",
+       "arabic": "سؤال توضيحي",
+       "example": "A clarifying question can prevent you from responding to the wrong issue.",
+       "exampleArabic": "يمكن لسؤال توضيحي أن يمنعك من الرد على مسألة غير مقصودة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "reflect back",
+       "arabic": "يعيد صياغة ما سمعه",
+       "example": "Try to reflect back the speaker's main concern before offering advice.",
+       "exampleArabic": "حاول إعادة صياغة مصدر قلق المتحدث الرئيسي قبل تقديم النصيحة.",
+       "partOfSpeech": "verb phrase",
+       "phonetic": null
+      },
+      {
+       "english": "open-ended question",
+       "arabic": "سؤال مفتوح",
+       "example": "An open-ended question encourages the other person to explain more.",
+       "exampleArabic": "يشجع السؤال المفتوح الشخص الآخر على الشرح بمزيد من التفصيل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "non-verbal cue",
+       "arabic": "إشارة غير لفظية",
+       "example": "A non-verbal cue such as eye contact can show attention.",
+       "exampleArabic": "يمكن لإشارة غير لفظية مثل التواصل البصري أن تظهر الانتباه.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -902,6 +1350,38 @@
        "exampleArabic": "ينبغي أن يكون التقرير موضوعيًا لا عاطفيًا.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "executive summary",
+       "arabic": "ملخص تنفيذي",
+       "example": "An executive summary gives senior readers the report's main message quickly.",
+       "exampleArabic": "يقدم الملخص التنفيذي لكبار القراء الرسالة الرئيسية للتقرير بسرعة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "methodology",
+       "arabic": "منهجية",
+       "example": "The methodology section explains how the information was collected.",
+       "exampleArabic": "يوضح قسم المنهجية كيفية جمع المعلومات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "limitation",
+       "arabic": "قيد",
+       "example": "A good report states each important limitation of the evidence.",
+       "exampleArabic": "يذكر التقرير الجيد كل قيد مهم على الأدلة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "appendix",
+       "arabic": "ملحق",
+       "example": "Detailed tables can be placed in an appendix at the end of the report.",
+       "exampleArabic": "يمكن وضع الجداول التفصيلية في ملحق في نهاية التقرير.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -959,6 +1439,38 @@
        "example": "In other words, we need to start again.",
        "exampleArabic": "بعبارة أخرى، علينا أن نبدأ من جديد.",
        "partOfSpeech": "phrase",
+       "phonetic": null
+      },
+      {
+       "english": "synthesis",
+       "arabic": "تركيب الأفكار",
+       "example": "A strong summary uses synthesis to combine related ideas from several paragraphs.",
+       "exampleArabic": "يستخدم الملخص القوي تركيب الأفكار للجمع بين أفكار مترابطة من عدة فقرات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "source text",
+       "arabic": "النص الأصلي",
+       "example": "Check the source text to make sure your paraphrase keeps the original meaning.",
+       "exampleArabic": "راجع النص الأصلي للتأكد من أن إعادة الصياغة تحافظ على المعنى الأصلي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "key point",
+       "arabic": "نقطة رئيسية",
+       "example": "Include each key point without copying unnecessary detail.",
+       "exampleArabic": "أدرج كل نقطة رئيسية دون نسخ تفاصيل غير ضرورية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "avoid plagiarism",
+       "arabic": "يتجنب الانتحال",
+       "example": "Writers must avoid plagiarism by acknowledging sources and using their own wording.",
+       "exampleArabic": "يجب على الكتّاب تجنب الانتحال بذكر المصادر واستخدام صياغتهم الخاصة.",
+       "partOfSpeech": "verb phrase",
        "phonetic": null
       }
      ]

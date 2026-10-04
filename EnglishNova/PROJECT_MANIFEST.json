@@ -1,17 +1,17 @@
 {
   "project": "EnglishNova",
   "batch": 5,
-  "version": "1.1.5",
-  "build": 56,
+  "version": "2.0.0",
+  "build": 57,
   "minimumIOS": "17.0",
-  "generatedDate": "2026-09-08",
+  "generatedDate": "2026-10-04",
   "recoveryVerified": false,
   "recoveryFingerprint": {
     "bundleIdentifier": "com.englishnova.app",
     "curriculumSHA256": "e43841428127c522a356472a8a6224e49c6b5eb16f647efcfbea934e2b722342",
     "translationsSHA256": "aa22188327185049a637a0cd15d024c9408be0e86f9e88cbdcea5c881b8578e3"
   },
-  "swiftSourceFiles": 112,
+  "swiftSourceFiles": 111,
   "testFiles": 21,
   "levels": 6,
   "lessons": 232,

@@ -3,40 +3,6 @@ import XCTest
 
 final class TutorImprovementsTests: XCTestCase {
 
-    // MARK: - Gemini response parsing
-
-    func testGeminiStructuredResponseIsParsed() throws {
-        let inner = #"{"reply":"Great sentence.","corrections":[{"original":"i go","replacement":"I went","reason":"الماضي مع yesterday"}],"suggestedReplies":["Tell me more","Why?"]}"#
-        let envelope: [String: Any] = [
-            "candidates": [["content": ["parts": [["text": inner]]]]]
-        ]
-        let data = try JSONSerialization.data(withJSONObject: envelope)
-
-        let message = try GeminiTutorClient.parse(data)
-        XCTAssertEqual(message.role, .assistant)
-        XCTAssertEqual(message.text, "Great sentence.")
-        XCTAssertEqual(message.corrections.count, 1)
-        XCTAssertEqual(message.corrections.first?.replacement, "I went")
-        XCTAssertEqual(message.suggestedReplies, ["Tell me more", "Why?"])
-    }
-
-    func testGeminiPlainTextFallsBackToRawReply() throws {
-        let envelope: [String: Any] = [
-            "candidates": [["content": ["parts": [["text": "Keep practising every day."]]]]]
-        ]
-        let data = try JSONSerialization.data(withJSONObject: envelope)
-
-        let message = try GeminiTutorClient.parse(data)
-        XCTAssertEqual(message.text, "Keep practising every day.")
-        XCTAssertTrue(message.corrections.isEmpty)
-        XCTAssertTrue(message.suggestedReplies.isEmpty)
-    }
-
-    func testGeminiEmptyCandidatesThrows() {
-        let data = Data(#"{"candidates":[]}"#.utf8)
-        XCTAssertThrowsError(try GeminiTutorClient.parse(data))
-    }
-
     // MARK: - Local fallback must never corrupt learner input
 
     func testLocalTutorArabicQuestionDoesNotCreateMixedBrokenSentence() {

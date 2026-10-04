@@ -63,6 +63,38 @@
        "exampleArabic": "تسلسل استدلالها سهل المتابعة.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "qualify a claim",
+       "arabic": "يقيّد الادعاء",
+       "example": "Good academic writing should qualify a claim when the evidence is limited.",
+       "exampleArabic": "ينبغي للكتابة الأكاديمية الجيدة أن تقيّد الادعاء عندما تكون الأدلة محدودة.",
+       "partOfSpeech": "verb phrase",
+       "phonetic": null
+      },
+      {
+       "english": "evidential basis",
+       "arabic": "أساس استدلالي",
+       "example": "The conclusion needs a stronger evidential basis than a single example.",
+       "exampleArabic": "تحتاج الخلاصة إلى أساس استدلالي أقوى من مثال واحد.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "caveat",
+       "arabic": "تحفظ",
+       "example": "The report includes a caveat about the small sample size.",
+       "exampleArabic": "يتضمن التقرير تحفظًا بشأن صغر حجم العينة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "rebuttal",
+       "arabic": "رد تفنيدي",
+       "example": "A strong rebuttal addresses the opposing argument rather than ignoring it.",
+       "exampleArabic": "يتناول الرد التفنيدي القوي الحجة المعارضة بدل تجاهلها.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -119,6 +151,38 @@
        "arabic": "تحيّز",
        "example": "The report shows a clear bias.",
        "exampleArabic": "يُظهر التقرير تحيّزًا واضحًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "source reliability",
+       "arabic": "موثوقية المصدر",
+       "example": "Source reliability depends on authorship, evidence, method and transparency.",
+       "exampleArabic": "تعتمد موثوقية المصدر على المؤلف والأدلة والمنهج والشفافية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "corroborate",
+       "arabic": "يؤيد بدليل مستقل",
+       "example": "Independent records can corroborate parts of a witness account.",
+       "exampleArabic": "يمكن للسجلات المستقلة أن تؤيد أجزاء من رواية شاهد.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "traceable",
+       "arabic": "قابل للتتبع",
+       "example": "A credible factual claim should be traceable to an identifiable source.",
+       "exampleArabic": "ينبغي أن يكون الادعاء الواقعي الموثوق قابلًا للتتبع إلى مصدر محدد.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "conflict of interest",
+       "arabic": "تعارض مصالح",
+       "example": "Readers should know about any conflict of interest that could affect a source.",
+       "exampleArabic": "ينبغي أن يعرف القراء بأي تعارض مصالح قد يؤثر في المصدر.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -179,6 +243,38 @@
        "exampleArabic": "غالبًا ما تكون الكتابة العلمية غير شخصية.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "agency",
+       "arabic": "الفاعل المسؤول",
+       "example": "Formal style can reduce emphasis on agency, but important responsibility should remain clear.",
+       "exampleArabic": "قد يقلل الأسلوب الرسمي التركيز على الفاعل المسؤول، لكن ينبغي أن تبقى المسؤولية المهمة واضحة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "passive construction",
+       "arabic": "بناء للمجهول",
+       "example": "A passive construction can be useful when the actor is unknown or unimportant.",
+       "exampleArabic": "يمكن أن يكون البناء للمجهول مفيدًا عندما يكون الفاعل مجهولًا أو غير مهم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "abstraction",
+       "arabic": "تجريد",
+       "example": "Too much abstraction can make a formal sentence difficult to understand.",
+       "exampleArabic": "قد يجعل الإفراط في التجريد الجملة الرسمية صعبة الفهم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "accountability",
+       "arabic": "مساءلة",
+       "example": "Writers should not use nominalisation to obscure accountability for an action.",
+       "exampleArabic": "ينبغي ألا يستخدم الكتّاب الاسمية لإخفاء المساءلة عن فعل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -235,6 +331,38 @@
        "arabic": "دلالات؛ آثار مترتبة",
        "example": "The findings have important implications for teachers.",
        "exampleArabic": "للنتائج دلالات مهمة للمعلمين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "research question",
+       "arabic": "سؤال بحث",
+       "example": "A clear abstract states the research question without unnecessary background.",
+       "exampleArabic": "يذكر الملخص الواضح سؤال البحث دون خلفية غير ضرورية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "scope",
+       "arabic": "نطاق",
+       "example": "The abstract should define the scope of the study briefly.",
+       "exampleArabic": "ينبغي أن يحدد الملخص نطاق الدراسة بإيجاز.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "key finding",
+       "arabic": "نتيجة رئيسية",
+       "example": "A good abstract reports the key finding without exaggerating it.",
+       "exampleArabic": "يعرض الملخص الجيد النتيجة الرئيسية دون مبالغة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "concise summary",
+       "arabic": "ملخص موجز",
+       "example": "The final sentence provides a concise summary of the study's implications.",
+       "exampleArabic": "تقدم الجملة الأخيرة ملخصًا موجزًا لآثار الدراسة.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -304,6 +432,38 @@
        "exampleArabic": "استُبعدت النتيجة باعتبارها حالة شاذة.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "falsifiable",
+       "arabic": "قابل للدحض",
+       "example": "A scientific hypothesis should be falsifiable in principle.",
+       "exampleArabic": "ينبغي أن تكون الفرضية العلمية قابلة للدحض من حيث المبدأ.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "consistent with",
+       "arabic": "متوافق مع",
+       "example": "The result is consistent with the hypothesis, but it does not prove it.",
+       "exampleArabic": "تتوافق النتيجة مع الفرضية، لكنها لا تثبتها.",
+       "partOfSpeech": "phrase",
+       "phonetic": null
+      },
+      {
+       "english": "causation",
+       "arabic": "سببية",
+       "example": "Correlation alone is not sufficient to establish causation.",
+       "exampleArabic": "الارتباط وحده لا يكفي لإثبات السببية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "confidence interval",
+       "arabic": "فاصل ثقة",
+       "example": "A confidence interval shows the range of values compatible with the estimate under the model.",
+       "exampleArabic": "يبين فاصل الثقة نطاق القيم المتوافقة مع التقدير وفق النموذج.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -360,6 +520,38 @@
        "arabic": "ضمانات وقائية",
        "example": "Strong safeguards are needed before trials begin.",
        "exampleArabic": "هناك حاجة إلى ضمانات قوية قبل بدء التجارب.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "germline editing",
+       "arabic": "تحرير الخط الجنسي",
+       "example": "Germline editing raises questions because changes may be inherited by future generations.",
+       "exampleArabic": "يثير تحرير الخط الجنسي أسئلة لأن التغييرات قد تنتقل إلى الأجيال القادمة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "off-target effect",
+       "arabic": "أثر خارج الهدف",
+       "example": "Researchers monitor for an off-target effect when evaluating gene-editing techniques.",
+       "exampleArabic": "يراقب الباحثون أي أثر خارج الهدف عند تقييم تقنيات تحرير الجينات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "ethical oversight",
+       "arabic": "رقابة أخلاقية",
+       "example": "High-risk research requires robust ethical oversight.",
+       "exampleArabic": "تتطلب الأبحاث عالية المخاطر رقابة أخلاقية قوية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "informed consent",
+       "arabic": "موافقة مستنيرة",
+       "example": "Participants must give informed consent before joining most clinical research.",
+       "exampleArabic": "يجب أن يقدم المشاركون موافقة مستنيرة قبل الانضمام إلى معظم الأبحاث السريرية.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -420,6 +612,38 @@
        "exampleArabic": "هل مهمة إلى المريخ ممكنة عمليًا في هذا العقد؟",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "opportunity cost",
+       "arabic": "تكلفة الفرصة البديلة",
+       "example": "The opportunity cost of a space programme depends on what alternative uses are realistically available.",
+       "exampleArabic": "تعتمد تكلفة الفرصة البديلة لبرنامج فضائي على البدائل الواقعية المتاحة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "payload",
+       "arabic": "حمولة",
+       "example": "The rocket carried a scientific payload into orbit.",
+       "exampleArabic": "حمل الصاروخ حمولة علمية إلى المدار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "launch window",
+       "arabic": "نافذة إطلاق",
+       "example": "The mission was delayed until the next launch window.",
+       "exampleArabic": "تأجلت المهمة حتى نافذة الإطلاق التالية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "scientific return",
+       "arabic": "عائد علمي",
+       "example": "Policymakers may compare scientific return with financial cost when assessing missions.",
+       "exampleArabic": "قد يقارن صناع السياسات العائد العلمي بالتكلفة المالية عند تقييم المهمات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -476,6 +700,38 @@
        "arabic": "تحوّل جذري في المفاهيم",
        "example": "The internet caused a paradigm shift in communication.",
        "exampleArabic": "أحدث الإنترنت تحوّلًا جذريًا في التواصل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "disruptive innovation",
+       "arabic": "ابتكار مُزعزع",
+       "example": "A disruptive innovation can reshape a market by changing cost or access.",
+       "exampleArabic": "يمكن للابتكار المزعزع إعادة تشكيل السوق بتغيير التكلفة أو الوصول.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "adoption curve",
+       "arabic": "منحنى التبني",
+       "example": "The adoption curve was slow at first and then rose sharply.",
+       "exampleArabic": "كان منحنى التبني بطيئًا في البداية ثم ارتفع بسرعة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "legacy system",
+       "arabic": "نظام قديم",
+       "example": "The company struggled to integrate the new platform with its legacy system.",
+       "exampleArabic": "واجهت الشركة صعوبة في دمج المنصة الجديدة مع نظامها القديم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "first-mover advantage",
+       "arabic": "ميزة السبق",
+       "example": "A first-mover advantage can disappear if competitors execute better.",
+       "exampleArabic": "قد تختفي ميزة السبق إذا نفذ المنافسون بصورة أفضل.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -545,6 +801,38 @@
        "exampleArabic": "حاول الطرفان تخفيف التصعيد في الأزمة.",
        "partOfSpeech": "verb",
        "phonetic": null
+      },
+      {
+       "english": "diplomatic channel",
+       "arabic": "قناة دبلوماسية",
+       "example": "The governments kept a diplomatic channel open during the crisis.",
+       "exampleArabic": "أبقت الحكومتان قناة دبلوماسية مفتوحة أثناء الأزمة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "ceasefire",
+       "arabic": "وقف إطلاق نار",
+       "example": "Negotiators called for a temporary ceasefire before further talks.",
+       "exampleArabic": "دعا المفاوضون إلى وقف مؤقت لإطلاق النار قبل مزيد من المحادثات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "reciprocal",
+       "arabic": "متبادل",
+       "example": "The agreement depends on reciprocal steps from both sides.",
+       "exampleArabic": "يعتمد الاتفاق على خطوات متبادلة من الطرفين.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "multilateral",
+       "arabic": "متعدد الأطراف",
+       "example": "A multilateral framework can involve several states and international institutions.",
+       "exampleArabic": "يمكن لإطار متعدد الأطراف أن يشمل عدة دول ومؤسسات دولية.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
       }
      ]
     },
@@ -601,6 +889,38 @@
        "arabic": "هجرة العقول",
        "example": "The country suffers from a brain drain.",
        "exampleArabic": "تعاني البلاد من هجرة العقول.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "push factor",
+       "arabic": "عامل طارد",
+       "example": "Conflict can act as a push factor that encourages people to leave.",
+       "exampleArabic": "يمكن أن يعمل النزاع كعامل طارد يدفع الناس إلى المغادرة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "pull factor",
+       "arabic": "عامل جاذب",
+       "example": "Higher wages may be a pull factor for some migrants.",
+       "exampleArabic": "قد تكون الأجور الأعلى عامل جذب لبعض المهاجرين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "host community",
+       "arabic": "مجتمع مضيف",
+       "example": "Successful integration requires support for both newcomers and the host community.",
+       "exampleArabic": "يتطلب الاندماج الناجح دعم الوافدين والمجتمع المضيف معًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "irregular migration",
+       "arabic": "هجرة غير نظامية",
+       "example": "Policies on irregular migration vary widely across jurisdictions.",
+       "exampleArabic": "تختلف السياسات المتعلقة بالهجرة غير النظامية على نطاق واسع بين الدول.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -661,6 +981,38 @@
        "exampleArabic": "يجب على الدول تحسين جاهزيتها للجوائح.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "health equity",
+       "arabic": "عدالة صحية",
+       "example": "Health equity focuses on avoidable and unfair differences in health outcomes.",
+       "exampleArabic": "تركز العدالة الصحية على الفروق الصحية القابلة للتجنب وغير العادلة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "surveillance system",
+       "arabic": "نظام ترصد",
+       "example": "A surveillance system can detect unusual patterns of disease early.",
+       "exampleArabic": "يمكن لنظام الترصد اكتشاف الأنماط غير المعتادة للمرض مبكرًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "vaccine coverage",
+       "arabic": "تغطية لقاحية",
+       "example": "High vaccine coverage can reduce transmission for some vaccine-preventable diseases.",
+       "exampleArabic": "يمكن للتغطية اللقاحية المرتفعة أن تقلل الانتقال في بعض الأمراض التي يمكن الوقاية منها باللقاح.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "health-system capacity",
+       "arabic": "قدرة النظام الصحي",
+       "example": "An outbreak can overwhelm health-system capacity if demand rises too quickly.",
+       "exampleArabic": "قد يتجاوز التفشي قدرة النظام الصحي إذا ارتفع الطلب بسرعة كبيرة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -705,10 +1057,10 @@
        "phonetic": null
       },
       {
-       "english": "accountability",
-       "arabic": "المساءلة",
-       "example": "There must be accountability for how funds are spent.",
-       "exampleArabic": "يجب أن تكون هناك مساءلة عن كيفية إنفاق الأموال.",
+       "english": "responsibility attribution",
+       "arabic": "إسناد المسؤولية",
+       "example": "Responsibility attribution should remain clear when a formal sentence describes a serious action.",
+       "exampleArabic": "ينبغي أن يظل إسناد المسؤولية واضحًا عندما تصف جملة رسمية فعلًا خطيرًا.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -718,6 +1070,38 @@
        "example": "The project began as a grassroots movement.",
        "exampleArabic": "بدأ المشروع حركة شعبية.",
        "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "conditionality",
+       "arabic": "اشتراطات المساعدة",
+       "example": "Aid conditionality can influence how recipient governments allocate resources.",
+       "exampleArabic": "يمكن لاشتراطات المساعدة أن تؤثر في كيفية توزيع الحكومات المتلقية للموارد.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "local ownership",
+       "arabic": "ملكية محلية",
+       "example": "Projects are often more sustainable when there is genuine local ownership.",
+       "exampleArabic": "غالبًا ما تكون المشروعات أكثر استدامة عندما توجد ملكية محلية حقيقية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "capacity building",
+       "arabic": "بناء القدرات",
+       "example": "Capacity building aims to strengthen skills and institutions over time.",
+       "exampleArabic": "يهدف بناء القدرات إلى تعزيز المهارات والمؤسسات مع مرور الوقت.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "unintended consequence",
+       "arabic": "نتيجة غير مقصودة",
+       "example": "A well-meant policy can still produce an unintended consequence.",
+       "exampleArabic": "قد تنتج السياسة حسنة النية نتيجة غير مقصودة.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -786,6 +1170,38 @@
        "exampleArabic": "يفسّر الارتساء أهمية العرض الأول.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "motivated reasoning",
+       "arabic": "استدلال مدفوع بالميول",
+       "example": "Motivated reasoning can make people judge the same evidence differently.",
+       "exampleArabic": "قد يجعل الاستدلال المدفوع بالميول الناس يقيمون الأدلة نفسها بصورة مختلفة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "base rate",
+       "arabic": "معدل أساسي",
+       "example": "Ignoring the base rate can lead to poor probability judgments.",
+       "exampleArabic": "قد يؤدي تجاهل المعدل الأساسي إلى أحكام احتمالية ضعيفة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "availability heuristic",
+       "arabic": "اختصار ذهني قائم على سهولة التذكر",
+       "example": "The availability heuristic makes vivid events seem more common than they are.",
+       "exampleArabic": "يجعل الاختصار الذهني القائم على سهولة التذكر الأحداث البارزة تبدو أكثر شيوعًا مما هي عليه.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "disconfirming evidence",
+       "arabic": "دليل مخالف",
+       "example": "Actively looking for disconfirming evidence can reduce confirmation bias.",
+       "exampleArabic": "يمكن للبحث النشط عن دليل مخالف أن يقلل تحيز التأكيد.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -843,6 +1259,38 @@
        "example": "Many people relapse after a few weeks.",
        "exampleArabic": "ينتكس كثير من الناس بعد بضعة أسابيع.",
        "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "habit loop",
+       "arabic": "حلقة العادة",
+       "example": "A habit loop links a cue, a routine and a reward.",
+       "exampleArabic": "تربط حلقة العادة بين محفز وروتين ومكافأة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "cue",
+       "arabic": "محفز",
+       "example": "Placing running shoes by the door can act as a cue for exercise.",
+       "exampleArabic": "يمكن لوضع حذاء الجري قرب الباب أن يعمل كمحفز للتمرين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "friction",
+       "arabic": "احتكاك سلوكي",
+       "example": "Reducing friction can make a desired habit easier to repeat.",
+       "exampleArabic": "يمكن لتقليل الاحتكاك السلوكي أن يجعل العادة المرغوبة أسهل تكرارًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "identity-based habit",
+       "arabic": "عادة مرتبطة بالهوية",
+       "example": "An identity-based habit links repeated behaviour to the kind of person you want to become.",
+       "exampleArabic": "تربط العادة المرتبطة بالهوية السلوك المتكرر بالشخص الذي تريد أن تصبحه.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -902,6 +1350,38 @@
        "exampleArabic": "احتفظ دائمًا بخطة طوارئ.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "expected value",
+       "arabic": "قيمة متوقعة",
+       "example": "Expected value can help compare uncertain options, although it does not capture every concern.",
+       "exampleArabic": "يمكن للقيمة المتوقعة أن تساعد في مقارنة الخيارات غير المؤكدة، لكنها لا تلتقط كل الاعتبارات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "downside risk",
+       "arabic": "مخاطر الجانب السلبي",
+       "example": "The team examined the downside risk before approving the investment.",
+       "exampleArabic": "درس الفريق مخاطر الجانب السلبي قبل اعتماد الاستثمار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "scenario planning",
+       "arabic": "تخطيط بالسيناريوهات",
+       "example": "Scenario planning explores how a decision might perform under different futures.",
+       "exampleArabic": "يستكشف التخطيط بالسيناريوهات كيف قد يؤدي القرار تحت مستقبلات مختلفة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "robustness",
+       "arabic": "متانة القرار",
+       "example": "Robustness matters when a decision must perform reasonably well across several plausible scenarios.",
+       "exampleArabic": "تهم متانة القرار عندما يجب أن يؤدي بصورة معقولة عبر عدة سيناريوهات محتملة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -958,6 +1438,38 @@
        "arabic": "ألفة؛ علاقة طيبة",
        "example": "She quickly built a rapport with her clients.",
        "exampleArabic": "بنت بسرعة علاقة طيبة مع عملائها.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "empathy",
+       "arabic": "تعاطف",
+       "example": "Empathy involves understanding another person's perspective without assuming you share it.",
+       "exampleArabic": "يتضمن التعاطف فهم منظور شخص آخر دون افتراض أنك تشاركه.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "emotional regulation",
+       "arabic": "تنظيم الانفعال",
+       "example": "Emotional regulation helps people respond deliberately instead of reacting impulsively.",
+       "exampleArabic": "يساعد تنظيم الانفعال الناس على الاستجابة بتروٍ بدل رد الفعل الاندفاعي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "social awareness",
+       "arabic": "وعي اجتماعي",
+       "example": "Social awareness includes noticing how others respond to a situation.",
+       "exampleArabic": "يشمل الوعي الاجتماعي ملاحظة كيفية استجابة الآخرين للموقف.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "interpersonal boundary",
+       "arabic": "حد شخصي",
+       "example": "An interpersonal boundary can protect a relationship when expectations are clear.",
+       "exampleArabic": "يمكن للحد الشخصي أن يحمي العلاقة عندما تكون التوقعات واضحة.",
        "partOfSpeech": "noun",
        "phonetic": null
       }

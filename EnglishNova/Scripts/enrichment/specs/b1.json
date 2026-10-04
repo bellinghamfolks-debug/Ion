@@ -16,13 +16,13 @@
         },
         {
           "id": "b1-u1-l1-w2",
-          "english": "My",
-          "arabic": "بداية الجملة"
+          "english": "miss a connection",
+          "arabic": "يفوّت رحلة مواصلة"
         },
         {
           "id": "b1-u1-l1-w3",
-          "english": "hours",
-          "arabic": "كلمة من المثال"
+          "english": "rebook",
+          "arabic": "يعيد الحجز"
         }
       ]
     },
@@ -42,13 +42,13 @@
         },
         {
           "id": "b1-extra-2-w2",
-          "english": "I",
-          "arabic": "بداية الجملة"
+          "english": "already",
+          "arabic": "بالفعل / مسبقًا"
         },
         {
           "id": "b1-extra-2-w3",
-          "english": "assignment",
-          "arabic": "كلمة من المثال"
+          "english": "yet",
+          "arabic": "بعد / حتى الآن"
         }
       ]
     },
@@ -68,13 +68,13 @@
         },
         {
           "id": "b1-extra-3-w2",
-          "english": "In",
-          "arabic": "بداية الجملة"
+          "english": "personally",
+          "arabic": "شخصيًا"
         },
         {
           "id": "b1-extra-3-w3",
-          "english": "useful",
-          "arabic": "كلمة من المثال"
+          "english": "give a reason",
+          "arabic": "يذكر سببًا"
         }
       ]
     },
@@ -94,13 +94,13 @@
         },
         {
           "id": "b1-extra-4-w2",
-          "english": "First,",
-          "arabic": "بداية الجملة"
+          "english": "meanwhile",
+          "arabic": "في هذه الأثناء"
         },
         {
           "id": "b1-extra-4-w3",
-          "english": "started",
-          "arabic": "كلمة من المثال"
+          "english": "at first",
+          "arabic": "في البداية"
         }
       ]
     },
@@ -120,13 +120,13 @@
         },
         {
           "id": "b1-extra-5-w2",
-          "english": "We",
-          "arabic": "بداية الجملة"
+          "english": "solution",
+          "arabic": "حل"
         },
         {
           "id": "b1-extra-5-w3",
-          "english": "schedule",
-          "arabic": "كلمة من المثال"
+          "english": "alternative",
+          "arabic": "بديل"
         }
       ]
     },
@@ -146,13 +146,13 @@
         },
         {
           "id": "b1-extra-6-w2",
-          "english": "The",
-          "arabic": "بداية الجملة"
+          "english": "headline",
+          "arabic": "عنوان رئيسي"
         },
         {
           "id": "b1-extra-6-w3",
-          "english": "increased",
-          "arabic": "كلمة من المثال"
+          "english": "source",
+          "arabic": "مصدر"
         }
       ]
     },
@@ -162,7 +162,7 @@
       "titleEn": "Meetings",
       "titleAr": "الاجتماعات",
       "objectiveAr": "المشاركة في اجتماع وطلب التوضيح.",
-      "modelSentence": "Could you clarify the last point?.",
+      "modelSentence": "Could you clarify the last point?",
       "modelSentenceAr": "هل يمكنك توضيح النقطة الأخيرة؟",
       "existingVocabulary": [
         {
@@ -172,13 +172,13 @@
         },
         {
           "id": "b1-extra-7-w2",
-          "english": "Could",
-          "arabic": "بداية الجملة"
+          "english": "agenda",
+          "arabic": "جدول أعمال"
         },
         {
           "id": "b1-extra-7-w3",
-          "english": "point",
-          "arabic": "كلمة من المثال"
+          "english": "take notes",
+          "arabic": "يدوّن ملاحظات"
         }
       ]
     },
@@ -198,13 +198,13 @@
         },
         {
           "id": "b1-extra-8-w2",
-          "english": "I",
-          "arabic": "بداية الجملة"
+          "english": "regarding",
+          "arabic": "بشأن"
         },
         {
           "id": "b1-extra-8-w3",
-          "english": "appointment",
-          "arabic": "كلمة من المثال"
+          "english": "kind regards",
+          "arabic": "مع أطيب التحيات"
         }
       ]
     }

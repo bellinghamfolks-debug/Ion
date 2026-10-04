@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة أول ثمانية دروس B1: تصحيح أمثلة قديمة لا تطابق مفرداتها، وتوضيح الأزمنة وتسلسل الأحداث والإسناد إلى المصادر وصياغة المهام المهنية.",
-  "nextStep": "Continue editorial review from b1-x-u1-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة عشرة دروس B1 عن التجارب والقرارات وخدمة العملاء: شرح الفروق بين العبارات، إصلاح الجمل النموذجية، وتدريبات سياقية على التخطيط والشكوى والمتابعة.",
+  "nextStep": "Continue editorial review from b1-x-u3-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -2269,90 +2269,120 @@
       "level": "B1",
       "titleAr": "وصف التجارب الشخصية",
       "titleEn": "Describing Personal Experiences",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u1-l2",
       "level": "B1",
       "titleAr": "التحدث عن إنجازاتك",
       "titleEn": "Talking About Achievements",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u1-l3",
       "level": "B1",
       "titleAr": "تقديم النصائح والاقتراحات",
       "titleEn": "Giving Advice and Suggestions",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u1-l4",
       "level": "B1",
       "titleAr": "الخطط والنوايا المستقبلية",
       "titleEn": "Future Plans and Intentions",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u1-l5",
       "level": "B1",
       "titleAr": "اتخاذ القرارات",
       "titleEn": "Making Decisions",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u2-l1",
       "level": "B1",
       "titleAr": "تقديم شكوى بأدب",
       "titleEn": "Making a Polite Complaint",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u2-l2",
       "level": "B1",
       "titleAr": "حلّ الشكاوى",
       "titleEn": "Resolving Complaints",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u2-l3",
       "level": "B1",
       "titleAr": "التواصل مع الزملاء",
       "titleEn": "Communicating with Colleagues",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u2-l4",
       "level": "B1",
       "titleAr": "التعامل مع العملاء",
       "titleEn": "Dealing with Customers",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u2-l5",
       "level": "B1",
       "titleAr": "إدارة المهام والمواعيد النهائية",
       "titleEn": "Managing Tasks and Deadlines",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u3-l1",
@@ -3821,7 +3851,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 188,
-    "pending": 172
+    "reviewed": 198,
+    "pending": 162
   }
 }

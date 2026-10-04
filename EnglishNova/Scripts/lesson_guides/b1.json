@@ -154,5 +154,195 @@
       "explanationAr": "تحتاج العبارة إلى to ثم hearing بصيغة ing. هنا to حرف جر، فلا نستخدم بعدها hear بصيغته الأساسية.",
       "explanationEn": "The expression needs to followed by the -ing form hearing. Here to is a preposition, so the base form hear does not fit."
     }
+  },
+  "b1-x-u1-l1": {
+    "focusAr": "ميّز بين وصف التجربة ووصف أثرها: challenging تعني أنها تتطلب جهدًا، وrewarding أنها تمنح شعورًا بالفائدة أو الرضا، وقد تجتمع الصفتان. لا تعني memorable أن التجربة سعيدة بالضرورة. استخدم الماضي البسيط لسرد حدث محدد، ثم وضّح لماذا كان turning point في حياتك.",
+    "focusEn": "Separate an experience from its effect: challenging means it requires effort, while rewarding means it brings satisfaction or value. Both can describe the same experience. Memorable does not necessarily mean happy. Use the past simple to describe a specific event, then explain why it was a turning point in your life.",
+    "taskAr": "صف تجربة تطوع كانت صعبة ومجزية معًا، واذكر تفصيلًا يوضح أثرها عليك.",
+    "taskEn": "Describe a volunteering experience that was both challenging and rewarding, and include a detail showing its effect on you.",
+    "exampleEn": "Helping at the festival was challenging because I had never worked with a large team. It was also rewarding: I learned to listen carefully and made new friends.",
+    "exampleAr": "كانت المساعدة في المهرجان صعبة لأنني لم أعمل من قبل مع فريق كبير. وكانت مجزية أيضًا؛ فقد تعلمت الإصغاء بعناية وكوّنت صداقات جديدة.",
+    "check": {
+      "promptEn": "A task was difficult, but you felt satisfied after helping someone. Which description fits both facts?",
+      "choices": [
+        "It was challenging and rewarding.",
+        "It was effortless and disappointing.",
+        "It was memorable, so it must have been easy."
+      ],
+      "answer": "It was challenging and rewarding.",
+      "explanationAr": "تعبّر challenging عن الصعوبة وrewarding عن الرضا الناتج عن المساعدة. لا تدل memorable وحدها على السهولة أو السعادة.",
+      "explanationEn": "Challenging describes the difficulty, and rewarding describes the satisfaction from helping. Memorable alone does not tell us whether something was easy or happy."
+    }
+  },
+  "b1-x-u1-l2": {
+    "focusAr": "achievement إنجاز محدد، وprogress تقدّم قد يحدث تدريجيًا دون اكتمال الهدف. نقول make progress دون a، ونستخدم be proud of مع اسم أو فعل بصيغة ing. عبارة milestone محطة مهمة في مسار أطول. اربط إنجازك بعقبة تجاوزتها لتشرح قيمته دون مبالغة.",
+    "focusEn": "An achievement is a particular success; progress can happen gradually before a goal is complete. Say make progress without a, and use be proud of with a noun or an -ing form. A milestone is an important stage in a longer process. Connect your achievement to an obstacle you overcame to explain its value without exaggeration.",
+    "taskAr": "صف إنجازًا في تعلم الإنجليزية، واذكر صعوبة واجهتها وخطوة تالية تريد تحقيقها.",
+    "taskEn": "Describe an achievement in learning English, mention a difficulty you faced, and name a next step.",
+    "exampleEn": "Giving my first presentation in English was an important achievement. I overcame my fear by practising with a friend. Now I want to answer questions more confidently.",
+    "exampleAr": "كان تقديم عرضي الأول بالإنجليزية إنجازًا مهمًا. تغلبت على خوفي بالتدرب مع صديق. والآن أريد الإجابة عن الأسئلة بثقة أكبر.",
+    "check": {
+      "promptEn": "Which sentence correctly describes gradual improvement?",
+      "choices": [
+        "I am making progress with my speaking.",
+        "I am making a progress with my speaking.",
+        "I am doing an achievement with my speaking."
+      ],
+      "answer": "I am making progress with my speaking.",
+      "explanationAr": "progress اسم غير معدود في هذا المعنى، ولذلك نقول make progress دون a. أما achievement فهو إنجاز محدد معدود.",
+      "explanationEn": "Progress is uncountable in this meaning, so we say make progress without a. An achievement is a separate, countable success."
+    }
+  },
+  "b1-x-u1-l3": {
+    "focusAr": "تختلف النصيحة عن الأمر؛ يمكنك عرض اقتراح وسببه ثم ترك الاختيار للآخر. يأتي بعد ought to الفعل الأساسي، وبعد recommend فعل بصيغة ing أو جملة تبدأ بـ that. نقول worth trying لا worth to try. تعني having second thoughts أنك بدأت تشك في قرار سابق، لا أنك اتخذت قرارًا ثانيًا نهائيًا.",
+    "focusEn": "Advice offers a suggestion and a reason while leaving the decision to the other person. Ought to takes a base verb; recommend can take an -ing form or a that-clause. Say worth trying, not worth to try. Having second thoughts means beginning to doubt an earlier decision, rather than making a final second decision.",
+    "taskAr": "انصح صديقًا مترددًا بشأن دورة لغة بأن يجرب درسًا أولًا، واذكر سببًا لهذا الاقتراح.",
+    "taskEn": "Advise a friend who is unsure about a language course to try a lesson first, and give a reason.",
+    "exampleEn": "I'd recommend trying one lesson before you pay for the whole course. It would give you a chance to see whether the teaching style suits you.",
+    "exampleAr": "أنصح بتجربة درس واحد قبل دفع رسوم الدورة كاملة. سيمنحك ذلك فرصة لمعرفة ما إذا كانت طريقة التدريس تناسبك.",
+    "check": {
+      "promptEn": "Which suggestion correctly follows recommend with an activity?",
+      "choices": [
+        "I'd recommend asking for a trial lesson.",
+        "I'd recommend to ask for a trial lesson.",
+        "I'd recommend ask for a trial lesson."
+      ],
+      "answer": "I'd recommend asking for a trial lesson.",
+      "explanationAr": "عند ذكر النشاط مباشرة بعد recommend نستخدم asking بصيغة ing. يمكن أيضًا استخدام جملة مثل I recommend that you ask.",
+      "explanationEn": "When an activity follows recommend directly, use the -ing form asking. A clause such as I recommend that you ask is another possible structure."
+    }
+  },
+  "b1-x-u1-l4": {
+    "focusAr": "intend to تصف نية، لكنها لا تؤكد أن جميع الترتيبات أُنجزت. أما be about to فتصف فعلًا سيبدأ قريبًا جدًا. يأتي بعد look forward to اسم أو فعل بصيغة ing للتعبير عن التطلع. استخدم in the long run للأثر البعيد، مع فصل هدفك عن الخطوة القريبة لتنفيذه.",
+    "focusEn": "Intend to expresses an intention without confirming that every arrangement is complete. Be about to describes an action starting very soon. Look forward to takes a noun or an -ing form to express anticipation. Use in the long run for a longer-term effect, separating your goal from the immediate step you will take towards it.",
+    "taskAr": "اذكر نيتك الالتحاق بدورة، ثم خطوة ستتخذها هذا الأسبوع وفائدة تتوقعها على المدى البعيد.",
+    "taskEn": "State your intention to take a course, one step you will take this week, and a benefit you expect in the long run.",
+    "exampleEn": "I intend to take an evening course next term. This week, I'll compare the timetables. In the long run, I hope it will help me communicate more confidently at work.",
+    "exampleAr": "أنوي الالتحاق بدورة مسائية الفصل القادم. سأقارن الجداول هذا الأسبوع. وآمل أن تساعدني على المدى البعيد على التواصل بثقة أكبر في العمل.",
+    "check": {
+      "promptEn": "The driver is closing the doors and the bus will leave in seconds. Which phrase best fits?",
+      "choices": [
+        "The bus is about to leave.",
+        "The bus intends to leave next year.",
+        "The bus left a long time ago."
+      ],
+      "answer": "The bus is about to leave.",
+      "explanationAr": "تصف is about to leave حدثًا وشيكًا جدًا، وهو ما توضحه الأبواب التي تُغلق. البديلان يتحدثان عن زمن مختلف.",
+      "explanationEn": "Is about to leave describes an event that will happen very soon, as the closing doors suggest. The alternatives refer to different times."
+    }
+  },
+  "b1-x-u1-l5": {
+    "focusAr": "قبل اتخاذ القرار، weigh up تعني تقييم الخيارات، وpros and cons مزايا كل خيار وعيوبه. make up your mind تصف حسم القرار، وgo with اختيار أحد البدائل في الحديث اليومي. وضّح معيار الاختيار مثل السعر أو الوقت، ولا تكتفِ بقول إن خيارًا هو الأفضل للجميع.",
+    "focusEn": "Before a decision, weigh up means consider the options, and pros and cons are their advantages and disadvantages. Make up your mind describes reaching a decision; go with means choose an option in everyday conversation. Explain your criterion, such as cost or time, rather than simply calling one option best for everyone.",
+    "taskAr": "قارن قطارًا أسرع بحافلة أرخص، ثم اختر وسيلة تناسب ميزانيتك وبيّن سبب اختيارك.",
+    "taskEn": "Compare a faster train with a cheaper bus, then choose an option that fits your budget and explain why.",
+    "exampleEn": "The train is faster, but the bus costs less. After considering the pros and cons, I'll go with the bus because I have enough time and a limited budget.",
+    "exampleAr": "القطار أسرع، لكن الحافلة أقل تكلفة. بعد النظر في المزايا والعيوب، سأختار الحافلة لأن لدي وقتًا كافيًا وميزانية محدودة.",
+    "check": {
+      "promptEn": "You have listed two options but have not chosen one. What remains to be done?",
+      "choices": [
+        "Make up your mind.",
+        "Say that the choice has already been made.",
+        "Treat both options as the same price."
+      ],
+      "answer": "Make up your mind.",
+      "explanationAr": "تعني make up your mind حسم الاختيار، وهي الخطوة التي لم تتم بعد. عرض الخيارات لا يعني اتخاذ القرار أو تساوي أسعارها.",
+      "explanationEn": "Make up your mind means reach a decision, which has not happened yet. Listing options does not mean a choice has been made or that prices are equal."
+    }
+  },
+  "b1-x-u2-l1": {
+    "focusAr": "قدّم الشكوى بتفصيل يمكن التحقق منه: ما اشتريته، وما المشكلة، وما الحل الذي تطلبه. تستخدم I'm afraid هنا لتلطيف خبر غير سار، وليس للتعبير عن الخوف الحرفي. faulty تصف عيبًا في المنتج، وdissatisfied تصف شعور العميل. قل dissatisfied with عند تحديد سبب عدم الرضا.",
+    "focusEn": "Make a complaint specific: identify the purchase, explain the problem, and request a solution. I'm afraid softens unwelcome news here rather than expressing literal fear. Faulty describes a product defect; dissatisfied describes a customer's reaction. Use dissatisfied with to identify what caused the dissatisfaction.",
+    "taskAr": "اشكُ بأدب من سماعات لا تعمل، واذكر وقت شرائها واطلب استبدالها.",
+    "taskEn": "Politely complain about headphones that do not work, state when you bought them, and ask for a replacement.",
+    "exampleEn": "I'm afraid the headphones I bought yesterday are faulty. There is no sound on the left side. Could you replace them, please?",
+    "exampleAr": "يؤسفني أن السماعات التي اشتريتها أمس معيبة. لا يصدر صوت من الجهة اليسرى. هل يمكنكم استبدالها، من فضلكم؟",
+    "check": {
+      "promptEn": "Which complaint gives a clear problem and a practical request?",
+      "choices": [
+        "The charger does not work. Could you replace it, please?",
+        "Everything here is always terrible.",
+        "I bought a charger yesterday."
+      ],
+      "answer": "The charger does not work. Could you replace it, please?",
+      "explanationAr": "يحدد الجواب الصحيح العيب والحل المطلوب. التعميم الغاضب لا يشرح العيب، وذكر الشراء وحده لا يوضح وجود مشكلة.",
+      "explanationEn": "The correct answer identifies the fault and the requested solution. An angry generalization does not explain the fault, and stating a purchase alone does not describe a problem."
+    }
+  },
+  "b1-x-u2-l2": {
+    "focusAr": "ابدأ الرد بالاعتراف بالمشكلة والاعتذار عن أثرها، ثم اعرض إجراءً واضحًا وموعدًا واقعيًا. refund إعادة المال، وreplacement منتج بديل؛ فلا تخلط بينهما. يأتي بعد apologise حرف الجر for عند ذكر السبب. make up for تعني التعويض عن أثر سلبي، ولا تعني دائمًا إعادة المبلغ.",
+    "focusEn": "Acknowledge the problem and apologize for its effect, then offer a clear action and a realistic time. A refund returns money; a replacement provides another item. Use apologise for when naming the reason. Make up for means compensate for a negative effect and does not always mean returning the payment.",
+    "taskAr": "اكتب ردًا على شكوى منتج تالف: اعتذر، واعرض إرسال بديل غدًا، واطلب تأكيد العنوان.",
+    "taskEn": "Reply to a complaint about a damaged item: apologize, offer to send a replacement tomorrow, and ask for address confirmation.",
+    "exampleEn": "We apologise for the inconvenience. We can send a replacement tomorrow. Could you confirm your delivery address, please?",
+    "exampleAr": "نعتذر عن الإزعاج. يمكننا إرسال بديل غدًا. هل يمكنك تأكيد عنوان التوصيل، من فضلك؟",
+    "check": {
+      "promptEn": "The customer wants their money back rather than another item. Which response matches this request?",
+      "choices": [
+        "We can arrange a refund.",
+        "We can send an identical replacement.",
+        "We can ask you to buy a second item."
+      ],
+      "answer": "We can arrange a refund.",
+      "explanationAr": "refund تعني إعادة المبلغ، أما replacement فيعني تقديم منتج آخر. الخيار الثالث يطلب شراءً جديدًا ولا يلبّي الطلب.",
+      "explanationEn": "A refund returns the payment, while a replacement provides another item. The third option asks for a new purchase and does not meet the request."
+    }
+  },
+  "b1-x-u2-l3": {
+    "focusAr": "اجعل طلب المساعدة محددًا بذكر المهمة والوقت المطلوب. give someone a hand تعني مساعدته، وkeep someone posted تعني إبلاغه بالمستجدات؛ يتغير someone بحسب الشخص. behind schedule تعني التأخر عن الخطة، لا التأخر في الحضور فقط. touch base تعبير غير رسمي نسبيًا لتواصل قصير بشأن العمل.",
+    "focusEn": "Make a request for help specific by naming the task and the time needed. Give someone a hand means help them; keep someone posted means update them, with someone replaced by the person involved. Behind schedule means later than planned, not just arriving late. Touch base is a fairly informal expression for a brief work update.",
+    "taskAr": "اطلب من زميل مراجعة جدول في تقريرك اليوم، واشرح أنك متأخر عن الخطة، ثم تعهّد بإبلاغه بالتقدم.",
+    "taskEn": "Ask a colleague to check a table in your report today, explain that you are behind schedule, and promise an update.",
+    "exampleEn": "Could you give me a hand checking this table today? I'm behind schedule with the report. I'll keep you posted on my progress.",
+    "exampleAr": "هل يمكنك مساعدتي في مراجعة هذا الجدول اليوم؟ أنا متأخر عن الخطة في إعداد التقرير. سأطلعك على ما أحرزه من تقدم.",
+    "check": {
+      "promptEn": "A colleague asks you to keep her posted. What does she want?",
+      "choices": [
+        "Updates when there is new information.",
+        "A printed poster for her office.",
+        "A promise that you will do all her work."
+      ],
+      "answer": "Updates when there is new information.",
+      "explanationAr": "تعني keep someone posted إبقاء الشخص على اطلاع بالمستجدات. لا تشير posted هنا إلى ملصق، ولا تتضمن تعهّدًا بتنفيذ جميع مهامه.",
+      "explanationEn": "Keep someone posted means keep them informed of developments. Posted here does not refer to a poster, and the phrase does not promise to do all their work."
+    }
+  },
+  "b1-x-u2-l4": {
+    "focusAr": "ميّز بين look into، أي فحص المشكلة، وfollow up، أي متابعة ما حدث بعدها. أخبر العميل بما ستفحصه ومتى ستعود إليه بدل وعد عام بنتيجة غير مؤكدة. inquiry سؤال أو طلب معلومات، وليس شكوى بالضرورة. assist أكثر رسمية قليلًا من help ويأتي معه الشخص أو المهمة المناسبة.",
+    "focusEn": "Distinguish look into, meaning investigate a problem, from follow up, meaning take further action afterwards. Tell the customer what you will check and when you will respond instead of promising an uncertain result. An inquiry is a request for information, not necessarily a complaint. Assist is slightly more formal than help and can introduce the person or task involved.",
+    "taskAr": "أجب عميلًا يسأل عن طلب متأخر: أكّد فهم السؤال، واذكر ما ستتحقق منه وموعد المتابعة.",
+    "taskEn": "Answer a customer asking about a delayed order: acknowledge the question, state what you will check, and give a follow-up time.",
+    "exampleEn": "I understand that your order has not arrived. I'll look into the delivery details and follow up with you by email this afternoon.",
+    "exampleAr": "أفهم أن طلبك لم يصل. سأتحقق من تفاصيل التوصيل وأتابع معك عبر البريد الإلكتروني بعد ظهر اليوم.",
+    "check": {
+      "promptEn": "Which response gives a specific next action and a time for an update?",
+      "choices": [
+        "I'll check the delivery record and email you by four.",
+        "You will definitely receive everything immediately.",
+        "Your question is an inquiry."
+      ],
+      "answer": "I'll check the delivery record and email you by four.",
+      "explanationAr": "يحدد الجواب الصحيح فحص سجل التوصيل وموعد إرسال التحديث. الوعد الفوري غير المدعوم أو تسمية السؤال لا يوضحان خطة متابعة عملية.",
+      "explanationEn": "The correct answer names the delivery-record check and a time for an update. An unsupported immediate promise or a label for the question does not provide a practical follow-up plan."
+    }
+  },
+  "b1-x-u2-l5": {
+    "focusAr": "urgent تعني أن الأمر لا يحتمل التأجيل، لكنها لا تعني وحدها أنه الأهم على المدى البعيد. عند ترتيب الأولويات، قارن الوقت المتاح وأثر التأخير. meet a deadline تعني الإنجاز بحلول الموعد، وfall behind التأخر عن التقدم المخطط. استخدم keep track of لمتابعة ما أُنجز وما بقي.",
+    "focusEn": "Urgent means an action cannot wait, but does not by itself mean it is most important in the long term. When prioritising, consider available time and the effect of a delay. Meet a deadline means finish by the required time; fall behind means make less progress than planned. Use keep track of for monitoring completed and remaining work.",
+    "taskAr": "رتّب تقريرًا مطلوبًا غدًا ومهمة صغيرة مطلوبة الأسبوع القادم، وبيّن كيف ستتابع تقدمك.",
+    "taskEn": "Prioritise a report due tomorrow and a small task due next week, and explain how you will monitor progress.",
+    "exampleEn": "I'll prioritise the report because its deadline is tomorrow. I'll keep track of the sections I finish and leave the smaller task until the report is complete.",
+    "exampleAr": "سأعطي الأولوية للتقرير لأن موعده النهائي غدًا. سأتابع الأقسام التي أنجزها وأؤجل المهمة الصغيرة حتى يكتمل التقرير.",
+    "check": {
+      "promptEn": "A report must be submitted by Friday. Which outcome means you meet the deadline?",
+      "choices": [
+        "You submit it on Thursday.",
+        "You start writing it on Saturday.",
+        "You submit it the following Monday."
+      ],
+      "answer": "You submit it on Thursday.",
+      "explanationAr": "التسليم يوم الخميس يسبق الموعد النهائي يوم الجمعة. بدء العمل بعد الموعد أو التسليم في الاثنين التالي لا يحقق الالتزام به.",
+      "explanationEn": "Submitting on Thursday is before Friday's deadline. Starting after the deadline or submitting the following Monday does not meet it."
+    }
   }
 }

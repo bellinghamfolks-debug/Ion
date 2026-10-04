@@ -162,7 +162,7 @@ W|answer emails|يرد على الرسائل الإلكترونية|I answer ema
 W|printer|طابعة|The printer on our floor is not working.|الطابعة في طابقنا لا تعمل.|noun
 W|colleague|زميل عمل|My colleague helped me with the report.|ساعدني زميلي في التقرير.|noun
 W|break|استراحة|We have a short break at eleven.|لدينا استراحة قصيرة في الحادية عشرة.|noun
-W|photocopy|يصوّر (مستندًا)؛ نسخة مصوّرة|Can you photocopy these pages for me?|هل يمكنك تصوير هذه الصفحات لي؟|verb
+W | photocopy | يصوّر مستندًا | Can you photocopy these pages for me? | هل يمكنك تصوير هذه الصفحات لي؟ | verb
 W|finish|ينهي|I finish work at five o'clock.|أنهي العمل في الساعة الخامسة.|verb
 W|task list|قائمة مهام|I write a task list at the start of the day.|أكتب قائمة مهام في بداية اليوم.|noun
 W|supervisor|مشرف|My supervisor checked the report before I sent it.|راجع مشرفي التقرير قبل أن أرسله.|noun
@@ -170,7 +170,7 @@ L|البحث عن وظيفة|Looking for a Job|أن يتحدث المتعلم ع
 W|advert|إعلان|I saw an advert for a new café.|رأيت إعلانًا عن مقهى جديد.|noun
 W|CV|سيرة ذاتية|Please send your CV by email.|من فضلك أرسل سيرتك الذاتية بالبريد الإلكتروني.|noun
 W|apply|يتقدّم (لوظيفة)|I want to apply for this job.|أريد أن أتقدّم لهذه الوظيفة.|verb
-W|salary|راتب|The salary is paid every month.|يُدفع الراتب كل شهر.|noun
+W | salary | راتب | My salary is paid at the end of each month. | يُدفع راتبي في نهاية كل شهر. | noun
 W|experience|خبرة|Do you have any experience in sales?|هل لديك أي خبرة في المبيعات؟|noun
 W|part-time|بدوام جزئي|He has a part-time job at a bookshop.|لديه عمل بدوام جزئي في مكتبة.|adjective
 W|interview|مقابلة|I have a job interview on Monday morning.|لدي مقابلة عمل صباح الاثنين.|noun
@@ -179,20 +179,20 @@ L|التحدث مع المدير|Talking to Your Boss|أن يطلب المتعل
 W|boss|مدير|My boss is very understanding.|مديري متفهّم جدًا.|noun
 W|day off|يوم إجازة|I'm taking a day off next week.|سآخذ يوم إجازة الأسبوع القادم.|noun
 W|take off|يأخذ إجازة|Can I take Thursday off?|هل يمكنني أخذ إجازة يوم الخميس؟|phrasal verb
-W|permission|إذن|You need permission to leave early.|تحتاج إذنًا للمغادرة مبكرًا.|noun
+W | permission | إذن | At my office, we need permission to leave early. | في مكتبي، نحتاج إلى إذن للمغادرة مبكرًا. | noun
 W|sick leave|إجازة مرضية|I am on sick leave until Sunday.|أنا في إجازة مرضية حتى يوم الأحد.|noun
 W|overtime|عمل إضافي|I worked overtime yesterday to finish the project.|عملت ساعات إضافية أمس لإنهاء المشروع.|noun
 W|request|طلب|I sent my manager a request for two days off.|أرسلت إلى مديري طلبًا لإجازة يومين.|noun
-W|approve|يوافق|My boss needs to approve the change to my shift.|يحتاج مديري إلى الموافقة على تغيير مناوبتي.|verb
+W | approve | يوافق على | My boss needs to approve the change to my shift. | يحتاج مديري إلى الموافقة على تغيير مناوبتي. | verb
 U|a2-x-u10|أحداث وقصص من الماضي|Past Events and Stories|احكِ ما حدث في عطلة نهاية الأسبوع وفي يوم مميز وفي طفولتك، وصف مشكلة واجهتك.|clock.arrow.circlepath|Tell what happened last weekend, on a special day and in your childhood, and describe a problem you had.
-L|عطلة نهاية الأسبوع الماضية|Last Weekend|أن يحكي المتعلم ما فعله في عطلة نهاية الأسبوع بالماضي البسيط.|Last weekend I visited my cousins and we had a barbecue in the garden.|في عطلة نهاية الأسبوع الماضية زرت أبناء عمي وأقمنا شواءً في الحديقة.|To tell what you did last weekend using the past simple.
+L | عطلة نهاية الأسبوع الماضية | Last Weekend | أن يحكي المتعلم ما فعله في عطلة نهاية الأسبوع بالماضي البسيط. | Last weekend I visited my cousins and we had a barbecue in the garden. | في عطلة نهاية الأسبوع الماضية زرت أبناء عمي وأقمنا حفلة شواء في الحديقة. | To tell what you did last weekend using the past simple.
 W|weekend|عطلة نهاية الأسبوع|What did you do at the weekend?|ماذا فعلت في عطلة نهاية الأسبوع؟|noun
 W|relatives|أقارب|We spent the day with our relatives in Abha.|قضينا اليوم مع أقاربنا في أبها.|noun
 W|barbecue|حفلة شواء|We had a barbecue on the beach.|أقمنا حفلة شواء على الشاطئ.|noun
 W|stayed|بقي|I stayed at home and watched a film.|بقيت في البيت وشاهدت فيلمًا.|verb
-W|enjoyed|استمتع|Did you enjoy the party?|هل استمتعت بالحفلة؟|verb
-W|cousins|أبناء العم أو الخال|My cousins live in Jeddah.|يعيش أبناء عمي في جدة.|noun
-W|catch up|يتبادل الأخبار بعد غياب|I met an old friend to catch up over coffee.|قابلت صديقًا قديمًا لنتبادل الأخبار على القهوة.|phrasal verb
+W | enjoyed | استمتع | I enjoyed the party last night. | استمتعت بالحفلة الليلة الماضية. | verb
+W | cousins | أبناء وبنات الأعمام والعمات والأخوال والخالات | My cousins live in Jeddah. | يعيش أبناء عمي في جدة. | noun
+W | catch up | يتبادل الأخبار بعد غياب | I met an old friend to catch up over coffee. | قابلت صديقًا قديمًا لنتبادل الأخبار أثناء شرب القهوة. | phrasal verb
 W|get together|يلتقي اجتماعيًا|Our family likes to get together on Friday evenings.|تحب عائلتنا أن تلتقي مساء الجمعة.|phrasal verb
 L|يوم مميز|A Special Day|أن يصف المتعلم مناسبة مميزة وما شعر به فيها.|My graduation was the happiest day of my life.|كان يوم تخرّجي أسعد يوم في حياتي.|To describe a special occasion and how you felt.
 W|graduation|التخرّج|My parents came to my graduation.|حضر والداي حفل تخرّجي.|noun
@@ -209,16 +209,16 @@ W|childhood|الطفولة|I had a happy childhood.|عشت طفولة سعيدة
 W|grew up|نشأ|I grew up in a small village.|نشأت في قرية صغيرة.|phrasal verb
 W|toy|لعبة (للأطفال)|This was my favourite toy.|كانت هذه لعبتي المفضلة.|noun
 W|primary school|المدرسة الابتدائية|My primary school was near the mosque.|كانت مدرستي الابتدائية قرب المسجد.|noun
-W|naughty|شقي|I was a naughty child and I never sat still.|كنت طفلًا شقيًا ولا أجلس بهدوء أبدًا.|adjective
+W | naughty | شقي | I was a naughty child and I never sat still. | كنت طفلًا شقيًا لا يكف عن الحركة. | adjective
 W|teenager|مراهق|When I was a teenager, I spent a lot of time with my cousins.|عندما كنت مراهقًا، كنت أقضي وقتًا طويلًا مع أبناء عمومتي.|noun
 W|memory|ذكرى|One of my happiest memories is my first day at school.|إحدى أسعد ذكرياتي هي أول يوم لي في المدرسة.|noun
-L|حادثة أو مشكلة|An Accident or Problem|أن يحكي المتعلم مشكلة بسيطة حدثت له وكيف تعامل معها.|I was riding my bike when I fell and broke my arm.|كنت أركب دراجتي عندما سقطت وكُسرت ذراعي.|To tell about a small problem that happened and how you dealt with it.
+L | حادثة أو مشكلة | An Accident or Problem | أن يحكي المتعلم مشكلة بسيطة حدثت له وكيف تعامل معها. | I was riding my bike when I fell and broke my arm. | كنت أركب دراجتي عندما سقطت وانكسرت ذراعي. | To tell about a small problem that happened and how you dealt with it.
 W|fell|سقط|She fell on the wet floor.|سقطت على الأرض المبلّلة.|verb
 W|broke|كَسَر|I broke my phone screen.|كسرت شاشة هاتفي.|verb
 W|accident|حادث|There was an accident on the motorway.|وقع حادث على الطريق السريع.|noun
 W|lucky|محظوظ|I was lucky because nobody was hurt.|كنت محظوظًا لأن أحدًا لم يُصب.|adjective
 W|suddenly|فجأة|Suddenly the lights went out.|فجأة انطفأت الأضواء.|adverb
-W|ambulance|سيارة إسعاف|They called an ambulance.|اتصلوا بسيارة إسعاف.|noun
+W | ambulance | سيارة إسعاف | They called an ambulance. | طلبوا سيارة إسعاف. | noun
 W|bruise|كدمة|I had a bruise on my leg after the fall.|كانت لدي كدمة في ساقي بعد السقوط.|noun
 W|emergency|حالة طارئة|We called the emergency number after the accident.|اتصلنا برقم الطوارئ بعد الحادث.|noun
 U|a2-x-u11|الطبيعة والأماكن|Nature and Places|تحدّث عن الحيوانات والريف والمدن وعن مشكلات الطقس.|leaf.fill|Talk about animals, the countryside, cities and weather problems.

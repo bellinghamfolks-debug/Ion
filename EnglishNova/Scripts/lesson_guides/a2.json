@@ -850,5 +850,157 @@
       "explanationAr": "التركيب هو make mistakes. الهدف التعلمي فهم الخطأ والعمل عليه، لا اختيار فعل مترجم حرفيًا من العربية.",
       "explanationEn": "The phrase is make mistakes. Learn the English verb-noun combination rather than translating the Arabic verb literally."
     }
+  },
+  "a2-x-u9-l1": {
+    "focusAr": "استخدم a أوan مع اسم المهنة المفرد: a nurse وan engineer. لذكر مكان العمل استخدم works in a factory أوworks at a hotel. shift فترة العمل المحددة، وليست المهنة نفسها.",
+    "focusEn": "Use a or an with a singular job title: a nurse, an engineer. Name the workplace with works in a factory or works at a hotel. A shift is a scheduled period of work, not the person's occupation.",
+    "taskAr": "صف موظف استقبال يعمل في فندق.",
+    "taskEn": "Describe a receptionist who works at a hotel.",
+    "exampleEn": "My brother is a receptionist, and he works at a hotel.",
+    "exampleAr": "أخي موظف استقبال ويعمل في فندق.",
+    "check": {
+      "promptEn": "Complete: My sister is _____ engineer.",
+      "choices": [
+        "an",
+        "a",
+        "two"
+      ],
+      "answer": "an",
+      "explanationAr": "engineer اسم مهنة مفرد يبدأ بصوت متحرك، فيحتاج إلى an.",
+      "explanationEn": "Engineer is a singular job noun beginning with a vowel sound, so it takes an."
+    }
+  },
+  "a2-x-u9-l2": {
+    "focusAr": "فرّق بين answer emails وreply to emails؛ الأول لا يحتاج إلى to. task list قائمة بما ستفعله، وsupervisor الشخص الذي يتابع العمل. photocopy فعل تصوير المستند هنا، وليس التقاط صورة شخصية.",
+    "focusEn": "Distinguish answer emails from reply to emails; answer does not need to. A task list records what to do, and a supervisor oversees work. Photocopy is a verb for copying a document here, not taking a portrait.",
+    "taskAr": "رتّب مهمتين: الرد على الرسائل ثم مراجعة التقرير مع زميل.",
+    "taskEn": "Sequence two tasks: answer emails, then review a report with a colleague.",
+    "exampleEn": "First, I answer emails. Then I check the report with my colleague.",
+    "exampleAr": "أولًا، أرد على الرسائل الإلكترونية. ثم أراجع التقرير مع زميلي.",
+    "check": {
+      "promptEn": "Choose the correct phrase.",
+      "choices": [
+        "reply to emails",
+        "answer to emails",
+        "reply emails"
+      ],
+      "answer": "reply to emails",
+      "explanationAr": "reply تأخذ to قبل الرسائل، أما answer فتتبعها emails مباشرة.",
+      "explanationEn": "Reply takes to before emails, while answer takes emails directly."
+    }
+  },
+  "a2-x-u9-l3": {
+    "focusAr": "apply for a job تعني التقدم لوظيفة، وCV تعرض المؤهلات والخبرة. experience بمعنى الخبرة العملية غير معدودة: some experience، لا an experience. part-time وfull-time تصفان نمط الدوام، وليس بالضرورة مدة العقد.",
+    "focusEn": "Apply for a job means submit an application, and a CV presents qualifications and experience. Work experience is uncountable: some experience, not an experience. Part-time and full-time describe working hours, not necessarily contract length.",
+    "taskAr": "اذكر التقدم لوظيفة بدوام جزئي وامتلاك خبرة مبيعات.",
+    "taskEn": "Say that you want a part-time job and have sales experience.",
+    "exampleEn": "I want to apply for a part-time job. I have experience in sales.",
+    "exampleAr": "أريد التقدم لوظيفة بدوام جزئي. لدي خبرة في المبيعات.",
+    "check": {
+      "promptEn": "Complete: I want to apply _____ this job.",
+      "choices": [
+        "for",
+        "on",
+        "with"
+      ],
+      "answer": "for",
+      "explanationAr": "نستخدم apply for مع الوظيفة المطلوبة. لا نترجم حرف الجر العربي حرفيًا.",
+      "explanationEn": "Use apply for with the job being sought, rather than translating the Arabic preposition literally."
+    }
+  },
+  "a2-x-u9-l4": {
+    "focusAr": "a day off يوم لا تعمل فيه، وtake a day off أخذ ذلك اليوم إجازة. يمكن أن يفصل اسم اليوم take عن off: take Thursday off. approve فعل يتبعه الطلب مباشرة، بينما ask for يقدّم الشيء الذي تطلبه.",
+    "focusEn": "A day off is a non-working day; take a day off describes taking it. The day can separate take and off: take Thursday off. Approve takes the request directly, while ask for introduces what you are requesting.",
+    "taskAr": "اطلب إجازة يوم الخميس بأدب.",
+    "taskEn": "Politely ask to take Thursday off.",
+    "exampleEn": "Could I take Thursday off, please?",
+    "exampleAr": "هل يمكنني أخذ إجازة يوم الخميس، من فضلك؟",
+    "check": {
+      "promptEn": "Which request asks for time away from work?",
+      "choices": [
+        "Could I take Thursday off?",
+        "Could I work overtime on Thursday?",
+        "Could I start early on Thursday?"
+      ],
+      "answer": "Could I take Thursday off?",
+      "explanationAr": "take Thursday off تعني طلب عدم العمل ذلك اليوم. overtime عمل إضافي وstart early بدء مبكر.",
+      "explanationEn": "Take Thursday off asks not to work that day. Overtime means additional work, and start early means begin earlier."
+    }
+  },
+  "a2-x-u10-l1": {
+    "focusAr": "استخدم الماضي لسرد العطلة: visited وstayed وenjoyed. بعد Did يعود الفعل إلى enjoy. catch up في اللقاء الاجتماعي يعني تبادل الأخبار بعد غياب، وget together الاجتماع للتواصل أو نشاط مشترك.",
+    "focusEn": "Use past forms to recount a weekend: visited, stayed and enjoyed. After Did, the verb returns to enjoy. Catch up socially means exchange news after time apart, and get together means meet for company or a shared activity.",
+    "taskAr": "صف لقاء أقارب وإقامة حفلة شواء في العطلة الماضية.",
+    "taskEn": "Describe meeting relatives and having a barbecue last weekend.",
+    "exampleEn": "Last weekend, we visited our relatives and had a barbecue.",
+    "exampleAr": "في عطلة نهاية الأسبوع الماضية، زرنا أقاربنا وأقمنا حفلة شواء.",
+    "check": {
+      "promptEn": "Complete: Did you _____ the party?",
+      "choices": [
+        "enjoy",
+        "enjoyed",
+        "enjoying"
+      ],
+      "answer": "enjoy",
+      "explanationAr": "بعد Did نستخدم enjoy بصيغته الأساسية. enjoyed تستخدم في الخبر الماضي.",
+      "explanationEn": "Use base-form enjoy after Did. Enjoyed is used in a past-tense statement."
+    }
+  },
+  "a2-x-u10-l2": {
+    "focusAr": "استخدم proud of للتعبير عن الفخر بشخص. happiest صيغة تفضيل من happy؛ تتحول y إلى i قبل est. anniversary ذكرى سنوية لحدث، بينما graduation التخرج وwedding حفل الزواج نفسه.",
+    "focusEn": "Use proud of to express pride in someone. Happiest is the superlative of happy; y changes to i before est. An anniversary marks a past event each year, while graduation and wedding name the events themselves.",
+    "taskAr": "صف يوم تخرج لا يُنسى وفخر العائلة بك.",
+    "taskEn": "Describe a memorable graduation day and your family's pride.",
+    "exampleEn": "My graduation was memorable, and my family was proud of me.",
+    "exampleAr": "كان يوم تخرجي لا يُنسى، وكانت عائلتي فخورة بي.",
+    "check": {
+      "promptEn": "Complete: My parents were proud _____ me.",
+      "choices": [
+        "of",
+        "to",
+        "with"
+      ],
+      "answer": "of",
+      "explanationAr": "proud تتبعها of عند ذكر الشخص أو الإنجاز الذي تفخر به.",
+      "explanationEn": "Proud takes of before the person or achievement that inspires pride."
+    }
+  },
+  "a2-x-u10-l3": {
+    "focusAr": "used to تصف عادة أو حالة كانت في الماضي ولم تعد كما كانت. بعدها الفعل الأساسي: used to walk، وليس walked. grew up ماضي grow up بمعنى نشأ، بينما childhood اسم مرحلة الطفولة.",
+    "focusEn": "Used to describes a past habit or state that is no longer the same. It takes a base verb: used to walk, not walked. Grew up is the past of grow up, while childhood names the stage of life.",
+    "taskAr": "اذكر عادة المشي إلى المدرسة في طفولتك.",
+    "taskEn": "Describe a childhood habit of walking to school.",
+    "exampleEn": "When I was a child, I used to walk to school.",
+    "exampleAr": "عندما كنت طفلًا، كنت أذهب إلى المدرسة مشيًا.",
+    "check": {
+      "promptEn": "Complete: I used to _____ near my grandparents.",
+      "choices": [
+        "live",
+        "lived",
+        "living"
+      ],
+      "answer": "live",
+      "explanationAr": "بعد used to الخاصة بعادات الماضي يأتي الفعل الأساسي live. لا نخلطها مع be used to ذات المعنى المختلف.",
+      "explanationEn": "The past-habit pattern used to takes base-form live. Do not confuse it with the different pattern be used to."
+    }
+  },
+  "a2-x-u10-l4": {
+    "focusAr": "استخدم الماضي المستمر للخلفية: I was riding، والماضي البسيط للحدث المفاجئ: I fell. suddenly تفيد المفاجأة، ولا تكفي وحدها لتوضيح سبب الحادث. بعد السرد اذكر النتيجة أو التصرف بجملة محددة.",
+    "focusEn": "Use the past continuous for the background: I was riding, and the past simple for the sudden event: I fell. Suddenly marks an unexpected event but does not explain its cause. Add a specific result or response after recounting it.",
+    "taskAr": "احكِ سقوطًا أثناء ركوب الدراجة مع ذكر إصابة بسيطة.",
+    "taskEn": "Describe falling while cycling and mention a minor injury.",
+    "exampleEn": "I was riding my bike when I fell. I had a bruise on my leg.",
+    "exampleAr": "كنت أركب دراجتي عندما سقطت. أصبت بكدمة في ساقي.",
+    "check": {
+      "promptEn": "Complete: I was riding my bike when I _____.",
+      "choices": [
+        "fell",
+        "fall",
+        "am falling"
+      ],
+      "answer": "fell",
+      "explanationAr": "was riding تصف النشاط الجاري في الماضي، وfell تصف الحدث الذي وقع أثناءه.",
+      "explanationEn": "Was riding describes the ongoing past activity, and fell names the event that happened during it."
+    }
   }
 }

@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة ثمانية دروس في A2 للفنادق والسفر والتعلم؛ توضيح سعر الليلة وأنواع الغرف، وتحسين مصطلحات التكييف ومحوّل القابس، وتمييز الطلاقة والنطق واللكنة دون وعود مبالغ فيها.",
-  "nextStep": "Continue editorial review from a2-x-u9-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة ثمانية دروس A2 للعمل والأحداث الماضية؛ تصحيح enjoyed وصيغ المهن وphotocopy، وتوضيح طلب الإجازة والسرد بالماضي وتعبيرات المناسبات.",
+  "nextStep": "Continue editorial review from a2-x-u11-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -1981,72 +1981,96 @@
       "level": "A2",
       "titleAr": "المهن وأماكن العمل",
       "titleEn": "Jobs and Workplaces",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u9-l2",
       "level": "A2",
       "titleAr": "يوم في العمل",
       "titleEn": "A Day at Work",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u9-l3",
       "level": "A2",
       "titleAr": "البحث عن وظيفة",
       "titleEn": "Looking for a Job",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u9-l4",
       "level": "A2",
       "titleAr": "التحدث مع المدير",
       "titleEn": "Talking to Your Boss",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u10-l1",
       "level": "A2",
       "titleAr": "عطلة نهاية الأسبوع الماضية",
       "titleEn": "Last Weekend",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u10-l2",
       "level": "A2",
       "titleAr": "يوم مميز",
       "titleEn": "A Special Day",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u10-l3",
       "level": "A2",
       "titleAr": "عندما كنت طفلًا",
       "titleEn": "When I Was a Child",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u10-l4",
       "level": "A2",
       "titleAr": "حادثة أو مشكلة",
       "titleEn": "An Accident or Problem",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u11-l1",
@@ -3749,7 +3773,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 164,
-    "pending": 196
+    "reviewed": 172,
+    "pending": 188
   }
 }

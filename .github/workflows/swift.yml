@@ -48,6 +48,7 @@ jobs:
         run: python3 Scripts/verify_release_recovery.py
       - name: Validate curriculum semantics
         run: |
+          python3 Scripts/audit_curriculum_quality.py
           python3 Scripts/validate_content.py EnglishNova/Resources/Curriculum/curriculum.json
           Scripts/validate_core_semantics.sh
       - name: Validate all integrated server JavaScript syntax

@@ -150,17 +150,17 @@ W|resolve|يحل|We spoke calmly and managed to resolve the problem.|تحدثن�
 U|b1-x-u9|التعليم والمهارات|Education and Skills|اختر تخصصًا، وطوّر مهارات المذاكرة، وتعلّم عبر الإنترنت، واكتسب المهارات الشخصية.|graduationcap.fill|Choose a course, improve your study skills, learn online and develop soft skills.
 L|اختيار تخصص|Choosing a Course|أن يشرح المتعلم أسباب اختياره لتخصص أو دورة.|I decided to major in computer science because it offers good career prospects.|قررت التخصص في علوم الحاسب لأنه يوفّر فرصًا مهنية جيدة.|To explain why you chose a subject or course.
 W|major in|يتخصص في|She majored in economics.|تخصصت في الاقتصاد.|phrasal verb
-W|career prospects|الفرص المهنية|Engineering has excellent career prospects.|للهندسة فرص مهنية ممتازة.|noun
+W | career prospects | الفرص المهنية | I asked about career prospects before choosing a course. | سألت عن الفرص المهنية قبل اختيار البرنامج الدراسي. | noun
 W|degree|درجة جامعية|He has a degree in law.|لديه درجة جامعية في القانون.|noun
 W|scholarship|منحة دراسية|She won a scholarship to study abroad.|فازت بمنحة دراسية للدراسة في الخارج.|noun
 W|enrol|يسجّل (في دورة)|I enrolled on an evening course.|سجّلت في دورة مسائية.|verb
 W|requirement|شرط؛ متطلب|What are the entry requirements?|ما شروط القبول؟|noun
 W|tuition fees|رسوم دراسية|The scholarship covers most of my tuition fees.|تغطي المنحة معظم رسومي الدراسية.|noun
-W|postgraduate|دراسات عليا|She plans to do a postgraduate course after her degree.|تخطط لدراسة برنامج دراسات عليا بعد شهادتها.|adjective
+W | postgraduate | متعلق بالدراسات العليا | She plans to do a postgraduate course after her degree. | تخطط لدراسة برنامج دراسات عليا بعد شهادتها. | adjective
 L|مهارات المذاكرة الفعّالة|Effective Study Skills|أن يقدّم المتعلم نصائح عملية للمذاكرة وتنظيم الوقت.|Breaking a big task into smaller steps makes it easier to concentrate.|تقسيم المهمة الكبيرة إلى خطوات أصغر يجعل التركيز أسهل.|To give practical advice about studying and managing time.
 W|concentrate|يركّز|I can't concentrate with the TV on.|لا أستطيع التركيز والتلفاز يعمل.|verb
 W|break down|يقسّم (إلى أجزاء)|Break the problem down into small parts.|قسّم المشكلة إلى أجزاء صغيرة.|phrasal verb
-W|distraction|ما يشتّت الانتباه|Phones are a big distraction for students.|الهواتف تشتّت انتباه الطلاب كثيرًا.|noun
+W | distraction | ما يشتّت الانتباه | Phone notifications are a distraction when I study. | تشتت إشعارات الهاتف انتباهي عندما أدرس. | noun
 W|summarise|يلخّص|Summarise each chapter in a few lines.|لخّص كل فصل في بضعة أسطر.|verb
 W|memorise|يحفظ عن ظهر قلب|I memorised the dates for the history exam.|حفظت التواريخ لاختبار التاريخ.|verb
 W|procrastinate|يماطل؛ يؤجّل|Stop procrastinating and start your essay.|توقّف عن المماطلة وابدأ مقالك.|verb
@@ -185,14 +185,14 @@ W|confident|واثق|She is a confident speaker.|إنها متحدثة واثق�
 W|leadership|قيادة|Leadership is important when a team needs direction.|القيادة مهمة عندما يحتاج الفريق إلى توجيه.|noun
 W|problem-solving|حل المشكلات|Problem-solving is useful in almost every workplace.|حل المشكلات مفيد في معظم أماكن العمل.|noun
 U|b1-x-u10|حياة المدينة|City Life|قارن بين المدينة والريف، واستخدم المواصلات العامة، وتحدّث عن مشكلات السكن والتنقل اليومي.|building.2.fill|Compare city and country life, use public transport, and talk about housing problems and commuting.
-L|المدينة أم الريف؟|City or Countryside?|أن يقارن المتعلم بين العيش في المدينة والريف ويبرر تفضيله.|Living in the city is convenient, whereas life in the countryside is more relaxed.|العيش في المدينة مريح من حيث الخدمات، بينما الحياة في الريف أكثر استرخاءً.|To compare living in the city and the countryside and justify your preference.
-W|convenient|مريح؛ مناسب|It's convenient to live near the metro.|من المريح أن تعيش قرب المترو.|adjective
+L | المدينة أم الريف؟ | City or Countryside? | أن يقارن المتعلم بين العيش في المدينة والريف ويبرر تفضيله. | My city flat is convenient for work, whereas my village home is closer to green space. | شقتي في المدينة مناسبة للوصول إلى العمل، بينما بيتي في القرية أقرب إلى المساحات الخضراء. | To compare living in the city and the countryside and justify your preference.
+W | convenient | مناسب عمليًا؛ سهل الوصول | It's convenient to live near the metro. | من المريح أن تعيش قرب المترو. | adjective
 W|whereas|بينما|I prefer tea, whereas my wife prefers coffee.|أفضّل الشاي، بينما تفضّل زوجتي القهوة.|conjunction
-W|pace of life|إيقاع الحياة|The pace of life in big cities is fast.|إيقاع الحياة في المدن الكبيرة سريع.|noun
+W | pace of life | إيقاع الحياة | The pace of life in my new neighbourhood feels faster than before. | أشعر بأن إيقاع الحياة في حيّي الجديد أسرع من السابق. | noun
 W|isolated|معزول|Some villages are very isolated.|بعض القرى معزولة جدًا.|adjective
 W|crime rate|معدل الجريمة|The crime rate in this area is low.|معدل الجريمة في هذه المنطقة منخفض.|noun
 W|amenities|خدمات ومرافق|The area has good amenities like shops and schools.|في المنطقة خدمات جيدة مثل المتاجر والمدارس.|noun
-W|green space|مساحة خضراء|Easy access to green space can make a neighbourhood more pleasant.|سهولة الوصول إلى مساحة خضراء تجعل الحي ألطف للعيش.|noun
+W | green space | مساحة خضراء | Easy access to green space can make a neighbourhood more pleasant. | قد تجعل سهولة الوصول إلى مساحة خضراء الحي أكثر راحة للعيش. | noun
 W|nightlife|حياة ليلية|The city has lively nightlife, but the countryside is quieter.|للمدينة حياة ليلية نشطة، لكن الريف أكثر هدوءًا.|noun
 L|المواصلات العامة|Public Transport|أن يتحدث المتعلم عن استخدام المواصلات العامة ومشكلاتها.|The metro is reliable, but it gets packed during rush hour.|المترو موثوق، لكنه يصبح مكتظًا في ساعة الذروة.|To talk about using public transport and its problems.
 W|reliable|موثوق|The bus service here is not very reliable.|خدمة الحافلات هنا ليست موثوقة كثيرًا.|adjective
@@ -200,12 +200,12 @@ W|rush hour|ساعة الذروة|Avoid driving during rush hour.|تجنّب ا�
 W|packed|مكتظ|The train was packed this morning.|كان القطار مكتظًا هذا الصباح.|adjective
 W|fare|أجرة (المواصلات)|The bus fare has gone up.|ارتفعت أجرة الحافلة.|noun
 W|route|مسار؛ طريق|Which route is the fastest?|أي مسار هو الأسرع؟|noun
-W|frequent|متكرر|Trains are frequent on weekdays.|القطارات متكررة في أيام الأسبوع.|adjective
+W | frequent | متكرر | Trains are frequent on weekdays. | تنطلق القطارات على فترات متقاربة في أيام العمل. | adjective
 W|delay|تأخير|A signal problem caused a twenty-minute delay.|تسببت مشكلة في الإشارة في تأخير لمدة عشرين دقيقة.|noun
 W|departure board|لوحة المغادرة|Check the departure board before you go to the platform.|تحقق من لوحة المغادرة قبل أن تذهب إلى رصيف القطار.|noun
 L|مشكلات السكن|Housing Problems|أن يصف المتعلم مشكلات السكن في المدن ويقترح حلولًا.|House prices have risen so much that many young people can't afford to buy.|ارتفعت أسعار المنازل كثيرًا لدرجة أن كثيرًا من الشباب لا يستطيعون الشراء.|To describe housing problems in cities and suggest solutions.
 W|house prices|أسعار المنازل|House prices in the capital are very high.|أسعار المنازل في العاصمة مرتفعة جدًا.|noun
-W|risen|ارتفع|Prices have risen by ten percent.|ارتفعت الأسعار بنسبة عشرة بالمئة.|verb
+W | risen | ارتفع (التصريف الثالث من rise) | Prices have risen by ten percent. | ارتفعت الأسعار بنسبة عشرة بالمئة. | verb
 W|tenant|مستأجر|The tenants complained about the heating.|اشتكى المستأجرون من التدفئة.|noun
 W|shortage|نقص|There is a shortage of affordable homes.|هناك نقص في المساكن ميسورة التكلفة.|noun
 W|affordable|ميسور التكلفة|We need more affordable housing.|نحتاج إلى مزيد من المساكن ميسورة التكلفة.|adjective
@@ -216,7 +216,7 @@ L|التنقّل اليومي والزحام|Commuting and Traffic|أن يصف �
 W|commute|الرحلة اليومية إلى العمل|My commute is only ten minutes.|رحلتي اليومية إلى العمل عشر دقائق فقط.|noun
 W|traffic jam|ازدحام مروري|We were stuck in a traffic jam for an hour.|علقنا في ازدحام مروري لمدة ساعة.|noun
 W|pass the time|يقضي الوقت|I read on the train to pass the time.|أقرأ في القطار لأقضي الوقت.|phrase
-W|carpool|المشاركة في السيارة|My colleagues and I carpool to save money.|أشارك أنا وزملائي في السيارة لتوفير المال.|verb
+W | carpool | يتشارك سيارة في التنقل | My colleagues and I carpool to save money. | أتنقل أنا وزملائي معًا في سيارة واحدة لتوفير المال. | verb
 W|podcast|بودكاست|I listen to a podcast about history.|أستمع إلى بودكاست عن التاريخ.|noun
 W|stuck|عالق|I'm stuck at the station.|أنا عالق في المحطة.|adjective
 W|roadworks|أعمال طرق|Roadworks have made my journey much slower this week.|جعلت أعمال الطرق رحلتي أبطأ بكثير هذا الأسبوع.|noun

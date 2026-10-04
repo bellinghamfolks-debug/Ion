@@ -838,5 +838,157 @@
       "explanationAr": "يحدد الجواب الصحيح السلوك والوقت وأثره ويطلب تغييرًا واضحًا. البديلان يحكمان على الشخص ويعممان بدل وصف المشكلة.",
       "explanationEn": "The correct answer identifies the behaviour, time, and effect and requests a clear change. The alternatives judge the person and generalize rather than describe the problem."
     }
+  },
+  "b1-x-u9-l1": {
+    "focusAr": "major in شائعة في الإنجليزية الأمريكية للتخصص الجامعي، بينما enrol تشير إلى التسجيل في مقرر أو برنامج. scholarship منحة قد تغطي بعض الرسوم أو كلها؛ لا تفترض أنها تشمل كل النفقات. degree مؤهل جامعي، وpostgraduate تصف دراسة بعد الدرجة الجامعية الأولى. اشرح اهتمامك بالمجال مع متطلب عملي قبل اتخاذ القرار.",
+    "focusEn": "Major in is common in American English for a university subject, while enrol refers to joining a course or programme. A scholarship may cover some or all fees; do not assume it covers every expense. A degree is a university qualification, and postgraduate describes study after a first degree. Explain your interest alongside a practical requirement before deciding.",
+    "taskAr": "اشرح اختيارك دورة تصميم بسبب اهتمامك بالمجال، ثم اذكر سؤالين عن شروط القبول والرسوم.",
+    "taskEn": "Explain choosing a design course because of your interest, then ask two questions about entry requirements and fees.",
+    "exampleEn": "I'd like to enrol on a design course because I enjoy creating useful products. What are the entry requirements? Does the scholarship cover all the tuition fees or only part of them?",
+    "exampleAr": "أود التسجيل في دورة تصميم لأنني أستمتع بابتكار منتجات مفيدة. ما شروط القبول؟ وهل تغطي المنحة جميع الرسوم الدراسية أم جزءًا منها فقط؟",
+    "check": {
+      "promptEn": "A scholarship covers half the tuition fees. Which conclusion is supported?",
+      "choices": [
+        "Part of the tuition fees still needs to be paid.",
+        "All living costs are automatically covered.",
+        "The student has already completed the degree."
+      ],
+      "answer": "Part of the tuition fees still needs to be paid.",
+      "explanationAr": "تغطية نصف الرسوم تترك النصف الآخر للدفع. لا تخبرنا الجملة عن نفقات المعيشة أو إتمام الدراسة.",
+      "explanationEn": "Covering half the fees leaves the other half to be paid. The sentence gives no information about living costs or completing the degree."
+    }
+  },
+  "b1-x-u9-l2": {
+    "focusAr": "summarise تعني التعبير عن أهم الأفكار باختصار، لا حفظ الكلمات كما هي؛ memorise تعني حفظها. break down في هذا السياق تقسيم المهمة إلى أجزاء، ويمكن قول break it down. concentrate on تحدد ما تركز عليه. اقترح خطوة محددة وسببها بدل أمر عام مثل «ذاكر أكثر».",
+    "focusEn": "Summarise means express the main ideas briefly, not learn the original words exactly; memorise means learn them for recall. Break down here means divide a task into parts, and you can say break it down. Concentrate on identifies the focus. Suggest one specific step and its purpose instead of a vague instruction such as study more.",
+    "taskAr": "قدّم لصديق خطة قصيرة لإنجاز ملخص فصل طويل: تقسيم المهمة، تحديد الأفكار، وكتابة خلاصة.",
+    "taskEn": "Give a friend a short plan for summarising a long chapter: divide the task, identify the ideas, and write a brief summary.",
+    "exampleEn": "First, break down the chapter into sections. Read one section and note its main idea. Then summarise the chapter in your own words, leaving out small details.",
+    "exampleAr": "أولًا، قسّم الفصل إلى أقسام. اقرأ قسمًا واحدًا ودوّن فكرته الرئيسية. ثم لخّص الفصل بكلماتك مع استبعاد التفاصيل الصغيرة.",
+    "check": {
+      "promptEn": "Which task asks you to summarise rather than copy or memorise?",
+      "choices": [
+        "Explain the three main ideas briefly in your own words.",
+        "Copy every sentence exactly.",
+        "Repeat the entire chapter from memory."
+      ],
+      "answer": "Explain the three main ideas briefly in your own words.",
+      "explanationAr": "التلخيص ينتقي الأفكار الرئيسية ويعرضها بإيجاز. النسخ الكامل والحفظ الحرفي لا يحققان هذا الغرض.",
+      "explanationEn": "Summarising selects the main ideas and presents them briefly. Full copying and word-for-word memorisation do not perform that task."
+    }
+  },
+  "b1-x-u9-l3": {
+    "focusAr": "at your own pace تعني الدراسة بالسرعة المناسبة لك، لكنها لا تعني غياب المواعيد النهائية دائمًا. flexible تصف المرونة، وself-discipline القدرة على تنظيم سلوكك دون متابعة مستمرة. فرّق بين مواد مسجلة ولقاء مباشر يتيح interact with the teacher. قارن ميزتين أو قيدين محددين عند اختيار طريقة الدراسة.",
+    "focusEn": "At your own pace means studying at a suitable speed, but does not always mean there are no deadlines. Flexible describes adaptable arrangements; self-discipline means managing your behaviour without constant supervision. Distinguish recorded material from a live session where you can interact with the teacher. Compare specific benefits and limits when choosing a study format.",
+    "taskAr": "وازن بين فائدة الدروس المسجلة والحاجة إلى لقاء مباشر، ثم اقترح جدولًا يناسبك.",
+    "taskEn": "Balance the benefit of recorded lessons with the need for a live session, then propose a schedule that suits you.",
+    "exampleEn": "Recorded lessons let me study at my own pace after work. However, I also want to interact with the teacher, so I'll join the live session on Saturday and submit my coursework on Monday.",
+    "exampleAr": "تتيح لي الدروس المسجلة الدراسة بالسرعة المناسبة لي بعد العمل. لكنني أريد أيضًا التفاعل مع المعلم، لذلك سأحضر اللقاء المباشر يوم السبت وأسلّم أعمال المقرر يوم الاثنين.",
+    "check": {
+      "promptEn": "A course allows study at your own pace but sets a Friday submission deadline. What does this mean?",
+      "choices": [
+        "You can choose your study speed while still submitting by Friday.",
+        "You can ignore every deadline.",
+        "You must watch every lesson live at the same time."
+      ],
+      "answer": "You can choose your study speed while still submitting by Friday.",
+      "explanationAr": "المرونة في وتيرة الدراسة لا تلغي موعد التسليم المحدد. ولا يقول الموقف إن جميع الدروس مباشرة في وقت واحد.",
+      "explanationEn": "Flexibility in study pace does not remove the stated submission deadline. The situation also does not say every lesson is live at a fixed time."
+    }
+  },
+  "b1-x-u9-l4": {
+    "focusAr": "employer صاحب العمل، وemployee الموظف؛ لا تخلط بين دوري الطرفين. value هنا فعل بمعنى يقدّر. بدل سرد صفات عامة مثل confident وadaptable، اربط المهارة بسلوك واضح: الاستماع والتوضيح أو تغيير الخطة عند الحاجة. confidence ثقة، لكنها لا تعني معرفة كل الإجابات أو رفض المساعدة.",
+    "focusEn": "An employer provides work, while an employee works for them; keep the roles distinct. Value is a verb meaning appreciate here. Instead of listing general qualities such as confident and adaptable, connect a skill to an observable action: listening, clarifying, or changing a plan when needed. Confidence does not mean knowing every answer or refusing help.",
+    "taskAr": "صف موقفًا تدريبيًا تغير فيه موعد مشروع، وبيّن كيف تستخدم التواصل وإدارة الوقت للتكيف.",
+    "taskEn": "Describe a practice situation where a project date changes, explaining how you use communication and time management to adapt.",
+    "exampleEn": "When the deadline changes, I ask which tasks matter most. I agree on a revised plan with the team and explain any difficulties early. This shows that I can be adaptable while keeping others informed.",
+    "exampleAr": "عندما يتغير الموعد النهائي، أسأل عن المهام الأهم. أتفق مع الفريق على خطة معدلة وأوضح الصعوبات مبكرًا. يبيّن ذلك قدرتي على التكيف مع إبقاء الآخرين على اطلاع.",
+    "check": {
+      "promptEn": "Which example best demonstrates being adaptable?",
+      "choices": [
+        "You adjust the plan after discussing a new deadline.",
+        "You refuse to consider any change.",
+        "You claim the deadline cannot exist because it is new."
+      ],
+      "answer": "You adjust the plan after discussing a new deadline.",
+      "explanationAr": "تعديل الخطة استجابةً لمعلومة جديدة يوضح التكيف. رفض التغيير أو إنكار الموعد لا يوضح هذه المهارة.",
+      "explanationEn": "Adjusting the plan in response to new information demonstrates adaptability. Rejecting change or denying the deadline does not show that skill."
+    }
+  },
+  "b1-x-u10-l1": {
+    "focusAr": "convenient تعني مناسبًا عمليًا أو سهل الوصول، وليست مرادفًا دائمًا للراحة الجسدية comfortable. whereas تربط مقارنة متعارضة بين جملتين. amenities خدمات ومرافق تساعد الحياة اليومية، وisolated تصف بُعد المكان أو انفصاله. قارن مكانين محددين وفق حاجتك بدل افتراض أن كل مدينة أو قرية متشابهة.",
+    "focusEn": "Convenient means practical or easy to access, not always physically comfortable. Whereas connects contrasting clauses. Amenities are services and facilities that support daily life, and isolated describes distance or separation. Compare two specific places against your own needs rather than assuming all cities or villages are alike.",
+    "taskAr": "قارن حيًا قريبًا من عملك بقرية فيها مساحة خضراء، ثم بيّن أيهما يناسبك وسببًا عمليًا لذلك.",
+    "taskEn": "Compare a neighbourhood near work with a village offering green space, then say which suits you and give a practical reason.",
+    "exampleEn": "The neighbourhood is convenient for work, whereas the village has more green space. I would choose the neighbourhood because I do not have a car and can walk to the office.",
+    "exampleAr": "الحي مناسب للوصول إلى العمل، بينما تضم القرية مساحات خضراء أكثر. سأختار الحي لأنني لا أملك سيارة وأستطيع المشي إلى المكتب.",
+    "check": {
+      "promptEn": "A shop is convenient because it is next to your home. What does convenient mean here?",
+      "choices": [
+        "Easy and practical to reach.",
+        "Guaranteed to have comfortable chairs.",
+        "Always cheaper than every other shop."
+      ],
+      "answer": "Easy and practical to reach.",
+      "explanationAr": "السياق يربط convenient بسهولة الوصول وقرب المكان. لا يقدم معلومات عن المقاعد أو الأسعار.",
+      "explanationEn": "The context links convenient to easy access and a nearby location. It gives no information about seats or prices."
+    }
+  },
+  "b1-x-u10-l2": {
+    "focusAr": "frequent تصف تكرار الخدمة، وreliable تصف إمكان الاعتماد عليها؛ قد تتكرر الحافلات لكنها تتأخر عن جدولها. fare أجرة الرحلة، وroute مسارها، وdeparture board تعرض معلومات المغادرة. packed تعني شديد الازدحام في هذا السياق. اذكر وقت الرحلة عند المقارنة لأن rush hour قد يغيّر تجربتك.",
+    "focusEn": "Frequent describes how often a service runs, while reliable describes whether it can be depended on; buses can run often but miss their timetable. Fare is the travel price, route is the path, and a departure board displays departure information. Packed means very crowded here. Include the travel time in comparisons because rush hour can change your experience.",
+    "taskAr": "قارن حافلة أقل أجرة بقطار أكثر انتظامًا، وفسّر اختيارك عند الحاجة للوصول إلى مقابلة في موعدها.",
+    "taskEn": "Compare a cheaper bus with a more reliable train, and explain your choice when you need to arrive for an interview on time.",
+    "exampleEn": "The bus fare is lower, but the service is not very reliable. I'll take the train for the interview and check the departure board in case there is a delay.",
+    "exampleAr": "أجرة الحافلة أقل، لكن خدمتها ليست منتظمة كثيرًا. سأستقل القطار للمقابلة وأتحقق من لوحة المغادرة تحسبًا لوجود تأخير.",
+    "check": {
+      "promptEn": "A bus runs every five minutes but often arrives later than scheduled. Which description fits?",
+      "choices": [
+        "Frequent, but not very reliable.",
+        "Infrequent and always on time.",
+        "Free because it runs often."
+      ],
+      "answer": "Frequent, but not very reliable.",
+      "explanationAr": "تكرار الخدمة كل خمس دقائق يجعلها frequent، لكن التأخر المتكرر يضعف الاعتماد عليها. لا يحدد التكرار سعر التذكرة.",
+      "explanationEn": "Running every five minutes makes the service frequent, while repeated lateness reduces reliability. Frequency does not determine the fare."
+    }
+  },
+  "b1-x-u10-l3": {
+    "focusAr": "risen هي التصريف الثالث من rise، فنقول prices have risen دون مفعول به. أما raise فيحتاج شيئًا يُرفع مثل raise the rent. shortage of تعني نقصًا في شيء محدد، وaffordable تصف ما يمكن تحمل تكلفته نسبةً للقدرة المالية. lease عقد إيجار، وmortgage قرض مرتبط بعقار، وهما ليسا الشيء نفسه.",
+    "focusEn": "Risen is the past participle of rise: say prices have risen without an object. Raise takes an object, as in raise the rent. Shortage of names something in insufficient supply, and affordable relates cost to someone's ability to pay. A lease is a rental agreement; a mortgage is borrowing secured on property. They are not the same thing.",
+    "taskAr": "في وصف تدريبي لحي، اشرح أن الإيجارات ارتفعت وأن هناك نقصًا في المساكن المناسبة لميزانية الطلاب، ثم اذكر اقتراحًا دون ضمان نتيجته.",
+    "taskEn": "In a practice description of a neighbourhood, explain that rents have risen and student-budget housing is scarce, then offer a proposal without guaranteeing its result.",
+    "exampleEn": "Rents have risen in this neighbourhood, and there is a shortage of affordable rooms for students. Providing more shared accommodation could help, but we would need to compare the costs.",
+    "exampleAr": "ارتفعت الإيجارات في هذا الحي، وهناك نقص في الغرف التي يستطيع الطلاب تحمل تكلفتها. قد يساعد توفير مزيد من السكن المشترك، لكننا سنحتاج إلى مقارنة التكاليف.",
+    "check": {
+      "promptEn": "Which sentence correctly uses the past participle risen?",
+      "choices": [
+        "Rents have risen this year.",
+        "The owner has risen the rent.",
+        "Rents have rise this year."
+      ],
+      "answer": "Rents have risen this year.",
+      "explanationAr": "rise لا يأخذ مفعولًا به وتصريفه الثالث risen. عند ذكر المالك الذي زاد الإيجار نستخدم has raised the rent.",
+      "explanationEn": "Rise has no direct object and its past participle is risen. To describe the owner's action, use has raised the rent."
+    }
+  },
+  "b1-x-u10-l4": {
+    "focusAr": "commute الرحلة المنتظمة بين البيت والعمل أو الدراسة، وليست كل رحلة طويلة. traffic jam حالة ازدحام محددة، وcongestion حالة التكدس المروري عمومًا. نقول stuck in traffic وstuck at the station. يأتي بعد takes مقدار الزمن: my commute takes an hour. اربط التأخير بسببه ثم اذكر بديلًا واقعيًا.",
+    "focusEn": "A commute is regular travel between home and work or study, not every long trip. A traffic jam is a particular blockage, while congestion describes traffic crowding more generally. Say stuck in traffic and stuck at the station. Takes introduces duration: my commute takes an hour. Link a delay to its cause, then mention a realistic alternative.",
+    "taskAr": "صف رحلة عمل يومية طالت بسبب أعمال الطرق، واقترح تجربة القطار مع مقارنة الوقت.",
+    "taskEn": "Describe a commute made longer by roadworks, then suggest trying the train and comparing journey times.",
+    "exampleEn": "My commute usually takes thirty minutes, but roadworks have added twenty minutes this week. I might take the train tomorrow to see whether it is quicker.",
+    "exampleAr": "تستغرق رحلتي اليومية إلى العمل عادةً ثلاثين دقيقة، لكن أعمال الطرق أضافت عشرين دقيقة هذا الأسبوع. قد أستقل القطار غدًا لأرى هل هو أسرع.",
+    "check": {
+      "promptEn": "Which sentence naturally expresses journey duration?",
+      "choices": [
+        "My commute takes forty minutes.",
+        "My commute pays forty minutes.",
+        "My commute spends me forty minutes."
+      ],
+      "answer": "My commute takes forty minutes.",
+      "explanationAr": "نستخدم take مع الرحلة والمدة. ويمكن للشخص أن يستخدم spend بصيغة I spend forty minutes travelling، لكن ليس بالتركيب المذكور في البديل.",
+      "explanationEn": "Use take with a journey and its duration. A person can use spend in I spend forty minutes travelling, but not in the alternative structure shown."
+    }
   }
 }

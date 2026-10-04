@@ -344,7 +344,7 @@ W|eye contact|التواصل البصري|Keep eye contact with the audience.|ح
 W|anecdote|حكاية قصيرة|He began his talk with a personal anecdote.|بدأ حديثه بحكاية شخصية.|noun
 W|pause for effect|يتوقف للتأثير|Pause for effect before your main point.|توقّف للتأثير قبل فكرتك الرئيسية.|phrase
 W|stage fright|رهبة المسرح|Even experienced speakers get stage fright.|حتى المتحدثون المتمرّسون يشعرون برهبة المسرح.|noun
-W|call to action|دعوة إلى اتخاذ إجراء|A strong call to action tells the audience what you want them to do next.|توضح الدعوة القوية إلى اتخاذ إجراء ما الذي تريد من الجمهور فعله بعد ذلك.|noun
+W|key takeaway|الفكرة الأساسية التي ينبغي تذكرها|End with a key takeaway that the audience can remember after the talk.|اختم بفكرة أساسية يستطيع الجمهور تذكرها بعد الخطاب.|noun
 W|signposting|إشارات تنظيمية|Clear signposting helps an audience follow a complex talk.|تساعد الإشارات التنظيمية الواضحة الجمهور على متابعة حديث معقد.|noun
 W|vocal variety|تنوع صوتي|Vocal variety can prevent a long presentation from sounding monotonous.|يمكن للتنوع الصوتي أن يمنع العرض الطويل من أن يبدو رتيبًا.|noun
 W|audience engagement|تفاعل الجمهور|A relevant example can increase audience engagement.|يمكن لمثال ذي صلة أن يزيد تفاعل الجمهور.|noun

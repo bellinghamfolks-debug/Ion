@@ -65,7 +65,7 @@ W|side effect|عرض جانبي|This medicine has no serious side effects.|لي�
 W|twice|مرتين|Brush your teeth twice a day.|نظّف أسنانك مرتين يوميًا.|adverb
 W|painkiller|مسكن للألم|The pharmacist recommended a painkiller for the headache.|أوصى الصيدلي بمسكن للألم للصداع.|noun
 W|cough syrup|شراب للسعال|Take this cough syrup before you go to bed.|خذ شراب السعال هذا قبل أن تذهب إلى النوم.|noun
-W|medicine|دواء|Keep the medicine in a cool, dry place.|احتفظ بالدواء في مكان بارد وجاف.|noun
+W|dosage instructions|تعليمات الجرعة|Follow the dosage instructions on the label carefully.|اتبع تعليمات الجرعة الموجودة على الملصق بعناية.|noun
 W|leaflet|نشرة إرشادية|Read the leaflet before taking the tablets.|اقرأ النشرة الإرشادية قبل تناول الأقراص.|noun
 L|الرياضة واللياقة|Exercise and Fitness|أن يتحدث المتعلم عن التمارين التي يمارسها وعدد مرات ممارستها.|I go to the gym three times a week to stay fit.|أذهب إلى النادي الرياضي ثلاث مرات في الأسبوع لأحافظ على لياقتي.|To talk about the exercise you do and how often.
 W|gym|نادٍ رياضي|The gym opens at six in the morning.|يفتح النادي الرياضي في السادسة صباحًا.|noun
@@ -120,7 +120,7 @@ W|charger|شاحن|I left my phone charger at home.|نسيت شاحن هاتفي
 W|sunscreen|واقي الشمس|Take sunscreen to the beach.|خذ واقي الشمس إلى الشاطئ.|noun
 W|toothbrush|فرشاة أسنان|I need a new toothbrush for the trip.|أحتاج فرشاة أسنان جديدة للرحلة.|noun
 W|travel adapter|محوّل كهربائي للسفر|I packed a travel adapter for my phone charger.|وضعت محولًا كهربائيًا للسفر لشاحن هاتفي.|noun
-W|luggage|أمتعة|My luggage was too heavy for the small taxi.|كانت أمتعتي ثقيلة جدًا على سيارة الأجرة الصغيرة.|noun
+W|packing list|قائمة تجهيز الأمتعة|I use a packing list so I do not forget anything important.|أستخدم قائمة لتجهيز الأمتعة حتى لا أنسى شيئًا مهمًا.|noun
 W|toiletries|مستلزمات النظافة الشخصية|I keep my toiletries in a small bag.|أحتفظ بمستلزمات النظافة الشخصية في حقيبة صغيرة.|noun
 W|travel insurance|تأمين سفر|We bought travel insurance before the trip.|اشترينا تأمين سفر قبل الرحلة.|noun
 L|أنشطة العطلة|Holiday Activities|أن يصف المتعلم ما فعله أو سيفعله في العطلة.|We went sightseeing in the old town and took lots of photos.|تجوّلنا لمشاهدة معالم المدينة القديمة والتقطنا صورًا كثيرة.|To describe what you did or will do on holiday.
@@ -198,8 +198,8 @@ W|colleague|زميل عمل|My colleague helped me with the report.|ساعدني
 W|break|استراحة|We have a short break at eleven.|لدينا استراحة قصيرة في الحادية عشرة.|noun
 W|photocopy|يصوّر (مستندًا)؛ نسخة مصوّرة|Can you photocopy these pages for me?|هل يمكنك تصوير هذه الصفحات لي؟|verb
 W|finish|ينهي|I finish work at five o'clock.|أنهي العمل في الساعة الخامسة.|verb
-W|meeting|اجتماع|I have a meeting with my team at ten o'clock.|لدي اجتماع مع فريقي الساعة العاشرة.|noun
-W|deadline|موعد نهائي|The deadline for this task is Friday afternoon.|الموعد النهائي لهذه المهمة هو بعد ظهر الجمعة.|noun
+W|work briefing|إحاطة عمل قصيرة|We have a short work briefing before the morning shift begins.|لدينا إحاطة عمل قصيرة قبل بدء المناوبة الصباحية.|noun
+W|urgent task|مهمة عاجلة|I finish the urgent task before checking less important emails.|أنهي المهمة العاجلة قبل مراجعة رسائل البريد الأقل أهمية.|noun
 W|task list|قائمة مهام|I write a task list at the start of the day.|أكتب قائمة مهام في بداية اليوم.|noun
 W|supervisor|مشرف|My supervisor checked the report before I sent it.|راجع مشرفي التقرير قبل أن أرسله.|noun
 L|البحث عن وظيفة|Looking for a Job|أن يتحدث المتعلم عن البحث عن عمل والتقديم على وظيفة.|I saw the job advert online and sent my CV yesterday.|رأيت إعلان الوظيفة على الإنترنت وأرسلت سيرتي الذاتية أمس.|To talk about looking for work and applying for a job.
@@ -244,7 +244,7 @@ W|guests|ضيوف|More than a hundred guests came.|حضر أكثر من مئة �
 W|proud|فخور|My father was very proud of me.|كان أبي فخورًا بي جدًا.|adjective
 W|happiest|الأسعد|It was the happiest moment of the year.|كانت أسعد لحظة في العام.|adjective
 W|ceremony|حفل رسمي|The graduation ceremony lasted about two hours.|استمر حفل التخرج الرسمي نحو ساعتين.|noun
-W|invitation|دعوة|We received an invitation to the wedding last week.|تلقينا دعوة إلى حفل الزفاف الأسبوع الماضي.|noun
+W|guest list|قائمة الضيوف|We checked the guest list before the celebration started.|راجعنا قائمة الضيوف قبل بدء الاحتفال.|noun
 W|anniversary|ذكرى سنوية|My parents celebrated their wedding anniversary at a restaurant.|احتفل والداي بذكرى زواجهما السنوية في مطعم.|noun
 W|memorable|لا يُنسى|It was a memorable day for the whole family.|كان يومًا لا يُنسى للعائلة كلها.|adjective
 L|عندما كنت طفلًا|When I Was a Child|أن يصف المتعلم عاداته في الطفولة باستخدام used to.|When I was a child, I used to play in the street with my friends.|عندما كنت طفلًا، كنت ألعب في الشارع مع أصدقائي.|To describe childhood habits using used to.
@@ -313,7 +313,7 @@ W|umbrella|مظلة|Take an umbrella with you.|خذ مظلة معك.|noun
 W|thunderstorm|عاصفة رعدية|The thunderstorm started just after midnight.|بدأت العاصفة الرعدية بعد منتصف الليل بقليل.|noun
 W|lightning|برق|We saw lightning over the mountains.|رأينا البرق فوق الجبال.|noun
 W|slippery|زلق|The roads are slippery after heavy rain.|الطرق زلقة بعد الأمطار الغزيرة.|adjective
-W|delay|تأخير|The storm caused a two-hour delay at the airport.|تسببت العاصفة في تأخير لمدة ساعتين في المطار.|noun
+W|travel disruption|اضطراب في حركة السفر|The storm caused major travel disruption across the region.|تسببت العاصفة في اضطراب كبير في حركة السفر في أنحاء المنطقة.|noun
 U|a2-x-u12|الخدمات ومشكلات الحياة اليومية|Services and Everyday Problems|تعامل مع البنك والتوصيل، وابحث عن شيء مفقود، وأصلح مشكلات بسيطة في البيت.|wrench.and.screwdriver.fill|Deal with the bank and deliveries, report something lost, and get things fixed at home.
 L|في البنك|At the Bank|أن ينجز المتعلم معاملة بنكية بسيطة ويسأل عنها.|I'd like to open a bank account and get a debit card.|أود فتح حساب بنكي والحصول على بطاقة صرّاف.|To complete a simple bank task and ask about it.
 W|bank account|حساب بنكي|I opened a bank account last week.|فتحت حسابًا بنكيًا الأسبوع الماضي.|noun

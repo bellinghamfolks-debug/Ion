@@ -74,7 +74,7 @@ W|although|رغم أن|The room was small, although it was clean.|كانت ال�
 W|staff|الموظفون|The staff were friendly and helpful.|كان الموظفون ودودين ومتعاونين.|noun
 W|spotless|نظيف تمامًا|The bathroom was spotless.|كان الحمّام نظيفًا تمامًا.|adjective
 W|overpriced|مبالغ في سعره|The drinks at the hotel bar were overpriced.|كانت المشروبات في الفندق مبالغًا في سعرها.|adjective
-W|pros and cons|الإيجابيات والسلبيات|A useful review explains the pros and cons clearly.|توضح المراجعة المفيدة الإيجابيات والسلبيات بوضوح.|noun phrase
+W|trade-off|مفاضلة بين ميزتين|Every accommodation option involves a trade-off between price and comfort.|يتضمن كل خيار للسكن مفاضلة بين السعر والراحة.|noun
 W|drawback|عيب|The main drawback was the noise from the street.|كان العيب الرئيسي هو ضوضاء الشارع.|noun
 W|highlight|أبرز ميزة|The rooftop view was the highlight of our stay.|كان منظر السطح أبرز ميزة في إقامتنا.|noun
 W|balanced|متوازن|A balanced review mentions both positive and negative points.|تذكر المراجعة المتوازنة النقاط الإيجابية والسلبية.|adjective
@@ -121,7 +121,7 @@ W|order|طلب؛ يطلب|My order arrived two days late.|وصل طلبي متأ
 W|exchange|يستبدل|Can I exchange this for a bigger size?|هل يمكنني استبداله بمقاس أكبر؟|verb
 W|delivery charge|رسوم توصيل|The delivery charge made the order more expensive than expected.|جعلت رسوم التوصيل الطلب أغلى مما توقعت.|noun
 W|return policy|سياسة الإرجاع|Always read the return policy before buying clothes online.|اقرأ دائمًا سياسة الإرجاع قبل شراء الملابس عبر الإنترنت.|noun
-W|faulty|معيب|The headphones were faulty, so I asked for a replacement.|كانت سماعات الرأس معيبة، لذلك طلبت بديلًا.|adjective
+W|wrong size|مقاس غير مناسب|I returned the shoes because they were the wrong size.|أعدت الحذاء لأنه كان بمقاس غير مناسب.|noun phrase
 W|customer service|خدمة العملاء|Customer service replied to my message within an hour.|ردت خدمة العملاء على رسالتي خلال ساعة.|noun
 L|الاقتراض والإقراض|Borrowing and Lending|أن يطلب المتعلم قرضًا صغيرًا أو يعتذر عن الإقراض بلباقة.|Could you lend me some money until payday? I'll pay you back on Friday.|هل يمكنك أن تقرضني بعض المال حتى يوم الراتب؟ سأعيده إليك يوم الجمعة.|To ask for a small loan or politely refuse to lend money.
 W|lend|يُقرض|Can you lend me your car for a day?|هل يمكنك إقراضي سيارتك ليوم واحد؟|verb
@@ -199,7 +199,7 @@ W|summarise|يلخّص|Summarise each chapter in a few lines.|لخّص كل فص
 W|memorise|يحفظ عن ظهر قلب|I memorised the dates for the history exam.|حفظت التواريخ لاختبار التاريخ.|verb
 W|procrastinate|يماطل؛ يؤجّل|Stop procrastinating and start your essay.|توقّف عن المماطلة وابدأ مقالك.|verb
 W|study session|جلسة مذاكرة|I turn off my phone during each study session.|أغلق هاتفي خلال كل جلسة مذاكرة.|noun
-W|prioritise|يرتب حسب الأولوية|I prioritise difficult tasks when my energy is highest.|أرتب المهام الصعبة حسب الأولوية عندما تكون طاقتي في أعلى مستوى.|verb
+W|set priorities|يحدد الأولويات|I set priorities before I start a busy week.|أحدد الأولويات قبل أن أبدأ أسبوعًا مزدحمًا.|verb phrase
 W|active recall|استرجاع نشط|Active recall helps me check what I can remember without notes.|يساعدني الاسترجاع النشط على معرفة ما أتذكره دون ملاحظات.|noun
 W|mind map|خريطة ذهنية|I made a mind map to connect the main ideas.|أنشأت خريطة ذهنية لربط الأفكار الرئيسية.|noun
 L|التعلّم عبر الإنترنت|Learning Online|أن يناقش المتعلم مزايا التعلّم عن بُعد وعيوبه.|Online courses are flexible, but you need a lot of self-discipline to finish them.|الدورات عبر الإنترنت مرنة، لكنك تحتاج إلى انضباط ذاتي كبير لإنهائها.|To discuss the advantages and disadvantages of distance learning.
@@ -212,7 +212,7 @@ W|at your own pace|بالسرعة التي تناسبك|You can study at your ow
 W|webinar|ندوة عبر الإنترنت|I attended a webinar about academic writing.|حضرت ندوة عبر الإنترنت عن الكتابة الأكاديمية.|noun
 W|discussion forum|منتدى نقاش|Students ask questions in the discussion forum.|يطرح الطلاب أسئلة في منتدى النقاش.|noun
 W|assignment|واجب دراسي|I submitted the assignment before the deadline.|قدمت الواجب الدراسي قبل الموعد النهائي.|noun
-W|log in|يسجل الدخول|I log in to the platform before each lesson.|أسجل الدخول إلى المنصة قبل كل درس.|phrasal verb
+W|course access|إمكانية الدخول إلى الدورة|My course access lasts for six months.|تستمر إمكانية دخولي إلى الدورة ستة أشهر.|noun
 L|المهارات الشخصية|Soft Skills|أن يتحدث المتعلم عن المهارات الشخصية المهمة في العمل والدراسة.|Employers value people who can work well in a team and solve problems.|يقدّر أصحاب العمل الأشخاص القادرين على العمل جيدًا ضمن فريق وحل المشكلات.|To talk about the soft skills that matter at work and in study.
 W|employer|صاحب العمل|My employer pays for my training.|يدفع صاحب عملي تكاليف تدريبي.|noun
 W|value|يقدّر|I value honesty more than anything.|أقدّر الصدق أكثر من أي شيء.|verb
@@ -244,7 +244,7 @@ W|fare|أجرة (المواصلات)|The bus fare has gone up.|ارتفعت أج
 W|route|مسار؛ طريق|Which route is the fastest?|أي مسار هو الأسرع؟|noun
 W|frequent|متكرر|Trains are frequent on weekdays.|القطارات متكررة في أيام الأسبوع.|adjective
 W|delay|تأخير|A signal problem caused a twenty-minute delay.|تسببت مشكلة في الإشارة في تأخير لمدة عشرين دقيقة.|noun
-W|platform|رصيف محطة|The train to Oxford leaves from platform six.|يغادر قطار أكسفورد من الرصيف السادس.|noun
+W|departure board|لوحة المغادرة|Check the departure board before you go to the platform.|تحقق من لوحة المغادرة قبل أن تذهب إلى رصيف القطار.|noun
 W|season ticket|اشتراك مواصلات موسمي|A season ticket is cheaper if you travel every day.|الاشتراك الموسمي أرخص إذا كنت تسافر يوميًا.|noun
 W|connection|وصلة مواصلات|I missed my connection because the first bus was late.|فاتتني وصلة المواصلات لأن الحافلة الأولى تأخرت.|noun
 L|مشكلات السكن|Housing Problems|أن يصف المتعلم مشكلات السكن في المدن ويقترح حلولًا.|House prices have risen so much that many young people can't afford to buy.|ارتفعت أسعار المنازل كثيرًا لدرجة أن كثيرًا من الشباب لا يستطيعون الشراء.|To describe housing problems in cities and suggest solutions.
@@ -288,7 +288,7 @@ W|vegetarian|نباتي|My sister has been vegetarian for years.|أختي نبا
 W|junk food|الوجبات السريعة غير الصحية|Try to avoid junk food.|حاول تجنّب الوجبات السريعة غير الصحية.|noun
 W|nutrition|التغذية|Good nutrition is important for children.|التغذية الجيدة مهمة للأطفال.|noun
 W|allergic|لديه حساسية|I'm allergic to nuts.|لدي حساسية من المكسرات.|adjective
-W|balanced diet|نظام غذائي متوازن|A balanced diet includes a variety of foods.|يشمل النظام الغذائي المتوازن مجموعة متنوعة من الأطعمة.|noun
+W|whole foods|أطعمة كاملة قليلة التصنيع|I try to base most meals on whole foods rather than highly processed products.|أحاول أن أجعل معظم وجباتي قائمة على أطعمة كاملة بدل المنتجات شديدة التصنيع.|noun
 W|fibre|ألياف|Whole grains are a useful source of fibre.|الحبوب الكاملة مصدر مفيد للألياف.|noun
 W|processed food|طعام مصنع|I try not to rely on processed food every day.|أحاول ألا أعتمد على الطعام المصنع يوميًا.|noun
 W|portion size|حجم الحصة|Checking portion size can help you understand how much you are eating.|يمكن أن يساعد فحص حجم الحصة على فهم مقدار ما تأكله.|noun
@@ -323,7 +323,7 @@ W|grateful|ممتن|I'm grateful for your help.|أنا ممتن لمساعدتك
 W|embarrassed|محرَج|She was embarrassed when she forgot his name.|شعرت بالإحراج عندما نسيت اسمه.|adjective
 W|anxious|قلق|I feel anxious about the results.|أشعر بالقلق بشأن النتائج.|adjective
 W|disappointed|خائب الأمل|I felt disappointed when the event was cancelled.|شعرت بخيبة أمل عندما أُلغي الحدث.|adjective
-W|overwhelmed|مرهق نفسيًا|She felt overwhelmed by the amount of work she had to do.|شعرت بالإرهاق النفسي بسبب كمية العمل التي كان عليها إنجازها.|adjective
+W|uneasy|غير مرتاح نفسيًا|I felt uneasy before speaking to the manager.|شعرت بعدم الارتياح قبل التحدث إلى المدير.|adjective
 W|cheerful|مبتهج|He sounded cheerful after hearing the good news.|بدا مبتهجًا بعد سماع الخبر الجيد.|adjective
 W|guilty|شاعر بالذنب|I felt guilty for forgetting my friend's birthday.|شعرت بالذنب لأنني نسيت عيد ميلاد صديقي.|adjective
 L|أحداث غير متوقعة|Unexpected Events|أن يحكي المتعلم موقفًا غير متوقع مستخدمًا الماضي المستمر والبسيط.|While I was waiting for the bus, I happened to bump into an old school friend.|بينما كنت أنتظر الحافلة، صادفت صديقًا قديمًا من المدرسة.|To tell about an unexpected situation using the past continuous and past simple.
@@ -355,7 +355,7 @@ W|my fault|خطئي|It was my fault, not yours.|كان خطئي، لا خطؤك.
 W|put right|يُصلح الخطأ|We will do our best to put things right.|سنبذل قصارى جهدنا لإصلاح الأمر.|phrasal verb
 W|accidentally|عن غير قصد|I accidentally deleted your file.|حذفت ملفك عن غير قصد.|adverb
 W|forgive|يسامح|Please forgive me.|أرجو أن تسامحني.|verb
-W|inconvenience|إزعاج|I'm sorry for the inconvenience this delay has caused.|أعتذر عن الإزعاج الذي سببه هذا التأخير.|noun
+W|apology|اعتذار|I offered a sincere apology for missing the meeting.|قدمت اعتذارًا صادقًا عن تفويت الاجتماع.|noun
 W|explanation|توضيح|I owe you an explanation for missing the meeting.|أدين لك بتوضيح لسبب تفويتي الاجتماع.|noun
 W|make amends|يعوض عن الخطأ|I want to make amends by replacing what I damaged.|أريد أن أعوض عن الخطأ باستبدال ما أتلفته.|verb phrase
-W|responsibility|مسؤولية|I accept responsibility for sending the wrong file.|أتحمل مسؤولية إرسال الملف الخطأ.|noun
+W|take ownership|يتحمل المسؤولية|I need to take ownership of the mistake and correct it.|أحتاج إلى تحمل مسؤولية الخطأ وتصحيحه.|verb phrase

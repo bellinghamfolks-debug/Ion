@@ -63,6 +63,38 @@
        "exampleArabic": "قد يكون بعض الضرر غير قابل للإصلاح.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "carbon-intensive",
+       "arabic": "كثيف الانبعاثات الكربونية",
+       "example": "Heavy industry can be carbon-intensive when it relies on fossil energy.",
+       "exampleArabic": "قد تكون الصناعات الثقيلة كثيفة الانبعاثات الكربونية عندما تعتمد على الطاقة الأحفورية.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "industrial process",
+       "arabic": "عملية صناعية",
+       "example": "Some industrial processes release large amounts of carbon dioxide.",
+       "exampleArabic": "تطلق بعض العمليات الصناعية كميات كبيرة من ثاني أكسيد الكربون.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "land-use change",
+       "arabic": "تغير استخدام الأراضي",
+       "example": "Land-use change can reduce the amount of carbon stored in forests.",
+       "exampleArabic": "يمكن أن يقلل تغير استخدام الأراضي كمية الكربون المخزنة في الغابات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "mitigate",
+       "arabic": "يخفف",
+       "example": "Governments can mitigate emissions through cleaner energy and efficiency measures.",
+       "exampleArabic": "يمكن للحكومات تخفيف الانبعاثات من خلال طاقة أنظف وإجراءات كفاءة.",
+       "partOfSpeech": "verb",
+       "phonetic": null
       }
      ]
     },
@@ -119,6 +151,38 @@
        "arabic": "تحوّل؛ انتقال",
        "example": "The transition to clean energy will take decades.",
        "exampleArabic": "سيستغرق التحوّل إلى الطاقة النظيفة عقودًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "intermittent",
+       "arabic": "متقطع",
+       "example": "Solar and wind power are intermittent because output changes with the weather.",
+       "exampleArabic": "الطاقة الشمسية وطاقة الرياح متقطعتان لأن الإنتاج يتغير مع الطقس.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "battery storage",
+       "arabic": "تخزين بالبطاريات",
+       "example": "Battery storage can supply electricity when renewable output falls.",
+       "exampleArabic": "يمكن لتخزين البطاريات توفير الكهرباء عندما ينخفض إنتاج الطاقة المتجددة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "capacity",
+       "arabic": "قدرة إنتاجية",
+       "example": "The country plans to increase its renewable capacity over the next decade.",
+       "exampleArabic": "تخطط الدولة لزيادة قدرتها الإنتاجية من الطاقة المتجددة خلال العقد المقبل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "renewable source",
+       "arabic": "مصدر متجدد",
+       "example": "Wind is a renewable source of electricity.",
+       "exampleArabic": "الرياح مصدر متجدد للكهرباء.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -179,6 +243,38 @@
        "exampleArabic": "حققت مبادرة إعادة التدوير نجاحًا كبيرًا.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "mixed-use development",
+       "arabic": "تطوير متعدد الاستخدامات",
+       "example": "Mixed-use development places homes, shops and services closer together.",
+       "exampleArabic": "يجعل التطوير متعدد الاستخدامات المنازل والمتاجر والخدمات أقرب إلى بعضها.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "public transport network",
+       "arabic": "شبكة نقل عام",
+       "example": "A reliable public transport network can reduce dependence on cars.",
+       "exampleArabic": "يمكن لشبكة نقل عام موثوقة أن تقلل الاعتماد على السيارات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "density",
+       "arabic": "كثافة عمرانية",
+       "example": "Higher density can support frequent public transport when it is well planned.",
+       "exampleArabic": "يمكن للكثافة العمرانية الأعلى أن تدعم نقلًا عامًا متكررًا عندما يكون التخطيط جيدًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "urban planning",
+       "arabic": "تخطيط حضري",
+       "example": "Good urban planning should consider housing, mobility and public space together.",
+       "exampleArabic": "ينبغي للتخطيط الحضري الجيد أن ينظر إلى السكن والتنقل والمساحات العامة معًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -236,6 +332,38 @@
        "example": "Coral reefs are rich in biodiversity.",
        "exampleArabic": "الشعاب المرجانية غنية بالتنوع الحيوي.",
        "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "conservation programme",
+       "arabic": "برنامج حماية",
+       "example": "A conservation programme helped protect nesting sites along the coast.",
+       "exampleArabic": "ساعد برنامج حماية في صون مواقع التعشيش على الساحل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "illegal hunting",
+       "arabic": "صيد غير قانوني",
+       "example": "Illegal hunting remains a threat to several endangered species.",
+       "exampleArabic": "لا يزال الصيد غير القانوني تهديدًا لعدة أنواع مهددة بالانقراض.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "protected area",
+       "arabic": "منطقة محمية",
+       "example": "The species has recovered in some protected areas.",
+       "exampleArabic": "تعافى النوع في بعض المناطق المحمية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "restore a population",
+       "arabic": "يعيد تكوين جماعة حيوية",
+       "example": "Breeding projects can help restore a population when habitat is also protected.",
+       "exampleArabic": "يمكن لمشروعات التكاثر أن تساعد في إعادة تكوين جماعة حيوية عندما تُحمى الموائل أيضًا.",
+       "partOfSpeech": "verb phrase",
        "phonetic": null
       }
      ]
@@ -304,6 +432,38 @@
        "exampleArabic": "معظم العدوى قابلة للعلاج الآن.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "medical evidence",
+       "arabic": "دليل طبي",
+       "example": "Treatment decisions should be based on medical evidence and individual circumstances.",
+       "exampleArabic": "ينبغي أن تستند قرارات العلاج إلى دليل طبي والظروف الفردية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "risk-benefit balance",
+       "arabic": "موازنة المخاطر والفوائد",
+       "example": "Doctors consider the risk-benefit balance before recommending some treatments.",
+       "exampleArabic": "ينظر الأطباء في موازنة المخاطر والفوائد قبل التوصية ببعض العلاجات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "patient outcome",
+       "arabic": "نتيجة المريض",
+       "example": "Researchers measure patient outcomes to assess whether an intervention helps.",
+       "exampleArabic": "يقيس الباحثون نتائج المرضى لتقييم ما إذا كان التدخل مفيدًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "peer-reviewed study",
+       "arabic": "دراسة محكمة",
+       "example": "A single peer-reviewed study can be informative without settling the question on its own.",
+       "exampleArabic": "قد تكون دراسة محكمة واحدة مفيدة دون أن تحسم المسألة بمفردها.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -360,6 +520,38 @@
        "arabic": "المرونة النفسية",
        "example": "Sport can build resilience in children.",
        "exampleArabic": "يمكن للرياضة أن تبني المرونة النفسية لدى الأطفال.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "counselling",
+       "arabic": "إرشاد نفسي",
+       "example": "Counselling can provide structured support for some people.",
+       "exampleArabic": "يمكن للإرشاد النفسي أن يقدم دعمًا منظمًا لبعض الأشخاص.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "support network",
+       "arabic": "شبكة دعم",
+       "example": "A strong support network can make stressful periods easier to manage.",
+       "exampleArabic": "يمكن لشبكة دعم قوية أن تجعل الفترات المجهدة أسهل في التعامل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "mental health professional",
+       "arabic": "مختص صحة نفسية",
+       "example": "A mental health professional can assess symptoms and discuss appropriate options.",
+       "exampleArabic": "يمكن لمختص صحة نفسية تقييم الأعراض ومناقشة الخيارات المناسبة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "chronic stress",
+       "arabic": "ضغط نفسي مزمن",
+       "example": "Chronic stress can affect sleep, concentration and wellbeing.",
+       "exampleArabic": "قد يؤثر الضغط النفسي المزمن في النوم والتركيز والعافية.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -420,6 +612,38 @@
        "exampleArabic": "تستهدف الإعلانات الشباب.",
        "partOfSpeech": "verb",
        "phonetic": null
+      },
+      {
+       "english": "behavioural change",
+       "arabic": "تغيير سلوكي",
+       "example": "Awareness alone does not always lead to behavioural change.",
+       "exampleArabic": "لا يؤدي الوعي وحده دائمًا إلى تغيير سلوكي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "intervention",
+       "arabic": "تدخل",
+       "example": "Researchers evaluated whether the intervention changed smoking habits.",
+       "exampleArabic": "قيّم الباحثون ما إذا كان التدخل قد غيّر عادات التدخين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "long-term effect",
+       "arabic": "أثر طويل الأجل",
+       "example": "The study could not determine the long-term effect of the campaign.",
+       "exampleArabic": "لم تتمكن الدراسة من تحديد الأثر طويل الأجل للحملة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "evidence",
+       "arabic": "دليل",
+       "example": "Strong evidence is needed before claiming that a campaign caused a change.",
+       "exampleArabic": "نحتاج إلى دليل قوي قبل الادعاء بأن حملة ما تسببت في تغيير.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -476,6 +700,38 @@
        "arabic": "الاعتدال",
        "example": "Sweets are fine in moderation.",
        "exampleArabic": "لا بأس بالحلويات باعتدال.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "causal link",
+       "arabic": "علاقة سببية",
+       "example": "An association does not automatically prove a causal link.",
+       "exampleArabic": "لا يثبت الارتباط تلقائيًا وجود علاقة سببية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "nutritional evidence",
+       "arabic": "دليل تغذوي",
+       "example": "Nutritional evidence is often more complex than a simple good-or-bad label.",
+       "exampleArabic": "غالبًا ما يكون الدليل التغذوي أعقد من تصنيف بسيط إلى جيد أو سيئ.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "portion",
+       "arabic": "حصة غذائية",
+       "example": "The effect of a food may depend partly on the portion and the overall diet.",
+       "exampleArabic": "قد يعتمد أثر طعام ما جزئيًا على الحصة والنظام الغذائي العام.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "individual variation",
+       "arabic": "اختلاف فردي",
+       "example": "Individual variation means the same diet may not suit everyone equally.",
+       "exampleArabic": "يعني الاختلاف الفردي أن النظام الغذائي نفسه قد لا يناسب الجميع بالقدر ذاته.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -545,6 +801,38 @@
        "exampleArabic": "أثّر اختراق البيانات على ملايين العملاء.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "data protection",
+       "arabic": "حماية البيانات",
+       "example": "Data protection rules limit how organisations may use personal information.",
+       "exampleArabic": "تقيد قواعد حماية البيانات كيفية استخدام المؤسسات للمعلومات الشخصية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "privacy policy",
+       "arabic": "سياسة الخصوصية",
+       "example": "I read the privacy policy before creating an account.",
+       "exampleArabic": "قرأت سياسة الخصوصية قبل إنشاء حساب.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "opt out",
+       "arabic": "يرفض المشاركة",
+       "example": "Users should be able to opt out of optional tracking where the service allows it.",
+       "exampleArabic": "ينبغي أن يتمكن المستخدمون من رفض التتبع الاختياري عندما تسمح الخدمة بذلك.",
+       "partOfSpeech": "phrasal verb",
+       "phonetic": null
+      },
+      {
+       "english": "data retention",
+       "arabic": "الاحتفاظ بالبيانات",
+       "example": "The notice explains how long data retention may continue.",
+       "exampleArabic": "يوضح الإشعار المدة التي قد يستمر فيها الاحتفاظ بالبيانات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -602,6 +890,38 @@
        "example": "That headline is pure clickbait.",
        "exampleArabic": "ذلك العنوان مجرد طُعم للنقرات.",
        "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "recommendation system",
+       "arabic": "نظام توصية",
+       "example": "A recommendation system selects content based on signals from user behaviour.",
+       "exampleArabic": "يختار نظام التوصية المحتوى استنادًا إلى مؤشرات من سلوك المستخدم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "attention economy",
+       "arabic": "اقتصاد الانتباه",
+       "example": "The attention economy rewards content that keeps people watching and clicking.",
+       "exampleArabic": "يكافئ اقتصاد الانتباه المحتوى الذي يبقي الناس يشاهدون وينقرون.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "filter bubble",
+       "arabic": "فقاعة ترشيح",
+       "example": "A filter bubble may limit the range of viewpoints a user encounters.",
+       "exampleArabic": "قد تحد فقاعة الترشيح من تنوع وجهات النظر التي يواجهها المستخدم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "misleading",
+       "arabic": "مضلل",
+       "example": "A viral post can be misleading even when part of it is technically true.",
+       "exampleArabic": "قد يكون المنشور واسع الانتشار مضللًا حتى لو كان جزء منه صحيحًا تقنيًا.",
+       "partOfSpeech": "adjective",
        "phonetic": null
       }
      ]
@@ -661,6 +981,38 @@
        "exampleArabic": "في حين أنني أوافق من حيث المبدأ، لدي بعض الشكوك.",
        "partOfSpeech": "conjunction",
        "phonetic": null
+      },
+      {
+       "english": "labour-market shift",
+       "arabic": "تحول في سوق العمل",
+       "example": "A labour-market shift can change which skills employers need.",
+       "exampleArabic": "يمكن لتحول في سوق العمل أن يغير المهارات التي يحتاجها أصحاب العمل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "reskill",
+       "arabic": "يعيد التأهيل المهاري",
+       "example": "Some workers may need to reskill as technology changes their roles.",
+       "exampleArabic": "قد يحتاج بعض العاملين إلى إعادة التأهيل المهاري مع تغير أدوارهم بسبب التقنية.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "routine task",
+       "arabic": "مهمة روتينية",
+       "example": "Software can automate a routine task without replacing an entire occupation.",
+       "exampleArabic": "يمكن للبرمجيات أتمتة مهمة روتينية دون استبدال مهنة كاملة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "productivity gain",
+       "arabic": "مكسب في الإنتاجية",
+       "example": "A productivity gain does not necessarily benefit every worker equally.",
+       "exampleArabic": "لا يفيد مكسب الإنتاجية بالضرورة كل عامل بالقدر نفسه.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -718,6 +1070,38 @@
        "example": "Your messages are encrypted end to end.",
        "exampleArabic": "رسائلك مشفّرة من طرف إلى طرف.",
        "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "password manager",
+       "arabic": "مدير كلمات مرور",
+       "example": "A password manager can help users create and store strong passwords.",
+       "exampleArabic": "يمكن لمدير كلمات المرور مساعدة المستخدمين على إنشاء كلمات قوية وتخزينها.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "data leak",
+       "arabic": "تسرب بيانات",
+       "example": "The company reset accounts after discovering a data leak.",
+       "exampleArabic": "أعادت الشركة ضبط الحسابات بعد اكتشاف تسرب بيانات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "malware",
+       "arabic": "برمجية خبيثة",
+       "example": "Malware can enter a device through a malicious attachment or download.",
+       "exampleArabic": "قد تدخل البرمجية الخبيثة إلى الجهاز عبر مرفق أو تنزيل ضار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "security update",
+       "arabic": "تحديث أمني",
+       "example": "Install each security update promptly to reduce known vulnerabilities.",
+       "exampleArabic": "ثبّت كل تحديث أمني سريعًا لتقليل الثغرات المعروفة.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -786,6 +1170,38 @@
        "exampleArabic": "يعاني بعض العاملين عن بُعد من العزلة.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "asynchronous",
+       "arabic": "غير متزامن",
+       "example": "Asynchronous communication lets colleagues respond at different times.",
+       "exampleArabic": "يسمح التواصل غير المتزامن للزملاء بالرد في أوقات مختلفة.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "collaboration",
+       "arabic": "تعاون",
+       "example": "Good collaboration requires clear expectations as well as useful tools.",
+       "exampleArabic": "يتطلب التعاون الجيد توقعات واضحة إلى جانب أدوات مفيدة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "boundary",
+       "arabic": "حد فاصل",
+       "example": "A clear boundary between work and home can make it easier to switch off.",
+       "exampleArabic": "يمكن لحد فاصل واضح بين العمل والمنزل أن يسهل الانفصال عن العمل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "home office",
+       "arabic": "مكتب منزلي",
+       "example": "A quiet home office can improve concentration for some remote workers.",
+       "exampleArabic": "يمكن لمكتب منزلي هادئ أن يحسن التركيز لبعض العاملين عن بعد.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -842,6 +1258,38 @@
        "arabic": "قفزة",
        "example": "Moving abroad was a big leap for me.",
        "exampleArabic": "كان الانتقال إلى الخارج قفزة كبيرة بالنسبة لي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "career break",
+       "arabic": "انقطاع مهني",
+       "example": "She took a career break before deciding what to do next.",
+       "exampleArabic": "أخذت انقطاعًا مهنيًا قبل أن تقرر خطوتها التالية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "retraining course",
+       "arabic": "دورة إعادة تأهيل",
+       "example": "He enrolled in a retraining course to move into cybersecurity.",
+       "exampleArabic": "التحق بدورة إعادة تأهيل للانتقال إلى الأمن السيبراني.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "transferable experience",
+       "arabic": "خبرة قابلة للنقل",
+       "example": "Customer service gave her transferable experience for a new career.",
+       "exampleArabic": "منحتها خدمة العملاء خبرة قابلة للنقل إلى مسار مهني جديد.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "uncertainty",
+       "arabic": "عدم يقين",
+       "example": "Changing careers often involves financial and professional uncertainty.",
+       "exampleArabic": "ينطوي تغيير المسار المهني غالبًا على عدم يقين مالي ومهني.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -902,6 +1350,38 @@
        "exampleArabic": "لنحافظ على النقاش بنّاءً.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "misunderstanding",
+       "arabic": "سوء فهم",
+       "example": "A small misunderstanding can grow if nobody addresses it early.",
+       "exampleArabic": "قد يكبر سوء الفهم البسيط إذا لم يعالجه أحد مبكرًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "shared interest",
+       "arabic": "مصلحة مشتركة",
+       "example": "The two sides identified a shared interest before discussing the disagreement.",
+       "exampleArabic": "حدد الطرفان مصلحة مشتركة قبل مناقشة الخلاف.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "neutral party",
+       "arabic": "طرف محايد",
+       "example": "A neutral party can help when two colleagues cannot resolve a dispute alone.",
+       "exampleArabic": "يمكن لطرف محايد أن يساعد عندما يعجز زميلان عن حل نزاع بمفردهما.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "de-escalate",
+       "arabic": "يهدئ التصعيد",
+       "example": "Speaking calmly can help de-escalate a tense conversation.",
+       "exampleArabic": "يمكن للتحدث بهدوء أن يساعد على تهدئة محادثة متوترة.",
+       "partOfSpeech": "verb",
+       "phonetic": null
       }
      ]
     },
@@ -958,6 +1438,38 @@
        "arabic": "ترقية",
        "example": "She got a promotion after two years.",
        "exampleArabic": "حصلت على ترقية بعد عامين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "performance target",
+       "arabic": "هدف أداء",
+       "example": "A performance target should be specific enough to measure fairly.",
+       "exampleArabic": "ينبغي أن يكون هدف الأداء محددًا بما يكفي لقياسه بعدل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "constructive feedback",
+       "arabic": "ملاحظات بناءة",
+       "example": "Constructive feedback explains both what worked and what could improve.",
+       "exampleArabic": "توضح الملاحظات البناءة ما نجح وما يمكن تحسينه.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "development plan",
+       "arabic": "خطة تطوير",
+       "example": "My manager and I agreed on a development plan for the next six months.",
+       "exampleArabic": "اتفقت مع مديري على خطة تطوير للأشهر الستة المقبلة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "documented evidence",
+       "arabic": "أدلة موثقة",
+       "example": "A fair appraisal should refer to documented evidence rather than vague impressions.",
+       "exampleArabic": "ينبغي للتقييم العادل أن يستند إلى أدلة موثقة بدل الانطباعات المبهمة.",
        "partOfSpeech": "noun",
        "phonetic": null
       }

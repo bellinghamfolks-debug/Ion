@@ -942,5 +942,233 @@
       "explanationAr": "Wait here تطلب البقاء والانتظار. الخياران الآخران يطلبان الحركة في اتجاه محدد.",
       "explanationEn": "Wait here asks someone to stay and wait. The other two instructions ask them to move in a particular direction."
     }
+  },
+  "a0-u9-l1": {
+    "focusAr": "wake up تعني الاستيقاظ، وsleep النوم نفسه. لتحديد الوقت قل at ten o'clock، وللفترة قل in the morning أو at night. early تعني مبكرًا وتأتي طبيعيًا بعد الفعل: I wake up early.",
+    "focusEn": "Wake up means stop sleeping; sleep names the sleeping activity. State a clock time with at ten o'clock, or a period with in the morning or at night. Early naturally follows the verb in I wake up early.",
+    "taskAr": "قل إنك تستيقظ مبكرًا وتشرب الماء.",
+    "taskEn": "Say that you wake up early and drink water.",
+    "exampleEn": "I wake up early and drink water.",
+    "exampleAr": "أستيقظ مبكرًا وأشرب الماء.",
+    "check": {
+      "promptEn": "Complete: I wake up _____ six o'clock.",
+      "choices": [
+        "at",
+        "in",
+        "on"
+      ],
+      "answer": "at",
+      "explanationAr": "نستخدم at مع وقت محدد على الساعة. in the morning عبارة مختلفة لفترة من اليوم.",
+      "explanationEn": "Use at with a specific clock time. In the morning is a different phrase for a period of the day."
+    }
+  },
+  "a0-u9-l2": {
+    "focusAr": "go to school تعني الذهاب إلى المدرسة، لكن مع home نقول go home دون to. come back تعني العودة، وليست بالضرورة المشي إلى الخلف. للتعبير عن وجودك في المنزل استخدم at home.",
+    "focusEn": "Go to school names a destination, but with home say go home without to. Come back means return; it does not necessarily mean moving backwards. Use at home to describe being in your home.",
+    "taskAr": "قل إنك تعود إلى المنزل في الخامسة باستخدام come back.",
+    "taskEn": "Say that you return home at five using come back.",
+    "exampleEn": "I come back home at five.",
+    "exampleAr": "أعود إلى المنزل في الخامسة.",
+    "check": {
+      "promptEn": "Choose the natural phrase.",
+      "choices": [
+        "go home",
+        "go to home",
+        "go at home"
+      ],
+      "answer": "go home",
+      "explanationAr": "تأتي home مباشرة بعد go في هذا المعنى. أما at home فتستخدم لوصف وجودك في المنزل.",
+      "explanationEn": "Home follows go directly in this meaning. At home describes being at your home."
+    }
+  },
+  "a0-u9-l3": {
+    "focusAr": "read للقراءة وwrite للكتابة. study تصف قضاء وقت في الدراسة، وlearn اكتساب معرفة أو مهارة. عند ذكر الأداة التي تكتب بها استخدم with: write with a pen.",
+    "focusEn": "Read and write name different activities. Study describes spending time on learning; learn describes gaining knowledge or a skill. Use with to name the tool you write with: write with a pen.",
+    "taskAr": "قل إنك تكتب بقلم.",
+    "taskEn": "Say that you write with a pen.",
+    "exampleEn": "I write with a pen.",
+    "exampleAr": "أكتب بقلم.",
+    "check": {
+      "promptEn": "Complete: I write _____ a pen.",
+      "choices": [
+        "with",
+        "at",
+        "from"
+      ],
+      "answer": "with",
+      "explanationAr": "with تربط فعل الكتابة بالأداة المستخدمة، وهي القلم.",
+      "explanationEn": "With connects the action of writing to the tool used, the pen."
+    }
+  },
+  "a0-u9-l4": {
+    "focusAr": "work وrest فعلان في I work وI rest. أما busy وfree فصفتان تحتاجان إلى am مع I. free في هذا السياق تعني متفرغًا، وقد تعني مجانًا في سياق الأسعار.",
+    "focusEn": "Work and rest are verbs in I work and I rest. Busy and free are adjectives and need am with I. Free means available in this context; it can mean costing nothing in a price context.",
+    "taskAr": "قل إنك مشغول اليوم باستخدام busy.",
+    "taskEn": "Say that you are busy today using busy.",
+    "exampleEn": "I am busy today.",
+    "exampleAr": "أنا مشغول اليوم.",
+    "check": {
+      "promptEn": "Choose the correct sentence.",
+      "choices": [
+        "I am busy.",
+        "I busy.",
+        "I am work."
+      ],
+      "answer": "I am busy.",
+      "explanationAr": "busy صفة وتحتاج إلى am. أما work فهو فعل في I work ولا نضيف قبله am في المضارع البسيط.",
+      "explanationEn": "Busy is an adjective and needs am. Work is a verb in I work; do not add am before it in the simple present."
+    }
+  },
+  "a0-u9-l5": {
+    "focusAr": "open قد تكون فعلًا: I open the door، أو صفة: The door is open. للطلب استخدم Close the door، ولوصف الحالة بعد الإغلاق قل The door is closed. لا تخلط بين فعل الإغلاق ووصف حالة الباب.",
+    "focusEn": "Open can be a verb: I open the door, or an adjective: The door is open. Give an instruction with Close the door; describe the resulting state with The door is closed. Distinguish the action from the state.",
+    "taskAr": "اطلب إغلاق الصندوق بأدب.",
+    "taskEn": "Politely ask someone to close the box.",
+    "exampleEn": "Close the box, please.",
+    "exampleAr": "أغلق الصندوق، من فضلك.",
+    "check": {
+      "promptEn": "Which sentence describes an action by the speaker?",
+      "choices": [
+        "I open the door.",
+        "The door is open.",
+        "The door is closed."
+      ],
+      "answer": "I open the door.",
+      "explanationAr": "I open the door تخبر بما يفعله المتكلم. الجملتان الأخريان تصفان حالة الباب.",
+      "explanationEn": "I open the door tells us what the speaker does. The other two sentences describe the door's state."
+    }
+  },
+  "a0-u9-l6": {
+    "focusAr": "sit down تعني اجلس وstand up تعني قف. لا نترجم down وup حرفيًا كلمةً كلمة في هذين الطلبين. لتحديد المكان قل sit on the chair أو stand near the door.",
+    "focusEn": "Sit down and stand up are common instructions. Do not translate down and up separately in these phrases. Name a position with sit on the chair or stand near the door.",
+    "taskAr": "اطلب من شخص أن يجلس هنا بأدب.",
+    "taskEn": "Politely ask someone to sit here.",
+    "exampleEn": "Please sit here.",
+    "exampleAr": "من فضلك، اجلس هنا.",
+    "check": {
+      "promptEn": "Complete the instruction: Please stand _____.",
+      "choices": [
+        "up",
+        "down",
+        "under"
+      ],
+      "answer": "up",
+      "explanationAr": "الطلب المعتاد للنهوض إلى وضع الوقوف هو stand up. sit down طلب الجلوس.",
+      "explanationEn": "The usual instruction to rise to a standing position is stand up. Sit down asks someone to sit."
+    }
+  },
+  "a0-u10-l1": {
+    "focusAr": "استخدم It is مع صفة الطقس: It is hot. لا تحذف It رغم أن الترجمة العربية تقول «الجو حار». warm أدفأ من البارد لكنه أقل حرارة من hot في الوصف المعتاد، وhot قد تصف مشروبًا ساخنًا أيضًا.",
+    "focusEn": "Use It is with a weather adjective: It is hot. Keep It even though Arabic expresses the subject differently. Warm usually describes a lower temperature than hot. Hot can also describe a drink.",
+    "taskAr": "قل إن الجو دافئ اليوم.",
+    "taskEn": "Say that the weather is warm today.",
+    "exampleEn": "It is warm today.",
+    "exampleAr": "الجو دافئ اليوم.",
+    "check": {
+      "promptEn": "Choose the complete weather sentence.",
+      "choices": [
+        "It is hot today.",
+        "Is hot today.",
+        "It hot today."
+      ],
+      "answer": "It is hot today.",
+      "explanationAr": "الجملة الإنجليزية الكاملة تحتاج إلى الفاعل It وفعل الربط is قبل hot.",
+      "explanationEn": "The complete English sentence needs the subject It and the linking verb is before hot."
+    }
+  },
+  "a0-u10-l2": {
+    "focusAr": "rain اسم بمعنى مطر، أما rainy فصفة بمعنى ممطر. لوصف الجو قل It is rainy، لا It is rain. اربط صفتين بـ and عندما تريد وصف البرودة والمطر معًا.",
+    "focusEn": "Rain is a noun; rainy is an adjective. Describe the weather with It is rainy, not It is rain. Join two adjectives with and to describe both cold weather and rain.",
+    "taskAr": "صف الجو بأنه بارد وممطر.",
+    "taskEn": "Describe the weather as cold and rainy.",
+    "exampleEn": "It is cold and rainy.",
+    "exampleAr": "الجو بارد وممطر.",
+    "check": {
+      "promptEn": "Complete: It is cold and _____.",
+      "choices": [
+        "rainy",
+        "rain",
+        "a rain"
+      ],
+      "answer": "rainy",
+      "explanationAr": "تحتاج الجملة إلى صفة توازي cold، لذا نستخدم rainy. rain اسم للمطر.",
+      "explanationEn": "The sentence needs an adjective alongside cold, so use rainy. Rain is the noun."
+    }
+  },
+  "a0-u10-l3": {
+    "focusAr": "قل I need help لطلب المساعدة، ثم أضف please للتهذيب أو now لتوضيح الحاجة الحالية. help اسم غير معدود في هذا الاستعمال، لذلك لا نقول a help. ويمكنك تحديد الشخص بقول your help.",
+    "focusEn": "Say I need help to request assistance, adding please to be polite or now to show an immediate need. Help is uncountable in this use, so do not say a help. Your help identifies whose assistance you need.",
+    "taskAr": "اطلب مساعدة الشخص الذي تخاطبه بأدب.",
+    "taskEn": "Politely ask for the listener's help.",
+    "exampleEn": "I need your help, please.",
+    "exampleAr": "أحتاج مساعدتك، من فضلك.",
+    "check": {
+      "promptEn": "Choose the natural request.",
+      "choices": [
+        "I need help, please.",
+        "I need a help, please.",
+        "I am need help, please."
+      ],
+      "answer": "I need help, please.",
+      "explanationAr": "نستخدم need فعلًا بعد I، وhelp دون a لأنها غير معدودة في هذا المعنى.",
+      "explanationEn": "Use need as the verb after I and help without a because it is uncountable in this meaning."
+    }
+  },
+  "a0-u10-l4": {
+    "focusAr": "I do not understand تعني أنك لا تفهم الكلام، وI do not know أنك لا تعرف المعلومة. لتسهيل الفهم اطلب التكرار بـ again أو تقليل سرعة الكلام بـ slowly؛ فهما طلبان مختلفان.",
+    "focusEn": "I do not understand concerns understanding the message; I do not know concerns lacking information. Ask for repetition with again or a slower pace with slowly. These are different requests.",
+    "taskAr": "اطلب من المتحدث أن يتكلم ببطء.",
+    "taskEn": "Ask the speaker to speak slowly.",
+    "exampleEn": "Please speak slowly.",
+    "exampleAr": "من فضلك، تحدث ببطء.",
+    "check": {
+      "promptEn": "The speaker is too fast. Choose the request.",
+      "choices": [
+        "Please speak slowly.",
+        "Please speak louder.",
+        "Please stand up."
+      ],
+      "answer": "Please speak slowly.",
+      "explanationAr": "slowly تطلب إبطاء الكلام. louder تطلب رفع الصوت ولا تعني تقليل السرعة.",
+      "explanationEn": "Slowly asks for a slower pace. Louder asks for more volume, not less speed."
+    }
+  },
+  "a0-u10-l5": {
+    "focusAr": "ابدأ الطلب المهذب بـ Can you ثم الفعل بصيغته الأساسية: repeat أو say. لا تضف to بعد can. repeat تعني تكرار الكلام، وlouder تعني بصوت أعلى؛ اختر الطلب الذي تحتاج إليه.",
+    "focusEn": "Start a polite request with Can you followed by a base verb such as repeat or say. Do not add to after can. Repeat asks for the words again; louder asks for more volume. Choose the request that matches your need.",
+    "taskAr": "اطلب تكرار الكلام بأدب.",
+    "taskEn": "Politely ask someone to repeat what they said.",
+    "exampleEn": "Can you repeat that, please?",
+    "exampleAr": "هل يمكنك تكرار ذلك، من فضلك؟",
+    "check": {
+      "promptEn": "Complete: Can you _____ that, please?",
+      "choices": [
+        "repeat",
+        "to repeat",
+        "repeats"
+      ],
+      "answer": "repeat",
+      "explanationAr": "بعد can يأتي الفعل بصيغته الأساسية دون to ودون s.",
+      "explanationEn": "After can, use the base form of the verb without to or s."
+    }
+  },
+  "a0-u10-l6": {
+    "focusAr": "اجمع ما تعلمته في تسلسل مفهوم: تحية، ثم طلب مساعدة، ثم سؤال عن مكان. بعد الحصول على الإجابة قل Thank you. لا يكفي حفظ الكلمات منفردة؛ اربط كل عبارة بوظيفتها في المحادثة.",
+    "focusEn": "Combine the language in a clear order: greet someone, ask for help, then ask about a location. After receiving the answer, say Thank you. Connect each phrase to its purpose in the conversation.",
+    "taskAr": "حيّ شخصًا ثم اطلب مساعدته واسأل عن المستشفى.",
+    "taskEn": "Greet someone, ask for help and ask where the hospital is.",
+    "exampleEn": "Hello. I need help, please. Where is the hospital?",
+    "exampleAr": "مرحبًا. أحتاج مساعدة، من فضلك. أين المستشفى؟",
+    "check": {
+      "promptEn": "Someone has told you the way. Choose a polite response.",
+      "choices": [
+        "Thank you.",
+        "What is your name?",
+        "I am hungry."
+      ],
+      "answer": "Thank you.",
+      "explanationAr": "Thank you تشكر الشخص على إرشادك. السؤال عن الاسم أو ذكر الجوع لا يؤدي هذه الوظيفة.",
+      "explanationEn": "Thank you acknowledges the person's directions. Asking their name or mentioning hunger does not serve that purpose."
+    }
   }
 }

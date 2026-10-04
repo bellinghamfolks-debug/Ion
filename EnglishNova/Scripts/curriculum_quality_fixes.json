@@ -852,7 +852,8 @@
     },
     "a0-050-home-3": {
       "example": "I go home at five.",
-      "exampleArabic": "أعود إلى المنزل في الخامسة."
+      "exampleArabic": "أعود إلى المنزل في الخامسة.",
+      "partOfSpeech": "adverb"
     },
     "a0-051-write-2": {
       "example": "Write your name here.",
@@ -871,8 +872,8 @@
       "exampleArabic": "قف هنا من فضلك."
     },
     "a0-055-sun-2": {
-      "example": "The sun is hot today.",
-      "exampleArabic": "الشمس حارة اليوم."
+      "example": "The sun is in the sky.",
+      "exampleArabic": "الشمس في السماء."
     },
     "a0-055-weather-3": {
       "example": "The weather is nice today.",
@@ -1094,6 +1095,33 @@
     "a0-u8-l5-xv2": {
       "example": "My house is close to the school.",
       "exampleArabic": "منزلي قريب من المدرسة."
+    },
+    "a0-u9-l2-xv1": {
+      "english": "come back",
+      "partOfSpeech": "phrasal verb",
+      "phonetic": null
+    },
+    "a0-u9-l2-xv3": {
+      "example": "I am at home now.",
+      "exampleArabic": "أنا في المنزل الآن."
+    },
+    "a0-056-rain-2": {
+      "example": "Listen to the rain.",
+      "exampleArabic": "استمع إلى صوت المطر."
+    },
+    "a0-057-please-3": {
+      "partOfSpeech": "adverb"
+    },
+    "a0-u10-l1-xv3": {
+      "example": "Summer is hot here.",
+      "exampleArabic": "الصيف حار هنا."
+    },
+    "a0-u10-l2-xv3": {
+      "example": "Winter is cold here.",
+      "exampleArabic": "الشتاء بارد هنا."
+    },
+    "a0-038-eye-1": {
+      "exampleArabic": "أرى بعينيّ."
     }
   },
   "arabicGlossById": {

@@ -948,8 +948,8 @@
         ],
         "a0-050-come-2": [
           {
-            "example": "Please come here.",
-            "exampleArabic": "تعال هنا، من فضلك."
+            "example": "Can you come tomorrow?",
+            "exampleArabic": "هل يمكنك المجيء غدًا؟"
           }
         ],
         "a0-050-home-3": [
@@ -1141,7 +1141,7 @@
         "a0-054-stand-2": [
           {
             "example": "I stand near the door.",
-            "exampleArabic": "أقف بجانب الباب."
+            "exampleArabic": "أقف بالقرب من الباب."
           }
         ],
         "a0-054-chair-3": [
@@ -1183,13 +1183,13 @@
         "a0-055-hot-1": [
           {
             "example": "The tea is hot.",
-            "exampleArabic": "الشاي حار."
+            "exampleArabic": "الشاي ساخن."
           }
         ],
         "a0-055-sun-2": [
           {
-            "example": "The sun is big.",
-            "exampleArabic": "الشمس كبيرة."
+            "example": "The sun is behind a cloud.",
+            "exampleArabic": "الشمس خلف سحابة."
           }
         ],
         "a0-055-weather-3": [
@@ -1338,8 +1338,8 @@
         ],
         "a0-058-slowly-3": [
           {
-            "example": "Please speak slowly.",
-            "exampleArabic": "تكلم ببطء، من فضلك."
+            "example": "I read slowly.",
+            "exampleArabic": "أقرأ ببطء."
           }
         ]
       }

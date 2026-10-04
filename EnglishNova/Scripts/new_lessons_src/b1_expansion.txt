@@ -211,7 +211,7 @@ W|interact|يتفاعل|Students can interact with the teacher in live sessions.
 W|at your own pace|بالسرعة التي تناسبك|You can study at your own pace.|يمكنك الدراسة بالسرعة التي تناسبك.|phrase
 W|webinar|ندوة عبر الإنترنت|I attended a webinar about academic writing.|حضرت ندوة عبر الإنترنت عن الكتابة الأكاديمية.|noun
 W|discussion forum|منتدى نقاش|Students ask questions in the discussion forum.|يطرح الطلاب أسئلة في منتدى النقاش.|noun
-W|assignment|واجب دراسي|I submitted the assignment before the deadline.|قدمت الواجب الدراسي قبل الموعد النهائي.|noun
+W|coursework|أعمال المقرر|I upload my coursework through the learning platform before the deadline.|أرفع أعمال المقرر عبر منصة التعلم قبل الموعد النهائي.|noun
 W|course access|إمكانية الدخول إلى الدورة|My course access lasts for six months.|تستمر إمكانية دخولي إلى الدورة ستة أشهر.|noun
 L|المهارات الشخصية|Soft Skills|أن يتحدث المتعلم عن المهارات الشخصية المهمة في العمل والدراسة.|Employers value people who can work well in a team and solve problems.|يقدّر أصحاب العمل الأشخاص القادرين على العمل جيدًا ضمن فريق وحل المشكلات.|To talk about the soft skills that matter at work and in study.
 W|employer|صاحب العمل|My employer pays for my training.|يدفع صاحب عملي تكاليف تدريبي.|noun

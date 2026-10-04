@@ -16,13 +16,13 @@
         },
         {
           "id": "a2-u1-l1-w2",
-          "english": "I",
-          "arabic": "بداية الجملة"
+          "english": "running late",
+          "arabic": "متأخر عن الموعد"
         },
         {
           "id": "a2-u1-l1-w3",
-          "english": "late",
-          "arabic": "كلمة من المثال"
+          "english": "reschedule",
+          "arabic": "يعيد جدولة"
         }
       ]
     },
@@ -42,13 +42,13 @@
         },
         {
           "id": "a2-extra-2-w2",
-          "english": "I",
-          "arabic": "بداية الجملة"
+          "english": "ago",
+          "arabic": "منذ / قبل"
         },
         {
           "id": "a2-extra-2-w3",
           "english": "week",
-          "arabic": "كلمة من المثال"
+          "arabic": "أسبوع"
         }
       ]
     },
@@ -68,13 +68,13 @@
         },
         {
           "id": "a2-extra-3-w2",
-          "english": "I",
-          "arabic": "بداية الجملة"
+          "english": "plan to",
+          "arabic": "يخطط أن"
         },
         {
           "id": "a2-extra-3-w3",
           "english": "tonight",
-          "arabic": "كلمة من المثال"
+          "arabic": "الليلة"
         }
       ]
     },
@@ -84,7 +84,7 @@
       "titleEn": "Travel and Airport",
       "titleAr": "السفر والمطار",
       "objectiveAr": "فهم عبارات السفر الأساسية.",
-      "modelSentence": "Where is the boarding gate?.",
+      "modelSentence": "Where is the boarding gate?",
       "modelSentenceAr": "أين بوابة الصعود؟",
       "existingVocabulary": [
         {
@@ -94,13 +94,13 @@
         },
         {
           "id": "a2-extra-4-w2",
-          "english": "Where",
-          "arabic": "بداية الجملة"
+          "english": "departure",
+          "arabic": "مغادرة"
         },
         {
           "id": "a2-extra-4-w3",
           "english": "gate",
-          "arabic": "كلمة من المثال"
+          "arabic": "بوابة"
         }
       ]
     },
@@ -120,13 +120,13 @@
         },
         {
           "id": "a2-extra-5-w2",
-          "english": "I",
-          "arabic": "بداية الجملة"
+          "english": "feel unwell",
+          "arabic": "يشعر بتوعك"
         },
         {
           "id": "a2-extra-5-w3",
-          "english": "headache",
-          "arabic": "كلمة من المثال"
+          "english": "symptom",
+          "arabic": "عرض مرضي"
         }
       ]
     },
@@ -146,13 +146,13 @@
         },
         {
           "id": "a2-extra-6-w2",
-          "english": "This",
-          "arabic": "بداية الجملة"
+          "english": "similar to",
+          "arabic": "مشابه لـ"
         },
         {
           "id": "a2-extra-6-w3",
-          "english": "one",
-          "arabic": "كلمة من المثال"
+          "english": "different from",
+          "arabic": "مختلف عن"
         }
       ]
     },
@@ -162,7 +162,7 @@
       "titleEn": "Invitations and Suggestions",
       "titleAr": "الدعوات والاقتراحات",
       "objectiveAr": "دعوة شخص وقبول أو رفض الدعوة.",
-      "modelSentence": "Would you like to join us?.",
+      "modelSentence": "Would you like to join us?",
       "modelSentenceAr": "هل تود الانضمام إلينا؟",
       "existingVocabulary": [
         {
@@ -172,13 +172,13 @@
         },
         {
           "id": "a2-extra-7-w2",
-          "english": "Would",
-          "arabic": "بداية الجملة"
+          "english": "sounds good",
+          "arabic": "يبدو جيدًا"
         },
         {
           "id": "a2-extra-7-w3",
-          "english": "us",
-          "arabic": "كلمة من المثال"
+          "english": "maybe another time",
+          "arabic": "ربما في وقت آخر"
         }
       ]
     },
@@ -198,13 +198,13 @@
         },
         {
           "id": "a2-extra-8-w2",
-          "english": "I",
-          "arabic": "بداية الجملة"
+          "english": "due date",
+          "arabic": "موعد التسليم"
         },
         {
           "id": "a2-extra-8-w3",
-          "english": "today",
-          "arabic": "كلمة من المثال"
+          "english": "work task",
+          "arabic": "مهمة عمل"
         }
       ]
     }

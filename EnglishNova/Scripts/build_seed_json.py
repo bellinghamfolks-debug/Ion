@@ -13,7 +13,7 @@ Lesson ids are "<unit id>-l<n>". Units are split into two seed files
 (<level>_part3.json, <level>_part4.json) of four units each.
 
 Quality gates (the script fails on any of them):
-  * exactly six words per lesson;
+  * exactly ten words per lesson;
   * the model sentence contains one of the lesson's words (it becomes the
     fill-in-the-blank item);
   * every example sentence contains its word (or a close inflection);
@@ -54,7 +54,8 @@ def parse(path: Path):
             if len(parts) != 7:
                 raise SystemExit(f"{path.name}:{number}: unit needs 7 fields")
             units.append({"id": parts[1], "titleAr": parts[2], "titleEn": parts[3],
-                          "descriptionAr": parts[4], "icon": parts[5], "descriptionEn": parts[6], "lessons": []})
+                          "descriptionAr": parts[4], "icon": parts[5], "descriptionEn": parts[6],
+                          "lessons": [], "_source_line": number})
         elif kind == "L":
             if len(parts) != 7:
                 raise SystemExit(f"{path.name}:{number}: lesson needs 7 fields")
@@ -63,13 +64,14 @@ def parse(path: Path):
                 "id": f"{unit['id']}-l{len(unit['lessons']) + 1}",
                 "titleAr": parts[1], "titleEn": parts[2], "objectiveAr": parts[3],
                 "modelSentence": parts[4], "modelSentenceArabic": parts[5], "objectiveEn": parts[6],
-                "vocabulary": []})
+                "vocabulary": [], "_source_line": number})
         elif kind == "W":
             if len(parts) != 6:
                 raise SystemExit(f"{path.name}:{number}: word needs 6 fields")
             units[-1]["lessons"][-1]["vocabulary"].append({
                 "english": parts[1], "arabic": parts[2], "example": parts[3],
-                "exampleArabic": parts[4], "partOfSpeech": parts[5], "phonetic": None})
+                "exampleArabic": parts[4], "partOfSpeech": parts[5], "phonetic": None,
+                "_source_line": number})
         else:
             raise SystemExit(f"{path.name}:{number}: unknown record {kind!r}")
     return level, units
@@ -90,6 +92,15 @@ def stem_present(word: str, sentence: str) -> bool:
     return True
 
 
+def clean_source_metadata(value):
+    """Return JSON-ready seed data without parser-only source locations."""
+    if isinstance(value, dict):
+        return {k: clean_source_metadata(v) for k, v in value.items() if not k.startswith("_source_")}
+    if isinstance(value, list):
+        return [clean_source_metadata(v) for v in value]
+    return value
+
+
 def main() -> int:
     catalog = json.loads(CURRICULUM.read_text(encoding="utf-8"))
     taught: dict[str, set[str]] = {}
@@ -103,6 +114,7 @@ def main() -> int:
         taught[level["level"]] = words
 
     failures, notes = [], []
+    pending_outputs: list[tuple[Path, dict]] = []
     english: dict[str, str] = {}
     for path in sorted(SRC.glob("*_expansion.txt")):
         level, units = parse(path)
@@ -119,35 +131,45 @@ def main() -> int:
             for lesson in unit["lessons"]:
                 vocab = lesson["vocabulary"]
                 lid = lesson["id"]
-                if len(vocab) != 6:
-                    failures.append(f"{lid}: {len(vocab)} words (need 6)")
+                lesson_line = lesson.get("_source_line", "?")
+                lesson_at = f"{path.name}:{lesson_line}: {lid}"
+                if len(vocab) != 10:
+                    failures.append(f"{lesson_at}: {len(vocab)} words (need 10)")
                 if not any(re.search(rf"\b{re.escape(w['english'])}\b", lesson["modelSentence"], re.I) for w in vocab):
-                    failures.append(f"{lid}: model sentence contains none of its words")
+                    failures.append(f"{lesson_at}: model sentence contains none of its words")
                 for w in vocab:
                     key = w["english"].lower()
+                    word_line = w.get("_source_line", lesson_line)
+                    word_at = f"{path.name}:{word_line}: {lid}"
                     if key in seen:
-                        failures.append(f"{lid}: '{w['english']}' repeats inside {level}")
+                        failures.append(f"{word_at}: '{w['english']}' repeats inside {level}")
                     seen.add(key)
                     if key in taught.get(level, set()):
-                        failures.append(f"{lid}: '{w['english']}' is already taught in {level}")
+                        failures.append(f"{word_at}: '{w['english']}' is already taught in {level}")
                     elif any(key in words for code, words in taught.items() if code != level):
-                        notes.append(f"{lid}: '{w['english']}' also appears in another level")
+                        notes.append(f"{word_at}: '{w['english']}' also appears in another level")
                     if not stem_present(w["english"], w["example"]):
-                        failures.append(f"{lid}: example for '{w['english']}' does not use it: {w['example']}")
+                        failures.append(f"{word_at}: example for '{w['english']}' does not use it: {w['example']}")
                     if "|" in w["arabic"] or not w["arabic"]:
-                        failures.append(f"{lid}: bad Arabic for '{w['english']}'")
+                        failures.append(f"{word_at}: bad Arabic for '{w['english']}'")
         code = level.lower()
         halves = [units[:4], units[4:]]
         for index, chunk in enumerate(halves, start=3):
             if not chunk:
                 continue
             target = OUT / f"{code}_part{index}.json"
-            target.write_text(json.dumps({"level": level, "units": chunk}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+            pending_outputs.append((target, {"level": level, "units": chunk}))
         print(f"{path.name}: {level} {len(units)} units, {sum(len(u['lessons']) for u in units)} lessons")
 
     for note in notes:
         print(f"  note: {note}")
     if not failures:
+        # Write generated files only after every source file has passed. This
+        # avoids leaving a partially regenerated course after a later failure.
+        for target, payload in pending_outputs:
+            cleaned = clean_source_metadata(payload)
+            target.write_text(json.dumps(cleaned, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+
         translations = json.loads(TRANSLATIONS.read_text(encoding="utf-8"))
         changed = {k: v for k, v in english.items() if translations.get(k) != v}
         if changed:

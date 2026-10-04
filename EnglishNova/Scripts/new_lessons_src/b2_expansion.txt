@@ -188,7 +188,7 @@ W|masterpiece|تحفة فنية|The museum's greatest masterpiece is on the top 
 W|exhibition|معرض|The exhibition runs until March.|يستمر المعرض حتى مارس.|noun
 W|striking|لافت للنظر|The use of colour is striking.|استخدام الألوان لافت للنظر.|adjective
 W|symbolism|رمزية|The use of empty chairs adds symbolism to the painting.|يضيف استخدام الكراسي الفارغة رمزية إلى اللوحة.|noun
-W|perspective|منظور|The unusual perspective makes the room appear larger than it is.|يجعل المنظور غير المعتاد الغرفة تبدو أكبر مما هي عليه.|noun
+W|visual composition|تكوين بصري|The visual composition directs the viewer's attention toward the central figure.|يوجه التكوين البصري انتباه المشاهد نحو الشخصية المركزية.|noun
 W|medium|وسيط فني|The artist combines paint and fabric as a mixed medium.|يجمع الفنان بين الطلاء والقماش كوسيط فني مختلط.|noun
 W|evoke|يستحضر|The dark colours evoke a feeling of uncertainty.|تستحضر الألوان الداكنة شعورًا بعدم اليقين.|verb
 L|التراث الثقافي|Cultural Heritage|أن يناقش المتعلم أهمية الحفاظ على التراث وتوازنه مع التحديث.|Restoring historic buildings helps preserve our heritage for future generations.|ترميم المباني التاريخية يساعد على الحفاظ على تراثنا للأجيال القادمة.|To discuss why heritage matters and how to balance it with modernisation.

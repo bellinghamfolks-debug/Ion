@@ -1,0 +1,3252 @@
+{
+  "schemaVersion": 1,
+  "scope": "All 360 lessons, A0 through C1, without exception",
+  "baselineCommit": "db78479c53590f1d62bf55918b6a622b9cf66f86",
+  "branch": "codex/englishnova-full-curriculum-audit-20261004",
+  "baselineBuild": 60,
+  "stage": "baseline_checkpoint",
+  "lastCompletedStep": "Fresh checkout and full lesson inventory; no linguistic review claimed yet.",
+  "nextStep": "Map authoritative sources and run baseline validators; inspect every lesson.",
+  "lessons": [
+    {
+      "id": "a0-u1-l1",
+      "level": "A0",
+      "titleAr": "قول مرحبًا",
+      "titleEn": "Saying Hello",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u1-l2",
+      "level": "A0",
+      "titleAr": "التعريف بالاسم",
+      "titleEn": "Introducing Your Name",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u1-l3",
+      "level": "A0",
+      "titleAr": "نعم ولا",
+      "titleEn": "Yes and No",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u1-l4",
+      "level": "A0",
+      "titleAr": "من فضلك وشكرًا",
+      "titleEn": "Please and Thank You",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u1-l5",
+      "level": "A0",
+      "titleAr": "مع السلامة",
+      "titleEn": "Saying Goodbye",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u1-l6",
+      "level": "A0",
+      "titleAr": "كيف حالك؟",
+      "titleEn": "How Are You?",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u2-l1",
+      "level": "A0",
+      "titleAr": "حرف A وصوته",
+      "titleEn": "The Letter A",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u2-l2",
+      "level": "A0",
+      "titleAr": "حروف B وC",
+      "titleEn": "Letters B and C",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u2-l3",
+      "level": "A0",
+      "titleAr": "الحروف الكبيرة والصغيرة",
+      "titleEn": "Uppercase and Lowercase",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u2-l4",
+      "level": "A0",
+      "titleAr": "كتاب وقلم",
+      "titleEn": "A Book and a Pen",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u2-l5",
+      "level": "A0",
+      "titleAr": "هذا وذاك",
+      "titleEn": "This and That",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u2-l6",
+      "level": "A0",
+      "titleAr": "تعليمات الفصل",
+      "titleEn": "Classroom Instructions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u3-l1",
+      "level": "A0",
+      "titleAr": "الأرقام من صفر إلى خمسة",
+      "titleEn": "Numbers Zero to Five",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u3-l2",
+      "level": "A0",
+      "titleAr": "الأرقام من ستة إلى عشرة",
+      "titleEn": "Numbers Six to Ten",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u3-l3",
+      "level": "A0",
+      "titleAr": "كم العدد؟",
+      "titleEn": "How Many?",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u3-l4",
+      "level": "A0",
+      "titleAr": "رقم الهاتف",
+      "titleEn": "Phone Numbers",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u3-l5",
+      "level": "A0",
+      "titleAr": "الساعة الكاملة",
+      "titleEn": "Whole Hours",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u3-l6",
+      "level": "A0",
+      "titleAr": "اليوم وغدًا",
+      "titleEn": "Today and Tomorrow",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u4-l1",
+      "level": "A0",
+      "titleAr": "أمي وأبي",
+      "titleEn": "My Mother and Father",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u4-l2",
+      "level": "A0",
+      "titleAr": "أخي وأختي",
+      "titleEn": "Brother and Sister",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u4-l3",
+      "level": "A0",
+      "titleAr": "رجل وامرأة",
+      "titleEn": "Man and Woman",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u4-l4",
+      "level": "A0",
+      "titleAr": "طفل وصديق",
+      "titleEn": "Child and Friend",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u4-l5",
+      "level": "A0",
+      "titleAr": "هو وهي",
+      "titleEn": "He and She",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u4-l6",
+      "level": "A0",
+      "titleAr": "صفات بسيطة",
+      "titleEn": "Simple Descriptions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u5-l1",
+      "level": "A0",
+      "titleAr": "غرفة ومنزل",
+      "titleEn": "Room and House",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u5-l2",
+      "level": "A0",
+      "titleAr": "سرير وكرسي",
+      "titleEn": "Bed and Chair",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u5-l3",
+      "level": "A0",
+      "titleAr": "مفتاح وهاتف",
+      "titleEn": "Key and Phone",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u5-l4",
+      "level": "A0",
+      "titleAr": "في وعلى",
+      "titleEn": "In and On",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u5-l5",
+      "level": "A0",
+      "titleAr": "أين الشيء؟",
+      "titleEn": "Where Is It?",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u5-l6",
+      "level": "A0",
+      "titleAr": "نظيف وكبير",
+      "titleEn": "Clean and Big",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u6-l1",
+      "level": "A0",
+      "titleAr": "ماء وشاي",
+      "titleEn": "Water and Tea",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u6-l2",
+      "level": "A0",
+      "titleAr": "خبز وأرز",
+      "titleEn": "Bread and Rice",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u6-l3",
+      "level": "A0",
+      "titleAr": "فواكه بسيطة",
+      "titleEn": "Simple Fruit",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u6-l4",
+      "level": "A0",
+      "titleAr": "جائع وعطشان",
+      "titleEn": "Hungry and Thirsty",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u6-l5",
+      "level": "A0",
+      "titleAr": "أحب ولا أحب",
+      "titleEn": "Like and Do Not Like",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u6-l6",
+      "level": "A0",
+      "titleAr": "في المطعم",
+      "titleEn": "At the Restaurant",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u7-l1",
+      "level": "A0",
+      "titleAr": "الرأس واليد",
+      "titleEn": "Head and Hand",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u7-l2",
+      "level": "A0",
+      "titleAr": "العين والأذن",
+      "titleEn": "Eye and Ear",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u7-l3",
+      "level": "A0",
+      "titleAr": "قميص وحذاء",
+      "titleEn": "Shirt and Shoes",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u7-l4",
+      "level": "A0",
+      "titleAr": "الألوان الأساسية",
+      "titleEn": "Basic Colors",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u7-l5",
+      "level": "A0",
+      "titleAr": "أسود وأبيض",
+      "titleEn": "Black and White",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u7-l6",
+      "level": "A0",
+      "titleAr": "أشعر بالتعب",
+      "titleEn": "Feeling Tired",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u8-l1",
+      "level": "A0",
+      "titleAr": "المدرسة والمتجر",
+      "titleEn": "School and Store",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u8-l2",
+      "level": "A0",
+      "titleAr": "المستشفى والحديقة",
+      "titleEn": "Hospital and Park",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u8-l3",
+      "level": "A0",
+      "titleAr": "يمين ويسار",
+      "titleEn": "Right and Left",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u8-l4",
+      "level": "A0",
+      "titleAr": "أمام وخلف",
+      "titleEn": "In Front and Behind",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u8-l5",
+      "level": "A0",
+      "titleAr": "قريب وبعيد",
+      "titleEn": "Near and Far",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u8-l6",
+      "level": "A0",
+      "titleAr": "اذهب وتوقف",
+      "titleEn": "Go and Stop",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u9-l1",
+      "level": "A0",
+      "titleAr": "أستيقظ وأنام",
+      "titleEn": "Wake Up and Sleep",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u9-l2",
+      "level": "A0",
+      "titleAr": "أذهب وأعود",
+      "titleEn": "Go and Come Back",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u9-l3",
+      "level": "A0",
+      "titleAr": "أقرأ وأكتب",
+      "titleEn": "Read and Write",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u9-l4",
+      "level": "A0",
+      "titleAr": "أعمل وأرتاح",
+      "titleEn": "Work and Rest",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u9-l5",
+      "level": "A0",
+      "titleAr": "أفتح وأغلق",
+      "titleEn": "Open and Close",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u9-l6",
+      "level": "A0",
+      "titleAr": "أجلس وأقف",
+      "titleEn": "Sit and Stand",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u10-l1",
+      "level": "A0",
+      "titleAr": "الجو حار",
+      "titleEn": "Hot Weather",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u10-l2",
+      "level": "A0",
+      "titleAr": "الجو بارد",
+      "titleEn": "Cold Weather",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u10-l3",
+      "level": "A0",
+      "titleAr": "أحتاج مساعدة",
+      "titleEn": "I Need Help",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u10-l4",
+      "level": "A0",
+      "titleAr": "لا أفهم",
+      "titleEn": "I Do Not Understand",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u10-l5",
+      "level": "A0",
+      "titleAr": "هل يمكنك التكرار؟",
+      "titleEn": "Can You Repeat?",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a0-u10-l6",
+      "level": "A0",
+      "titleAr": "مراجعة البداية",
+      "titleEn": "Foundation Review",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u1-l1",
+      "level": "A1",
+      "titleAr": "وقت الاستيقاظ",
+      "titleEn": "Wake-up Time",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u1-l2",
+      "level": "A1",
+      "titleAr": "روتين الصباح",
+      "titleEn": "Morning Routine",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u1-l3",
+      "level": "A1",
+      "titleAr": "الإفطار",
+      "titleEn": "Breakfast",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u1-l4",
+      "level": "A1",
+      "titleAr": "الذهاب إلى العمل",
+      "titleEn": "Going to Work",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u1-l5",
+      "level": "A1",
+      "titleAr": "وقت الغداء",
+      "titleEn": "Lunch Time",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u1-l6",
+      "level": "A1",
+      "titleAr": "روتين المساء",
+      "titleEn": "Evening Routine",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u2-l1",
+      "level": "A1",
+      "titleAr": "العادات المتكررة",
+      "titleEn": "Regular Habits",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u2-l2",
+      "level": "A1",
+      "titleAr": "هو يعمل",
+      "titleEn": "He Works",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u2-l3",
+      "level": "A1",
+      "titleAr": "لا أفعل",
+      "titleEn": "Present Simple Negative",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u2-l4",
+      "level": "A1",
+      "titleAr": "هل تفعل؟",
+      "titleEn": "Do Questions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u2-l5",
+      "level": "A1",
+      "titleAr": "هل يعمل؟",
+      "titleEn": "Does Questions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u2-l6",
+      "level": "A1",
+      "titleAr": "دائمًا وأحيانًا",
+      "titleEn": "Frequency Adverbs",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u3-l1",
+      "level": "A1",
+      "titleAr": "أمس",
+      "titleEn": "Yesterday",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u3-l2",
+      "level": "A1",
+      "titleAr": "كان وكانت",
+      "titleEn": "Was and Were",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u3-l3",
+      "level": "A1",
+      "titleAr": "ذهبت إلى المتجر",
+      "titleEn": "Went to the Store",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u3-l4",
+      "level": "A1",
+      "titleAr": "شاهدت فيلمًا",
+      "titleEn": "Watched a Movie",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u3-l5",
+      "level": "A1",
+      "titleAr": "لم أذهب",
+      "titleEn": "Past Negative",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u3-l6",
+      "level": "A1",
+      "titleAr": "هل ذهبت؟",
+      "titleEn": "Past Questions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u4-l1",
+      "level": "A1",
+      "titleAr": "سأفعل",
+      "titleEn": "Using Will",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u4-l2",
+      "level": "A1",
+      "titleAr": "سوف أزور",
+      "titleEn": "Going To Plans",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u4-l3",
+      "level": "A1",
+      "titleAr": "موعد الغد",
+      "titleEn": "Tomorrow’s Appointment",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u4-l4",
+      "level": "A1",
+      "titleAr": "خطة الأسبوع",
+      "titleEn": "Weekly Plan",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u4-l5",
+      "level": "A1",
+      "titleAr": "ربما لاحقًا",
+      "titleEn": "Maybe Later",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u4-l6",
+      "level": "A1",
+      "titleAr": "الدعوة",
+      "titleEn": "Making an Invitation",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u5-l1",
+      "level": "A1",
+      "titleAr": "كم السعر؟",
+      "titleEn": "Asking the Price",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u5-l2",
+      "level": "A1",
+      "titleAr": "المقاس المناسب",
+      "titleEn": "The Right Size",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u5-l3",
+      "level": "A1",
+      "titleAr": "الألوان في المتجر",
+      "titleEn": "Colors in a Store",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u5-l4",
+      "level": "A1",
+      "titleAr": "الدفع بالبطاقة",
+      "titleEn": "Paying by Card",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u5-l5",
+      "level": "A1",
+      "titleAr": "الفاتورة والإيصال",
+      "titleEn": "Bill and Receipt",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u5-l6",
+      "level": "A1",
+      "titleAr": "استبدال منتج",
+      "titleEn": "Returning an Item",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u6-l1",
+      "level": "A1",
+      "titleAr": "في المطار",
+      "titleEn": "At the Airport",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u6-l2",
+      "level": "A1",
+      "titleAr": "بطاقة الصعود",
+      "titleEn": "Boarding Pass",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u6-l3",
+      "level": "A1",
+      "titleAr": "في الفندق",
+      "titleEn": "At the Hotel",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u6-l4",
+      "level": "A1",
+      "titleAr": "طلب سيارة",
+      "titleEn": "Ordering a Ride",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u6-l5",
+      "level": "A1",
+      "titleAr": "محطة القطار",
+      "titleEn": "Train Station",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u6-l6",
+      "level": "A1",
+      "titleAr": "السؤال عن الطريق",
+      "titleEn": "Asking for Directions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u7-l1",
+      "level": "A1",
+      "titleAr": "لدي صداع",
+      "titleEn": "I Have a Headache",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u7-l2",
+      "level": "A1",
+      "titleAr": "منذ متى؟",
+      "titleEn": "How Long?",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u7-l3",
+      "level": "A1",
+      "titleAr": "حجز موعد طبي",
+      "titleEn": "Booking a Doctor",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u7-l4",
+      "level": "A1",
+      "titleAr": "في الصيدلية",
+      "titleEn": "At the Pharmacy",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u7-l5",
+      "level": "A1",
+      "titleAr": "تعليمات الدواء",
+      "titleEn": "Medicine Instructions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u7-l6",
+      "level": "A1",
+      "titleAr": "حالة طارئة",
+      "titleEn": "An Emergency",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u8-l1",
+      "level": "A1",
+      "titleAr": "في الفصل",
+      "titleEn": "In Class",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u8-l2",
+      "level": "A1",
+      "titleAr": "الواجب",
+      "titleEn": "Homework",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u8-l3",
+      "level": "A1",
+      "titleAr": "رسالة عمل قصيرة",
+      "titleEn": "A Short Work Message",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u8-l4",
+      "level": "A1",
+      "titleAr": "طلب المساعدة في العمل",
+      "titleEn": "Asking for Help at Work",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u8-l5",
+      "level": "A1",
+      "titleAr": "موعد الاجتماع",
+      "titleEn": "Meeting Time",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u8-l6",
+      "level": "A1",
+      "titleAr": "إرسال بريد إلكتروني",
+      "titleEn": "Sending an Email",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u9-l1",
+      "level": "A1",
+      "titleAr": "دعوة صديق",
+      "titleEn": "Inviting a Friend",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u9-l2",
+      "level": "A1",
+      "titleAr": "قبول ورفض الدعوة",
+      "titleEn": "Accepting and Declining",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u9-l3",
+      "level": "A1",
+      "titleAr": "الاعتذار",
+      "titleEn": "Apologizing",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u9-l4",
+      "level": "A1",
+      "titleAr": "إبداء الرأي",
+      "titleEn": "Giving an Opinion",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u9-l5",
+      "level": "A1",
+      "titleAr": "المقارنة",
+      "titleEn": "Simple Comparisons",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u9-l6",
+      "level": "A1",
+      "titleAr": "التفضيل",
+      "titleEn": "Expressing Preference",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u10-l1",
+      "level": "A1",
+      "titleAr": "مشكلة في الإنترنت",
+      "titleEn": "Internet Problem",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u10-l2",
+      "level": "A1",
+      "titleAr": "طلب توصيل",
+      "titleEn": "Delivery Request",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u10-l3",
+      "level": "A1",
+      "titleAr": "الاتصال بخدمة العملاء",
+      "titleEn": "Customer Service Call",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u10-l4",
+      "level": "A1",
+      "titleAr": "وصف شيء مفقود",
+      "titleEn": "Describing a Lost Item",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u10-l5",
+      "level": "A1",
+      "titleAr": "قواعد بسيطة",
+      "titleEn": "Simple Rules",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a1-u10-l6",
+      "level": "A1",
+      "titleAr": "مراجعة A1 العملية",
+      "titleEn": "Practical A1 Review",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-u1-l1",
+      "level": "A2",
+      "titleAr": "رسائل قصيرة واضحة",
+      "titleEn": "Clear Short Messages",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-extra-2",
+      "level": "A2",
+      "titleAr": "الماضي البسيط",
+      "titleEn": "Past Simple",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-extra-3",
+      "level": "A2",
+      "titleAr": "خطط المستقبل",
+      "titleEn": "Future Plans",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-extra-4",
+      "level": "A2",
+      "titleAr": "السفر والمطار",
+      "titleEn": "Travel and Airport",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-extra-5",
+      "level": "A2",
+      "titleAr": "الصحة والأعراض",
+      "titleEn": "Health and Symptoms",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-extra-6",
+      "level": "A2",
+      "titleAr": "المقارنة",
+      "titleEn": "Comparisons",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-extra-7",
+      "level": "A2",
+      "titleAr": "الدعوات والاقتراحات",
+      "titleEn": "Invitations and Suggestions",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-extra-8",
+      "level": "A2",
+      "titleAr": "مهام العمل",
+      "titleEn": "Work Tasks",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u1-l1",
+      "level": "A2",
+      "titleAr": "روتيني الصباحي",
+      "titleEn": "My Morning Routine",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u1-l2",
+      "level": "A2",
+      "titleAr": "عاداتي اليومية",
+      "titleEn": "My Daily Habits",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u1-l3",
+      "level": "A2",
+      "titleAr": "في المطعم",
+      "titleEn": "At the Restaurant",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u1-l4",
+      "level": "A2",
+      "titleAr": "أطعمتي المفضلة",
+      "titleEn": "My Favourite Foods",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u1-l5",
+      "level": "A2",
+      "titleAr": "الطبخ في المنزل",
+      "titleEn": "Cooking at Home",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u2-l1",
+      "level": "A2",
+      "titleAr": "في السوق",
+      "titleEn": "At the Market",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u2-l2",
+      "level": "A2",
+      "titleAr": "الأسعار والدفع",
+      "titleEn": "Prices and Paying",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u2-l3",
+      "level": "A2",
+      "titleAr": "السؤال عن الاتجاهات",
+      "titleEn": "Asking for Directions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u2-l4",
+      "level": "A2",
+      "titleAr": "التنقّل في المدينة",
+      "titleEn": "Getting Around the City",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u2-l5",
+      "level": "A2",
+      "titleAr": "الطقس والفصول",
+      "titleEn": "Weather and Seasons",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u3-l1",
+      "level": "A2",
+      "titleAr": "أفراد العائلة",
+      "titleEn": "Family Members",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u3-l2",
+      "level": "A2",
+      "titleAr": "العلاقات والمشاعر",
+      "titleEn": "Relationships and Feelings",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u3-l3",
+      "level": "A2",
+      "titleAr": "وصف الشخصية والطباع",
+      "titleEn": "Describing Personality",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u3-l4",
+      "level": "A2",
+      "titleAr": "الهوايات والاهتمامات",
+      "titleEn": "Hobbies and Interests",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u3-l5",
+      "level": "A2",
+      "titleAr": "الرياضة والأنشطة",
+      "titleEn": "Sports and Activities",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u4-l1",
+      "level": "A2",
+      "titleAr": "المكالمات الهاتفية",
+      "titleEn": "Phone Calls",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u4-l2",
+      "level": "A2",
+      "titleAr": "الرسائل والتطبيقات",
+      "titleEn": "Messaging and Apps",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u4-l3",
+      "level": "A2",
+      "titleAr": "وصف المظهر الخارجي",
+      "titleEn": "Describing Appearance",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u4-l4",
+      "level": "A2",
+      "titleAr": "حجز المواعيد",
+      "titleEn": "Making Appointments",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u4-l5",
+      "level": "A2",
+      "titleAr": "ترتيب الخطط مع الآخرين",
+      "titleEn": "Arranging Plans Together",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u5-l1",
+      "level": "A2",
+      "titleAr": "الغرف والأثاث",
+      "titleEn": "Rooms and Furniture",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u5-l2",
+      "level": "A2",
+      "titleAr": "أعمال المنزل",
+      "titleEn": "Household Chores",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u5-l3",
+      "level": "A2",
+      "titleAr": "استئجار شقة",
+      "titleEn": "Renting a Flat",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u5-l4",
+      "level": "A2",
+      "titleAr": "حيّي",
+      "titleEn": "My Neighbourhood",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u6-l1",
+      "level": "A2",
+      "titleAr": "أجزاء الجسم",
+      "titleEn": "Parts of the Body",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u6-l2",
+      "level": "A2",
+      "titleAr": "في الصيدلية",
+      "titleEn": "At the Pharmacy",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u6-l3",
+      "level": "A2",
+      "titleAr": "الرياضة واللياقة",
+      "titleEn": "Exercise and Fitness",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u6-l4",
+      "level": "A2",
+      "titleAr": "النوم والراحة",
+      "titleEn": "Sleep and Rest",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u7-l1",
+      "level": "A2",
+      "titleAr": "حجز فندق",
+      "titleEn": "Booking a Hotel",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u7-l2",
+      "level": "A2",
+      "titleAr": "في الفندق",
+      "titleEn": "At the Hotel",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u7-l3",
+      "level": "A2",
+      "titleAr": "تجهيز الحقيبة",
+      "titleEn": "Packing for a Trip",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u7-l4",
+      "level": "A2",
+      "titleAr": "أنشطة العطلة",
+      "titleEn": "Holiday Activities",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u8-l1",
+      "level": "A2",
+      "titleAr": "لغة الصف",
+      "titleEn": "Classroom Language",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u8-l2",
+      "level": "A2",
+      "titleAr": "المواد الدراسية",
+      "titleEn": "School Subjects",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u8-l3",
+      "level": "A2",
+      "titleAr": "الاستعداد للاختبار",
+      "titleEn": "Studying for a Test",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u8-l4",
+      "level": "A2",
+      "titleAr": "تعلّم لغة",
+      "titleEn": "Learning a Language",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u9-l1",
+      "level": "A2",
+      "titleAr": "المهن وأماكن العمل",
+      "titleEn": "Jobs and Workplaces",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u9-l2",
+      "level": "A2",
+      "titleAr": "يوم في العمل",
+      "titleEn": "A Day at Work",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u9-l3",
+      "level": "A2",
+      "titleAr": "البحث عن وظيفة",
+      "titleEn": "Looking for a Job",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u9-l4",
+      "level": "A2",
+      "titleAr": "التحدث مع المدير",
+      "titleEn": "Talking to Your Boss",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u10-l1",
+      "level": "A2",
+      "titleAr": "عطلة نهاية الأسبوع الماضية",
+      "titleEn": "Last Weekend",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u10-l2",
+      "level": "A2",
+      "titleAr": "يوم مميز",
+      "titleEn": "A Special Day",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u10-l3",
+      "level": "A2",
+      "titleAr": "عندما كنت طفلًا",
+      "titleEn": "When I Was a Child",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u10-l4",
+      "level": "A2",
+      "titleAr": "حادثة أو مشكلة",
+      "titleEn": "An Accident or Problem",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u11-l1",
+      "level": "A2",
+      "titleAr": "الحيوانات",
+      "titleEn": "Animals",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u11-l2",
+      "level": "A2",
+      "titleAr": "في الريف",
+      "titleEn": "In the Countryside",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u11-l3",
+      "level": "A2",
+      "titleAr": "زيارة مدينة",
+      "titleEn": "Visiting a City",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u11-l4",
+      "level": "A2",
+      "titleAr": "مشكلات الطقس",
+      "titleEn": "Weather Problems",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u12-l1",
+      "level": "A2",
+      "titleAr": "في البنك",
+      "titleEn": "At the Bank",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u12-l2",
+      "level": "A2",
+      "titleAr": "الطرود والتوصيل",
+      "titleEn": "Parcels and Deliveries",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u12-l3",
+      "level": "A2",
+      "titleAr": "المفقودات",
+      "titleEn": "Lost and Found",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "a2-x-u12-l4",
+      "level": "A2",
+      "titleAr": "إصلاح أشياء في البيت",
+      "titleEn": "Fixing Things at Home",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-u1-l1",
+      "level": "B1",
+      "titleAr": "التعامل مع مشكلات السفر",
+      "titleEn": "Handling Travel Problems",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-extra-2",
+      "level": "B1",
+      "titleAr": "المضارع التام",
+      "titleEn": "Present Perfect",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-extra-3",
+      "level": "B1",
+      "titleAr": "التعبير عن الرأي",
+      "titleEn": "Expressing Opinions",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-extra-4",
+      "level": "B1",
+      "titleAr": "سرد قصة",
+      "titleEn": "Telling a Story",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-extra-5",
+      "level": "B1",
+      "titleAr": "حل المشكلات",
+      "titleEn": "Problem Solving",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-extra-6",
+      "level": "B1",
+      "titleAr": "الأخبار والمعلومات",
+      "titleEn": "News and Information",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-extra-7",
+      "level": "B1",
+      "titleAr": "الاجتماعات",
+      "titleEn": "Meetings",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-extra-8",
+      "level": "B1",
+      "titleAr": "البريد المهني",
+      "titleEn": "Professional Email",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u1-l1",
+      "level": "B1",
+      "titleAr": "وصف التجارب الشخصية",
+      "titleEn": "Describing Personal Experiences",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u1-l2",
+      "level": "B1",
+      "titleAr": "التحدث عن إنجازاتك",
+      "titleEn": "Talking About Achievements",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u1-l3",
+      "level": "B1",
+      "titleAr": "تقديم النصائح والاقتراحات",
+      "titleEn": "Giving Advice and Suggestions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u1-l4",
+      "level": "B1",
+      "titleAr": "الخطط والنوايا المستقبلية",
+      "titleEn": "Future Plans and Intentions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u1-l5",
+      "level": "B1",
+      "titleAr": "اتخاذ القرارات",
+      "titleEn": "Making Decisions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u2-l1",
+      "level": "B1",
+      "titleAr": "تقديم شكوى بأدب",
+      "titleEn": "Making a Polite Complaint",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u2-l2",
+      "level": "B1",
+      "titleAr": "حلّ الشكاوى",
+      "titleEn": "Resolving Complaints",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u2-l3",
+      "level": "B1",
+      "titleAr": "التواصل مع الزملاء",
+      "titleEn": "Communicating with Colleagues",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u2-l4",
+      "level": "B1",
+      "titleAr": "التعامل مع العملاء",
+      "titleEn": "Dealing with Customers",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u2-l5",
+      "level": "B1",
+      "titleAr": "إدارة المهام والمواعيد النهائية",
+      "titleEn": "Managing Tasks and Deadlines",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u3-l1",
+      "level": "B1",
+      "titleAr": "بناء عادات صحية",
+      "titleEn": "Building Healthy Habits",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u3-l2",
+      "level": "B1",
+      "titleAr": "إدارة التوتر والراحة",
+      "titleEn": "Managing Stress and Rest",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u3-l3",
+      "level": "B1",
+      "titleAr": "التكنولوجيا في حياتنا اليومية",
+      "titleEn": "Technology in Our Daily Lives",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u3-l4",
+      "level": "B1",
+      "titleAr": "البقاء آمنًا على الإنترنت",
+      "titleEn": "Staying Safe Online",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u3-l5",
+      "level": "B1",
+      "titleAr": "العناية بالبيئة",
+      "titleEn": "Caring for the Environment",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u4-l1",
+      "level": "B1",
+      "titleAr": "العادات والتقاليد",
+      "titleEn": "Customs and Traditions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u4-l2",
+      "level": "B1",
+      "titleAr": "احترام الاختلافات الثقافية",
+      "titleEn": "Respecting Cultural Differences",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u4-l3",
+      "level": "B1",
+      "titleAr": "الاستعداد لمقابلة العمل",
+      "titleEn": "Preparing for a Job Interview",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u4-l4",
+      "level": "B1",
+      "titleAr": "الإجابة على أسئلة المقابلة",
+      "titleEn": "Answering Interview Questions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u4-l5",
+      "level": "B1",
+      "titleAr": "بعد المقابلة",
+      "titleEn": "After the Interview",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u5-l1",
+      "level": "B1",
+      "titleAr": "الأفلام والمسلسلات",
+      "titleEn": "Films and Series",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u5-l2",
+      "level": "B1",
+      "titleAr": "الموسيقى والفعاليات",
+      "titleEn": "Music and Live Events",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u5-l3",
+      "level": "B1",
+      "titleAr": "الكتب وعادات القراءة",
+      "titleEn": "Books and Reading Habits",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u5-l4",
+      "level": "B1",
+      "titleAr": "عادات وسائل التواصل",
+      "titleEn": "Social Media Habits",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u6-l1",
+      "level": "B1",
+      "titleAr": "اختيار السكن",
+      "titleEn": "Choosing Accommodation",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u6-l2",
+      "level": "B1",
+      "titleAr": "تجربة ثقافة جديدة",
+      "titleEn": "Experiencing a New Culture",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u6-l3",
+      "level": "B1",
+      "titleAr": "كتابة تقييم لرحلة",
+      "titleEn": "Writing a Travel Review",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u6-l4",
+      "level": "B1",
+      "titleAr": "السياحة المسؤولة",
+      "titleEn": "Responsible Tourism",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u7-l1",
+      "level": "B1",
+      "titleAr": "إدارة الميزانية",
+      "titleEn": "Managing a Budget",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u7-l2",
+      "level": "B1",
+      "titleAr": "الادخار للمستقبل",
+      "titleEn": "Saving for the Future",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u7-l3",
+      "level": "B1",
+      "titleAr": "التسوق عبر الإنترنت والإرجاع",
+      "titleEn": "Online Shopping and Returns",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u7-l4",
+      "level": "B1",
+      "titleAr": "الاقتراض والإقراض",
+      "titleEn": "Borrowing and Lending",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u8-l1",
+      "level": "B1",
+      "titleAr": "الصداقة",
+      "titleEn": "Friendship",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u8-l2",
+      "level": "B1",
+      "titleAr": "الحياة العائلية اليوم",
+      "titleEn": "Family Life Today",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u8-l3",
+      "level": "B1",
+      "titleAr": "العمل التطوعي",
+      "titleEn": "Volunteering",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u8-l4",
+      "level": "B1",
+      "titleAr": "العيش مع الجيران",
+      "titleEn": "Living with Neighbours",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u9-l1",
+      "level": "B1",
+      "titleAr": "اختيار تخصص",
+      "titleEn": "Choosing a Course",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u9-l2",
+      "level": "B1",
+      "titleAr": "مهارات المذاكرة الفعّالة",
+      "titleEn": "Effective Study Skills",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u9-l3",
+      "level": "B1",
+      "titleAr": "التعلّم عبر الإنترنت",
+      "titleEn": "Learning Online",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u9-l4",
+      "level": "B1",
+      "titleAr": "المهارات الشخصية",
+      "titleEn": "Soft Skills",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u10-l1",
+      "level": "B1",
+      "titleAr": "المدينة أم الريف؟",
+      "titleEn": "City or Countryside?",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u10-l2",
+      "level": "B1",
+      "titleAr": "المواصلات العامة",
+      "titleEn": "Public Transport",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u10-l3",
+      "level": "B1",
+      "titleAr": "مشكلات السكن",
+      "titleEn": "Housing Problems",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u10-l4",
+      "level": "B1",
+      "titleAr": "التنقّل اليومي والزحام",
+      "titleEn": "Commuting and Traffic",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u11-l1",
+      "level": "B1",
+      "titleAr": "التوصية بمطعم",
+      "titleEn": "Recommending a Restaurant",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u11-l2",
+      "level": "B1",
+      "titleAr": "الأنظمة الغذائية والتغذية",
+      "titleEn": "Diets and Nutrition",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u11-l3",
+      "level": "B1",
+      "titleAr": "اتباع وصفة",
+      "titleEn": "Following a Recipe",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u11-l4",
+      "level": "B1",
+      "titleAr": "تقليل هدر الطعام",
+      "titleEn": "Reducing Food Waste",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u12-l1",
+      "level": "B1",
+      "titleAr": "وصف المشاعر",
+      "titleEn": "Describing Feelings",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u12-l2",
+      "level": "B1",
+      "titleAr": "أحداث غير متوقعة",
+      "titleEn": "Unexpected Events",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u12-l3",
+      "level": "B1",
+      "titleAr": "الاتفاق والاختلاف بأدب",
+      "titleEn": "Agreeing and Disagreeing Politely",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b1-x-u12-l4",
+      "level": "B1",
+      "titleAr": "الاعتذار والتوضيح",
+      "titleEn": "Apologising and Explaining",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-u1-l1",
+      "level": "B2",
+      "titleAr": "التعابير الطبيعية في السياق",
+      "titleEn": "Natural Expressions in Context",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-extra-2",
+      "level": "B2",
+      "titleAr": "بناء الحجة",
+      "titleEn": "Building an Argument",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-extra-3",
+      "level": "B2",
+      "titleAr": "الجمل الشرطية",
+      "titleEn": "Conditionals",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-extra-4",
+      "level": "B2",
+      "titleAr": "المبني للمجهول",
+      "titleEn": "Passive Voice",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-extra-5",
+      "level": "B2",
+      "titleAr": "الكلام المنقول",
+      "titleEn": "Reported Speech",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-extra-6",
+      "level": "B2",
+      "titleAr": "العرض المهني",
+      "titleEn": "Professional Presentation",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-extra-7",
+      "level": "B2",
+      "titleAr": "التفاوض",
+      "titleEn": "Negotiation",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-extra-8",
+      "level": "B2",
+      "titleAr": "تحليل الإعلام",
+      "titleEn": "Media Analysis",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u1-l1",
+      "level": "B2",
+      "titleAr": "التعبير عن اليقين التام",
+      "titleEn": "Expressing Strong Certainty",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u1-l2",
+      "level": "B2",
+      "titleAr": "التعبير عن الشك والتحفّظ",
+      "titleEn": "Expressing Doubt and Reservation",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u1-l3",
+      "level": "B2",
+      "titleAr": "التخمين والاستنتاج المنطقي",
+      "titleEn": "Speculating and Drawing Conclusions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u1-l4",
+      "level": "B2",
+      "titleAr": "ربط الأسباب بالنتائج",
+      "titleEn": "Connecting Cause and Effect",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u1-l5",
+      "level": "B2",
+      "titleAr": "المواقف الافتراضية والندم",
+      "titleEn": "Hypothetical Situations and Regret",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u2-l1",
+      "level": "B2",
+      "titleAr": "تفويض المهام بفعالية",
+      "titleEn": "Delegating Tasks Effectively",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u2-l2",
+      "level": "B2",
+      "titleAr": "أساليب القيادة",
+      "titleEn": "Leadership Styles",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u2-l3",
+      "level": "B2",
+      "titleAr": "تحفيز الفريق",
+      "titleEn": "Motivating the Team",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u2-l4",
+      "level": "B2",
+      "titleAr": "وصف الاتجاهات",
+      "titleEn": "Describing Trends",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u2-l5",
+      "level": "B2",
+      "titleAr": "تحليل البيانات وتفسيرها",
+      "titleEn": "Analyzing and Interpreting Data",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u3-l1",
+      "level": "B2",
+      "titleAr": "التعلم مدى الحياة",
+      "titleEn": "Lifelong Learning",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u3-l2",
+      "level": "B2",
+      "titleAr": "إصلاح التعليم",
+      "titleEn": "Education Reform",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u3-l3",
+      "level": "B2",
+      "titleAr": "عدم المساواة الاجتماعية",
+      "titleEn": "Social Inequality",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u3-l4",
+      "level": "B2",
+      "titleAr": "الذكاء الاصطناعي وحياتنا",
+      "titleEn": "AI in Our Lives",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u3-l5",
+      "level": "B2",
+      "titleAr": "العلم في الحياة اليومية",
+      "titleEn": "Science in Everyday Life",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u4-l1",
+      "level": "B2",
+      "titleAr": "إدارة الاجتماعات",
+      "titleEn": "Running Meetings",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u4-l2",
+      "level": "B2",
+      "titleAr": "اتخاذ القرار",
+      "titleEn": "Making Decisions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u4-l3",
+      "level": "B2",
+      "titleAr": "العصف الذهني والمقترحات",
+      "titleEn": "Brainstorming and Proposals",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u4-l4",
+      "level": "B2",
+      "titleAr": "أساليب الإقناع",
+      "titleEn": "Persuasion Techniques",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u4-l5",
+      "level": "B2",
+      "titleAr": "التعامل مع الاعتراضات",
+      "titleEn": "Handling Objections",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u5-l1",
+      "level": "B2",
+      "titleAr": "أسباب تغيّر المناخ",
+      "titleEn": "Causes of Climate Change",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u5-l2",
+      "level": "B2",
+      "titleAr": "الطاقة المتجددة",
+      "titleEn": "Renewable Energy",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u5-l3",
+      "level": "B2",
+      "titleAr": "المدن المستدامة",
+      "titleEn": "Sustainable Cities",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u5-l4",
+      "level": "B2",
+      "titleAr": "حماية الحياة البرية",
+      "titleEn": "Wildlife Conservation",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u6-l1",
+      "level": "B2",
+      "titleAr": "التقدّم الطبي",
+      "titleEn": "Medical Advances",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u6-l2",
+      "level": "B2",
+      "titleAr": "التوعية بالصحة النفسية",
+      "titleEn": "Mental Health Awareness",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u6-l3",
+      "level": "B2",
+      "titleAr": "حملات الصحة العامة",
+      "titleEn": "Public Health Campaigns",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u6-l4",
+      "level": "B2",
+      "titleAr": "خرافات التغذية",
+      "titleEn": "Nutrition Myths",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u7-l1",
+      "level": "B2",
+      "titleAr": "الخصوصية والبيانات",
+      "titleEn": "Privacy and Data",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u7-l2",
+      "level": "B2",
+      "titleAr": "تأثير وسائل التواصل",
+      "titleEn": "Social Media Influence",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u7-l3",
+      "level": "B2",
+      "titleAr": "الأتمتة والوظائف",
+      "titleEn": "Automation and Jobs",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u7-l4",
+      "level": "B2",
+      "titleAr": "الأمن السيبراني",
+      "titleEn": "Cybersecurity",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u8-l1",
+      "level": "B2",
+      "titleAr": "العمل عن بُعد",
+      "titleEn": "Remote Work",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u8-l2",
+      "level": "B2",
+      "titleAr": "تغيير المسار المهني",
+      "titleEn": "Career Changes",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u8-l3",
+      "level": "B2",
+      "titleAr": "الخلافات في العمل",
+      "titleEn": "Workplace Conflict",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u8-l4",
+      "level": "B2",
+      "titleAr": "تقييم الأداء",
+      "titleEn": "Performance Reviews",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u9-l1",
+      "level": "B2",
+      "titleAr": "الفن وتفسيره",
+      "titleEn": "Art and Interpretation",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u9-l2",
+      "level": "B2",
+      "titleAr": "التراث الثقافي",
+      "titleEn": "Cultural Heritage",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u9-l3",
+      "level": "B2",
+      "titleAr": "نقد الأفلام والأدب",
+      "titleEn": "Film and Book Criticism",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u9-l4",
+      "level": "B2",
+      "titleAr": "العولمة والهوية",
+      "titleEn": "Globalisation and Identity",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u10-l1",
+      "level": "B2",
+      "titleAr": "الجريمة والعدالة",
+      "titleEn": "Crime and Justice",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u10-l2",
+      "level": "B2",
+      "titleAr": "حقوق الإنسان",
+      "titleEn": "Human Rights",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u10-l3",
+      "level": "B2",
+      "titleAr": "الأنظمة واللوائح",
+      "titleEn": "Rules and Regulations",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u10-l4",
+      "level": "B2",
+      "titleAr": "حقوق المستهلك",
+      "titleEn": "Consumer Rights",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u11-l1",
+      "level": "B2",
+      "titleAr": "التضخم والأسعار",
+      "titleEn": "Inflation and Prices",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u11-l2",
+      "level": "B2",
+      "titleAr": "ريادة الأعمال",
+      "titleEn": "Entrepreneurship",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u11-l3",
+      "level": "B2",
+      "titleAr": "أساسيات الاستثمار",
+      "titleEn": "Investing Basics",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u11-l4",
+      "level": "B2",
+      "titleAr": "اقتصاد العمل الحر",
+      "titleEn": "The Gig Economy",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u12-l1",
+      "level": "B2",
+      "titleAr": "تقديم ملاحظات بنّاءة",
+      "titleEn": "Giving Constructive Feedback",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u12-l2",
+      "level": "B2",
+      "titleAr": "الاستماع الفعّال",
+      "titleEn": "Active Listening",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u12-l3",
+      "level": "B2",
+      "titleAr": "كتابة التقارير الرسمية",
+      "titleEn": "Writing Formal Reports",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "b2-x-u12-l4",
+      "level": "B2",
+      "titleAr": "التلخيص وإعادة الصياغة",
+      "titleEn": "Summarising and Paraphrasing",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-u1-l1",
+      "level": "C1",
+      "titleAr": "التحرير المتقدم",
+      "titleEn": "Advanced Editing",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-extra-2",
+      "level": "C1",
+      "titleAr": "الكتابة الأكاديمية",
+      "titleEn": "Academic Writing",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-extra-3",
+      "level": "C1",
+      "titleAr": "التحفظ العلمي",
+      "titleEn": "Academic Hedging",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-extra-4",
+      "level": "C1",
+      "titleAr": "التحليل النقدي",
+      "titleEn": "Critical Analysis",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-extra-5",
+      "level": "C1",
+      "titleAr": "المتلازمات اللفظية",
+      "titleEn": "Advanced Collocations",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-extra-6",
+      "level": "C1",
+      "titleAr": "الإنجليزية القانونية والمهنية",
+      "titleEn": "Legal and Business English",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-extra-7",
+      "level": "C1",
+      "titleAr": "العروض المقنعة",
+      "titleEn": "Persuasive Presentations",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-extra-8",
+      "level": "C1",
+      "titleAr": "النقاش الدقيق",
+      "titleEn": "Nuanced Debate",
+      "status": "pending",
+      "vocabularyCount": 7,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u1-l1",
+      "level": "C1",
+      "titleAr": "إتقان التعابير الاصطلاحية",
+      "titleEn": "Mastering Idiomatic Expressions",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u1-l2",
+      "level": "C1",
+      "titleAr": "الفروق الدلالية والإيحاءات",
+      "titleEn": "Shades of Meaning and Connotation",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u1-l3",
+      "level": "C1",
+      "titleAr": "التلميح والمعنى الضمني",
+      "titleEn": "Implication and Inference",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u1-l4",
+      "level": "C1",
+      "titleAr": "اللغة المجازية والتعبيرية",
+      "titleEn": "Figurative and Expressive Language",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u1-l5",
+      "level": "C1",
+      "titleAr": "الطلاقة العفوية والكلام المترابط",
+      "titleEn": "Spontaneous Fluency and Cohesion",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u2-l1",
+      "level": "C1",
+      "titleAr": "الرسمي مقابل غير الرسمي",
+      "titleEn": "Formal versus Informal Register",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u2-l2",
+      "level": "C1",
+      "titleAr": "مناقشة الأفكار المجردة",
+      "titleEn": "Discussing Abstract Ideas",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u2-l3",
+      "level": "C1",
+      "titleAr": "الدبلوماسية واللباقة",
+      "titleEn": "Diplomacy and Tact",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u2-l4",
+      "level": "C1",
+      "titleAr": "تليين الرفض والاعتراض",
+      "titleEn": "Softening Disagreement and Refusal",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u2-l5",
+      "level": "C1",
+      "titleAr": "التعبير الملطَّف والمواربة",
+      "titleEn": "Euphemism and Understatement",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u3-l1",
+      "level": "C1",
+      "titleAr": "البحث وتفسير البيانات",
+      "titleEn": "Research and Interpreting Data",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u3-l2",
+      "level": "C1",
+      "titleAr": "الاقتصاد والأسواق",
+      "titleEn": "Economics and Markets",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u3-l3",
+      "level": "C1",
+      "titleAr": "السياسات العامة",
+      "titleEn": "Public Policy",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u3-l4",
+      "level": "C1",
+      "titleAr": "الأخلاق والفلسفة",
+      "titleEn": "Ethics and Philosophy",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u3-l5",
+      "level": "C1",
+      "titleAr": "التفكير النقدي في الأدلة",
+      "titleEn": "Critical Thinking About Evidence",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u4-l1",
+      "level": "C1",
+      "titleAr": "أساسيات التفاوض المتقدّم",
+      "titleEn": "Foundations of Advanced Negotiation",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u4-l2",
+      "level": "C1",
+      "titleAr": "التعامل مع الجمود والصراع",
+      "titleEn": "Handling Deadlock and Conflict",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u4-l3",
+      "level": "C1",
+      "titleAr": "فنّ السرد القصصي",
+      "titleEn": "The Art of Storytelling",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u4-l4",
+      "level": "C1",
+      "titleAr": "الأدوات البلاغية",
+      "titleEn": "Rhetorical Devices",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u4-l5",
+      "level": "C1",
+      "titleAr": "الإقناع والتأثير",
+      "titleEn": "Persuasion and Influence",
+      "status": "pending",
+      "vocabularyCount": 6,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u5-l1",
+      "level": "C1",
+      "titleAr": "بناء حجة أكاديمية",
+      "titleEn": "Structuring an Academic Argument",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u5-l2",
+      "level": "C1",
+      "titleAr": "توثيق المصادر وتقييمها",
+      "titleEn": "Citing and Evaluating Sources",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u5-l3",
+      "level": "C1",
+      "titleAr": "الاسمية والأسلوب الرسمي",
+      "titleEn": "Nominalisation and Formal Style",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u5-l4",
+      "level": "C1",
+      "titleAr": "كتابة ملخص بحثي",
+      "titleEn": "Writing Abstracts",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u6-l1",
+      "level": "C1",
+      "titleAr": "المنهج العلمي وعدم اليقين",
+      "titleEn": "Scientific Method and Uncertainty",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u6-l2",
+      "level": "C1",
+      "titleAr": "جدل التقنية الحيوية",
+      "titleEn": "Biotechnology Debates",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u6-l3",
+      "level": "C1",
+      "titleAr": "استكشاف الفضاء",
+      "titleEn": "Space Exploration",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u6-l4",
+      "level": "C1",
+      "titleAr": "الابتكار المُحدِث للتغيير",
+      "titleEn": "Innovation and Disruption",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u7-l1",
+      "level": "C1",
+      "titleAr": "الدبلوماسية والعلاقات الدولية",
+      "titleEn": "Diplomacy and International Relations",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u7-l2",
+      "level": "C1",
+      "titleAr": "الهجرة",
+      "titleEn": "Migration",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u7-l3",
+      "level": "C1",
+      "titleAr": "الصحة العالمية",
+      "titleEn": "Global Health",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u7-l4",
+      "level": "C1",
+      "titleAr": "التنمية والمساعدات",
+      "titleEn": "Development and Aid",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u8-l1",
+      "level": "C1",
+      "titleAr": "التحيزات المعرفية",
+      "titleEn": "Cognitive Biases",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u8-l2",
+      "level": "C1",
+      "titleAr": "الدافعية والعادات",
+      "titleEn": "Motivation and Habit",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u8-l3",
+      "level": "C1",
+      "titleAr": "اتخاذ القرار في ظل عدم اليقين",
+      "titleEn": "Decision-Making Under Uncertainty",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u8-l4",
+      "level": "C1",
+      "titleAr": "الذكاء العاطفي",
+      "titleEn": "Emotional Intelligence",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u9-l1",
+      "level": "C1",
+      "titleAr": "التضليل الإعلامي",
+      "titleEn": "Misinformation",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u9-l2",
+      "level": "C1",
+      "titleAr": "أخلاقيات الصحافة",
+      "titleEn": "Journalism Ethics",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u9-l3",
+      "level": "C1",
+      "titleAr": "التأطير والتحيّز",
+      "titleEn": "Framing and Bias",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u9-l4",
+      "level": "C1",
+      "titleAr": "الوعي الرقمي",
+      "titleEn": "Digital Literacy",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u10-l1",
+      "level": "C1",
+      "titleAr": "التخطيط الاستراتيجي",
+      "titleEn": "Strategic Planning",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u10-l2",
+      "level": "C1",
+      "titleAr": "إدارة التغيير",
+      "titleEn": "Change Management",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u10-l3",
+      "level": "C1",
+      "titleAr": "ثقافة المؤسسة",
+      "titleEn": "Organisational Culture",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u10-l4",
+      "level": "C1",
+      "titleAr": "التواصل في الأزمات",
+      "titleEn": "Crisis Communication",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u11-l1",
+      "level": "C1",
+      "titleAr": "الدقة والإيجاز",
+      "titleEn": "Precision and Concision",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u11-l2",
+      "level": "C1",
+      "titleAr": "السخرية والدعابة",
+      "titleEn": "Irony and Humour",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u11-l3",
+      "level": "C1",
+      "titleAr": "التوكيد بالقلب والتقديم",
+      "titleEn": "Emphasis and Inversion",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u11-l4",
+      "level": "C1",
+      "titleAr": "أدوات الربط المتقدمة",
+      "titleEn": "Advanced Linking and Cohesion",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u12-l1",
+      "level": "C1",
+      "titleAr": "إدارة الاجتماعات الحاسمة",
+      "titleEn": "Chairing High-Stakes Meetings",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u12-l2",
+      "level": "C1",
+      "titleAr": "المقابلات على المستوى القيادي",
+      "titleEn": "Senior-Level Interviews",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u12-l3",
+      "level": "C1",
+      "titleAr": "الخطابة العامة",
+      "titleEn": "Public Speaking",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    },
+    {
+      "id": "c1-x-u12-l4",
+      "level": "C1",
+      "titleAr": "كتابة المقترحات المقنعة",
+      "titleEn": "Writing Persuasive Proposals",
+      "status": "pending",
+      "vocabularyCount": 8,
+      "reviewNotes": []
+    }
+  ]
+}

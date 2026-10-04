@@ -686,5 +686,157 @@
       "explanationAr": "يتبع avoid الفعل بصيغة ing، لذا نستخدم leaving. لا نستخدم to leave أوleave مباشرة في هذا التركيب.",
       "explanationEn": "Avoid takes an -ing form, so leaving fits. Neither to leave nor the bare verb leave follows avoid in this structure."
     }
+  },
+  "b1-x-u7-l1": {
+    "focusAr": "income المال الداخل، وexpenses النفقات، وbudget خطة لتوزيع المال وليست المبلغ المصروف نفسه. afford تصف القدرة على تحمل تكلفة شيء؛ نقول afford a ticket أوafford to travel. run out of تعني نفاد الشيء تمامًا. عند شرح ميزانية تدريبية، اربط الإنفاق بسبب أو قيد محدد.",
+    "focusEn": "Income is money coming in, expenses are costs, and a budget is a plan for using money rather than the amount already spent. Afford describes ability to pay: say afford a ticket or afford to travel. Run out of means have none left. When explaining a practice budget, connect spending with a particular reason or limit.",
+    "taskAr": "في موقف تدريبي، اشرح لماذا تؤجل شراء جهاز حتى الشهر القادم، مستخدمًا income وexpenses وafford.",
+    "taskEn": "In a practice situation, explain why you are delaying a device purchase until next month, using income, expenses, and afford.",
+    "exampleEn": "My expenses are higher than usual this month, but my income is the same. I can't afford to buy the device now, so I'll review my budget next month.",
+    "exampleAr": "نفقاتي أعلى من المعتاد هذا الشهر، لكن دخلي لم يتغير. لا أستطيع تحمل تكلفة شراء الجهاز الآن، لذلك سأراجع ميزانيتي الشهر القادم.",
+    "check": {
+      "promptEn": "Which sentence correctly uses afford before an action?",
+      "choices": [
+        "I can't afford to buy it this month.",
+        "I can't afford buying it this month.",
+        "I can't afford buy it this month."
+      ],
+      "answer": "I can't afford to buy it this month.",
+      "explanationAr": "عندما يأتي فعل بعد afford نستخدم to ثم الفعل الأساسي: afford to buy. ويمكن أن يتبعه اسم مباشرة مثل afford a ticket.",
+      "explanationEn": "When an action follows afford, use to and the base verb: afford to buy. A noun can also follow directly, as in afford a ticket."
+    }
+  },
+  "b1-x-u7-l2": {
+    "focusAr": "save up for تربط الادخار بهدف شراء أو نفقة، وset aside تعني تخصيص جزء من مال أو وقت. savings اسم جمع للمدخرات، بينما saving قد يصف عملية الادخار. for a rainy day تعبير مجازي لوقت حاجة غير متوقع. interest هنا عائد مالي، لا اهتمام بشيء؛ يحدد السياق المعنى.",
+    "focusEn": "Save up for links saving to a planned purchase or expense, while set aside means reserve part of your money or time. Savings is a plural noun for money saved; saving can describe the activity. For a rainy day means for an unexpected need. Interest here is a financial return, not curiosity; context determines the meaning.",
+    "taskAr": "صف هدف ادخار تخيليًا لحاسوب، مع مبلغ أسبوعي ومبلغ مستهدف، دون تقديم نصيحة مالية عامة.",
+    "taskEn": "Describe an imagined laptop savings goal with a weekly amount and a target, without giving general financial advice.",
+    "exampleEn": "In this example, I want to save up for a laptop that costs 300. If I set aside 25 each week and the price stays the same, I will reach my goal in twelve weeks.",
+    "exampleAr": "في هذا المثال، أريد الادخار لحاسوب محمول ثمنه 300. إذا خصصت 25 كل أسبوع وبقي السعر نفسه، فسأصل إلى هدفي خلال اثني عشر أسبوعًا.",
+    "check": {
+      "promptEn": "Someone keeps money for a rainy day. What do they mean?",
+      "choices": [
+        "They reserve money for an unexpected need.",
+        "They can only spend the money when it rains.",
+        "They plan to buy every umbrella in a shop."
+      ],
+      "answer": "They reserve money for an unexpected need.",
+      "explanationAr": "for a rainy day تعبير مجازي عن الاحتفاظ بمال لوقت الحاجة، ولا يشترط طقسًا ممطرًا أو شراء مظلات.",
+      "explanationEn": "For a rainy day figuratively means keeping money for a time of need. It does not require rainy weather or buying umbrellas."
+    }
+  },
+  "b1-x-u7-l3": {
+    "focusAr": "fit تصف مناسبة المقاس، بينما suit قد تصف مناسبة اللون أو الأسلوب. exchange استبدال سلعة بأخرى، وrefund إعادة المبلغ. عند شرح المشكلة، اذكر رقم الطلب والعيب ثم اطلب الإجراء المطلوب. لا تفترض مدة موحدة للإرجاع؛ انسب المدة إلى return policy المذكورة في الموقف.",
+    "focusEn": "Fit describes size, while suit can describe a suitable style or colour. Exchange means replace an item with another; refund means return the payment. State the order reference and problem, then request the action you want. Do not assume a universal return period; attribute it to the return policy in the situation.",
+    "taskAr": "اكتب طلب استبدال لسترة ضيقة بالمقاس الأكبر، واسأل ماذا يحدث إذا لم يكن المقاس متاحًا.",
+    "taskEn": "Write a request to exchange a tight jacket for a larger size, and ask what happens if that size is unavailable.",
+    "exampleEn": "The jacket in order 42 doesn't fit me. Could I exchange it for a larger size? If that size is out of stock, could you explain the return policy?",
+    "exampleAr": "السترة في الطلب رقم 42 ليست على مقاسي. هل يمكنني استبدالها بمقاس أكبر؟ وإذا لم يتوفر ذلك المقاس، فهل يمكنكم توضيح سياسة الإرجاع؟",
+    "check": {
+      "promptEn": "A customer wants the same shirt in a larger size rather than money back. What are they requesting?",
+      "choices": [
+        "An exchange.",
+        "A refund only.",
+        "A receipt without changing the item."
+      ],
+      "answer": "An exchange.",
+      "explanationAr": "يريد العميل سلعة بديلة بمقاس مختلف، وهذا exchange. أما refund فيعيد المال، والإيصال لا يغيّر السلعة.",
+      "explanationEn": "The customer wants a replacement item in a different size, which is an exchange. A refund returns money, and a receipt does not change the item."
+    }
+  },
+  "b1-x-u7-l4": {
+    "focusAr": "lend تعني إعطاء شيء مؤقتًا، وborrow أخذه مؤقتًا: lend something to someone وborrow something from someone. تأتي owe مع الشخص والمبلغ مباشرة. pay back تعني إعادة المال؛ ومع الضمير نقول pay it back. عند طلب قرض شخصي في تدريب لغوي، حدّد المبلغ والموعد واترك للآخر مجال الرفض بأدب.",
+    "focusEn": "Lend means give something temporarily; borrow means receive it temporarily: lend something to someone and borrow something from someone. Owe takes the person and amount directly. Pay back means return money; with a pronoun, say pay it back. In a language-practice request, state the amount and repayment date while allowing a polite refusal.",
+    "taskAr": "اكتب حوارًا تدريبيًا من طلب مبلغ صغير حتى الجمعة، ثم رد مهذب يعتذر عن الإقراض.",
+    "taskEn": "Write a practice exchange requesting a small amount until Friday, followed by a polite refusal.",
+    "exampleEn": "Could you lend me ten until Friday? I'll pay you back then. — I'm sorry, but I can't lend any money this week.",
+    "exampleAr": "هل يمكنك إقراضي عشرة حتى الجمعة؟ سأعيدها إليك حينها. — آسف، لكنني لا أستطيع إقراض أي مبلغ هذا الأسبوع.",
+    "check": {
+      "promptEn": "Sara gives Ali twenty temporarily. Which sentence describes Sara's action?",
+      "choices": [
+        "Sara lends Ali twenty.",
+        "Sara borrows twenty from Ali.",
+        "Sara owes Ali twenty because she gave it to him."
+      ],
+      "answer": "Sara lends Ali twenty.",
+      "explanationAr": "سارة تعطي المال مؤقتًا، فهي تقرضه. علي هو الذي يستعير أو يقترض منها، وليس العكس.",
+      "explanationEn": "Sara gives the money temporarily, so she lends it. Ali is the person borrowing from her, not the other way round."
+    }
+  },
+  "b1-x-u8-l1": {
+    "focusAr": "rely on الاعتماد على شخص، وtrust هنا اسم للثقة، وget on with وصف لعلاقة جيدة. fall out with someone تعني التخاصم معه، وfall out over something تحدد سبب الخلاف. وجود أشياء مشتركة لا يعني التطابق في كل رأي؛ صف فعلًا يوضح الدعم بدل الاكتفاء بوصف الصديق بأنه جيد.",
+    "focusEn": "Rely on means depend on someone, trust is a noun here, and get on with describes a good relationship. Fall out with someone names the person; fall out over something names the disagreement. Having things in common does not mean sharing every opinion. Describe an action showing support rather than only calling a friend good.",
+    "taskAr": "صف صداقة تتضمن اهتمامًا مشتركًا وموقف دعم، ثم اذكر كيف تحافظان على التواصل رغم اختلاف مكان السكن.",
+    "taskEn": "Describe a friendship with a shared interest and an example of support, then explain how you keep in touch while living apart.",
+    "exampleEn": "We have an interest in books in common, but we don't always like the same stories. I can rely on her to listen when I need help. We keep in touch by calling every weekend.",
+    "exampleAr": "نشترك في الاهتمام بالكتب، لكننا لا نحب القصص نفسها دائمًا. أستطيع الاعتماد عليها في الإصغاء عندما أحتاج إلى مساعدة. ونبقى على تواصل بالاتصال كل عطلة أسبوعية.",
+    "check": {
+      "promptEn": "Two friends disagree about a plan and stop speaking for a while. Which phrase describes the disagreement?",
+      "choices": [
+        "They fall out over the plan.",
+        "They keep in touch more often than before.",
+        "They agree on every detail of the plan."
+      ],
+      "answer": "They fall out over the plan.",
+      "explanationAr": "fall out over تحدد وجود خلاف وموضوعه. لا يدل التوقف عن الكلام على زيادة التواصل أو الاتفاق على جميع التفاصيل.",
+      "explanationEn": "Fall out over identifies a disagreement and its subject. Stopping communication does not suggest more frequent contact or agreement on every detail."
+    }
+  },
+  "b1-x-u8-l2": {
+    "focusAr": "household مجموعة من يعيشون في بيت واحد وقد لا يكونون أقارب، بينما extended family تشمل الأقارب خارج الوالدين والأطفال. bring up تعني التربية، ويمكن أن تأتي bring them up مع الضمير. للمقارنة قل used to عن الماضي وnowadays عن الحاضر، وحدد الأسرة المقصودة بدل افتراض نمط واحد للجميع.",
+    "focusEn": "A household consists of people living in one home, who need not all be relatives; extended family includes relatives beyond parents and children. Bring up means raise children, with bring them up when using a pronoun. Compare used to for the past with nowadays for the present, identifying the family involved rather than assuming one pattern for everyone.",
+    "taskAr": "قارن طريقة تواصل عائلتك الممتدة في الماضي والحاضر، واذكر جانبًا بقي كما هو.",
+    "taskEn": "Compare how your extended family communicated in the past and now, and mention something that has stayed the same.",
+    "exampleEn": "My extended family used to meet every week when we lived nearby. Nowadays, we live in different cities and often make video calls. We still enjoy sharing family news.",
+    "exampleAr": "كانت عائلتي الممتدة تجتمع أسبوعيًا عندما كنا نسكن متقاربين. أما الآن فنعيش في مدن مختلفة ونجري مكالمات فيديو كثيرًا. وما زلنا نستمتع بتبادل أخبار العائلة.",
+    "check": {
+      "promptEn": "Three unrelated friends share one home. Which term describes them as people living together?",
+      "choices": [
+        "A household.",
+        "Three generations of one family.",
+        "Necessarily an extended family."
+      ],
+      "answer": "A household.",
+      "explanationAr": "household تتعلق بالسكن المشترك ولا تشترط القرابة. لا يثبت الموقف وجود ثلاثة أجيال أو عائلة ممتدة.",
+      "explanationEn": "Household refers to shared residence and does not require relatives. The situation does not establish three generations or an extended family."
+    }
+  },
+  "b1-x-u8-l3": {
+    "focusAr": "volunteer هنا فعل للتطوع، وقد يأتي اسمًا لشخص متطوع في سياق آخر. donate تتبعها التبرعات ثم to والجهة، وraise money for تحدد غرض جمع المال. give back تعبير عن رد الجميل للمجتمع. وضّح دورك ونتيجته؛ non-profit تصف غرض المنظمة، ولا تعني أن كل العاملين فيها بلا أجر.",
+    "focusEn": "Volunteer is a verb here, although it can also name a person. Donate takes the donation followed by to and the recipient; raise money for identifies the fundraising purpose. Give back expresses contributing in return for support received. Explain your role and its result. Non-profit describes an organization's purpose, not a guarantee that all staff are unpaid.",
+    "taskAr": "صف نشاطًا تطوعيًا تخيليًا لبيع الكتب، وحدد مهمتك والجهة المستفيدة وشيئًا تعلمته.",
+    "taskEn": "Describe an imagined volunteer book sale, identifying your task, the recipient of the money, and something you learned.",
+    "exampleEn": "I helped organise a book sale to raise money for a local charity. My job was to sort the books by topic. I learned how clear labels can help visitors find what they want.",
+    "exampleAr": "ساعدت في تنظيم بيع كتب لجمع المال لجمعية خيرية محلية. كانت مهمتي ترتيب الكتب حسب الموضوع. تعلمت كيف تساعد اللافتات الواضحة الزوار على العثور على ما يريدون.",
+    "check": {
+      "promptEn": "Which sentence correctly names the recipient after donate?",
+      "choices": [
+        "We donated books to a local charity.",
+        "We donated a local charity to books.",
+        "We donated for books a local charity."
+      ],
+      "answer": "We donated books to a local charity.",
+      "explanationAr": "نضع الشيء المتبرع به بعد donate، ثم to والجهة التي تتلقاه. الكتب هي التبرع، والجمعية هي الجهة المستفيدة.",
+      "explanationEn": "Place the donated item after donate, followed by to and the recipient. The books are the donation, and the charity receives them."
+    }
+  },
+  "b1-x-u8-l4": {
+    "focusAr": "عند طرح مشكلة مع جار، صف السلوك ووقته وأثره بدل الحكم على الشخص. complain about تحدد موضوع الشكوى، وcomplain to تحدد من يسمعها. keep the noise down طلب خفض الصوت، وput up with تعني تحمل وضع مزعج. اختم بطلب يمكن تنفيذه وامنح الآخر فرصة الرد.",
+    "focusEn": "When raising a problem with a neighbour, describe the behaviour, time, and effect rather than judging the person. Complain about names the issue; complain to names the person receiving the complaint. Keep the noise down requests lower sound levels, while put up with means tolerate an unpleasant situation. Finish with a practical request and allow a response.",
+    "taskAr": "اكتب طلبًا مهذبًا لخفض الموسيقى بعد العاشرة، واشرح أن الصوت يصل إلى غرفة نومك.",
+    "taskEn": "Write a polite request to lower music after ten, explaining that the sound reaches your bedroom.",
+    "exampleEn": "I'm sorry to complain, but I can hear the music clearly in my bedroom after ten. Could you keep the volume down at that time, please? I'd appreciate it.",
+    "exampleAr": "آسف على الشكوى، لكنني أسمع الموسيقى بوضوح في غرفة نومي بعد العاشرة. هل يمكنك خفض الصوت في ذلك الوقت، من فضلك؟ سأكون شاكرًا لك.",
+    "check": {
+      "promptEn": "Which request is specific and avoids a personal accusation?",
+      "choices": [
+        "Could you lower the music after ten? I can hear it in my bedroom.",
+        "You are always a terrible neighbour.",
+        "Everyone must agree that you are inconsiderate."
+      ],
+      "answer": "Could you lower the music after ten? I can hear it in my bedroom.",
+      "explanationAr": "يحدد الجواب الصحيح السلوك والوقت وأثره ويطلب تغييرًا واضحًا. البديلان يحكمان على الشخص ويعممان بدل وصف المشكلة.",
+      "explanationEn": "The correct answer identifies the behaviour, time, and effect and requests a clear change. The alternatives judge the person and generalize rather than describe the problem."
+    }
   }
 }

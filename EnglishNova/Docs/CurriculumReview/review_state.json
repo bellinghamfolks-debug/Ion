@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة ثمانية دروس B1 عن الترفيه والتواصل والسفر: توضيح المعاني غير الحرفية، تصحيح المصطلحات العربية، وتدريب على التقييم المدعوم بالأسباب.",
-  "nextStep": "Continue editorial review from b1-x-u7-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة ثمانية دروس B1 عن الميزانية والتسوق والعلاقات والمجتمع: معاني دقيقة وفق نوع الكلمة، صياغة طلبات عملية، وتجنب تعميم الأنماط العائلية وشروط الإرجاع.",
+  "nextStep": "Continue editorial review from b1-x-u9-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -2605,72 +2605,96 @@
       "level": "B1",
       "titleAr": "إدارة الميزانية",
       "titleEn": "Managing a Budget",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u7-l2",
       "level": "B1",
       "titleAr": "الادخار للمستقبل",
       "titleEn": "Saving for the Future",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u7-l3",
       "level": "B1",
       "titleAr": "التسوق عبر الإنترنت والإرجاع",
       "titleEn": "Online Shopping and Returns",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u7-l4",
       "level": "B1",
       "titleAr": "الاقتراض والإقراض",
       "titleEn": "Borrowing and Lending",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u8-l1",
       "level": "B1",
       "titleAr": "الصداقة",
       "titleEn": "Friendship",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u8-l2",
       "level": "B1",
       "titleAr": "الحياة العائلية اليوم",
       "titleEn": "Family Life Today",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u8-l3",
       "level": "B1",
       "titleAr": "العمل التطوعي",
       "titleEn": "Volunteering",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u8-l4",
       "level": "B1",
       "titleAr": "العيش مع الجيران",
       "titleEn": "Living with Neighbours",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u9-l1",
@@ -3905,7 +3929,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 216,
-    "pending": 144
+    "reviewed": 224,
+    "pending": 136
   }
 }

@@ -41,6 +41,65 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PATH = ROOT / "EnglishNova/Resources/Curriculum/curriculum.json"
 ENRICH_DIR = ROOT / "Scripts/enrichment"
+QUALITY_FIXES = ROOT / "Scripts/curriculum_quality_fixes.json"
+
+
+def load_quality_fixes():
+    """Load durable editorial corrections keyed by stable vocabulary id."""
+    if not QUALITY_FIXES.is_file():
+        return {"vocabularyById": {}, "arabicGlossById": {}}
+    data = json.loads(QUALITY_FIXES.read_text(encoding="utf-8"))
+    return {
+        "vocabularyById": data.get("vocabularyById", {}),
+        "arabicGlossById": data.get("arabicGlossById", {}),
+    }
+
+
+def normalize_english_sentence(text: str) -> str:
+    """Normalise sentence-final punctuation without changing the wording."""
+    value = (text or "").strip()
+    value = re.sub(r"([!?])\\.+$", r"\\1", value)
+    value = re.sub(r"\\.{2,}$", ".", value)
+    return value
+
+
+def apply_quality_fixes(catalog, fixes):
+    """Apply reviewed corrections before enrichment/exercise generation.
+
+    Full replacements remove weak legacy upper-level vocabulary such as bare
+    function words (I/The/Where) and replace them with useful level-appropriate
+    language. Gloss-only fixes repair beginner Arabic without changing the
+    English item. Stable ids make the pass idempotent and auditable.
+    """
+    replacements = fixes.get("vocabularyById", {})
+    glosses = fixes.get("arabicGlossById", {})
+    replaced = gloss_fixed = punctuation_fixed = 0
+    seen_ids = set()
+
+    for level in catalog.get("levels", []):
+        for unit in level.get("units", []):
+            for lesson in unit.get("lessons", []):
+                if lesson.get("modelSentence"):
+                    before = lesson["modelSentence"]
+                    lesson["modelSentence"] = normalize_english_sentence(before)
+                    punctuation_fixed += before != lesson["modelSentence"]
+                for word in lesson.get("vocabulary", []):
+                    wid = word.get("id")
+                    if not wid:
+                        continue
+                    seen_ids.add(wid)
+                    replacement = replacements.get(wid)
+                    if replacement:
+                        word.update(replacement)
+                        replaced += 1
+                    elif wid in glosses:
+                        word["arabic"] = glosses[wid]
+                        gloss_fixed += 1
+
+    missing = sorted((set(replacements) | set(glosses)) - seen_ids)
+    if missing:
+        raise SystemExit(f"Quality fixes reference missing vocabulary ids: {missing}")
+    return replaced, gloss_fixed, punctuation_fixed
 
 
 def load_enrichment():
@@ -113,8 +172,8 @@ def find(exercises, etype):
 
 
 def model_sentence(lesson) -> str:
-    """English model sentence for the lesson."""
-    explicit = (lesson.get("modelSentence") or "").strip()
+    """English model sentence for the lesson, with clean final punctuation."""
+    explicit = normalize_english_sentence(lesson.get("modelSentence") or "")
     if explicit:
         return explicit if explicit.endswith((".", "!", "?")) else explicit + "."
     exs = lesson["exercises"]
@@ -122,9 +181,9 @@ def model_sentence(lesson) -> str:
         e = find(exs, t)
         if e:
             for key in ("speechText", "promptEn", "answer"):
-                v = e.get(key)
-                if v and v.strip():
-                    return v.strip().rstrip(".") + "." if not v.strip().endswith(".") else v.strip()
+                v = normalize_english_sentence(e.get(key) or "")
+                if v:
+                    return v if v.endswith((".", "!", "?")) else v + "."
     return ""
 
 
@@ -487,6 +546,8 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
 
 def main():
     catalog = json.loads(PATH.read_text(encoding="utf-8"))
+    quality = load_quality_fixes()
+    replaced, gloss_fixed, punctuation_fixed = apply_quality_fixes(catalog, quality)
     enrichment = load_enrichment()
     words_before = words_added = 0
 
@@ -525,6 +586,8 @@ def main():
         encoding="utf-8",
     )
     print(f"Expanded {lessons} lessons.")
+    print(f"Quality corrections: {replaced} vocabulary replacements, "
+          f"{gloss_fixed} Arabic gloss fixes, {punctuation_fixed} explicit sentence punctuation fixes.")
     print(f"Vocabulary: {words_before} base words + {words_added} authored "
           f"= {words_before + words_added} total.")
     print(f"Exercises: {total_before} -> {total_after} "

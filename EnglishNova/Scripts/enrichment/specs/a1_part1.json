@@ -240,7 +240,7 @@
       "titleEn": "Do Questions",
       "titleAr": "هل تفعل؟",
       "objectiveAr": "أن تكوّن سؤالًا في الحاضر باستخدام Do.",
-      "modelSentence": "Do you speak English?.",
+      "modelSentence": "Do you speak English?",
       "modelSentenceAr": "هل تتحدث الإنجليزية؟",
       "existingVocabulary": [
         {
@@ -266,7 +266,7 @@
       "titleEn": "Does Questions",
       "titleAr": "هل يعمل؟",
       "objectiveAr": "أن تسأل عن شخص باستخدام Does.",
-      "modelSentence": "Does Sara work here?.",
+      "modelSentence": "Does Sara work here?",
       "modelSentenceAr": "هل تعمل سارة هنا؟",
       "existingVocabulary": [
         {
@@ -448,7 +448,7 @@
       "titleEn": "Past Questions",
       "titleAr": "هل ذهبت؟",
       "objectiveAr": "أن تسأل عن الماضي باستخدام Did.",
-      "modelSentence": "Did you call your friend?.",
+      "modelSentence": "Did you call your friend?",
       "modelSentenceAr": "هل اتصلت بصديقك؟",
       "existingVocabulary": [
         {
@@ -604,7 +604,7 @@
       "titleEn": "Making an Invitation",
       "titleAr": "الدعوة",
       "objectiveAr": "أن تدعو شخصًا إلى نشاط.",
-      "modelSentence": "Would you like to have coffee tomorrow?.",
+      "modelSentence": "Would you like to have coffee tomorrow?",
       "modelSentenceAr": "هل ترغب في شرب القهوة غدًا؟",
       "existingVocabulary": [
         {
@@ -630,7 +630,7 @@
       "titleEn": "Asking the Price",
       "titleAr": "كم السعر؟",
       "objectiveAr": "أن تسأل عن سعر منتج.",
-      "modelSentence": "How much is this shirt?.",
+      "modelSentence": "How much is this shirt?",
       "modelSentenceAr": "كم سعر هذا القميص؟",
       "existingVocabulary": [
         {
@@ -656,7 +656,7 @@
       "titleEn": "The Right Size",
       "titleAr": "المقاس المناسب",
       "objectiveAr": "أن تطلب مقاسًا مختلفًا.",
-      "modelSentence": "Do you have this in a larger size?.",
+      "modelSentence": "Do you have this in a larger size?",
       "modelSentenceAr": "هل لديكم هذا بمقاس أكبر؟",
       "existingVocabulary": [
         {
@@ -682,7 +682,7 @@
       "titleEn": "Colors in a Store",
       "titleAr": "الألوان في المتجر",
       "objectiveAr": "أن تسأل عن لون متاح.",
-      "modelSentence": "Is this jacket available in black?.",
+      "modelSentence": "Is this jacket available in black?",
       "modelSentenceAr": "هل هذه السترة متاحة باللون الأسود؟",
       "existingVocabulary": [
         {
@@ -708,7 +708,7 @@
       "titleEn": "Paying by Card",
       "titleAr": "الدفع بالبطاقة",
       "objectiveAr": "أن تسأل عن طريقة الدفع.",
-      "modelSentence": "Can I pay by card?.",
+      "modelSentence": "Can I pay by card?",
       "modelSentenceAr": "هل يمكنني الدفع بالبطاقة؟",
       "existingVocabulary": [
         {
@@ -734,7 +734,7 @@
       "titleEn": "Bill and Receipt",
       "titleAr": "الفاتورة والإيصال",
       "objectiveAr": "أن تطلب فاتورة أو إيصالًا.",
-      "modelSentence": "Could I have the receipt, please?.",
+      "modelSentence": "Could I have the receipt, please?",
       "modelSentenceAr": "هل يمكنني الحصول على الإيصال، من فضلك؟",
       "existingVocabulary": [
         {

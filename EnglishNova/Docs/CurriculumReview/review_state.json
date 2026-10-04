@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة A1 الوحدتين 3 و4: الماضي والخطط والدعوات؛ تمييز was/were وdid، وتصحيح ترجمة عرض المساعدة في حمل الحقائب، وتدريبات على الصيغ الأساسية بعد الأفعال المساعدة.",
-  "nextStep": "Continue editorial review from a1-u5-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة A1 الوحدتين 5 و6: التسوق والسفر؛ تمييز الإرجاع والاستبدال واسترداد المال، وتصحيح ترجمة السترة وطلب التوصيل وإرشادات الطريق.",
+  "nextStep": "Continue editorial review from a1-u7-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -1021,108 +1021,144 @@
       "level": "A1",
       "titleAr": "كم السعر؟",
       "titleEn": "Asking the Price",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u5-l2",
       "level": "A1",
       "titleAr": "المقاس المناسب",
       "titleEn": "The Right Size",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u5-l3",
       "level": "A1",
       "titleAr": "الألوان في المتجر",
       "titleEn": "Colors in a Store",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u5-l4",
       "level": "A1",
       "titleAr": "الدفع بالبطاقة",
       "titleEn": "Paying by Card",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u5-l5",
       "level": "A1",
       "titleAr": "الفاتورة والإيصال",
       "titleEn": "Bill and Receipt",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u5-l6",
       "level": "A1",
       "titleAr": "استبدال منتج",
       "titleEn": "Returning an Item",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u6-l1",
       "level": "A1",
       "titleAr": "في المطار",
       "titleEn": "At the Airport",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u6-l2",
       "level": "A1",
       "titleAr": "بطاقة الصعود",
       "titleEn": "Boarding Pass",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u6-l3",
       "level": "A1",
       "titleAr": "في الفندق",
       "titleEn": "At the Hotel",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u6-l4",
       "level": "A1",
       "titleAr": "طلب سيارة",
       "titleEn": "Ordering a Ride",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u6-l5",
       "level": "A1",
       "titleAr": "محطة القطار",
       "titleEn": "Train Station",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u6-l6",
       "level": "A1",
       "titleAr": "السؤال عن الطريق",
       "titleEn": "Asking for Directions",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a1-u7-l1",
@@ -3509,7 +3545,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 84,
-    "pending": 276
+    "reviewed": 96,
+    "pending": 264
   }
 }

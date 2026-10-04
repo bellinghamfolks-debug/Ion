@@ -175,13 +175,13 @@
         "a1-034-take-me-1": [
           {
             "example": "Please take me to the airport.",
-            "exampleArabic": "من فضلك خذني إلى المطار."
+            "exampleArabic": "من فضلك، أوصلني إلى المطار."
           }
         ],
         "a1-034-center-2": [
           {
-            "example": "The shop is in the center.",
-            "exampleArabic": "المتجر في الوسط."
+            "example": "The shop is in the city center.",
+            "exampleArabic": "المتجر في وسط المدينة."
           }
         ],
         "a1-034-driver-3": [
@@ -283,7 +283,7 @@
         "a1-036-direction-3": [
           {
             "example": "Thank you for the directions.",
-            "exampleArabic": "شكرًا على الاتجاهات."
+            "exampleArabic": "شكرًا على إرشادات الطريق."
           }
         ]
       }

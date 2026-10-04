@@ -458,5 +458,244 @@
       "explanationAr": "عند الدعوة إلى فعل نستخدم would like to ثم الفعل الأساسي: to join.",
       "explanationEn": "When inviting someone to do an action, use would like to followed by the base verb: to join."
     }
+  },
+  "a1-u5-l1": {
+    "focusAr": "اسأل How much is مع شيء مفرد، وHow much are مع الجمع. how much هنا للسعر، وليست لسؤال عدد القطع. expensive تصف الشيء بأنه غالٍ، بينما high تصف السعر في a high price.",
+    "focusEn": "Ask How much is with a singular item and How much are with plural items. Here how much asks about price, not the number of items. Expensive describes an item; high describes its price in a high price.",
+    "taskAr": "اسأل عن سعر الحذاء مستخدمًا these shoes.",
+    "taskEn": "Ask the price using these shoes.",
+    "exampleEn": "How much are these shoes?",
+    "exampleAr": "كم سعر هذا الحذاء؟",
+    "check": {
+      "promptEn": "Complete: How much _____ this shirt?",
+      "choices": [
+        "is",
+        "are",
+        "do"
+      ],
+      "answer": "is",
+      "explanationAr": "this shirt مفرد، لذلك نستخدم is. مع these shoes نستخدم are.",
+      "explanationEn": "This shirt is singular, so use is. With these shoes, use are."
+    }
+  },
+  "a1-u5-l2": {
+    "focusAr": "size هو المقاس، وfit يصف ملاءمة المقاس للجسم. larger أكبر وsmaller أصغر. تعلّم try on كوحدة لتجربة الملابس؛ ومع ضمير المفعول نقول try it on، لا try on it.",
+    "focusEn": "Size is the measurement; fit describes whether an item has a suitable size. Larger and smaller compare sizes. Try on means put clothing on to test it. With an object pronoun say try it on, not try on it.",
+    "taskAr": "اطلب مقاسًا أصغر بأدب.",
+    "taskEn": "Politely ask for a smaller size.",
+    "exampleEn": "Do you have this in a smaller size, please?",
+    "exampleAr": "هل لديكم هذا بمقاس أصغر، من فضلك؟",
+    "check": {
+      "promptEn": "Complete: Can I try _____ on?",
+      "choices": [
+        "it",
+        "on it",
+        "to it"
+      ],
+      "answer": "it",
+      "explanationAr": "ضمير المفعول it يأتي بين try وon. الاسم الكامل يمكن أن يأتي بعدهما: try on this jacket.",
+      "explanationEn": "The object pronoun it goes between try and on. A full noun phrase can follow them: try on this jacket."
+    }
+  },
+  "a1-u5-l3": {
+    "focusAr": "available تصف وجود المنتج للبيع أو الاستخدام. اسأل Is this jacket available in black? باستخدام in قبل اللون. لا تساوِ بين متاح ورخيص؛ فالعبارة لا تخبرنا بالسعر.",
+    "focusEn": "Available means the item can be obtained or used. Ask Is this jacket available in black? using in before the colour. Availability does not tell you whether the item is cheap or expensive.",
+    "taskAr": "اسأل إن كانت السترة متاحة باللون الأبيض.",
+    "taskEn": "Ask whether the jacket is available in white.",
+    "exampleEn": "Is this jacket available in white?",
+    "exampleAr": "هل هذه السترة متاحة باللون الأبيض؟",
+    "check": {
+      "promptEn": "Complete: Is this shirt available _____ blue?",
+      "choices": [
+        "in",
+        "on",
+        "at"
+      ],
+      "answer": "in",
+      "explanationAr": "نستخدم in قبل اللون عند السؤال عن نسخ المنتج المتاحة.",
+      "explanationEn": "Use in before the colour when asking which versions of an item are available."
+    }
+  },
+  "a1-u5-l4": {
+    "focusAr": "نقول pay by card للدفع بالبطاقة، وpay in cash للدفع نقدًا. change في هذا الموقف هو المبلغ المتبقي الذي يعيده البائع، وليس فعل التغيير. money اسم غير معدود في هذا الاستعمال.",
+    "focusEn": "Say pay by card and pay in cash. In this situation, change means the money returned after you pay, not the action of changing something. Money is uncountable in this everyday use.",
+    "taskAr": "اسأل إن كان بإمكانك الدفع نقدًا.",
+    "taskEn": "Ask whether you can pay in cash.",
+    "exampleEn": "Can I pay in cash?",
+    "exampleAr": "هل يمكنني الدفع نقدًا؟",
+    "check": {
+      "promptEn": "Complete: I will pay _____ cash.",
+      "choices": [
+        "in",
+        "by",
+        "on"
+      ],
+      "answer": "in",
+      "explanationAr": "التعبير هو in cash، بينما نستخدم by في by card. احفظ كل عبارة كاملة.",
+      "explanationEn": "The phrase is in cash, while card uses by card. Learn each complete phrase."
+    }
+  },
+  "a1-u5-l5": {
+    "focusAr": "bill تبين المبلغ المطلوب دفعه، وreceipt تثبت الدفع. لطلب أي منهما بأدب استخدم Could I have ثم الاسم. could هنا طلب حاضر مهذب، ولا تدل بالضرورة على قدرة في الماضي.",
+    "focusEn": "A bill shows what you need to pay; a receipt records payment. Request either politely with Could I have followed by the noun. Could here makes a present request polite; it does not necessarily describe past ability.",
+    "taskAr": "اطلب إثبات الدفع بعد أن دفعت.",
+    "taskEn": "Ask for proof of payment after paying.",
+    "exampleEn": "Could I have the receipt, please?",
+    "exampleAr": "هل يمكنني الحصول على الإيصال، من فضلك؟",
+    "check": {
+      "promptEn": "You have paid and need proof of payment. Ask for the _____.",
+      "choices": [
+        "receipt",
+        "menu",
+        "price"
+      ],
+      "answer": "receipt",
+      "explanationAr": "receipt توثق الدفع. menu قائمة طعام وprice سعر، وليستا مستند إثبات دفع.",
+      "explanationEn": "A receipt records payment. A menu lists food and a price is an amount, not proof of payment."
+    }
+  },
+  "a1-u5-l6": {
+    "focusAr": "return تعني إرجاع المنتج، وexchange استبداله بآخر، وrefund استرداد المال. اذكر السبب بجملة مثل It is the wrong size. لا تفترض أن الكلمات الثلاث تصف الإجراء نفسه؛ وضّح طلبك.",
+    "focusEn": "Return means take an item back, exchange means replace it with another, and refund means money given back. Give a reason such as It is the wrong size. These words describe different outcomes, so make your request clear.",
+    "taskAr": "اطلب إرجاع القميص لأن مقاسه غير مناسب.",
+    "taskEn": "Ask to return a shirt because it is the wrong size.",
+    "exampleEn": "I would like to return this shirt. It is the wrong size.",
+    "exampleAr": "أرغب في إرجاع هذا القميص. مقاسه غير مناسب.",
+    "check": {
+      "promptEn": "Which word means money given back after a return?",
+      "choices": [
+        "refund",
+        "exchange",
+        "size"
+      ],
+      "answer": "refund",
+      "explanationAr": "refund تعني المال المسترد، أما exchange فاستبدال المنتج وsize هو المقاس.",
+      "explanationEn": "A refund is money given back. An exchange replaces the item, and size refers to its measurements."
+    },
+    "lessonUpdates": {
+      "titleAr": "إرجاع منتج",
+      "objectiveAr": "أن تطلب إرجاع منتج مع ذكر السبب.",
+      "objectiveEn": "Request to return an item and give a reason.",
+      "modelSentence": "I would like to return this item. It is the wrong size.",
+      "modelSentenceArabic": "أرغب في إرجاع هذا المنتج. مقاسه غير مناسب."
+    }
+  },
+  "a1-u6-l1": {
+    "focusAr": "gate بوابة الصعود وflight الرحلة الجوية. قد يختلف وقت الصعود عن وقت إقلاع الرحلة؛ استعمل الكلمة المناسبة عند السؤال. luggage اسم غير معدود، فنقول My luggage is heavy دون s للجمع.",
+    "focusEn": "A gate is the boarding point; a flight is the journey by air. Boarding and departure can have different times, so ask about the right one. Luggage is uncountable: My luggage is heavy, without a plural s.",
+    "taskAr": "اسأل عن مكان البوابة رقم خمسة.",
+    "taskEn": "Ask where gate five is.",
+    "exampleEn": "Where is gate five?",
+    "exampleAr": "أين البوابة رقم خمسة؟",
+    "check": {
+      "promptEn": "Complete: My luggage _____ heavy.",
+      "choices": [
+        "is",
+        "are",
+        "am"
+      ],
+      "answer": "is",
+      "explanationAr": "luggage غير معدودة في الإنجليزية وتعامل نحويًا معاملة المفرد، فتأخذ is.",
+      "explanationEn": "Luggage is uncountable in English and takes singular agreement with is."
+    }
+  },
+  "a1-u6-l2": {
+    "focusAr": "boarding pass بطاقة تستخدم للصعود، وتحتوي معلومات مثل seat وrow. رمز مثل fourteen A يجمع رقم الصف وحرف المقعد؛ انطق الاثنين بوضوح. window seat مقعد بجانب النافذة، لا اسم للنافذة نفسها.",
+    "focusEn": "A boarding pass is used for boarding and includes details such as seat and row. A code such as fourteen A combines a row number and seat letter; say both clearly. A window seat is a seat beside the window.",
+    "taskAr": "قل إن مقعدك في الصف الخامس.",
+    "taskEn": "Say that your seat is in row five.",
+    "exampleEn": "My seat is in row five.",
+    "exampleAr": "مقعدي في الصف الخامس.",
+    "check": {
+      "promptEn": "In the seat code fourteen A, what is A?",
+      "choices": [
+        "the seat letter",
+        "the departure time",
+        "the price"
+      ],
+      "answer": "the seat letter",
+      "explanationAr": "A هو حرف المقعد ضمن الرمز، بينما fourteen يحدد رقم الصف في هذا المثال.",
+      "explanationEn": "A is the seat letter in the code, while fourteen identifies the row in this example."
+    }
+  },
+  "a1-u6-l3": {
+    "focusAr": "reservation تعني حجزًا، وcheck in تسجيل الوصول إلى الفندق. استخدم for مع مدة الإقامة: for two nights. كلمة nights جمع بعد two، لكن بعد one نستخدم night المفرد.",
+    "focusEn": "A reservation is a booking, and check in means register your arrival at the hotel. Use for with the length of a stay: for two nights. Use plural nights after two and singular night after one.",
+    "taskAr": "أخبر موظف الفندق أن لديك حجزًا لثلاث ليالٍ.",
+    "taskEn": "Tell the hotel receptionist that you have a reservation for three nights.",
+    "exampleEn": "I have a reservation for three nights.",
+    "exampleAr": "لدي حجز لثلاث ليالٍ.",
+    "check": {
+      "promptEn": "Complete: I have a reservation _____ two nights.",
+      "choices": [
+        "for",
+        "at",
+        "on"
+      ],
+      "answer": "for",
+      "explanationAr": "for تسبق مدة الإقامة هنا. at تستخدم مع وقت محدد، لا مع عدد الليالي بهذا المعنى.",
+      "explanationEn": "For introduces the length of the stay here. At names a specific time, not the number of nights in this meaning."
+    }
+  },
+  "a1-u6-l4": {
+    "focusAr": "take me to تعني أوصلني إلى في الحديث مع السائق. ضع الوجهة بعد to، وأضف please للتهذيب. address عنوان محدد، أما city center فهو منطقة وسط المدينة وقد تحتاج إلى تحديد مكان أدق داخلها.",
+    "focusEn": "Take me to names the destination when speaking to a driver. Put the place after to and add please. An address identifies a particular location; the city center is an area and may need a more precise destination.",
+    "taskAr": "اطلب من السائق إيصالك إلى المطار.",
+    "taskEn": "Ask the driver to take you to the airport.",
+    "exampleEn": "Please take me to the airport.",
+    "exampleAr": "من فضلك، أوصلني إلى المطار.",
+    "check": {
+      "promptEn": "Complete: Please take me _____ the hotel.",
+      "choices": [
+        "to",
+        "at",
+        "on"
+      ],
+      "answer": "to",
+      "explanationAr": "to تسبق الوجهة بعد take me. لا نستخدم at للدلالة على الوجهة في هذا الطلب.",
+      "explanationEn": "To introduces the destination after take me. At does not express the destination in this request."
+    },
+    "lessonUpdates": {
+      "modelSentence": "Please take me to the city center.",
+      "modelSentenceArabic": "من فضلك، أوصلني إلى وسط المدينة."
+    }
+  },
+  "a1-u6-l5": {
+    "focusAr": "leave تعني يغادر وarrive تعني يصل؛ تأكد من نوع الوقت الذي تسأل عنه. بعد does نستخدم leave دون s. ويمكن أن يصف المضارع البسيط موعد القطار المقرر: The train leaves at ten.",
+    "focusEn": "Leave and arrive refer to different ends of a journey. After does, use leave without s. The simple present can describe a scheduled train time: The train leaves at ten.",
+    "taskAr": "اسأل عن وقت وصول القطار.",
+    "taskEn": "Ask what time the train arrives.",
+    "exampleEn": "What time does the train arrive?",
+    "exampleAr": "في أي وقت يصل القطار؟",
+    "check": {
+      "promptEn": "Complete: What time does the train _____?",
+      "choices": [
+        "leave",
+        "leaves",
+        "left"
+      ],
+      "answer": "leave",
+      "explanationAr": "does تحمل صيغة المضارع مع المفرد، فيبقى الفعل الرئيسي leave بصيغته الأساسية.",
+      "explanationEn": "Does carries the present singular form, so the main verb remains base-form leave."
+    }
+  },
+  "a1-u6-l6": {
+    "focusAr": "get to تعني يصل إلى عند الحديث عن مكان. ابدأ طلب الطريق بـ Excuse me لجذب الانتباه بأدب. directions بالجمع تعني إرشادات الطريق، أما direction المفرد فقد تعني الاتجاه الذي تتحرك فيه.",
+    "focusEn": "Get to means reach a place. Start a request for directions with Excuse me to get attention politely. Directions in the plural means instructions for a route; singular direction can mean the way you are moving.",
+    "taskAr": "اطلب بأدب معرفة الطريق إلى المتحف.",
+    "taskEn": "Politely ask how to get to the museum.",
+    "exampleEn": "Excuse me, how can I get to the museum?",
+    "exampleAr": "عذرًا، كيف أصل إلى المتحف؟",
+    "check": {
+      "promptEn": "Complete: How can I get _____ the museum?",
+      "choices": [
+        "to",
+        "at",
+        "on"
+      ],
+      "answer": "to",
+      "explanationAr": "get to تتبعها الوجهة. لا نستخدم get at في هذا السؤال عن الوصول.",
+      "explanationEn": "Get to is followed by the destination. Get at does not express reaching the place in this question."
+    }
   }
 }

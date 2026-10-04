@@ -909,7 +909,7 @@
     },
     "a1-025-price-2": {
       "example": "What is the price of this jacket?",
-      "exampleArabic": "ما سعر هذا المعطف؟"
+      "exampleArabic": "ما سعر هذه السترة؟"
     },
     "a1-028-cash-3": {
       "example": "Can I pay in cash?",
@@ -1175,6 +1175,33 @@
     "a1-019-bags-3": {
       "example": "I will help you carry the bags.",
       "exampleArabic": "سأساعدك في حمل الحقائب."
+    },
+    "a1-u5-l1-xv1": {
+      "arabic": "غالٍ"
+    },
+    "a1-u5-l2-xv2": {
+      "arabic": "يجرّب الملابس",
+      "exampleArabic": "هل يمكنني تجربة هذه السترة؟",
+      "partOfSpeech": "phrasal verb"
+    },
+    "a1-u5-l6-xv2": {
+      "arabic": "معطّل / مكسور",
+      "exampleArabic": "هذا الهاتف معطّل."
+    },
+    "a1-034-take-me-1": {
+      "arabic": "أوصلني",
+      "exampleArabic": "من فضلك، أوصلني إلى وسط المدينة."
+    },
+    "a1-034-center-2": {
+      "exampleArabic": "من فضلك، أوصلني إلى وسط المدينة."
+    },
+    "a1-u6-l6-xv1": {
+      "arabic": "يسارًا",
+      "partOfSpeech": "adverb"
+    },
+    "a1-u6-l3-xv3": {
+      "arabic": "يسجّل الوصول (إلى الفندق)",
+      "exampleArabic": "نسجّل الوصول إلى الفندق في الثانية."
     }
   },
   "arabicGlossById": {

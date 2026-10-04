@@ -531,8 +531,8 @@
     "b2-x-u3-l5-w6": {
       "english": "deduce",
       "arabic": "يستنتج",
-      "example": "Researchers can deduce a pattern from repeated observations.",
-      "exampleArabic": "يمكن للباحثين استنتاج نمط من الملاحظات المتكررة.",
+      "example": "From the two recorded times, we can deduce that the journey took thirty minutes.",
+      "exampleArabic": "يمكننا أن نستنتج من الوقتين المسجلين أن الرحلة استغرقت ثلاثين دقيقة.",
       "partOfSpeech": "verb",
       "phonetic": null
     },

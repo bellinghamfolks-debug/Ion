@@ -53,20 +53,20 @@
     "b1-extra-2": {
       "extraVocabulary": [
         {
-          "english": "already",
-          "arabic": "بالفعل",
-          "example": "She has already read the whole book.",
-          "exampleArabic": "لقد قرأت الكتاب كله بالفعل.",
-          "partOfSpeech": "adverb",
-          "phonetic": "/ɔːlˈredi/"
+          "english": "so far",
+          "arabic": "حتى الآن",
+          "example": "I have completed three chapters so far.",
+          "exampleArabic": "أكملت ثلاثة فصول حتى الآن.",
+          "partOfSpeech": "adverbial phrase",
+          "phonetic": null
         },
         {
-          "english": "yet",
-          "arabic": "بعدُ",
-          "example": "I haven't decided what to do yet.",
-          "exampleArabic": "لم أقرر بعدُ ما الذي سأفعله.",
+          "english": "ever",
+          "arabic": "في أي وقت مضى",
+          "example": "Have you ever taken an online course?",
+          "exampleArabic": "هل سبق أن أخذت دورة عبر الإنترنت؟",
           "partOfSpeech": "adverb",
-          "phonetic": "/jet/"
+          "phonetic": null
         },
         {
           "english": "recently",
@@ -177,12 +177,12 @@
           "phonetic": "/ˈsʌdənli/"
         },
         {
-          "english": "meanwhile",
-          "arabic": "في هذه الأثناء",
-          "example": "She cooked dinner; meanwhile, her brother set the table.",
-          "exampleArabic": "أعدّت العشاء؛ وفي هذه الأثناء، رتّب أخوها المائدة.",
+          "english": "eventually",
+          "arabic": "في نهاية المطاف",
+          "example": "We took the wrong road but eventually found the hotel.",
+          "exampleArabic": "سلكنا الطريق الخطأ لكننا وجدنا الفندق في نهاية المطاف.",
           "partOfSpeech": "adverb",
-          "phonetic": "/ˈmiːnwaɪl/"
+          "phonetic": null
         }
       ],
       "extraExamples": {
@@ -203,12 +203,12 @@
     "b1-extra-5": {
       "extraVocabulary": [
         {
-          "english": "solution",
-          "arabic": "حل",
-          "example": "We finally found a simple solution to the problem.",
-          "exampleArabic": "وجدنا أخيرًا حلًا بسيطًا للمشكلة.",
+          "english": "workaround",
+          "arabic": "حل بديل مؤقت",
+          "example": "We found a simple workaround while the main system was being repaired.",
+          "exampleArabic": "وجدنا حلًا بديلًا مؤقتًا أثناء إصلاح النظام الرئيسي.",
           "partOfSpeech": "noun",
-          "phonetic": "/səˈluːʃn/"
+          "phonetic": null
         },
         {
           "english": "suggest",
@@ -253,12 +253,12 @@
     "b1-extra-6": {
       "extraVocabulary": [
         {
-          "english": "headline",
-          "arabic": "عنوان رئيسي",
-          "example": "The headline said that the team had won the match.",
-          "exampleArabic": "قال العنوان الرئيسي إن الفريق فاز بالمباراة.",
-          "partOfSpeech": "noun",
-          "phonetic": "/ˈhedlaɪn/"
+          "english": "breaking news",
+          "arabic": "خبر عاجل",
+          "example": "The website sent an alert about breaking news.",
+          "exampleArabic": "أرسل الموقع تنبيهًا بشأن خبر عاجل.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": null
         },
         {
           "english": "according to",
@@ -269,12 +269,12 @@
           "phonetic": "/əˈkɔːdɪŋ tə/"
         },
         {
-          "english": "source",
-          "arabic": "مصدر",
-          "example": "A good journalist always checks the source of a story.",
-          "exampleArabic": "يتحقق الصحفي الجيد دائمًا من مصدر الخبر.",
-          "partOfSpeech": "noun",
-          "phonetic": "/sɔːs/"
+          "english": "verify",
+          "arabic": "يتحقق",
+          "example": "Good readers verify important information before sharing it.",
+          "exampleArabic": "يتحقق القراء الجيدون من المعلومات المهمة قبل مشاركتها.",
+          "partOfSpeech": "verb",
+          "phonetic": null
         },
         {
           "english": "announce",
@@ -303,12 +303,12 @@
     "b1-extra-7": {
       "extraVocabulary": [
         {
-          "english": "agenda",
-          "arabic": "جدول الأعمال",
-          "example": "The first item on the agenda is the new budget.",
-          "exampleArabic": "أول بند في جدول الأعمال هو الميزانية الجديدة.",
-          "partOfSpeech": "noun",
-          "phonetic": "/əˈdʒendə/"
+          "english": "action item",
+          "arabic": "مهمة متفق عليها بعد الاجتماع",
+          "example": "We ended the meeting with one action item for each team.",
+          "exampleArabic": "أنهينا الاجتماع بمهمة متفق عليها لكل فريق.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": null
         },
         {
           "english": "discuss",

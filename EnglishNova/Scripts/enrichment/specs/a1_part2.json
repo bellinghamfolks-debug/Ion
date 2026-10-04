@@ -6,7 +6,7 @@
       "titleEn": "At the Airport",
       "titleAr": "في المطار",
       "objectiveAr": "أن تسأل عن بوابة الرحلة.",
-      "modelSentence": "Where is gate twelve?.",
+      "modelSentence": "Where is gate twelve?",
       "modelSentenceAr": "أين البوابة رقم اثني عشر؟",
       "existingVocabulary": [
         {
@@ -110,7 +110,7 @@
       "titleEn": "Train Station",
       "titleAr": "محطة القطار",
       "objectiveAr": "أن تسأل عن موعد القطار.",
-      "modelSentence": "What time does the train leave?.",
+      "modelSentence": "What time does the train leave?",
       "modelSentenceAr": "متى يغادر القطار؟",
       "existingVocabulary": [
         {
@@ -136,7 +136,7 @@
       "titleEn": "Asking for Directions",
       "titleAr": "السؤال عن الطريق",
       "objectiveAr": "أن تطلب اتجاهات إلى مكان.",
-      "modelSentence": "How can I get to the museum?.",
+      "modelSentence": "How can I get to the museum?",
       "modelSentenceAr": "كيف أصل إلى المتحف؟",
       "existingVocabulary": [
         {
@@ -240,7 +240,7 @@
       "titleEn": "At the Pharmacy",
       "titleAr": "في الصيدلية",
       "objectiveAr": "أن تطلب دواءً لعرض بسيط.",
-      "modelSentence": "Do you have something for a cough?.",
+      "modelSentence": "Do you have something for a cough?",
       "modelSentenceAr": "هل لديكم شيء للسعال؟",
       "existingVocabulary": [
         {
@@ -318,7 +318,7 @@
       "titleEn": "In Class",
       "titleAr": "في الفصل",
       "objectiveAr": "أن تطلب توضيحًا من المعلم.",
-      "modelSentence": "Could you explain this again?.",
+      "modelSentence": "Could you explain this again?",
       "modelSentenceAr": "هل يمكنك شرح هذا مرة أخرى؟",
       "existingVocabulary": [
         {
@@ -396,7 +396,7 @@
       "titleEn": "Asking for Help at Work",
       "titleAr": "طلب المساعدة في العمل",
       "objectiveAr": "أن تطلب مساعدة في مهمة.",
-      "modelSentence": "Can you help me with this report?.",
+      "modelSentence": "Can you help me with this report?",
       "modelSentenceAr": "هل يمكنك مساعدتي في هذا التقرير؟",
       "existingVocabulary": [
         {
@@ -474,7 +474,7 @@
       "titleEn": "Inviting a Friend",
       "titleAr": "دعوة صديق",
       "objectiveAr": "أن تدعو صديقًا وتحدد الوقت.",
-      "modelSentence": "Would you like to meet on Friday?.",
+      "modelSentence": "Would you like to meet on Friday?",
       "modelSentenceAr": "هل ترغب في اللقاء يوم الجمعة؟",
       "existingVocabulary": [
         {

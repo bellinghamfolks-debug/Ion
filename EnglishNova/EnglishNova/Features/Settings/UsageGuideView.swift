@@ -49,6 +49,22 @@ struct UsageGuideView: View {
         let steps: [GuideStep]
 
         var body: some View {
+            // Steps sit side by side, or stack when the text is large.
+            ViewThatFits(in: .horizontal) {
+                row
+                VStack(alignment: .leading, spacing: 8) {
+                    ForEach(Array(steps.enumerated()), id: \.element.id) { index, step in
+                        Label("\(index + 1). \(step.title)", systemImage: step.icon)
+                            .font(.subheadline.bold())
+                    }
+                }
+            }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(steps.map(\.title).joined(separator: Localizer.shared.isEnglish ? ", then " : "، ثم "))
+            .padding(.vertical, 4)
+        }
+
+        private var row: some View {
             HStack(alignment: .top, spacing: 8) {
                 ForEach(Array(steps.enumerated()), id: \.element.id) { index, step in
                     VStack(spacing: 6) {
@@ -71,81 +87,184 @@ struct UsageGuideView: View {
                     }
                 }
             }
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel(steps.map(\.title).joined(separator: Localizer.shared.isEnglish ? ", then " : "، ثم "))
-            .padding(.vertical, 4)
         }
     }
 
-    private static let sections: [GuideSection] = [
+    private static var sections: [GuideSection] { [
         .init(
-            title: LE("ابدأ من مستواك", "Start at the right level"),
-            icon: "graduationcap.fill",
+            title: LE("ابدأ في دقيقة", "Get started in a minute"),
+            icon: "sparkles",
             tint: AppTheme.brand,
             steps: [
-                .init(icon: "checklist", title: LE("حدد المستوى", "Choose level")),
-                .init(icon: "book.fill", title: LE("ابدأ الدرس", "Start lesson")),
-                .init(icon: "chart.line.uptrend.xyaxis", title: LE("راجع النتيجة", "Review result"))
+                .init(icon: "target", title: LE("هدفك", "Your goal")),
+                .init(icon: "graduationcap.fill", title: LE("مستواك", "Your level")),
+                .init(icon: "clock.fill", title: LE("وقتك اليومي", "Daily time"))
             ],
             points: [
-                LE("إذا لم تكن متأكدًا من مستواك، استخدم اختبار تحديد المستوى بدل اختيار مستوى مرتفع للتجربة فقط.",
-                   "If you are unsure of your level, use the placement test instead of choosing a high level just to try it."),
-                LE("من الصفحة الرئيسية افتح الدرس التالي أو خطة اليوم.", "Open the next lesson or Today's Plan from Home."),
-                LE("في المستويات الأعلى لا تكفي أسئلة الاختيار وحدها لإثبات الإتقان؛ يطلب التطبيق دليلًا أقوى من الترجمة أو التحدث.",
-                   "At higher levels, recognition questions alone are not enough for mastery; stronger productive evidence is required.")
+                LE("عند أول تشغيل تختار هدفك ومستواك وكم دقيقة تريد يوميًا، ويمكنك تفعيل تذكير يومي.",
+                   "On first launch you choose your goal, level and daily minutes, and can turn on a daily reminder."),
+                LE("إذا لم تكن متأكدًا من مستواك، اختر الأقرب ثم أجرِ «اختبار تحديد المستوى» من تبويب التدريب.",
+                   "If you're unsure of your level, pick the closest one, then take the placement test from the Practice tab."),
+                LE("التطبيق أربعة تبويبات: «اليوم» لجلستك اليومية، و«المسار» لكل الدروس، و«التدريب» للمهارات والاختبارات، و«أنا» لمراجعتك وتقدّمك وإعداداتك.",
+                   "The app has four tabs: Today for your daily session, Path for every lesson, Practice for skills and tests, and Me for your review, progress and settings.")
             ]
         ),
         .init(
-            title: LE("أكمل الدرس", "Complete a lesson"),
-            icon: "book.fill",
+            title: LE("جلسة اليوم", "Today's session"),
+            icon: "sun.max.fill",
+            tint: AppTheme.warning,
+            steps: [
+                .init(icon: "rectangle.stack.fill", title: LE("مراجعة", "Review")),
+                .init(icon: "play.fill", title: LE("درس", "Lesson")),
+                .init(icon: "arrow.uturn.backward", title: LE("أخطاؤك", "Mistakes")),
+                .init(icon: "waveform.and.mic", title: LE("تحدّث", "Speak"))
+            ],
+            points: [
+                LE("زر «ابدأ الجلسة» يفتح الخطوة التالية مباشرة. الخطوة المنتهية تبقى ظاهرة بعلامة صح.",
+                   "The Start session button opens the next step. Finished steps stay visible with a check mark."),
+                LE("تتغير الجلسة يوميًا بحسب ما حان وقت مراجعته وما أخطأت فيه. في الأيام الخفيفة تكون أقصر.",
+                   "The session changes daily with what is due and what you missed. It is shorter on light days."),
+                LE("«كلمة اليوم» تعطيك كلمة من مستواك مع مثال ونطق، ويمكنك إضافتها إلى مراجعتك.",
+                   "Word of the day gives you a word from your level with an example and audio, and you can add it to your review."),
+                LE("السلسلة تزيد كل يوم تدرس فيه. كل 7 أيام تربح «حماية سلسلة» تحفظها إذا فاتك يوم، وتحتفظ بحمايتين كحد أقصى.",
+                   "Your streak grows each day you study. Every 7 days you earn a streak freeze that saves it if you miss a day; you can hold two.")
+            ]
+        ),
+        .init(
+            title: LE("المسار والدروس", "Path and lessons"),
+            icon: "map.fill",
             tint: AppTheme.accentTeal,
             steps: [
-                .init(icon: "ear.fill", title: LE("افهم", "Understand")),
-                .init(icon: "text.cursor", title: LE("أجب", "Respond")),
-                .init(icon: "checkmark.seal.fill", title: LE("أثبت الإتقان", "Show mastery"))
+                .init(icon: "map.fill", title: LE("اختر درسًا", "Pick a lesson")),
+                .init(icon: "text.cursor", title: LE("أجب", "Answer")),
+                .init(icon: "arrow.uturn.backward.circle", title: LE("جولة التصحيح", "Correction round")),
+                .init(icon: "checkmark.seal.fill", title: LE("الملخص", "Summary"))
             ],
             points: [
-                LE("اقرأ التعليمات، أجب، ثم راجع سبب التصحيح قبل الانتقال.", "Read the instruction, answer, then review the feedback before continuing."),
-                LE("زر «اشرح أكثر» يفتح شرحًا إضافيًا عندما تحتاج إلى توضيح قاعدة أو عبارة.", "Use Explain More when a rule or phrase is still unclear."),
-                LE("درجة نهاية الدرس ليست نسبة الأسئلة الصحيحة فقط؛ نوع المهمة ومستوى CEFR يؤثران في وزنها.",
-                   "The final lesson score is not just percent correct; task type and CEFR level affect the evidence weight.")
+                LE("في «المسار» ترى كل وحدة كطريق: مكتمل، ثم «ابدأ من هنا»، ثم ما لم يبدأ. كل الدروس مفتوحة.",
+                   "Path shows each unit as a trail: done, then Start here, then not started. Every lesson stays open."),
+                LE("يظهر أعلى الدرس «السؤال 3 من 20». بعد آخر سؤال تعود الأسئلة التي أخطأت فيها في «جولة التصحيح»، وهي لا تغيّر درجتك.",
+                   "The top of a lesson shows Question 3 of 20. After the last one, items you missed return in a correction round that doesn't change your score."),
+                LE("في كل درس تمارين جديدة من كلماته: التوصيل (اختر معنى كل كلمة من قائمة)، وصح أو خطأ، واستمع واكتب، والإملاء.",
+                   "Each lesson adds exercises from its own words: matching (pick each word's meaning from a menu), true or false, listen and type, and dictation."),
+                LE("درجة الدرس ليست نسبة الصحيح فقط؛ نوع المهمة ومستوى CEFR يؤثران في وزنها. الملخص يعرض كلمات الدرس وما صحّحته.",
+                   "The lesson score isn't just percent correct; task type and CEFR level affect the weighting. The summary lists the lesson's words and what you fixed.")
             ]
         ),
         .init(
-            title: LE("راجع قبل أن تنسى", "Review before you forget"),
+            title: LE("المراجعة والأخطاء", "Review and mistakes"),
             icon: "arrow.triangle.2.circlepath",
             tint: AppTheme.success,
             steps: [
-                .init(icon: "rectangle.stack.fill", title: LE("بطاقات مستحقة", "Due cards")),
+                .init(icon: "rectangle.stack.fill", title: LE("مستحق", "Due")),
                 .init(icon: "brain.head.profile", title: LE("استرجع", "Recall")),
                 .init(icon: "calendar", title: LE("موعد جديد", "Reschedule"))
             ],
             points: [
-                LE("المراجعة تعرض الكلمات التي حان وقتها بحسب أدائك السابق.", "Review shows vocabulary when it is due based on your previous performance."),
-                LE("حاول تذكر المعنى قبل إظهاره، ثم قيّم صعوبة الاسترجاع بصدق.", "Try to recall the meaning before revealing it, then rate retrieval difficulty honestly."),
-                LE("دفتر المفردات ودفتر الأخطاء يعيدانك إلى ما يحتاج إلى عمل، لا إلى قائمة عشوائية.",
-                   "Vocabulary and mistake notebooks take you back to material that actually needs work.")
+                LE("شاشة «المراجعة» تجمع مراجعة الدروس المجتازة وبطاقات الكلمات في مكان واحد، وتصل إليها من «اليوم» أو «أنا».",
+                   "The Review screen brings completed-lesson reviews and word cards together; open it from Today or Me."),
+                LE("«تدرّب على أخطائك» يعيد عليك السؤال الأصلي الذي أخطأت فيه. إذا أجبت صحيحًا يُعلَّم الخطأ كمحسوم.",
+                   "Practise your mistakes replays the original item you missed. A right answer marks the mistake resolved."),
+                LE("«دفتر الأخطاء» يعرض كل الملاحظات من الدروس والكتابة والنطق والمحادثة مع البحث.",
+                   "The mistake notebook lists every note from lessons, writing, pronunciation and conversation, with search.")
             ]
         ),
         .init(
-            title: LE("تدرّب على مهارة", "Practice a skill"),
+            title: LE("تحدّث واستمع", "Speak and listen"),
             icon: "waveform.and.mic",
             tint: AppTheme.brandSecondary,
             steps: [
-                .init(icon: "scope", title: LE("اختر المهارة", "Choose skill")),
-                .init(icon: "play.circle.fill", title: LE("نفّذ المهمة", "Do the task")),
-                .init(icon: "arrow.clockwise", title: LE("أعد التطبيق", "Apply again"))
+                .init(icon: "speaker.wave.2.fill", title: LE("استمع", "Listen")),
+                .init(icon: "mic.fill", title: LE("قلّد", "Repeat")),
+                .init(icon: "text.word.spacing", title: LE("كلماتك", "Your words"))
             ],
             points: [
-                LE("تتوفر تدريبات للنطق والاستماع والمحادثة والكتابة والقراءة.", "Practice pronunciation, listening, conversation, writing, and reading."),
-                LE("في التدريب الصوتي ابدأ التسجيل، تحدث طبيعيًا، ثم أوقفه قبل طلب التحليل.",
-                   "In voice practice, start recording, speak naturally, then stop before requesting analysis."),
-                LE("تقييم النطق تعليمي وتقريبي، وليس قياسًا مخبريًا لمخارج الأصوات.", "Pronunciation scoring is educational and approximate, not a laboratory phonetics measurement.")
+                LE("«مدرّب النطق» يختار جملًا من دروسك: استمع بسرعة عادية أو ببطء، ثم قلها مباشرة. انقر أي كلمة في النتيجة لتسمعها وحدها.",
+                   "The pronunciation coach picks sentences from your lessons: listen at normal speed or slowly, then say it straight after. Tap any word in the result to hear it alone."),
+                LE("في «تدريب المحادثة بالصوت» فعّل «محادثة بدون لمس»: يستمع التطبيق بعد أن ينتهي الطرف الآخر، ويتوقف عندما تصمت، ثم يرد ويتابع.",
+                   "In voice conversation, turn on Hands-free: the app listens after your partner speaks, stops when you go quiet, then replies and continues."),
+                LE("من «الإعدادات ثم الأصوات الطبيعية» اختر صوتًا أوضح. نزّل الأصوات «المحسّنة» مجانًا من إعدادات iOS: تسهيلات الاستخدام ثم المحتوى المنطوق ثم الأصوات.",
+                   "In Settings › Natural voices, choose a clearer voice. Download Enhanced voices for free in iOS Settings › Accessibility › Spoken Content › Voices."),
+                LE("تقييم النطق تعليمي وتقريبي يعتمد على النص الذي تعرّف إليه النظام، وليس قياسًا مخبريًا للأصوات.",
+                   "Pronunciation scoring is educational and approximate, based on recognized text, not a laboratory measurement.")
             ]
         ),
         .init(
-            title: LE("سجّل الدخول باستخدام Google", "Sign in with Google"),
-            icon: "person.badge.key.fill",
+            title: LE("اكتب واقرأ", "Write and read"),
+            icon: "pencil.and.scribble",
+            tint: AppTheme.brand,
+            steps: [
+                .init(icon: "list.bullet", title: LE("نوع الكتابة", "Writing type")),
+                .init(icon: "pencil", title: LE("اكتب", "Write")),
+                .init(icon: "chart.bar.fill", title: LE("التقييم", "Rubric")),
+                .init(icon: "arrow.triangle.2.circlepath", title: LE("حسّن", "Improve"))
+            ],
+            points: [
+                LE("في «تدريب الكتابة» اختر نوعًا مثل رسالة أو رأي أو IELTS مهمة 2، فيظهر لك موضوع مقترح. تحصل على درجة وأربعة معايير: إنجاز المهمة والترابط والمفردات والقواعد.",
+                   "In the writing coach, choose a type such as email, opinion or IELTS Task 2 to get a suggested task. You get a score and four criteria: task achievement, coherence, vocabulary and grammar."),
+                LE("اضغط «اكتب نسخة محسّنة» لتعدّل نصك بنفسك؛ يقارن المدرّب النسختين ويخبرك بما تحسّن.",
+                   "Tap Write an improved version to revise it yourself; the coach compares both drafts and tells you what improved."),
+                LE("«اشرح أي نص»: صوّر لافتة أو صفحة، أو اختر صورة، أو الصق نصًا. تُقرأ الصورة على جهازك، ثم تحصل على ترجمة وملخص ونسخة أبسط وكلمات وقواعد.",
+                   "Explain any text: photograph a sign or page, pick a photo, or paste text. The photo is read on your device, then you get a translation, summary, simpler version, words and grammar.")
+            ]
+        ),
+        .init(
+            title: LE("الاختبارات وتقدّمك", "Tests and progress"),
+            icon: "stopwatch.fill",
+            tint: AppTheme.streak,
+            steps: [
+                .init(icon: "timer", title: LE("محاكاة", "Mock test")),
+                .init(icon: "number", title: LE("Band تقريبي", "Approx. band")),
+                .init(icon: "hexagon.fill", title: LE("مهاراتي", "My skills"))
+            ],
+            points: [
+                LE("«اختبار تجريبي كامل» يقدّم IELTS Listening أو Reading بأربعين سؤالًا ووقت حقيقي، بلا تصحيح حتى التسليم، مع خيار وقت إضافي 25٪.",
+                   "The full mock test gives IELTS Listening or Reading with 40 questions and real timing, no marking until you submit, and an optional 25% extra time."),
+                LE("في «أنا ثم مهاراتي ومستواي» ترى ست مهارات ومستواك التقريبي في CEFR واقتراحًا لما تركّز عليه. هذه تقديرات تعليمية وليست شهادات.",
+                   "In Me › My skills and level you see six skills, your estimated CEFR level and a suggested focus. These are learning estimates, not certificates."),
+                LE("«الدوري الأسبوعي» في «أنا» يضعك مع حتى 30 متعلّمًا في دوريك. تُحسب نقاط الأسبوع من الأحد إلى السبت بتوقيت الرياض؛ أول خمسة يصعدون، وفي المجموعات الكبيرة ينزل آخر خمسة.",
+                   "The weekly league in Me places you with up to 30 learners in your tier. Points count from Sunday to Saturday, Riyadh time; the top five move up, and in bigger groups the bottom five move down.")
+            ]
+        ),
+        .init(
+            title: LE("المساعد الذكي ورصيده", "The AI assistant and its allowance"),
+            icon: "sparkles",
+            tint: AppTheme.accentTeal,
+            steps: [
+                .init(icon: "person.crop.circle", title: LE("سجّل الدخول", "Sign in")),
+                .init(icon: "gauge.with.dots.needle.50percent", title: LE("رصيد يومي", "Daily allowance")),
+                .init(icon: "moon.stars.fill", title: LE("يتجدد ليلًا", "Renews nightly"))
+            ],
+            points: [
+                LE("ميزات الذكاء الاصطناعي (المدرّب، الكتابة، الشرح، التمارين المخصصة) تحتاج تسجيل الدخول والإنترنت.",
+                   "AI features (tutor, writing, explanations, custom exercises) need sign-in and an internet connection."),
+                LE("لكل متعلّم رصيد يومي يظهر أعلى تبويب «التدريب»، ويتجدد عند منتصف الليل بتوقيت الرياض. الإجابات المحفوظة مسبقًا والطلبات الفاشلة لا تُحسب.",
+                   "Each learner has a daily allowance shown at the top of Practice; it renews at midnight Riyadh time. Cached answers and failed requests don't count."),
+                LE("الدروس والمراجعة ومدرّب النطق والاختبار التجريبي تعمل دون إنترنت ولا تستهلك الرصيد.",
+                   "Lessons, review, the pronunciation coach and the mock test work offline and don't use the allowance.")
+            ]
+        ),
+        .init(
+            title: LE("VoiceOver واختصارات الوصول", "VoiceOver and access shortcuts"),
+            icon: "accessibility",
+            tint: AppTheme.success,
+            steps: [
+                .init(icon: "hand.tap.fill", title: LE("نقر مزدوج بإصبعين", "Two-finger double-tap")),
+                .init(icon: "arrow.uturn.backward", title: LE("إيماءة الرجوع", "Escape gesture")),
+                .init(icon: "list.bullet.indent", title: LE("العناوين", "Headings"))
+            ],
+            points: [
+                LE("النقر المزدوج بإصبعين (Magic Tap) يعيد صوت السؤال في الدروس، ويبدأ التسجيل أو يوقفه في مدرّب النطق.",
+                   "A two-finger double-tap (Magic Tap) replays the question audio in lessons and starts or stops recording in the pronunciation coach."),
+                LE("إيماءة الرجوع (حرف Z بإصبعين) تسأل قبل الخروج من الدرس أو الاختبار حتى لا تضيع إجاباتك.",
+                   "The escape gesture (two-finger Z) asks before leaving a lesson or test so your answers aren't lost."),
+                LE("يقرأ VoiceOver نتيجة كل إجابة تلقائيًا، ويعلن الوقت المتبقي في الاختبار عند 10 و5 ودقيقة واحدة. تنقّل بين العناوين بالدوّار.",
+                   "VoiceOver reads each answer's result automatically and announces time left in a test at 10, 5 and 1 minutes. Use the rotor to move between headings.")
+            ]
+        ),
+        .init(
+            title: LE("الحساب والخصوصية", "Account and privacy"),
+            icon: "lock.shield.fill",
             tint: AppTheme.warning,
             steps: [
                 .init(icon: "g.circle.fill", title: "Google"),
@@ -153,33 +272,13 @@ struct UsageGuideView: View {
                 .init(icon: "icloud.fill", title: LE("مزامنة", "Sync"))
             ],
             points: [
-                LE("بعد اختيار Google، يرسل التطبيق Google ID token إلى خادم EnglishNova عبر HTTPS.",
-                   "After Google Sign-In, the app sends a Google ID token to the EnglishNova server over HTTPS."),
-                LE("يتحقق الخادم من توقيع الرمز والجمهور والصلاحية قبل إنشاء جلسة EnglishNova.",
-                   "The server verifies the token signature, audience, issuer, and expiry before creating an EnglishNova session."),
-                LE("إذا كان البريد الموثق مرتبطًا بحساب موجود، يُربط Google بالحساب بدل إنشاء نسخة مكررة.",
-                   "If the verified email already belongs to an account, Google is linked to it instead of creating a duplicate."),
-                LE("يتطلب البناء الفعلي ضبط OAuth Client IDs الخاصة بمشروع EnglishNova في إعدادات البناء والخادم.",
-                   "A production build requires the EnglishNova Google OAuth client IDs to be configured in build and server settings.")
-            ]
-        ),
-        .init(
-            title: LE("اللغة والخصوصية", "Language and privacy"),
-            icon: "globe.badge.chevron.backward",
-            tint: AppTheme.success,
-            steps: [
-                .init(icon: "globe", title: LE("اختر اللغة", "Choose language")),
-                .init(icon: "rectangle.3.group", title: LE("واجهة موحدة", "Consistent UI")),
-                .init(icon: "lock.shield.fill", title: LE("تحكم بالبيانات", "Control data"))
-            ],
-            points: [
-                LE("عند اختيار English يجب ألا تظهر نصوص واجهة عربية بسبب نقص ترجمة؛ يعتبر ذلك خطأ يجب إصلاحه.",
-                   "When English is selected, Arabic UI text must not appear because of a missing translation; that is treated as a localization defect."),
-                LE("التلميحات العربية التعليمية خيار منفصل عن لغة الواجهة، ويمكن التحكم بها من الإعدادات.",
-                   "Arabic learning hints are separate from the interface language and can be controlled in Settings."),
-                LE("راجع سياسة الخصوصية لمعرفة ما يبقى على الجهاز وما يُرسل عند استخدام المزامنة أو الذكاء الاصطناعي.",
-                   "Review the Privacy Policy to see what stays on-device and what is sent when sync or AI features are used.")
+                LE("يمكنك التعلّم دون حساب. الحساب (بريد أو Google) يحفظ تقدّمك ويتيح المساعد الذكي.",
+                   "You can learn without an account. An account (email or Google) keeps your progress and enables the AI assistant."),
+                LE("عند تسجيل الدخول بـ Google يتحقق خادم EnglishNova من الرمز قبل إنشاء الجلسة، ويُربط بحسابك الموجود إن كان البريد نفسه.",
+                   "With Google sign-in, the EnglishNova server verifies the token before creating a session and links it to your existing account if the email matches."),
+                LE("التذكيرات تُخطط على جهازك بحسب تقدّمك، وتتوقف تلقائيًا بعد أسبوعين بلا دراسة. راجع سياسة الخصوصية لمعرفة ما يُرسل وما يبقى على جهازك.",
+                   "Reminders are planned on your device from your progress and stop automatically after two quiet weeks. See the Privacy Policy for what is sent and what stays on your device.")
             ]
         )
-    ]
+    ] }
 }

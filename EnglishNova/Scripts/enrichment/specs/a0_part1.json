@@ -43,12 +43,12 @@
         {
           "id": "a0-002-my-2",
           "english": "my",
-          "arabic": "خاصتي"
+          "arabic": "لي / ـي للملكية"
         },
         {
           "id": "a0-002-your-3",
           "english": "your",
-          "arabic": "خاصتك"
+          "arabic": "لك / ـك للملكية"
         }
       ]
     },
@@ -272,12 +272,12 @@
         {
           "id": "a0-011-this-1",
           "english": "this",
-          "arabic": "هذا القريب"
+          "arabic": "هذا / هذه"
         },
         {
           "id": "a0-011-that-2",
           "english": "that",
-          "arabic": "ذلك البعيد"
+          "arabic": "ذلك / تلك"
         },
         {
           "id": "a0-011-is-3",
@@ -370,7 +370,7 @@
       "titleEn": "How Many?",
       "titleAr": "كم العدد؟",
       "objectiveAr": "أن تسأل عن عدد الأشياء.",
-      "modelSentence": "How many pens are there?.",
+      "modelSentence": "How many pens are there?",
       "modelSentenceAr": "كم قلمًا يوجد؟",
       "existingVocabulary": [
         {
@@ -568,7 +568,7 @@
         {
           "id": "a0-022-my-3",
           "english": "my",
-          "arabic": "خاصتي"
+          "arabic": "لي / ـي للملكية"
         }
       ]
     },
@@ -734,7 +734,7 @@
       "titleEn": "Where Is It?",
       "titleAr": "أين الشيء؟",
       "objectiveAr": "أن تسأل عن موقع شيء.",
-      "modelSentence": "Where is my bag?.",
+      "modelSentence": "Where is my bag?",
       "modelSentenceAr": "أين حقيبتي؟",
       "existingVocabulary": [
         {

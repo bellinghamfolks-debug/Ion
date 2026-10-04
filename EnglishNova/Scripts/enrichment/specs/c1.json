@@ -16,13 +16,13 @@
         },
         {
           "id": "c1-u1-l1-w2",
-          "english": "The",
-          "arabic": "بداية الجملة"
+          "english": "economy of expression",
+          "arabic": "اقتصاد في التعبير"
         },
         {
           "id": "c1-u1-l1-w3",
-          "english": "precision",
-          "arabic": "كلمة من المثال"
+          "english": "stylistic consistency",
+          "arabic": "اتساق أسلوبي"
         }
       ]
     },
@@ -42,13 +42,13 @@
         },
         {
           "id": "c1-extra-2-w2",
-          "english": "This",
-          "arabic": "بداية الجملة"
+          "english": "thesis statement",
+          "arabic": "عبارة الأطروحة"
         },
         {
           "id": "c1-extra-2-w3",
-          "english": "principle",
-          "arabic": "كلمة من المثال"
+          "english": "coherent paragraph",
+          "arabic": "فقرة مترابطة"
         }
       ]
     },
@@ -68,13 +68,13 @@
         },
         {
           "id": "c1-extra-3-w2",
-          "english": "The",
-          "arabic": "بداية الجملة"
+          "english": "appears to",
+          "arabic": "يبدو أنه"
         },
         {
           "id": "c1-extra-3-w3",
-          "english": "change",
-          "arabic": "كلمة من المثال"
+          "english": "tentatively",
+          "arabic": "على نحو غير جازم"
         }
       ]
     },
@@ -94,13 +94,13 @@
         },
         {
           "id": "c1-extra-4-w2",
-          "english": "The",
-          "arabic": "بداية الجملة"
+          "english": "assumption",
+          "arabic": "افتراض"
         },
         {
           "id": "c1-extra-4-w3",
-          "english": "limited",
-          "arabic": "كلمة من المثال"
+          "english": "logical gap",
+          "arabic": "فجوة منطقية"
         }
       ]
     },
@@ -120,13 +120,13 @@
         },
         {
           "id": "c1-extra-5-w2",
-          "english": "The",
-          "arabic": "بداية الجملة"
+          "english": "pose a challenge",
+          "arabic": "يطرح تحديًا"
         },
         {
           "id": "c1-extra-5-w3",
-          "english": "consequences",
-          "arabic": "كلمة من المثال"
+          "english": "draw attention to",
+          "arabic": "يلفت الانتباه إلى"
         }
       ]
     },
@@ -146,13 +146,13 @@
         },
         {
           "id": "c1-extra-6-w2",
-          "english": "The",
-          "arabic": "بداية الجملة"
+          "english": "subject to",
+          "arabic": "خاضع لـ / رهناً بـ"
         },
         {
           "id": "c1-extra-6-w3",
-          "english": "regulations",
-          "arabic": "كلمة من المثال"
+          "english": "without prejudice to",
+          "arabic": "دون إخلال بـ"
         }
       ]
     },
@@ -172,13 +172,13 @@
         },
         {
           "id": "c1-extra-7-w2",
-          "english": "The",
-          "arabic": "بداية الجملة"
+          "english": "qualify a conclusion",
+          "arabic": "يقيّد الخلاصة"
         },
         {
           "id": "c1-extra-7-w3",
-          "english": "interpretation",
-          "arabic": "كلمة من المثال"
+          "english": "interpret with caution",
+          "arabic": "يفسّر بحذر"
         }
       ]
     },
@@ -198,13 +198,13 @@
         },
         {
           "id": "c1-extra-8-w2",
-          "english": "While",
-          "arabic": "بداية الجملة"
+          "english": "to some extent",
+          "arabic": "إلى حد ما"
         },
         {
           "id": "c1-extra-8-w3",
-          "english": "challenges",
-          "arabic": "كلمة من المثال"
+          "english": "weigh the evidence",
+          "arabic": "يزن الأدلة"
         }
       ]
     }

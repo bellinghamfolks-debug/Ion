@@ -1,0 +1,361 @@
+LEVEL|B2
+U|b2-x-u5|البيئة والمناخ|Environment and Climate|ناقش أسباب تغيّر المناخ والطاقة المتجددة والاستدامة الحضرية وحماية الحياة البرية.|leaf.arrow.triangle.circlepath|Discuss the causes of climate change, renewable energy, sustainable cities and wildlife conservation.
+L|أسباب تغيّر المناخ|Causes of Climate Change|أن يشرح المتعلم أسباب تغيّر المناخ ونتائجه بلغة دقيقة.|Burning fossil fuels releases greenhouse gases that trap heat in the atmosphere.|يؤدي حرق الوقود الأحفوري إلى إطلاق غازات دفيئة تحبس الحرارة في الغلاف الجوي.|To explain the causes and consequences of climate change in precise language.
+W|fossil fuels|الوقود الأحفوري|Most electricity is still generated from fossil fuels.|ما زالت معظم الكهرباء تُولَّد من الوقود الأحفوري.|noun
+W|greenhouse gases|الغازات الدفيئة|Cars produce large amounts of greenhouse gases.|تنتج السيارات كميات كبيرة من الغازات الدفيئة.|noun
+W|emissions|انبعاثات|The company aims to cut its emissions by half.|تهدف الشركة إلى خفض انبعاثاتها إلى النصف.|noun
+W|deforestation|إزالة الغابات|Deforestation destroys the homes of many species.|تدمّر إزالة الغابات موائل أنواع كثيرة.|noun
+W|trap|يحبس|Thick clouds trap heat near the ground.|تحبس الغيوم الكثيفة الحرارة قرب الأرض.|verb
+W|irreversible|لا يمكن عكسه|Some of the damage may be irreversible.|قد يكون بعض الضرر غير قابل للإصلاح.|adjective
+W|carbon-intensive|كثيف الانبعاثات الكربونية|Heavy industry can be carbon-intensive when it relies on fossil energy.|قد تكون الصناعات الثقيلة كثيفة الانبعاثات الكربونية عندما تعتمد على الطاقة الأحفورية.|adjective
+W|industrial process|عملية صناعية|Some industrial processes release large amounts of carbon dioxide.|تطلق بعض العمليات الصناعية كميات كبيرة من ثاني أكسيد الكربون.|noun
+W|land-use change|تغير استخدام الأراضي|Land-use change can reduce the amount of carbon stored in forests.|يمكن أن يقلل تغير استخدام الأراضي كمية الكربون المخزنة في الغابات.|noun
+W|mitigate|يخفف|Governments can mitigate emissions through cleaner energy and efficiency measures.|يمكن للحكومات تخفيف الانبعاثات من خلال طاقة أنظف وإجراءات كفاءة.|verb
+L|الطاقة المتجددة|Renewable Energy|أن يقارن المتعلم بين مصادر الطاقة المتجددة ومزاياها وتحدياتها.|Solar power has become far more affordable, yet storing the energy remains a challenge.|أصبحت الطاقة الشمسية أرخص بكثير، ومع ذلك يبقى تخزين الطاقة تحديًا.|To compare renewable energy sources, their advantages and their challenges.
+W|solar power|الطاقة الشمسية|Many homes now run on solar power.|تعمل كثير من المنازل الآن بالطاقة الشمسية.|noun
+W|wind farm|مزرعة رياح|A new wind farm was built off the coast.|بُنيت مزرعة رياح جديدة قبالة الساحل.|noun
+W|storage|تخزين|Battery storage is improving quickly.|يتحسّن تخزين البطاريات بسرعة.|noun
+W|yet|ومع ذلك|The plan is simple, yet effective.|الخطة بسيطة، ومع ذلك فعّالة.|conjunction
+W|grid|شبكة الكهرباء|The panels are connected to the national grid.|الألواح متصلة بشبكة الكهرباء الوطنية.|noun
+W|transition|تحوّل؛ انتقال|The transition to clean energy will take decades.|سيستغرق التحوّل إلى الطاقة النظيفة عقودًا.|noun
+W|intermittent|متقطع|Solar and wind power are intermittent because output changes with the weather.|الطاقة الشمسية وطاقة الرياح متقطعتان لأن الإنتاج يتغير مع الطقس.|adjective
+W|battery storage|تخزين بالبطاريات|Battery storage can supply electricity when renewable output falls.|يمكن لتخزين البطاريات توفير الكهرباء عندما ينخفض إنتاج الطاقة المتجددة.|noun
+W|capacity|قدرة إنتاجية|The country plans to increase its renewable capacity over the next decade.|تخطط الدولة لزيادة قدرتها الإنتاجية من الطاقة المتجددة خلال العقد المقبل.|noun
+W|renewable source|مصدر متجدد|Wind is a renewable source of electricity.|الرياح مصدر متجدد للكهرباء.|noun
+L|المدن المستدامة|Sustainable Cities|أن يقترح المتعلم سياسات تجعل المدن أكثر استدامة ويبررها.|Investing in green spaces and cycle lanes would make our cities far more liveable.|الاستثمار في المساحات الخضراء ومسارات الدراجات سيجعل مدننا أكثر ملاءمة للعيش بكثير.|To propose and justify policies that make cities more sustainable.
+W|liveable|ملائم للعيش|Vienna is often ranked the most liveable city.|كثيرًا ما تُصنَّف فيينا أكثر المدن ملاءمة للعيش.|adjective
+W|green spaces|مساحات خضراء|Green spaces improve people's mental health.|المساحات الخضراء تحسّن الصحة النفسية للناس.|noun
+W|cycle lanes|مسارات الدراجات|The city has added fifty kilometres of cycle lanes.|أضافت المدينة خمسين كيلومترًا من مسارات الدراجات.|noun
+W|urban sprawl|الزحف العمراني|Urban sprawl increases our dependence on cars.|يزيد الزحف العمراني اعتمادنا على السيارات.|noun
+W|carbon footprint|البصمة الكربونية|Flying less reduces your carbon footprint.|تقليل السفر بالطائرة يخفض بصمتك الكربونية.|noun
+W|initiative|مبادرة|The recycling initiative was a huge success.|حققت مبادرة إعادة التدوير نجاحًا كبيرًا.|noun
+W|mixed-use development|تطوير متعدد الاستخدامات|Mixed-use development places homes, shops and services closer together.|يجعل التطوير متعدد الاستخدامات المنازل والمتاجر والخدمات أقرب إلى بعضها.|noun
+W|public transport network|شبكة نقل عام|A reliable public transport network can reduce dependence on cars.|يمكن لشبكة نقل عام موثوقة أن تقلل الاعتماد على السيارات.|noun
+W|density|كثافة عمرانية|Higher density can support frequent public transport when it is well planned.|يمكن للكثافة العمرانية الأعلى أن تدعم نقلًا عامًا متكررًا عندما يكون التخطيط جيدًا.|noun
+W|urban planning|تخطيط حضري|Good urban planning should consider housing, mobility and public space together.|ينبغي للتخطيط الحضري الجيد أن ينظر إلى السكن والتنقل والمساحات العامة معًا.|noun
+L|حماية الحياة البرية|Wildlife Conservation|أن يناقش المتعلم تهديدات الحياة البرية وجهود الحماية.|Many species are on the brink of extinction because their habitats are disappearing.|كثير من الأنواع على حافة الانقراض لأن موائلها تختفي.|To discuss threats to wildlife and conservation efforts.
+W|on the brink of|على حافة|The company was on the brink of collapse.|كانت الشركة على حافة الانهيار.|phrase
+W|extinction|انقراض|The tiger is threatened with extinction.|النمر مهدد بالانقراض.|noun
+W|habitat|موطن (بيئي)|Rising seas threaten coastal habitats.|يهدّد ارتفاع البحار الموائل الساحلية.|noun
+W|endangered|مهدد بالانقراض|The panda is no longer classed as endangered.|لم تعد الباندا مصنّفة مهددة بالانقراض.|adjective
+W|poaching|الصيد الجائر|Poaching has reduced the number of rhinos.|قلّل الصيد الجائر عدد وحيد القرن.|noun
+W|biodiversity|التنوع الحيوي|Coral reefs are rich in biodiversity.|الشعاب المرجانية غنية بالتنوع الحيوي.|noun
+W|conservation programme|برنامج حماية|A conservation programme helped protect nesting sites along the coast.|ساعد برنامج حماية في صون مواقع التعشيش على الساحل.|noun
+W|illegal hunting|صيد غير قانوني|Illegal hunting remains a threat to several endangered species.|لا يزال الصيد غير القانوني تهديدًا لعدة أنواع مهددة بالانقراض.|noun
+W|protected area|منطقة محمية|The species has recovered in some protected areas.|تعافى النوع في بعض المناطق المحمية.|noun
+W|restore a population|يعيد تكوين جماعة حيوية|Breeding projects can help restore a population when habitat is also protected.|يمكن لمشروعات التكاثر أن تساعد في إعادة تكوين جماعة حيوية عندما تُحمى الموائل أيضًا.|verb phrase
+U|b2-x-u6|الصحة والعلوم|Health and Science|تحدّث عن التقدّم الطبي والصحة النفسية وحملات الصحة العامة وخرافات التغذية.|cross.case.fill|Talk about medical advances, mental health, public health campaigns and nutrition myths.
+L|التقدّم الطبي|Medical Advances|أن يصف المتعلم تقدّمًا طبيًا وأثره بلغة علمية مبسطة.|Thanks to early diagnosis, many diseases can now be treated successfully.|بفضل التشخيص المبكر، يمكن الآن علاج كثير من الأمراض بنجاح.|To describe a medical advance and its impact in accessible scientific language.
+W|diagnosis|تشخيص|An early diagnosis saved her life.|أنقذ التشخيص المبكر حياتها.|noun
+W|gene therapy|العلاج الجيني|Gene therapy may cure some inherited diseases.|قد يعالج العلاج الجيني بعض الأمراض الوراثية.|noun
+W|vaccine|لقاح|The vaccine was developed in record time.|طُوّر اللقاح في وقت قياسي.|noun
+W|clinical trial|تجربة سريرية|The drug is still in clinical trials.|ما زال الدواء في مرحلة التجارب السريرية.|noun
+W|life expectancy|متوسط العمر المتوقع|Life expectancy has risen over the last century.|ارتفع متوسط العمر المتوقع خلال القرن الماضي.|noun
+W|treatable|قابل للعلاج|Most infections are now treatable.|معظم العدوى قابلة للعلاج الآن.|adjective
+W|medical evidence|دليل طبي|Treatment decisions should be based on medical evidence and individual circumstances.|ينبغي أن تستند قرارات العلاج إلى دليل طبي والظروف الفردية.|noun
+W|risk-benefit balance|موازنة المخاطر والفوائد|Doctors consider the risk-benefit balance before recommending some treatments.|ينظر الأطباء في موازنة المخاطر والفوائد قبل التوصية ببعض العلاجات.|noun
+W|patient outcome|نتيجة المريض|Researchers measure patient outcomes to assess whether an intervention helps.|يقيس الباحثون نتائج المرضى لتقييم ما إذا كان التدخل مفيدًا.|noun
+W|peer-reviewed study|دراسة محكمة|A single peer-reviewed study can be informative without settling the question on its own.|قد تكون دراسة محكمة واحدة مفيدة دون أن تحسم المسألة بمفردها.|noun
+L|التوعية بالصحة النفسية|Mental Health Awareness|أن يناقش المتعلم الصحة النفسية بلغة حسّاسة ومحترمة.|Talking openly about mental health helps to reduce the stigma around it.|التحدث بصراحة عن الصحة النفسية يساعد على تقليل الوصمة المرتبطة بها.|To discuss mental health in sensitive and respectful language.
+W|stigma|وصمة|There is still a stigma around asking for help.|ما زالت هناك وصمة حول طلب المساعدة.|noun
+W|burnout|الاحتراق الوظيفي|Long hours can lead to burnout.|قد تؤدي ساعات العمل الطويلة إلى الاحتراق الوظيفي.|noun
+W|wellbeing|الرفاه؛ السلامة النفسية|Employers should care about staff wellbeing.|يجب أن يهتم أصحاب العمل برفاه الموظفين.|noun
+W|cope with|يتعامل مع (صعوبة)|She learned to cope with stress.|تعلّمت كيف تتعامل مع التوتر.|phrasal verb
+W|seek help|يطلب المساعدة|Don't be afraid to seek help.|لا تخف من طلب المساعدة.|phrase
+W|resilience|المرونة النفسية|Sport can build resilience in children.|يمكن للرياضة أن تبني المرونة النفسية لدى الأطفال.|noun
+W|counselling|إرشاد نفسي|Counselling can provide structured support for some people.|يمكن للإرشاد النفسي أن يقدم دعمًا منظمًا لبعض الأشخاص.|noun
+W|support network|شبكة دعم|A strong support network can make stressful periods easier to manage.|يمكن لشبكة دعم قوية أن تجعل الفترات المجهدة أسهل في التعامل.|noun
+W|mental health professional|مختص صحة نفسية|A mental health professional can assess symptoms and discuss appropriate options.|يمكن لمختص صحة نفسية تقييم الأعراض ومناقشة الخيارات المناسبة.|noun
+W|chronic stress|ضغط نفسي مزمن|Chronic stress can affect sleep, concentration and wellbeing.|قد يؤثر الضغط النفسي المزمن في النوم والتركيز والعافية.|noun
+L|حملات الصحة العامة|Public Health Campaigns|أن يقيّم المتعلم فاعلية حملة صحية ويقترح تحسينًا.|The campaign raised awareness, but it failed to change people's behaviour in the long term.|رفعت الحملة مستوى الوعي، لكنها لم تنجح في تغيير سلوك الناس على المدى الطويل.|To evaluate how effective a health campaign is and suggest an improvement.
+W|raise awareness|يرفع الوعي|The video aims to raise awareness of diabetes.|يهدف الفيديو إلى رفع الوعي بمرض السكري.|phrase
+W|campaign|حملة|The anti-smoking campaign targets teenagers.|تستهدف حملة مكافحة التدخين المراهقين.|noun
+W|behaviour|سلوك|It is hard to change people's behaviour.|من الصعب تغيير سلوك الناس.|noun
+W|preventable|يمكن الوقاية منه|Many heart attacks are preventable.|يمكن الوقاية من كثير من النوبات القلبية.|adjective
+W|sedentary|قليل الحركة|A sedentary lifestyle increases health risks.|نمط الحياة قليل الحركة يزيد المخاطر الصحية.|adjective
+W|target|يستهدف|The adverts target young people.|تستهدف الإعلانات الشباب.|verb
+W|behavioural change|تغيير سلوكي|Awareness alone does not always lead to behavioural change.|لا يؤدي الوعي وحده دائمًا إلى تغيير سلوكي.|noun
+W|intervention|تدخل|Researchers evaluated whether the intervention changed smoking habits.|قيّم الباحثون ما إذا كان التدخل قد غيّر عادات التدخين.|noun
+W|long-term effect|أثر طويل الأجل|The study could not determine the long-term effect of the campaign.|لم تتمكن الدراسة من تحديد الأثر طويل الأجل للحملة.|noun
+W|evidence|دليل|Strong evidence is needed before claiming that a campaign caused a change.|نحتاج إلى دليل قوي قبل الادعاء بأن حملة ما تسببت في تغيير.|noun
+L|خرافات التغذية|Nutrition Myths|أن يميّز المتعلم بين المعلومة الصحيحة والخرافة الغذائية ويعلّل.|Contrary to popular belief, eating late at night does not automatically cause weight gain.|خلافًا للاعتقاد الشائع، الأكل في وقت متأخر من الليل لا يسبّب زيادة الوزن تلقائيًا.|To tell nutrition facts from myths and explain why.
+W|contrary to popular belief|خلافًا للاعتقاد الشائع|Contrary to popular belief, bats are not blind.|خلافًا للاعتقاد الشائع، الخفافيش ليست عمياء.|phrase
+W|myth|خرافة|It's a myth that we only use ten percent of our brain.|من الخرافات أننا لا نستخدم سوى عشرة بالمئة من دماغنا.|noun
+W|weight gain|زيادة الوزن|Stress can lead to weight gain.|قد يؤدي التوتر إلى زيادة الوزن.|noun
+W|fad diet|حمية رائجة مؤقتة|Most fad diets don't work in the long term.|معظم الحميات الرائجة لا تنجح على المدى الطويل.|noun
+W|supplement|مكمّل غذائي|Most people don't need vitamin supplements.|معظم الناس لا يحتاجون إلى مكمّلات الفيتامينات.|noun
+W|moderation|الاعتدال|Sweets are fine in moderation.|لا بأس بالحلويات باعتدال.|noun
+W|causal link|علاقة سببية|An association does not automatically prove a causal link.|لا يثبت الارتباط تلقائيًا وجود علاقة سببية.|noun
+W|nutritional evidence|دليل تغذوي|Nutritional evidence is often more complex than a simple good-or-bad label.|غالبًا ما يكون الدليل التغذوي أعقد من تصنيف بسيط إلى جيد أو سيئ.|noun
+W|portion|حصة غذائية|The effect of a food may depend partly on the portion and the overall diet.|قد يعتمد أثر طعام ما جزئيًا على الحصة والنظام الغذائي العام.|noun
+W|individual variation|اختلاف فردي|Individual variation means the same diet may not suit everyone equally.|يعني الاختلاف الفردي أن النظام الغذائي نفسه قد لا يناسب الجميع بالقدر ذاته.|noun
+U|b2-x-u7|التقنية والأخلاقيات|Technology and Ethics|ناقش الخصوصية وتأثير وسائل التواصل والأتمتة والأمن السيبراني.|cpu.fill|Discuss privacy, the influence of social media, automation and cybersecurity.
+L|الخصوصية والبيانات|Privacy and Data|أن يناقش المتعلم جمع البيانات الشخصية وحقوق المستخدم.|Many apps collect personal data without users fully understanding what they have consented to.|تجمع تطبيقات كثيرة بيانات شخصية دون أن يفهم المستخدمون تمامًا ما وافقوا عليه.|To discuss the collection of personal data and users' rights.
+W|personal data|بيانات شخصية|Never share personal data with strangers.|لا تشارك بياناتك الشخصية مع الغرباء أبدًا.|noun
+W|consent|موافقة؛ يوافق|Users must give consent before tracking starts.|يجب أن يوافق المستخدمون قبل بدء التتبع.|noun
+W|surveillance|مراقبة|Cameras have increased surveillance in public places.|زادت الكاميرات المراقبة في الأماكن العامة.|noun
+W|terms and conditions|الشروط والأحكام|Hardly anyone reads the terms and conditions.|نادرًا ما يقرأ أحد الشروط والأحكام.|noun
+W|anonymous|مجهول الهوية|The survey is completely anonymous.|الاستبيان مجهول الهوية تمامًا.|adjective
+W|breach|اختراق؛ انتهاك|The data breach affected millions of customers.|أثّر اختراق البيانات على ملايين العملاء.|noun
+W|data protection|حماية البيانات|Data protection rules limit how organisations may use personal information.|تقيد قواعد حماية البيانات كيفية استخدام المؤسسات للمعلومات الشخصية.|noun
+W|privacy policy|سياسة الخصوصية|I read the privacy policy before creating an account.|قرأت سياسة الخصوصية قبل إنشاء حساب.|noun
+W|opt out|يرفض المشاركة|Users should be able to opt out of optional tracking where the service allows it.|ينبغي أن يتمكن المستخدمون من رفض التتبع الاختياري عندما تسمح الخدمة بذلك.|phrasal verb
+W|data retention|الاحتفاظ بالبيانات|The notice explains how long data retention may continue.|يوضح الإشعار المدة التي قد يستمر فيها الاحتفاظ بالبيانات.|noun
+L|تأثير وسائل التواصل|Social Media Influence|أن يحلل المتعلم أثر المؤثرين والخوارزميات في آراء الناس.|Algorithms tend to reinforce what we already believe and keep us in an echo chamber.|تميل الخوارزميات إلى تعزيز ما نؤمن به أصلًا وإبقائنا في غرفة صدى.|To analyse how influencers and algorithms shape people's opinions.
+W|algorithm|خوارزمية|The algorithm decides what you see first.|تحدّد الخوارزمية ما تراه أولًا.|noun
+W|influencer|مؤثّر|The influencer promoted a new skincare brand.|روّج المؤثّر لعلامة جديدة للعناية بالبشرة.|noun
+W|reinforce|يعزّز|The film reinforces old stereotypes.|يعزّز الفيلم صورًا نمطية قديمة.|verb
+W|echo chamber|غرفة صدى (بيئة لا تسمع إلا رأيك)|Social media can become an echo chamber.|يمكن أن تتحول وسائل التواصل إلى غرفة صدى.|noun
+W|go viral|ينتشر بسرعة كبيرة|Her video went viral overnight.|انتشر مقطعها انتشارًا واسعًا بين ليلة وضحاها.|phrase
+W|clickbait|طُعم النقرات|That headline is pure clickbait.|ذلك العنوان مجرد طُعم للنقرات.|noun
+W|recommendation system|نظام توصية|A recommendation system selects content based on signals from user behaviour.|يختار نظام التوصية المحتوى استنادًا إلى مؤشرات من سلوك المستخدم.|noun
+W|attention economy|اقتصاد الانتباه|The attention economy rewards content that keeps people watching and clicking.|يكافئ اقتصاد الانتباه المحتوى الذي يبقي الناس يشاهدون وينقرون.|noun
+W|filter bubble|فقاعة ترشيح|A filter bubble may limit the range of viewpoints a user encounters.|قد تحد فقاعة الترشيح من تنوع وجهات النظر التي يواجهها المستخدم.|noun
+W|misleading|مضلل|A viral post can be misleading even when part of it is technically true.|قد يكون المنشور واسع الانتشار مضللًا حتى لو كان جزء منه صحيحًا تقنيًا.|adjective
+L|الأتمتة والوظائف|Automation and Jobs|أن يناقش المتعلم أثر الأتمتة على سوق العمل بحجج متوازنة.|While automation may replace some jobs, it is also likely to create new roles.|في حين قد تحلّ الأتمتة محل بعض الوظائف، فمن المرجّح أيضًا أن تخلق أدوارًا جديدة.|To discuss the effect of automation on the job market with balanced arguments.
+W|robots|روبوتات|Robots now do much of the work in the factory.|تؤدي الروبوتات الآن كثيرًا من العمل في المصنع.|noun
+W|replace|يحلّ محلّ|Machines will not replace teachers.|لن تحلّ الآلات محل المعلمين.|verb
+W|workforce|القوى العاملة|Women make up half of the workforce.|تشكّل النساء نصف القوى العاملة.|noun
+W|retrain|يعيد التأهيل|Many workers will need to retrain.|سيحتاج كثير من العمال إلى إعادة التأهيل.|verb
+W|redundant|مُستغنى عنه (من العمل)|Two hundred staff were made redundant.|استُغني عن مئتي موظف.|adjective
+W|while|في حين|While I agree in principle, I have some doubts.|في حين أنني أوافق من حيث المبدأ، لدي بعض الشكوك.|conjunction
+W|labour-market shift|تحول في سوق العمل|A labour-market shift can change which skills employers need.|يمكن لتحول في سوق العمل أن يغير المهارات التي يحتاجها أصحاب العمل.|noun
+W|reskill|يعيد التأهيل المهاري|Some workers may need to reskill as technology changes their roles.|قد يحتاج بعض العاملين إلى إعادة التأهيل المهاري مع تغير أدوارهم بسبب التقنية.|verb
+W|routine task|مهمة روتينية|Software can automate a routine task without replacing an entire occupation.|يمكن للبرمجيات أتمتة مهمة روتينية دون استبدال مهنة كاملة.|noun
+W|productivity gain|مكسب في الإنتاجية|A productivity gain does not necessarily benefit every worker equally.|لا يفيد مكسب الإنتاجية بالضرورة كل عامل بالقدر نفسه.|noun
+L|الأمن السيبراني|Cybersecurity|أن يقدم المتعلم نصائح لحماية الحسابات من الاحتيال الإلكتروني.|Never click on suspicious links, and enable two-factor authentication on every account.|لا تنقر أبدًا على روابط مريبة، وفعّل التحقق بخطوتين في كل حساب.|To give advice on protecting accounts from online fraud.
+W|suspicious|مريب|Delete any suspicious emails.|احذف أي رسائل مريبة.|adjective
+W|two-factor authentication|التحقق بخطوتين|Two-factor authentication makes accounts safer.|يجعل التحقق بخطوتين الحسابات أكثر أمانًا.|noun
+W|phishing|التصيّد الاحتيالي|The bank warned customers about phishing emails.|حذّر البنك العملاء من رسائل التصيّد الاحتيالي.|noun
+W|hacker|مخترق|Hackers stole thousands of passwords.|سرق مخترقون آلاف كلمات المرور.|noun
+W|vulnerable|عُرضة للخطر|Older software is more vulnerable to attacks.|البرامج القديمة أكثر عرضة للهجمات.|adjective
+W|encrypted|مشفَّر|Your messages are encrypted end to end.|رسائلك مشفّرة من طرف إلى طرف.|adjective
+W|password manager|مدير كلمات مرور|A password manager can help users create and store strong passwords.|يمكن لمدير كلمات المرور مساعدة المستخدمين على إنشاء كلمات قوية وتخزينها.|noun
+W|data leak|تسرب بيانات|The company reset accounts after discovering a data leak.|أعادت الشركة ضبط الحسابات بعد اكتشاف تسرب بيانات.|noun
+W|malware|برمجية خبيثة|Malware can enter a device through a malicious attachment or download.|قد تدخل البرمجية الخبيثة إلى الجهاز عبر مرفق أو تنزيل ضار.|noun
+W|security update|تحديث أمني|Install each security update promptly to reduce known vulnerabilities.|ثبّت كل تحديث أمني سريعًا لتقليل الثغرات المعروفة.|noun
+U|b2-x-u8|العمل والمسار المهني|Work and Careers|تحدّث عن العمل عن بُعد وتغيير المسار المهني وخلافات العمل وتقييم الأداء.|briefcase.circle.fill|Talk about remote work, career changes, workplace conflict and performance reviews.
+L|العمل عن بُعد|Remote Work|أن يوازن المتعلم بين مزايا العمل عن بُعد وتحدياته.|Working from home gives me more flexibility, but I sometimes struggle to switch off.|يمنحني العمل من البيت مرونة أكبر، لكنني أجد صعوبة أحيانًا في الانفصال عن العمل.|To weigh up the benefits and challenges of remote work.
+W|flexibility|مرونة|The job offers a lot of flexibility.|توفّر الوظيفة قدرًا كبيرًا من المرونة.|noun
+W|switch off|ينفصل ذهنيًا (عن العمل)|I find it hard to switch off at weekends.|أجد صعوبة في الانفصال عن العمل في عطلة نهاية الأسبوع.|phrasal verb
+W|work-life balance|التوازن بين العمل والحياة|A good work-life balance prevents burnout.|التوازن الجيد بين العمل والحياة يمنع الاحتراق.|noun
+W|productivity|الإنتاجية|Some studies show productivity rises at home.|تُظهر بعض الدراسات أن الإنتاجية ترتفع في البيت.|noun
+W|hybrid|هجين|We have a hybrid model: three days in the office.|لدينا نموذج هجين: ثلاثة أيام في المكتب.|adjective
+W|isolation|العزلة|Some remote workers suffer from isolation.|يعاني بعض العاملين عن بُعد من العزلة.|noun
+W|asynchronous|غير متزامن|Asynchronous communication lets colleagues respond at different times.|يسمح التواصل غير المتزامن للزملاء بالرد في أوقات مختلفة.|adjective
+W|collaboration|تعاون|Good collaboration requires clear expectations as well as useful tools.|يتطلب التعاون الجيد توقعات واضحة إلى جانب أدوات مفيدة.|noun
+W|boundary|حد فاصل|A clear boundary between work and home can make it easier to switch off.|يمكن لحد فاصل واضح بين العمل والمنزل أن يسهل الانفصال عن العمل.|noun
+W|home office|مكتب منزلي|A quiet home office can improve concentration for some remote workers.|يمكن لمكتب منزلي هادئ أن يحسن التركيز لبعض العاملين عن بعد.|noun
+L|تغيير المسار المهني|Career Changes|أن يشرح المتعلم أسباب تغيير مساره المهني والمخاطر المرتبطة به.|After ten years in banking, she decided to take the plunge and retrain as a teacher.|بعد عشر سنوات في القطاع المصرفي، قررت أن تخاطر وتعيد تأهيل نفسها لتصبح معلمة.|To explain the reasons for and risks of changing career.
+W|take the plunge|يخاطر ويُقدِم|It's time to take the plunge and start your own business.|حان الوقت لتُقدم وتبدأ مشروعك الخاص.|idiom
+W|career path|المسار المهني|She chose an unusual career path.|اختارت مسارًا مهنيًا غير معتاد.|noun
+W|transferable skills|مهارات قابلة للنقل|Leadership is a transferable skill.|القيادة مهارة قابلة للنقل.|noun
+W|fulfilling|مُرضٍ؛ يمنح الإشباع|Nursing is a very fulfilling job.|التمريض وظيفة مُرضية جدًا.|adjective
+W|setback|انتكاسة|Losing the contract was a major setback.|كانت خسارة العقد انتكاسة كبيرة.|noun
+W|leap|قفزة|Moving abroad was a big leap for me.|كان الانتقال إلى الخارج قفزة كبيرة بالنسبة لي.|noun
+W|career break|انقطاع مهني|She took a career break before deciding what to do next.|أخذت انقطاعًا مهنيًا قبل أن تقرر خطوتها التالية.|noun
+W|retraining course|دورة إعادة تأهيل|He enrolled in a retraining course to move into cybersecurity.|التحق بدورة إعادة تأهيل للانتقال إلى الأمن السيبراني.|noun
+W|transferable experience|خبرة قابلة للنقل|Customer service gave her transferable experience for a new career.|منحتها خدمة العملاء خبرة قابلة للنقل إلى مسار مهني جديد.|noun
+W|uncertainty|عدم يقين|Changing careers often involves financial and professional uncertainty.|ينطوي تغيير المسار المهني غالبًا على عدم يقين مالي ومهني.|noun
+L|الخلافات في العمل|Workplace Conflict|أن يتعامل المتعلم مع خلاف في العمل بلغة دبلوماسية.|It would help if we could clear the air and find a compromise that works for everyone.|سيكون من المفيد أن نصفّي الأجواء ونجد حلًا وسطًا يناسب الجميع.|To handle a disagreement at work in diplomatic language.
+W|clear the air|يصفّي الأجواء|We had a meeting to clear the air.|عقدنا اجتماعًا لتصفية الأجواء.|idiom
+W|compromise|حل وسط|Both sides agreed to a compromise.|اتفق الطرفان على حل وسط.|noun
+W|tension|توتر|There is some tension between the two departments.|هناك بعض التوتر بين القسمين.|noun
+W|escalate|يتصاعد|The argument escalated quickly.|تصاعد الجدال بسرعة.|verb
+W|mediate|يتوسّط|The manager agreed to mediate.|وافق المدير على التوسّط.|verb
+W|constructive|بنّاء|Let's keep the discussion constructive.|لنحافظ على النقاش بنّاءً.|adjective
+W|misunderstanding|سوء فهم|A small misunderstanding can grow if nobody addresses it early.|قد يكبر سوء الفهم البسيط إذا لم يعالجه أحد مبكرًا.|noun
+W|shared interest|مصلحة مشتركة|The two sides identified a shared interest before discussing the disagreement.|حدد الطرفان مصلحة مشتركة قبل مناقشة الخلاف.|noun
+W|neutral party|طرف محايد|A neutral party can help when two colleagues cannot resolve a dispute alone.|يمكن لطرف محايد أن يساعد عندما يعجز زميلان عن حل نزاع بمفردهما.|noun
+W|de-escalate|يهدئ التصعيد|Speaking calmly can help de-escalate a tense conversation.|يمكن للتحدث بهدوء أن يساعد على تهدئة محادثة متوترة.|verb
+L|تقييم الأداء|Performance Reviews|أن يناقش المتعلم أداءه ويحدد أهدافًا قابلة للقياس.|My manager praised my progress and suggested I take on more responsibility next year.|أشاد مديري بتقدّمي واقترح أن أتولى مسؤوليات أكبر العام القادم.|To discuss your performance and set measurable goals.
+W|take on|يتولّى|I've taken on two new projects.|توليت مشروعين جديدين.|phrasal verb
+W|praise|يُشيد بـ|The report praised the team's hard work.|أشاد التقرير بالعمل الجاد للفريق.|verb
+W|appraisal|تقييم وظيفي|My annual appraisal is next week.|تقييمي الوظيفي السنوي الأسبوع القادم.|noun
+W|measurable|قابل للقياس|Set clear and measurable goals.|ضع أهدافًا واضحة وقابلة للقياس.|adjective
+W|room for improvement|مجال للتحسين|There is still room for improvement.|ما زال هناك مجال للتحسين.|phrase
+W|promotion|ترقية|She got a promotion after two years.|حصلت على ترقية بعد عامين.|noun
+W|performance target|هدف أداء|A performance target should be specific enough to measure fairly.|ينبغي أن يكون هدف الأداء محددًا بما يكفي لقياسه بعدل.|noun
+W|constructive feedback|ملاحظات بناءة|Constructive feedback explains both what worked and what could improve.|توضح الملاحظات البناءة ما نجح وما يمكن تحسينه.|noun
+W|development plan|خطة تطوير|My manager and I agreed on a development plan for the next six months.|اتفقت مع مديري على خطة تطوير للأشهر الستة المقبلة.|noun
+W|documented evidence|أدلة موثقة|A fair appraisal should refer to documented evidence rather than vague impressions.|ينبغي للتقييم العادل أن يستند إلى أدلة موثقة بدل الانطباعات المبهمة.|noun
+U|b2-x-u9|الثقافة والفنون|Culture and the Arts|حلّل الأعمال الفنية، وتحدّث عن التراث الثقافي ونقد الأفلام والأدب والهوية في عصر العولمة.|paintpalette.fill|Interpret art, and talk about cultural heritage, film and book criticism, and identity in a globalised world.
+L|الفن وتفسيره|Art and Interpretation|أن يصف المتعلم عملًا فنيًا ويقدّم تفسيرًا مدعومًا.|The painting is open to interpretation, but to me it conveys a sense of loneliness.|اللوحة قابلة لتفسيرات مختلفة، لكنها بالنسبة لي تنقل إحساسًا بالوحدة.|To describe a work of art and offer a supported interpretation.
+W|interpretation|تفسير|Each viewer brings their own interpretation.|كل مشاهد يأتي بتفسيره الخاص.|noun
+W|convey|ينقل (معنى أو شعورًا)|The colours convey a calm mood.|تنقل الألوان مزاجًا هادئًا.|verb
+W|abstract|تجريدي|I don't really understand abstract art.|لا أفهم الفن التجريدي حقًا.|adjective
+W|masterpiece|تحفة فنية|The museum's greatest masterpiece is on the top floor.|أعظم تحفة في المتحف موجودة في الطابق العلوي.|noun
+W|exhibition|معرض|The exhibition runs until March.|يستمر المعرض حتى مارس.|noun
+W|striking|لافت للنظر|The use of colour is striking.|استخدام الألوان لافت للنظر.|adjective
+W|symbolism|رمزية|The use of empty chairs adds symbolism to the painting.|يضيف استخدام الكراسي الفارغة رمزية إلى اللوحة.|noun
+W|visual composition|تكوين بصري|The visual composition directs the viewer's attention toward the central figure.|يوجه التكوين البصري انتباه المشاهد نحو الشخصية المركزية.|noun
+W|medium|وسيط فني|The artist combines paint and fabric as a mixed medium.|يجمع الفنان بين الطلاء والقماش كوسيط فني مختلط.|noun
+W|evoke|يستحضر|The dark colours evoke a feeling of uncertainty.|تستحضر الألوان الداكنة شعورًا بعدم اليقين.|verb
+L|التراث الثقافي|Cultural Heritage|أن يناقش المتعلم أهمية الحفاظ على التراث وتوازنه مع التحديث.|Restoring historic buildings helps preserve our heritage for future generations.|ترميم المباني التاريخية يساعد على الحفاظ على تراثنا للأجيال القادمة.|To discuss why heritage matters and how to balance it with modernisation.
+W|heritage|تراث|The old city is a UNESCO heritage site.|المدينة القديمة موقع تراثي مسجّل لدى اليونسكو.|noun
+W|preserve|يحافظ على|We must preserve these traditions.|يجب أن نحافظ على هذه التقاليد.|verb
+W|restore|يرمّم|The mosque was carefully restored.|رُمّم المسجد بعناية.|verb
+W|historic|تاريخي (ذو أهمية)|It was a historic moment for the country.|كانت لحظة تاريخية للبلاد.|adjective
+W|craftsmanship|الحِرفية|The craftsmanship of the doors is remarkable.|حِرفية صنع الأبواب مذهلة.|noun
+W|identity|هوية|Language is part of our identity.|اللغة جزء من هويتنا.|noun
+W|restoration|ترميم|The restoration took five years and used traditional materials.|استغرق الترميم خمس سنوات واستخدم مواد تقليدية.|noun
+W|conservation|حفظ|Conservation aims to protect historic fabric without unnecessary alteration.|يهدف الحفظ إلى حماية العناصر التاريخية دون تعديل غير ضروري.|noun
+W|listed building|مبنى مسجل تاريخيًا|The listed building cannot be altered freely without approval.|لا يمكن تعديل المبنى المسجل تاريخيًا بحرية دون موافقة.|noun
+W|intangible heritage|تراث غير مادي|Traditional music can form part of a community's intangible heritage.|يمكن للموسيقى التقليدية أن تشكل جزءًا من التراث غير المادي للمجتمع.|noun
+L|نقد الأفلام والأدب|Film and Book Criticism|أن يكتب المتعلم مراجعة نقدية موجزة لفيلم أو كتاب.|Although the pacing is slow, the film is beautifully shot and thought-provoking.|رغم بطء إيقاع الفيلم، فإنه مصوّر بجمال ويثير التفكير.|To write a short critical review of a film or book.
+W|pacing|إيقاع السرد|The pacing of the second half is too slow.|إيقاع النصف الثاني بطيء جدًا.|noun
+W|thought-provoking|يثير التفكير|It's a thought-provoking documentary.|إنه فيلم وثائقي يثير التفكير.|adjective
+W|critic|ناقد|The critics loved the new play.|أحب النقاد المسرحية الجديدة.|noun
+W|predictable|متوقَّع|The ending was completely predictable.|كانت النهاية متوقعة تمامًا.|adjective
+W|adaptation|اقتباس (عمل فني)|The film is an adaptation of a famous novel.|الفيلم مقتبس من رواية مشهورة.|noun
+W|underrated|لم يُقدَّر حق قدره|It's one of the most underrated films of the decade.|إنه من أكثر أفلام العقد التي لم تنل حقها من التقدير.|adjective
+W|cinematography|تصوير سينمائي|The cinematography makes ordinary streets look dramatic.|يجعل التصوير السينمائي الشوارع العادية تبدو درامية.|noun
+W|character development|تطور الشخصية|The novel has stronger character development than the film adaptation.|تتمتع الرواية بتطور أقوى للشخصيات من الفيلم المقتبس.|noun
+W|source material|المادة الأصلية|The director changes the source material without losing its central theme.|يغير المخرج المادة الأصلية دون أن يفقد موضوعها المركزي.|noun
+W|nuanced|دقيق ومتعدد الجوانب|The critic gives a nuanced account of the film's strengths and weaknesses.|يقدم الناقد عرضًا دقيقًا ومتعدد الجوانب لنقاط قوة الفيلم وضعفه.|adjective
+L|العولمة والهوية|Globalisation and Identity|أن يناقش المتعلم أثر العولمة على الثقافات المحلية.|Some people fear that globalisation is gradually eroding local languages and customs.|يخشى بعض الناس أن العولمة تُضعف تدريجيًا اللغات والعادات المحلية.|To discuss the effect of globalisation on local cultures.
+W|globalisation|العولمة|Globalisation has connected markets worldwide.|ربطت العولمة الأسواق حول العالم.|noun
+W|erode|يُضعف تدريجيًا؛ يتآكل|Constant criticism can erode confidence.|قد يُضعف النقد المستمر الثقة تدريجيًا.|verb
+W|gradually|تدريجيًا|The situation improved gradually.|تحسّن الوضع تدريجيًا.|adverb
+W|diversity|التنوّع|The city is proud of its cultural diversity.|تفخر المدينة بتنوّعها الثقافي.|noun
+W|mainstream|السائد|The band became mainstream after their second album.|أصبحت الفرقة سائدة بعد ألبومها الثاني.|adjective
+W|blend|مزيج؛ يمزج|The food is a blend of Arabic and Indian styles.|الطعام مزيج من الأسلوبين العربي والهندي.|noun
+W|cultural homogenisation|تجانس ثقافي|Critics argue that cultural homogenisation can weaken distinctive local practices.|يرى منتقدون أن التجانس الثقافي قد يضعف الممارسات المحلية المميزة.|noun
+W|local identity|هوية محلية|Festivals can strengthen local identity while welcoming outside influences.|يمكن للمهرجانات تعزيز الهوية المحلية مع الترحيب بالتأثيرات الخارجية.|noun
+W|language preservation|حفظ اللغة|Community schools can support language preservation across generations.|يمكن للمدارس المجتمعية دعم حفظ اللغة عبر الأجيال.|noun
+W|cross-cultural|عابر للثقافات|Cross-cultural exchange can create new forms of music and art.|يمكن للتبادل العابر للثقافات أن يخلق أشكالًا جديدة من الموسيقى والفن.|adjective
+U|b2-x-u10|القانون والمجتمع|Law and Society|ناقش الجريمة والعدالة وحقوق الإنسان والأنظمة وحقوق المستهلك.|building.columns.fill|Discuss crime and justice, human rights, rules and regulations, and consumer rights.
+L|الجريمة والعدالة|Crime and Justice|أن يناقش المتعلم أهداف العقوبة وبدائل السجن.|Some argue that community service is more effective than prison for minor offences.|يرى بعضهم أن الخدمة المجتمعية أكثر فاعلية من السجن في الجرائم البسيطة.|To discuss the aims of punishment and alternatives to prison.
+W|offence|مخالفة؛ جريمة|Driving without a licence is a serious offence.|القيادة دون رخصة مخالفة خطيرة.|noun
+W|community service|الخدمة المجتمعية|He was sentenced to community service.|حُكم عليه بالخدمة المجتمعية.|noun
+W|sentence|حكم قضائي؛ يحكم|The judge gave him a two-year sentence.|أصدر القاضي بحقه حكمًا بالسجن عامين.|noun
+W|deterrent|رادع|High fines act as a deterrent.|تعمل الغرامات المرتفعة كرادع.|noun
+W|rehabilitation|إعادة التأهيل|Prisons should focus on rehabilitation.|ينبغي أن تركّز السجون على إعادة التأهيل.|noun
+W|minor|بسيط؛ ثانوي|It was only a minor accident.|كان مجرد حادث بسيط.|adjective
+W|proportionate sentence|عقوبة متناسبة|A court aims to impose a proportionate sentence based on the offence and applicable law.|تهدف المحكمة إلى فرض عقوبة متناسبة وفق الجريمة والقانون المطبق.|noun
+W|reoffending|العودة إلى الجريمة|Rehabilitation programmes are often assessed by whether they reduce reoffending.|تُقيّم برامج إعادة التأهيل غالبًا بحسب ما إذا كانت تقلل العودة إلى الجريمة.|noun
+W|restorative justice|عدالة تصالحية|Restorative justice can involve dialogue between those affected where the process is appropriate.|قد تشمل العدالة التصالحية حوارًا بين المتأثرين عندما يكون هذا المسار مناسبًا.|noun
+W|legal representation|تمثيل قانوني|Access to legal representation can be crucial in criminal proceedings.|قد يكون الوصول إلى تمثيل قانوني بالغ الأهمية في الإجراءات الجنائية.|noun
+L|حقوق الإنسان|Human Rights|أن يتحدث المتعلم عن حقوق أساسية وكيف تُحمى.|Everyone is entitled to a fair trial and freedom of expression.|لكل شخص الحق في محاكمة عادلة وحرية التعبير.|To talk about basic rights and how they are protected.
+W|be entitled to|يحق له|Employees are entitled to paid holiday.|يحق للموظفين إجازة مدفوعة.|phrase
+W|fair trial|محاكمة عادلة|Every suspect deserves a fair trial.|يستحق كل مشتبه به محاكمة عادلة.|noun
+W|freedom of expression|حرية التعبير|Freedom of expression has limits.|لحرية التعبير حدود.|noun
+W|discrimination|تمييز|The law bans discrimination at work.|يحظر القانون التمييز في العمل.|noun
+W|equality|المساواة|They campaign for gender equality.|يناضلون من أجل المساواة بين الجنسين.|noun
+W|violate|ينتهك|The decision violates basic rights.|ينتهك القرار حقوقًا أساسية.|verb
+W|civil liberties|حريات مدنية|Civil liberties protect individuals against certain forms of state interference.|تحمي الحريات المدنية الأفراد من بعض أشكال تدخل الدولة.|noun
+W|due process|إجراءات قانونية واجبة|Due process requires decisions to follow established legal procedures.|تتطلب الإجراءات القانونية الواجبة اتباع إجراءات قانونية مقررة عند اتخاذ القرارات.|noun
+W|equal treatment|معاملة متساوية|Equal treatment before the law is a core legal principle.|المعاملة المتساوية أمام القانون مبدأ قانوني أساسي.|noun
+W|arbitrary|تعسفي|A restriction should not be arbitrary or applied without a lawful basis.|ينبغي ألا يكون القيد تعسفيًا أو مطبقًا دون أساس قانوني.|adjective
+L|الأنظمة واللوائح|Rules and Regulations|أن يناقش المتعلم ضرورة الأنظمة ونتائج مخالفتها.|Companies that fail to comply with safety regulations can face heavy fines.|الشركات التي لا تلتزم بأنظمة السلامة قد تواجه غرامات كبيرة.|To discuss why regulations are needed and what happens when they are broken.
+W|comply with|يمتثل لـ|All drivers must comply with the new rules.|يجب على جميع السائقين الامتثال للقواعد الجديدة.|phrasal verb
+W|regulations|أنظمة؛ لوائح|Safety regulations are stricter now.|أنظمة السلامة أكثر صرامة الآن.|noun
+W|fine|غرامة|He paid a fine for speeding.|دفع غرامة بسبب السرعة.|noun
+W|enforce|يطبّق (القانون)|The police enforce the speed limit.|تطبّق الشرطة حد السرعة.|verb
+W|loophole|ثغرة (قانونية)|They used a loophole to avoid paying tax.|استغلوا ثغرة لتجنّب دفع الضرائب.|noun
+W|ban|يحظر؛ حظر|Smoking is banned in public buildings.|التدخين محظور في المباني العامة.|verb
+W|regulatory body|جهة تنظيمية|A regulatory body may investigate serious breaches of sector rules.|قد تحقق جهة تنظيمية في المخالفات الجسيمة لقواعد القطاع.|noun
+W|compliance|امتثال|The company introduced training to improve compliance with safety requirements.|أدخلت الشركة تدريبًا لتحسين الامتثال لمتطلبات السلامة.|noun
+W|penalty|جزاء|The possible penalty depends on the rule and the seriousness of the breach.|يعتمد الجزاء المحتمل على القاعدة وجسامة المخالفة.|noun
+W|exemption|استثناء|Some small organisations may qualify for an exemption under specific conditions.|قد تتأهل بعض المؤسسات الصغيرة لاستثناء وفق شروط محددة.|noun
+L|حقوق المستهلك|Consumer Rights|أن يطالب المتعلم بحقه كمستهلك بلغة رسمية واضحة.|Under consumer law, you are entitled to a replacement if the product is defective.|بموجب قانون حماية المستهلك، يحق لك الحصول على بديل إذا كان المنتج معيبًا.|To claim your rights as a consumer in clear, formal language.
+W|consumer|مستهلك|Consumers have the right to clear information.|للمستهلكين الحق في معلومات واضحة.|noun
+W|replacement|بديل|The shop offered a replacement.|عرض المتجر بديلًا.|noun
+W|defective|معيب|The batch of phones was defective.|كانت دفعة الهواتف معيبة.|adjective
+W|warranty|ضمان|The laptop is still under warranty.|ما زال الحاسوب المحمول تحت الضمان.|noun
+W|claim|يطالب بـ؛ مطالبة|You can claim compensation for the delay.|يمكنك المطالبة بتعويض عن التأخير.|verb
+W|compensation|تعويض|The airline paid compensation to passengers.|دفعت شركة الطيران تعويضًا للركاب.|noun
+W|consumer protection|حماية المستهلك|Consumer protection rules vary by jurisdiction and type of purchase.|تختلف قواعد حماية المستهلك باختلاف الولاية القضائية ونوع الشراء.|noun
+W|misleading advertising|إعلان مضلل|Consumer law may restrict misleading advertising about a product's features.|قد يقيد قانون المستهلك الإعلان المضلل بشأن خصائص المنتج.|noun
+W|statutory rights|حقوق نظامية|A store policy cannot necessarily remove statutory rights granted by law.|لا تستطيع سياسة المتجر بالضرورة إلغاء الحقوق النظامية التي يمنحها القانون.|noun
+W|proof of purchase|إثبات شراء|Keep proof of purchase in case you need to make a claim.|احتفظ بإثبات الشراء في حال احتجت إلى تقديم مطالبة.|noun
+U|b2-x-u11|الاقتصاد والمال|Economics and Finance|تحدّث عن التضخم وريادة الأعمال وأساسيات الاستثمار واقتصاد العمل الحر.|chart.line.uptrend.xyaxis|Talk about inflation, entrepreneurship, investing basics and the gig economy.
+L|التضخم والأسعار|Inflation and Prices|أن يشرح المتعلم التضخم وأثره على الحياة اليومية.|As inflation rises, the purchasing power of ordinary families falls.|مع ارتفاع التضخم، تنخفض القدرة الشرائية للأسر العادية.|To explain inflation and how it affects everyday life.
+W|inflation|التضخم|Inflation reached its highest level in years.|بلغ التضخم أعلى مستوى له منذ سنوات.|noun
+W|purchasing power|القدرة الشرائية|Low wages reduce purchasing power.|الأجور المنخفضة تقلّل القدرة الشرائية.|noun
+W|cost of living|تكاليف المعيشة|The cost of living is rising fast.|ترتفع تكاليف المعيشة بسرعة.|noun
+W|soar|يرتفع بشدة|Fuel prices soared last month.|ارتفعت أسعار الوقود بشدة الشهر الماضي.|verb
+W|interest rates|أسعار الفائدة|The central bank raised interest rates.|رفع البنك المركزي أسعار الفائدة.|noun
+W|recession|ركود اقتصادي|Many businesses closed during the recession.|أغلقت شركات كثيرة خلال الركود الاقتصادي.|noun
+W|wage growth|نمو الأجور|If wage growth lags behind inflation, households may feel worse off.|إذا تأخر نمو الأجور عن التضخم فقد تشعر الأسر بتراجع قدرتها المالية.|noun
+W|household budget|ميزانية الأسرة|Higher food and energy prices can put pressure on a household budget.|يمكن لارتفاع أسعار الغذاء والطاقة أن يضغط على ميزانية الأسرة.|noun
+W|real income|الدخل الحقيقي|Real income falls when prices rise faster than earnings.|ينخفض الدخل الحقيقي عندما ترتفع الأسعار أسرع من الأرباح.|noun
+W|price rise|ارتفاع سعر|A price rise in one product does not by itself show the overall inflation rate.|لا يدل ارتفاع سعر منتج واحد بمفرده على معدل التضخم العام.|noun
+L|ريادة الأعمال|Entrepreneurship|أن يصف المتعلم خطوات تأسيس مشروع ومخاطره.|She launched her start-up with a small loan and a clear business plan.|أطلقت شركتها الناشئة بقرض صغير وخطة عمل واضحة.|To describe the steps and risks of starting a business.
+W|start-up|شركة ناشئة|He works for a tech start-up.|يعمل في شركة تقنية ناشئة.|noun
+W|launch|يُطلق|They launched the app in May.|أطلقوا التطبيق في مايو.|verb
+W|business plan|خطة عمل|Investors want to see a business plan.|يريد المستثمرون رؤية خطة عمل.|noun
+W|entrepreneur|رائد أعمال|She is a successful young entrepreneur.|إنها رائدة أعمال شابة ناجحة.|noun
+W|profitable|مربح|The café became profitable in its second year.|أصبح المقهى مربحًا في عامه الثاني.|adjective
+W|risk|مخاطرة؛ خطر|Starting a business always involves risk.|ينطوي تأسيس مشروع دائمًا على مخاطرة.|noun
+W|cash flow|تدفق نقدي|A profitable business can still face cash flow problems if customers pay late.|قد تواجه شركة رابحة مشكلات في التدفق النقدي إذا تأخر العملاء في الدفع.|noun
+W|market research|بحث سوقي|Market research can test whether customers actually want the product.|يمكن للبحث السوقي اختبار ما إذا كان العملاء يريدون المنتج فعلًا.|noun
+W|funding|تمويل|The founders are seeking funding to expand the business.|يسعى المؤسسون إلى تمويل لتوسيع الشركة.|noun
+W|break even|يصل إلى نقطة التعادل|The company expects to break even by the end of its second year.|تتوقع الشركة الوصول إلى نقطة التعادل بحلول نهاية عامها الثاني.|verb phrase
+L|أساسيات الاستثمار|Investing Basics|أن يشرح المتعلم مبادئ الاستثمار الأساسية ويحذّر من المخاطر.|It's wise to diversify your investments rather than put all your eggs in one basket.|من الحكمة تنويع استثماراتك بدلًا من وضع كل البيض في سلة واحدة.|To explain basic investment principles and warn about risks.
+W|diversify|ينوّع|Farmers diversify their crops to reduce risk.|ينوّع المزارعون محاصيلهم لتقليل المخاطر.|verb
+W|investment|استثمار|Property can be a good investment.|يمكن أن يكون العقار استثمارًا جيدًا.|noun
+W|put all your eggs in one basket|يضع كل البيض في سلة واحدة|Don't put all your eggs in one basket.|لا تضع كل البيض في سلة واحدة.|idiom
+W|shares|أسهم|He bought shares in a technology company.|اشترى أسهمًا في شركة تقنية.|noun
+W|return|عائد|The fund gave a return of six percent.|حقق الصندوق عائدًا بنسبة ستة بالمئة.|noun
+W|volatile|متقلّب|The market has been very volatile this year.|كان السوق متقلبًا جدًا هذا العام.|adjective
+W|portfolio|محفظة استثمارية|A diversified portfolio can spread exposure across different assets.|يمكن لمحفظة استثمارية متنوعة توزيع التعرض على أصول مختلفة.|noun
+W|asset|أصل مالي|Shares and bonds are different types of asset.|الأسهم والسندات نوعان مختلفان من الأصول المالية.|noun
+W|risk tolerance|قدرة على تحمل المخاطر|Your investment choices should reflect your goals and risk tolerance.|ينبغي أن تعكس اختياراتك الاستثمارية أهدافك وقدرتك على تحمل المخاطر.|noun
+W|dividend|توزيعات أرباح|A company may pay a dividend to shareholders, but payments are not guaranteed.|قد تدفع الشركة توزيعات أرباح للمساهمين، لكن هذه المدفوعات غير مضمونة.|noun
+L|اقتصاد العمل الحر|The Gig Economy|أن يناقش المتعلم مزايا العمل الحر عبر التطبيقات وعيوبه.|Gig workers enjoy freedom, but they often lack job security and benefits.|يتمتع العاملون الأحرار بالحرية، لكنهم غالبًا يفتقرون إلى الأمان الوظيفي والمزايا.|To discuss the pros and cons of app-based freelance work.
+W|gig economy|اقتصاد العمل الحر|The gig economy has grown rapidly.|نما اقتصاد العمل الحر بسرعة.|noun
+W|freelance|عمل حر؛ يعمل لحسابه|She works freelance as a designer.|تعمل مصممة بشكل حر.|adjective
+W|job security|الأمان الوظيفي|Contract work offers little job security.|العمل بالعقود يوفّر قليلًا من الأمان الوظيفي.|noun
+W|benefits|مزايا وظيفية|The job comes with good benefits.|تأتي الوظيفة بمزايا جيدة.|noun
+W|lack|يفتقر إلى؛ نقص|The plan lacks detail.|تفتقر الخطة إلى التفاصيل.|verb
+W|exploit|يستغل|Some platforms exploit their workers.|تستغل بعض المنصات عامليها.|verb
+W|platform worker|عامل منصة|A platform worker may receive jobs through an app rather than a traditional employer.|قد يتلقى عامل المنصة المهام عبر تطبيق بدل صاحب عمل تقليدي.|noun
+W|contract|عقد|The contract should state payment terms and responsibilities clearly.|ينبغي أن يوضح العقد شروط الدفع والمسؤوليات بوضوح.|noun
+W|income volatility|تقلب الدخل|Income volatility can make budgeting difficult for freelance workers.|قد يجعل تقلب الدخل إعداد الميزانية صعبًا للعاملين المستقلين.|noun
+W|social protection|حماية اجتماعية|Debates about gig work often focus on access to social protection.|تركز نقاشات العمل المرن عبر المنصات غالبًا على الوصول إلى الحماية الاجتماعية.|noun
+U|b2-x-u12|مهارات التواصل|Communication Skills|قدّم ملاحظات بنّاءة، واستمع بفاعلية، واكتب تقارير رسمية، ولخّص وأعد الصياغة.|text.bubble.fill|Give constructive feedback, listen actively, write formal reports, and summarise and paraphrase.
+L|تقديم ملاحظات بنّاءة|Giving Constructive Feedback|أن يقدّم المتعلم ملاحظات صريحة ولطيفة في آن واحد.|Your presentation was clear overall, but it might be worth adding more examples.|كان عرضك واضحًا بشكل عام، لكن قد يكون من المفيد إضافة مزيد من الأمثلة.|To give feedback that is honest and kind at the same time.
+W|it might be worth|قد يكون من المفيد|It might be worth checking the figures again.|قد يكون من المفيد مراجعة الأرقام مرة أخرى.|phrase
+W|feedback|ملاحظات تقييمية|Thanks for your helpful feedback.|شكرًا على ملاحظاتك المفيدة.|noun
+W|strength|نقطة قوة|Your biggest strength is your clarity.|أكبر نقاط قوتك هي الوضوح.|noun
+W|specific|محدّد|Please give specific examples.|من فضلك قدّم أمثلة محدّدة.|adjective
+W|tactful|لبق|She was tactful when she criticised my essay.|كانت لبقة عندما انتقدت مقالي.|adjective
+W|point out|يشير إلى|He pointed out a few small errors.|أشار إلى بضعة أخطاء صغيرة.|phrasal verb
+W|actionable|قابل للتنفيذ|Useful feedback is actionable because it tells the speaker what to change.|تكون الملاحظات المفيدة قابلة للتنفيذ لأنها تخبر المتحدث بما يمكن تغييره.|adjective
+W|balanced feedback|ملاحظات متوازنة|Balanced feedback recognises strengths as well as areas for improvement.|تعترف الملاحظات المتوازنة بنقاط القوة إلى جانب مجالات التحسين.|noun
+W|behaviour-focused|مركز على السلوك|Behaviour-focused feedback comments on observable actions rather than personality.|تركز الملاحظات المركزة على السلوك على الأفعال الملحوظة بدل الشخصية.|adjective
+W|follow-up|متابعة|A short follow-up can check whether the agreed change actually helped.|يمكن لمتابعة قصيرة التحقق مما إذا كان التغيير المتفق عليه قد أفاد فعلًا.|noun
+L|الاستماع الفعّال|Active Listening|أن يستخدم المتعلم عبارات تُظهر الإصغاء والفهم والتحقق.|So what you're saying is that the deadline needs to be moved, is that right?|إذًا ما تقصده أن الموعد النهائي يحتاج إلى تأجيل، أليس كذلك؟|To use phrases that show you are listening, understanding and checking.
+W|what you're saying is|ما تقصده هو|So what you're saying is that you need more time?|إذًا ما تقصده هو أنك تحتاج وقتًا أطول؟|phrase
+W|clarify|يوضّح|Could you clarify what you mean?|هل يمكنك توضيح ما تقصده؟|verb
+W|interrupt|يقاطع|Sorry to interrupt, but I have a question.|آسف على المقاطعة، لكن لدي سؤال.|verb
+W|empathy|التعاطف|A good manager shows empathy.|المدير الجيد يُظهر التعاطف.|noun
+W|body language|لغة الجسد|Your body language shows that you're nervous.|تُظهر لغة جسدك أنك متوتر.|noun
+W|acknowledge|يقرّ بـ؛ يعترف بـ|She acknowledged that the plan had problems.|أقرّت بأن الخطة فيها مشكلات.|verb
+W|clarifying question|سؤال توضيحي|A clarifying question can prevent you from responding to the wrong issue.|يمكن لسؤال توضيحي أن يمنعك من الرد على مسألة غير مقصودة.|noun
+W|reflect back|يعيد صياغة ما سمعه|Try to reflect back the speaker's main concern before offering advice.|حاول إعادة صياغة مصدر قلق المتحدث الرئيسي قبل تقديم النصيحة.|verb phrase
+W|open-ended question|سؤال مفتوح|An open-ended question encourages the other person to explain more.|يشجع السؤال المفتوح الشخص الآخر على الشرح بمزيد من التفصيل.|noun
+W|non-verbal cue|إشارة غير لفظية|A non-verbal cue such as eye contact can show attention.|يمكن لإشارة غير لفظية مثل التواصل البصري أن تظهر الانتباه.|noun
+L|كتابة التقارير الرسمية|Writing Formal Reports|أن يكتب المتعلم أقسام تقرير رسمي بأسلوب موضوعي.|The purpose of this report is to evaluate the new scheme and make recommendations.|الغرض من هذا التقرير تقييم البرنامج الجديد وتقديم توصيات.|To write the sections of a formal report in an objective style.
+W|purpose|غرض|The purpose of the meeting is to agree on a budget.|الغرض من الاجتماع الاتفاق على ميزانية.|noun
+W|evaluate|يقيّم|We need to evaluate the results carefully.|علينا تقييم النتائج بعناية.|verb
+W|recommendations|توصيات|The report ends with three recommendations.|ينتهي التقرير بثلاث توصيات.|noun
+W|findings|نتائج (دراسة)|The findings suggest a need for change.|تشير النتائج إلى الحاجة إلى التغيير.|noun
+W|scheme|برنامج؛ مخطط|The government launched a new training scheme.|أطلقت الحكومة برنامج تدريب جديدًا.|noun
+W|objective|موضوعي|A report should be objective, not emotional.|ينبغي أن يكون التقرير موضوعيًا لا عاطفيًا.|adjective
+W|executive summary|ملخص تنفيذي|An executive summary gives senior readers the report's main message quickly.|يقدم الملخص التنفيذي لكبار القراء الرسالة الرئيسية للتقرير بسرعة.|noun
+W|methodology|منهجية|The methodology section explains how the information was collected.|يوضح قسم المنهجية كيفية جمع المعلومات.|noun
+W|limitation|قيد|A good report states each important limitation of the evidence.|يذكر التقرير الجيد كل قيد مهم على الأدلة.|noun
+W|appendix|ملحق|Detailed tables can be placed in an appendix at the end of the report.|يمكن وضع الجداول التفصيلية في ملحق في نهاية التقرير.|noun
+L|التلخيص وإعادة الصياغة|Summarising and Paraphrasing|أن يلخّص المتعلم نصًا ويعيد صياغة أفكاره بكلماته.|In a nutshell, the author argues that cities must put people before cars.|باختصار، يرى المؤلف أن على المدن أن تضع الناس قبل السيارات.|To summarise a text and paraphrase its ideas in your own words.
+W|in a nutshell|باختصار|In a nutshell, the project was a success.|باختصار، كان المشروع ناجحًا.|idiom
+W|paraphrase|يعيد الصياغة|Try to paraphrase the quote in your own words.|حاول إعادة صياغة الاقتباس بكلماتك.|verb
+W|main idea|الفكرة الرئيسية|What is the main idea of the article?|ما الفكرة الرئيسية للمقال؟|noun
+W|argue|يرى؛ يحتجّ|The writer argues that tests are unfair.|يرى الكاتب أن الاختبارات غير عادلة.|verb
+W|concise|موجز|Keep your summary short and concise.|اجعل ملخصك قصيرًا وموجزًا.|adjective
+W|in other words|بعبارة أخرى|In other words, we need to start again.|بعبارة أخرى، علينا أن نبدأ من جديد.|phrase
+W|synthesis|تركيب الأفكار|A strong summary uses synthesis to combine related ideas from several paragraphs.|يستخدم الملخص القوي تركيب الأفكار للجمع بين أفكار مترابطة من عدة فقرات.|noun
+W|source text|النص الأصلي|Check the source text to make sure your paraphrase keeps the original meaning.|راجع النص الأصلي للتأكد من أن إعادة الصياغة تحافظ على المعنى الأصلي.|noun
+W|key point|نقطة رئيسية|Include each key point without copying unnecessary detail.|أدرج كل نقطة رئيسية دون نسخ تفاصيل غير ضرورية.|noun
+W|avoid plagiarism|يتجنب الانتحال|Writers must avoid plagiarism by acknowledging sources and using their own wording.|يجب على الكتّاب تجنب الانتحال بذكر المصادر واستخدام صياغتهم الخاصة.|verb phrase

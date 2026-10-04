@@ -15,6 +15,33 @@ struct WritingCorrection: Decodable, Hashable, Identifiable {
     var id: String { "\(original)|\(replacement)" }
 }
 
+/// Four-part writing rubric, each 0–100 for the learner's CEFR level.
+struct WritingRubric: Decodable, Hashable {
+    let taskAchievement: Int?
+    let coherence: Int?
+    let vocabulary: Int?
+    let grammar: Int?
+}
+
+/// Writing genres the coach can judge against (sent as `taskType`).
+enum WritingTaskType: String, CaseIterable, Identifiable {
+    case free, email, opinion, story, description
+    case ieltsTask2 = "ielts_task2"
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .free: return LE("كتابة حرة", "Free writing")
+        case .email: return LE("رسالة أو بريد", "Email or message")
+        case .opinion: return LE("رأي", "Opinion")
+        case .story: return LE("قصة", "Story")
+        case .description: return LE("وصف", "Description")
+        case .ieltsTask2: return LE("IELTS مهمة 2", "IELTS Task 2")
+        }
+    }
+}
+
 struct WritingResult: Decodable {
     let corrected: String
     let feedbackAr: String
@@ -23,9 +50,11 @@ struct WritingResult: Decodable {
     let improvementsAr: [String]
     let corrections: [WritingCorrection]
     let nextTaskEn: String?
+    let rubric: WritingRubric?
+    let revisionAr: String?
 
     private enum CodingKeys: String, CodingKey {
-        case corrected, feedbackAr, score, strengthsAr, improvementsAr, corrections, nextTaskEn
+        case corrected, feedbackAr, score, strengthsAr, improvementsAr, corrections, nextTaskEn, rubric, revisionAr
     }
 
     init(from decoder: Decoder) throws {
@@ -37,7 +66,50 @@ struct WritingResult: Decodable {
         improvementsAr = try container.decodeIfPresent([String].self, forKey: .improvementsAr) ?? []
         corrections = try container.decodeIfPresent([WritingCorrection].self, forKey: .corrections) ?? []
         nextTaskEn = try container.decodeIfPresent(String.self, forKey: .nextTaskEn)
+        rubric = try container.decodeIfPresent(WritingRubric.self, forKey: .rubric)
+        revisionAr = try container.decodeIfPresent(String.self, forKey: .revisionAr)
     }
+}
+
+struct ExplainTextVocabulary: Decodable, Hashable, Identifiable {
+    let term: String
+    let meaningAr: String
+    let exampleEn: String?
+    var id: String { term }
+}
+
+struct ExplainTextGrammar: Decodable, Hashable, Identifiable {
+    let pointAr: String
+    let exampleEn: String?
+    var id: String { pointAr }
+}
+
+/// Explanation of a passage the learner photographed or pasted.
+struct ExplainTextResult: Decodable {
+    let translationAr: String
+    let summaryAr: String
+    let simplifiedEn: String?
+    let vocabulary: [ExplainTextVocabulary]
+    let grammar: [ExplainTextGrammar]
+
+    private enum CodingKeys: String, CodingKey { case translationAr, summaryAr, simplifiedEn, vocabulary, grammar }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        translationAr = try container.decodeIfPresent(String.self, forKey: .translationAr) ?? ""
+        summaryAr = try container.decodeIfPresent(String.self, forKey: .summaryAr) ?? ""
+        simplifiedEn = try container.decodeIfPresent(String.self, forKey: .simplifiedEn)
+        vocabulary = try container.decodeIfPresent([ExplainTextVocabulary].self, forKey: .vocabulary) ?? []
+        grammar = try container.decodeIfPresent([ExplainTextGrammar].self, forKey: .grammar) ?? []
+    }
+}
+
+/// Today's AI budget for the signed-in learner.
+struct AIQuota: Decodable, Hashable {
+    let dailyUnits: Int
+    let usedUnits: Int
+    let remainingUnits: Int
+    let resetsAt: String?
 }
 
 struct ExerciseQuestion: Decodable, Identifiable {
@@ -117,6 +189,8 @@ struct LeaderboardResult: Decodable {
 enum AIStudioError: LocalizedError {
     case notSignedIn
     case rateLimited
+    case dailyLimit
+    case dailyCapacity
     case unavailable
     case progressNotSynced
     case underlying(String)
@@ -125,6 +199,10 @@ enum AIStudioError: LocalizedError {
         switch self {
         case .notSignedIn: return "سجّل الدخول أولًا لاستخدام الميزات الذكية عبر الخادم."
         case .rateLimited: return "وصلت إلى حد الاستخدام الذكي لهذه الساعة. جرّب مرة أخرى لاحقًا."
+        case .dailyLimit: return LE("استخدمت رصيدك اليومي من المساعد الذكي. يتجدد الرصيد عند منتصف الليل بتوقيت الرياض، والدروس والتدريب المحلي متاحة دائمًا.",
+                                     "You have used today's AI allowance. It renews at midnight Riyadh time; lessons and offline practice are always available.")
+        case .dailyCapacity: return LE("المساعد الذكي مشغول جدًا اليوم. جرّب لاحقًا، والتعلّم المحلي متاح دائمًا.",
+                                        "The AI assistant is at today's capacity. Try again later; offline learning is always available.")
         case .unavailable: return "المدرّب الذكي غير متاح حاليًا، ويمكنك متابعة التعلّم محليًا."
         case .progressNotSynced: return "يحتاج الموجز الذكي إلى مزامنة تقدّمك أولًا."
         case .underlying(let message): return message
@@ -143,7 +221,14 @@ struct AIStudioService {
     }
 
     private struct ExplainBody: Encodable { let concept: String; let level: String }
-    private struct WritingBody: Encodable { let text: String; let level: String; let task: String? }
+    private struct WritingBody: Encodable {
+        let text: String
+        let level: String
+        let task: String?
+        let taskType: String
+        let previousText: String?
+    }
+    private struct ExplainTextBody: Encodable { let text: String; let level: String; let locale: String }
     private struct ExerciseBody: Encodable {
         let topic: String?
         let level: String
@@ -156,8 +241,35 @@ struct AIStudioService {
         try await post("ai/explain", ExplainBody(concept: concept, level: level), ExplainResult.self)
     }
 
-    func correctWriting(text: String, level: String, task: String? = nil) async throws -> WritingResult {
-        try await post("ai/writing", WritingBody(text: text, level: level, task: task), WritingResult.self)
+    func correctWriting(
+        text: String,
+        level: String,
+        task: String? = nil,
+        taskType: WritingTaskType = .free,
+        previousText: String? = nil
+    ) async throws -> WritingResult {
+        try await post(
+            "ai/writing",
+            WritingBody(text: text, level: level, task: task, taskType: taskType.rawValue, previousText: previousText),
+            WritingResult.self
+        )
+    }
+
+    func explainText(_ text: String, level: String) async throws -> ExplainTextResult {
+        try await post(
+            "ai/explain-text",
+            ExplainTextBody(text: text, level: level, locale: Localizer.shared.isEnglish ? "en" : "ar"),
+            ExplainTextResult.self
+        )
+    }
+
+    func quota() async throws -> AIQuota {
+        guard let token else { throw AIStudioError.notSignedIn }
+        do {
+            return try await api.get(path: "ai/quota", response: AIQuota.self, bearerToken: token)
+        } catch {
+            throw mapped(error)
+        }
     }
 
     func generateExercise(topic: String, level: String, count: Int) async throws -> ExerciseResult {
@@ -205,10 +317,12 @@ struct AIStudioService {
     }
 
     private func mapped(_ error: Error) -> AIStudioError {
-        if case APIError.server(let status, _) = error {
+        if case APIError.server(let status, let message) = error {
             switch status {
             case 401: return .notSignedIn
             case 409: return .progressNotSynced
+            case 429 where message.contains("ai_daily_limit"): return .dailyLimit
+            case 503 where message.contains("ai_daily_capacity"): return .dailyCapacity
             case 429: return .rateLimited
             case 502, 503, 504: return .unavailable
             default: break

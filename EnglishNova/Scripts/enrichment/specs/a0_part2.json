@@ -734,7 +734,7 @@
       "titleEn": "Can You Repeat?",
       "titleAr": "هل يمكنك التكرار؟",
       "objectiveAr": "أن تطلب تكرار الكلام ببطء.",
-      "modelSentence": "Can you repeat that, please?.",
+      "modelSentence": "Can you repeat that, please?",
       "modelSentenceAr": "هل يمكنك تكرار ذلك، من فضلك؟",
       "existingVocabulary": [
         {
@@ -750,7 +750,7 @@
         {
           "id": "a0-059-that-3",
           "english": "that",
-          "arabic": "ذلك"
+          "arabic": "ذلك / تلك"
         }
       ]
     },
@@ -760,7 +760,7 @@
       "titleEn": "Foundation Review",
       "titleAr": "مراجعة البداية",
       "objectiveAr": "أن تجمع التحية والطلب والموقع في محادثة قصيرة.",
-      "modelSentence": "Hello. I need help. Where is the school?.",
+      "modelSentence": "Hello. I need help. Where is the school?",
       "modelSentenceAr": "مرحبًا. أحتاج مساعدة. أين المدرسة؟",
       "existingVocabulary": [
         {

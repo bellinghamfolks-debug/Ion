@@ -12,6 +12,7 @@ struct ReviewView: View {
                         .padding(.vertical, 40)
                 } else {
                     lessonReviewSection
+                    mistakesSection
                     wordReviewSection
                 }
             }
@@ -182,6 +183,31 @@ struct ReviewView: View {
     }
 
     @ViewBuilder
+    private var mistakesSection: some View {
+        NavigationLink { RemedialPracticeView() } label: {
+            HStack(spacing: 14) {
+                Image(systemName: "arrow.uturn.backward.circle.fill")
+                    .font(.title2)
+                    .foregroundStyle(AppTheme.streak)
+                    .accessibilityHidden(true)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(LE("تدرّب على أخطائك", "Practise your mistakes"))
+                        .font(.headline)
+                    Text(LE("الأسئلة التي أخطأت فيها في الدروس والتدريب تعود إليك حتى تتقنها.",
+                            "Items you missed in lessons and practice come back until you master them."))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.forward").foregroundStyle(.tertiary).accessibilityHidden(true)
+            }
+            .padding(16)
+            .background(AppTheme.cardSurface, in: RoundedRectangle(cornerRadius: AppTheme.compactCornerRadius, style: .continuous))
+            .accessibilityElement(children: .combine)
+        }
+        .buttonStyle(.plain)
+    }
+
     private var wordReviewSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(L("مراجعة الكلمات"))

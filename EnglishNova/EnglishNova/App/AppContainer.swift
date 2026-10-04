@@ -89,7 +89,6 @@ final class AppContainer: ObservableObject {
             vocabularyRepository: vocabulary,
             learningMemoryRepository: memory,
             tutorRepository: RoutingTutorRepository(
-                gemini: GeminiTutorClient(),
                 remote: RemoteTutorClient(apiClient: client),
                 local: LocalTutorEngine(),
                 settings: settings

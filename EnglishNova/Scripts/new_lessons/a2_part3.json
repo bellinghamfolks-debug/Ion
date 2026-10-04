@@ -1,0 +1,1481 @@
+{
+ "level": "A2",
+ "units": [
+  {
+   "id": "a2-x-u5",
+   "titleAr": "البيت والحي",
+   "titleEn": "Home and Neighbourhood",
+   "descriptionAr": "صف بيتك وأعمال المنزل، واستأجر شقة، وتحدّث عن الحي الذي تسكن فيه.",
+   "icon": "house.fill",
+   "lessons": [
+    {
+     "id": "a2-x-u5-l1",
+     "titleAr": "الغرف والأثاث",
+     "titleEn": "Rooms and Furniture",
+     "objectiveAr": "أن يصف المتعلم غرف بيته وأماكن الأثاث فيها بجمل بسيطة.",
+     "modelSentence": "There is a big sofa in the living room next to the window.",
+     "modelSentenceArabic": "توجد أريكة كبيرة في غرفة المعيشة بجانب النافذة.",
+     "vocabulary": [
+      {
+       "english": "sofa",
+       "arabic": "أريكة",
+       "example": "We watch TV on the sofa every evening.",
+       "exampleArabic": "نشاهد التلفاز على الأريكة كل مساء.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "living room",
+       "arabic": "غرفة المعيشة",
+       "example": "The living room is the biggest room in our flat.",
+       "exampleArabic": "غرفة المعيشة هي أكبر غرفة في شقتنا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "wardrobe",
+       "arabic": "خزانة ملابس",
+       "example": "My clothes are in the wardrobe.",
+       "exampleArabic": "ملابسي في خزانة الملابس.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "shelf",
+       "arabic": "رف",
+       "example": "Put the books on the top shelf.",
+       "exampleArabic": "ضع الكتب على الرف العلوي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "carpet",
+       "arabic": "سجادة",
+       "example": "There is a red carpet on the floor.",
+       "exampleArabic": "توجد سجادة حمراء على الأرض.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "upstairs",
+       "arabic": "في الطابق العلوي",
+       "example": "The bedrooms are upstairs.",
+       "exampleArabic": "غرف النوم في الطابق العلوي.",
+       "partOfSpeech": "adverb",
+       "phonetic": null
+      },
+      {
+       "english": "armchair",
+       "arabic": "كرسي بذراعين",
+       "example": "There is an armchair beside the bookshelf.",
+       "exampleArabic": "يوجد كرسي بذراعين بجانب رف الكتب.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "bedside table",
+       "arabic": "طاولة بجانب السرير",
+       "example": "My phone is on the bedside table.",
+       "exampleArabic": "هاتفي على الطاولة بجانب السرير.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "ceiling",
+       "arabic": "سقف",
+       "example": "The ceiling in this room is very high.",
+       "exampleArabic": "سقف هذه الغرفة مرتفع جدًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "downstairs",
+       "arabic": "في الطابق السفلي",
+       "example": "The kitchen is downstairs next to the dining room.",
+       "exampleArabic": "المطبخ في الطابق السفلي بجانب غرفة الطعام.",
+       "partOfSpeech": "adverb",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u5-l2",
+     "titleAr": "أعمال المنزل",
+     "titleEn": "Household Chores",
+     "objectiveAr": "أن يتحدث المتعلم عن أعمال المنزل اليومية ومن يقوم بها.",
+     "modelSentence": "I usually do the washing-up after dinner and my brother takes out the rubbish.",
+     "modelSentenceArabic": "عادةً أغسل الصحون بعد العشاء ويُخرج أخي القمامة.",
+     "vocabulary": [
+      {
+       "english": "washing-up",
+       "arabic": "غسل الصحون",
+       "example": "I do the washing-up every night.",
+       "exampleArabic": "أغسل الصحون كل ليلة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "vacuum",
+       "arabic": "ينظف بالمكنسة الكهربائية",
+       "example": "She vacuums the floor on Saturdays.",
+       "exampleArabic": "تنظف الأرض بالمكنسة الكهربائية أيام السبت.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "laundry",
+       "arabic": "الغسيل (الملابس)",
+       "example": "Can you hang the laundry outside?",
+       "exampleArabic": "هل يمكنك نشر الغسيل في الخارج؟",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "tidy",
+       "arabic": "يرتّب؛ مرتّب",
+       "example": "Please tidy your room before the guests arrive.",
+       "exampleArabic": "من فضلك رتّب غرفتك قبل وصول الضيوف.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "rubbish",
+       "arabic": "قمامة",
+       "example": "Don't forget to take out the rubbish.",
+       "exampleArabic": "لا تنسَ إخراج القمامة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "iron",
+       "arabic": "يكوي (الملابس)",
+       "example": "I iron my shirts on Sunday evening.",
+       "exampleArabic": "أكوي قمصاني مساء الأحد.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "mop",
+       "arabic": "يمسح الأرضية",
+       "example": "I mop the kitchen floor every Friday.",
+       "exampleArabic": "أمسح أرضية المطبخ كل يوم جمعة.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "dust",
+       "arabic": "يزيل الغبار",
+       "example": "We dust the shelves once a week.",
+       "exampleArabic": "نزيل الغبار عن الرفوف مرة في الأسبوع.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "make the bed",
+       "arabic": "يرتب السرير",
+       "example": "I make the bed before I leave for work.",
+       "exampleArabic": "أرتب السرير قبل أن أذهب إلى العمل.",
+       "partOfSpeech": "verb phrase",
+       "phonetic": null
+      },
+      {
+       "english": "dishwasher",
+       "arabic": "غسالة صحون",
+       "example": "The dishwasher is full, so I need to empty it.",
+       "exampleArabic": "غسالة الصحون ممتلئة، لذلك أحتاج إلى تفريغها.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u5-l3",
+     "titleAr": "استئجار شقة",
+     "titleEn": "Renting a Flat",
+     "objectiveAr": "أن يسأل المتعلم عن شقة للإيجار ويفهم أهم شروطها.",
+     "modelSentence": "The rent is four hundred pounds a month and the bills are included.",
+     "modelSentenceArabic": "الإيجار أربعمئة جنيه في الشهر والفواتير مشمولة.",
+     "vocabulary": [
+      {
+       "english": "rent",
+       "arabic": "الإيجار؛ يستأجر",
+       "example": "How much is the rent for this flat?",
+       "exampleArabic": "كم إيجار هذه الشقة؟",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "landlord",
+       "arabic": "المالك (المؤجِّر)",
+       "example": "The landlord fixed the heater yesterday.",
+       "exampleArabic": "أصلح المالك المدفأة أمس.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "bills",
+       "arabic": "الفواتير",
+       "example": "We share the bills with our flatmates.",
+       "exampleArabic": "نتقاسم الفواتير مع شركائنا في السكن.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "furnished",
+       "arabic": "مفروش",
+       "example": "I want a furnished flat near the station.",
+       "exampleArabic": "أريد شقة مفروشة قرب المحطة.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "deposit",
+       "arabic": "تأمين (مبلغ مدفوع مقدمًا)",
+       "example": "You pay a deposit before you move in.",
+       "exampleArabic": "تدفع مبلغ التأمين قبل أن تنتقل إليها.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "move in",
+       "arabic": "ينتقل للسكن",
+       "example": "We can move in next Monday.",
+       "exampleArabic": "يمكننا الانتقال للسكن يوم الاثنين القادم.",
+       "partOfSpeech": "phrasal verb",
+       "phonetic": null
+      },
+      {
+       "english": "tenancy agreement",
+       "arabic": "عقد إيجار",
+       "example": "Read the tenancy agreement carefully before you sign it.",
+       "exampleArabic": "اقرأ عقد الإيجار بعناية قبل أن توقعه.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "monthly rent",
+       "arabic": "الإيجار الشهري",
+       "example": "The monthly rent is due on the first day of each month.",
+       "exampleArabic": "يستحق الإيجار الشهري في اليوم الأول من كل شهر.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "utility bill",
+       "arabic": "فاتورة خدمات",
+       "example": "The utility bill covers electricity and water.",
+       "exampleArabic": "تشمل فاتورة الخدمات الكهرباء والماء.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "viewing",
+       "arabic": "معاينة عقار",
+       "example": "We booked a viewing for the flat on Saturday morning.",
+       "exampleArabic": "حجزنا معاينة للشقة صباح السبت.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u5-l4",
+     "titleAr": "حيّي",
+     "titleEn": "My Neighbourhood",
+     "objectiveAr": "أن يصف المتعلم حيّه والأماكن القريبة منه.",
+     "modelSentence": "My neighbourhood is quiet, and there is a small park near my house.",
+     "modelSentenceArabic": "حيّي هادئ، وتوجد حديقة صغيرة قرب بيتي.",
+     "vocabulary": [
+      {
+       "english": "neighbourhood",
+       "arabic": "حيّ",
+       "example": "I like my neighbourhood because it is safe.",
+       "exampleArabic": "أحب حيّي لأنه آمن.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "quiet",
+       "arabic": "هادئ",
+       "example": "Our street is quiet at night.",
+       "exampleArabic": "شارعنا هادئ في الليل.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "crowded",
+       "arabic": "مزدحم",
+       "example": "The market is crowded on Fridays.",
+       "exampleArabic": "يكون السوق مزدحمًا أيام الجمعة.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "corner shop",
+       "arabic": "بقالة الحي",
+       "example": "I buy milk from the corner shop.",
+       "exampleArabic": "أشتري الحليب من بقالة الحي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "community",
+       "arabic": "أهل الحي؛ مجتمع",
+       "example": "Our community cleans the park every month.",
+       "exampleArabic": "ينظّف أهل حيّنا الحديقة كل شهر.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "nearby",
+       "arabic": "قريب",
+       "example": "Is there a pharmacy nearby?",
+       "exampleArabic": "هل توجد صيدلية قريبة؟",
+       "partOfSpeech": "adverb",
+       "phonetic": null
+      },
+      {
+       "english": "pedestrian crossing",
+       "arabic": "ممر مشاة",
+       "example": "There is a pedestrian crossing outside the school.",
+       "exampleArabic": "يوجد ممر مشاة خارج المدرسة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "local area",
+       "arabic": "المنطقة المحلية",
+       "example": "The local area has several cafés and small shops.",
+       "exampleArabic": "تضم المنطقة المحلية عدة مقاهٍ ومتاجر صغيرة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "playground",
+       "arabic": "ملعب أطفال",
+       "example": "The children are playing in the playground near our building.",
+       "exampleArabic": "يلعب الأطفال في ملعب الأطفال قرب مبنانا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "bus stop",
+       "arabic": "موقف حافلة",
+       "example": "The nearest bus stop is two minutes from my house.",
+       "exampleArabic": "أقرب موقف حافلة يبعد دقيقتين عن منزلي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "a2-x-u6",
+   "titleAr": "الصحة والجسم",
+   "titleEn": "Health and the Body",
+   "descriptionAr": "تعرّف على أجزاء الجسم، واطلب الدواء من الصيدلية، وتحدّث عن الرياضة والنوم.",
+   "icon": "heart.fill",
+   "lessons": [
+    {
+     "id": "a2-x-u6-l1",
+     "titleAr": "أجزاء الجسم",
+     "titleEn": "Parts of the Body",
+     "objectiveAr": "أن يسمي المتعلم أجزاء الجسم ويصف ألمًا بسيطًا.",
+     "modelSentence": "I hurt my knee when I was playing football yesterday.",
+     "modelSentenceArabic": "آذيت ركبتي عندما كنت ألعب كرة القدم أمس.",
+     "vocabulary": [
+      {
+       "english": "knee",
+       "arabic": "ركبة",
+       "example": "My knee hurts when I climb the stairs.",
+       "exampleArabic": "تؤلمني ركبتي عندما أصعد الدرج.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "shoulder",
+       "arabic": "كتف",
+       "example": "He carries his bag on one shoulder.",
+       "exampleArabic": "يحمل حقيبته على كتف واحد.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "back",
+       "arabic": "ظهر",
+       "example": "I have a pain in my back.",
+       "exampleArabic": "أشعر بألم في ظهري.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "neck",
+       "arabic": "رقبة",
+       "example": "She wears a scarf around her neck.",
+       "exampleArabic": "ترتدي وشاحًا حول رقبتها.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "hurt",
+       "arabic": "يؤلم؛ يؤذي",
+       "example": "Did you hurt your hand?",
+       "exampleArabic": "هل آذيت يدك؟",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "stomach",
+       "arabic": "معدة؛ بطن",
+       "example": "I ate too much and my stomach hurts.",
+       "exampleArabic": "أكلت كثيرًا وبطني يؤلمني.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "ankle",
+       "arabic": "كاحل",
+       "example": "I twisted my ankle while I was running.",
+       "exampleArabic": "التوى كاحلي أثناء الجري.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "wrist",
+       "arabic": "معصم",
+       "example": "My wrist hurts when I move my hand.",
+       "exampleArabic": "يؤلمني معصمي عندما أحرك يدي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "elbow",
+       "arabic": "مرفق",
+       "example": "He hit his elbow on the door.",
+       "exampleArabic": "اصطدم مرفقه بالباب.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "forehead",
+       "arabic": "جبين",
+       "example": "She put a cold cloth on her forehead.",
+       "exampleArabic": "وضعت قطعة قماش باردة على جبينها.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u6-l2",
+     "titleAr": "في الصيدلية",
+     "titleEn": "At the Pharmacy",
+     "objectiveAr": "أن يطلب المتعلم دواءً ويفهم تعليمات استخدامه.",
+     "modelSentence": "Take one tablet twice a day after meals.",
+     "modelSentenceArabic": "تناول قرصًا واحدًا مرتين يوميًا بعد الوجبات.",
+     "vocabulary": [
+      {
+       "english": "tablet",
+       "arabic": "قرص (دواء)",
+       "example": "Take one tablet with water.",
+       "exampleArabic": "تناول قرصًا واحدًا مع الماء.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "pharmacist",
+       "arabic": "صيدلي",
+       "example": "Ask the pharmacist about this medicine.",
+       "exampleArabic": "اسأل الصيدلي عن هذا الدواء.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "prescription",
+       "arabic": "وصفة طبية",
+       "example": "You need a prescription for these pills.",
+       "exampleArabic": "تحتاج وصفة طبية لهذه الحبوب.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "dose",
+       "arabic": "جرعة",
+       "example": "Don't take more than the normal dose.",
+       "exampleArabic": "لا تتناول أكثر من الجرعة المعتادة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "side effect",
+       "arabic": "عرض جانبي",
+       "example": "This medicine has no serious side effects.",
+       "exampleArabic": "ليس لهذا الدواء أعراض جانبية خطيرة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "twice",
+       "arabic": "مرتين",
+       "example": "Brush your teeth twice a day.",
+       "exampleArabic": "نظّف أسنانك مرتين يوميًا.",
+       "partOfSpeech": "adverb",
+       "phonetic": null
+      },
+      {
+       "english": "painkiller",
+       "arabic": "مسكن للألم",
+       "example": "The pharmacist recommended a painkiller for the headache.",
+       "exampleArabic": "أوصى الصيدلي بمسكن للألم للصداع.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "cough syrup",
+       "arabic": "شراب للسعال",
+       "example": "Take this cough syrup before you go to bed.",
+       "exampleArabic": "خذ شراب السعال هذا قبل أن تذهب إلى النوم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "dosage instructions",
+       "arabic": "تعليمات الجرعة",
+       "example": "Follow the dosage instructions on the label carefully.",
+       "exampleArabic": "اتبع تعليمات الجرعة الموجودة على الملصق بعناية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "leaflet",
+       "arabic": "نشرة إرشادية",
+       "example": "Read the leaflet before taking the tablets.",
+       "exampleArabic": "اقرأ النشرة الإرشادية قبل تناول الأقراص.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u6-l3",
+     "titleAr": "الرياضة واللياقة",
+     "titleEn": "Exercise and Fitness",
+     "objectiveAr": "أن يتحدث المتعلم عن التمارين التي يمارسها وعدد مرات ممارستها.",
+     "modelSentence": "I go to the gym three times a week to stay fit.",
+     "modelSentenceArabic": "أذهب إلى النادي الرياضي ثلاث مرات في الأسبوع لأحافظ على لياقتي.",
+     "vocabulary": [
+      {
+       "english": "gym",
+       "arabic": "نادٍ رياضي",
+       "example": "The gym opens at six in the morning.",
+       "exampleArabic": "يفتح النادي الرياضي في السادسة صباحًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "fit",
+       "arabic": "لائق بدنيًا",
+       "example": "Walking every day keeps you fit.",
+       "exampleArabic": "المشي كل يوم يحافظ على لياقتك.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "work out",
+       "arabic": "يتمرن",
+       "example": "She works out before breakfast.",
+       "exampleArabic": "تتمرن قبل الإفطار.",
+       "partOfSpeech": "phrasal verb",
+       "phonetic": null
+      },
+      {
+       "english": "stretch",
+       "arabic": "يتمدد؛ تمارين الإطالة",
+       "example": "Always stretch before you run.",
+       "exampleArabic": "قم بتمارين الإطالة دائمًا قبل الجري.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "jogging",
+       "arabic": "الهرولة",
+       "example": "Jogging in the park is my favourite exercise.",
+       "exampleArabic": "الهرولة في الحديقة هي تمريني المفضل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "sweat",
+       "arabic": "يتعرّق",
+       "example": "I sweat a lot when I run in summer.",
+       "exampleArabic": "أتعرّق كثيرًا عندما أجري في الصيف.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "treadmill",
+       "arabic": "جهاز المشي",
+       "example": "I ran on the treadmill for twenty minutes.",
+       "exampleArabic": "ركضت على جهاز المشي لمدة عشرين دقيقة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "warm up",
+       "arabic": "يقوم بالإحماء",
+       "example": "Always warm up before a hard workout.",
+       "exampleArabic": "قم بالإحماء دائمًا قبل تمرين شاق.",
+       "partOfSpeech": "phrasal verb",
+       "phonetic": null
+      },
+      {
+       "english": "cool down",
+       "arabic": "يهدئ الجسم بعد التمرين",
+       "example": "I walk slowly for five minutes to cool down.",
+       "exampleArabic": "أمشي ببطء خمس دقائق لتهدئة جسمي بعد التمرين.",
+       "partOfSpeech": "phrasal verb",
+       "phonetic": null
+      },
+      {
+       "english": "personal trainer",
+       "arabic": "مدرب شخصي",
+       "example": "A personal trainer showed me how to use the machines safely.",
+       "exampleArabic": "أراني مدرب شخصي كيف أستخدم الأجهزة بأمان.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u6-l4",
+     "titleAr": "النوم والراحة",
+     "titleEn": "Sleep and Rest",
+     "objectiveAr": "أن يصف المتعلم عادات نومه ويقدم نصيحة بسيطة للراحة.",
+     "modelSentence": "I try to go to bed early because I need eight hours of sleep.",
+     "modelSentenceArabic": "أحاول أن أنام مبكرًا لأنني أحتاج ثماني ساعات من النوم.",
+     "vocabulary": [
+      {
+       "english": "go to bed",
+       "arabic": "يخلد إلى النوم",
+       "example": "I go to bed at eleven o'clock.",
+       "exampleArabic": "أخلد إلى النوم في الساعة الحادية عشرة.",
+       "partOfSpeech": "phrasal verb",
+       "phonetic": null
+      },
+      {
+       "english": "sleep",
+       "arabic": "النوم؛ ينام",
+       "example": "Children need more sleep than adults.",
+       "exampleArabic": "يحتاج الأطفال إلى نوم أكثر من الكبار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "nap",
+       "arabic": "قيلولة",
+       "example": "My grandfather takes a nap after lunch.",
+       "exampleArabic": "يأخذ جدي قيلولة بعد الغداء.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "snore",
+       "arabic": "يشخر",
+       "example": "My brother snores loudly at night.",
+       "exampleArabic": "يشخر أخي بصوت عالٍ في الليل.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "relax",
+       "arabic": "يسترخي",
+       "example": "I relax by reading a book.",
+       "exampleArabic": "أسترخي بقراءة كتاب.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "alarm",
+       "arabic": "منبّه",
+       "example": "My alarm didn't ring this morning.",
+       "exampleArabic": "لم يرنّ منبّهي هذا الصباح.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "oversleep",
+       "arabic": "ينام أكثر من اللازم",
+       "example": "I oversleep if I forget to set my alarm.",
+       "exampleArabic": "أنام أكثر من اللازم إذا نسيت ضبط المنبه.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "sleep routine",
+       "arabic": "روتين النوم",
+       "example": "A regular sleep routine helps me go to bed at the same time each night.",
+       "exampleArabic": "يساعدني روتين نوم منتظم على الذهاب إلى السرير في الوقت نفسه كل ليلة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "rested",
+       "arabic": "مرتاح بعد النوم",
+       "example": "I feel rested after a full night's sleep.",
+       "exampleArabic": "أشعر أنني مرتاح بعد ليلة نوم كاملة.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "fall asleep",
+       "arabic": "يغفو",
+       "example": "I fall asleep more easily when the room is quiet.",
+       "exampleArabic": "أغفو بسهولة أكبر عندما تكون الغرفة هادئة.",
+       "partOfSpeech": "phrasal verb",
+       "phonetic": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "a2-x-u7",
+   "titleAr": "السفر والعطلات",
+   "titleEn": "Travel and Holidays",
+   "descriptionAr": "احجز فندقًا، وتعامل مع مكتب الاستقبال، وجهّز حقيبتك، وتحدّث عن أنشطة العطلة.",
+   "icon": "airplane",
+   "lessons": [
+    {
+     "id": "a2-x-u7-l1",
+     "titleAr": "حجز فندق",
+     "titleEn": "Booking a Hotel",
+     "objectiveAr": "أن يحجز المتعلم غرفة فندقية ويسأل عن السعر والخدمات.",
+     "modelSentence": "I'd like to book a double room for three nights, please.",
+     "modelSentenceArabic": "أود حجز غرفة مزدوجة لثلاث ليالٍ من فضلك.",
+     "vocabulary": [
+      {
+       "english": "per night",
+       "arabic": "لليلة الواحدة",
+       "example": "The room costs eighty dollars per night.",
+       "exampleArabic": "تكلّف الغرفة ثمانين دولارًا لليلة الواحدة.",
+       "partOfSpeech": "phrase",
+       "phonetic": null
+      },
+      {
+       "english": "double room",
+       "arabic": "غرفة مزدوجة",
+       "example": "A double room costs ninety dollars a night.",
+       "exampleArabic": "تكلّف الغرفة المزدوجة تسعين دولارًا في الليلة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "single room",
+       "arabic": "غرفة مفردة",
+       "example": "Is there a single room available?",
+       "exampleArabic": "هل توجد غرفة مفردة متاحة؟",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "balcony",
+       "arabic": "شرفة",
+       "example": "Does the room have a balcony?",
+       "exampleArabic": "هل في الغرفة شرفة؟",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "breakfast included",
+       "arabic": "الإفطار مشمول",
+       "example": "Is breakfast included in the price?",
+       "exampleArabic": "هل الإفطار مشمول في السعر؟",
+       "partOfSpeech": "phrase",
+       "phonetic": null
+      },
+      {
+       "english": "reservation",
+       "arabic": "حجز",
+       "example": "I have a reservation under the name Khalid.",
+       "exampleArabic": "لدي حجز باسم خالد.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "availability",
+       "arabic": "توفر الغرف",
+       "example": "I called the hotel to check availability for the weekend.",
+       "exampleArabic": "اتصلت بالفندق للتحقق من توفر الغرف في عطلة نهاية الأسبوع.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "twin room",
+       "arabic": "غرفة بسريرين منفصلين",
+       "example": "We booked a twin room because we wanted separate beds.",
+       "exampleArabic": "حجزنا غرفة بسريرين منفصلين لأننا أردنا سريرين منفصلين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "check-in",
+       "arabic": "تسجيل الوصول",
+       "example": "Check-in starts at three o'clock in the afternoon.",
+       "exampleArabic": "يبدأ تسجيل الوصول الساعة الثالثة بعد الظهر.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "booking confirmation",
+       "arabic": "تأكيد الحجز",
+       "example": "The hotel emailed me a booking confirmation.",
+       "exampleArabic": "أرسل لي الفندق تأكيد الحجز عبر البريد الإلكتروني.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u7-l2",
+     "titleAr": "في الفندق",
+     "titleEn": "At the Hotel",
+     "objectiveAr": "أن يتعامل المتعلم مع موظف الاستقبال ويطلب خدمة أو يبلّغ عن مشكلة.",
+     "modelSentence": "Excuse me, the air conditioning in my room isn't working.",
+     "modelSentenceArabic": "عذرًا، المكيّف في غرفتي لا يعمل.",
+     "vocabulary": [
+      {
+       "english": "reception",
+       "arabic": "مكتب الاستقبال",
+       "example": "Please leave your key at reception.",
+       "exampleArabic": "من فضلك اترك مفتاحك في مكتب الاستقبال.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "room service",
+       "arabic": "خدمة الغرف",
+       "example": "I ordered breakfast from room service.",
+       "exampleArabic": "طلبت الإفطار من خدمة الغرف.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "check out",
+       "arabic": "يسجّل المغادرة",
+       "example": "We check out at noon tomorrow.",
+       "exampleArabic": "نسجّل المغادرة ظهر الغد.",
+       "partOfSpeech": "phrasal verb",
+       "phonetic": null
+      },
+      {
+       "english": "air conditioning",
+       "arabic": "المكيّف (التكييف)",
+       "example": "The air conditioning is too cold.",
+       "exampleArabic": "المكيّف بارد جدًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "towel",
+       "arabic": "منشفة",
+       "example": "Could I have an extra towel, please?",
+       "exampleArabic": "هل يمكنني الحصول على منشفة إضافية من فضلك؟",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "lift",
+       "arabic": "مصعد",
+       "example": "The lift is next to the restaurant.",
+       "exampleArabic": "المصعد بجانب المطعم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "key card",
+       "arabic": "بطاقة مفتاح",
+       "example": "My key card stopped working, so I went to reception.",
+       "exampleArabic": "توقفت بطاقة المفتاح عن العمل، فذهبت إلى الاستقبال.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "housekeeping",
+       "arabic": "خدمة تنظيف الغرف",
+       "example": "Housekeeping brought clean towels to our room.",
+       "exampleArabic": "أحضرت خدمة تنظيف الغرف مناشف نظيفة إلى غرفتنا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "complaint",
+       "arabic": "شكوى",
+       "example": "I made a complaint because the room was very noisy.",
+       "exampleArabic": "قدمت شكوى لأن الغرفة كانت صاخبة جدًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "extra blanket",
+       "arabic": "بطانية إضافية",
+       "example": "Could I have an extra blanket, please?",
+       "exampleArabic": "هل يمكنني الحصول على بطانية إضافية من فضلك؟",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u7-l3",
+     "titleAr": "تجهيز الحقيبة",
+     "titleEn": "Packing for a Trip",
+     "objectiveAr": "أن يتحدث المتعلم عما يحتاج أخذه في رحلة ويخطط لتجهيز حقيبته.",
+     "modelSentence": "Don't forget to pack your passport and a charger for your phone.",
+     "modelSentenceArabic": "لا تنسَ أن تضع جواز سفرك وشاحنًا لهاتفك في الحقيبة.",
+     "vocabulary": [
+      {
+       "english": "pack",
+       "arabic": "يحزم (الحقيبة)",
+       "example": "I always pack the night before a trip.",
+       "exampleArabic": "أحزم حقيبتي دائمًا في الليلة السابقة للرحلة.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "suitcase",
+       "arabic": "حقيبة سفر",
+       "example": "My suitcase is too heavy.",
+       "exampleArabic": "حقيبة سفري ثقيلة جدًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "first-aid kit",
+       "arabic": "حقيبة إسعافات أولية",
+       "example": "Always pack a small first-aid kit.",
+       "exampleArabic": "ضع دائمًا حقيبة إسعافات أولية صغيرة في أمتعتك.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "charger",
+       "arabic": "شاحن",
+       "example": "I left my phone charger at home.",
+       "exampleArabic": "نسيت شاحن هاتفي في البيت.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "sunscreen",
+       "arabic": "واقي الشمس",
+       "example": "Take sunscreen to the beach.",
+       "exampleArabic": "خذ واقي الشمس إلى الشاطئ.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "toothbrush",
+       "arabic": "فرشاة أسنان",
+       "example": "I need a new toothbrush for the trip.",
+       "exampleArabic": "أحتاج فرشاة أسنان جديدة للرحلة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "travel adapter",
+       "arabic": "محوّل كهربائي للسفر",
+       "example": "I packed a travel adapter for my phone charger.",
+       "exampleArabic": "وضعت محولًا كهربائيًا للسفر لشاحن هاتفي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "packing list",
+       "arabic": "قائمة تجهيز الأمتعة",
+       "example": "I use a packing list so I do not forget anything important.",
+       "exampleArabic": "أستخدم قائمة لتجهيز الأمتعة حتى لا أنسى شيئًا مهمًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "toiletries",
+       "arabic": "مستلزمات النظافة الشخصية",
+       "example": "I keep my toiletries in a small bag.",
+       "exampleArabic": "أحتفظ بمستلزمات النظافة الشخصية في حقيبة صغيرة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "travel insurance",
+       "arabic": "تأمين سفر",
+       "example": "We bought travel insurance before the trip.",
+       "exampleArabic": "اشترينا تأمين سفر قبل الرحلة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u7-l4",
+     "titleAr": "أنشطة العطلة",
+     "titleEn": "Holiday Activities",
+     "objectiveAr": "أن يصف المتعلم ما فعله أو سيفعله في العطلة.",
+     "modelSentence": "We went sightseeing in the old town and took lots of photos.",
+     "modelSentenceArabic": "تجوّلنا لمشاهدة معالم المدينة القديمة والتقطنا صورًا كثيرة.",
+     "vocabulary": [
+      {
+       "english": "sightseeing",
+       "arabic": "مشاهدة المعالم",
+       "example": "We went sightseeing on our first day.",
+       "exampleArabic": "ذهبنا لمشاهدة المعالم في يومنا الأول.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "souvenir",
+       "arabic": "تذكار",
+       "example": "I bought a souvenir for my mother.",
+       "exampleArabic": "اشتريت تذكارًا لأمي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "beach",
+       "arabic": "شاطئ",
+       "example": "The children played on the beach all day.",
+       "exampleArabic": "لعب الأطفال على الشاطئ طوال اليوم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "museum",
+       "arabic": "متحف",
+       "example": "The museum is closed on Mondays.",
+       "exampleArabic": "المتحف مغلق أيام الاثنين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "tour",
+       "arabic": "جولة",
+       "example": "We took a boat tour around the island.",
+       "exampleArabic": "قمنا بجولة بالقارب حول الجزيرة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "take photos",
+       "arabic": "يلتقط صورًا",
+       "example": "You can't take photos inside the palace.",
+       "exampleArabic": "لا يمكنك التقاط صور داخل القصر.",
+       "partOfSpeech": "phrase",
+       "phonetic": null
+      },
+      {
+       "english": "guided tour",
+       "arabic": "جولة بصحبة مرشد",
+       "example": "We joined a guided tour of the old palace.",
+       "exampleArabic": "انضممنا إلى جولة بصحبة مرشد في القصر القديم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "landmark",
+       "arabic": "معلم بارز",
+       "example": "The tower is the most famous landmark in the city.",
+       "exampleArabic": "البرج هو أشهر معلم بارز في المدينة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "sunbathe",
+       "arabic": "يتشمس",
+       "example": "Some tourists like to sunbathe on the beach in the afternoon.",
+       "exampleArabic": "يحب بعض السياح التشمس على الشاطئ بعد الظهر.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "excursion",
+       "arabic": "رحلة قصيرة",
+       "example": "We went on an excursion to a village outside the city.",
+       "exampleArabic": "ذهبنا في رحلة قصيرة إلى قرية خارج المدينة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "a2-x-u8",
+   "titleAr": "المدرسة والتعلّم",
+   "titleEn": "School and Learning",
+   "descriptionAr": "استخدم لغة الصف، وتحدّث عن المواد الدراسية، واستعد للاختبار، وتعلّم لغة جديدة.",
+   "icon": "book.closed.fill",
+   "lessons": [
+    {
+     "id": "a2-x-u8-l1",
+     "titleAr": "لغة الصف",
+     "titleEn": "Classroom Language",
+     "objectiveAr": "أن يستخدم المتعلم عبارات الصف الشائعة لطلب المساعدة والتوضيح.",
+     "modelSentence": "Could you repeat that, please? I didn't understand the question.",
+     "modelSentenceArabic": "هل يمكنك أن تكرر ذلك من فضلك؟ لم أفهم السؤال.",
+     "vocabulary": [
+      {
+       "english": "repeat",
+       "arabic": "يكرر",
+       "example": "Could you repeat the last word?",
+       "exampleArabic": "هل يمكنك تكرار الكلمة الأخيرة؟",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "spell",
+       "arabic": "يتهجّى",
+       "example": "How do you spell your surname?",
+       "exampleArabic": "كيف تتهجّى اسم عائلتك؟",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "homework",
+       "arabic": "واجب منزلي",
+       "example": "Our homework is on page twenty.",
+       "exampleArabic": "واجبنا المنزلي في الصفحة العشرين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "explain",
+       "arabic": "يشرح",
+       "example": "The teacher explained the rule again.",
+       "exampleArabic": "شرح المعلم القاعدة مرة أخرى.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "borrow",
+       "arabic": "يستعير",
+       "example": "Can I borrow your pen?",
+       "exampleArabic": "هل يمكنني استعارة قلمك؟",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "mean",
+       "arabic": "يعني",
+       "example": "What does this word mean?",
+       "exampleArabic": "ماذا تعني هذه الكلمة؟",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "underline",
+       "arabic": "يضع خطًا تحت",
+       "example": "Please underline the correct answer in your book.",
+       "exampleArabic": "ضع خطًا تحت الإجابة الصحيحة في كتابك من فضلك.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "instruction",
+       "arabic": "تعليمات",
+       "example": "Read each instruction carefully before you answer.",
+       "exampleArabic": "اقرأ كل تعليمات بعناية قبل أن تجيب.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "page",
+       "arabic": "صفحة",
+       "example": "Open your book at page twenty-four.",
+       "exampleArabic": "افتح كتابك على الصفحة الرابعة والعشرين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "worksheet",
+       "arabic": "ورقة عمل",
+       "example": "The teacher gave us a worksheet to complete in class.",
+       "exampleArabic": "أعطانا المعلم ورقة عمل لإكمالها في الصف.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u8-l2",
+     "titleAr": "المواد الدراسية",
+     "titleEn": "School Subjects",
+     "objectiveAr": "أن يتحدث المتعلم عن المواد التي يحبها والتي يجدها صعبة.",
+     "modelSentence": "My favourite subject is history, but I find maths difficult.",
+     "modelSentenceArabic": "مادتي المفضلة هي التاريخ، لكنني أجد الرياضيات صعبة.",
+     "vocabulary": [
+      {
+       "english": "subject",
+       "arabic": "مادة دراسية",
+       "example": "Science is my favourite subject.",
+       "exampleArabic": "العلوم مادتي المفضلة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "history",
+       "arabic": "التاريخ",
+       "example": "We are learning about ancient history.",
+       "exampleArabic": "نتعلم عن التاريخ القديم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "maths",
+       "arabic": "الرياضيات",
+       "example": "I have maths every morning.",
+       "exampleArabic": "عندي رياضيات كل صباح.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "geography",
+       "arabic": "الجغرافيا",
+       "example": "In geography we study maps and countries.",
+       "exampleArabic": "في الجغرافيا ندرس الخرائط والبلدان.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "chemistry",
+       "arabic": "الكيمياء",
+       "example": "The chemistry lab is on the second floor.",
+       "exampleArabic": "مختبر الكيمياء في الطابق الثاني.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "timetable",
+       "arabic": "جدول الحصص",
+       "example": "Check the timetable for tomorrow's lessons.",
+       "exampleArabic": "راجع جدول الحصص لدروس الغد.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "biology",
+       "arabic": "أحياء",
+       "example": "Biology is my favourite science subject.",
+       "exampleArabic": "الأحياء هي مادتي العلمية المفضلة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "physics",
+       "arabic": "فيزياء",
+       "example": "We are studying electricity in physics this term.",
+       "exampleArabic": "ندرس الكهرباء في الفيزياء هذا الفصل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "literature",
+       "arabic": "أدب",
+       "example": "In literature, we are reading a short novel.",
+       "exampleArabic": "في الأدب نقرأ رواية قصيرة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "PE",
+       "arabic": "تربية بدنية",
+       "example": "We have PE on Wednesday afternoon.",
+       "exampleArabic": "لدينا حصة تربية بدنية بعد ظهر الأربعاء.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u8-l3",
+     "titleAr": "الاستعداد للاختبار",
+     "titleEn": "Studying for a Test",
+     "objectiveAr": "أن يصف المتعلم طريقته في المذاكرة ويقدم نصيحة لزميله.",
+     "modelSentence": "I revise for an hour every evening before an important exam.",
+     "modelSentenceArabic": "أراجع ساعة كل مساء قبل أي اختبار مهم.",
+     "vocabulary": [
+      {
+       "english": "revise",
+       "arabic": "يراجع (للاختبار)",
+       "example": "I need to revise chapter three.",
+       "exampleArabic": "أحتاج أن أراجع الفصل الثالث.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "exam",
+       "arabic": "اختبار",
+       "example": "The exam starts at nine o'clock.",
+       "exampleArabic": "يبدأ الاختبار في الساعة التاسعة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "pass",
+       "arabic": "ينجح (في اختبار)",
+       "example": "I hope I pass the test.",
+       "exampleArabic": "أتمنى أن أنجح في الاختبار.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "fail",
+       "arabic": "يرسب",
+       "example": "He failed the exam because he didn't study.",
+       "exampleArabic": "رسب في الاختبار لأنه لم يذاكر.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "notes",
+       "arabic": "ملاحظات",
+       "example": "Read your notes before the test.",
+       "exampleArabic": "اقرأ ملاحظاتك قبل الاختبار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "grade",
+       "arabic": "درجة؛ تقدير",
+       "example": "She got a good grade in English.",
+       "exampleArabic": "حصلت على درجة جيدة في الإنجليزية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "study plan",
+       "arabic": "خطة مذاكرة",
+       "example": "I made a study plan for the week before the exam.",
+       "exampleArabic": "وضعت خطة مذاكرة للأسبوع السابق للاختبار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "practice test",
+       "arabic": "اختبار تجريبي",
+       "example": "I did a practice test to check my progress.",
+       "exampleArabic": "أجريت اختبارًا تجريبيًا للتحقق من تقدمي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "mark",
+       "arabic": "درجة",
+       "example": "I got a good mark in my English test.",
+       "exampleArabic": "حصلت على درجة جيدة في اختبار اللغة الإنجليزية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "revision",
+       "arabic": "مراجعة",
+       "example": "I need two more hours of revision tonight.",
+       "exampleArabic": "أحتاج إلى ساعتين إضافيتين من المراجعة الليلة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    },
+    {
+     "id": "a2-x-u8-l4",
+     "titleAr": "تعلّم لغة",
+     "titleEn": "Learning a Language",
+     "objectiveAr": "أن يتحدث المتعلم عن طرق تعلّم اللغة والتحديات التي يواجهها.",
+     "modelSentence": "Practising every day is the best way to improve your English.",
+     "modelSentenceArabic": "التدرّب كل يوم هو أفضل طريقة لتحسين لغتك الإنجليزية.",
+     "vocabulary": [
+      {
+       "english": "improve",
+       "arabic": "يحسّن",
+       "example": "I want to improve my speaking.",
+       "exampleArabic": "أريد أن أحسّن مهارة التحدث لدي.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "accent",
+       "arabic": "لكنة",
+       "example": "She speaks English with a British accent.",
+       "exampleArabic": "تتحدث الإنجليزية بلكنة بريطانية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "mistake",
+       "arabic": "خطأ",
+       "example": "Everyone makes mistakes when they learn.",
+       "exampleArabic": "الجميع يخطئون عندما يتعلمون.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "fluent",
+       "arabic": "طليق (في اللغة)",
+       "example": "She is fluent in three languages.",
+       "exampleArabic": "هي طليقة في ثلاث لغات.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "vocabulary",
+       "arabic": "المفردات",
+       "example": "Reading helps you learn new vocabulary.",
+       "exampleArabic": "القراءة تساعدك على تعلّم مفردات جديدة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "pronunciation",
+       "arabic": "النطق",
+       "example": "His pronunciation is very clear.",
+       "exampleArabic": "نطقه واضح جدًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "language exchange",
+       "arabic": "تبادل لغوي",
+       "example": "I joined a language exchange to practise speaking English.",
+       "exampleArabic": "انضممت إلى تبادل لغوي لأتدرب على التحدث بالإنجليزية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "native speaker",
+       "arabic": "متحدث أصلي",
+       "example": "I sometimes practise with a native speaker online.",
+       "exampleArabic": "أتدرب أحيانًا مع متحدث أصلي عبر الإنترنت.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "dictionary",
+       "arabic": "قاموس",
+       "example": "Use a dictionary when you are not sure what a word means.",
+       "exampleArabic": "استخدم قاموسًا عندما لا تكون متأكدًا من معنى كلمة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "confidence",
+       "arabic": "ثقة",
+       "example": "Speaking every day can build your confidence.",
+       "exampleArabic": "يمكن للتحدث يوميًا أن يبني ثقتك.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

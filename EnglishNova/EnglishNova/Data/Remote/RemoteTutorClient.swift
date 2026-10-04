@@ -1,5 +1,19 @@
 import Foundation
 
+enum TutorRemoteError: LocalizedError {
+    case notSignedIn
+
+    var errorDescription: String? {
+        switch self {
+        case .notSignedIn:
+            return LE(
+                "سجّل الدخول لاستخدام المدرّب الذكي عبر الإنترنت.",
+                "Sign in to use the smart tutor online."
+            )
+        }
+    }
+}
+
 struct RemoteTutorClient {
     let apiClient: APIClient
 
@@ -15,7 +29,9 @@ struct RemoteTutorClient {
         // Send the full teaching context. The server combines this recent local
         // context with the synced learner profile instead of treating every
         // message as a brand-new conversation.
-        let token = KeychainStore().string(for: "server.authToken")
+        guard let token = KeychainStore().string(for: "server.authToken"), !token.isEmpty else {
+            throw TutorRemoteError.notSignedIn
+        }
         return try await apiClient.send(
             path: "ai/tutor",
             method: "POST",
@@ -55,7 +71,9 @@ struct RemoteVoiceCoachClient {
         // Preserve the rich context already computed on-device. iOS remains the
         // source of truth for speech-recognition metrics; the server AI uses
         // those metrics plus conversation history for semantic coaching.
-        let token = KeychainStore().string(for: "server.authToken")
+        guard let token = KeychainStore().string(for: "server.authToken"), !token.isEmpty else {
+            throw TutorRemoteError.notSignedIn
+        }
         let history = request.previousTurns.prefix(6).map {
             PreviousTurn(transcript: $0.transcript, reply: $0.reply, score: $0.score)
         }

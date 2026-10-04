@@ -329,7 +329,14 @@ private struct VoiceCoachSessionView: View {
     @EnvironmentObject private var container: AppContainer
     @EnvironmentObject private var settings: AppSettings
     @EnvironmentObject private var speechService: SpeechService
+    @EnvironmentObject private var textToSpeech: TextToSpeechService
     let scenario: ConversationScenario
+
+    /// Hands-free conversation: listen after the partner speaks, stop on
+    /// silence, evaluate, reply, and continue without touching the screen.
+    @State private var handsFree = false
+    @State private var silenceTask: Task<Void, Never>?
+    @State private var lastFeedback: String?
 
     @State private var turnIndex = 0
     @State private var partnerLine = ""
@@ -356,6 +363,8 @@ private struct VoiceCoachSessionView: View {
                     value: scenario.turns.isEmpty ? 0 : Double(turnIndex) / Double(scenario.turns.count)
                 )
 
+                handsFreeCard
+
                 coachCard
 
                 if isFinished {
@@ -375,10 +384,74 @@ private struct VoiceCoachSessionView: View {
         }
         .onChange(of: speechService.transcript) { _, newValue in
             if speechService.state == .listening { transcript = newValue }
+            scheduleAutoStop(after: newValue)
+        }
+        .onChange(of: textToSpeech.isSpeaking) { wasSpeaking, isSpeaking in
+            // The partner finished talking: it's the learner's turn.
+            guard handsFree, wasSpeaking, !isSpeaking, !isFinished, report == nil,
+                  speechService.state != .listening, !isEvaluating else { return }
+            Task { await startListening() }
+        }
+        .onChange(of: speechService.state) { old, new in
+            guard handsFree, old == .listening, new != .listening, report == nil, !isEvaluating,
+                  let turn, !transcript.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+            Task {
+                await evaluateCurrentTurn(turn)
+                lastFeedback = coachReply?.feedbackAr
+                advance(forceSpeak: true)
+            }
         }
         .onDisappear {
+            silenceTask?.cancel()
+            handsFree = false
             speechService.stop()
             container.textToSpeech.stop()
+        }
+    }
+
+    private var handsFreeCard: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Toggle(isOn: $handsFree) {
+                Label(LE("محادثة بدون لمس", "Hands-free conversation"), systemImage: "ear.and.waveform")
+                    .font(.headline)
+            }
+            .onChange(of: handsFree) { _, on in
+                if on {
+                    AccessibilityNotification.Announcement(LE("بدأت المحادثة بدون لمس. تكلّم بعد أن ينتهي الطرف الآخر.", "Hands-free on. Speak after your partner finishes.")).post()
+                    speakPartnerLine()
+                } else {
+                    silenceTask?.cancel()
+                    speechService.stop()
+                }
+            }
+            Text(LE("يستمع التطبيق بعد أن ينتهي الطرف الآخر، ويتوقف عندما تصمت، ثم يقيّم ويرد ويتابع. يفيد مع VoiceOver وأثناء المشي.",
+                    "The app listens after your partner speaks, stops when you go quiet, then evaluates, replies and moves on. Handy with VoiceOver or on the go."))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            if handsFree, let lastFeedback, !lastFeedback.isEmpty {
+                Label(lastFeedback, systemImage: "lightbulb.fill")
+                    .font(.footnote)
+                    .accessibilityLabel(LfE("ملاحظة الجولة السابقة: %@", "Last turn's tip: %@", lastFeedback))
+            }
+        }
+        .padding(14)
+        .background(AppTheme.cardSurface, in: RoundedRectangle(cornerRadius: AppTheme.compactCornerRadius))
+    }
+
+    private func startListening() async {
+        container.textToSpeech.stop()
+        speechService.resetTranscript()
+        transcript = ""
+        await speechService.start(localeIdentifier: settings.accentVariant.localeIdentifier)
+    }
+
+    private func scheduleAutoStop(after value: String) {
+        silenceTask?.cancel()
+        guard handsFree, speechService.state == .listening, !value.isEmpty else { return }
+        silenceTask = Task {
+            try? await Task.sleep(nanoseconds: 1_500_000_000)
+            guard !Task.isCancelled, speechService.state == .listening, speechService.transcript == value else { return }
+            speechService.stop()
         }
     }
 
@@ -663,10 +736,11 @@ private struct VoiceCoachSessionView: View {
         }
     }
 
-    private func advance() {
+    private func advance(forceSpeak: Bool = false) {
         if turnIndex + 1 >= scenario.turns.count {
             isFinished = true
-            if settings.autoSpeakCoachPrompts { speakPartnerLine() }
+            if forceSpeak { handsFree = false }
+            if settings.autoSpeakCoachPrompts || forceSpeak { speakPartnerLine() }
             return
         }
         turnIndex += 1
@@ -676,7 +750,7 @@ private struct VoiceCoachSessionView: View {
         coachReply = nil
         statusMessage = nil
         speechService.resetTranscript()
-        if settings.autoSpeakCoachPrompts { speakPartnerLine() }
+        if settings.autoSpeakCoachPrompts || forceSpeak { speakPartnerLine() }
     }
 
     private func resetSession() {

@@ -1,0 +1,101 @@
+name: Rebuild reviewed EnglishNova curriculum
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/englishnova-2.0
+    paths:
+      - "EnglishNova/Scripts/new_lessons_src/**"
+      - "EnglishNova/Scripts/new_lessons/**"
+      - "EnglishNova/Scripts/enrichment/**"
+      - "EnglishNova/Scripts/build_seed_json.py"
+      - "EnglishNova/Scripts/build_new_lessons.py"
+      - "EnglishNova/Scripts/expand_curriculum.py"
+      - "EnglishNova/Scripts/curriculum_quality_fixes.json"
+      - "EnglishNova/Scripts/audit_curriculum_quality.py"
+      - ".github/workflows/curriculum-rebuild.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/englishnova-2.0
+          fetch-depth: 0
+
+      - name: Generate reviewed curriculum
+        working-directory: EnglishNova
+        run: |
+          set -euo pipefail
+          python3 Scripts/build_seed_json.py
+          python3 Scripts/build_new_lessons.py
+          python3 Scripts/expand_curriculum.py
+          python3 Scripts/audit_curriculum_quality.py
+          python3 Scripts/validate_content.py
+
+      - name: Refresh manifest counts and resource fingerprints
+        working-directory: EnglishNova
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from datetime import date
+          from pathlib import Path
+
+          root = Path(".")
+          manifest_path = root / "PROJECT_MANIFEST.json"
+          curriculum_path = root / "EnglishNova/Resources/Curriculum/curriculum.json"
+          translations_path = root / "EnglishNova/Resources/LocalizationData/translations.json"
+
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          curriculum = json.loads(curriculum_path.read_text(encoding="utf-8"))
+          levels = curriculum["levels"]
+          lessons = [lesson for level in levels for unit in level["units"] for lesson in unit["lessons"]]
+          exercises = [exercise for lesson in lessons for exercise in lesson["exercises"]]
+          words = [word for lesson in lessons for word in lesson["vocabulary"]]
+
+          manifest["generatedDate"] = date.today().isoformat()
+          manifest["levels"] = len(levels)
+          manifest["lessons"] = len(lessons)
+          manifest["a0Lessons"] = sum(len(u["lessons"]) for l in levels if l["level"] == "A0" for u in l["units"])
+          manifest["a1Lessons"] = sum(len(u["lessons"]) for l in levels if l["level"] == "A1" for u in l["units"])
+          manifest["exercises"] = len(exercises)
+          manifest["vocabularyEntries"] = len(words)
+          manifest["recoveryFingerprint"]["curriculumSHA256"] = hashlib.sha256(curriculum_path.read_bytes()).hexdigest()
+          manifest["recoveryFingerprint"]["translationsSHA256"] = hashlib.sha256(translations_path.read_bytes()).hexdigest()
+
+          manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(f"Manifest refreshed: {len(lessons)} lessons / {len(exercises)} exercises / {len(words)} vocabulary entries")
+          PY
+
+      - name: Validate release contract
+        working-directory: EnglishNova
+        run: |
+          set -euo pipefail
+          python3 Scripts/audit_curriculum_quality.py
+          python3 Scripts/validate_content.py
+          python3 Scripts/validate_project.py
+          python3 Scripts/verify_release_recovery.py
+          git diff --check
+
+      - name: Commit generated curriculum
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo "Generated curriculum is already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add EnglishNova/EnglishNova/Resources/Curriculum/curriculum.json \
+                  EnglishNova/EnglishNova/Resources/LocalizationData/translations.json \
+                  EnglishNova/Scripts/new_lessons \
+                  EnglishNova/PROJECT_MANIFEST.json
+          git commit -m "Rebuild reviewed EnglishNova curriculum"
+          git push origin HEAD:claude/englishnova-2.0

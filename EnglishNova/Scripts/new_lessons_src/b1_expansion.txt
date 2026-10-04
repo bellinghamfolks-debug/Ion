@@ -1,0 +1,361 @@
+LEVEL|B1
+U|b1-x-u5|الإعلام والترفيه|Media and Entertainment|تحدّث عن الأفلام والمسلسلات والموسيقى والكتب وعاداتك على وسائل التواصل، وعبّر عن رأيك فيها.|play.tv.fill|Talk about films, series, music, books and your social media habits, and give your opinion about them.
+L|الأفلام والمسلسلات|Films and Series|أن يصف المتعلم فيلمًا أو مسلسلًا ويعبّر عن رأيه في قصته وممثليه.|The plot was gripping, but the ending was a bit disappointing.|كانت الحبكة مشوّقة جدًا، لكن النهاية كانت مخيّبة قليلًا.|To describe a film or series and give your opinion of its story and actors.
+W|plot|حبكة القصة|The plot is about a family that moves to Mars.|تدور الحبكة حول عائلة تنتقل إلى المريخ.|noun
+W|gripping|مشوّق جدًا|It was a gripping story from start to finish.|كانت قصة مشوّقة من البداية إلى النهاية.|adjective
+W|disappointing|مخيّب للآمال|The second season was disappointing.|كان الموسم الثاني مخيّبًا للآمال.|adjective
+W|episode|حلقة|I watched three episodes last night.|شاهدت ثلاث حلقات الليلة الماضية.|noun
+W|cast|طاقم التمثيل|The cast includes some famous actors.|يضم طاقم التمثيل بعض الممثلين المشهورين.|noun
+W|spoiler|حرق للأحداث|Please don't tell me any spoilers!|من فضلك لا تحرق لي أي أحداث!|noun
+W|screenplay|سيناريو|The screenplay makes the characters feel realistic.|يجعل السيناريو الشخصيات تبدو واقعية.|noun
+W|soundtrack|موسيقى تصويرية|The soundtrack fits the mood of the film perfectly.|تناسب الموسيقى التصويرية أجواء الفيلم تمامًا.|noun
+W|sequel|جزء ثانٍ|The sequel was entertaining, but not as original as the first film.|كان الجزء الثاني ممتعًا لكنه أقل أصالة من الفيلم الأول.|noun
+W|film review|مراجعة فيلم|I read a film review before deciding whether to watch it.|قرأت مراجعة فيلم قبل أن أقرر مشاهدته.|noun
+L|الموسيقى والفعاليات|Music and Live Events|أن يتحدث المتعلم عن ذوقه الموسيقي وتجربة حضور فعالية مباشرة.|The atmosphere at the concert was amazing, and the crowd sang along to every song.|كانت الأجواء في الحفل رائعة، وغنّى الجمهور مع كل أغنية.|To talk about your taste in music and the experience of going to a live event.
+W|atmosphere|أجواء|The atmosphere in the stadium was electric.|كانت الأجواء في الملعب حماسية جدًا.|noun
+W|crowd|حشد؛ جمهور|A huge crowd waited outside the venue.|انتظر حشد ضخم خارج مكان الفعالية.|noun
+W|sing along|يغني مع (المغني)|Everyone started to sing along.|بدأ الجميع يغنّون معه.|phrasal verb
+W|venue|مكان الفعالية|The venue holds five thousand people.|يتّسع مكان الفعالية لخمسة آلاف شخص.|noun
+W|sold out|نفدت التذاكر|The show was sold out in two hours.|نفدت تذاكر العرض خلال ساعتين.|adjective
+W|taste|ذوق|We have very different taste in music.|ذوقنا في الموسيقى مختلف جدًا.|noun
+W|performer|مؤدٍ|The main performer came back on stage for one final song.|عاد المؤدي الرئيسي إلى المسرح لأغنية أخيرة.|noun
+W|audience|جمهور|The audience clapped for several minutes at the end.|صفق الجمهور لعدة دقائق في النهاية.|noun
+W|encore|أداء إضافي|The band played an encore after the crowd cheered loudly.|قدمت الفرقة أداءً إضافيًا بعد أن هتف الجمهور بصوت عالٍ.|noun
+W|live music|موسيقى حية|This café has live music every Thursday evening.|يقدم هذا المقهى موسيقى حية مساء كل خميس.|noun
+L|الكتب وعادات القراءة|Books and Reading Habits|أن يصف المتعلم عاداته في القراءة ويوصي بكتاب.|I couldn't put down the novel, so I finished it in one weekend.|لم أستطع ترك الرواية، فأنهيتها في عطلة نهاية أسبوع واحدة.|To describe your reading habits and recommend a book.
+W|put down|يترك (الكتاب) جانبًا|It's so exciting that you can't put it down.|إنه مثير لدرجة أنك لا تستطيع تركه.|phrasal verb
+W|novel|رواية|Her first novel became a bestseller.|أصبحت روايتها الأولى من الأكثر مبيعًا.|noun
+W|author|مؤلّف|Who is the author of this book?|من مؤلّف هذا الكتاب؟|noun
+W|chapter|فصل (في كتاب)|I read a chapter every night before bed.|أقرأ فصلًا كل ليلة قبل النوم.|noun
+W|audiobook|كتاب مسموع|I listen to audiobooks while I drive.|أستمع إلى الكتب المسموعة أثناء القيادة.|noun
+W|character|شخصية (في قصة)|The main character is a young doctor.|الشخصية الرئيسية طبيبة شابة.|noun
+W|paperback|كتاب بغلاف ورقي|I bought a paperback because it was cheaper than the hardback.|اشتريت كتابًا بغلاف ورقي لأنه كان أرخص من الغلاف الصلب.|noun
+W|plot twist|تحول مفاجئ في الحبكة|The plot twist near the end completely surprised me.|فاجأني التحول المفاجئ في الحبكة قرب النهاية تمامًا.|noun
+W|narrator|راوٍ|The narrator tells the story from a child's point of view.|يروي الراوي القصة من وجهة نظر طفل.|noun
+W|book club|نادي قراءة|Our book club meets once a month to discuss a novel.|يجتمع نادي القراءة لدينا مرة كل شهر لمناقشة رواية.|noun
+L|عادات وسائل التواصل|Social Media Habits|أن يتحدث المتعلم عن استخدامه لوسائل التواصل وإيجابياتها وسلبياتها.|I spend too much time scrolling through my feed, so I've turned off notifications.|أقضي وقتًا طويلًا في تصفح المنشورات، لذلك أوقفت الإشعارات.|To talk about how you use social media and its pros and cons.
+W|scroll|يتصفّح بالتمرير|I scroll through the news on my phone every morning.|أتصفّح الأخبار على هاتفي كل صباح.|verb
+W|feed|صفحة المنشورات|My feed is full of food photos.|صفحة منشوراتي مليئة بصور الطعام.|noun
+W|follower|متابِع|She has thousands of followers.|لديها آلاف المتابعين.|noun
+W|post|ينشر؛ منشور|He posts a photo every day.|ينشر صورة كل يوم.|verb
+W|addictive|يسبّب الإدمان|Some apps are designed to be addictive.|بعض التطبيقات مصمّمة لتسبّب الإدمان.|adjective
+W|turn off|يُطفئ؛ يوقف|Turn off your phone during the lesson.|أطفئ هاتفك أثناء الدرس.|phrasal verb
+W|screen time|وقت استخدام الشاشة|I set a daily limit on my screen time.|وضعت حدًا يوميًا لوقت استخدام الشاشة.|noun
+W|mute|يكتم|I mute group chats when I need to concentrate.|أكتم المحادثات الجماعية عندما أحتاج إلى التركيز.|verb
+W|privacy settings|إعدادات الخصوصية|Check your privacy settings before sharing personal photos.|تحقق من إعدادات الخصوصية قبل مشاركة صور شخصية.|noun
+W|unfollow|يلغي المتابعة|I unfollow accounts that make my feed stressful.|ألغي متابعة الحسابات التي تجعل خلاصتي مرهقة.|verb
+U|b1-x-u6|تجارب السفر|Travel Experiences|اختر سكنك، وتعرّف على ثقافة جديدة، واكتب تقييمًا لرحلتك، وسافر بمسؤولية.|globe.europe.africa.fill|Choose where to stay, experience a new culture, write a travel review, and travel responsibly.
+L|اختيار السكن|Choosing Accommodation|أن يقارن المتعلم بين أنواع السكن ويبرر اختياره.|We stayed in a guesthouse because it was cheaper and more authentic than a hotel.|أقمنا في نُزل عائلي لأنه كان أرخص وأكثر أصالة من الفندق.|To compare types of accommodation and justify your choice.
+W|guesthouse|نُزل عائلي؛ بيت ضيافة|The guesthouse was run by a lovely old couple.|كان النُّزل يديره زوجان مسنّان لطيفان.|noun
+W|authentic|أصيل؛ حقيقي|We wanted an authentic local experience.|أردنا تجربة محلية أصيلة.|adjective
+W|hostel|نُزل شبابي|Hostels are popular with students.|النُّزل الشبابية شائعة بين الطلاب.|noun
+W|location|موقع|The hotel is in a great location.|الفندق في موقع ممتاز.|noun
+W|facilities|مرافق|The resort has excellent facilities.|في المنتجع مرافق ممتازة.|noun
+W|value for money|قيمة مقابل السعر|The apartment was good value for money.|كانت الشقة ذات قيمة جيدة مقابل سعرها.|phrase
+W|shared bathroom|حمام مشترك|The hostel has a shared bathroom on each floor.|يحتوي النزل على حمام مشترك في كل طابق.|noun
+W|self-catering|ذاتي الخدمة في الطعام|We chose a self-catering apartment so we could cook our own meals.|اخترنا شقة ذاتية الخدمة في الطعام حتى نتمكن من إعداد وجباتنا.|adjective
+W|booking|حجز|Our booking includes free cancellation until Friday.|يشمل حجزنا إلغاءً مجانيًا حتى يوم الجمعة.|noun
+W|room rate|سعر الغرفة|The room rate is lower during the week than at weekends.|سعر الغرفة أقل خلال أيام الأسبوع منه في عطلة نهاية الأسبوع.|noun
+L|تجربة ثقافة جديدة|Experiencing a New Culture|أن يصف المتعلم صدمة ثقافية بسيطة وكيف تأقلم معها.|At first I felt like a fish out of water, but I soon got used to the local customs.|في البداية شعرت بالغربة، لكنني سرعان ما اعتدت على العادات المحلية.|To describe a small culture shock and how you adapted to it.
+W|culture shock|صدمة ثقافية|Many students experience culture shock abroad.|يمرّ كثير من الطلاب بصدمة ثقافية في الخارج.|noun
+W|get used to|يعتاد على|I can't get used to driving on the left.|لا أستطيع أن أعتاد على القيادة على اليسار.|phrase
+W|local|محلي|Try the local food.|جرّب الطعام المحلي.|adjective
+W|fish out of water|شخص في غير بيئته|I felt like a fish out of water at the party.|شعرت أنني في غير بيئتي في الحفلة.|idiom
+W|adapt|يتأقلم|Children adapt quickly to new places.|يتأقلم الأطفال بسرعة مع الأماكن الجديدة.|verb
+W|etiquette|آداب السلوك|Learn the basic etiquette before you go.|تعلّم آداب السلوك الأساسية قبل أن تذهب.|noun
+W|host family|عائلة مضيفة|My host family helped me understand local habits.|ساعدتني العائلة المضيفة على فهم العادات المحلية.|noun
+W|gesture|إشارة جسدية|A friendly gesture can mean different things in different cultures.|قد تعني الإشارة الجسدية الودية أشياء مختلفة في ثقافات مختلفة.|noun
+W|cultural norm|عرف ثقافي|Taking your shoes off indoors is a cultural norm in some countries.|خلع الحذاء داخل المنزل عرف ثقافي في بعض البلدان.|noun
+W|homesick|مشتاق إلى الوطن|I felt homesick during my first week abroad.|شعرت بالاشتياق إلى الوطن خلال أسبوعي الأول في الخارج.|adjective
+L|كتابة تقييم لرحلة|Writing a Travel Review|أن يكتب المتعلم تقييمًا متوازنًا لفندق أو مكان سياحي.|Overall, I would highly recommend this hotel, although the breakfast could be better.|بشكل عام، أوصي بشدة بهذا الفندق، رغم أن الإفطار يمكن أن يكون أفضل.|To write a balanced review of a hotel or tourist attraction.
+W|overall|بشكل عام|Overall, it was a pleasant stay.|بشكل عام، كانت إقامة لطيفة.|adverb
+W|highly recommend|يوصي بشدة|I highly recommend the guided tour.|أوصي بشدة بالجولة المصحوبة بمرشد.|phrase
+W|although|رغم أن|The room was small, although it was clean.|كانت الغرفة صغيرة، رغم أنها كانت نظيفة.|conjunction
+W|staff|الموظفون|The staff were friendly and helpful.|كان الموظفون ودودين ومتعاونين.|noun
+W|spotless|نظيف تمامًا|The bathroom was spotless.|كان الحمّام نظيفًا تمامًا.|adjective
+W|overpriced|مبالغ في سعره|The drinks at the hotel bar were overpriced.|كانت المشروبات في الفندق مبالغًا في سعرها.|adjective
+W|trade-off|مفاضلة بين ميزتين|Every accommodation option involves a trade-off between price and comfort.|يتضمن كل خيار للسكن مفاضلة بين السعر والراحة.|noun
+W|drawback|عيب|The main drawback was the noise from the street.|كان العيب الرئيسي هو ضوضاء الشارع.|noun
+W|highlight|أبرز ميزة|The rooftop view was the highlight of our stay.|كان منظر السطح أبرز ميزة في إقامتنا.|noun
+W|balanced|متوازن|A balanced review mentions both positive and negative points.|تذكر المراجعة المتوازنة النقاط الإيجابية والسلبية.|adjective
+L|السياحة المسؤولة|Responsible Tourism|أن يناقش المتعلم أثر السياحة على البيئة والسكان المحليين.|Tourists should respect local traditions and avoid leaving litter behind.|يجب على السياح احترام التقاليد المحلية وتجنّب ترك النفايات خلفهم.|To discuss the impact of tourism on the environment and local people.
+W|tourist|سائح|The town is full of tourists in summer.|البلدة مليئة بالسياح في الصيف.|noun
+W|litter|نفايات متناثرة|Please don't drop litter on the beach.|من فضلك لا ترمِ النفايات على الشاطئ.|noun
+W|impact|أثر|Tourism has a big impact on the economy.|للسياحة أثر كبير على الاقتصاد.|noun
+W|eco-friendly|صديق للبيئة|We chose an eco-friendly hotel.|اخترنا فندقًا صديقًا للبيئة.|adjective
+W|support|يدعم|Buying local products supports the community.|شراء المنتجات المحلية يدعم المجتمع.|verb
+W|overcrowded|مكتظ|The beach was overcrowded in August.|كان الشاطئ مكتظًا في أغسطس.|adjective
+W|local economy|الاقتصاد المحلي|Buying from small businesses supports the local economy.|يدعم الشراء من الشركات الصغيرة الاقتصاد المحلي.|noun
+W|carbon emissions|انبعاثات الكربون|Taking the train can reduce carbon emissions on some journeys.|يمكن أن يقلل ركوب القطار انبعاثات الكربون في بعض الرحلات.|noun
+W|wildlife|حياة برية|Visitors should avoid disturbing wildlife in protected areas.|ينبغي للزوار تجنب إزعاج الحياة البرية في المناطق المحمية.|noun
+W|reusable|قابل لإعادة الاستخدام|I carry a reusable bottle when I travel.|أحمل زجاجة قابلة لإعادة الاستخدام عندما أسافر.|adjective
+U|b1-x-u7|شؤون المال|Money Matters|خطّط لميزانيتك، وادّخر للمستقبل، وتسوّق عبر الإنترنت، وتحدّث عن الاقتراض والإقراض.|banknote.fill|Plan a budget, save for the future, shop online, and talk about borrowing and lending.
+L|إدارة الميزانية|Managing a Budget|أن يشرح المتعلم كيف يدير مصروفه الشهري.|I keep track of my spending so that I don't run out of money before the end of the month.|أتابع مصروفاتي حتى لا ينفد مالي قبل نهاية الشهر.|To explain how you manage your monthly spending.
+W|budget|ميزانية|We need to stick to our budget.|علينا الالتزام بميزانيتنا.|noun
+W|allowance|مصروف (يُعطى بانتظام)|My son gets a weekly allowance.|يحصل ابني على مصروف أسبوعي.|noun
+W|spending|الإنفاق|Our spending on food has gone up.|ارتفع إنفاقنا على الطعام.|noun
+W|run out of|ينفد منه|We've run out of milk.|نفد منا الحليب.|phrasal verb
+W|afford|يستطيع تحمّل تكلفة|I can't afford a new car this year.|لا أستطيع تحمّل تكلفة سيارة جديدة هذا العام.|verb
+W|expenses|نفقات|Rent is my biggest expense each month.|الإيجار أكبر نفقاتي كل شهر.|noun
+W|income|دخل|I compare my monthly income with my essential costs.|أقارن دخلي الشهري بتكاليفي الأساسية.|noun
+W|fixed cost|تكلفة ثابتة|Rent is a fixed cost that I plan for every month.|الإيجار تكلفة ثابتة أخطط لها كل شهر.|noun
+W|variable cost|تكلفة متغيرة|Food is a variable cost because the amount changes each week.|الطعام تكلفة متغيرة لأن المبلغ يتغير كل أسبوع.|noun
+W|overspend|ينفق أكثر من اللازم|I overspend when I shop without a list.|أنفق أكثر من اللازم عندما أتسوق دون قائمة.|verb
+L|الادخار للمستقبل|Saving for the Future|أن يتحدث المتعلم عن أهدافه في الادخار ونصائحه للآخرين.|I set aside a little money every week to save up for a new laptop.|أجنّب قليلًا من المال كل أسبوع لأدّخر من أجل حاسوب محمول جديد.|To talk about your saving goals and give advice to others.
+W|save up|يدّخر|She's saving up for a holiday.|إنها تدّخر من أجل عطلة.|phrasal verb
+W|set aside|يجنّب (مالًا أو وقتًا)|I set aside some money every month.|أجنّب بعض المال كل شهر.|phrasal verb
+W|savings|مدّخرات|He spent all his savings on the wedding.|أنفق كل مدّخراته على الزفاف.|noun
+W|goal|هدف|My goal is to buy a house in five years.|هدفي أن أشتري بيتًا خلال خمس سنوات.|noun
+W|emergency fund|صندوق طوارئ|Everyone should have an emergency fund.|يجب أن يكون لدى كل شخص صندوق طوارئ.|noun
+W|interest|فائدة (مالية)|This account pays very little interest.|هذا الحساب يدفع فائدة قليلة جدًا.|noun
+W|retirement|تقاعد|She started saving for retirement in her twenties.|بدأت تدخر للتقاعد في العشرينات من عمرها.|noun
+W|automatic transfer|تحويل تلقائي|I use an automatic transfer to move money into savings each month.|أستخدم تحويلًا تلقائيًا لنقل المال إلى المدخرات كل شهر.|noun
+W|financial goal|هدف مالي|My financial goal is to build six months of savings.|هدفي المالي هو تكوين مدخرات تكفي ستة أشهر.|noun
+W|rainy day|وقت الحاجة|I keep some money for a rainy day.|أحتفظ ببعض المال لوقت الحاجة.|idiom
+L|التسوق عبر الإنترنت والإرجاع|Online Shopping and Returns|أن يشرح المتعلم مشكلة في طلب عبر الإنترنت ويطلب إرجاعه.|The jacket didn't fit, so I sent it back and asked for a refund.|لم يكن المعطف على مقاسي، فأعدته وطلبت استرداد المبلغ.|To explain a problem with an online order and ask to return it.
+W|receipt|إيصال|Keep the receipt in case you need to return it.|احتفظ بالإيصال في حال احتجت إلى إرجاعه.|noun
+W|send back|يعيد (يُرجع)|You can send it back within thirty days.|يمكنك إعادته خلال ثلاثين يومًا.|phrasal verb
+W|fit|يناسب المقاس|These shoes don't fit me.|هذا الحذاء ليس على مقاسي.|verb
+W|out of stock|غير متوفر في المخزون|The blue one is out of stock.|اللون الأزرق غير متوفر في المخزون.|phrase
+W|order|طلب؛ يطلب|My order arrived two days late.|وصل طلبي متأخرًا يومين.|noun
+W|exchange|يستبدل|Can I exchange this for a bigger size?|هل يمكنني استبداله بمقاس أكبر؟|verb
+W|delivery charge|رسوم توصيل|The delivery charge made the order more expensive than expected.|جعلت رسوم التوصيل الطلب أغلى مما توقعت.|noun
+W|return policy|سياسة الإرجاع|Always read the return policy before buying clothes online.|اقرأ دائمًا سياسة الإرجاع قبل شراء الملابس عبر الإنترنت.|noun
+W|wrong size|مقاس غير مناسب|I returned the shoes because they were the wrong size.|أعدت الحذاء لأنه كان بمقاس غير مناسب.|noun phrase
+W|customer service|خدمة العملاء|Customer service replied to my message within an hour.|ردت خدمة العملاء على رسالتي خلال ساعة.|noun
+L|الاقتراض والإقراض|Borrowing and Lending|أن يطلب المتعلم قرضًا صغيرًا أو يعتذر عن الإقراض بلباقة.|Could you lend me some money until payday? I'll pay you back on Friday.|هل يمكنك أن تقرضني بعض المال حتى يوم الراتب؟ سأعيده إليك يوم الجمعة.|To ask for a small loan or politely refuse to lend money.
+W|lend|يُقرض|Can you lend me your car for a day?|هل يمكنك إقراضي سيارتك ليوم واحد؟|verb
+W|pay back|يسدّد|I'll pay you back next week.|سأسدّد لك الأسبوع القادم.|phrasal verb
+W|loan|قرض|They took out a loan to buy a house.|أخذوا قرضًا لشراء بيت.|noun
+W|debt|دَين|He's trying to get out of debt.|يحاول التخلّص من الدَّين.|noun
+W|payday|يوم صرف الراتب|I'll buy it after payday.|سأشتريه بعد يوم صرف الراتب.|noun
+W|owe|يدين بـ|How much do I owe you?|كم أدين لك؟|verb
+W|borrow|يستعير|Can I borrow twenty pounds until tomorrow?|هل يمكنني استعارة عشرين جنيهًا حتى الغد؟|verb
+W|interest-free|دون فوائد|The shop offered an interest-free payment plan.|قدم المتجر خطة دفع دون فوائد.|adjective
+W|instalment|قسط|I paid for the laptop in three monthly instalments.|دفعت ثمن الحاسوب المحمول على ثلاثة أقساط شهرية.|noun
+W|split the bill|يقسم الفاتورة|We decided to split the bill equally after dinner.|قررنا تقسيم الفاتورة بالتساوي بعد العشاء.|verb phrase
+U|b1-x-u8|الناس والمجتمع|People and Community|تحدّث عن الصداقة والحياة العائلية اليوم والعمل التطوعي والعيش مع الجيران.|person.3.fill|Talk about friendship, family life today, volunteering and living with neighbours.
+L|الصداقة|Friendship|أن يصف المتعلم صفات الصديق الحقيقي وعلاقته بأصدقائه.|A true friend is someone you can rely on when things go wrong.|الصديق الحقيقي هو من تستطيع الاعتماد عليه عندما تسوء الأمور.|To describe the qualities of a true friend and your relationships with friends.
+W|rely on|يعتمد على|You can always rely on her.|يمكنك دائمًا الاعتماد عليها.|phrasal verb
+W|get on with|يتفاهم مع|I get on well with my classmates.|أتفاهم جيدًا مع زملائي في الصف.|phrasal verb
+W|trust|يثق؛ ثقة|Trust is important in any friendship.|الثقة مهمة في أي صداقة.|noun
+W|fall out|يتخاصم|Friends sometimes fall out over small things.|يتخاصم الأصدقاء أحيانًا بسبب أشياء صغيرة.|phrasal verb
+W|loyal|وفيّ|He is a loyal friend.|إنه صديق وفيّ.|adjective
+W|keep in touch|يبقى على تواصل|We still keep in touch after ten years.|ما زلنا على تواصل بعد عشر سنوات.|phrase
+W|supportive|داعم|A supportive friend listens without judging you.|الصديق الداعم يستمع إليك دون أن يحكم عليك.|adjective
+W|drift apart|يبتعد تدريجيًا|We drifted apart after we moved to different cities.|ابتعدنا تدريجيًا بعد أن انتقلنا إلى مدينتين مختلفتين.|phrasal verb
+W|make up|يتصالح|They argued yesterday but managed to make up today.|تشاجرا أمس لكنهما تمكنا من التصالح اليوم.|phrasal verb
+W|have in common|يشترك في شيء|We have a lot in common, especially our sense of humour.|لدينا الكثير من الأشياء المشتركة، خصوصًا حس الفكاهة.|verb phrase
+L|الحياة العائلية اليوم|Family Life Today|أن يقارن المتعلم بين الحياة العائلية في الماضي والحاضر.|Nowadays both parents often work, so grandparents help to bring up the children.|في هذه الأيام يعمل الوالدان غالبًا، لذلك يساعد الأجداد في تربية الأطفال.|To compare family life in the past and today.
+W|bring up|يربّي|It is not easy to bring up three children.|ليس سهلًا تربية ثلاثة أطفال.|phrasal verb
+W|nowadays|في هذه الأيام|Nowadays most teenagers have a phone.|في هذه الأيام معظم المراهقين لديهم هاتف.|adverb
+W|generation|جيل|Three generations live in this house.|تعيش ثلاثة أجيال في هذا البيت.|noun
+W|extended family|العائلة الممتدة|We see our extended family at Eid.|نرى عائلتنا الممتدة في العيد.|noun
+W|single parent|والد يربّي أطفاله وحده|She is a single parent with two children.|إنها أم تربّي طفلين وحدها.|noun
+W|household|الأسرة (أهل البيت)|Every household has its own rules.|لكل أسرة قواعدها الخاصة.|noun
+W|childcare|رعاية الأطفال|Affordable childcare makes it easier for parents to work.|تجعل رعاية الأطفال الميسورة من الأسهل على الوالدين العمل.|noun
+W|work-life balance|التوازن بين العمل والحياة|Flexible hours can improve a parent's work-life balance.|يمكن لساعات العمل المرنة أن تحسن توازن الوالدين بين العمل والحياة.|noun
+W|generation gap|فجوة الأجيال|Different attitudes to technology can create a generation gap.|يمكن لاختلاف المواقف من التقنية أن يخلق فجوة بين الأجيال.|noun
+W|sibling|أخ أو أخت|I shared a bedroom with my sibling when we were young.|شاركت غرفة نوم مع أخي أو أختي عندما كنا صغارًا.|noun
+L|العمل التطوعي|Volunteering|أن يتحدث المتعلم عن تجربة تطوعية وفوائدها.|I volunteer at a local charity because I want to give something back to my community.|أتطوع في جمعية خيرية محلية لأنني أريد أن أردّ شيئًا لمجتمعي.|To talk about a volunteering experience and its benefits.
+W|volunteer|يتطوع؛ متطوع|She volunteers at the hospital on weekends.|تتطوع في المستشفى في عطلات نهاية الأسبوع.|verb
+W|charity|جمعية خيرية|The money goes to a children's charity.|يذهب المال إلى جمعية خيرية للأطفال.|noun
+W|give back|يردّ الجميل|I want to give back to the people who helped me.|أريد أن أردّ الجميل لمن ساعدوني.|phrasal verb
+W|donate|يتبرع|We donated our old clothes.|تبرعنا بملابسنا القديمة.|verb
+W|fundraising|جمع التبرعات|The school organised a fundraising event.|نظّمت المدرسة فعالية لجمع التبرعات.|noun
+W|make a difference|يُحدث فرقًا|Small actions can make a difference.|الأفعال الصغيرة يمكن أن تُحدث فرقًا.|phrase
+W|community project|مشروع مجتمعي|I joined a community project to clean a local park.|انضممت إلى مشروع مجتمعي لتنظيف حديقة محلية.|noun
+W|sponsor|يرعى|A local company agreed to sponsor our charity run.|وافقت شركة محلية على رعاية سباقنا الخيري.|verb
+W|raise money|يجمع المال|We organised a sale to raise money for the shelter.|نظمنا بيعًا لجمع المال للملجأ.|verb phrase
+W|non-profit|غير ربحي|She works for a non-profit organisation that supports families.|تعمل في منظمة غير ربحية تدعم الأسر.|adjective
+L|العيش مع الجيران|Living with Neighbours|أن يحل المتعلم مشكلة بسيطة مع جاره بأسلوب مهذب.|I hate to complain, but your music has been very loud recently.|لا أحب أن أشتكي، لكن موسيقاك كانت عالية جدًا مؤخرًا.|To solve a small problem with a neighbour politely.
+W|complain|يشتكي|Our neighbours complained about the noise.|اشتكى جيراننا من الضجيج.|verb
+W|noise|ضجيج|I can't sleep because of the noise.|لا أستطيع النوم بسبب الضجيج.|noun
+W|considerate|مراعٍ لغيره|Please be considerate and keep the music down.|من فضلك راعِ الآخرين وخفّض صوت الموسيقى.|adjective
+W|keep down|يخفض (الصوت)|Could you keep the noise down, please?|هل يمكنك خفض الضجيج من فضلك؟|phrasal verb
+W|parking space|موقف سيارة|Someone parked in my parking space again.|ركن أحدهم في موقف سيارتي مرة أخرى.|noun
+W|put up with|يتحمّل|I can't put up with this noise any longer.|لا أستطيع تحمّل هذا الضجيج أكثر.|phrasal verb
+W|boundary|حد|Setting a clear boundary can prevent repeated problems.|يمكن لوضع حد واضح أن يمنع تكرار المشكلات.|noun
+W|shared space|مساحة مشتركة|Please keep the shared space clean for everyone.|يرجى إبقاء المساحة المشتركة نظيفة للجميع.|noun
+W|disturbance|إزعاج|The late-night party caused a disturbance in the building.|تسببت الحفلة المتأخرة في إزعاج داخل المبنى.|noun
+W|resolve|يحل|We spoke calmly and managed to resolve the problem.|تحدثنا بهدوء وتمكنا من حل المشكلة.|verb
+U|b1-x-u9|التعليم والمهارات|Education and Skills|اختر تخصصًا، وطوّر مهارات المذاكرة، وتعلّم عبر الإنترنت، واكتسب المهارات الشخصية.|graduationcap.fill|Choose a course, improve your study skills, learn online and develop soft skills.
+L|اختيار تخصص|Choosing a Course|أن يشرح المتعلم أسباب اختياره لتخصص أو دورة.|I decided to major in computer science because it offers good career prospects.|قررت التخصص في علوم الحاسب لأنه يوفّر فرصًا مهنية جيدة.|To explain why you chose a subject or course.
+W|major in|يتخصص في|She majored in economics.|تخصصت في الاقتصاد.|phrasal verb
+W|career prospects|الفرص المهنية|Engineering has excellent career prospects.|للهندسة فرص مهنية ممتازة.|noun
+W|degree|درجة جامعية|He has a degree in law.|لديه درجة جامعية في القانون.|noun
+W|scholarship|منحة دراسية|She won a scholarship to study abroad.|فازت بمنحة دراسية للدراسة في الخارج.|noun
+W|enrol|يسجّل (في دورة)|I enrolled on an evening course.|سجّلت في دورة مسائية.|verb
+W|requirement|شرط؛ متطلب|What are the entry requirements?|ما شروط القبول؟|noun
+W|entry requirement|متطلب قبول|English proficiency is an entry requirement for the course.|إتقان الإنجليزية متطلب قبول للدورة.|noun
+W|tuition fees|رسوم دراسية|The scholarship covers most of my tuition fees.|تغطي المنحة معظم رسومي الدراسية.|noun
+W|module|مقرر دراسي|This module focuses on data analysis.|يركز هذا المقرر الدراسي على تحليل البيانات.|noun
+W|postgraduate|دراسات عليا|She plans to do a postgraduate course after her degree.|تخطط لدراسة برنامج دراسات عليا بعد شهادتها.|adjective
+L|مهارات المذاكرة الفعّالة|Effective Study Skills|أن يقدّم المتعلم نصائح عملية للمذاكرة وتنظيم الوقت.|Breaking a big task into smaller steps makes it easier to concentrate.|تقسيم المهمة الكبيرة إلى خطوات أصغر يجعل التركيز أسهل.|To give practical advice about studying and managing time.
+W|concentrate|يركّز|I can't concentrate with the TV on.|لا أستطيع التركيز والتلفاز يعمل.|verb
+W|break down|يقسّم (إلى أجزاء)|Break the problem down into small parts.|قسّم المشكلة إلى أجزاء صغيرة.|phrasal verb
+W|distraction|ما يشتّت الانتباه|Phones are a big distraction for students.|الهواتف تشتّت انتباه الطلاب كثيرًا.|noun
+W|summarise|يلخّص|Summarise each chapter in a few lines.|لخّص كل فصل في بضعة أسطر.|verb
+W|memorise|يحفظ عن ظهر قلب|I memorised the dates for the history exam.|حفظت التواريخ لاختبار التاريخ.|verb
+W|procrastinate|يماطل؛ يؤجّل|Stop procrastinating and start your essay.|توقّف عن المماطلة وابدأ مقالك.|verb
+W|study session|جلسة مذاكرة|I turn off my phone during each study session.|أغلق هاتفي خلال كل جلسة مذاكرة.|noun
+W|set priorities|يحدد الأولويات|I set priorities before I start a busy week.|أحدد الأولويات قبل أن أبدأ أسبوعًا مزدحمًا.|verb phrase
+W|active recall|استرجاع نشط|Active recall helps me check what I can remember without notes.|يساعدني الاسترجاع النشط على معرفة ما أتذكره دون ملاحظات.|noun
+W|mind map|خريطة ذهنية|I made a mind map to connect the main ideas.|أنشأت خريطة ذهنية لربط الأفكار الرئيسية.|noun
+L|التعلّم عبر الإنترنت|Learning Online|أن يناقش المتعلم مزايا التعلّم عن بُعد وعيوبه.|Online courses are flexible, but you need a lot of self-discipline to finish them.|الدورات عبر الإنترنت مرنة، لكنك تحتاج إلى انضباط ذاتي كبير لإنهائها.|To discuss the advantages and disadvantages of distance learning.
+W|flexible|مرن|I need a job with flexible hours.|أحتاج وظيفة بساعات مرنة.|adjective
+W|self-discipline|انضباط ذاتي|Working from home requires self-discipline.|العمل من المنزل يتطلب انضباطًا ذاتيًا.|noun
+W|platform|منصّة|The course is on a popular learning platform.|الدورة على منصّة تعليمية مشهورة.|noun
+W|certificate|شهادة|You get a certificate at the end of the course.|تحصل على شهادة في نهاية الدورة.|noun
+W|interact|يتفاعل|Students can interact with the teacher in live sessions.|يمكن للطلاب التفاعل مع المعلم في الجلسات المباشرة.|verb
+W|at your own pace|بالسرعة التي تناسبك|You can study at your own pace.|يمكنك الدراسة بالسرعة التي تناسبك.|phrase
+W|webinar|ندوة عبر الإنترنت|I attended a webinar about academic writing.|حضرت ندوة عبر الإنترنت عن الكتابة الأكاديمية.|noun
+W|discussion forum|منتدى نقاش|Students ask questions in the discussion forum.|يطرح الطلاب أسئلة في منتدى النقاش.|noun
+W|coursework|أعمال المقرر|I upload my coursework through the learning platform before the deadline.|أرفع أعمال المقرر عبر منصة التعلم قبل الموعد النهائي.|noun
+W|course access|إمكانية الدخول إلى الدورة|My course access lasts for six months.|تستمر إمكانية دخولي إلى الدورة ستة أشهر.|noun
+L|المهارات الشخصية|Soft Skills|أن يتحدث المتعلم عن المهارات الشخصية المهمة في العمل والدراسة.|Employers value people who can work well in a team and solve problems.|يقدّر أصحاب العمل الأشخاص القادرين على العمل جيدًا ضمن فريق وحل المشكلات.|To talk about the soft skills that matter at work and in study.
+W|employer|صاحب العمل|My employer pays for my training.|يدفع صاحب عملي تكاليف تدريبي.|noun
+W|value|يقدّر|I value honesty more than anything.|أقدّر الصدق أكثر من أي شيء.|verb
+W|communication skills|مهارات التواصل|Good communication skills help you in every job.|مهارات التواصل الجيدة تساعدك في كل وظيفة.|noun
+W|time management|إدارة الوقت|Good time management reduces stress.|إدارة الوقت الجيدة تقلّل التوتر.|noun
+W|adaptable|قادر على التكيّف|You need to be adaptable in a new job.|يجب أن تكون قادرًا على التكيّف في وظيفة جديدة.|adjective
+W|confident|واثق|She is a confident speaker.|إنها متحدثة واثقة.|adjective
+W|leadership|قيادة|Leadership is important when a team needs direction.|القيادة مهمة عندما يحتاج الفريق إلى توجيه.|noun
+W|negotiation|تفاوض|Good negotiation can help both sides reach a fair agreement.|يمكن للتفاوض الجيد أن يساعد الطرفين على الوصول إلى اتفاق عادل.|noun
+W|initiative|مبادرة|Employers notice people who show initiative without being asked.|يلاحظ أصحاب العمل الأشخاص الذين يظهرون المبادرة دون أن يُطلب منهم.|noun
+W|problem-solving|حل المشكلات|Problem-solving is useful in almost every workplace.|حل المشكلات مفيد في معظم أماكن العمل.|noun
+U|b1-x-u10|حياة المدينة|City Life|قارن بين المدينة والريف، واستخدم المواصلات العامة، وتحدّث عن مشكلات السكن والتنقل اليومي.|building.2.fill|Compare city and country life, use public transport, and talk about housing problems and commuting.
+L|المدينة أم الريف؟|City or Countryside?|أن يقارن المتعلم بين العيش في المدينة والريف ويبرر تفضيله.|Living in the city is convenient, whereas life in the countryside is more relaxed.|العيش في المدينة مريح من حيث الخدمات، بينما الحياة في الريف أكثر استرخاءً.|To compare living in the city and the countryside and justify your preference.
+W|convenient|مريح؛ مناسب|It's convenient to live near the metro.|من المريح أن تعيش قرب المترو.|adjective
+W|whereas|بينما|I prefer tea, whereas my wife prefers coffee.|أفضّل الشاي، بينما تفضّل زوجتي القهوة.|conjunction
+W|pace of life|إيقاع الحياة|The pace of life in big cities is fast.|إيقاع الحياة في المدن الكبيرة سريع.|noun
+W|isolated|معزول|Some villages are very isolated.|بعض القرى معزولة جدًا.|adjective
+W|crime rate|معدل الجريمة|The crime rate in this area is low.|معدل الجريمة في هذه المنطقة منخفض.|noun
+W|amenities|خدمات ومرافق|The area has good amenities like shops and schools.|في المنطقة خدمات جيدة مثل المتاجر والمدارس.|noun
+W|green space|مساحة خضراء|Easy access to green space can make a neighbourhood more pleasant.|يمكن أن يجعل الوصول السهل إلى مساحة خضراء الحي أكثر راحة.|noun
+W|public services|خدمات عامة|Good public services make daily life easier for residents.|تجعل الخدمات العامة الجيدة الحياة اليومية أسهل للسكان.|noun
+W|housing cost|تكلفة السكن|Housing cost is often higher in large cities.|غالبًا ما تكون تكلفة السكن أعلى في المدن الكبيرة.|noun
+W|nightlife|حياة ليلية|The city has lively nightlife, but the countryside is quieter.|للمدينة حياة ليلية نشطة، لكن الريف أكثر هدوءًا.|noun
+L|المواصلات العامة|Public Transport|أن يتحدث المتعلم عن استخدام المواصلات العامة ومشكلاتها.|The metro is reliable, but it gets packed during rush hour.|المترو موثوق، لكنه يصبح مكتظًا في ساعة الذروة.|To talk about using public transport and its problems.
+W|reliable|موثوق|The bus service here is not very reliable.|خدمة الحافلات هنا ليست موثوقة كثيرًا.|adjective
+W|rush hour|ساعة الذروة|Avoid driving during rush hour.|تجنّب القيادة في ساعة الذروة.|noun
+W|packed|مكتظ|The train was packed this morning.|كان القطار مكتظًا هذا الصباح.|adjective
+W|fare|أجرة (المواصلات)|The bus fare has gone up.|ارتفعت أجرة الحافلة.|noun
+W|route|مسار؛ طريق|Which route is the fastest?|أي مسار هو الأسرع؟|noun
+W|frequent|متكرر|Trains are frequent on weekdays.|القطارات متكررة في أيام الأسبوع.|adjective
+W|delay|تأخير|A signal problem caused a twenty-minute delay.|تسببت مشكلة في الإشارة في تأخير لمدة عشرين دقيقة.|noun
+W|departure board|لوحة المغادرة|Check the departure board before you go to the platform.|تحقق من لوحة المغادرة قبل أن تذهب إلى رصيف القطار.|noun
+W|season ticket|اشتراك مواصلات موسمي|A season ticket is cheaper if you travel every day.|الاشتراك الموسمي أرخص إذا كنت تسافر يوميًا.|noun
+W|connection|وصلة مواصلات|I missed my connection because the first bus was late.|فاتتني وصلة المواصلات لأن الحافلة الأولى تأخرت.|noun
+L|مشكلات السكن|Housing Problems|أن يصف المتعلم مشكلات السكن في المدن ويقترح حلولًا.|House prices have risen so much that many young people can't afford to buy.|ارتفعت أسعار المنازل كثيرًا لدرجة أن كثيرًا من الشباب لا يستطيعون الشراء.|To describe housing problems in cities and suggest solutions.
+W|house prices|أسعار المنازل|House prices in the capital are very high.|أسعار المنازل في العاصمة مرتفعة جدًا.|noun
+W|risen|ارتفع|Prices have risen by ten percent.|ارتفعت الأسعار بنسبة عشرة بالمئة.|verb
+W|tenant|مستأجر|The tenants complained about the heating.|اشتكى المستأجرون من التدفئة.|noun
+W|shortage|نقص|There is a shortage of affordable homes.|هناك نقص في المساكن ميسورة التكلفة.|noun
+W|affordable|ميسور التكلفة|We need more affordable housing.|نحتاج إلى مزيد من المساكن ميسورة التكلفة.|adjective
+W|mortgage|قرض عقاري|They pay their mortgage every month.|يدفعون قرضهم العقاري كل شهر.|noun
+W|rent increase|زيادة الإيجار|The tenant complained about a sudden rent increase.|اشتكى المستأجر من زيادة مفاجئة في الإيجار.|noun
+W|repair request|طلب إصلاح|I sent the landlord a repair request about the heating.|أرسلت إلى المالك طلب إصلاح بشأن التدفئة.|noun
+W|lease|عقد إيجار|Our lease ends in September.|ينتهي عقد إيجارنا في سبتمبر.|noun
+W|deposit dispute|نزاع حول التأمين|The agency helped settle a deposit dispute after we moved out.|ساعدت الوكالة في تسوية نزاع حول مبلغ التأمين بعد مغادرتنا.|noun
+L|التنقّل اليومي والزحام|Commuting and Traffic|أن يصف المتعلم رحلته اليومية إلى العمل وكيف يقضي الوقت فيها.|My commute takes an hour, so I listen to podcasts to pass the time.|تستغرق رحلتي اليومية إلى العمل ساعة، لذلك أستمع إلى البودكاست لأقضي الوقت.|To describe your daily journey to work and how you spend the time.
+W|commute|الرحلة اليومية إلى العمل|My commute is only ten minutes.|رحلتي اليومية إلى العمل عشر دقائق فقط.|noun
+W|traffic jam|ازدحام مروري|We were stuck in a traffic jam for an hour.|علقنا في ازدحام مروري لمدة ساعة.|noun
+W|pass the time|يقضي الوقت|I read on the train to pass the time.|أقرأ في القطار لأقضي الوقت.|phrase
+W|carpool|المشاركة في السيارة|My colleagues and I carpool to save money.|أشارك أنا وزملائي في السيارة لتوفير المال.|verb
+W|podcast|بودكاست|I listen to a podcast about history.|أستمع إلى بودكاست عن التاريخ.|noun
+W|stuck|عالق|I'm stuck at the station.|أنا عالق في المحطة.|adjective
+W|roadworks|أعمال طرق|Roadworks have made my journey much slower this week.|جعلت أعمال الطرق رحلتي أبطأ بكثير هذا الأسبوع.|noun
+W|congestion|ازدحام مروري|Traffic congestion is worst between seven and nine in the morning.|يكون الازدحام المروري في أسوأ حالاته بين السابعة والتاسعة صباحًا.|noun
+W|cycle lane|مسار دراجات|A new cycle lane has made cycling to work safer.|جعل مسار الدراجات الجديد الذهاب إلى العمل بالدراجة أكثر أمانًا.|noun
+W|remote work|عمل عن بعد|Remote work has reduced my weekly commuting time.|قلل العمل عن بعد وقت تنقلي الأسبوعي.|noun
+U|b1-x-u11|الطعام وأسلوب الحياة|Food and Lifestyle|أوصِ بمطعم، وتحدّث عن الأنظمة الغذائية، واتبع وصفة، وقلّل هدر الطعام.|fork.knife|Recommend a restaurant, talk about diets, follow a recipe and reduce food waste.
+L|التوصية بمطعم|Recommending a Restaurant|أن يوصي المتعلم بمطعم ويصف طعامه وخدمته.|If you like spicy food, you should definitely try the new Indian restaurant downtown.|إذا كنت تحب الطعام الحار، فعليك بالتأكيد تجربة المطعم الهندي الجديد في وسط المدينة.|To recommend a restaurant and describe its food and service.
+W|spicy|حار (متبّل)|This curry is too spicy for me.|هذا الكاري حار جدًا بالنسبة لي.|adjective
+W|definitely|بالتأكيد|You should definitely book a table.|يجب عليك بالتأكيد حجز طاولة.|adverb
+W|downtown|وسط المدينة|There are many cafés downtown.|توجد مقاهٍ كثيرة في وسط المدينة.|adverb
+W|portion|حصة (طعام)|The portions were huge.|كانت الحصص كبيرة جدًا.|noun
+W|service|الخدمة|The service was slow but friendly.|كانت الخدمة بطيئة لكنها ودودة.|noun
+W|dish|طبق|What's the most popular dish here?|ما أشهر طبق هنا؟|noun
+W|reservation|حجز|We made a reservation for eight o'clock.|أجرينا حجزًا للساعة الثامنة.|noun
+W|ambience|أجواء المكان|The restaurant has a relaxed ambience in the evening.|يتمتع المطعم بأجواء مريحة في المساء.|noun
+W|starter|طبق مقبلات|We shared a starter before the main course.|شاركنا طبق مقبلات قبل الطبق الرئيسي.|noun
+W|bill|فاتورة|We asked for the bill after dessert.|طلبنا الفاتورة بعد الحلوى.|noun
+L|الأنظمة الغذائية والتغذية|Diets and Nutrition|أن يتحدث المتعلم عن عاداته الغذائية ونظام غذائي صحي.|I've been trying to avoid junk food and eat more vegetables.|أحاول تجنّب الوجبات السريعة غير الصحية وأكل مزيد من الخضار.|To talk about your eating habits and a healthy diet.
+W|calories|سعرات حرارية|This drink has a lot of calories.|في هذا المشروب سعرات حرارية كثيرة.|noun
+W|protein|بروتين|Eggs are a good source of protein.|البيض مصدر جيد للبروتين.|noun
+W|vegetarian|نباتي|My sister has been vegetarian for years.|أختي نباتية منذ سنوات.|adjective
+W|junk food|الوجبات السريعة غير الصحية|Try to avoid junk food.|حاول تجنّب الوجبات السريعة غير الصحية.|noun
+W|nutrition|التغذية|Good nutrition is important for children.|التغذية الجيدة مهمة للأطفال.|noun
+W|allergic|لديه حساسية|I'm allergic to nuts.|لدي حساسية من المكسرات.|adjective
+W|whole foods|أطعمة كاملة قليلة التصنيع|I try to base most meals on whole foods rather than highly processed products.|أحاول أن أجعل معظم وجباتي قائمة على أطعمة كاملة بدل المنتجات شديدة التصنيع.|noun
+W|fibre|ألياف|Whole grains are a useful source of fibre.|الحبوب الكاملة مصدر مفيد للألياف.|noun
+W|processed food|طعام مصنع|I try not to rely on processed food every day.|أحاول ألا أعتمد على الطعام المصنع يوميًا.|noun
+W|portion size|حجم الحصة|Checking portion size can help you understand how much you are eating.|يمكن أن يساعد فحص حجم الحصة على فهم مقدار ما تأكله.|noun
+L|اتباع وصفة|Following a Recipe|أن يشرح المتعلم خطوات تحضير طبق بترتيب واضح.|First chop the onions, then fry them gently until they turn golden.|أولًا قطّع البصل، ثم اقْلِه برفق حتى يصبح ذهبيًا.|To explain the steps for making a dish in a clear order.
+W|chop|يقطّع|Chop the tomatoes into small pieces.|قطّع الطماطم قطعًا صغيرة.|verb
+W|fry|يقلي|Fry the chicken for ten minutes.|اقلِ الدجاج لمدة عشر دقائق.|verb
+W|ingredients|المكوّنات|You only need five ingredients.|تحتاج خمسة مكوّنات فقط.|noun
+W|stir|يحرّك (الطعام)|Stir the soup from time to time.|حرّك الحساء من وقت لآخر.|verb
+W|boil|يغلي|Boil the rice for twenty minutes.|اغلِ الأرز لمدة عشرين دقيقة.|verb
+W|oven|فرن|Put the cake in the oven.|ضع الكعكة في الفرن.|noun
+W|peel|يقشر|Peel the potatoes before you cut them into pieces.|قشر البطاطس قبل تقطيعها إلى قطع.|verb
+W|dice|يقطع إلى مكعبات|Dice the tomatoes into small pieces.|قطع الطماطم إلى مكعبات صغيرة.|verb
+W|season|يتبل|Season the soup with a little salt and pepper.|تبّل الحساء بقليل من الملح والفلفل.|verb
+W|simmer|يطبخ على نار هادئة|Let the sauce simmer for ten minutes.|دع الصلصة تطهى على نار هادئة لمدة عشر دقائق.|verb
+L|تقليل هدر الطعام|Reducing Food Waste|أن يقترح المتعلم طرقًا عملية لتقليل هدر الطعام في البيت.|We plan our meals for the week so that we don't throw away leftovers.|نخطط لوجباتنا للأسبوع حتى لا نرمي بقايا الطعام.|To suggest practical ways to reduce food waste at home.
+W|leftovers|بقايا الطعام|We had the leftovers for lunch.|تناولنا بقايا الطعام على الغداء.|noun
+W|throw away|يرمي|Don't throw away that bread.|لا ترمِ ذلك الخبز.|phrasal verb
+W|compost|سماد عضوي|We turn vegetable peel into compost.|نحوّل قشور الخضار إلى سماد عضوي.|noun
+W|expiry date|تاريخ انتهاء الصلاحية|Check the expiry date before you buy.|تحقّق من تاريخ انتهاء الصلاحية قبل الشراء.|noun
+W|freeze|يجمّد|You can freeze the soup for later.|يمكنك تجميد الحساء لوقت لاحق.|verb
+W|meal plan|خطة الوجبات|A weekly meal plan saves time and money.|خطة الوجبات الأسبوعية توفّر الوقت والمال.|noun
+W|food scraps|بقايا طعام صغيرة|We put vegetable food scraps in the compost bin.|نضع بقايا الخضروات الصغيرة في صندوق السماد.|noun
+W|use-by date|تاريخ آخر استخدام|Check the use-by date before eating fresh meat.|تحقق من تاريخ آخر استخدام قبل تناول اللحم الطازج.|noun
+W|batch cook|يطبخ كمية كبيرة مسبقًا|I batch cook on Sunday and freeze several meals.|أطبخ كمية كبيرة مسبقًا يوم الأحد وأجمد عدة وجبات.|verb
+W|reusable container|حافظة قابلة لإعادة الاستخدام|I store leftovers in a reusable container.|أحفظ بقايا الطعام في حافظة قابلة لإعادة الاستخدام.|noun
+U|b1-x-u12|المشاعر والتواصل|Feelings and Interaction|صف مشاعرك بدقة، واحكِ أحداثًا غير متوقعة، واتفق واختلف بأدب، واعتذر وفسّر.|bubble.left.and.bubble.right.fill|Describe feelings precisely, tell unexpected events, agree and disagree politely, and apologise and explain.
+L|وصف المشاعر|Describing Feelings|أن يصف المتعلم مشاعره بدقة وأسباب شعوره.|I was really nervous before the interview, but I felt relieved when it was over.|كنت متوترًا جدًا قبل المقابلة، لكنني شعرت بالارتياح عندما انتهت.|To describe your feelings precisely and say why you felt that way.
+W|nervous|متوتر|I always get nervous before exams.|أتوتر دائمًا قبل الاختبارات.|adjective
+W|relieved|مرتاح (بعد قلق)|I was relieved to hear the news.|شعرت بالارتياح عندما سمعت الخبر.|adjective
+W|frustrated|محبَط|He felt frustrated when the computer crashed.|شعر بالإحباط عندما تعطّل الحاسوب.|adjective
+W|grateful|ممتن|I'm grateful for your help.|أنا ممتن لمساعدتك.|adjective
+W|embarrassed|محرَج|She was embarrassed when she forgot his name.|شعرت بالإحراج عندما نسيت اسمه.|adjective
+W|anxious|قلق|I feel anxious about the results.|أشعر بالقلق بشأن النتائج.|adjective
+W|disappointed|خائب الأمل|I felt disappointed when the event was cancelled.|شعرت بخيبة أمل عندما أُلغي الحدث.|adjective
+W|uneasy|غير مرتاح نفسيًا|I felt uneasy before speaking to the manager.|شعرت بعدم الارتياح قبل التحدث إلى المدير.|adjective
+W|cheerful|مبتهج|He sounded cheerful after hearing the good news.|بدا مبتهجًا بعد سماع الخبر الجيد.|adjective
+W|guilty|شاعر بالذنب|I felt guilty for forgetting my friend's birthday.|شعرت بالذنب لأنني نسيت عيد ميلاد صديقي.|adjective
+L|أحداث غير متوقعة|Unexpected Events|أن يحكي المتعلم موقفًا غير متوقع مستخدمًا الماضي المستمر والبسيط.|While I was waiting for the bus, I happened to bump into an old school friend.|بينما كنت أنتظر الحافلة، صادفت صديقًا قديمًا من المدرسة.|To tell about an unexpected situation using the past continuous and past simple.
+W|bump into|يصادف (شخصًا)|I bumped into my teacher at the mall.|صادفت معلمي في المركز التجاري.|phrasal verb
+W|unexpected|غير متوقع|We had an unexpected visitor.|جاءنا زائر غير متوقع.|adjective
+W|coincidence|مصادفة|What a coincidence to see you here!|يا لها من مصادفة أن أراك هنا!|noun
+W|all of a sudden|فجأة|All of a sudden it started to rain.|فجأة بدأت تمطر.|phrase
+W|turn out|يتّضح؛ ينتهي الأمر|It turned out that he was my neighbour.|اتضح أنه جاري.|phrasal verb
+W|shocked|مصدوم|I was shocked by the price.|صُدمت من السعر.|adjective
+W|out of the blue|على نحو مفاجئ|An old friend called me out of the blue yesterday.|اتصل بي صديق قديم على نحو مفاجئ أمس.|idiom
+W|unexpectedly|بشكل غير متوقع|The train unexpectedly stopped between two stations.|توقف القطار بشكل غير متوقع بين محطتين.|adverb
+W|luckily|لحسن الحظ|Luckily, someone found my phone and returned it.|لحسن الحظ، وجد شخص هاتفي وأعاده.|adverb
+W|to my surprise|لدهشتي|To my surprise, the lost wallet was still on the café table.|لدهشتي، كانت المحفظة المفقودة لا تزال على طاولة المقهى.|phrase
+L|الاتفاق والاختلاف بأدب|Agreeing and Disagreeing Politely|أن يعبّر المتعلم عن اتفاقه أو اختلافه مع رأي ما بأسلوب مهذب.|I see your point, but I'm not sure I agree with you completely.|أفهم وجهة نظرك، لكنني لست متأكدًا من أنني أتفق معك تمامًا.|To agree or disagree with an opinion in a polite way.
+W|see your point|يفهم وجهة نظرك|I see your point, but there's another side.|أفهم وجهة نظرك، لكن هناك جانبًا آخر.|phrase
+W|exactly|تمامًا|Exactly! That's what I think.|تمامًا! هذا ما أعتقده.|adverb
+W|on the other hand|من ناحية أخرى|On the other hand, it's very expensive.|من ناحية أخرى، إنه مكلف جدًا.|phrase
+W|fair enough|معك حق؛ هذا مقبول|Fair enough, let's try your idea.|معك حق، لنجرّب فكرتك.|phrase
+W|partly|جزئيًا|I partly agree with you.|أتفق معك جزئيًا.|adverb
+W|convince|يُقنع|You've convinced me.|لقد أقنعتني.|verb
+W|from my perspective|من وجهة نظري|From my perspective, the cheaper option offers better value.|من وجهة نظري، يقدم الخيار الأرخص قيمة أفضل.|phrase
+W|I take your point|أتفهم وجهة نظرك|I take your point, but I still think we need more evidence.|أتفهم وجهة نظرك، لكنني ما زلت أعتقد أننا نحتاج إلى أدلة أكثر.|phrase
+W|nevertheless|مع ذلك|The plan is expensive; nevertheless, it could save time later.|الخطة مكلفة، ومع ذلك قد توفر الوقت لاحقًا.|adverb
+W|common ground|أرضية مشتركة|We found some common ground even though we disagreed on the details.|وجدنا أرضية مشتركة رغم اختلافنا حول التفاصيل.|noun
+L|الاعتذار والتوضيح|Apologising and Explaining|أن يعتذر المتعلم عن خطأ ويوضح سببه ويعرض حلًا.|I'm really sorry for the misunderstanding, it won't happen again.|أنا آسف حقًا على سوء الفهم، لن يتكرر ذلك.|To apologise for a mistake, explain why it happened and offer a solution.
+W|misunderstanding|سوء فهم|There was a misunderstanding about the date.|حدث سوء فهم بشأن الموعد.|noun
+W|mix-up|لخبطة؛ خلط|Sorry, there was a mix-up with your order.|آسف، حدث خلط في طلبك.|noun
+W|my fault|خطئي|It was my fault, not yours.|كان خطئي، لا خطؤك.|phrase
+W|put right|يُصلح الخطأ|We will do our best to put things right.|سنبذل قصارى جهدنا لإصلاح الأمر.|phrasal verb
+W|accidentally|عن غير قصد|I accidentally deleted your file.|حذفت ملفك عن غير قصد.|adverb
+W|forgive|يسامح|Please forgive me.|أرجو أن تسامحني.|verb
+W|apology|اعتذار|I offered a sincere apology for missing the meeting.|قدمت اعتذارًا صادقًا عن تفويت الاجتماع.|noun
+W|explanation|توضيح|I owe you an explanation for missing the meeting.|أدين لك بتوضيح لسبب تفويتي الاجتماع.|noun
+W|make amends|يعوض عن الخطأ|I want to make amends by replacing what I damaged.|أريد أن أعوض عن الخطأ باستبدال ما أتلفته.|verb phrase
+W|take ownership|يتحمل المسؤولية|I need to take ownership of the mistake and correct it.|أحتاج إلى تحمل مسؤولية الخطأ وتصحيحه.|verb phrase

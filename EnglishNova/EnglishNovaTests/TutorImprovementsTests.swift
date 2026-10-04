@@ -3,38 +3,48 @@ import XCTest
 
 final class TutorImprovementsTests: XCTestCase {
 
-    // MARK: - Gemini response parsing
+    // MARK: - Local fallback must never corrupt learner input
 
-    func testGeminiStructuredResponseIsParsed() throws {
-        let inner = #"{"reply":"Great sentence.","corrections":[{"original":"i go","replacement":"I went","reason":"الماضي مع yesterday"}],"suggestedReplies":["Tell me more","Why?"]}"#
-        let envelope: [String: Any] = [
-            "candidates": [["content": ["parts": [["text": inner]]]]]
-        ]
-        let data = try JSONSerialization.data(withJSONObject: envelope)
-
-        let message = try GeminiTutorClient.parse(data)
-        XCTAssertEqual(message.role, .assistant)
-        XCTAssertEqual(message.text, "Great sentence.")
-        XCTAssertEqual(message.corrections.count, 1)
-        XCTAssertEqual(message.corrections.first?.replacement, "I went")
-        XCTAssertEqual(message.suggestedReplies, ["Tell me more", "Why?"])
+    func testLocalTutorArabicQuestionDoesNotCreateMixedBrokenSentence() {
+        let message = LocalTutorEngine().reply(to: "من انت", level: .a2)
+        XCTAssertFalse(message.text.isEmpty)
+        XCTAssertFalse(message.text.contains("because it was important"))
+        XCTAssertFalse(message.text.contains("من انت because"))
+        XCTAssertTrue(message.suggestedReplies.contains("Who are you?"))
     }
 
-    func testGeminiPlainTextFallsBackToRawReply() throws {
-        let envelope: [String: Any] = [
-            "candidates": [["content": ["parts": [["text": "Keep practising every day."]]]]]
-        ]
-        let data = try JSONSerialization.data(withJSONObject: envelope)
-
-        let message = try GeminiTutorClient.parse(data)
-        XCTAssertEqual(message.text, "Keep practising every day.")
-        XCTAssertTrue(message.corrections.isEmpty)
-        XCTAssertTrue(message.suggestedReplies.isEmpty)
+    func testLocalTutorUnknownEnglishDoesNotInventFixedBecauseSuffix() {
+        let message = LocalTutorEngine().reply(to: "I visited my friend", level: .a2)
+        XCTAssertFalse(message.text.contains("I visited my friend because it was important"))
+        XCTAssertTrue(message.text.contains("I visited my friend"))
     }
 
-    func testGeminiEmptyCandidatesThrows() {
-        let data = Data(#"{"candidates":[]}"#.utf8)
-        XCTAssertThrowsError(try GeminiTutorClient.parse(data))
+    func testLocalTutorKnownCorrectionStillWorks() {
+        let message = LocalTutorEngine().reply(to: "I am agree", level: .a2)
+        XCTAssertEqual(message.corrections.first?.replacement, "I agree")
+        XCTAssertTrue(message.text.contains("I agree"))
+    }
+
+    // MARK: - Learner-level source of truth
+
+    func testCurriculumBrowsingCannotMutateLearnerLevel() throws {
+        let source = try sourceText("Features/Curriculum/CurriculumView.swift")
+        XCTAssertTrue(source.contains("مستوى تصفح المنهج"))
+        XCTAssertFalse(source.contains("session.selectedLevel = newLevel"))
+    }
+
+    func testTutorMakesActiveLearnerLevelVisibleAndEditable() throws {
+        let source = try sourceText("Features/Tutor/TutorView.swift")
+        XCTAssertTrue(source.contains("المستوى الذي يستخدمه المدرّب"))
+        XCTAssertTrue(source.contains("selection: $session.selectedLevel"))
+        XCTAssertTrue(source.contains("progressSyncService.push(showFeedback: false)"))
+    }
+
+    func testSettingsProvidesExplicitLearnerLevelControl() throws {
+        let source = try sourceText("Features/Settings/SettingsView.swift")
+        XCTAssertTrue(source.contains("مستواي الحالي"))
+        XCTAssertTrue(source.contains("selection: $session.selectedLevel"))
+        XCTAssertTrue(source.contains("progressSync.push(showFeedback: false)"))
     }
 
     // MARK: - Settings migration keeps new tutor fields safe
@@ -99,5 +109,12 @@ final class TutorImprovementsTests: XCTestCase {
             XCTAssertTrue(keychain.delete(account))
             XCTAssertFalse(keychain.exists(account))
         }
+    }
+
+    private func sourceText(_ relativePath: String) throws -> String {
+        let testsDirectory = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+        let sourceRoot = testsDirectory.deletingLastPathComponent().appendingPathComponent("EnglishNova")
+        let url = sourceRoot.appendingPathComponent(relativePath)
+        return try String(contentsOf: url, encoding: .utf8)
     }
 }

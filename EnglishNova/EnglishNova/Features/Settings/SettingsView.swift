@@ -6,6 +6,7 @@ struct SettingsView: View {
     @EnvironmentObject private var reminderService: StudyReminderService
     @EnvironmentObject private var account: AccountService
     @EnvironmentObject private var network: NetworkMonitor
+    @EnvironmentObject private var progressSync: ProgressSyncService
 
     @State private var showResetConfirmation = false
     @State private var showLanguageNotice = false
@@ -89,6 +90,29 @@ struct SettingsView: View {
 
     private var learningSection: some View {
         Section(L("تفضيلات التعلّم")) {
+            Picker(LE("مستواي الحالي", "My current level"), selection: $session.selectedLevel) {
+                ForEach(CEFRLevel.allCases) { level in
+                    Text("\(level.rawValue) • \(level.titleAr)").tag(level)
+                }
+            }
+            .onChange(of: session.selectedLevel) { _, newLevel in
+                Task {
+                    await session.save()
+                    _ = await progressSync.push(showFeedback: false)
+                }
+                ToastCenter.shared.show(
+                    LfE("تم تحديث مستواك إلى %@.", "Your level was updated to %@.", newLevel.rawValue),
+                    style: .info
+                )
+            }
+
+            Text(LE(
+                "هذا هو المستوى الذي تعتمد عليه خطة اليوم والمدرّب. استعراض مستوى مختلف داخل شاشة المنهج لا يغيّر هذه القيمة.",
+                "This is the level used by the daily plan and tutor. Browsing another level in the curriculum does not change it."
+            ))
+            .font(.caption)
+            .foregroundStyle(.secondary)
+
             Stepper(
                 Lf("هدف اليوم: %@ دقيقة", "\(settings.effectiveDailyGoalMinutes)"),
                 value: dailyGoalBinding,
@@ -142,6 +166,10 @@ struct SettingsView: View {
                 ForEach(AccentVariant.allCases) { accent in
                     Text("\(accent.titleAr) • \(accent.titleEn)").tag(accent)
                 }
+            }
+
+            NavigationLink { VoiceSettingsView() } label: {
+                Label(LE("الأصوات الطبيعية", "Natural voices"), systemImage: "person.wave.2.fill")
             }
 
             VStack(alignment: .leading, spacing: 8) {
@@ -270,7 +298,8 @@ struct SettingsView: View {
     private var aboutSection: some View {
         Section(L("عن EnglishNova")) {
             LabeledContent(L("الإصدار"), value: appVersion)
-            Text(L("EnglishNova يساعدك على تعلّم الإنجليزية بالدروس والمراجعة والتدريب والمحادثة، مع ميزات اختيارية عبر الإنترنت."))
+            Text(LE("EnglishNova 2.0 يقدّم جلسة يومية قصيرة: مراجعة ثم درس ثم تدريب على أخطائك ثم تحدّث. تعمل الدروس والمراجعة ومدرّب النطق والاختبار التجريبي دون إنترنت، والمساعد الذكي اختياري برصيد يومي. صُمم ليعمل بالكامل مع VoiceOver.",
+                    "EnglishNova 2.0 gives you a short daily session: review, a lesson, practice on your mistakes, then speaking. Lessons, review, the pronunciation coach and the mock test work offline; the AI assistant is optional with a daily allowance. Built to work fully with VoiceOver."))
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }

@@ -7,6 +7,8 @@ final class HomeViewModel: ObservableObject {
     @Published var progress = UserProgressSnapshot()
     @Published var memory = LearnerMemorySnapshot()
     @Published var dueCount = 0
+    @Published var dueLessonReviewCount = 0
+    @Published var remedialCount = 0
     @Published var dailyPlan: DailyLearningPlan?
     @Published var insights: LearningInsights?
     @Published var personalizedRecommendations: [PersonalizedRecommendation] = []
@@ -31,6 +33,8 @@ final class HomeViewModel: ObservableObject {
             progress = loadedProgress
             memory = loadedMemory
             dueCount = dueCards.count
+            dueLessonReviewCount = LessonReviewEngine.dueCandidates(catalog: loadedCatalog, snapshot: loadedProgress).count
+            remedialCount = RemedialPracticeEngine.items(mistakes: loadedMemory.mistakes, catalog: loadedCatalog).count
             dailyPlan = LearningPlanner.makePlan(
                 catalog: loadedCatalog,
                 progress: loadedProgress,
@@ -83,5 +87,39 @@ final class HomeViewModel: ObservableObject {
     func nextLesson(for level: CEFRLevel) -> Lesson? {
         let lessons = catalog?.levels.first(where: { $0.level == level })?.units.flatMap(\.lessons) ?? []
         return lessons.first { progress.lessons[$0.id]?.completedAt == nil } ?? lessons.first
+    }
+
+    var lessonCompletedToday: Bool {
+        progress.lessons.values.contains { $0.completedAt.map(Calendar.current.isDateInToday) ?? false }
+    }
+
+    func dailySession(level: CEFRLevel, store: DailySessionStore, goalMinutes: Int) -> DailySession {
+        let next = nextLesson(for: level)
+        return DailySessionEngine.makeSession(DailySessionInput(
+            hasNextLesson: next != nil,
+            lessonMinutes: next?.estimatedMinutes ?? 8,
+            lessonCompletedToday: lessonCompletedToday,
+            dueReviewCount: dueCount + dueLessonReviewCount,
+            openMistakeCount: remedialCount,
+            plannedToday: store.planned,
+            completedToday: store.completed,
+            dailyGoalMinutes: goalMinutes
+        ))
+    }
+
+    /// A real sentence for the speaking step: from the most recently finished
+    /// lesson if there is one today, otherwise from the next lesson.
+    func speakingSentence(for level: CEFRLevel) -> String {
+        let lessons = catalog?.levels.flatMap { $0.units.flatMap(\.lessons) } ?? []
+        let recent = progress.lessons.values
+            .filter { $0.completedAt != nil }
+            .max { ($0.completedAt ?? .distantPast) < ($1.completedAt ?? .distantPast) }
+            .flatMap { record in lessons.first { $0.id == record.lessonID } }
+        for lesson in [recent, nextLesson(for: level)].compactMap({ $0 }) {
+            if let sentence = ExerciseSynthesizer.dictationSentence(for: lesson, words: lesson.vocabulary) {
+                return sentence
+            }
+        }
+        return "I would like a cup of coffee, please."
     }
 }

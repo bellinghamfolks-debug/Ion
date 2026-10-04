@@ -20,13 +20,23 @@ struct LessonPlayerView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            AccessibleProgressView(title: L("تقدّم الدرس"), value: model.progress)
-                .padding(.horizontal)
-
             if model.phase == .lesson {
+                AccessibleProgressView(title: L("تقدّم الدرس"), value: model.progress)
+                    .padding(.horizontal)
+                if let position = stepLabel {
+                    Text(position)
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                }
+
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
-                        Text(L(model.current.promptAr)).font(.title2.bold())
+                        if model.isRetry { retryBanner }
+                        Text(model.current.displayPrompt)
+                            .font(.title2.bold())
+                            .accessibilityAddTraits(.isHeader)
                         if let prompt = model.current.promptEn, !prompt.isEmpty {
                             Text(prompt).font(.title3).environment(\.layoutDirection, .leftToRight)
                         }
@@ -66,8 +76,24 @@ struct LessonPlayerView: View {
                     }
             }
         }
-        .onAppear { Task { await container.vocabularyRepository.add(words: model.lesson.vocabulary) } }
+        .accessibilityAction(.magicTap) { replayAudio() }
+        .accessibilityAction(.escape) {
+            if model.phase == .lesson { showExitConfirm = true } else { dismiss() }
+        }
+        .onAppear {
+            Task { await container.vocabularyRepository.add(words: model.lesson.vocabulary) }
+            let lessonID = model.lesson.id
+            let source = LE(model.lesson.titleAr, model.lesson.titleEn)
+            let memory = container.learningMemoryRepository
+            model.onMistake = { exercise, response in
+                let mistake = LessonMistakeFactory.make(lessonID: lessonID, source: source, exercise: exercise, response: response)
+                Task { await memory.recordMistake(mistake) }
+            }
+        }
         .task(id: model.currentIndex) {
+            if model.phase == .lesson, model.isFirstRetryStep {
+                AccessibilityNotification.Announcement(LE("جولة التصحيح: أعد الأسئلة التي أخطأت فيها.", "Correction round: try the items you missed again.")).post()
+            }
             guard model.phase == .lesson, settings.autoPlayLessonAudio else { return }
             if let speech = model.current.speechText ?? model.current.promptEn, !speech.isEmpty {
                 container.textToSpeech.speak(speech)
@@ -75,8 +101,34 @@ struct LessonPlayerView: View {
         }
     }
 
+    private var stepLabel: String? {
+        if let retry = model.retryPosition {
+            return LfE("جولة التصحيح %@ من %@", "Correction %@ of %@", "\(retry.index)", "\(retry.total)")
+        }
+        if let question = model.questionPosition {
+            return LfE("السؤال %@ من %@", "Question %@ of %@", "\(question.index)", "\(question.total)")
+        }
+        return nil
+    }
+
+    private var retryBanner: some View {
+        Label(LE("جولة التصحيح — لا تؤثر في درجتك، لكنها تثبّت ما أخطأت فيه.", "Correction round — it does not change your score, but it fixes what you missed."),
+              systemImage: "arrow.uturn.backward.circle.fill")
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(AppTheme.streak)
+            .padding(12)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(AppTheme.streak.opacity(0.12), in: RoundedRectangle(cornerRadius: AppTheme.compactCornerRadius))
+    }
+
+    private func replayAudio() {
+        guard model.phase == .lesson else { return }
+        let text = model.current.speechText ?? model.current.promptEn ?? (model.current.type == .flashcard ? model.current.answer : nil)
+        if let text, !text.isEmpty { container.textToSpeech.speak(text) }
+    }
+
     private var isInformational: Bool {
-        model.current.type == .explanation || model.current.type == .flashcard
+        !model.current.type.isGraded
     }
 
     @ViewBuilder
@@ -91,7 +143,10 @@ struct LessonPlayerView: View {
         } else {
             PrimaryButton(title: L("تحقق"), systemImage: "checkmark", isDisabled: !canSubmit) {
                 let exercise = model.current
+                let wasRetry = model.isRetry
                 if exercise.type == .arrangeWords { model.submitArranged() } else { model.submit() }
+                AccessibilityNotification.Announcement(feedbackAccessibilityLabel).post()
+                guard !wasRetry else { return }
                 Task {
                     await container.progressRepository.recordSkill(skill(for: exercise), correct: model.lastWasCorrect, at: .now)
                 }
@@ -100,11 +155,7 @@ struct LessonPlayerView: View {
     }
 
     private var canSubmit: Bool {
-        switch model.current.type {
-        case .explanation, .flashcard: return true
-        case .arrangeWords: return !model.arrangedTokens.isEmpty
-        default: return !model.selectedAnswer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        }
+        ExerciseRenderer.canSubmit(model.current, selectedAnswer: model.selectedAnswer, arrangedTokens: model.arrangedTokens)
     }
 
     private var feedback: some View {
@@ -112,9 +163,11 @@ struct LessonPlayerView: View {
                  systemImage: model.lastWasCorrect ? "checkmark.seal.fill" : "lightbulb.fill") {
             if !model.lastWasCorrect {
                 Text(L("الإجابة الصحيحة")).font(.caption.bold()).foregroundStyle(.secondary)
-                Text(L(model.current.answer)).font(.headline).environment(\.layoutDirection, .leftToRight)
+                Text(model.current.displayAnswer).font(.headline).environment(\.layoutDirection, .leftToRight)
             }
-            if !model.current.explanationAr.isEmpty { Text(L(model.current.explanationAr)) }
+            if !model.current.explanationAr.isEmpty && !(model.current.isSynthesized && !model.lastWasCorrect && model.current.type == .matchPairs) {
+                Text(model.current.display(model.current.explanationAr))
+            }
             if !explainSeed.isEmpty {
                 Button { explainConcept = ExplainConcept(text: explainSeed) } label: {
                     Label(L("اشرح أكثر"), systemImage: "sparkles").font(.subheadline.weight(.semibold))
@@ -127,31 +180,29 @@ struct LessonPlayerView: View {
     }
 
     private var feedbackAccessibilityLabel: String {
+        let explanation = model.current.display(model.current.explanationAr)
         if model.lastWasCorrect {
             return model.current.explanationAr.isEmpty
                 ? L("الإجابة صحيحة")
-                : Lf("الإجابة صحيحة. %@", L(model.current.explanationAr))
+                : Lf("الإجابة صحيحة. %@", explanation)
         }
         return Lf(
             "الإجابة غير صحيحة. الإجابة الصحيحة %@. %@",
-            L(model.current.answer),
-            L(model.current.explanationAr)
+            model.current.displayAnswer,
+            model.current.type == .matchPairs ? "" : explanation
         )
     }
 
     private var explainSeed: String {
+        guard model.current.type != .matchPairs, model.current.type != .trueFalse else {
+            return (model.current.speechText ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        }
         let answer = model.current.answer.trimmingCharacters(in: .whitespacesAndNewlines)
         return !answer.isEmpty ? answer : (model.current.promptEn ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func skill(for exercise: Exercise) -> LanguageSkill {
-        switch exercise.type {
-        case .listenAndChoose: return .listening
-        case .speak: return .practicalCommunication
-        case .translation, .arrangeWords, .fillBlank: return .grammar
-        case .multipleChoice, .flashcard: return .vocabulary
-        case .explanation: return .reading
-        }
+        exercise.type.practicedSkill
     }
 
     private var assessment: LessonAssessment { model.assessment }
@@ -160,6 +211,9 @@ struct LessonPlayerView: View {
     private var result: some View {
         ScrollView {
             VStack(spacing: 20) {
+                if assessment.passed {
+                    CelebrationView(systemImage: "checkmark.seal.fill", tint: AppTheme.success, size: 96)
+                }
                 ZStack {
                     Circle().stroke(.quaternary, lineWidth: 14)
                     Circle()
@@ -173,8 +227,13 @@ struct LessonPlayerView: View {
                     }
                 }
                 .frame(width: 150, height: 150).padding(.top, 10)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(LfE("درجة الإتقان %@٪", "Mastery score %@%", "\(scorePercent)"))
 
                 Text(headline).font(.title2.bold()).multilineTextAlignment(.center)
+                    .accessibilityAddTraits(.isHeader)
+
+                lessonSummary
 
                 InfoCard(title: L("كيف حُسبت الدرجة؟"), systemImage: "checkmark.seal.fill", tint: AppTheme.brand) {
                     Text(LE(
@@ -219,6 +278,32 @@ struct LessonPlayerView: View {
                 }
             }
             .padding(AppTheme.screenPadding)
+        }
+    }
+
+    private var lessonSummary: some View {
+        InfoCard(title: LE("ملخص الدرس", "Lesson summary"), systemImage: "list.bullet.clipboard.fill", tint: AppTheme.brandSecondary) {
+            LabeledContent(LE("إجابات صحيحة من أول مرة", "Right first time"),
+                           value: "\(model.correctCount) / \(assessment.gradedCount)")
+            if !model.missed.isEmpty {
+                LabeledContent(LE("صُحّحت في جولة التصحيح", "Fixed in the correction round"),
+                               value: "\(model.recoveredIDs.count) / \(model.missed.count)")
+                Text(LE("حُفظت الأسئلة التي أخطأت فيها لتعود إليك في «تدرّب على أخطائك».",
+                        "Items you missed are saved and will come back in “Practise your mistakes”."))
+                    .font(.footnote).foregroundStyle(.secondary)
+            }
+            if !model.lesson.vocabulary.isEmpty {
+                Divider()
+                Text(LE("كلمات هذا الدرس", "Words from this lesson")).font(.subheadline.bold())
+                ForEach(model.lesson.vocabulary) { word in
+                    HStack {
+                        Text(word.english).font(.body.weight(.semibold)).environment(\.layoutDirection, .leftToRight)
+                        Spacer()
+                        Text(word.arabic).foregroundStyle(.secondary)
+                    }
+                    .accessibilityElement(children: .combine)
+                }
+            }
         }
     }
 

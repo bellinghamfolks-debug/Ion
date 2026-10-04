@@ -31,11 +31,69 @@ final class TextToSpeechService: NSObject, ObservableObject, AVSpeechSynthesizer
         try? session.setCategory(.playback, mode: .spokenAudio, options: [.duckOthers])
         try? session.setActive(true, options: [])
         let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: language)
+        utterance.voice = Self.preferredVoice(for: language)
         utterance.rate = min(max(rate, 0.25), 0.58)
         utterance.pitchMultiplier = 1.0
         utterance.postUtteranceDelay = 0.1
         synthesizer.speak(utterance)
+    }
+
+    // MARK: - Natural voices
+
+    /// A voice the learner can pick, with its download quality.
+    struct VoiceOption: Identifiable, Hashable {
+        let id: String
+        let name: String
+        let language: String
+        let quality: AVSpeechSynthesisVoiceQuality
+
+        var qualityRank: Int {
+            switch quality {
+            case .premium: return 3
+            case .enhanced: return 2
+            default: return 1
+            }
+        }
+    }
+
+    nonisolated static func preferenceKey(for language: String) -> String { "tts.voice.\(language)" }
+
+    /// English voices for a locale, best quality first. Novelty and Personal
+    /// Voices are excluded: they are hard to understand for learners.
+    nonisolated static func voices(for language: String) -> [VoiceOption] {
+        AVSpeechSynthesisVoice.speechVoices()
+            .filter { $0.language == language }
+            .filter { !$0.voiceTraits.contains(.isNoveltyVoice) && !$0.voiceTraits.contains(.isPersonalVoice) }
+            .map { VoiceOption(id: $0.identifier, name: $0.name, language: $0.language, quality: $0.quality) }
+            .sorted { lhs, rhs in
+                lhs.qualityRank != rhs.qualityRank ? lhs.qualityRank > rhs.qualityRank : lhs.name < rhs.name
+            }
+    }
+
+    /// The learner's chosen voice, otherwise the most natural installed one.
+    nonisolated static func preferredVoice(for language: String) -> AVSpeechSynthesisVoice? {
+        if let identifier = UserDefaults.standard.string(forKey: preferenceKey(for: language)),
+           let chosen = AVSpeechSynthesisVoice(identifier: identifier) {
+            return chosen
+        }
+        if let best = voices(for: language).first, let voice = AVSpeechSynthesisVoice(identifier: best.id) {
+            return voice
+        }
+        return AVSpeechSynthesisVoice(language: language)
+    }
+
+    /// True when only the basic compact voice is installed for the locale.
+    nonisolated static func hasOnlyBasicVoices(for language: String) -> Bool {
+        !voices(for: language).contains { $0.qualityRank > 1 }
+    }
+
+    func choose(_ option: VoiceOption?, for language: String) {
+        if let option {
+            UserDefaults.standard.set(option.id, forKey: Self.preferenceKey(for: language))
+        } else {
+            UserDefaults.standard.removeObject(forKey: Self.preferenceKey(for: language))
+        }
+        objectWillChange.send()
     }
 
     func stop() {

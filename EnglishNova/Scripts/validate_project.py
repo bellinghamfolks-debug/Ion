@@ -78,11 +78,13 @@ vocabulary = [word for lesson in lessons for word in lesson.get("vocabulary", []
 level_counts = {level.get("level", "").upper(): sum(len(unit.get("lessons", [])) for unit in level.get("units", [])) for level in levels}
 
 require(len(levels) == manifest.get("levels") == 6, f"Unexpected CEFR level count: {len(levels)}")
-require(len(lessons) == manifest.get("lessons") and len(lessons) >= 232, f"Unexpected lesson count: {len(lessons)}")
+require(len(lessons) == manifest.get("lessons") and len(lessons) >= 360, f"Unexpected lesson count: {len(lessons)}")
 require(level_counts.get("A0") == manifest.get("a0Lessons") == 60, f"Unexpected A0 lesson count: {level_counts.get('A0')}")
 require(level_counts.get("A1") == manifest.get("a1Lessons") == 60, f"Unexpected A1 lesson count: {level_counts.get('A1')}")
-require(len(exercises) == manifest.get("exercises") and len(exercises) >= 5940, f"Unexpected base exercise count: {len(exercises)}")
-require(len(vocabulary) == manifest.get("vocabularyEntries") and len(vocabulary) >= 1424, f"Unexpected vocabulary count: {len(vocabulary)}")
+for upper in ("A2", "B1", "B2", "C1"):
+    require(level_counts.get(upper) == 60, f"Unexpected {upper} lesson count: {level_counts.get(upper)} (2.0 ships 60 per level)")
+require(len(exercises) == manifest.get("exercises") and len(exercises) >= 8948, f"Unexpected base exercise count: {len(exercises)}")
+require(len(vocabulary) == manifest.get("vocabularyEntries") and len(vocabulary) >= 2192, f"Unexpected vocabulary count: {len(vocabulary)}")
 for label, ids in {
     "lessons": [x.get("id") for x in lessons],
     "exercises": [x.get("id") for x in exercises],

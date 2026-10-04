@@ -53,12 +53,12 @@
     "c1-extra-2": {
       "extraVocabulary": [
         {
-          "english": "thesis statement",
-          "arabic": "جملة الأطروحة",
-          "example": "A compelling thesis statement frames the entire argument that follows.",
-          "exampleArabic": "تؤطر جملة الأطروحة المقنعة كامل الحجة التي تليها.",
+          "english": "line of argument",
+          "arabic": "مسار الحجة",
+          "example": "A clear line of argument helps the reader see how each section supports the conclusion.",
+          "exampleArabic": "يساعد مسار الحجة الواضح القارئ على فهم كيف يدعم كل قسم الخلاصة.",
           "partOfSpeech": "noun phrase",
-          "phonetic": "/ˈθiːsɪs ˈsteɪtmənt/"
+          "phonetic": null
         },
         {
           "english": "to substantiate",

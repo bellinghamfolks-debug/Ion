@@ -68,7 +68,117 @@ struct ExerciseRenderer: View {
 
         case .speak:
             SpeakExerciseView(exercise: exercise, selectedAnswer: $selectedAnswer)
+
+        case .listenType, .dictation:
+            VStack(spacing: 12) {
+                ReplayAudioButton(text: exercise.speechText ?? exercise.answer)
+                TextField(
+                    exercise.type == .dictation ? LE("اكتب الجملة كما سمعتها", "Type the sentence you heard") : LE("اكتب الكلمة", "Type the word"),
+                    text: $selectedAnswer,
+                    axis: .vertical
+                )
+                .textFieldStyle(.roundedBorder)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .environment(\.layoutDirection, .leftToRight)
+                .accessibilityHint(exercise.accessibilityHint)
+            }
+
+        case .trueFalse:
+            HStack(spacing: 12) {
+                ChoiceButton(title: LE("صح", "True"), selected: selectedAnswer == "true") { selectedAnswer = "true" }
+                ChoiceButton(title: LE("خطأ", "False"), selected: selectedAnswer == "false") { selectedAnswer = "false" }
+            }
+
+        case .matchPairs:
+            MatchPairsView(words: exercise.tokens ?? [], meanings: exercise.choices ?? [], encoded: $selectedAnswer)
         }
+    }
+
+    /// Whether the learner has given enough of an answer to check it.
+    static func canSubmit(_ exercise: Exercise, selectedAnswer: String, arrangedTokens: [String]) -> Bool {
+        switch exercise.type {
+        case .explanation, .flashcard: return true
+        case .arrangeWords: return !arrangedTokens.isEmpty
+        case .matchPairs: return Exercise.pairs(from: selectedAnswer).count == (exercise.tokens ?? []).count
+        default: return !selectedAnswer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+    }
+}
+
+/// Large replay button used by every audio-first exercise.
+struct ReplayAudioButton: View {
+    @EnvironmentObject private var container: AppContainer
+    let text: String
+
+    var body: some View {
+        Button {
+            container.textToSpeech.speak(text)
+        } label: {
+            Label(LE("تشغيل الصوت", "Play audio"), systemImage: "speaker.wave.2.fill")
+                .frame(maxWidth: .infinity, minHeight: 52)
+        }
+        .buttonStyle(.bordered)
+        .accessibilityHint(LE("يمكنك أيضًا النقر مرتين بإصبعين لإعادة التشغيل.", "You can also double-tap with two fingers to replay."))
+    }
+}
+
+/// Matching built from menus: each English word gets a picker of meanings.
+/// This works the same with touch, Switch Control and VoiceOver, unlike
+/// drag-and-drop or tap-two-tiles patterns.
+private struct MatchPairsView: View {
+    let words: [String]
+    let meanings: [String]
+    @Binding var encoded: String
+
+    private var pairs: [String: String] { Exercise.pairs(from: encoded) }
+
+    var body: some View {
+        VStack(spacing: 12) {
+            ForEach(words, id: \.self) { word in
+                HStack(spacing: 12) {
+                    Text(word)
+                        .font(.headline)
+                        .environment(\.layoutDirection, .leftToRight)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Menu {
+                        ForEach(meanings, id: \.self) { meaning in
+                            Button {
+                                assign(meaning, to: word)
+                            } label: {
+                                if pairs[word] == meaning {
+                                    Label(meaning, systemImage: "checkmark")
+                                } else {
+                                    Text(meaning)
+                                }
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Text(pairs[word] ?? LE("اختر المعنى", "Choose meaning"))
+                                .foregroundStyle(pairs[word] == nil ? .secondary : .primary)
+                            Image(systemName: "chevron.up.chevron.down").accessibilityHidden(true)
+                        }
+                        .padding(.horizontal, 12)
+                        .frame(minHeight: 48)
+                        .background(Color(uiColor: .secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+                    }
+                    .accessibilityLabel(word)
+                    .accessibilityValue(pairs[word] ?? LE("لم يُختر معنى بعد", "No meaning chosen yet"))
+                    .accessibilityHint(LE("يفتح قائمة المعاني", "Opens the list of meanings"))
+                }
+                .padding(12)
+                .background(.background, in: RoundedRectangle(cornerRadius: 14))
+            }
+        }
+    }
+
+    private func assign(_ meaning: String, to word: String) {
+        var current = pairs
+        // A meaning belongs to one word at a time.
+        for (key, value) in current where value == meaning { current[key] = nil }
+        current[word] = meaning
+        encoded = Exercise.encodePairs(words.compactMap { key in current[key].map { (key, $0) } })
     }
 }
 
@@ -182,6 +292,36 @@ private struct SpeakExerciseView: View {
                 .onChange(of: speechService.transcript) { _, newValue in
                     selectedAnswer = newValue
                 }
+        }
+    }
+}
+
+extension Exercise {
+    /// Curriculum copy goes through `L()`; synthesized copy is already localized.
+    func display(_ text: String) -> String {
+        isSynthesized ? text : L(text)
+    }
+
+    var displayPrompt: String { display(promptAr) }
+
+    /// The correct answer as a learner should read it.
+    var displayAnswer: String {
+        readable(answer)
+    }
+
+    /// Turns an encoded response (pairs, true/false) into readable text.
+    func readable(_ response: String) -> String {
+        switch type {
+        case .matchPairs:
+            let pairs = Exercise.pairs(from: response)
+            return (tokens ?? []).compactMap { word in pairs[word].map { "\(word) = \($0)" } }
+                .joined(separator: "، ")
+        case .trueFalse:
+            if response == "true" { return LE("صح", "True") }
+            if response == "false" { return LE("خطأ", "False") }
+            return response
+        default:
+            return isSynthesized ? response : L(response)
         }
     }
 }

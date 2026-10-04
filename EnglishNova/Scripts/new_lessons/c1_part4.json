@@ -63,6 +63,38 @@
        "exampleArabic": "تحقّق دائمًا من الخبر قبل مشاركته.",
        "partOfSpeech": "verb",
        "phonetic": null
+      },
+      {
+       "english": "source verification",
+       "arabic": "التحقق من المصدر",
+       "example": "Source verification should come before sharing a dramatic claim.",
+       "exampleArabic": "ينبغي أن يسبق التحقق من المصدر مشاركة ادعاء مثير.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "manipulated media",
+       "arabic": "وسائط متلاعب بها",
+       "example": "Manipulated media can combine genuine material with misleading edits.",
+       "exampleArabic": "قد تجمع الوسائط المتلاعب بها بين مادة حقيقية وتعديلات مضللة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "context stripping",
+       "arabic": "نزع السياق",
+       "example": "Context stripping can make an accurate quotation misleading.",
+       "exampleArabic": "يمكن لنزع السياق أن يجعل اقتباسًا دقيقًا مضللًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "correction fatigue",
+       "arabic": "إرهاق من التصحيحات",
+       "example": "Repeated exposure to false claims can contribute to correction fatigue.",
+       "exampleArabic": "قد يسهم التعرض المتكرر للادعاءات الكاذبة في إرهاق من التصحيحات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -120,6 +152,38 @@
        "example": "The paper's editorial criticised the decision.",
        "exampleArabic": "انتقدت افتتاحية الصحيفة القرار.",
        "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "editorial independence",
+       "arabic": "استقلال تحريري",
+       "example": "Editorial independence helps protect reporting from improper outside pressure.",
+       "exampleArabic": "يساعد الاستقلال التحريري على حماية التغطية من الضغط الخارجي غير الملائم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "public record",
+       "arabic": "سجل عام",
+       "example": "The journalist checked the claim against the public record.",
+       "exampleArabic": "تحقق الصحفي من الادعاء بمقارنته بالسجل العام.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "verification standard",
+       "arabic": "معيار تحقق",
+       "example": "A newsroom should apply the same verification standard to popular and unpopular claims.",
+       "exampleArabic": "ينبغي لغرفة الأخبار تطبيق معيار التحقق نفسه على الادعاءات الشائعة وغير الشائعة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "undisclosed interest",
+       "arabic": "مصلحة غير معلنة",
+       "example": "An undisclosed interest can undermine trust in a commentator's neutrality.",
+       "exampleArabic": "قد تقوض مصلحة غير معلنة الثقة في حياد المعلق.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -179,6 +243,38 @@
        "exampleArabic": "كانت للتغطية ميول سياسية.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "cherry-picking",
+       "arabic": "انتقاء انتقائي",
+       "example": "Cherry-picking favourable statistics can distort the overall picture.",
+       "exampleArabic": "يمكن للانتقاء الانتقائي للإحصاءات الملائمة أن يشوه الصورة العامة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "framing effect",
+       "arabic": "أثر التأطير",
+       "example": "A framing effect occurs when presentation changes how people judge the same information.",
+       "exampleArabic": "يحدث أثر التأطير عندما يغير العرض كيفية حكم الناس على المعلومات نفسها.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "denominator",
+       "arabic": "مقام إحصائي",
+       "example": "A percentage can be misleading if the denominator is hidden.",
+       "exampleArabic": "قد تكون النسبة المئوية مضللة إذا أُخفي المقام الإحصائي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "baseline",
+       "arabic": "خط أساس",
+       "example": "The increase sounds dramatic until it is compared with the baseline.",
+       "exampleArabic": "تبدو الزيادة كبيرة حتى تُقارن بخط الأساس.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -236,6 +332,38 @@
        "example": "The photo had been digitally manipulated.",
        "exampleArabic": "تم التلاعب بالصورة رقميًا.",
        "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "source triangulation",
+       "arabic": "مقارنة عدة مصادر",
+       "example": "Source triangulation checks a claim against independent evidence from more than one place.",
+       "exampleArabic": "تقارن عملية مقارنة عدة مصادر الادعاء بأدلة مستقلة من أكثر من جهة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "lateral reading",
+       "arabic": "قراءة جانبية للتحقق",
+       "example": "Lateral reading means leaving a page to investigate who is behind it.",
+       "exampleArabic": "تعني القراءة الجانبية مغادرة الصفحة للتحقق ممن يقف وراءها.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "metadata",
+       "arabic": "بيانات وصفية",
+       "example": "Metadata can provide useful clues about when and how a file was created.",
+       "exampleArabic": "يمكن للبيانات الوصفية أن تقدم دلائل مفيدة عن وقت وكيفية إنشاء الملف.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "synthetic media",
+       "arabic": "وسائط مولدة اصطناعيًا",
+       "example": "Synthetic media can look convincing even when no real event was recorded.",
+       "exampleArabic": "قد تبدو الوسائط المولدة اصطناعيًا مقنعة حتى عندما لم يُسجل حدث حقيقي.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -304,6 +432,38 @@
        "exampleArabic": "هذا استثمار طويل المدى.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "strategic objective",
+       "arabic": "هدف استراتيجي",
+       "example": "Each strategic objective should connect directly to the organisation's long-term direction.",
+       "exampleArabic": "ينبغي أن يرتبط كل هدف استراتيجي مباشرة باتجاه المؤسسة طويل الأجل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "key result",
+       "arabic": "نتيجة رئيسية",
+       "example": "A key result should make progress measurable rather than merely aspirational.",
+       "exampleArabic": "ينبغي أن تجعل النتيجة الرئيسية التقدم قابلًا للقياس لا مجرد طموح.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "resource allocation",
+       "arabic": "تخصيص الموارد",
+       "example": "Strategy requires resource allocation, not just a list of priorities.",
+       "exampleArabic": "تتطلب الاستراتيجية تخصيص الموارد لا مجرد قائمة أولويات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "constraint",
+       "arabic": "قيد",
+       "example": "The plan identifies each constraint that could delay delivery.",
+       "exampleArabic": "تحدد الخطة كل قيد قد يؤخر التنفيذ.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -360,6 +520,38 @@
        "arabic": "المعنويات",
        "example": "Staff morale is low after the cuts.",
        "exampleArabic": "معنويات الموظفين منخفضة بعد التخفيضات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "change fatigue",
+       "arabic": "إرهاق التغيير",
+       "example": "Repeated reorganisations can create change fatigue among employees.",
+       "exampleArabic": "قد تخلق عمليات إعادة التنظيم المتكررة إرهاقًا من التغيير لدى الموظفين.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "stakeholder mapping",
+       "arabic": "رسم خريطة أصحاب المصلحة",
+       "example": "Stakeholder mapping helps leaders identify who needs information, influence or support.",
+       "exampleArabic": "يساعد رسم خريطة أصحاب المصلحة القادة على تحديد من يحتاج إلى معلومات أو تأثير أو دعم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "pilot",
+       "arabic": "تجربة محدودة",
+       "example": "The company ran a pilot before rolling out the new process nationally.",
+       "exampleArabic": "أجرت الشركة تجربة محدودة قبل تعميم العملية الجديدة على المستوى الوطني.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "adoption",
+       "arabic": "تبنٍ",
+       "example": "Training alone may not guarantee adoption of a new system.",
+       "exampleArabic": "قد لا يضمن التدريب وحده تبني نظام جديد.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -420,6 +612,38 @@
        "exampleArabic": "تقوم روح المدرسة على الاحترام.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "psychological safety",
+       "arabic": "أمان نفسي",
+       "example": "Psychological safety makes it easier for employees to admit mistakes and raise concerns.",
+       "exampleArabic": "يسهل الأمان النفسي على الموظفين الاعتراف بالأخطاء وطرح المخاوف.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "whistleblowing",
+       "arabic": "إبلاغ عن مخالفات",
+       "example": "A credible whistleblowing process should protect people who report concerns in good faith.",
+       "exampleArabic": "ينبغي لآلية موثوقة للإبلاغ عن المخالفات أن تحمي من يبلغون بحسن نية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "incentive structure",
+       "arabic": "هيكل حوافز",
+       "example": "A poorly designed incentive structure can encourage the wrong behaviour.",
+       "exampleArabic": "قد يشجع هيكل حوافز سيئ التصميم السلوك الخاطئ.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "subculture",
+       "arabic": "ثقافة فرعية",
+       "example": "A strong team subculture can differ from the wider organisational culture.",
+       "exampleArabic": "قد تختلف الثقافة الفرعية القوية لفريق عن الثقافة المؤسسية الأوسع.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -477,6 +701,38 @@
        "example": "The minister tried to reassure the public.",
        "exampleArabic": "حاول الوزير طمأنة الجمهور.",
        "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "holding statement",
+       "arabic": "بيان أولي",
+       "example": "The organisation issued a holding statement while facts were still being verified.",
+       "exampleArabic": "أصدرت المؤسسة بيانًا أوليًا بينما كانت الحقائق لا تزال قيد التحقق.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "incident response",
+       "arabic": "استجابة للحادث",
+       "example": "Effective incident response coordinates operational action with public communication.",
+       "exampleArabic": "تنسق الاستجابة الفعالة للحادث بين الإجراء التشغيلي والتواصل العام.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "corrective action",
+       "arabic": "إجراء تصحيحي",
+       "example": "The statement should explain what corrective action is being taken.",
+       "exampleArabic": "ينبغي أن يوضح البيان الإجراء التصحيحي الجاري اتخاذه.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "stakeholder trust",
+       "arabic": "ثقة أصحاب المصلحة",
+       "example": "Transparent updates can help preserve stakeholder trust during a crisis.",
+       "exampleArabic": "يمكن للتحديثات الشفافة أن تساعد في الحفاظ على ثقة أصحاب المصلحة أثناء الأزمة.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -545,6 +801,38 @@
        "exampleArabic": "كانت التعليمات ملتبسة.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "qualifier",
+       "arabic": "عبارة تقييد",
+       "example": "A qualifier such as 'in most cases' can make a claim more precise.",
+       "exampleArabic": "يمكن لعبارة تقييد مثل «في معظم الحالات» أن تجعل الادعاء أدق.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "plain language",
+       "arabic": "لغة واضحة",
+       "example": "Plain language can be precise without sounding simplistic.",
+       "exampleArabic": "يمكن للغة الواضحة أن تكون دقيقة دون أن تبدو سطحية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "wordiness",
+       "arabic": "إطناب",
+       "example": "Removing wordiness often makes a sentence easier to follow.",
+       "exampleArabic": "غالبًا ما تجعل إزالة الإطناب الجملة أسهل متابعة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "semantic precision",
+       "arabic": "دقة دلالية",
+       "example": "Semantic precision matters when two near-synonyms carry different implications.",
+       "exampleArabic": "تهم الدقة الدلالية عندما تحمل كلمتان متقاربتان آثارًا مختلفة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -601,6 +889,38 @@
        "arabic": "تورية؛ تلاعب بالألفاظ",
        "example": "The headline was a clever pun.",
        "exampleArabic": "كان العنوان تورية ذكية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "overstatement",
+       "arabic": "مبالغة",
+       "example": "Overstatement can be funny when the audience recognises the deliberate exaggeration.",
+       "exampleArabic": "قد تكون المبالغة مضحكة عندما يدرك الجمهور أن التضخيم مقصود.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "satire",
+       "arabic": "سخرية نقدية",
+       "example": "Satire uses humour to criticise people, institutions or ideas.",
+       "exampleArabic": "تستخدم السخرية النقدية الفكاهة لانتقاد أشخاص أو مؤسسات أو أفكار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "double meaning",
+       "arabic": "معنى مزدوج",
+       "example": "The joke depends on a double meaning in the final word.",
+       "exampleArabic": "تعتمد النكتة على معنى مزدوج في الكلمة الأخيرة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "comic timing",
+       "arabic": "توقيت كوميدي",
+       "example": "Comic timing can make an ordinary line much funnier.",
+       "exampleArabic": "يمكن للتوقيت الكوميدي أن يجعل عبارة عادية أكثر إضحاكًا.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -661,6 +981,38 @@
        "exampleArabic": "المهم هو أن الجميع بأمان.",
        "partOfSpeech": "phrase",
        "phonetic": null
+      },
+      {
+       "english": "inversion",
+       "arabic": "قلب ترتيب الجملة",
+       "example": "Inversion places the auxiliary before the subject after certain negative expressions.",
+       "exampleArabic": "يضع قلب ترتيب الجملة الفعل المساعد قبل الفاعل بعد بعض التعبيرات السلبية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "fronting",
+       "arabic": "تقديم عنصر",
+       "example": "Fronting moves an element to the beginning of a sentence for emphasis.",
+       "exampleArabic": "ينقل تقديم العنصر جزءًا إلى بداية الجملة للتأكيد.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "negative adverbial",
+       "arabic": "ظرف سلبي",
+       "example": "A negative adverbial such as 'rarely' can trigger inversion in formal English.",
+       "exampleArabic": "يمكن لظرف سلبي مثل rarely أن يؤدي إلى قلب ترتيب الجملة في الإنجليزية الرسمية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "cleft sentence",
+       "arabic": "جملة مشطورة",
+       "example": "A cleft sentence can highlight one part of a message: 'What we need is time.'",
+       "exampleArabic": "يمكن للجملة المشطورة إبراز جزء من الرسالة مثل: ما نحتاجه هو الوقت.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -718,6 +1070,38 @@
        "example": "The data was incomplete; hence the delay.",
        "exampleArabic": "كانت البيانات ناقصة؛ ومن ثَمّ التأخير.",
        "partOfSpeech": "adverb",
+       "phonetic": null
+      },
+      {
+       "english": "contrastive marker",
+       "arabic": "أداة ربط للمقابلة",
+       "example": "A contrastive marker makes the shift between opposing ideas explicit.",
+       "exampleArabic": "تجعل أداة الربط للمقابلة الانتقال بين فكرتين متعارضتين واضحًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "logical progression",
+       "arabic": "تسلسل منطقي",
+       "example": "Each paragraph should contribute to a clear logical progression.",
+       "exampleArabic": "ينبغي أن يسهم كل فقرة في تسلسل منطقي واضح.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "referential cohesion",
+       "arabic": "ترابط إحالي",
+       "example": "Pronouns can improve referential cohesion when their reference is unambiguous.",
+       "exampleArabic": "يمكن للضمائر تحسين الترابط الإحالي عندما يكون مرجعها غير ملتبس.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "transition",
+       "arabic": "انتقال",
+       "example": "A strong transition shows how the next idea relates to the previous one.",
+       "exampleArabic": "يوضح الانتقال القوي علاقة الفكرة التالية بالسابقة.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -786,6 +1170,38 @@
        "exampleArabic": "رُفع الاجتماع حتى يوم الاثنين.",
        "partOfSpeech": "verb",
        "phonetic": null
+      },
+      {
+       "english": "quorum",
+       "arabic": "نصاب",
+       "example": "The committee could not vote because it did not have a quorum.",
+       "exampleArabic": "لم تتمكن اللجنة من التصويت لعدم اكتمال النصاب.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "motion",
+       "arabic": "اقتراح رسمي",
+       "example": "A member proposed a motion to postpone the decision.",
+       "exampleArabic": "قدم أحد الأعضاء اقتراحًا رسميًا لتأجيل القرار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "facilitate",
+       "arabic": "يدير النقاش",
+       "example": "A good chair can facilitate disagreement without letting the meeting lose focus.",
+       "exampleArabic": "يمكن لرئيس جيد إدارة الخلاف دون أن يسمح للاجتماع بفقدان التركيز.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "timebox",
+       "arabic": "يحدد وقتًا",
+       "example": "We should timebox this discussion to fifteen minutes and then decide the next step.",
+       "exampleArabic": "ينبغي أن نحدد لهذا النقاش خمس عشرة دقيقة ثم نقرر الخطوة التالية.",
+       "partOfSpeech": "verb",
+       "phonetic": null
       }
      ]
     },
@@ -843,6 +1259,38 @@
        "example": "Managers are accountable for their teams.",
        "exampleArabic": "المديرون مسؤولون عن فرقهم.",
        "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "strategic impact",
+       "arabic": "أثر استراتيجي",
+       "example": "I explained the strategic impact of the project rather than listing tasks.",
+       "exampleArabic": "شرحت الأثر الاستراتيجي للمشروع بدل سرد المهام.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "stakeholder management",
+       "arabic": "إدارة أصحاب المصلحة",
+       "example": "The role required careful stakeholder management across several departments.",
+       "exampleArabic": "تطلب الدور إدارة دقيقة لأصحاب المصلحة عبر عدة إدارات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "turnaround plan",
+       "arabic": "خطة إنقاذ",
+       "example": "I developed a turnaround plan that focused on cash, customers and execution.",
+       "exampleArabic": "طورت خطة إنقاذ ركزت على النقد والعملاء والتنفيذ.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "measurable outcome",
+       "arabic": "نتيجة قابلة للقياس",
+       "example": "A strong interview example ends with a measurable outcome.",
+       "exampleArabic": "ينتهي مثال المقابلة القوي بنتيجة قابلة للقياس.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -902,6 +1350,38 @@
        "exampleArabic": "حتى المتحدثون المتمرّسون يشعرون برهبة المسرح.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "call to action",
+       "arabic": "دعوة إلى اتخاذ إجراء",
+       "example": "A strong call to action tells the audience what you want them to do next.",
+       "exampleArabic": "توضح الدعوة القوية إلى اتخاذ إجراء ما الذي تريد من الجمهور فعله بعد ذلك.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "signposting",
+       "arabic": "إشارات تنظيمية",
+       "example": "Clear signposting helps an audience follow a complex talk.",
+       "exampleArabic": "تساعد الإشارات التنظيمية الواضحة الجمهور على متابعة حديث معقد.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "vocal variety",
+       "arabic": "تنوع صوتي",
+       "example": "Vocal variety can prevent a long presentation from sounding monotonous.",
+       "exampleArabic": "يمكن للتنوع الصوتي أن يمنع العرض الطويل من أن يبدو رتيبًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "audience engagement",
+       "arabic": "تفاعل الجمهور",
+       "example": "A relevant example can increase audience engagement.",
+       "exampleArabic": "يمكن لمثال ذي صلة أن يزيد تفاعل الجمهور.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -958,6 +1438,38 @@
        "arabic": "العائد على الاستثمار",
        "example": "The project offers a high return on investment.",
        "exampleArabic": "يقدّم المشروع عائدًا مرتفعًا على الاستثمار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "value proposition",
+       "arabic": "عرض قيمة",
+       "example": "The proposal needs a clear value proposition for the decision-maker.",
+       "exampleArabic": "يحتاج المقترح إلى عرض قيمة واضح لصاحب القرار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "implementation plan",
+       "arabic": "خطة تنفيذ",
+       "example": "An implementation plan should identify owners, milestones and dependencies.",
+       "exampleArabic": "ينبغي أن تحدد خطة التنفيذ المسؤولين والمراحل والاعتمادات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "cost-benefit analysis",
+       "arabic": "تحليل التكلفة والمنفعة",
+       "example": "A cost-benefit analysis compares expected gains with financial and non-financial costs.",
+       "exampleArabic": "يقارن تحليل التكلفة والمنفعة المكاسب المتوقعة بالتكاليف المالية وغير المالية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "success metric",
+       "arabic": "مؤشر نجاح",
+       "example": "Each success metric should show how the proposal will be evaluated after launch.",
+       "exampleArabic": "ينبغي أن يوضح كل مؤشر نجاح كيف سيُقيّم المقترح بعد التنفيذ.",
        "partOfSpeech": "noun",
        "phonetic": null
       }

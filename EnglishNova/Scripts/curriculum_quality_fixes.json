@@ -973,8 +973,8 @@
       "exampleArabic": "أرسلت بريدًا إلكترونيًا إلى مديري هذا الصباح."
     },
     "a1-051-because-3": {
-      "example": "I am sorry I am late because the traffic was bad.",
-      "exampleArabic": "آسف على التأخير لأن الزحام كان شديدًا."
+      "example": "I was late because the bus was late.",
+      "exampleArabic": "تأخرت لأن الحافلة تأخرت."
     },
     "a1-055-problem-3": {
       "example": "There is a problem with my internet connection.",
@@ -1261,6 +1261,29 @@
       "arabic": "تحيات (في ختام الرسالة)",
       "example": "I end my email with 'Kind regards'.",
       "exampleArabic": "أختم رسالتي بعبارة «مع أطيب التحيات»."
+    },
+    "a1-u9-l4-xv2": {
+      "arabic": "مثير للاهتمام",
+      "exampleArabic": "هذه القصة مثيرة للاهتمام."
+    },
+    "a1-054-prefer-1": {
+      "example": "I prefer this bag because it is lighter.",
+      "exampleArabic": "أفضل هذه الحقيبة لأنها أخف وزنًا."
+    },
+    "a1-054-lighter-2": {
+      "arabic": "أخف وزنًا",
+      "example": "I prefer this bag because it is lighter.",
+      "exampleArabic": "أفضل هذه الحقيبة لأنها أخف وزنًا."
+    },
+    "a1-054-because-3": {
+      "example": "I prefer this bag because it is lighter.",
+      "exampleArabic": "أفضل هذه الحقيبة لأنها أخف وزنًا."
+    },
+    "a1-u10-l1-xv2": {
+      "arabic": "موجّه الشبكة (راوتر)"
+    },
+    "a1-057-wrong-2": {
+      "arabic": "غير الصحيح / غير المطلوب"
     }
   },
   "arabicGlossById": {

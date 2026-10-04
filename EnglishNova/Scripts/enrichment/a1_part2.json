@@ -1092,8 +1092,8 @@
         ],
         "a1-053-than-2": [
           {
-            "example": "Tea is hotter than juice.",
-            "exampleArabic": "الشاي أسخن من العصير."
+            "example": "This tea is hotter than that juice.",
+            "exampleArabic": "هذا الشاي أسخن من ذلك العصير."
           }
         ],
         "a1-053-bag-3": [

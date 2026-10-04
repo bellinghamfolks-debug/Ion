@@ -939,5 +939,241 @@
       "explanationAr": "نستخدم reply to قبل الرسالة أو الشخص الذي نرد عليه.",
       "explanationEn": "Use reply to before the message or person receiving the reply."
     }
+  },
+  "a1-u9-l1": {
+    "focusAr": "اجعل الدعوة واضحة بذكر النشاط واليوم: Would you like to meet on Friday? للسؤال عن التفرغ استخدم Are you free? كلمة like داخل would like تعني يرغب، لا السؤال عن عادة يحبها الشخص.",
+    "focusEn": "Make an invitation clear by naming the activity and day: Would you like to meet on Friday? Ask about availability with Are you free? Like in would like expresses a wish; it does not ask about a usual preference.",
+    "taskAr": "ادع صديقًا إلى اللقاء يوم الاثنين.",
+    "taskEn": "Invite a friend to meet on Monday.",
+    "exampleEn": "Would you like to meet on Monday?",
+    "exampleAr": "هل ترغب في اللقاء يوم الاثنين؟",
+    "check": {
+      "promptEn": "Which question invites someone to a particular meeting?",
+      "choices": [
+        "Would you like to meet on Friday?",
+        "Do you like Fridays?",
+        "What day comes after Friday?"
+      ],
+      "answer": "Would you like to meet on Friday?",
+      "explanationAr": "Would you like to تقدم دعوة محددة. Do you like تسأل عن الإعجاب عمومًا، والسؤال الثالث عن ترتيب الأيام.",
+      "explanationEn": "Would you like to offers a specific invitation. Do you like asks about a general preference, and the third question asks about day order."
+    }
+  },
+  "a1-u9-l2": {
+    "focusAr": "I would love to أوI'd love to قبول متحمس، لكن إضافة but I am busy تحولها إلى اعتذار مهذب عن الحضور. اقرأ الجملة كاملة قبل تحديد إن كان الشخص قد وافق؛ but تقدم معلومة تعارض التوقع الأول.",
+    "focusEn": "I would love to or I'd love to shows enthusiasm, but adding but I am busy makes it a polite refusal. Read the whole sentence before deciding whether the person accepted; but introduces information that changes the initial expectation.",
+    "taskAr": "ارفض دعوة الليلة بأدب لأنك مشغول.",
+    "taskEn": "Politely decline an invitation tonight because you are busy.",
+    "exampleEn": "I'd love to, but I am busy tonight.",
+    "exampleAr": "يسعدني ذلك، لكنني مشغول الليلة.",
+    "check": {
+      "promptEn": "I'd love to, but I am busy. Is the speaker accepting the invitation?",
+      "choices": [
+        "No, the speaker is politely declining.",
+        "Yes, the speaker confirms attendance.",
+        "The speaker is asking the price."
+      ],
+      "answer": "No, the speaker is politely declining.",
+      "explanationAr": "عبارة but I am busy توضح عدم التمكن من الحضور رغم البداية اللطيفة.",
+      "explanationEn": "But I am busy shows that the speaker cannot attend despite the friendly opening."
+    }
+  },
+  "a1-u9-l3": {
+    "focusAr": "ابدأ الاعتذار بـ I am sorry. بعد because اذكر جملة فيها فاعل وفعل: because the bus was late. أما because of فتأتي قبل اسم: because of the traffic. لا تخلط النمطين.",
+    "focusEn": "Start an apology with I am sorry. Follow because with a clause containing a subject and verb: because the bus was late. Because of takes a noun phrase: because of the traffic. Keep the two patterns distinct.",
+    "taskAr": "اعتذر عن التأخر لأن الحافلة تأخرت.",
+    "taskEn": "Apologise for being late because the bus was late.",
+    "exampleEn": "I am sorry I was late. The bus was late.",
+    "exampleAr": "آسف لأنني تأخرت. تأخرت الحافلة.",
+    "check": {
+      "promptEn": "Complete: I was late because _____ was late.",
+      "choices": [
+        "the bus",
+        "of the bus",
+        "of"
+      ],
+      "answer": "the bus",
+      "explanationAr": "because هنا تتبعها جملة كاملة: the bus was late. وجود was يجعل because of غير مناسبة.",
+      "explanationEn": "Because is followed here by a full clause: the bus was late. The existing was makes because of unsuitable."
+    }
+  },
+  "a1-u9-l4": {
+    "focusAr": "I think تقدم رأيًا، ويمكن أن يتبعها سبب يبدأ بـ because. interesting تعني مثيرًا للاهتمام، وuseful مفيدًا؛ قد يكون شيء مثيرًا للاهتمام دون فائدة عملية مباشرة. للموافقة قل I agree، لا I am agree.",
+    "focusEn": "I think introduces an opinion, which can be followed by a reason using because. Interesting and useful are different judgements; something can hold your interest without being practically useful. Say I agree, not I am agree.",
+    "taskAr": "قل إن التطبيق مفيد لأنه يساعدك على التعلم.",
+    "taskEn": "Say that the app is useful because it helps you learn.",
+    "exampleEn": "I think this app is useful because it helps me learn.",
+    "exampleAr": "أعتقد أن هذا التطبيق مفيد لأنه يساعدني على التعلم.",
+    "check": {
+      "promptEn": "Choose the correct agreement.",
+      "choices": [
+        "I agree with you.",
+        "I am agree with you.",
+        "I agree you."
+      ],
+      "answer": "I agree with you.",
+      "explanationAr": "agree فعل، فلا يحتاج إلى am في المضارع البسيط. نستخدم with قبل الشخص الذي نوافقه.",
+      "explanationEn": "Agree is a verb, so it does not take am in the simple present. Use with before the person you agree with."
+    },
+    "lessonUpdates": {
+      "modelSentence": "I think this book is useful because it has clear examples.",
+      "modelSentenceArabic": "أعتقد أن هذا الكتاب مفيد لأنه يتضمن أمثلة واضحة."
+    }
+  },
+  "a1-u9-l5": {
+    "focusAr": "نستخدم cheaper وsmaller للمقارنة، ثم than قبل الخيار الآخر. لا تجمع more مع cheaper؛ فـ er تحمل معنى المقارنة بالفعل. bigger يضاعف حرف g عند إضافة er إلى big.",
+    "focusEn": "Use cheaper and smaller for comparisons, followed by than before the other option. Do not add more to cheaper; er already marks the comparison. Bigger doubles the g when er is added to big.",
+    "taskAr": "قارن حقيبتين وقل إن هذه أرخص من تلك.",
+    "taskEn": "Compare two bags and say that this one is cheaper.",
+    "exampleEn": "This bag is cheaper than that one.",
+    "exampleAr": "هذه الحقيبة أرخص من تلك.",
+    "check": {
+      "promptEn": "Complete: This bag is cheaper _____ that one.",
+      "choices": [
+        "than",
+        "then",
+        "that"
+      ],
+      "answer": "than",
+      "explanationAr": "than تربط طرفي المقارنة. then تعني ثم أو بعد ذلك وليست أداة مقارنة.",
+      "explanationEn": "Than links the two things compared. Then means next or afterwards and is not a comparison word."
+    }
+  },
+  "a1-u9-l6": {
+    "focusAr": "prefer تعني يفضل. عند ذكر خيارين بالاسم نستخدم prefer tea to coffee، لا prefer tea than coffee. أضف because ثم سببًا واضحًا. lighter تحتاج إلى سياق يحدد المقارنة، مثل وزن حقيبتين.",
+    "focusEn": "Prefer expresses a preference. With two noun choices, use prefer tea to coffee, not prefer tea than coffee. Add because and a clear reason. Lighter needs a context that identifies the comparison, such as the weight of two bags.",
+    "taskAr": "عبّر عن تفضيل الشاي على القهوة باستخدام prefer.",
+    "taskEn": "Use prefer to say that you prefer tea to coffee.",
+    "exampleEn": "I prefer tea to coffee.",
+    "exampleAr": "أفضل الشاي على القهوة.",
+    "check": {
+      "promptEn": "Complete: I prefer tea _____ coffee.",
+      "choices": [
+        "to",
+        "than",
+        "then"
+      ],
+      "answer": "to",
+      "explanationAr": "مع prefer وخيارين اسميين نستخدم to. المقارنة بصفة مثل cheaper تستخدم than.",
+      "explanationEn": "Use to with prefer and two noun choices. An adjective comparison such as cheaper uses than."
+    },
+    "lessonUpdates": {
+      "modelSentence": "I prefer this bag because it is lighter.",
+      "modelSentenceArabic": "أفضل هذه الحقيبة لأنها أخف وزنًا."
+    }
+  },
+  "a1-u10-l1": {
+    "focusAr": "not working تعني لا يعمل، أما slow فتعني يعمل ببطء؛ فرق مهم عند وصف المشكلة. استخدم connect to the internet عند الحديث عن الاتصال. بعد cannot يأتي connect بصيغته الأساسية.",
+    "focusEn": "Not working and slow describe different problems: a slow connection still works. Use connect to the internet for making a connection. After cannot, use the base verb connect.",
+    "taskAr": "قل إنك لا تستطيع الاتصال بالإنترنت.",
+    "taskEn": "Say that you cannot connect to the internet.",
+    "exampleEn": "I cannot connect to the internet.",
+    "exampleAr": "لا أستطيع الاتصال بالإنترنت.",
+    "check": {
+      "promptEn": "Complete: I cannot connect _____ the internet.",
+      "choices": [
+        "to",
+        "on",
+        "at"
+      ],
+      "answer": "to",
+      "explanationAr": "التركيب هو connect to عند تسمية الشبكة أو الجهاز الذي تتصل به.",
+      "explanationEn": "Use connect to when naming the network or device you are connecting to."
+    }
+  },
+  "a1-u10-l2": {
+    "focusAr": "leave تعني يترك في تعليمات التسليم، لا يغادر كما في leave home. حدّد الشيء ثم مكانه: leave the package at the door. ring the bell تعني قرع الجرس، وليس الاتصال الهاتفي في هذا السياق.",
+    "focusEn": "Leave means put something somewhere in delivery instructions, rather than depart as in leave home. Name the object and its location: leave the package at the door. Ring the bell means use the doorbell, not make a phone call here.",
+    "taskAr": "اطلب ترك الطرد عند الباب.",
+    "taskEn": "Ask for the package to be left at the door.",
+    "exampleEn": "Please leave the package at the door.",
+    "exampleAr": "من فضلك، اترك الطرد عند الباب.",
+    "check": {
+      "promptEn": "In Leave the order at the door, what does leave mean?",
+      "choices": [
+        "put it there and let it remain",
+        "cancel the order",
+        "open the door"
+      ],
+      "answer": "put it there and let it remain",
+      "explanationAr": "leave هنا تعني وضع الطلب وتركه في المكان المحدد. المعنى يتحدد بالمفعول وبعبارة المكان.",
+      "explanationEn": "Leave here means put the order in the named place and let it remain there. The object and location determine the meaning."
+    }
+  },
+  "a1-u10-l3": {
+    "focusAr": "اشرح المشكلة أولًا بجملة واقعية: I received the wrong item. ثم اذكر طلبك. wrong item منتج مختلف عن المطلوب، وbroken item منتج تالف؛ لا تعني العبارتان المشكلة نفسها.",
+    "focusEn": "First state the problem factually: I received the wrong item. Then explain what you want. A wrong item is different from the one ordered; a broken item is damaged. These describe different problems.",
+    "taskAr": "قل إنك استلمت المنتج الخطأ واطلب المساعدة.",
+    "taskEn": "Say that you received the wrong item and ask for help.",
+    "exampleEn": "I received the wrong item. Can you help me?",
+    "exampleAr": "استلمت المنتج الخطأ. هل يمكنك مساعدتي؟",
+    "check": {
+      "promptEn": "You ordered a shirt but received shoes. Which description fits?",
+      "choices": [
+        "the wrong item",
+        "the correct item",
+        "a late meeting"
+      ],
+      "answer": "the wrong item",
+      "explanationAr": "المنتج مختلف عن المطلوب، لذلك نقول the wrong item. لا نعرف من الموقف إن كان تالفًا.",
+      "explanationEn": "The product differs from the order, so it is the wrong item. The situation does not tell us whether it is damaged."
+    }
+  },
+  "a1-u10-l4": {
+    "focusAr": "lost هي صيغة الماضي من lose. أعط وصفًا محددًا للشيء المفقود: small black wallet. في هذا النمط تأتي صفة الحجم قبل اللون، ثم الاسم. لا تحذف a قبل الشيء المفرد المعدود.",
+    "focusEn": "Lost is the past of lose. Give a specific description of the missing item: small black wallet. In this pattern the size comes before the colour, followed by the noun. Keep a before a singular countable item.",
+    "taskAr": "قل إنك فقدت حقيبة حمراء صغيرة.",
+    "taskEn": "Say that you lost a small red bag.",
+    "exampleEn": "I lost a small red bag.",
+    "exampleAr": "فقدت حقيبة حمراء صغيرة.",
+    "check": {
+      "promptEn": "Choose the usual adjective order.",
+      "choices": [
+        "a small black wallet",
+        "a black small wallet",
+        "a wallet small black"
+      ],
+      "answer": "a small black wallet",
+      "explanationAr": "الترتيب المعتاد هنا هو الحجم ثم اللون ثم الاسم: small black wallet.",
+      "explanationEn": "The usual order here is size, colour, then noun: small black wallet."
+    }
+  },
+  "a1-u10-l5": {
+    "focusAr": "must تعني أن الفعل مطلوب، وmust not أوmustn't تعني أنه ممنوع. بعدهما يأتي الفعل الأساسي دون to. لا تخلط must not مع don't have to؛ فالأخيرة تعني أن الفعل غير مطلوب، لا أنه ممنوع.",
+    "focusEn": "Must makes an action necessary; must not or mustn't prohibits it. Both take a base verb without to. Do not confuse must not with don't have to, which removes necessity rather than forbidding the action.",
+    "taskAr": "انقل قاعدة مكتوبة تقول إن إظهار التذكرة مطلوب.",
+    "taskEn": "Report a written rule requiring passengers to show a ticket.",
+    "exampleEn": "You must show your ticket.",
+    "exampleAr": "يجب أن تُظهر تذكرتك.",
+    "check": {
+      "promptEn": "A sign says You must not smoke here. What does it mean?",
+      "choices": [
+        "Smoking is prohibited here.",
+        "Smoking is optional here.",
+        "Smoking is required here."
+      ],
+      "answer": "Smoking is prohibited here.",
+      "explanationAr": "must not تعبر عن المنع، لا عن حرية الاختيار ولا عن الإلزام بالفعل.",
+      "explanationEn": "Must not expresses prohibition, not a choice or a requirement to do the action."
+    }
+  },
+  "a1-u10-l6": {
+    "focusAr": "ميّز زمن كل جزء: yesterday مع فعل ماضٍ مثل booked، وtomorrow مع will ثم الفعل الأساسي. يمكنك جمعهما بـ and مع إبقاء كل زمن مناسبًا لمعناه. أضف طلبًا قصيرًا عندما يحتاج الموقف إلى مساعدة.",
+    "focusEn": "Match each part to its time: yesterday with a past verb such as booked, and tomorrow with will plus a base verb. Join them with and while keeping each tense appropriate. Add a short request when the situation needs help.",
+    "taskAr": "اذكر أنك حجزت غرفة أمس وستسافر غدًا، ثم اطلب مساعدة.",
+    "taskEn": "Say that you booked a room yesterday and will travel tomorrow, then ask for help.",
+    "exampleEn": "I booked a room yesterday. I will travel tomorrow. Can you help me?",
+    "exampleAr": "حجزت غرفة أمس. سأسافر غدًا. هل يمكنك مساعدتي؟",
+    "check": {
+      "promptEn": "Complete: Yesterday I _____ a room, and tomorrow I will travel.",
+      "choices": [
+        "booked",
+        "book",
+        "booking"
+      ],
+      "answer": "booked",
+      "explanationAr": "yesterday تضع الحجز في الماضي، لذلك نستخدم booked. أما السفر فمستقبل تحدده tomorrow وwill.",
+      "explanationEn": "Yesterday places the booking in the past, so use booked. Tomorrow and will place the travel in the future."
+    }
   }
 }

@@ -1,0 +1,503 @@
+{
+  "vocabularyById": {
+    "a2-u1-l1-w2": {
+      "english": "running late",
+      "arabic": "متأخر عن الموعد",
+      "example": "I'm running late, so I'll arrive in about ten minutes.",
+      "exampleArabic": "سأتأخر عن الموعد، لذلك سأصل خلال نحو عشر دقائق.",
+      "partOfSpeech": "phrase",
+      "phonetic": null
+    },
+    "a2-u1-l1-w3": {
+      "english": "reschedule",
+      "arabic": "يعيد جدولة",
+      "example": "Can we reschedule the meeting for tomorrow afternoon?",
+      "exampleArabic": "هل يمكننا إعادة جدولة الاجتماع إلى عصر الغد؟",
+      "partOfSpeech": "verb",
+      "phonetic": null
+    },
+    "a2-extra-2-w2": {
+      "english": "ago",
+      "arabic": "منذ / قبل",
+      "example": "I visited Jeddah two weeks ago.",
+      "exampleArabic": "زرت جدة قبل أسبوعين.",
+      "partOfSpeech": "adverb",
+      "phonetic": null
+    },
+    "a2-extra-3-w2": {
+      "english": "plan to",
+      "arabic": "يخطط أن",
+      "example": "I plan to study for an hour tonight.",
+      "exampleArabic": "أخطط للدراسة لمدة ساعة الليلة.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "a2-extra-4-w2": {
+      "english": "departure",
+      "arabic": "مغادرة",
+      "example": "Our departure is at eight thirty.",
+      "exampleArabic": "موعد مغادرتنا الساعة الثامنة والنصف.",
+      "partOfSpeech": "noun",
+      "phonetic": null
+    },
+    "a2-extra-5-w2": {
+      "english": "feel unwell",
+      "arabic": "يشعر بتوعك",
+      "example": "I feel unwell, so I'm going to rest.",
+      "exampleArabic": "أشعر بتوعك، لذلك سأرتاح.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "a2-extra-5-w3": {
+      "english": "symptom",
+      "arabic": "عرض مرضي",
+      "example": "A cough can be a symptom of a cold.",
+      "exampleArabic": "قد يكون السعال عرضًا من أعراض الزكام.",
+      "partOfSpeech": "noun",
+      "phonetic": null
+    },
+    "a2-extra-6-w2": {
+      "english": "similar to",
+      "arabic": "مشابه لـ",
+      "example": "This model is similar to the one I bought last year.",
+      "exampleArabic": "هذا الطراز مشابه للذي اشتريته العام الماضي.",
+      "partOfSpeech": "adjective phrase",
+      "phonetic": null
+    },
+    "a2-extra-6-w3": {
+      "english": "different from",
+      "arabic": "مختلف عن",
+      "example": "My new phone is different from my old one.",
+      "exampleArabic": "هاتفي الجديد مختلف عن هاتفي القديم.",
+      "partOfSpeech": "adjective phrase",
+      "phonetic": null
+    },
+    "a2-extra-7-w2": {
+      "english": "sounds good",
+      "arabic": "يبدو جيدًا",
+      "example": "Sounds good. What time shall we meet?",
+      "exampleArabic": "يبدو جيدًا. في أي وقت نلتقي؟",
+      "partOfSpeech": "phrase",
+      "phonetic": null
+    },
+    "a2-extra-7-w3": {
+      "english": "maybe another time",
+      "arabic": "ربما في وقت آخر",
+      "example": "I can't come tonight. Maybe another time.",
+      "exampleArabic": "لا أستطيع الحضور الليلة. ربما في وقت آخر.",
+      "partOfSpeech": "phrase",
+      "phonetic": null
+    },
+    "a2-extra-8-w2": {
+      "english": "due date",
+      "arabic": "موعد التسليم",
+      "example": "The due date for the report is Friday.",
+      "exampleArabic": "موعد تسليم التقرير يوم الجمعة.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "a2-extra-8-w3": {
+      "english": "work task",
+      "arabic": "مهمة عمل",
+      "example": "I finish one work task before starting the next.",
+      "exampleArabic": "أنهي مهمة عمل واحدة قبل أن أبدأ التالية.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "b1-u1-l1-w2": {
+      "english": "miss a connection",
+      "arabic": "يفوّت رحلة مواصلة",
+      "example": "We may miss our connection if the first flight is delayed.",
+      "exampleArabic": "قد نفوّت رحلة المواصلة إذا تأخرت الرحلة الأولى.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "b1-u1-l1-w3": {
+      "english": "rebook",
+      "arabic": "يعيد الحجز",
+      "example": "The airline helped us rebook our flight for the next morning.",
+      "exampleArabic": "ساعدتنا شركة الطيران على إعادة حجز رحلتنا لصباح اليوم التالي.",
+      "partOfSpeech": "verb",
+      "phonetic": null
+    },
+    "b1-extra-2-w2": {
+      "english": "already",
+      "arabic": "بالفعل / مسبقًا",
+      "example": "I've already finished the assignment.",
+      "exampleArabic": "لقد أنهيت الواجب بالفعل.",
+      "partOfSpeech": "adverb",
+      "phonetic": null
+    },
+    "b1-extra-2-w3": {
+      "english": "yet",
+      "arabic": "بعد / حتى الآن",
+      "example": "I haven't sent the assignment yet.",
+      "exampleArabic": "لم أرسل الواجب بعد.",
+      "partOfSpeech": "adverb",
+      "phonetic": null
+    },
+    "b1-extra-3-w2": {
+      "english": "personally",
+      "arabic": "شخصيًا",
+      "example": "Personally, I think remote work is useful.",
+      "exampleArabic": "شخصيًا، أرى أن العمل عن بُعد مفيد.",
+      "partOfSpeech": "adverb",
+      "phonetic": null
+    },
+    "b1-extra-3-w3": {
+      "english": "give a reason",
+      "arabic": "يذكر سببًا",
+      "example": "Give a reason for your opinion and add an example.",
+      "exampleArabic": "اذكر سببًا لرأيك وأضف مثالًا.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "b1-extra-4-w2": {
+      "english": "meanwhile",
+      "arabic": "في هذه الأثناء",
+      "example": "I was speaking to the manager; meanwhile, my colleague checked the booking.",
+      "exampleArabic": "كنت أتحدث إلى المدير، وفي هذه الأثناء راجع زميلي الحجز.",
+      "partOfSpeech": "adverb",
+      "phonetic": null
+    },
+    "b1-extra-4-w3": {
+      "english": "at first",
+      "arabic": "في البداية",
+      "example": "At first, I thought we were at the wrong station.",
+      "exampleArabic": "في البداية ظننت أننا في المحطة الخطأ.",
+      "partOfSpeech": "phrase",
+      "phonetic": null
+    },
+    "b1-extra-5-w2": {
+      "english": "solution",
+      "arabic": "حل",
+      "example": "We need a practical solution that both teams can accept.",
+      "exampleArabic": "نحتاج إلى حل عملي يمكن للفريقين قبوله.",
+      "partOfSpeech": "noun",
+      "phonetic": null
+    },
+    "b1-extra-5-w3": {
+      "english": "alternative",
+      "arabic": "بديل",
+      "example": "If that plan fails, we should consider an alternative.",
+      "exampleArabic": "إذا فشلت تلك الخطة، فعلينا التفكير في بديل.",
+      "partOfSpeech": "noun",
+      "phonetic": null
+    },
+    "b1-extra-6-w2": {
+      "english": "headline",
+      "arabic": "عنوان رئيسي",
+      "example": "The headline gives a dramatic version of the story.",
+      "exampleArabic": "يقدم العنوان الرئيسي صياغة مثيرة للقصة.",
+      "partOfSpeech": "noun",
+      "phonetic": null
+    },
+    "b1-extra-6-w3": {
+      "english": "source",
+      "arabic": "مصدر",
+      "example": "Always check the source before sharing a news story.",
+      "exampleArabic": "تحقق دائمًا من المصدر قبل مشاركة خبر.",
+      "partOfSpeech": "noun",
+      "phonetic": null
+    },
+    "b1-extra-7-w2": {
+      "english": "agenda",
+      "arabic": "جدول أعمال",
+      "example": "The first item on the agenda is the delivery delay.",
+      "exampleArabic": "البند الأول في جدول الأعمال هو تأخر التسليم.",
+      "partOfSpeech": "noun",
+      "phonetic": null
+    },
+    "b1-extra-7-w3": {
+      "english": "take notes",
+      "arabic": "يدوّن ملاحظات",
+      "example": "I take notes so I can remember the main decisions.",
+      "exampleArabic": "أدوّن ملاحظات كي أتذكر القرارات الرئيسية.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "b1-extra-8-w2": {
+      "english": "regarding",
+      "arabic": "بشأن",
+      "example": "I am writing regarding our meeting next Tuesday.",
+      "exampleArabic": "أكتب بشأن اجتماعنا يوم الثلاثاء المقبل.",
+      "partOfSpeech": "preposition",
+      "phonetic": null
+    },
+    "b1-extra-8-w3": {
+      "english": "kind regards",
+      "arabic": "مع أطيب التحيات",
+      "example": "Kind regards is a common professional email closing.",
+      "exampleArabic": "«مع أطيب التحيات» خاتمة شائعة في البريد المهني.",
+      "partOfSpeech": "phrase",
+      "phonetic": null
+    },
+    "b2-u1-l1-w2": {
+      "english": "root cause",
+      "arabic": "سبب جذري",
+      "example": "We need to identify the root cause before proposing a solution.",
+      "exampleArabic": "نحتاج إلى تحديد السبب الجذري قبل اقتراح حل.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "b2-u1-l1-w3": {
+      "english": "look into",
+      "arabic": "يتحقق من / يبحث في",
+      "example": "The team agreed to look into the issue in more detail.",
+      "exampleArabic": "وافق الفريق على بحث المسألة بمزيد من التفصيل.",
+      "partOfSpeech": "phrasal verb",
+      "phonetic": null
+    },
+    "b2-extra-2-w2": {
+      "english": "challenge a claim",
+      "arabic": "يتحدى ادعاءً",
+      "example": "A strong counterexample can challenge a claim that sounds convincing.",
+      "exampleArabic": "يمكن لمثال مضاد قوي أن يتحدى ادعاءً يبدو مقنعًا.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "b2-extra-2-w3": {
+      "english": "support a claim",
+      "arabic": "يدعم ادعاءً",
+      "example": "Use reliable evidence to support a claim rather than repeating it.",
+      "exampleArabic": "استخدم أدلة موثوقة لدعم الادعاء بدل تكراره.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "b2-extra-3-w2": {
+      "english": "provided that",
+      "arabic": "بشرط أن",
+      "example": "We can extend the deadline provided that everyone agrees.",
+      "exampleArabic": "يمكننا تمديد الموعد النهائي بشرط أن يوافق الجميع.",
+      "partOfSpeech": "conjunction",
+      "phonetic": null
+    },
+    "b2-extra-3-w3": {
+      "english": "otherwise",
+      "arabic": "وإلا / بخلاف ذلك",
+      "example": "Submit the form today; otherwise, your application may be delayed.",
+      "exampleArabic": "قدّم النموذج اليوم، وإلا فقد يتأخر طلبك.",
+      "partOfSpeech": "adverb",
+      "phonetic": null
+    },
+    "b2-extra-4-w2": {
+      "english": "be required to",
+      "arabic": "يُطلب منه أن",
+      "example": "Employees may be required to complete safety training.",
+      "exampleArabic": "قد يُطلب من الموظفين إكمال تدريب السلامة.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "b2-extra-4-w3": {
+      "english": "be carried out",
+      "arabic": "يُنفّذ",
+      "example": "The inspection will be carried out by an independent team.",
+      "exampleArabic": "سيُنفّذ التفتيش بواسطة فريق مستقل.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "b2-extra-5-w2": {
+      "english": "according to",
+      "arabic": "وفقًا لـ",
+      "example": "According to the report, demand fell during the second quarter.",
+      "exampleArabic": "وفقًا للتقرير، انخفض الطلب خلال الربع الثاني.",
+      "partOfSpeech": "preposition",
+      "phonetic": null
+    },
+    "b2-extra-5-w3": {
+      "english": "reportedly",
+      "arabic": "بحسب ما ورد / وفق التقارير",
+      "example": "The company is reportedly considering a change in strategy.",
+      "exampleArabic": "تفيد التقارير بأن الشركة تدرس تغييرًا في الاستراتيجية.",
+      "partOfSpeech": "adverb",
+      "phonetic": null
+    },
+    "b2-extra-6-w2": {
+      "english": "outline",
+      "arabic": "يعرض بإيجاز",
+      "example": "I will outline the three main findings before discussing the details.",
+      "exampleArabic": "سأعرض بإيجاز النتائج الثلاث الرئيسية قبل مناقشة التفاصيل.",
+      "partOfSpeech": "verb",
+      "phonetic": null
+    },
+    "b2-extra-6-w3": {
+      "english": "turn to",
+      "arabic": "ينتقل إلى",
+      "example": "Let's turn to the final recommendation.",
+      "exampleArabic": "لننتقل إلى التوصية الأخيرة.",
+      "partOfSpeech": "phrasal verb",
+      "phonetic": null
+    },
+    "b2-extra-7-w2": {
+      "english": "counteroffer",
+      "arabic": "عرض مضاد",
+      "example": "They rejected the first price and made a counteroffer.",
+      "exampleArabic": "رفضوا السعر الأول وقدموا عرضًا مضادًا.",
+      "partOfSpeech": "noun",
+      "phonetic": null
+    },
+    "b2-extra-7-w3": {
+      "english": "acceptable terms",
+      "arabic": "شروط مقبولة",
+      "example": "Both sides continued negotiating until they reached acceptable terms.",
+      "exampleArabic": "واصل الطرفان التفاوض حتى توصلا إلى شروط مقبولة.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "b2-extra-8-w2": {
+      "english": "selective framing",
+      "arabic": "تأطير انتقائي",
+      "example": "Selective framing can make the same facts appear more positive or negative.",
+      "exampleArabic": "يمكن للتأطير الانتقائي أن يجعل الحقائق نفسها تبدو أكثر إيجابية أو سلبية.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "b2-extra-8-w3": {
+      "english": "source credibility",
+      "arabic": "مصداقية المصدر",
+      "example": "Source credibility matters when you evaluate a controversial claim.",
+      "exampleArabic": "تهم مصداقية المصدر عند تقييم ادعاء مثير للجدل.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "c1-u1-l1-w2": {
+      "english": "economy of expression",
+      "arabic": "اقتصاد في التعبير",
+      "example": "Economy of expression can make complex writing clearer without making it simplistic.",
+      "exampleArabic": "يمكن للاقتصاد في التعبير أن يجعل الكتابة المعقدة أوضح دون تبسيط مخل.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "c1-u1-l1-w3": {
+      "english": "stylistic consistency",
+      "arabic": "اتساق أسلوبي",
+      "example": "Stylistic consistency helps a long report feel coherent from beginning to end.",
+      "exampleArabic": "يساعد الاتساق الأسلوبي التقرير الطويل على أن يبدو مترابطًا من البداية إلى النهاية.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "c1-extra-2-w2": {
+      "english": "thesis statement",
+      "arabic": "عبارة الأطروحة",
+      "example": "A precise thesis statement tells the reader what the essay will argue.",
+      "exampleArabic": "تخبر عبارة الأطروحة الدقيقة القارئ بما ستجادل به المقالة.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "c1-extra-2-w3": {
+      "english": "coherent paragraph",
+      "arabic": "فقرة مترابطة",
+      "example": "A coherent paragraph develops one controlling idea through connected evidence.",
+      "exampleArabic": "تطوّر الفقرة المترابطة فكرة محورية واحدة بأدلة متصلة.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "c1-extra-3-w2": {
+      "english": "appears to",
+      "arabic": "يبدو أنه",
+      "example": "The pattern appears to persist across several independent samples.",
+      "exampleArabic": "يبدو أن النمط يستمر عبر عدة عينات مستقلة.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "c1-extra-3-w3": {
+      "english": "tentatively",
+      "arabic": "على نحو غير جازم",
+      "example": "The authors tentatively interpret the result as evidence of a broader trend.",
+      "exampleArabic": "يفسر المؤلفون النتيجة على نحو غير جازم بوصفها دليلًا على اتجاه أوسع.",
+      "partOfSpeech": "adverb",
+      "phonetic": null
+    },
+    "c1-extra-4-w2": {
+      "english": "assumption",
+      "arabic": "افتراض",
+      "example": "The argument depends on an assumption that the author never defends.",
+      "exampleArabic": "تعتمد الحجة على افتراض لا يدافع عنه المؤلف.",
+      "partOfSpeech": "noun",
+      "phonetic": null
+    },
+    "c1-extra-4-w3": {
+      "english": "logical gap",
+      "arabic": "فجوة منطقية",
+      "example": "There is a logical gap between the evidence presented and the conclusion drawn.",
+      "exampleArabic": "توجد فجوة منطقية بين الأدلة المعروضة والخلاصة المستنتجة.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "c1-extra-5-w2": {
+      "english": "pose a challenge",
+      "arabic": "يطرح تحديًا",
+      "example": "Rapid demographic change can pose a challenge for long-term planning.",
+      "exampleArabic": "يمكن للتغير الديموغرافي السريع أن يطرح تحديًا للتخطيط طويل الأجل.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "c1-extra-5-w3": {
+      "english": "draw attention to",
+      "arabic": "يلفت الانتباه إلى",
+      "example": "The report draws attention to a risk that earlier studies overlooked.",
+      "exampleArabic": "يلفت التقرير الانتباه إلى خطر أغفلته دراسات سابقة.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "c1-extra-6-w2": {
+      "english": "subject to",
+      "arabic": "خاضع لـ / رهناً بـ",
+      "example": "The agreement is subject to regulatory approval.",
+      "exampleArabic": "الاتفاق خاضع لموافقة الجهة التنظيمية.",
+      "partOfSpeech": "preposition phrase",
+      "phonetic": null
+    },
+    "c1-extra-6-w3": {
+      "english": "without prejudice to",
+      "arabic": "دون إخلال بـ",
+      "example": "This clause applies without prejudice to any statutory rights.",
+      "exampleArabic": "ينطبق هذا البند دون إخلال بأي حقوق نظامية.",
+      "partOfSpeech": "legal phrase",
+      "phonetic": null
+    },
+    "c1-extra-7-w2": {
+      "english": "qualify a conclusion",
+      "arabic": "يقيّد الخلاصة",
+      "example": "A careful speaker will qualify a conclusion when the evidence is incomplete.",
+      "exampleArabic": "يقيّد المتحدث الدقيق الخلاصة عندما تكون الأدلة غير مكتملة.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "c1-extra-7-w3": {
+      "english": "interpret with caution",
+      "arabic": "يفسّر بحذر",
+      "example": "We should interpret the result with caution because the sample is small.",
+      "exampleArabic": "ينبغي أن نفسر النتيجة بحذر لأن العينة صغيرة.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    },
+    "c1-extra-8-w2": {
+      "english": "to some extent",
+      "arabic": "إلى حد ما",
+      "example": "To some extent, both sides are responding to legitimate concerns.",
+      "exampleArabic": "إلى حد ما، يستجيب الطرفان لمخاوف مشروعة.",
+      "partOfSpeech": "phrase",
+      "phonetic": null
+    },
+    "c1-extra-8-w3": {
+      "english": "weigh the evidence",
+      "arabic": "يزن الأدلة",
+      "example": "A nuanced debate requires participants to weigh the evidence before taking a firm position.",
+      "exampleArabic": "يتطلب النقاش الدقيق من المشاركين أن يزنوا الأدلة قبل اتخاذ موقف حازم.",
+      "partOfSpeech": "verb phrase",
+      "phonetic": null
+    }
+  },
+  "arabicGlossById": {
+    "a0-002-my-2": "لي / ـي للملكية",
+    "a0-002-your-3": "لك / ـك للملكية",
+    "a0-011-this-1": "هذا / هذه",
+    "a0-011-that-2": "ذلك / تلك",
+    "a0-022-my-3": "لي / ـي للملكية",
+    "a0-023-student-3": "طالب / طالبة",
+    "a0-039-shoes-2": "أحذية",
+    "a1-046-with-3": "مع / في بحسب السياق",
+    "a1-053-than-2": "من (في المقارنة)"
+  }
+}

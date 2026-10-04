@@ -167,7 +167,7 @@ W|contingency plan|خطة طوارئ|Always have a contingency plan.|احتفظ 
 W|expected value|قيمة متوقعة|Expected value can help compare uncertain options, although it does not capture every concern.|يمكن للقيمة المتوقعة أن تساعد في مقارنة الخيارات غير المؤكدة، لكنها لا تلتقط كل الاعتبارات.|noun
 W|downside risk|مخاطر الجانب السلبي|The team examined the downside risk before approving the investment.|درس الفريق مخاطر الجانب السلبي قبل اعتماد الاستثمار.|noun
 W|scenario planning|تخطيط بالسيناريوهات|Scenario planning explores how a decision might perform under different futures.|يستكشف التخطيط بالسيناريوهات كيف قد يؤدي القرار تحت مستقبلات مختلفة.|noun
-W|robustness|متانة القرار|A robust decision performs reasonably well across several plausible scenarios.|يؤدي القرار المتين بصورة معقولة عبر عدة سيناريوهات محتملة.|noun
+W|robustness|متانة القرار|Robustness matters when a decision must perform reasonably well across several plausible scenarios.|تهم متانة القرار عندما يجب أن يؤدي بصورة معقولة عبر عدة سيناريوهات محتملة.|noun
 L|الذكاء العاطفي|Emotional Intelligence|أن يصف المتعلم مهارات الذكاء العاطفي وأثرها في العمل والعلاقات.|People with high emotional intelligence can regulate their emotions under pressure.|يستطيع أصحاب الذكاء العاطفي المرتفع ضبط مشاعرهم تحت الضغط.|To describe emotional intelligence skills and their effect at work and in relationships.
 W|emotional intelligence|الذكاء العاطفي|Good leaders have high emotional intelligence.|يتمتع القادة الجيدون بذكاء عاطفي مرتفع.|noun
 W|regulate|يضبط؛ ينظّم|Children learn to regulate their emotions.|يتعلّم الأطفال ضبط مشاعرهم.|verb

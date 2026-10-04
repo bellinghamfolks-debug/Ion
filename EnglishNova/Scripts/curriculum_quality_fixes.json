@@ -567,6 +567,413 @@
       "exampleArabic": "يمكن لقاعدة الثلاثيات البلاغية أن تجعل القائمة أكثر توازنًا وأسهل تذكرًا.",
       "partOfSpeech": "noun phrase",
       "phonetic": null
+    },
+    "a0-002-your-3": {
+      "example": "What is your name?",
+      "exampleArabic": "ما اسمك؟",
+      "arabic": "لك / ـك للملكية"
+    },
+    "a0-003-no-2": {
+      "example": "No, I am not a teacher.",
+      "exampleArabic": "لا، أنا لست معلمًا."
+    },
+    "a0-006-how-2": {
+      "example": "How are you today?",
+      "exampleArabic": "كيف حالك اليوم؟"
+    },
+    "a0-007-letter-2": {
+      "example": "A is the first letter.",
+      "exampleArabic": "الحرف A هو الحرف الأول."
+    },
+    "a0-007-sound-3": {
+      "example": "Listen to the sound of the letter A.",
+      "exampleArabic": "استمع إلى صوت الحرف A."
+    },
+    "a0-008-begin-3": {
+      "example": "Ball and book begin with B.",
+      "exampleArabic": "كلمتا ball وbook تبدآن بالحرف B."
+    },
+    "a0-009-uppercase-1": {
+      "example": "A is uppercase and a is lowercase.",
+      "exampleArabic": "A حرف كبير وa حرف صغير."
+    },
+    "a0-009-lowercase-2": {
+      "example": "Write your name in lowercase letters.",
+      "exampleArabic": "اكتب اسمك بحروف صغيرة."
+    },
+    "a0-010-paper-2": {
+      "example": "I write on paper.",
+      "exampleArabic": "أكتب على الورق."
+    },
+    "a0-010-desk-3": {
+      "example": "My book is on the desk.",
+      "exampleArabic": "كتابي على المكتب."
+    },
+    "a0-011-that-2": {
+      "example": "That is my bag.",
+      "exampleArabic": "تلك حقيبتي.",
+      "arabic": "ذلك / تلك"
+    },
+    "a0-012-close-2": {
+      "example": "Close your book, please.",
+      "exampleArabic": "أغلق كتابك من فضلك."
+    },
+    "a0-012-listen-3": {
+      "example": "Listen and repeat.",
+      "exampleArabic": "استمع وكرّر."
+    },
+    "a0-013-zero-1": {
+      "example": "My phone number starts with zero.",
+      "exampleArabic": "يبدأ رقم هاتفي بصفر."
+    },
+    "a0-013-three-2": {
+      "example": "I have three pens.",
+      "exampleArabic": "عندي ثلاثة أقلام."
+    },
+    "a0-014-six-1": {
+      "example": "There are six chairs in the room.",
+      "exampleArabic": "توجد ستة كراسٍ في الغرفة."
+    },
+    "a0-014-eight-2": {
+      "example": "My brother is eight years old.",
+      "exampleArabic": "عمر أخي ثماني سنوات."
+    },
+    "a0-015-one-2": {
+      "example": "I have one sister.",
+      "exampleArabic": "عندي أخت واحدة."
+    },
+    "a0-015-two-3": {
+      "example": "I have two brothers.",
+      "exampleArabic": "عندي أخوان اثنان."
+    },
+    "a0-016-phone-2": {
+      "example": "What is your phone number?",
+      "exampleArabic": "ما رقم هاتفك؟"
+    },
+    "a0-017-time-1": {
+      "example": "What time is it?",
+      "exampleArabic": "كم الساعة؟"
+    },
+    "a0-019-father-2": {
+      "example": "My father is a doctor.",
+      "exampleArabic": "أبي طبيب."
+    },
+    "a0-019-family-3": {
+      "example": "I love my family.",
+      "exampleArabic": "أحب عائلتي."
+    },
+    "a0-020-sister-2": {
+      "example": "My sister is ten.",
+      "exampleArabic": "عمر أختي عشر سنوات."
+    },
+    "a0-021-person-3": {
+      "example": "She is a kind person.",
+      "exampleArabic": "إنها شخص لطيف."
+    },
+    "a0-022-child-1": {
+      "example": "The child is happy.",
+      "exampleArabic": "الطفل سعيد."
+    },
+    "a0-024-short-2": {
+      "example": "My brother is short.",
+      "exampleArabic": "أخي قصير."
+    },
+    "a0-024-kind-3": {
+      "example": "My teacher is kind.",
+      "exampleArabic": "معلمي لطيف."
+    },
+    "a0-025-house-1": {
+      "example": "My house is big.",
+      "exampleArabic": "منزلي كبير."
+    },
+    "a0-025-door-3": {
+      "example": "Please open the door.",
+      "exampleArabic": "افتح الباب من فضلك."
+    },
+    "a0-026-bed-1": {
+      "example": "My bed is in my room.",
+      "exampleArabic": "سريري في غرفتي."
+    },
+    "a0-026-table-3": {
+      "example": "The cup is on the table.",
+      "exampleArabic": "الكوب على الطاولة."
+    },
+    "a0-027-phone-2": {
+      "example": "My phone is in my bag.",
+      "exampleArabic": "هاتفي في حقيبتي."
+    },
+    "a0-027-bag-3": {
+      "example": "This bag is red.",
+      "exampleArabic": "هذه الحقيبة حمراء."
+    },
+    "a0-028-in-1": {
+      "example": "The pen is in the box.",
+      "exampleArabic": "القلم في الصندوق."
+    },
+    "a0-028-under-3": {
+      "example": "The cat is under the table.",
+      "exampleArabic": "القطة تحت الطاولة."
+    },
+    "a0-029-there-3": {
+      "example": "The bank is over there.",
+      "exampleArabic": "البنك هناك."
+    },
+    "a0-030-small-3": {
+      "example": "I have a small car.",
+      "exampleArabic": "عندي سيارة صغيرة."
+    },
+    "a0-031-coffee-2": {
+      "example": "I drink coffee in the morning.",
+      "exampleArabic": "أشرب القهوة في الصباح."
+    },
+    "a0-032-bread-1": {
+      "example": "I eat bread for breakfast.",
+      "exampleArabic": "آكل الخبز على الإفطار."
+    },
+    "a0-033-banana-2": {
+      "example": "I want a banana, please.",
+      "exampleArabic": "أريد موزة من فضلك."
+    },
+    "a0-033-orange-3": {
+      "example": "This orange is sweet.",
+      "exampleArabic": "هذه البرتقالة حلوة."
+    },
+    "a0-034-drink-3": {
+      "example": "I drink water every day.",
+      "exampleArabic": "أشرب الماء كل يوم."
+    },
+    "a0-035-food-2": {
+      "example": "I like Saudi food.",
+      "exampleArabic": "أحب الطعام السعودي."
+    },
+    "a0-035-good-3": {
+      "example": "This food is good.",
+      "exampleArabic": "هذا الطعام جيد."
+    },
+    "a0-036-menu-2": {
+      "example": "Can I see the menu, please?",
+      "exampleArabic": "هل يمكنني رؤية قائمة الطعام من فضلك؟"
+    },
+    "a0-037-head-1": {
+      "example": "My head hurts.",
+      "exampleArabic": "يؤلمني رأسي."
+    },
+    "a0-037-arm-3": {
+      "example": "He has a bag on his arm.",
+      "exampleArabic": "يحمل حقيبة على ذراعه."
+    },
+    "a0-038-ear-2": {
+      "example": "I have a pain in my ear.",
+      "exampleArabic": "عندي ألم في أذني."
+    },
+    "a0-038-nose-3": {
+      "example": "The baby has a small nose.",
+      "exampleArabic": "للطفل الرضيع أنف صغير."
+    },
+    "a0-039-shoes-2": {
+      "example": "My shoes are black.",
+      "exampleArabic": "حذائي أسود.",
+      "arabic": "أحذية"
+    },
+    "a0-039-clothes-3": {
+      "example": "I buy new clothes for Eid.",
+      "exampleArabic": "أشتري ملابس جديدة للعيد."
+    },
+    "a0-040-red-1": {
+      "example": "I like the red car.",
+      "exampleArabic": "تعجبني السيارة الحمراء."
+    },
+    "a0-040-blue-2": {
+      "example": "The sky is blue.",
+      "exampleArabic": "السماء زرقاء."
+    },
+    "a0-041-white-2": {
+      "example": "My shirt is white.",
+      "exampleArabic": "قميصي أبيض."
+    },
+    "a0-041-color-3": {
+      "example": "What color is your car?",
+      "exampleArabic": "ما لون سيارتك؟"
+    },
+    "a0-042-sick-2": {
+      "example": "I am sick today.",
+      "exampleArabic": "أنا مريض اليوم."
+    },
+    "a0-042-hurt-3": {
+      "example": "Does your leg hurt?",
+      "exampleArabic": "هل تؤلمك ساقك؟"
+    },
+    "a0-043-store-2": {
+      "example": "The store is open now.",
+      "exampleArabic": "المتجر مفتوح الآن."
+    },
+    "a0-043-place-3": {
+      "example": "This is a nice place.",
+      "exampleArabic": "هذا مكان جميل."
+    },
+    "a0-044-park-2": {
+      "example": "We play in the park.",
+      "exampleArabic": "نلعب في الحديقة."
+    },
+    "a0-045-left-2": {
+      "example": "Turn left at the bank.",
+      "exampleArabic": "انعطف يسارًا عند البنك."
+    },
+    "a0-046-behind-2": {
+      "example": "The car is behind the house.",
+      "exampleArabic": "السيارة خلف المنزل."
+    },
+    "a0-047-far-2": {
+      "example": "The school is far from my house.",
+      "exampleArabic": "المدرسة بعيدة عن منزلي."
+    },
+    "a0-047-walk-3": {
+      "example": "I walk to school.",
+      "exampleArabic": "أمشي إلى المدرسة."
+    },
+    "a0-049-sleep-2": {
+      "example": "I sleep at ten o'clock.",
+      "exampleArabic": "أنام في الساعة العاشرة."
+    },
+    "a0-049-morning-3": {
+      "example": "I go to work in the morning.",
+      "exampleArabic": "أذهب إلى العمل في الصباح."
+    },
+    "a0-050-come-2": {
+      "example": "Please come here.",
+      "exampleArabic": "تعال إلى هنا من فضلك."
+    },
+    "a0-050-home-3": {
+      "example": "I go home at five.",
+      "exampleArabic": "أعود إلى المنزل في الخامسة."
+    },
+    "a0-051-write-2": {
+      "example": "Write your name here.",
+      "exampleArabic": "اكتب اسمك هنا."
+    },
+    "a0-051-study-3": {
+      "example": "I study English every day.",
+      "exampleArabic": "أدرس الإنجليزية كل يوم."
+    },
+    "a0-053-close-2": {
+      "example": "Please close the window.",
+      "exampleArabic": "أغلق النافذة من فضلك."
+    },
+    "a0-054-stand-2": {
+      "example": "Please stand here.",
+      "exampleArabic": "قف هنا من فضلك."
+    },
+    "a0-055-sun-2": {
+      "example": "The sun is hot today.",
+      "exampleArabic": "الشمس حارة اليوم."
+    },
+    "a0-055-weather-3": {
+      "example": "The weather is nice today.",
+      "exampleArabic": "الطقس جميل اليوم."
+    },
+    "a0-056-cloud-3": {
+      "example": "There is a big cloud in the sky.",
+      "exampleArabic": "توجد سحابة كبيرة في السماء."
+    },
+    "a0-058-again-2": {
+      "example": "Can you say it again, please?",
+      "exampleArabic": "هل يمكنك أن تقولها مرة أخرى من فضلك؟"
+    },
+    "a0-058-slowly-3": {
+      "example": "Please speak slowly.",
+      "exampleArabic": "تحدث ببطء من فضلك."
+    },
+    "a1-004-leave-3": {
+      "example": "I leave home at seven every morning.",
+      "exampleArabic": "أغادر المنزل في السابعة كل صباح."
+    },
+    "a1-012-always-1": {
+      "example": "I always drink tea after lunch.",
+      "exampleArabic": "أشرب الشاي دائمًا بعد الغداء."
+    },
+    "a1-012-never-3": {
+      "example": "I never drink coffee at night.",
+      "exampleArabic": "لا أشرب القهوة أبدًا في الليل."
+    },
+    "a1-022-plan-2": {
+      "example": "My plan for Saturday is to visit my grandmother.",
+      "exampleArabic": "خطتي يوم السبت أن أزور جدتي."
+    },
+    "a1-025-price-2": {
+      "example": "What is the price of this jacket?",
+      "exampleArabic": "ما سعر هذا المعطف؟"
+    },
+    "a1-028-cash-3": {
+      "example": "Can I pay in cash?",
+      "exampleArabic": "هل يمكنني الدفع نقدًا؟"
+    },
+    "a1-029-bill-2": {
+      "example": "Can we have the bill, please?",
+      "exampleArabic": "هل يمكننا الحصول على الفاتورة من فضلك؟"
+    },
+    "a1-030-wrong-3": {
+      "example": "These shoes are the wrong size, so I want to return them.",
+      "exampleArabic": "هذا الحذاء ليس بالمقاس المناسب، لذلك أريد إرجاعه."
+    },
+    "a1-031-flight-2": {
+      "example": "My flight leaves at nine in the morning.",
+      "exampleArabic": "تقلع رحلتي في التاسعة صباحًا."
+    },
+    "a1-031-airport-3": {
+      "example": "We arrived at the airport two hours early.",
+      "exampleArabic": "وصلنا إلى المطار قبل الموعد بساعتين."
+    },
+    "a1-032-boarding-pass-1": {
+      "example": "Please show your boarding pass at the gate.",
+      "exampleArabic": "أظهر بطاقة صعودك عند البوابة من فضلك."
+    },
+    "a1-033-hotel-3": {
+      "example": "Our hotel is near the beach.",
+      "exampleArabic": "فندقنا قريب من الشاطئ."
+    },
+    "a1-034-driver-3": {
+      "example": "The driver is waiting outside.",
+      "exampleArabic": "السائق ينتظر في الخارج."
+    },
+    "a1-035-station-3": {
+      "example": "The train station is next to the bus stop.",
+      "exampleArabic": "محطة القطار بجانب موقف الحافلات."
+    },
+    "a1-036-direction-3": {
+      "example": "Excuse me, is this the right direction to the museum?",
+      "exampleArabic": "عذرًا، هل هذا هو الاتجاه الصحيح إلى المتحف؟"
+    },
+    "a1-040-pharmacy-1": {
+      "example": "The pharmacy is open until midnight.",
+      "exampleArabic": "الصيدلية مفتوحة حتى منتصف الليل."
+    },
+    "a1-040-medicine-3": {
+      "example": "Take this medicine after dinner.",
+      "exampleArabic": "تناول هذا الدواء بعد العشاء."
+    },
+    "a1-042-emergency-2": {
+      "example": "In an emergency, call 997.",
+      "exampleArabic": "في حالة الطوارئ، اتصل بالرقم 997."
+    },
+    "a1-043-teacher-3": {
+      "example": "Our teacher explains the lesson clearly.",
+      "exampleArabic": "يشرح معلمنا الدرس بوضوح."
+    },
+    "a1-048-email-3": {
+      "example": "I sent an email to my manager this morning.",
+      "exampleArabic": "أرسلت بريدًا إلكترونيًا إلى مديري هذا الصباح."
+    },
+    "a1-051-because-3": {
+      "example": "I am sorry I am late because the traffic was bad.",
+      "exampleArabic": "آسف على التأخير لأن الزحام كان شديدًا."
+    },
+    "a1-055-problem-3": {
+      "example": "There is a problem with my internet connection.",
+      "exampleArabic": "توجد مشكلة في اتصالي بالإنترنت."
+    },
+    "a1-057-customer-service-3": {
+      "example": "I called customer service about my order.",
+      "exampleArabic": "اتصلت بخدمة العملاء بخصوص طلبي."
     }
   },
   "arabicGlossById": {

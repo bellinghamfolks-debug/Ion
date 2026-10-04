@@ -13,7 +13,8 @@ Lesson ids are "<unit id>-l<n>". Units are split into two seed files
 (<level>_part3.json, <level>_part4.json) of four units each.
 
 Quality gates (the script fails on any of them):
-  * exactly ten words per lesson;
+  * exactly eight words per lesson (WORDS_PER_LESSON), which keeps a lesson
+    near 30 items and 20-25 minutes, like the rest of the course;
   * the model sentence contains one of the lesson's words (it becomes the
     fill-in-the-blank item);
   * every example sentence contains its word (or a close inflection);
@@ -38,6 +39,7 @@ SRC = ROOT / "Scripts/new_lessons_src"
 OUT = ROOT / "Scripts/new_lessons"
 CURRICULUM = ROOT / "EnglishNova/Resources/Curriculum/curriculum.json"
 TRANSLATIONS = ROOT / "EnglishNova/Resources/LocalizationData/translations.json"
+WORDS_PER_LESSON = 8
 
 
 def parse(path: Path):
@@ -133,8 +135,8 @@ def main() -> int:
                 lid = lesson["id"]
                 lesson_line = lesson.get("_source_line", "?")
                 lesson_at = f"{path.name}:{lesson_line}: {lid}"
-                if len(vocab) != 10:
-                    failures.append(f"{lesson_at}: {len(vocab)} words (need 10)")
+                if len(vocab) != WORDS_PER_LESSON:
+                    failures.append(f"{lesson_at}: {len(vocab)} words (need {WORDS_PER_LESSON})")
                 if not any(re.search(rf"\b{re.escape(w['english'])}\b", lesson["modelSentence"], re.I) for w in vocab):
                     failures.append(f"{lesson_at}: model sentence contains none of its words")
                 for w in vocab:

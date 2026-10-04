@@ -26,6 +26,12 @@ BAD_ARABIC = {
 UPPER_FILLERS = {
     "i", "the", "where", "this", "would", "could", "let", "she", "we", "my",
 }
+EXPANSION_WORDS = 8
+MAX_LESSON_MINUTES = 25
+MIN_WORDS = 2448
+MIN_EXERCISES = 9700
+# Generator filler such as "Your is today's key word." is not English.
+PLACEHOLDER_EXAMPLE = re.compile(r"\bis today[’']s key word\b", re.IGNORECASE)
 CHOICE_TYPES = {"multipleChoice", "listenAndChoose"}
 
 
@@ -61,12 +67,16 @@ def main() -> int:
             word_count += len(words)
             exercise_count += len(exercises)
 
-            # The 32 new upper-level expansion lessons deliberately carry ten
-            # high-value words. Older material may have fewer and is reviewed
-            # separately rather than padded with filler.
+            # The 32 new upper-level expansion lessons per level carry eight
+            # high-value words: enough for a rich lesson while keeping it near
+            # 30 items and 20-25 minutes, like the rest of the course. Older
+            # material may have fewer and is reviewed separately rather than
+            # padded with filler.
             if code in {"A2", "B1", "B2", "C1"} and re.search(r"-x-u(?:[5-9]|1[0-2])-l\d+$", lid):
-                if len(words) != 10:
-                    fail(errors, f"{lid}: expansion lesson has {len(words)} words; expected 10")
+                if len(words) != EXPANSION_WORDS:
+                    fail(errors, f"{lid}: expansion lesson has {len(words)} words; expected {EXPANSION_WORDS}")
+            if lesson.get("estimatedMinutes", 0) > MAX_LESSON_MINUTES:
+                fail(errors, f"{lid}: estimated {lesson.get('estimatedMinutes')} minutes; keep lessons at {MAX_LESSON_MINUTES} or less")
 
             word_keys = [str(w.get("english") or "").strip().lower() for w in words]
             duplicates = [w for w, n in Counter(word_keys).items() if w and n > 1]
@@ -89,6 +99,8 @@ def main() -> int:
                     fail(errors, f"{wid}: placeholder partOfSpeech='word'")
                 if not example or not example_ar:
                     fail(errors, f"{wid}: missing bilingual example")
+                if PLACEHOLDER_EXAMPLE.search(example):
+                    fail(errors, f"{wid}: placeholder example sentence: {example!r}")
                 if broken_final_punctuation(example):
                     fail(errors, f"{wid}: malformed English example punctuation: {example!r}")
                 if code in {"A2", "B1", "B2", "C1"} and english.lower() in UPPER_FILLERS:
@@ -123,10 +135,10 @@ def main() -> int:
                     fail(errors, f"{eid}: duplicate exercise content inside {lid}")
                 signatures.add(signature)
 
-    if word_count < 2704:
-        fail(errors, f"Curriculum has {word_count} vocabulary entries; reviewed 2.0 floor is 2704")
-    if exercise_count < 10000:
-        fail(errors, f"Curriculum has {exercise_count} exercises; reviewed 2.0 floor is 10000")
+    if word_count < MIN_WORDS:
+        fail(errors, f"Curriculum has {word_count} vocabulary entries; reviewed 2.0 floor is {MIN_WORDS}")
+    if exercise_count < MIN_EXERCISES:
+        fail(errors, f"Curriculum has {exercise_count} exercises; reviewed 2.0 floor is {MIN_EXERCISES}")
 
     if errors:
         print("EnglishNova curriculum quality audit: FAILED")

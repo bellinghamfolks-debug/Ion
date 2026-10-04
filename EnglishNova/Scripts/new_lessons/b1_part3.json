@@ -65,14 +65,6 @@
        "phonetic": null
       },
       {
-       "english": "screenplay",
-       "arabic": "سيناريو",
-       "example": "The screenplay makes the characters feel realistic.",
-       "exampleArabic": "يجعل السيناريو الشخصيات تبدو واقعية.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
        "english": "soundtrack",
        "arabic": "موسيقى تصويرية",
        "example": "The soundtrack fits the mood of the film perfectly.",
@@ -85,14 +77,6 @@
        "arabic": "جزء ثانٍ",
        "example": "The sequel was entertaining, but not as original as the first film.",
        "exampleArabic": "كان الجزء الثاني ممتعًا لكنه أقل أصالة من الفيلم الأول.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "film review",
-       "arabic": "مراجعة فيلم",
-       "example": "I read a film review before deciding whether to watch it.",
-       "exampleArabic": "قرأت مراجعة فيلم قبل أن أقرر مشاهدته.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -169,22 +153,6 @@
        "exampleArabic": "صفق الجمهور لعدة دقائق في النهاية.",
        "partOfSpeech": "noun",
        "phonetic": null
-      },
-      {
-       "english": "encore",
-       "arabic": "أداء إضافي",
-       "example": "The band played an encore after the crowd cheered loudly.",
-       "exampleArabic": "قدمت الفرقة أداءً إضافيًا بعد أن هتف الجمهور بصوت عالٍ.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "live music",
-       "arabic": "موسيقى حية",
-       "example": "This café has live music every Thursday evening.",
-       "exampleArabic": "يقدم هذا المقهى موسيقى حية مساء كل خميس.",
-       "partOfSpeech": "noun",
-       "phonetic": null
       }
      ]
     },
@@ -245,14 +213,6 @@
        "phonetic": null
       },
       {
-       "english": "paperback",
-       "arabic": "كتاب بغلاف ورقي",
-       "example": "I bought a paperback because it was cheaper than the hardback.",
-       "exampleArabic": "اشتريت كتابًا بغلاف ورقي لأنه كان أرخص من الغلاف الصلب.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
        "english": "plot twist",
        "arabic": "تحول مفاجئ في الحبكة",
        "example": "The plot twist near the end completely surprised me.",
@@ -265,14 +225,6 @@
        "arabic": "راوٍ",
        "example": "The narrator tells the story from a child's point of view.",
        "exampleArabic": "يروي الراوي القصة من وجهة نظر طفل.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "book club",
-       "arabic": "نادي قراءة",
-       "example": "Our book club meets once a month to discuss a novel.",
-       "exampleArabic": "يجتمع نادي القراءة لدينا مرة كل شهر لمناقشة رواية.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -335,14 +287,6 @@
        "phonetic": null
       },
       {
-       "english": "screen time",
-       "arabic": "وقت استخدام الشاشة",
-       "example": "I set a daily limit on my screen time.",
-       "exampleArabic": "وضعت حدًا يوميًا لوقت استخدام الشاشة.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
        "english": "mute",
        "arabic": "يكتم",
        "example": "I mute group chats when I need to concentrate.",
@@ -351,18 +295,10 @@
        "phonetic": null
       },
       {
-       "english": "privacy settings",
-       "arabic": "إعدادات الخصوصية",
-       "example": "Check your privacy settings before sharing personal photos.",
-       "exampleArabic": "تحقق من إعدادات الخصوصية قبل مشاركة صور شخصية.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
        "english": "unfollow",
        "arabic": "يلغي المتابعة",
        "example": "I unfollow accounts that make my feed stressful.",
-       "exampleArabic": "ألغي متابعة الحسابات التي تجعل خلاصتي مرهقة.",
+       "exampleArabic": "ألغي متابعة الحسابات التي تجعل صفحة منشوراتي مرهقة.",
        "partOfSpeech": "verb",
        "phonetic": null
       }
@@ -434,18 +370,10 @@
        "phonetic": null
       },
       {
-       "english": "shared bathroom",
-       "arabic": "حمام مشترك",
-       "example": "The hostel has a shared bathroom on each floor.",
-       "exampleArabic": "يحتوي النزل على حمام مشترك في كل طابق.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
        "english": "self-catering",
-       "arabic": "ذاتي الخدمة في الطعام",
+       "arabic": "بمطبخ تُعِدّ فيه طعامك",
        "example": "We chose a self-catering apartment so we could cook our own meals.",
-       "exampleArabic": "اخترنا شقة ذاتية الخدمة في الطعام حتى نتمكن من إعداد وجباتنا.",
+       "exampleArabic": "اخترنا شقة بمطبخ خاص حتى نُعِدّ وجباتنا بأنفسنا.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -454,14 +382,6 @@
        "arabic": "حجز",
        "example": "Our booking includes free cancellation until Friday.",
        "exampleArabic": "يشمل حجزنا إلغاءً مجانيًا حتى يوم الجمعة.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "room rate",
-       "arabic": "سعر الغرفة",
-       "example": "The room rate is lower during the week than at weekends.",
-       "exampleArabic": "سعر الغرفة أقل خلال أيام الأسبوع منه في عطلة نهاية الأسبوع.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -524,26 +444,10 @@
        "phonetic": null
       },
       {
-       "english": "host family",
-       "arabic": "عائلة مضيفة",
-       "example": "My host family helped me understand local habits.",
-       "exampleArabic": "ساعدتني العائلة المضيفة على فهم العادات المحلية.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
        "english": "gesture",
        "arabic": "إشارة جسدية",
        "example": "A friendly gesture can mean different things in different cultures.",
        "exampleArabic": "قد تعني الإشارة الجسدية الودية أشياء مختلفة في ثقافات مختلفة.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "cultural norm",
-       "arabic": "عرف ثقافي",
-       "example": "Taking your shoes off indoors is a cultural norm in some countries.",
-       "exampleArabic": "خلع الحذاء داخل المنزل عرف ثقافي في بعض البلدان.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -614,26 +518,10 @@
        "phonetic": null
       },
       {
-       "english": "trade-off",
-       "arabic": "مفاضلة بين ميزتين",
-       "example": "Every accommodation option involves a trade-off between price and comfort.",
-       "exampleArabic": "يتضمن كل خيار للسكن مفاضلة بين السعر والراحة.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
        "english": "drawback",
        "arabic": "عيب",
        "example": "The main drawback was the noise from the street.",
        "exampleArabic": "كان العيب الرئيسي هو ضوضاء الشارع.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "highlight",
-       "arabic": "أبرز ميزة",
-       "example": "The rooftop view was the highlight of our stay.",
-       "exampleArabic": "كان منظر السطح أبرز ميزة في إقامتنا.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -701,22 +589,6 @@
        "example": "The beach was overcrowded in August.",
        "exampleArabic": "كان الشاطئ مكتظًا في أغسطس.",
        "partOfSpeech": "adjective",
-       "phonetic": null
-      },
-      {
-       "english": "local economy",
-       "arabic": "الاقتصاد المحلي",
-       "example": "Buying from small businesses supports the local economy.",
-       "exampleArabic": "يدعم الشراء من الشركات الصغيرة الاقتصاد المحلي.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "carbon emissions",
-       "arabic": "انبعاثات الكربون",
-       "example": "Taking the train can reduce carbon emissions on some journeys.",
-       "exampleArabic": "يمكن أن يقلل ركوب القطار انبعاثات الكربون في بعض الرحلات.",
-       "partOfSpeech": "noun",
        "phonetic": null
       },
       {
@@ -811,22 +683,6 @@
        "phonetic": null
       },
       {
-       "english": "fixed cost",
-       "arabic": "تكلفة ثابتة",
-       "example": "Rent is a fixed cost that I plan for every month.",
-       "exampleArabic": "الإيجار تكلفة ثابتة أخطط لها كل شهر.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "variable cost",
-       "arabic": "تكلفة متغيرة",
-       "example": "Food is a variable cost because the amount changes each week.",
-       "exampleArabic": "الطعام تكلفة متغيرة لأن المبلغ يتغير كل أسبوع.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
        "english": "overspend",
        "arabic": "ينفق أكثر من اللازم",
        "example": "I overspend when I shop without a list.",
@@ -901,22 +757,6 @@
        "phonetic": null
       },
       {
-       "english": "automatic transfer",
-       "arabic": "تحويل تلقائي",
-       "example": "I use an automatic transfer to move money into savings each month.",
-       "exampleArabic": "أستخدم تحويلًا تلقائيًا لنقل المال إلى المدخرات كل شهر.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "financial goal",
-       "arabic": "هدف مالي",
-       "example": "My financial goal is to build six months of savings.",
-       "exampleArabic": "هدفي المالي هو تكوين مدخرات تكفي ستة أشهر.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
        "english": "rainy day",
        "arabic": "وقت الحاجة",
        "example": "I keep some money for a rainy day.",
@@ -983,14 +823,6 @@
        "phonetic": null
       },
       {
-       "english": "delivery charge",
-       "arabic": "رسوم توصيل",
-       "example": "The delivery charge made the order more expensive than expected.",
-       "exampleArabic": "جعلت رسوم التوصيل الطلب أغلى مما توقعت.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
        "english": "return policy",
        "arabic": "سياسة الإرجاع",
        "example": "Always read the return policy before buying clothes online.",
@@ -1004,14 +836,6 @@
        "example": "I returned the shoes because they were the wrong size.",
        "exampleArabic": "أعدت الحذاء لأنه كان بمقاس غير مناسب.",
        "partOfSpeech": "noun phrase",
-       "phonetic": null
-      },
-      {
-       "english": "customer service",
-       "arabic": "خدمة العملاء",
-       "example": "Customer service replied to my message within an hour.",
-       "exampleArabic": "ردت خدمة العملاء على رسالتي خلال ساعة.",
-       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -1070,22 +894,6 @@
        "example": "How much do I owe you?",
        "exampleArabic": "كم أدين لك؟",
        "partOfSpeech": "verb",
-       "phonetic": null
-      },
-      {
-       "english": "borrow",
-       "arabic": "يستعير",
-       "example": "Can I borrow twenty pounds until tomorrow?",
-       "exampleArabic": "هل يمكنني استعارة عشرين جنيهًا حتى الغد؟",
-       "partOfSpeech": "verb",
-       "phonetic": null
-      },
-      {
-       "english": "interest-free",
-       "arabic": "دون فوائد",
-       "example": "The shop offered an interest-free payment plan.",
-       "exampleArabic": "قدم المتجر خطة دفع دون فوائد.",
-       "partOfSpeech": "adjective",
        "phonetic": null
       },
       {
@@ -1180,22 +988,6 @@
        "phonetic": null
       },
       {
-       "english": "drift apart",
-       "arabic": "يبتعد تدريجيًا",
-       "example": "We drifted apart after we moved to different cities.",
-       "exampleArabic": "ابتعدنا تدريجيًا بعد أن انتقلنا إلى مدينتين مختلفتين.",
-       "partOfSpeech": "phrasal verb",
-       "phonetic": null
-      },
-      {
-       "english": "make up",
-       "arabic": "يتصالح",
-       "example": "They argued yesterday but managed to make up today.",
-       "exampleArabic": "تشاجرا أمس لكنهما تمكنا من التصالح اليوم.",
-       "partOfSpeech": "phrasal verb",
-       "phonetic": null
-      },
-      {
        "english": "have in common",
        "arabic": "يشترك في شيء",
        "example": "We have a lot in common, especially our sense of humour.",
@@ -1265,15 +1057,7 @@
        "english": "childcare",
        "arabic": "رعاية الأطفال",
        "example": "Affordable childcare makes it easier for parents to work.",
-       "exampleArabic": "تجعل رعاية الأطفال الميسورة من الأسهل على الوالدين العمل.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "work-life balance",
-       "arabic": "التوازن بين العمل والحياة",
-       "example": "Flexible hours can improve a parent's work-life balance.",
-       "exampleArabic": "يمكن لساعات العمل المرنة أن تحسن توازن الوالدين بين العمل والحياة.",
+       "exampleArabic": "رعاية الأطفال ميسورة التكلفة تسهّل على الوالدين العمل.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -1282,14 +1066,6 @@
        "arabic": "فجوة الأجيال",
        "example": "Different attitudes to technology can create a generation gap.",
        "exampleArabic": "يمكن لاختلاف المواقف من التقنية أن يخلق فجوة بين الأجيال.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "sibling",
-       "arabic": "أخ أو أخت",
-       "example": "I shared a bedroom with my sibling when we were young.",
-       "exampleArabic": "شاركت غرفة نوم مع أخي أو أختي عندما كنا صغارًا.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -1349,22 +1125,6 @@
        "example": "Small actions can make a difference.",
        "exampleArabic": "الأفعال الصغيرة يمكن أن تُحدث فرقًا.",
        "partOfSpeech": "phrase",
-       "phonetic": null
-      },
-      {
-       "english": "community project",
-       "arabic": "مشروع مجتمعي",
-       "example": "I joined a community project to clean a local park.",
-       "exampleArabic": "انضممت إلى مشروع مجتمعي لتنظيف حديقة محلية.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "sponsor",
-       "arabic": "يرعى",
-       "example": "A local company agreed to sponsor our charity run.",
-       "exampleArabic": "وافقت شركة محلية على رعاية سباقنا الخيري.",
-       "partOfSpeech": "verb",
        "phonetic": null
       },
       {
@@ -1439,22 +1199,6 @@
        "example": "I can't put up with this noise any longer.",
        "exampleArabic": "لا أستطيع تحمّل هذا الضجيج أكثر.",
        "partOfSpeech": "phrasal verb",
-       "phonetic": null
-      },
-      {
-       "english": "boundary",
-       "arabic": "حد",
-       "example": "Setting a clear boundary can prevent repeated problems.",
-       "exampleArabic": "يمكن لوضع حد واضح أن يمنع تكرار المشكلات.",
-       "partOfSpeech": "noun",
-       "phonetic": null
-      },
-      {
-       "english": "shared space",
-       "arabic": "مساحة مشتركة",
-       "example": "Please keep the shared space clean for everyone.",
-       "exampleArabic": "يرجى إبقاء المساحة المشتركة نظيفة للجميع.",
-       "partOfSpeech": "noun",
        "phonetic": null
       },
       {

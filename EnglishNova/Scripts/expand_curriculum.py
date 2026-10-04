@@ -58,8 +58,8 @@ def load_quality_fixes():
 def normalize_english_sentence(text: str) -> str:
     """Normalise sentence-final punctuation without changing the wording."""
     value = (text or "").strip()
-    value = re.sub(r"([!?])\\.+$", r"\\1", value)
-    value = re.sub(r"\\.{2,}$", ".", value)
+    value = re.sub(r"([!?])\.+$", r"\1", value)
+    value = re.sub(r"\.{2,}$", ".", value)
     return value
 
 

@@ -16,13 +16,13 @@
         },
         {
           "id": "b2-u1-l1-w2",
-          "english": "We",
-          "arabic": "بداية الجملة"
+          "english": "root cause",
+          "arabic": "سبب جذري"
         },
         {
           "id": "b2-u1-l1-w3",
-          "english": "issue",
-          "arabic": "كلمة من المثال"
+          "english": "look into",
+          "arabic": "يتحقق من / يبحث في"
         }
       ]
     },
@@ -42,13 +42,13 @@
         },
         {
           "id": "b2-extra-2-w2",
-          "english": "The",
-          "arabic": "بداية الجملة"
+          "english": "challenge a claim",
+          "arabic": "يفنّد أو يتحدى ادعاءً"
         },
         {
           "id": "b2-extra-2-w3",
-          "english": "effective",
-          "arabic": "كلمة من المثال"
+          "english": "support a claim",
+          "arabic": "يدعم ادعاءً"
         }
       ]
     },
@@ -68,13 +68,13 @@
         },
         {
           "id": "b2-extra-3-w2",
-          "english": "If",
-          "arabic": "بداية الجملة"
+          "english": "provided that",
+          "arabic": "بشرط أن"
         },
         {
           "id": "b2-extra-3-w3",
-          "english": "course",
-          "arabic": "كلمة من المثال"
+          "english": "otherwise",
+          "arabic": "وإلا / بخلاف ذلك"
         }
       ]
     },
@@ -94,13 +94,13 @@
         },
         {
           "id": "b2-extra-4-w2",
-          "english": "The",
-          "arabic": "بداية الجملة"
+          "english": "be required to",
+          "arabic": "يُطلب منه أن"
         },
         {
           "id": "b2-extra-4-w3",
-          "english": "yesterday",
-          "arabic": "كلمة من المثال"
+          "english": "be carried out",
+          "arabic": "يُنفّذ"
         }
       ]
     },
@@ -120,13 +120,13 @@
         },
         {
           "id": "b2-extra-5-w2",
-          "english": "She",
-          "arabic": "بداية الجملة"
+          "english": "according to",
+          "arabic": "وفقًا لـ"
         },
         {
           "id": "b2-extra-5-w3",
-          "english": "busy",
-          "arabic": "كلمة من المثال"
+          "english": "reportedly",
+          "arabic": "بحسب ما ورد / وفق التقارير"
         }
       ]
     },
@@ -146,13 +146,13 @@
         },
         {
           "id": "b2-extra-6-w2",
-          "english": "Let",
-          "arabic": "بداية الجملة"
+          "english": "outline",
+          "arabic": "يعرض بإيجاز"
         },
         {
           "id": "b2-extra-6-w3",
-          "english": "section",
-          "arabic": "كلمة من المثال"
+          "english": "turn to",
+          "arabic": "ينتقل إلى"
         }
       ]
     },
@@ -172,13 +172,13 @@
         },
         {
           "id": "b2-extra-7-w2",
-          "english": "We",
-          "arabic": "بداية الجملة"
+          "english": "counteroffer",
+          "arabic": "عرض مضاد"
         },
         {
           "id": "b2-extra-7-w3",
-          "english": "deadline",
-          "arabic": "كلمة من المثال"
+          "english": "acceptable terms",
+          "arabic": "شروط مقبولة"
         }
       ]
     },
@@ -198,13 +198,13 @@
         },
         {
           "id": "b2-extra-8-w2",
-          "english": "The",
-          "arabic": "بداية الجملة"
+          "english": "selective framing",
+          "arabic": "تأطير انتقائي"
         },
         {
           "id": "b2-extra-8-w3",
-          "english": "perspective",
-          "arabic": "كلمة من المثال"
+          "english": "source credibility",
+          "arabic": "مصداقية المصدر"
         }
       ]
     }

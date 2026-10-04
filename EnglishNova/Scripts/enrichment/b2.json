@@ -103,12 +103,12 @@
     "b2-extra-3": {
       "extraVocabulary": [
         {
-          "english": "provided that",
-          "arabic": "شريطة أن",
-          "example": "I will lend you the car provided that you return it by Sunday.",
-          "exampleArabic": "سأعيرك السيارة شريطة أن تعيدها بحلول يوم الأحد.",
+          "english": "even if",
+          "arabic": "حتى لو",
+          "example": "I would attend the meeting even if I had to join remotely.",
+          "exampleArabic": "سأحضر الاجتماع حتى لو اضطررت إلى الانضمام عن بُعد.",
           "partOfSpeech": "conjunction",
-          "phonetic": "/prəˈvaɪdɪd ðæt/"
+          "phonetic": null
         },
         {
           "english": "unless",
@@ -127,12 +127,12 @@
           "phonetic": "/əz ˈlɒŋ əz/"
         },
         {
-          "english": "otherwise",
-          "arabic": "وإلا",
-          "example": "We had better book early; otherwise, the tickets will sell out.",
-          "exampleArabic": "من الأفضل أن نحجز مبكرًا، وإلا فإن التذاكر ستنفد.",
-          "partOfSpeech": "adverb",
-          "phonetic": "/ˈʌðəwaɪz/"
+          "english": "in case",
+          "arabic": "في حال",
+          "example": "Take a charger in case your phone battery runs low.",
+          "exampleArabic": "خذ شاحنًا في حال انخفضت بطارية هاتفك.",
+          "partOfSpeech": "conjunction",
+          "phonetic": null
         }
       ],
       "extraExamples": {

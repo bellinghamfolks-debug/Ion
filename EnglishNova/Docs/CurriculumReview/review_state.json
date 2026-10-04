@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة ثمانية دروس B1 عن التعليم والسكن والتنقل: ضبط التراكيب والمعاني، تمييز المعلومة من الاستنتاج، وربط المقارنات باحتياجات محددة.",
-  "nextStep": "Continue editorial review from b1-x-u11-l1; save and validate each batch.",
+  "lastCompletedStep": "إكمال جميع دروس B1 الستين: مراجعة الطعام والمشاعر والسرد والاختلاف والاعتذار، مع إصلاح ربط الجمل وترجمات الطلبات وتوضيح الاستعمال المجازي.",
+  "nextStep": "Continue editorial review from b2-u1-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -2797,72 +2797,96 @@
       "level": "B1",
       "titleAr": "التوصية بمطعم",
       "titleEn": "Recommending a Restaurant",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u11-l2",
       "level": "B1",
       "titleAr": "الأنظمة الغذائية والتغذية",
       "titleEn": "Diets and Nutrition",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u11-l3",
       "level": "B1",
       "titleAr": "اتباع وصفة",
       "titleEn": "Following a Recipe",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u11-l4",
       "level": "B1",
       "titleAr": "تقليل هدر الطعام",
       "titleEn": "Reducing Food Waste",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u12-l1",
       "level": "B1",
       "titleAr": "وصف المشاعر",
       "titleEn": "Describing Feelings",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u12-l2",
       "level": "B1",
       "titleAr": "أحداث غير متوقعة",
       "titleEn": "Unexpected Events",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u12-l3",
       "level": "B1",
       "titleAr": "الاتفاق والاختلاف بأدب",
       "titleEn": "Agreeing and Disagreeing Politely",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u12-l4",
       "level": "B1",
       "titleAr": "الاعتذار والتوضيح",
       "titleEn": "Apologising and Explaining",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-u1-l1",
@@ -3953,7 +3977,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 232,
-    "pending": 128
+    "reviewed": 240,
+    "pending": 120
   }
 }

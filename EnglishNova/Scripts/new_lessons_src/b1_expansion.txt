@@ -224,28 +224,28 @@ W|congestion|ازدحام مروري|Traffic congestion is worst between seven a
 U|b1-x-u11|الطعام وأسلوب الحياة|Food and Lifestyle|أوصِ بمطعم، وتحدّث عن الأنظمة الغذائية، واتبع وصفة، وقلّل هدر الطعام.|fork.knife|Recommend a restaurant, talk about diets, follow a recipe and reduce food waste.
 L|التوصية بمطعم|Recommending a Restaurant|أن يوصي المتعلم بمطعم ويصف طعامه وخدمته.|If you like spicy food, you should definitely try the new Indian restaurant downtown.|إذا كنت تحب الطعام الحار، فعليك بالتأكيد تجربة المطعم الهندي الجديد في وسط المدينة.|To recommend a restaurant and describe its food and service.
 W|spicy|حار (متبّل)|This curry is too spicy for me.|هذا الكاري حار جدًا بالنسبة لي.|adjective
-W|definitely|بالتأكيد|You should definitely book a table.|يجب عليك بالتأكيد حجز طاولة.|adverb
+W | definitely | بالتأكيد | You should definitely book a table. | أنصحك بالتأكيد بحجز طاولة. | adverb
 W|downtown|وسط المدينة|There are many cafés downtown.|توجد مقاهٍ كثيرة في وسط المدينة.|adverb
 W|portion|حصة (طعام)|The portions were huge.|كانت الحصص كبيرة جدًا.|noun
 W|service|الخدمة|The service was slow but friendly.|كانت الخدمة بطيئة لكنها ودودة.|noun
 W|dish|طبق|What's the most popular dish here?|ما أشهر طبق هنا؟|noun
 W|ambience|أجواء المكان|The restaurant has a relaxed ambience in the evening.|يتمتع المطعم بأجواء مريحة في المساء.|noun
-W|starter|طبق مقبلات|We shared a starter before the main course.|شاركنا طبق مقبلات قبل الطبق الرئيسي.|noun
-L|الأنظمة الغذائية والتغذية|Diets and Nutrition|أن يتحدث المتعلم عن عاداته الغذائية ونظام غذائي صحي.|I've been trying to avoid junk food and eat more vegetables.|أحاول تجنّب الوجبات السريعة غير الصحية وأكل مزيد من الخضار.|To talk about your eating habits and a healthy diet.
+W | starter | طبق مقبلات | We shared a starter before the main course. | تقاسمنا طبق مقبلات قبل الطبق الرئيسي. | noun
+L | الأنظمة الغذائية والتغذية | Diets and Nutrition | التعبير عن عادات غذائية وقيود محددة والسؤال بوضوح عن مكونات الطعام. | I've been trying to avoid junk food and eat more vegetables. | أحاول تجنب الطعام منخفض القيمة الغذائية وتناول مزيد من الخضراوات. | Describe food habits and specific dietary restrictions, and ask clearly about ingredients.
 W|calories|سعرات حرارية|This drink has a lot of calories.|في هذا المشروب سعرات حرارية كثيرة.|noun
 W|protein|بروتين|Eggs are a good source of protein.|البيض مصدر جيد للبروتين.|noun
 W|vegetarian|نباتي|My sister has been vegetarian for years.|أختي نباتية منذ سنوات.|adjective
-W|junk food|الوجبات السريعة غير الصحية|Try to avoid junk food.|حاول تجنّب الوجبات السريعة غير الصحية.|noun
+W | junk food | طعام منخفض القيمة الغذائية | I used to eat a lot of junk food when I was busy. | كنت أتناول كثيرًا من الطعام منخفض القيمة الغذائية عندما أنشغل. | noun
 W|nutrition|التغذية|Good nutrition is important for children.|التغذية الجيدة مهمة للأطفال.|noun
 W|allergic|لديه حساسية|I'm allergic to nuts.|لدي حساسية من المكسرات.|adjective
 W|fibre|ألياف|Whole grains are a useful source of fibre.|الحبوب الكاملة مصدر مفيد للألياف.|noun
 W|processed food|طعام مصنع|I try not to rely on processed food every day.|أحاول ألا أعتمد على الطعام المصنع يوميًا.|noun
-L|اتباع وصفة|Following a Recipe|أن يشرح المتعلم خطوات تحضير طبق بترتيب واضح.|First chop the onions, then fry them gently until they turn golden.|أولًا قطّع البصل، ثم اقْلِه برفق حتى يصبح ذهبيًا.|To explain the steps for making a dish in a clear order.
+L | اتباع وصفة | Following a Recipe | أن يشرح المتعلم خطوات تحضير طبق بترتيب واضح. | First chop the onions, then fry them gently until they turn golden. | أولًا قطّع البصل، ثم اقله على نار هادئة حتى يصبح ذهبيًا. | To explain the steps for making a dish in a clear order.
 W|chop|يقطّع|Chop the tomatoes into small pieces.|قطّع الطماطم قطعًا صغيرة.|verb
-W|fry|يقلي|Fry the chicken for ten minutes.|اقلِ الدجاج لمدة عشر دقائق.|verb
+W | fry | يقلي | Fry the onion gently until it softens. | اقْلِ البصل على نار هادئة حتى يلين. | verb
 W|ingredients|المكوّنات|You only need five ingredients.|تحتاج خمسة مكوّنات فقط.|noun
 W|stir|يحرّك (الطعام)|Stir the soup from time to time.|حرّك الحساء من وقت لآخر.|verb
-W|boil|يغلي|Boil the rice for twenty minutes.|اغلِ الأرز لمدة عشرين دقيقة.|verb
+W | boil | يَغلي؛ يُغلي | Boil the water before adding the pasta. | اغلِ الماء قبل إضافة المعكرونة. | verb
 W|oven|فرن|Put the cake in the oven.|ضع الكعكة في الفرن.|noun
 W|peel|يقشر|Peel the potatoes before you cut them into pieces.|قشر البطاطس قبل تقطيعها إلى قطع.|verb
 W|simmer|يطبخ على نار هادئة|Let the sauce simmer for ten minutes.|دع الصلصة تطهى على نار هادئة لمدة عشر دقائق.|verb
@@ -256,7 +256,7 @@ W|compost|سماد عضوي|We turn vegetable peel into compost.|نحوّل قش
 W|expiry date|تاريخ انتهاء الصلاحية|Check the expiry date before you buy.|تحقّق من تاريخ انتهاء الصلاحية قبل الشراء.|noun
 W|freeze|يجمّد|You can freeze the soup for later.|يمكنك تجميد الحساء لوقت لاحق.|verb
 W|meal plan|خطة الوجبات|A weekly meal plan saves time and money.|خطة الوجبات الأسبوعية توفّر الوقت والمال.|noun
-W|use-by date|تاريخ آخر استخدام|Check the use-by date before eating fresh meat.|تحقق من تاريخ آخر استخدام قبل تناول اللحم الطازج.|noun
+W | use-by date | تاريخ «يُستهلك قبل» | Check the use-by date before eating fresh meat. | تحقق من تاريخ آخر استخدام قبل تناول اللحم الطازج. | noun
 W|batch cook|يطبخ كمية كبيرة مسبقًا|I batch cook on Sunday and freeze several meals.|أطبخ كمية كبيرة مسبقًا يوم الأحد وأجمد عدة وجبات.|verb
 U|b1-x-u12|المشاعر والتواصل|Feelings and Interaction|صف مشاعرك بدقة، واحكِ أحداثًا غير متوقعة، واتفق واختلف بأدب، واعتذر وفسّر.|bubble.left.and.bubble.right.fill|Describe feelings precisely, tell unexpected events, agree and disagree politely, and apologise and explain.
 L|وصف المشاعر|Describing Feelings|أن يصف المتعلم مشاعره بدقة وأسباب شعوره.|I was really nervous before the interview, but I felt relieved when it was over.|كنت متوترًا جدًا قبل المقابلة، لكنني شعرت بالارتياح عندما انتهت.|To describe your feelings precisely and say why you felt that way.
@@ -281,14 +281,14 @@ L|الاتفاق والاختلاف بأدب|Agreeing and Disagreeing Politely|�
 W|see your point|يفهم وجهة نظرك|I see your point, but there's another side.|أفهم وجهة نظرك، لكن هناك جانبًا آخر.|phrase
 W|exactly|تمامًا|Exactly! That's what I think.|تمامًا! هذا ما أعتقده.|adverb
 W|on the other hand|من ناحية أخرى|On the other hand, it's very expensive.|من ناحية أخرى، إنه مكلف جدًا.|phrase
-W|fair enough|معك حق؛ هذا مقبول|Fair enough, let's try your idea.|معك حق، لنجرّب فكرتك.|phrase
+W | fair enough | هذا معقول؛ مقبول | Fair enough, let's try your idea. | هذا معقول، لنجرّب فكرتك. | phrase
 W|partly|جزئيًا|I partly agree with you.|أتفق معك جزئيًا.|adverb
 W|convince|يُقنع|You've convinced me.|لقد أقنعتني.|verb
 W|from my perspective|من وجهة نظري|From my perspective, the cheaper option offers better value.|من وجهة نظري، يقدم الخيار الأرخص قيمة أفضل.|phrase
 W|I take your point|أتفهم وجهة نظرك|I take your point, but I still think we need more evidence.|أتفهم وجهة نظرك، لكنني ما زلت أعتقد أننا نحتاج إلى أدلة أكثر.|phrase
-L|الاعتذار والتوضيح|Apologising and Explaining|أن يعتذر المتعلم عن خطأ ويوضح سببه ويعرض حلًا.|I'm really sorry for the misunderstanding, it won't happen again.|أنا آسف حقًا على سوء الفهم، لن يتكرر ذلك.|To apologise for a mistake, explain why it happened and offer a solution.
+L | الاعتذار والتوضيح | Apologising and Explaining | أن يعتذر المتعلم عن خطأ ويوضح سببه ويعرض حلًا. | I'm really sorry for the misunderstanding. I'll confirm the correct date now. | أنا آسف حقًا على سوء الفهم. سأؤكد الموعد الصحيح الآن. | To apologise for a mistake, explain why it happened and offer a solution.
 W|misunderstanding|سوء فهم|There was a misunderstanding about the date.|حدث سوء فهم بشأن الموعد.|noun
-W|mix-up|لخبطة؛ خلط|Sorry, there was a mix-up with your order.|آسف، حدث خلط في طلبك.|noun
+W | mix-up | التباس؛ خلط | Sorry, there was a mix-up with your order. | آسف، حدث خلط في طلبك. | noun
 W|my fault|خطئي|It was my fault, not yours.|كان خطئي، لا خطؤك.|phrase
 W|put right|يُصلح الخطأ|We will do our best to put things right.|سنبذل قصارى جهدنا لإصلاح الأمر.|phrasal verb
 W|accidentally|عن غير قصد|I accidentally deleted your file.|حذفت ملفك عن غير قصد.|adverb

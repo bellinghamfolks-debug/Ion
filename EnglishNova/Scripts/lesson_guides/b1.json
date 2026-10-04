@@ -990,5 +990,157 @@
       "explanationAr": "نستخدم take مع الرحلة والمدة. ويمكن للشخص أن يستخدم spend بصيغة I spend forty minutes travelling، لكن ليس بالتركيب المذكور في البديل.",
       "explanationEn": "Use take with a journey and its duration. A person can use spend in I spend forty minutes travelling, but not in the alternative structure shown."
     }
+  },
+  "b1-x-u11-l1": {
+    "focusAr": "اربط التوصية بذوق الشخص بدل القول إن المطعم يناسب الجميع. dish طبق معين، وportion كمية الطعام المقدمة للشخص، وservice طريقة تقديم الخدمة. spicy تتعلق بالتوابل وقد تعني حار المذاق، بينما hot قد تصف درجة الحرارة. definitely تقوّي التوصية، لكنها لا تعني أن الحجز إلزامي.",
+    "focusEn": "Match a recommendation to the person's preferences instead of claiming a restaurant suits everyone. A dish is a particular food preparation, a portion is the amount served, and service is how customers are attended to. Spicy concerns seasoning and can mean hot-tasting, while hot can describe temperature. Definitely strengthens a recommendation but does not make booking compulsory.",
+    "taskAr": "أوصِ صديقًا بمطعم تخيلي، مع ذكر ذوق يناسبه وحجم الحصص وملاحظة عن الخدمة.",
+    "taskEn": "Recommend an imagined restaurant to a friend, mentioning a matching preference, portion size, and a point about service.",
+    "exampleEn": "If you enjoy spicy food, you might like this restaurant downtown. The portions are generous and the staff are friendly, although the service can be slow at busy times.",
+    "exampleAr": "إذا كنت تستمتع بالطعام الحار، فقد يعجبك هذا المطعم في وسط المدينة. الحصص كبيرة والموظفون ودودون، لكن الخدمة قد تكون بطيئة في أوقات الازدحام.",
+    "check": {
+      "promptEn": "A review says the portions are small. What is it describing?",
+      "choices": [
+        "The amount of food served.",
+        "The number of streets near the restaurant.",
+        "The temperature of the food."
+      ],
+      "answer": "The amount of food served.",
+      "explanationAr": "portion كمية الطعام في الحصة المقدمة، ولا تدل بذاتها على موقع المطعم أو حرارة الطبق.",
+      "explanationEn": "A portion is the amount of food in a serving. The word alone does not describe the restaurant's location or the dish's temperature."
+    }
+  },
+  "b1-x-u11-l2": {
+    "focusAr": "ميّز في الطلب بين التفضيل والقيود الغذائية: I don't like تعبر عن عدم الاستحسان، وI'm allergic to تصف حساسية وليست مجرد تفضيل. vegetarian تصف نظامًا دون لحوم، لكنها لا تعني بالضرورة تجنّب كل المنتجات الحيوانية. junk food لا تعني كل طعام سريع، وprocessed food وصف للمعالجة، لا حكم واحد على كل منتج.",
+    "focusEn": "Distinguish preferences from dietary restrictions: I don't like expresses dislike, while I'm allergic to states an allergy, not simply a preference. Vegetarian describes a diet without meat but does not necessarily exclude all animal products. Junk food does not mean every quickly prepared meal, and processed food describes processing rather than a single judgement about all products.",
+    "taskAr": "صُغ سؤالًا واضحًا لموظف مطعم عن وجود المكسرات في طبق، مع التصريح بالحساسية بدل وصفها كتفضيل.",
+    "taskEn": "Form a clear question for restaurant staff about nuts in a dish, explicitly stating an allergy rather than describing a preference.",
+    "exampleEn": "I'm allergic to nuts. Could you check whether this dish contains them and ask the kitchen about possible contact with nuts during preparation?",
+    "exampleAr": "لدي حساسية من المكسرات. هل يمكنك التحقق مما إذا كان هذا الطبق يحتوي عليها وسؤال المطبخ عن احتمال ملامسته للمكسرات أثناء التحضير؟",
+    "check": {
+      "promptEn": "Which sentence clearly states an allergy rather than a preference?",
+      "choices": [
+        "I'm allergic to nuts.",
+        "I don't usually choose nuts.",
+        "I prefer fruit to nuts."
+      ],
+      "answer": "I'm allergic to nuts.",
+      "explanationAr": "allergic to تصرّح بوجود حساسية. عدم اختيار المكسرات عادةً أو تفضيل الفاكهة لا ينقل هذه المعلومة.",
+      "explanationEn": "Allergic to explicitly states an allergy. Not usually choosing nuts or preferring fruit does not communicate that information."
+    }
+  },
+  "b1-x-u11-l3": {
+    "focusAr": "تستخدم الوصفة أفعال الأمر مع روابط مثل first وthen وfinally. chop تقطيع إلى قطع، وpeel إزالة القشرة، وstir تحريك المزيج. ميّز بين for لمدة محددة وuntil لنتيجة تنتهي عندها الخطوة. simmer طهي بسائل يغلي برفق، وليس غليانًا قويًا. وضّح المقصود بالضمير عند تعدد المكونات.",
+    "focusEn": "Recipes use imperative verbs with links such as first, then, and finally. Chop means cut into pieces, peel means remove the skin, and stir means move a mixture around. Distinguish for a duration from until an endpoint is reached. Simmer means cook in gently bubbling liquid rather than at a strong boil. Keep pronoun references clear when several ingredients are involved.",
+    "taskAr": "اكتب ثلاث خطوات لغوية لتحضير صلصة بسيطة: تقطيع البصل، قليه حتى يلين، ثم إضافة الطماطم وتركها تطهى برفق.",
+    "taskEn": "Write three language-practice steps for a simple sauce: chop onion, fry it until soft, then add tomatoes and let the mixture simmer.",
+    "exampleEn": "First, chop the onion into small pieces. Then fry it gently until it becomes soft. Finally, add the tomatoes and let the sauce simmer, stirring from time to time.",
+    "exampleAr": "أولًا، قطّع البصل قطعًا صغيرة. ثم اقله على نار هادئة حتى يلين. وأخيرًا، أضف الطماطم ودع الصلصة تطهى برفق مع التحريك من وقت لآخر.",
+    "check": {
+      "promptEn": "Which instruction uses until to name an endpoint rather than a duration?",
+      "choices": [
+        "Stir until the sugar dissolves.",
+        "Stir until five minutes.",
+        "Stir for the sugar dissolves."
+      ],
+      "answer": "Stir until the sugar dissolves.",
+      "explanationAr": "until تتبعها هنا نتيجة يمكن ملاحظتها: ذوبان السكر. مع مدة مثل five minutes نستخدم for، لا until.",
+      "explanationEn": "Until introduces an observable endpoint here: the sugar dissolving. Use for with a duration such as five minutes, not until."
+    }
+  },
+  "b1-x-u11-l4": {
+    "focusAr": "leftovers ما يبقى من طعام مُعدّ، وليست كل نفايات المطبخ. meal plan خطة وجبات، وbatch cook إعداد عدة وجبات أو كمية كبيرة مسبقًا. مع الضمير نقول throw it away. فرّق بين التخطيط للشراء وتعليمات تخزين كل منتج؛ لا تجعل تقليل الهدر سببًا لتجاهل ملصقه.",
+    "focusEn": "Leftovers are remaining prepared food, not all kitchen waste. A meal plan organizes meals, while batch cook means prepare several meals or a larger quantity in advance. With a pronoun, say throw it away. Distinguish purchase planning from each product's storage instructions; reducing waste is not a reason to ignore its label.",
+    "taskAr": "اشرح كيف تكتب قائمة مشتريات بعد مراجعة الموجود في المنزل، وما الذي تراجعه على الملصقات.",
+    "taskEn": "Explain how you write a shopping list after checking what you already have, and what you check on labels.",
+    "exampleEn": "I make a meal plan and check the cupboard before writing my shopping list. I buy the amounts I need and check the dates and storage instructions on the labels.",
+    "exampleAr": "أضع خطة للوجبات وأراجع خزانة الطعام قبل كتابة قائمة مشترياتي. أشتري الكميات التي أحتاج إليها وأتحقق من التواريخ وتعليمات التخزين على الملصقات.",
+    "check": {
+      "promptEn": "Which item is a leftover in the usual food sense?",
+      "choices": [
+        "Some cooked rice remaining after dinner.",
+        "An unopened empty shopping bag.",
+        "A shopping list for next week."
+      ],
+      "answer": "Some cooked rice remaining after dinner.",
+      "explanationAr": "الأرز المطهو المتبقي بعد الوجبة مثال على leftovers. الكيس والقائمة ليسا طعامًا مُعدًا متبقيًا.",
+      "explanationEn": "Cooked rice remaining after a meal is a leftover. A bag and a shopping list are not remaining prepared food."
+    }
+  },
+  "b1-x-u12-l1": {
+    "focusAr": "اختر الصفة بحسب السبب: relieved ارتياح بعد زوال قلق، وgrateful امتنان لمساعدة، وembarrassed حرج من موقف اجتماعي. frustrated غالبًا إحباط بسبب عائق، وdisappointed خيبة أمل عندما لا تتحقق التوقعات. يمكن اجتماع مشاعر عدة؛ اذكر السبب بدل افتراض أن لكل موقف شعورًا واحدًا لازمًا.",
+    "focusEn": "Choose an adjective by its cause: relieved is less worried after a concern ends, grateful is thankful for help, and embarrassed concerns social discomfort. Frustrated often relates to an obstacle, while disappointed relates to unmet hopes. Feelings can overlap; state the reason instead of assuming every situation has one compulsory emotional response.",
+    "taskAr": "صف تغير شعورك من القلق بشأن ملف مفقود إلى الارتياح عند العثور عليه، ثم عبّر عن الامتنان لمن ساعدك.",
+    "taskEn": "Describe moving from worry about a missing file to relief when it is found, then express gratitude to the helper.",
+    "exampleEn": "I felt anxious when I couldn't find the file. I was relieved when my colleague found a copy, and I was grateful for her help.",
+    "exampleAr": "شعرت بالقلق عندما لم أجد الملف. وارتحت عندما عثرت زميلتي على نسخة منه، وكنت ممتنًا لمساعدتها.",
+    "check": {
+      "promptEn": "You were worried about missing a train, then learned it had not left. Which word specifically expresses the end of that worry?",
+      "choices": [
+        "Relieved.",
+        "Guilty.",
+        "Embarrassed."
+      ],
+      "answer": "Relieved.",
+      "explanationAr": "relieved تصف زوال القلق المذكور. guilty ترتبط بالشعور بالذنب، وembarrassed بالإحراج؛ لا يذكر الموقف سببًا لأي منهما.",
+      "explanationEn": "Relieved specifically describes the stated worry ending. Guilty relates to guilt and embarrassed to social discomfort; no cause for either is given here."
+    }
+  },
+  "b1-x-u12-l2": {
+    "focusAr": "استخدم الماضي المستمر للخلفية التي كانت جارية، والماضي البسيط للحدث الجديد: I was waiting when she called. bump into في سياق الأشخاص قد تعني اللقاء صدفة، لا الاصطدام الحرفي. out of the blue تعني دون توقع، وturn out تقديم ما اتضح لاحقًا. اربط المفاجأة بنتيجتها ليكتمل السرد.",
+    "focusEn": "Use the past continuous for an ongoing background and the past simple for a new event: I was waiting when she called. Bump into can mean meet someone unexpectedly, not literally collide. Out of the blue means without warning, and turn out introduces what became clear later. Connect the surprise with its outcome to complete the story.",
+    "taskAr": "اروِ موقفًا تخيليًا كنت تنتظر فيه حافلة فصادفت زميلًا قديمًا، ثم اكتشفت أنه يعمل قريبًا منك.",
+    "taskEn": "Tell an imagined story in which you were waiting for a bus, met an old classmate by chance, and discovered that they work near you.",
+    "exampleEn": "I was waiting for the bus when I bumped into an old classmate. It turned out that she worked in the next building. We exchanged numbers so we could keep in touch.",
+    "exampleAr": "كنت أنتظر الحافلة عندما صادفت زميلة قديمة. واتضح أنها تعمل في المبنى المجاور. تبادلنا رقمي الهاتف لنبقى على تواصل.",
+    "check": {
+      "promptEn": "Which sentence combines an ongoing background with a new event?",
+      "choices": [
+        "I was waiting when my friend called.",
+        "I wait yesterday when my friend calls.",
+        "I was wait when my friend calling."
+      ],
+      "answer": "I was waiting when my friend called.",
+      "explanationAr": "was waiting تصف الخلفية المستمرة وcalled الحدث الجديد في الماضي. البديلان لا يستخدمان الصيغ المناسبة للجملة الماضية.",
+      "explanationEn": "Was waiting gives the ongoing background, and called gives the new past event. The alternatives do not use the required verb forms for this past account."
+    }
+  },
+  "b1-x-u12-l3": {
+    "focusAr": "I see your point وI take your point تعترفان بفهم الحجة أو وجاهتها دون موافقة كاملة بالضرورة. partly agree تحدد اتفاقًا جزئيًا، وon the other hand تضيف جانبًا مقابلًا. fair enough تقبّل معقولية كلام الآخر وقد تأتي مع تحفظ. عند الاختلاف، حدّد نقطة الاتفاق ثم سبب التحفظ واقتراحك.",
+    "focusEn": "I see your point and I take your point acknowledge understanding or merit without necessarily full agreement. Partly agree marks limited agreement, while on the other hand adds a contrasting consideration. Fair enough accepts that a point is reasonable and can still allow reservations. When disagreeing, identify common ground, explain your concern, and offer a proposal.",
+    "taskAr": "اختلف بأدب مع اختيار أرخص مكان للاجتماع: اعترف بفائدة السعر، واذكر صعوبة الوصول، واقترح مقارنة مكان آخر.",
+    "taskEn": "Politely question choosing the cheapest meeting venue: acknowledge the price benefit, mention access difficulties, and suggest comparing another place.",
+    "exampleEn": "I see your point about the price, but the venue is difficult to reach by bus. Could we compare it with one nearer the station before deciding?",
+    "exampleAr": "أتفهم وجهة نظرك بشأن السعر، لكن الوصول إلى المكان بالحافلة صعب. هل يمكننا مقارنته بمكان أقرب إلى المحطة قبل أن نقرر؟",
+    "check": {
+      "promptEn": "Someone says, 'I take your point, but I still have concerns.' What does this mean?",
+      "choices": [
+        "They acknowledge the argument while keeping reservations.",
+        "They agree with every part of the proposal.",
+        "They have not understood any part of the argument."
+      ],
+      "answer": "They acknowledge the argument while keeping reservations.",
+      "explanationAr": "العبارة تقرّ بوجاهة النقطة مع بقاء تحفظات يوضحها but. لا تعني اتفاقًا كاملًا أو انعدام الفهم.",
+      "explanationEn": "The phrase acknowledges the point while but introduces continuing reservations. It does not mean complete agreement or total lack of understanding."
+    }
+  },
+  "b1-x-u12-l4": {
+    "focusAr": "اجعل الاعتذار واضحًا: سمِّ الخطأ، وتحمل مسؤوليتك، واشرح السبب بإيجاز ثم اعرض إصلاحًا محددًا. accidentally تعني دون قصد لكنها لا تلغي أثر الخطأ. put something right تعني تصحيح الوضع، وmake amends تعويض المتضرر. تجنّب الوعود المطلقة إن كان الأنسب بيان خطوة تمنع تكرار المشكلة.",
+    "focusEn": "Make an apology clear: name the error, accept your responsibility, briefly explain, and offer a specific repair. Accidentally means unintentionally but does not remove the effect. Put something right means correct the situation, while make amends means compensate for harm. Instead of an absolute promise, explain a practical step to prevent a repeat when appropriate.",
+    "taskAr": "اعتذر عن إرسال موعد خاطئ، واذكر أنك ستصححه وتراجع التفاصيل قبل الرسائل القادمة.",
+    "taskEn": "Apologize for sending the wrong time, say you will correct it, and explain how you will check future messages.",
+    "exampleEn": "I'm sorry I sent the wrong meeting time. It was my fault: I copied an old message. I'll send the correct time now and check the details before sending the next update.",
+    "exampleAr": "آسف لأنني أرسلت موعد الاجتماع الخطأ. كان ذلك خطئي؛ فقد نسخت رسالة قديمة. سأرسل الموعد الصحيح الآن وأراجع التفاصيل قبل إرسال التحديث القادم.",
+    "check": {
+      "promptEn": "Which apology includes responsibility and a specific repair?",
+      "choices": [
+        "I sent the wrong file. I'm sorry, and I'll send the correct version now.",
+        "Mistakes happen, so there is nothing to do.",
+        "You should have guessed that I meant a different file."
+      ],
+      "answer": "I sent the wrong file. I'm sorry, and I'll send the correct version now.",
+      "explanationAr": "يسمي الجواب الصحيح الخطأ ويعتذر ويحدد إصلاحه. البديلان يتجنبان المعالجة أو يحمّلان المستلم مسؤولية التخمين.",
+      "explanationEn": "The correct answer names the error, apologizes, and states the repair. The alternatives avoid fixing it or shift responsibility to the recipient to guess."
+    }
   }
 }

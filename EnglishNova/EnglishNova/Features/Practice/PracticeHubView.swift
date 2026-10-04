@@ -79,6 +79,9 @@ struct PracticeHubView: View {
                       systemImage: "pencil.and.outline", tint: AppTheme.streak) { AnyView(DictationChallengeView()) }
             ]),
             PracticeGroup(id: "exams", title: L("اختبارات وأهداف"), entries: [
+                Entry(id: "mock", title: LE("اختبار تجريبي كامل", "Full mock test"),
+                      detail: LE("Listening أو Reading بتوقيت حقيقي وBand تقريبي", "Timed Listening or Reading with an approximate band"),
+                      systemImage: "stopwatch.fill", tint: AppTheme.streak) { AnyView(MockExamHubView()) },
                 Entry(id: "ielts6", title: L("منهج IELTS 6.0 المكثف"),
                       detail: LE("خطة مكثفة للوصول إلى 6.0", "An intensive plan to reach band 6.0"),
                       systemImage: "scope", tint: AppTheme.brand) { AnyView(IELTSBandSixView()) },

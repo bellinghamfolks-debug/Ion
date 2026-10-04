@@ -33,6 +33,10 @@ struct MeView: View {
             }
 
             Section(LE("تقدّمي", "My progress")) {
+                NavigationLink { SkillsDashboardView() } label: {
+                    row(LE("مهاراتي ومستواي", "My skills and level"), detail: LE("المهارات الست وتقدير مستواك", "Six skills and your estimated level"),
+                        systemImage: "hexagon.fill", tint: AppTheme.brand)
+                }
                 NavigationLink { LearningInsightsView() } label: {
                     row(L("تحليل التقدّم"), detail: LE("مهاراتك ونقاط قوتك", "Your skills and strengths"),
                         systemImage: "chart.xyaxis.line", tint: AppTheme.success)

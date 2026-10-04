@@ -8,6 +8,8 @@ struct SessionSnapshot: Codable {
     var points: Int
     var streak: Int
     var lastStudyDate: Date?
+    /// Added in 2.0; optional so older backups still decode.
+    var streakFreezes: Int?
 }
 
 @MainActor
@@ -18,6 +20,7 @@ final class UserSession: ObservableObject {
     @Published var points = 0
     @Published var streak = 0
     @Published private(set) var lastStudyDate: Date?
+    @Published private(set) var streakFreezes = 0
 
     private let store: FileStore
     private let key = "session.json"
@@ -51,19 +54,25 @@ final class UserSession: ObservableObject {
     }
 
     private func updateStreak(for date: Date) {
-        let calendar = Calendar.current
-        if let lastStudyDate {
-            if calendar.isDate(lastStudyDate, inSameDayAs: date) { return }
-            if let yesterday = calendar.date(byAdding: .day, value: -1, to: date),
-               calendar.isDate(lastStudyDate, inSameDayAs: yesterday) {
-                streak += 1
-            } else {
-                streak = 1
-            }
-        } else {
-            streak = 1
+        let outcome = StreakCalculator.recordStudy(
+            .init(streak: streak, freezes: streakFreezes, lastStudyDate: lastStudyDate),
+            on: date
+        )
+        streak = outcome.state.streak
+        streakFreezes = outcome.state.freezes
+        lastStudyDate = outcome.state.lastStudyDate
+        if outcome.freezesUsed > 0 {
+            ToastCenter.shared.show(LfE("حمت حماية السلسلة سلسلتك (%@ يوم فائت).", "A streak freeze saved your streak (%@ missed day).", "\(outcome.freezesUsed)"), style: .info)
         }
-        lastStudyDate = date
+        if outcome.freezeEarned {
+            ToastCenter.shared.show(LE("ربحت حماية سلسلة: تحفظ سلسلتك إذا فاتك يوم.", "You earned a streak freeze: it saves your streak if you miss a day."), style: .success)
+        }
+    }
+
+    /// The streak that will still count today (it resets visually only once
+    /// it can no longer be saved by study plus freezes).
+    var streakState: StreakCalculator.State {
+        .init(streak: streak, freezes: streakFreezes, lastStudyDate: lastStudyDate)
     }
 
     func exportSnapshot() -> SessionSnapshot {
@@ -73,7 +82,8 @@ final class UserSession: ObservableObject {
             selectedLevel: selectedLevel,
             points: points,
             streak: streak,
-            lastStudyDate: lastStudyDate
+            lastStudyDate: lastStudyDate,
+            streakFreezes: streakFreezes
         )
     }
 
@@ -89,6 +99,7 @@ final class UserSession: ObservableObject {
         points = max(0, snapshot.points)
         streak = max(0, snapshot.streak)
         lastStudyDate = snapshot.lastStudyDate
+        streakFreezes = min(StreakCalculator.maximumFreezes, max(0, snapshot.streakFreezes ?? 0))
     }
 
     func save() async {

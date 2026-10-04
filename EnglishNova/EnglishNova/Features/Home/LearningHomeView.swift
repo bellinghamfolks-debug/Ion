@@ -18,6 +18,7 @@ struct LearningHomeView: View {
                 } else {
                     sessionHero
                     stepsList
+                    wordOfTheDay
                 }
                 aiLearningBrief
                 progressSummary
@@ -72,6 +73,10 @@ struct LearningHomeView: View {
     private var statChips: some View {
         StatChip(systemImage: "flame.fill", tint: AppTheme.streak,
                  value: "\(session.streak)", label: LE("أيام متتالية", "day streak"))
+        if session.streakFreezes > 0 {
+            StatChip(systemImage: "snowflake", tint: AppTheme.accentTeal,
+                     value: "\(session.streakFreezes)", label: LE("حماية للسلسلة", "streak freeze"))
+        }
         StatChip(systemImage: "star.fill", tint: AppTheme.warning,
                  value: "\(session.points)", label: LE("نقطة", "points"))
         StatChip(systemImage: "graduationcap.fill", tint: AppTheme.brand,
@@ -252,6 +257,42 @@ struct LearningHomeView: View {
     }
 
     // MARK: - Secondary cards
+
+    @ViewBuilder
+    private var wordOfTheDay: some View {
+        if let word = DailyContentEngine.wordOfTheDay(catalog: model.catalog, level: session.selectedLevel) {
+            InfoCard(title: LE("كلمة اليوم", "Word of the day"), systemImage: "sparkle", tint: AppTheme.warning) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(word.english)
+                        .font(.title.bold())
+                        .environment(\.layoutDirection, .leftToRight)
+                    if let phonetic = word.phonetic, !phonetic.isEmpty {
+                        Text(phonetic).font(.callout).foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Button {
+                        container.textToSpeech.speak(word.english)
+                    } label: {
+                        Image(systemName: "speaker.wave.2.fill").font(.title3)
+                    }
+                    .accessibilityLabel(LfE("استمع إلى %@", "Listen to %@", word.english))
+                }
+                Text(word.arabic).font(.headline)
+                if !word.example.isEmpty {
+                    Text(word.example)
+                        .environment(\.layoutDirection, .leftToRight)
+                        .foregroundStyle(.secondary)
+                }
+                Button {
+                    Task { await container.vocabularyRepository.add(words: [word]) }
+                    ToastCenter.shared.show(LfE("أُضيفت «%@» إلى مراجعتك", "Added “%@” to your review", word.english))
+                } label: {
+                    Label(LE("أضفها إلى مراجعتي", "Add to my review"), systemImage: "plus.circle")
+                }
+                .buttonStyle(.bordered)
+            }
+        }
+    }
 
     @ViewBuilder
     private var aiLearningBrief: some View {

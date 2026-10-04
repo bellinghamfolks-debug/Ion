@@ -38,6 +38,8 @@ struct RootView: View {
 
 struct MainTabView: View {
     enum Tab: Hashable { case today, path, practice, me }
+    @EnvironmentObject private var container: AppContainer
+    @Environment(\.scenePhase) private var scenePhase
     @State private var selection: Tab = .today
 
     var body: some View {
@@ -56,5 +58,36 @@ struct MainTabView: View {
                 .tag(Tab.me)
         }
         .tint(AppTheme.brand)
+        .onChange(of: scenePhase) { _, phase in
+            // Re-plan reminders with fresh numbers whenever the app leaves the screen.
+            if phase == .background { Task { await refreshSmartReminders() } }
+        }
+    }
+
+    private func refreshSmartReminders() async {
+        let settings = container.settings
+        guard settings.reminderEnabled else { return }
+        await container.reminderService.refreshAuthorization()
+        let session = container.session
+        async let due = container.vocabularyRepository.dueCards(on: .now)
+        async let memory = container.learningMemoryRepository.snapshot()
+        async let progress = container.progressRepository.snapshot()
+        let catalog = try? await container.courseRepository.catalog()
+        let loadedProgress = await progress
+        let dueCount = (await due).count
+        let loadedMemory = await memory
+        let lessons = catalog?.levels.first { $0.level == session.selectedLevel }?.units.flatMap(\.lessons) ?? []
+        let next = lessons.first { loadedProgress.lessons[$0.id]?.completedAt == nil }
+        let studiedToday = session.lastStudyDate.map(Calendar.current.isDateInToday) ?? false
+        let context = ReminderPlanner.Context(
+            hour: settings.reminderHour,
+            minute: settings.reminderMinute,
+            studiedToday: studiedToday,
+            streak: session.streak,
+            dueReviews: dueCount,
+            openMistakes: RemedialPracticeEngine.items(mistakes: loadedMemory.mistakes, catalog: catalog).count,
+            nextLessonTitle: next.map { LE($0.titleAr, $0.titleEn) }
+        )
+        await container.reminderService.scheduleSmart(context)
     }
 }

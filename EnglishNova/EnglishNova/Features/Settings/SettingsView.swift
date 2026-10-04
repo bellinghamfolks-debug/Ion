@@ -298,7 +298,8 @@ struct SettingsView: View {
     private var aboutSection: some View {
         Section(L("عن EnglishNova")) {
             LabeledContent(L("الإصدار"), value: appVersion)
-            Text(L("EnglishNova يساعدك على تعلّم الإنجليزية بالدروس والمراجعة والتدريب والمحادثة، مع ميزات اختيارية عبر الإنترنت."))
+            Text(LE("EnglishNova 2.0 يقدّم جلسة يومية قصيرة: مراجعة ثم درس ثم تدريب على أخطائك ثم تحدّث. تعمل الدروس والمراجعة ومدرّب النطق والاختبار التجريبي دون إنترنت، والمساعد الذكي اختياري برصيد يومي. صُمم ليعمل بالكامل مع VoiceOver.",
+                    "EnglishNova 2.0 gives you a short daily session: review, a lesson, practice on your mistakes, then speaking. Lessons, review, the pronunciation coach and the mock test work offline; the AI assistant is optional with a daily allowance. Built to work fully with VoiceOver."))
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }

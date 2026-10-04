@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة عشرة دروس من وحدتي الروتين والتسوق في A2؛ تصحيح shower كاسم، وspicy وchange وdirections، وربط النماذج بمفردات الدرس فعليًا.",
-  "nextStep": "Continue editorial review from a2-x-u3-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة عشر دروس في A2 للعائلة والهوايات والتواصل؛ توسيع معنى cousin بدقة، وتبسيط نموذج العلاقات، وإصلاح نماذج الرياضة والهاتف والرسائل لتتضمن مفردات الدرس.",
+  "nextStep": "Continue editorial review from a2-x-u5-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -1669,90 +1669,120 @@
       "level": "A2",
       "titleAr": "أفراد العائلة",
       "titleEn": "Family Members",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u3-l2",
       "level": "A2",
       "titleAr": "العلاقات والمشاعر",
       "titleEn": "Relationships and Feelings",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u3-l3",
       "level": "A2",
       "titleAr": "وصف الشخصية والطباع",
       "titleEn": "Describing Personality",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u3-l4",
       "level": "A2",
       "titleAr": "الهوايات والاهتمامات",
       "titleEn": "Hobbies and Interests",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u3-l5",
       "level": "A2",
       "titleAr": "الرياضة والأنشطة",
       "titleEn": "Sports and Activities",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u4-l1",
       "level": "A2",
       "titleAr": "المكالمات الهاتفية",
       "titleEn": "Phone Calls",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u4-l2",
       "level": "A2",
       "titleAr": "الرسائل والتطبيقات",
       "titleEn": "Messaging and Apps",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u4-l3",
       "level": "A2",
       "titleAr": "وصف المظهر الخارجي",
       "titleEn": "Describing Appearance",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u4-l4",
       "level": "A2",
       "titleAr": "حجز المواعيد",
       "titleEn": "Making Appointments",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u4-l5",
       "level": "A2",
       "titleAr": "ترتيب الخطط مع الآخرين",
       "titleEn": "Arranging Plans Together",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u5-l1",
@@ -3671,7 +3701,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 138,
-    "pending": 222
+    "reviewed": 148,
+    "pending": 212
   }
 }

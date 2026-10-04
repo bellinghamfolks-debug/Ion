@@ -356,5 +356,195 @@
       "explanationAr": "بعد will تأتي rain فعلًا. في الجملتين الأخريين تسبقها the وتعمل اسمًا للمطر.",
       "explanationEn": "After will, rain is a verb. In the other sentences the precedes rain and it functions as a noun."
     }
+  },
+  "a2-x-u3-l1": {
+    "focusAr": "parents تعني الوالدين، ولا تشمل الأجداد. cousin تشمل ابن العم أو الخال وأبناء العمات والخالات، وكذلك الإناث. لتحديد العمر النسبي استخدم older than أوyounger than، ولذكر أفراد البيت استخدم live with.",
+    "focusEn": "Parents means mother and father, not grandparents. Cousin includes male and female children of your parents' siblings. Use older than or younger than to compare ages, and live with to describe who shares your home.",
+    "taskAr": "صف عائلة من أربعة أفراد تعيش معهم.",
+    "taskEn": "Describe a family of four whose members live together.",
+    "exampleEn": "We are a family of four. I live with my parents and my sister.",
+    "exampleAr": "نحن عائلة من أربعة أفراد. أعيش مع والديّ وأختي.",
+    "check": {
+      "promptEn": "Your mother's sister has a daughter. She is your _____.",
+      "choices": [
+        "cousin",
+        "grandmother",
+        "mother"
+      ],
+      "answer": "cousin",
+      "explanationAr": "ابنة الخالة تدخل في معنى cousin، مثل أبناء العمومة والخؤولة الآخرين.",
+      "explanationEn": "Your aunt's daughter is your cousin, just like the other children of your parents' siblings."
+    }
+  },
+  "a2-x-u3-l2": {
+    "focusAr": "close friend صديق مقرّب، وليس مجرد شخص يسكن قريبًا. trust فعل يتبعه الشخص مباشرة: I trust her، دون in في هذا المعنى البسيط. married وsingle تصفان الحالة الاجتماعية ولا تدلان وحدهما على طريقة السكن.",
+    "focusEn": "A close friend is emotionally close, not simply someone living nearby. Trust takes the person directly: I trust her. Married and single describe relationship status and do not by themselves tell us who someone lives with.",
+    "taskAr": "اذكر أنك تثق بصديقك وأنكما تساعدان بعضكما.",
+    "taskEn": "Say that you trust your friend and help each other.",
+    "exampleEn": "I trust my friend, and we help each other.",
+    "exampleAr": "أثق بصديقي، ونساعد بعضنا بعضًا.",
+    "check": {
+      "promptEn": "A close friend is someone you _____.",
+      "choices": [
+        "know well and feel connected to",
+        "only pass in the street",
+        "have never met or spoken to"
+      ],
+      "answer": "know well and feel connected to",
+      "explanationAr": "close هنا تصف قوة العلاقة، لا مجرد القرب المكاني أو المرور بجانب شخص.",
+      "explanationEn": "Close here describes the strength of the relationship, not just physical distance or passing someone."
+    }
+  },
+  "a2-x-u3-l3": {
+    "focusAr": "اختر الصفة بحسب السلوك: honest للصدق، وpolite للأدب، وpatient للصبر. honest لا تعني بالضرورة أن طريقة الكلام لطيفة. بعد kind نستخدم to للشخص، وبعد patient نستخدم with.",
+    "focusEn": "Choose the adjective by behaviour: honest concerns truthfulness, polite concerns manners, and patient concerns waiting or tolerating difficulty calmly. Honesty does not automatically mean gentle wording. Use kind to someone and patient with someone.",
+    "taskAr": "صف معلمًا صبورًا مع الطلاب.",
+    "taskEn": "Describe a teacher who is patient with students.",
+    "exampleEn": "Our teacher is patient with the students.",
+    "exampleAr": "معلمنا صبور مع الطلاب.",
+    "check": {
+      "promptEn": "Someone tells the truth even when it is difficult. Which adjective fits?",
+      "choices": [
+        "honest",
+        "shy",
+        "funny"
+      ],
+      "answer": "honest",
+      "explanationAr": "honest تصف الصدق. shy للخجل وfunny لما يثير الضحك، ولا تستلزمان قول الحقيقة.",
+      "explanationEn": "Honest describes truthfulness. Shy and funny describe different traits and do not imply telling the truth."
+    }
+  },
+  "a2-x-u3-l4": {
+    "focusAr": "بعد enjoy يأتي الفعل بصيغة ing: enjoy reading. وبعد interested نستخدم in ثم الاسم أوing. painting هنا الرسم بالألوان، بينما reading نشاط القراءة. قل practise the guitar أوpractise playing the guitar.",
+    "focusEn": "Enjoy takes an ing form: enjoy reading. Interested takes in followed by a noun or ing form. Painting refers to working with paint, and reading names a different activity. Both practise the guitar and practise playing the guitar are useful patterns.",
+    "taskAr": "اذكر اهتمامك بالتصوير واستمتاعك بالرسم بالألوان.",
+    "taskEn": "Say that you are interested in photography and enjoy painting.",
+    "exampleEn": "I am interested in photography, and I enjoy painting.",
+    "exampleAr": "أنا مهتم بالتصوير وأستمتع بالرسم بالألوان.",
+    "check": {
+      "promptEn": "Complete: I enjoy _____ novels.",
+      "choices": [
+        "reading",
+        "to read",
+        "read"
+      ],
+      "answer": "reading",
+      "explanationAr": "بعد enjoy نستخدم صيغة ing، لذلك reading هي المناسبة هنا.",
+      "explanationEn": "Enjoy is followed by an ing form, so reading fits here."
+    }
+  },
+  "a2-x-u3-l5": {
+    "focusAr": "استخدم play مع ألعاب مثل football، وgo مع أنشطة مثل swimming، وdo مع exercise. team مجموعة اللاعبين، أما club فقد يكون المؤسسة التي تنظم النشاط. join يتبعها اسم المجموعة مباشرة دون to.",
+    "focusEn": "Use play with games such as football, go with activities such as swimming, and do with exercise. A team is a group of players; a club can be the organisation running the activity. Join takes the group directly without to.",
+    "taskAr": "ادع شخصًا إلى الانضمام إلى فريقك.",
+    "taskEn": "Invite someone to join your team.",
+    "exampleEn": "Would you like to join our team?",
+    "exampleAr": "هل ترغب في الانضمام إلى فريقنا؟",
+    "check": {
+      "promptEn": "Complete: Would you like to join _____?",
+      "choices": [
+        "our club",
+        "to our club",
+        "at our club"
+      ],
+      "answer": "our club",
+      "explanationAr": "join يتبعها المفعول مباشرة: join our club. لا نضيف to كما قد توحي الترجمة العربية.",
+      "explanationEn": "Join takes its object directly: join our club. Do not add to, even though Arabic uses a preposition."
+    }
+  },
+  "a2-x-u4-l1": {
+    "focusAr": "في المكالمة عرّف بطلبك بوضوح. call someone تعني الاتصال به، وanswer the phone الرد على الهاتف. إذا كان الشخص غير متاح يمكنك طلب أن يتصل بك لاحقًا أو ترك voicemail؛ لا تعني busy أن الرقم خاطئ.",
+    "focusEn": "Make your purpose clear on a call. Call someone means phone them; answer the phone means respond to a call. If someone is unavailable, ask them to call back or leave a voicemail. Busy does not mean the number is wrong.",
+    "taskAr": "اطلب من المتلقي أن يخبر سارة بالاتصال بك.",
+    "taskEn": "Ask the person who answered to tell Sara to call you.",
+    "exampleEn": "Could you ask Sara to call me, please?",
+    "exampleAr": "هل يمكنك أن تطلب من سارة الاتصال بي، من فضلك؟",
+    "check": {
+      "promptEn": "The line is busy. What does busy describe here?",
+      "choices": [
+        "the line being in use",
+        "the phone being new",
+        "the caller's address"
+      ],
+      "answer": "the line being in use",
+      "explanationAr": "busy تصف انشغال الخط في سياق الاتصال، لا صفات الجهاز أو عنوان المتصل.",
+      "explanationEn": "Busy describes the line being in use in this telephone context, not the device or the caller's address."
+    }
+  },
+  "a2-x-u4-l2": {
+    "focusAr": "text اسم لرسالة نصية هنا، وreply فعل يتبعه to قبل الرسالة: reply to my text. share something with someone تحدد الشيء والشخص معًا. notification إشعار بوصول حدث، وقد تحتاج إلى فتح الرسالة لمعرفة محتواها.",
+    "focusEn": "Text is a message noun here, and reply takes to before a message: reply to my text. Share something with someone names both the content and recipient. A notification reports an event; reading the message may be needed for its full content.",
+    "taskAr": "اطلب ردًا على رسالتك عندما يتفرغ الشخص.",
+    "taskEn": "Ask for a reply to your text when the person has time.",
+    "exampleEn": "Please reply to my text when you are free.",
+    "exampleAr": "من فضلك، رد على رسالتي النصية عندما تتفرغ.",
+    "check": {
+      "promptEn": "Complete: Can you share the file _____ me?",
+      "choices": [
+        "with",
+        "to",
+        "at"
+      ],
+      "answer": "with",
+      "explanationAr": "التركيب هو share something with someone، ولذلك نستخدم with قبل الشخص.",
+      "explanationEn": "The pattern is share something with someone, so with introduces the person."
+    }
+  },
+  "a2-x-u4-l3": {
+    "focusAr": "استخدم is مع صفة مثل tall، وhas مع اسم مثل hair أوbeard. hair بمعنى شعر الرأس عامة غير معدود: short black hair دون a. لتفصيل الوصف اذكر الطول ثم اللون قبل hair.",
+    "focusEn": "Use is with an adjective such as tall and has with a noun such as hair or beard. Hair as a whole is uncountable: short black hair without a. Put length and then colour before hair to make the description specific.",
+    "taskAr": "صف أخاك بأنه طويل القامة وله شعر بني قصير.",
+    "taskEn": "Describe your brother as tall with short brown hair.",
+    "exampleEn": "My brother is tall and has short brown hair.",
+    "exampleAr": "أخي طويل القامة وله شعر بني قصير.",
+    "check": {
+      "promptEn": "Complete: She _____ long brown hair.",
+      "choices": [
+        "has",
+        "is",
+        "are"
+      ],
+      "answer": "has",
+      "explanationAr": "hair اسم لما تملكه أو تتصف به، فنستخدم has. مع صفة مثل tall نستخدم is.",
+      "explanationEn": "Hair is a noun describing a feature someone has, so use has. Use is with an adjective such as tall."
+    }
+  },
+  "a2-x-u4-l4": {
+    "focusAr": "book أوmake an appointment لإنشاء الموعد، وconfirm لتأكيده، وcancel لإلغائه. available مع شخص تسأل عن تفرغه في الوقت المحدد. اقترح يومًا ثم تأكد من الساعة بدل اعتبار اليوم وحده تأكيدًا كاملًا.",
+    "focusEn": "Book or make an appointment sets it up; confirm verifies it and cancel removes it. Available asks whether a person is free at a particular time. Suggest a day and then confirm the hour rather than treating the day alone as complete confirmation.",
+    "taskAr": "اطلب موعدًا يوم الاثنين واسأل عن الساعة الثالثة.",
+    "taskEn": "Ask for a Monday appointment and ask whether three o'clock is available.",
+    "exampleEn": "I'd like an appointment for Monday. Is three o'clock available?",
+    "exampleAr": "أود موعدًا يوم الاثنين. هل الساعة الثالثة متاحة؟",
+    "check": {
+      "promptEn": "You can no longer attend and want to remove the booking. You need to _____.",
+      "choices": [
+        "cancel it",
+        "confirm it",
+        "attend it"
+      ],
+      "answer": "cancel it",
+      "explanationAr": "cancel تلغي الحجز، بينما confirm تثبته وattend تعني الحضور.",
+      "explanationEn": "Cancel removes the booking; confirm verifies it and attend means be present."
+    }
+  },
+  "a2-x-u4-l5": {
+    "focusAr": "للاتفاق على لقاء حدّد المكان والوقت: at the café at six. بعد wait نستخدم for قبل الشخص: wait for you. لا تخلط Are you free? للسؤال عن التفرغ مع Is it free? للسؤال المحتمل عن السعر.",
+    "focusEn": "Agree on both place and time: at the café at six. Wait takes for before a person: wait for you. Are you free? asks about availability, while Is it free? can ask whether something costs nothing.",
+    "taskAr": "اتفق على لقاء أمام المقهى في السادسة.",
+    "taskEn": "Arrange to meet in front of the café at six.",
+    "exampleEn": "Let's meet in front of the café at six.",
+    "exampleAr": "لنلتقِ أمام المقهى في السادسة.",
+    "check": {
+      "promptEn": "Complete: I will wait _____ you at the door.",
+      "choices": [
+        "for",
+        "to",
+        "at"
+      ],
+      "answer": "for",
+      "explanationAr": "نستخدم wait for someone للدلالة على انتظار الشخص.",
+      "explanationEn": "Use wait for someone to say who you are waiting for."
+    }
   }
 }

@@ -344,5 +344,195 @@
       "explanationAr": "التسليم يوم الخميس يسبق الموعد النهائي يوم الجمعة. بدء العمل بعد الموعد أو التسليم في الاثنين التالي لا يحقق الالتزام به.",
       "explanationEn": "Submitting on Thursday is before Friday's deadline. Starting after the deadline or submitting the following Monday does not meet it."
     }
+  },
+  "b1-x-u3-l1": {
+    "focusAr": "تحدث عن العادة وتكرارها وسبب اختيارها بدل وصفها بكلمة healthy فقط. cut down on تعني التقليل من شيء، لا التوقف عنه تمامًا. stay active تعني الحفاظ على النشاط، وget into shape تحسين اللياقة، ولا تفترض أنك كنت لائقًا سابقًا. استخدم trying to لجهد مستمر لم يتحول إلى عادة ثابتة بعد.",
+    "focusEn": "Describe a habit, its frequency, and your reason for choosing it instead of only calling it healthy. Cut down on means reduce something, not stop it completely. Stay active means remain physically active; get into shape means become fitter, without assuming you were fit before. Use trying to for an ongoing effort that is not yet an established habit.",
+    "taskAr": "صف تغييرًا تدريجيًا في روتينك، واذكر ما تفعله الآن وعدد مرات فعله وما تحاول تقليله.",
+    "taskEn": "Describe a gradual change in your routine, saying what you now do, how often, and what you are trying to reduce.",
+    "exampleEn": "I'm trying to stay active by walking to the local shops twice a week. I'm also trying to cut down on the time I spend sitting in front of the television.",
+    "exampleAr": "أحاول الحفاظ على نشاطي بالمشي إلى المتاجر القريبة مرتين أسبوعيًا. وأحاول أيضًا تقليل الوقت الذي أقضيه جالسًا أمام التلفاز.",
+    "check": {
+      "promptEn": "Someone used to have four sugary drinks a day and now has one. Which phrase describes the change?",
+      "choices": [
+        "They have cut down on sugary drinks.",
+        "They have stopped drinking sugary drinks completely.",
+        "They have increased the number of sugary drinks."
+      ],
+      "answer": "They have cut down on sugary drinks.",
+      "explanationAr": "cut down on تعني التقليل، وهو ما حدث من أربعة مشروبات إلى واحد. لا يعني ذلك التوقف التام أو الزيادة.",
+      "explanationEn": "Cut down on means reduce, as in the change from four drinks to one. It does not mean stopping completely or increasing the amount."
+    }
+  },
+  "b1-x-u3-l2": {
+    "focusAr": "stressed out تصف التوتر الشديد، وoverwhelmed شعورًا بأن المطالب تفوق قدرتك الحالية على التعامل معها. استخدم feel مع الصفة، وby لبيان سبب الإرهاق عند الحاجة. unwind فعل يعني الاسترخاء بعد الضغط. عند الحديث عن الراحة صف تجربتك الشخصية، دون افتراض أن الطريقة نفسها تناسب الجميع.",
+    "focusEn": "Stressed out describes strong stress; overwhelmed describes feeling that demands exceed your current ability to manage them. Use feel with an adjective and, when useful, by to identify the cause of pressure. Unwind is a verb meaning relax after stress. When discussing rest, describe your own experience without assuming the same approach suits everyone.",
+    "taskAr": "صف شعورك أمام عدة مواعيد نهائية، ثم اذكر ما يساعدك شخصيًا على الاسترخاء وطلبًا عمليًا للمساعدة.",
+    "taskEn": "Describe how you feel when facing several deadlines, then state what helps you unwind and make a practical request for help.",
+    "exampleEn": "I feel overwhelmed by these deadlines. A quiet walk usually helps me unwind. Could we agree which task I should finish first?",
+    "exampleAr": "أشعر بأن هذه المواعيد النهائية تفوق قدرتي على التعامل معها. عادةً ما تساعدني نزهة هادئة على الاسترخاء. هل يمكننا الاتفاق على المهمة التي ينبغي أن أنجزها أولًا؟",
+    "check": {
+      "promptEn": "Which sentence correctly uses unwind as a verb?",
+      "choices": [
+        "I unwind by reading after work.",
+        "I feel very unwind today.",
+        "My unwind is extremely stressed."
+      ],
+      "answer": "I unwind by reading after work.",
+      "explanationAr": "unwind فعل، فيناسبه فاعل وطريقة مثل by reading. بعد feel very نحتاج صفة مثل stressed، لا هذا الفعل.",
+      "explanationEn": "Unwind is a verb, so it fits with a subject and a method such as by reading. After feel very, we need an adjective such as stressed, not this verb."
+    }
+  },
+  "b1-x-u3-l3": {
+    "focusAr": "device جهاز مادي، وapp برنامج يعمل عليه، وupdate تحديث للبرنامج وقد يأتي أيضًا فعلًا. قل log in to your account للفعل، بينما login قد تكون اسمًا أو صفة. لشرح فائدة تقنية، اربط وظيفة محددة بنتيجة، مثل تذكير بالموعد يساعدك على توفير الوقت، بدل تعميم أنها تفعل كل شيء.",
+    "focusEn": "A device is physical equipment, an app is software running on it, and an update is a software change; update can also be a verb. Use log in to your account for the action, while login can be a noun or adjective. Explain a technical benefit by linking one function to a result instead of claiming it does everything.",
+    "taskAr": "اشرح لصديق كيف تستخدم تطبيقًا لتتبع الحافلة، مع ذكر تسجيل الدخول وفائدة عملية.",
+    "taskEn": "Explain to a friend how you use an app to track a bus, mentioning logging in and a practical benefit.",
+    "exampleEn": "I log in to the travel app to check when my bus will arrive. It helps me save time because I can leave home closer to the arrival time.",
+    "exampleAr": "أسجّل الدخول إلى تطبيق النقل لأتحقق من موعد وصول الحافلة. يساعدني ذلك على توفير الوقت لأنني أستطيع مغادرة المنزل في وقت أقرب إلى وصولها.",
+    "check": {
+      "promptEn": "You install new software on your existing phone. Which description is accurate?",
+      "choices": [
+        "You have installed an update, not bought another device.",
+        "You have bought a new physical device.",
+        "You have replaced your phone with a password."
+      ],
+      "answer": "You have installed an update, not bought another device.",
+      "explanationAr": "التحديث يغيّر البرنامج على الجهاز الموجود. تثبيت برنامج لا يعني شراء جهاز مادي جديد، وكلمة المرور ليست جهازًا.",
+      "explanationEn": "An update changes software on the existing device. Installing software does not mean buying new hardware, and a password is not a device."
+    }
+  },
+  "b1-x-u3-l4": {
+    "focusAr": "ميّز بين suspicious، أي مثير للشك، وscam، أي عملية احتيال؛ الشك وحده لا يثبت الاحتيال. back up فعل من كلمتين لإنشاء نسخة، وbackup اسم للنسخة. استخدم log out of an account للخروج من الحساب. عند وصف رسالة مريبة، حدّد العلامة التي أثارت شكك والإجراء الذي اتخذته.",
+    "focusEn": "Distinguish suspicious, meaning concerning, from scam, meaning a fraudulent scheme; suspicion alone is not proof. Back up is a two-word verb for making a copy, while backup is a noun for the copy. Use log out of an account for leaving it. When describing a suspicious message, identify what concerned you and what action you took.",
+    "taskAr": "صف رسالة طلبت كلمة مرورك وأثارت شكك، واذكر أنك لم تستخدم رابطها وتحققت عبر التطبيق المعتاد.",
+    "taskEn": "Describe a message requesting your password that made you suspicious, and say you avoided its link and checked through your usual app.",
+    "exampleEn": "The message seemed suspicious because it asked for my password. I did not use the link. I opened my usual app to check whether there was a message in my account.",
+    "exampleAr": "بدت الرسالة مريبة لأنها طلبت كلمة مروري. لم أستخدم الرابط. فتحت تطبيقي المعتاد لأتحقق مما إذا كانت هناك رسالة في حسابي.",
+    "check": {
+      "promptEn": "Which sentence uses back up correctly as an action?",
+      "choices": [
+        "I back up my files before changing devices.",
+        "I a back up my files before changing devices.",
+        "I backuped my files yesterday."
+      ],
+      "answer": "I back up my files before changing devices.",
+      "explanationAr": "back up فعل مركب يُكتب كلمتين، ويأتي مباشرة بعد الفاعل هنا. لا نضع a قبله، وصيغة الماضي backed up وليست backuped.",
+      "explanationEn": "Back up is a two-word verb and follows the subject directly here. It does not take a before it, and its past form is backed up, not backuped."
+    }
+  },
+  "b1-x-u3-l5": {
+    "focusAr": "recycle يعني معالجة مواد لتصبح قابلة للاستخدام مجددًا، بينما إعادة استخدام الشيء نفسه لا تتطلب هذه المعالجة. waste هنا نفايات وهو اسم غير معدود، لكن الكلمة قد تكون فعلًا بمعنى يهدر. تجنّب الوعود المطلقة عن الأثر البيئي؛ صف الإجراء المحدد وما تهدف إليه مثل تقليل النفايات أو توفير الطاقة.",
+    "focusEn": "Recycle means process materials so they can be used again; using the same object again does not necessarily involve that processing. Waste here means unwanted material and is uncountable, although waste can also be a verb. Avoid absolute claims about environmental effects; name the action and its intended result, such as reducing waste or saving energy.",
+    "taskAr": "اقترح إجراءين محددين في المكتب لتقليل النفايات وتوفير الطاقة، وبيّن كيف ستشارك فيهما.",
+    "taskEn": "Suggest two specific office actions to reduce waste and save energy, and explain your own part in them.",
+    "exampleEn": "We could use reusable cups to produce less waste. We could also turn off unused lights to save energy. I'll put a reminder near the meeting-room door.",
+    "exampleAr": "يمكننا استخدام أكواب قابلة لإعادة الاستخدام لإنتاج نفايات أقل. ويمكننا أيضًا إطفاء الأضواء غير المستخدمة لتوفير الطاقة. سأضع تذكيرًا قرب باب غرفة الاجتماع.",
+    "check": {
+      "promptEn": "You wash and use the same glass jar again without processing the glass. What are you doing?",
+      "choices": [
+        "Reusing the jar.",
+        "Manufacturing new glass from old glass.",
+        "Creating a new type of climate."
+      ],
+      "answer": "Reusing the jar.",
+      "explanationAr": "تستخدم الوعاء نفسه من جديد، وهذا إعادة استخدام. لم يذكر الموقف معالجة الزجاج لصنع مادة أو منتج جديد.",
+      "explanationEn": "You are using the same jar again, which is reuse. The situation does not describe processing the glass to make new material or a new product."
+    }
+  },
+  "b1-x-u4-l1": {
+    "focusAr": "tradition ممارسة موروثة أو مستمرة عبر الزمن، وcustom عادة اجتماعية شائعة؛ وقد تتداخل الكلمتان. heritage أوسع ويشمل عناصر من التراث الثقافي. تعني pass down نقل شيء إلى الجيل التالي. صف عائلتك أو مجتمعك المحدد، واستخدم many أوsome عند الحاجة بدل نسبة العادة إلى جميع أفراد بلد.",
+    "focusEn": "A tradition is a practice continued or inherited over time, while a custom is a common social practice; the words can overlap. Heritage is broader and includes elements of cultural inheritance. Pass down means transmit something to the next generation. Describe your own family or specific community, using many or some when needed rather than applying a practice to everyone in a country.",
+    "taskAr": "صف تقليدًا عائليًا، ومن نقله إليكم، ومتى تمارسونه، دون تعميمه على كل الأسر.",
+    "taskEn": "Describe a family tradition, who passed it down, and when you practise it, without generalizing to all families.",
+    "exampleEn": "In my family, we cook my grandmother's special rice dish when relatives visit. She passed down the recipe to my father, who taught it to me. It is a tradition I enjoy.",
+    "exampleAr": "في عائلتي، نعد طبق الأرز الخاص بجدتي عندما يزورنا الأقارب. نقلت الوصفة إلى أبي الذي علّمني إياها. إنه تقليد أستمتع به.",
+    "check": {
+      "promptEn": "A recipe passes from a grandmother to a parent and then to a child. Which expression fits?",
+      "choices": [
+        "The family passes down the recipe.",
+        "The family throws away every copy of the recipe.",
+        "The recipe is new and has never been shared."
+      ],
+      "answer": "The family passes down the recipe.",
+      "explanationAr": "pass down تصف نقل الوصفة بين الأجيال. حذف النسخ أو القول إنها لم تُشارك يناقض انتقالها المذكور في الموقف.",
+      "explanationEn": "Pass down describes sharing the recipe across generations. Throwing away copies or saying it has never been shared contradicts the situation."
+    }
+  },
+  "b1-x-u4-l2": {
+    "focusAr": "open-minded تعني الاستعداد للنظر في أفكار مختلفة، ولا تشترط الموافقة على كل فكرة. respect تعني الاحترام ويمكن أن يصاحبها اختلاف مهذب. fit in تصف الشعور بالاندماج في مجموعة. اسأل عن التفضيل الشخصي بدل افتراضه من الجنسية، وميّز بين تجربة فرد واحد وعادة واسعة الانتشار.",
+    "focusEn": "Open-minded means willing to consider different ideas, not required to agree with every idea. Respect can coexist with polite disagreement. Fit in describes feeling accepted within a group. Ask about a person's preferences instead of assuming them from nationality, and distinguish one individual's experience from a widely shared practice.",
+    "taskAr": "اكتب سؤالًا محترمًا لمضيفك عن العادة المتبعة عند الزيارة، ثم جوابًا يوضح أنك معتاد على طريقة مختلفة ومستعد للتعلم.",
+    "taskEn": "Ask a host respectfully about a visiting custom, then respond by explaining that you are used to a different practice and are willing to learn.",
+    "exampleEn": "Is there anything you would like guests to do when they arrive? We do things differently in my family, but I'd like to understand your custom.",
+    "exampleAr": "هل هناك شيء تفضّل أن يفعله الضيوف عند وصولهم؟ نتبع طريقة مختلفة في عائلتي، لكنني أود فهم عادتكم.",
+    "check": {
+      "promptEn": "Which response shows openness without pretending everyone has the same beliefs?",
+      "choices": [
+        "I see it differently, but I'd like to understand your view.",
+        "Everyone from your country must agree with you.",
+        "Respect means I must accept every opinion as true."
+      ],
+      "answer": "I see it differently, but I'd like to understand your view.",
+      "explanationAr": "يُظهر الجواب الصحيح استعدادًا للفهم مع الاحتفاظ برأي مختلف. لا يتطلب الاحترام تعميم رأي الفرد أو اعتبار كل رأي حقيقة.",
+      "explanationEn": "The correct response shows willingness to understand while keeping a different view. Respect does not require generalizing one person's opinion or treating every view as true."
+    }
+  },
+  "b1-x-u4-l3": {
+    "focusAr": "اربط strength، أي نقطة القوة، بمثال عملي؛ فذكر الصفة وحدها لا يوضح قدرتك. qualification مؤهل مناسب للوظيفة، وrésumé ملخص خبرتك وتعليمك. قل apply for a job وapply to a company. عند التدريب يمكنك استخدام مثال حقيقي من الدراسة أو التطوع إذا لم تكن لديك خبرة وظيفية.",
+    "focusEn": "Connect a strength with a practical example; naming a quality alone does not show what you can do. A qualification is relevant preparation or certification, and a résumé summarizes experience and education. Say apply for a job and apply to a company. In practice, use a real example from study or volunteering if you have no employment experience.",
+    "taskAr": "حضّر إجابة عن نقطة قوة باستخدام موقف دراسي أو تطوعي، واذكر الفعل الذي قمت به والنتيجة.",
+    "taskEn": "Prepare an answer about a strength using a study or volunteering situation, naming your action and its result.",
+    "exampleEn": "One of my strengths is organization. During a college event, I made a clear schedule for our team. Everyone knew when to arrive, and we were ready on time.",
+    "exampleAr": "إحدى نقاط قوتي التنظيم. خلال فعالية جامعية، أعددت جدولًا واضحًا لفريقنا. عرف الجميع متى يحضرون، وكنا مستعدين في الوقت المحدد.",
+    "check": {
+      "promptEn": "Which phrase correctly names the position you want?",
+      "choices": [
+        "I want to apply for the assistant role.",
+        "I want to apply at the assistant role.",
+        "I want to apply the assistant role."
+      ],
+      "answer": "I want to apply for the assistant role.",
+      "explanationAr": "نستخدم apply for مع الوظيفة أو الفرصة المطلوبة. ويمكن استخدام apply to مع المؤسسة التي تتلقى الطلب.",
+      "explanationEn": "Use apply for with the job or opportunity sought. Apply to can introduce the organization receiving the application."
+    }
+  },
+  "b1-x-u4-l4": {
+    "focusAr": "نظّم الإجابة في موقف ومهمة وفعل ونتيجة، مع إبراز دورك داخل الفريق دون نسب عمل الجميع إليك. experience بمعنى الخبرة غير معدودة، فنقول three years of experience. responsibility قد تكون مسؤولية محددة معدودة. قل responsible for مع اسم أو فعل بصيغة ing لتوضيح ما كنت تتولاه.",
+    "focusEn": "Organize an answer around the situation, task, action, and result, showing your contribution without claiming everyone's work. Experience meaning accumulated knowledge is uncountable: say three years of experience. A responsibility can be a particular, countable duty. Use responsible for with a noun or an -ing form to explain what you handled.",
+    "taskAr": "قدّم مثالًا على تعاونك في فريق: اذكر مسؤوليتك وفعلًا قمت به ونتيجة، باستخدام خبرة حقيقية أو موقف تدريبي واضح.",
+    "taskEn": "Give a teamwork example: state your responsibility, an action, and a result, using real experience or a clearly imagined practice situation.",
+    "exampleEn": "In a practice scenario, our team had to prepare an event. My responsibility was to contact volunteers. I confirmed their times, and we had enough people for every activity.",
+    "exampleAr": "في موقف تدريبي، كان على فريقنا إعداد فعالية. كانت مسؤوليتي التواصل مع المتطوعين. أكدت مواعيدهم، وتوفر لدينا عدد كافٍ لكل نشاط.",
+    "check": {
+      "promptEn": "Which answer clearly identifies your own contribution to a team task?",
+      "choices": [
+        "I organized the volunteer schedule, which helped us start on time.",
+        "We did many things, but I cannot say what I did.",
+        "I achieved everything, although all the work was done by others."
+      ],
+      "answer": "I organized the volunteer schedule, which helped us start on time.",
+      "explanationAr": "يذكر الجواب الصحيح فعلًا محددًا للمتحدث ونتيجته. الإجابة العامة لا تبيّن دوره، ونسب عمل الآخرين إلى النفس لا يصف مساهمة حقيقية.",
+      "explanationEn": "The correct answer gives the speaker's specific action and its result. A vague answer hides their role, while claiming others' work does not describe a genuine contribution."
+    }
+  },
+  "b1-x-u4-l5": {
+    "focusAr": "job offer عرض عمل، وليس مجرد دعوة لمقابلة. turn down تعني رفض عرض، وnegotiate مناقشة الشروط دون ضمان قبول التغيير. feedback اسم غير معدود، فنقول some feedback لا a feedback. في رسالة المتابعة، اذكر الوظيفة وتاريخ المقابلة واطلب تحديثًا بوضوح وأدب.",
+    "focusEn": "A job offer is an offer of employment, not simply an interview invitation. Turn down means reject an offer; negotiate means discuss terms without guaranteeing a change. Feedback is uncountable: say some feedback, not a feedback. In a follow-up message, identify the role and interview date, then request an update clearly and politely.",
+    "taskAr": "اكتب رسالة متابعة قصيرة تشكر فيها مسؤول التوظيف على مقابلة الاثنين وتسأل عن موعد الخطوة التالية.",
+    "taskEn": "Write a short follow-up thanking the recruiter for Monday's interview and asking when the next step is expected.",
+    "exampleEn": "Thank you for meeting with me on Monday about the assistant role. I enjoyed learning about the team. Could you let me know when I might receive an update?",
+    "exampleAr": "شكرًا للقائي يوم الاثنين بشأن وظيفة المساعد. سررت بالتعرف على الفريق. هل يمكنك إخباري بالموعد المتوقع لتلقي مستجدات؟",
+    "check": {
+      "promptEn": "A candidate decides not to accept a job offer. Which phrase describes this?",
+      "choices": [
+        "They turn down the offer.",
+        "They accept the salary and start work.",
+        "They receive their first interview invitation."
+      ],
+      "answer": "They turn down the offer.",
+      "explanationAr": "turn down تعني رفض العرض. قبول الراتب والبدء بالعمل يناقضان ذلك، ودعوة المقابلة ليست عرض توظيف.",
+      "explanationEn": "Turn down means reject the offer. Accepting the salary and starting work contradict that decision, while an interview invitation is not an employment offer."
+    }
   }
 }

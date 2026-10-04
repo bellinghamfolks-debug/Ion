@@ -534,5 +534,157 @@
       "explanationAr": "turn down تعني رفض العرض. قبول الراتب والبدء بالعمل يناقضان ذلك، ودعوة المقابلة ليست عرض توظيف.",
       "explanationEn": "Turn down means reject the offer. Accepting the salary and starting work contradict that decision, while an interview invitation is not an employment offer."
     }
+  },
+  "b1-x-u5-l1": {
+    "focusAr": "plot ترتيب أحداث القصة وروابطها، وcast مجموعة الممثلين، وsoundtrack ما نسمعه من موسيقى أو تسجيل صوتي مصاحب. disappointing تصف الشيء الذي خيّب أملك، وdisappointed شعورك أنت. عند إبداء رأيك، أعط سببًا دون كشف النهاية. sequel عمل لاحق يكمل قصة سابقة، وليس بالضرورة الجزء الثاني فقط.",
+    "focusEn": "The plot is the connected sequence of story events, the cast is the group of actors, and the soundtrack is the accompanying recorded sound or music. Disappointing describes what let you down; disappointed describes your feeling. Give a reason for your opinion without revealing the ending. A sequel continues an earlier story and is not necessarily only the second part.",
+    "taskAr": "اكتب تقييمًا من ثلاث جمل لفيلم: اذكر نقطة أعجبتك وأخرى خيبت أملك ومن قد يستمتع به، دون كشف النهاية.",
+    "taskEn": "Write a three-sentence film review: name something you liked, something disappointing, and who might enjoy it, without revealing the ending.",
+    "exampleEn": "The plot was gripping because every scene raised a new question. The final scene was a little disappointing, but I won't give any spoilers. I would recommend it to people who enjoy mysteries.",
+    "exampleAr": "كانت الحبكة مشوقة لأن كل مشهد أثار سؤالًا جديدًا. كان المشهد الأخير مخيبًا قليلًا، لكنني لن أكشف الأحداث. أوصي به لمن يستمتعون بالألغاز.",
+    "check": {
+      "promptEn": "Which sentence correctly distinguishes a film's effect from your feeling?",
+      "choices": [
+        "The ending was disappointing, so I felt disappointed.",
+        "The ending felt disappointed with me.",
+        "I was disappointing because I disliked the ending."
+      ],
+      "answer": "The ending was disappointing, so I felt disappointed.",
+      "explanationAr": "disappointing تصف النهاية التي سببت خيبة الأمل، وdisappointed تصف شعور المتحدث. تبديلهما يغيّر المعنى.",
+      "explanationEn": "Disappointing describes the ending that caused the reaction, and disappointed describes the speaker's feeling. Swapping them changes the meaning."
+    }
+  },
+  "b1-x-u5-l2": {
+    "focusAr": "venue المكان الذي تُقام فيه الفعالية، وaudience من يتابعون العرض، بينما crowd أي حشد وقد ينتظر خارج المكان. sold out تعني نفاد التذاكر المتاحة، ولا تعني إلغاء العرض. استخدم taste in music للذوق الموسيقي، وsing along with a singer أوsing along to a song لوصف الغناء المصاحب.",
+    "focusEn": "A venue is the event location; an audience watches or listens to a performance, while a crowd can simply be a group waiting outside. Sold out means all available tickets have been sold, not that the show was cancelled. Use taste in music for musical preferences, and sing along with a singer or to a song for joining in.",
+    "taskAr": "صف حفلًا تخيليًا بذكر المكان والأجواء وتفاعل الجمهور، ثم وضّح هل كانت هناك تذاكر متبقية.",
+    "taskEn": "Describe an imagined concert, naming the venue, atmosphere, and audience reaction, then say whether tickets were still available.",
+    "exampleEn": "The small venue had a friendly atmosphere, and the audience sang along to the final song. The concert was sold out, so my friend could not buy a ticket at the door.",
+    "exampleAr": "كانت أجواء المكان الصغير ودية، وغنّى الجمهور مع الأغنية الأخيرة. نفدت تذاكر الحفل، لذلك لم يستطع صديقي شراء تذكرة عند المدخل.",
+    "check": {
+      "promptEn": "The concert is sold out. What does this tell you?",
+      "choices": [
+        "All available tickets have been sold.",
+        "The concert has definitely been cancelled.",
+        "The venue has been sold to a new owner."
+      ],
+      "answer": "All available tickets have been sold.",
+      "explanationAr": "sold out هنا تصف نفاد التذاكر، ولا تقدم معلومات عن إلغاء الحفل أو بيع المبنى.",
+      "explanationEn": "Sold out here describes ticket availability. It does not state that the event is cancelled or that the building has been sold."
+    }
+  },
+  "b1-x-u5-l3": {
+    "focusAr": "author الشخص الذي كتب العمل، وnarrator الصوت الذي يروي القصة وقد يكون شخصية خيالية؛ لا تفترض أنهما الشخص نفسه. can't put it down تعبير عن شدة الانشغال بكتاب، لا عن العجز الجسدي. مع الضمير نقول put it down. عند التوصية، صف النوع والأسلوب دون كشف plot twist.",
+    "focusEn": "The author wrote the work; the narrator is the voice telling the story and may be fictional, so do not assume they are the same person. Can't put it down expresses being absorbed in a book, not physical inability. With a pronoun, say put it down. When recommending a book, describe its type and style without revealing a plot twist.",
+    "taskAr": "أوصِ برواية خيالية بجملتين تذكر فيهما الراوي أو الأسلوب، ثم صف عادة قراءة تساعدك على إكمالها.",
+    "taskEn": "Recommend an imagined novel in two sentences mentioning its narrator or style, then describe a reading habit that helps you finish it.",
+    "exampleEn": "I'd recommend this novel because its young narrator notices surprising details. The chapters are short, and I can't put it down. I read one chapter before bed each night.",
+    "exampleAr": "أوصي بهذه الرواية لأن راويها الصغير يلاحظ تفاصيل مفاجئة. فصولها قصيرة، ولا أستطيع التوقف عن قراءتها. أقرأ فصلًا كل ليلة قبل النوم.",
+    "check": {
+      "promptEn": "A fictional child tells a story written by an adult novelist. Who is the narrator?",
+      "choices": [
+        "The fictional child telling the story.",
+        "The publisher printing the copies.",
+        "Automatically the adult novelist."
+      ],
+      "answer": "The fictional child telling the story.",
+      "explanationAr": "الراوي هو الصوت الذي يروي القصة داخل العمل، وهنا هو الطفل الخيالي. المؤلف كتب العمل، والناشر ينتج نسخه أو ينشرها.",
+      "explanationEn": "The narrator is the voice telling the story within the work, here the fictional child. The author wrote the work; the publisher produces or distributes it."
+    }
+  },
+  "b1-x-u5-l4": {
+    "focusAr": "post في هذا الدرس فعل بمعنى ينشر، وfeed تدفق المنشورات الذي يظهر لك، لا منشوراتك أنت فقط. mute تخفي التنبيهات أو الصوت بحسب السياق، بينما unfollow توقف متابعة الحساب. addictive قد تصف شيئًا يصعب التوقف عنه في الكلام اليومي. اربط عادتك وأثرها بتغيير محدد تستطيع وصفه.",
+    "focusEn": "Post is a verb meaning publish in this lesson; a feed is the stream of posts shown to you, not just your own posts. Mute silences notifications or sound depending on context, while unfollow stops following an account. Addictive can describe something hard to stop using in everyday speech. Link your habit and its effect to a specific change.",
+    "taskAr": "صف كيف تؤثر تنبيهات مجموعة في تركيزك، ثم اذكر تغييرًا يمكنك فعله مع الاستمرار في متابعة المجموعة.",
+    "taskEn": "Describe how group notifications affect your concentration, then name a change that lets you remain in the group.",
+    "exampleEn": "I check my phone whenever the group sends a message, which interrupts my work. I now mute the chat while I study and read the messages later.",
+    "exampleAr": "أتفقد هاتفي كلما أرسلت المجموعة رسالة، وهذا يقاطع عملي. أصبحت أكتم تنبيهات المحادثة أثناء الدراسة وأقرأ الرسائل لاحقًا.",
+    "check": {
+      "promptEn": "You want to stop chat notifications while remaining in the group. Which action fits?",
+      "choices": [
+        "Mute the chat.",
+        "Post more messages in the chat.",
+        "Ask every member to follow a new account."
+      ],
+      "answer": "Mute the chat.",
+      "explanationAr": "كتم تنبيهات المحادثة يحقق الغرض المذكور دون مغادرة المجموعة. زيادة الرسائل أو طلب متابعة حساب آخر لا يعالجان التنبيهات.",
+      "explanationEn": "Muting chat notifications meets the stated purpose without leaving the group. Posting more messages or asking others to follow an account does not address notifications."
+    }
+  },
+  "b1-x-u6-l1": {
+    "focusAr": "قارن السكن وفق حاجتك المحددة: الموقع والتكلفة والمرافق وشروط الحجز. self-catering يعني توفر إمكانية إعداد الطعام، وليس شمول الوجبات. good value for money تعني أن ما تحصل عليه مناسب للسعر، لا أنه الأرخص دائمًا. لا تستنتج الخدمات من اسم hostel أوguesthouse وحده؛ اسأل عنها صراحة.",
+    "focusEn": "Compare accommodation against your needs: location, cost, facilities, and booking conditions. Self-catering means you can prepare your own meals, not that meals are included. Good value for money means the benefits justify the price, not always that it is cheapest. Do not infer every service from hostel or guesthouse alone; ask directly.",
+    "taskAr": "قارن شقة بمطبخ وفندقًا أغلى قرب المحطة، ثم اختر ما يناسب رحلة عائلية تريد خلالها إعداد الطعام.",
+    "taskEn": "Compare an apartment with a kitchen and a more expensive hotel near the station, then choose for a family trip where you want to cook.",
+    "exampleEn": "The hotel has a better location, but the self-catering apartment gives us space to cook. We'll choose the apartment because it suits our family and offers good value for money.",
+    "exampleAr": "موقع الفندق أفضل، لكن الشقة التي تتيح إعداد الطعام توفر لنا مكانًا للطبخ. سنختار الشقة لأنها تناسب عائلتنا وتقدم قيمة جيدة مقابل السعر.",
+    "check": {
+      "promptEn": "A listing says self-catering. What should you expect from that description?",
+      "choices": [
+        "Facilities for preparing your own meals.",
+        "Every meal automatically included in the price.",
+        "A guarantee that it is the cheapest property."
+      ],
+      "answer": "Facilities for preparing your own meals.",
+      "explanationAr": "self-catering تشير إلى إعداد النزيل طعامه باستخدام مرافق متاحة. لا تعني شمول الوجبات أو ضمان أدنى سعر.",
+      "explanationEn": "Self-catering refers to guests preparing their own food using available facilities. It does not mean meals are included or the price is the lowest."
+    }
+  },
+  "b1-x-u6-l2": {
+    "focusAr": "get used to تصف الانتقال إلى الاعتياد، وbe used to تصف حالة الاعتياد القائمة؛ يليهما اسم أو فعل بصيغة ing. لا تخلطهما مع used to للماضي المعتاد. fish out of water تصف الشعور بعدم الألفة. اشرح تجربتك الشخصية وما ساعدك على التأقلم دون تعميم شعورك على كل مسافر.",
+    "focusEn": "Get used to describes becoming familiar with something; be used to describes already being familiar. Both take a noun or an -ing form. Do not confuse them with used to for past habits. Fish out of water describes feeling out of place. Explain your own experience and what helped you adapt without generalizing to every traveller.",
+    "taskAr": "صف صعوبة واجهتها عند الانتقال إلى مكان جديد، ثم اذكر كيف بدأت تعتاد عليها بمساعدة شخص.",
+    "taskEn": "Describe a difficulty when moving somewhere new, then explain how you began to get used to it with someone's help.",
+    "exampleEn": "At first, I felt like a fish out of water at the college. A classmate showed me around, and I gradually got used to finding my way between buildings.",
+    "exampleAr": "في البداية، شعرت أنني في غير بيئتي في الكلية. اصطحبني زميل في جولة، وبدأت أعتاد تدريجيًا التنقل بين المباني.",
+    "check": {
+      "promptEn": "Which sentence means that living abroad is becoming more familiar?",
+      "choices": [
+        "I'm getting used to living abroad.",
+        "I used to live abroad, but now I don't.",
+        "I'm getting used to live abroad."
+      ],
+      "answer": "I'm getting used to living abroad.",
+      "explanationAr": "getting used to living تصف الاعتياد التدريجي ويتبعها فعل بصيغة ing. used to live تصف عادة أو حالة ماضية، لا عملية التأقلم الحالية.",
+      "explanationEn": "Getting used to living describes gradual adjustment and takes an -ing form. Used to live describes a past situation, not the present process of adapting."
+    }
+  },
+  "b1-x-u6-l3": {
+    "focusAr": "ابدأ التقييم بما لاحظته فعلًا، ثم اذكر أثره عليك وحكمك العام. overall تلخّص التجربة، وalthough تربط فكرتين متعارضتين. drawback عيب محدد، وoverpriced حكم بأن السعر أعلى مما يستحقه الشيء. لا تحتاج المراجعة المتوازنة إلى تساوي عدد المزايا والعيوب؛ المهم عدالة الوصف وتوضيح الأسباب.",
+    "focusEn": "Start a review with what you actually observed, then explain its effect and your overall view. Overall summarizes the experience; although connects contrasting ideas. A drawback is a specific disadvantage, while overpriced judges a price as too high for the value. A balanced review need not list equal numbers of positives and negatives; it should describe fairly and explain reasons.",
+    "taskAr": "اكتب تقييمًا لإقامة كانت غرفتها نظيفة وموظفوها متعاونين، لكن ضوضاء الشارع أزعجتك ليلًا.",
+    "taskEn": "Write a review of a stay with a clean room and helpful staff, but street noise that disturbed you at night.",
+    "exampleEn": "The room was spotless and the staff were helpful. The main drawback was street noise at night. Overall, I enjoyed the stay, although I would ask for a room away from the road next time.",
+    "exampleAr": "كانت الغرفة نظيفة تمامًا والموظفون متعاونين. كان العيب الرئيسي ضوضاء الشارع ليلًا. استمتعت بالإقامة عمومًا، لكنني سأطلب غرفة بعيدة عن الطريق في المرة القادمة.",
+    "check": {
+      "promptEn": "Which review supports an opinion with an observable detail?",
+      "choices": [
+        "The room was noisy because buses passed below the window at night.",
+        "The hotel is obviously the worst place in the world.",
+        "Everyone who stays here will dislike it."
+      ],
+      "answer": "The room was noisy because buses passed below the window at night.",
+      "explanationAr": "يربط الجواب الصحيح الرأي بتفصيل عن مصدر الضوضاء ووقتها. البديلان تعميمان لا يقدمان ملاحظة محددة تدعمهما.",
+      "explanationEn": "The correct answer links the opinion to a detail about the noise source and timing. The alternatives are sweeping claims without a specific supporting observation."
+    }
+  },
+  "b1-x-u6-l4": {
+    "focusAr": "impact أثر قد يكون إيجابيًا أو سلبيًا؛ وضّح نوعه بدل افتراض أنه ضرر دائمًا. litter نفايات تُترك في مكان غير مخصص لها، وwildlife الكائنات البرية لا حديقة حيوان. يأتي بعد avoid فعل بصيغة ing. عند اقتراح سلوك مسؤول، اذكر فعلًا واضحًا وسببًا يتعلق بالمكان أو السكان.",
+    "focusEn": "An impact can be positive or negative, so specify which rather than assuming harm. Litter is waste left where it does not belong, and wildlife refers to wild living things, not a zoo. Avoid takes an -ing form. When proposing responsible behaviour, name a clear action and a reason connected to the place or its residents.",
+    "taskAr": "اكتب نصيحة لزائر محمية تتضمن تجنب ترك النفايات وإزعاج الحيوانات، ثم فسّر الغرض بجملة.",
+    "taskEn": "Write advice for a nature-reserve visitor about avoiding litter and disturbance to animals, then explain the purpose in one sentence.",
+    "exampleEn": "Please avoid leaving litter and keep your distance from wildlife. These actions help keep the area clean and reduce disturbance to the animals.",
+    "exampleAr": "يرجى تجنب ترك النفايات والابتعاد مسافة مناسبة عن الكائنات البرية. تساعد هذه الأفعال على إبقاء المنطقة نظيفة وتقليل إزعاج الحيوانات.",
+    "check": {
+      "promptEn": "Which sentence correctly follows avoid with an action?",
+      "choices": [
+        "Visitors should avoid leaving litter.",
+        "Visitors should avoid to leave litter.",
+        "Visitors should avoid leave litter."
+      ],
+      "answer": "Visitors should avoid leaving litter.",
+      "explanationAr": "يتبع avoid الفعل بصيغة ing، لذا نستخدم leaving. لا نستخدم to leave أوleave مباشرة في هذا التركيب.",
+      "explanationEn": "Avoid takes an -ing form, so leaving fits. Neither to leave nor the bare verb leave follows avoid in this structure."
+    }
   }
 }

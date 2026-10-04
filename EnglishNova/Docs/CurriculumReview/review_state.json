@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة عشرة دروس B1 عن العادات والتقنية والثقافة ومقابلات العمل: أهداف قابلة للتطبيق، أمثلة طبيعية، وفروق بين المعاني المتقاربة دون تعميم.",
-  "nextStep": "Continue editorial review from b1-x-u5-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة ثمانية دروس B1 عن الترفيه والتواصل والسفر: توضيح المعاني غير الحرفية، تصحيح المصطلحات العربية، وتدريب على التقييم المدعوم بالأسباب.",
+  "nextStep": "Continue editorial review from b1-x-u7-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -2509,72 +2509,96 @@
       "level": "B1",
       "titleAr": "الأفلام والمسلسلات",
       "titleEn": "Films and Series",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u5-l2",
       "level": "B1",
       "titleAr": "الموسيقى والفعاليات",
       "titleEn": "Music and Live Events",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u5-l3",
       "level": "B1",
       "titleAr": "الكتب وعادات القراءة",
       "titleEn": "Books and Reading Habits",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u5-l4",
       "level": "B1",
       "titleAr": "عادات وسائل التواصل",
       "titleEn": "Social Media Habits",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u6-l1",
       "level": "B1",
       "titleAr": "اختيار السكن",
       "titleEn": "Choosing Accommodation",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u6-l2",
       "level": "B1",
       "titleAr": "تجربة ثقافة جديدة",
       "titleEn": "Experiencing a New Culture",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u6-l3",
       "level": "B1",
       "titleAr": "كتابة تقييم لرحلة",
       "titleEn": "Writing a Travel Review",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u6-l4",
       "level": "B1",
       "titleAr": "السياحة المسؤولة",
       "titleEn": "Responsible Tourism",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u7-l1",
@@ -3881,7 +3905,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 208,
-    "pending": 152
+    "reviewed": 216,
+    "pending": 144
   }
 }

@@ -6,16 +6,16 @@ W|gripping|مشوّق جدًا|It was a gripping story from start to finish.|ك�
 W|disappointing|مخيّب للآمال|The second season was disappointing.|كان الموسم الثاني مخيّبًا للآمال.|adjective
 W|episode|حلقة|I watched three episodes last night.|شاهدت ثلاث حلقات الليلة الماضية.|noun
 W|cast|طاقم التمثيل|The cast includes some famous actors.|يضم طاقم التمثيل بعض الممثلين المشهورين.|noun
-W|spoiler|حرق للأحداث|Please don't tell me any spoilers!|من فضلك لا تحرق لي أي أحداث!|noun
+W | spoiler | كشف مسبق لأحداث القصة | Please don't tell me any spoilers! | من فضلك لا تحرق لي أي أحداث! | noun
 W|soundtrack|موسيقى تصويرية|The soundtrack fits the mood of the film perfectly.|تناسب الموسيقى التصويرية أجواء الفيلم تمامًا.|noun
-W|sequel|جزء ثانٍ|The sequel was entertaining, but not as original as the first film.|كان الجزء الثاني ممتعًا لكنه أقل أصالة من الفيلم الأول.|noun
+W | sequel | جزء لاحق يكمل القصة | The sequel was entertaining, but not as original as the first film. | كان الجزء الثاني ممتعًا لكنه أقل أصالة من الفيلم الأول. | noun
 L|الموسيقى والفعاليات|Music and Live Events|أن يتحدث المتعلم عن ذوقه الموسيقي وتجربة حضور فعالية مباشرة.|The atmosphere at the concert was amazing, and the crowd sang along to every song.|كانت الأجواء في الحفل رائعة، وغنّى الجمهور مع كل أغنية.|To talk about your taste in music and the experience of going to a live event.
 W|atmosphere|أجواء|The atmosphere in the stadium was electric.|كانت الأجواء في الملعب حماسية جدًا.|noun
 W|crowd|حشد؛ جمهور|A huge crowd waited outside the venue.|انتظر حشد ضخم خارج مكان الفعالية.|noun
 W|sing along|يغني مع (المغني)|Everyone started to sing along.|بدأ الجميع يغنّون معه.|phrasal verb
 W|venue|مكان الفعالية|The venue holds five thousand people.|يتّسع مكان الفعالية لخمسة آلاف شخص.|noun
 W|sold out|نفدت التذاكر|The show was sold out in two hours.|نفدت تذاكر العرض خلال ساعتين.|adjective
-W|taste|ذوق|We have very different taste in music.|ذوقنا في الموسيقى مختلف جدًا.|noun
+W | taste | ذوق | Our tastes in music are very different. | أذواقنا في الموسيقى مختلفة جدًا. | noun
 W|performer|مؤدٍ|The main performer came back on stage for one final song.|عاد المؤدي الرئيسي إلى المسرح لأغنية أخيرة.|noun
 W|audience|جمهور|The audience clapped for several minutes at the end.|صفق الجمهور لعدة دقائق في النهاية.|noun
 L|الكتب وعادات القراءة|Books and Reading Habits|أن يصف المتعلم عاداته في القراءة ويوصي بكتاب.|I couldn't put down the novel, so I finished it in one weekend.|لم أستطع ترك الرواية، فأنهيتها في عطلة نهاية أسبوع واحدة.|To describe your reading habits and recommend a book.
@@ -29,13 +29,13 @@ W|plot twist|تحول مفاجئ في الحبكة|The plot twist near the end c
 W|narrator|راوٍ|The narrator tells the story from a child's point of view.|يروي الراوي القصة من وجهة نظر طفل.|noun
 L|عادات وسائل التواصل|Social Media Habits|أن يتحدث المتعلم عن استخدامه لوسائل التواصل وإيجابياتها وسلبياتها.|I spend too much time scrolling through my feed, so I've turned off notifications.|أقضي وقتًا طويلًا في تصفح المنشورات، لذلك أوقفت الإشعارات.|To talk about how you use social media and its pros and cons.
 W|scroll|يتصفّح بالتمرير|I scroll through the news on my phone every morning.|أتصفّح الأخبار على هاتفي كل صباح.|verb
-W|feed|صفحة المنشورات|My feed is full of food photos.|صفحة منشوراتي مليئة بصور الطعام.|noun
+W | feed | تدفق المنشورات المعروضة | My feed is full of food photos. | المنشورات التي تظهر لي مليئة بصور الطعام. | noun
 W|follower|متابِع|She has thousands of followers.|لديها آلاف المتابعين.|noun
-W|post|ينشر؛ منشور|He posts a photo every day.|ينشر صورة كل يوم.|verb
-W|addictive|يسبّب الإدمان|Some apps are designed to be addictive.|بعض التطبيقات مصمّمة لتسبّب الإدمان.|adjective
+W | post | ينشر | He posts a photo every day. | ينشر صورة كل يوم. | verb
+W | addictive | يصعب التوقف عنه؛ إدماني | I find this game addictive, so I set a time limit. | أجد صعوبة في التوقف عن هذه اللعبة، لذلك أحدد وقتًا للعب. | adjective
 W|turn off|يُطفئ؛ يوقف|Turn off your phone during the lesson.|أطفئ هاتفك أثناء الدرس.|phrasal verb
-W|mute|يكتم|I mute group chats when I need to concentrate.|أكتم المحادثات الجماعية عندما أحتاج إلى التركيز.|verb
-W|unfollow|يلغي المتابعة|I unfollow accounts that make my feed stressful.|ألغي متابعة الحسابات التي تجعل صفحة منشوراتي مرهقة.|verb
+W | mute | يكتم الصوت أو التنبيهات | I mute group chats when I need to concentrate. | أكتم تنبيهات المحادثات الجماعية عندما أحتاج إلى التركيز. | verb
+W | unfollow | يلغي المتابعة | I unfollow accounts that make my feed stressful. | ألغي متابعة الحسابات التي تجعل المنشورات المعروضة لي مرهقة. | verb
 U|b1-x-u6|تجارب السفر|Travel Experiences|اختر سكنك، وتعرّف على ثقافة جديدة، واكتب تقييمًا لرحلتك، وسافر بمسؤولية.|globe.europe.africa.fill|Choose where to stay, experience a new culture, write a travel review, and travel responsibly.
 L|اختيار السكن|Choosing Accommodation|أن يقارن المتعلم بين أنواع السكن ويبرر اختياره.|We stayed in a guesthouse because it was cheaper and more authentic than a hotel.|أقمنا في نُزل عائلي لأنه كان أرخص وأكثر أصالة من الفندق.|To compare types of accommodation and justify your choice.
 W|guesthouse|نُزل عائلي؛ بيت ضيافة|The guesthouse was run by a lovely old couple.|كان النُّزل يديره زوجان مسنّان لطيفان.|noun
@@ -51,7 +51,7 @@ W|culture shock|صدمة ثقافية|Many students experience culture shock abr
 W|get used to|يعتاد على|I can't get used to driving on the left.|لا أستطيع أن أعتاد على القيادة على اليسار.|phrase
 W|local|محلي|Try the local food.|جرّب الطعام المحلي.|adjective
 W|fish out of water|شخص في غير بيئته|I felt like a fish out of water at the party.|شعرت أنني في غير بيئتي في الحفلة.|idiom
-W|adapt|يتأقلم|Children adapt quickly to new places.|يتأقلم الأطفال بسرعة مع الأماكن الجديدة.|verb
+W | adapt | يتأقلم | It took me a few weeks to adapt to the new timetable. | استغرق الأمر مني بضعة أسابيع للتأقلم مع الجدول الجديد. | verb
 W|etiquette|آداب السلوك|Learn the basic etiquette before you go.|تعلّم آداب السلوك الأساسية قبل أن تذهب.|noun
 W|gesture|إشارة جسدية|A friendly gesture can mean different things in different cultures.|قد تعني الإشارة الجسدية الودية أشياء مختلفة في ثقافات مختلفة.|noun
 W|homesick|مشتاق إلى الوطن|I felt homesick during my first week abroad.|شعرت بالاشتياق إلى الوطن خلال أسبوعي الأول في الخارج.|adjective
@@ -61,7 +61,7 @@ W|highly recommend|يوصي بشدة|I highly recommend the guided tour.|أوص�
 W|although|رغم أن|The room was small, although it was clean.|كانت الغرفة صغيرة، رغم أنها كانت نظيفة.|conjunction
 W|staff|الموظفون|The staff were friendly and helpful.|كان الموظفون ودودين ومتعاونين.|noun
 W|spotless|نظيف تمامًا|The bathroom was spotless.|كان الحمّام نظيفًا تمامًا.|adjective
-W|overpriced|مبالغ في سعره|The drinks at the hotel bar were overpriced.|كانت المشروبات في الفندق مبالغًا في سعرها.|adjective
+W | overpriced | مبالغ في سعره | The drinks in the hotel café were overpriced. | كانت المشروبات في مقهى الفندق مبالغًا في سعرها. | adjective
 W|drawback|عيب|The main drawback was the noise from the street.|كان العيب الرئيسي هو ضوضاء الشارع.|noun
 W|balanced|متوازن|A balanced review mentions both positive and negative points.|تذكر المراجعة المتوازنة النقاط الإيجابية والسلبية.|adjective
 L|السياحة المسؤولة|Responsible Tourism|أن يناقش المتعلم أثر السياحة على البيئة والسكان المحليين.|Tourists should respect local traditions and avoid leaving litter behind.|يجب على السياح احترام التقاليد المحلية وتجنّب ترك النفايات خلفهم.|To discuss the impact of tourism on the environment and local people.

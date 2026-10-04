@@ -66,7 +66,7 @@ W|resilience|المرونة النفسية|Sport can build resilience in childre
 W|counselling|إرشاد نفسي|Counselling can provide structured support for some people.|يمكن للإرشاد النفسي أن يقدم دعمًا منظمًا لبعض الأشخاص.|noun
 W|support network|شبكة دعم|A strong support network can make stressful periods easier to manage.|يمكن لشبكة دعم قوية أن تجعل الفترات المجهدة أسهل في التعامل.|noun
 W|mental health professional|مختص صحة نفسية|A mental health professional can assess symptoms and discuss appropriate options.|يمكن لمختص صحة نفسية تقييم الأعراض ومناقشة الخيارات المناسبة.|noun
-W|workload|عبء العمل|An unmanageable workload can contribute to stress and burnout.|قد يسهم عبء العمل غير القابل للإدارة في التوتر والاحتراق النفسي.|noun
+W|chronic stress|ضغط نفسي مزمن|Chronic stress can affect sleep, concentration and wellbeing.|قد يؤثر الضغط النفسي المزمن في النوم والتركيز والعافية.|noun
 L|حملات الصحة العامة|Public Health Campaigns|أن يقيّم المتعلم فاعلية حملة صحية ويقترح تحسينًا.|The campaign raised awareness, but it failed to change people's behaviour in the long term.|رفعت الحملة مستوى الوعي، لكنها لم تنجح في تغيير سلوك الناس على المدى الطويل.|To evaluate how effective a health campaign is and suggest an improvement.
 W|raise awareness|يرفع الوعي|The video aims to raise awareness of diabetes.|يهدف الفيديو إلى رفع الوعي بمرض السكري.|phrase
 W|campaign|حملة|The anti-smoking campaign targets teenagers.|تستهدف حملة مكافحة التدخين المراهقين.|noun
@@ -109,7 +109,7 @@ W|echo chamber|غرفة صدى (بيئة لا تسمع إلا رأيك)|Social m
 W|go viral|ينتشر بسرعة كبيرة|Her video went viral overnight.|انتشر مقطعها انتشارًا واسعًا بين ليلة وضحاها.|phrase
 W|clickbait|طُعم النقرات|That headline is pure clickbait.|ذلك العنوان مجرد طُعم للنقرات.|noun
 W|recommendation system|نظام توصية|A recommendation system selects content based on signals from user behaviour.|يختار نظام التوصية المحتوى استنادًا إلى مؤشرات من سلوك المستخدم.|noun
-W|engagement|تفاعل|Platforms often measure engagement through clicks, comments and viewing time.|تقيس المنصات التفاعل غالبًا عبر النقرات والتعليقات ومدة المشاهدة.|noun
+W|attention economy|اقتصاد الانتباه|The attention economy rewards content that keeps people watching and clicking.|يكافئ اقتصاد الانتباه المحتوى الذي يبقي الناس يشاهدون وينقرون.|noun
 W|filter bubble|فقاعة ترشيح|A filter bubble may limit the range of viewpoints a user encounters.|قد تحد فقاعة الترشيح من تنوع وجهات النظر التي يواجهها المستخدم.|noun
 W|misleading|مضلل|A viral post can be misleading even when part of it is technically true.|قد يكون المنشور واسع الانتشار مضللًا حتى لو كان جزء منه صحيحًا تقنيًا.|adjective
 L|الأتمتة والوظائف|Automation and Jobs|أن يناقش المتعلم أثر الأتمتة على سوق العمل بحجج متوازنة.|While automation may replace some jobs, it is also likely to create new roles.|في حين قد تحلّ الأتمتة محل بعض الوظائف، فمن المرجّح أيضًا أن تخلق أدوارًا جديدة.|To discuss the effect of automation on the job market with balanced arguments.
@@ -119,7 +119,7 @@ W|workforce|القوى العاملة|Women make up half of the workforce.|تش�
 W|retrain|يعيد التأهيل|Many workers will need to retrain.|سيحتاج كثير من العمال إلى إعادة التأهيل.|verb
 W|redundant|مُستغنى عنه (من العمل)|Two hundred staff were made redundant.|استُغني عن مئتي موظف.|adjective
 W|while|في حين|While I agree in principle, I have some doubts.|في حين أنني أوافق من حيث المبدأ، لدي بعض الشكوك.|conjunction
-W|job displacement|إزاحة وظائف|Automation can cause job displacement in some sectors while creating work in others.|يمكن أن تسبب الأتمتة إزاحة وظائف في بعض القطاعات بينما تخلق عملًا في قطاعات أخرى.|noun
+W|labour-market shift|تحول في سوق العمل|A labour-market shift can change which skills employers need.|يمكن لتحول في سوق العمل أن يغير المهارات التي يحتاجها أصحاب العمل.|noun
 W|reskill|يعيد التأهيل المهاري|Some workers may need to reskill as technology changes their roles.|قد يحتاج بعض العاملين إلى إعادة التأهيل المهاري مع تغير أدوارهم بسبب التقنية.|verb
 W|routine task|مهمة روتينية|Software can automate a routine task without replacing an entire occupation.|يمكن للبرمجيات أتمتة مهمة روتينية دون استبدال مهنة كاملة.|noun
 W|productivity gain|مكسب في الإنتاجية|A productivity gain does not necessarily benefit every worker equally.|لا يفيد مكسب الإنتاجية بالضرورة كل عامل بالقدر نفسه.|noun
@@ -165,7 +165,7 @@ W|escalate|يتصاعد|The argument escalated quickly.|تصاعد الجدال 
 W|mediate|يتوسّط|The manager agreed to mediate.|وافق المدير على التوسّط.|verb
 W|constructive|بنّاء|Let's keep the discussion constructive.|لنحافظ على النقاش بنّاءً.|adjective
 W|misunderstanding|سوء فهم|A small misunderstanding can grow if nobody addresses it early.|قد يكبر سوء الفهم البسيط إذا لم يعالجه أحد مبكرًا.|noun
-W|common ground|أرضية مشتركة|The two colleagues found common ground on the most important issue.|وجد الزميلان أرضية مشتركة بشأن أهم مسألة.|noun
+W|shared interest|مصلحة مشتركة|The two sides identified a shared interest before discussing the disagreement.|حدد الطرفان مصلحة مشتركة قبل مناقشة الخلاف.|noun
 W|neutral party|طرف محايد|A neutral party can help when two colleagues cannot resolve a dispute alone.|يمكن لطرف محايد أن يساعد عندما يعجز زميلان عن حل نزاع بمفردهما.|noun
 W|de-escalate|يهدئ التصعيد|Speaking calmly can help de-escalate a tense conversation.|يمكن للتحدث بهدوء أن يساعد على تهدئة محادثة متوترة.|verb
 L|تقييم الأداء|Performance Reviews|أن يناقش المتعلم أداءه ويحدد أهدافًا قابلة للقياس.|My manager praised my progress and suggested I take on more responsibility next year.|أشاد مديري بتقدّمي واقترح أن أتولى مسؤوليات أكبر العام القادم.|To discuss your performance and set measurable goals.

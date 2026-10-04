@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct PracticeHubView: View {
+    @EnvironmentObject private var account: AccountService
     @State private var searchText = ""
+    @State private var quota: AIQuota?
 
     private struct Entry: Identifiable {
         let id: String
@@ -35,6 +37,9 @@ struct PracticeHubView: View {
                 Entry(id: "tutor", title: L("المدرّب النصي"),
                       detail: LE("اكتب واسأل واحصل على تصحيح فوري", "Write, ask and get instant corrections"),
                       systemImage: "bubble.left.and.bubble.right.fill", tint: AppTheme.brand) { AnyView(TutorView()) },
+                Entry(id: "shadowing", title: LE("مدرّب النطق", "Pronunciation coach"),
+                      detail: LE("استمع وقلّد جملًا من دروسك واعرف الكلمات التي تحتاج تدريبًا", "Shadow sentences from your lessons and find words to work on"),
+                      systemImage: "person.wave.2.fill", tint: AppTheme.accentTeal) { AnyView(ShadowingCoachView()) },
                 Entry(id: "pronunciation", title: L("تدريب النطق"),
                       detail: LE("قل جملة واعرف الكلمات التي تحتاج تدريبًا", "Say a sentence and see which words need work"),
                       systemImage: "waveform.and.mic", tint: AppTheme.accentTeal) { AnyView(PronunciationLabView()) },
@@ -58,6 +63,9 @@ struct PracticeHubView: View {
                 Entry(id: "sentences", title: L("بناء الجمل"),
                       detail: LE("ركّب جملة من أجزائها", "Build a sentence from its parts"),
                       systemImage: "text.word.spacing", tint: AppTheme.warning) { AnyView(SentenceBuilderView()) },
+                Entry(id: "explain-text", title: LE("اشرح أي نص", "Explain any text"),
+                      detail: LE("صوّر لافتة أو صفحة أو الصق نصًا واحصل على ترجمة وشرح", "Photograph a sign or page, or paste text, for a translation and explanation"),
+                      systemImage: "text.viewfinder", tint: AppTheme.brand) { AnyView(ExplainTextView()) },
                 Entry(id: "explain", title: L("شرح كلمة أو قاعدة"),
                       detail: LE("اسأل عن أي كلمة أو قاعدة", "Ask about any word or rule"),
                       systemImage: "sparkles", tint: AppTheme.warning) { AnyView(ExplainView()) }
@@ -105,6 +113,18 @@ struct PracticeHubView: View {
 
     var body: some View {
         List {
+            if let quota, searchText.isEmpty {
+                Section {
+                    AccessibleProgressView(
+                        title: LfE("رصيد المساعد الذكي اليوم: %@ من %@", "Today's AI allowance: %@ of %@ left",
+                                   "\(quota.remainingUnits)", "\(quota.dailyUnits)"),
+                        value: Double(quota.remainingUnits) / Double(max(quota.dailyUnits, 1))
+                    )
+                } footer: {
+                    Text(LE("يتجدد عند منتصف الليل بتوقيت الرياض. الدروس والمراجعة والتدريب المحلي لا تستهلك الرصيد.",
+                            "Renews at midnight Riyadh time. Lessons, review and offline practice don't use it."))
+                }
+            }
             if filteredGroups.isEmpty {
                 ContentUnavailableView.search(text: searchText)
             }
@@ -118,6 +138,9 @@ struct PracticeHubView: View {
         }
         .searchable(text: $searchText, prompt: LE("ابحث عن تدريب", "Search practice"))
         .navigationTitle(L("التدريب"))
+        .task(id: account.isAuthenticated) {
+            quota = account.isAuthenticated ? try? await AIStudioService().quota() : nil
+        }
     }
 
     private func row(_ entry: Entry) -> some View {

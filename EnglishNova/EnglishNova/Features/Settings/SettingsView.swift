@@ -168,6 +168,10 @@ struct SettingsView: View {
                 }
             }
 
+            NavigationLink { VoiceSettingsView() } label: {
+                Label(LE("الأصوات الطبيعية", "Natural voices"), systemImage: "person.wave.2.fill")
+            }
+
             VStack(alignment: .leading, spacing: 8) {
                 Text(L("سرعة النطق"))
                 Slider(value: $settings.speechRate, in: 0.3...0.58)

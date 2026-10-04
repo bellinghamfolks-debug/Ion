@@ -11,8 +11,8 @@
     "curriculumSHA256": "e43841428127c522a356472a8a6224e49c6b5eb16f647efcfbea934e2b722342",
     "translationsSHA256": "aa22188327185049a637a0cd15d024c9408be0e86f9e88cbdcea5c881b8578e3"
   },
-  "swiftSourceFiles": 118,
-  "testFiles": 22,
+  "swiftSourceFiles": 121,
+  "testFiles": 23,
   "levels": 6,
   "lessons": 232,
   "a0Lessons": 60,

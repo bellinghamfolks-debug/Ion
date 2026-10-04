@@ -126,6 +126,8 @@ enum LessonAssessmentEngine {
             case .arrangeWords: weight = 1.0
             case .translation: weight = 1.65
             case .speak: weight = 1.85
+            case .listenType: weight = 1.1
+            case .dictation: weight = 1.3
             default: weight = 1
             }
             return (item, weight)
@@ -137,8 +139,8 @@ enum LessonAssessmentEngine {
 
     private static func group(for type: ExerciseType) -> EvidenceGroup? {
         switch type {
-        case .multipleChoice, .listenAndChoose: return .receptive
-        case .fillBlank, .arrangeWords: return .controlled
+        case .multipleChoice, .listenAndChoose, .matchPairs, .trueFalse: return .receptive
+        case .fillBlank, .arrangeWords, .listenType, .dictation: return .controlled
         case .translation, .speak: return .productive
         case .explanation, .flashcard: return nil
         }

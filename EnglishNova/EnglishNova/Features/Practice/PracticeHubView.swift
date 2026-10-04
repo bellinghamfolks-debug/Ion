@@ -1,102 +1,140 @@
 import SwiftUI
 
 struct PracticeHubView: View {
+    @State private var searchText = ""
+
+    private struct Entry: Identifiable {
+        let id: String
+        let title: String
+        let detail: String
+        let systemImage: String
+        let tint: Color
+        let destination: () -> AnyView
+    }
+
+    private struct PracticeGroup: Identifiable {
+        let id: String
+        let title: String
+        let entries: [Entry]
+    }
+
+    private var groups: [PracticeGroup] {
+        [
+            PracticeGroup(id: "mistakes", title: LE("ابدأ من نقاط ضعفك", "Start with your weak spots"), entries: [
+                Entry(id: "remedial", title: LE("تدرّب على أخطائك", "Practise your mistakes"),
+                      detail: LE("أسئلة أخطأت فيها تعود إليك حتى تتقنها", "Items you missed come back until you master them"),
+                      systemImage: "arrow.uturn.backward.circle.fill", tint: AppTheme.streak) { AnyView(RemedialPracticeView()) },
+                Entry(id: "custom", title: L("تمارين مخصصة"),
+                      detail: LE("تمارين جديدة بحسب مستواك وأخطائك", "Fresh exercises for your level and mistakes"),
+                      systemImage: "wand.and.stars", tint: AppTheme.brandSecondary) { AnyView(AIExerciseView()) }
+            ]),
+            PracticeGroup(id: "speak", title: LE("تحدّث واستمع", "Speak and listen"), entries: [
+                Entry(id: "voice", title: L("تدريب المحادثة بالصوت"),
+                      detail: LE("محادثة صوتية مع المدرّب", "A spoken conversation with the tutor"),
+                      systemImage: "waveform.badge.mic", tint: AppTheme.brand) { AnyView(VoiceCoachView()) },
+                Entry(id: "tutor", title: L("المدرّب النصي"),
+                      detail: LE("اكتب واسأل واحصل على تصحيح فوري", "Write, ask and get instant corrections"),
+                      systemImage: "bubble.left.and.bubble.right.fill", tint: AppTheme.brand) { AnyView(TutorView()) },
+                Entry(id: "pronunciation", title: L("تدريب النطق"),
+                      detail: LE("قل جملة واعرف الكلمات التي تحتاج تدريبًا", "Say a sentence and see which words need work"),
+                      systemImage: "waveform.and.mic", tint: AppTheme.accentTeal) { AnyView(PronunciationLabView()) },
+                Entry(id: "listening", title: L("تدريب الاستماع"),
+                      detail: LE("استمع واكتب ما سمعت", "Listen and type what you hear"),
+                      systemImage: "headphones", tint: AppTheme.accentTeal) { AnyView(ListeningLabView()) },
+                Entry(id: "scenarios", title: L("مواقف محادثة"),
+                      detail: LE("مطعم، مطار، عمل، وغيرها", "Restaurant, airport, work and more"),
+                      systemImage: "person.2.wave.2.fill", tint: AppTheme.brandSecondary) { AnyView(ConversationStudioView()) }
+            ]),
+            PracticeGroup(id: "write", title: LE("اكتب واقرأ", "Write and read"), entries: [
+                Entry(id: "writing", title: L("تدريب الكتابة"),
+                      detail: LE("اكتب فقرة واحصل على تقييم وتصحيح", "Write a paragraph and get feedback"),
+                      systemImage: "pencil.and.scribble", tint: AppTheme.brand) { AnyView(WritingCoachView()) },
+                Entry(id: "skills", title: L("القراءة والكتابة والاستماع"),
+                      detail: LE("أنشطة مهارات متدرجة لكل مستوى", "Graded skill activities for every level"),
+                      systemImage: "books.vertical.fill", tint: AppTheme.accentTeal) { AnyView(AdvancedSkillsHubView()) },
+                Entry(id: "stories", title: L("قصص متدرجة"),
+                      detail: LE("قصص تفاعلية تختار فيها النهاية", "Interactive stories where you choose the ending"),
+                      systemImage: "book.pages.fill", tint: AppTheme.brandSecondary) { AnyView(StoryLibraryView()) },
+                Entry(id: "sentences", title: L("بناء الجمل"),
+                      detail: LE("ركّب جملة من أجزائها", "Build a sentence from its parts"),
+                      systemImage: "text.word.spacing", tint: AppTheme.warning) { AnyView(SentenceBuilderView()) },
+                Entry(id: "explain", title: L("شرح كلمة أو قاعدة"),
+                      detail: LE("اسأل عن أي كلمة أو قاعدة", "Ask about any word or rule"),
+                      systemImage: "sparkles", tint: AppTheme.warning) { AnyView(ExplainView()) }
+            ]),
+            PracticeGroup(id: "quick", title: LE("تحديات قصيرة", "Quick challenges"), entries: [
+                Entry(id: "five", title: L("خمس دقائق"),
+                      detail: LE("جولة سريعة من أسئلة متنوعة", "A quick round of mixed questions"),
+                      systemImage: "timer", tint: AppTheme.streak) { AnyView(FiveMinuteChallengeView()) },
+                Entry(id: "dictation", title: L("إملاء"),
+                      detail: LE("استمع إلى جمل واكتبها", "Listen to sentences and write them"),
+                      systemImage: "pencil.and.outline", tint: AppTheme.streak) { AnyView(DictationChallengeView()) }
+            ]),
+            PracticeGroup(id: "exams", title: L("اختبارات وأهداف"), entries: [
+                Entry(id: "ielts6", title: L("منهج IELTS 6.0 المكثف"),
+                      detail: LE("خطة مكثفة للوصول إلى 6.0", "An intensive plan to reach band 6.0"),
+                      systemImage: "scope", tint: AppTheme.brand) { AnyView(IELTSBandSixView()) },
+                Entry(id: "prep", title: L("IELTS وSTEP والمقابلات"),
+                      detail: LE("أسئلة تدريبية واختبارات ومقابلات", "Practice questions, tests and interviews"),
+                      systemImage: "doc.text.magnifyingglass", tint: AppTheme.brand) { AnyView(AdvancedPreparationHubView()) },
+                Entry(id: "placement", title: L("اختبار تحديد المستوى"),
+                      detail: LE("اعرف مستواك الحالي", "Find your current level"),
+                      systemImage: "chart.bar.doc.horizontal", tint: AppTheme.accentTeal) { AnyView(PlacementTestView()) },
+                Entry(id: "pathways", title: L("مسارات التعلّم"),
+                      detail: LE("سفر، عمل، دراسة، وغيرها", "Travel, work, study and more"),
+                      systemImage: "point.topleft.down.to.point.bottomright.curvepath", tint: AppTheme.accentTeal) { AnyView(LearningPathwaysView()) }
+            ]),
+            PracticeGroup(id: "reference", title: LE("مراجع", "Reference"), entries: [
+                Entry(id: "grammar", title: L("مرجع القواعد"),
+                      detail: LE("قواعد مشروحة بأمثلة", "Grammar explained with examples"),
+                      systemImage: "function", tint: AppTheme.brandSecondary) { AnyView(GrammarLibraryView()) }
+            ])
+        ]
+    }
+
+    private var filteredGroups: [PracticeGroup] {
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !query.isEmpty else { return groups }
+        return groups.compactMap { group in
+            let entries = group.entries.filter {
+                $0.title.localizedCaseInsensitiveContains(query) || $0.detail.localizedCaseInsensitiveContains(query)
+            }
+            return entries.isEmpty ? nil : PracticeGroup(id: group.id, title: group.title, entries: entries)
+        }
+    }
+
     var body: some View {
         List {
-            Section(L("تدريب مباشر")) {
-                NavigationLink { TutorView() } label: {
-                    Label(L("المدرّب النصي"), systemImage: "bubble.left.and.bubble.right.fill")
-                }
-                NavigationLink { VoiceCoachView() } label: {
-                    Label(L("تدريب المحادثة بالصوت"), systemImage: "waveform.badge.mic")
-                }
-                NavigationLink { MistakeNotebookView() } label: {
-                    Label(L("راجع أخطاءك"), systemImage: "exclamationmark.bubble.fill")
-                }
+            if filteredGroups.isEmpty {
+                ContentUnavailableView.search(text: searchText)
             }
-
-            Section(L("تدريب مخصص")) {
-                NavigationLink { ExplainView() } label: {
-                    Label(L("شرح كلمة أو قاعدة"), systemImage: "sparkles")
-                }
-                NavigationLink { WritingCoachView() } label: {
-                    Label(L("تدريب الكتابة"), systemImage: "pencil.and.scribble")
-                }
-                NavigationLink { AIExerciseView() } label: {
-                    Label(L("تمارين مخصصة"), systemImage: "wand.and.stars")
-                }
-            }
-
-            Section(L("المهارات")) {
-                NavigationLink { PronunciationLabView() } label: {
-                    Label(L("تدريب النطق"), systemImage: "waveform.and.mic")
-                }
-                NavigationLink { ListeningLabView() } label: {
-                    Label(L("تدريب الاستماع"), systemImage: "headphones")
-                }
-                NavigationLink { AdvancedSkillsHubView() } label: {
-                    Label(L("القراءة والكتابة والاستماع"), systemImage: "books.vertical.fill")
-                }
-                NavigationLink { SentenceBuilderView() } label: {
-                    Label(L("بناء الجمل"), systemImage: "text.word.spacing")
-                }
-            }
-
-            Section(L("اختبارات وأهداف")) {
-                NavigationLink { IELTSBandSixView() } label: {
-                    Label(L("منهج IELTS 6.0 المكثف"), systemImage: "scope")
-                }
-                NavigationLink { AdvancedPreparationHubView() } label: {
-                    Label(L("IELTS وSTEP والمقابلات"), systemImage: "doc.text.magnifyingglass")
-                }
-                NavigationLink { PlacementTestView() } label: {
-                    Label(L("اختبار تحديد المستوى"), systemImage: "scope")
-                }
-                NavigationLink { LearningPathwaysView() } label: {
-                    Label(L("مسارات التعلّم"), systemImage: "point.topleft.down.to.point.bottomright.curvepath")
-                }
-            }
-
-            Section(L("تدريب قصير")) {
-                NavigationLink { DictationChallengeView() } label: {
-                    Label(L("إملاء"), systemImage: "pencil.and.outline")
-                }
-                NavigationLink { FiveMinuteChallengeView() } label: {
-                    Label(L("خمس دقائق"), systemImage: "timer")
-                }
-                NavigationLink { ConversationStudioView() } label: {
-                    Label(L("مواقف محادثة"), systemImage: "person.2.wave.2.fill")
-                }
-            }
-
-            Section(L("مراجع وتقارير")) {
-                NavigationLink { GrammarLibraryView() } label: {
-                    Label(L("مرجع القواعد"), systemImage: "function")
-                }
-                NavigationLink { StoryLibraryView() } label: {
-                    Label(L("قصص متدرجة"), systemImage: "book.pages.fill")
-                }
-                NavigationLink { WordbookView() } label: {
-                    Label(L("دفتر المفردات"), systemImage: "character.book.closed.fill")
-                }
-                NavigationLink { DailyPlanView() } label: {
-                    Label(L("خطة اليوم"), systemImage: "checklist")
-                }
-                NavigationLink { WeeklyProgressReportView() } label: {
-                    Label(L("التقرير الأسبوعي"), systemImage: "doc.text.image.fill")
-                }
-                NavigationLink { LearningInsightsView() } label: {
-                    Label(L("تحليل التقدّم"), systemImage: "chart.xyaxis.line")
-                }
-                NavigationLink { AchievementsView() } label: {
-                    Label(L("الإنجازات"), systemImage: "trophy.fill")
-                }
-                NavigationLink { LeaderboardView() } label: {
-                    Label(L("الترتيب"), systemImage: "list.number")
+            ForEach(filteredGroups) { group in
+                Section(group.title) {
+                    ForEach(group.entries) { entry in
+                        NavigationLink { entry.destination() } label: { row(entry) }
+                    }
                 }
             }
         }
+        .searchable(text: $searchText, prompt: LE("ابحث عن تدريب", "Search practice"))
         .navigationTitle(L("التدريب"))
+    }
+
+    private func row(_ entry: Entry) -> some View {
+        HStack(spacing: 14) {
+            Image(systemName: entry.systemImage)
+                .font(.headline)
+                .foregroundStyle(entry.tint)
+                .frame(width: 38, height: 38)
+                .background(entry.tint.opacity(0.13), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(entry.title).font(.body.weight(.semibold))
+                Text(entry.detail).font(.caption).foregroundStyle(.secondary)
+            }
+        }
+        .padding(.vertical, 4)
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -105,9 +143,15 @@ struct PronunciationLabView: View {
     @EnvironmentObject private var settings: AppSettings
     @EnvironmentObject private var speechService: SpeechService
     @EnvironmentObject private var textToSpeech: TextToSpeechService
-    @State private var target = "I would like a cup of coffee, please."
+    @State private var target: String
     @State private var report: PronunciationReport?
     @State private var didRecord = false
+    private let onComplete: (() -> Void)?
+
+    init(initialTarget: String = "I would like a cup of coffee, please.", onComplete: (() -> Void)? = nil) {
+        _target = State(initialValue: initialTarget)
+        self.onComplete = onComplete
+    }
 
     var body: some View {
         Form {
@@ -204,6 +248,7 @@ struct PronunciationLabView: View {
         report = value
         guard !didRecord else { return }
         didRecord = true
+        onComplete?()
 
         Task {
             await container.learningMemoryRepository.recordPronunciation(value)

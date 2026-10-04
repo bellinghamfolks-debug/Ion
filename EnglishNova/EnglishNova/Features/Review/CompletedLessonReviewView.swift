@@ -347,12 +347,6 @@ struct LessonReviewSessionView: View {
     }
 
     private func skill(for exercise: Exercise) -> LanguageSkill {
-        switch exercise.type {
-        case .listenAndChoose: return .listening
-        case .speak: return .practicalCommunication
-        case .translation, .arrangeWords, .fillBlank: return .grammar
-        case .multipleChoice, .flashcard: return .vocabulary
-        case .explanation: return .reading
-        }
+        exercise.type.practicedSkill
     }
 }

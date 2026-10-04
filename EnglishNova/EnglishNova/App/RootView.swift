@@ -37,18 +37,23 @@ struct RootView: View {
 }
 
 struct MainTabView: View {
+    enum Tab: Hashable { case today, path, practice, me }
+    @State private var selection: Tab = .today
+
     var body: some View {
-        TabView {
+        TabView(selection: $selection) {
             NavigationStack { LearningHomeView() }
-                .tabItem { Label(L("الرئيسية"), systemImage: "house.fill") }
-            NavigationStack { CurriculumView() }
-                .tabItem { Label(L("التعلّم"), systemImage: "graduationcap.fill") }
+                .tabItem { Label(LE("اليوم", "Today"), systemImage: "sun.max.fill") }
+                .tag(Tab.today)
+            NavigationStack { PathView() }
+                .tabItem { Label(LE("المسار", "Path"), systemImage: "map.fill") }
+                .tag(Tab.path)
             NavigationStack { PracticeHubView() }
                 .tabItem { Label(L("التدريب"), systemImage: "waveform.badge.mic") }
-            NavigationStack { ReviewView() }
-                .tabItem { Label(L("المراجعة"), systemImage: "arrow.triangle.2.circlepath") }
-            NavigationStack { SettingsView() }
-                .tabItem { Label(L("الإعدادات"), systemImage: "gearshape.fill") }
+                .tag(Tab.practice)
+            NavigationStack { MeView() }
+                .tabItem { Label(LE("أنا", "Me"), systemImage: "person.crop.circle.fill") }
+                .tag(Tab.me)
         }
         .tint(AppTheme.brand)
     }

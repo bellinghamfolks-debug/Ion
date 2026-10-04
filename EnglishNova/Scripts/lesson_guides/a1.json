@@ -1,0 +1,230 @@
+{
+  "a1-u1-l1": {
+    "focusAr": "تأتي usually عادة قبل الفعل الرئيسي: I usually wake up. ضع at قبل وقت محدد مثل seven، وin قبل فترة مثل the morning. هذه الجملة تصف عادة متكررة، لا حدثًا يجري الآن فقط.",
+    "focusEn": "Usually normally comes before the main verb: I usually wake up. Use at before a clock time such as seven and in before a period such as the morning. The sentence describes a regular habit, not just an action happening now.",
+    "taskAr": "صف عادة الاستيقاظ في السادسة باستخدام usually.",
+    "taskEn": "Describe a habit of waking at six using usually.",
+    "exampleEn": "I usually wake up at six.",
+    "exampleAr": "أستيقظ عادة في السادسة.",
+    "check": {
+      "promptEn": "Choose the usual word order.",
+      "choices": [
+        "I usually wake up at six.",
+        "I wake usually up at six.",
+        "I usually at six wake up."
+      ],
+      "answer": "I usually wake up at six.",
+      "explanationAr": "usually تسبق wake up بوصفه فعلًا مركبًا؛ لا نفصل جزأيه بوضع usually بينهما.",
+      "explanationEn": "Usually comes before wake up as a verb unit; do not split its two parts with usually."
+    }
+  },
+  "a1-u1-l2": {
+    "focusAr": "استخدم First لبدء التسلسل وthen للخطوة التالية. wash my face وbrush my teeth تتضمنان ملكية العضو، أما get dressed فلا تحتاج بعدها إلى my clothes لأنها تعني ارتداء الملابس بالفعل.",
+    "focusEn": "Use First to start a sequence and then for the next step. Wash my face and brush my teeth include a possessive word. Get dressed already means putting on clothes, so it does not need my clothes after it.",
+    "taskAr": "اذكر غسل الوجه ثم ارتداء الملابس بالترتيب.",
+    "taskEn": "Describe washing your face and then getting dressed in order.",
+    "exampleEn": "First, I wash my face. Then I get dressed.",
+    "exampleAr": "أولًا، أغسل وجهي. ثم أرتدي ملابسي.",
+    "check": {
+      "promptEn": "Which word introduces the next step after First?",
+      "choices": [
+        "Then",
+        "Never",
+        "Yesterday"
+      ],
+      "answer": "Then",
+      "explanationAr": "Then تنقل إلى الخطوة التالية في التسلسل، بينما Never للتكرار المنفي وYesterday لوقت ماضٍ.",
+      "explanationEn": "Then introduces the next step. Never describes negative frequency, and yesterday refers to a past day."
+    }
+  },
+  "a1-u1-l3": {
+    "focusAr": "have تعني يتناول عندما تأتي مع الوجبات: have breakfast. استخدم for breakfast لذكر الطعام الذي تتناوله في الإفطار. ولا تضع a قبل breakfast عند الحديث عن الوجبة المعتادة دون وصف خاص.",
+    "focusEn": "Have means eat or take a meal in have breakfast. Use for breakfast to name what you eat at that meal. Do not put a before breakfast when referring to the usual meal without a special description.",
+    "taskAr": "قل إنك تتناول الخبز والحليب في الإفطار.",
+    "taskEn": "Say that you have bread and milk for breakfast.",
+    "exampleEn": "I have bread and milk for breakfast.",
+    "exampleAr": "أتناول الخبز والحليب في الإفطار.",
+    "check": {
+      "promptEn": "Complete: I have eggs _____ breakfast.",
+      "choices": [
+        "for",
+        "to",
+        "from"
+      ],
+      "answer": "for",
+      "explanationAr": "for breakfast تربط الطعام بالوجبة التي تتناوله فيها.",
+      "explanationEn": "For breakfast links the food to the meal when you eat it."
+    }
+  },
+  "a1-u1-l4": {
+    "focusAr": "استخدم by bus أو by car لوصف وسيلة المواصلات، دون a أو the بعد by في هذا النمط. ويمكنك استخدام الفعل walk مع الوجهة: walk to work. لا تقل by foot؛ التعبير هو on foot.",
+    "focusEn": "Use by bus or by car to name a means of transport, without a or the after by in this pattern. You can use walk with a destination: walk to work. The phrase for walking is on foot, not by foot.",
+    "taskAr": "قل إنك تذهب إلى المدرسة بالحافلة.",
+    "taskEn": "Say that you go to school by bus.",
+    "exampleEn": "I go to school by bus.",
+    "exampleAr": "أذهب إلى المدرسة بالحافلة.",
+    "check": {
+      "promptEn": "Complete: She goes to work _____.",
+      "choices": [
+        "by car",
+        "by a car",
+        "with car"
+      ],
+      "answer": "by car",
+      "explanationAr": "عند وصف وسيلة المواصلات نستخدم by car دون أداة قبل car.",
+      "explanationEn": "To name the means of transport, use by car without an article before car."
+    }
+  },
+  "a1-u1-l5": {
+    "focusAr": "at one o'clock تحدد ساعة، وat noon تعني عند الظهر. together تصف المشاركة، وتأتي طبيعيًا بعد eat lunch: We eat lunch together. noon وقت محدد، ولا تعني كل فترة بعد الظهر.",
+    "focusEn": "At one o'clock gives a clock time; at noon means at midday. Together describes sharing the activity and naturally follows eat lunch. Noon is a particular time, not the whole afternoon.",
+    "taskAr": "اذكر تناول الغداء معًا عند الظهر.",
+    "taskEn": "Describe having lunch together at noon.",
+    "exampleEn": "We have lunch together at noon.",
+    "exampleAr": "نتناول الغداء معًا عند الظهر.",
+    "check": {
+      "promptEn": "Complete: We have lunch _____ noon.",
+      "choices": [
+        "at",
+        "in",
+        "on"
+      ],
+      "answer": "at",
+      "explanationAr": "نستخدم at مع noon كما نستخدمها مع وقت محدد على الساعة.",
+      "explanationEn": "Use at with noon, just as with a specific clock time."
+    }
+  },
+  "a1-u1-l6": {
+    "focusAr": "قل in the evening لوصف عادة مسائية، وat night لوصف عادة ليلية. صل نشاطين بـ and دون إعادة I إن كان الفاعل واحدًا: I read and relax. أما tired فصفة: I am tired.",
+    "focusEn": "Use in the evening for an evening habit and at night for a night-time habit. Join two actions with and without repeating I when the subject is the same: I read and relax. Tired is an adjective: I am tired.",
+    "taskAr": "اذكر أنك تشاهد التلفاز وتسترخي مساءً.",
+    "taskEn": "Say that you watch TV and relax in the evening.",
+    "exampleEn": "In the evening, I watch TV and relax.",
+    "exampleAr": "في المساء، أشاهد التلفاز وأسترخي.",
+    "check": {
+      "promptEn": "Complete: I read _____ the evening.",
+      "choices": [
+        "in",
+        "at",
+        "on"
+      ],
+      "answer": "in",
+      "explanationAr": "التعبير المعتاد هو in the evening. نحفظه منفصلًا عن التعبير at night.",
+      "explanationEn": "The usual phrase is in the evening. Learn it separately from at night."
+    }
+  },
+  "a1-u2-l1": {
+    "focusAr": "مع I وwe وyou وthey نستخدم صيغة الفعل الأساسية في المضارع البسيط: We study. every day كلمتان تعنيان كل يوم؛ أما everyday كلمة واحدة فصفة بمعنى يومي، مثل everyday life.",
+    "focusEn": "Use the base verb with I, we, you and they in the simple present: We study. Every day is two words meaning each day; everyday as one word is an adjective, as in everyday life.",
+    "taskAr": "قل إنك وزملاءك تدرسون في المكتبة كل يوم.",
+    "taskEn": "Say that you and your classmates study at the library every day.",
+    "exampleEn": "We study at the library every day.",
+    "exampleAr": "ندرس في المكتبة كل يوم.",
+    "check": {
+      "promptEn": "Complete: We _____ English every day.",
+      "choices": [
+        "study",
+        "studies",
+        "studying"
+      ],
+      "answer": "study",
+      "explanationAr": "we تأخذ الفعل الأساسي study في المضارع البسيط، دون s ودون ing.",
+      "explanationEn": "We takes the base verb study in the simple present, without s or ing."
+    }
+  },
+  "a1-u2-l2": {
+    "focusAr": "مع he وshe والاسم المفرد نضيف غالبًا s إلى الفعل: He works. لا تضف is قبله في المضارع البسيط. أما وصف الوظيفة باسم فيحتاج إلى is: He is a teacher.",
+    "focusEn": "With he, she and a singular name, usually add s to the verb: He works. Do not add is before it in the simple present. A job description using a noun needs is: He is a teacher.",
+    "taskAr": "قل إن سارة تعمل في مكتب.",
+    "taskEn": "Say that Sara works in an office.",
+    "exampleEn": "Sara works in an office.",
+    "exampleAr": "تعمل سارة في مكتب.",
+    "check": {
+      "promptEn": "Complete: He _____ in a bank.",
+      "choices": [
+        "works",
+        "work",
+        "is works"
+      ],
+      "answer": "works",
+      "explanationAr": "he مفرد غائب، ولذلك نستخدم works. لا نجمع is مع works في هذا الزمن.",
+      "explanationEn": "He is third-person singular, so use works. Do not combine is and works in this tense."
+    }
+  },
+  "a1-u2-l3": {
+    "focusAr": "للنفي مع I وwe وyou وthey ضع do not أو don't قبل الفعل الأساسي. لا تضف am أو are، ولا تغير drink إلى drinking. تعلم التركيب كاملًا: I don't drink coffee.",
+    "focusEn": "For a negative with I, we, you or they, put do not or don't before the base verb. Do not add am or are, and do not change drink to drinking. Learn the whole pattern: I don't drink coffee.",
+    "taskAr": "انف عادة شرب الشاي صباحًا باستخدام don't.",
+    "taskEn": "Use don't to say that you do not drink tea in the morning.",
+    "exampleEn": "I don't drink tea in the morning.",
+    "exampleAr": "لا أشرب الشاي في الصباح.",
+    "check": {
+      "promptEn": "Complete: We do not _____ late.",
+      "choices": [
+        "eat",
+        "eats",
+        "eating"
+      ],
+      "answer": "eat",
+      "explanationAr": "بعد do not يأتي الفعل الأساسي eat. المساعد do يحمل الصيغة النحوية للنفي.",
+      "explanationEn": "The base verb eat follows do not. The auxiliary do carries the grammatical form for the negative."
+    }
+  },
+  "a1-u2-l4": {
+    "focusAr": "ابدأ السؤال عن عادة بـ Do ثم الفاعل ثم الفعل الأساسي: Do you speak English? وللإجابة القصيرة قل Yes, I do أو No, I don't. لا تكرر السؤال بترتيب الجملة الخبرية فقط.",
+    "focusEn": "Ask about a habit with Do, the subject and the base verb: Do you speak English? Short answers are Yes, I do and No, I don't. A question needs the auxiliary pattern, not just statement word order.",
+    "taskAr": "اسأل شخصًا هل يفهم السؤال.",
+    "taskEn": "Ask someone whether they understand the question.",
+    "exampleEn": "Do you understand the question?",
+    "exampleAr": "هل تفهم السؤال؟",
+    "check": {
+      "promptEn": "Do you speak English? Choose the affirmative short answer.",
+      "choices": [
+        "Yes, I do.",
+        "Yes, I am.",
+        "Yes, I does."
+      ],
+      "answer": "Yes, I do.",
+      "explanationAr": "نجيب بالمساعد do المستخدم في السؤال، مع تحويل you إلى I عند إجابة المتكلم عن نفسه.",
+      "explanationEn": "Use the auxiliary do from the question and change you to I when answering about yourself."
+    }
+  },
+  "a1-u2-l5": {
+    "focusAr": "مع he وshe أو اسم شخص واحد يبدأ السؤال بـ Does. يعود الفعل الرئيسي إلى صورته الأساسية: Does Sara work? لا تقل Does Sara works؛ فالمساعد Does يحمل علامة المفرد.",
+    "focusEn": "Use Does for a question with he, she or one person's name. The main verb returns to its base form: Does Sara work? Do not say Does Sara works; Does already marks third-person singular.",
+    "taskAr": "اسأل إن كان علي يعيش هنا.",
+    "taskEn": "Ask whether Ali lives here.",
+    "exampleEn": "Does Ali live here?",
+    "exampleAr": "هل يعيش علي هنا؟",
+    "check": {
+      "promptEn": "Complete: Does she _____ here?",
+      "choices": [
+        "work",
+        "works",
+        "working"
+      ],
+      "answer": "work",
+      "explanationAr": "بعد Does نستخدم work دون s. تظهر s في الخبر She works لا في هذا السؤال.",
+      "explanationEn": "Use work without s after Does. The s appears in the statement She works, not in this question."
+    }
+  },
+  "a1-u2-l6": {
+    "focusAr": "always دائمًا وsometimes أحيانًا وnever لا يحدث مطلقًا. تأتي هذه الكلمات عادة قبل الفعل الرئيسي: I never drink coffee. لا تضف don't مع never في النفي المعتاد، لأن never تحمل معنى النفي بالفعل.",
+    "focusEn": "Always means every time, sometimes means on some occasions, and never means at no time. These words usually precede the main verb: I never drink coffee. Do not add don't with never in a standard negative; never already supplies the negative meaning.",
+    "taskAr": "قل إنك لا تشرب القهوة أبدًا في الليل باستخدام never.",
+    "taskEn": "Use never to say that you do not drink coffee at night.",
+    "exampleEn": "I never drink coffee at night.",
+    "exampleAr": "لا أشرب القهوة أبدًا في الليل.",
+    "check": {
+      "promptEn": "Choose the standard negative sentence.",
+      "choices": [
+        "I never drink coffee.",
+        "I don't never drink coffee.",
+        "I never drinks coffee."
+      ],
+      "answer": "I never drink coffee.",
+      "explanationAr": "never تكفي للنفي، ومع I يبقى drink دون s. لا نضيف don't إلى never في هذا التركيب.",
+      "explanationEn": "Never supplies the negative, and I takes drink without s. Do not add don't to never in this pattern."
+    }
+  }
+}

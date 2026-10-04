@@ -564,6 +564,13 @@ def main():
                 if payload:
                     words_added += merge_new_vocabulary(ls, payload)
 
+    # Enrichment rows are regenerated above, so apply reviewed corrections a
+    # second time to cover fixes that target stable -xv ids as well.
+    post_replaced, post_gloss_fixed, post_punctuation_fixed = apply_quality_fixes(catalog, quality)
+    replaced = max(replaced, post_replaced)
+    gloss_fixed = max(gloss_fixed, post_gloss_fixed)
+    punctuation_fixed += post_punctuation_fixed
+
     total_before = total_after = lessons = 0
     for level in catalog.get("levels", []):
         policy = arabic_policy(level.get("level", ""))

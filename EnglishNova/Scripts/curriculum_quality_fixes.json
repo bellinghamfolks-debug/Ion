@@ -487,6 +487,86 @@
       "exampleArabic": "يتطلب النقاش الدقيق من المشاركين أن يزنوا الأدلة قبل اتخاذ موقف حازم.",
       "partOfSpeech": "verb phrase",
       "phonetic": null
+    },
+    "a0-u1-l3-xv2": {
+      "english": "maybe",
+      "arabic": "ربما",
+      "example": "Maybe I am not sure.",
+      "exampleArabic": "ربما لست متأكدًا.",
+      "partOfSpeech": "adverb",
+      "phonetic": "/ˈmeɪbi/"
+    },
+    "a0-u2-l3-xv1": {
+      "english": "capital letter",
+      "arabic": "حرف كبير",
+      "example": "B is a capital letter.",
+      "exampleArabic": "B حرف كبير.",
+      "partOfSpeech": "noun",
+      "phonetic": "/ˌkæpɪtl ˈletər/"
+    },
+    "a0-u2-l3-xv2": {
+      "english": "lowercase letter",
+      "arabic": "حرف صغير",
+      "example": "b is a lowercase letter.",
+      "exampleArabic": "b حرف صغير.",
+      "partOfSpeech": "noun",
+      "phonetic": "/ˌloʊərˈkeɪs ˈletər/"
+    },
+    "a0-u3-l5-xv1": {
+      "english": "hour",
+      "arabic": "ساعة",
+      "example": "The class is one hour long.",
+      "exampleArabic": "مدة الحصة ساعة واحدة.",
+      "partOfSpeech": "noun",
+      "phonetic": "/ˈaʊər/"
+    },
+    "b1-x-u4-l5-w1": {
+      "english": "check in with",
+      "arabic": "يتواصل مع شخص للاطمئنان أو المتابعة",
+      "example": "I checked in with the recruiter a few days after the interview.",
+      "exampleArabic": "تواصلت مع مسؤول التوظيف بعد بضعة أيام من المقابلة.",
+      "partOfSpeech": "phrasal verb",
+      "phonetic": null
+    },
+    "b2-x-u3-l5-w6": {
+      "english": "deduce",
+      "arabic": "يستنتج",
+      "example": "Researchers can deduce a pattern from repeated observations.",
+      "exampleArabic": "يمكن للباحثين استنتاج نمط من الملاحظات المتكررة.",
+      "partOfSpeech": "verb",
+      "phonetic": null
+    },
+    "c1-x-u4-l3-w4": {
+      "english": "sensory detail",
+      "arabic": "تفصيل حسي",
+      "example": "A precise sensory detail can make a scene feel immediate and real.",
+      "exampleArabic": "يمكن لتفصيل حسي دقيق أن يجعل المشهد حاضرًا وواقعيًا.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
+    },
+    "c1-x-u4-l4-w1": {
+      "english": "analogy",
+      "arabic": "قياس تمثيلي",
+      "example": "The speaker used an analogy to make the abstract idea easier to grasp.",
+      "exampleArabic": "استخدم المتحدث قياسًا تمثيليًا لتسهيل فهم الفكرة المجردة.",
+      "partOfSpeech": "noun",
+      "phonetic": null
+    },
+    "c1-x-u4-l4-w5": {
+      "english": "parallelism",
+      "arabic": "توازٍ في البنية",
+      "example": "Parallelism gave the sentence a stronger rhythm and made it easier to remember.",
+      "exampleArabic": "منح التوازي في البنية الجملة إيقاعًا أقوى وجعلها أسهل تذكرًا.",
+      "partOfSpeech": "noun",
+      "phonetic": null
+    },
+    "c1-x-u4-l4-w6": {
+      "english": "rule of three",
+      "arabic": "قاعدة الثلاثيات البلاغية",
+      "example": "The rule of three can make a list sound more balanced and memorable.",
+      "exampleArabic": "يمكن لقاعدة الثلاثيات البلاغية أن تجعل القائمة أكثر توازنًا وأسهل تذكرًا.",
+      "partOfSpeech": "noun phrase",
+      "phonetic": null
     }
   },
   "arabicGlossById": {
@@ -498,6 +578,11 @@
     "a0-023-student-3": "طالب / طالبة",
     "a0-039-shoes-2": "أحذية",
     "a1-046-with-3": "مع / في بحسب السياق",
-    "a1-053-than-2": "من (في المقارنة)"
+    "a1-053-than-2": "من (في المقارنة)",
+    "a0-u1-l2-xv1": "له / ـه للملكية",
+    "a0-u1-l2-xv2": "لها / ـها للملكية",
+    "a0-u2-l5-xv1": "هذه / هؤلاء",
+    "a0-u2-l5-xv2": "تلك / أولئك",
+    "a0-u2-l5-xv3": "ضمير لغير العاقل"
   }
 }

@@ -474,8 +474,8 @@
         ],
         "a1-040-medicine-3": [
           {
-            "example": "Take this medicine after lunch.",
-            "exampleArabic": "خذ هذا الدواء بعد الغداء."
+            "example": "Where is my medicine?",
+            "exampleArabic": "أين دوائي؟"
           }
         ]
       }
@@ -510,20 +510,20 @@
       "extraExamples": {
         "a1-041-tablet-1": [
           {
-            "example": "Take one tablet in the morning.",
-            "exampleArabic": "خذ قرصًا واحدًا في الصباح."
+            "example": "The label says 'one tablet'.",
+            "exampleArabic": "يقول الملصق «قرص واحد»."
           }
         ],
         "a1-041-take-2": [
           {
-            "example": "Take this medicine every day.",
-            "exampleArabic": "خذ هذا الدواء كل يوم."
+            "example": "The instructions say: take it after lunch.",
+            "exampleArabic": "تقول التعليمات: تناوله بعد الغداء."
           }
         ],
         "a1-041-after-food-3": [
           {
-            "example": "Drink the syrup after food.",
-            "exampleArabic": "اشرب الشراب بعد الطعام."
+            "example": "The words 'after food' are on the label.",
+            "exampleArabic": "توجد عبارة «بعد الطعام» على الملصق."
           }
         ]
       }

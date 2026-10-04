@@ -956,12 +956,13 @@
       "exampleArabic": "الصيدلية مفتوحة حتى منتصف الليل."
     },
     "a1-040-medicine-3": {
-      "example": "Take this medicine after dinner.",
-      "exampleArabic": "تناول هذا الدواء بعد العشاء."
+      "example": "The medicine is in the bag.",
+      "exampleArabic": "الدواء في الحقيبة."
     },
     "a1-042-emergency-2": {
-      "example": "In an emergency, call 997.",
-      "exampleArabic": "في حالة الطوارئ، اتصل بالرقم 997."
+      "example": "This is an emergency. We need help now.",
+      "exampleArabic": "هذه حالة طارئة. نحتاج إلى مساعدة الآن.",
+      "arabic": "حالة طارئة"
     },
     "a1-043-teacher-3": {
       "example": "Our teacher explains the lesson clearly.",
@@ -1202,6 +1203,64 @@
     "a1-u6-l3-xv3": {
       "arabic": "يسجّل الوصول (إلى الفندق)",
       "exampleArabic": "نسجّل الوصول إلى الفندق في الثانية."
+    },
+    "a1-038-pain-1": {
+      "example": "I have pain here. It started two days ago.",
+      "exampleArabic": "لدي ألم هنا. بدأ منذ يومين."
+    },
+    "a1-038-for-2": {
+      "example": "I was ill for two days.",
+      "exampleArabic": "كنت مريضًا لمدة يومين."
+    },
+    "a1-038-days-3": {
+      "example": "I stayed at home for two days.",
+      "exampleArabic": "بقيت في المنزل لمدة يومين."
+    },
+    "a1-u7-l2-xv1": {
+      "english": "ago",
+      "arabic": "منذ (بعد مدة زمنية)",
+      "example": "The pain started two days ago.",
+      "exampleArabic": "بدأ الألم منذ يومين.",
+      "partOfSpeech": "adverb",
+      "phonetic": null
+    },
+    "a1-u7-l1-xv3": {
+      "example": "I rest at home after work.",
+      "exampleArabic": "أستريح في المنزل بعد العمل."
+    },
+    "a1-u7-l4-xv2": {
+      "example": "Is this syrup for adults?",
+      "exampleArabic": "هل هذا الشراب الدوائي للبالغين؟"
+    },
+    "a1-041-tablet-1": {
+      "arabic": "قرص دوائي",
+      "example": "The label says: take one tablet after food.",
+      "exampleArabic": "يقول الملصق: تناول قرصًا واحدًا بعد الطعام."
+    },
+    "a1-041-take-2": {
+      "arabic": "يتناول (دواء)",
+      "example": "The label says: take one tablet after food.",
+      "exampleArabic": "يقول الملصق: تناول قرصًا واحدًا بعد الطعام."
+    },
+    "a1-041-after-food-3": {
+      "example": "The label says: take one tablet after food.",
+      "exampleArabic": "يقول الملصق: تناول قرصًا واحدًا بعد الطعام."
+    },
+    "a1-u7-l5-xv1": {
+      "example": "The label says 'twice a day'.",
+      "exampleArabic": "يقول الملصق «مرتين في اليوم»."
+    },
+    "a1-u7-l5-xv2": {
+      "example": "The label says to take it with water.",
+      "exampleArabic": "يقول الملصق إن الدواء يؤخذ مع الماء."
+    },
+    "a1-044-due-2": {
+      "arabic": "مطلوب تسليمه في موعد محدد"
+    },
+    "a1-u8-l6-xv2": {
+      "arabic": "تحيات (في ختام الرسالة)",
+      "example": "I end my email with 'Kind regards'.",
+      "exampleArabic": "أختم رسالتي بعبارة «مع أطيب التحيات»."
     }
   },
   "arabicGlossById": {

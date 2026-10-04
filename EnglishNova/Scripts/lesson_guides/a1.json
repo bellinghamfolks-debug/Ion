@@ -697,5 +697,247 @@
       "explanationAr": "get to تتبعها الوجهة. لا نستخدم get at في هذا السؤال عن الوصول.",
       "explanationEn": "Get to is followed by the destination. Get at does not express reaching the place in this question."
     }
+  },
+  "a1-u7-l1": {
+    "focusAr": "استخدم have مع اسم العرض: a headache أوa fever، واستخدم feel مع صفة: tired أوsick. لا تقل I am a headache؛ فهذا يجعل الصداع وصفًا لهويتك بدل التعبير عما تشعر به.",
+    "focusEn": "Use have with a symptom noun: a headache or a fever, and feel with an adjective: tired or sick. Do not say I am a headache; that identifies you as a headache rather than describing how you feel.",
+    "taskAr": "اذكر أن لديك صداعًا وأنك تشعر بالتعب.",
+    "taskEn": "Say that you have a headache and feel tired.",
+    "exampleEn": "I have a headache and feel tired.",
+    "exampleAr": "لدي صداع وأشعر بالتعب.",
+    "check": {
+      "promptEn": "Complete: I feel _____.",
+      "choices": [
+        "tired",
+        "a headache",
+        "a fever"
+      ],
+      "answer": "tired",
+      "explanationAr": "بعد feel نستخدم صفة لوصف الحالة، مثل tired. نقول have a headache وhave a fever.",
+      "explanationEn": "Use an adjective such as tired after feel to describe a condition. Say have a headache and have a fever."
+    }
+  },
+  "a1-u7-l2": {
+    "focusAr": "for تحدد مدة: for two days. أما ago فتأتي بعد المدة لتحديد وقت مضى: two days ago. للحديث البسيط عن بداية عرض حالي، اذكر العرض ثم وقت بدايته: It started two days ago.",
+    "focusEn": "For gives a duration: for two days. Ago follows a period to identify a past time: two days ago. To describe the onset of a current symptom simply, name it and say when it started: It started two days ago.",
+    "taskAr": "اذكر وجود ألم هنا وأنه بدأ منذ يومين.",
+    "taskEn": "Say that you have pain here and that it started two days ago.",
+    "exampleEn": "I have pain here. It started two days ago.",
+    "exampleAr": "لدي ألم هنا. بدأ منذ يومين.",
+    "check": {
+      "promptEn": "Complete: The pain started two days _____.",
+      "choices": [
+        "ago",
+        "for",
+        "at"
+      ],
+      "answer": "ago",
+      "explanationAr": "ago تأتي بعد المدة بمعنى «منذ». for تسبق المدة وتصف طولها، لا نقطة البداية بهذا التركيب.",
+      "explanationEn": "Ago follows the period and identifies a time in the past. For comes before a period and describes its length."
+    },
+    "lessonUpdates": {
+      "modelSentence": "I have pain here. It started two days ago.",
+      "modelSentenceArabic": "لدي ألم هنا. بدأ منذ يومين."
+    }
+  },
+  "a1-u7-l3": {
+    "focusAr": "appointment موعد مرتب، وclinic مكان الرعاية. استخدم an appointment with a doctor لتحديد الشخص، وat the clinic لتحديد المكان. لا تضع with قبل clinic عندما تقصد المكان.",
+    "focusEn": "An appointment is an arranged time, and a clinic is a place. Use an appointment with a doctor to identify the person and at the clinic to identify the location. Do not use with clinic to name the place.",
+    "taskAr": "اطلب موعدًا مع طبيب غدًا.",
+    "taskEn": "Ask for an appointment with a doctor tomorrow.",
+    "exampleEn": "I need an appointment with a doctor tomorrow.",
+    "exampleAr": "أحتاج إلى موعد مع طبيب غدًا.",
+    "check": {
+      "promptEn": "Complete: an appointment _____ a doctor.",
+      "choices": [
+        "with",
+        "on",
+        "from"
+      ],
+      "answer": "with",
+      "explanationAr": "with تحدد الشخص الذي ستقابله في الموعد. لتحديد المكان يمكن استخدام at the clinic.",
+      "explanationEn": "With identifies the person you will meet. Use at the clinic to identify the location."
+    },
+    "lessonUpdates": {
+      "titleAr": "حجز موعد طبي",
+      "titleEn": "Booking a Medical Appointment"
+    }
+  },
+  "a1-u7-l4": {
+    "focusAr": "cold اسم بمعنى زكام في have a cold، لكنه صفة بمعنى بارد في cold water. prescription وصفة طبية وmedicine دواء. استخدم سؤال الدرس لطلب المساعدة من الصيدلي وذكر العرض، دون افتراض اسم دواء معين.",
+    "focusEn": "Cold is a noun meaning an illness in have a cold, but an adjective in cold water. A prescription is different from the medicine itself. Use the lesson question to ask the pharmacist for help with a symptom without naming a particular medicine.",
+    "taskAr": "اسأل الصيدلي إن كان لديه شيء للسعال.",
+    "taskEn": "Ask the pharmacist whether they have something for a cough.",
+    "exampleEn": "Do you have something for a cough?",
+    "exampleAr": "هل لديكم شيء للسعال؟",
+    "check": {
+      "promptEn": "In I have a cold, what does cold mean?",
+      "choices": [
+        "an illness",
+        "low water temperature",
+        "a colour"
+      ],
+      "answer": "an illness",
+      "explanationAr": "وجود a وhave في هذا السياق يجعل cold اسمًا للزكام، لا صفة لدرجة الحرارة.",
+      "explanationEn": "With a and have in this context, cold is a noun naming an illness, not an adjective describing temperature."
+    }
+  },
+  "a1-u7-l5": {
+    "focusAr": "في ملصق التدريب، one tablet تحدد العدد، وafter food تحدد الوقت بالنسبة إلى الطعام. twice a day تعني مرتين يوميًا، ولا تحدد وحدها عدد الأقراص في كل مرة. انقل العدد والتوقيت كما يردان في النص.",
+    "focusEn": "In the practice label, one tablet gives the quantity and after food gives the timing relative to a meal. Twice a day means two occasions each day; it does not by itself state the number of tablets each time. Report the label's quantity and timing accurately.",
+    "taskAr": "انقل عبارة «مرتين في اليوم» من ملصق تدريب باستخدام The label says.",
+    "taskEn": "Report twice a day from a practice label using The label says.",
+    "exampleEn": "The label says 'twice a day'.",
+    "exampleAr": "يقول الملصق «مرتين في اليوم».",
+    "check": {
+      "promptEn": "A practice label says twice a day. How many times each day?",
+      "choices": [
+        "two times",
+        "one time",
+        "three times"
+      ],
+      "answer": "two times",
+      "explanationAr": "twice تعني مرتين؛ إنها تكرار الاستخدام في النص، ولا تعني تلقائيًا قرصين في الجرعة.",
+      "explanationEn": "Twice means two times. It gives the frequency in the text, not automatically two tablets per dose."
+    },
+    "lessonUpdates": {
+      "objectiveAr": "أن تميّز الكمية والتوقيت في تعليمات دواء مكتوبة.",
+      "objectiveEn": "Distinguish quantity and timing in written medicine instructions.",
+      "modelSentence": "The label says: take one tablet after food.",
+      "modelSentenceArabic": "يقول الملصق: تناول قرصًا واحدًا بعد الطعام."
+    }
+  },
+  "a1-u7-l6": {
+    "focusAr": "emergency حالة طارئة وambulance سيارة إسعاف. ابدأ بطلب مباشر قصير: Please call an ambulance. ثم يمكن تحديد الموقع بجملة واضحة. quickly تطلب السرعة، لكنها لا تعوّض ذكر المكان أو نوع المساعدة.",
+    "focusEn": "An emergency is an urgent situation, and an ambulance is a vehicle for medical assistance. Start with a short, direct request: Please call an ambulance. Then give a clear location. Quickly asks for speed but does not identify the location or the help needed.",
+    "taskAr": "اطلب سيارة إسعاف وقل إنك في الفندق.",
+    "taskEn": "Ask for an ambulance and say that you are at the hotel.",
+    "exampleEn": "Please call an ambulance. I am at the hotel.",
+    "exampleAr": "من فضلك، اتصل بالإسعاف. أنا في الفندق.",
+    "check": {
+      "promptEn": "Which request asks someone to call for an ambulance?",
+      "choices": [
+        "Please call an ambulance.",
+        "Please send the file.",
+        "Please close the shop."
+      ],
+      "answer": "Please call an ambulance.",
+      "explanationAr": "الطلب الأول يسمي سيارة الإسعاف بوضوح؛ الخياران الآخران يطلبان أفعالًا غير مرتبطة بهذا الموقف.",
+      "explanationEn": "The first request explicitly names an ambulance; the other choices ask for unrelated actions."
+    }
+  },
+  "a1-u8-l1": {
+    "focusAr": "explain تعني يشرح، وrepeat تعني يكرر. إذا لم تفهم المعنى فاطلب شرحًا؛ إذا فاتتك الكلمات فاطلب تكرارًا. استخدم explain this to me، لا explain me this في النمط المعتاد.",
+    "focusEn": "Explain gives the meaning; repeat gives the words again. Ask for an explanation when you do not understand the meaning, and repetition when you missed the words. Use explain this to me, not explain me this in the standard pattern.",
+    "taskAr": "اطلب من المعلم شرح الإجابة مرة أخرى.",
+    "taskEn": "Ask the teacher to explain the answer again.",
+    "exampleEn": "Could you explain the answer again?",
+    "exampleAr": "هل يمكنك شرح الإجابة مرة أخرى؟",
+    "check": {
+      "promptEn": "Complete: Please explain this _____ me.",
+      "choices": [
+        "to",
+        "at",
+        "from"
+      ],
+      "answer": "to",
+      "explanationAr": "نستخدم explain something to someone؛ لذلك تأتي to قبل الشخص.",
+      "explanationEn": "The pattern is explain something to someone, so to comes before the person."
+    }
+  },
+  "a1-u8-l2": {
+    "focusAr": "homework اسم غير معدود، فنقول My homework is ready دون s للجمع. due تحدد موعد التسليم في هذا السياق. The homework is due on Thursday لا تعني أن العمل سهل أو أنه أُنجز بالفعل.",
+    "focusEn": "Homework is uncountable, so say My homework is ready without a plural s. Due identifies the submission date here. The homework is due on Thursday does not mean it is easy or already finished.",
+    "taskAr": "اذكر أن موعد تسليم واجبك غدًا.",
+    "taskEn": "Say that your homework is due tomorrow.",
+    "exampleEn": "My homework is due tomorrow.",
+    "exampleAr": "موعد تسليم واجبي غدًا.",
+    "check": {
+      "promptEn": "The homework is due on Thursday. What does this tell you?",
+      "choices": [
+        "the submission day",
+        "the number of pages",
+        "the teacher's name"
+      ],
+      "answer": "the submission day",
+      "explanationAr": "due on Thursday تحدد يوم التسليم، ولا تخبرنا بعدد الصفحات أو اسم المعلم.",
+      "explanationEn": "Due on Thursday identifies the submission day, not the number of pages or the teacher's name."
+    }
+  },
+  "a1-u8-l3": {
+    "focusAr": "اكتب تحديثًا واضحًا بذكر ما أنجزته: I finished ثم المهمة. sent هي صيغة الماضي من send وليست sended. استخدم and لوصل فعلين أنجزهما الشخص نفسه، مع بقاء الفعلين في الماضي.",
+    "focusEn": "Give a clear update by naming what you completed: I finished followed by the task. Sent is the past of send, not sended. Use and to join two completed actions by the same person, keeping both verbs in the past.",
+    "taskAr": "أرسل تحديثًا نصيًا بأنك أنهيت التقرير وأرسلت الملف.",
+    "taskEn": "Write an update saying that you finished the report and sent the file.",
+    "exampleEn": "I finished the report and sent the file.",
+    "exampleAr": "أنهيت التقرير وأرسلت الملف.",
+    "check": {
+      "promptEn": "Complete: I finished the task and _____ the file.",
+      "choices": [
+        "sent",
+        "sended",
+        "send"
+      ],
+      "answer": "sent",
+      "explanationAr": "الحدثان ماضيان، والماضي غير المنتظم من send هو sent.",
+      "explanationEn": "Both actions are in the past, and the irregular past form of send is sent."
+    }
+  },
+  "a1-u8-l4": {
+    "focusAr": "حدد المهمة عند طلب المساعدة: help me with this report. me ضمير المفعول بعد help، وwith تربط المساعدة بالمهمة. لا تترجم with دائمًا إلى «مع»؛ معناها العربي هنا «في».",
+    "focusEn": "Name the task when asking for help: help me with this report. Me is the object after help, and with links the help to the task. With does not always translate literally as together with; here it identifies what you need help doing.",
+    "taskAr": "اطلب المساعدة في واجبك بأدب.",
+    "taskEn": "Politely ask for help with your homework.",
+    "exampleEn": "Can you help me with my homework, please?",
+    "exampleAr": "هل يمكنك مساعدتي في واجبي، من فضلك؟",
+    "check": {
+      "promptEn": "Complete: Can you help _____ with this report?",
+      "choices": [
+        "me",
+        "I",
+        "my"
+      ],
+      "answer": "me",
+      "explanationAr": "help فعل يحتاج هنا إلى ضمير مفعول، وهو me. I ضمير فاعل وmy تدل على الملكية.",
+      "explanationEn": "Help needs an object pronoun here, so use me. I is a subject pronoun and my is possessive."
+    }
+  },
+  "a1-u8-l5": {
+    "focusAr": "nine thirty تعني التاسعة وثلاثين دقيقة، أي التاسعة والنصف. استخدم starts للمفرد meeting، وat قبل الوقت. لا تخلط بين agenda، وهي الموضوعات المخطط مناقشتها، ووقت بدء الاجتماع.",
+    "focusEn": "Nine thirty means thirty minutes after nine, or half past nine. Use starts with singular meeting and at before the time. An agenda lists planned topics; it is different from the meeting's start time.",
+    "taskAr": "أكد أن الاجتماع يبدأ في الثامنة والنصف.",
+    "taskEn": "Confirm that the meeting starts at eight thirty.",
+    "exampleEn": "The meeting starts at eight thirty.",
+    "exampleAr": "يبدأ الاجتماع في الثامنة والنصف.",
+    "check": {
+      "promptEn": "What time is nine thirty?",
+      "choices": [
+        "half past nine",
+        "half past ten",
+        "nine o'clock"
+      ],
+      "answer": "half past nine",
+      "explanationAr": "thirty هنا تعني ثلاثين دقيقة بعد التاسعة، لا الساعة العاشرة ولا التاسعة تمامًا.",
+      "explanationEn": "Thirty means thirty minutes after nine, not after ten and not exactly nine o'clock."
+    }
+  },
+  "a1-u8-l6": {
+    "focusAr": "ابدأ الرسالة بتحية، ثم I am writing about لذكر الموضوع، واختم بعبارة مثل Kind regards. تأتي about قبل موضوع الرسالة. عند طلب الرد استخدم reply to my email، لا reply my email.",
+    "focusEn": "Begin with a greeting, use I am writing about to name the topic, and close with a phrase such as Kind regards. About introduces the topic. To request an answer, say reply to my email, not reply my email.",
+    "taskAr": "اكتب افتتاحًا عن اجتماع الغد ثم خاتمة مهذبة.",
+    "taskEn": "Write an opening about tomorrow's meeting and a polite closing.",
+    "exampleEn": "Hello, I am writing about tomorrow's meeting. Kind regards, Sara.",
+    "exampleAr": "مرحبًا، أكتب بشأن اجتماع الغد. مع أطيب التحيات، سارة.",
+    "check": {
+      "promptEn": "Complete: Please reply _____ my email.",
+      "choices": [
+        "to",
+        "at",
+        "from"
+      ],
+      "answer": "to",
+      "explanationAr": "نستخدم reply to قبل الرسالة أو الشخص الذي نرد عليه.",
+      "explanationEn": "Use reply to before the message or person receiving the reply."
+    }
   }
 }

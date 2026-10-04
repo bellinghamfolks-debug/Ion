@@ -1148,6 +1148,33 @@
     },
     "a1-011-does-1": {
       "arabic": "فعل مساعد للسؤال مع المفرد الغائب"
+    },
+    "a1-014-were-1": {
+      "arabic": "صيغة الماضي من be مع you وwe وthey"
+    },
+    "a1-017-did-not-1": {
+      "arabic": "أداة نفي الماضي"
+    },
+    "a1-018-did-1": {
+      "arabic": "فعل مساعد للسؤال عن الماضي"
+    },
+    "a1-u3-l4-xv2": {
+      "partOfSpeech": "phrase"
+    },
+    "a1-u4-l2-xv2": {
+      "partOfSpeech": "phrase"
+    },
+    "a1-019-will-1": {
+      "example": "I will help you carry the bags.",
+      "exampleArabic": "سأساعدك في حمل الحقائب."
+    },
+    "a1-019-help-2": {
+      "example": "I will help you carry the bags.",
+      "exampleArabic": "سأساعدك في حمل الحقائب."
+    },
+    "a1-019-bags-3": {
+      "example": "I will help you carry the bags.",
+      "exampleArabic": "سأساعدك في حمل الحقائب."
     }
   },
   "arabicGlossById": {

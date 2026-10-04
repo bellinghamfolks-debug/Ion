@@ -226,5 +226,237 @@
       "explanationAr": "never تكفي للنفي، ومع I يبقى drink دون s. لا نضيف don't إلى never في هذا التركيب.",
       "explanationEn": "Never supplies the negative, and I takes drink without s. Do not add don't to never in this pattern."
     }
+  },
+  "a1-u3-l1": {
+    "focusAr": "yesterday تشير إلى يوم انتهى. عند وصف حالتك أمس استخدم was بدل am: I was busy. لا نضع in أو on قبل yesterday، ويمكن وضعها في بداية الجملة أو نهايتها.",
+    "focusEn": "Yesterday refers to a finished day. To describe your condition yesterday, use was instead of am: I was busy. Do not put in or on before yesterday. It can come at the beginning or end of the sentence.",
+    "taskAr": "قل إنك كنت متعبًا صباح أمس.",
+    "taskEn": "Say that you were tired yesterday morning.",
+    "exampleEn": "I was tired yesterday morning.",
+    "exampleAr": "كنت متعبًا صباح أمس.",
+    "check": {
+      "promptEn": "Complete: I _____ busy yesterday.",
+      "choices": [
+        "was",
+        "am",
+        "were"
+      ],
+      "answer": "was",
+      "explanationAr": "yesterday تحدد الماضي، ومع I نستخدم was في هذا النوع من الجمل.",
+      "explanationEn": "Yesterday marks the past, and I takes was in this kind of sentence."
+    }
+  },
+  "a1-u3-l2": {
+    "focusAr": "was تأتي مع I وhe وshe وit، وwere مع you وwe وthey. لا تتغير were إذا كان you يخاطب شخصًا واحدًا. last night تعني الليلة الماضية ولا تحتاج إلى at قبلها.",
+    "focusEn": "Use was with I, he, she and it, and were with you, we and they. You takes were even when addressing one person. Last night does not need at before it.",
+    "taskAr": "قل إنك وأصدقاءك كنتم معًا الليلة الماضية.",
+    "taskEn": "Say that you and your friends were together last night.",
+    "exampleEn": "We were together last night.",
+    "exampleAr": "كنا معًا الليلة الماضية.",
+    "check": {
+      "promptEn": "Complete: You _____ at home last night.",
+      "choices": [
+        "were",
+        "was",
+        "are"
+      ],
+      "answer": "were",
+      "explanationAr": "you تأخذ were في الماضي سواء خاطبت شخصًا واحدًا أو أكثر.",
+      "explanationEn": "You takes were in the past whether it refers to one person or more than one."
+    }
+  },
+  "a1-u3-l3": {
+    "focusAr": "went هي صيغة الماضي من go؛ لا نقول goed. استخدم to قبل الوجهة: went to the store. after work تحدد ترتيب الحدث بالنسبة إلى العمل، ويمكن إضافة yesterday لبيان اليوم.",
+    "focusEn": "Went is the past form of go; do not say goed. Use to before a destination: went to the store. After work places the event after working, and yesterday can identify the day.",
+    "taskAr": "قل إنك ذهبت إلى السوق أمس.",
+    "taskEn": "Say that you went to the market yesterday.",
+    "exampleEn": "I went to the market yesterday.",
+    "exampleAr": "ذهبت إلى السوق أمس.",
+    "check": {
+      "promptEn": "Complete: Yesterday, she _____ to the store.",
+      "choices": [
+        "went",
+        "goed",
+        "goes"
+      ],
+      "answer": "went",
+      "explanationAr": "go فعل غير منتظم وماضيه went. أما goes فهي صيغة مضارع.",
+      "explanationEn": "Go is irregular and its past form is went. Goes is a present-tense form."
+    }
+  },
+  "a1-u3-l4": {
+    "focusAr": "نضيف ed إلى أفعال منتظمة مثل watch وplay لتكوين الماضي. لا يتغير watched مع I أوwe أوshe. استخدم on قبل اسم اليوم، لكن last week تأتي دون on.",
+    "focusEn": "Add ed to regular verbs such as watch and play to form the past. Watched does not change with I, we or she. Use on before a day name, but use last week without on.",
+    "taskAr": "قل إنك شاهدت فيلمًا الأسبوع الماضي.",
+    "taskEn": "Say that you watched a movie last week.",
+    "exampleEn": "I watched a movie last week.",
+    "exampleAr": "شاهدت فيلمًا الأسبوع الماضي.",
+    "check": {
+      "promptEn": "Complete: We _____ football last Saturday.",
+      "choices": [
+        "played",
+        "play",
+        "plays"
+      ],
+      "answer": "played",
+      "explanationAr": "last Saturday تحدد وقتًا ماضيًا منتهيًا، لذلك نستخدم played.",
+      "explanationEn": "Last Saturday identifies a finished past time, so use played."
+    }
+  },
+  "a1-u3-l5": {
+    "focusAr": "ضع did not أو didn't قبل الفعل الأساسي لنفي حدث ماضٍ. نقول didn't go لا didn't went، لأن did يحمل دلالة الماضي. استخدم الصيغة نفسها مع كل الضمائر.",
+    "focusEn": "Put did not or didn't before the base verb to make a past negative. Say didn't go, not didn't went, because did already marks the past. Use the same pattern with every subject pronoun.",
+    "taskAr": "قل إنك لم تخرج أمس باستخدام didn't.",
+    "taskEn": "Use didn't to say that you did not go out yesterday.",
+    "exampleEn": "I didn't go out yesterday.",
+    "exampleAr": "لم أخرج أمس.",
+    "check": {
+      "promptEn": "Complete: She did not _____ breakfast.",
+      "choices": [
+        "eat",
+        "ate",
+        "eats"
+      ],
+      "answer": "eat",
+      "explanationAr": "بعد did not يعود الفعل إلى eat. لا نستخدم الماضي ate ولا صيغة المضارع eats.",
+      "explanationEn": "After did not, use the base form eat, not past ate or present eats."
+    }
+  },
+  "a1-u3-l6": {
+    "focusAr": "ابدأ السؤال عن فعل ماضٍ بـ Did ثم الفاعل ثم الفعل الأساسي. للإجابة القصيرة قل Yes, I did أو No, I didn't. لا تستخدم Did مع was في سؤال مثل Were you tired?؛ ففعل be له نمطه الخاص.",
+    "focusEn": "Ask about a past action with Did, the subject and the base verb. Short answers are Yes, I did and No, I didn't. Do not add Did to a be question such as Were you tired?; be uses a different pattern.",
+    "taskAr": "اسأل شخصًا هل اتصل بصديقه أمس.",
+    "taskEn": "Ask whether someone called their friend yesterday.",
+    "exampleEn": "Did you call your friend yesterday?",
+    "exampleAr": "هل اتصلت بصديقك أمس؟",
+    "check": {
+      "promptEn": "Complete: Did you _____ the movie?",
+      "choices": [
+        "see",
+        "saw",
+        "seen"
+      ],
+      "answer": "see",
+      "explanationAr": "بعد Did يأتي الفعل الأساسي see. كلمة saw هي الماضي، وseen صيغة أخرى لا تناسب هذا الموضع.",
+      "explanationEn": "Did is followed by base-form see. Saw is the past form, and seen is a different form that does not fit here."
+    }
+  },
+  "a1-u4-l1": {
+    "focusAr": "يمكن استخدام will لعرض المساعدة أو لاتخاذ قرار لحظة الكلام: I'll help you. بعد will يأتي الفعل الأساسي دون to. الاختصار I'll يعني I will، وليس زمنًا مختلفًا.",
+    "focusEn": "Use will to offer help or make a decision at the moment of speaking: I'll help you. Will takes the base verb without to. I'll is the contracted form of I will, not a different tense.",
+    "taskAr": "اعرض فتح الباب لشخص.",
+    "taskEn": "Offer to open the door for someone.",
+    "exampleEn": "I'll open the door for you.",
+    "exampleAr": "سأفتح لك الباب.",
+    "check": {
+      "promptEn": "Complete: I will _____ you with the bags.",
+      "choices": [
+        "help",
+        "to help",
+        "helping"
+      ],
+      "answer": "help",
+      "explanationAr": "will تتبعها صيغة الفعل الأساسية help، دون to أو ing.",
+      "explanationEn": "Will is followed by base-form help, without to or ing."
+    },
+    "lessonUpdates": {
+      "modelSentence": "I will help you carry the bags.",
+      "modelSentenceArabic": "سأساعدك في حمل الحقائب."
+    }
+  },
+  "a1-u4-l2": {
+    "focusAr": "لخطة قررتها مسبقًا استخدم am أوis أوare ثم going to ثم الفعل الأساسي. لا تحذف فعل be: I am going to visit. لا تعني going to هنا بالضرورة الانتقال إلى مكان.",
+    "focusEn": "For a plan made earlier, use am, is or are followed by going to and a base verb. Keep be: I am going to visit. Going to in this pattern does not necessarily mean travelling to a place.",
+    "taskAr": "اذكر خطة لزيارة عائلتك الأسبوع القادم.",
+    "taskEn": "Describe a plan to visit your family next week.",
+    "exampleEn": "I am going to visit my family next week.",
+    "exampleAr": "سأزور عائلتي الأسبوع القادم.",
+    "check": {
+      "promptEn": "Complete: She _____ going to buy a phone.",
+      "choices": [
+        "is",
+        "am",
+        "are"
+      ],
+      "answer": "is",
+      "explanationAr": "نستخدم is مع she داخل تركيب be going to، ثم يأتي الفعل buy بعد to.",
+      "explanationEn": "Use is with she in the be going to pattern; the base verb buy follows to."
+    }
+  },
+  "a1-u4-l3": {
+    "focusAr": "appointment ترتيب للقاء في وقت محدد، مثل موعد مع الطبيب. قل have an appointment؛ نستخدم an لأن النطق يبدأ بصوت متحرك. يأتي at مع الساعة وin the morning مع الفترة.",
+    "focusEn": "An appointment is an arranged meeting at a set time, such as a visit to a doctor. Say have an appointment; use an because the word begins with a vowel sound. Use at for the clock time and in the morning for the period.",
+    "taskAr": "اذكر أن موعدك غدًا في التاسعة صباحًا.",
+    "taskEn": "Say that your appointment is tomorrow at nine in the morning.",
+    "exampleEn": "My appointment is tomorrow at nine in the morning.",
+    "exampleAr": "موعدي غدًا في التاسعة صباحًا.",
+    "check": {
+      "promptEn": "Complete: I have _____ appointment tomorrow.",
+      "choices": [
+        "an",
+        "a",
+        "two"
+      ],
+      "answer": "an",
+      "explanationAr": "appointment هنا مفرد ويبدأ بصوت متحرك، لذلك نختار an. مع two نحتاج إلى appointments.",
+      "explanationEn": "Appointment is singular and begins with a vowel sound, so use an. Two would require appointments."
+    }
+  },
+  "a1-u4-l4": {
+    "focusAr": "استخدم on مع أسماء الأيام: on Tuesday، لكن لا تضف on قبل next Tuesday. أسماء الأيام تبدأ بحرف كبير في الإنجليزية. لربط اليوم بخطة استخدم be going to ثم النشاط.",
+    "focusEn": "Use on with day names: on Tuesday, but omit on before next Tuesday. English day names begin with a capital letter. Link the day to a plan with be going to followed by the activity.",
+    "taskAr": "اذكر أنك ستدرس يوم الاثنين باستخدام going to.",
+    "taskEn": "Say that you plan to study on Monday using going to.",
+    "exampleEn": "On Monday, I am going to study.",
+    "exampleAr": "سأدرس يوم الاثنين.",
+    "check": {
+      "promptEn": "Complete: I am going to study _____ Tuesday.",
+      "choices": [
+        "on",
+        "in",
+        "at"
+      ],
+      "answer": "on",
+      "explanationAr": "نستخدم on مع اسم اليوم. at للساعة المحددة، وin لفترات أخرى مثل الشهر.",
+      "explanationEn": "Use on with a day name. At is used for a clock time, and in for other periods such as a month."
+    }
+  },
+  "a1-u4-l5": {
+    "focusAr": "maybe وperhaps تعبران عن احتمال، فلا تقدمان وعدًا مؤكدًا. يمكن وضعهما في بداية الجملة. later تعني في وقت لاحق دون تحديد قربه، بينما soon تفيد أن الانتظار سيكون قصيرًا نسبيًا.",
+    "focusEn": "Maybe and perhaps express possibility, not a firm promise. They can start a sentence. Later means at a future time without saying how close it is; soon suggests a relatively short wait.",
+    "taskAr": "عبّر عن احتمال الاتصال الليلة باستخدام Maybe.",
+    "taskEn": "Use Maybe to say that you might call tonight.",
+    "exampleEn": "Maybe I will call tonight.",
+    "exampleAr": "ربما أتصل الليلة.",
+    "check": {
+      "promptEn": "Which word shows that a plan is uncertain?",
+      "choices": [
+        "maybe",
+        "definitely",
+        "certainly"
+      ],
+      "answer": "maybe",
+      "explanationAr": "maybe تدل على الاحتمال. definitely وcertainly تؤكدان الكلام بدل إظهار عدم اليقين.",
+      "explanationEn": "Maybe expresses possibility. Definitely and certainly express certainty instead."
+    }
+  },
+  "a1-u4-l6": {
+    "focusAr": "استخدم Would you like to مع فعل لدعوة شخص إلى نشاط: to join us. ومع شيء تعرضه استخدم Would you like ثم الاسم: some tea. يمكن قبول الدعوة بـ Yes, I'd love to، أو الاعتذار بأدب.",
+    "focusEn": "Use Would you like to with a verb to invite someone to an activity: to join us. Use Would you like with a noun when offering something: some tea. Accept with Yes, I'd love to, or decline politely.",
+    "taskAr": "ادع شخصًا إلى تناول العشاء معكم الليلة.",
+    "taskEn": "Invite someone to have dinner with you tonight.",
+    "exampleEn": "Would you like to have dinner with us tonight?",
+    "exampleAr": "هل ترغب في تناول العشاء معنا الليلة؟",
+    "check": {
+      "promptEn": "Complete: Would you like _____ join us?",
+      "choices": [
+        "to",
+        "for",
+        "at"
+      ],
+      "answer": "to",
+      "explanationAr": "عند الدعوة إلى فعل نستخدم would like to ثم الفعل الأساسي: to join.",
+      "explanationEn": "When inviting someone to do an action, use would like to followed by the base verb: to join."
+    }
   }
 }

@@ -336,7 +336,7 @@ W|shocked|مصدوم|I was shocked by the price.|صُدمت من السعر.|adj
 W|out of the blue|على نحو مفاجئ|An old friend called me out of the blue yesterday.|اتصل بي صديق قديم على نحو مفاجئ أمس.|idiom
 W|unexpectedly|بشكل غير متوقع|The train unexpectedly stopped between two stations.|توقف القطار بشكل غير متوقع بين محطتين.|adverb
 W|luckily|لحسن الحظ|Luckily, someone found my phone and returned it.|لحسن الحظ، وجد شخص هاتفي وأعاده.|adverb
-W|eventually|في النهاية|We eventually found the correct address after asking for directions.|وجدنا العنوان الصحيح في النهاية بعد أن سألنا عن الطريق.|adverb
+W|to my surprise|لدهشتي|To my surprise, the lost wallet was still on the café table.|لدهشتي، كانت المحفظة المفقودة لا تزال على طاولة المقهى.|phrase
 L|الاتفاق والاختلاف بأدب|Agreeing and Disagreeing Politely|أن يعبّر المتعلم عن اتفاقه أو اختلافه مع رأي ما بأسلوب مهذب.|I see your point, but I'm not sure I agree with you completely.|أفهم وجهة نظرك، لكنني لست متأكدًا من أنني أتفق معك تمامًا.|To agree or disagree with an opinion in a polite way.
 W|see your point|يفهم وجهة نظرك|I see your point, but there's another side.|أفهم وجهة نظرك، لكن هناك جانبًا آخر.|phrase
 W|exactly|تمامًا|Exactly! That's what I think.|تمامًا! هذا ما أعتقده.|adverb

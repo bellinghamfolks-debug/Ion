@@ -177,11 +177,11 @@
           "phonetic": "/ˈsʌdənli/"
         },
         {
-          "english": "eventually",
-          "arabic": "في نهاية المطاف",
-          "example": "We took the wrong road but eventually found the hotel.",
-          "exampleArabic": "سلكنا الطريق الخطأ لكننا وجدنا الفندق في نهاية المطاف.",
-          "partOfSpeech": "adverb",
+          "english": "later on",
+          "arabic": "لاحقًا",
+          "example": "We stopped for coffee and later on continued our journey.",
+          "exampleArabic": "توقفنا لشرب القهوة ثم واصلنا رحلتنا لاحقًا.",
+          "partOfSpeech": "adverbial phrase",
           "phonetic": null
         }
       ],

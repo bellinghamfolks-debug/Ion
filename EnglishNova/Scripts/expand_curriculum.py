@@ -135,10 +135,14 @@ def merge_new_vocabulary(lesson, payload):
             if not re.match(rf"^{re.escape(lid)}-xv\d+$", w.get("id", ""))]
     have = {w["english"].strip().lower() for w in base}
     added = []
+    skipped_duplicates = []
     for entry in payload.get("extraVocabulary", []):
         en = (entry.get("english") or "").strip()
         ar = (entry.get("arabic") or "").strip()
-        if not en or not ar or en.lower() in have:
+        if not en or not ar:
+            continue
+        if en.lower() in have:
+            skipped_duplicates.append(en)
             continue
         have.add(en.lower())
         added.append({
@@ -151,7 +155,7 @@ def merge_new_vocabulary(lesson, payload):
             "phonetic": (entry.get("phonetic") or None),
         })
     lesson["vocabulary"] = base + added
-    return len(added)
+    return len(added), skipped_duplicates
 
 TRANSLATE_PREFIXES = ("ترجم إلى الإنجليزية:", "ترجم الجملة إلى الإنجليزية:")
 ARRANGE_PREFIXES = ("رتب الكلمات لتكوين الجملة:", "رتب كلمات الجملة:")
@@ -550,6 +554,7 @@ def main():
     replaced, gloss_fixed, punctuation_fixed = apply_quality_fixes(catalog, quality)
     enrichment = load_enrichment()
     words_before = words_added = 0
+    enrichment_duplicates: list[str] = []
 
     # Merge authored extra vocabulary into every lesson first, so the new
     # words feed both the per-word exercise generation and the distractor
@@ -562,7 +567,16 @@ def main():
                                                      w.get("id", ""))])
                 payload = enrichment.get(ls["id"], {})
                 if payload:
-                    words_added += merge_new_vocabulary(ls, payload)
+                    added_count, skipped = merge_new_vocabulary(ls, payload)
+                    words_added += added_count
+                    enrichment_duplicates.extend(f"{ls['id']}: {word}" for word in skipped)
+
+    if enrichment_duplicates:
+        details = "\n  - ".join(enrichment_duplicates)
+        raise SystemExit(
+            "Enrichment duplicates existing lesson vocabulary; replace the redundant items instead of "
+            f"silently dropping them:\n  - {details}"
+        )
 
     # Enrichment rows are regenerated above, so apply reviewed corrections a
     # second time to cover fixes that target stable -xv ids as well.

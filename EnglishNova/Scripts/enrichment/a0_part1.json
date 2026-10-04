@@ -1182,8 +1182,8 @@
       "extraExamples": {
         "a0-025-house-1": [
           {
-            "example": "My house is big.",
-            "exampleArabic": "منزلي كبير."
+            "example": "My house has two doors.",
+            "exampleArabic": "في منزلي بابان."
           }
         ],
         "a0-025-room-2": [
@@ -1242,8 +1242,8 @@
         ],
         "a0-026-table-3": [
           {
-            "example": "The cup is on the table.",
-            "exampleArabic": "الكوب على الطاولة."
+            "example": "The table is in the kitchen.",
+            "exampleArabic": "الطاولة في المطبخ."
           }
         ]
       }
@@ -1284,8 +1284,8 @@
         ],
         "a0-027-phone-2": [
           {
-            "example": "My phone is in my bag.",
-            "exampleArabic": "هاتفي في حقيبتي."
+            "example": "This is my new phone.",
+            "exampleArabic": "هذا هاتفي الجديد."
           }
         ],
         "a0-027-bag-3": [
@@ -1338,8 +1338,8 @@
         ],
         "a0-028-under-3": [
           {
-            "example": "The cat is under the table.",
-            "exampleArabic": "القطة تحت الطاولة."
+            "example": "My shoes are under the bed.",
+            "exampleArabic": "حذائي تحت السرير."
           }
         ]
       }
@@ -1380,8 +1380,8 @@
         ],
         "a0-029-here-2": [
           {
-            "example": "My bag is here.",
-            "exampleArabic": "حقيبتي هنا."
+            "example": "Come here, please.",
+            "exampleArabic": "تعال إلى هنا، من فضلك."
           }
         ],
         "a0-029-there-3": [

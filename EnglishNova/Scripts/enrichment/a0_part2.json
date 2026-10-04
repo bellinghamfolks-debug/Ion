@@ -31,13 +31,13 @@
         "a0-031-tea-1": [
           {
             "example": "The tea is hot.",
-            "exampleArabic": "الشاي حار."
+            "exampleArabic": "الشاي ساخن."
           }
         ],
         "a0-031-coffee-2": [
           {
-            "example": "I drink coffee in the morning.",
-            "exampleArabic": "أشرب القهوة في الصباح."
+            "example": "I want coffee with milk.",
+            "exampleArabic": "أريد قهوة بالحليب."
           }
         ],
         "a0-031-want-3": [
@@ -78,14 +78,14 @@
       "extraExamples": {
         "a0-032-bread-1": [
           {
-            "example": "I eat bread and egg.",
+            "example": "I eat bread and eggs.",
             "exampleArabic": "آكل الخبز والبيض."
           }
         ],
         "a0-032-rice-2": [
           {
             "example": "The rice is hot.",
-            "exampleArabic": "الأرز حار."
+            "exampleArabic": "الأرز ساخن."
           }
         ],
         "a0-032-eat-3": [
@@ -282,8 +282,8 @@
         ],
         "a0-036-one-3": [
           {
-            "example": "I want one tea.",
-            "exampleArabic": "أريد شايًا واحدًا."
+            "example": "I want one cup of tea.",
+            "exampleArabic": "أريد كوب شاي واحدًا."
           }
         ]
       }

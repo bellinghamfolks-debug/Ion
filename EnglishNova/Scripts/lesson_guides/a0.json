@@ -470,5 +470,237 @@
       "explanationAr": "kind صفة هنا وتأتي بعد is دون a. نحتاج إلى a إذا أضفنا اسمًا مفردًا، مثل a kind teacher.",
       "explanationEn": "Kind is an adjective after is and does not take a on its own. Use a when adding a singular noun, as in a kind teacher."
     }
+  },
+  "a0-u5-l1": {
+    "focusAr": "house هو المنزل، وroom غرفة داخله، وkitchen نوع من الغرف. لوصف المكان قل in the house أو in my room. لا تضف the قبل my؛ فالعبارة my room تحدد الغرفة بالفعل.",
+    "focusEn": "A house is a building, a room is part of it, and a kitchen is a type of room. Say in the house or in my room. Do not add the before my; my room already identifies the room.",
+    "taskAr": "قل إن النافذة في غرفتك.",
+    "taskEn": "Say that the window is in your room.",
+    "exampleEn": "The window is in my room.",
+    "exampleAr": "النافذة في غرفتي.",
+    "check": {
+      "promptEn": "Choose the correct phrase.",
+      "choices": [
+        "in my room",
+        "in the my room",
+        "in my the room"
+      ],
+      "answer": "in my room",
+      "explanationAr": "تأتي my مباشرة قبل room، ولا نجمع بينها وبين the قبل الاسم نفسه.",
+      "explanationEn": "My comes directly before room. Do not combine my and the before the same noun."
+    }
+  },
+  "a0-u5-l2": {
+    "focusAr": "bed للنوم وchair للجلوس، وsofa أريكة تتسع عادة لأكثر من شخص. عند الحديث عن قطعة أثاث محددة نستخدم the: the chair. قل in the room للمكان داخل الغرفة وon the table لما هو على سطح الطاولة.",
+    "focusEn": "A bed is for sleeping, a chair for sitting, and a sofa usually seats more than one person. Use the for a particular object: the chair. Say in the room for its location inside a room and on the table for something on the tabletop.",
+    "taskAr": "قل إن المصباح على الطاولة.",
+    "taskEn": "Say that the lamp is on the table.",
+    "exampleEn": "The lamp is on the table.",
+    "exampleAr": "المصباح على الطاولة.",
+    "check": {
+      "promptEn": "Which object do you usually sleep in?",
+      "choices": [
+        "a bed",
+        "a lamp",
+        "a shelf"
+      ],
+      "answer": "a bed",
+      "explanationAr": "bed تعني سريرًا وهو المكان المعتاد للنوم؛ lamp مصباح وshelf رف.",
+      "explanationEn": "A bed is the usual place to sleep; a lamp gives light and a shelf holds objects."
+    }
+  },
+  "a0-u5-l3": {
+    "focusAr": "watch ساعة يد، وتختلف عن clock التي ليست ساعة يد. كلمة glasses بمعنى نظارة تعامل معاملة الجمع في الإنجليزية: My glasses are here، رغم أن العربية قد تستخدم اسمًا مفردًا.",
+    "focusEn": "A watch is worn on the wrist; a clock is a different kind of timepiece. Glasses meaning spectacles is grammatically plural in English: My glasses are here. Arabic may use a singular noun for the same object.",
+    "taskAr": "قل إن نظارتك هنا.",
+    "taskEn": "Say that your glasses are here.",
+    "exampleEn": "My glasses are here.",
+    "exampleAr": "نظارتي هنا.",
+    "check": {
+      "promptEn": "Complete: My glasses _____ on the desk.",
+      "choices": [
+        "are",
+        "is",
+        "am"
+      ],
+      "answer": "are",
+      "explanationAr": "glasses اسم جمع في الإنجليزية، لذلك يتبعه are، حتى لو كان المقصود نظارة واحدة.",
+      "explanationEn": "Glasses is grammatically plural, so use are even when referring to one pair."
+    }
+  },
+  "a0-u5-l4": {
+    "focusAr": "in تدل على وجود الشيء داخل مكان، وon على وجوده على سطح، وunder على وجوده أسفل شيء. استخدم next to للمجاورة، وbehind للخلف. حدّد العلاقة المكانية بالكلمات؛ لا تحتاج إلى صورة لفهمها.",
+    "focusEn": "In places something inside a space, on places it on a surface, and under places it below something. Use next to for a neighbouring position and behind for a position at the back. The words themselves describe the spatial relationship.",
+    "taskAr": "قل إن المفتاح داخل حقيبتك.",
+    "taskEn": "Say that your key is inside your bag.",
+    "exampleEn": "My key is in my bag.",
+    "exampleAr": "مفتاحي في حقيبتي.",
+    "check": {
+      "promptEn": "The key is inside the bag. Complete: The key is _____ the bag.",
+      "choices": [
+        "in",
+        "on",
+        "under"
+      ],
+      "answer": "in",
+      "explanationAr": "inside توضح أن المفتاح داخل الحقيبة، ولذلك نختار in، وليس on أو under.",
+      "explanationEn": "Inside tells us the key is within the bag, so use in rather than on or under."
+    }
+  },
+  "a0-u5-l5": {
+    "focusAr": "اسأل Where is ثم اسم الشيء المفرد. أجب بمكانه أو بـ here للقريب منك وthere للمكان الآخر. where سؤال عن المكان، أما here فإجابة محتملة؛ تشابه بعض الحروف لا يجعل الكلمتين متطابقتين.",
+    "focusEn": "Ask Where is followed by a singular object. Answer with its location, here for a place near you, or there for another place. Where asks about location; here can answer that question. Similar spelling does not make them the same word.",
+    "taskAr": "اسأل عن هاتفك باستخدام Where is.",
+    "taskEn": "Ask where your phone is using Where is.",
+    "exampleEn": "Where is my phone?",
+    "exampleAr": "أين هاتفي؟",
+    "check": {
+      "promptEn": "Which word asks about a place?",
+      "choices": [
+        "where",
+        "here",
+        "there"
+      ],
+      "answer": "where",
+      "explanationAr": "where تعني «أين» وتبدأ سؤالًا عن المكان. here وthere تعنيان «هنا» و«هناك».",
+      "explanationEn": "Where means in what place and introduces a question. Here and there identify locations."
+    },
+    "lessonUpdates": {
+      "modelSentence": "Where is my bag? It is here.",
+      "modelSentenceArabic": "أين حقيبتي؟ إنها هنا."
+    }
+  },
+  "a0-u5-l6": {
+    "focusAr": "يمكن وصل صفتين بـ and: clean and big. الصفة الإنجليزية لا تتغير للمذكر والمؤنث أو للجمع: a clean room وclean rooms. تفرق old بمعنى قديم للأشياء عن معناها كبير السن للأشخاص.",
+    "focusEn": "Join two descriptions with and: clean and big. English adjectives do not change for gender or plural nouns: a clean room, clean rooms. Old can mean not new for objects or advanced in age for people.",
+    "taskAr": "صف غرفتك بأنها صغيرة ونظيفة.",
+    "taskEn": "Describe your room as small and clean.",
+    "exampleEn": "My room is small and clean.",
+    "exampleAr": "غرفتي صغيرة ونظيفة.",
+    "check": {
+      "promptEn": "Complete: The rooms are _____.",
+      "choices": [
+        "clean",
+        "cleans",
+        "a clean"
+      ],
+      "answer": "clean",
+      "explanationAr": "clean صفة، فلا نضيف إليها s مع الجمع. كلمة rooms هي التي تحمل علامة الجمع.",
+      "explanationEn": "Clean is an adjective, so do not add s for plural nouns. Rooms carries the plural ending."
+    }
+  },
+  "a0-u6-l1": {
+    "focusAr": "استخدم I want مع اسم المشروب للتعبير عن رغبتك، وأضف please للتهذيب. water وtea وmilk أسماء غير معدودة عندما نتحدث عن المشروب عمومًا؛ لطلب كمية محددة يمكنك قول a cup of tea.",
+    "focusEn": "Use I want with a drink to say what you want, and add please to be polite. Water, tea and milk are uncountable when referring to the drinks generally. To name a serving, say a cup of tea.",
+    "taskAr": "اطلب كوب شاي بأدب.",
+    "taskEn": "Politely ask for a cup of tea.",
+    "exampleEn": "I want a cup of tea, please.",
+    "exampleAr": "أريد كوب شاي، من فضلك.",
+    "check": {
+      "promptEn": "Complete: a cup _____ tea.",
+      "choices": [
+        "of",
+        "to",
+        "at"
+      ],
+      "answer": "of",
+      "explanationAr": "نربط الوعاء بما يحتويه باستخدام of: a cup of tea.",
+      "explanationEn": "Use of to connect the container to its contents: a cup of tea."
+    }
+  },
+  "a0-u6-l2": {
+    "focusAr": "rice وbread أسماء غير معدودة في الحديث عن الطعام، فنقول I eat rice دون a. أما egg فاسم معدود: an egg للمفرد وeggs للجمع. نختار an لأن egg تبدأ بصوت متحرك.",
+    "focusEn": "Rice and bread are uncountable food nouns, so say I eat rice without a. Egg is countable: an egg for one and eggs for more than one. Use an because egg begins with a vowel sound.",
+    "taskAr": "اذكر أنك تأكل بيضة واحدة.",
+    "taskEn": "Say that you eat one egg.",
+    "exampleEn": "I eat an egg.",
+    "exampleAr": "آكل بيضة.",
+    "check": {
+      "promptEn": "Choose the phrase for one egg.",
+      "choices": [
+        "an egg",
+        "a egg",
+        "an eggs"
+      ],
+      "answer": "an egg",
+      "explanationAr": "egg اسم مفرد يبدأ بصوت متحرك، لذلك نستخدم an. الجمع eggs لا يأتي بعد an.",
+      "explanationEn": "Egg is singular and starts with a vowel sound, so use an. The plural eggs cannot follow an."
+    }
+  },
+  "a0-u6-l3": {
+    "focusAr": "لثمرة واحدة قل an apple أو an orange، لكن a banana؛ الاختيار بين a وan يعتمد على الصوت الأول. fruit اسم عام للفاكهة، بينما apple وbanana اسمان يمكن عدهما.",
+    "focusEn": "For one piece of fruit, say an apple or an orange, but a banana. Choose a or an by the first sound. Fruit is a general word for the food, while apple and banana are countable names of individual fruits.",
+    "taskAr": "اطلب موزة بأدب.",
+    "taskEn": "Politely ask for a banana.",
+    "exampleEn": "I want a banana, please.",
+    "exampleAr": "أريد موزة، من فضلك.",
+    "check": {
+      "promptEn": "Complete: I eat _____ apple.",
+      "choices": [
+        "an",
+        "a",
+        "two"
+      ],
+      "answer": "an",
+      "explanationAr": "نستخدم an قبل apple المفردة لأن نطقها يبدأ بصوت متحرك. مع two نحتاج إلى الجمع apples.",
+      "explanationEn": "Use an before singular apple because it begins with a vowel sound. Two would require plural apples."
+    }
+  },
+  "a0-u6-l4": {
+    "focusAr": "hungry جائع وthirsty عطشان وfull شبعان في سياق الطعام. هذه صفات تتبع am: I am hungry. أما drink ففعل، فنقول I drink water دون am قبل drink في هذه الجملة.",
+    "focusEn": "Hungry, thirsty and full describe how you feel; full means you have eaten enough in this context. Use am with these adjectives: I am hungry. Drink is a verb, so say I drink water without am in this sentence.",
+    "taskAr": "قل إنك عطشان وتريد ماء.",
+    "taskEn": "Say that you are thirsty and want water.",
+    "exampleEn": "I am thirsty. I want water.",
+    "exampleAr": "أنا عطشان. أريد ماء.",
+    "check": {
+      "promptEn": "You want a drink because you feel _____.",
+      "choices": [
+        "thirsty",
+        "full",
+        "tall"
+      ],
+      "answer": "thirsty",
+      "explanationAr": "thirsty تصف الحاجة إلى الشرب. full تعني شبعان وtall تعني طويل القامة.",
+      "explanationEn": "Thirsty describes the need for a drink. Full means you have eaten enough, and tall describes height."
+    }
+  },
+  "a0-u6-l5": {
+    "focusAr": "قل I like للتعبير عن الإعجاب، وI do not like أو I don't like للنفي. لا تقل I am like عند الحديث عن تفضيل الطعام. love في هذا السياق أقوى من like، وfavorite تصف الخيار المفضل.",
+    "focusEn": "Say I like for a preference and I do not like or I don't like for a negative preference. Do not say I am like when describing food preferences. Love is stronger than like here, and favorite identifies your preferred choice.",
+    "taskAr": "قل إنك لا تحب القهوة باستخدام don't.",
+    "taskEn": "Say that you do not like coffee using don't.",
+    "exampleEn": "I don't like coffee.",
+    "exampleAr": "لا أحب القهوة.",
+    "check": {
+      "promptEn": "Choose the negative preference.",
+      "choices": [
+        "I don't like coffee.",
+        "I am coffee.",
+        "I like coffee."
+      ],
+      "answer": "I don't like coffee.",
+      "explanationAr": "نضع don't قبل الفعل like لنفي التفضيل مع I. تبقى like بصيغتها الأساسية.",
+      "explanationEn": "Put don't before like to make a negative preference with I. Like stays in its base form."
+    }
+  },
+  "a0-u6-l6": {
+    "focusAr": "في المطعم يمكن أن يكون الطلب قصيرًا: One sandwich, please. menu قائمة تختار منها الطعام، وbill فاتورة تطلبها للدفع. لا تخلط بين طلب القائمة قبل الاختيار وطلب الفاتورة عند الحساب.",
+    "focusEn": "A restaurant request can be short: One sandwich, please. A menu lists the food you can choose; a bill tells you what to pay. Ask for the menu when choosing and the bill when paying.",
+    "taskAr": "اطلب الفاتورة بأدب.",
+    "taskEn": "Politely ask for the bill.",
+    "exampleEn": "The bill, please.",
+    "exampleAr": "الفاتورة، من فضلك.",
+    "check": {
+      "promptEn": "You have finished eating and want to pay. Ask for the _____.",
+      "choices": [
+        "bill",
+        "menu",
+        "sandwich"
+      ],
+      "answer": "bill",
+      "explanationAr": "bill هي الفاتورة التي تبين المبلغ المطلوب دفعه، بينما menu تعرض خيارات الطعام.",
+      "explanationEn": "The bill shows the amount to pay, while the menu lists food choices."
+    }
   }
 }

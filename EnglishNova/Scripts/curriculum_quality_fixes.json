@@ -1043,6 +1043,17 @@
     },
     "a0-u4-l5-xv2": {
       "arabic": "هم / هن"
+    },
+    "a0-029-here-2": {
+      "example": "My bag is here.",
+      "exampleArabic": "حقيبتي هنا."
+    },
+    "a0-u6-l2-xv3": {
+      "exampleArabic": "الحساء ساخن."
+    },
+    "a0-u6-l5-xv1": {
+      "arabic": "يحب كثيرًا",
+      "exampleArabic": "أحب الشاي كثيرًا."
     }
   },
   "arabicGlossById": {

@@ -63,6 +63,38 @@
        "exampleArabic": "ما شروط القبول؟",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "entry requirement",
+       "arabic": "متطلب قبول",
+       "example": "English proficiency is an entry requirement for the course.",
+       "exampleArabic": "إتقان الإنجليزية متطلب قبول للدورة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "tuition fees",
+       "arabic": "رسوم دراسية",
+       "example": "The scholarship covers most of my tuition fees.",
+       "exampleArabic": "تغطي المنحة معظم رسومي الدراسية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "module",
+       "arabic": "مقرر دراسي",
+       "example": "This module focuses on data analysis.",
+       "exampleArabic": "يركز هذا المقرر الدراسي على تحليل البيانات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "postgraduate",
+       "arabic": "دراسات عليا",
+       "example": "She plans to do a postgraduate course after her degree.",
+       "exampleArabic": "تخطط لدراسة برنامج دراسات عليا بعد شهادتها.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
       }
      ]
     },
@@ -120,6 +152,38 @@
        "example": "Stop procrastinating and start your essay.",
        "exampleArabic": "توقّف عن المماطلة وابدأ مقالك.",
        "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "study session",
+       "arabic": "جلسة مذاكرة",
+       "example": "I turn off my phone during each study session.",
+       "exampleArabic": "أغلق هاتفي خلال كل جلسة مذاكرة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "set priorities",
+       "arabic": "يحدد الأولويات",
+       "example": "I set priorities before I start a busy week.",
+       "exampleArabic": "أحدد الأولويات قبل أن أبدأ أسبوعًا مزدحمًا.",
+       "partOfSpeech": "verb phrase",
+       "phonetic": null
+      },
+      {
+       "english": "active recall",
+       "arabic": "استرجاع نشط",
+       "example": "Active recall helps me check what I can remember without notes.",
+       "exampleArabic": "يساعدني الاسترجاع النشط على معرفة ما أتذكره دون ملاحظات.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "mind map",
+       "arabic": "خريطة ذهنية",
+       "example": "I made a mind map to connect the main ideas.",
+       "exampleArabic": "أنشأت خريطة ذهنية لربط الأفكار الرئيسية.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -179,6 +243,38 @@
        "exampleArabic": "يمكنك الدراسة بالسرعة التي تناسبك.",
        "partOfSpeech": "phrase",
        "phonetic": null
+      },
+      {
+       "english": "webinar",
+       "arabic": "ندوة عبر الإنترنت",
+       "example": "I attended a webinar about academic writing.",
+       "exampleArabic": "حضرت ندوة عبر الإنترنت عن الكتابة الأكاديمية.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "discussion forum",
+       "arabic": "منتدى نقاش",
+       "example": "Students ask questions in the discussion forum.",
+       "exampleArabic": "يطرح الطلاب أسئلة في منتدى النقاش.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "assignment",
+       "arabic": "واجب دراسي",
+       "example": "I submitted the assignment before the deadline.",
+       "exampleArabic": "قدمت الواجب الدراسي قبل الموعد النهائي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "course access",
+       "arabic": "إمكانية الدخول إلى الدورة",
+       "example": "My course access lasts for six months.",
+       "exampleArabic": "تستمر إمكانية دخولي إلى الدورة ستة أشهر.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -236,6 +332,38 @@
        "example": "She is a confident speaker.",
        "exampleArabic": "إنها متحدثة واثقة.",
        "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "leadership",
+       "arabic": "قيادة",
+       "example": "Leadership is important when a team needs direction.",
+       "exampleArabic": "القيادة مهمة عندما يحتاج الفريق إلى توجيه.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "negotiation",
+       "arabic": "تفاوض",
+       "example": "Good negotiation can help both sides reach a fair agreement.",
+       "exampleArabic": "يمكن للتفاوض الجيد أن يساعد الطرفين على الوصول إلى اتفاق عادل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "initiative",
+       "arabic": "مبادرة",
+       "example": "Employers notice people who show initiative without being asked.",
+       "exampleArabic": "يلاحظ أصحاب العمل الأشخاص الذين يظهرون المبادرة دون أن يُطلب منهم.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "problem-solving",
+       "arabic": "حل المشكلات",
+       "example": "Problem-solving is useful in almost every workplace.",
+       "exampleArabic": "حل المشكلات مفيد في معظم أماكن العمل.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -304,6 +432,38 @@
        "exampleArabic": "في المنطقة خدمات جيدة مثل المتاجر والمدارس.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "green space",
+       "arabic": "مساحة خضراء",
+       "example": "Easy access to green space can make a neighbourhood more pleasant.",
+       "exampleArabic": "يمكن أن يجعل الوصول السهل إلى مساحة خضراء الحي أكثر راحة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "public services",
+       "arabic": "خدمات عامة",
+       "example": "Good public services make daily life easier for residents.",
+       "exampleArabic": "تجعل الخدمات العامة الجيدة الحياة اليومية أسهل للسكان.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "housing cost",
+       "arabic": "تكلفة السكن",
+       "example": "Housing cost is often higher in large cities.",
+       "exampleArabic": "غالبًا ما تكون تكلفة السكن أعلى في المدن الكبيرة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "nightlife",
+       "arabic": "حياة ليلية",
+       "example": "The city has lively nightlife, but the countryside is quieter.",
+       "exampleArabic": "للمدينة حياة ليلية نشطة، لكن الريف أكثر هدوءًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -361,6 +521,38 @@
        "example": "Trains are frequent on weekdays.",
        "exampleArabic": "القطارات متكررة في أيام الأسبوع.",
        "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "delay",
+       "arabic": "تأخير",
+       "example": "A signal problem caused a twenty-minute delay.",
+       "exampleArabic": "تسببت مشكلة في الإشارة في تأخير لمدة عشرين دقيقة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "departure board",
+       "arabic": "لوحة المغادرة",
+       "example": "Check the departure board before you go to the platform.",
+       "exampleArabic": "تحقق من لوحة المغادرة قبل أن تذهب إلى رصيف القطار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "season ticket",
+       "arabic": "اشتراك مواصلات موسمي",
+       "example": "A season ticket is cheaper if you travel every day.",
+       "exampleArabic": "الاشتراك الموسمي أرخص إذا كنت تسافر يوميًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "connection",
+       "arabic": "وصلة مواصلات",
+       "example": "I missed my connection because the first bus was late.",
+       "exampleArabic": "فاتتني وصلة المواصلات لأن الحافلة الأولى تأخرت.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -420,6 +612,38 @@
        "exampleArabic": "يدفعون قرضهم العقاري كل شهر.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "rent increase",
+       "arabic": "زيادة الإيجار",
+       "example": "The tenant complained about a sudden rent increase.",
+       "exampleArabic": "اشتكى المستأجر من زيادة مفاجئة في الإيجار.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "repair request",
+       "arabic": "طلب إصلاح",
+       "example": "I sent the landlord a repair request about the heating.",
+       "exampleArabic": "أرسلت إلى المالك طلب إصلاح بشأن التدفئة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "lease",
+       "arabic": "عقد إيجار",
+       "example": "Our lease ends in September.",
+       "exampleArabic": "ينتهي عقد إيجارنا في سبتمبر.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "deposit dispute",
+       "arabic": "نزاع حول التأمين",
+       "example": "The agency helped settle a deposit dispute after we moved out.",
+       "exampleArabic": "ساعدت الوكالة في تسوية نزاع حول مبلغ التأمين بعد مغادرتنا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -477,6 +701,38 @@
        "example": "I'm stuck at the station.",
        "exampleArabic": "أنا عالق في المحطة.",
        "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "roadworks",
+       "arabic": "أعمال طرق",
+       "example": "Roadworks have made my journey much slower this week.",
+       "exampleArabic": "جعلت أعمال الطرق رحلتي أبطأ بكثير هذا الأسبوع.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "congestion",
+       "arabic": "ازدحام مروري",
+       "example": "Traffic congestion is worst between seven and nine in the morning.",
+       "exampleArabic": "يكون الازدحام المروري في أسوأ حالاته بين السابعة والتاسعة صباحًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "cycle lane",
+       "arabic": "مسار دراجات",
+       "example": "A new cycle lane has made cycling to work safer.",
+       "exampleArabic": "جعل مسار الدراجات الجديد الذهاب إلى العمل بالدراجة أكثر أمانًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "remote work",
+       "arabic": "عمل عن بعد",
+       "example": "Remote work has reduced my weekly commuting time.",
+       "exampleArabic": "قلل العمل عن بعد وقت تنقلي الأسبوعي.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -545,6 +801,38 @@
        "exampleArabic": "ما أشهر طبق هنا؟",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "reservation",
+       "arabic": "حجز",
+       "example": "We made a reservation for eight o'clock.",
+       "exampleArabic": "أجرينا حجزًا للساعة الثامنة.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "ambience",
+       "arabic": "أجواء المكان",
+       "example": "The restaurant has a relaxed ambience in the evening.",
+       "exampleArabic": "يتمتع المطعم بأجواء مريحة في المساء.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "starter",
+       "arabic": "طبق مقبلات",
+       "example": "We shared a starter before the main course.",
+       "exampleArabic": "شاركنا طبق مقبلات قبل الطبق الرئيسي.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "bill",
+       "arabic": "فاتورة",
+       "example": "We asked for the bill after dessert.",
+       "exampleArabic": "طلبنا الفاتورة بعد الحلوى.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -602,6 +890,38 @@
        "example": "I'm allergic to nuts.",
        "exampleArabic": "لدي حساسية من المكسرات.",
        "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "whole foods",
+       "arabic": "أطعمة كاملة قليلة التصنيع",
+       "example": "I try to base most meals on whole foods rather than highly processed products.",
+       "exampleArabic": "أحاول أن أجعل معظم وجباتي قائمة على أطعمة كاملة بدل المنتجات شديدة التصنيع.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "fibre",
+       "arabic": "ألياف",
+       "example": "Whole grains are a useful source of fibre.",
+       "exampleArabic": "الحبوب الكاملة مصدر مفيد للألياف.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "processed food",
+       "arabic": "طعام مصنع",
+       "example": "I try not to rely on processed food every day.",
+       "exampleArabic": "أحاول ألا أعتمد على الطعام المصنع يوميًا.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "portion size",
+       "arabic": "حجم الحصة",
+       "example": "Checking portion size can help you understand how much you are eating.",
+       "exampleArabic": "يمكن أن يساعد فحص حجم الحصة على فهم مقدار ما تأكله.",
+       "partOfSpeech": "noun",
        "phonetic": null
       }
      ]
@@ -661,6 +981,38 @@
        "exampleArabic": "ضع الكعكة في الفرن.",
        "partOfSpeech": "noun",
        "phonetic": null
+      },
+      {
+       "english": "peel",
+       "arabic": "يقشر",
+       "example": "Peel the potatoes before you cut them into pieces.",
+       "exampleArabic": "قشر البطاطس قبل تقطيعها إلى قطع.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "dice",
+       "arabic": "يقطع إلى مكعبات",
+       "example": "Dice the tomatoes into small pieces.",
+       "exampleArabic": "قطع الطماطم إلى مكعبات صغيرة.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "season",
+       "arabic": "يتبل",
+       "example": "Season the soup with a little salt and pepper.",
+       "exampleArabic": "تبّل الحساء بقليل من الملح والفلفل.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "simmer",
+       "arabic": "يطبخ على نار هادئة",
+       "example": "Let the sauce simmer for ten minutes.",
+       "exampleArabic": "دع الصلصة تطهى على نار هادئة لمدة عشر دقائق.",
+       "partOfSpeech": "verb",
+       "phonetic": null
       }
      ]
     },
@@ -717,6 +1069,38 @@
        "arabic": "خطة الوجبات",
        "example": "A weekly meal plan saves time and money.",
        "exampleArabic": "خطة الوجبات الأسبوعية توفّر الوقت والمال.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "food scraps",
+       "arabic": "بقايا طعام صغيرة",
+       "example": "We put vegetable food scraps in the compost bin.",
+       "exampleArabic": "نضع بقايا الخضروات الصغيرة في صندوق السماد.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "use-by date",
+       "arabic": "تاريخ آخر استخدام",
+       "example": "Check the use-by date before eating fresh meat.",
+       "exampleArabic": "تحقق من تاريخ آخر استخدام قبل تناول اللحم الطازج.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "batch cook",
+       "arabic": "يطبخ كمية كبيرة مسبقًا",
+       "example": "I batch cook on Sunday and freeze several meals.",
+       "exampleArabic": "أطبخ كمية كبيرة مسبقًا يوم الأحد وأجمد عدة وجبات.",
+       "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "reusable container",
+       "arabic": "حافظة قابلة لإعادة الاستخدام",
+       "example": "I store leftovers in a reusable container.",
+       "exampleArabic": "أحفظ بقايا الطعام في حافظة قابلة لإعادة الاستخدام.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -786,6 +1170,38 @@
        "exampleArabic": "أشعر بالقلق بشأن النتائج.",
        "partOfSpeech": "adjective",
        "phonetic": null
+      },
+      {
+       "english": "disappointed",
+       "arabic": "خائب الأمل",
+       "example": "I felt disappointed when the event was cancelled.",
+       "exampleArabic": "شعرت بخيبة أمل عندما أُلغي الحدث.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "uneasy",
+       "arabic": "غير مرتاح نفسيًا",
+       "example": "I felt uneasy before speaking to the manager.",
+       "exampleArabic": "شعرت بعدم الارتياح قبل التحدث إلى المدير.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "cheerful",
+       "arabic": "مبتهج",
+       "example": "He sounded cheerful after hearing the good news.",
+       "exampleArabic": "بدا مبتهجًا بعد سماع الخبر الجيد.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "guilty",
+       "arabic": "شاعر بالذنب",
+       "example": "I felt guilty for forgetting my friend's birthday.",
+       "exampleArabic": "شعرت بالذنب لأنني نسيت عيد ميلاد صديقي.",
+       "partOfSpeech": "adjective",
+       "phonetic": null
       }
      ]
     },
@@ -843,6 +1259,38 @@
        "example": "I was shocked by the price.",
        "exampleArabic": "صُدمت من السعر.",
        "partOfSpeech": "adjective",
+       "phonetic": null
+      },
+      {
+       "english": "out of the blue",
+       "arabic": "على نحو مفاجئ",
+       "example": "An old friend called me out of the blue yesterday.",
+       "exampleArabic": "اتصل بي صديق قديم على نحو مفاجئ أمس.",
+       "partOfSpeech": "idiom",
+       "phonetic": null
+      },
+      {
+       "english": "unexpectedly",
+       "arabic": "بشكل غير متوقع",
+       "example": "The train unexpectedly stopped between two stations.",
+       "exampleArabic": "توقف القطار بشكل غير متوقع بين محطتين.",
+       "partOfSpeech": "adverb",
+       "phonetic": null
+      },
+      {
+       "english": "luckily",
+       "arabic": "لحسن الحظ",
+       "example": "Luckily, someone found my phone and returned it.",
+       "exampleArabic": "لحسن الحظ، وجد شخص هاتفي وأعاده.",
+       "partOfSpeech": "adverb",
+       "phonetic": null
+      },
+      {
+       "english": "eventually",
+       "arabic": "في النهاية",
+       "example": "We eventually found the correct address after asking for directions.",
+       "exampleArabic": "وجدنا العنوان الصحيح في النهاية بعد أن سألنا عن الطريق.",
+       "partOfSpeech": "adverb",
        "phonetic": null
       }
      ]
@@ -902,6 +1350,38 @@
        "exampleArabic": "لقد أقنعتني.",
        "partOfSpeech": "verb",
        "phonetic": null
+      },
+      {
+       "english": "from my perspective",
+       "arabic": "من وجهة نظري",
+       "example": "From my perspective, the cheaper option offers better value.",
+       "exampleArabic": "من وجهة نظري، يقدم الخيار الأرخص قيمة أفضل.",
+       "partOfSpeech": "phrase",
+       "phonetic": null
+      },
+      {
+       "english": "I take your point",
+       "arabic": "أتفهم وجهة نظرك",
+       "example": "I take your point, but I still think we need more evidence.",
+       "exampleArabic": "أتفهم وجهة نظرك، لكنني ما زلت أعتقد أننا نحتاج إلى أدلة أكثر.",
+       "partOfSpeech": "phrase",
+       "phonetic": null
+      },
+      {
+       "english": "nevertheless",
+       "arabic": "مع ذلك",
+       "example": "The plan is expensive; nevertheless, it could save time later.",
+       "exampleArabic": "الخطة مكلفة، ومع ذلك قد توفر الوقت لاحقًا.",
+       "partOfSpeech": "adverb",
+       "phonetic": null
+      },
+      {
+       "english": "common ground",
+       "arabic": "أرضية مشتركة",
+       "example": "We found some common ground even though we disagreed on the details.",
+       "exampleArabic": "وجدنا أرضية مشتركة رغم اختلافنا حول التفاصيل.",
+       "partOfSpeech": "noun",
+       "phonetic": null
       }
      ]
     },
@@ -959,6 +1439,38 @@
        "example": "Please forgive me.",
        "exampleArabic": "أرجو أن تسامحني.",
        "partOfSpeech": "verb",
+       "phonetic": null
+      },
+      {
+       "english": "apology",
+       "arabic": "اعتذار",
+       "example": "I offered a sincere apology for missing the meeting.",
+       "exampleArabic": "قدمت اعتذارًا صادقًا عن تفويت الاجتماع.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "explanation",
+       "arabic": "توضيح",
+       "example": "I owe you an explanation for missing the meeting.",
+       "exampleArabic": "أدين لك بتوضيح لسبب تفويتي الاجتماع.",
+       "partOfSpeech": "noun",
+       "phonetic": null
+      },
+      {
+       "english": "make amends",
+       "arabic": "يعوض عن الخطأ",
+       "example": "I want to make amends by replacing what I damaged.",
+       "exampleArabic": "أريد أن أعوض عن الخطأ باستبدال ما أتلفته.",
+       "partOfSpeech": "verb phrase",
+       "phonetic": null
+      },
+      {
+       "english": "take ownership",
+       "arabic": "يتحمل المسؤولية",
+       "example": "I need to take ownership of the mistake and correct it.",
+       "exampleArabic": "أحتاج إلى تحمل مسؤولية الخطأ وتصحيحه.",
+       "partOfSpeech": "verb phrase",
        "phonetic": null
       }
      ]

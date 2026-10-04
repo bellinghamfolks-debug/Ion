@@ -86,9 +86,9 @@ W|snore|يشخر|My brother snores loudly at night.|يشخر أخي بصوت ع�
 W|relax|يسترخي|I relax by reading a book.|أسترخي بقراءة كتاب.|verb
 W|alarm|منبّه|My alarm didn't ring this morning.|لم يرنّ منبّهي هذا الصباح.|noun
 W|oversleep|ينام أكثر من اللازم|I oversleep if I forget to set my alarm.|أنام أكثر من اللازم إذا نسيت ضبط المنبه.|verb
-W|bedtime|وقت النوم|My usual bedtime is around eleven o'clock.|وقت نومي المعتاد حوالي الساعة الحادية عشرة.|noun
-W|tired|متعب|I feel tired when I do not sleep enough.|أشعر بالتعب عندما لا أنام بما يكفي.|adjective
-W|wake up|يستيقظ|I usually wake up before my alarm rings.|أستيقظ عادة قبل أن يرن المنبه.|phrasal verb
+W|sleep routine|روتين النوم|A regular sleep routine helps me go to bed at the same time each night.|يساعدني روتين نوم منتظم على الذهاب إلى السرير في الوقت نفسه كل ليلة.|noun
+W|rested|مرتاح بعد النوم|I feel rested after a full night's sleep.|أشعر أنني مرتاح بعد ليلة نوم كاملة.|adjective
+W|fall asleep|يغفو|I fall asleep more easily when the room is quiet.|أغفو بسهولة أكبر عندما تكون الغرفة هادئة.|phrasal verb
 U|a2-x-u7|السفر والعطلات|Travel and Holidays|احجز فندقًا، وتعامل مع مكتب الاستقبال، وجهّز حقيبتك، وتحدّث عن أنشطة العطلة.|airplane|Book a hotel, deal with reception, pack your bag, and talk about holiday activities.
 L|حجز فندق|Booking a Hotel|أن يحجز المتعلم غرفة فندقية ويسأل عن السعر والخدمات.|I'd like to book a double room for three nights, please.|أود حجز غرفة مزدوجة لثلاث ليالٍ من فضلك.|To book a hotel room and ask about the price and services.
 W|per night|لليلة الواحدة|The room costs eighty dollars per night.|تكلّف الغرفة ثمانين دولارًا لليلة الواحدة.|phrase
@@ -143,7 +143,7 @@ W|explain|يشرح|The teacher explained the rule again.|شرح المعلم ا�
 W|borrow|يستعير|Can I borrow your pen?|هل يمكنني استعارة قلمك؟|verb
 W|mean|يعني|What does this word mean?|ماذا تعني هذه الكلمة؟|verb
 W|underline|يضع خطًا تحت|Please underline the correct answer in your book.|ضع خطًا تحت الإجابة الصحيحة في كتابك من فضلك.|verb
-W|answer|إجابة|Write your answer in a complete sentence.|اكتب إجابتك في جملة كاملة.|noun
+W|instruction|تعليمات|Read each instruction carefully before you answer.|اقرأ كل تعليمات بعناية قبل أن تجيب.|noun
 W|page|صفحة|Open your book at page twenty-four.|افتح كتابك على الصفحة الرابعة والعشرين.|noun
 W|worksheet|ورقة عمل|The teacher gave us a worksheet to complete in class.|أعطانا المعلم ورقة عمل لإكمالها في الصف.|noun
 L|المواد الدراسية|School Subjects|أن يتحدث المتعلم عن المواد التي يحبها والتي يجدها صعبة.|My favourite subject is history, but I find maths difficult.|مادتي المفضلة هي التاريخ، لكنني أجد الرياضيات صعبة.|To talk about the subjects you like and the ones you find difficult.
@@ -200,8 +200,8 @@ W|photocopy|يصوّر (مستندًا)؛ نسخة مصوّرة|Can you photocop
 W|finish|ينهي|I finish work at five o'clock.|أنهي العمل في الساعة الخامسة.|verb
 W|meeting|اجتماع|I have a meeting with my team at ten o'clock.|لدي اجتماع مع فريقي الساعة العاشرة.|noun
 W|deadline|موعد نهائي|The deadline for this task is Friday afternoon.|الموعد النهائي لهذه المهمة هو بعد ظهر الجمعة.|noun
-W|schedule|جدول|I check my schedule before I start work each morning.|أراجع جدولي قبل أن أبدأ العمل كل صباح.|noun
-W|customer|عميل|I helped a customer with an order this morning.|ساعدت عميلًا في طلب هذا الصباح.|noun
+W|task list|قائمة مهام|I write a task list at the start of the day.|أكتب قائمة مهام في بداية اليوم.|noun
+W|supervisor|مشرف|My supervisor checked the report before I sent it.|راجع مشرفي التقرير قبل أن أرسله.|noun
 L|البحث عن وظيفة|Looking for a Job|أن يتحدث المتعلم عن البحث عن عمل والتقديم على وظيفة.|I saw the job advert online and sent my CV yesterday.|رأيت إعلان الوظيفة على الإنترنت وأرسلت سيرتي الذاتية أمس.|To talk about looking for work and applying for a job.
 W|advert|إعلان|I saw an advert for a new café.|رأيت إعلانًا عن مقهى جديد.|noun
 W|CV|سيرة ذاتية|Please send your CV by email.|من فضلك أرسل سيرتك الذاتية بالبريد الإلكتروني.|noun

@@ -182,7 +182,7 @@ final class EnglishNovaPhase3Tests: XCTestCase {
         }
         XCTAssertEqual(expansion.count, 32)
         for lesson in expansion.flatMap(\.lessons) {
-            XCTAssertEqual(lesson.vocabulary.count, 6, lesson.id)
+            XCTAssertEqual(lesson.vocabulary.count, 10, lesson.id)
             XCTAssertGreaterThanOrEqual(lesson.exercises.count, 20, lesson.id)
             let types = Set(lesson.exercises.map(\.type))
             XCTAssertTrue(types.isSuperset(of: [.flashcard, .multipleChoice, .listenAndChoose, .arrangeWords, .fillBlank, .speak]), lesson.id)

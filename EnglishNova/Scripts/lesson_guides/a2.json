@@ -1002,5 +1002,157 @@
       "explanationAr": "was riding تصف النشاط الجاري في الماضي، وfell تصف الحدث الذي وقع أثناءه.",
       "explanationEn": "Was riding describes the ongoing past activity, and fell names the event that happened during it."
     }
+  },
+  "a2-x-u11-l1": {
+    "focusAr": "wild تصف حيوانًا غير مستأنس، ولا تعني أنه غاضب أو شرس في كل لحظة. pet حيوان يُربى للصحبة. mammal تصنيف حيواني؛ مكان العيش وحده لا يحدد التصنيف، فالدلفين ثديي يعيش في الماء.",
+    "focusEn": "Wild describes an undomesticated animal, not an animal that is always angry or aggressive. A pet is kept for companionship. Mammal is a biological category; habitat alone does not decide it, since a dolphin is a mammal living in water.",
+    "taskAr": "اذكر امتلاك قطة أليفة وإطعامها كل يوم.",
+    "taskEn": "Say that you have a pet cat and feed it daily.",
+    "exampleEn": "I have a pet cat, and I feed it every day.",
+    "exampleAr": "لدي قطة أليفة وأطعمها كل يوم.",
+    "check": {
+      "promptEn": "Which word means an animal kept for companionship?",
+      "choices": [
+        "pet",
+        "cage",
+        "desert"
+      ],
+      "answer": "pet",
+      "explanationAr": "pet الحيوان الذي يربى للصحبة. cage قفص وdesert بيئة طبيعية، وليسا اسمين لحيوان.",
+      "explanationEn": "A pet is an animal kept for companionship. A cage is a container and a desert a habitat, not animals."
+    }
+  },
+  "a2-x-u11-l2": {
+    "focusAr": "countryside منطقة ريفية، وfield حقل، وfarm مزرعة قد تضم عدة حقول. للمقارنة استخدم more peaceful than، لا peacefuler. fresh air عبارة غير معدودة؛ نقول some fresh air دون a.",
+    "focusEn": "Countryside is a rural area, a field is a piece of land, and a farm may contain several fields. Compare with more peaceful than, not peacefuler. Fresh air is uncountable, so say some fresh air without a.",
+    "taskAr": "قارن هدوء قرية تعرفها بوسط المدينة.",
+    "taskEn": "Compare the peacefulness of a village you know with the city centre.",
+    "exampleEn": "Our village is more peaceful than the city centre.",
+    "exampleAr": "قريتنا أكثر هدوءًا من وسط المدينة.",
+    "check": {
+      "promptEn": "Complete: This village is _____ than the city centre.",
+      "choices": [
+        "more peaceful",
+        "peacefuler",
+        "most peaceful"
+      ],
+      "answer": "more peaceful",
+      "explanationAr": "نستخدم more مع peaceful للمقارنة بين المكانين. most peaceful صيغة تفضيل وليست النمط المطلوب مع than.",
+      "explanationEn": "Use more with peaceful to compare the two places. Most peaceful is a superlative, not the pattern needed with than."
+    }
+  },
+  "a2-x-u11-l3": {
+    "focusAr": "recommend يتبعها اسم أوفعل ing: recommend a walk أوrecommend visiting. لا تقل recommend to visit في هذا النمط. old town تشير إلى الجزء التاريخي من المدينة، وقد تكون جزءًا من city centre وليست مدينة منفصلة.",
+    "focusEn": "Recommend takes a noun or an ing form: recommend a walk or recommend visiting. Do not say recommend to visit in this pattern. The old town is the historic part and may be within the city centre rather than a separate town.",
+    "taskAr": "قدّم توصية بزيارة البلدة القديمة مساءً.",
+    "taskEn": "Recommend visiting the old town in the evening.",
+    "exampleEn": "I recommend visiting the old town in the evening.",
+    "exampleAr": "أوصي بزيارة البلدة القديمة مساءً.",
+    "check": {
+      "promptEn": "Complete: I recommend _____ the museum.",
+      "choices": [
+        "visiting",
+        "to visit",
+        "visit"
+      ],
+      "answer": "visiting",
+      "explanationAr": "بعد recommend نستخدم ing عند ذكر النشاط بهذا النمط، فتكون visiting صحيحة.",
+      "explanationEn": "Use an ing form after recommend when naming an activity in this pattern, so visiting is correct."
+    }
+  },
+  "a2-x-u11-l4": {
+    "focusAr": "cancelled تعني أُلغيت، وليست delayed التي تعني تأخرت. بعد because of يأتي اسم مثل a sandstorm، وبعد because تأتي جملة. forecast توقع لما سيحدث؛ لا تقدم حدثًا مستقبليًا بوصفه وقع بالفعل.",
+    "focusEn": "Cancelled means called off, not delayed. Because of takes a noun phrase such as a sandstorm, while because takes a clause. A forecast predicts what may happen; it does not describe a future event as already completed.",
+    "taskAr": "اشرح إلغاء رحلة بسبب عاصفة رملية.",
+    "taskEn": "Explain that a flight was cancelled because of a sandstorm.",
+    "exampleEn": "The flight was cancelled because of a sandstorm.",
+    "exampleAr": "أُلغيت الرحلة بسبب عاصفة رملية.",
+    "check": {
+      "promptEn": "Complete: The match was cancelled because _____ heavy rain.",
+      "choices": [
+        "of",
+        "to",
+        "for"
+      ],
+      "answer": "of",
+      "explanationAr": "بعد because نحتاج إلى of إذا تلاها اسم مثل heavy rain بدل جملة فيها فاعل وفعل.",
+      "explanationEn": "Because needs of when followed by a noun phrase such as heavy rain rather than a full clause."
+    }
+  },
+  "a2-x-u12-l1": {
+    "focusAr": "withdraw سحب المال وtransfer نقله بين حسابات. balance رصيد الحساب، وfee رسم للعملية أو الخدمة. debit card بطاقة خصم مباشر تختلف عن بطاقة الائتمان. اسأل عن الرسوم بدل افتراض أن كل عملية مجانية.",
+    "focusEn": "Withdraw means take money out; transfer means move it between accounts. Balance is the amount in the account and a fee is a charge. A debit card differs from a credit card. Ask about a fee rather than assuming a transaction is free.",
+    "taskAr": "اطلب فتح حساب واسأل عن رسوم بطاقة الخصم.",
+    "taskEn": "Ask to open an account and ask about the debit-card fee.",
+    "exampleEn": "I'd like to open a bank account. Is there a fee for the debit card?",
+    "exampleAr": "أود فتح حساب بنكي. هل توجد رسوم لبطاقة الخصم المباشر؟",
+    "check": {
+      "promptEn": "Which word means take money out of an account?",
+      "choices": [
+        "withdraw",
+        "transfer between accounts",
+        "check the balance"
+      ],
+      "answer": "withdraw",
+      "explanationAr": "withdraw تعني سحب المال. transfer نقله بين حسابات، وcheck the balance معرفة الرصيد.",
+      "explanationEn": "Withdraw means take money out. Transfer moves it between accounts, and checking the balance reveals the amount available."
+    }
+  },
+  "a2-x-u12-l2": {
+    "focusAr": "tracking number يحدد الطرد في نظام التتبع، وaddress يحدد مكان التسليم. yet في My parcel hasn't arrived yet تعني أن الوصول المتوقع لم يحدث حتى الآن. ميّز التأخر عن التلف: damaged تصف الحالة المادية للطرد.",
+    "focusEn": "A tracking number identifies the parcel in a tracking system; an address identifies the destination. Yet in My parcel hasn't arrived yet means the expected arrival has not happened up to now. Damaged describes physical condition, not lateness.",
+    "taskAr": "أبلغ عن عدم وصول طردك واطلب رقم التتبع.",
+    "taskEn": "Report that your parcel has not arrived and ask for its tracking number.",
+    "exampleEn": "My parcel hasn't arrived yet. Could you send me the tracking number?",
+    "exampleAr": "لم يصل طردي بعد. هل يمكنك إرسال رقم التتبع إليّ؟",
+    "check": {
+      "promptEn": "Which information helps identify a parcel in a tracking system?",
+      "choices": [
+        "the tracking number",
+        "the weather forecast",
+        "the colour of the driver's shirt"
+      ],
+      "answer": "the tracking number",
+      "explanationAr": "رقم التتبع يربط الطلب بسجله في النظام. الخياران الآخران لا يحددان الطرد بهذه الطريقة.",
+      "explanationEn": "The tracking number links the parcel to its system record. The other details do not identify it in that way."
+    }
+  },
+  "a2-x-u12-l3": {
+    "focusAr": "look for تصف البحث، وfind تصف الوصول إلى الشيء؛ قد تبحث دون أن تجده. belong to تحدد المالك وتأتي بعدها هوية الشخص. في وصف حقيبة اذكر اللون ثم المادة: a brown leather bag.",
+    "focusEn": "Look for describes the search; find describes locating the object, which may not happen. Belong to identifies the owner and is followed by the person. Describe a bag with colour before material: a brown leather bag.",
+    "taskAr": "قل إنك تبحث عن محفظة جلدية بنية فقدتها.",
+    "taskEn": "Say that you are looking for a brown leather wallet you lost.",
+    "exampleEn": "I'm looking for a brown leather wallet. I lost it this morning.",
+    "exampleAr": "أبحث عن محفظة جلدية بنية. فقدتها هذا الصباح.",
+    "check": {
+      "promptEn": "Complete: Does this wallet belong _____ you?",
+      "choices": [
+        "to",
+        "for",
+        "with"
+      ],
+      "answer": "to",
+      "explanationAr": "belong to هو التركيب المستخدم لتحديد ملكية الشيء.",
+      "explanationEn": "Belong to is the expression used to identify who owns something."
+    }
+  },
+  "a2-x-u12-l4": {
+    "focusAr": "repair إصلاح الشيء الموجود، وreplace استبداله بآخر. leaking تصف تسرب الماء هنا. سمّ العطل ثم الشخص المطلوب: plumber للسباكة وelectrician للكهرباء، واسأل عن موعد الإصلاح أو مدته.",
+    "focusEn": "Repair means fix the existing object; replace means put another one in its place. Leaking describes water escaping here. Name the fault and the relevant worker: a plumber for plumbing or an electrician for electrical work, then ask about timing.",
+    "taskAr": "أبلغ عن تسرب الصنبور واسأل متى يستطيع السباك الحضور.",
+    "taskEn": "Report a leaking tap and ask when a plumber can come.",
+    "exampleEn": "The tap is leaking. When can the plumber come?",
+    "exampleAr": "الصنبور يسرّب الماء. متى يستطيع السباك الحضور؟",
+    "check": {
+      "promptEn": "You remove a broken bulb and put in a new one. You _____ it.",
+      "choices": [
+        "replace",
+        "describe",
+        "borrow"
+      ],
+      "answer": "replace",
+      "explanationAr": "replace تعني وضع شيء آخر مكان التالف. repair تعني إصلاح الشيء نفسه، وليست ما حدث في هذا المثال.",
+      "explanationEn": "Replace means put another item in place of the damaged one. Repair would mean fixing the original item instead."
+    }
   }
 }

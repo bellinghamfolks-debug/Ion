@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة ثمانية دروس A2 للعمل والأحداث الماضية؛ تصحيح enjoyed وصيغ المهن وphotocopy، وتوضيح طلب الإجازة والسرد بالماضي وتعبيرات المناسبات.",
-  "nextStep": "Continue editorial review from a2-x-u11-l1; save and validate each batch.",
+  "lastCompletedStep": "اكتملت مراجعة A2 الستين: الحيوانات والأماكن والخدمات؛ تصحيح خلط الاسم بالفعل وبعض الترجمات، والتمييز بين التأخر والإلغاء والبحث والعثور والإصلاح والاستبدال. الإجمالي 180 درسًا.",
+  "nextStep": "Continue editorial review from b1-u1-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -2077,72 +2077,96 @@
       "level": "A2",
       "titleAr": "الحيوانات",
       "titleEn": "Animals",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u11-l2",
       "level": "A2",
       "titleAr": "في الريف",
       "titleEn": "In the Countryside",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u11-l3",
       "level": "A2",
       "titleAr": "زيارة مدينة",
       "titleEn": "Visiting a City",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u11-l4",
       "level": "A2",
       "titleAr": "مشكلات الطقس",
       "titleEn": "Weather Problems",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u12-l1",
       "level": "A2",
       "titleAr": "في البنك",
       "titleEn": "At the Bank",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u12-l2",
       "level": "A2",
       "titleAr": "الطرود والتوصيل",
       "titleEn": "Parcels and Deliveries",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u12-l3",
       "level": "A2",
       "titleAr": "المفقودات",
       "titleEn": "Lost and Found",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a2-x-u12-l4",
       "level": "A2",
       "titleAr": "إصلاح أشياء في البيت",
       "titleEn": "Fixing Things at Home",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-u1-l1",
@@ -3773,7 +3797,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 172,
-    "pending": 188
+    "reviewed": 180,
+    "pending": 180
   }
 }

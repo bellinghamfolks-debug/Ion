@@ -231,7 +231,7 @@ W|feed|يُطعم|I feed my cat twice a day.|أطعم قطتي مرتين يوم
 W|zoo|حديقة حيوانات|We saw a giraffe at the zoo.|رأينا زرافة في حديقة الحيوانات.|noun
 W|mammal|ثديي|A dolphin is a mammal, not a fish.|الدلفين حيوان ثديي وليس سمكة.|noun
 W|cage|قفص|The zoo moved the bird to a larger cage.|نقلت حديقة الحيوان الطائر إلى قفص أكبر.|noun
-L|في الريف|In the Countryside|أن يقارن المتعلم بين الريف والمدينة ويصف مكانًا طبيعيًا.|The countryside is peaceful, and the air is much cleaner than in the city.|الريف هادئ، والهواء أنظف بكثير منه في المدينة.|To compare the countryside with the city and describe a natural place.
+L | في الريف | In the Countryside | أن يقارن المتعلم بين الريف والمدينة ويصف مكانًا طبيعيًا. | The countryside around our village is more peaceful than the city centre. | الريف المحيط بقريتنا أكثر هدوءًا من وسط المدينة. | To compare the countryside with the city and describe a natural place.
 W|countryside|الريف|We spent the weekend in the countryside.|قضينا عطلة نهاية الأسبوع في الريف.|noun
 W|farm|مزرعة|My uncle has a farm with cows and sheep.|لدى عمي مزرعة فيها أبقار وأغنام.|noun
 W|peaceful|هادئ ومريح|The village is peaceful at night.|القرية هادئة في الليل.|adjective
@@ -250,27 +250,27 @@ W|recommend|يوصي|I recommend the fish restaurant by the sea.|أوصي بمط
 W|city centre|وسط المدينة|We took the bus to the city centre.|ركبنا الحافلة إلى وسط المدينة.|noun
 W|guidebook|دليل سياحي|The guidebook recommends three museums near the river.|يوصي الدليل السياحي بثلاثة متاحف قرب النهر.|noun
 L|مشكلات الطقس|Weather Problems|أن يتحدث المتعلم عن طقس سيئ وتأثيره على خططه.|The flight was cancelled because of a sandstorm.|أُلغيت الرحلة بسبب عاصفة رملية.|To talk about bad weather and how it affects your plans.
-W|sandstorm|عاصفة رملية|Close the windows, there is a sandstorm.|أغلق النوافذ، هناك عاصفة رملية.|noun
+W | sandstorm | عاصفة رملية | Close the windows. There is a sandstorm. | أغلق النوافذ. توجد عاصفة رملية. | noun
 W|flood|فيضان|The heavy rain caused a flood.|تسبّب المطر الغزير في فيضان.|noun
-W|cancelled|مُلغى|The match was cancelled because of the rain.|أُلغيت المباراة بسبب المطر.|adjective
-W|heatwave|موجة حر|Stay inside during the heatwave.|ابقَ في الداخل أثناء موجة الحر.|noun
-W|forecast|توقعات الطقس|The forecast says it will rain tomorrow.|تقول توقعات الطقس إنها ستمطر غدًا.|noun
+W | cancelled | أُلغي | The match was cancelled because of the rain. | أُلغيت المباراة بسبب المطر. | verb
+W | heatwave | موجة حر | The heatwave lasted three days. | استمرت موجة الحر ثلاثة أيام. | noun
+W | forecast | توقعات الطقس | The forecast says it will rain tomorrow. | تشير توقعات الطقس إلى هطول المطر غدًا. | noun
 W|umbrella|مظلة|Take an umbrella with you.|خذ مظلة معك.|noun
 W|thunderstorm|عاصفة رعدية|The thunderstorm started just after midnight.|بدأت العاصفة الرعدية بعد منتصف الليل بقليل.|noun
 W|slippery|زلق|The roads are slippery after heavy rain.|الطرق زلقة بعد الأمطار الغزيرة.|adjective
 U|a2-x-u12|الخدمات ومشكلات الحياة اليومية|Services and Everyday Problems|تعامل مع البنك والتوصيل، وابحث عن شيء مفقود، وأصلح مشكلات بسيطة في البيت.|wrench.and.screwdriver.fill|Deal with the bank and deliveries, report something lost, and get things fixed at home.
-L|في البنك|At the Bank|أن ينجز المتعلم معاملة بنكية بسيطة ويسأل عنها.|I'd like to open a bank account and get a debit card.|أود فتح حساب بنكي والحصول على بطاقة صرّاف.|To complete a simple bank task and ask about it.
+L | في البنك | At the Bank | أن ينجز المتعلم معاملة بنكية بسيطة ويسأل عنها. | I'd like to open a bank account and get a debit card. | أود فتح حساب بنكي والحصول على بطاقة خصم مباشر. | To complete a simple bank task and ask about it.
 W|bank account|حساب بنكي|I opened a bank account last week.|فتحت حسابًا بنكيًا الأسبوع الماضي.|noun
-W|debit card|بطاقة خصم|I lost my debit card.|فقدت بطاقة الصرّاف.|noun
+W | debit card | بطاقة خصم مباشر | I lost my debit card. | فقدت بطاقة الخصم المباشر الخاصة بي. | noun
 W|cash|نقد|Do you accept cash?|هل تقبلون الدفع نقدًا؟|noun
 W|withdraw|يسحب (مالًا)|I need to withdraw some money.|أحتاج إلى سحب بعض المال.|verb
-W|transfer|تحويل؛ يحوّل|I transferred the money to my brother.|حوّلت المال إلى أخي.|verb
+W | transfer | يحوّل مالًا | I transferred the money to my brother. | حوّلت المال إلى أخي. | verb
 W|ATM|صرّاف آلي|Is there an ATM near here?|هل يوجد صرّاف آلي قريب من هنا؟|noun
 W|balance|رصيد|I checked my balance before I paid the bill.|تحققت من رصيدي قبل أن أدفع الفاتورة.|noun
-W|fee|رسوم|The bank charges a small fee for international transfers.|يفرض البنك رسومًا بسيطة على التحويلات الدولية.|noun
+W | fee | رسوم | What fee does the bank charge for this transfer? | ما الرسوم التي يفرضها البنك على هذا التحويل؟ | noun
 L|الطرود والتوصيل|Parcels and Deliveries|أن يتابع المتعلم طلبًا أو طردًا ويحل مشكلة في التوصيل.|My parcel hasn't arrived yet, so I called the delivery company.|لم يصل طردي بعد، فاتصلت بشركة التوصيل.|To follow an order or parcel and solve a delivery problem.
 W|parcel|طرد|A parcel arrived for you this morning.|وصل طرد لك هذا الصباح.|noun
-W|delivery|توصيل|Delivery takes three to five days.|يستغرق التوصيل من ثلاثة إلى خمسة أيام.|noun
+W | delivery | توصيل | The shop says delivery takes three to five days. | يقول المتجر إن التوصيل يستغرق من ثلاثة إلى خمسة أيام. | noun
 W|tracking number|رقم التتبع|Here is your tracking number.|هذا رقم التتبع الخاص بك.|noun
 W|arrive|يصل|When will my order arrive?|متى سيصل طلبي؟|verb
 W|address|عنوان|Please write your full address.|من فضلك اكتب عنوانك كاملًا.|noun
@@ -278,7 +278,7 @@ W|damaged|تالف|The box was damaged when it arrived.|كان الصندوق ت
 W|courier|مندوب توصيل|The courier called me before arriving at my building.|اتصل بي مندوب التوصيل قبل وصوله إلى مبناي.|noun
 W|signature|توقيع|The driver asked for my signature when the parcel arrived.|طلب السائق توقيعي عندما وصل الطرد.|noun
 L|المفقودات|Lost and Found|أن يبلّغ المتعلم عن شيء فقده ويصفه بدقة.|I lost my black wallet on the bus this morning.|فقدت محفظتي السوداء في الحافلة هذا الصباح.|To report something you lost and describe it accurately.
-W|lost|فَقَد؛ مفقود|I lost my keys again.|فقدت مفاتيحي مرة أخرى.|verb
+W | lost | فقد | I lost my keys again. | فقدت مفاتيحي مرة أخرى. | verb
 W|wallet|محفظة|My wallet was in my pocket.|كانت محفظتي في جيبي.|noun
 W|leather|جلد|It is a brown leather bag.|إنها حقيبة جلدية بنية.|noun
 W|look for|يبحث عن|I'm looking for my glasses.|أبحث عن نظارتي.|phrasal verb
@@ -291,7 +291,7 @@ W|tap|صنبور|Turn off the tap, please.|أغلق الصنبور من فضلك
 W|leaking|يسرّب|The roof is leaking.|السقف يسرّب الماء.|verb
 W|plumber|سبّاك|The plumber is coming at four.|سيأتي السبّاك في الرابعة.|noun
 W|broken|معطّل؛ مكسور|The washing machine is broken.|الغسالة معطّلة.|adjective
-W|repair|يصلح|How long will it take to repair?|كم سيستغرق إصلاحه؟|verb
+W | repair | يصلح | How long will it take to repair the tap? | كم سيستغرق إصلاح الصنبور؟ | verb
 W|electrician|كهربائي|We need an electrician to check the lights.|نحتاج كهربائيًا لفحص الأضواء.|noun
 W|screwdriver|مفك براغي|I used a screwdriver to tighten the loose handle.|استخدمت مفك براغي لإحكام المقبض المرتخي.|noun
 W|replace|يستبدل|We need to replace the broken light bulb.|نحتاج إلى استبدال المصباح المكسور.|verb

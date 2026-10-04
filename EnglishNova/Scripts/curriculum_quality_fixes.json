@@ -822,7 +822,9 @@
     },
     "a0-045-left-2": {
       "example": "Turn left at the bank.",
-      "exampleArabic": "انعطف يسارًا عند البنك."
+      "exampleArabic": "انعطف يسارًا عند البنك.",
+      "arabic": "يسارًا / اليسار",
+      "partOfSpeech": "adverb"
     },
     "a0-046-behind-2": {
       "example": "The car is behind the house.",
@@ -1054,6 +1056,44 @@
     "a0-u6-l5-xv1": {
       "arabic": "يحب كثيرًا",
       "exampleArabic": "أحب الشاي كثيرًا."
+    },
+    "a0-045-right-1": {
+      "arabic": "يمينًا / اليمين",
+      "partOfSpeech": "adverb"
+    },
+    "a0-046-front-1": {
+      "english": "in front of",
+      "partOfSpeech": "preposition",
+      "phonetic": null
+    },
+    "a0-u7-l5-xv2": {
+      "example": "My shirt is dark blue.",
+      "exampleArabic": "قميصي أزرق داكن."
+    },
+    "a0-u7-l5-xv3": {
+      "example": "Her bag is light blue.",
+      "exampleArabic": "حقيبتها زرقاء فاتحة."
+    },
+    "a0-u7-l4-xv1": {
+      "example": "My hat is yellow.",
+      "exampleArabic": "قبعتي صفراء."
+    },
+    "a0-047-near-1": {
+      "example": "The store is near my house.",
+      "exampleArabic": "المتجر قريب من منزلي.",
+      "partOfSpeech": "preposition"
+    },
+    "a0-043-school-1": {
+      "example": "The school is near my house.",
+      "exampleArabic": "المدرسة قريبة من منزلي."
+    },
+    "a0-u8-l1-xv1": {
+      "example": "The market is near the bank.",
+      "exampleArabic": "السوق قريب من البنك."
+    },
+    "a0-u8-l5-xv2": {
+      "example": "My house is close to the school.",
+      "exampleArabic": "منزلي قريب من المدرسة."
     }
   },
   "arabicGlossById": {

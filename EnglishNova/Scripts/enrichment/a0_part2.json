@@ -318,8 +318,8 @@
       "extraExamples": {
         "a0-037-head-1": [
           {
-            "example": "My head is big.",
-            "exampleArabic": "رأسي كبير."
+            "example": "My head hurts today.",
+            "exampleArabic": "يؤلمني رأسي اليوم."
           }
         ],
         "a0-037-hand-2": [
@@ -420,8 +420,8 @@
         ],
         "a0-039-shoes-2": [
           {
-            "example": "My shoes are black.",
-            "exampleArabic": "حذائي أسود."
+            "example": "My shoes are under the chair.",
+            "exampleArabic": "حذائي تحت الكرسي."
           }
         ],
         "a0-039-clothes-3": [
@@ -654,8 +654,8 @@
       "extraExamples": {
         "a0-044-hospital-1": [
           {
-            "example": "The hospital is near.",
-            "exampleArabic": "المستشفى قريب."
+            "example": "The hospital is near the park.",
+            "exampleArabic": "المستشفى قريب من الحديقة."
           }
         ],
         "a0-044-park-2": [
@@ -798,8 +798,8 @@
       "extraExamples": {
         "a0-047-near-1": [
           {
-            "example": "The school is near.",
-            "exampleArabic": "المدرسة قريبة."
+            "example": "The store is near the bank.",
+            "exampleArabic": "المتجر قريب من البنك."
           }
         ],
         "a0-047-far-2": [
@@ -810,8 +810,8 @@
         ],
         "a0-047-walk-3": [
           {
-            "example": "I walk to school.",
-            "exampleArabic": "أمشي إلى المدرسة."
+            "example": "We walk in the park.",
+            "exampleArabic": "نمشي في الحديقة."
           }
         ]
       }

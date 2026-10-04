@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة A0 الوحدتين 5 و6: المنزل والطعام؛ تصحيح مثال here، وتوضيح المعدود وغير المعدود والطلبات، وإضافة سياقات جديدة بدل الأمثلة المكررة.",
-  "nextStep": "Continue editorial review from a0-u7-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة A0 الوحدتين 7 و8: أعضاء الجسم والملابس والأماكن والاتجاهات؛ ضبط أنواع الكلمات وحروف الجر وعبارة in front of، وأسئلة مفهومة دون صور.",
+  "nextStep": "Continue editorial review from a0-u9-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -445,108 +445,144 @@
       "level": "A0",
       "titleAr": "الرأس واليد",
       "titleEn": "Head and Hand",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u7-l2",
       "level": "A0",
       "titleAr": "العين والأذن",
       "titleEn": "Eye and Ear",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u7-l3",
       "level": "A0",
       "titleAr": "قميص وحذاء",
       "titleEn": "Shirt and Shoes",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u7-l4",
       "level": "A0",
       "titleAr": "الألوان الأساسية",
       "titleEn": "Basic Colors",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u7-l5",
       "level": "A0",
       "titleAr": "أسود وأبيض",
       "titleEn": "Black and White",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u7-l6",
       "level": "A0",
       "titleAr": "أشعر بالتعب",
       "titleEn": "Feeling Tired",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u8-l1",
       "level": "A0",
       "titleAr": "المدرسة والمتجر",
       "titleEn": "School and Store",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u8-l2",
       "level": "A0",
       "titleAr": "المستشفى والحديقة",
       "titleEn": "Hospital and Park",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u8-l3",
       "level": "A0",
       "titleAr": "يمين ويسار",
       "titleEn": "Right and Left",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u8-l4",
       "level": "A0",
       "titleAr": "أمام وخلف",
       "titleEn": "In Front and Behind",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u8-l5",
       "level": "A0",
       "titleAr": "قريب وبعيد",
       "titleEn": "Near and Far",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u8-l6",
       "level": "A0",
       "titleAr": "اذهب وتوقف",
       "titleEn": "Go and Stop",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "a0-u9-l1",
@@ -3365,7 +3401,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 36,
-    "pending": 324
+    "reviewed": 48,
+    "pending": 312
   }
 }

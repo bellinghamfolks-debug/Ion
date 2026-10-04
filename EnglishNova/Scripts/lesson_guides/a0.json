@@ -702,5 +702,245 @@
       "explanationAr": "bill هي الفاتورة التي تبين المبلغ المطلوب دفعه، بينما menu تعرض خيارات الطعام.",
       "explanationEn": "The bill shows the amount to pay, while the menu lists food choices."
     }
+  },
+  "a0-u7-l1": {
+    "focusAr": "hand اليد وarm الذراع؛ ليستا الجزء نفسه. نستخدم my مع أعضاء الجسم: my hand. في الجمع نقول hands وarms، لكن جمع foot هو feet، وليس foots.",
+    "focusEn": "A hand and an arm are different body parts. Use my when naming your own body parts: my hand. The plurals are hands and arms, but the plural of foot is feet, not foots.",
+    "taskAr": "قل إن لديك يدين باستخدام hands.",
+    "taskEn": "Say that you have two hands using hands.",
+    "exampleEn": "I have two hands.",
+    "exampleAr": "لدي يدان.",
+    "check": {
+      "promptEn": "Complete: one foot, two _____.",
+      "choices": [
+        "feet",
+        "foots",
+        "foot"
+      ],
+      "answer": "feet",
+      "explanationAr": "جمع foot غير منتظم، وصيغته feet. لا نضيف s كما نفعل مع hand.",
+      "explanationEn": "Foot has the irregular plural feet. Do not add s as you do with hand."
+    }
+  },
+  "a0-u7-l2": {
+    "focusAr": "eye عين وear أذن، وجمعهما eyes وears. استخدم with عند ذكر العضو الذي تؤدي به فعلًا: hear with my ears. لاحظ الفرق بين eye المفرد وeyes الجمع عند الاستماع والنطق.",
+    "focusEn": "Eye and ear name different sense organs; their plurals are eyes and ears. Use with to name the body part used for an action: hear with my ears. Listen for the difference between singular eye and plural eyes.",
+    "taskAr": "استخدم mouth لقول إنك تأكل بفمك.",
+    "taskEn": "Use mouth to say that you eat with your mouth.",
+    "exampleEn": "I eat with my mouth.",
+    "exampleAr": "آكل بفمي.",
+    "check": {
+      "promptEn": "Complete: I hear with my _____.",
+      "choices": [
+        "ears",
+        "eyes",
+        "nose"
+      ],
+      "answer": "ears",
+      "explanationAr": "ears هي الأذنان المرتبطتان بالسمع؛ eyes للعينين وnose للأنف.",
+      "explanationEn": "Ears are the organs associated with hearing; eyes and nose name different organs."
+    },
+    "lessonUpdates": {
+      "modelSentence": "I hear with my ears.",
+      "modelSentenceArabic": "أسمع بأذنيّ."
+    }
+  },
+  "a0-u7-l3": {
+    "focusAr": "shirt مفرد، فنقول My shirt is blue. أما shoes وclothes فجمع ويتبعهما are. نستخدم wear مع الملابس التي نرتديها عادة، ولا نستخدم carry للتعبير عن ارتداء قميص.",
+    "focusEn": "Shirt is singular: My shirt is blue. Shoes and clothes are plural and take are. Use wear for clothing you have on as a habit; carry does not mean wearing a shirt.",
+    "taskAr": "قل إن ملابسك جديدة.",
+    "taskEn": "Say that your clothes are new.",
+    "exampleEn": "My clothes are new.",
+    "exampleAr": "ملابسي جديدة.",
+    "check": {
+      "promptEn": "Complete: My clothes _____ new.",
+      "choices": [
+        "are",
+        "is",
+        "am"
+      ],
+      "answer": "are",
+      "explanationAr": "clothes جمع في الإنجليزية، لذلك نستخدم are. كلمة shirt وحدها مفرد وتأخذ is.",
+      "explanationEn": "Clothes is plural in English, so use are. Shirt on its own is singular and takes is."
+    }
+  },
+  "a0-u7-l4": {
+    "focusAr": "يمكن أن يأتي اللون بعد is: The bag is green، أو قبل الاسم: a green bag. لا يتغير green إلى صيغة مؤنثة أو جمع كما تتغير الصفة العربية. اختر اللون الذي تصفه الجملة دون الاعتماد على صورة.",
+    "focusEn": "A colour can follow is: The bag is green, or come before a noun: a green bag. Green does not change for feminine or plural nouns as Arabic adjectives do. Follow the colour named in the sentence without needing a picture.",
+    "taskAr": "صف حقيبة بأنها خضراء باستخدام a green bag.",
+    "taskEn": "Describe a bag using a green bag.",
+    "exampleEn": "This is a green bag.",
+    "exampleAr": "هذه حقيبة خضراء.",
+    "check": {
+      "promptEn": "Choose the correct phrase.",
+      "choices": [
+        "a red car",
+        "a car red",
+        "a reds car"
+      ],
+      "answer": "a red car",
+      "explanationAr": "عندما تصف الصفة اسمًا داخل هذه العبارة، تأتي قبله: red car. لا نضيف s إلى صفة اللون.",
+      "explanationEn": "In this noun phrase the adjective comes before the noun: red car. Do not add s to a colour adjective."
+    }
+  },
+  "a0-u7-l5": {
+    "focusAr": "اسأل What color is it? عن اللون. dark blue أزرق داكن وlight blue أزرق فاتح؛ تأتي dark أو light قبل اللون. وقد تعني dark «مظلمًا» في سياق الغرف، لذلك استعن بالسياق لتحديد المعنى.",
+    "focusEn": "Ask What color is it? about colour. Dark blue and light blue describe different shades; dark or light comes before the colour. Dark can also mean without light in a room, so use context to identify the meaning.",
+    "taskAr": "قل إن قميصك أزرق فاتح.",
+    "taskEn": "Say that your shirt is light blue.",
+    "exampleEn": "My shirt is light blue.",
+    "exampleAr": "قميصي أزرق فاتح.",
+    "check": {
+      "promptEn": "In dark blue, what does dark describe?",
+      "choices": [
+        "the shade of blue",
+        "the number of shirts",
+        "the time of day"
+      ],
+      "answer": "the shade of blue",
+      "explanationAr": "dark هنا تصف درجة اللون، لا عدد الأشياء ولا وقتًا من اليوم.",
+      "explanationEn": "Here dark describes the shade of the colour, not the number of objects or a time of day."
+    }
+  },
+  "a0-u7-l6": {
+    "focusAr": "استخدم I am مع tired وsick لوصف حالتك، لكن I have مع pain لأنه اسم. ولتحديد موضع الألم قل My head hurts أو My leg hurts؛ نضيف s للفعل مع هذا الفاعل المفرد.",
+    "focusEn": "Use I am with tired and sick to describe your condition, but I have with pain because it is a noun. To name the painful part, say My head hurts or My leg hurts; this singular subject takes the verb ending s.",
+    "taskAr": "عبّر عن ألم في رأسك باستخدام hurts.",
+    "taskEn": "Describe pain in your head using hurts.",
+    "exampleEn": "My head hurts.",
+    "exampleAr": "يؤلمني رأسي.",
+    "check": {
+      "promptEn": "Choose the complete sentence.",
+      "choices": [
+        "I am tired.",
+        "I tired.",
+        "I have tired."
+      ],
+      "answer": "I am tired.",
+      "explanationAr": "tired صفة وتحتاج هنا إلى am. نستخدم have مع الاسم، مثل I have pain.",
+      "explanationEn": "Tired is an adjective and needs am here. Use have with a noun, as in I have pain."
+    }
+  },
+  "a0-u8-l1": {
+    "focusAr": "school مدرسة وstore متجر وmarket سوق. لتحديد مكان شيء بالنسبة إلى آخر، استخدم near ثم المكان: near my house. لا تضف to بعد near في هذا التركيب البسيط.",
+    "focusEn": "A school, a store and a market are different places. To locate one place in relation to another, use near followed by the place: near my house. Do not add to after near in this simple pattern.",
+    "taskAr": "قل إن المتجر قريب من منزلك.",
+    "taskEn": "Say that the store is near your house.",
+    "exampleEn": "The store is near my house.",
+    "exampleAr": "المتجر قريب من منزلي.",
+    "check": {
+      "promptEn": "Complete: The school is near _____.",
+      "choices": [
+        "my house",
+        "to my house",
+        "at my house"
+      ],
+      "answer": "my house",
+      "explanationAr": "near تتبعها العبارة الاسمية مباشرة هنا: near my house.",
+      "explanationEn": "Near is followed directly by the noun phrase here: near my house."
+    },
+    "lessonUpdates": {
+      "modelSentence": "The school is near my house.",
+      "modelSentenceArabic": "المدرسة قريبة من منزلي."
+    }
+  },
+  "a0-u8-l2": {
+    "focusAr": "hospital مستشفى وpark حديقة عامة وbank بنك. استخدم here أو there بعد is لتحديد المكان بإيجاز. وإذا ذكرت ما تفعله داخل الحديقة، قل in the park، مثل play in the park.",
+    "focusEn": "A hospital, a park and a bank have different purposes. Use here or there after is to identify a location briefly. To say what you do inside a park, use in the park: play in the park.",
+    "taskAr": "قل إنك تمشي في الحديقة.",
+    "taskEn": "Say that you walk in the park.",
+    "exampleEn": "I walk in the park.",
+    "exampleAr": "أمشي في الحديقة.",
+    "check": {
+      "promptEn": "Complete: We play _____ the park.",
+      "choices": [
+        "in",
+        "to",
+        "from"
+      ],
+      "answer": "in",
+      "explanationAr": "in the park تعني داخل الحديقة. لا نستخدم to بعد play لوصف مكان اللعب.",
+      "explanationEn": "In the park means inside the park. Do not use to after play to describe where the activity happens."
+    }
+  },
+  "a0-u8-l3": {
+    "focusAr": "لإعطاء اتجاه قل Turn right أو Turn left دون to بين الفعل والاتجاه. وعند تحديد موقع شيء نستخدم on your right أو on your left. الفرق بين العبارتين هو الحركة مقابل موقع الشيء.",
+    "focusEn": "Give a direction with Turn right or Turn left, without to between the verb and direction. Locate something with on your right or on your left. The first pattern tells someone to move; the second describes a location.",
+    "taskAr": "اطلب من شخص أن ينعطف يسارًا هنا.",
+    "taskEn": "Ask someone to turn left here.",
+    "exampleEn": "Turn left here.",
+    "exampleAr": "انعطف يسارًا هنا.",
+    "check": {
+      "promptEn": "Choose the natural direction.",
+      "choices": [
+        "Turn right here.",
+        "Turn to right here.",
+        "Turn at right here."
+      ],
+      "answer": "Turn right here.",
+      "explanationAr": "في هذا التركيب تأتي right مباشرة بعد Turn. أما on your right فتصف موقع شيء.",
+      "explanationEn": "In this pattern right follows Turn directly. On your right describes an object's location."
+    }
+  },
+  "a0-u8-l4": {
+    "focusAr": "تعلّم in front of كوحدة كاملة بمعنى أمام؛ تحتاج إلى of قبل المكان. behind تعني خلف وتتبعها عبارة المكان مباشرة. أما between فتحدد وجود شيء بين مكانين أو شيئين مذكورين.",
+    "focusEn": "Learn in front of as a complete phrase; it needs of before the place. Behind is followed directly by the location. Between places something in the space separating two named things or places.",
+    "taskAr": "قل إن السيارة أمام المنزل.",
+    "taskEn": "Say that the car is in front of the house.",
+    "exampleEn": "The car is in front of the house.",
+    "exampleAr": "السيارة أمام المنزل.",
+    "check": {
+      "promptEn": "Complete: The car is in front _____ the house.",
+      "choices": [
+        "of",
+        "to",
+        "at"
+      ],
+      "answer": "of",
+      "explanationAr": "العبارة الكاملة هي in front of. حذف of أو استبدالها يفسد هذا التركيب.",
+      "explanationEn": "The complete phrase is in front of. Omitting of or replacing it breaks this pattern."
+    }
+  },
+  "a0-u8-l5": {
+    "focusAr": "لوصف المسافة قل near the school أو close to the school، لكن far from the school. يختلف حرف الجر بين العبارات؛ لا تجمع بينها في صيغة واحدة مثل close from.",
+    "focusEn": "Describe distance with near the school or close to the school, but far from the school. These phrases use different prepositions. Do not mix them into a form such as close from.",
+    "taskAr": "قل إن منزلك بعيد عن المدرسة باستخدام far from.",
+    "taskEn": "Say that your house is far from school using far from.",
+    "exampleEn": "My house is far from the school.",
+    "exampleAr": "منزلي بعيد عن المدرسة.",
+    "check": {
+      "promptEn": "Complete: The park is far _____ my house.",
+      "choices": [
+        "from",
+        "to",
+        "at"
+      ],
+      "answer": "from",
+      "explanationAr": "نستخدم far from عند تحديد المكان الذي نقيس البعد عنه.",
+      "explanationEn": "Use far from to name the place something is a long distance away from."
+    },
+    "lessonUpdates": {
+      "modelSentence": "The store is near my house.",
+      "modelSentenceArabic": "المتجر قريب من منزلي."
+    }
+  },
+  "a0-u8-l6": {
+    "focusAr": "في التعليمات استخدم الفعل مباشرة: Go أو Stop أو Wait. straight تصف السير إلى الأمام دون انعطاف. وعند تسمية الوجهة استخدم go to: Go to the store، لكن نقول go home دون to.",
+    "focusEn": "Start instructions with the verb: Go, Stop or Wait. Straight tells someone to continue forward without turning. Use go to before a named destination: Go to the store, but say go home without to.",
+    "taskAr": "اطلب من شخص أن ينتظر هنا بأدب.",
+    "taskEn": "Politely ask someone to wait here.",
+    "exampleEn": "Please wait here.",
+    "exampleAr": "من فضلك، انتظر هنا.",
+    "check": {
+      "promptEn": "Which instruction means do not move yet?",
+      "choices": [
+        "Wait here.",
+        "Go straight.",
+        "Turn right."
+      ],
+      "answer": "Wait here.",
+      "explanationAr": "Wait here تطلب البقاء والانتظار. الخياران الآخران يطلبان الحركة في اتجاه محدد.",
+      "explanationEn": "Wait here asks someone to stay and wait. The other two instructions ask them to move in a particular direction."
+    }
   }
 }

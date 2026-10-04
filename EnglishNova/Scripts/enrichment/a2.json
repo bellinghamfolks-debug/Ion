@@ -11,12 +11,12 @@
           "phonetic": "/dɪˈleɪ/"
         },
         {
-          "english": "reschedule",
-          "arabic": "يعيد جدولة الموعد",
-          "example": "Can we reschedule the meeting to Friday?",
-          "exampleArabic": "هل يمكننا تغيير موعد الاجتماع إلى يوم الجمعة؟",
-          "partOfSpeech": "verb",
-          "phonetic": "/ˌriːˈʃedjuːl/"
+          "english": "change of plan",
+          "arabic": "تغيير في الخطة",
+          "example": "I sent a short message to explain the change of plan.",
+          "exampleArabic": "أرسلت رسالة قصيرة لشرح التغيير في الخطة.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": null
         },
         {
           "english": "on my way",
@@ -69,12 +69,12 @@
           "phonetic": "/lɑːst mʌnθ/"
         },
         {
-          "english": "ago",
-          "arabic": "قبل (مدة)",
-          "example": "They moved here two years ago.",
-          "exampleArabic": "انتقلوا إلى هنا قبل عامين.",
-          "partOfSpeech": "adverb",
-          "phonetic": "/əˈɡəʊ/"
+          "english": "the day before",
+          "arabic": "اليوم السابق",
+          "example": "I met him the day before the conference started.",
+          "exampleArabic": "قابلته في اليوم السابق لبدء المؤتمر.",
+          "partOfSpeech": "time phrase",
+          "phonetic": null
         },
         {
           "english": "arrived",
@@ -169,12 +169,12 @@
           "phonetic": "/ˈlʌɡɪdʒ/"
         },
         {
-          "english": "departure",
-          "arabic": "مغادرة",
-          "example": "The departure time is at six o'clock.",
-          "exampleArabic": "موعد المغادرة في الساعة السادسة.",
-          "partOfSpeech": "noun",
-          "phonetic": "/dɪˈpɑːtʃə/"
+          "english": "security check",
+          "arabic": "تفتيش أمني",
+          "example": "We went through the security check before finding our gate.",
+          "exampleArabic": "مررنا عبر التفتيش الأمني قبل البحث عن بوابتنا.",
+          "partOfSpeech": "noun phrase",
+          "phonetic": null
         },
         {
           "english": "check in",

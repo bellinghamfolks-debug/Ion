@@ -238,5 +238,237 @@
       "modelSentence": "Please open your book.",
       "modelSentenceArabic": "من فضلك، افتح كتابك."
     }
+  },
+  "a0-u3-l1": {
+    "focusAr": "بعد one نستخدم الاسم المفرد: one book. ومع two وthree وfour وfive نستخدم الجمع: five books. تعلّم نطق الأعداد كلمةً كلمة، ولا تضف s إلى العدد نفسه عند عدّ أشياء محددة.",
+    "focusEn": "Use a singular noun after one: one book. Use a plural noun after two, three, four and five: five books. Learn each number's pronunciation. Do not add s to the number when counting a specific set of objects.",
+    "taskAr": "قل إن لديك ثلاثة أقلام.",
+    "taskEn": "Say that you have three pens.",
+    "exampleEn": "I have three pens.",
+    "exampleAr": "لدي ثلاثة أقلام.",
+    "check": {
+      "promptEn": "Complete: I have two _____.",
+      "choices": [
+        "books",
+        "book",
+        "a book"
+      ],
+      "answer": "books",
+      "explanationAr": "بعد two نستخدم الاسم الجمع books، ولا نضع a قبل الجمع.",
+      "explanationEn": "Two takes the plural noun books. Do not put a before a plural noun."
+    }
+  },
+  "a0-u3-l2": {
+    "focusAr": "لذكر العدد مع أشخاص أو أشياء جمع، استخدم There are ثم العدد ثم الاسم الجمع. تختلف nine عن ten بصوتها ومعناها؛ استمع إليهما منفردتين ثم ضعهما في جملة قصيرة.",
+    "focusEn": "To state how many people or things there are, use There are followed by the number and a plural noun. Nine and ten differ in sound and meaning. Listen to each number, then use it in a short sentence.",
+    "taskAr": "قل إن في الغرفة ستة كراسٍ.",
+    "taskEn": "Say that there are six chairs in the room.",
+    "exampleEn": "There are six chairs in the room.",
+    "exampleAr": "توجد ستة كراسٍ في الغرفة.",
+    "check": {
+      "promptEn": "Complete the sequence: seven, eight, _____.",
+      "choices": [
+        "nine",
+        "six",
+        "ten"
+      ],
+      "answer": "nine",
+      "explanationAr": "nine هو العدد الذي يلي eight مباشرة. ten يأتي بعد nine.",
+      "explanationEn": "Nine comes immediately after eight. Ten comes after nine."
+    }
+  },
+  "a0-u3-l3": {
+    "focusAr": "استخدم How many قبل اسم جمع للسؤال عن العدد: How many pens? وللسؤال عن الموجود أكمل بـ are there. عند الإجابة استخدم There is مع واحد وThere are مع أكثر من واحد.",
+    "focusEn": "Use How many before a plural noun to ask about a number: How many pens? Add are there to ask how many are present. In the answer, use There is for one and There are for more than one.",
+    "taskAr": "اسأل عن عدد الكتب باستخدام are there.",
+    "taskEn": "Ask how many books there are using are there.",
+    "exampleEn": "How many books are there?",
+    "exampleAr": "كم كتابًا يوجد؟",
+    "check": {
+      "promptEn": "Complete: How many _____ are there?",
+      "choices": [
+        "pens",
+        "pen",
+        "a pen"
+      ],
+      "answer": "pens",
+      "explanationAr": "تأتي How many مع اسم معدود جمع، لذلك pens هي الصيغة المناسبة.",
+      "explanationEn": "How many takes a plural countable noun, so pens is the correct form."
+    },
+    "lessonUpdates": {
+      "modelSentence": "How many pens are there? There are two.",
+      "modelSentenceArabic": "كم قلمًا يوجد؟ يوجد قلمان."
+    }
+  },
+  "a0-u3-l4": {
+    "focusAr": "نقرأ أرقام الهاتف رقمًا رقمًا للحفاظ على ترتيبها. في التدريب five, zero, four تعني 5 ثم 0 ثم 4، وليست عددًا واحدًا يُقرأ five hundred and four. قل phone number لتحديد نوع الرقم.",
+    "focusEn": "Read phone numbers digit by digit to keep their order clear. In this exercise, five, zero, four means 5 then 0 then 4, rather than the whole number five hundred and four. Say phone number to identify the kind of number.",
+    "taskAr": "اقرأ تسلسل التدريب 4 ثم 0 ثم 5 بالإنجليزية.",
+    "taskEn": "Read the practice digits 4, then 0, then 5 in English.",
+    "exampleEn": "Four, zero, five.",
+    "exampleAr": "أربعة، صفر، خمسة.",
+    "check": {
+      "promptEn": "Read these digits in order: 5, 0, 4.",
+      "choices": [
+        "five, zero, four",
+        "four, zero, five",
+        "five, four, zero"
+      ],
+      "answer": "five, zero, four",
+      "explanationAr": "يجب الحفاظ على ترتيب الأرقام: خمسة ثم صفر ثم أربعة.",
+      "explanationEn": "Keep the original digit order: five, then zero, then four."
+    }
+  },
+  "a0-u3-l5": {
+    "focusAr": "للسؤال عن الساعة قل What time is it? وللساعة الكاملة استخدم It is ثم العدد ثم o'clock. تفرق hour، وهي مدة زمنية، عن clock، وهي أداة معرفة الوقت؛ لا تعني الكلمتان الشيء نفسه.",
+    "focusEn": "Ask What time is it? To state a whole hour, use It is, the number and o'clock. An hour is a length of time; a clock is an object that tells the time. The two words are not interchangeable.",
+    "taskAr": "قل إن الساعة الخامسة تمامًا.",
+    "taskEn": "Say that it is exactly five o'clock.",
+    "exampleEn": "It is five o'clock.",
+    "exampleAr": "الساعة الخامسة تمامًا.",
+    "check": {
+      "promptEn": "Which question asks for the current time?",
+      "choices": [
+        "What time is it?",
+        "What is your name?",
+        "How many books are there?"
+      ],
+      "answer": "What time is it?",
+      "explanationAr": "What time is it? تسأل عن الوقت الحالي. السؤالان الآخران عن الاسم وعدد الكتب.",
+      "explanationEn": "What time is it? asks for the current time. The other questions ask for a name and a number of books."
+    }
+  },
+  "a0-u3-l6": {
+    "focusAr": "today اليوم الحالي، وtomorrow اليوم التالي، وyesterday اليوم السابق. يمكنك وضع today أو tomorrow في نهاية جملة بسيطة. أما night في التعبير عن وقت عادة فنستخدم معها at: I sleep at night.",
+    "focusEn": "Today is the current day, tomorrow is the next day and yesterday is the previous day. You can put today or tomorrow at the end of a simple sentence. Use at night to say when a habit happens: I sleep at night.",
+    "taskAr": "قل إنك تدرس اليوم باستخدام today.",
+    "taskEn": "Say that you study today using today.",
+    "exampleEn": "I study today.",
+    "exampleAr": "أدرس اليوم.",
+    "check": {
+      "promptEn": "Complete: I sleep _____ night.",
+      "choices": [
+        "at",
+        "on",
+        "to"
+      ],
+      "answer": "at",
+      "explanationAr": "التعبير المعتاد هو at night عند الحديث عن النوم أو عادة في الليل.",
+      "explanationEn": "At night is the usual phrase for sleeping or another habit during the night."
+    }
+  },
+  "a0-u4-l1": {
+    "focusAr": "mother أم وfather أب، أما parents فتعني الوالدين معًا وهي جمع. استخدم my قبل كلمة القرابة لبيان أنها تخصك: my mother. مع parents نقول are لا is.",
+    "focusEn": "Mother means a female parent and father means a male parent. Parents refers to them together and is plural. Put my before the family word to identify your relationship: my mother. Use are with parents, not is.",
+    "taskAr": "قدّم والدك بجملة تبدأ بـ This is.",
+    "taskEn": "Introduce your father using This is.",
+    "exampleEn": "This is my father.",
+    "exampleAr": "هذا أبي.",
+    "check": {
+      "promptEn": "Complete: My parents _____ kind.",
+      "choices": [
+        "are",
+        "is",
+        "am"
+      ],
+      "answer": "are",
+      "explanationAr": "parents جمع، لذلك نستخدم are. أما my mother وحدها فتأخذ is.",
+      "explanationEn": "Parents is plural, so use are. My mother on its own takes is."
+    }
+  },
+  "a0-u4-l2": {
+    "focusAr": "استخدم I have عند الحديث عن إخوتك: I have one brother. بعد one يأتي المفرد، وبعد two يأتي الجمع. older وyounger يصفان العمر؛ older brother أخ أكبر سنًا، وليس بالضرورة أطول قامة.",
+    "focusEn": "Use I have to talk about siblings: I have one brother. Use a singular noun after one and a plural noun after two. Older and younger describe age; an older brother is not necessarily taller.",
+    "taskAr": "قل إن لديك أختين.",
+    "taskEn": "Say that you have two sisters.",
+    "exampleEn": "I have two sisters.",
+    "exampleAr": "لدي أختان.",
+    "check": {
+      "promptEn": "Complete: I have one _____.",
+      "choices": [
+        "sister",
+        "sisters",
+        "two sisters"
+      ],
+      "answer": "sister",
+      "explanationAr": "one تدل على شخص واحد، ولذلك نستخدم sister دون s الجمع.",
+      "explanationEn": "One refers to a single person, so use sister without the plural s."
+    }
+  },
+  "a0-u4-l3": {
+    "focusAr": "man وwoman للبالغين، وboy وgirl للصغار. person تعني شخصًا واحدًا، والجمع الشائع people. نقول one person وtwo people، فلا نكوّن الجمع المعتاد بإضافة s في هذا السياق.",
+    "focusEn": "Man and woman describe adults; boy and girl describe children. Person means one individual, and its usual plural is people. Say one person and two people rather than adding s in this everyday context.",
+    "taskAr": "قل إن شخصين موجودان هنا.",
+    "taskEn": "Say that two people are here.",
+    "exampleEn": "Two people are here.",
+    "exampleAr": "يوجد شخصان هنا.",
+    "check": {
+      "promptEn": "Complete: one person, two _____.",
+      "choices": [
+        "people",
+        "person",
+        "peoples"
+      ],
+      "answer": "people",
+      "explanationAr": "الجمع المعتاد لـ person عند عد الأفراد هو people. أما peoples فلها استعمال آخر بمعنى شعوب.",
+      "explanationEn": "The usual plural of person when counting individuals is people. Peoples has a different use meaning distinct populations or nations."
+    }
+  },
+  "a0-u4-l4": {
+    "focusAr": "friend قد تعني صديقًا أو صديقة؛ يتضح ذلك من السياق. استخدم my friend بعد is للتعريف بالشخص. وعند ذكر اللعب مع شخص نستخدم play with، لا play وحدها قبل اسم الشخص.",
+    "focusEn": "Friend can refer to a male or female friend; context makes this clear. Use my friend after is to introduce someone. Say play with when naming a person you play with; do not omit with.",
+    "taskAr": "قل إنك تلعب مع صديقك.",
+    "taskEn": "Say that you play with your friend.",
+    "exampleEn": "I play with my friend.",
+    "exampleAr": "ألعب مع صديقي.",
+    "check": {
+      "promptEn": "Complete: I play _____ my friend.",
+      "choices": [
+        "with",
+        "at",
+        "from"
+      ],
+      "answer": "with",
+      "explanationAr": "with تعني «مع» وتوضح الشخص الذي يشاركك اللعب.",
+      "explanationEn": "With means together with and identifies the person who joins you in playing."
+    }
+  },
+  "a0-u4-l5": {
+    "focusAr": "استخدم he عند الحديث عن رجل أو ولد، وshe عن امرأة أو بنت، ويتبعهما is. استخدم we عندما تكون ضمن المجموعة وthey عند الحديث عن مجموعة أخرى، ويتبعهما are.",
+    "focusEn": "Use he for a man or boy and she for a woman or girl; both take is. Use we when you are part of the group and they for a group you are talking about; both take are.",
+    "taskAr": "قل إنك وزملاءك طلاب باستخدام We.",
+    "taskEn": "Say that you and your classmates are students using We.",
+    "exampleEn": "We are students.",
+    "exampleAr": "نحن طلاب.",
+    "check": {
+      "promptEn": "Sara is my sister. _____ is a student.",
+      "choices": [
+        "She",
+        "He",
+        "We"
+      ],
+      "answer": "She",
+      "explanationAr": "نشير إلى سارة، وهي أخت المتكلم، بالضمير She. We تعني مجموعة تشمل المتكلم.",
+      "explanationEn": "She refers to Sara, the speaker's sister. We refers to a group that includes the speaker."
+    }
+  },
+  "a0-u4-l6": {
+    "focusAr": "تأتي الصفة بعد is عند وصف شخص: He is tall. لا تضع a قبل صفة وحدها؛ قل She is kind. tall وshort للطول، وyoung وold للعمر، لذلك لا تستخدم tall بمعنى كبير في السن.",
+    "focusEn": "A description can follow is: He is tall. Do not put a before an adjective on its own: She is kind. Tall and short describe height; young and old describe age. Tall does not mean old.",
+    "taskAr": "صف معلمك بأنه لطيف بجملة كاملة.",
+    "taskEn": "Describe your teacher as kind in a complete sentence.",
+    "exampleEn": "My teacher is kind.",
+    "exampleAr": "معلمي لطيف.",
+    "check": {
+      "promptEn": "Choose the correct sentence.",
+      "choices": [
+        "She is kind.",
+        "She is a kind.",
+        "She kind."
+      ],
+      "answer": "She is kind.",
+      "explanationAr": "kind صفة هنا وتأتي بعد is دون a. نحتاج إلى a إذا أضفنا اسمًا مفردًا، مثل a kind teacher.",
+      "explanationEn": "Kind is an adjective after is and does not take a on its own. Use a when adding a singular noun, as in a kind teacher."
+    }
   }
 }

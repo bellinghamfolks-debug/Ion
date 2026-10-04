@@ -1018,6 +1018,31 @@
     },
     "a0-004-please-1": {
       "partOfSpeech": "adverb"
+    },
+    "a0-018-day-3": {
+      "example": "It is a sunny day.",
+      "exampleArabic": "إنه يوم مشمس."
+    },
+    "a0-021-man-1": {
+      "example": "The man is here.",
+      "exampleArabic": "الرجل هنا."
+    },
+    "a0-023-he-1": {
+      "example": "He is a student.",
+      "exampleArabic": "هو طالب."
+    },
+    "a0-u3-l3-xv3": {
+      "arabic": "يوجد / توجد (مع الجمع)",
+      "partOfSpeech": "phrase"
+    },
+    "a0-017-o-clock-2": {
+      "arabic": "تمامًا (للساعة الكاملة)"
+    },
+    "a0-u4-l6-xv1": {
+      "arabic": "صغير السن / شاب"
+    },
+    "a0-u4-l5-xv2": {
+      "arabic": "هم / هن"
     }
   },
   "arabicGlossById": {

@@ -427,7 +427,7 @@
         "a0-009-same-3": [
           {
             "example": "Our bags are the same.",
-            "exampleArabic": "حقيبتانا متشابهتان."
+            "exampleArabic": "حقيبتانا متماثلتان."
           }
         ]
       }
@@ -474,8 +474,8 @@
         ],
         "a0-010-desk-3": [
           {
-            "example": "My book is on the desk.",
-            "exampleArabic": "كتابي على المكتب."
+            "example": "The desk is small.",
+            "exampleArabic": "المكتب صغير."
           }
         ]
       }
@@ -655,7 +655,7 @@
         "a0-014-six-1": [
           {
             "example": "I see six cats.",
-            "exampleArabic": "أرى ستة قطط."
+            "exampleArabic": "أرى ست قطط."
           }
         ],
         "a0-014-eight-2": [
@@ -708,8 +708,8 @@
         ],
         "a0-015-one-2": [
           {
-            "example": "I have one sister.",
-            "exampleArabic": "لدي أخت واحدة."
+            "example": "There is one window.",
+            "exampleArabic": "توجد نافذة واحدة."
           }
         ],
         "a0-015-two-3": [
@@ -852,7 +852,7 @@
         ],
         "a0-018-tomorrow-2": [
           {
-            "example": "I see you tomorrow.",
+            "example": "See you tomorrow.",
             "exampleArabic": "أراك غدًا."
           }
         ],
@@ -1002,8 +1002,8 @@
         ],
         "a0-021-person-3": [
           {
-            "example": "She is a kind person.",
-            "exampleArabic": "هي شخص لطيف."
+            "example": "One person is here.",
+            "exampleArabic": "يوجد شخص واحد هنا."
           }
         ]
       }
@@ -1038,8 +1038,8 @@
       "extraExamples": {
         "a0-022-child-1": [
           {
-            "example": "The child is happy.",
-            "exampleArabic": "الطفل سعيد."
+            "example": "The child is with her mother.",
+            "exampleArabic": "الطفلة مع أمها."
           }
         ],
         "a0-022-friend-2": [
@@ -1146,8 +1146,8 @@
         ],
         "a0-024-kind-3": [
           {
-            "example": "My teacher is kind.",
-            "exampleArabic": "معلمي لطيف."
+            "example": "She is kind to her friends.",
+            "exampleArabic": "هي لطيفة مع أصدقائها."
           }
         ]
       }

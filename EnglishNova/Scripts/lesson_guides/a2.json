@@ -166,5 +166,195 @@
       "objectiveAr": "أن تقدم تحديثًا يحدد المهمة والمسؤول عنها وموعد تسليمها.",
       "objectiveEn": "Give an update identifying a task, its owner and its due date."
     }
+  },
+  "a2-x-u1-l1": {
+    "focusAr": "فرّق بين wake up، أي الاستيقاظ، وget up، أي مغادرة الفراش. shower اسم في take a shower، فلا نترجمه كفعل منفرد هنا. رتّب الروتين باستخدام before وafter مع اسم النشاط أو الحدث.",
+    "focusEn": "Distinguish wake up from get up: the first means stop sleeping, the second leave bed. Shower is a noun in take a shower. Organise a routine with before and after followed by an activity or event.",
+    "taskAr": "صف الاستحمام قبل الإفطار في جملة.",
+    "taskEn": "Describe taking a shower before breakfast.",
+    "exampleEn": "I take a shower before breakfast.",
+    "exampleAr": "أستحم قبل الإفطار.",
+    "check": {
+      "promptEn": "Which phrase correctly uses shower as a noun?",
+      "choices": [
+        "take a shower",
+        "take showering",
+        "do a shower"
+      ],
+      "answer": "take a shower",
+      "explanationAr": "التركيب المعتاد هو take a shower أوhave a shower. shower اسم معدود هنا، لذلك تأتي معها a.",
+      "explanationEn": "The usual expressions are take a shower and have a shower. Shower is countable here, so it takes a."
+    }
+  },
+  "a2-x-u1-l2": {
+    "focusAr": "تأتي ظروف التكرار عادة قبل الفعل الرئيسي، لكنها تأتي بعد be: I am usually tired. because تربط العادة بسببها. ميّز go to bed من sleep؛ الأولى الذهاب إلى الفراش ولا تضمن بدء النوم فورًا.",
+    "focusEn": "Frequency adverbs usually precede the main verb but follow be: I am usually tired. Because links a habit to its reason. Go to bed describes going to bed, which does not necessarily mean falling asleep immediately.",
+    "taskAr": "صف الذهاب المبكر إلى الفراش بسبب الاستيقاظ في السادسة.",
+    "taskEn": "Describe going to bed early because you get up at six.",
+    "exampleEn": "I usually go to bed early because I get up at six.",
+    "exampleAr": "أذهب عادة إلى الفراش مبكرًا لأنني أستيقظ في السادسة.",
+    "check": {
+      "promptEn": "Choose the usual word order.",
+      "choices": [
+        "I am usually tired at bedtime.",
+        "I usually am at bedtime tired.",
+        "I am tired usually at bedtime."
+      ],
+      "answer": "I am usually tired at bedtime.",
+      "explanationAr": "الموضع المعتاد لـ usually في هذا النمط بعد am وقبل tired. توجد مواضع أخرى للتوكيد، لكننا نتدرّب على الترتيب المحايد.",
+      "explanationEn": "The usual position in this pattern is after am and before tired. Other positions can add emphasis, but this exercise practises neutral word order."
+    }
+  },
+  "a2-x-u1-l3": {
+    "focusAr": "reserve a table لحجز مكان قبل الزيارة، وorder a dish لطلب الطعام في المطعم. Could I see the menu? طلب مهذب للاطلاع على الخيارات. قد تعني dish طبق الطعام نفسه أو نوع الوجبة؛ يحدد السياق المقصود.",
+    "focusEn": "Reserve a table means arrange a place in advance; order a dish means request food at the restaurant. Could I see the menu? politely asks to see the choices. Dish can mean a food item or the object it is served on, depending on context.",
+    "taskAr": "اطلب حجز طاولة لشخصين.",
+    "taskEn": "Ask to reserve a table for two people.",
+    "exampleEn": "I'd like to reserve a table for two, please.",
+    "exampleAr": "أود حجز طاولة لشخصين، من فضلك.",
+    "check": {
+      "promptEn": "You want a table for tomorrow evening. Which verb fits?",
+      "choices": [
+        "reserve",
+        "eat",
+        "wash"
+      ],
+      "answer": "reserve",
+      "explanationAr": "reserve تعني الحجز المسبق. السياق عن الطاولة غدًا، لا تناول الطعام الآن أو غسل شيء.",
+      "explanationEn": "Reserve means arrange in advance. The context concerns tomorrow's table, not eating now or washing something."
+    }
+  },
+  "a2-x-u1-l4": {
+    "focusAr": "spicy تصف حرافة المذاق، وhot قد تصف ارتفاع الحرارة. too spicy تعني أكثر حرافة مما يناسب الموقف، وليست مجرد وصف قوي مثل very spicy. استخدم but لربط طعام تحبه بآخر لا تحبه.",
+    "focusEn": "Spicy describes the taste of strong spices; hot can describe temperature. Too spicy means spicier than wanted or suitable, not merely very spicy. Use but to contrast food you like with food you dislike.",
+    "taskAr": "اذكر حب الخضروات الطازجة وعدم حب الطعام الحار المذاق.",
+    "taskEn": "Say that you like fresh vegetables but dislike spicy food.",
+    "exampleEn": "I like fresh vegetables, but I don't like spicy food.",
+    "exampleAr": "أحب الخضروات الطازجة، لكنني لا أحب الطعام الحار المذاق.",
+    "check": {
+      "promptEn": "This soup is too spicy for me means what?",
+      "choices": [
+        "It is spicier than I want.",
+        "It is exactly as spicy as I want.",
+        "It has no spices."
+      ],
+      "answer": "It is spicier than I want.",
+      "explanationAr": "too مع for me توضح تجاوز الدرجة المناسبة للمتكلم، ولا تعني انعدام التوابل.",
+      "explanationEn": "Too with for me shows that the degree exceeds what suits the speaker; it does not mean there are no spices."
+    }
+  },
+  "a2-x-u1-l5": {
+    "focusAr": "recipe خطوات التحضير وingredient أحد المكونات. استخدم First ثم Then لترتيب التعليمات، والفعل الأساسي للأمر: Cut the onions. بعد ذكر onions يمكنك استخدام them لتجنب تكرار الاسم.",
+    "focusEn": "A recipe gives preparation steps; an ingredient is one of the materials used. Sequence instructions with First and Then, using base verbs for commands: Cut the onions. After naming onions, use them to avoid repetition.",
+    "taskAr": "اكتب خطوتين: تقطيع البصل ثم طبخه في مقلاة.",
+    "taskEn": "Write two steps: cut the onions, then cook them in a pan.",
+    "exampleEn": "First, cut the onions. Then cook them in a pan.",
+    "exampleAr": "أولًا، قطّع البصل. ثم اطبخه في مقلاة.",
+    "check": {
+      "promptEn": "In Cut the onions, then cook them, what does them refer to?",
+      "choices": [
+        "the onions",
+        "the recipe",
+        "the pan"
+      ],
+      "answer": "the onions",
+      "explanationAr": "them يعود إلى onions لأنها جمع. في العربية قد نستخدم ضميرًا مفردًا مع «البصل».",
+      "explanationEn": "Them refers to plural onions. Arabic may use a singular pronoun with its collective word for onions."
+    }
+  },
+  "a2-x-u2-l1": {
+    "focusAr": "buy شراء من جهة الزبون، وsell بيع من جهة المتجر. استخدم Do you sell...? للسؤال عما يبيعه المكان. some مألوفة في طلب كمية، وany مألوفة في السؤال عن وجود السلعة.",
+    "focusEn": "Buy describes the customer's action; sell describes the shop's action. Ask Do you sell...? about what the shop offers. Some is common in requests for a quantity, while any is common when asking whether goods are available.",
+    "taskAr": "اسأل البائع إن كان يبيع خبزًا طازجًا.",
+    "taskEn": "Ask the seller whether they sell fresh bread.",
+    "exampleEn": "Do you sell fresh bread here?",
+    "exampleAr": "هل تبيعون خبزًا طازجًا هنا؟",
+    "check": {
+      "promptEn": "A customer pays for bread and takes it home. The customer _____ the bread.",
+      "choices": [
+        "buys",
+        "sells",
+        "cooks"
+      ],
+      "answer": "buys",
+      "explanationAr": "الزبون يحصل على الخبز مقابل المال، ولذلك buys. البائع هو الذي sells.",
+      "explanationEn": "The customer receives bread in exchange for money, so buys fits. The seller sells it."
+    }
+  },
+  "a2-x-u2-l2": {
+    "focusAr": "cost فعل للسؤال عن التكلفة، وprice اسم للسعر. نقول How much does it cost? ويعود cost إلى صيغته الأساسية بعد does. change في الدفع النقدي تعني باقي النقود، لا تغيير المنتج.",
+    "focusEn": "Cost is a verb for asking about an amount; price is a noun. Ask How much does it cost? with base-form cost after does. Change in a cash payment means money returned, not exchanging the product.",
+    "taskAr": "اسأل عن تكلفة المنتج واذكر أنك ستدفع نقدًا.",
+    "taskEn": "Ask the item's cost and say you will pay in cash.",
+    "exampleEn": "How much does this cost? I will pay in cash.",
+    "exampleAr": "كم يكلف هذا؟ سأدفع نقدًا.",
+    "check": {
+      "promptEn": "You pay 20 for an item costing 15. The 5 returned is your _____.",
+      "choices": [
+        "change",
+        "price",
+        "bill"
+      ],
+      "answer": "change",
+      "explanationAr": "change هو باقي النقود المعاد بعد الدفع. price هو ثمن المنتج، وbill تبين المبلغ المطلوب.",
+      "explanationEn": "Change is money returned after payment. Price is the item's cost, and a bill shows the amount owed."
+    }
+  },
+  "a2-x-u2-l3": {
+    "focusAr": "directions بالجمع إرشادات الطريق. استخدم straight ahead للسير إلى الأمام دون انعطاف، وturn left للانعطاف يسارًا. لا تجعل فهم الاتجاه معتمدًا على صورة؛ حدّد الحركة والمعلم المكاني نصيًا.",
+    "focusEn": "Directions in the plural means route instructions. Straight ahead means continue forward without turning; turn left asks for a change of direction. State both the movement and a landmark so the directions are understandable without a picture.",
+    "taskAr": "أعط إرشادًا بالسير للأمام ثم الانعطاف يسارًا عند الزاوية.",
+    "taskEn": "Give instructions to go straight and then turn left at the corner.",
+    "exampleEn": "Go straight ahead, then turn left at the corner.",
+    "exampleAr": "سر إلى الأمام مباشرة، ثم انعطف يسارًا عند الزاوية.",
+    "check": {
+      "promptEn": "What does Go straight ahead ask you to do?",
+      "choices": [
+        "continue forward without turning",
+        "turn left immediately",
+        "go back to where you started"
+      ],
+      "answer": "continue forward without turning",
+      "explanationAr": "straight ahead تطلب استمرار السير إلى الأمام، لا الانعطاف ولا الرجوع.",
+      "explanationEn": "Straight ahead asks you to continue forward, not turn or go back."
+    }
+  },
+  "a2-x-u2-l4": {
+    "focusAr": "take the bus تعني ركوب الحافلة، وby bus تسمّي وسيلة المواصلات. return ticket تشمل الذهاب والعودة في هذا السياق. استخدم cross فعلًا مباشرًا قبل road، لا cross to the road بمعنى عبوره.",
+    "focusEn": "Take the bus describes using the bus; by bus names the means of transport. A return ticket covers the outward and return journeys in this context. Use cross directly before road to mean go from one side to the other.",
+    "taskAr": "اذكر ركوب الحافلة إلى وسط المدينة كل صباح.",
+    "taskEn": "Say that you take the bus to the city centre every morning.",
+    "exampleEn": "I take the bus to the city centre every morning.",
+    "exampleAr": "أركب الحافلة إلى وسط المدينة كل صباح.",
+    "check": {
+      "promptEn": "A return ticket is for which journeys?",
+      "choices": [
+        "going there and coming back",
+        "only going there",
+        "only walking to the station"
+      ],
+      "answer": "going there and coming back",
+      "explanationAr": "return ticket تعني تذكرة ذهاب وعودة، بخلاف single ticket للذهاب فقط.",
+      "explanationEn": "A return ticket covers going there and coming back, unlike a single ticket for one direction."
+    }
+  },
+  "a2-x-u2-l5": {
+    "focusAr": "sunny صفة فتأتي بعد is. rain قد تكون اسمًا في The rain stopped، أو فعلًا في It will rain. لا تقل It is rain عند وصف حدوث المطر؛ استخدم It is raining أوIt is rainy بحسب المعنى.",
+    "focusEn": "Sunny is an adjective after is. Rain can be a noun in The rain stopped or a verb in It will rain. Do not say It is rain to describe wet weather; use It is raining or It is rainy depending on the meaning.",
+    "taskAr": "قارن جو اليوم المشمس بتوقع المطر غدًا.",
+    "taskEn": "Contrast today's sunshine with expected rain tomorrow.",
+    "exampleEn": "It is sunny today, but it will rain tomorrow.",
+    "exampleAr": "الجو مشمس اليوم، لكن المطر سيهطل غدًا.",
+    "check": {
+      "promptEn": "Which sentence uses rain as a verb?",
+      "choices": [
+        "It will rain tomorrow.",
+        "The rain stopped at noon.",
+        "The rain was heavy."
+      ],
+      "answer": "It will rain tomorrow.",
+      "explanationAr": "بعد will تأتي rain فعلًا. في الجملتين الأخريين تسبقها the وتعمل اسمًا للمطر.",
+      "explanationEn": "After will, rain is a verb. In the other sentences the precedes rain and it functions as a noun."
+    }
   }
 }

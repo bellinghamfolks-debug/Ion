@@ -1,0 +1,158 @@
+{
+  "b1-u1-l1": {
+    "focusAr": "اشرح المشكلة ثم اطلب إجراءً محددًا: إعادة الحجز أو البحث عن رحلة ربط. تعني has been delayed أن التأخير حدث وله صلة بالموقف الحالي. استخدم by two hours لمقدار تأخير الموعد، وfor two hours لمدة الانتظار. عبارة miss a connection تعني أن رحلة الربط تفوتك.",
+    "focusEn": "State the problem, then request a specific action, such as rebooking or finding a connecting flight. Has been delayed connects the delay with the present situation. Use by two hours for a change to the scheduled time and for two hours for time spent waiting. Miss a connection means fail to catch the next service.",
+    "taskAr": "اشرح أن موعد رحلتك أُخّر ساعتين، وأنك قد تفوّت رحلة الربط، واطلب المساعدة في إعادة الحجز.",
+    "taskEn": "Explain that your flight is two hours late, say you may miss your connection, and ask for help rebooking.",
+    "exampleEn": "My flight has been delayed by two hours, so I may miss my connection. Could you help me rebook?",
+    "exampleAr": "أُخّر موعد رحلتي ساعتين، لذا قد تفوتني رحلة الربط. هل يمكنك مساعدتي في إعادة الحجز؟",
+    "check": {
+      "promptEn": "Your flight now leaves at 4 instead of 2. Which sentence describes this change precisely?",
+      "choices": [
+        "The flight has been delayed by two hours.",
+        "We have waited at the airport for two hours.",
+        "We missed the flight two hours ago."
+      ],
+      "answer": "The flight has been delayed by two hours.",
+      "explanationAr": "تصف by two hours الفرق بين الموعد الأصلي والجديد. الجملتان الأخريان تضيفان انتظارًا أو فوات رحلة لم يذكرهما الموقف.",
+      "explanationEn": "By two hours states the difference between the old and new departure times. The other sentences add waiting or a missed flight that the situation does not mention."
+    },
+    "lessonUpdates": {
+      "modelSentence": "My flight has been delayed by two hours.",
+      "modelSentenceArabic": "أُخّر موعد رحلتي ساعتين."
+    }
+  },
+  "b1-extra-2": {
+    "focusAr": "يربط المضارع التام حدثًا سابقًا بالحاضر، ولا يعني دائمًا أن الحدث وقع للتو. يتكوّن من have أو has والتصريف الثالث. تستخدم already لإنجاز سبق توقعك، وyet في السؤال أو النفي عمّا حدث حتى الآن. عند ذكر وقت ماضٍ منتهٍ مثل yesterday نستخدم الماضي البسيط عادةً.",
+    "focusEn": "The present perfect connects a past event with the present; it does not always mean the event happened just now. Form it with have or has and a past participle. Already can show something happened earlier than expected; yet asks or states whether it has happened by now. A finished time such as yesterday normally takes the past simple.",
+    "taskAr": "اكتب تحديثًا عن واجبك: انتهيت منه بالفعل، لكنك لم ترسله بعد. ثم اسأل زميلك هل أرسله.",
+    "taskEn": "Write an assignment update: you have already finished, but you have not sent it yet. Then ask whether your classmate has sent theirs.",
+    "exampleEn": "I have already finished the assignment, but I haven't sent it yet. Have you sent yours yet?",
+    "exampleAr": "لقد أنهيت الواجب بالفعل، لكنني لم أرسله بعد. هل أرسلت واجبك؟",
+    "check": {
+      "promptEn": "Which update says the assignment is finished but has not been sent?",
+      "choices": [
+        "I've already finished it, but I haven't sent it yet.",
+        "I haven't finished it yet, but I've already sent it.",
+        "I finished it yesterday and sent it this morning."
+      ],
+      "answer": "I've already finished it, but I haven't sent it yet.",
+      "explanationAr": "تؤكد already الإنجاز، وينفي haven't sent مع yet الإرسال حتى الآن. البديلان يغيّران ما أُنجز وما لم يُنجز.",
+      "explanationEn": "Already confirms completion, while haven't sent with yet says sending has not happened by now. The alternatives change which actions are complete."
+    }
+  },
+  "b1-extra-3": {
+    "focusAr": "اجعل رأيك قابلًا للفهم بترتيب: رأي، ثم سبب، ثم مثال محدد. تعبّر In my opinion عن وجهة نظرك ولا تثبت أنها حقيقة عامة. قل agree with someone عند الاتفاق مع شخص، وagree about something عند الاتفاق بشأن موضوع. يمكنك الاختلاف بأدب مع الاعتراف بجزء مفيد من الرأي الآخر.",
+    "focusEn": "Build a clear opinion with a view, a reason, and a specific example. In my opinion marks your perspective; it does not establish a general fact. Use agree with someone for agreement with a person and agree about something for agreement on a topic. You can disagree politely while acknowledging a useful part of another view.",
+    "taskAr": "اكتب ثلاث جمل تدعم فيها رأيك بشأن العمل من المنزل بسبب ومثال، مع تجنب تعميم التجربة على الجميع.",
+    "taskEn": "Write three sentences supporting your view of working from home with a reason and an example, without treating everyone's experience as the same.",
+    "exampleEn": "In my opinion, working from home can save time. Some people do not need to travel to an office. For example, my sister now has an extra hour each morning.",
+    "exampleAr": "في رأيي، يمكن أن يوفر العمل من المنزل الوقت. فبعض الناس لا يحتاجون إلى الذهاب إلى مكتب. مثلًا، أصبح لدى أختي ساعة إضافية كل صباح.",
+    "check": {
+      "promptEn": "Which reason directly supports the view that working from home can save time?",
+      "choices": [
+        "Some workers no longer need to travel to an office.",
+        "Some workers prefer blue office walls.",
+        "Some workers disagree with their managers."
+      ],
+      "answer": "Some workers no longer need to travel to an office.",
+      "explanationAr": "يربط السبب الصحيح توفير الوقت بإلغاء الانتقال إلى المكتب. البديلان قد يكونان صحيحين عن بعض الناس، لكنهما لا يدعمان هذه الفكرة.",
+      "explanationEn": "The correct reason links saved time to removing the journey to an office. The alternatives could be true of some people but do not support this point."
+    }
+  },
+  "b1-extra-4": {
+    "focusAr": "تساعد then وafter that على ترتيب الأحداث، بينما تربط meanwhile حدثين يقعان في الوقت نفسه. استخدم at first لانطباع أو وضع أولي تغيّر لاحقًا، لا لمجرد تعداد الخطوات. حدّد بداية القصة، ثم التغير المهم، واختم بالنتيجة حتى يستطيع المستمع متابعة ما حدث.",
+    "focusEn": "Then and after that put events in order, while meanwhile connects events happening at the same time. At first introduces an initial impression or situation that later changed; it is not simply a way to number steps. Establish the beginning, explain the important change, and finish with the result so listeners can follow the story.",
+    "taskAr": "اروِ في ثلاث جمل موقفًا ظننت في بدايته أن الحجز مفقود، ثم عُثر عليه وانتهت المشكلة.",
+    "taskEn": "Tell a three-sentence story in which you first thought a booking was missing, then someone found it and the problem ended.",
+    "exampleEn": "At first, I thought the hotel had lost our booking. Then the receptionist found it under my brother's name. Finally, we went to our room.",
+    "exampleAr": "في البداية، ظننت أن الفندق أضاع حجزنا. ثم وجدته موظفة الاستقبال باسم أخي. وأخيرًا ذهبنا إلى غرفتنا.",
+    "check": {
+      "promptEn": "You checked the map while your friend bought tickets. Which link shows both actions happened at the same time?",
+      "choices": [
+        "I checked the map; meanwhile, my friend bought tickets.",
+        "I checked the map; after that, my friend bought tickets.",
+        "I checked the map; later on, my friend bought tickets."
+      ],
+      "answer": "I checked the map; meanwhile, my friend bought tickets.",
+      "explanationAr": "تعني meanwhile تزامن الحدثين. أما after that وlater on فتجعلان شراء التذاكر لاحقًا لفحص الخريطة.",
+      "explanationEn": "Meanwhile shows that the two actions overlapped. After that and later on place buying the tickets after checking the map."
+    }
+  },
+  "b1-extra-5": {
+    "focusAr": "قدّم المشكلة بوضوح قبل الحل، ثم بيّن كيف يساعد اقتراحك. يأتي بعد could الفعل بصيغته الأساسية، وبعد by فعل ينتهي بـ ing لوصف الطريقة. alternative بديل يمكن اختياره، أما workaround فهو طريقة مؤقتة لتجاوز المشكلة دون إصلاح سببها بالضرورة. اذكر قيدًا عمليًا عند مقارنة الحلول.",
+    "focusEn": "Describe the problem before offering a solution, then explain how your suggestion helps. Could takes a base verb; by takes an -ing form when explaining a method. An alternative is another option, while a workaround avoids a problem temporarily without necessarily fixing its cause. Mention a practical limit when comparing solutions.",
+    "taskAr": "اقترح حلًا مؤقتًا لتعطل نظام الحجز، واذكر فائدته وما ينبغي فعله بعد إصلاح النظام.",
+    "taskEn": "Suggest a temporary response to a booking system failure, explain its benefit, and say what should happen after the system is repaired.",
+    "exampleEn": "We could solve the immediate problem by taking bookings on paper. This workaround would let us help customers today. We would need to enter the bookings into the system later.",
+    "exampleAr": "يمكننا حل المشكلة الحالية بتسجيل الحجوزات على الورق. سيسمح لنا هذا الحل المؤقت بمساعدة العملاء اليوم. وسنحتاج إلى إدخال الحجوزات في النظام لاحقًا.",
+    "check": {
+      "promptEn": "Staff record orders on paper until the computer is repaired. What best describes this action?",
+      "choices": [
+        "A workaround that allows work to continue temporarily.",
+        "A permanent repair of the computer.",
+        "Proof that no computer is needed again."
+      ],
+      "answer": "A workaround that allows work to continue temporarily.",
+      "explanationAr": "يتيح الورق استمرار العمل مؤقتًا، لكنه لا يصلح الحاسوب ولا يثبت إمكان الاستغناء عنه نهائيًا.",
+      "explanationEn": "Paper allows work to continue temporarily, but it does not repair the computer or prove that it will never be needed again."
+    }
+  },
+  "b1-extra-6": {
+    "focusAr": "انسب المعلومة إلى مصدرها باستخدام The report says أو according to، ثم لخّص الفكرة دون إضافة ادعاءات. نقل ما يقوله مصدر لا يعني أنك تحققت منه بنفسك. قد يختصر headline التفاصيل أو يبرز جانبًا واحدًا؛ اقرأ النص وتحقق من المصدر والتاريخ قبل مشاركة الخبر.",
+    "focusEn": "Attribute information with The report says or according to, then summarize without adding claims. Reporting a source's statement does not mean you have independently verified it. A headline may leave out details or emphasize only one part of a story. Read the text and check its source and date before sharing it.",
+    "taskAr": "لخّص تقريرًا تدريبيًا يقول إن المكتبة ستفتح مساء الجمعة بدءًا من الشهر القادم، مع ذكر المصدر وموعد التغيير.",
+    "taskEn": "Summarize a practice report saying that the library will open on Friday evenings from next month. Include the source and the start date.",
+    "exampleEn": "According to the library's report, it will open on Friday evenings from next month. The report does not say whether weekend opening hours will change.",
+    "exampleAr": "وفقًا لتقرير المكتبة، ستفتح مساء الجمعة بدءًا من الشهر القادم. ولا يذكر التقرير ما إذا كانت ساعات العمل في بقية عطلة نهاية الأسبوع ستتغير.",
+    "check": {
+      "promptEn": "A report says one library will open later on Fridays. Which summary stays within the information given?",
+      "choices": [
+        "The report says that this library will open later on Fridays.",
+        "Every library will now open all night.",
+        "The report proves that all readers prefer evening visits."
+      ],
+      "answer": "The report says that this library will open later on Fridays.",
+      "explanationAr": "يحافظ الجواب الصحيح على نطاق الخبر: مكتبة واحدة ويوم الجمعة. التعميمان الآخران يضيفان معلومات لا يدعمها التقرير.",
+      "explanationEn": "The correct answer keeps the report's scope: one library and Fridays. The other answers add general claims that the report does not support."
+    }
+  },
+  "b1-extra-7": {
+    "focusAr": "agenda خطة موضوعات الاجتماع قبل انعقاده، وminutes سجل ما نوقش واتُّفق عليه. أما take notes فتعني تدوين ملاحظات قد تكون شخصية. عند طلب التوضيح سمِّ النقطة غير الواضحة، ثم لخّص الاتفاق. اجعل action item مهمة لها مسؤول وموعد. يأتي discuss مع الموضوع مباشرة دون about.",
+    "focusEn": "An agenda lists planned meeting topics; minutes record discussion and decisions. Take notes can refer to personal notes. When asking for clarification, identify the unclear point, then summarize the agreement. Give an action item an owner and a deadline. Discuss takes its topic directly, without about.",
+    "taskAr": "اطلب توضيح المسؤول عن التقرير، ثم لخّص أن سارة سترسله يوم الخميس وأنك ستدوّن ذلك في المحضر.",
+    "taskEn": "Ask who is responsible for the report, then summarize that Sara will send it on Thursday and you will record this in the minutes.",
+    "exampleEn": "Could you clarify who will send the report? So, Sara will send it on Thursday. I'll put that action item in the minutes.",
+    "exampleAr": "هل يمكنك توضيح من سيرسل التقرير؟ إذن سترسله سارة يوم الخميس. سأدوّن هذه المهمة في المحضر.",
+    "check": {
+      "promptEn": "Which action item gives both a responsible person and a deadline?",
+      "choices": [
+        "Sara will send the report by Thursday.",
+        "Someone should think about the report.",
+        "The report is on the agenda."
+      ],
+      "answer": "Sara will send the report by Thursday.",
+      "explanationAr": "يحدد الجواب الصحيح من سينفذ المهمة ومتى. التفكير في التقرير أو إدراجه في جدول الأعمال لا يحدد مسؤولية التنفيذ أو موعده.",
+      "explanationEn": "The correct answer states who will do the task and by when. Thinking about the report or listing it on an agenda does not assign responsibility or a deadline."
+    }
+  },
+  "b1-extra-8": {
+    "focusAr": "ابدأ البريد بسبب واضح باستخدام I am writing to ثم فعل، أو regarding ثم اسم. اجعل الطلب محددًا، واذكر موعد الرد إذا كان مهمًا. تأتي بعد look forward to صيغة ing مثل hearing، لأن to هنا حرف جر. اختم بتحية مناسبة مثل Kind regards ثم اسمك.",
+    "focusEn": "Open with a clear purpose using I am writing to followed by a verb, or regarding followed by a noun. Make your request specific and include a reply deadline when needed. Look forward to takes an -ing form such as hearing because to is a preposition here. Close with a suitable phrase such as Kind regards and your name.",
+    "taskAr": "اكتب رسالة قصيرة تؤكد اجتماع الثلاثاء الساعة العاشرة، وتطلب الرد بحلول الاثنين، وتنتهي بتحية واسم.",
+    "taskEn": "Write a short email confirming a meeting at ten on Tuesday, requesting a reply by Monday, and ending with a closing and name.",
+    "exampleEn": "I am writing to confirm our meeting at 10 on Tuesday. Please reply by Monday. I look forward to meeting you. Kind regards, Ali.",
+    "exampleAr": "أكتب لتأكيد اجتماعنا يوم الثلاثاء الساعة العاشرة. يرجى الرد بحلول يوم الاثنين. أتطلع إلى لقائك. مع أطيب التحيات، علي.",
+    "check": {
+      "promptEn": "Which sentence correctly uses look forward to in an email?",
+      "choices": [
+        "I look forward to hearing from you.",
+        "I look forward to hear from you.",
+        "I look forward hearing from you."
+      ],
+      "answer": "I look forward to hearing from you.",
+      "explanationAr": "تحتاج العبارة إلى to ثم hearing بصيغة ing. هنا to حرف جر، فلا نستخدم بعدها hear بصيغته الأساسية.",
+      "explanationEn": "The expression needs to followed by the -ing form hearing. Here to is a preposition, so the base form hear does not fit."
+    }
+  }
+}

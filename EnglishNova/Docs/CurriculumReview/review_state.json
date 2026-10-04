@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "اكتملت مراجعة A2 الستين: الحيوانات والأماكن والخدمات؛ تصحيح خلط الاسم بالفعل وبعض الترجمات، والتمييز بين التأخر والإلغاء والبحث والعثور والإصلاح والاستبدال. الإجمالي 180 درسًا.",
-  "nextStep": "Continue editorial review from b1-u1-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة أول ثمانية دروس B1: تصحيح أمثلة قديمة لا تطابق مفرداتها، وتوضيح الأزمنة وتسلسل الأحداث والإسناد إلى المصادر وصياغة المهام المهنية.",
+  "nextStep": "Continue editorial review from b1-x-u1-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -2173,72 +2173,96 @@
       "level": "B1",
       "titleAr": "التعامل مع مشكلات السفر",
       "titleEn": "Handling Travel Problems",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-extra-2",
       "level": "B1",
       "titleAr": "المضارع التام",
       "titleEn": "Present Perfect",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-extra-3",
       "level": "B1",
       "titleAr": "التعبير عن الرأي",
       "titleEn": "Expressing Opinions",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-extra-4",
       "level": "B1",
       "titleAr": "سرد قصة",
       "titleEn": "Telling a Story",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-extra-5",
       "level": "B1",
       "titleAr": "حل المشكلات",
       "titleEn": "Problem Solving",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-extra-6",
       "level": "B1",
       "titleAr": "الأخبار والمعلومات",
       "titleEn": "News and Information",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-extra-7",
       "level": "B1",
       "titleAr": "الاجتماعات",
       "titleEn": "Meetings",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-extra-8",
       "level": "B1",
       "titleAr": "البريد المهني",
       "titleEn": "Professional Email",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b1-x-u1-l1",
@@ -3797,7 +3821,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 180,
-    "pending": 180
+    "reviewed": 188,
+    "pending": 172
   }
 }

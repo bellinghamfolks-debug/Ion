@@ -106,9 +106,9 @@
     },
     "b1-u1-l1-w2": {
       "english": "miss a connection",
-      "arabic": "يفوّت رحلة مواصلة",
+      "arabic": "تفوتُه رحلة ربط",
       "example": "We may miss our connection if the first flight is delayed.",
-      "exampleArabic": "قد نفوّت رحلة المواصلة إذا تأخرت الرحلة الأولى.",
+      "exampleArabic": "قد تفوتنا رحلة الربط إذا تأخرت الرحلة الأولى.",
       "partOfSpeech": "verb phrase",
       "phonetic": null
     },
@@ -1324,6 +1324,23 @@
     "a2-extra-7-xv4": {
       "example": "Thanks for inviting me. I'd love to come.",
       "exampleArabic": "شكرًا على دعوتي. يسعدني الحضور."
+    },
+    "b1-u1-l1-w1": {
+      "arabic": "أُخّر موعده",
+      "example": "My flight has been delayed by two hours.",
+      "exampleArabic": "أُخّر موعد رحلتي ساعتين."
+    },
+    "b1-extra-2-w1": {
+      "arabic": "قد أنهيت"
+    },
+    "b1-extra-4-w1": {
+      "partOfSpeech": "adverb"
+    },
+    "b1-extra-6-xv3": {
+      "arabic": "يتحقق من"
+    },
+    "b1-extra-7-w1": {
+      "partOfSpeech": "verb"
     }
   },
   "arabicGlossById": {

@@ -111,7 +111,11 @@ def main():
         # drop previously injected units (idempotency)
         level["units"] = [u for u in level["units"] if not marker.match(u.get("id", ""))]
         next_order = max((u.get("order", 0) for u in level["units"]), default=0) + 1
-        for unit in sorted(units, key=lambda u: u["id"]):
+        # Numeric order: "u10" must come after "u9", not after "u1".
+        def unit_number(u):
+            match = re.search(r"-u(\d+)$", u["id"])
+            return int(match.group(1)) if match else 0
+        for unit in sorted(units, key=unit_number):
             level["units"].append(build_unit(code, unit, next_order))
             next_order += 1
             added_units += 1

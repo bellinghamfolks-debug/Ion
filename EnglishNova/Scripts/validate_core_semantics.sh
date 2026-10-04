@@ -18,7 +18,7 @@ struct SemanticValidation {
         let catalog = try JSONDecoder().decode(CourseCatalog.self, from: Data(contentsOf: curriculumURL))
         let lessons = catalog.levels.flatMap(\.units).flatMap(\.lessons)
         precondition(catalog.levels.count == 6)
-        precondition(lessons.count == 232)
+        precondition(lessons.count == 360)
         precondition(PlacementQuestionBank.all.count == 48)
         precondition(ConversationLibrary.scenarios.count == 12)
         precondition(InteractiveStoryLibrary.stories.count == 12)
@@ -161,7 +161,7 @@ struct SemanticValidation {
         precondition(plan.items.first?.referenceID == "a0-u1-l1")
 
         print("نجح الفحص الدلالي لنواة EnglishNova 1.1.0.")
-        print("- فك ترميز 232 درسًا وترحيل بيانات قديمة")
+        print("- فك ترميز 360 درسًا وترحيل بيانات قديمة")
         print("- 24 قراءة و24 استماع و24 كتابة")
         print("- مسار IELTS 6.0 بثلاث ساعات يوميًا و80 سؤالًا موضوعيًا")
         print("- ستة مسارات تعلم وخطة يومية متوافقة")

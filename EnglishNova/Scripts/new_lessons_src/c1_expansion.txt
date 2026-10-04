@@ -1,0 +1,233 @@
+LEVEL|C1
+U|c1-x-u5|الخطاب الأكاديمي|Academic Discourse|ابنِ حجة أكاديمية متماسكة، وقيّم المصادر، واستخدم الأسلوب الرسمي، واكتب ملخصًا بحثيًا.|text.book.closed.fill|Build a coherent academic argument, evaluate sources, use a formal style and write an abstract.
+L|بناء حجة أكاديمية|Structuring an Academic Argument|أن يبني المتعلم حجة أكاديمية متماسكة مع مراعاة الحجج المضادة.|While the evidence is compelling, it would be premature to draw firm conclusions at this stage.|مع أن الأدلة مقنعة، سيكون من السابق لأوانه استخلاص استنتاجات قاطعة في هذه المرحلة.|To build a coherent academic argument that takes counter-arguments into account.
+W|tenuous|واهٍ؛ ضعيف|The link between the two events is tenuous.|الصلة بين الحدثين واهية.|adjective
+W|premature|سابق لأوانه|Celebrating now would be premature.|الاحتفال الآن سيكون سابقًا لأوانه.|adjective
+W|counter-argument|حجة مضادة|A strong essay addresses the main counter-argument.|المقال القوي يتناول الحجة المضادة الرئيسية.|noun
+W|substantiate|يدعم بالأدلة|The claim is difficult to substantiate.|يصعب دعم هذا الادعاء بالأدلة.|verb
+W|draw conclusions|يستخلص استنتاجات|We cannot draw conclusions from one study.|لا يمكننا استخلاص استنتاجات من دراسة واحدة.|phrase
+W|line of reasoning|تسلسل الاستدلال|Her line of reasoning is easy to follow.|تسلسل استدلالها سهل المتابعة.|noun
+L|توثيق المصادر وتقييمها|Citing and Evaluating Sources|أن يقيّم المتعلم موثوقية المصادر ويشير إليها بدقة.|Peer-reviewed journals are generally more credible than anonymous websites.|المجلات المحكّمة أكثر مصداقية عمومًا من المواقع مجهولة المصدر.|To evaluate how reliable sources are and refer to them accurately.
+W|peer-reviewed|محكَّم (علميًا)|The study was published in a peer-reviewed journal.|نُشرت الدراسة في مجلة محكّمة.|adjective
+W|credible|ذو مصداقية|Is this source credible?|هل هذا المصدر ذو مصداقية؟|adjective
+W|cite|يستشهد بـ؛ يوثّق|Always cite your sources correctly.|وثّق مصادرك دائمًا بشكل صحيح.|verb
+W|plagiarism|الانتحال (السرقة العلمية)|Plagiarism can lead to expulsion.|قد يؤدي الانتحال إلى الفصل.|noun
+W|primary source|مصدر أولي|Letters from the period are a valuable primary source.|الرسائل من تلك الحقبة مصدر أولي قيّم.|noun
+W|bias|تحيّز|The report shows a clear bias.|يُظهر التقرير تحيّزًا واضحًا.|noun
+L|الاسمية والأسلوب الرسمي|Nominalisation and Formal Style|أن يحوّل المتعلم الأفعال إلى أسماء لكتابة أسلوب أكاديمي موجز.|The implementation of the policy led to a significant reduction in waste.|أدى تطبيق السياسة إلى انخفاض ملحوظ في الهدر.|To turn verbs into nouns to write in a concise academic style.
+W|implementation|تطبيق؛ تنفيذ|The implementation of the plan took two years.|استغرق تنفيذ الخطة عامين.|noun
+W|significant|ملحوظ؛ كبير الأثر|There was a significant increase in sales.|حدثت زيادة ملحوظة في المبيعات.|adjective
+W|reduction|انخفاض؛ تقليص|We saw a reduction in costs.|لاحظنا انخفاضًا في التكاليف.|noun
+W|nominalisation|الاسمية (تحويل الفعل إلى اسم)|Nominalisation makes writing sound more formal.|تجعل الاسمية الكتابة تبدو أكثر رسمية.|noun
+W|formal register|السجل الرسمي|Academic essays require a formal register.|تتطلب المقالات الأكاديمية سجلًا رسميًا.|noun
+W|impersonal|غير شخصي|Scientific writing is often impersonal.|غالبًا ما تكون الكتابة العلمية غير شخصية.|adjective
+L|كتابة ملخص بحثي|Writing Abstracts|أن يكتب المتعلم ملخصًا بحثيًا يعرض الهدف والمنهج والنتائج.|This study examines the extent to which remote learning affects student outcomes.|تبحث هذه الدراسة في مدى تأثير التعلّم عن بُعد على نتائج الطلاب.|To write an abstract that presents the aim, method and findings.
+W|examine|يبحث في؛ يفحص|The paper examines three case studies.|تبحث الورقة في ثلاث دراسات حالة.|verb
+W|extent|مدى|To what extent do you agree?|إلى أي مدى توافق؟|noun
+W|outcomes|نتائج؛ مخرجات|The programme improved health outcomes.|حسّن البرنامج النتائج الصحية.|noun
+W|methodology|منهجية|The methodology is clearly explained.|المنهجية مشروحة بوضوح.|noun
+W|sample size|حجم العينة|The sample size was too small to be reliable.|كان حجم العينة أصغر من أن يكون موثوقًا.|noun
+W|implications|دلالات؛ آثار مترتبة|The findings have important implications for teachers.|للنتائج دلالات مهمة للمعلمين.|noun
+U|c1-x-u6|العلوم والابتكار|Science and Innovation|ناقش المنهج العلمي وعدم اليقين، وجدل التقنية الحيوية، واستكشاف الفضاء، والابتكار المُحدِث للتغيير.|atom|Discuss the scientific method and uncertainty, biotechnology debates, space exploration and disruptive innovation.
+L|المنهج العلمي وعدم اليقين|Scientific Method and Uncertainty|أن يشرح المتعلم كيف يتعامل العلم مع الفرضيات وعدم اليقين.|A hypothesis must be testable, and even well-supported theories remain open to revision.|يجب أن تكون الفرضية قابلة للاختبار، وحتى النظريات المدعومة جيدًا تبقى قابلة للمراجعة.|To explain how science deals with hypotheses and uncertainty.
+W|hypothesis|فرضية|The results support our hypothesis.|تدعم النتائج فرضيتنا.|noun
+W|testable|قابل للاختبار|A scientific claim must be testable.|يجب أن يكون الادعاء العلمي قابلًا للاختبار.|adjective
+W|revision|مراجعة؛ تعديل|The theory underwent major revision.|خضعت النظرية لمراجعة كبيرة.|noun
+W|empirical|تجريبي (قائم على الملاحظة)|There is little empirical evidence for the claim.|هناك أدلة تجريبية قليلة على هذا الادعاء.|adjective
+W|replicate|يكرّر (تجربة)|Other labs failed to replicate the results.|فشلت مختبرات أخرى في تكرار النتائج.|verb
+W|anomaly|حالة شاذة|The result was dismissed as an anomaly.|استُبعدت النتيجة باعتبارها حالة شاذة.|noun
+L|جدل التقنية الحيوية|Biotechnology Debates|أن يناقش المتعلم الحجج الأخلاقية حول التعديل الجيني.|Gene editing holds enormous promise, but it also raises profound ethical questions.|يحمل التعديل الجيني وعودًا هائلة، لكنه يثير أيضًا أسئلة أخلاقية عميقة.|To discuss the ethical arguments around genetic modification.
+W|gene editing|التعديل الجيني|Gene editing could prevent hereditary diseases.|قد يمنع التعديل الجيني الأمراض الوراثية.|noun
+W|hold promise|يحمل وعودًا|The new treatment holds great promise.|يحمل العلاج الجديد وعودًا كبيرة.|phrase
+W|profound|عميق|The discovery had a profound effect on medicine.|كان للاكتشاف أثر عميق على الطب.|adjective
+W|slippery slope|منحدر زلق (يقود إلى عواقب أسوأ)|Critics warn that it is a slippery slope.|يحذّر المنتقدون من أنه منحدر زلق.|idiom
+W|genetically modified|معدّل وراثيًا|Some countries restrict genetically modified crops.|تقيّد بعض الدول المحاصيل المعدّلة وراثيًا.|adjective
+W|safeguards|ضمانات وقائية|Strong safeguards are needed before trials begin.|هناك حاجة إلى ضمانات قوية قبل بدء التجارب.|noun
+L|استكشاف الفضاء|Space Exploration|أن يقيّم المتعلم جدوى الإنفاق على استكشاف الفضاء.|Critics question whether the vast sums spent on space missions could be better allocated on Earth.|يتساءل المنتقدون عمّا إذا كان يمكن تخصيص المبالغ الطائلة المنفقة على مهمات الفضاء بشكل أفضل على الأرض.|To assess whether spending on space exploration is worthwhile.
+W|vast|هائل|A vast amount of data was collected.|جُمعت كمية هائلة من البيانات.|adjective
+W|allocate|يخصّص|The budget allocates more money to research.|تخصّص الميزانية مالًا أكثر للبحث.|verb
+W|mission|مهمة|The mission landed safely on the Moon.|هبطت المهمة بأمان على القمر.|noun
+W|spin-off|منتج جانبي (مُستمد من مشروع)|Many everyday products are spin-offs of space research.|كثير من المنتجات اليومية مستمدة من أبحاث الفضاء.|noun
+W|frontier|حدود (مجال جديد)|Space remains the final frontier.|يبقى الفضاء الحدود الأخيرة.|noun
+W|feasible|ممكن عمليًا|Is a mission to Mars feasible this decade?|هل مهمة إلى المريخ ممكنة عمليًا في هذا العقد؟|adjective
+L|الابتكار المُحدِث للتغيير|Innovation and Disruption|أن يحلل المتعلم كيف تغيّر الابتكارات أسواقًا كاملة.|Streaming services disrupted the music industry almost overnight.|أحدثت خدمات البث تغييرًا جذريًا في صناعة الموسيقى بين ليلة وضحاها تقريبًا.|To analyse how innovations transform entire markets.
+W|disrupt|يُحدث تغييرًا جذريًا|Ride-sharing apps disrupted the taxi industry.|أحدثت تطبيقات مشاركة الرحلات تغييرًا جذريًا في قطاع سيارات الأجرة.|verb
+W|overnight|بين ليلة وضحاها|The app became a success overnight.|نجح التطبيق بين ليلة وضحاها.|adverb
+W|obsolete|عفا عليه الزمن|Fax machines are now almost obsolete.|أصبحت أجهزة الفاكس الآن متقادمة تقريبًا.|adjective
+W|cutting-edge|متطوّر جدًا|The lab uses cutting-edge technology.|يستخدم المختبر تقنية متطورة جدًا.|adjective
+W|incumbent|القائم (الراسخ في السوق)|Incumbent firms were slow to react.|كانت الشركات الراسخة بطيئة في الاستجابة.|adjective
+W|paradigm shift|تحوّل جذري في المفاهيم|The internet caused a paradigm shift in communication.|أحدث الإنترنت تحوّلًا جذريًا في التواصل.|noun
+U|c1-x-u7|الشؤون الدولية|Global Affairs|ناقش الدبلوماسية والعلاقات الدولية والهجرة والصحة العالمية والتنمية والمساعدات.|globe|Discuss diplomacy and international relations, migration, global health, and development and aid.
+L|الدبلوماسية والعلاقات الدولية|Diplomacy and International Relations|أن يحلل المتعلم مواقف دبلوماسية بلغة محايدة ودقيقة.|The two governments reached a tentative agreement after months of negotiations.|توصّلت الحكومتان إلى اتفاق مبدئي بعد أشهر من المفاوضات.|To analyse diplomatic situations in neutral, precise language.
+W|envoy|مبعوث|The UN sent a special envoy to the region.|أرسلت الأمم المتحدة مبعوثًا خاصًا إلى المنطقة.|noun
+W|negotiations|مفاوضات|Negotiations broke down last night.|انهارت المفاوضات الليلة الماضية.|noun
+W|sanctions|عقوبات|The UN imposed sanctions on the regime.|فرضت الأمم المتحدة عقوبات على النظام.|noun
+W|bilateral|ثنائي|They signed a bilateral trade agreement.|وقّعوا اتفاقية تجارية ثنائية.|adjective
+W|sovereignty|السيادة|The issue touches on national sovereignty.|تمسّ القضية السيادة الوطنية.|noun
+W|de-escalate|يخفّف التصعيد|Both sides tried to de-escalate the crisis.|حاول الطرفان تخفيف التصعيد في الأزمة.|verb
+L|الهجرة|Migration|أن يناقش المتعلم أسباب الهجرة وآثارها بموضوعية.|Economic hardship and conflict are among the main drivers of migration.|الضائقة الاقتصادية والنزاعات من أهم دوافع الهجرة.|To discuss the causes and effects of migration objectively.
+W|drivers|دوافع؛ عوامل محرّكة|Cost is one of the main drivers of change.|التكلفة من أهم دوافع التغيير.|noun
+W|hardship|ضائقة؛ مشقة|The family faced years of hardship.|واجهت العائلة سنوات من المشقة.|noun
+W|integration|اندماج|Language classes help with integration.|تساعد دروس اللغة على الاندماج.|noun
+W|asylum|لجوء|They applied for asylum.|تقدّموا بطلب لجوء.|noun
+W|remittances|الحوالات المالية (إلى الوطن)|Remittances support millions of families.|تدعم الحوالات المالية ملايين الأسر.|noun
+W|brain drain|هجرة العقول|The country suffers from a brain drain.|تعاني البلاد من هجرة العقول.|noun
+L|الصحة العالمية|Global Health|أن يناقش المتعلم التعاون الدولي في مواجهة الأوبئة.|The pandemic exposed deep inequalities in access to healthcare.|كشفت الجائحة عن تفاوت عميق في الوصول إلى الرعاية الصحية.|To discuss international cooperation in facing epidemics.
+W|pandemic|جائحة|The pandemic changed how we work.|غيّرت الجائحة طريقة عملنا.|noun
+W|expose|يكشف|The report exposed serious failures.|كشف التقرير عن إخفاقات خطيرة.|verb
+W|inequalities|أوجه التفاوت|Health inequalities are growing.|تتزايد أوجه التفاوت الصحي.|noun
+W|outbreak|تفشٍّ (لمرض)|An outbreak of measles was reported.|أُبلغ عن تفشٍّ للحصبة.|noun
+W|containment|الاحتواء|Early containment is essential.|الاحتواء المبكر ضروري.|noun
+W|preparedness|الجاهزية|Countries must improve pandemic preparedness.|يجب على الدول تحسين جاهزيتها للجوائح.|noun
+L|التنمية والمساعدات|Development and Aid|أن يقيّم المتعلم فاعلية المساعدات الدولية وشروطها.|Aid is most effective when it empowers local communities rather than creating dependency.|تكون المساعدات أكثر فاعلية عندما تمكّن المجتمعات المحلية بدلًا من خلق الاعتماد عليها.|To evaluate how effective international aid is and the conditions attached to it.
+W|empower|يمكّن|Education empowers young women.|يمكّن التعليم الشابات.|verb
+W|dependency|الاعتماد (التبعية)|Long-term aid can create dependency.|قد تخلق المساعدات طويلة الأمد تبعية.|noun
+W|infrastructure|البنية التحتية|The country needs better infrastructure.|تحتاج البلاد إلى بنية تحتية أفضل.|noun
+W|sustainable development|التنمية المستدامة|The UN promotes sustainable development goals.|تروّج الأمم المتحدة لأهداف التنمية المستدامة.|noun
+W|accountability|المساءلة|There must be accountability for how funds are spent.|يجب أن تكون هناك مساءلة عن كيفية إنفاق الأموال.|noun
+W|grassroots|شعبي؛ قاعدي|The project began as a grassroots movement.|بدأ المشروع حركة شعبية.|adjective
+U|c1-x-u8|علم النفس والسلوك|Psychology and Behaviour|تعرّف على التحيزات المعرفية والدافعية والعادات واتخاذ القرار والذكاء العاطفي.|brain.head.profile|Explore cognitive biases, motivation and habits, decision-making and emotional intelligence.
+L|التحيزات المعرفية|Cognitive Biases|أن يتعرّف المتعلم على تحيزات معرفية شائعة ويشرح أثرها.|Confirmation bias leads us to favour information that supports our existing views.|يقودنا تحيّز التأكيد إلى تفضيل المعلومات التي تدعم آراءنا القائمة.|To identify common cognitive biases and explain their effect.
+W|confirmation bias|تحيّز التأكيد|Confirmation bias affects even experts.|يؤثر تحيّز التأكيد حتى في الخبراء.|noun
+W|favour|يفضّل|Voters tend to favour familiar names.|يميل الناخبون إلى تفضيل الأسماء المألوفة.|verb
+W|cognitive|معرفي|Ageing can affect cognitive abilities.|قد تؤثر الشيخوخة في القدرات المعرفية.|adjective
+W|hindsight|الإدراك المتأخر|In hindsight, it was a mistake.|بالنظر إلى الوراء، كان ذلك خطأ.|noun
+W|overconfidence|الثقة المفرطة|Overconfidence led to poor decisions.|أدت الثقة المفرطة إلى قرارات سيئة.|noun
+W|anchoring|الارتساء (التأثر بالرقم الأول)|Anchoring explains why first offers matter.|يفسّر الارتساء أهمية العرض الأول.|noun
+L|الدافعية والعادات|Motivation and Habit|أن يشرح المتعلم كيف تتكوّن العادات وكيف تُغيَّر.|Small, consistent changes are far more sustainable than relying on willpower alone.|التغييرات الصغيرة المنتظمة أكثر استدامة بكثير من الاعتماد على قوة الإرادة وحدها.|To explain how habits form and how they can be changed.
+W|willpower|قوة الإرادة|It takes willpower to give up sugar.|يتطلب الإقلاع عن السكر قوة إرادة.|noun
+W|consistent|منتظم؛ ثابت|Consistent practice brings results.|التدرّب المنتظم يأتي بالنتائج.|adjective
+W|intrinsic|داخلي (نابع من الذات)|Intrinsic motivation lasts longer than rewards.|الدافعية الداخلية تدوم أطول من المكافآت.|adjective
+W|trigger|محفّز؛ مثير|Stress is a common trigger for bad habits.|التوتر محفّز شائع للعادات السيئة.|noun
+W|reinforcement|تعزيز|Positive reinforcement works well with children.|يعمل التعزيز الإيجابي جيدًا مع الأطفال.|noun
+W|relapse|انتكاسة؛ يعود إلى|Many people relapse after a few weeks.|ينتكس كثير من الناس بعد بضعة أسابيع.|verb
+L|اتخاذ القرار في ظل عدم اليقين|Decision-Making Under Uncertainty|أن يناقش المتعلم استراتيجيات اتخاذ القرار عند نقص المعلومات.|When information is incomplete, it pays to weigh the trade-offs and consider worst-case scenarios.|عندما تكون المعلومات ناقصة، من المفيد موازنة المقايضات والنظر في أسوأ الاحتمالات.|To discuss decision-making strategies when information is incomplete.
+W|calculated risk|مخاطرة محسوبة|Launching early was a calculated risk.|كان الإطلاق المبكر مخاطرة محسوبة.|noun
+W|worst-case scenario|أسوأ الاحتمالات|In the worst-case scenario, we lose a week.|في أسوأ الاحتمالات، نخسر أسبوعًا.|noun
+W|it pays to|من المفيد أن|It pays to read the contract carefully.|من المفيد قراءة العقد بعناية.|phrase
+W|weigh up|يوازن بين|Weigh up the pros and cons before deciding.|وازن بين الإيجابيات والسلبيات قبل أن تقرّر.|phrasal verb
+W|gut feeling|إحساس داخلي|I had a gut feeling that something was wrong.|كان لدي إحساس داخلي بأن شيئًا ما خطأ.|noun
+W|contingency plan|خطة طوارئ|Always have a contingency plan.|احتفظ دائمًا بخطة طوارئ.|noun
+L|الذكاء العاطفي|Emotional Intelligence|أن يصف المتعلم مهارات الذكاء العاطفي وأثرها في العمل والعلاقات.|People with high emotional intelligence can regulate their emotions under pressure.|يستطيع أصحاب الذكاء العاطفي المرتفع ضبط مشاعرهم تحت الضغط.|To describe emotional intelligence skills and their effect at work and in relationships.
+W|emotional intelligence|الذكاء العاطفي|Good leaders have high emotional intelligence.|يتمتع القادة الجيدون بذكاء عاطفي مرتفع.|noun
+W|regulate|يضبط؛ ينظّم|Children learn to regulate their emotions.|يتعلّم الأطفال ضبط مشاعرهم.|verb
+W|self-awareness|الوعي الذاتي|Self-awareness is the first step to change.|الوعي الذاتي هو الخطوة الأولى نحو التغيير.|noun
+W|perceptive|ثاقب الملاحظة|She is very perceptive about people's feelings.|إنها ثاقبة الملاحظة جدًا لمشاعر الناس.|adjective
+W|composure|رباطة الجأش|He kept his composure during the interview.|حافظ على رباطة جأشه أثناء المقابلة.|noun
+W|rapport|ألفة؛ علاقة طيبة|She quickly built a rapport with her clients.|بنت بسرعة علاقة طيبة مع عملائها.|noun
+U|c1-x-u9|الإعلام والمعلومات|Media and Information|ناقش التضليل وأخلاقيات الصحافة والتأطير والتحيز والوعي الرقمي.|newspaper.fill|Discuss misinformation, journalism ethics, framing and bias, and digital literacy.
+L|التضليل الإعلامي|Misinformation|أن يميّز المتعلم بين الخطأ والتضليل المتعمد ويقترح طرق التحقق.|Misinformation spreads faster than corrections, so fact-checking has never been more important.|ينتشر التضليل أسرع من التصحيحات، لذلك لم يكن التحقق من الحقائق أهم مما هو عليه الآن.|To distinguish errors from deliberate disinformation and suggest ways to verify.
+W|misinformation|معلومات مضلّلة|Misinformation about vaccines is dangerous.|المعلومات المضلّلة عن اللقاحات خطيرة.|noun
+W|disinformation|تضليل متعمّد|The campaign used disinformation to influence voters.|استخدمت الحملة التضليل المتعمّد للتأثير في الناخبين.|noun
+W|fact-checking|التحقق من الحقائق|Fact-checking takes time but saves credibility.|يستغرق التحقق من الحقائق وقتًا لكنه يحفظ المصداقية.|noun
+W|debunk|يدحض|Scientists debunked the claim.|دحض العلماء الادعاء.|verb
+W|unfounded|لا أساس له|The rumours proved unfounded.|ثبت أن الشائعات لا أساس لها.|adjective
+W|verify|يتحقق من|Always verify a story before sharing it.|تحقّق دائمًا من الخبر قبل مشاركته.|verb
+L|أخلاقيات الصحافة|Journalism Ethics|أن يناقش المتعلم التوازن بين حق الجمهور في المعرفة وحق الخصوصية.|Journalists must balance the public interest against an individual's right to privacy.|يجب على الصحفيين الموازنة بين المصلحة العامة وحق الفرد في الخصوصية.|To discuss the balance between the public's right to know and the right to privacy.
+W|public interest|المصلحة العامة|The story was published in the public interest.|نُشر الخبر خدمةً للمصلحة العامة.|noun
+W|impartial|محايد|The BBC aims to be impartial.|تسعى البي بي سي إلى أن تكون محايدة.|adjective
+W|sensationalism|الإثارة الإعلامية|Readers are tired of sensationalism.|سئم القرّاء من الإثارة الإعلامية.|noun
+W|source protection|حماية المصادر|Source protection is vital for investigative reporting.|حماية المصادر حيوية للتحقيقات الصحفية.|noun
+W|intrusive|متطفّل|The questions were intrusive and unnecessary.|كانت الأسئلة متطفلة وغير ضرورية.|adjective
+W|editorial|افتتاحي؛ تحريري|The paper's editorial criticised the decision.|انتقدت افتتاحية الصحيفة القرار.|adjective
+L|التأطير والتحيّز|Framing and Bias|أن يحلل المتعلم كيف تغيّر صياغة الخبر انطباع القارئ.|The same statistic can be framed to sound alarming or reassuring.|يمكن صياغة الإحصائية نفسها لتبدو مقلقة أو مطمئنة.|To analyse how the wording of a story changes the reader's impression.
+W|frame|يؤطّر؛ يصوغ|How you frame the question affects the answer.|طريقة صياغتك للسؤال تؤثر في الإجابة.|verb
+W|alarming|مقلق|The report contains alarming figures.|يتضمن التقرير أرقامًا مقلقة.|adjective
+W|reassuring|مطمئن|The doctor's words were reassuring.|كانت كلمات الطبيب مطمئنة.|adjective
+W|loaded language|لغة مشحونة|The article uses loaded language.|يستخدم المقال لغة مشحونة.|noun
+W|omission|إغفال|The omission of key facts misled readers.|ضلّل إغفال الحقائق الأساسية القرّاء.|noun
+W|slant|ميل؛ انحياز (في التغطية)|The coverage had a political slant.|كانت للتغطية ميول سياسية.|noun
+L|الوعي الرقمي|Digital Literacy|أن يشرح المتعلم مهارات تقييم المحتوى الرقمي بوعي نقدي.|Digital literacy involves questioning who created a piece of content and why.|يتضمن الوعي الرقمي التساؤل عمّن أنشأ المحتوى ولماذا.|To explain the skills needed to evaluate digital content critically.
+W|digital literacy|الوعي الرقمي|Schools now teach digital literacy.|تدرّس المدارس الآن الوعي الرقمي.|noun
+W|scrutinise|يدقّق في|Scrutinise the data before you trust it.|دقّق في البيانات قبل أن تثق بها.|verb
+W|deepfake|تزييف عميق|The deepfake video looked completely real.|بدا مقطع التزييف العميق حقيقيًا تمامًا.|noun
+W|provenance|مصدر الأصل|Check the provenance of the image.|تحقّق من مصدر الصورة الأصلي.|noun
+W|discerning|مميِّز؛ حصيف|Discerning readers compare several sources.|القرّاء الحصفاء يقارنون عدة مصادر.|adjective
+W|manipulate|يتلاعب|The photo had been digitally manipulated.|تم التلاعب بالصورة رقميًا.|verb
+U|c1-x-u10|القيادة والمؤسسات|Leadership and Organisations|تحدّث عن التخطيط الاستراتيجي وإدارة التغيير وثقافة المؤسسة والتواصل في الأزمات.|person.crop.rectangle.stack.fill|Talk about strategic planning, change management, organisational culture and crisis communication.
+L|التخطيط الاستراتيجي|Strategic Planning|أن يناقش المتعلم بناء رؤية وأهداف استراتيجية قابلة للتنفيذ.|Our long-term vision must be translated into concrete, measurable objectives.|يجب ترجمة رؤيتنا طويلة المدى إلى أهداف ملموسة وقابلة للقياس.|To discuss building a vision and strategic goals that can be carried out.
+W|vision|رؤية|The company's vision is clear and ambitious.|رؤية الشركة واضحة وطموحة.|noun
+W|concrete|ملموس|We need concrete proposals, not ideas.|نحتاج إلى مقترحات ملموسة لا أفكار.|adjective
+W|stakeholders|أصحاب المصلحة|All stakeholders were consulted.|استُشير جميع أصحاب المصلحة.|noun
+W|prioritise|يعطي الأولوية|We must prioritise customer safety.|يجب أن نعطي الأولوية لسلامة العملاء.|verb
+W|benchmark|معيار مرجعي|We use last year's results as a benchmark.|نستخدم نتائج العام الماضي معيارًا مرجعيًا.|noun
+W|long-term|طويل المدى|This is a long-term investment.|هذا استثمار طويل المدى.|adjective
+L|إدارة التغيير|Change Management|أن يشرح المتعلم كيف يُدار التغيير وتُعالج مقاومته.|Resistance to change is natural, so leaders need to communicate the rationale clearly.|مقاومة التغيير أمر طبيعي، لذا يحتاج القادة إلى توضيح المبررات بجلاء.|To explain how change is managed and how resistance is handled.
+W|resistance|مقاومة|The plan met strong resistance from staff.|واجهت الخطة مقاومة قوية من الموظفين.|noun
+W|rationale|المبرّر المنطقي|Explain the rationale behind your decision.|اشرح المبرّر وراء قرارك.|noun
+W|buy-in|القبول والدعم|We need buy-in from senior management.|نحتاج إلى دعم الإدارة العليا.|noun
+W|restructuring|إعادة الهيكلة|The restructuring led to several new roles.|أدت إعادة الهيكلة إلى عدة أدوار جديدة.|noun
+W|roll out|يطرح تدريجيًا|The system will be rolled out next month.|سيُطرح النظام الشهر المقبل.|phrasal verb
+W|morale|المعنويات|Staff morale is low after the cuts.|معنويات الموظفين منخفضة بعد التخفيضات.|noun
+L|ثقافة المؤسسة|Organisational Culture|أن يصف المتعلم ثقافة مؤسسة وأثرها في الأداء والاحتفاظ بالموظفين.|A culture of transparency encourages employees to raise concerns without fear.|تشجّع ثقافة الشفافية الموظفين على طرح مخاوفهم دون خوف.|To describe an organisation's culture and its effect on performance and retention.
+W|transparency|الشفافية|Transparency builds trust.|الشفافية تبني الثقة.|noun
+W|raise concerns|يطرح مخاوف|Employees should feel safe to raise concerns.|يجب أن يشعر الموظفون بالأمان عند طرح مخاوفهم.|phrase
+W|retention|الاحتفاظ (بالموظفين)|Good culture improves staff retention.|تحسّن الثقافة الجيدة الاحتفاظ بالموظفين.|noun
+W|hierarchical|هرمي|The company has a very hierarchical structure.|للشركة هيكل هرمي جدًا.|adjective
+W|toxic|سام؛ مؤذٍ|A toxic workplace drives talent away.|بيئة العمل السامة تُبعد الكفاءات.|adjective
+W|ethos|الروح والقيم السائدة|The school's ethos is based on respect.|تقوم روح المدرسة على الاحترام.|noun
+L|التواصل في الأزمات|Crisis Communication|أن يصوغ المتعلم بيانًا واضحًا ومسؤولًا في أثناء أزمة.|We take full responsibility and are taking immediate steps to rectify the situation.|نتحمل المسؤولية كاملة ونتخذ خطوات فورية لتصحيح الوضع.|To write a clear, responsible statement during a crisis.
+W|take full responsibility|يتحمل المسؤولية كاملة|Leaders must take full responsibility when things go wrong.|يجب على القادة تحمّل المسؤولية كاملة عندما تسوء الأمور.|phrase
+W|rectify|يصحّح|We will rectify the problem immediately.|سنصحّح المشكلة فورًا.|verb
+W|statement|بيان|The company issued a statement this morning.|أصدرت الشركة بيانًا هذا الصباح.|noun
+W|damage control|احتواء الضرر|The PR team is in damage control mode.|فريق العلاقات العامة في وضع احتواء الضرر.|noun
+W|reputation|سمعة|The scandal damaged the firm's reputation.|أضرّت الفضيحة بسمعة الشركة.|noun
+W|reassure|يطمئن|The minister tried to reassure the public.|حاول الوزير طمأنة الجمهور.|verb
+U|c1-x-u11|اللغة والأسلوب|Language and Style|اكتب بدقة وإيجاز، واستخدم السخرية والدعابة، وأكّد المعنى بالقلب والتقديم، واربط الأفكار بإحكام.|textformat|Write with precision and concision, use irony and humour, add emphasis with inversion, and link ideas tightly.
+L|الدقة والإيجاز|Precision and Concision|أن يحذف المتعلم الحشو ويختار الكلمة الأدق.|Good writers eliminate redundancy and choose the most precise word available.|يحذف الكتّاب الجيدون الحشو ويختارون أدق كلمة متاحة.|To remove padding and choose the most precise word.
+W|eliminate|يزيل؛ يحذف|Try to eliminate unnecessary words.|حاول حذف الكلمات غير الضرورية.|verb
+W|jargon|مصطلحات متخصصة مبهمة|Avoid jargon when you write for the public.|تجنّب المصطلحات المتخصصة المبهمة عندما تكتب للجمهور.|noun
+W|precise|دقيق|Use precise figures in the report.|استخدم أرقامًا دقيقة في التقرير.|adjective
+W|verbose|مسهب؛ كثير الكلام|His writing is clear but verbose.|كتابته واضحة لكنها مسهبة.|adjective
+W|succinct|موجز وواضح|Give a succinct summary of the findings.|قدّم ملخصًا موجزًا وواضحًا للنتائج.|adjective
+W|ambiguous|ملتبس؛ غامض|The instructions were ambiguous.|كانت التعليمات ملتبسة.|adjective
+L|السخرية والدعابة|Irony and Humour|أن يفهم المتعلم السخرية والتهكم والتلميح في السياق.|The irony is that the meeting about saving time lasted three hours.|المفارقة أن الاجتماع حول توفير الوقت استمر ثلاث ساعات.|To understand irony, sarcasm and understatement in context.
+W|irony|مفارقة؛ سخرية|The irony of the situation made everyone laugh.|أضحكت مفارقة الموقف الجميع.|noun
+W|sarcastic|ساخر؛ متهكّم|I was being sarcastic, not serious.|كنت أتهكّم، لم أكن جادًا.|adjective
+W|tongue-in-cheek|على سبيل المزاح|His comment was tongue-in-cheek.|كان تعليقه على سبيل المزاح.|adjective
+W|deadpan|بوجه جاد (دعابة جافة)|She has a deadpan sense of humour.|لديها حس دعابة جاف بوجه جاد.|adjective
+W|witty|ظريف؛ سريع البديهة|He gave a witty speech at the wedding.|ألقى كلمة ظريفة في حفل الزفاف.|adjective
+W|pun|تورية؛ تلاعب بالألفاظ|The headline was a clever pun.|كان العنوان تورية ذكية.|noun
+L|التوكيد بالقلب والتقديم|Emphasis and Inversion|أن يستخدم المتعلم القلب النحوي والتراكيب المؤكدة في الكتابة الرسمية.|Not only did the project finish early, but it also came in under budget.|لم ينتهِ المشروع مبكرًا فحسب، بل جاء أيضًا بتكلفة أقل من الميزانية.|To use grammatical inversion and emphatic structures in formal writing.
+W|not only|ليس فقط|Not only is he talented, but he is also modest.|ليس موهوبًا فقط، بل متواضع أيضًا.|phrase
+W|under budget|بأقل من الميزانية|The bridge was completed under budget.|اكتمل الجسر بأقل من الميزانية.|phrase
+W|seldom|نادرًا|Seldom have I seen such dedication.|نادرًا ما رأيت مثل هذا التفاني.|adverb
+W|by no means|بأي حال من الأحوال|The task is by no means easy.|المهمة ليست سهلة بأي حال من الأحوال.|phrase
+W|under no circumstances|تحت أي ظرف|Under no circumstances should you share your password.|لا يجوز لك تحت أي ظرف مشاركة كلمة مرورك.|phrase
+W|what matters is|المهم هو|What matters is that everyone is safe.|المهم هو أن الجميع بأمان.|phrase
+L|أدوات الربط المتقدمة|Advanced Linking and Cohesion|أن يربط المتعلم الأفكار بأدوات ربط متقدمة تحقق التماسك.|The proposal is ambitious; nevertheless, it is grounded in solid evidence.|المقترح طموح، ومع ذلك فهو قائم على أدلة متينة.|To connect ideas with advanced linking devices that create cohesion.
+W|nevertheless|ومع ذلك|It was raining; nevertheless, the match went ahead.|كانت تمطر؛ ومع ذلك أُقيمت المباراة.|adverb
+W|grounded in|قائم على|Her argument is grounded in research.|حجتها قائمة على البحث.|phrase
+W|whereby|بموجبه؛ حيث|They introduced a system whereby staff can work flexibly.|أدخلوا نظامًا يمكن بموجبه للموظفين العمل بمرونة.|conjunction
+W|insofar as|بقدر ما|The plan works insofar as it reduces costs.|تنجح الخطة بقدر ما تخفض التكاليف.|conjunction
+W|consequently|وبالتالي|Prices rose; consequently, demand fell.|ارتفعت الأسعار؛ وبالتالي انخفض الطلب.|adverb
+W|hence|ومن ثَمّ|The data was incomplete; hence the delay.|كانت البيانات ناقصة؛ ومن ثَمّ التأخير.|adverb
+U|c1-x-u12|الإتقان المهني|Professional Mastery|أدر اجتماعات حاسمة، وأجرِ المقابلات القيادية، وألقِ كلمة عامة مؤثرة، واكتب مقترحًا مقنعًا.|star.circle.fill|Chair high-stakes meetings, handle senior-level interviews, speak in public and write persuasive proposals.
+L|إدارة الاجتماعات الحاسمة|Chairing High-Stakes Meetings|أن يدير المتعلم اجتماعًا حساسًا ويضبط مساره ويحسم القرارات.|Let's park that issue for now and return to the main item on the agenda.|لنؤجّل هذه المسألة الآن ونعود إلى البند الرئيسي في جدول الأعمال.|To chair a sensitive meeting, keep it on track and reach decisions.
+W|park|يؤجّل (مسألة)|Let's park this until next week.|لنؤجّل هذا إلى الأسبوع القادم.|verb
+W|agenda|جدول الأعمال|The budget is first on the agenda.|الميزانية أولًا على جدول الأعمال.|noun
+W|consensus|إجماع|We failed to reach a consensus.|لم نتمكن من الوصول إلى إجماع.|noun
+W|minutes|محضر الاجتماع|Who is taking the minutes today?|من يكتب محضر الاجتماع اليوم؟|noun
+W|action points|بنود العمل|I'll circulate the action points after the meeting.|سأعمّم بنود العمل بعد الاجتماع.|noun
+W|adjourn|يرفع (الجلسة)|The meeting was adjourned until Monday.|رُفع الاجتماع حتى يوم الاثنين.|verb
+L|المقابلات على المستوى القيادي|Senior-Level Interviews|أن يجيب المتعلم عن أسئلة مقابلة قيادية بأمثلة مقنعة.|In my previous role, I spearheaded a turnaround that doubled our market share.|في وظيفتي السابقة، قدت عملية تحوّل ضاعفت حصتنا السوقية.|To answer senior-level interview questions with convincing examples.
+W|spearhead|يقود (مبادرة)|She spearheaded the digital transformation.|قادت التحوّل الرقمي.|verb
+W|turnaround|تحوّل إيجابي (إنقاذ)|The new CEO led a remarkable turnaround.|قاد الرئيس التنفيذي الجديد تحوّلًا لافتًا.|noun
+W|market share|الحصة السوقية|The brand lost market share last year.|خسرت العلامة حصة سوقية العام الماضي.|noun
+W|track record|سجلّ الإنجازات|He has a proven track record in sales.|لديه سجل إنجازات مثبت في المبيعات.|noun
+W|leverage|يستثمر؛ يوظّف|We can leverage our experience in Asia.|يمكننا توظيف خبرتنا في آسيا.|verb
+W|accountable|مسؤول؛ خاضع للمساءلة|Managers are accountable for their teams.|المديرون مسؤولون عن فرقهم.|adjective
+L|الخطابة العامة|Public Speaking|أن يلقي المتعلم كلمة مؤثرة بتنظيم واضح وأدوات بلاغية مناسبة.|Let me leave you with one question that I hope will stay with you long after today.|دعوني أترككم مع سؤال واحد آمل أن يبقى معكم طويلًا بعد اليوم.|To give an engaging speech with a clear structure and suitable rhetorical tools.
+W|stay with you|يبقى في ذهنك|His words will stay with you.|ستبقى كلماته في ذهنك.|phrase
+W|captivate|يأسر (الانتباه)|The speaker captivated the audience.|أسر المتحدث الجمهور.|verb
+W|eye contact|التواصل البصري|Keep eye contact with the audience.|حافظ على التواصل البصري مع الجمهور.|noun
+W|anecdote|حكاية قصيرة|He began his talk with a personal anecdote.|بدأ حديثه بحكاية شخصية.|noun
+W|pause for effect|يتوقف للتأثير|Pause for effect before your main point.|توقّف للتأثير قبل فكرتك الرئيسية.|phrase
+W|stage fright|رهبة المسرح|Even experienced speakers get stage fright.|حتى المتحدثون المتمرّسون يشعرون برهبة المسرح.|noun
+L|كتابة المقترحات المقنعة|Writing Persuasive Proposals|أن يكتب المتعلم مقترحًا مقنعًا يعرض المشكلة والحل والعائد.|This proposal outlines a cost-effective solution that will deliver measurable returns within a year.|يعرض هذا المقترح حلًا فعّالًا من حيث التكلفة سيحقق عوائد قابلة للقياس خلال عام.|To write a persuasive proposal that presents the problem, solution and return.
+W|outline|يعرض بإيجاز|The report outlines three options.|يعرض التقرير ثلاثة خيارات بإيجاز.|verb
+W|cost-effective|فعّال من حيث التكلفة|Solar panels are a cost-effective choice.|الألواح الشمسية خيار فعّال من حيث التكلفة.|adjective
+W|deliver|يحقّق (نتائج)|The new system delivered impressive results.|حقق النظام الجديد نتائج مبهرة.|verb
+W|feasibility|الجدوى|We commissioned a feasibility study.|طلبنا إعداد دراسة جدوى.|noun
+W|deliverables|المخرجات المطلوبة|The contract lists all deliverables.|يحدد العقد جميع المخرجات المطلوبة.|noun
+W|return on investment|العائد على الاستثمار|The project offers a high return on investment.|يقدّم المشروع عائدًا مرتفعًا على الاستثمار.|noun

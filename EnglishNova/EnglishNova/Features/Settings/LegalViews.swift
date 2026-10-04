@@ -80,6 +80,10 @@ struct PrivacyView: View {
             .init(title: "تدريب الكتابة", paragraphs: [
                 "يُرسل نصك ونوع الكتابة والمهمة إلى الخادم للتقييم. وعند كتابة نسخة محسّنة تُرسل المسودة السابقة أيضًا للمقارنة بينهما."
             ]),
+            .init(title: "الدوري الأسبوعي والترتيب", paragraphs: [
+                "إذا سجّلت الدخول وزامنت تقدّمك، يحسب الخادم نقاط أسبوعك من سجل نشاطك اليومي المتزامن، ويضعك في مجموعة من حتى 30 متعلّمًا.",
+                "يرى أعضاء مجموعتك اسم العرض الخاص بك ونقاط الأسبوع ومركزك فقط، ولا يرون بريدك أو أي بيانات أخرى. يمكنك تغيير اسم العرض من شاشة الحساب. تُحذف سجلات الدوري بعد 42 يومًا."
+            ]),
             .init(title: "رصيد المساعد الذكي اليومي", paragraphs: [
                 "لحماية الخدمة من الإساءة وضبط تكلفتها، يحسب الخادم عدد «الوحدات» التي استخدمتها في ميزات الذكاء الاصطناعي كل يوم. يُحفظ هذا العدد مع معرّف حسابك وتاريخ اليوم فقط، ويُحذف تلقائيًا بعد ثلاثة أيام.",
                 "لا يحتوي هذا العداد على نصوصك أو أسئلتك أو ردود المدرّب."
@@ -140,6 +144,10 @@ struct PrivacyView: View {
             ]),
             .init(title: "Writing coach", paragraphs: [
                 "Your text, writing type and task are sent to the server for feedback. When you write an improved version, the previous draft is sent too so both can be compared."
+            ]),
+            .init(title: "Weekly league and rankings", paragraphs: [
+                "If you sign in and sync, the server sums your weekly points from your synced daily activity and places you in a group of up to 30 learners.",
+                "Members of your group see only your display name, weekly points and rank, never your email or other data. You can change your display name on the Account screen. League records are deleted after 42 days."
             ]),
             .init(title: "Daily AI allowance", paragraphs: [
                 "To prevent abuse and control cost, the server counts the AI units you use each day. Only your account identifier, the date and the count are stored, and the counter is deleted automatically after three days.",
@@ -218,7 +226,7 @@ struct TermsOfUseView: View {
             ]),
             .init(title: "الاختبارات التجريبية والتقديرات", paragraphs: [
                 "الاختبار التجريبي الكامل وBand المعروض وتقدير مستوى CEFR في «مهاراتي» تقديرات تدريبية مبنية على مواد EnglishNova الأصلية. ليست نتائج رسمية من IELTS أو أي جهة اختبار، وEnglishNova لا يمثل تلك الجهات.",
-                "النقاط والسلسلة وحماية السلسلة أدوات تحفيز داخل التطبيق، وليست لها قيمة مالية ولا يمكن تحويلها."
+                "النقاط والسلسلة وحماية السلسلة والدوري الأسبوعي أدوات تحفيز داخل التطبيق، وليست لها قيمة مالية ولا يمكن تحويلها. التلاعب بالنقاط أو استخدام اسم عرض مسيء قد يؤدي إلى إزالتك من الدوري."
             ]),
             .init(title: "حسابك", paragraphs: [
                 "أنت مسؤول عن المحافظة على سرية بيانات الدخول إلى حسابك وعن استخدام بريد تملكه أو يحق لك استخدامه.",
@@ -264,7 +272,7 @@ struct TermsOfUseView: View {
             ]),
             .init(title: "Mock tests and estimates", paragraphs: [
                 "The full mock test, its band and the CEFR estimate in My skills are practice estimates built on EnglishNova's original material. They are not official results from IELTS or any testing body, and EnglishNova does not represent those bodies.",
-                "Points, streaks and streak freezes are in-app motivation tools with no monetary value and cannot be exchanged."
+                "Points, streaks, streak freezes and the weekly league are in-app motivation tools with no monetary value and cannot be exchanged. Manipulating points or using an offensive display name may lead to removal from the league."
             ]),
             .init(title: "Your account", paragraphs: [
                 "You are responsible for protecting your sign-in credentials and using an email address you own or are authorized to use.",

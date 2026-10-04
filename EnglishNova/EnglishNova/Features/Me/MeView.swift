@@ -49,6 +49,10 @@ struct MeView: View {
                     row(L("الإنجازات"), detail: LE("الأوسمة التي حصلت عليها", "Badges you have earned"),
                         systemImage: "trophy.fill", tint: AppTheme.warning)
                 }
+                NavigationLink { LeagueView() } label: {
+                    row(LE("الدوري الأسبوعي", "Weekly league"), detail: LE("نافس متعلّمين في مستواك هذا الأسبوع", "Compete with learners in your tier this week"),
+                        systemImage: "trophy.circle.fill", tint: AppTheme.streak)
+                }
                 NavigationLink { LeaderboardView() } label: {
                     row(L("الترتيب"), detail: LE("قارن نقاطك", "Compare your points"),
                         systemImage: "list.number", tint: AppTheme.warning)

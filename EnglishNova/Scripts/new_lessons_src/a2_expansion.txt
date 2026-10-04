@@ -1,0 +1,233 @@
+LEVEL|A2
+U|a2-x-u5|البيت والحي|Home and Neighbourhood|صف بيتك وأعمال المنزل، واستأجر شقة، وتحدّث عن الحي الذي تسكن فيه.|house.fill|Describe your home and household chores, rent a flat, and talk about your neighbourhood.
+L|الغرف والأثاث|Rooms and Furniture|أن يصف المتعلم غرف بيته وأماكن الأثاث فيها بجمل بسيطة.|There is a big sofa in the living room next to the window.|توجد أريكة كبيرة في غرفة المعيشة بجانب النافذة.|To describe the rooms of a home and where the furniture is, using simple sentences.
+W|sofa|أريكة|We watch TV on the sofa every evening.|نشاهد التلفاز على الأريكة كل مساء.|noun
+W|living room|غرفة المعيشة|The living room is the biggest room in our flat.|غرفة المعيشة هي أكبر غرفة في شقتنا.|noun
+W|wardrobe|خزانة ملابس|My clothes are in the wardrobe.|ملابسي في خزانة الملابس.|noun
+W|shelf|رف|Put the books on the top shelf.|ضع الكتب على الرف العلوي.|noun
+W|carpet|سجادة|There is a red carpet on the floor.|توجد سجادة حمراء على الأرض.|noun
+W|upstairs|في الطابق العلوي|The bedrooms are upstairs.|غرف النوم في الطابق العلوي.|adverb
+L|أعمال المنزل|Household Chores|أن يتحدث المتعلم عن أعمال المنزل اليومية ومن يقوم بها.|I usually do the washing-up after dinner and my brother takes out the rubbish.|عادةً أغسل الصحون بعد العشاء ويُخرج أخي القمامة.|To talk about daily household chores and who does them.
+W|washing-up|غسل الصحون|I do the washing-up every night.|أغسل الصحون كل ليلة.|noun
+W|vacuum|ينظف بالمكنسة الكهربائية|She vacuums the floor on Saturdays.|تنظف الأرض بالمكنسة الكهربائية أيام السبت.|verb
+W|laundry|الغسيل (الملابس)|Can you hang the laundry outside?|هل يمكنك نشر الغسيل في الخارج؟|noun
+W|tidy|يرتّب؛ مرتّب|Please tidy your room before the guests arrive.|من فضلك رتّب غرفتك قبل وصول الضيوف.|verb
+W|rubbish|قمامة|Don't forget to take out the rubbish.|لا تنسَ إخراج القمامة.|noun
+W|iron|يكوي (الملابس)|I iron my shirts on Sunday evening.|أكوي قمصاني مساء الأحد.|verb
+L|استئجار شقة|Renting a Flat|أن يسأل المتعلم عن شقة للإيجار ويفهم أهم شروطها.|The rent is four hundred pounds a month and the bills are included.|الإيجار أربعمئة جنيه في الشهر والفواتير مشمولة.|To ask about a flat for rent and understand its main conditions.
+W|rent|الإيجار؛ يستأجر|How much is the rent for this flat?|كم إيجار هذه الشقة؟|noun
+W|landlord|المالك (المؤجِّر)|The landlord fixed the heater yesterday.|أصلح المالك المدفأة أمس.|noun
+W|bills|الفواتير|We share the bills with our flatmates.|نتقاسم الفواتير مع شركائنا في السكن.|noun
+W|furnished|مفروش|I want a furnished flat near the station.|أريد شقة مفروشة قرب المحطة.|adjective
+W|deposit|تأمين (مبلغ مدفوع مقدمًا)|You pay a deposit before you move in.|تدفع مبلغ التأمين قبل أن تنتقل إليها.|noun
+W|move in|ينتقل للسكن|We can move in next Monday.|يمكننا الانتقال للسكن يوم الاثنين القادم.|phrasal verb
+L|حيّي|My Neighbourhood|أن يصف المتعلم حيّه والأماكن القريبة منه.|My neighbourhood is quiet, and there is a small park near my house.|حيّي هادئ، وتوجد حديقة صغيرة قرب بيتي.|To describe your neighbourhood and the places near it.
+W|neighbourhood|حيّ|I like my neighbourhood because it is safe.|أحب حيّي لأنه آمن.|noun
+W|quiet|هادئ|Our street is quiet at night.|شارعنا هادئ في الليل.|adjective
+W|crowded|مزدحم|The market is crowded on Fridays.|يكون السوق مزدحمًا أيام الجمعة.|adjective
+W|corner shop|بقالة الحي|I buy milk from the corner shop.|أشتري الحليب من بقالة الحي.|noun
+W|community|أهل الحي؛ مجتمع|Our community cleans the park every month.|ينظّف أهل حيّنا الحديقة كل شهر.|noun
+W|nearby|قريب|Is there a pharmacy nearby?|هل توجد صيدلية قريبة؟|adjective
+U|a2-x-u6|الصحة والجسم|Health and the Body|تعرّف على أجزاء الجسم، واطلب الدواء من الصيدلية، وتحدّث عن الرياضة والنوم.|heart.fill|Learn the parts of the body, ask for medicine at the pharmacy, and talk about exercise and sleep.
+L|أجزاء الجسم|Parts of the Body|أن يسمي المتعلم أجزاء الجسم ويصف ألمًا بسيطًا.|I hurt my knee when I was playing football yesterday.|آذيت ركبتي عندما كنت ألعب كرة القدم أمس.|To name parts of the body and describe a simple pain.
+W|knee|ركبة|My knee hurts when I climb the stairs.|تؤلمني ركبتي عندما أصعد الدرج.|noun
+W|shoulder|كتف|He carries his bag on one shoulder.|يحمل حقيبته على كتف واحد.|noun
+W|back|ظهر|I have a pain in my back.|أشعر بألم في ظهري.|noun
+W|neck|رقبة|She wears a scarf around her neck.|ترتدي وشاحًا حول رقبتها.|noun
+W|hurt|يؤلم؛ يؤذي|Did you hurt your hand?|هل آذيت يدك؟|verb
+W|stomach|معدة؛ بطن|I ate too much and my stomach hurts.|أكلت كثيرًا وبطني يؤلمني.|noun
+L|في الصيدلية|At the Pharmacy|أن يطلب المتعلم دواءً ويفهم تعليمات استخدامه.|Take one tablet twice a day after meals.|تناول قرصًا واحدًا مرتين يوميًا بعد الوجبات.|To ask for medicine and understand how to take it.
+W|tablet|قرص (دواء)|Take one tablet with water.|تناول قرصًا واحدًا مع الماء.|noun
+W|pharmacist|صيدلي|Ask the pharmacist about this medicine.|اسأل الصيدلي عن هذا الدواء.|noun
+W|prescription|وصفة طبية|You need a prescription for these pills.|تحتاج وصفة طبية لهذه الحبوب.|noun
+W|dose|جرعة|Don't take more than the normal dose.|لا تتناول أكثر من الجرعة المعتادة.|noun
+W|side effect|عرض جانبي|This medicine has no serious side effects.|ليس لهذا الدواء أعراض جانبية خطيرة.|noun
+W|twice|مرتين|Brush your teeth twice a day.|نظّف أسنانك مرتين يوميًا.|adverb
+L|الرياضة واللياقة|Exercise and Fitness|أن يتحدث المتعلم عن التمارين التي يمارسها وعدد مرات ممارستها.|I go to the gym three times a week to stay fit.|أذهب إلى النادي الرياضي ثلاث مرات في الأسبوع لأحافظ على لياقتي.|To talk about the exercise you do and how often.
+W|gym|نادٍ رياضي|The gym opens at six in the morning.|يفتح النادي الرياضي في السادسة صباحًا.|noun
+W|fit|لائق بدنيًا|Walking every day keeps you fit.|المشي كل يوم يحافظ على لياقتك.|adjective
+W|work out|يتمرن|She works out before breakfast.|تتمرن قبل الإفطار.|phrasal verb
+W|stretch|يتمدد؛ تمارين الإطالة|Always stretch before you run.|قم بتمارين الإطالة دائمًا قبل الجري.|verb
+W|jogging|الهرولة|Jogging in the park is my favourite exercise.|الهرولة في الحديقة هي تمريني المفضل.|noun
+W|sweat|يتعرّق|I sweat a lot when I run in summer.|أتعرّق كثيرًا عندما أجري في الصيف.|verb
+L|النوم والراحة|Sleep and Rest|أن يصف المتعلم عادات نومه ويقدم نصيحة بسيطة للراحة.|I try to go to bed early because I need eight hours of sleep.|أحاول أن أنام مبكرًا لأنني أحتاج ثماني ساعات من النوم.|To describe your sleeping habits and give simple advice about rest.
+W|go to bed|يخلد إلى النوم|I go to bed at eleven o'clock.|أخلد إلى النوم في الساعة الحادية عشرة.|phrasal verb
+W|sleep|النوم؛ ينام|Children need more sleep than adults.|يحتاج الأطفال إلى نوم أكثر من الكبار.|noun
+W|nap|قيلولة|My grandfather takes a nap after lunch.|يأخذ جدي قيلولة بعد الغداء.|noun
+W|snore|يشخر|My brother snores loudly at night.|يشخر أخي بصوت عالٍ في الليل.|verb
+W|relax|يسترخي|I relax by reading a book.|أسترخي بقراءة كتاب.|verb
+W|alarm|منبّه|My alarm didn't ring this morning.|لم يرنّ منبّهي هذا الصباح.|noun
+U|a2-x-u7|السفر والعطلات|Travel and Holidays|احجز فندقًا، وتعامل مع مكتب الاستقبال، وجهّز حقيبتك، وتحدّث عن أنشطة العطلة.|airplane|Book a hotel, deal with reception, pack your bag, and talk about holiday activities.
+L|حجز فندق|Booking a Hotel|أن يحجز المتعلم غرفة فندقية ويسأل عن السعر والخدمات.|I'd like to book a double room for three nights, please.|أود حجز غرفة مزدوجة لثلاث ليالٍ من فضلك.|To book a hotel room and ask about the price and services.
+W|per night|لليلة الواحدة|The room costs eighty dollars per night.|تكلّف الغرفة ثمانين دولارًا لليلة الواحدة.|phrase
+W|double room|غرفة مزدوجة|A double room costs ninety dollars a night.|تكلّف الغرفة المزدوجة تسعين دولارًا في الليلة.|noun
+W|single room|غرفة مفردة|Is there a single room available?|هل توجد غرفة مفردة متاحة؟|noun
+W|balcony|شرفة|Does the room have a balcony?|هل في الغرفة شرفة؟|noun
+W|breakfast included|الإفطار مشمول|Is breakfast included in the price?|هل الإفطار مشمول في السعر؟|phrase
+W|reservation|حجز|I have a reservation under the name Khalid.|لدي حجز باسم خالد.|noun
+L|في الفندق|At the Hotel|أن يتعامل المتعلم مع موظف الاستقبال ويطلب خدمة أو يبلّغ عن مشكلة.|Excuse me, the air conditioning in my room isn't working.|عذرًا، المكيّف في غرفتي لا يعمل.|To deal with reception, ask for a service or report a problem.
+W|reception|مكتب الاستقبال|Please leave your key at reception.|من فضلك اترك مفتاحك في مكتب الاستقبال.|noun
+W|room service|خدمة الغرف|I ordered breakfast from room service.|طلبت الإفطار من خدمة الغرف.|noun
+W|check out|يسجّل المغادرة|We check out at noon tomorrow.|نسجّل المغادرة ظهر الغد.|phrasal verb
+W|air conditioning|المكيّف (التكييف)|The air conditioning is too cold.|المكيّف بارد جدًا.|noun
+W|towel|منشفة|Could I have an extra towel, please?|هل يمكنني الحصول على منشفة إضافية من فضلك؟|noun
+W|lift|مصعد|The lift is next to the restaurant.|المصعد بجانب المطعم.|noun
+L|تجهيز الحقيبة|Packing for a Trip|أن يتحدث المتعلم عما يحتاج أخذه في رحلة ويخطط لتجهيز حقيبته.|Don't forget to pack your passport and a charger for your phone.|لا تنسَ أن تضع جواز سفرك وشاحنًا لهاتفك في الحقيبة.|To talk about what to take on a trip and plan your packing.
+W|pack|يحزم (الحقيبة)|I always pack the night before a trip.|أحزم حقيبتي دائمًا في الليلة السابقة للرحلة.|verb
+W|suitcase|حقيبة سفر|My suitcase is too heavy.|حقيبة سفري ثقيلة جدًا.|noun
+W|first-aid kit|حقيبة إسعافات أولية|Always pack a small first-aid kit.|ضع دائمًا حقيبة إسعافات أولية صغيرة في أمتعتك.|noun
+W|charger|شاحن|I left my phone charger at home.|نسيت شاحن هاتفي في البيت.|noun
+W|sunscreen|واقي الشمس|Take sunscreen to the beach.|خذ واقي الشمس إلى الشاطئ.|noun
+W|toothbrush|فرشاة أسنان|I need a new toothbrush for the trip.|أحتاج فرشاة أسنان جديدة للرحلة.|noun
+L|أنشطة العطلة|Holiday Activities|أن يصف المتعلم ما فعله أو سيفعله في العطلة.|We went sightseeing in the old town and took lots of photos.|تجوّلنا لمشاهدة معالم المدينة القديمة والتقطنا صورًا كثيرة.|To describe what you did or will do on holiday.
+W|sightseeing|مشاهدة المعالم|We went sightseeing on our first day.|ذهبنا لمشاهدة المعالم في يومنا الأول.|noun
+W|souvenir|تذكار|I bought a souvenir for my mother.|اشتريت تذكارًا لأمي.|noun
+W|beach|شاطئ|The children played on the beach all day.|لعب الأطفال على الشاطئ طوال اليوم.|noun
+W|museum|متحف|The museum is closed on Mondays.|المتحف مغلق أيام الاثنين.|noun
+W|tour|جولة|We took a boat tour around the island.|قمنا بجولة بالقارب حول الجزيرة.|noun
+W|take photos|يلتقط صورًا|You can't take photos inside the palace.|لا يمكنك التقاط صور داخل القصر.|phrase
+U|a2-x-u8|المدرسة والتعلّم|School and Learning|استخدم لغة الصف، وتحدّث عن المواد الدراسية، واستعد للاختبار، وتعلّم لغة جديدة.|book.closed.fill|Use classroom language, talk about school subjects, prepare for a test, and learn a new language.
+L|لغة الصف|Classroom Language|أن يستخدم المتعلم عبارات الصف الشائعة لطلب المساعدة والتوضيح.|Could you repeat that, please? I didn't understand the question.|هل يمكنك أن تكرر ذلك من فضلك؟ لم أفهم السؤال.|To use common classroom phrases to ask for help and clarification.
+W|repeat|يكرر|Could you repeat the last word?|هل يمكنك تكرار الكلمة الأخيرة؟|verb
+W|spell|يتهجّى|How do you spell your surname?|كيف تتهجّى اسم عائلتك؟|verb
+W|homework|واجب منزلي|Our homework is on page twenty.|واجبنا المنزلي في الصفحة العشرين.|noun
+W|explain|يشرح|The teacher explained the rule again.|شرح المعلم القاعدة مرة أخرى.|verb
+W|borrow|يستعير|Can I borrow your pen?|هل يمكنني استعارة قلمك؟|verb
+W|mean|يعني|What does this word mean?|ماذا تعني هذه الكلمة؟|verb
+L|المواد الدراسية|School Subjects|أن يتحدث المتعلم عن المواد التي يحبها والتي يجدها صعبة.|My favourite subject is history, but I find maths difficult.|مادتي المفضلة هي التاريخ، لكنني أجد الرياضيات صعبة.|To talk about the subjects you like and the ones you find difficult.
+W|subject|مادة دراسية|Science is my favourite subject.|العلوم مادتي المفضلة.|noun
+W|history|التاريخ|We are learning about ancient history.|نتعلم عن التاريخ القديم.|noun
+W|maths|الرياضيات|I have maths every morning.|عندي رياضيات كل صباح.|noun
+W|geography|الجغرافيا|In geography we study maps and countries.|في الجغرافيا ندرس الخرائط والبلدان.|noun
+W|chemistry|الكيمياء|The chemistry lab is on the second floor.|مختبر الكيمياء في الطابق الثاني.|noun
+W|timetable|جدول الحصص|Check the timetable for tomorrow's lessons.|راجع جدول الحصص لدروس الغد.|noun
+L|الاستعداد للاختبار|Studying for a Test|أن يصف المتعلم طريقته في المذاكرة ويقدم نصيحة لزميله.|I revise for an hour every evening before an important exam.|أراجع ساعة كل مساء قبل أي اختبار مهم.|To describe how you study and give a classmate advice.
+W|revise|يراجع (للاختبار)|I need to revise chapter three.|أحتاج أن أراجع الفصل الثالث.|verb
+W|exam|اختبار|The exam starts at nine o'clock.|يبدأ الاختبار في الساعة التاسعة.|noun
+W|pass|ينجح (في اختبار)|I hope I pass the test.|أتمنى أن أنجح في الاختبار.|verb
+W|fail|يرسب|He failed the exam because he didn't study.|رسب في الاختبار لأنه لم يذاكر.|verb
+W|notes|ملاحظات|Read your notes before the test.|اقرأ ملاحظاتك قبل الاختبار.|noun
+W|grade|درجة؛ تقدير|She got a good grade in English.|حصلت على درجة جيدة في الإنجليزية.|noun
+L|تعلّم لغة|Learning a Language|أن يتحدث المتعلم عن طرق تعلّم اللغة والتحديات التي يواجهها.|Practising every day is the best way to improve your English.|التدرّب كل يوم هو أفضل طريقة لتحسين لغتك الإنجليزية.|To talk about ways of learning a language and the challenges you face.
+W|improve|يحسّن|I want to improve my speaking.|أريد أن أحسّن مهارة التحدث لدي.|verb
+W|accent|لكنة|She speaks English with a British accent.|تتحدث الإنجليزية بلكنة بريطانية.|noun
+W|mistake|خطأ|Everyone makes mistakes when they learn.|الجميع يخطئون عندما يتعلمون.|noun
+W|fluent|طليق (في اللغة)|She is fluent in three languages.|هي طليقة في ثلاث لغات.|adjective
+W|vocabulary|المفردات|Reading helps you learn new vocabulary.|القراءة تساعدك على تعلّم مفردات جديدة.|noun
+W|pronunciation|النطق|His pronunciation is very clear.|نطقه واضح جدًا.|noun
+U|a2-x-u9|العمل والوظائف|Work and Jobs|تحدّث عن المهن وأماكن العمل، وصف يومك في العمل، وابحث عن وظيفة.|briefcase.fill|Talk about jobs and workplaces, describe your working day, and look for a job.
+L|المهن وأماكن العمل|Jobs and Workplaces|أن يسمي المتعلم مهنًا شائعة ويصف أين يعمل أصحابها.|My sister is a nurse and she works in a big hospital.|أختي ممرضة وتعمل في مستشفى كبير.|To name common jobs and describe where people do them.
+W|nurse|ممرض/ممرضة|The nurse checked my temperature.|فحص الممرض درجة حرارتي.|noun
+W|engineer|مهندس|My father is an engineer.|أبي مهندس.|noun
+W|factory|مصنع|He works in a car factory.|يعمل في مصنع سيارات.|noun
+W|office|مكتب|Our office is on the fifth floor.|مكتبنا في الطابق الخامس.|noun
+W|mechanic|ميكانيكي|The mechanic repaired my car.|أصلح الميكانيكي سيارتي.|noun
+W|shift|نوبة عمل|She works the night shift.|تعمل في النوبة الليلية.|noun
+L|يوم في العمل|A Day at Work|أن يصف المتعلم مهامه اليومية في العمل بترتيب زمني.|First I answer emails, and then I talk to my colleague about the plan.|أولًا أرد على الرسائل الإلكترونية، ثم أتحدث مع زميلي عن الخطة.|To describe your daily tasks at work in time order.
+W|answer emails|يرد على الرسائل الإلكترونية|I answer emails before lunch.|أرد على الرسائل الإلكترونية قبل الغداء.|phrase
+W|printer|طابعة|The printer on our floor is not working.|الطابعة في طابقنا لا تعمل.|noun
+W|colleague|زميل عمل|My colleague helped me with the report.|ساعدني زميلي في التقرير.|noun
+W|break|استراحة|We have a short break at eleven.|لدينا استراحة قصيرة في الحادية عشرة.|noun
+W|photocopy|يصوّر (مستندًا)؛ نسخة مصوّرة|Can you photocopy these pages for me?|هل يمكنك تصوير هذه الصفحات لي؟|verb
+W|finish|ينهي|I finish work at five o'clock.|أنهي العمل في الساعة الخامسة.|verb
+L|البحث عن وظيفة|Looking for a Job|أن يتحدث المتعلم عن البحث عن عمل والتقديم على وظيفة.|I saw the job advert online and sent my CV yesterday.|رأيت إعلان الوظيفة على الإنترنت وأرسلت سيرتي الذاتية أمس.|To talk about looking for work and applying for a job.
+W|advert|إعلان|I saw an advert for a new café.|رأيت إعلانًا عن مقهى جديد.|noun
+W|CV|سيرة ذاتية|Please send your CV by email.|من فضلك أرسل سيرتك الذاتية بالبريد الإلكتروني.|noun
+W|apply|يتقدّم (لوظيفة)|I want to apply for this job.|أريد أن أتقدّم لهذه الوظيفة.|verb
+W|salary|راتب|The salary is paid every month.|يُدفع الراتب كل شهر.|noun
+W|experience|خبرة|Do you have any experience in sales?|هل لديك أي خبرة في المبيعات؟|noun
+W|part-time|بدوام جزئي|He has a part-time job at a bookshop.|لديه عمل بدوام جزئي في مكتبة.|adjective
+L|التحدث مع المدير|Talking to Your Boss|أن يطلب المتعلم إجازة أو مساعدة من مديره بأسلوب مهذب.|I would like to ask my boss for a day off next Thursday.|أود أن أطلب من مديري يوم إجازة الخميس القادم.|To politely ask your manager for time off or help.
+W|boss|مدير|My boss is very understanding.|مديري متفهّم جدًا.|noun
+W|day off|يوم إجازة|I'm taking a day off next week.|سآخذ يوم إجازة الأسبوع القادم.|noun
+W|take off|يأخذ إجازة|Can I take Thursday off?|هل يمكنني أخذ إجازة يوم الخميس؟|phrasal verb
+W|permission|إذن|You need permission to leave early.|تحتاج إذنًا للمغادرة مبكرًا.|noun
+W|sick leave|إجازة مرضية|I am on sick leave until Sunday.|أنا في إجازة مرضية حتى يوم الأحد.|noun
+W|overtime|عمل إضافي|I worked overtime yesterday to finish the project.|عملت ساعات إضافية أمس لإنهاء المشروع.|noun
+U|a2-x-u10|أحداث وقصص من الماضي|Past Events and Stories|احكِ ما حدث في عطلة نهاية الأسبوع وفي يوم مميز وفي طفولتك، وصف مشكلة واجهتك.|clock.arrow.circlepath|Tell what happened last weekend, on a special day and in your childhood, and describe a problem you had.
+L|عطلة نهاية الأسبوع الماضية|Last Weekend|أن يحكي المتعلم ما فعله في عطلة نهاية الأسبوع بالماضي البسيط.|Last weekend I visited my cousins and we had a barbecue in the garden.|في عطلة نهاية الأسبوع الماضية زرت أبناء عمي وأقمنا شواءً في الحديقة.|To tell what you did last weekend using the past simple.
+W|weekend|عطلة نهاية الأسبوع|What did you do at the weekend?|ماذا فعلت في عطلة نهاية الأسبوع؟|noun
+W|relatives|أقارب|We spent the day with our relatives in Abha.|قضينا اليوم مع أقاربنا في أبها.|noun
+W|barbecue|حفلة شواء|We had a barbecue on the beach.|أقمنا حفلة شواء على الشاطئ.|noun
+W|stayed|بقي|I stayed at home and watched a film.|بقيت في البيت وشاهدت فيلمًا.|verb
+W|enjoyed|استمتع|Did you enjoy the party?|هل استمتعت بالحفلة؟|verb
+W|cousins|أبناء العم أو الخال|My cousins live in Jeddah.|يعيش أبناء عمي في جدة.|noun
+L|يوم مميز|A Special Day|أن يصف المتعلم مناسبة مميزة وما شعر به فيها.|My graduation was the happiest day of my life.|كان يوم تخرّجي أسعد يوم في حياتي.|To describe a special occasion and how you felt.
+W|graduation|التخرّج|My parents came to my graduation.|حضر والداي حفل تخرّجي.|noun
+W|celebrate|يحتفل|We celebrated my brother's birthday.|احتفلنا بعيد ميلاد أخي.|verb
+W|wedding|حفل زفاف|The wedding was in a big hall.|كان حفل الزفاف في قاعة كبيرة.|noun
+W|guests|ضيوف|More than a hundred guests came.|حضر أكثر من مئة ضيف.|noun
+W|proud|فخور|My father was very proud of me.|كان أبي فخورًا بي جدًا.|adjective
+W|happiest|الأسعد|It was the happiest moment of the year.|كانت أسعد لحظة في العام.|adjective
+L|عندما كنت طفلًا|When I Was a Child|أن يصف المتعلم عاداته في الطفولة باستخدام used to.|When I was a child, I used to play in the street with my friends.|عندما كنت طفلًا، كنت ألعب في الشارع مع أصدقائي.|To describe childhood habits using used to.
+W|used to|اعتاد أن (في الماضي)|I used to walk to school.|كنت أمشي إلى المدرسة.|phrase
+W|childhood|الطفولة|I had a happy childhood.|عشت طفولة سعيدة.|noun
+W|grew up|نشأ|I grew up in a small village.|نشأت في قرية صغيرة.|phrasal verb
+W|toy|لعبة (للأطفال)|This was my favourite toy.|كانت هذه لعبتي المفضلة.|noun
+W|primary school|المدرسة الابتدائية|My primary school was near the mosque.|كانت مدرستي الابتدائية قرب المسجد.|noun
+W|naughty|شقي|I was a naughty child and I never sat still.|كنت طفلًا شقيًا ولا أجلس بهدوء أبدًا.|adjective
+L|حادثة أو مشكلة|An Accident or Problem|أن يحكي المتعلم مشكلة بسيطة حدثت له وكيف تعامل معها.|I was riding my bike when I fell and broke my arm.|كنت أركب دراجتي عندما سقطت وكُسرت ذراعي.|To tell about a small problem that happened and how you dealt with it.
+W|fell|سقط|She fell on the wet floor.|سقطت على الأرض المبلّلة.|verb
+W|broke|كَسَر|I broke my phone screen.|كسرت شاشة هاتفي.|verb
+W|accident|حادث|There was an accident on the motorway.|وقع حادث على الطريق السريع.|noun
+W|lucky|محظوظ|I was lucky because nobody was hurt.|كنت محظوظًا لأن أحدًا لم يُصب.|adjective
+W|suddenly|فجأة|Suddenly the lights went out.|فجأة انطفأت الأضواء.|adverb
+W|ambulance|سيارة إسعاف|They called an ambulance.|اتصلوا بسيارة إسعاف.|noun
+U|a2-x-u11|الطبيعة والأماكن|Nature and Places|تحدّث عن الحيوانات والريف والمدن وعن مشكلات الطقس.|leaf.fill|Talk about animals, the countryside, cities and weather problems.
+L|الحيوانات|Animals|أن يصف المتعلم حيوانات شائعة وأين تعيش.|Camels can live in the desert for a long time without water.|تستطيع الجمال العيش في الصحراء مدة طويلة بلا ماء.|To describe common animals and where they live.
+W|camel|جمل|We rode a camel in the desert.|ركبنا جملًا في الصحراء.|noun
+W|desert|صحراء|It is very hot in the desert.|الجو حار جدًا في الصحراء.|noun
+W|wild|برّي|Lions are wild animals.|الأسود حيوانات برية.|adjective
+W|pet|حيوان أليف|Do you have a pet?|هل لديك حيوان أليف؟|noun
+W|feed|يُطعم|I feed my cat twice a day.|أطعم قطتي مرتين يوميًا.|verb
+W|zoo|حديقة حيوانات|We saw a giraffe at the zoo.|رأينا زرافة في حديقة الحيوانات.|noun
+L|في الريف|In the Countryside|أن يقارن المتعلم بين الريف والمدينة ويصف مكانًا طبيعيًا.|The countryside is peaceful, and the air is much cleaner than in the city.|الريف هادئ، والهواء أنظف بكثير منه في المدينة.|To compare the countryside with the city and describe a natural place.
+W|countryside|الريف|We spent the weekend in the countryside.|قضينا عطلة نهاية الأسبوع في الريف.|noun
+W|farm|مزرعة|My uncle has a farm with cows and sheep.|لدى عمي مزرعة فيها أبقار وأغنام.|noun
+W|peaceful|هادئ ومريح|The village is peaceful at night.|القرية هادئة في الليل.|adjective
+W|valley|وادٍ|A river runs through the valley.|يجري نهر عبر الوادي.|noun
+W|hill|تلّ|We walked to the top of the hill.|مشينا إلى قمة التلّ.|noun
+W|fresh air|الهواء النقي|I go outside for some fresh air.|أخرج لأستنشق بعض الهواء النقي.|noun
+L|زيارة مدينة|Visiting a City|أن يصف المتعلم معالم مدينة زارها ويقدم توصية.|I recommend a walk through the old town in the evening.|أوصي بنزهة في البلدة القديمة مساءً.|To describe the sights of a city you visited and make a recommendation.
+W|capital|عاصمة|Riyadh is the capital of Saudi Arabia.|الرياض عاصمة المملكة العربية السعودية.|noun
+W|tower|برج|You can see the whole city from the tower.|يمكنك رؤية المدينة كلها من البرج.|noun
+W|old town|البلدة القديمة|The old town has narrow streets.|في البلدة القديمة شوارع ضيقة.|noun
+W|modern|حديث|The city has many modern buildings.|في المدينة مبانٍ حديثة كثيرة.|adjective
+W|square|ساحة|There is a fountain in the main square.|توجد نافورة في الساحة الرئيسية.|noun
+W|recommend|يوصي|I recommend the fish restaurant by the sea.|أوصي بمطعم السمك بجانب البحر.|verb
+L|مشكلات الطقس|Weather Problems|أن يتحدث المتعلم عن طقس سيئ وتأثيره على خططه.|The flight was cancelled because of a sandstorm.|أُلغيت الرحلة بسبب عاصفة رملية.|To talk about bad weather and how it affects your plans.
+W|sandstorm|عاصفة رملية|Close the windows, there is a sandstorm.|أغلق النوافذ، هناك عاصفة رملية.|noun
+W|flood|فيضان|The heavy rain caused a flood.|تسبّب المطر الغزير في فيضان.|noun
+W|cancelled|مُلغى|The match was cancelled because of the rain.|أُلغيت المباراة بسبب المطر.|adjective
+W|heatwave|موجة حر|Stay inside during the heatwave.|ابقَ في الداخل أثناء موجة الحر.|noun
+W|forecast|توقعات الطقس|The forecast says it will rain tomorrow.|تقول توقعات الطقس إنها ستمطر غدًا.|noun
+W|umbrella|مظلة|Take an umbrella with you.|خذ مظلة معك.|noun
+U|a2-x-u12|الخدمات ومشكلات الحياة اليومية|Services and Everyday Problems|تعامل مع البنك والتوصيل، وابحث عن شيء مفقود، وأصلح مشكلات بسيطة في البيت.|wrench.and.screwdriver.fill|Deal with the bank and deliveries, report something lost, and get things fixed at home.
+L|في البنك|At the Bank|أن ينجز المتعلم معاملة بنكية بسيطة ويسأل عنها.|I'd like to open a bank account and get a debit card.|أود فتح حساب بنكي والحصول على بطاقة صرّاف.|To complete a simple bank task and ask about it.
+W|bank account|حساب بنكي|I opened a bank account last week.|فتحت حسابًا بنكيًا الأسبوع الماضي.|noun
+W|debit card|بطاقة صرّاف (مدى)|I lost my debit card.|فقدت بطاقة الصرّاف.|noun
+W|cash|نقد|Do you accept cash?|هل تقبلون الدفع نقدًا؟|noun
+W|withdraw|يسحب (مالًا)|I need to withdraw some money.|أحتاج إلى سحب بعض المال.|verb
+W|transfer|تحويل؛ يحوّل|I transferred the money to my brother.|حوّلت المال إلى أخي.|verb
+W|ATM|صرّاف آلي|Is there an ATM near here?|هل يوجد صرّاف آلي قريب من هنا؟|noun
+L|الطرود والتوصيل|Parcels and Deliveries|أن يتابع المتعلم طلبًا أو طردًا ويحل مشكلة في التوصيل.|My parcel hasn't arrived yet, so I called the delivery company.|لم يصل طردي بعد، فاتصلت بشركة التوصيل.|To follow an order or parcel and solve a delivery problem.
+W|parcel|طرد|A parcel arrived for you this morning.|وصل طرد لك هذا الصباح.|noun
+W|delivery|توصيل|Delivery takes three to five days.|يستغرق التوصيل من ثلاثة إلى خمسة أيام.|noun
+W|tracking number|رقم التتبع|Here is your tracking number.|هذا رقم التتبع الخاص بك.|noun
+W|arrive|يصل|When will my order arrive?|متى سيصل طلبي؟|verb
+W|address|عنوان|Please write your full address.|من فضلك اكتب عنوانك كاملًا.|noun
+W|damaged|تالف|The box was damaged when it arrived.|كان الصندوق تالفًا عندما وصل.|adjective
+L|المفقودات|Lost and Found|أن يبلّغ المتعلم عن شيء فقده ويصفه بدقة.|I lost my black wallet on the bus this morning.|فقدت محفظتي السوداء في الحافلة هذا الصباح.|To report something you lost and describe it accurately.
+W|lost|فَقَد؛ مفقود|I lost my keys again.|فقدت مفاتيحي مرة أخرى.|verb
+W|wallet|محفظة|My wallet was in my pocket.|كانت محفظتي في جيبي.|noun
+W|leather|جلد|It is a brown leather bag.|إنها حقيبة جلدية بنية.|noun
+W|look for|يبحث عن|I'm looking for my glasses.|أبحث عن نظارتي.|phrasal verb
+W|find|يجد|I hope you find your phone.|أتمنى أن تجد هاتفك.|verb
+W|describe|يصف|Can you describe your bag?|هل يمكنك أن تصف حقيبتك؟|verb
+L|إصلاح أشياء في البيت|Fixing Things at Home|أن يصف المتعلم عطلًا في البيت ويطلب من فني إصلاحه.|The kitchen tap is leaking, so I need to call a plumber.|صنبور المطبخ يسرّب الماء، لذلك أحتاج إلى الاتصال بسبّاك.|To describe a problem at home and ask a technician to fix it.
+W|tap|صنبور|Turn off the tap, please.|أغلق الصنبور من فضلك.|noun
+W|leaking|يسرّب|The roof is leaking.|السقف يسرّب الماء.|verb
+W|plumber|سبّاك|The plumber is coming at four.|سيأتي السبّاك في الرابعة.|noun
+W|broken|معطّل؛ مكسور|The washing machine is broken.|الغسالة معطّلة.|adjective
+W|repair|يصلح|How long will it take to repair?|كم سيستغرق إصلاحه؟|verb
+W|electrician|كهربائي|We need an electrician to check the lights.|نحتاج كهربائيًا لفحص الأضواء.|noun

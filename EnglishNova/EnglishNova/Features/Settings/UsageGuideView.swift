@@ -221,7 +221,9 @@ struct UsageGuideView: View {
                 LE("«اختبار تجريبي كامل» يقدّم IELTS Listening أو Reading بأربعين سؤالًا ووقت حقيقي، بلا تصحيح حتى التسليم، مع خيار وقت إضافي 25٪.",
                    "The full mock test gives IELTS Listening or Reading with 40 questions and real timing, no marking until you submit, and an optional 25% extra time."),
                 LE("في «أنا ثم مهاراتي ومستواي» ترى ست مهارات ومستواك التقريبي في CEFR واقتراحًا لما تركّز عليه. هذه تقديرات تعليمية وليست شهادات.",
-                   "In Me › My skills and level you see six skills, your estimated CEFR level and a suggested focus. These are learning estimates, not certificates.")
+                   "In Me › My skills and level you see six skills, your estimated CEFR level and a suggested focus. These are learning estimates, not certificates."),
+                LE("«الدوري الأسبوعي» في «أنا» يضعك مع حتى 30 متعلّمًا في دوريك. تُحسب نقاط الأسبوع من الأحد إلى السبت بتوقيت الرياض؛ أول خمسة يصعدون، وفي المجموعات الكبيرة ينزل آخر خمسة.",
+                   "The weekly league in Me places you with up to 30 learners in your tier. Points count from Sunday to Saturday, Riyadh time; the top five move up, and in bigger groups the bottom five move down.")
             ]
         ),
         .init(

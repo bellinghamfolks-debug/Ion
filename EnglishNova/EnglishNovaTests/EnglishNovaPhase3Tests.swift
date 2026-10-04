@@ -163,4 +163,56 @@ final class EnglishNovaPhase3Tests: XCTestCase {
         XCTAssertGreaterThan(week.count, 3)
         XCTAssertNil(DailyContentEngine.wordOfTheDay(catalog: nil, level: .a1))
     }
+
+    // MARK: - 2.0 content expansion
+
+    func testEveryLevelHasSixtyLessons() throws {
+        let catalog = try BundledContentLoader().loadCatalog()
+        for level in catalog.levels {
+            XCTAssertEqual(level.units.flatMap(\.lessons).count, 60, "\(level.level.rawValue)")
+        }
+    }
+
+    func testExpansionLessonsAreComplete() throws {
+        let catalog = try BundledContentLoader().loadCatalog()
+        let expansion = catalog.levels.flatMap(\.units).filter { unit in
+            guard let range = unit.id.range(of: #"-x-u(\d+)$"#, options: .regularExpression),
+                  let number = Int(unit.id[range].dropFirst(4)) else { return false }
+            return number >= 5
+        }
+        XCTAssertEqual(expansion.count, 32)
+        for lesson in expansion.flatMap(\.lessons) {
+            XCTAssertEqual(lesson.vocabulary.count, 6, lesson.id)
+            XCTAssertGreaterThanOrEqual(lesson.exercises.count, 20, lesson.id)
+            let types = Set(lesson.exercises.map(\.type))
+            XCTAssertTrue(types.isSuperset(of: [.flashcard, .multipleChoice, .listenAndChoose, .arrangeWords, .fillBlank, .speak]), lesson.id)
+            XCTAssertFalse(lesson.titleEn.isEmpty, lesson.id)
+            XCTAssertFalse(ExerciseSynthesizer.exercises(for: lesson).isEmpty, lesson.id)
+        }
+    }
+
+    // MARK: - Weekly league
+
+    func testLeagueStandingsDecodeAndZones() throws {
+        let json = #"{"weekStart":"2026-10-04","endsAt":"2026-10-10T21:00:00Z","tier":"silver","tierIndex":1,"tierCount":5,"promoteCount":5,"demoteCount":5,"members":[{"rank":1,"name":"A","weeklyPoints":90,"isMe":false},{"rank":2,"name":"B","weeklyPoints":80,"isMe":true}],"me":{"rank":2,"weeklyPoints":80},"lastWeek":{"result":"promoted","rank":3,"fromTier":"bronze","week":"2026-09-27"}}"#
+        let value = try JSONDecoder().decode(LeagueStandings.self, from: Data(json.utf8))
+        XCTAssertEqual(value.me.rank, 2)
+        XCTAssertEqual(value.lastWeek?.result, "promoted")
+        XCTAssertNotNil(value.endsAtDate)
+        XCTAssertEqual(value.zone(for: 1), .promotion)
+
+        let big = LeagueStandings(weekStart: "", endsAt: "", tier: "gold", tierIndex: 2, tierCount: 5,
+                                  promoteCount: 5, demoteCount: 5,
+                                  members: (1...20).map { LeagueMember(rank: $0, name: "L\($0)", weeklyPoints: 100 - $0, isMe: false) },
+                                  me: .init(rank: 10, weeklyPoints: 90), lastWeek: nil)
+        XCTAssertEqual(big.zone(for: 5), .promotion)
+        XCTAssertEqual(big.zone(for: 10), .safe)
+        XCTAssertEqual(big.zone(for: 16), .demotion)
+    }
+
+    func testLeagueDecodesWithoutLastWeek() throws {
+        let json = #"{"weekStart":"2026-10-04","endsAt":"2026-10-10T21:00:00Z","tier":"bronze","tierIndex":0,"tierCount":5,"promoteCount":1,"demoteCount":0,"members":[],"me":{"rank":0,"weeklyPoints":0},"lastWeek":null}"#
+        XCTAssertNil(try JSONDecoder().decode(LeagueStandings.self, from: Data(json.utf8)).lastWeek)
+    }
 }
+

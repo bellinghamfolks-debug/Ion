@@ -150,5 +150,195 @@
       "explanationAr": "يحافظ الجواب الصحيح على حجم المجموعة ونطاقها. الآخران يعممان على جميع الموظفين أو على المستقبل دون دليل.",
       "explanationEn": "The correct answer preserves the group's size and scope. The alternatives generalize to all employees or future plans without evidence."
     }
+  },
+  "b2-x-u1-l1": {
+    "focusAr": "عبارات اليقين تصف قوة موقف المتحدث، ولا تجعل التنبؤ حقيقة مضمونة. absolutely convinced تتبعها that وجملة، وbound to تأتي بعد be وقبل الفعل الأساسي. اربط تأكيدك بسبب يمكن فحصه، وميّز بين حدث تحققت منه وتوقع مبني على قرائن. قد يكون تخفيف العبارة أدق إذا كانت الأدلة محدودة.",
+    "focusEn": "Certainty expressions show the strength of the speaker's position; they do not make a prediction guaranteed. Absolutely convinced can take a that-clause, and bound to follows be and precedes a base verb. Link confidence to a checkable reason, distinguishing a verified event from an evidence-based expectation. A weaker expression may be more accurate when evidence is limited.",
+    "taskAr": "اكتب تأكيدًا عن وصول ملف تحققت منه بنفسك، ثم توقعًا أكثر تحفظًا بشأن موافقة العميل.",
+    "taskEn": "State confidently that a file arrived because you checked it yourself, then express a more cautious expectation about client approval.",
+    "exampleEn": "I'm positive the file arrived because I checked the delivery confirmation. I'm less certain about approval: the client still needs to review the final figures.",
+    "exampleAr": "أنا على يقين أن الملف وصل لأنني تحققت من تأكيد التسليم. أما الموافقة فأنا أقل يقينًا بشأنها؛ إذ ما زال العميل بحاجة إلى مراجعة الأرقام النهائية.",
+    "check": {
+      "promptEn": "A speaker says a team is bound to win. What does this expression convey?",
+      "choices": [
+        "The speaker expects victory very strongly.",
+        "The match has already ended in a verified win.",
+        "Winning is legally required."
+      ],
+      "answer": "The speaker expects victory very strongly.",
+      "explanationAr": "bound to في هذا السياق توقع قوي من المتحدث. لا تثبت العبارة أن الحدث وقع بالفعل أو أن هناك إلزامًا قانونيًا.",
+      "explanationEn": "Bound to here expresses the speaker's strong expectation. It does not establish that the event has already happened or that there is a legal obligation."
+    }
+  },
+  "b2-x-u1-l2": {
+    "focusAr": "reservation هنا تحفظ أو قلق محدد، وليس حجزًا. يمكن قول have doubts about ثم اسم أوwhether وجملة، مع تغيير one's إلى my أوher ونحوها بحسب الشخص. skeptical about تشكك يحتاج سببًا، وI'm not entirely sure تخفف الاعتراض. سمِّ الجزء الذي يحتاج تحققًا وما قد يغيّر رأيك بدل رفض الخطة كلها.",
+    "focusEn": "Reservation here means a particular concern, not a booking. Use have doubts about with a noun or whether-clause, replacing one's with my, her, or another appropriate possessive. Skeptical about should be supported by a reason; I'm not entirely sure softens disagreement. Identify what needs checking and what could change your view instead of dismissing the entire plan.",
+    "taskAr": "أبدِ تحفظًا بشأن تقدير تكلفة يفتقر إلى تفاصيل، ثم اطلب معلومة قد تساعدك على الحكم.",
+    "taskEn": "Express a reservation about a cost estimate lacking detail, then request information that would help you assess it.",
+    "exampleEn": "I'm not entirely sure that this estimate covers the full cost. My main reservation concerns maintenance. Could we see a breakdown before approving the budget?",
+    "exampleAr": "لست متأكدًا تمامًا من أن هذا التقدير يغطي التكلفة كاملة. يتعلق تحفظي الرئيسي بالصيانة. هل يمكننا الاطلاع على تفصيل التكاليف قبل اعتماد الميزانية؟",
+    "check": {
+      "promptEn": "Which response expresses a specific, evidence-oriented reservation?",
+      "choices": [
+        "I'm unsure whether maintenance is included; could we check the breakdown?",
+        "The plan is wrong because I dislike its title.",
+        "No information could ever affect my opinion."
+      ],
+      "answer": "I'm unsure whether maintenance is included; could we check the breakdown?",
+      "explanationAr": "يحدد الجواب الصحيح موضع الشك وطريقة فحصه. رفض العنوان أو استبعاد أي دليل جديد لا يقدمان تحفظًا قابلًا للتحقق.",
+      "explanationEn": "The correct answer identifies the uncertainty and a way to examine it. Disliking a title or ruling out new evidence does not offer a checkable reservation."
+    }
+  },
+  "b2-x-u1-l3": {
+    "focusAr": "must have مع التصريف الثالث تعبر عن استنتاج قوي بشأن الماضي، لا واجب ماضٍ؛ الواجب قد يُعبّر عنه بـ had to. judging by تذكر القرينة، وpresumably تترك مجالًا للخطأ. فرّق بين الملاحظة والاستنتاج، وفكّر في تفسير بديل قبل draw a conclusion، خصوصًا عندما تكون القرينة مثل الصمت غير حاسمة.",
+    "focusEn": "Must have plus a past participle expresses a strong inference about the past, not a past obligation; had to can express the latter. Judging by names the evidence, while presumably leaves room for error. Separate observation from inference and consider an alternative explanation before drawing a conclusion, especially with ambiguous clues such as silence.",
+    "taskAr": "وجدت مكتبًا مظلمًا وموقفًا فارغًا. اكتب تفسيرًا محتملًا وتفسيرًا بديلًا، ثم طريقة للتحقق.",
+    "taskEn": "You find a dark office and an empty car park. Give a possible explanation, an alternative, and a way to check.",
+    "exampleEn": "Judging by the empty car park, the staff may have left early. They could also be working at another site. I'll check the schedule before drawing a conclusion.",
+    "exampleAr": "بالنظر إلى موقف السيارات الفارغ، ربما غادر الموظفون مبكرًا. وقد يكونون يعملون في موقع آخر. سأراجع الجدول قبل استخلاص نتيجة.",
+    "check": {
+      "promptEn": "'She must have forgotten the meeting' expresses which meaning?",
+      "choices": [
+        "A strong inference about a past event.",
+        "An instruction requiring her to forget it.",
+        "Direct proof from her own admission."
+      ],
+      "answer": "A strong inference about a past event.",
+      "explanationAr": "must have forgotten استنتاج قوي عن الماضي، لكنه ليس أمرًا بالنسيان ولا يثبت أن المتحدث سمع اعترافًا منها.",
+      "explanationEn": "Must have forgotten is a strong past inference. It is neither an instruction to forget nor proof that the speaker heard an admission."
+    }
+  },
+  "b2-x-u1-l4": {
+    "focusAr": "اتجاه العلاقة مهم: problems stem from poor communication تجعل التواصل سببًا، بينما poor communication gives rise to problems تبدأ بالسبب وتصل إلى النتيجة. attribute something to a cause تنسب النتيجة إلى السبب، ولا تثبت النسبة وحدها. knock-on effect أثر لاحق ينتج عن أثر أول؛ اشرح السلسلة بدل جمع أحداث متزامنة فقط.",
+    "focusEn": "Direction matters: problems stem from poor communication presents communication as the cause, while poor communication gives rise to problems starts with the cause. Attribute something to a cause assigns an explanation without proving it. A knock-on effect is an indirect consequence of an earlier effect; explain the chain rather than merely listing simultaneous events.",
+    "taskAr": "اشرح سلسلة تدريبية: تعطلت آلة، فتأخر التغليف، ثم تأخر التسليم. ميّز السبب الأول من الأثر اللاحق.",
+    "taskEn": "Explain a practice chain: a machine failed, packaging was delayed, and deliveries then arrived late. Distinguish the initial cause from the later effect.",
+    "exampleEn": "The packaging delay stemmed from a machine failure. As a consequence, orders were not ready on time, which had a knock-on effect on deliveries.",
+    "exampleAr": "نتج تأخر التغليف عن تعطل آلة. وبناءً على ذلك، لم تجهز الطلبات في موعدها، مما أدى إلى أثر لاحق على التسليم.",
+    "check": {
+      "promptEn": "If delivery delays stem from a machine failure, which is the proposed cause?",
+      "choices": [
+        "The machine failure.",
+        "The delivery delays themselves.",
+        "The customer's response after delivery."
+      ],
+      "answer": "The machine failure.",
+      "explanationAr": "stem from تربط النتيجة بما يُطرح سببًا لها؛ فالذي يأتي بعدها هنا هو تعطل الآلة. لا تعكس الجملة اتجاه العلاقة.",
+      "explanationEn": "Stem from links an outcome to its proposed cause; the following phrase here is the machine failure. The sentence does not reverse that relationship."
+    }
+  },
+  "b2-x-u1-l5": {
+    "focusAr": "للندم على ماضٍ لم يحدث، استخدم if + had + التصريف الثالث، ثم would have + التصريف الثالث للنتيجة المتخيلة. if only تؤكد التمني، وregret doing تشير إلى الندم على فعل. in hindsight تعني النظر إلى الماضي بمعرفة لاحقة، ولا تعني بالضرورة أن الإصلاح صار مستحيلًا. لا تعرض السيناريو البديل كحقيقة مؤكدة.",
+    "focusEn": "For an unreal past, use if plus had and a past participle, followed by would have and a past participle for the imagined result. If only emphasizes a wish, while regret doing refers to regretting an action. In hindsight means looking back with later knowledge, not necessarily that repair is impossible. Do not present an alternative history as a verified fact.",
+    "taskAr": "عبّر عن ندمك على عدم مراجعة موعد، وتخيّل كيف كان يمكن تجنب التأخير، ثم اذكر ما ستفعله مستقبلًا.",
+    "taskEn": "Express regret about not checking a time, imagine how the delay could have been avoided, and state what you will do in future.",
+    "exampleEn": "If I had checked the timetable, I would have taken the earlier train. In hindsight, relying on an old screenshot was a mistake. Next time, I'll check the current schedule.",
+    "exampleAr": "لو راجعت الجدول، لاستقللت القطار الأبكر. وبالنظر إلى ما عرفته لاحقًا، كان الاعتماد على صورة قديمة خطأ. سأراجع الجدول الحالي في المرة القادمة.",
+    "check": {
+      "promptEn": "Which sentence describes an imagined alternative to a completed past event?",
+      "choices": [
+        "If I had checked, I would have noticed the error.",
+        "If I check tomorrow, I will notice the error.",
+        "I check the figures every morning."
+      ],
+      "answer": "If I had checked, I would have noticed the error.",
+      "explanationAr": "had checked مع would have noticed تشكل شرطًا افتراضيًا عن الماضي. الجملة الثانية احتمال مستقبلي، والثالثة عادة.",
+      "explanationEn": "Had checked with would have noticed forms an unreal past conditional. The second sentence is a future possibility, and the third describes a habit."
+    }
+  },
+  "b2-x-u2-l1": {
+    "focusAr": "delegate تفويض مهمة أو سلطة مع توضيح الحدود، وليس مجرد التخلص من العمل. قل assign a task to someone وempower someone to do something. حدّد المخرج المطلوب والموعد وحرية القرار ونقطة المتابعة. accountability تعني وضوح من يُسأل عن النتيجة؛ تفويض التنفيذ لا يلغي الحاجة إلى المتابعة المتفق عليها.",
+    "focusEn": "Delegate means entrust a task or authority with clear boundaries, not simply discard work. Say assign a task to someone and empower someone to do something. Specify the output, deadline, decision-making scope, and review point. Accountability identifies who answers for the outcome; delegation does not remove the need for agreed follow-up.",
+    "taskAr": "فوّض إعداد مسودة تقرير لزميل، وحدد الموعد وما يستطيع تقريره بنفسه ومتى تطلب منه الرجوع إليك.",
+    "taskEn": "Delegate a draft report to a colleague, specifying timing, what they can decide independently, and when they should consult you.",
+    "exampleEn": "Could you prepare the draft by Thursday? You can choose the examples, but please check with me before changing the agreed scope. Let's review your outline on Tuesday so I can help with any obstacles.",
+    "exampleAr": "هل يمكنك إعداد المسودة بحلول الخميس؟ يمكنك اختيار الأمثلة، لكن يرجى الرجوع إليّ قبل تغيير النطاق المتفق عليه. لنراجع خطتك يوم الثلاثاء لأساعدك في أي عقبات.",
+    "check": {
+      "promptEn": "Which instruction delegates with clear boundaries?",
+      "choices": [
+        "Prepare the draft by Thursday; choose the examples, but consult me on scope changes.",
+        "Do whatever is needed whenever you can.",
+        "Take responsibility, although I will not tell you the task."
+      ],
+      "answer": "Prepare the draft by Thursday; choose the examples, but consult me on scope changes.",
+      "explanationAr": "يوضح الجواب الصحيح الناتج والموعد وحدود القرار. الغموض في المهمة أو الوقت لا يساعد على التنفيذ أو المساءلة العادلة.",
+      "explanationEn": "The correct answer identifies the output, deadline, and decision limits. An unclear task or time does not support effective work or fair accountability."
+    }
+  },
+  "b2-x-u2-l2": {
+    "focusAr": "hands-on تصف المشاركة المباشرة في التفاصيل، ولا تعني تلقائيًا التدخل المفرط. take charge تولي القيادة، وstep back إفساح المجال للآخرين. decisive سرعة وحسم مع قدر كافٍ من المعلومات، لا رفض التشاور بالضرورة. عند مقارنة أسلوبين، اربط ميزتهما بسياق وخبرة الفريق بدل تقديم أحدهما حلًا مطلقًا.",
+    "focusEn": "Hands-on describes direct involvement in details, not automatically excessive interference. Take charge means assume leadership; step back means allow others space. Decisive suggests reaching decisions firmly with enough information, not necessarily refusing consultation. When comparing styles, connect their benefits to the context and team's experience rather than presenting either as universally best.",
+    "taskAr": "قارن أسلوبًا مباشرًا مع فريق جديد وأسلوبًا يمنح الاستقلالية لفريق خبير، مع ذكر قيد لكل اختيار.",
+    "taskEn": "Compare direct involvement with a new team and greater autonomy with an experienced team, noting a limit for each choice.",
+    "exampleEn": "A hands-on approach may help a new team understand the process, but constant checking can slow them down. With an experienced team, I would step back while keeping clear review points.",
+    "exampleAr": "قد تساعد المشاركة المباشرة فريقًا جديدًا على فهم العملية، لكن التحقق المستمر قد يبطئه. ومع فريق خبير، سأفسح المجال مع الحفاظ على نقاط مراجعة واضحة.",
+    "check": {
+      "promptEn": "A manager steps back while maintaining agreed reviews. What does this imply?",
+      "choices": [
+        "The team has more autonomy within an oversight arrangement.",
+        "The manager has necessarily abandoned all responsibility.",
+        "The manager must approve every tiny action in advance."
+      ],
+      "answer": "The team has more autonomy within an oversight arrangement.",
+      "explanationAr": "step back هنا تمنح مساحة للقرار ضمن متابعة متفق عليها. لا تعني التخلي عن المسؤولية أو الموافقة المسبقة على كل تفصيل.",
+      "explanationEn": "Step back here allows decision-making space within agreed oversight. It means neither abandoning responsibility nor pre-approving every detail."
+    }
+  },
+  "b2-x-u2-l3": {
+    "focusAr": "ميّز بين incentive، وهو حافز محدد، وmorale، وهي المعنويات العامة، وengagement، وهو الانخراط في العمل. عند تقدير إنجاز، سمِّ الفعل وأثره بدل مديح عام. recognize achievements لا يعني تجاهل العقبات؛ اسأل عن الدعم المطلوب واربط التشجيع بهدف واقعي يمكن للفريق فهمه.",
+    "focusEn": "Distinguish an incentive, a specific motivator, from morale, the group's confidence or spirits, and engagement, involvement in work. When recognizing achievement, identify the action and its impact instead of giving generic praise. Recognize achievements without ignoring obstacles; ask what support is needed and connect encouragement to an understandable, realistic goal.",
+    "taskAr": "اكتب رسالة لفريق أنجز مرحلة من المشروع، تشكر فعلًا محددًا وتوضح الخطوة التالية وتطلب ذكر العوائق.",
+    "taskEn": "Write to a team that completed a project stage, thanking them for a specific action, explaining the next step, and inviting concerns.",
+    "exampleEn": "Thank you for checking the customer records so carefully; we found the missing details before submission. Our next goal is to complete the summary by Friday. Please tell me if the workload makes that deadline unrealistic.",
+    "exampleAr": "شكرًا لمراجعتكم سجلات العملاء بعناية؛ فقد وجدنا التفاصيل الناقصة قبل التسليم. هدفنا التالي إكمال الملخص بحلول الجمعة. يرجى إخباري إذا كان عبء العمل يجعل هذا الموعد غير واقعي.",
+    "check": {
+      "promptEn": "Which message recognizes a specific achievement without dismissing practical limits?",
+      "choices": [
+        "Your careful checks found the error; let's discuss support for the next stage.",
+        "You are perfect, so no deadline can ever be difficult.",
+        "Anyone who needs help is not committed."
+      ],
+      "answer": "Your careful checks found the error; let's discuss support for the next stage.",
+      "explanationAr": "يشير الجواب الصحيح إلى فعل ونتيجة ويفتح مجال الدعم. المديح المطلق أو وصم طلب المساعدة لا يعالجان المتطلبات العملية.",
+      "explanationEn": "The correct message names an action and result while allowing support. Absolute praise or blaming requests for help does not address practical needs."
+    }
+  },
+  "b2-x-u2-l4": {
+    "focusAr": "صف الاتجاه والسرعة والفترة منفصلةً: rise steadily ارتفاع منتظم، وplummet هبوط حاد، وfluctuate تغير صعودًا وهبوطًا. level off استقرار بعد تغير، وليس استمرار الارتفاع ببطء. peak بلوغ أعلى مستوى ضمن الفترة المعروضة. استخدم أرقامًا ونطاقًا زمنيًا لتبرير الوصف، ولا تستنتج السبب من شكل الاتجاه وحده.",
+    "focusEn": "Separate direction, pace, and period: rise steadily means increase regularly, plummet means drop sharply, and fluctuate means move up and down. Level off means stabilize after change, not continue rising slowly. Peak means reach the highest point within the displayed period. Use figures and a time range to justify the description; a trend alone does not identify its cause.",
+    "taskAr": "صف سلسلة تدريبية للمبيعات: 20 ثم 30 ثم 40 ثم 40 خلال أربعة أشهر، دون اختراع سبب للتغير.",
+    "taskEn": "Describe a practice sales series of 20, 30, 40, and 40 across four months, without inventing a cause.",
+    "exampleEn": "Sales rose steadily from 20 to 40 over the first three months, then began to level off in the fourth month. The figures alone do not explain why growth stopped.",
+    "exampleAr": "ارتفعت المبيعات بانتظام من 20 إلى 40 خلال الأشهر الثلاثة الأولى، ثم بدأت تستقر في الشهر الرابع. ولا تفسر الأرقام وحدها سبب توقف النمو.",
+    "check": {
+      "promptEn": "After rising from 20 to 40, sales remain at 40 for three months. Which phrase fits the later period?",
+      "choices": [
+        "Sales level off.",
+        "Sales plummet.",
+        "Sales continue to double each month."
+      ],
+      "answer": "Sales level off.",
+      "explanationAr": "البقاء عند 40 بعد الارتفاع يدل على الاستقرار level off. لا يوجد هبوط حاد أو تضاعف مستمر في الأرقام المعطاة.",
+      "explanationEn": "Remaining at 40 after an increase indicates leveling off. The figures show neither a sharp fall nor continued doubling."
+    }
+  },
+  "b2-x-u2-l5": {
+    "focusAr": "correlation ارتباط بين متغيرين لا يثبت السببية وحده. significant قد تعني مهمًا أو كبيرًا في اللغة العامة، وقد تحمل معنى إحصائيًا يحتاج سياقه. outlier قيمة بعيدة عن بقية القيم؛ لا تحذفها لمجرد غرابتها، بل افحص مصدرها. margin of error لا يلخص كل مصادر الخطأ؛ اذكر حدود البيانات قبل تعميمها.",
+    "focusEn": "Correlation is an association, not proof of causation by itself. Significant can mean important or substantial in general language, or have a statistical meaning requiring context. An outlier lies far from other values; investigate its source instead of deleting it merely because it is unusual. A margin of error does not cover every possible error, so state data limits before generalizing.",
+    "taskAr": "وجد استطلاع تدريبي ارتباطًا بين حضور التدريب والأداء. اكتب استنتاجًا حذرًا واذكر تفسيرًا بديلًا يحتاج الفحص.",
+    "taskEn": "A practice survey found an association between training attendance and performance. Give a cautious conclusion and an alternative explanation to investigate.",
+    "exampleEn": "The data indicate a correlation between attendance and performance. However, more motivated employees may both attend training and perform well. We would need further evidence before claiming that training caused the difference.",
+    "exampleAr": "تشير البيانات إلى ارتباط بين الحضور والأداء. لكن الموظفين الأكثر حماسًا قد يحضرون التدريب ويؤدون جيدًا في الوقت نفسه. نحتاج إلى أدلة إضافية قبل القول إن التدريب سبب الفرق.",
+    "check": {
+      "promptEn": "An unusually high value appears in a dataset. What is the most defensible first response?",
+      "choices": [
+        "Check whether it reflects a recording error or a genuine observation.",
+        "Delete it automatically because it changes the average.",
+        "Assume that every other value is wrong."
+      ],
+      "answer": "Check whether it reflects a recording error or a genuine observation.",
+      "explanationAr": "قد تكون القيمة الشاذة خطأ أو ملاحظة صحيحة؛ لذا نتحقق أولًا. تأثيرها في المتوسط وحده ليس مبررًا كافيًا لحذفها.",
+      "explanationEn": "An outlier may be an error or a valid observation, so investigate first. Its effect on the average alone is not sufficient reason to remove it."
+    }
   }
 }

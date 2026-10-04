@@ -698,5 +698,157 @@
       "explanationAr": "overslept هي ماضي oversleep، وتعني أنك تجاوزت وقت الاستيقاظ المقصود.",
       "explanationEn": "Overslept is the past of oversleep: you slept beyond the intended waking time."
     }
+  },
+  "a2-x-u7-l1": {
+    "focusAr": "عند الحجز حدّد نوع الغرفة وعدد الليالي والسعر. twin room تعني غرفة بسريرين منفصلين، بينما double room تُستخدم عادة لغرفة لشخصين بسرير مزدوج. per night سعر الليلة، وليس مجموع الإقامة. اسأل إن كان الإفطار مشمولًا.",
+    "focusEn": "When booking, state the room type, number of nights and price. A twin room has separate beds, while a double room usually has a double bed for two people. Per night gives one night's price, not the stay's total. Ask whether breakfast is included.",
+    "taskAr": "اسأل عن غرفة بسريرين منفصلين لليلتين مع الإفطار.",
+    "taskEn": "Ask for a twin room for two nights with breakfast.",
+    "exampleEn": "Is a twin room available for two nights, and is breakfast included?",
+    "exampleAr": "هل تتوفر غرفة بسريرين منفصلين لليلتين، وهل الإفطار مشمول؟",
+    "check": {
+      "promptEn": "A room is 80 per night. What is the room charge for two nights, before any extras?",
+      "choices": [
+        "160",
+        "80",
+        "40"
+      ],
+      "answer": "160",
+      "explanationAr": "per night تعني لكل ليلة، لذلك نحسب ليلتين: 80 في 2 تساوي 160 قبل الإضافات.",
+      "explanationEn": "Per night means for each night, so two nights cost 80 times 2, or 160, before extras."
+    }
+  },
+  "a2-x-u7-l2": {
+    "focusAr": "حدد المشكلة ثم اطلب الإجراء: The air conditioning isn't working. Could someone check it? room service ترتبط غالبًا بتقديم الطعام إلى الغرفة، وhousekeeping بالتنظيف والمناشف. complaint شكوى، ونقول make a complaint.",
+    "focusEn": "State the problem and request an action: The air conditioning isn't working. Could someone check it? Room service commonly brings food; housekeeping handles cleaning and towels. Use make a complaint, not do a complaint.",
+    "taskAr": "أبلغ عن تعطل التكييف واطلب فحصه.",
+    "taskEn": "Report that the air conditioning is not working and ask for it to be checked.",
+    "exampleEn": "The air conditioning isn't working. Could someone check it, please?",
+    "exampleAr": "التكييف لا يعمل. هل يمكن لأحد فحصه، من فضلك؟",
+    "check": {
+      "promptEn": "Complete: I would like to _____ a complaint.",
+      "choices": [
+        "make",
+        "do",
+        "take"
+      ],
+      "answer": "make",
+      "explanationAr": "التركيب المعتاد هو make a complaint. نتعلم الاسم مع الفعل الذي يصاحبه.",
+      "explanationEn": "The standard expression is make a complaint. Learn the noun with its usual accompanying verb."
+    }
+  },
+  "a2-x-u7-l3": {
+    "focusAr": "pack فعل تجهيز الأمتعة، وsuitcase الحقيبة نفسها. لا تخلط charger، الذي يشحن الجهاز، مع travel adapter الذي يكيّف القابس. Don't forget to يتبعها فعل أساسي لتذكير الشخص بمهمة لم يفعلها بعد.",
+    "focusEn": "Pack is the action of preparing luggage; a suitcase is the container. A charger charges a device, while a travel adapter adapts the plug. Don't forget to takes a base verb to remind someone of a task still to do.",
+    "taskAr": "ذكّر زميلك بوضع الشاحن ومحوّل القابس في حقيبته.",
+    "taskEn": "Remind a companion to pack a charger and travel adapter.",
+    "exampleEn": "Don't forget to pack your charger and travel adapter.",
+    "exampleAr": "لا تنس وضع شاحنك ومحوّل قابس السفر في حقيبتك.",
+    "check": {
+      "promptEn": "Complete: Don't forget _____ your charger.",
+      "choices": [
+        "to pack",
+        "pack",
+        "packed"
+      ],
+      "answer": "to pack",
+      "explanationAr": "في التذكير بمهمة لاحقة نستخدم forget to ثم الفعل الأساسي. forgotten أوpacked لا تناسبان هذا التركيب.",
+      "explanationEn": "To remind someone about a task, use forget to followed by the base verb. Pack or packed alone does not fit this pattern."
+    }
+  },
+  "a2-x-u7-l4": {
+    "focusAr": "go sightseeing لمشاهدة المعالم، وtake photos لالتقاط الصور؛ لا نقول make photos في هذا المعنى المعتاد. في الماضي تصبح went sightseeing وtook photos. souvenir تذكار تحتفظ به، وlandmark مكان أو معلم بارز تزوره.",
+    "focusEn": "Use go sightseeing and take photos; make photos is not the usual phrase in this meaning. Their past forms are went sightseeing and took photos. A souvenir is something you keep, while a landmark is a notable place or feature you visit.",
+    "taskAr": "صف مشاهدة المعالم والتقاط الصور في عطلة ماضية.",
+    "taskEn": "Describe sightseeing and taking photos on a past holiday.",
+    "exampleEn": "We went sightseeing and took photos of the old town.",
+    "exampleAr": "ذهبنا لمشاهدة المعالم والتقطنا صورًا للمدينة القديمة.",
+    "check": {
+      "promptEn": "Complete: Yesterday, we _____ photos of the museum.",
+      "choices": [
+        "took",
+        "take",
+        "taking"
+      ],
+      "answer": "took",
+      "explanationAr": "Yesterday تحدد الماضي، وماضي take غير المنتظم هو took.",
+      "explanationEn": "Yesterday marks the past, and the irregular past of take is took."
+    }
+  },
+  "a2-x-u8-l1": {
+    "focusAr": "اختر طلب التوضيح المناسب: repeat لتكرار الكلام، وspell لذكر الحروف، وexplain لشرح المعنى. borrow أخذ شيء مؤقتًا لاستعماله ثم إعادته، وليست شراءه. عند السؤال عن المعنى استخدم What does... mean?",
+    "focusEn": "Choose the right clarification request: repeat asks for the words again, spell asks for the letters, and explain asks for meaning. Borrow means use something temporarily and return it, not buy it. Ask about meaning with What does... mean?",
+    "taskAr": "اطلب تهجئة اسم العائلة بأدب.",
+    "taskEn": "Politely ask someone to spell their surname.",
+    "exampleEn": "Could you spell your surname, please?",
+    "exampleAr": "هل يمكنك تهجئة اسم عائلتك، من فضلك؟",
+    "check": {
+      "promptEn": "You heard a name but need its letters. Ask someone to _____.",
+      "choices": [
+        "spell it",
+        "borrow it",
+        "underline your own name"
+      ],
+      "answer": "spell it",
+      "explanationAr": "spell تطلب الحروف بالترتيب. تكرار الصوت وحده قد لا يوضح الكتابة.",
+      "explanationEn": "Spell asks for the letters in order. Repeating the sound alone may not clarify the spelling."
+    }
+  },
+  "a2-x-u8-l2": {
+    "focusAr": "subject مادة دراسية، وtimetable جدول مواعيد الدروس. استخدم find مع المفعول ثم الصفة لتقييم صعوبة مادة: I find maths difficult. maths وphysics اسمان لمادتين يأخذ كل منهما is رغم النهاية s.",
+    "focusEn": "A subject is an area of study; a timetable schedules lessons. Use find with an object and adjective to evaluate difficulty: I find maths difficult. Maths and physics each take is as a subject name, despite ending in s.",
+    "taskAr": "اذكر حب التاريخ وصعوبة الكيمياء بالنسبة إليك.",
+    "taskEn": "Say that you like history but find chemistry difficult.",
+    "exampleEn": "I like history, but I find chemistry difficult.",
+    "exampleAr": "أحب التاريخ، لكنني أجد الكيمياء صعبة.",
+    "check": {
+      "promptEn": "Complete: Physics _____ my favourite subject.",
+      "choices": [
+        "is",
+        "are",
+        "am"
+      ],
+      "answer": "is",
+      "explanationAr": "Physics اسم مادة واحدة، ولذلك يتبعه is. النهاية s لا تجعله جمعًا هنا.",
+      "explanationEn": "Physics names one subject and takes is. The ending s does not make it plural here."
+    }
+  },
+  "a2-x-u8-l3": {
+    "focusAr": "revise فعل المراجعة للاختبار، وrevision اسم النشاط، خصوصًا في الإنجليزية البريطانية. pass وfail يصفان النتيجة، بينما mark وgrade قد يشيران إلى الدرجة أو التقدير بحسب النظام. لا تضمن المراجعة نتيجة معينة.",
+    "focusEn": "Revise is the verb and revision the activity noun, especially in British English. Pass and fail describe the outcome, while mark and grade can refer to scores or ratings depending on the system. Revising does not guarantee a particular result.",
+    "taskAr": "صف مراجعة ملاحظاتك ساعة كل مساء.",
+    "taskEn": "Describe revising your notes for an hour each evening.",
+    "exampleEn": "I revise my notes for an hour every evening.",
+    "exampleAr": "أراجع ملاحظاتي لمدة ساعة كل مساء.",
+    "check": {
+      "promptEn": "Complete: I need two hours of _____ tonight.",
+      "choices": [
+        "revision",
+        "revise",
+        "revises"
+      ],
+      "answer": "revision",
+      "explanationAr": "بعد of نحتاج إلى اسم النشاط revision. revise وrevises صيغتا فعل.",
+      "explanationEn": "After of, use the activity noun revision. Revise and revises are verb forms."
+    }
+  },
+  "a2-x-u8-l4": {
+    "focusAr": "pronunciation كيفية نطق الكلمات، وaccent نمط نطق يرتبط بلهجة أو خلفية لغوية. الطلاقة لا تعني غياب اللكنة ولا انعدام الأخطاء. استخدم make a mistake وimprove your pronunciation لوصف أهداف تدريب محددة.",
+    "focusEn": "Pronunciation concerns how words are spoken; accent is a speech pattern associated with a variety or language background. Fluency does not mean having no accent or making no mistakes. Use make a mistake and improve your pronunciation for specific learning goals.",
+    "taskAr": "حدد هدفًا لتحسين النطق باستخدام التدريب اليومي.",
+    "taskEn": "Set a pronunciation goal using daily practice.",
+    "exampleEn": "I practise every day to improve my pronunciation.",
+    "exampleAr": "أتدرب كل يوم لتحسين نطقي.",
+    "check": {
+      "promptEn": "Complete: It is normal to _____ mistakes while learning.",
+      "choices": [
+        "make",
+        "do",
+        "take"
+      ],
+      "answer": "make",
+      "explanationAr": "التركيب هو make mistakes. الهدف التعلمي فهم الخطأ والعمل عليه، لا اختيار فعل مترجم حرفيًا من العربية.",
+      "explanationEn": "The phrase is make mistakes. Learn the English verb-noun combination rather than translating the Arabic verb literally."
+    }
   }
 }

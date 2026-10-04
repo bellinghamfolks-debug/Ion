@@ -71,7 +71,7 @@ W|nap|قيلولة|My grandfather takes a nap after lunch.|يأخذ جدي قي�
 W|snore|يشخر|My brother snores loudly at night.|يشخر أخي بصوت عالٍ في الليل.|verb
 W|relax|يسترخي|I relax by reading a book.|أسترخي بقراءة كتاب.|verb
 W|alarm|منبّه|My alarm didn't ring this morning.|لم يرنّ منبّهي هذا الصباح.|noun
-W | oversleep | يتجاوز وقت الاستيقاظ نومًا | I oversleep if I forget to set my alarm. | أستمر في النوم بعد موعد استيقاظي إذا نسيت ضبط المنبه. | verb
+W | oversleep | ينام حتى يفوته موعد الاستيقاظ | I oversleep if I forget to set my alarm. | أستمر في النوم بعد موعد استيقاظي إذا نسيت ضبط المنبه. | verb
 W|fall asleep|يغفو|I fall asleep more easily when the room is quiet.|أغفو بسهولة أكبر عندما تكون الغرفة هادئة.|phrasal verb
 U|a2-x-u7|السفر والعطلات|Travel and Holidays|احجز فندقًا، وتعامل مع مكتب الاستقبال، وجهّز حقيبتك، وتحدّث عن أنشطة العطلة.|airplane|Book a hotel, deal with reception, pack your bag, and talk about holiday activities.
 L|حجز فندق|Booking a Hotel|أن يحجز المتعلم غرفة فندقية ويسأل عن السعر والخدمات.|I'd like to book a double room for three nights, please.|أود حجز غرفة مزدوجة لثلاث ليالٍ من فضلك.|To book a hotel room and ask about the price and services.
@@ -81,16 +81,16 @@ W|single room|غرفة مفردة|Is there a single room available?|هل توج�
 W|balcony|شرفة|Does the room have a balcony?|هل في الغرفة شرفة؟|noun
 W|breakfast included|الإفطار مشمول|Is breakfast included in the price?|هل الإفطار مشمول في السعر؟|phrase
 W|reservation|حجز|I have a reservation under the name Khalid.|لدي حجز باسم خالد.|noun
-W|availability|توفّر؛ إتاحة|I called the hotel to check availability for the weekend.|اتصلت بالفندق للتحقق من توفر الغرف في عطلة نهاية الأسبوع.|noun
+W | availability | توفر الغرف | I called the hotel to check availability for the weekend. | اتصلت بالفندق للتحقق من توفر الغرف في عطلة نهاية الأسبوع. | noun
 W|twin room|غرفة بسريرين منفصلين|We booked a twin room because we wanted separate beds.|حجزنا غرفة بسريرين منفصلين لأننا أردنا أن ينام كلٌّ منا في سرير.|noun
 L|في الفندق|At the Hotel|أن يتعامل المتعلم مع موظف الاستقبال ويطلب خدمة أو يبلّغ عن مشكلة.|Excuse me, the air conditioning in my room isn't working.|عذرًا، المكيّف في غرفتي لا يعمل.|To deal with reception, ask for a service or report a problem.
 W|reception|مكتب الاستقبال|Please leave your key at reception.|من فضلك اترك مفتاحك في مكتب الاستقبال.|noun
 W|room service|خدمة الغرف|I ordered breakfast from room service.|طلبت الإفطار من خدمة الغرف.|noun
 W|check out|يسجّل المغادرة|We check out at noon tomorrow.|نسجّل المغادرة ظهر الغد.|phrasal verb
-W|air conditioning|المكيّف (التكييف)|The air conditioning is too cold.|المكيّف بارد جدًا.|noun
+W | air conditioning | تكييف الهواء | The air conditioning is too cold. | درجة التكييف منخفضة أكثر من اللازم. | noun
 W|towel|منشفة|Could I have an extra towel, please?|هل يمكنني الحصول على منشفة إضافية من فضلك؟|noun
 W|lift|مصعد|The lift is next to the restaurant.|المصعد بجانب المطعم.|noun
-W|housekeeping|خدمة تنظيف الغرف|Housekeeping brought clean towels to our room.|أحضرت خدمة تنظيف الغرف مناشف نظيفة إلى غرفتنا.|noun
+W | housekeeping | خدمة تنظيف الغرف | Housekeeping brought clean towels to our room. | أحضر موظفو تنظيف الغرف مناشف نظيفة إلى غرفتنا. | noun
 W|complaint|شكوى|I made a complaint because the room was very noisy.|قدمت شكوى لأن الغرفة كانت صاخبة جدًا.|noun
 L|تجهيز الحقيبة|Packing for a Trip|أن يتحدث المتعلم عما يحتاج أخذه في رحلة ويخطط لتجهيز حقيبته.|Don't forget to pack your passport and a charger for your phone.|لا تنسَ أن تضع جواز سفرك وشاحنًا لهاتفك في الحقيبة.|To talk about what to take on a trip and plan your packing.
 W|pack|يحزم (الحقيبة)|I always pack the night before a trip.|أحزم حقيبتي دائمًا في الليلة السابقة للرحلة.|verb
@@ -99,15 +99,15 @@ W|first-aid kit|حقيبة إسعافات أولية|Always pack a small first-a
 W|charger|شاحن|I left my phone charger at home.|نسيت شاحن هاتفي في البيت.|noun
 W|sunscreen|واقي الشمس|Take sunscreen to the beach.|خذ واقي الشمس إلى الشاطئ.|noun
 W|toothbrush|فرشاة أسنان|I need a new toothbrush for the trip.|أحتاج فرشاة أسنان جديدة للرحلة.|noun
-W|travel adapter|محوّل كهربائي للسفر|I packed a travel adapter for my phone charger.|وضعت محولًا كهربائيًا للسفر لشاحن هاتفي.|noun
-W|toiletries|أدوات النظافة الشخصية|I keep my toiletries in a small bag.|أحتفظ بأدوات النظافة الشخصية في حقيبة صغيرة.|noun
+W | travel adapter | محوّل قابس للسفر | I packed a travel adapter for my phone charger. | وضعت في حقيبتي محوّل قابس سفر لشاحن هاتفي. | noun
+W | toiletries | مستلزمات النظافة الشخصية | I keep my toiletries in a small bag. | أحتفظ بمستلزمات النظافة الشخصية في حقيبة صغيرة. | noun
 L|أنشطة العطلة|Holiday Activities|أن يصف المتعلم ما فعله أو سيفعله في العطلة.|We went sightseeing in the old town and took lots of photos.|تجوّلنا لمشاهدة معالم المدينة القديمة والتقطنا صورًا كثيرة.|To describe what you did or will do on holiday.
 W|sightseeing|مشاهدة المعالم|We went sightseeing on our first day.|ذهبنا لمشاهدة المعالم في يومنا الأول.|noun
 W|souvenir|تذكار|I bought a souvenir for my mother.|اشتريت تذكارًا لأمي.|noun
 W|beach|شاطئ|The children played on the beach all day.|لعب الأطفال على الشاطئ طوال اليوم.|noun
 W|museum|متحف|The museum is closed on Mondays.|المتحف مغلق أيام الاثنين.|noun
 W|tour|جولة|We took a boat tour around the island.|قمنا بجولة بالقارب حول الجزيرة.|noun
-W|take photos|يلتقط صورًا|You can't take photos inside the palace.|لا يمكنك التقاط صور داخل القصر.|phrase
+W | take photos | يلتقط صورًا | The sign says we can't take photos inside the palace. | تقول اللافتة إنه لا يمكننا التقاط صور داخل القصر. | phrase
 W|landmark|معلم بارز|The tower is the most famous landmark in the city.|البرج أشهر معالم المدينة.|noun
 W|sunbathe|يتشمس|Some tourists like to sunbathe on the beach in the afternoon.|يحب بعض السياح التشمس على الشاطئ بعد الظهر.|verb
 U|a2-x-u8|المدرسة والتعلّم|School and Learning|استخدم لغة الصف، وتحدّث عن المواد الدراسية، واستعد للاختبار، وتعلّم لغة جديدة.|book.closed.fill|Use classroom language, talk about school subjects, prepare for a test, and learn a new language.
@@ -138,11 +138,11 @@ W|notes|ملاحظات|Read your notes before the test.|اقرأ ملاحظات�
 W|grade|درجة؛ تقدير|She got a good grade in English.|حصلت على درجة جيدة في الإنجليزية.|noun
 W|mark|درجة|I got a good mark in my English test.|حصلت على درجة جيدة في اختبار اللغة الإنجليزية.|noun
 W|revision|مراجعة|I need two more hours of revision tonight.|أحتاج إلى ساعتين إضافيتين من المراجعة الليلة.|noun
-L|تعلّم لغة|Learning a Language|أن يتحدث المتعلم عن طرق تعلّم اللغة والتحديات التي يواجهها.|Practising every day is the best way to improve your English.|التدرّب كل يوم هو أفضل طريقة لتحسين لغتك الإنجليزية.|To talk about ways of learning a language and the challenges you face.
+L | تعلّم لغة | Learning a Language | أن يتحدث المتعلم عن طرق تعلّم اللغة والتحديات التي يواجهها. | I practise every day to improve my English pronunciation. | أتدرب كل يوم لتحسين نطقي باللغة الإنجليزية. | To talk about ways of learning a language and the challenges you face.
 W|improve|يحسّن|I want to improve my speaking.|أريد أن أحسّن مهارة التحدث لدي.|verb
 W|accent|لكنة|She speaks English with a British accent.|تتحدث الإنجليزية بلكنة بريطانية.|noun
 W|mistake|خطأ|Everyone makes mistakes when they learn.|الجميع يخطئون عندما يتعلمون.|noun
-W|fluent|طليق (في اللغة)|She is fluent in three languages.|هي طليقة في ثلاث لغات.|adjective
+W | fluent | طليق (في اللغة) | She is fluent in three languages. | تتحدث ثلاث لغات بطلاقة. | adjective
 W|vocabulary|المفردات|Reading helps you learn new vocabulary.|القراءة تساعدك على تعلّم مفردات جديدة.|noun
 W|pronunciation|النطق|His pronunciation is very clear.|نطقه واضح جدًا.|noun
 W|native speaker|متحدث أصلي|I sometimes practise with a native speaker online.|أتدرب أحيانًا مع متحدث أصلي عبر الإنترنت.|noun

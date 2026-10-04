@@ -546,5 +546,157 @@
       "explanationAr": "نستخدم wait for someone للدلالة على انتظار الشخص.",
       "explanationEn": "Use wait for someone to say who you are waiting for."
     }
+  },
+  "a2-x-u5-l1": {
+    "focusAr": "استخدم There is مع قطعة أثاث واحدة وThere are مع الجمع، ثم حدّد المكان. upstairs وdownstairs ظرفان يمكن أن يأتيا دون in قبلهما. downstairs تعني في طابق أدنى، ولا تعني دائمًا القبو.",
+    "focusEn": "Use There is for one item and There are for more than one, then give the location. Upstairs and downstairs can be adverbs without in before them. Downstairs means on a lower floor, not necessarily in a basement.",
+    "taskAr": "صف كرسيًا بذراعين بجانب الأريكة.",
+    "taskEn": "Describe an armchair beside the sofa.",
+    "exampleEn": "There is an armchair next to the sofa.",
+    "exampleAr": "يوجد كرسي بذراعين بجانب الأريكة.",
+    "check": {
+      "promptEn": "Choose the natural sentence.",
+      "choices": [
+        "The bedrooms are upstairs.",
+        "The bedrooms are in upstairs.",
+        "The bedrooms are on upstairs."
+      ],
+      "answer": "The bedrooms are upstairs.",
+      "explanationAr": "upstairs تؤدي وظيفة ظرف المكان وحدها هنا، فلا نضيف in أوon.",
+      "explanationEn": "Upstairs functions as a place adverb on its own here, so do not add in or on."
+    }
+  },
+  "a2-x-u5-l2": {
+    "focusAr": "احفظ الفعل مع المهمة: do the washing-up، وmake the bed، وtake out the rubbish. tidy فعل ترتيب هنا، وقد تكون صفة في a tidy room. لتقسيم المهام بين شخصين استخدم I ثم he أوshe مع صيغة الفعل المناسبة.",
+    "focusEn": "Learn the verb with each chore: do the washing-up, make the bed and take out the rubbish. Tidy is a verb here but can be an adjective in a tidy room. When assigning tasks, match each verb to I, he or she.",
+    "taskAr": "اذكر أنك تغسل الصحون وأن أخاك يمسح الأرضية.",
+    "taskEn": "Say that you do the washing-up and your brother mops the floor.",
+    "exampleEn": "I do the washing-up, and my brother mops the floor.",
+    "exampleAr": "أغسل الصحون، ويمسح أخي الأرضية.",
+    "check": {
+      "promptEn": "Complete: I _____ the bed every morning.",
+      "choices": [
+        "make",
+        "do",
+        "take"
+      ],
+      "answer": "make",
+      "explanationAr": "التركيب الطبيعي هو make the bed. do يناسب مهام مثل do the washing-up.",
+      "explanationEn": "The natural phrase is make the bed. Do fits chores such as do the washing-up."
+    }
+  },
+  "a2-x-u5-l3": {
+    "focusAr": "rent هو الإيجار الدوري، وdeposit مبلغ تأمين منفصل في هذا السياق. furnished تعني وجود أثاث، ولا تعني أن الفواتير مشمولة. اسأل عن كل بند على حدة، واستعمل viewing لمعاينة الشقة قبل اختيارها.",
+    "focusEn": "Rent is the regular rental payment, while a deposit is a separate sum in this context. Furnished means furniture is provided; it does not mean bills are included. Ask about each item separately and use viewing for an appointment to see the flat.",
+    "taskAr": "اسأل عن الإيجار وما إذا كان يشمل الفواتير.",
+    "taskEn": "Ask the rent and whether bills are included.",
+    "exampleEn": "How much is the rent, and are the bills included?",
+    "exampleAr": "كم الإيجار، وهل الفواتير مشمولة؟",
+    "check": {
+      "promptEn": "A flat is furnished. What does this tell you?",
+      "choices": [
+        "It has furniture.",
+        "All bills are included.",
+        "No deposit is required."
+      ],
+      "answer": "It has furniture.",
+      "explanationAr": "furnished تصف الأثاث فقط؛ لا تحدد الفواتير أو التأمين أو غيرهما من الشروط.",
+      "explanationEn": "Furnished describes the furniture only; it does not specify bills, a deposit or other terms."
+    }
+  },
+  "a2-x-u5-l4": {
+    "focusAr": "quiet تصف قلة الضوضاء وcrowded كثرة الناس؛ قد يكون المكان أحدهما في وقت دون آخر. nearby في آخر الجملة تعني بالقرب من هنا. أما near فتتبعها غالبًا عبارة مكان: near my house.",
+    "focusEn": "Quiet concerns noise and crowded concerns the number of people; a place can change with the time of day. Nearby at the end of a sentence means close to here. Near is often followed by a place: near my house.",
+    "taskAr": "اسأل إن كان يوجد موقف حافلة قريب.",
+    "taskEn": "Ask whether there is a bus stop nearby.",
+    "exampleEn": "Is there a bus stop nearby?",
+    "exampleAr": "هل يوجد موقف حافلة قريب؟",
+    "check": {
+      "promptEn": "Complete: There is a pharmacy _____ my house.",
+      "choices": [
+        "near",
+        "nearby",
+        "nearly"
+      ],
+      "answer": "near",
+      "explanationAr": "near تتبعها عبارة my house مباشرة. nearby لا تأخذ مفعولًا بهذا الشكل، وnearly تعني تقريبًا.",
+      "explanationEn": "Near can be followed directly by my house. Nearby does not take an object this way, and nearly means almost."
+    }
+  },
+  "a2-x-u6-l1": {
+    "focusAr": "hurt قد يعني يؤلم في My knee hurts، أو يؤذي في I hurt my knee. صيغة الماضي منه hurt أيضًا. اربط الإصابة بظرفها: when I was playing football، لتحديد ما كنت تفعله وقت وقوعها.",
+    "focusEn": "Hurt can mean cause pain in My knee hurts or injure in I hurt my knee. Its past form is also hurt. Link an injury to its circumstances with when I was playing football to say what was happening at that time.",
+    "taskAr": "اذكر إصابة الركبة أثناء لعب كرة القدم أمس.",
+    "taskEn": "Say that you hurt your knee while playing football yesterday.",
+    "exampleEn": "I hurt my knee when I was playing football yesterday.",
+    "exampleAr": "أصبت ركبتي عندما كنت ألعب كرة القدم أمس.",
+    "check": {
+      "promptEn": "Complete: Yesterday, I _____ my wrist.",
+      "choices": [
+        "hurt",
+        "hurted",
+        "hurts"
+      ],
+      "answer": "hurt",
+      "explanationAr": "hurt لا تأخذ ed في الماضي. hurts صيغة مضارع مع فاعل مفرد غائب.",
+      "explanationEn": "Hurt does not take ed in the past. Hurts is a present-tense form for a third-person singular subject."
+    }
+  },
+  "a2-x-u6-l2": {
+    "focusAr": "في تعليمات التدريب، فرّق بين مقدار الجرعة وتكرارها وتوقيتها. one tablet كمية في المرة، وtwice a day عدد المرات. side effect أثر جانبي؛ عند طلب التوضيح استخدم سؤالًا، ولا تفترض الإجابة من اسم الدواء.",
+    "focusEn": "In practice instructions, distinguish quantity, frequency and timing. One tablet states the amount each time; twice a day states the frequency. Side effect means an additional effect. Ask for clarification rather than inferring the answer from the medicine's name.",
+    "taskAr": "اطلب من الصيدلي شرح الجرعة الموجودة على الملصق.",
+    "taskEn": "Ask the pharmacist to explain the dose on the label.",
+    "exampleEn": "Could you explain the dose on this label, please?",
+    "exampleAr": "هل يمكنك شرح الجرعة المذكورة على هذا الملصق، من فضلك؟",
+    "check": {
+      "promptEn": "A practice label says one tablet twice a day. How many tablets does it specify each time?",
+      "choices": [
+        "one",
+        "two",
+        "three"
+      ],
+      "answer": "one",
+      "explanationAr": "one tablet تحدد قرصًا واحدًا في كل مرة. twice تحدد مرتين يوميًا ولا تغيّر عدد الأقراص في المرة.",
+      "explanationEn": "One tablet specifies one tablet each time. Twice gives the daily frequency and does not change that quantity."
+    }
+  },
+  "a2-x-u6-l3": {
+    "focusAr": "work out فعل مركب بمعنى يتمرن؛ مع she يصبح works out. أما workout كلمة واحدة فاسم للتمرين. warm up للإحماء وcool down لخفض شدة النشاط في نهايته. اذكر عدد المرات باستخدام times a week.",
+    "focusEn": "Work out is a phrasal verb; with she it becomes works out. Workout as one word is a noun. Warm up and cool down name different stages of an exercise session. State frequency with times a week.",
+    "taskAr": "قل إنك تتمرن مرتين أسبوعيًا.",
+    "taskEn": "Say that you work out twice a week.",
+    "exampleEn": "I work out twice a week.",
+    "exampleAr": "أتمرن مرتين في الأسبوع.",
+    "check": {
+      "promptEn": "Complete: She _____ before breakfast.",
+      "choices": [
+        "works out",
+        "work out",
+        "is work out"
+      ],
+      "answer": "works out",
+      "explanationAr": "she تحتاج إلى works، وتبقى out بعد الفعل. workout كلمة واحدة اسم وليست صيغة الفعل هنا.",
+      "explanationEn": "She takes works, followed by out. Workout as one word is a noun, not the verb form needed here."
+    }
+  },
+  "a2-x-u6-l4": {
+    "focusAr": "go to bed الذهاب إلى الفراش، وfall asleep بدء النوم، وoversleep الاستمرار في النوم بعد الوقت المقصود للاستيقاظ. nap قيلولة قصيرة. قد تذهب إلى الفراش مبكرًا دون أن تغفو فورًا؛ صف المرحلتين بدقة.",
+    "focusEn": "Go to bed means get into bed, fall asleep means begin sleeping, and oversleep means sleep past the intended waking time. A nap is a short sleep. Going to bed early does not necessarily mean falling asleep immediately.",
+    "taskAr": "اذكر أنك تذهب إلى الفراش في العاشرة ثم تقرأ قبل النوم.",
+    "taskEn": "Say that you go to bed at ten and read before falling asleep.",
+    "exampleEn": "I go to bed at ten and read before I fall asleep.",
+    "exampleAr": "أذهب إلى الفراش في العاشرة وأقرأ قبل أن أغفو.",
+    "check": {
+      "promptEn": "You intended to wake at seven but woke at nine. You _____.",
+      "choices": [
+        "overslept",
+        "went to bed early",
+        "took a short break"
+      ],
+      "answer": "overslept",
+      "explanationAr": "overslept هي ماضي oversleep، وتعني أنك تجاوزت وقت الاستيقاظ المقصود.",
+      "explanationEn": "Overslept is the past of oversleep: you slept beyond the intended waking time."
+    }
   }
 }

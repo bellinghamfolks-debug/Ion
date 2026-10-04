@@ -13,17 +13,17 @@ L|أعمال المنزل|Household Chores|أن يتحدث المتعلم عن �
 W|washing-up|غسل الصحون|I do the washing-up every night.|أغسل الصحون كل ليلة.|noun
 W|vacuum|ينظف بالمكنسة الكهربائية|She vacuums the floor on Saturdays.|تنظف الأرض بالمكنسة الكهربائية أيام السبت.|verb
 W|laundry|الغسيل (الملابس)|Can you hang the laundry outside?|هل يمكنك نشر الغسيل في الخارج؟|noun
-W|tidy|يرتّب؛ مرتّب|Please tidy your room before the guests arrive.|من فضلك رتّب غرفتك قبل وصول الضيوف.|verb
+W | tidy | يرتّب | Please tidy your room before the guests arrive. | من فضلك رتّب غرفتك قبل وصول الضيوف. | verb
 W|rubbish|قمامة|Don't forget to take out the rubbish.|لا تنسَ إخراج القمامة.|noun
 W|iron|يكوي (الملابس)|I iron my shirts on Sunday evening.|أكوي قمصاني مساء الأحد.|verb
 W|mop|يمسح الأرضية|I mop the kitchen floor every Friday.|أمسح أرضية المطبخ كل يوم جمعة.|verb
 W|make the bed|يرتب السرير|I make the bed before I leave for work.|أرتب السرير قبل أن أذهب إلى العمل.|verb phrase
 L|استئجار شقة|Renting a Flat|أن يسأل المتعلم عن شقة للإيجار ويفهم أهم شروطها.|The rent is four hundred pounds a month and the bills are included.|الإيجار أربعمئة جنيه في الشهر والفواتير مشمولة.|To ask about a flat for rent and understand its main conditions.
-W|rent|الإيجار؛ يستأجر|How much is the rent for this flat?|كم إيجار هذه الشقة؟|noun
+W | rent | إيجار | How much is the rent for this flat? | كم إيجار هذه الشقة؟ | noun
 W|landlord|المالك (المؤجِّر)|The landlord fixed the heater yesterday.|أصلح المالك المدفأة أمس.|noun
 W|bills|الفواتير|We share the bills with our flatmates.|نتقاسم الفواتير مع شركائنا في السكن.|noun
 W|furnished|مفروش|I want a furnished flat near the station.|أريد شقة مفروشة قرب المحطة.|adjective
-W|deposit|تأمين (مبلغ مدفوع مقدمًا)|You pay a deposit before you move in.|تدفع مبلغ التأمين قبل أن تنتقل إليها.|noun
+W | deposit | مبلغ تأمين | The deposit for this flat is two hundred pounds. | مبلغ التأمين لهذه الشقة مئتا جنيه. | noun
 W|move in|ينتقل للسكن|We can move in next Monday.|يمكننا الانتقال للسكن يوم الاثنين القادم.|phrasal verb
 W|tenancy agreement|عقد إيجار|Read the tenancy agreement carefully before you sign it.|اقرأ عقد الإيجار بعناية قبل أن توقعه.|noun
 W|viewing|معاينة عقار|We booked a viewing for the flat on Saturday morning.|حجزنا معاينة للشقة صباح السبت.|noun
@@ -33,11 +33,11 @@ W|quiet|هادئ|Our street is quiet at night.|شارعنا هادئ في الل
 W|crowded|مزدحم|The market is crowded on Fridays.|يكون السوق مزدحمًا أيام الجمعة.|adjective
 W|corner shop|بقالة الحي|I buy milk from the corner shop.|أشتري الحليب من بقالة الحي.|noun
 W|community|أهل الحي؛ مجتمع|Our community cleans the park every month.|ينظّف أهل حيّنا الحديقة كل شهر.|noun
-W|nearby|قريب|Is there a pharmacy nearby?|هل توجد صيدلية قريبة؟|adverb
+W | nearby | بالقرب من هنا | Is there a pharmacy nearby? | هل توجد صيدلية قريبة؟ | adverb
 W|playground|ملعب أطفال|The children are playing in the playground near our building.|يلعب الأطفال في ملعب الأطفال قرب مبنانا.|noun
 W|bus stop|موقف حافلة|The nearest bus stop is two minutes from my house.|أقرب موقف حافلة يبعد دقيقتين عن منزلي.|noun
 U|a2-x-u6|الصحة والجسم|Health and the Body|تعرّف على أجزاء الجسم، واطلب الدواء من الصيدلية، وتحدّث عن الرياضة والنوم.|heart.fill|Learn the parts of the body, ask for medicine at the pharmacy, and talk about exercise and sleep.
-L|أجزاء الجسم|Parts of the Body|أن يسمي المتعلم أجزاء الجسم ويصف ألمًا بسيطًا.|I hurt my knee when I was playing football yesterday.|آذيت ركبتي عندما كنت ألعب كرة القدم أمس.|To name parts of the body and describe a simple pain.
+L | أجزاء الجسم | Parts of the Body | أن يسمي المتعلم أجزاء الجسم ويصف ألمًا بسيطًا. | I hurt my knee when I was playing football yesterday. | أصبت ركبتي عندما كنت ألعب كرة القدم أمس. | To name parts of the body and describe a simple pain.
 W|knee|ركبة|My knee hurts when I climb the stairs.|تؤلمني ركبتي عندما أصعد الدرج.|noun
 W|shoulder|كتف|He carries his bag on one shoulder.|يحمل حقيبته على كتف واحد.|noun
 W|back|ظهر|I have a pain in my back.|أشعر بألم في ظهري.|noun
@@ -46,32 +46,32 @@ W|hurt|يؤلم؛ يؤذي|Did you hurt your hand?|هل آذيت يدك؟|verb
 W|stomach|معدة؛ بطن|I ate too much and my stomach hurts.|أكلت كثيرًا وبطني يؤلمني.|noun
 W|ankle|كاحل|I twisted my ankle while I was running.|التوى كاحلي أثناء الجري.|noun
 W|wrist|معصم|My wrist hurts when I move my hand.|يؤلمني معصمي عندما أحرك يدي.|noun
-L|في الصيدلية|At the Pharmacy|أن يطلب المتعلم دواءً ويفهم تعليمات استخدامه.|Take one tablet twice a day after meals.|تناول قرصًا واحدًا مرتين يوميًا بعد الوجبات.|To ask for medicine and understand how to take it.
-W|tablet|قرص (دواء)|Take one tablet with water.|تناول قرصًا واحدًا مع الماء.|noun
+L | في الصيدلية | At the Pharmacy | أن يسأل الصيدلي عن تعليمات استخدام الدواء ومعانيها. | The label says: take one tablet twice a day after meals. | يقول الملصق: تناول قرصًا واحدًا مرتين يوميًا بعد الوجبات. | Ask a pharmacist to clarify medicine instructions and their meaning.
+W | tablet | قرص (دواء) | The label says 'one tablet with water'. | يقول الملصق «قرص واحد مع الماء». | noun
 W|pharmacist|صيدلي|Ask the pharmacist about this medicine.|اسأل الصيدلي عن هذا الدواء.|noun
 W|prescription|وصفة طبية|You need a prescription for these pills.|تحتاج وصفة طبية لهذه الحبوب.|noun
-W|dose|جرعة|Don't take more than the normal dose.|لا تتناول أكثر من الجرعة المعتادة.|noun
-W|side effect|عرض جانبي|This medicine has no serious side effects.|ليس لهذا الدواء أعراض جانبية خطيرة.|noun
+W | dose | جرعة | Please explain the dose on this label. | من فضلك، اشرح الجرعة المذكورة على هذا الملصق. | noun
+W | side effect | أثر جانبي | Is tiredness a possible side effect? | هل يمكن أن يكون التعب أثرًا جانبيًا؟ | noun
 W|twice|مرتين|Brush your teeth twice a day.|نظّف أسنانك مرتين يوميًا.|adverb
 W|painkiller|مسكن للألم|The pharmacist recommended a painkiller for the headache.|أوصى الصيدلي بمسكن للألم للصداع.|noun
-W|cough syrup|شراب للسعال|Take this cough syrup before you go to bed.|خذ شراب السعال هذا قبل أن تذهب إلى النوم.|noun
+W | cough syrup | شراب للسعال | The cough syrup is in a small bottle. | شراب السعال في زجاجة صغيرة. | noun
 L|الرياضة واللياقة|Exercise and Fitness|أن يتحدث المتعلم عن التمارين التي يمارسها وعدد مرات ممارستها.|I go to the gym three times a week to stay fit.|أذهب إلى النادي الرياضي ثلاث مرات في الأسبوع لأحافظ على لياقتي.|To talk about the exercise you do and how often.
 W|gym|نادٍ رياضي|The gym opens at six in the morning.|يفتح النادي الرياضي في السادسة صباحًا.|noun
-W|fit|لائق بدنيًا|Walking every day keeps you fit.|المشي كل يوم يحافظ على لياقتك.|adjective
+W | fit | لائق بدنيًا | I walk every day to keep fit. | أمشي كل يوم لأحافظ على لياقتي. | adjective
 W|work out|يتمرن|She works out before breakfast.|تتمرن قبل الإفطار.|phrasal verb
-W|stretch|يتمدد؛ تمارين الإطالة|Always stretch before you run.|قم بتمارين الإطالة دائمًا قبل الجري.|verb
+W | stretch | يمدّد عضلاته | I stretch my arms after sitting at my desk. | أمدّد عضلات ذراعيّ بعد الجلوس إلى مكتبي. | verb
 W|jogging|الهرولة|Jogging in the park is my favourite exercise.|الهرولة في الحديقة هي تمريني المفضل.|noun
 W|sweat|يتعرّق|I sweat a lot when I run in summer.|أتعرّق كثيرًا عندما أجري في الصيف.|verb
-W|warm up|يُجري الإحماء|Always warm up before a hard workout.|احرص دائمًا على الإحماء قبل أي تمرين شاق.|phrasal verb
+W | warm up | يُجري الإحماء | I warm up before my exercise class. | أقوم بالإحماء قبل حصة الرياضة. | phrasal verb
 W|cool down|يهدئ الجسم بعد التمرين|I walk slowly for five minutes to cool down.|أمشي ببطء خمس دقائق لتهدئة جسمي بعد التمرين.|phrasal verb
-L|النوم والراحة|Sleep and Rest|أن يصف المتعلم عادات نومه ويقدم نصيحة بسيطة للراحة.|I try to go to bed early because I need eight hours of sleep.|أحاول أن أنام مبكرًا لأنني أحتاج ثماني ساعات من النوم.|To describe your sleeping habits and give simple advice about rest.
-W|go to bed|يخلد إلى النوم|I go to bed at eleven o'clock.|أخلد إلى النوم في الساعة الحادية عشرة.|phrasal verb
-W|sleep|النوم؛ ينام|Children need more sleep than adults.|يحتاج الأطفال إلى نوم أكثر من الكبار.|noun
+L | النوم والراحة | Sleep and Rest | أن يصف عادات نومه ويميّز بين الذهاب إلى الفراش وبدء النوم. | I try to go to bed early because I need eight hours of sleep. | أحاول الذهاب إلى الفراش مبكرًا لأنني أحتاج ثماني ساعات من النوم. | Describe sleep habits and distinguish going to bed from falling asleep.
+W | go to bed | يذهب إلى الفراش | I go to bed at eleven o'clock. | أذهب إلى الفراش في الساعة الحادية عشرة. | phrasal verb
+W | sleep | نوم | I need more sleep after a busy week. | أحتاج إلى مزيد من النوم بعد أسبوع حافل. | noun
 W|nap|قيلولة|My grandfather takes a nap after lunch.|يأخذ جدي قيلولة بعد الغداء.|noun
 W|snore|يشخر|My brother snores loudly at night.|يشخر أخي بصوت عالٍ في الليل.|verb
 W|relax|يسترخي|I relax by reading a book.|أسترخي بقراءة كتاب.|verb
 W|alarm|منبّه|My alarm didn't ring this morning.|لم يرنّ منبّهي هذا الصباح.|noun
-W|oversleep|ينام أكثر من اللازم|I oversleep if I forget to set my alarm.|أنام أكثر من اللازم إذا نسيت ضبط المنبه.|verb
+W | oversleep | يتجاوز وقت الاستيقاظ نومًا | I oversleep if I forget to set my alarm. | أستمر في النوم بعد موعد استيقاظي إذا نسيت ضبط المنبه. | verb
 W|fall asleep|يغفو|I fall asleep more easily when the room is quiet.|أغفو بسهولة أكبر عندما تكون الغرفة هادئة.|phrasal verb
 U|a2-x-u7|السفر والعطلات|Travel and Holidays|احجز فندقًا، وتعامل مع مكتب الاستقبال، وجهّز حقيبتك، وتحدّث عن أنشطة العطلة.|airplane|Book a hotel, deal with reception, pack your bag, and talk about holiday activities.
 L|حجز فندق|Booking a Hotel|أن يحجز المتعلم غرفة فندقية ويسأل عن السعر والخدمات.|I'd like to book a double room for three nights, please.|أود حجز غرفة مزدوجة لثلاث ليالٍ من فضلك.|To book a hotel room and ask about the price and services.

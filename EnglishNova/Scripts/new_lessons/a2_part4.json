@@ -155,18 +155,18 @@
        "phonetic": null
       },
       {
-       "english": "meeting",
-       "arabic": "اجتماع",
-       "example": "I have a meeting with my team at ten o'clock.",
-       "exampleArabic": "لدي اجتماع مع فريقي الساعة العاشرة.",
+       "english": "work briefing",
+       "arabic": "إحاطة عمل قصيرة",
+       "example": "We have a short work briefing before the morning shift begins.",
+       "exampleArabic": "لدينا إحاطة عمل قصيرة قبل بدء المناوبة الصباحية.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
-       "english": "deadline",
-       "arabic": "موعد نهائي",
-       "example": "The deadline for this task is Friday afternoon.",
-       "exampleArabic": "الموعد النهائي لهذه المهمة هو بعد ظهر الجمعة.",
+       "english": "urgent task",
+       "arabic": "مهمة عاجلة",
+       "example": "I finish the urgent task before checking less important emails.",
+       "exampleArabic": "أنهي المهمة العاجلة قبل مراجعة رسائل البريد الأقل أهمية.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -532,10 +532,10 @@
        "phonetic": null
       },
       {
-       "english": "invitation",
-       "arabic": "دعوة",
-       "example": "We received an invitation to the wedding last week.",
-       "exampleArabic": "تلقينا دعوة إلى حفل الزفاف الأسبوع الماضي.",
+       "english": "guest list",
+       "arabic": "قائمة الضيوف",
+       "example": "We checked the guest list before the celebration started.",
+       "exampleArabic": "راجعنا قائمة الضيوف قبل بدء الاحتفال.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -1097,10 +1097,10 @@
        "phonetic": null
       },
       {
-       "english": "delay",
-       "arabic": "تأخير",
-       "example": "The storm caused a two-hour delay at the airport.",
-       "exampleArabic": "تسببت العاصفة في تأخير لمدة ساعتين في المطار.",
+       "english": "travel disruption",
+       "arabic": "اضطراب في حركة السفر",
+       "example": "The storm caused major travel disruption across the region.",
+       "exampleArabic": "تسببت العاصفة في اضطراب كبير في حركة السفر في أنحاء المنطقة.",
        "partOfSpeech": "noun",
        "phonetic": null
       }

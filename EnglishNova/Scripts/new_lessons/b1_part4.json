@@ -261,10 +261,10 @@
        "phonetic": null
       },
       {
-       "english": "assignment",
-       "arabic": "واجب دراسي",
-       "example": "I submitted the assignment before the deadline.",
-       "exampleArabic": "قدمت الواجب الدراسي قبل الموعد النهائي.",
+       "english": "coursework",
+       "arabic": "أعمال المقرر",
+       "example": "I upload my coursework through the learning platform before the deadline.",
+       "exampleArabic": "أرفع أعمال المقرر عبر منصة التعلم قبل الموعد النهائي.",
        "partOfSpeech": "noun",
        "phonetic": null
       },

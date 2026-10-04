@@ -540,10 +540,10 @@
        "phonetic": null
       },
       {
-       "english": "medicine",
-       "arabic": "دواء",
-       "example": "Keep the medicine in a cool, dry place.",
-       "exampleArabic": "احتفظ بالدواء في مكان بارد وجاف.",
+       "english": "dosage instructions",
+       "arabic": "تعليمات الجرعة",
+       "example": "Follow the dosage instructions on the label carefully.",
+       "exampleArabic": "اتبع تعليمات الجرعة الموجودة على الملصق بعناية.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -991,10 +991,10 @@
        "phonetic": null
       },
       {
-       "english": "luggage",
-       "arabic": "أمتعة",
-       "example": "My luggage was too heavy for the small taxi.",
-       "exampleArabic": "كانت أمتعتي ثقيلة جدًا على سيارة الأجرة الصغيرة.",
+       "english": "packing list",
+       "arabic": "قائمة تجهيز الأمتعة",
+       "example": "I use a packing list so I do not forget anything important.",
+       "exampleArabic": "أستخدم قائمة لتجهيز الأمتعة حتى لا أنسى شيئًا مهمًا.",
        "partOfSpeech": "noun",
        "phonetic": null
       },

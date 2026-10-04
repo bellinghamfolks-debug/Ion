@@ -4,117 +4,153 @@
   "baselineCommit": "db78479c53590f1d62bf55918b6a622b9cf66f86",
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
-  "stage": "baseline_checkpoint",
-  "lastCompletedStep": "Fresh checkout and full lesson inventory; no linguistic review claimed yet.",
-  "nextStep": "Map authoritative sources and run baseline validators; inspect every lesson.",
+  "stage": "editorial_review",
+  "lastCompletedStep": "Reviewed and validated A0 units 1–2 (12 lessons); 17 vocabulary corrections and three model updates.",
+  "nextStep": "Review a0-u3-l1 through a0-u4-l6, then checkpoint the next batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
       "level": "A0",
       "titleAr": "قول مرحبًا",
       "titleEn": "Saying Hello",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u1-l2",
       "level": "A0",
       "titleAr": "التعريف بالاسم",
       "titleEn": "Introducing Your Name",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u1-l3",
       "level": "A0",
       "titleAr": "نعم ولا",
       "titleEn": "Yes and No",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u1-l4",
       "level": "A0",
       "titleAr": "من فضلك وشكرًا",
       "titleEn": "Please and Thank You",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u1-l5",
       "level": "A0",
       "titleAr": "مع السلامة",
       "titleEn": "Saying Goodbye",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u1-l6",
       "level": "A0",
       "titleAr": "كيف حالك؟",
       "titleEn": "How Are You?",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u2-l1",
       "level": "A0",
       "titleAr": "حرف A وصوته",
       "titleEn": "The Letter A",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u2-l2",
       "level": "A0",
       "titleAr": "حروف B وC",
       "titleEn": "Letters B and C",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u2-l3",
       "level": "A0",
       "titleAr": "الحروف الكبيرة والصغيرة",
       "titleEn": "Uppercase and Lowercase",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u2-l4",
       "level": "A0",
       "titleAr": "كتاب وقلم",
       "titleEn": "A Book and a Pen",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u2-l5",
       "level": "A0",
       "titleAr": "هذا وذاك",
       "titleEn": "This and That",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u2-l6",
       "level": "A0",
       "titleAr": "تعليمات الفصل",
       "titleEn": "Classroom Instructions",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: schema, in-memory generated assessment, literal model target, unique exercise ids and <=25-minute duration. Full release rebuild remains pending."
+      ]
     },
     {
       "id": "a0-u3-l1",
@@ -3248,5 +3284,12 @@
       "vocabularyCount": 8,
       "reviewNotes": []
     }
-  ]
+  ],
+  "sourceMap": {
+    "Legacy lessons": "Original A0/A1 and 8 original lessons in each upper level: curriculum fields with durable corrections in curriculum_quality_fixes.json and lesson_guides.",
+    "Upper x-u1 to x-u4": "Scripts/new_lessons/<level>_part1.json and _part2.json",
+    "Upper x-u5 to x-u12": "Scripts/new_lessons_src/<level>_expansion.txt",
+    "Additional examples/vocabulary": "Scripts/enrichment/*.json",
+    "New teaching content": "Scripts/lesson_guides/<level>.json"
+  }
 }

@@ -1,0 +1,242 @@
+{
+  "a0-u1-l1": {
+    "focusAr": "ابدأ اللقاء بتحية: hello مناسبة في مواقف كثيرة، وhi أقرب إلى الحديث الودي. عند ذكر اسمك قل I am ثم الاسم؛ لا تحذف am رغم أن العربية تقول «أنا عمر» دون فعل ظاهر.",
+    "focusEn": "Use hello in many situations and hi in friendly conversation. To give your name, use I am followed by your name. English needs am here, although Arabic has no matching verb in the present-tense sentence.",
+    "taskAr": "حيّ شخصًا ثم عرّف بنفسك باسم عمر.",
+    "taskEn": "Greet someone and introduce yourself as Omar.",
+    "exampleEn": "Hello, I am Omar.",
+    "exampleAr": "مرحبًا، أنا عمر.",
+    "check": {
+      "promptEn": "Complete: I _____ Omar.",
+      "choices": [
+        "am",
+        "is",
+        "are"
+      ],
+      "answer": "am",
+      "explanationAr": "نستخدم am مع I. أما is فتأتي مع he وshe وit، وare مع you وغيرها.",
+      "explanationEn": "Use am with I. Use is with he, she and it, and are with you and other subjects."
+    }
+  },
+  "a0-u1-l2": {
+    "focusAr": "تأتي my قبل الشيء الذي يخص المتكلم: my name. استخدم your عند مخاطبة شخص، وhis عند الحديث عن رجل، وher عند الحديث عن امرأة. هذه الكلمات لا تتغير بحسب جنس الشيء المملوك.",
+    "focusEn": "Put my before something belonging to the speaker: my name. Use your when speaking to someone, his for a male owner and her for a female owner. The owner's identity determines the word, not the thing owned.",
+    "taskAr": "عرّف باسم سارة باستخدام My name.",
+    "taskEn": "Introduce yourself as Sara using My name.",
+    "exampleEn": "My name is Sara.",
+    "exampleAr": "اسمي سارة.",
+    "check": {
+      "promptEn": "You are speaking to Ali. Ask: What is _____ name?",
+      "choices": [
+        "your",
+        "his",
+        "her"
+      ],
+      "answer": "your",
+      "explanationAr": "نخاطب عليًا مباشرة، لذلك نقول your name. نستخدم his name عندما نتحدث عنه لشخص آخر.",
+      "explanationEn": "You are speaking directly to Ali, so use your name. Use his name when speaking about him to someone else."
+    }
+  },
+  "a0-u1-l3": {
+    "focusAr": "yes للموافقة وno للنفي. عند السؤال Are you ready? يمكن أن تجيب Yes, I am أو No, I am not. كلمة maybe تعني أنك غير متأكد، فلا تستخدمها لتأكيد الموافقة.",
+    "focusEn": "Use yes to agree and no to give a negative answer. Answer Are you ready? with Yes, I am or No, I am not. Maybe expresses uncertainty, not a definite yes.",
+    "taskAr": "أجب بالنفي عن سؤال Are you ready? بجملة قصيرة.",
+    "taskEn": "Give a short negative answer to Are you ready?",
+    "exampleEn": "No, I am not.",
+    "exampleAr": "لا، لست مستعدًا.",
+    "check": {
+      "promptEn": "Are you ready? Choose the negative answer.",
+      "choices": [
+        "No, I am not.",
+        "Yes, I am.",
+        "Okay, I am ready."
+      ],
+      "answer": "No, I am not.",
+      "explanationAr": "الإجابة المنفية تجمع no مع not. الخياران الآخران يؤكدان الاستعداد.",
+      "explanationEn": "The negative answer uses no and not. The other two answers say that you are ready."
+    }
+  },
+  "a0-u1-l4": {
+    "focusAr": "أضف please إلى الطلب ليكون مهذبًا. بعد المساعدة قل thank you، والرد المناسب you are welcome. استخدم excuse me لجذب الانتباه أو قبل السؤال، وsorry للاعتذار عن خطأ.",
+    "focusEn": "Add please to a request to make it polite. After receiving help, say thank you; the reply is you are welcome. Use excuse me to get attention or introduce a question, and sorry to apologise for a mistake.",
+    "taskAr": "اطلب ماء بأدب ثم اشكر الشخص.",
+    "taskEn": "Ask politely for water, then thank the person.",
+    "exampleEn": "Water, please. Thank you.",
+    "exampleAr": "ماء، من فضلك. شكرًا لك.",
+    "check": {
+      "promptEn": "Someone says Thank you. Choose the reply.",
+      "choices": [
+        "You are welcome.",
+        "I am late.",
+        "My name is Sara."
+      ],
+      "answer": "You are welcome.",
+      "explanationAr": "You are welcome رد على الشكر. لا تعني هنا أنك تدعو الشخص إلى مكان.",
+      "explanationEn": "You are welcome is a reply to thanks. Here it is not an invitation to a place."
+    }
+  },
+  "a0-u1-l5": {
+    "focusAr": "goodbye وbye تقالان عند الوداع. أضف See you tomorrow إذا كنت تتوقع اللقاء غدًا، أو See you later دون تحديد موعد. good night تقال عند الوداع ليلًا أو قبل النوم، وليست تحية الوصول المعتادة.",
+    "focusEn": "Say goodbye or bye when leaving. Add See you tomorrow for a meeting the next day, or See you later without a precise time. Good night is used when leaving at night or going to bed, rather than as the usual greeting on arrival.",
+    "taskAr": "ودّع صديقًا ستراه غدًا.",
+    "taskEn": "Say goodbye to a friend you will see tomorrow.",
+    "exampleEn": "Bye. See you tomorrow.",
+    "exampleAr": "وداعًا. أراك غدًا.",
+    "check": {
+      "promptEn": "You will meet your friend the next day. Complete: See you _____.",
+      "choices": [
+        "tomorrow",
+        "yesterday",
+        "now"
+      ],
+      "answer": "tomorrow",
+      "explanationAr": "tomorrow تعني غدًا، أي اليوم التالي. yesterday تعني أمس وnow تعني الآن.",
+      "explanationEn": "Tomorrow means the next day. Yesterday means the previous day, and now means the present moment."
+    }
+  },
+  "a0-u1-l6": {
+    "focusAr": "اسأل How are you? عن الحال. للإجابة استخدم I am ثم fine أو happy أو tired. لا تترجم «أنا بخير» إلى I fine؛ تحتاج الجملة الإنجليزية إلى am. ويمكنك إضافة thank you بعد الإجابة.",
+    "focusEn": "Ask How are you? about someone's wellbeing. Answer with I am followed by fine, happy or tired. Do not leave out am in I am fine. You can add thank you after your answer.",
+    "taskAr": "قل إنك متعب الآن بجملة كاملة.",
+    "taskEn": "Say that you are tired now in a complete sentence.",
+    "exampleEn": "I am tired now.",
+    "exampleAr": "أنا متعب الآن.",
+    "check": {
+      "promptEn": "Choose the complete sentence.",
+      "choices": [
+        "I am fine.",
+        "I fine.",
+        "I is fine."
+      ],
+      "answer": "I am fine.",
+      "explanationAr": "تحتاج الجملة إلى فعل الربط am مع I؛ لذا I fine ناقصة وI is fine غير صحيحة.",
+      "explanationEn": "The sentence needs am with I. I fine is missing the verb, and I is fine uses the wrong form."
+    }
+  },
+  "a0-u2-l1": {
+    "focusAr": "اسم الحرف A يختلف عن صوته في apple وant. والحرف نفسه قد يمثل صوتًا مختلفًا في arm؛ لذلك استمع إلى كل كلمة كاملة. في A is for apple نربط الحرف ببداية كلمة إنجليزية، لا ببداية ترجمتها العربية.",
+    "focusEn": "The name of the letter A differs from its sound in apple and ant. The same letter has a different sound in arm, so listen to the whole word. A is for apple links a letter to an English word, not to its Arabic translation.",
+    "taskAr": "اربط الحرف A بكلمة ant كما في نموذج الدرس.",
+    "taskEn": "Link the letter A to ant using the lesson pattern.",
+    "exampleEn": "A is for ant.",
+    "exampleAr": "تبدأ كلمة ant، أي نملة، بالحرف A.",
+    "check": {
+      "promptEn": "Which word begins with the letter A?",
+      "choices": [
+        "ant",
+        "book",
+        "cat"
+      ],
+      "answer": "ant",
+      "explanationAr": "كلمة ant تبدأ بالحرف A. ننظر إلى كتابة الكلمة الإنجليزية؛ فكلمة «نملة» ترجمة للمعنى فقط.",
+      "explanationEn": "Ant begins with A. The question concerns the English spelling; the Arabic word only gives its meaning."
+    },
+    "lessonUpdates": {
+      "modelSentence": "A is for apple.",
+      "modelSentenceArabic": "تبدأ كلمة apple، أي تفاحة، بالحرف A."
+    }
+  },
+  "a0-u2-l2": {
+    "focusAr": "تبدأ book وball بالحرف B، وتبدأ cat وcar بالحرف C. الحرف C في هاتين الكلمتين صوته قريب من ك، لكنه لا يحمل هذا الصوت في كل الكلمات. قل begin with عند ذكر الحرف الذي تبدأ به كلمة.",
+    "focusEn": "Book and ball begin with B; cat and car begin with C. In these two words C sounds like k, but C does not have this sound in every word. Use begin with to name a word's first letter.",
+    "taskAr": "اذكر كلمتين من الدرس تبدآن بالحرف B.",
+    "taskEn": "Name two lesson words beginning with B.",
+    "exampleEn": "Ball and book begin with B.",
+    "exampleAr": "تبدأ كلمتا ball وbook بالحرف B.",
+    "check": {
+      "promptEn": "Which pair begins with B?",
+      "choices": [
+        "ball and book",
+        "cat and car",
+        "cup and cat"
+      ],
+      "answer": "ball and book",
+      "explanationAr": "تبدأ ball وbook بالحرف B. أما الكلمات في الخيارين الآخرين فتبدأ بالحرف C.",
+      "explanationEn": "Ball and book both begin with B. The words in the other pairs begin with C."
+    },
+    "lessonUpdates": {
+      "modelSentence": "B is for book and C is for cat.",
+      "modelSentenceArabic": "تبدأ كلمة book بالحرف B وكلمة cat بالحرف C."
+    }
+  },
+  "a0-u2-l3": {
+    "focusAr": "uppercase وcapital letter تشيران إلى الحرف الكبير، وlowercase إلى الصغير. نبدأ أسماء الأشخاص وأول كلمة في الجملة بحرف كبير، ونكتب الضمير I كبيرًا دائمًا. اختلاف حالة الحرف لا يجعله حرفًا آخر في الأبجدية.",
+    "focusEn": "Uppercase and capital letter refer to a capital form; lowercase refers to a small form. Use capitals for people's names and the first word in a sentence. Always capitalise I. Changing case does not create a different letter of the alphabet.",
+    "taskAr": "اطلب كتابة الاسم بحرف كبير في البداية.",
+    "taskEn": "Ask someone to start a name with a capital letter.",
+    "exampleEn": "Begin your name with a capital letter.",
+    "exampleAr": "ابدأ اسمك بحرف كبير.",
+    "check": {
+      "promptEn": "A person's name begins with a _____.",
+      "choices": [
+        "capital letter",
+        "number",
+        "full stop"
+      ],
+      "answer": "capital letter",
+      "explanationAr": "تبدأ أسماء الأشخاص بحرف كبير في الإنجليزية. الحرف الكبير والصغير شكلان للحرف نفسه.",
+      "explanationEn": "People's names begin with a capital letter in English. Uppercase and lowercase are forms of the same letter."
+    }
+  },
+  "a0-u2-l4": {
+    "focusAr": "pen قلم حبر وpencil قلم رصاص، وnotebook دفتر. عند تسمية شيء واحد قل a pen أو a ruler. أما paper بمعنى مادة الورق فلا نضع قبلها a؛ ولعدّها نقول a piece of paper، أي ورقة واحدة.",
+    "focusEn": "A pen uses ink; a pencil is different. A notebook is a book for writing. Use a with one countable object: a pen, a ruler. Paper as a material is uncountable; a piece of paper names one sheet.",
+    "taskAr": "أشر إلى قلم رصاص وسمّه بجملة تبدأ بـ This is.",
+    "taskEn": "Point to a pencil and name it using This is.",
+    "exampleEn": "This is a pencil.",
+    "exampleAr": "هذا قلم رصاص.",
+    "check": {
+      "promptEn": "Choose the natural phrase for one ruler.",
+      "choices": [
+        "a ruler",
+        "an ruler",
+        "ruler a"
+      ],
+      "answer": "a ruler",
+      "explanationAr": "تأتي a قبل الاسم المفرد المعدود. ونستخدم a مع ruler لأن نطقه يبدأ بصوت ساكن.",
+      "explanationEn": "A comes before a singular countable noun. Ruler begins with a consonant sound, so use a, not an."
+    }
+  },
+  "a0-u2-l5": {
+    "focusAr": "this للمفرد القريب وthat للمفرد البعيد؛ يتبعهما is. مع الجمع نستخدم these للقريب وthose للبعيد، ويتبعهما are. الإنجليزية لا تفرق هنا بين المذكر والمؤنث، بل بين المفرد والجمع والقريب والبعيد.",
+    "focusEn": "Use this for one nearby thing and that for one distant thing; both take is. Use these for nearby plural things and those for distant plural things; both take are. The distinction is number and distance, not grammatical gender.",
+    "taskAr": "أشر إلى كتب قريبة وقل إنها كتبك.",
+    "taskEn": "Point to nearby books and say they are yours.",
+    "exampleEn": "These are my books.",
+    "exampleAr": "هذه كتبي.",
+    "check": {
+      "promptEn": "You are holding two pens. Complete: _____ are my pens.",
+      "choices": [
+        "These",
+        "This",
+        "That"
+      ],
+      "answer": "These",
+      "explanationAr": "pens جمع، والأقلام قريبة، لذلك نستخدم These مع are. This وThat للمفرد.",
+      "explanationEn": "Pens is plural and the pens are nearby, so use These with are. This and That are singular."
+    }
+  },
+  "a0-u2-l6": {
+    "focusAr": "في التعليمات نبدأ بالفعل مباشرة: Open your book. لا تحتاج إلى you قبل فعل الأمر. أضف please للتهذيب، واستخدم listen to عند ذكر الشخص أو الشيء الذي تستمع إليه: Listen to the teacher.",
+    "focusEn": "Start an instruction with the verb: Open your book. You do not need you before an imperative. Add please to be polite. Use listen to when naming the person or thing you listen to: Listen to the teacher.",
+    "taskAr": "اطلب من زميل أن يغلق كتابه بأدب.",
+    "taskEn": "Politely ask a classmate to close their book.",
+    "exampleEn": "Close your book, please.",
+    "exampleAr": "أغلق كتابك، من فضلك.",
+    "check": {
+      "promptEn": "Complete: Listen _____ the teacher.",
+      "choices": [
+        "to",
+        "at",
+        "on"
+      ],
+      "answer": "to",
+      "explanationAr": "نستخدم listen to قبل الشخص أو الصوت الذي نطلب الاستماع إليه.",
+      "explanationEn": "Use listen to before the person or sound someone should listen to."
+    },
+    "lessonUpdates": {
+      "modelSentence": "Please open your book.",
+      "modelSentenceArabic": "من فضلك، افتح كتابك."
+    }
+  }
+}

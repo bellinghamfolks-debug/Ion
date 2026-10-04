@@ -491,8 +491,8 @@
     "a0-u1-l3-xv2": {
       "english": "maybe",
       "arabic": "ربما",
-      "example": "Maybe I am not sure.",
-      "exampleArabic": "ربما لست متأكدًا.",
+      "example": "Maybe Ali is at home.",
+      "exampleArabic": "ربما يكون علي في المنزل.",
       "partOfSpeech": "adverb",
       "phonetic": "/ˈmeɪbi/"
     },
@@ -595,11 +595,15 @@
     },
     "a0-009-uppercase-1": {
       "example": "A is uppercase and a is lowercase.",
-      "exampleArabic": "A حرف كبير وa حرف صغير."
+      "exampleArabic": "A حرف كبير وa حرف صغير.",
+      "arabic": "كبير (عن شكل الحرف)",
+      "partOfSpeech": "adjective"
     },
     "a0-009-lowercase-2": {
       "example": "Write your name in lowercase letters.",
-      "exampleArabic": "اكتب اسمك بحروف صغيرة."
+      "exampleArabic": "اكتب اسمك بحروف صغيرة.",
+      "arabic": "صغير (عن شكل الحرف)",
+      "partOfSpeech": "adjective"
     },
     "a0-010-paper-2": {
       "example": "I write on paper.",
@@ -612,7 +616,8 @@
     "a0-011-that-2": {
       "example": "That is my bag.",
       "exampleArabic": "تلك حقيبتي.",
-      "arabic": "ذلك / تلك"
+      "arabic": "ذلك / تلك",
+      "partOfSpeech": "pronoun"
     },
     "a0-012-close-2": {
       "example": "Close your book, please.",
@@ -974,6 +979,45 @@
     "a1-057-customer-service-3": {
       "example": "I called customer service about my order.",
       "exampleArabic": "اتصلت بخدمة العملاء بخصوص طلبي."
+    },
+    "a0-001-am-3": {
+      "arabic": "فعل ربط مع I"
+    },
+    "a0-011-this-1": {
+      "partOfSpeech": "pronoun"
+    },
+    "a0-011-is-3": {
+      "arabic": "فعل ربط مع المفرد"
+    },
+    "a0-u2-l5-xv1": {
+      "partOfSpeech": "pronoun"
+    },
+    "a0-u2-l5-xv2": {
+      "partOfSpeech": "pronoun"
+    },
+    "a0-007-apple-1": {
+      "exampleArabic": "تبدأ كلمة apple، أي تفاحة، بالحرف A."
+    },
+    "a0-u2-l1-xv1": {
+      "exampleArabic": "تبدأ كلمة ant، أي نملة، بالحرف A."
+    },
+    "a0-008-book-1": {
+      "exampleArabic": "تبدأ كلمة book بالحرف B وكلمة cat بالحرف C."
+    },
+    "a0-008-cat-2": {
+      "exampleArabic": "تبدأ كلمة book بالحرف B وكلمة cat بالحرف C."
+    },
+    "a0-u2-l2-xv1": {
+      "exampleArabic": "تبدأ كلمة ball، أي كرة، بالحرف B."
+    },
+    "a0-u2-l2-xv2": {
+      "exampleArabic": "تبدأ كلمة car، أي سيارة، بالحرف C."
+    },
+    "a0-010-pen-1": {
+      "arabic": "قلم حبر"
+    },
+    "a0-004-please-1": {
+      "partOfSpeech": "adverb"
     }
   },
   "arabicGlossById": {

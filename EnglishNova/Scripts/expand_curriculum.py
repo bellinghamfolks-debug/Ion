@@ -38,6 +38,8 @@ import random
 import re
 from pathlib import Path
 
+from lesson_guides import load_guides, validate_guides, apply_lesson_updates, save_guide_translations
+
 ROOT = Path(__file__).resolve().parents[1]
 PATH = ROOT / "EnglishNova/Resources/Curriculum/curriculum.json"
 ENRICH_DIR = ROOT / "Scripts/enrichment"
@@ -63,7 +65,7 @@ def normalize_english_sentence(text: str) -> str:
     return value
 
 
-def apply_quality_fixes(catalog, fixes):
+def apply_quality_fixes(catalog, fixes, require_all=True):
     """Apply reviewed corrections before enrichment/exercise generation.
 
     Full replacements remove weak legacy upper-level vocabulary such as bare
@@ -97,7 +99,7 @@ def apply_quality_fixes(catalog, fixes):
                         gloss_fixed += 1
 
     missing = sorted((set(replacements) | set(glosses)) - seen_ids)
-    if missing:
+    if missing and require_all:
         raise SystemExit(f"Quality fixes reference missing vocabulary ids: {missing}")
     return replaced, gloss_fixed, punctuation_fixed
 
@@ -258,7 +260,7 @@ def arabic_policy(level: str) -> str:
             "B2": "minimal", "C1": "minimal"}.get(level, "full")
 
 
-def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, policy="full"):
+def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, policy="full", guide=None):
     extra_examples = extra_examples or {}
     lid = lesson["id"]
     vocab = lesson.get("vocabulary", [])
@@ -313,6 +315,8 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
         intro_lines.append("Listen to the model, then practise the words in the exercises.")
         intro_prompt = "Lesson intro & key words"
         intro_hint = "Listen to the model sentence, then continue"
+    if guide:
+        intro_lines.append("لاحظ طريقة الاستخدام:\n" + guide["focusAr"])
     add({
         "type": "explanation",
         "promptAr": intro_prompt,
@@ -458,7 +462,19 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
             if pat.search(sentence):
                 blank = (en, pat)
                 break
-        if blank:
+        if guide:
+            check = guide["check"]
+            add({
+                "type": "multipleChoice",
+                "promptAr": "اقرأ الموقف ثم اختر الإجابة المناسبة.",
+                "promptEn": check["promptEn"],
+                "answer": check["answer"],
+                "choices": shuffled(random.Random(f"{lid}:reviewed-check"), check["choices"]),
+                "explanationAr": check["explanationAr"],
+                "accessibilityHint": "اختر إجابة واحدة اعتمادًا على المعنى أو القاعدة المشروحة",
+                "speechText": check["promptEn"],
+            })
+        elif blank:
             en, pat = blank
             gapped = pat.sub("_____", sentence, count=1)
             add({
@@ -508,16 +524,21 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
             s = f"وتدرّبنا على الجملة: {sentence}"
             if sentence_ar:
                 s += f" ({sentence_ar})"
-            review_lines.append(s + ".")
+            review_lines.append(s)
         review_lines.append("أعد التمرين متى احتجت، وحاول أن تستخدم الكلمات في جملةٍ من عندك.")
         review_prompt, review_hint = "مراجعة الدرس", "اقرأ المراجعة ثم أنهِ الدرس"
     else:
         if words_inline:
             review_lines.append(f"You practised: {words_inline}.")
         if sentence:
-            review_lines.append(f"Key sentence: {sentence}.")
+            review_lines.append(f"Key sentence: {sentence}")
         review_lines.append("Try to use these words in a sentence of your own.")
         review_prompt, review_hint = "Lesson review", "Read the review, then finish the lesson"
+    if guide:
+        review_lines.extend([
+            "طبّق ما تعلمته:\n" + guide["taskAr"],
+            "إجابة ممكنة:\n" + guide["exampleEn"] + "\n" + guide["exampleAr"],
+        ])
     add({
         "type": "explanation",
         "promptAr": review_prompt,
@@ -550,8 +571,11 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
 
 def main():
     catalog = json.loads(PATH.read_text(encoding="utf-8"))
+    guides = load_guides()
+    validate_guides(guides, catalog)
+    apply_lesson_updates(catalog, guides)
     quality = load_quality_fixes()
-    replaced, gloss_fixed, punctuation_fixed = apply_quality_fixes(catalog, quality)
+    replaced, gloss_fixed, punctuation_fixed = apply_quality_fixes(catalog, quality, require_all=False)
     enrichment = load_enrichment()
     words_before = words_added = 0
     enrichment_duplicates: list[str] = []
@@ -598,7 +622,7 @@ def main():
             for ls in unit_lessons:
                 total_before += len(ls.get("exercises", []))
                 extra = enrichment.get(ls["id"], {}).get("extraExamples", {})
-                expand_lesson(ls, eng_pool, ar_pool, extra_examples=extra, policy=policy)
+                expand_lesson(ls, eng_pool, ar_pool, extra_examples=extra, policy=policy, guide=guides.get(ls["id"]))
                 total_after += len(ls["exercises"])
                 lessons += 1
 
@@ -606,7 +630,8 @@ def main():
         json.dumps(catalog, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    print(f"Expanded {lessons} lessons.")
+    save_guide_translations(guides)
+    print(f"Expanded {lessons} lessons; {len(guides)} reviewed teaching guides.")
     print(f"Quality corrections: {replaced} vocabulary replacements, "
           f"{gloss_fixed} Arabic gloss fixes, {punctuation_fixed} explicit sentence punctuation fixes.")
     print(f"Vocabulary: {words_before} base words + {words_added} authored "

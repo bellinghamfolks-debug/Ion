@@ -128,7 +128,7 @@ W|empower|يمكّن|Education empowers young women.|يمكّن التعليم �
 W|dependency|الاعتماد (التبعية)|Long-term aid can create dependency.|قد تخلق المساعدات طويلة الأمد تبعية.|noun
 W|infrastructure|البنية التحتية|The country needs better infrastructure.|تحتاج البلاد إلى بنية تحتية أفضل.|noun
 W|sustainable development|التنمية المستدامة|The UN promotes sustainable development goals.|تروّج الأمم المتحدة لأهداف التنمية المستدامة.|noun
-W|accountability|المساءلة|There must be accountability for how funds are spent.|يجب أن تكون هناك مساءلة عن كيفية إنفاق الأموال.|noun
+W|responsibility attribution|إسناد المسؤولية|Responsibility attribution should remain clear when a formal sentence describes a serious action.|ينبغي أن يظل إسناد المسؤولية واضحًا عندما تصف جملة رسمية فعلًا خطيرًا.|noun
 W|grassroots|شعبي؛ قاعدي|The project began as a grassroots movement.|بدأ المشروع حركة شعبية.|adjective
 W|conditionality|اشتراطات المساعدة|Aid conditionality can influence how recipient governments allocate resources.|يمكن لاشتراطات المساعدة أن تؤثر في كيفية توزيع الحكومات المتلقية للموارد.|noun
 W|local ownership|ملكية محلية|Projects are often more sustainable when there is genuine local ownership.|غالبًا ما تكون المشروعات أكثر استدامة عندما توجد ملكية محلية حقيقية.|noun
@@ -235,7 +235,7 @@ W|long-term|طويل المدى|This is a long-term investment.|هذا استث�
 W|strategic objective|هدف استراتيجي|Each strategic objective should connect directly to the organisation's long-term direction.|ينبغي أن يرتبط كل هدف استراتيجي مباشرة باتجاه المؤسسة طويل الأجل.|noun
 W|key result|نتيجة رئيسية|A key result should make progress measurable rather than merely aspirational.|ينبغي أن تجعل النتيجة الرئيسية التقدم قابلًا للقياس لا مجرد طموح.|noun
 W|resource allocation|تخصيص الموارد|Strategy requires resource allocation, not just a list of priorities.|تتطلب الاستراتيجية تخصيص الموارد لا مجرد قائمة أولويات.|noun
-W|dependency|اعتماد متبادل|The plan identifies each dependency that could delay delivery.|تحدد الخطة كل اعتماد متبادل قد يؤخر التنفيذ.|noun
+W|constraint|قيد|The plan identifies each constraint that could delay delivery.|تحدد الخطة كل قيد قد يؤخر التنفيذ.|noun
 L|إدارة التغيير|Change Management|أن يشرح المتعلم كيف يُدار التغيير وتُعالج مقاومته.|Resistance to change is natural, so leaders need to communicate the rationale clearly.|مقاومة التغيير أمر طبيعي، لذا يحتاج القادة إلى توضيح المبررات بجلاء.|To explain how change is managed and how resistance is handled.
 W|resistance|مقاومة|The plan met strong resistance from staff.|واجهت الخطة مقاومة قوية من الموظفين.|noun
 W|rationale|المبرّر المنطقي|Explain the rationale behind your decision.|اشرح المبرّر وراء قرارك.|noun
@@ -288,7 +288,7 @@ W|tongue-in-cheek|على سبيل المزاح|His comment was tongue-in-cheek.|
 W|deadpan|بوجه جاد (دعابة جافة)|She has a deadpan sense of humour.|لديها حس دعابة جاف بوجه جاد.|adjective
 W|witty|ظريف؛ سريع البديهة|He gave a witty speech at the wedding.|ألقى كلمة ظريفة في حفل الزفاف.|adjective
 W|pun|تورية؛ تلاعب بالألفاظ|The headline was a clever pun.|كان العنوان تورية ذكية.|noun
-W|understatement|تهوين مقصود|Understatement can create humour by making a serious situation sound minor.|يمكن للتهوين المقصود خلق فكاهة بجعل موقف خطير يبدو بسيطًا.|noun
+W|overstatement|مبالغة|Overstatement can be funny when the audience recognises the deliberate exaggeration.|قد تكون المبالغة مضحكة عندما يدرك الجمهور أن التضخيم مقصود.|noun
 W|satire|سخرية نقدية|Satire uses humour to criticise people, institutions or ideas.|تستخدم السخرية النقدية الفكاهة لانتقاد أشخاص أو مؤسسات أو أفكار.|noun
 W|double meaning|معنى مزدوج|The joke depends on a double meaning in the final word.|تعتمد النكتة على معنى مزدوج في الكلمة الأخيرة.|noun
 W|comic timing|توقيت كوميدي|Comic timing can make an ordinary line much funnier.|يمكن للتوقيت الكوميدي أن يجعل عبارة عادية أكثر إضحاكًا.|noun
@@ -310,7 +310,7 @@ W|whereby|بموجبه؛ حيث|They introduced a system whereby staff can work 
 W|insofar as|بقدر ما|The plan works insofar as it reduces costs.|تنجح الخطة بقدر ما تخفض التكاليف.|conjunction
 W|consequently|وبالتالي|Prices rose; consequently, demand fell.|ارتفعت الأسعار؛ وبالتالي انخفض الطلب.|adverb
 W|hence|ومن ثَمّ|The data was incomplete; hence the delay.|كانت البيانات ناقصة؛ ومن ثَمّ التأخير.|adverb
-W|concession|استدراك|A concession acknowledges a valid opposing point before advancing your argument.|يعترف الاستدراك بنقطة معارضة صحيحة قبل متابعة حجتك.|noun
+W|contrastive marker|أداة ربط للمقابلة|A contrastive marker makes the shift between opposing ideas explicit.|تجعل أداة الربط للمقابلة الانتقال بين فكرتين متعارضتين واضحًا.|noun
 W|logical progression|تسلسل منطقي|Each paragraph should contribute to a clear logical progression.|ينبغي أن يسهم كل فقرة في تسلسل منطقي واضح.|noun
 W|referential cohesion|ترابط إحالي|Pronouns can improve referential cohesion when their reference is unambiguous.|يمكن للضمائر تحسين الترابط الإحالي عندما يكون مرجعها غير ملتبس.|noun
 W|transition|انتقال|A strong transition shows how the next idea relates to the previous one.|يوضح الانتقال القوي علاقة الفكرة التالية بالسابقة.|noun
@@ -344,7 +344,7 @@ W|eye contact|التواصل البصري|Keep eye contact with the audience.|ح
 W|anecdote|حكاية قصيرة|He began his talk with a personal anecdote.|بدأ حديثه بحكاية شخصية.|noun
 W|pause for effect|يتوقف للتأثير|Pause for effect before your main point.|توقّف للتأثير قبل فكرتك الرئيسية.|phrase
 W|stage fright|رهبة المسرح|Even experienced speakers get stage fright.|حتى المتحدثون المتمرّسون يشعرون برهبة المسرح.|noun
-W|rhetorical question|سؤال بلاغي|A rhetorical question can focus attention without requiring an answer.|يمكن للسؤال البلاغي تركيز الانتباه دون أن يتطلب إجابة.|noun
+W|call to action|دعوة إلى اتخاذ إجراء|A strong call to action tells the audience what you want them to do next.|توضح الدعوة القوية إلى اتخاذ إجراء ما الذي تريد من الجمهور فعله بعد ذلك.|noun
 W|signposting|إشارات تنظيمية|Clear signposting helps an audience follow a complex talk.|تساعد الإشارات التنظيمية الواضحة الجمهور على متابعة حديث معقد.|noun
 W|vocal variety|تنوع صوتي|Vocal variety can prevent a long presentation from sounding monotonous.|يمكن للتنوع الصوتي أن يمنع العرض الطويل من أن يبدو رتيبًا.|noun
 W|audience engagement|تفاعل الجمهور|A relevant example can increase audience engagement.|يمكن لمثال ذي صلة أن يزيد تفاعل الجمهور.|noun

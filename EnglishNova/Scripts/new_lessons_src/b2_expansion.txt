@@ -1,26 +1,26 @@
 LEVEL|B2
 U|b2-x-u5|البيئة والمناخ|Environment and Climate|ناقش أسباب تغيّر المناخ والطاقة المتجددة والاستدامة الحضرية وحماية الحياة البرية.|leaf.arrow.triangle.circlepath|Discuss the causes of climate change, renewable energy, sustainable cities and wildlife conservation.
 L|أسباب تغيّر المناخ|Causes of Climate Change|أن يشرح المتعلم أسباب تغيّر المناخ ونتائجه بلغة دقيقة.|Burning fossil fuels releases greenhouse gases that trap heat in the atmosphere.|يؤدي حرق الوقود الأحفوري إلى إطلاق غازات دفيئة تحبس الحرارة في الغلاف الجوي.|To explain the causes and consequences of climate change in precise language.
-W|fossil fuels|الوقود الأحفوري|Most electricity is still generated from fossil fuels.|ما زالت معظم الكهرباء تُولَّد من الوقود الأحفوري.|noun
+W | fossil fuels | الوقود الأحفوري | The report compares electricity generated from fossil fuels with other sources. | يقارن التقرير الكهرباء المولدة من الوقود الأحفوري بمصادر أخرى. | noun
 W|greenhouse gases|الغازات الدفيئة|Cars produce large amounts of greenhouse gases.|تنتج السيارات كميات كبيرة من الغازات الدفيئة.|noun
 W|emissions|انبعاثات|The company aims to cut its emissions by half.|تهدف الشركة إلى خفض انبعاثاتها إلى النصف.|noun
 W|deforestation|إزالة الغابات|Deforestation destroys the homes of many species.|تدمّر إزالة الغابات موائل أنواع كثيرة.|noun
 W|trap|يحبس|Thick clouds trap heat near the ground.|تحبس الغيوم الكثيفة الحرارة قرب الأرض.|verb
 W|irreversible|لا يمكن عكسه|Some of the damage may be irreversible.|قد يكون بعض الضرر غير قابل للإصلاح.|adjective
-W|carbon-intensive|كثيف الكربون|Heavy industry can be carbon-intensive when it relies on fossil energy.|قد تكون الصناعات الثقيلة كثيفة الكربون عندما تعتمد على الطاقة الأحفورية.|adjective
-W|mitigate|يخفف|Governments can mitigate emissions through cleaner energy and efficiency measures.|يمكن للحكومات تخفيف الانبعاثات من خلال طاقة أنظف وإجراءات كفاءة.|verb
+W | carbon-intensive | كثيف الانبعاثات الكربونية | Heavy industry can be carbon-intensive when it relies on fossil energy. | قد تكون الصناعات الثقيلة كثيفة الانبعاثات الكربونية عندما تعتمد على الوقود الأحفوري. | adjective
+W | mitigate | يخفف | The plan aims to mitigate climate change by reducing emissions. | تهدف الخطة إلى التخفيف من تغير المناخ بخفض الانبعاثات. | verb
 L|الطاقة المتجددة|Renewable Energy|أن يقارن المتعلم بين مصادر الطاقة المتجددة ومزاياها وتحدياتها.|Solar power has become far more affordable, yet storing the energy remains a challenge.|أصبحت الطاقة الشمسية أرخص بكثير، ومع ذلك يبقى تخزين الطاقة تحديًا.|To compare renewable energy sources, their advantages and their challenges.
 W|solar power|الطاقة الشمسية|Many homes now run on solar power.|تعمل كثير من المنازل الآن بالطاقة الشمسية.|noun
 W|wind farm|مزرعة رياح|A new wind farm was built off the coast.|بُنيت مزرعة رياح جديدة قبالة الساحل.|noun
-W|storage|تخزين|Battery storage is improving quickly.|يتحسّن تخزين البطاريات بسرعة.|noun
+W | storage | تخزين | The project includes battery storage for surplus energy. | يتضمن المشروع تخزين الطاقة الفائضة في بطاريات. | noun
 W|yet|ومع ذلك|The plan is simple, yet effective.|الخطة بسيطة، ومع ذلك فعّالة.|conjunction
 W|grid|شبكة الكهرباء|The panels are connected to the national grid.|الألواح متصلة بشبكة الكهرباء الوطنية.|noun
-W|transition|تحوّل؛ انتقال|The transition to clean energy will take decades.|سيستغرق التحوّل إلى الطاقة النظيفة عقودًا.|noun
+W | transition | تحوّل؛ انتقال | The proposal explains the costs of the transition to cleaner energy. | يوضح المقترح تكاليف الانتقال إلى طاقة أنظف. | noun
 W|intermittent|متقطع|Solar and wind power are intermittent because output changes with the weather.|الطاقة الشمسية وطاقة الرياح متقطعتان لأن الإنتاج يتغير مع الطقس.|adjective
 W|capacity|قدرة إنتاجية|The country plans to increase its renewable capacity over the next decade.|تخطط الدولة لزيادة قدرتها الإنتاجية من الطاقة المتجددة خلال العقد المقبل.|noun
 L|المدن المستدامة|Sustainable Cities|أن يقترح المتعلم سياسات تجعل المدن أكثر استدامة ويبررها.|Investing in green spaces and cycle lanes would make our cities far more liveable.|الاستثمار في المساحات الخضراء ومسارات الدراجات سيجعل مدننا أكثر ملاءمة للعيش بكثير.|To propose and justify policies that make cities more sustainable.
-W|liveable|ملائم للعيش|Vienna is often ranked the most liveable city.|كثيرًا ما تُصنَّف فيينا أكثر المدن ملاءمة للعيش.|adjective
-W|green spaces|مساحات خضراء|Green spaces improve people's mental health.|المساحات الخضراء تحسّن الصحة النفسية للناس.|noun
+W | liveable | ملائم للعيش | Residents discussed how to make the neighbourhood more liveable. | ناقش السكان كيفية جعل الحي أكثر ملاءمة للعيش. | adjective
+W | green spaces | مساحات خضراء | Residents asked for more accessible green spaces near their homes. | طلب السكان مساحات خضراء أكثر يسهل الوصول إليها قرب منازلهم. | noun
 W|cycle lanes|مسارات الدراجات|The city has added fifty kilometres of cycle lanes.|أضافت المدينة خمسين كيلومترًا من مسارات الدراجات.|noun
 W|urban sprawl|الزحف العمراني|Urban sprawl increases our dependence on cars.|يزيد الزحف العمراني اعتمادنا على السيارات.|noun
 W|carbon footprint|البصمة الكربونية|Flying less reduces your carbon footprint.|تقليل السفر بالطائرة يخفض بصمتك الكربونية.|noun
@@ -29,21 +29,21 @@ W|urban planning|تخطيط حضري|Good urban planning should consider housing
 W|revitalise|يُنعش؛ يُحيي|The project aims to revitalise the old harbour district.|يهدف المشروع إلى إنعاش حي الميناء القديم.|verb
 L|حماية الحياة البرية|Wildlife Conservation|أن يناقش المتعلم تهديدات الحياة البرية وجهود الحماية.|Many species are on the brink of extinction because their habitats are disappearing.|كثير من الأنواع على حافة الانقراض لأن موائلها تختفي.|To discuss threats to wildlife and conservation efforts.
 W|on the brink of|على حافة|The company was on the brink of collapse.|كانت الشركة على حافة الانهيار.|phrase
-W|extinction|انقراض|The tiger is threatened with extinction.|النمر مهدد بالانقراض.|noun
+W | extinction | انقراض | The report examines species at risk of extinction. | يفحص التقرير أنواعًا معرضة لخطر الانقراض. | noun
 W|habitat|موطن (بيئي)|Rising seas threaten coastal habitats.|يهدّد ارتفاع البحار الموائل الساحلية.|noun
-W|endangered|مهدد بالانقراض|The panda is no longer classed as endangered.|لم تعد الباندا مصنّفة مهددة بالانقراض.|adjective
-W|poaching|الصيد الجائر|Poaching has reduced the number of rhinos.|قلّل الصيد الجائر عدد وحيد القرن.|noun
+W | endangered | مهدد بالانقراض | The reserve runs a programme to protect endangered species. | تنفذ المحمية برنامجًا لحماية الأنواع المهددة بالانقراض. | adjective
+W | poaching | الصيد غير القانوني | Poaching has reduced the number of rhinos. | قلل الصيد غير القانوني أعداد حيوانات وحيد القرن. | noun
 W|biodiversity|التنوع الحيوي|Coral reefs are rich in biodiversity.|الشعاب المرجانية غنية بالتنوع الحيوي.|noun
 W|protected area|منطقة محمية|The species has recovered in some protected areas.|تعافى النوع في بعض المناطق المحمية.|noun
 W|thrive|يزدهر|Some species thrive when their habitat is protected.|تزدهر بعض الأنواع عندما يُحمى موطنها.|verb
 U|b2-x-u6|الصحة والعلوم|Health and Science|تحدّث عن التقدّم الطبي والصحة النفسية وحملات الصحة العامة وخرافات التغذية.|cross.case.fill|Talk about medical advances, mental health, public health campaigns and nutrition myths.
-L|التقدّم الطبي|Medical Advances|أن يصف المتعلم تقدّمًا طبيًا وأثره بلغة علمية مبسطة.|Thanks to early diagnosis, many diseases can now be treated successfully.|بفضل التشخيص المبكر، يمكن الآن علاج كثير من الأمراض بنجاح.|To describe a medical advance and its impact in accessible scientific language.
-W|diagnosis|تشخيص|An early diagnosis saved her life.|أنقذ التشخيص المبكر حياتها.|noun
-W|gene therapy|العلاج الجيني|Gene therapy may cure some inherited diseases.|قد يعالج العلاج الجيني بعض الأمراض الوراثية.|noun
+L | التقدّم الطبي | Medical Advances | أن يصف المتعلم تقدّمًا طبيًا وأثره بلغة علمية مبسطة. | The clinical trial is designed to evaluate the treatment, not to guarantee its success. | صُممت التجربة السريرية لتقييم العلاج، لا لضمان نجاحه. | To describe a medical advance and its impact in accessible scientific language.
+W | diagnosis | تشخيص | The doctor explained the diagnosis and discussed the next steps. | شرح الطبيب التشخيص وناقش الخطوات التالية. | noun
+W | gene therapy | العلاج الجيني | The article explains what the gene therapy trial aims to test. | يوضح المقال ما تهدف تجربة العلاج الجيني إلى اختباره. | noun
 W|vaccine|لقاح|The vaccine was developed in record time.|طُوّر اللقاح في وقت قياسي.|noun
 W|clinical trial|تجربة سريرية|The drug is still in clinical trials.|ما زال الدواء في مرحلة التجارب السريرية.|noun
 W|life expectancy|متوسط العمر المتوقع|Life expectancy has risen over the last century.|ارتفع متوسط العمر المتوقع خلال القرن الماضي.|noun
-W|treatable|قابل للعلاج|Most infections are now treatable.|معظم العدوى قابلة للعلاج الآن.|adjective
+W | treatable | قابل للعلاج | The doctor said the condition was treatable and explained the options. | قال الطبيب إن الحالة قابلة للعلاج وشرح الخيارات. | adjective
 W|peer-reviewed study|دراسة محكمة|A single peer-reviewed study can be informative without settling the question on its own.|قد تكون دراسة محكمة واحدة مفيدة دون أن تحسم المسألة بمفردها.|noun
 W|eradicate|يقضي على (نهائيًا)|Vaccination helped eradicate smallpox.|ساعد التطعيم على القضاء على الجدري.|verb
 L|التوعية بالصحة النفسية|Mental Health Awareness|أن يناقش المتعلم الصحة النفسية بلغة حسّاسة ومحترمة.|Talking openly about mental health helps to reduce the stigma around it.|التحدث بصراحة عن الصحة النفسية يساعد على تقليل الوصمة المرتبطة بها.|To discuss mental health in sensitive and respectful language.
@@ -52,25 +52,25 @@ W|burnout|الاحتراق الوظيفي|Long hours can lead to burnout.|قد �
 W|wellbeing|الرفاه؛ السلامة النفسية|Employers should care about staff wellbeing.|يجب أن يهتم أصحاب العمل برفاه الموظفين.|noun
 W|cope with|يتعامل مع (صعوبة)|She learned to cope with stress.|تعلّمت كيف تتعامل مع التوتر.|phrasal verb
 W|seek help|يطلب المساعدة|Don't be afraid to seek help.|لا تخف من طلب المساعدة.|phrase
-W|resilience|المرونة النفسية|Sport can build resilience in children.|يمكن للرياضة أن تبني المرونة النفسية لدى الأطفال.|noun
+W | resilience | المرونة النفسية | The workshop explored resilience and the importance of support. | تناولت الورشة المرونة النفسية وأهمية الدعم. | noun
 W|counselling|إرشاد نفسي|Counselling can provide structured support for some people.|يمكن للإرشاد النفسي أن يقدم دعمًا منظمًا لبعض الأشخاص.|noun
 W|support network|شبكة دعم|A strong support network can make stressful periods easier to manage.|يمكن لشبكة دعم قوية أن تجعل الفترات المجهدة أسهل في التعامل معها.|noun
 L|حملات الصحة العامة|Public Health Campaigns|أن يقيّم المتعلم فاعلية حملة صحية ويقترح تحسينًا.|The campaign raised awareness, but it failed to change people's behaviour in the long term.|رفعت الحملة مستوى الوعي، لكنها لم تنجح في تغيير سلوك الناس على المدى الطويل.|To evaluate how effective a health campaign is and suggest an improvement.
 W|raise awareness|يرفع الوعي|The video aims to raise awareness of diabetes.|يهدف الفيديو إلى رفع الوعي بمرض السكري.|phrase
 W|campaign|حملة|The anti-smoking campaign targets teenagers.|تستهدف حملة مكافحة التدخين المراهقين.|noun
 W|behaviour|سلوك|It is hard to change people's behaviour.|من الصعب تغيير سلوك الناس.|noun
-W|preventable|يمكن الوقاية منه|Many heart attacks are preventable.|يمكن الوقاية من كثير من النوبات القلبية.|adjective
-W|sedentary|قليل الحركة|A sedentary lifestyle increases health risks.|نمط الحياة قليل الحركة يزيد المخاطر الصحية.|adjective
+W | preventable | يمكن الوقاية منه | The report distinguishes preventable injuries from those the programme did not address. | يميز التقرير الإصابات التي يمكن الوقاية منها عن الإصابات التي لم يتناولها البرنامج. | adjective
+W | sedentary | قليل الحركة | My job is sedentary, so most of my working day is spent sitting. | عملي قليل الحركة، لذلك أقضي معظم يوم العمل جالسًا. | adjective
 W|target|يستهدف|The adverts target young people.|تستهدف الإعلانات الشباب.|verb
 W|intervention|تدخل|Researchers evaluated whether the intervention changed smoking habits.|قيّم الباحثون ما إذا كان التدخل قد غيّر عادات التدخين.|noun
-W|discourage|يُثني عن|Higher taxes on cigarettes discourage young people from smoking.|تُثني الضرائب المرتفعة على السجائر الشباب عن التدخين.|verb
-L|خرافات التغذية|Nutrition Myths|أن يميّز المتعلم بين المعلومة الصحيحة والخرافة الغذائية ويعلّل.|Contrary to popular belief, eating late at night does not automatically cause weight gain.|خلافًا للاعتقاد الشائع، الأكل في وقت متأخر من الليل لا يسبّب زيادة الوزن تلقائيًا.|To tell nutrition facts from myths and explain why.
+W | discourage | يُثني عن | The campaign aims to discourage smoking among teenagers. | تهدف الحملة إلى ثني المراهقين عن التدخين. | verb
+L | خرافات التغذية | Nutrition Myths | تقييم ادعاء غذائي من حيث الدليل والسببية وصياغة استنتاج محدود. | An association between a food and weight gain does not by itself prove a causal link. | لا يثبت الارتباط بين طعام وزيادة الوزن وحده وجود علاقة سببية. | Evaluate a nutrition claim in terms of evidence and causality and state a limited conclusion.
 W|contrary to popular belief|خلافًا للاعتقاد الشائع|Contrary to popular belief, bats are not blind.|خلافًا للاعتقاد الشائع، الخفافيش ليست عمياء.|phrase
 W|myth|خرافة|It's a myth that we only use ten percent of our brain.|من الخرافات أننا لا نستخدم سوى عشرة بالمئة من دماغنا.|noun
-W|weight gain|زيادة الوزن|Stress can lead to weight gain.|قد يؤدي التوتر إلى زيادة الوزن.|noun
-W|fad diet|حمية رائجة مؤقتة|Most fad diets don't work in the long term.|معظم الحميات الرائجة لا تنجح على المدى الطويل.|noun
-W|supplement|مكمّل غذائي|Most people don't need vitamin supplements.|معظم الناس لا يحتاجون إلى مكمّلات الفيتامينات.|noun
-W|moderation|الاعتدال|Sweets are fine in moderation.|لا بأس بالحلويات باعتدال.|noun
+W | weight gain | زيادة الوزن | The article discusses several possible explanations for weight gain. | يناقش المقال عدة تفسيرات محتملة لزيادة الوزن. | noun
+W | fad diet | حمية رائجة مؤقتة | The article questions the evidence behind a popular fad diet. | يشكك المقال في الأدلة التي تستند إليها حمية شائعة مؤقتًا. | noun
+W | supplement | مكمّل غذائي | She asked the pharmacist whether the supplement could interact with her medicine. | سألت الصيدلي عما إذا كان المكمل قد يتفاعل مع دوائها. | noun
+W | moderation | الاعتدال | The article uses moderation to mean avoiding extremes. | يستخدم المقال كلمة الاعتدال بمعنى تجنب الإفراط والتفريط. | noun
 W|causal link|علاقة سببية|An association does not automatically prove a causal link.|لا يثبت الارتباط تلقائيًا وجود علاقة سببية.|noun
 W|overrated|مبالغ في تقديره|Some so-called superfoods are overrated.|بعض ما يُسمّى بالأطعمة الخارقة مبالغ في تقديره.|adjective
 U|b2-x-u7|التقنية والأخلاقيات|Technology and Ethics|ناقش الخصوصية وتأثير وسائل التواصل والأتمتة والأمن السيبراني.|cpu.fill|Discuss privacy, the influence of social media, automation and cybersecurity.

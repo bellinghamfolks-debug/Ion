@@ -530,5 +530,157 @@
       "explanationAr": "يستجيب الجواب الصحيح لمقدار العمل بإجراء ومراجعة. وصف الغرفة أو رفض القلق لا يعالج الاعتراض المطروح.",
       "explanationEn": "The correct answer responds to workload with an action and review. Describing the room or dismissing concern does not address the objection."
     }
+  },
+  "b2-x-u5-l1": {
+    "focusAr": "ميّز بين السبب والآلية والنتيجة: حرق fossil fuels يطلق greenhouse gases، وتساعد هذه الغازات على احتجاز الحرارة. emissions انبعاثات، وليست كل كلمة pollution مرادفًا دقيقًا لها. mitigate تعني تخفيف شدة أثر، لا إزالته تمامًا. عند وصف خطة، قل aims to إذا كانت هدفًا لم يتحقق بعد، واذكر النطاق بدل وعد شامل.",
+    "focusEn": "Separate cause, mechanism, and outcome: burning fossil fuels releases greenhouse gases, which help retain heat. Emissions are releases into the environment, not an exact synonym for every use of pollution. Mitigate means reduce the severity of an effect, not eliminate it. Use aims to for an unachieved target and state its scope instead of making an unlimited promise.",
+    "taskAr": "اشرح بإيجاز العلاقة بين الوقود الأحفوري والانبعاثات، ثم صف هدفًا تدريبيًا لشركة لخفض انبعاثاتها دون الادعاء أنه تحقق.",
+    "taskEn": "Briefly explain the link between fossil fuels and emissions, then describe an imagined company reduction target without claiming success already.",
+    "exampleEn": "Burning fossil fuels releases greenhouse gases. In this example, the company aims to reduce emissions from its buildings by improving energy efficiency. We would need measurements to know whether it meets the target.",
+    "exampleAr": "يؤدي حرق الوقود الأحفوري إلى إطلاق غازات دفيئة. في هذا المثال، تهدف الشركة إلى خفض انبعاثات مبانيها بتحسين كفاءة الطاقة. ونحتاج إلى قياسات لمعرفة هل تحقق الهدف.",
+    "check": {
+      "promptEn": "A company aims to cut emissions by half. What does that statement establish?",
+      "choices": [
+        "It has a target, but achievement is not established.",
+        "Its emissions have already fallen by half.",
+        "It has eliminated all environmental effects."
+      ],
+      "answer": "It has a target, but achievement is not established.",
+      "explanationAr": "aims to تصف هدفًا. لا تثبت تحقق الخفض، ولا تعني إزالة جميع الآثار البيئية.",
+      "explanationEn": "Aims to describes a target. It establishes neither completion of the reduction nor elimination of all environmental effects."
+    }
+  },
+  "b2-x-u5-l2": {
+    "focusAr": "renewable تصف مصدرًا يتجدد، ولا تعني أن الإنتاج ثابت في كل ساعة. intermittent إنتاج يتغير أو ينقطع، وstorage تخزين الطاقة لا تخزين البطاريات نفسها. capacity القدرة الممكنة، وهي غير كمية الطاقة المنتجة فعليًا. yet هنا رابط بمعنى «ومع ذلك»، فاستعمله لعرض ميزة يعقبها تحدٍ محدد.",
+    "focusEn": "Renewable describes a replenishing source, not constant output every hour. Intermittent describes varying or interrupted output; storage refers here to storing energy, not storing batteries themselves. Capacity is potential capability, not the energy actually generated. Yet means nevertheless as a connector here, useful for pairing a benefit with a specific challenge.",
+    "taskAr": "وازن في مقترح تدريبي بين الاستفادة من الطاقة الشمسية والحاجة إلى تدبير الكهرباء عند انخفاض الإنتاج، دون تحديد تكلفة غير معطاة.",
+    "taskEn": "In a practice proposal, balance using solar power with arranging electricity when output is low, without inventing a cost.",
+    "exampleEn": "Solar power could provide part of the site's electricity, yet output will vary. We would need to consider storage and the grid connection before deciding how much capacity to install.",
+    "exampleAr": "قد توفر الطاقة الشمسية جزءًا من كهرباء الموقع، لكن الإنتاج سيتغير. نحتاج إلى النظر في تخزين الطاقة والاتصال بالشبكة قبل تحديد القدرة التي سنركبها.",
+    "check": {
+      "promptEn": "A site increases generating capacity. Which conclusion does not automatically follow?",
+      "choices": [
+        "It produces the maximum possible output at every moment.",
+        "It has increased its potential generating capability.",
+        "Capacity and actual output need to be distinguished."
+      ],
+      "answer": "It produces the maximum possible output at every moment.",
+      "explanationAr": "زيادة القدرة لا تعني تشغيلها بأقصى إنتاج دائمًا؛ الإنتاج الفعلي يعتمد على ظروف التشغيل والمصدر. لذلك لا نستنتج التطابق المستمر بينهما.",
+      "explanationEn": "More capacity does not imply maximum output at every moment; actual generation depends on operating conditions and the source. Constant equality cannot be assumed."
+    }
+  },
+  "b2-x-u5-l3": {
+    "focusAr": "liveable ملائم للعيش وفق حاجات مثل السكن والتنقل والمساحات العامة، لا ترتيب عالمي ثابت. urban sprawl توسع عمراني ممتد، وrevitalise إعادة النشاط إلى منطقة. في اقتراح تخطيط حضري، وضّح من يستفيد ومن قد يتأثر مؤقتًا وكيف ستقيس النتيجة. كلمة green وحدها لا تكفي لإثبات أثر بيئي محدد.",
+    "focusEn": "Liveable concerns needs such as housing, transport, and public space, not a permanent global ranking. Urban sprawl is outward, spread-out development; revitalise means bring renewed activity to an area. In a planning proposal, identify beneficiaries, temporary disruption, and a way to measure results. Green language alone does not establish a particular environmental outcome.",
+    "taskAr": "اقترح مسار دراجات قرب مدرسة، مع فائدة محتملة ومخاوف تحتاج مشاورة ومعيار لتقييم التجربة.",
+    "taskEn": "Propose a cycle lane near a school, with a possible benefit, an issue requiring consultation, and a trial measure.",
+    "exampleEn": "A cycle lane could make the route to school more practical for some families. We should consult residents about access during construction and monitor how many people use the lane once it opens.",
+    "exampleAr": "قد يجعل مسار الدراجات الطريق إلى المدرسة أنسب لبعض الأسر. ينبغي استشارة السكان بشأن الوصول أثناء الإنشاء ومتابعة عدد مستخدمي المسار بعد افتتاحه.",
+    "check": {
+      "promptEn": "Which proposal includes a way to evaluate a transport initiative?",
+      "choices": [
+        "Count use of the new route and gather feedback about access.",
+        "Call it sustainable without checking any outcome.",
+        "Assume that every resident has identical travel needs."
+      ],
+      "answer": "Count use of the new route and gather feedback about access.",
+      "explanationAr": "يتضمن الجواب الصحيح ملاحظة الاستخدام وسؤال المتأثرين. التسمية الإيجابية أو افتراض تطابق الاحتياجات لا يقيّمان النتيجة.",
+      "explanationEn": "The correct answer observes use and asks affected people about access. A positive label or assumed identical needs does not evaluate outcomes."
+    }
+  },
+  "b2-x-u5-l4": {
+    "focusAr": "endangered مهدد بالانقراض، وليس extinct منقرضًا بالفعل. on the brink of يتبعها اسم أو فعل بصيغة ing لوصف القرب من تغير كبير. poaching صيد غير قانوني، بينما فقدان habitat تهديد مختلف. biodiversity تنوع الكائنات، وthrive نمو أو ازدهار؛ تعافي مجموعة في منطقة لا يثبت تعافي النوع في كل مكان.",
+    "focusEn": "Endangered means at risk of extinction, not already extinct. On the brink of takes a noun or an -ing form and describes nearing a major change. Poaching is illegal hunting, distinct from habitat loss. Biodiversity is the variety of living things, and thrive means prosper or grow well. Recovery in one area does not establish recovery everywhere.",
+    "taskAr": "لخّص تقريرًا تدريبيًا عن زيادة عدد حيوان داخل محمية مع بقاء موائله خارجها مهددة، دون تعميم التعافي.",
+    "taskEn": "Summarize a practice report showing an animal's numbers rising inside one reserve while habitats outside remain threatened, without generalizing recovery.",
+    "exampleEn": "The population has increased within the protected area, which is encouraging. However, habitat loss continues outside it, so we cannot conclude that the species is thriving everywhere.",
+    "exampleAr": "ازداد عدد الحيوانات داخل المنطقة المحمية، وهذا مشجع. لكن فقدان الموائل مستمر خارجها، لذلك لا يمكننا استنتاج أن النوع يزدهر في كل مكان.",
+    "check": {
+      "promptEn": "An endangered species is best described as which of the following?",
+      "choices": [
+        "A species at risk of becoming extinct.",
+        "A species that has already disappeared entirely.",
+        "Any species living in a zoo."
+      ],
+      "answer": "A species at risk of becoming extinct.",
+      "explanationAr": "endangered تصف خطر الانقراض، لا حدوثه بالفعل. ومجرد وجود نوع في حديقة حيوان لا يحدد حالته.",
+      "explanationEn": "Endangered describes a risk of extinction, not completed extinction. Merely living in a zoo does not establish a species' status."
+    }
+  },
+  "b2-x-u6-l1": {
+    "focusAr": "diagnosis تحديد الحالة، وtreatment علاجها؛ والتشخيص لا يضمن نجاح العلاج. clinical trial دراسة تدخل صحي على مشاركين لتقييم آثاره، وليست إعلانًا مسبقًا للنجاح. treatable قابل للعلاج لا يعني قابلًا للشفاء التام دائمًا. عند تلخيص دراسة، حافظ على كلمات الاحتمال وحجم المجموعة وحدود النتيجة بدل تضخيم وصف breakthrough.",
+    "focusEn": "Diagnosis identifies a condition; treatment addresses it, and diagnosis does not guarantee treatment success. A clinical trial studies a health intervention in participants to evaluate its effects, not announce success in advance. Treatable does not always mean completely curable. When summarizing a study, preserve uncertainty, group size, and limitations rather than exaggerating breakthrough language.",
+    "taskAr": "لخّص خبرًا تدريبيًا يقول إن علاجًا قيد التجربة أظهر نتائج أولية واعدة، دون الادعاء بفعاليته للجميع أو اعتماده.",
+    "taskEn": "Summarize a practice report saying an experimental treatment showed promising early results, without claiming universal effectiveness or approval.",
+    "exampleEn": "The report describes promising early results from a clinical trial. Further research is needed to assess the treatment's benefits and risks, so the findings should not be presented as a guaranteed cure.",
+    "exampleAr": "يصف التقرير نتائج أولية واعدة من تجربة سريرية. ما زالت هناك حاجة إلى بحث إضافي لتقييم فوائد العلاج ومخاطره، لذلك لا ينبغي عرض النتائج بوصفها شفاءً مضمونًا.",
+    "check": {
+      "promptEn": "A treatment is still in a clinical trial. What is the safest interpretation of that wording alone?",
+      "choices": [
+        "It is being evaluated; the wording alone does not establish success or approval.",
+        "It is guaranteed to cure every participant.",
+        "It has already been proved risk-free."
+      ],
+      "answer": "It is being evaluated; the wording alone does not establish success or approval.",
+      "explanationAr": "وجود العلاج في تجربة يعني تقييمه. العبارة وحدها لا تثبت نجاحًا شاملًا أو اعتمادًا أو انعدام المخاطر.",
+      "explanationEn": "Being in a trial means the treatment is being evaluated. The phrase alone establishes neither universal success, approval, nor absence of risk."
+    }
+  },
+  "b2-x-u6-l2": {
+    "focusAr": "استخدم لغة تصف تجربة الشخص دون تشخيصه أو اختزاله فيها. cope with تعني التعامل مع صعوبة، لا زوالها التام. burnout في السياق المهني مرتبط بضغط العمل المزمن، وليس مرادفًا لكل تعب. support network أشخاص وجهات يقدمون دعمًا، وseek help طلبه. اسأل عما يحتاجه الشخص بدل افتراض حل واحد يناسب الجميع.",
+    "focusEn": "Describe someone's experience without diagnosing or defining them by it. Cope with means manage a difficulty, not necessarily remove it. In occupational use, burnout concerns chronic workplace stress rather than every kind of tiredness. A support network includes people and services offering support; seek help means ask for it. Ask about needs instead of assuming one universal solution.",
+    "taskAr": "صُغ ردًا داعمًا لزميل يقول إن ضغط العمل مرهق، دون تشخيصه أو مطالبته بكشف تفاصيل شخصية.",
+    "taskEn": "Respond supportively to a colleague who says work pressure is overwhelming, without diagnosing them or demanding personal details.",
+    "exampleEn": "That sounds difficult. You don't have to share more than you want to. Would it help to discuss the workload or identify someone you would feel comfortable asking for support?",
+    "exampleAr": "يبدو ذلك صعبًا. لست مضطرًا إلى مشاركة أكثر مما ترغب فيه. هل يساعدك أن نناقش عبء العمل أو نحدد شخصًا ترتاح لطلب الدعم منه؟",
+    "check": {
+      "promptEn": "Which response respects the speaker's choice while offering support?",
+      "choices": [
+        "You can share as much as you want; what support would help?",
+        "You must tell me every private detail now.",
+        "I know your diagnosis from this single sentence."
+      ],
+      "answer": "You can share as much as you want; what support would help?",
+      "explanationAr": "الجواب الصحيح يترك للشخص التحكم في المشاركة ويسأل عن حاجته. إجباره على الإفصاح أو تشخيصه من جملة لا يحققان ذلك.",
+      "explanationEn": "The correct response preserves control over disclosure and asks about needs. Demanding details or diagnosing from one sentence does not."
+    }
+  },
+  "b2-x-u6-l3": {
+    "focusAr": "raise awareness زيادة المعرفة أو الانتباه، وهي ليست تلقائيًا تغيير behaviour. target هنا فعل يحدد الفئة المقصودة، وintervention إجراء منظم يحاول تغيير نتيجة. عند تقييم حملة، فرّق بين الوصول والتذكر والفعل اللاحق، وحدد مدة القياس. انخفاض مشكلة بعد الحملة لا يثبت وحده أنها السبب الوحيد.",
+    "focusEn": "Raise awareness means increase knowledge or attention, not automatically change behaviour. Target is a verb identifying the intended audience, and an intervention is an organized action seeking an outcome. Distinguish reach, recall, and later action when evaluating a campaign, and specify the measurement period. A decline after a campaign does not by itself prove sole causation.",
+    "taskAr": "حلّل حملة تدريبية شاهدها ألف شخص، لكن لا توجد بيانات عن السلوك اللاحق. اذكر ما نعرفه وما نحتاج إلى قياسه.",
+    "taskEn": "Analyse a practice campaign viewed by a thousand people when no later behaviour data exist. State what is known and what remains to be measured.",
+    "exampleEn": "The campaign reached a thousand viewers, but that figure does not show whether behaviour changed. We would need follow-up data linked to the campaign's specific goal before judging its longer-term effect.",
+    "exampleAr": "وصلت الحملة إلى ألف مشاهد، لكن هذا الرقم لا يبين هل تغير السلوك. نحتاج إلى بيانات متابعة مرتبطة بهدف الحملة المحدد قبل الحكم على أثرها طويل الأمد.",
+    "check": {
+      "promptEn": "A video has many views but no follow-up results. What can be concluded?",
+      "choices": [
+        "It reached viewers, but lasting behaviour change has not been demonstrated.",
+        "Every viewer changed their behaviour permanently.",
+        "The campaign certainly had no effect at all."
+      ],
+      "answer": "It reached viewers, but lasting behaviour change has not been demonstrated.",
+      "explanationAr": "عدد المشاهدات يبين الوصول ولا يثبت التغيير الدائم. غياب القياس لا يثبت النجاح الشامل ولا انعدام أي أثر.",
+      "explanationEn": "View counts show reach, not lasting change. Missing measurement proves neither universal success nor complete absence of effect."
+    }
+  },
+  "b2-x-u6-l4": {
+    "focusAr": "عند فحص ادعاء غذائي، ميّز بين myth اعتقاد خاطئ وادعاء لم يُختبر بعد؛ لا تستخدم الكلمة بدل الدليل. causal link علاقة سببية لا يثبتها تزامن حدثين. contrary to popular belief تحتاج اعتقادًا محددًا وتصحيحًا مسندًا. supplement مكمل غذائي؛ لا تفترض أن جميع المنتجات أو احتياجات الناس متطابقة.",
+    "focusEn": "When evaluating a nutrition claim, distinguish a myth, a false belief, from an untested claim; the label is not a substitute for evidence. A causal link is not established merely because two events occur together. Contrary to popular belief needs a specific belief and a supported correction. Supplement means a dietary supplement; do not assume every product or person's needs are identical.",
+    "taskAr": "فند منطقيًا إعلانًا تدريبيًا يستنتج فعالية مكمل من تجربة شخص واحد، دون إصدار توصية باستخدام المنتج أو تركه.",
+    "taskEn": "Critique a practice advertisement that infers a supplement's effectiveness from one person's experience, without recommending taking or stopping it.",
+    "exampleEn": "One person's experience does not establish a causal link between the supplement and the reported change. Other factors may have contributed. We would need relevant research on that particular product and outcome to assess the claim.",
+    "exampleAr": "لا تثبت تجربة شخص واحد علاقة سببية بين المكمل والتغير المذكور. ربما أسهمت عوامل أخرى. نحتاج إلى بحث ذي صلة بذلك المنتج والنتيجة المحددة لتقييم الادعاء.",
+    "check": {
+      "promptEn": "Someone felt better after taking a supplement. What does this observation alone prove?",
+      "choices": [
+        "Only that the reported improvement followed its use, not that it caused it.",
+        "The supplement works for everyone.",
+        "All other possible explanations have been excluded."
+      ],
+      "answer": "Only that the reported improvement followed its use, not that it caused it.",
+      "explanationAr": "ترتيب الحدثين زمنيًا لا يعزل السبب. لا تسمح تجربة واحدة بالتعميم أو باستبعاد جميع التفسيرات الأخرى.",
+      "explanationEn": "A sequence in time does not isolate the cause. One experience cannot justify generalization or eliminate every alternative explanation."
+    }
   }
 }

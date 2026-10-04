@@ -8,7 +8,7 @@
   "recoveryVerified": false,
   "recoveryFingerprint": {
     "bundleIdentifier": "com.englishnova.app",
-    "curriculumSHA256": "01a00f9659ea63986159eb8d878415e185bf14ba5058d68a3666a3aee013c4ff",
+    "curriculumSHA256": "b2205c9156e4b48af33f478777c1aee0dff3e987f91c88086f82512c0a011200",
     "translationsSHA256": "b3fddb2d4e9230e293eb7b0dd4c0ed48773a183b6eca1bb498acd6f679b69e80"
   },
   "swiftSourceFiles": 129,

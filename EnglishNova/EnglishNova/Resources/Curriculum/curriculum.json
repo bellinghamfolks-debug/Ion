@@ -95853,11 +95853,11 @@
                 },
                 {
                   "id": "b1-extra-4-xv4",
-                  "english": "eventually",
-                  "arabic": "في نهاية المطاف",
-                  "example": "We took the wrong road but eventually found the hotel.",
-                  "exampleArabic": "سلكنا الطريق الخطأ لكننا وجدنا الفندق في نهاية المطاف.",
-                  "partOfSpeech": "adverb",
+                  "english": "later on",
+                  "arabic": "لاحقًا",
+                  "example": "We stopped for coffee and later on continued our journey.",
+                  "exampleArabic": "توقفنا لشرب القهوة ثم واصلنا رحلتنا لاحقًا.",
+                  "partOfSpeech": "adverbial phrase",
                   "phonetic": null
                 }
               ],
@@ -95867,7 +95867,7 @@
                   "promptAr": "Lesson intro & key words",
                   "promptEn": "First, we arrived; then, the meeting started.",
                   "answer": "First, we arrived; then, the meeting started.",
-                  "explanationAr": "الهدف: ترتيب أحداث قصة باستخدام روابط زمنية.\n\nModel sentence: First, we arrived; then, the meeting started.\n\nNew words:\n• then — ثم\n• meanwhile — في هذه الأثناء\n• at first — في البداية\n• after that — بعد ذلك\n• finally — أخيرًا\n• suddenly — فجأة\n• eventually — في نهاية المطاف\n\nListen to the model, then practise the words in the exercises.",
+                  "explanationAr": "الهدف: ترتيب أحداث قصة باستخدام روابط زمنية.\n\nModel sentence: First, we arrived; then, the meeting started.\n\nNew words:\n• then — ثم\n• meanwhile — في هذه الأثناء\n• at first — في البداية\n• after that — بعد ذلك\n• finally — أخيرًا\n• suddenly — فجأة\n• later on — لاحقًا\n\nListen to the model, then practise the words in the exercises.",
                   "accessibilityHint": "Listen to the model sentence, then continue",
                   "speechText": "First, we arrived; then, the meeting started.",
                   "id": "b1-extra-4-e1",
@@ -95956,10 +95956,10 @@
                 {
                   "type": "flashcard",
                   "promptAr": "New word — listen and learn it from the example.",
-                  "answer": "eventually",
-                  "explanationAr": "eventually (adverb)\ne.g., We took the wrong road but eventually found the hotel.\nبالعربية: في نهاية المطاف",
+                  "answer": "later on",
+                  "explanationAr": "later on (adverbial phrase)\ne.g., We stopped for coffee and later on continued our journey.\nبالعربية: لاحقًا",
                   "accessibilityHint": "Listen to the word, then continue",
-                  "speechText": "eventually",
+                  "speechText": "later on",
                   "id": "b1-extra-4-e8",
                   "promptEn": null,
                   "choices": null,
@@ -96021,7 +96021,7 @@
                   "promptEn": "meanwhile",
                   "answer": "في هذه الأثناء",
                   "choices": [
-                    "في نهاية المطاف",
+                    "لاحقًا",
                     "بعد ذلك",
                     "في هذه الأثناء"
                   ],
@@ -96109,15 +96109,15 @@
                 {
                   "type": "listenAndChoose",
                   "promptAr": "Listen and choose the word you hear.",
-                  "answer": "eventually",
+                  "answer": "later on",
                   "choices": [
-                    "suddenly",
-                    "eventually",
-                    "finally"
+                    "suggest",
+                    "alternative",
+                    "later on"
                   ],
-                  "explanationAr": "You heard: eventually.",
+                  "explanationAr": "You heard: later on.",
                   "accessibilityHint": "Play the audio, then choose one",
-                  "speechText": "eventually",
+                  "speechText": "later on",
                   "id": "b1-extra-4-e17",
                   "promptEn": null,
                   "tokens": null,
@@ -96142,17 +96142,17 @@
                 },
                 {
                   "type": "multipleChoice",
-                  "promptAr": "What does “eventually” mean?",
-                  "promptEn": "eventually",
-                  "answer": "في نهاية المطاف",
+                  "promptAr": "What does “later on” mean?",
+                  "promptEn": "later on",
+                  "answer": "لاحقًا",
                   "choices": [
-                    "في البداية",
-                    "بعد ذلك",
-                    "في نهاية المطاف"
+                    "حل بديل مؤقت",
+                    "لاحقًا",
+                    "أخيرًا"
                   ],
-                  "explanationAr": "eventually = في نهاية المطاف\ne.g., We took the wrong road but eventually found the hotel.",
+                  "explanationAr": "later on = لاحقًا\ne.g., We stopped for coffee and later on continued our journey.",
                   "accessibilityHint": "Choose the correct meaning",
-                  "speechText": "eventually",
+                  "speechText": "later on",
                   "id": "b1-extra-4-e19",
                   "tokens": null,
                   "acceptableAnswers": null
@@ -96280,7 +96280,7 @@
                   "type": "explanation",
                   "promptAr": "Lesson review",
                   "answer": "First, we arrived; then, the meeting started.",
-                  "explanationAr": "You practised: then, meanwhile, at first, after that, finally, suddenly, eventually.\nKey sentence: First, we arrived; then, the meeting started..\nTry to use these words in a sentence of your own.",
+                  "explanationAr": "You practised: then, meanwhile, at first, after that, finally, suddenly, later on.\nKey sentence: First, we arrived; then, the meeting started..\nTry to use these words in a sentence of your own.",
                   "accessibilityHint": "Read the review, then finish the lesson",
                   "speechText": "First, we arrived; then, the meeting started.",
                   "id": "b1-extra-4-e27",
@@ -96526,7 +96526,7 @@
                   "choices": [
                     "deal with",
                     "suggest",
-                    "eventually"
+                    "later on"
                   ],
                   "explanationAr": "You heard: suggest.",
                   "accessibilityHint": "Play the audio, then choose one",
@@ -96594,7 +96594,7 @@
                   "answer": "يقترح",
                   "choices": [
                     "بعد ذلك",
-                    "في نهاية المطاف",
+                    "لاحقًا",
                     "يقترح"
                   ],
                   "explanationAr": "suggest = يقترح\ne.g., I would like to suggest a different approach.",
@@ -127204,11 +127204,11 @@
                 },
                 {
                   "id": "b1-x-u12-l2-w10",
-                  "english": "eventually",
-                  "arabic": "في النهاية",
-                  "example": "We eventually found the correct address after asking for directions.",
-                  "exampleArabic": "وجدنا العنوان الصحيح في النهاية بعد أن سألنا عن الطريق.",
-                  "partOfSpeech": "adverb",
+                  "english": "to my surprise",
+                  "arabic": "لدهشتي",
+                  "example": "To my surprise, the lost wallet was still on the café table.",
+                  "exampleArabic": "لدهشتي، كانت المحفظة المفقودة لا تزال على طاولة المقهى.",
+                  "partOfSpeech": "phrase",
                   "phonetic": null
                 }
               ],
@@ -127218,7 +127218,7 @@
                   "promptAr": "Lesson intro & key words",
                   "promptEn": "While I was waiting for the bus, I happened to bump into an old school friend.",
                   "answer": "While I was waiting for the bus, I happened to bump into an old school friend.",
-                  "explanationAr": "الهدف: أن يحكي المتعلم موقفًا غير متوقع مستخدمًا الماضي المستمر والبسيط.\n\nModel sentence: While I was waiting for the bus, I happened to bump into an old school friend.\n\nNew words:\n• bump into — يصادف (شخصًا)\n• unexpected — غير متوقع\n• coincidence — مصادفة\n• all of a sudden — فجأة\n• turn out — يتّضح؛ ينتهي الأمر\n• shocked — مصدوم\n• out of the blue — على نحو مفاجئ\n• unexpectedly — بشكل غير متوقع\n• luckily — لحسن الحظ\n• eventually — في النهاية\n\nListen to the model, then practise the words in the exercises.",
+                  "explanationAr": "الهدف: أن يحكي المتعلم موقفًا غير متوقع مستخدمًا الماضي المستمر والبسيط.\n\nModel sentence: While I was waiting for the bus, I happened to bump into an old school friend.\n\nNew words:\n• bump into — يصادف (شخصًا)\n• unexpected — غير متوقع\n• coincidence — مصادفة\n• all of a sudden — فجأة\n• turn out — يتّضح؛ ينتهي الأمر\n• shocked — مصدوم\n• out of the blue — على نحو مفاجئ\n• unexpectedly — بشكل غير متوقع\n• luckily — لحسن الحظ\n• to my surprise — لدهشتي\n\nListen to the model, then practise the words in the exercises.",
                   "accessibilityHint": "Listen to the model sentence, then continue",
                   "speechText": "While I was waiting for the bus, I happened to bump into an old school friend.",
                   "id": "b1-x-u12-l2-e1",
@@ -127346,10 +127346,10 @@
                 {
                   "type": "flashcard",
                   "promptAr": "New word — listen and learn it from the example.",
-                  "answer": "eventually",
-                  "explanationAr": "eventually (adverb)\ne.g., We eventually found the correct address after asking for directions.\nبالعربية: في النهاية",
+                  "answer": "to my surprise",
+                  "explanationAr": "to my surprise (phrase)\ne.g., To my surprise, the lost wallet was still on the café table.\nبالعربية: لدهشتي",
                   "accessibilityHint": "Listen to the word, then continue",
-                  "speechText": "eventually",
+                  "speechText": "to my surprise",
                   "id": "b1-x-u12-l2-e11",
                   "promptEn": null,
                   "choices": null,
@@ -127392,17 +127392,17 @@
                 },
                 {
                   "type": "multipleChoice",
-                  "promptAr": "What does “eventually” mean?",
-                  "promptEn": "eventually",
-                  "answer": "في النهاية",
+                  "promptAr": "What does “to my surprise” mean?",
+                  "promptEn": "to my surprise",
+                  "answer": "لدهشتي",
                   "choices": [
-                    "لحسن الحظ",
-                    "في النهاية",
-                    "على نحو مفاجئ"
+                    "مصدوم",
+                    "مع ذلك",
+                    "لدهشتي"
                   ],
-                  "explanationAr": "eventually = في النهاية\ne.g., We eventually found the correct address after asking for directions.",
+                  "explanationAr": "to my surprise = لدهشتي\ne.g., To my surprise, the lost wallet was still on the café table.",
                   "accessibilityHint": "Choose the correct meaning",
-                  "speechText": "eventually",
+                  "speechText": "to my surprise",
                   "id": "b1-x-u12-l2-e14",
                   "tokens": null,
                   "acceptableAnswers": null
@@ -127447,7 +127447,7 @@
                   "answer": "turn out",
                   "choices": [
                     "turn out",
-                    "eventually",
+                    "to my surprise",
                     "coincidence"
                   ],
                   "explanationAr": "You heard: turn out.",
@@ -127699,7 +127699,7 @@
                   "promptEn": "unexpectedly",
                   "answer": "بشكل غير متوقع",
                   "choices": [
-                    "في النهاية",
+                    "لدهشتي",
                     "يصادف (شخصًا)",
                     "بشكل غير متوقع"
                   ],
@@ -127729,15 +127729,15 @@
                 {
                   "type": "listenAndChoose",
                   "promptAr": "Listen and choose the word you hear.",
-                  "answer": "eventually",
+                  "answer": "to my surprise",
                   "choices": [
-                    "eventually",
-                    "misunderstanding",
-                    "exactly"
+                    "nevertheless",
+                    "to my surprise",
+                    "unexpected"
                   ],
-                  "explanationAr": "You heard: eventually.",
+                  "explanationAr": "You heard: to my surprise.",
                   "accessibilityHint": "Play the audio, then choose one",
-                  "speechText": "eventually",
+                  "speechText": "to my surprise",
                   "id": "b1-x-u12-l2-e33",
                   "promptEn": null,
                   "tokens": null,
@@ -127767,7 +127767,7 @@
                   "answer": "مصادفة",
                   "choices": [
                     "مصادفة",
-                    "في النهاية",
+                    "لدهشتي",
                     "بشكل غير متوقع"
                   ],
                   "explanationAr": "coincidence = مصادفة\ne.g., What a coincidence to see you here!",
@@ -127781,7 +127781,7 @@
                   "type": "explanation",
                   "promptAr": "Lesson review",
                   "answer": "While I was waiting for the bus, I happened to bump into an old school friend.",
-                  "explanationAr": "You practised: bump into, unexpected, coincidence, all of a sudden, turn out, shocked, out of the blue, unexpectedly, luckily, eventually.\nKey sentence: While I was waiting for the bus, I happened to bump into an old school friend..\nTry to use these words in a sentence of your own.",
+                  "explanationAr": "You practised: bump into, unexpected, coincidence, all of a sudden, turn out, shocked, out of the blue, unexpectedly, luckily, to my surprise.\nKey sentence: While I was waiting for the bus, I happened to bump into an old school friend..\nTry to use these words in a sentence of your own.",
                   "accessibilityHint": "Read the review, then finish the lesson",
                   "speechText": "While I was waiting for the bus, I happened to bump into an old school friend.",
                   "id": "b1-x-u12-l2-e36",
@@ -128413,7 +128413,7 @@
                   "choices": [
                     "خائب الأمل",
                     "تمامًا",
-                    "في النهاية"
+                    "لدهشتي"
                   ],
                   "explanationAr": "exactly = تمامًا\ne.g., Exactly! That's what I think.",
                   "accessibilityHint": "Choose the correct meaning",
@@ -128822,7 +128822,7 @@
                   "promptAr": "Listen and choose the word you hear.",
                   "answer": "make amends",
                   "choices": [
-                    "eventually",
+                    "to my surprise",
                     "disappointed",
                     "make amends"
                   ],

@@ -1286,11 +1286,11 @@
        "phonetic": null
       },
       {
-       "english": "eventually",
-       "arabic": "في النهاية",
-       "example": "We eventually found the correct address after asking for directions.",
-       "exampleArabic": "وجدنا العنوان الصحيح في النهاية بعد أن سألنا عن الطريق.",
-       "partOfSpeech": "adverb",
+       "english": "to my surprise",
+       "arabic": "لدهشتي",
+       "example": "To my surprise, the lost wallet was still on the café table.",
+       "exampleArabic": "لدهشتي، كانت المحفظة المفقودة لا تزال على طاولة المقهى.",
+       "partOfSpeech": "phrase",
        "phonetic": null
       }
      ]

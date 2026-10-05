@@ -77,7 +77,7 @@ U|c1-x-u7|الشؤون الدولية|Global Affairs|ناقش الدبلوماس
 L|الدبلوماسية والعلاقات الدولية|Diplomacy and International Relations|أن يحلل المتعلم مواقف دبلوماسية بلغة محايدة ودقيقة.|The two governments reached a tentative agreement after months of negotiations.|توصّلت الحكومتان إلى اتفاق مبدئي بعد أشهر من المفاوضات.|To analyse diplomatic situations in neutral, precise language.
 W | envoy | مبعوث | In this fictional scenario, an envoy carries a proposal to both governments. | في هذا السيناريو التخيلي، ينقل مبعوث مقترحًا إلى الحكومتين. | noun
 W|negotiations|مفاوضات|Negotiations broke down last night.|انهارت المفاوضات الليلة الماضية.|noun
-W | sanctions | عقوبات | The briefing distinguishes proposed sanctions from measures already in force. | يميز الإحاطة بين العقوبات المقترحة والتدابير النافذة بالفعل. | noun
+W | sanctions | عقوبات | The briefing distinguishes proposed sanctions from measures already in force. | تميز الإحاطة بين العقوبات المقترحة والتدابير النافذة بالفعل. | noun
 W|bilateral|ثنائي|They signed a bilateral trade agreement.|وقّعوا اتفاقية تجارية ثنائية.|adjective
 W|sovereignty|السيادة|The issue touches on national sovereignty.|تمسّ القضية السيادة الوطنية.|noun
 W|de-escalate|يخفّف التصعيد|Both sides tried to de-escalate the crisis.|حاول الطرفان تخفيف التصعيد في الأزمة.|verb
@@ -148,8 +148,8 @@ W|rapport|ألفة؛ علاقة طيبة|She quickly built a rapport with her cl
 W|emotional regulation|تنظيم الانفعال|Emotional regulation helps people respond deliberately instead of reacting impulsively.|يساعد تنظيم الانفعال الناس على الاستجابة بتروٍ بدل رد الفعل الاندفاعي.|noun
 W|empathise|يتعاطف مع|Good managers empathise with their staff without lowering standards.|يتعاطف المديرون الجيدون مع موظفيهم دون التهاون في المعايير.|verb
 U|c1-x-u9|الإعلام والمعلومات|Media and Information|ناقش التضليل وأخلاقيات الصحافة والتأطير والتحيز والوعي الرقمي.|newspaper.fill|Discuss misinformation, journalism ethics, framing and bias, and digital literacy.
-L|التضليل الإعلامي|Misinformation|أن يميّز المتعلم بين الخطأ والتضليل المتعمد ويقترح طرق التحقق.|Misinformation spreads faster than corrections, so fact-checking has never been more important.|ينتشر التضليل أسرع من التصحيحات، لذلك لم يكن التحقق من الحقائق أهم مما هو عليه الآن.|To distinguish errors from deliberate disinformation and suggest ways to verify.
-W|misinformation|معلومات مضلّلة|Misinformation about vaccines is dangerous.|المعلومات المضلّلة عن اللقاحات خطيرة.|noun
+L | التضليل الإعلامي | Misinformation | أن يميّز المتعلم بين الخطأ والتضليل المتعمد ويقترح طرق التحقق. | Careful fact-checking can identify false information without assuming that every error is deliberate. | يمكن للتحقق الدقيق من الحقائق كشف المعلومات الخاطئة دون افتراض أن كل خطأ متعمد. | To distinguish errors from deliberate disinformation and suggest ways to verify.
+W | misinformation | معلومات خاطئة أو مضللة دون اشتراط التعمد | Misinformation about vaccines is dangerous. | المعلومات المضلّلة عن اللقاحات خطيرة. | noun
 W|disinformation|تضليل متعمّد|The campaign used disinformation to influence voters.|استخدمت الحملة التضليل المتعمّد للتأثير في الناخبين.|noun
 W|fact-checking|التحقق من الحقائق|Fact-checking takes time but saves credibility.|يستغرق التحقق من الحقائق وقتًا لكنه يحفظ المصداقية.|noun
 W|debunk|يدحض|Scientists debunked the claim.|دحض العلماء الادعاء.|verb
@@ -159,11 +159,11 @@ W|source verification|التحقق من المصدر|Source verification should 
 W|manipulated media|وسائط متلاعب بها|Manipulated media can combine genuine material with misleading edits.|قد تجمع الوسائط المتلاعب بها بين مادة حقيقية وتعديلات مضللة.|noun
 L|أخلاقيات الصحافة|Journalism Ethics|أن يناقش المتعلم التوازن بين حق الجمهور في المعرفة وحق الخصوصية.|Journalists must balance the public interest against an individual's right to privacy.|يجب على الصحفيين الموازنة بين المصلحة العامة وحق الفرد في الخصوصية.|To discuss the balance between the public's right to know and the right to privacy.
 W|public interest|المصلحة العامة|The story was published in the public interest.|نُشر الخبر خدمةً للمصلحة العامة.|noun
-W|impartial|محايد|The BBC aims to be impartial.|تسعى البي بي سي إلى أن تكون محايدة.|adjective
+W | impartial | محايد | An impartial assessment applies the same evidential standards to each account. | يطبق التقييم المحايد معايير الإثبات نفسها على كل رواية. | adjective
 W|sensationalism|الإثارة الإعلامية|Readers are tired of sensationalism.|سئم القرّاء من الإثارة الإعلامية.|noun
 W|source protection|حماية المصادر|Source protection is vital for investigative reporting.|حماية المصادر حيوية للتحقيقات الصحفية.|noun
 W|intrusive|متطفّل|The questions were intrusive and unnecessary.|كانت الأسئلة متطفلة وغير ضرورية.|adjective
-W|editorial|افتتاحي؛ تحريري|The paper's editorial criticised the decision.|انتقدت افتتاحية الصحيفة القرار.|adjective
+W | editorial | افتتاحية صحفية | The paper's editorial criticised the decision. | انتقدت افتتاحية الصحيفة القرار. | noun
 W|public record|سجل عام|The journalist checked the claim against the public record.|تحقق الصحفي من الادعاء بمقارنته بالسجل العام.|noun
 W|retract|يسحب (خبرًا أو تصريحًا)|The newspaper retracted the story after new evidence emerged.|سحبت الصحيفة الخبر بعد ظهور أدلة جديدة.|verb
 L|التأطير والتحيّز|Framing and Bias|أن يحلل المتعلم كيف تغيّر صياغة الخبر انطباع القارئ.|The same statistic can be framed to sound alarming or reassuring.|يمكن صياغة الإحصائية نفسها لتبدو مقلقة أو مطمئنة.|To analyse how the wording of a story changes the reader's impression.
@@ -175,8 +175,8 @@ W|omission|إغفال|The omission of key facts misled readers.|ضلّل إغف�
 W|slant|ميل؛ انحياز (في التغطية)|The coverage had a political slant.|كانت للتغطية ميول سياسية.|noun
 W|cherry-picking|انتقاء متحيّز|Cherry-picking favourable statistics can distort the overall picture.|يمكن للانتقاء المتحيّز للإحصاءات الملائمة أن يشوه الصورة العامة.|noun
 W|baseline|خط أساس|The increase sounds dramatic until it is compared with the baseline.|تبدو الزيادة كبيرة حتى تُقارن بخط الأساس.|noun
-L|الوعي الرقمي|Digital Literacy|أن يشرح المتعلم مهارات تقييم المحتوى الرقمي بوعي نقدي.|Digital literacy involves questioning who created a piece of content and why.|يتضمن الوعي الرقمي التساؤل عمّن أنشأ المحتوى ولماذا.|To explain the skills needed to evaluate digital content critically.
-W|digital literacy|الوعي الرقمي|Schools now teach digital literacy.|تدرّس المدارس الآن الوعي الرقمي.|noun
+L | الوعي الرقمي | Digital Literacy | أن يشرح المتعلم مهارات تقييم المحتوى الرقمي بوعي نقدي. | To develop digital literacy, ask who created a piece of content and why. | لتنمية الوعي الرقمي، اسأل عمّن أنشأ المحتوى ولماذا. | To explain the skills needed to evaluate digital content critically.
+W | digital literacy | الوعي الرقمي | The course develops digital literacy through source-evaluation tasks. | تطور الدورة الوعي الرقمي عبر مهام تقييم المصادر. | noun
 W|scrutinise|يدقّق في|Scrutinise the data before you trust it.|دقّق في البيانات قبل أن تثق بها.|verb
 W|deepfake|تزييف عميق|The deepfake video looked completely real.|بدا مقطع التزييف العميق حقيقيًا تمامًا.|noun
 W|provenance|مصدر الأصل|Check the provenance of the image.|تحقّق من مصدر الصورة الأصلي.|noun
@@ -187,7 +187,7 @@ W|metadata|بيانات وصفية|Metadata can provide useful clues about when 
 U|c1-x-u10|القيادة والمؤسسات|Leadership and Organisations|تحدّث عن التخطيط الاستراتيجي وإدارة التغيير وثقافة المؤسسة والتواصل في الأزمات.|person.crop.rectangle.stack.fill|Talk about strategic planning, change management, organisational culture and crisis communication.
 L|التخطيط الاستراتيجي|Strategic Planning|أن يناقش المتعلم بناء رؤية وأهداف استراتيجية قابلة للتنفيذ.|Our long-term vision must be translated into concrete, measurable objectives.|يجب ترجمة رؤيتنا طويلة المدى إلى أهداف ملموسة وقابلة للقياس.|To discuss building a vision and strategic goals that can be carried out.
 W|vision|رؤية|The company's vision is clear and ambitious.|رؤية الشركة واضحة وطموحة.|noun
-W|concrete|ملموس|We need concrete proposals, not ideas.|نحتاج إلى مقترحات ملموسة لا أفكار.|adjective
+W | concrete | ملموس | We need concrete proposals with clear actions and responsibilities. | نحتاج إلى مقترحات محددة تتضمن إجراءات ومسؤوليات واضحة. | adjective
 W|stakeholders|أصحاب المصلحة|All stakeholders were consulted.|استُشير جميع أصحاب المصلحة.|noun
 W|prioritise|يعطي الأولوية|We must prioritise customer safety.|يجب أن نعطي الأولوية لسلامة العملاء.|verb
 W|benchmark|معيار مرجعي|We use last year's results as a benchmark.|نستخدم نتائج العام الماضي معيارًا مرجعيًا.|noun
@@ -199,7 +199,7 @@ W|resistance|مقاومة|The plan met strong resistance from staff.|واجهت 
 W|rationale|المبرّر المنطقي|Explain the rationale behind your decision.|اشرح المبرّر وراء قرارك.|noun
 W|buy-in|القبول والدعم|We need buy-in from senior management.|نحتاج إلى دعم الإدارة العليا.|noun
 W|restructuring|إعادة الهيكلة|The restructuring led to several new roles.|أدت إعادة الهيكلة إلى عدة أدوار جديدة.|noun
-W|roll out|يطرح تدريجيًا|The system will be rolled out next month.|سيُطرح النظام الشهر المقبل.|phrasal verb
+W | roll out | يطبّق؛ يعمّم | The system will be rolled out next month. | سيُطرح النظام الشهر المقبل. | phrasal verb
 W|morale|المعنويات|Staff morale is low after the cuts.|معنويات الموظفين منخفضة بعد التخفيضات.|noun
 W|change fatigue|إرهاق التغيير|Repeated reorganisations can create change fatigue among employees.|قد تخلق عمليات إعادة التنظيم المتكررة إرهاقًا من التغيير لدى الموظفين.|noun
 W|pilot|تجربة محدودة|The company ran a pilot before rolling out the new process nationally.|أجرت الشركة تجربة محدودة قبل تعميم العملية الجديدة على المستوى الوطني.|noun

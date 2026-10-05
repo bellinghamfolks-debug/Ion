@@ -834,5 +834,157 @@
       "explanationAr": "يسمي الجواب الصحيح استجابة المتحدث ويطلب الفهم. لا يستنتج شعور الآخر يقينًا من مظهره ولا ينكر مشاعر من يبدو هادئًا.",
       "explanationEn": "The correct response notices one's own reaction and seeks understanding. It does not infer another's feelings with certainty or deny emotion behind calm behaviour."
     }
+  },
+  "c1-x-u9-l1": {
+    "focusAr": "misinformation معلومات خاطئة أو مضللة دون اشتراط قصد الخداع، وdisinformation تتضمن قصدًا متعمدًا؛ لا تستنتج النية من الخطأ وحده. unfounded يصف غياب أساس كافٍ، وdebunk دحض ادعاء بفحص أو أدلة. source verification تتحقق من أصل المادة، لكنها لا تغني عن فحص الادعاء والسياق والتاريخ.",
+    "focusEn": "Misinformation is false or misleading information without a required intention to deceive; disinformation involves deliberate deception. Error alone does not establish intent. Unfounded means lacking adequate basis; debunk means expose a claim's falsity through scrutiny or evidence. Source verification checks origin but does not replace examination of the claim, context, and date.",
+    "taskAr": "اكتب تصحيحًا لتاريخ فعالية نُشر خطأ، مع تحديد الصحيح والمصدر وعدم اتهام الناشر بتعمد الخداع دون دليل.",
+    "taskEn": "Write a correction to a wrongly published event date, stating the accurate date and source without alleging deliberate deception without evidence.",
+    "exampleEn": "The earlier post gave Thursday as the event date, but the organizer's notice states Friday. Please use the corrected date. This establishes an error in the post; it does not establish whether the error was intentional.",
+    "exampleAr": "ذكر المنشور السابق أن الفعالية الخميس، لكن إعلان المنظم يحدد الجمعة. يرجى اعتماد التاريخ المصحح. يثبت ذلك خطأ في المنشور، لكنه لا يحدد هل كان متعمدًا.",
+    "check": {
+      "promptEn": "A post contains an error, but there is no evidence about intention. Which label is most defensible?",
+      "choices": [
+        "Misinformation, without asserting deliberate deception.",
+        "Disinformation, because any factual error proves intent.",
+        "A verified fact, because the author appears sincere."
+      ],
+      "answer": "Misinformation, without asserting deliberate deception.",
+      "explanationAr": "misinformation لا تشترط نية الخداع. الخطأ وحده لا يثبت disinformation، وصدق النية المحتمل لا يجعل المعلومة صحيحة.",
+      "explanationEn": "Misinformation does not require deceptive intent. An error alone does not establish disinformation, and possible sincerity does not make the content true."
+    }
+  },
+  "c1-x-u9-l2": {
+    "focusAr": "public interest منفعة عامة معتبرة، لا مجرد ما يثير فضول الجمهور. impartial إنصاف في التعامل مع الأدلة لا تساوٍ آلي لكل رواية. editorial قد تكون صفة «تحريري» أو اسمًا «افتتاحية» بحسب التركيب. retract سحب مادة، ويختلف عن تصحيح جزئي. حدّد ضرورة المعلومة الشخصية وصلتها بالمصلحة المطروحة قبل نشرها.",
+    "focusEn": "Public interest is a substantive public benefit, not simply audience curiosity. Impartiality concerns fair handling of evidence, not automatic equal weight for every account. Editorial can be an adjective or a noun for an opinion article. Retract means withdraw material, distinct from a partial correction. Establish the necessity and relevance of personal information before publication.",
+    "taskAr": "قيّم نشر عنوان منزل شخص في تحقيق تدريبي عن إنفاق مؤسسة: اسأل عن صلته بالدليل وإمكان عرض القصة دونه.",
+    "taskEn": "Evaluate publishing a person's home address in a practice investigation of institutional spending: question its evidential relevance and whether the story can be told without it.",
+    "exampleEn": "The spending allegation may be in the public interest, but the home address requires a separate justification. If it adds nothing necessary to the evidence, omitting it can preserve the substance of the investigation while reducing an intrusive disclosure.",
+    "exampleAr": "قد يخدم ادعاء الإنفاق المصلحة العامة، لكن عنوان المنزل يحتاج إلى تبرير مستقل. وإذا لم يضف شيئًا لازمًا إلى الأدلة، فقد يحافظ حذفه على جوهر التحقيق ويقلل كشفًا متطفلًا للمعلومات.",
+    "check": {
+      "promptEn": "Which distinction is central to public interest?",
+      "choices": [
+        "Information needed to assess a public issue versus information that merely attracts curiosity.",
+        "Any highly viewed story versus any little-viewed story.",
+        "All personal detail versus all institutional detail regardless of relevance."
+      ],
+      "answer": "Information needed to assess a public issue versus information that merely attracts curiosity.",
+      "explanationAr": "المعيار يتعلق بالصلة والضرورة والفائدة العامة، لا بعدد القراءات أو التصنيف المجرد للمعلومة. قد يحتاج كل تفصيل تقييمًا مستقلًا.",
+      "explanationEn": "The distinction concerns relevance, necessity, and public benefit, not view counts or an automatic information category. Each detail may need separate assessment."
+    }
+  },
+  "c1-x-u9-l3": {
+    "focusAr": "framing يختار زاوية العرض، وomission حذف قد يغيّر الفهم حتى لو بقيت الجمل صحيحة منفردة. baseline خط المقارنة اللازم لفهم الزيادة؛ ميّز التغير النسبي من فرق النسب المئوية. cherry-picking انتقاء نتائج ملائمة مع إهمال ما يغير الصورة. اعرض المقام والفترة والأرقام المطلقة عند الحاجة.",
+    "focusEn": "Framing selects an angle; omission can distort understanding even when individual sentences remain true. A baseline supplies the comparison needed for change. Distinguish relative change from percentage-point difference. Cherry-picking selects convenient results while omitting evidence that alters the picture. Include denominators, periods, and absolute figures where needed.",
+    "taskAr": "أعد صياغة عنوان «تضاعف معدل الأخطاء» عندما ارتفع من 1% إلى 2%، محافظًا على النسبتين والتغير دون تهويل أو تهوين.",
+    "taskEn": "Rewrite 'The error rate doubled' when it rose from 1% to 2%, preserving both rates and the change without exaggeration or minimization.",
+    "exampleEn": "The error rate rose from one percent to two percent: an increase of one percentage point, or a doubling relative to the original rate. The practical significance also depends on the number and consequences of errors.",
+    "exampleAr": "ارتفع معدل الأخطاء من واحد بالمئة إلى اثنين بالمئة: زيادة نقطة مئوية واحدة، أو تضاعف بالنسبة للمعدل الأصلي. وتعتمد الأهمية العملية أيضًا على عدد الأخطاء وآثارها.",
+    "check": {
+      "promptEn": "A rate rises from 1% to 2%. Which description is numerically precise?",
+      "choices": [
+        "One percentage point higher and 100% higher relative to the original rate.",
+        "One percent higher relative to the original rate.",
+        "Two percentage points higher."
+      ],
+      "answer": "One percentage point higher and 100% higher relative to the original rate.",
+      "explanationAr": "الفرق المطلق بين النسبتين نقطة مئوية، بينما زيادة 1 على أصل 1 تساوي 100% نسبيًا. النسبة المئوية والنقطة المئوية ليستا الشيء نفسه.",
+      "explanationEn": "The absolute difference is one percentage point; an increase of one over an original one is 100% relatively. Percent and percentage points measure different comparisons."
+    }
+  },
+  "c1-x-u9-l4": {
+    "focusAr": "provenance سجل أصل المادة ومسارها، وmetadata بيانات وصفية قد تساعد لكنها قد تُحذف أو تتغير. lateral reading فحص جهات مستقلة خارج الصفحة للتحقق من ناشرها وادعاءاتها. لا تكفي جودة الصوت أو المظهر لإثبات الأصالة، كما لا يثبت غياب بيانات وصفية وحده التزييف. ميّز قرينة تستحق الفحص من حكم محسوم.",
+    "focusEn": "Provenance concerns origin and history; metadata can provide clues but may be removed or altered. Lateral reading consults independent sources beyond a page to investigate its publisher and claims. Convincing sound or appearance does not establish authenticity, while missing metadata alone does not prove fabrication. Distinguish a clue warranting investigation from a settled conclusion.",
+    "taskAr": "صف خطة تحقق من تسجيل صوتي منسوب لمسؤول، باستخدام المصدر الأصلي والسياق وتأكيد مستقل دون الاعتماد على الصوت وحده.",
+    "taskEn": "Describe verification of an audio recording attributed to an official, using its original source, context, and independent confirmation rather than voice alone.",
+    "exampleEn": "I would trace the recording's provenance, look for the complete statement, and compare it with an independently maintained record. A familiar-sounding voice is not sufficient, and missing metadata would leave a question rather than prove a deepfake.",
+    "exampleAr": "سأتتبع أصل التسجيل، وأبحث عن البيان الكامل، وأقارنه بسجل مستقل. لا يكفي أن يبدو الصوت مألوفًا، وغياب البيانات الوصفية يترك سؤالًا لا يثبت تزييفًا عميقًا.",
+    "check": {
+      "promptEn": "A file lacks creation-date metadata. Which conclusion is warranted?",
+      "choices": [
+        "One potentially useful clue is unavailable, so authenticity remains to be checked.",
+        "The file must be a deepfake.",
+        "The content must be authentic because metadata would reveal manipulation."
+      ],
+      "answer": "One potentially useful clue is unavailable, so authenticity remains to be checked.",
+      "explanationAr": "غياب بيانات وصفية يحد القرائن المتاحة فقط. لا يحسم الأصالة أو التزييف في أي اتجاه.",
+      "explanationEn": "Missing metadata limits the available clues. It does not settle authenticity or manipulation in either direction."
+    }
+  },
+  "c1-x-u10-l1": {
+    "focusAr": "vision اتجاه بعيد، وobjective نتيجة محددة تخدمه، وbenchmark مرجع للمقارنة لا هدف مناسب بالضرورة. align ربط أهداف الأقسام بالغرض العام مع بيان الآلية. اذكر constraint واقعيًا بدل تجاهله، وحدد معيار جودة يحمي الهدف من اختزاله إلى رقم يمكن تحسينه على حساب الخدمة.",
+    "focusEn": "A vision sets direction; an objective specifies a contributing result, and a benchmark is a comparison point, not automatically an appropriate target. Align connects departmental goals to the overall purpose through an explicit mechanism. State realistic constraints and a quality criterion preventing a numerical target from improving at the service's expense.",
+    "taskAr": "حوّل رؤية «خدمة أسهل» إلى هدف لتقليل زمن المعالجة مع الحفاظ على دقة القرارات، واذكر معيار المقارنة.",
+    "taskEn": "Translate 'an easier service' into a processing-time objective that preserves decision accuracy, identifying the comparison point.",
+    "exampleEn": "Over the next quarter, we will compare processing times with the current benchmark while tracking correction rates. The aim is to shorten avoidable delays without increasing errors, subject to the staffing constraint identified in the plan.",
+    "exampleAr": "خلال الربع القادم، سنقارن أزمنة المعالجة بالمعيار الحالي مع متابعة معدلات التصحيح. الهدف تقليص التأخير الممكن تجنبه دون زيادة الأخطاء، ضمن قيد الموارد البشرية المحدد في الخطة.",
+    "check": {
+      "promptEn": "Which metric pairing best guards against speed improving at the expense of quality?",
+      "choices": [
+        "Processing time together with the rate of decisions needing correction.",
+        "Processing time alone, regardless of errors.",
+        "Number of staff messages unrelated to completed cases."
+      ],
+      "answer": "Processing time together with the rate of decisions needing correction.",
+      "explanationAr": "الجمع بين الزمن والتصحيحات يكشف مفاضلة السرعة والدقة. قياس الزمن وحده قد يخفي الأخطاء، والرسائل لا تقيس النتيجة المطلوبة مباشرة.",
+      "explanationEn": "Time paired with corrections reveals a speed-quality trade-off. Time alone may hide errors, while message counts do not directly measure the intended result."
+    }
+  },
+  "c1-x-u10-l2": {
+    "focusAr": "rationale يشرح سبب التغيير، وbuy-in قبول أو دعم يتجاوز مجرد تلقي الإعلان. resistance قد تكشف قيودًا أو ضررًا متوقعًا، فلا تنسبها تلقائيًا إلى العناد. pilot تجربة محدودة تحتاج شروط نجاح ومراجعة، وroll out تطبيق أوسع. فرّق بين قرار محسوم وجانب ما زال مفتوحًا للمشاركة حتى لا تكون المشاورة شكلية.",
+    "focusEn": "A rationale explains why change is proposed; buy-in means acceptance or support beyond merely receiving an announcement. Resistance may reveal constraints or expected harm, not automatically stubbornness. A pilot needs success criteria and review before wider rollout. Distinguish settled decisions from aspects still open to influence so consultation is meaningful.",
+    "taskAr": "اكتب إعلان تجربة عملية جديدة يوضح السبب وما يمكن للموظفين تعديله وموعد مراجعة التجربة.",
+    "taskEn": "Write a process-trial announcement explaining its rationale, what staff can influence, and when it will be reviewed.",
+    "exampleEn": "The pilot aims to reduce duplicate entry. The need to remove duplication is agreed, but the sequence of checks is still open to revision. Please record problems during the two-week trial; we will review them before deciding whether to roll out the process.",
+    "exampleAr": "تهدف التجربة المحدودة إلى تقليل الإدخال المكرر. اتُفق على ضرورة إزالة التكرار، لكن ترتيب الفحوص ما زال قابلًا للتعديل. يرجى تسجيل المشكلات خلال الأسبوعين؛ سنراجعها قبل اتخاذ قرار بالتعميم.",
+    "check": {
+      "promptEn": "Which statement invites meaningful input?",
+      "choices": [
+        "The sequence is open to revision, and we will review your recorded problems before rollout.",
+        "Every detail is fixed, but we promise your comments can change any detail.",
+        "Receiving this email automatically means you support the plan."
+      ],
+      "answer": "The sequence is open to revision, and we will review your recorded problems before rollout.",
+      "explanationAr": "يحدد الجواب الصحيح جانبًا يمكن التأثير فيه وآلية للمراجعة. الادعاء بمشاورة مفتوحة مع حسم كل التفاصيل مضلل، والاستلام ليس دعمًا.",
+      "explanationEn": "The correct statement identifies an influenceable element and review process. Claiming open consultation after fixing everything is misleading, and receipt is not endorsement."
+    }
+  },
+  "c1-x-u10-l3": {
+    "focusAr": "ethos قيم وممارسات توجه المؤسسة، لا شعارها فقط. psychological safety إمكان طرح سؤال أو خطأ دون خوف غير مبرر من الإذلال، ولا تعني غياب المعايير. retention بقاء الموظفين ويحتاج تفسيرًا متعدد العوامل. صف السلوك الفعلي عند raise concerns، واسأل عن المتابعة بدل الاستدلال من وثيقة سياسة وحدها.",
+    "focusEn": "An ethos involves guiding values and practices, not only a slogan. Psychological safety allows questions or mistakes to be raised without undue fear of humiliation, not absence of standards. Retention concerns employees staying and has multiple influences. Examine responses when people raise concerns and subsequent follow-up rather than infer culture from a policy document alone.",
+    "taskAr": "قيّم مؤسسة تعلن الشفافية لكن الموظفين لا يعرفون ماذا يحدث لبلاغاتهم، واقترح سؤالًا وإجراء متابعة واضحًا.",
+    "taskEn": "Evaluate an organization proclaiming transparency when staff do not know what happens to reports, proposing a question and a clear follow-up step.",
+    "exampleEn": "The stated ethos supports transparency, but the reporting experience needs examination. Who acknowledges a concern and explains the next stage? A documented response process could make responsibilities clearer without promising disclosure of confidential details.",
+    "exampleAr": "تدعم القيم المعلنة الشفافية، لكن تجربة الإبلاغ تحتاج فحصًا. من يؤكد استلام الملاحظة ويشرح المرحلة التالية؟ قد توضح آلية رد موثقة المسؤوليات دون الوعد بكشف تفاصيل سرية.",
+    "check": {
+      "promptEn": "Which evidence most directly tests whether concerns can be raised safely?",
+      "choices": [
+        "How actual reports are received, addressed, and followed up.",
+        "The word transparency appearing on the website.",
+        "A high retention figure treated as proof of every cultural claim."
+      ],
+      "answer": "How actual reports are received, addressed, and followed up.",
+      "explanationAr": "التعامل الفعلي مع البلاغات يفحص الممارسة ذات الصلة. الشعار أو مؤشر البقاء وحده لا يثبتان أمان الإبلاغ.",
+      "explanationEn": "Actual handling of concerns tests the relevant practice. A slogan or retention figure alone does not establish safety in reporting."
+    }
+  },
+  "c1-x-u10-l4": {
+    "focusAr": "holding statement بيان أولي يحدد المعلوم والمجهول والخطوة التالية، لا نصًا فارغًا لكسب الوقت. rectify تصحيح المشكلة، وcorrective action إجراء محدد يمكن تتبعه. الطمأنة الفعالة لا تعد بما لم يُتحقق منه. سمِّ الأثر المؤكد ومسؤولية المعالجة وموعد التحديث، وافصل الاعتراف بالواقعة عن تفسير سببها الذي قد يكون قيد الفحص.",
+    "focusEn": "A holding statement identifies what is known, unknown, and next, not empty delay. Rectify means correct a problem; corrective action is a trackable step. Effective reassurance does not promise unverified outcomes. State confirmed impact, responsibility for response, and an update time, distinguishing acknowledgment of an event from its still-investigated cause.",
+    "taskAr": "اكتب بيانًا أوليًا تخيليًا لتعطل حجز بدأ التاسعة، والسبب مجهول، والفريق يعالجه مع تحديث عند الحادية عشرة.",
+    "taskEn": "Write an imagined holding statement for a booking outage beginning at nine, with cause unconfirmed, response underway, and an update at eleven.",
+    "exampleEn": "The booking service has been unavailable since 9 a.m. We are investigating the cause and working to restore access. We recognize the disruption and will provide an update at 11 a.m., including any confirmed corrective action.",
+    "exampleAr": "خدمة الحجز غير متاحة منذ التاسعة صباحًا. نحقق في السبب ونعمل على استعادة الوصول. ندرك الإرباك الناتج، وسنقدم تحديثًا عند الحادية عشرة يتضمن أي إجراء تصحيحي مؤكد.",
+    "check": {
+      "promptEn": "Which sentence avoids an unsupported promise while committing to communication?",
+      "choices": [
+        "We will provide an update at eleven, even if the investigation is ongoing.",
+        "The service will definitely be restored by eleven, though no cause is known.",
+        "No users were affected, although access was unavailable."
+      ],
+      "answer": "We will provide an update at eleven, even if the investigation is ongoing.",
+      "explanationAr": "موعد التحديث التزام يمكن ضبطه دون ضمان إصلاح لم يُتحقق من مدته. البديلان يجزمان بنتيجة أو أثر لا تدعمه المعطيات.",
+      "explanationEn": "An update time is a controllable commitment without guaranteeing an unverified repair duration. The alternatives assert an unsupported outcome or absence of impact."
+    }
   }
 }

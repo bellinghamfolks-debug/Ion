@@ -15,6 +15,14 @@ final class CurriculumPedagogyTests: XCTestCase {
         }
     }
 
+    func testReviewedRecapRemainsLastAfterProductiveTasksAreAdded() throws {
+        let catalog = try BundledContentLoader().loadCatalog()
+        for lesson in catalog.levels.flatMap(\.units).flatMap(\.lessons) {
+            XCTAssertEqual(lesson.exercises.last?.type, .explanation, lesson.id)
+            XCTAssertTrue(lesson.exercises.last?.explanationAr.contains("طبّق ما تعلمته:") == true, lesson.id)
+        }
+    }
+
     func testCurriculumStillCoversAllRuntimeCEFRLevels() throws {
         let catalog = try BundledContentLoader().loadCatalog()
         XCTAssertEqual(Set(catalog.levels.map(\.level)), Set(CEFRLevel.allCases))

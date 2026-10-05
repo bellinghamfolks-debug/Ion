@@ -44,8 +44,8 @@
         ],
         "a2-u1-l1-w3": [
           {
-            "example": "The bus was late this morning.",
-            "exampleArabic": "تأخرت الحافلة هذا الصباح."
+            "example": "Could we reschedule our call for Friday?",
+            "exampleArabic": "هل يمكننا تغيير موعد مكالمتنا إلى يوم الجمعة؟"
           }
         ]
       }
@@ -239,7 +239,7 @@
         "a2-extra-5-w1": [
           {
             "example": "I have a headache after work.",
-            "exampleArabic": "أصابني صداع بعد العمل."
+            "exampleArabic": "أصاب بصداع بعد العمل."
           }
         ]
       }
@@ -282,14 +282,14 @@
       "extraExamples": {
         "a2-extra-6-w1": [
           {
-            "example": "A train is faster than a bus.",
-            "exampleArabic": "القطار أسرع من الحافلة."
+            "example": "This train is faster than that bus.",
+            "exampleArabic": "هذا القطار أسرع من تلك الحافلة."
           }
         ],
         "a2-extra-6-w3": [
           {
-            "example": "I like this phone, but that one is better.",
-            "exampleArabic": "يعجبني هذا الهاتف، لكن ذاك أفضل."
+            "example": "This bag is different from the one in the picture.",
+            "exampleArabic": "هذه الحقيبة مختلفة عن الحقيبة في الصورة."
           }
         ]
       }
@@ -338,8 +338,8 @@
         ],
         "a2-extra-7-w3": [
           {
-            "example": "Please come with us to the park.",
-            "exampleArabic": "من فضلك تعال معنا إلى الحديقة."
+            "example": "I'm busy on Friday. Maybe another time.",
+            "exampleArabic": "أنا مشغول يوم الجمعة. ربما في وقت آخر."
           }
         ]
       }
@@ -388,8 +388,8 @@
         ],
         "a2-extra-8-w3": [
           {
-            "example": "I have a lot of work to do today.",
-            "exampleArabic": "لدي الكثير من العمل لأنجزه اليوم."
+            "example": "My first work task today is to check the emails.",
+            "exampleArabic": "أول مهمة عمل لي اليوم هي مراجعة رسائل البريد الإلكتروني."
           }
         ]
       }

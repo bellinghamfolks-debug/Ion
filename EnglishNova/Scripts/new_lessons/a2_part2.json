@@ -50,7 +50,7 @@
             },
             {
               "english": "cousin",
-              "arabic": "ابن العم أو ابن الخال",
+              "arabic": "ابن أو بنت العم أو العمة أو الخال أو الخالة",
               "example": "My cousin lives in another city.",
               "exampleArabic": "يعيش ابن عمي في مدينة أخرى.",
               "partOfSpeech": "noun",
@@ -71,8 +71,8 @@
           "titleAr": "العلاقات والمشاعر",
           "titleEn": "Relationships and Feelings",
           "objectiveAr": "أن تصف علاقاتك بالآخرين وتعبّر عن قربك منهم.",
-          "modelSentence": "My best friend and I have known each other since childhood.",
-          "modelSentenceArabic": "أنا وأعزّ أصدقائي نعرف بعضنا منذ الطفولة.",
+          "modelSentence": "I trust my best friend, and we help each other.",
+          "modelSentenceArabic": "أثق بأعز أصدقائي، ونساعد بعضنا بعضًا.",
           "vocabulary": [
             {
               "english": "friend",
@@ -188,7 +188,7 @@
           "titleEn": "Hobbies and Interests",
           "objectiveAr": "أن تتحدث عن هواياتك واهتماماتك المفضّلة.",
           "modelSentence": "In my free time, I enjoy painting and reading novels.",
-          "modelSentenceArabic": "في وقت فراغي، أستمتع بالرسم وقراءة الروايات.",
+          "modelSentenceArabic": "في وقت فراغي، أستمتع بالرسم بالألوان وقراءة الروايات.",
           "vocabulary": [
             {
               "english": "hobby",
@@ -200,9 +200,9 @@
             },
             {
               "english": "painting",
-              "arabic": "الرسم",
-              "example": "She spends her weekends painting.",
-              "exampleArabic": "تقضي عطلتها الأسبوعية في الرسم.",
+              "arabic": "الرسم بالألوان",
+              "example": "Her favourite hobby is painting.",
+              "exampleArabic": "هوايتها المفضلة هي الرسم بالألوان.",
               "partOfSpeech": "noun",
               "phonetic": "/ˈpeɪn.tɪŋ/"
             },
@@ -245,8 +245,8 @@
           "titleAr": "الرياضة والأنشطة",
           "titleEn": "Sports and Activities",
           "objectiveAr": "أن تتحدث عن الرياضات والأنشطة التي تمارسها في وقت فراغك.",
-          "modelSentence": "We play football together every Friday afternoon.",
-          "modelSentenceArabic": "نلعب كرة القدم معًا كل يوم جمعة بعد الظهر.",
+          "modelSentence": "I play football with my team every Friday afternoon.",
+          "modelSentenceArabic": "ألعب كرة القدم مع فريقي كل يوم جمعة بعد الظهر.",
           "vocabulary": [
             {
               "english": "team",
@@ -312,8 +312,8 @@
           "titleAr": "المكالمات الهاتفية",
           "titleEn": "Phone Calls",
           "objectiveAr": "أن تجري مكالمة هاتفية بسيطة وتستخدم العبارات الشائعة فيها.",
-          "modelSentence": "Hello, could I speak to Mr. Adam, please?",
-          "modelSentenceArabic": "مرحبًا، هل يمكنني التحدث إلى السيد آدم من فضلك؟",
+          "modelSentence": "Could you ask Mr. Adam to call me, please?",
+          "modelSentenceArabic": "هل يمكنك أن تطلب من السيد آدم الاتصال بي، من فضلك؟",
           "vocabulary": [
             {
               "english": "call",
@@ -370,8 +370,8 @@
           "titleAr": "الرسائل والتطبيقات",
           "titleEn": "Messaging and Apps",
           "objectiveAr": "أن تتواصل عبر الرسائل النصية وتطبيقات الهاتف بشكل بسيط.",
-          "modelSentence": "I sent you a message, but I think you didn't see it.",
-          "modelSentenceArabic": "أرسلت إليك رسالة، لكن أظن أنك لم ترَها.",
+          "modelSentence": "I sent you a text. Please reply when you can.",
+          "modelSentenceArabic": "أرسلت إليك رسالة نصية. من فضلك، رد عندما تستطيع.",
           "vocabulary": [
             {
               "english": "text",
@@ -457,9 +457,9 @@
             },
             {
               "english": "young",
-              "arabic": "شابّ",
+              "arabic": "صغير السن",
               "example": "He looks very young for his age.",
-              "exampleArabic": "يبدو شابًا جدًا بالنسبة لعمره.",
+              "exampleArabic": "يبدو أصغر بكثير من عمره.",
               "partOfSpeech": "adjective",
               "phonetic": "/jʌŋ/"
             },
@@ -475,7 +475,7 @@
               "english": "wear",
               "arabic": "يرتدي",
               "example": "He likes to wear glasses.",
-              "exampleArabic": "يحب أن يرتدي النظارات.",
+              "exampleArabic": "يحب ارتداء النظارات.",
               "partOfSpeech": "verb",
               "phonetic": "/weər/"
             }
@@ -567,7 +567,7 @@
               "english": "arrange",
               "arabic": "يرتّب",
               "example": "Let's arrange a time to meet.",
-              "exampleArabic": "لنرتّب وقتًا للقاء.",
+              "exampleArabic": "لنحدد وقتًا للقاء.",
               "partOfSpeech": "verb",
               "phonetic": "/əˈreɪndʒ/"
             },

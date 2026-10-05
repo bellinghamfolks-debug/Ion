@@ -19,8 +19,8 @@
       {
        "english": "fossil fuels",
        "arabic": "الوقود الأحفوري",
-       "example": "Most electricity is still generated from fossil fuels.",
-       "exampleArabic": "ما زالت معظم الكهرباء تُولَّد من الوقود الأحفوري.",
+       "example": "The report compares electricity generated from fossil fuels with other sources.",
+       "exampleArabic": "يقارن التقرير الكهرباء المولدة من الوقود الأحفوري بمصادر أخرى.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -66,17 +66,17 @@
       },
       {
        "english": "carbon-intensive",
-       "arabic": "كثيف الكربون",
+       "arabic": "كثيف الانبعاثات الكربونية",
        "example": "Heavy industry can be carbon-intensive when it relies on fossil energy.",
-       "exampleArabic": "قد تكون الصناعات الثقيلة كثيفة الكربون عندما تعتمد على الطاقة الأحفورية.",
+       "exampleArabic": "قد تكون الصناعات الثقيلة كثيفة الانبعاثات الكربونية عندما تعتمد على الوقود الأحفوري.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
       {
        "english": "mitigate",
        "arabic": "يخفف",
-       "example": "Governments can mitigate emissions through cleaner energy and efficiency measures.",
-       "exampleArabic": "يمكن للحكومات تخفيف الانبعاثات من خلال طاقة أنظف وإجراءات كفاءة.",
+       "example": "The plan aims to mitigate climate change by reducing emissions.",
+       "exampleArabic": "تهدف الخطة إلى التخفيف من تغير المناخ بخفض الانبعاثات.",
        "partOfSpeech": "verb",
        "phonetic": null
       }
@@ -109,8 +109,8 @@
       {
        "english": "storage",
        "arabic": "تخزين",
-       "example": "Battery storage is improving quickly.",
-       "exampleArabic": "يتحسّن تخزين البطاريات بسرعة.",
+       "example": "The project includes battery storage for surplus energy.",
+       "exampleArabic": "يتضمن المشروع تخزين الطاقة الفائضة في بطاريات.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -133,8 +133,8 @@
       {
        "english": "transition",
        "arabic": "تحوّل؛ انتقال",
-       "example": "The transition to clean energy will take decades.",
-       "exampleArabic": "سيستغرق التحوّل إلى الطاقة النظيفة عقودًا.",
+       "example": "The proposal explains the costs of the transition to cleaner energy.",
+       "exampleArabic": "يوضح المقترح تكاليف الانتقال إلى طاقة أنظف.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -167,16 +167,16 @@
       {
        "english": "liveable",
        "arabic": "ملائم للعيش",
-       "example": "Vienna is often ranked the most liveable city.",
-       "exampleArabic": "كثيرًا ما تُصنَّف فيينا أكثر المدن ملاءمة للعيش.",
+       "example": "Residents discussed how to make the neighbourhood more liveable.",
+       "exampleArabic": "ناقش السكان كيفية جعل الحي أكثر ملاءمة للعيش.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
       {
        "english": "green spaces",
        "arabic": "مساحات خضراء",
-       "example": "Green spaces improve people's mental health.",
-       "exampleArabic": "المساحات الخضراء تحسّن الصحة النفسية للناس.",
+       "example": "Residents asked for more accessible green spaces near their homes.",
+       "exampleArabic": "طلب السكان مساحات خضراء أكثر يسهل الوصول إليها قرب منازلهم.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -249,8 +249,8 @@
       {
        "english": "extinction",
        "arabic": "انقراض",
-       "example": "The tiger is threatened with extinction.",
-       "exampleArabic": "النمر مهدد بالانقراض.",
+       "example": "The report examines species at risk of extinction.",
+       "exampleArabic": "يفحص التقرير أنواعًا معرضة لخطر الانقراض.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -265,16 +265,16 @@
       {
        "english": "endangered",
        "arabic": "مهدد بالانقراض",
-       "example": "The panda is no longer classed as endangered.",
-       "exampleArabic": "لم تعد الباندا مصنّفة مهددة بالانقراض.",
+       "example": "The reserve runs a programme to protect endangered species.",
+       "exampleArabic": "تنفذ المحمية برنامجًا لحماية الأنواع المهددة بالانقراض.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
       {
        "english": "poaching",
-       "arabic": "الصيد الجائر",
+       "arabic": "الصيد غير القانوني",
        "example": "Poaching has reduced the number of rhinos.",
-       "exampleArabic": "قلّل الصيد الجائر عدد وحيد القرن.",
+       "exampleArabic": "قلل الصيد غير القانوني أعداد حيوانات وحيد القرن.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -318,22 +318,22 @@
      "titleAr": "التقدّم الطبي",
      "titleEn": "Medical Advances",
      "objectiveAr": "أن يصف المتعلم تقدّمًا طبيًا وأثره بلغة علمية مبسطة.",
-     "modelSentence": "Thanks to early diagnosis, many diseases can now be treated successfully.",
-     "modelSentenceArabic": "بفضل التشخيص المبكر، يمكن الآن علاج كثير من الأمراض بنجاح.",
+     "modelSentence": "The clinical trial is designed to evaluate the treatment, not to guarantee its success.",
+     "modelSentenceArabic": "صُممت التجربة السريرية لتقييم العلاج، لا لضمان نجاحه.",
      "vocabulary": [
       {
        "english": "diagnosis",
        "arabic": "تشخيص",
-       "example": "An early diagnosis saved her life.",
-       "exampleArabic": "أنقذ التشخيص المبكر حياتها.",
+       "example": "The doctor explained the diagnosis and discussed the next steps.",
+       "exampleArabic": "شرح الطبيب التشخيص وناقش الخطوات التالية.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
        "english": "gene therapy",
        "arabic": "العلاج الجيني",
-       "example": "Gene therapy may cure some inherited diseases.",
-       "exampleArabic": "قد يعالج العلاج الجيني بعض الأمراض الوراثية.",
+       "example": "The article explains what the gene therapy trial aims to test.",
+       "exampleArabic": "يوضح المقال ما تهدف تجربة العلاج الجيني إلى اختباره.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -364,8 +364,8 @@
       {
        "english": "treatable",
        "arabic": "قابل للعلاج",
-       "example": "Most infections are now treatable.",
-       "exampleArabic": "معظم العدوى قابلة للعلاج الآن.",
+       "example": "The doctor said the condition was treatable and explained the options.",
+       "exampleArabic": "قال الطبيب إن الحالة قابلة للعلاج وشرح الخيارات.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -438,8 +438,8 @@
       {
        "english": "resilience",
        "arabic": "المرونة النفسية",
-       "example": "Sport can build resilience in children.",
-       "exampleArabic": "يمكن للرياضة أن تبني المرونة النفسية لدى الأطفال.",
+       "example": "The workshop explored resilience and the importance of support.",
+       "exampleArabic": "تناولت الورشة المرونة النفسية وأهمية الدعم.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -496,16 +496,16 @@
       {
        "english": "preventable",
        "arabic": "يمكن الوقاية منه",
-       "example": "Many heart attacks are preventable.",
-       "exampleArabic": "يمكن الوقاية من كثير من النوبات القلبية.",
+       "example": "The report distinguishes preventable injuries from those the programme did not address.",
+       "exampleArabic": "يميز التقرير الإصابات التي يمكن الوقاية منها عن الإصابات التي لم يتناولها البرنامج.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
       {
        "english": "sedentary",
        "arabic": "قليل الحركة",
-       "example": "A sedentary lifestyle increases health risks.",
-       "exampleArabic": "نمط الحياة قليل الحركة يزيد المخاطر الصحية.",
+       "example": "My job is sedentary, so most of my working day is spent sitting.",
+       "exampleArabic": "عملي قليل الحركة، لذلك أقضي معظم يوم العمل جالسًا.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -528,8 +528,8 @@
       {
        "english": "discourage",
        "arabic": "يُثني عن",
-       "example": "Higher taxes on cigarettes discourage young people from smoking.",
-       "exampleArabic": "تُثني الضرائب المرتفعة على السجائر الشباب عن التدخين.",
+       "example": "The campaign aims to discourage smoking among teenagers.",
+       "exampleArabic": "تهدف الحملة إلى ثني المراهقين عن التدخين.",
        "partOfSpeech": "verb",
        "phonetic": null
       }
@@ -539,9 +539,9 @@
      "id": "b2-x-u6-l4",
      "titleAr": "خرافات التغذية",
      "titleEn": "Nutrition Myths",
-     "objectiveAr": "أن يميّز المتعلم بين المعلومة الصحيحة والخرافة الغذائية ويعلّل.",
-     "modelSentence": "Contrary to popular belief, eating late at night does not automatically cause weight gain.",
-     "modelSentenceArabic": "خلافًا للاعتقاد الشائع، الأكل في وقت متأخر من الليل لا يسبّب زيادة الوزن تلقائيًا.",
+     "objectiveAr": "تقييم ادعاء غذائي من حيث الدليل والسببية وصياغة استنتاج محدود.",
+     "modelSentence": "An association between a food and weight gain does not by itself prove a causal link.",
+     "modelSentenceArabic": "لا يثبت الارتباط بين طعام وزيادة الوزن وحده وجود علاقة سببية.",
      "vocabulary": [
       {
        "english": "contrary to popular belief",
@@ -562,32 +562,32 @@
       {
        "english": "weight gain",
        "arabic": "زيادة الوزن",
-       "example": "Stress can lead to weight gain.",
-       "exampleArabic": "قد يؤدي التوتر إلى زيادة الوزن.",
+       "example": "The article discusses several possible explanations for weight gain.",
+       "exampleArabic": "يناقش المقال عدة تفسيرات محتملة لزيادة الوزن.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
        "english": "fad diet",
        "arabic": "حمية رائجة مؤقتة",
-       "example": "Most fad diets don't work in the long term.",
-       "exampleArabic": "معظم الحميات الرائجة لا تنجح على المدى الطويل.",
+       "example": "The article questions the evidence behind a popular fad diet.",
+       "exampleArabic": "يشكك المقال في الأدلة التي تستند إليها حمية شائعة مؤقتًا.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
        "english": "supplement",
        "arabic": "مكمّل غذائي",
-       "example": "Most people don't need vitamin supplements.",
-       "exampleArabic": "معظم الناس لا يحتاجون إلى مكمّلات الفيتامينات.",
+       "example": "She asked the pharmacist whether the supplement could interact with her medicine.",
+       "exampleArabic": "سألت الصيدلي عما إذا كان المكمل قد يتفاعل مع دوائها.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
        "english": "moderation",
        "arabic": "الاعتدال",
-       "example": "Sweets are fine in moderation.",
-       "exampleArabic": "لا بأس بالحلويات باعتدال.",
+       "example": "The article uses moderation to mean avoiding extremes.",
+       "exampleArabic": "يستخدم المقال كلمة الاعتدال بمعنى تجنب الإفراط والتفريط.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -636,9 +636,9 @@
       },
       {
        "english": "consent",
-       "arabic": "موافقة؛ يوافق",
-       "example": "Users must give consent before tracking starts.",
-       "exampleArabic": "يجب أن يوافق المستخدمون قبل بدء التتبع.",
+       "arabic": "موافقة",
+       "example": "The form asks for consent to use the responses in a report.",
+       "exampleArabic": "يطلب النموذج الموافقة على استخدام الإجابات في تقرير.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -653,8 +653,8 @@
       {
        "english": "terms and conditions",
        "arabic": "الشروط والأحكام",
-       "example": "Hardly anyone reads the terms and conditions.",
-       "exampleArabic": "نادرًا ما يقرأ أحد الشروط والأحكام.",
+       "example": "I read the terms and conditions before accepting the offer.",
+       "exampleArabic": "قرأت الشروط والأحكام قبل قبول العرض.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -697,8 +697,8 @@
      "titleAr": "تأثير وسائل التواصل",
      "titleEn": "Social Media Influence",
      "objectiveAr": "أن يحلل المتعلم أثر المؤثرين والخوارزميات في آراء الناس.",
-     "modelSentence": "Algorithms tend to reinforce what we already believe and keep us in an echo chamber.",
-     "modelSentenceArabic": "تميل الخوارزميات إلى تعزيز ما نؤمن به أصلًا وإبقائنا في غرفة صدى.",
+     "modelSentence": "An algorithm may reinforce familiar views by repeatedly recommending similar content.",
+     "modelSentenceArabic": "قد تعزز خوارزمية الآراء المألوفة بتكرار التوصية بمحتوى متشابه.",
      "vocabulary": [
       {
        "english": "algorithm",
@@ -785,16 +785,16 @@
       {
        "english": "replace",
        "arabic": "يحلّ محلّ",
-       "example": "Machines will not replace teachers.",
-       "exampleArabic": "لن تحلّ الآلات محل المعلمين.",
+       "example": "The proposal would replace paper forms with an online system.",
+       "exampleArabic": "سيستبدل المقترح النماذج الورقية بنظام إلكتروني.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
       {
        "english": "workforce",
        "arabic": "القوى العاملة",
-       "example": "Women make up half of the workforce.",
-       "exampleArabic": "تشكّل النساء نصف القوى العاملة.",
+       "example": "The company asked its workforce about training needs.",
+       "exampleArabic": "سألت الشركة العاملين لديها عن احتياجات التدريب.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -845,8 +845,8 @@
      "titleAr": "الأمن السيبراني",
      "titleEn": "Cybersecurity",
      "objectiveAr": "أن يقدم المتعلم نصائح لحماية الحسابات من الاحتيال الإلكتروني.",
-     "modelSentence": "Never click on suspicious links, and enable two-factor authentication on every account.",
-     "modelSentenceArabic": "لا تنقر أبدًا على روابط مريبة، وفعّل التحقق بخطوتين في كل حساب.",
+     "modelSentence": "Enable two-factor authentication where available, and check unexpected requests through a trusted channel.",
+     "modelSentenceArabic": "فعّل المصادقة الثنائية حيث تتوفر، وتحقق من الطلبات غير المتوقعة عبر قناة موثوقة.",
      "vocabulary": [
       {
        "english": "suspicious",
@@ -858,9 +858,9 @@
       },
       {
        "english": "two-factor authentication",
-       "arabic": "التحقق بخطوتين",
+       "arabic": "المصادقة الثنائية؛ التحقق بعاملين",
        "example": "Two-factor authentication makes accounts safer.",
-       "exampleArabic": "يجعل التحقق بخطوتين الحسابات أكثر أمانًا.",
+       "exampleArabic": "تضيف المصادقة الثنائية حماية للحسابات.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -883,16 +883,16 @@
       {
        "english": "vulnerable",
        "arabic": "عُرضة للخطر",
-       "example": "Older software is more vulnerable to attacks.",
-       "exampleArabic": "البرامج القديمة أكثر عرضة للهجمات.",
+       "example": "Unpatched software may be vulnerable to known attacks.",
+       "exampleArabic": "قد تكون البرمجيات التي لم تُثبَّت تحديثاتها الأمنية عرضة لهجمات معروفة.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
       {
        "english": "encrypted",
        "arabic": "مشفَّر",
-       "example": "Your messages are encrypted end to end.",
-       "exampleArabic": "رسائلك مشفّرة من طرف إلى طرف.",
+       "example": "The team checked whether the stored files were encrypted.",
+       "exampleArabic": "تحقق الفريق مما إذا كانت الملفات المخزنة مشفرة.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -950,16 +950,16 @@
       {
        "english": "work-life balance",
        "arabic": "التوازن بين العمل والحياة",
-       "example": "A good work-life balance prevents burnout.",
-       "exampleArabic": "التوازن الجيد بين العمل والحياة يمنع الاحتراق.",
+       "example": "We discussed work-life balance when setting expectations for evening messages.",
+       "exampleArabic": "ناقشنا التوازن بين العمل والحياة عند تحديد التوقعات بشأن الرسائل المسائية.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
        "english": "productivity",
        "arabic": "الإنتاجية",
-       "example": "Some studies show productivity rises at home.",
-       "exampleArabic": "تُظهر بعض الدراسات أن الإنتاجية ترتفع في البيت.",
+       "example": "The team compared productivity before and after changing its work schedule.",
+       "exampleArabic": "قارن الفريق الإنتاجية قبل تغيير جدول عمله وبعده.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -1008,8 +1008,8 @@
       {
        "english": "take the plunge",
        "arabic": "يخاطر ويُقدِم",
-       "example": "It's time to take the plunge and start your own business.",
-       "exampleArabic": "حان الوقت لتُقدم وتبدأ مشروعك الخاص.",
+       "example": "After researching the options, she decided to take the plunge.",
+       "exampleArabic": "بعد دراسة الخيارات، قررت الإقدام على الخطوة.",
        "partOfSpeech": "idiom",
        "phonetic": null
       },
@@ -1032,8 +1032,8 @@
       {
        "english": "fulfilling",
        "arabic": "مُرضٍ؛ يمنح الإشباع",
-       "example": "Nursing is a very fulfilling job.",
-       "exampleArabic": "التمريض وظيفة مُرضية جدًا.",
+       "example": "She finds her work as a nurse fulfilling.",
+       "exampleArabic": "تجد عملها في التمريض مُرضيًا لها.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -1211,9 +1211,9 @@
       },
       {
        "english": "underperform",
-       "arabic": "يقصّر في الأداء",
+       "arabic": "يؤدي دون المستوى المتوقع",
        "example": "If someone underperforms, discuss the reasons before setting new targets.",
-       "exampleArabic": "إذا قصّر أحدهم في الأداء، ناقش الأسباب قبل وضع أهداف جديدة.",
+       "exampleArabic": "إذا جاء أداء شخص دون المتوقع، فناقش الأسباب قبل تحديد أهداف جديدة.",
        "partOfSpeech": "verb",
        "phonetic": null
       }

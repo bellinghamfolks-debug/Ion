@@ -4,15 +4,15 @@
       "english": "running late",
       "arabic": "متأخر عن الموعد",
       "example": "I'm running late, so I'll arrive in about ten minutes.",
-      "exampleArabic": "سأتأخر عن الموعد، لذلك سأصل خلال نحو عشر دقائق.",
+      "exampleArabic": "أنا متأخر عن الموعد، لذلك سأصل بعد نحو عشر دقائق.",
       "partOfSpeech": "phrase",
       "phonetic": null
     },
     "a2-u1-l1-w3": {
       "english": "reschedule",
-      "arabic": "يعيد جدولة",
+      "arabic": "يغيّر موعد",
       "example": "Can we reschedule the meeting for tomorrow afternoon?",
-      "exampleArabic": "هل يمكننا إعادة جدولة الاجتماع إلى عصر الغد؟",
+      "exampleArabic": "هل يمكننا تغيير موعد الاجتماع إلى عصر الغد؟",
       "partOfSpeech": "verb",
       "phonetic": null
     },
@@ -26,7 +26,7 @@
     },
     "a2-extra-3-w2": {
       "english": "plan to",
-      "arabic": "يخطط أن",
+      "arabic": "يخطط لـ",
       "example": "I plan to study for an hour tonight.",
       "exampleArabic": "أخطط للدراسة لمدة ساعة الليلة.",
       "partOfSpeech": "verb phrase",
@@ -106,9 +106,9 @@
     },
     "b1-u1-l1-w2": {
       "english": "miss a connection",
-      "arabic": "يفوّت رحلة مواصلة",
+      "arabic": "تفوتُه رحلة ربط",
       "example": "We may miss our connection if the first flight is delayed.",
-      "exampleArabic": "قد نفوّت رحلة المواصلة إذا تأخرت الرحلة الأولى.",
+      "exampleArabic": "قد تفوتنا رحلة الربط إذا تأخرت الرحلة الأولى.",
       "partOfSpeech": "verb phrase",
       "phonetic": null
     },
@@ -250,9 +250,9 @@
     },
     "b2-extra-2-w2": {
       "english": "challenge a claim",
-      "arabic": "يتحدى ادعاءً",
+      "arabic": "يطعن في ادعاء؛ يشكك فيه",
       "example": "A strong counterexample can challenge a claim that sounds convincing.",
-      "exampleArabic": "يمكن لمثال مضاد قوي أن يتحدى ادعاءً يبدو مقنعًا.",
+      "exampleArabic": "يمكن لمثال مضاد قوي أن يشكك في ادعاء يبدو مقنعًا.",
       "partOfSpeech": "verb phrase",
       "phonetic": null
     },
@@ -378,9 +378,9 @@
     },
     "c1-extra-2-w2": {
       "english": "thesis statement",
-      "arabic": "عبارة الأطروحة",
+      "arabic": "صياغة الأطروحة المركزية",
       "example": "A precise thesis statement tells the reader what the essay will argue.",
-      "exampleArabic": "تخبر عبارة الأطروحة الدقيقة القارئ بما ستجادل به المقالة.",
+      "exampleArabic": "توضح صياغة الأطروحة الدقيقة الموقف الذي ستدافع عنه المقالة.",
       "partOfSpeech": "noun phrase",
       "phonetic": null
     },
@@ -491,8 +491,8 @@
     "a0-u1-l3-xv2": {
       "english": "maybe",
       "arabic": "ربما",
-      "example": "Maybe I am not sure.",
-      "exampleArabic": "ربما لست متأكدًا.",
+      "example": "Maybe Ali is at home.",
+      "exampleArabic": "ربما يكون علي في المنزل.",
       "partOfSpeech": "adverb",
       "phonetic": "/ˈmeɪbi/"
     },
@@ -531,8 +531,8 @@
     "b2-x-u3-l5-w6": {
       "english": "deduce",
       "arabic": "يستنتج",
-      "example": "Researchers can deduce a pattern from repeated observations.",
-      "exampleArabic": "يمكن للباحثين استنتاج نمط من الملاحظات المتكررة.",
+      "example": "From the two recorded times, we can deduce that the journey took thirty minutes.",
+      "exampleArabic": "يمكننا أن نستنتج من الوقتين المسجلين أن الرحلة استغرقت ثلاثين دقيقة.",
       "partOfSpeech": "verb",
       "phonetic": null
     },
@@ -595,11 +595,15 @@
     },
     "a0-009-uppercase-1": {
       "example": "A is uppercase and a is lowercase.",
-      "exampleArabic": "A حرف كبير وa حرف صغير."
+      "exampleArabic": "A حرف كبير وa حرف صغير.",
+      "arabic": "كبير (عن شكل الحرف)",
+      "partOfSpeech": "adjective"
     },
     "a0-009-lowercase-2": {
       "example": "Write your name in lowercase letters.",
-      "exampleArabic": "اكتب اسمك بحروف صغيرة."
+      "exampleArabic": "اكتب اسمك بحروف صغيرة.",
+      "arabic": "صغير (عن شكل الحرف)",
+      "partOfSpeech": "adjective"
     },
     "a0-010-paper-2": {
       "example": "I write on paper.",
@@ -612,7 +616,8 @@
     "a0-011-that-2": {
       "example": "That is my bag.",
       "exampleArabic": "تلك حقيبتي.",
-      "arabic": "ذلك / تلك"
+      "arabic": "ذلك / تلك",
+      "partOfSpeech": "pronoun"
     },
     "a0-012-close-2": {
       "example": "Close your book, please.",
@@ -817,7 +822,9 @@
     },
     "a0-045-left-2": {
       "example": "Turn left at the bank.",
-      "exampleArabic": "انعطف يسارًا عند البنك."
+      "exampleArabic": "انعطف يسارًا عند البنك.",
+      "arabic": "يسارًا / اليسار",
+      "partOfSpeech": "adverb"
     },
     "a0-046-behind-2": {
       "example": "The car is behind the house.",
@@ -845,7 +852,8 @@
     },
     "a0-050-home-3": {
       "example": "I go home at five.",
-      "exampleArabic": "أعود إلى المنزل في الخامسة."
+      "exampleArabic": "أعود إلى المنزل في الخامسة.",
+      "partOfSpeech": "adverb"
     },
     "a0-051-write-2": {
       "example": "Write your name here.",
@@ -864,8 +872,8 @@
       "exampleArabic": "قف هنا من فضلك."
     },
     "a0-055-sun-2": {
-      "example": "The sun is hot today.",
-      "exampleArabic": "الشمس حارة اليوم."
+      "example": "The sun is in the sky.",
+      "exampleArabic": "الشمس في السماء."
     },
     "a0-055-weather-3": {
       "example": "The weather is nice today.",
@@ -901,7 +909,7 @@
     },
     "a1-025-price-2": {
       "example": "What is the price of this jacket?",
-      "exampleArabic": "ما سعر هذا المعطف؟"
+      "exampleArabic": "ما سعر هذه السترة؟"
     },
     "a1-028-cash-3": {
       "example": "Can I pay in cash?",
@@ -948,12 +956,13 @@
       "exampleArabic": "الصيدلية مفتوحة حتى منتصف الليل."
     },
     "a1-040-medicine-3": {
-      "example": "Take this medicine after dinner.",
-      "exampleArabic": "تناول هذا الدواء بعد العشاء."
+      "example": "The medicine is in the bag.",
+      "exampleArabic": "الدواء في الحقيبة."
     },
     "a1-042-emergency-2": {
-      "example": "In an emergency, call 997.",
-      "exampleArabic": "في حالة الطوارئ، اتصل بالرقم 997."
+      "example": "This is an emergency. We need help now.",
+      "exampleArabic": "هذه حالة طارئة. نحتاج إلى مساعدة الآن.",
+      "arabic": "حالة طارئة"
     },
     "a1-043-teacher-3": {
       "example": "Our teacher explains the lesson clearly.",
@@ -964,8 +973,8 @@
       "exampleArabic": "أرسلت بريدًا إلكترونيًا إلى مديري هذا الصباح."
     },
     "a1-051-because-3": {
-      "example": "I am sorry I am late because the traffic was bad.",
-      "exampleArabic": "آسف على التأخير لأن الزحام كان شديدًا."
+      "example": "I was late because the bus was late.",
+      "exampleArabic": "تأخرت لأن الحافلة تأخرت."
     },
     "a1-055-problem-3": {
       "example": "There is a problem with my internet connection.",
@@ -974,6 +983,489 @@
     "a1-057-customer-service-3": {
       "example": "I called customer service about my order.",
       "exampleArabic": "اتصلت بخدمة العملاء بخصوص طلبي."
+    },
+    "a0-001-am-3": {
+      "arabic": "فعل ربط مع I"
+    },
+    "a0-011-this-1": {
+      "partOfSpeech": "pronoun"
+    },
+    "a0-011-is-3": {
+      "arabic": "فعل ربط مع المفرد"
+    },
+    "a0-u2-l5-xv1": {
+      "partOfSpeech": "pronoun"
+    },
+    "a0-u2-l5-xv2": {
+      "partOfSpeech": "pronoun"
+    },
+    "a0-007-apple-1": {
+      "exampleArabic": "تبدأ كلمة apple، أي تفاحة، بالحرف A."
+    },
+    "a0-u2-l1-xv1": {
+      "exampleArabic": "تبدأ كلمة ant، أي نملة، بالحرف A."
+    },
+    "a0-008-book-1": {
+      "exampleArabic": "تبدأ كلمة book بالحرف B وكلمة cat بالحرف C."
+    },
+    "a0-008-cat-2": {
+      "exampleArabic": "تبدأ كلمة book بالحرف B وكلمة cat بالحرف C."
+    },
+    "a0-u2-l2-xv1": {
+      "exampleArabic": "تبدأ كلمة ball، أي كرة، بالحرف B."
+    },
+    "a0-u2-l2-xv2": {
+      "exampleArabic": "تبدأ كلمة car، أي سيارة، بالحرف C."
+    },
+    "a0-010-pen-1": {
+      "arabic": "قلم حبر"
+    },
+    "a0-004-please-1": {
+      "partOfSpeech": "adverb"
+    },
+    "a0-018-day-3": {
+      "example": "It is a sunny day.",
+      "exampleArabic": "إنه يوم مشمس."
+    },
+    "a0-021-man-1": {
+      "example": "The man is here.",
+      "exampleArabic": "الرجل هنا."
+    },
+    "a0-023-he-1": {
+      "example": "He is a student.",
+      "exampleArabic": "هو طالب."
+    },
+    "a0-u3-l3-xv3": {
+      "arabic": "يوجد / توجد (مع الجمع)",
+      "partOfSpeech": "phrase"
+    },
+    "a0-017-o-clock-2": {
+      "arabic": "تمامًا (للساعة الكاملة)"
+    },
+    "a0-u4-l6-xv1": {
+      "arabic": "صغير السن / شاب"
+    },
+    "a0-u4-l5-xv2": {
+      "arabic": "هم / هن"
+    },
+    "a0-029-here-2": {
+      "example": "My bag is here.",
+      "exampleArabic": "حقيبتي هنا."
+    },
+    "a0-u6-l2-xv3": {
+      "exampleArabic": "الحساء ساخن."
+    },
+    "a0-u6-l5-xv1": {
+      "arabic": "يحب كثيرًا",
+      "exampleArabic": "أحب الشاي كثيرًا."
+    },
+    "a0-045-right-1": {
+      "arabic": "يمينًا / اليمين",
+      "partOfSpeech": "adverb"
+    },
+    "a0-046-front-1": {
+      "english": "in front of",
+      "partOfSpeech": "preposition",
+      "phonetic": null
+    },
+    "a0-u7-l5-xv2": {
+      "example": "My shirt is dark blue.",
+      "exampleArabic": "قميصي أزرق داكن."
+    },
+    "a0-u7-l5-xv3": {
+      "example": "Her bag is light blue.",
+      "exampleArabic": "حقيبتها زرقاء فاتحة."
+    },
+    "a0-u7-l4-xv1": {
+      "example": "My hat is yellow.",
+      "exampleArabic": "قبعتي صفراء."
+    },
+    "a0-047-near-1": {
+      "example": "The store is near my house.",
+      "exampleArabic": "المتجر قريب من منزلي.",
+      "partOfSpeech": "preposition"
+    },
+    "a0-043-school-1": {
+      "example": "The school is near my house.",
+      "exampleArabic": "المدرسة قريبة من منزلي."
+    },
+    "a0-u8-l1-xv1": {
+      "example": "The market is near the bank.",
+      "exampleArabic": "السوق قريب من البنك."
+    },
+    "a0-u8-l5-xv2": {
+      "example": "My house is close to the school.",
+      "exampleArabic": "منزلي قريب من المدرسة."
+    },
+    "a0-u9-l2-xv1": {
+      "english": "come back",
+      "partOfSpeech": "phrasal verb",
+      "phonetic": null
+    },
+    "a0-u9-l2-xv3": {
+      "example": "I am at home now.",
+      "exampleArabic": "أنا في المنزل الآن."
+    },
+    "a0-056-rain-2": {
+      "example": "Listen to the rain.",
+      "exampleArabic": "استمع إلى صوت المطر."
+    },
+    "a0-057-please-3": {
+      "partOfSpeech": "adverb"
+    },
+    "a0-u10-l1-xv3": {
+      "example": "Summer is hot here.",
+      "exampleArabic": "الصيف حار هنا."
+    },
+    "a0-u10-l2-xv3": {
+      "example": "Winter is cold here.",
+      "exampleArabic": "الشتاء بارد هنا."
+    },
+    "a0-038-eye-1": {
+      "exampleArabic": "أرى بعينيّ."
+    },
+    "a1-u1-l4-xv1": {
+      "partOfSpeech": "phrase"
+    },
+    "a1-005-at-2": {
+      "arabic": "في / عند (للوقت المحدد)"
+    },
+    "a1-005-one-3": {
+      "arabic": "واحد / واحدة"
+    },
+    "a1-u2-l1-xv3": {
+      "arabic": "كثيرًا ما",
+      "exampleArabic": "كثيرًا ما نلعب كرة القدم."
+    },
+    "a1-u2-l6-xv1": {
+      "arabic": "كثيرًا ما",
+      "exampleArabic": "كثيرًا ما أقرأ قبل النوم."
+    },
+    "a1-009-do-not-1": {
+      "arabic": "أداة نفي مع I وyou وwe وthey"
+    },
+    "a1-010-do-1": {
+      "arabic": "فعل مساعد للسؤال في المضارع"
+    },
+    "a1-011-does-1": {
+      "arabic": "فعل مساعد للسؤال مع المفرد الغائب"
+    },
+    "a1-014-were-1": {
+      "arabic": "صيغة الماضي من be مع you وwe وthey"
+    },
+    "a1-017-did-not-1": {
+      "arabic": "أداة نفي الماضي"
+    },
+    "a1-018-did-1": {
+      "arabic": "فعل مساعد للسؤال عن الماضي"
+    },
+    "a1-u3-l4-xv2": {
+      "partOfSpeech": "phrase"
+    },
+    "a1-u4-l2-xv2": {
+      "partOfSpeech": "phrase"
+    },
+    "a1-019-will-1": {
+      "example": "I will help you carry the bags.",
+      "exampleArabic": "سأساعدك في حمل الحقائب."
+    },
+    "a1-019-help-2": {
+      "example": "I will help you carry the bags.",
+      "exampleArabic": "سأساعدك في حمل الحقائب."
+    },
+    "a1-019-bags-3": {
+      "example": "I will help you carry the bags.",
+      "exampleArabic": "سأساعدك في حمل الحقائب."
+    },
+    "a1-u5-l1-xv1": {
+      "arabic": "غالٍ"
+    },
+    "a1-u5-l2-xv2": {
+      "arabic": "يجرّب الملابس",
+      "exampleArabic": "هل يمكنني تجربة هذه السترة؟",
+      "partOfSpeech": "phrasal verb"
+    },
+    "a1-u5-l6-xv2": {
+      "arabic": "معطّل / مكسور",
+      "exampleArabic": "هذا الهاتف معطّل."
+    },
+    "a1-034-take-me-1": {
+      "arabic": "أوصلني",
+      "exampleArabic": "من فضلك، أوصلني إلى وسط المدينة."
+    },
+    "a1-034-center-2": {
+      "exampleArabic": "من فضلك، أوصلني إلى وسط المدينة."
+    },
+    "a1-u6-l6-xv1": {
+      "arabic": "يسارًا",
+      "partOfSpeech": "adverb"
+    },
+    "a1-u6-l3-xv3": {
+      "arabic": "يسجّل الوصول (إلى الفندق)",
+      "exampleArabic": "نسجّل الوصول إلى الفندق في الثانية."
+    },
+    "a1-038-pain-1": {
+      "example": "I have pain here. It started two days ago.",
+      "exampleArabic": "لدي ألم هنا. بدأ منذ يومين."
+    },
+    "a1-038-for-2": {
+      "example": "I was ill for two days.",
+      "exampleArabic": "كنت مريضًا لمدة يومين."
+    },
+    "a1-038-days-3": {
+      "example": "I stayed at home for two days.",
+      "exampleArabic": "بقيت في المنزل لمدة يومين."
+    },
+    "a1-u7-l2-xv1": {
+      "english": "ago",
+      "arabic": "منذ (بعد مدة زمنية)",
+      "example": "The pain started two days ago.",
+      "exampleArabic": "بدأ الألم منذ يومين.",
+      "partOfSpeech": "adverb",
+      "phonetic": null
+    },
+    "a1-u7-l1-xv3": {
+      "example": "I rest at home after work.",
+      "exampleArabic": "أستريح في المنزل بعد العمل."
+    },
+    "a1-u7-l4-xv2": {
+      "example": "Is this syrup for adults?",
+      "exampleArabic": "هل هذا الشراب الدوائي للبالغين؟"
+    },
+    "a1-041-tablet-1": {
+      "arabic": "قرص دوائي",
+      "example": "The label says: take one tablet after food.",
+      "exampleArabic": "يقول الملصق: تناول قرصًا واحدًا بعد الطعام."
+    },
+    "a1-041-take-2": {
+      "arabic": "يتناول (دواء)",
+      "example": "The label says: take one tablet after food.",
+      "exampleArabic": "يقول الملصق: تناول قرصًا واحدًا بعد الطعام."
+    },
+    "a1-041-after-food-3": {
+      "example": "The label says: take one tablet after food.",
+      "exampleArabic": "يقول الملصق: تناول قرصًا واحدًا بعد الطعام."
+    },
+    "a1-u7-l5-xv1": {
+      "example": "The label says 'twice a day'.",
+      "exampleArabic": "يقول الملصق «مرتين في اليوم»."
+    },
+    "a1-u7-l5-xv2": {
+      "example": "The label says to take it with water.",
+      "exampleArabic": "يقول الملصق إن الدواء يؤخذ مع الماء."
+    },
+    "a1-044-due-2": {
+      "arabic": "مطلوب تسليمه في موعد محدد"
+    },
+    "a1-u8-l6-xv2": {
+      "arabic": "تحيات (في ختام الرسالة)",
+      "example": "I end my email with 'Kind regards'.",
+      "exampleArabic": "أختم رسالتي بعبارة «مع أطيب التحيات»."
+    },
+    "a1-u9-l4-xv2": {
+      "arabic": "مثير للاهتمام",
+      "exampleArabic": "هذه القصة مثيرة للاهتمام."
+    },
+    "a1-054-prefer-1": {
+      "example": "I prefer this bag because it is lighter.",
+      "exampleArabic": "أفضل هذه الحقيبة لأنها أخف وزنًا."
+    },
+    "a1-054-lighter-2": {
+      "arabic": "أخف وزنًا",
+      "example": "I prefer this bag because it is lighter.",
+      "exampleArabic": "أفضل هذه الحقيبة لأنها أخف وزنًا."
+    },
+    "a1-054-because-3": {
+      "example": "I prefer this bag because it is lighter.",
+      "exampleArabic": "أفضل هذه الحقيبة لأنها أخف وزنًا."
+    },
+    "a1-u10-l1-xv2": {
+      "arabic": "موجّه الشبكة (راوتر)"
+    },
+    "a1-057-wrong-2": {
+      "arabic": "غير الصحيح / غير المطلوب"
+    },
+    "a2-u1-l1-xv1": {
+      "example": "There is a short delay at the station.",
+      "exampleArabic": "يوجد تأخير قصير في المحطة."
+    },
+    "a2-extra-2-w1": {
+      "partOfSpeech": "verb"
+    },
+    "a2-extra-3-w1": {
+      "arabic": "سوف (لخطة أو نية)"
+    },
+    "a2-extra-4-w1": {
+      "partOfSpeech": "noun phrase"
+    },
+    "a2-extra-4-xv4": {
+      "partOfSpeech": "phrasal verb",
+      "example": "I want to check in for my flight.",
+      "exampleArabic": "أريد إنهاء إجراءات السفر لرحلتي.",
+      "arabic": "ينهي إجراءات السفر"
+    },
+    "a2-extra-5-w1": {
+      "partOfSpeech": "noun"
+    },
+    "a2-extra-5-xv3": {
+      "arabic": "ألم في الحلق",
+      "exampleArabic": "لديها ألم في الحلق وتجد صعوبة في الكلام."
+    },
+    "a2-extra-5-xv4": {
+      "example": "The pharmacist explained how to take the medicine.",
+      "exampleArabic": "شرح الصيدلي كيفية تناول الدواء."
+    },
+    "a2-extra-5-xv1": {
+      "exampleArabic": "ابني مصاب بحمى مرتفعة."
+    },
+    "a2-extra-6-xv4": {
+      "arabic": "بطول ... نفسه"
+    },
+    "a2-extra-7-xv4": {
+      "example": "Thanks for inviting me. I'd love to come.",
+      "exampleArabic": "شكرًا على دعوتي. يسعدني الحضور."
+    },
+    "b1-u1-l1-w1": {
+      "arabic": "أُخّر موعده",
+      "example": "My flight has been delayed by two hours.",
+      "exampleArabic": "أُخّر موعد رحلتي ساعتين."
+    },
+    "b1-extra-2-w1": {
+      "arabic": "قد أنهيت"
+    },
+    "b1-extra-4-w1": {
+      "partOfSpeech": "adverb"
+    },
+    "b1-extra-6-xv3": {
+      "arabic": "يتحقق من"
+    },
+    "b1-extra-7-w1": {
+      "partOfSpeech": "verb"
+    },
+    "b2-extra-3-w1": {
+      "arabic": "كان سيأخذ؛ لَأخذ (بحسب السياق)"
+    },
+    "b2-extra-3-xv4": {
+      "arabic": "تحسبًا لـ؛ احتياطًا لاحتمال"
+    },
+    "b2-extra-4-xv1": {
+      "english": "be permitted to",
+      "arabic": "يُسمح له أن",
+      "example": "Visitors will be permitted to enter once the inspection is complete.",
+      "exampleArabic": "سيُسمح للزوار بالدخول عند اكتمال الفحص.",
+      "phonetic": "/biː pəˈmɪtɪd tə/"
+    },
+    "b2-extra-7-xv1": {
+      "english": "meet halfway",
+      "arabic": "يتوصل إلى حل وسط",
+      "exampleArabic": "إذا أمكنكم خفض السعر قليلًا، فأعتقد أن بإمكاننا التوصل إلى حل وسط."
+    },
+    "b2-extra-2-xv3": {
+      "english": "substantiate"
+    },
+    "b2-extra-4-xv2": {
+      "english": "be implemented"
+    },
+    "b2-extra-4-xv3": {
+      "english": "be held"
+    },
+    "b2-extra-4-xv4": {
+      "english": "be made aware"
+    },
+    "b2-extra-5-xv1": {
+      "english": "claim"
+    },
+    "b2-extra-5-xv2": {
+      "english": "point out"
+    },
+    "b2-extra-5-xv3": {
+      "english": "admit"
+    },
+    "b2-extra-5-xv4": {
+      "english": "deny"
+    },
+    "b2-extra-6-xv1": {
+      "english": "elaborate on"
+    },
+    "b2-extra-6-xv2": {
+      "english": "sum up"
+    },
+    "b2-extra-6-xv4": {
+      "english": "draw your attention to"
+    },
+    "b2-extra-7-xv3": {
+      "english": "come to terms"
+    },
+    "b2-extra-8-xv2": {
+      "english": "misrepresent"
+    },
+    "c1-u1-l1-xv1": {
+      "arabic": "تكرار زائد؛ حشو",
+      "exampleArabic": "جعل حذف التكرار الزائد من المسودة الحجة أسهل متابعة بكثير."
+    },
+    "c1-extra-2-w1": {
+      "arabic": "تدافع هذه المقالة عن أن",
+      "exampleArabic": "تدافع هذه المقالة عن اعتبار إمكانية الوصول مبدأ تصميم أساسيًا."
+    },
+    "c1-extra-5-xv4": {
+      "arabic": "حجة قوية الإقناع",
+      "exampleArabic": "يقدم التقرير حجة قوية الإقناع لإصلاح النظام الضريبي."
+    },
+    "c1-extra-6-xv1": {
+      "exampleArabic": "رُفعت دعوى على المورّد بسبب الإخلال بالعقد بعد تفويت موعد التسليم."
+    },
+    "c1-extra-6-xv4": {
+      "arabic": "الفحص النافي للجهالة؛ العناية الواجبة",
+      "exampleArabic": "أجرت الشركة فحصًا شاملًا نافيًا للجهالة قبل إتمام الاستحواذ."
+    },
+    "c1-extra-4-xv3": {
+      "exampleArabic": "رغم نبرته المقنعة، يقوم المقال الافتتاحي على استدلال يشوبه خلل جوهري."
+    },
+    "c1-u1-l1-xv2": {
+      "english": "trim the fat",
+      "phonetic": "/trɪm ðə fæt/"
+    },
+    "c1-u1-l1-xv4": {
+      "english": "convey meaning",
+      "phonetic": "/kənˈveɪ ˈmiːnɪŋ/"
+    },
+    "c1-extra-2-xv2": {
+      "english": "substantiate"
+    },
+    "c1-extra-2-xv4": {
+      "english": "draw on",
+      "phonetic": "/drɔː ɒn/"
+    },
+    "c1-extra-3-xv2": {
+      "english": "be inclined to",
+      "phonetic": "/bi ɪnˈklaɪnd tuː/"
+    },
+    "c1-extra-4-xv2": {
+      "english": "scrutinise"
+    },
+    "c1-extra-4-xv4": {
+      "english": "hold up to scrutiny",
+      "phonetic": "/həʊld ʌp tə ˈskruːtəni/"
+    },
+    "c1-extra-5-xv1": {
+      "english": "strike a balance",
+      "phonetic": "/straɪk ə ˈbæləns/"
+    },
+    "c1-extra-5-xv3": {
+      "english": "bear the brunt",
+      "phonetic": "/beə ðə brʌnt/"
+    },
+    "c1-extra-7-xv1": {
+      "english": "resonate with",
+      "phonetic": "/ˈrezəneɪt wɪð/"
+    },
+    "c1-extra-7-xv3": {
+      "english": "drive the point home",
+      "phonetic": "/draɪv ðə pɔɪnt həʊm/"
+    },
+    "c1-extra-8-xv1": {
+      "english": "concede a point",
+      "phonetic": "/kənˈsiːd ə pɔɪnt/"
     }
   },
   "arabicGlossById": {

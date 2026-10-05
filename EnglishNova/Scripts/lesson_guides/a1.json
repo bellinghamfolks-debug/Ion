@@ -1,0 +1,1179 @@
+{
+  "a1-u1-l1": {
+    "focusAr": "تأتي usually عادة قبل الفعل الرئيسي: I usually wake up. ضع at قبل وقت محدد مثل seven، وin قبل فترة مثل the morning. هذه الجملة تصف عادة متكررة، لا حدثًا يجري الآن فقط.",
+    "focusEn": "Usually normally comes before the main verb: I usually wake up. Use at before a clock time such as seven and in before a period such as the morning. The sentence describes a regular habit, not just an action happening now.",
+    "taskAr": "صف عادة الاستيقاظ في السادسة باستخدام usually.",
+    "taskEn": "Describe a habit of waking at six using usually.",
+    "exampleEn": "I usually wake up at six.",
+    "exampleAr": "أستيقظ عادة في السادسة.",
+    "check": {
+      "promptEn": "Choose the usual word order.",
+      "choices": [
+        "I usually wake up at six.",
+        "I wake usually up at six.",
+        "I usually at six wake up."
+      ],
+      "answer": "I usually wake up at six.",
+      "explanationAr": "usually تسبق wake up بوصفه فعلًا مركبًا؛ لا نفصل جزأيه بوضع usually بينهما.",
+      "explanationEn": "Usually comes before wake up as a verb unit; do not split its two parts with usually."
+    }
+  },
+  "a1-u1-l2": {
+    "focusAr": "استخدم First لبدء التسلسل وthen للخطوة التالية. wash my face وbrush my teeth تتضمنان ملكية العضو، أما get dressed فلا تحتاج بعدها إلى my clothes لأنها تعني ارتداء الملابس بالفعل.",
+    "focusEn": "Use First to start a sequence and then for the next step. Wash my face and brush my teeth include a possessive word. Get dressed already means putting on clothes, so it does not need my clothes after it.",
+    "taskAr": "اذكر غسل الوجه ثم ارتداء الملابس بالترتيب.",
+    "taskEn": "Describe washing your face and then getting dressed in order.",
+    "exampleEn": "First, I wash my face. Then I get dressed.",
+    "exampleAr": "أولًا، أغسل وجهي. ثم أرتدي ملابسي.",
+    "check": {
+      "promptEn": "Which word introduces the next step after First?",
+      "choices": [
+        "Then",
+        "Never",
+        "Yesterday"
+      ],
+      "answer": "Then",
+      "explanationAr": "Then تنقل إلى الخطوة التالية في التسلسل، بينما Never للتكرار المنفي وYesterday لوقت ماضٍ.",
+      "explanationEn": "Then introduces the next step. Never describes negative frequency, and yesterday refers to a past day."
+    }
+  },
+  "a1-u1-l3": {
+    "focusAr": "have تعني يتناول عندما تأتي مع الوجبات: have breakfast. استخدم for breakfast لذكر الطعام الذي تتناوله في الإفطار. ولا تضع a قبل breakfast عند الحديث عن الوجبة المعتادة دون وصف خاص.",
+    "focusEn": "Have means eat or take a meal in have breakfast. Use for breakfast to name what you eat at that meal. Do not put a before breakfast when referring to the usual meal without a special description.",
+    "taskAr": "قل إنك تتناول الخبز والحليب في الإفطار.",
+    "taskEn": "Say that you have bread and milk for breakfast.",
+    "exampleEn": "I have bread and milk for breakfast.",
+    "exampleAr": "أتناول الخبز والحليب في الإفطار.",
+    "check": {
+      "promptEn": "Complete: I have eggs _____ breakfast.",
+      "choices": [
+        "for",
+        "to",
+        "from"
+      ],
+      "answer": "for",
+      "explanationAr": "for breakfast تربط الطعام بالوجبة التي تتناوله فيها.",
+      "explanationEn": "For breakfast links the food to the meal when you eat it."
+    }
+  },
+  "a1-u1-l4": {
+    "focusAr": "استخدم by bus أو by car لوصف وسيلة المواصلات، دون a أو the بعد by في هذا النمط. ويمكنك استخدام الفعل walk مع الوجهة: walk to work. لا تقل by foot؛ التعبير هو on foot.",
+    "focusEn": "Use by bus or by car to name a means of transport, without a or the after by in this pattern. You can use walk with a destination: walk to work. The phrase for walking is on foot, not by foot.",
+    "taskAr": "قل إنك تذهب إلى المدرسة بالحافلة.",
+    "taskEn": "Say that you go to school by bus.",
+    "exampleEn": "I go to school by bus.",
+    "exampleAr": "أذهب إلى المدرسة بالحافلة.",
+    "check": {
+      "promptEn": "Complete: She goes to work _____.",
+      "choices": [
+        "by car",
+        "by a car",
+        "with car"
+      ],
+      "answer": "by car",
+      "explanationAr": "عند وصف وسيلة المواصلات نستخدم by car دون أداة قبل car.",
+      "explanationEn": "To name the means of transport, use by car without an article before car."
+    }
+  },
+  "a1-u1-l5": {
+    "focusAr": "at one o'clock تحدد ساعة، وat noon تعني عند الظهر. together تصف المشاركة، وتأتي طبيعيًا بعد eat lunch: We eat lunch together. noon وقت محدد، ولا تعني كل فترة بعد الظهر.",
+    "focusEn": "At one o'clock gives a clock time; at noon means at midday. Together describes sharing the activity and naturally follows eat lunch. Noon is a particular time, not the whole afternoon.",
+    "taskAr": "اذكر تناول الغداء معًا عند الظهر.",
+    "taskEn": "Describe having lunch together at noon.",
+    "exampleEn": "We have lunch together at noon.",
+    "exampleAr": "نتناول الغداء معًا عند الظهر.",
+    "check": {
+      "promptEn": "Complete: We have lunch _____ noon.",
+      "choices": [
+        "at",
+        "in",
+        "on"
+      ],
+      "answer": "at",
+      "explanationAr": "نستخدم at مع noon كما نستخدمها مع وقت محدد على الساعة.",
+      "explanationEn": "Use at with noon, just as with a specific clock time."
+    }
+  },
+  "a1-u1-l6": {
+    "focusAr": "قل in the evening لوصف عادة مسائية، وat night لوصف عادة ليلية. صل نشاطين بـ and دون إعادة I إن كان الفاعل واحدًا: I read and relax. أما tired فصفة: I am tired.",
+    "focusEn": "Use in the evening for an evening habit and at night for a night-time habit. Join two actions with and without repeating I when the subject is the same: I read and relax. Tired is an adjective: I am tired.",
+    "taskAr": "اذكر أنك تشاهد التلفاز وتسترخي مساءً.",
+    "taskEn": "Say that you watch TV and relax in the evening.",
+    "exampleEn": "In the evening, I watch TV and relax.",
+    "exampleAr": "في المساء، أشاهد التلفاز وأسترخي.",
+    "check": {
+      "promptEn": "Complete: I read _____ the evening.",
+      "choices": [
+        "in",
+        "at",
+        "on"
+      ],
+      "answer": "in",
+      "explanationAr": "التعبير المعتاد هو in the evening. نحفظه منفصلًا عن التعبير at night.",
+      "explanationEn": "The usual phrase is in the evening. Learn it separately from at night."
+    }
+  },
+  "a1-u2-l1": {
+    "focusAr": "مع I وwe وyou وthey نستخدم صيغة الفعل الأساسية في المضارع البسيط: We study. every day كلمتان تعنيان كل يوم؛ أما everyday كلمة واحدة فصفة بمعنى يومي، مثل everyday life.",
+    "focusEn": "Use the base verb with I, we, you and they in the simple present: We study. Every day is two words meaning each day; everyday as one word is an adjective, as in everyday life.",
+    "taskAr": "قل إنك وزملاءك تدرسون في المكتبة كل يوم.",
+    "taskEn": "Say that you and your classmates study at the library every day.",
+    "exampleEn": "We study at the library every day.",
+    "exampleAr": "ندرس في المكتبة كل يوم.",
+    "check": {
+      "promptEn": "Complete: We _____ English every day.",
+      "choices": [
+        "study",
+        "studies",
+        "studying"
+      ],
+      "answer": "study",
+      "explanationAr": "we تأخذ الفعل الأساسي study في المضارع البسيط، دون s ودون ing.",
+      "explanationEn": "We takes the base verb study in the simple present, without s or ing."
+    }
+  },
+  "a1-u2-l2": {
+    "focusAr": "مع he وshe والاسم المفرد نضيف غالبًا s إلى الفعل: He works. لا تضف is قبله في المضارع البسيط. أما وصف الوظيفة باسم فيحتاج إلى is: He is a teacher.",
+    "focusEn": "With he, she and a singular name, usually add s to the verb: He works. Do not add is before it in the simple present. A job description using a noun needs is: He is a teacher.",
+    "taskAr": "قل إن سارة تعمل في مكتب.",
+    "taskEn": "Say that Sara works in an office.",
+    "exampleEn": "Sara works in an office.",
+    "exampleAr": "تعمل سارة في مكتب.",
+    "check": {
+      "promptEn": "Complete: He _____ in a bank.",
+      "choices": [
+        "works",
+        "work",
+        "is works"
+      ],
+      "answer": "works",
+      "explanationAr": "he مفرد غائب، ولذلك نستخدم works. لا نجمع is مع works في هذا الزمن.",
+      "explanationEn": "He is third-person singular, so use works. Do not combine is and works in this tense."
+    }
+  },
+  "a1-u2-l3": {
+    "focusAr": "للنفي مع I وwe وyou وthey ضع do not أو don't قبل الفعل الأساسي. لا تضف am أو are، ولا تغير drink إلى drinking. تعلم التركيب كاملًا: I don't drink coffee.",
+    "focusEn": "For a negative with I, we, you or they, put do not or don't before the base verb. Do not add am or are, and do not change drink to drinking. Learn the whole pattern: I don't drink coffee.",
+    "taskAr": "انف عادة شرب الشاي صباحًا باستخدام don't.",
+    "taskEn": "Use don't to say that you do not drink tea in the morning.",
+    "exampleEn": "I don't drink tea in the morning.",
+    "exampleAr": "لا أشرب الشاي في الصباح.",
+    "check": {
+      "promptEn": "Complete: We do not _____ late.",
+      "choices": [
+        "eat",
+        "eats",
+        "eating"
+      ],
+      "answer": "eat",
+      "explanationAr": "بعد do not يأتي الفعل الأساسي eat. المساعد do يحمل الصيغة النحوية للنفي.",
+      "explanationEn": "The base verb eat follows do not. The auxiliary do carries the grammatical form for the negative."
+    }
+  },
+  "a1-u2-l4": {
+    "focusAr": "ابدأ السؤال عن عادة بـ Do ثم الفاعل ثم الفعل الأساسي: Do you speak English? وللإجابة القصيرة قل Yes, I do أو No, I don't. لا تكرر السؤال بترتيب الجملة الخبرية فقط.",
+    "focusEn": "Ask about a habit with Do, the subject and the base verb: Do you speak English? Short answers are Yes, I do and No, I don't. A question needs the auxiliary pattern, not just statement word order.",
+    "taskAr": "اسأل شخصًا هل يفهم السؤال.",
+    "taskEn": "Ask someone whether they understand the question.",
+    "exampleEn": "Do you understand the question?",
+    "exampleAr": "هل تفهم السؤال؟",
+    "check": {
+      "promptEn": "Do you speak English? Choose the affirmative short answer.",
+      "choices": [
+        "Yes, I do.",
+        "Yes, I am.",
+        "Yes, I does."
+      ],
+      "answer": "Yes, I do.",
+      "explanationAr": "نجيب بالمساعد do المستخدم في السؤال، مع تحويل you إلى I عند إجابة المتكلم عن نفسه.",
+      "explanationEn": "Use the auxiliary do from the question and change you to I when answering about yourself."
+    }
+  },
+  "a1-u2-l5": {
+    "focusAr": "مع he وshe أو اسم شخص واحد يبدأ السؤال بـ Does. يعود الفعل الرئيسي إلى صورته الأساسية: Does Sara work? لا تقل Does Sara works؛ فالمساعد Does يحمل علامة المفرد.",
+    "focusEn": "Use Does for a question with he, she or one person's name. The main verb returns to its base form: Does Sara work? Do not say Does Sara works; Does already marks third-person singular.",
+    "taskAr": "اسأل إن كان علي يعيش هنا.",
+    "taskEn": "Ask whether Ali lives here.",
+    "exampleEn": "Does Ali live here?",
+    "exampleAr": "هل يعيش علي هنا؟",
+    "check": {
+      "promptEn": "Complete: Does she _____ here?",
+      "choices": [
+        "work",
+        "works",
+        "working"
+      ],
+      "answer": "work",
+      "explanationAr": "بعد Does نستخدم work دون s. تظهر s في الخبر She works لا في هذا السؤال.",
+      "explanationEn": "Use work without s after Does. The s appears in the statement She works, not in this question."
+    }
+  },
+  "a1-u2-l6": {
+    "focusAr": "always دائمًا وsometimes أحيانًا وnever لا يحدث مطلقًا. تأتي هذه الكلمات عادة قبل الفعل الرئيسي: I never drink coffee. لا تضف don't مع never في النفي المعتاد، لأن never تحمل معنى النفي بالفعل.",
+    "focusEn": "Always means every time, sometimes means on some occasions, and never means at no time. These words usually precede the main verb: I never drink coffee. Do not add don't with never in a standard negative; never already supplies the negative meaning.",
+    "taskAr": "قل إنك لا تشرب القهوة أبدًا في الليل باستخدام never.",
+    "taskEn": "Use never to say that you do not drink coffee at night.",
+    "exampleEn": "I never drink coffee at night.",
+    "exampleAr": "لا أشرب القهوة أبدًا في الليل.",
+    "check": {
+      "promptEn": "Choose the standard negative sentence.",
+      "choices": [
+        "I never drink coffee.",
+        "I don't never drink coffee.",
+        "I never drinks coffee."
+      ],
+      "answer": "I never drink coffee.",
+      "explanationAr": "never تكفي للنفي، ومع I يبقى drink دون s. لا نضيف don't إلى never في هذا التركيب.",
+      "explanationEn": "Never supplies the negative, and I takes drink without s. Do not add don't to never in this pattern."
+    }
+  },
+  "a1-u3-l1": {
+    "focusAr": "yesterday تشير إلى يوم انتهى. عند وصف حالتك أمس استخدم was بدل am: I was busy. لا نضع in أو on قبل yesterday، ويمكن وضعها في بداية الجملة أو نهايتها.",
+    "focusEn": "Yesterday refers to a finished day. To describe your condition yesterday, use was instead of am: I was busy. Do not put in or on before yesterday. It can come at the beginning or end of the sentence.",
+    "taskAr": "قل إنك كنت متعبًا صباح أمس.",
+    "taskEn": "Say that you were tired yesterday morning.",
+    "exampleEn": "I was tired yesterday morning.",
+    "exampleAr": "كنت متعبًا صباح أمس.",
+    "check": {
+      "promptEn": "Complete: I _____ busy yesterday.",
+      "choices": [
+        "was",
+        "am",
+        "were"
+      ],
+      "answer": "was",
+      "explanationAr": "yesterday تحدد الماضي، ومع I نستخدم was في هذا النوع من الجمل.",
+      "explanationEn": "Yesterday marks the past, and I takes was in this kind of sentence."
+    }
+  },
+  "a1-u3-l2": {
+    "focusAr": "was تأتي مع I وhe وshe وit، وwere مع you وwe وthey. لا تتغير were إذا كان you يخاطب شخصًا واحدًا. last night تعني الليلة الماضية ولا تحتاج إلى at قبلها.",
+    "focusEn": "Use was with I, he, she and it, and were with you, we and they. You takes were even when addressing one person. Last night does not need at before it.",
+    "taskAr": "قل إنك وأصدقاءك كنتم معًا الليلة الماضية.",
+    "taskEn": "Say that you and your friends were together last night.",
+    "exampleEn": "We were together last night.",
+    "exampleAr": "كنا معًا الليلة الماضية.",
+    "check": {
+      "promptEn": "Complete: You _____ at home last night.",
+      "choices": [
+        "were",
+        "was",
+        "are"
+      ],
+      "answer": "were",
+      "explanationAr": "you تأخذ were في الماضي سواء خاطبت شخصًا واحدًا أو أكثر.",
+      "explanationEn": "You takes were in the past whether it refers to one person or more than one."
+    }
+  },
+  "a1-u3-l3": {
+    "focusAr": "went هي صيغة الماضي من go؛ لا نقول goed. استخدم to قبل الوجهة: went to the store. after work تحدد ترتيب الحدث بالنسبة إلى العمل، ويمكن إضافة yesterday لبيان اليوم.",
+    "focusEn": "Went is the past form of go; do not say goed. Use to before a destination: went to the store. After work places the event after working, and yesterday can identify the day.",
+    "taskAr": "قل إنك ذهبت إلى السوق أمس.",
+    "taskEn": "Say that you went to the market yesterday.",
+    "exampleEn": "I went to the market yesterday.",
+    "exampleAr": "ذهبت إلى السوق أمس.",
+    "check": {
+      "promptEn": "Complete: Yesterday, she _____ to the store.",
+      "choices": [
+        "went",
+        "goed",
+        "goes"
+      ],
+      "answer": "went",
+      "explanationAr": "go فعل غير منتظم وماضيه went. أما goes فهي صيغة مضارع.",
+      "explanationEn": "Go is irregular and its past form is went. Goes is a present-tense form."
+    }
+  },
+  "a1-u3-l4": {
+    "focusAr": "نضيف ed إلى أفعال منتظمة مثل watch وplay لتكوين الماضي. لا يتغير watched مع I أوwe أوshe. استخدم on قبل اسم اليوم، لكن last week تأتي دون on.",
+    "focusEn": "Add ed to regular verbs such as watch and play to form the past. Watched does not change with I, we or she. Use on before a day name, but use last week without on.",
+    "taskAr": "قل إنك شاهدت فيلمًا الأسبوع الماضي.",
+    "taskEn": "Say that you watched a movie last week.",
+    "exampleEn": "I watched a movie last week.",
+    "exampleAr": "شاهدت فيلمًا الأسبوع الماضي.",
+    "check": {
+      "promptEn": "Complete: We _____ football last Saturday.",
+      "choices": [
+        "played",
+        "play",
+        "plays"
+      ],
+      "answer": "played",
+      "explanationAr": "last Saturday تحدد وقتًا ماضيًا منتهيًا، لذلك نستخدم played.",
+      "explanationEn": "Last Saturday identifies a finished past time, so use played."
+    }
+  },
+  "a1-u3-l5": {
+    "focusAr": "ضع did not أو didn't قبل الفعل الأساسي لنفي حدث ماضٍ. نقول didn't go لا didn't went، لأن did يحمل دلالة الماضي. استخدم الصيغة نفسها مع كل الضمائر.",
+    "focusEn": "Put did not or didn't before the base verb to make a past negative. Say didn't go, not didn't went, because did already marks the past. Use the same pattern with every subject pronoun.",
+    "taskAr": "قل إنك لم تخرج أمس باستخدام didn't.",
+    "taskEn": "Use didn't to say that you did not go out yesterday.",
+    "exampleEn": "I didn't go out yesterday.",
+    "exampleAr": "لم أخرج أمس.",
+    "check": {
+      "promptEn": "Complete: She did not _____ breakfast.",
+      "choices": [
+        "eat",
+        "ate",
+        "eats"
+      ],
+      "answer": "eat",
+      "explanationAr": "بعد did not يعود الفعل إلى eat. لا نستخدم الماضي ate ولا صيغة المضارع eats.",
+      "explanationEn": "After did not, use the base form eat, not past ate or present eats."
+    }
+  },
+  "a1-u3-l6": {
+    "focusAr": "ابدأ السؤال عن فعل ماضٍ بـ Did ثم الفاعل ثم الفعل الأساسي. للإجابة القصيرة قل Yes, I did أو No, I didn't. لا تستخدم Did مع was في سؤال مثل Were you tired?؛ ففعل be له نمطه الخاص.",
+    "focusEn": "Ask about a past action with Did, the subject and the base verb. Short answers are Yes, I did and No, I didn't. Do not add Did to a be question such as Were you tired?; be uses a different pattern.",
+    "taskAr": "اسأل شخصًا هل اتصل بصديقه أمس.",
+    "taskEn": "Ask whether someone called their friend yesterday.",
+    "exampleEn": "Did you call your friend yesterday?",
+    "exampleAr": "هل اتصلت بصديقك أمس؟",
+    "check": {
+      "promptEn": "Complete: Did you _____ the movie?",
+      "choices": [
+        "see",
+        "saw",
+        "seen"
+      ],
+      "answer": "see",
+      "explanationAr": "بعد Did يأتي الفعل الأساسي see. كلمة saw هي الماضي، وseen صيغة أخرى لا تناسب هذا الموضع.",
+      "explanationEn": "Did is followed by base-form see. Saw is the past form, and seen is a different form that does not fit here."
+    }
+  },
+  "a1-u4-l1": {
+    "focusAr": "يمكن استخدام will لعرض المساعدة أو لاتخاذ قرار لحظة الكلام: I'll help you. بعد will يأتي الفعل الأساسي دون to. الاختصار I'll يعني I will، وليس زمنًا مختلفًا.",
+    "focusEn": "Use will to offer help or make a decision at the moment of speaking: I'll help you. Will takes the base verb without to. I'll is the contracted form of I will, not a different tense.",
+    "taskAr": "اعرض فتح الباب لشخص.",
+    "taskEn": "Offer to open the door for someone.",
+    "exampleEn": "I'll open the door for you.",
+    "exampleAr": "سأفتح لك الباب.",
+    "check": {
+      "promptEn": "Complete: I will _____ you with the bags.",
+      "choices": [
+        "help",
+        "to help",
+        "helping"
+      ],
+      "answer": "help",
+      "explanationAr": "will تتبعها صيغة الفعل الأساسية help، دون to أو ing.",
+      "explanationEn": "Will is followed by base-form help, without to or ing."
+    },
+    "lessonUpdates": {
+      "modelSentence": "I will help you carry the bags.",
+      "modelSentenceArabic": "سأساعدك في حمل الحقائب."
+    }
+  },
+  "a1-u4-l2": {
+    "focusAr": "لخطة قررتها مسبقًا استخدم am أوis أوare ثم going to ثم الفعل الأساسي. لا تحذف فعل be: I am going to visit. لا تعني going to هنا بالضرورة الانتقال إلى مكان.",
+    "focusEn": "For a plan made earlier, use am, is or are followed by going to and a base verb. Keep be: I am going to visit. Going to in this pattern does not necessarily mean travelling to a place.",
+    "taskAr": "اذكر خطة لزيارة عائلتك الأسبوع القادم.",
+    "taskEn": "Describe a plan to visit your family next week.",
+    "exampleEn": "I am going to visit my family next week.",
+    "exampleAr": "سأزور عائلتي الأسبوع القادم.",
+    "check": {
+      "promptEn": "Complete: She _____ going to buy a phone.",
+      "choices": [
+        "is",
+        "am",
+        "are"
+      ],
+      "answer": "is",
+      "explanationAr": "نستخدم is مع she داخل تركيب be going to، ثم يأتي الفعل buy بعد to.",
+      "explanationEn": "Use is with she in the be going to pattern; the base verb buy follows to."
+    }
+  },
+  "a1-u4-l3": {
+    "focusAr": "appointment ترتيب للقاء في وقت محدد، مثل موعد مع الطبيب. قل have an appointment؛ نستخدم an لأن النطق يبدأ بصوت متحرك. يأتي at مع الساعة وin the morning مع الفترة.",
+    "focusEn": "An appointment is an arranged meeting at a set time, such as a visit to a doctor. Say have an appointment; use an because the word begins with a vowel sound. Use at for the clock time and in the morning for the period.",
+    "taskAr": "اذكر أن موعدك غدًا في التاسعة صباحًا.",
+    "taskEn": "Say that your appointment is tomorrow at nine in the morning.",
+    "exampleEn": "My appointment is tomorrow at nine in the morning.",
+    "exampleAr": "موعدي غدًا في التاسعة صباحًا.",
+    "check": {
+      "promptEn": "Complete: I have _____ appointment tomorrow.",
+      "choices": [
+        "an",
+        "a",
+        "two"
+      ],
+      "answer": "an",
+      "explanationAr": "appointment هنا مفرد ويبدأ بصوت متحرك، لذلك نختار an. مع two نحتاج إلى appointments.",
+      "explanationEn": "Appointment is singular and begins with a vowel sound, so use an. Two would require appointments."
+    }
+  },
+  "a1-u4-l4": {
+    "focusAr": "استخدم on مع أسماء الأيام: on Tuesday، لكن لا تضف on قبل next Tuesday. أسماء الأيام تبدأ بحرف كبير في الإنجليزية. لربط اليوم بخطة استخدم be going to ثم النشاط.",
+    "focusEn": "Use on with day names: on Tuesday, but omit on before next Tuesday. English day names begin with a capital letter. Link the day to a plan with be going to followed by the activity.",
+    "taskAr": "اذكر أنك ستدرس يوم الاثنين باستخدام going to.",
+    "taskEn": "Say that you plan to study on Monday using going to.",
+    "exampleEn": "On Monday, I am going to study.",
+    "exampleAr": "سأدرس يوم الاثنين.",
+    "check": {
+      "promptEn": "Complete: I am going to study _____ Tuesday.",
+      "choices": [
+        "on",
+        "in",
+        "at"
+      ],
+      "answer": "on",
+      "explanationAr": "نستخدم on مع اسم اليوم. at للساعة المحددة، وin لفترات أخرى مثل الشهر.",
+      "explanationEn": "Use on with a day name. At is used for a clock time, and in for other periods such as a month."
+    }
+  },
+  "a1-u4-l5": {
+    "focusAr": "maybe وperhaps تعبران عن احتمال، فلا تقدمان وعدًا مؤكدًا. يمكن وضعهما في بداية الجملة. later تعني في وقت لاحق دون تحديد قربه، بينما soon تفيد أن الانتظار سيكون قصيرًا نسبيًا.",
+    "focusEn": "Maybe and perhaps express possibility, not a firm promise. They can start a sentence. Later means at a future time without saying how close it is; soon suggests a relatively short wait.",
+    "taskAr": "عبّر عن احتمال الاتصال الليلة باستخدام Maybe.",
+    "taskEn": "Use Maybe to say that you might call tonight.",
+    "exampleEn": "Maybe I will call tonight.",
+    "exampleAr": "ربما أتصل الليلة.",
+    "check": {
+      "promptEn": "Which word shows that a plan is uncertain?",
+      "choices": [
+        "maybe",
+        "definitely",
+        "certainly"
+      ],
+      "answer": "maybe",
+      "explanationAr": "maybe تدل على الاحتمال. definitely وcertainly تؤكدان الكلام بدل إظهار عدم اليقين.",
+      "explanationEn": "Maybe expresses possibility. Definitely and certainly express certainty instead."
+    }
+  },
+  "a1-u4-l6": {
+    "focusAr": "استخدم Would you like to مع فعل لدعوة شخص إلى نشاط: to join us. ومع شيء تعرضه استخدم Would you like ثم الاسم: some tea. يمكن قبول الدعوة بـ Yes, I'd love to، أو الاعتذار بأدب.",
+    "focusEn": "Use Would you like to with a verb to invite someone to an activity: to join us. Use Would you like with a noun when offering something: some tea. Accept with Yes, I'd love to, or decline politely.",
+    "taskAr": "ادع شخصًا إلى تناول العشاء معكم الليلة.",
+    "taskEn": "Invite someone to have dinner with you tonight.",
+    "exampleEn": "Would you like to have dinner with us tonight?",
+    "exampleAr": "هل ترغب في تناول العشاء معنا الليلة؟",
+    "check": {
+      "promptEn": "Complete: Would you like _____ join us?",
+      "choices": [
+        "to",
+        "for",
+        "at"
+      ],
+      "answer": "to",
+      "explanationAr": "عند الدعوة إلى فعل نستخدم would like to ثم الفعل الأساسي: to join.",
+      "explanationEn": "When inviting someone to do an action, use would like to followed by the base verb: to join."
+    }
+  },
+  "a1-u5-l1": {
+    "focusAr": "اسأل How much is مع شيء مفرد، وHow much are مع الجمع. how much هنا للسعر، وليست لسؤال عدد القطع. expensive تصف الشيء بأنه غالٍ، بينما high تصف السعر في a high price.",
+    "focusEn": "Ask How much is with a singular item and How much are with plural items. Here how much asks about price, not the number of items. Expensive describes an item; high describes its price in a high price.",
+    "taskAr": "اسأل عن سعر الحذاء مستخدمًا these shoes.",
+    "taskEn": "Ask the price using these shoes.",
+    "exampleEn": "How much are these shoes?",
+    "exampleAr": "كم سعر هذا الحذاء؟",
+    "check": {
+      "promptEn": "Complete: How much _____ this shirt?",
+      "choices": [
+        "is",
+        "are",
+        "do"
+      ],
+      "answer": "is",
+      "explanationAr": "this shirt مفرد، لذلك نستخدم is. مع these shoes نستخدم are.",
+      "explanationEn": "This shirt is singular, so use is. With these shoes, use are."
+    }
+  },
+  "a1-u5-l2": {
+    "focusAr": "size هو المقاس، وfit يصف ملاءمة المقاس للجسم. larger أكبر وsmaller أصغر. تعلّم try on كوحدة لتجربة الملابس؛ ومع ضمير المفعول نقول try it on، لا try on it.",
+    "focusEn": "Size is the measurement; fit describes whether an item has a suitable size. Larger and smaller compare sizes. Try on means put clothing on to test it. With an object pronoun say try it on, not try on it.",
+    "taskAr": "اطلب مقاسًا أصغر بأدب.",
+    "taskEn": "Politely ask for a smaller size.",
+    "exampleEn": "Do you have this in a smaller size, please?",
+    "exampleAr": "هل لديكم هذا بمقاس أصغر، من فضلك؟",
+    "check": {
+      "promptEn": "Complete: Can I try _____ on?",
+      "choices": [
+        "it",
+        "on it",
+        "to it"
+      ],
+      "answer": "it",
+      "explanationAr": "ضمير المفعول it يأتي بين try وon. الاسم الكامل يمكن أن يأتي بعدهما: try on this jacket.",
+      "explanationEn": "The object pronoun it goes between try and on. A full noun phrase can follow them: try on this jacket."
+    }
+  },
+  "a1-u5-l3": {
+    "focusAr": "available تصف وجود المنتج للبيع أو الاستخدام. اسأل Is this jacket available in black? باستخدام in قبل اللون. لا تساوِ بين متاح ورخيص؛ فالعبارة لا تخبرنا بالسعر.",
+    "focusEn": "Available means the item can be obtained or used. Ask Is this jacket available in black? using in before the colour. Availability does not tell you whether the item is cheap or expensive.",
+    "taskAr": "اسأل إن كانت السترة متاحة باللون الأبيض.",
+    "taskEn": "Ask whether the jacket is available in white.",
+    "exampleEn": "Is this jacket available in white?",
+    "exampleAr": "هل هذه السترة متاحة باللون الأبيض؟",
+    "check": {
+      "promptEn": "Complete: Is this shirt available _____ blue?",
+      "choices": [
+        "in",
+        "on",
+        "at"
+      ],
+      "answer": "in",
+      "explanationAr": "نستخدم in قبل اللون عند السؤال عن نسخ المنتج المتاحة.",
+      "explanationEn": "Use in before the colour when asking which versions of an item are available."
+    }
+  },
+  "a1-u5-l4": {
+    "focusAr": "نقول pay by card للدفع بالبطاقة، وpay in cash للدفع نقدًا. change في هذا الموقف هو المبلغ المتبقي الذي يعيده البائع، وليس فعل التغيير. money اسم غير معدود في هذا الاستعمال.",
+    "focusEn": "Say pay by card and pay in cash. In this situation, change means the money returned after you pay, not the action of changing something. Money is uncountable in this everyday use.",
+    "taskAr": "اسأل إن كان بإمكانك الدفع نقدًا.",
+    "taskEn": "Ask whether you can pay in cash.",
+    "exampleEn": "Can I pay in cash?",
+    "exampleAr": "هل يمكنني الدفع نقدًا؟",
+    "check": {
+      "promptEn": "Complete: I will pay _____ cash.",
+      "choices": [
+        "in",
+        "by",
+        "on"
+      ],
+      "answer": "in",
+      "explanationAr": "التعبير هو in cash، بينما نستخدم by في by card. احفظ كل عبارة كاملة.",
+      "explanationEn": "The phrase is in cash, while card uses by card. Learn each complete phrase."
+    }
+  },
+  "a1-u5-l5": {
+    "focusAr": "bill تبين المبلغ المطلوب دفعه، وreceipt تثبت الدفع. لطلب أي منهما بأدب استخدم Could I have ثم الاسم. could هنا طلب حاضر مهذب، ولا تدل بالضرورة على قدرة في الماضي.",
+    "focusEn": "A bill shows what you need to pay; a receipt records payment. Request either politely with Could I have followed by the noun. Could here makes a present request polite; it does not necessarily describe past ability.",
+    "taskAr": "اطلب إثبات الدفع بعد أن دفعت.",
+    "taskEn": "Ask for proof of payment after paying.",
+    "exampleEn": "Could I have the receipt, please?",
+    "exampleAr": "هل يمكنني الحصول على الإيصال، من فضلك؟",
+    "check": {
+      "promptEn": "You have paid and need proof of payment. Ask for the _____.",
+      "choices": [
+        "receipt",
+        "menu",
+        "price"
+      ],
+      "answer": "receipt",
+      "explanationAr": "receipt توثق الدفع. menu قائمة طعام وprice سعر، وليستا مستند إثبات دفع.",
+      "explanationEn": "A receipt records payment. A menu lists food and a price is an amount, not proof of payment."
+    }
+  },
+  "a1-u5-l6": {
+    "focusAr": "return تعني إرجاع المنتج، وexchange استبداله بآخر، وrefund استرداد المال. اذكر السبب بجملة مثل It is the wrong size. لا تفترض أن الكلمات الثلاث تصف الإجراء نفسه؛ وضّح طلبك.",
+    "focusEn": "Return means take an item back, exchange means replace it with another, and refund means money given back. Give a reason such as It is the wrong size. These words describe different outcomes, so make your request clear.",
+    "taskAr": "اطلب إرجاع القميص لأن مقاسه غير مناسب.",
+    "taskEn": "Ask to return a shirt because it is the wrong size.",
+    "exampleEn": "I would like to return this shirt. It is the wrong size.",
+    "exampleAr": "أرغب في إرجاع هذا القميص. مقاسه غير مناسب.",
+    "check": {
+      "promptEn": "Which word means money given back after a return?",
+      "choices": [
+        "refund",
+        "exchange",
+        "size"
+      ],
+      "answer": "refund",
+      "explanationAr": "refund تعني المال المسترد، أما exchange فاستبدال المنتج وsize هو المقاس.",
+      "explanationEn": "A refund is money given back. An exchange replaces the item, and size refers to its measurements."
+    },
+    "lessonUpdates": {
+      "titleAr": "إرجاع منتج",
+      "objectiveAr": "أن تطلب إرجاع منتج مع ذكر السبب.",
+      "objectiveEn": "Request to return an item and give a reason.",
+      "modelSentence": "I would like to return this item. It is the wrong size.",
+      "modelSentenceArabic": "أرغب في إرجاع هذا المنتج. مقاسه غير مناسب."
+    }
+  },
+  "a1-u6-l1": {
+    "focusAr": "gate بوابة الصعود وflight الرحلة الجوية. قد يختلف وقت الصعود عن وقت إقلاع الرحلة؛ استعمل الكلمة المناسبة عند السؤال. luggage اسم غير معدود، فنقول My luggage is heavy دون s للجمع.",
+    "focusEn": "A gate is the boarding point; a flight is the journey by air. Boarding and departure can have different times, so ask about the right one. Luggage is uncountable: My luggage is heavy, without a plural s.",
+    "taskAr": "اسأل عن مكان البوابة رقم خمسة.",
+    "taskEn": "Ask where gate five is.",
+    "exampleEn": "Where is gate five?",
+    "exampleAr": "أين البوابة رقم خمسة؟",
+    "check": {
+      "promptEn": "Complete: My luggage _____ heavy.",
+      "choices": [
+        "is",
+        "are",
+        "am"
+      ],
+      "answer": "is",
+      "explanationAr": "luggage غير معدودة في الإنجليزية وتعامل نحويًا معاملة المفرد، فتأخذ is.",
+      "explanationEn": "Luggage is uncountable in English and takes singular agreement with is."
+    }
+  },
+  "a1-u6-l2": {
+    "focusAr": "boarding pass بطاقة تستخدم للصعود، وتحتوي معلومات مثل seat وrow. رمز مثل fourteen A يجمع رقم الصف وحرف المقعد؛ انطق الاثنين بوضوح. window seat مقعد بجانب النافذة، لا اسم للنافذة نفسها.",
+    "focusEn": "A boarding pass is used for boarding and includes details such as seat and row. A code such as fourteen A combines a row number and seat letter; say both clearly. A window seat is a seat beside the window.",
+    "taskAr": "قل إن مقعدك في الصف الخامس.",
+    "taskEn": "Say that your seat is in row five.",
+    "exampleEn": "My seat is in row five.",
+    "exampleAr": "مقعدي في الصف الخامس.",
+    "check": {
+      "promptEn": "In the seat code fourteen A, what is A?",
+      "choices": [
+        "the seat letter",
+        "the departure time",
+        "the price"
+      ],
+      "answer": "the seat letter",
+      "explanationAr": "A هو حرف المقعد ضمن الرمز، بينما fourteen يحدد رقم الصف في هذا المثال.",
+      "explanationEn": "A is the seat letter in the code, while fourteen identifies the row in this example."
+    }
+  },
+  "a1-u6-l3": {
+    "focusAr": "reservation تعني حجزًا، وcheck in تسجيل الوصول إلى الفندق. استخدم for مع مدة الإقامة: for two nights. كلمة nights جمع بعد two، لكن بعد one نستخدم night المفرد.",
+    "focusEn": "A reservation is a booking, and check in means register your arrival at the hotel. Use for with the length of a stay: for two nights. Use plural nights after two and singular night after one.",
+    "taskAr": "أخبر موظف الفندق أن لديك حجزًا لثلاث ليالٍ.",
+    "taskEn": "Tell the hotel receptionist that you have a reservation for three nights.",
+    "exampleEn": "I have a reservation for three nights.",
+    "exampleAr": "لدي حجز لثلاث ليالٍ.",
+    "check": {
+      "promptEn": "Complete: I have a reservation _____ two nights.",
+      "choices": [
+        "for",
+        "at",
+        "on"
+      ],
+      "answer": "for",
+      "explanationAr": "for تسبق مدة الإقامة هنا. at تستخدم مع وقت محدد، لا مع عدد الليالي بهذا المعنى.",
+      "explanationEn": "For introduces the length of the stay here. At names a specific time, not the number of nights in this meaning."
+    }
+  },
+  "a1-u6-l4": {
+    "focusAr": "take me to تعني أوصلني إلى في الحديث مع السائق. ضع الوجهة بعد to، وأضف please للتهذيب. address عنوان محدد، أما city center فهو منطقة وسط المدينة وقد تحتاج إلى تحديد مكان أدق داخلها.",
+    "focusEn": "Take me to names the destination when speaking to a driver. Put the place after to and add please. An address identifies a particular location; the city center is an area and may need a more precise destination.",
+    "taskAr": "اطلب من السائق إيصالك إلى المطار.",
+    "taskEn": "Ask the driver to take you to the airport.",
+    "exampleEn": "Please take me to the airport.",
+    "exampleAr": "من فضلك، أوصلني إلى المطار.",
+    "check": {
+      "promptEn": "Complete: Please take me _____ the hotel.",
+      "choices": [
+        "to",
+        "at",
+        "on"
+      ],
+      "answer": "to",
+      "explanationAr": "to تسبق الوجهة بعد take me. لا نستخدم at للدلالة على الوجهة في هذا الطلب.",
+      "explanationEn": "To introduces the destination after take me. At does not express the destination in this request."
+    },
+    "lessonUpdates": {
+      "modelSentence": "Please take me to the city center.",
+      "modelSentenceArabic": "من فضلك، أوصلني إلى وسط المدينة."
+    }
+  },
+  "a1-u6-l5": {
+    "focusAr": "leave تعني يغادر وarrive تعني يصل؛ تأكد من نوع الوقت الذي تسأل عنه. بعد does نستخدم leave دون s. ويمكن أن يصف المضارع البسيط موعد القطار المقرر: The train leaves at ten.",
+    "focusEn": "Leave and arrive refer to different ends of a journey. After does, use leave without s. The simple present can describe a scheduled train time: The train leaves at ten.",
+    "taskAr": "اسأل عن وقت وصول القطار.",
+    "taskEn": "Ask what time the train arrives.",
+    "exampleEn": "What time does the train arrive?",
+    "exampleAr": "في أي وقت يصل القطار؟",
+    "check": {
+      "promptEn": "Complete: What time does the train _____?",
+      "choices": [
+        "leave",
+        "leaves",
+        "left"
+      ],
+      "answer": "leave",
+      "explanationAr": "does تحمل صيغة المضارع مع المفرد، فيبقى الفعل الرئيسي leave بصيغته الأساسية.",
+      "explanationEn": "Does carries the present singular form, so the main verb remains base-form leave."
+    }
+  },
+  "a1-u6-l6": {
+    "focusAr": "get to تعني يصل إلى عند الحديث عن مكان. ابدأ طلب الطريق بـ Excuse me لجذب الانتباه بأدب. directions بالجمع تعني إرشادات الطريق، أما direction المفرد فقد تعني الاتجاه الذي تتحرك فيه.",
+    "focusEn": "Get to means reach a place. Start a request for directions with Excuse me to get attention politely. Directions in the plural means instructions for a route; singular direction can mean the way you are moving.",
+    "taskAr": "اطلب بأدب معرفة الطريق إلى المتحف.",
+    "taskEn": "Politely ask how to get to the museum.",
+    "exampleEn": "Excuse me, how can I get to the museum?",
+    "exampleAr": "عذرًا، كيف أصل إلى المتحف؟",
+    "check": {
+      "promptEn": "Complete: How can I get _____ the museum?",
+      "choices": [
+        "to",
+        "at",
+        "on"
+      ],
+      "answer": "to",
+      "explanationAr": "get to تتبعها الوجهة. لا نستخدم get at في هذا السؤال عن الوصول.",
+      "explanationEn": "Get to is followed by the destination. Get at does not express reaching the place in this question."
+    }
+  },
+  "a1-u7-l1": {
+    "focusAr": "استخدم have مع اسم العرض: a headache أوa fever، واستخدم feel مع صفة: tired أوsick. لا تقل I am a headache؛ فهذا يجعل الصداع وصفًا لهويتك بدل التعبير عما تشعر به.",
+    "focusEn": "Use have with a symptom noun: a headache or a fever, and feel with an adjective: tired or sick. Do not say I am a headache; that identifies you as a headache rather than describing how you feel.",
+    "taskAr": "اذكر أن لديك صداعًا وأنك تشعر بالتعب.",
+    "taskEn": "Say that you have a headache and feel tired.",
+    "exampleEn": "I have a headache and feel tired.",
+    "exampleAr": "لدي صداع وأشعر بالتعب.",
+    "check": {
+      "promptEn": "Complete: I feel _____.",
+      "choices": [
+        "tired",
+        "a headache",
+        "a fever"
+      ],
+      "answer": "tired",
+      "explanationAr": "بعد feel نستخدم صفة لوصف الحالة، مثل tired. نقول have a headache وhave a fever.",
+      "explanationEn": "Use an adjective such as tired after feel to describe a condition. Say have a headache and have a fever."
+    }
+  },
+  "a1-u7-l2": {
+    "focusAr": "for تحدد مدة: for two days. أما ago فتأتي بعد المدة لتحديد وقت مضى: two days ago. للحديث البسيط عن بداية عرض حالي، اذكر العرض ثم وقت بدايته: It started two days ago.",
+    "focusEn": "For gives a duration: for two days. Ago follows a period to identify a past time: two days ago. To describe the onset of a current symptom simply, name it and say when it started: It started two days ago.",
+    "taskAr": "اذكر وجود ألم هنا وأنه بدأ منذ يومين.",
+    "taskEn": "Say that you have pain here and that it started two days ago.",
+    "exampleEn": "I have pain here. It started two days ago.",
+    "exampleAr": "لدي ألم هنا. بدأ منذ يومين.",
+    "check": {
+      "promptEn": "Complete: The pain started two days _____.",
+      "choices": [
+        "ago",
+        "for",
+        "at"
+      ],
+      "answer": "ago",
+      "explanationAr": "ago تأتي بعد المدة بمعنى «منذ». for تسبق المدة وتصف طولها، لا نقطة البداية بهذا التركيب.",
+      "explanationEn": "Ago follows the period and identifies a time in the past. For comes before a period and describes its length."
+    },
+    "lessonUpdates": {
+      "modelSentence": "I have pain here. It started two days ago.",
+      "modelSentenceArabic": "لدي ألم هنا. بدأ منذ يومين."
+    }
+  },
+  "a1-u7-l3": {
+    "focusAr": "appointment موعد مرتب، وclinic مكان الرعاية. استخدم an appointment with a doctor لتحديد الشخص، وat the clinic لتحديد المكان. لا تضع with قبل clinic عندما تقصد المكان.",
+    "focusEn": "An appointment is an arranged time, and a clinic is a place. Use an appointment with a doctor to identify the person and at the clinic to identify the location. Do not use with clinic to name the place.",
+    "taskAr": "اطلب موعدًا مع طبيب غدًا.",
+    "taskEn": "Ask for an appointment with a doctor tomorrow.",
+    "exampleEn": "I need an appointment with a doctor tomorrow.",
+    "exampleAr": "أحتاج إلى موعد مع طبيب غدًا.",
+    "check": {
+      "promptEn": "Complete: an appointment _____ a doctor.",
+      "choices": [
+        "with",
+        "on",
+        "from"
+      ],
+      "answer": "with",
+      "explanationAr": "with تحدد الشخص الذي ستقابله في الموعد. لتحديد المكان يمكن استخدام at the clinic.",
+      "explanationEn": "With identifies the person you will meet. Use at the clinic to identify the location."
+    },
+    "lessonUpdates": {
+      "titleAr": "حجز موعد طبي",
+      "titleEn": "Booking a Medical Appointment"
+    }
+  },
+  "a1-u7-l4": {
+    "focusAr": "cold اسم بمعنى زكام في have a cold، لكنه صفة بمعنى بارد في cold water. prescription وصفة طبية وmedicine دواء. استخدم سؤال الدرس لطلب المساعدة من الصيدلي وذكر العرض، دون افتراض اسم دواء معين.",
+    "focusEn": "Cold is a noun meaning an illness in have a cold, but an adjective in cold water. A prescription is different from the medicine itself. Use the lesson question to ask the pharmacist for help with a symptom without naming a particular medicine.",
+    "taskAr": "اسأل الصيدلي إن كان لديه شيء للسعال.",
+    "taskEn": "Ask the pharmacist whether they have something for a cough.",
+    "exampleEn": "Do you have something for a cough?",
+    "exampleAr": "هل لديكم شيء للسعال؟",
+    "check": {
+      "promptEn": "In I have a cold, what does cold mean?",
+      "choices": [
+        "an illness",
+        "low water temperature",
+        "a colour"
+      ],
+      "answer": "an illness",
+      "explanationAr": "وجود a وhave في هذا السياق يجعل cold اسمًا للزكام، لا صفة لدرجة الحرارة.",
+      "explanationEn": "With a and have in this context, cold is a noun naming an illness, not an adjective describing temperature."
+    }
+  },
+  "a1-u7-l5": {
+    "focusAr": "في ملصق التدريب، one tablet تحدد العدد، وafter food تحدد الوقت بالنسبة إلى الطعام. twice a day تعني مرتين يوميًا، ولا تحدد وحدها عدد الأقراص في كل مرة. انقل العدد والتوقيت كما يردان في النص.",
+    "focusEn": "In the practice label, one tablet gives the quantity and after food gives the timing relative to a meal. Twice a day means two occasions each day; it does not by itself state the number of tablets each time. Report the label's quantity and timing accurately.",
+    "taskAr": "انقل عبارة «مرتين في اليوم» من ملصق تدريب باستخدام The label says.",
+    "taskEn": "Report twice a day from a practice label using The label says.",
+    "exampleEn": "The label says 'twice a day'.",
+    "exampleAr": "يقول الملصق «مرتين في اليوم».",
+    "check": {
+      "promptEn": "A practice label says twice a day. How many times each day?",
+      "choices": [
+        "two times",
+        "one time",
+        "three times"
+      ],
+      "answer": "two times",
+      "explanationAr": "twice تعني مرتين؛ إنها تكرار الاستخدام في النص، ولا تعني تلقائيًا قرصين في الجرعة.",
+      "explanationEn": "Twice means two times. It gives the frequency in the text, not automatically two tablets per dose."
+    },
+    "lessonUpdates": {
+      "objectiveAr": "أن تميّز الكمية والتوقيت في تعليمات دواء مكتوبة.",
+      "objectiveEn": "Distinguish quantity and timing in written medicine instructions.",
+      "modelSentence": "The label says: take one tablet after food.",
+      "modelSentenceArabic": "يقول الملصق: تناول قرصًا واحدًا بعد الطعام."
+    }
+  },
+  "a1-u7-l6": {
+    "focusAr": "emergency حالة طارئة وambulance سيارة إسعاف. ابدأ بطلب مباشر قصير: Please call an ambulance. ثم يمكن تحديد الموقع بجملة واضحة. quickly تطلب السرعة، لكنها لا تعوّض ذكر المكان أو نوع المساعدة.",
+    "focusEn": "An emergency is an urgent situation, and an ambulance is a vehicle for medical assistance. Start with a short, direct request: Please call an ambulance. Then give a clear location. Quickly asks for speed but does not identify the location or the help needed.",
+    "taskAr": "اطلب سيارة إسعاف وقل إنك في الفندق.",
+    "taskEn": "Ask for an ambulance and say that you are at the hotel.",
+    "exampleEn": "Please call an ambulance. I am at the hotel.",
+    "exampleAr": "من فضلك، اتصل بالإسعاف. أنا في الفندق.",
+    "check": {
+      "promptEn": "Which request asks someone to call for an ambulance?",
+      "choices": [
+        "Please call an ambulance.",
+        "Please send the file.",
+        "Please close the shop."
+      ],
+      "answer": "Please call an ambulance.",
+      "explanationAr": "الطلب الأول يسمي سيارة الإسعاف بوضوح؛ الخياران الآخران يطلبان أفعالًا غير مرتبطة بهذا الموقف.",
+      "explanationEn": "The first request explicitly names an ambulance; the other choices ask for unrelated actions."
+    }
+  },
+  "a1-u8-l1": {
+    "focusAr": "explain تعني يشرح، وrepeat تعني يكرر. إذا لم تفهم المعنى فاطلب شرحًا؛ إذا فاتتك الكلمات فاطلب تكرارًا. استخدم explain this to me، لا explain me this في النمط المعتاد.",
+    "focusEn": "Explain gives the meaning; repeat gives the words again. Ask for an explanation when you do not understand the meaning, and repetition when you missed the words. Use explain this to me, not explain me this in the standard pattern.",
+    "taskAr": "اطلب من المعلم شرح الإجابة مرة أخرى.",
+    "taskEn": "Ask the teacher to explain the answer again.",
+    "exampleEn": "Could you explain the answer again?",
+    "exampleAr": "هل يمكنك شرح الإجابة مرة أخرى؟",
+    "check": {
+      "promptEn": "Complete: Please explain this _____ me.",
+      "choices": [
+        "to",
+        "at",
+        "from"
+      ],
+      "answer": "to",
+      "explanationAr": "نستخدم explain something to someone؛ لذلك تأتي to قبل الشخص.",
+      "explanationEn": "The pattern is explain something to someone, so to comes before the person."
+    }
+  },
+  "a1-u8-l2": {
+    "focusAr": "homework اسم غير معدود، فنقول My homework is ready دون s للجمع. due تحدد موعد التسليم في هذا السياق. The homework is due on Thursday لا تعني أن العمل سهل أو أنه أُنجز بالفعل.",
+    "focusEn": "Homework is uncountable, so say My homework is ready without a plural s. Due identifies the submission date here. The homework is due on Thursday does not mean it is easy or already finished.",
+    "taskAr": "اذكر أن موعد تسليم واجبك غدًا.",
+    "taskEn": "Say that your homework is due tomorrow.",
+    "exampleEn": "My homework is due tomorrow.",
+    "exampleAr": "موعد تسليم واجبي غدًا.",
+    "check": {
+      "promptEn": "The homework is due on Thursday. What does this tell you?",
+      "choices": [
+        "the submission day",
+        "the number of pages",
+        "the teacher's name"
+      ],
+      "answer": "the submission day",
+      "explanationAr": "due on Thursday تحدد يوم التسليم، ولا تخبرنا بعدد الصفحات أو اسم المعلم.",
+      "explanationEn": "Due on Thursday identifies the submission day, not the number of pages or the teacher's name."
+    }
+  },
+  "a1-u8-l3": {
+    "focusAr": "اكتب تحديثًا واضحًا بذكر ما أنجزته: I finished ثم المهمة. sent هي صيغة الماضي من send وليست sended. استخدم and لوصل فعلين أنجزهما الشخص نفسه، مع بقاء الفعلين في الماضي.",
+    "focusEn": "Give a clear update by naming what you completed: I finished followed by the task. Sent is the past of send, not sended. Use and to join two completed actions by the same person, keeping both verbs in the past.",
+    "taskAr": "أرسل تحديثًا نصيًا بأنك أنهيت التقرير وأرسلت الملف.",
+    "taskEn": "Write an update saying that you finished the report and sent the file.",
+    "exampleEn": "I finished the report and sent the file.",
+    "exampleAr": "أنهيت التقرير وأرسلت الملف.",
+    "check": {
+      "promptEn": "Complete: I finished the task and _____ the file.",
+      "choices": [
+        "sent",
+        "sended",
+        "send"
+      ],
+      "answer": "sent",
+      "explanationAr": "الحدثان ماضيان، والماضي غير المنتظم من send هو sent.",
+      "explanationEn": "Both actions are in the past, and the irregular past form of send is sent."
+    }
+  },
+  "a1-u8-l4": {
+    "focusAr": "حدد المهمة عند طلب المساعدة: help me with this report. me ضمير المفعول بعد help، وwith تربط المساعدة بالمهمة. لا تترجم with دائمًا إلى «مع»؛ معناها العربي هنا «في».",
+    "focusEn": "Name the task when asking for help: help me with this report. Me is the object after help, and with links the help to the task. With does not always translate literally as together with; here it identifies what you need help doing.",
+    "taskAr": "اطلب المساعدة في واجبك بأدب.",
+    "taskEn": "Politely ask for help with your homework.",
+    "exampleEn": "Can you help me with my homework, please?",
+    "exampleAr": "هل يمكنك مساعدتي في واجبي، من فضلك؟",
+    "check": {
+      "promptEn": "Complete: Can you help _____ with this report?",
+      "choices": [
+        "me",
+        "I",
+        "my"
+      ],
+      "answer": "me",
+      "explanationAr": "help فعل يحتاج هنا إلى ضمير مفعول، وهو me. I ضمير فاعل وmy تدل على الملكية.",
+      "explanationEn": "Help needs an object pronoun here, so use me. I is a subject pronoun and my is possessive."
+    }
+  },
+  "a1-u8-l5": {
+    "focusAr": "nine thirty تعني التاسعة وثلاثين دقيقة، أي التاسعة والنصف. استخدم starts للمفرد meeting، وat قبل الوقت. لا تخلط بين agenda، وهي الموضوعات المخطط مناقشتها، ووقت بدء الاجتماع.",
+    "focusEn": "Nine thirty means thirty minutes after nine, or half past nine. Use starts with singular meeting and at before the time. An agenda lists planned topics; it is different from the meeting's start time.",
+    "taskAr": "أكد أن الاجتماع يبدأ في الثامنة والنصف.",
+    "taskEn": "Confirm that the meeting starts at eight thirty.",
+    "exampleEn": "The meeting starts at eight thirty.",
+    "exampleAr": "يبدأ الاجتماع في الثامنة والنصف.",
+    "check": {
+      "promptEn": "What time is nine thirty?",
+      "choices": [
+        "half past nine",
+        "half past ten",
+        "nine o'clock"
+      ],
+      "answer": "half past nine",
+      "explanationAr": "thirty هنا تعني ثلاثين دقيقة بعد التاسعة، لا الساعة العاشرة ولا التاسعة تمامًا.",
+      "explanationEn": "Thirty means thirty minutes after nine, not after ten and not exactly nine o'clock."
+    }
+  },
+  "a1-u8-l6": {
+    "focusAr": "ابدأ الرسالة بتحية، ثم I am writing about لذكر الموضوع، واختم بعبارة مثل Kind regards. تأتي about قبل موضوع الرسالة. عند طلب الرد استخدم reply to my email، لا reply my email.",
+    "focusEn": "Begin with a greeting, use I am writing about to name the topic, and close with a phrase such as Kind regards. About introduces the topic. To request an answer, say reply to my email, not reply my email.",
+    "taskAr": "اكتب افتتاحًا عن اجتماع الغد ثم خاتمة مهذبة.",
+    "taskEn": "Write an opening about tomorrow's meeting and a polite closing.",
+    "exampleEn": "Hello, I am writing about tomorrow's meeting. Kind regards, Sara.",
+    "exampleAr": "مرحبًا، أكتب بشأن اجتماع الغد. مع أطيب التحيات، سارة.",
+    "check": {
+      "promptEn": "Complete: Please reply _____ my email.",
+      "choices": [
+        "to",
+        "at",
+        "from"
+      ],
+      "answer": "to",
+      "explanationAr": "نستخدم reply to قبل الرسالة أو الشخص الذي نرد عليه.",
+      "explanationEn": "Use reply to before the message or person receiving the reply."
+    }
+  },
+  "a1-u9-l1": {
+    "focusAr": "اجعل الدعوة واضحة بذكر النشاط واليوم: Would you like to meet on Friday? للسؤال عن التفرغ استخدم Are you free? كلمة like داخل would like تعني يرغب، لا السؤال عن عادة يحبها الشخص.",
+    "focusEn": "Make an invitation clear by naming the activity and day: Would you like to meet on Friday? Ask about availability with Are you free? Like in would like expresses a wish; it does not ask about a usual preference.",
+    "taskAr": "ادع صديقًا إلى اللقاء يوم الاثنين.",
+    "taskEn": "Invite a friend to meet on Monday.",
+    "exampleEn": "Would you like to meet on Monday?",
+    "exampleAr": "هل ترغب في اللقاء يوم الاثنين؟",
+    "check": {
+      "promptEn": "Which question invites someone to a particular meeting?",
+      "choices": [
+        "Would you like to meet on Friday?",
+        "Do you like Fridays?",
+        "What day comes after Friday?"
+      ],
+      "answer": "Would you like to meet on Friday?",
+      "explanationAr": "Would you like to تقدم دعوة محددة. Do you like تسأل عن الإعجاب عمومًا، والسؤال الثالث عن ترتيب الأيام.",
+      "explanationEn": "Would you like to offers a specific invitation. Do you like asks about a general preference, and the third question asks about day order."
+    }
+  },
+  "a1-u9-l2": {
+    "focusAr": "I would love to أوI'd love to قبول متحمس، لكن إضافة but I am busy تحولها إلى اعتذار مهذب عن الحضور. اقرأ الجملة كاملة قبل تحديد إن كان الشخص قد وافق؛ but تقدم معلومة تعارض التوقع الأول.",
+    "focusEn": "I would love to or I'd love to shows enthusiasm, but adding but I am busy makes it a polite refusal. Read the whole sentence before deciding whether the person accepted; but introduces information that changes the initial expectation.",
+    "taskAr": "ارفض دعوة الليلة بأدب لأنك مشغول.",
+    "taskEn": "Politely decline an invitation tonight because you are busy.",
+    "exampleEn": "I'd love to, but I am busy tonight.",
+    "exampleAr": "يسعدني ذلك، لكنني مشغول الليلة.",
+    "check": {
+      "promptEn": "I'd love to, but I am busy. Is the speaker accepting the invitation?",
+      "choices": [
+        "No, the speaker is politely declining.",
+        "Yes, the speaker confirms attendance.",
+        "The speaker is asking the price."
+      ],
+      "answer": "No, the speaker is politely declining.",
+      "explanationAr": "عبارة but I am busy توضح عدم التمكن من الحضور رغم البداية اللطيفة.",
+      "explanationEn": "But I am busy shows that the speaker cannot attend despite the friendly opening."
+    }
+  },
+  "a1-u9-l3": {
+    "focusAr": "ابدأ الاعتذار بـ I am sorry. بعد because اذكر جملة فيها فاعل وفعل: because the bus was late. أما because of فتأتي قبل اسم: because of the traffic. لا تخلط النمطين.",
+    "focusEn": "Start an apology with I am sorry. Follow because with a clause containing a subject and verb: because the bus was late. Because of takes a noun phrase: because of the traffic. Keep the two patterns distinct.",
+    "taskAr": "اعتذر عن التأخر لأن الحافلة تأخرت.",
+    "taskEn": "Apologise for being late because the bus was late.",
+    "exampleEn": "I am sorry I was late. The bus was late.",
+    "exampleAr": "آسف لأنني تأخرت. تأخرت الحافلة.",
+    "check": {
+      "promptEn": "Complete: I was late because _____ was late.",
+      "choices": [
+        "the bus",
+        "of the bus",
+        "of"
+      ],
+      "answer": "the bus",
+      "explanationAr": "because هنا تتبعها جملة كاملة: the bus was late. وجود was يجعل because of غير مناسبة.",
+      "explanationEn": "Because is followed here by a full clause: the bus was late. The existing was makes because of unsuitable."
+    }
+  },
+  "a1-u9-l4": {
+    "focusAr": "I think تقدم رأيًا، ويمكن أن يتبعها سبب يبدأ بـ because. interesting تعني مثيرًا للاهتمام، وuseful مفيدًا؛ قد يكون شيء مثيرًا للاهتمام دون فائدة عملية مباشرة. للموافقة قل I agree، لا I am agree.",
+    "focusEn": "I think introduces an opinion, which can be followed by a reason using because. Interesting and useful are different judgements; something can hold your interest without being practically useful. Say I agree, not I am agree.",
+    "taskAr": "قل إن التطبيق مفيد لأنه يساعدك على التعلم.",
+    "taskEn": "Say that the app is useful because it helps you learn.",
+    "exampleEn": "I think this app is useful because it helps me learn.",
+    "exampleAr": "أعتقد أن هذا التطبيق مفيد لأنه يساعدني على التعلم.",
+    "check": {
+      "promptEn": "Choose the correct agreement.",
+      "choices": [
+        "I agree with you.",
+        "I am agree with you.",
+        "I agree you."
+      ],
+      "answer": "I agree with you.",
+      "explanationAr": "agree فعل، فلا يحتاج إلى am في المضارع البسيط. نستخدم with قبل الشخص الذي نوافقه.",
+      "explanationEn": "Agree is a verb, so it does not take am in the simple present. Use with before the person you agree with."
+    },
+    "lessonUpdates": {
+      "modelSentence": "I think this book is useful because it has clear examples.",
+      "modelSentenceArabic": "أعتقد أن هذا الكتاب مفيد لأنه يتضمن أمثلة واضحة."
+    }
+  },
+  "a1-u9-l5": {
+    "focusAr": "نستخدم cheaper وsmaller للمقارنة، ثم than قبل الخيار الآخر. لا تجمع more مع cheaper؛ فـ er تحمل معنى المقارنة بالفعل. bigger يضاعف حرف g عند إضافة er إلى big.",
+    "focusEn": "Use cheaper and smaller for comparisons, followed by than before the other option. Do not add more to cheaper; er already marks the comparison. Bigger doubles the g when er is added to big.",
+    "taskAr": "قارن حقيبتين وقل إن هذه أرخص من تلك.",
+    "taskEn": "Compare two bags and say that this one is cheaper.",
+    "exampleEn": "This bag is cheaper than that one.",
+    "exampleAr": "هذه الحقيبة أرخص من تلك.",
+    "check": {
+      "promptEn": "Complete: This bag is cheaper _____ that one.",
+      "choices": [
+        "than",
+        "then",
+        "that"
+      ],
+      "answer": "than",
+      "explanationAr": "than تربط طرفي المقارنة. then تعني ثم أو بعد ذلك وليست أداة مقارنة.",
+      "explanationEn": "Than links the two things compared. Then means next or afterwards and is not a comparison word."
+    }
+  },
+  "a1-u9-l6": {
+    "focusAr": "prefer تعني يفضل. عند ذكر خيارين بالاسم نستخدم prefer tea to coffee، لا prefer tea than coffee. أضف because ثم سببًا واضحًا. lighter تحتاج إلى سياق يحدد المقارنة، مثل وزن حقيبتين.",
+    "focusEn": "Prefer expresses a preference. With two noun choices, use prefer tea to coffee, not prefer tea than coffee. Add because and a clear reason. Lighter needs a context that identifies the comparison, such as the weight of two bags.",
+    "taskAr": "عبّر عن تفضيل الشاي على القهوة باستخدام prefer.",
+    "taskEn": "Use prefer to say that you prefer tea to coffee.",
+    "exampleEn": "I prefer tea to coffee.",
+    "exampleAr": "أفضل الشاي على القهوة.",
+    "check": {
+      "promptEn": "Complete: I prefer tea _____ coffee.",
+      "choices": [
+        "to",
+        "than",
+        "then"
+      ],
+      "answer": "to",
+      "explanationAr": "مع prefer وخيارين اسميين نستخدم to. المقارنة بصفة مثل cheaper تستخدم than.",
+      "explanationEn": "Use to with prefer and two noun choices. An adjective comparison such as cheaper uses than."
+    },
+    "lessonUpdates": {
+      "modelSentence": "I prefer this bag because it is lighter.",
+      "modelSentenceArabic": "أفضل هذه الحقيبة لأنها أخف وزنًا."
+    }
+  },
+  "a1-u10-l1": {
+    "focusAr": "not working تعني لا يعمل، أما slow فتعني يعمل ببطء؛ فرق مهم عند وصف المشكلة. استخدم connect to the internet عند الحديث عن الاتصال. بعد cannot يأتي connect بصيغته الأساسية.",
+    "focusEn": "Not working and slow describe different problems: a slow connection still works. Use connect to the internet for making a connection. After cannot, use the base verb connect.",
+    "taskAr": "قل إنك لا تستطيع الاتصال بالإنترنت.",
+    "taskEn": "Say that you cannot connect to the internet.",
+    "exampleEn": "I cannot connect to the internet.",
+    "exampleAr": "لا أستطيع الاتصال بالإنترنت.",
+    "check": {
+      "promptEn": "Complete: I cannot connect _____ the internet.",
+      "choices": [
+        "to",
+        "on",
+        "at"
+      ],
+      "answer": "to",
+      "explanationAr": "التركيب هو connect to عند تسمية الشبكة أو الجهاز الذي تتصل به.",
+      "explanationEn": "Use connect to when naming the network or device you are connecting to."
+    }
+  },
+  "a1-u10-l2": {
+    "focusAr": "leave تعني يترك في تعليمات التسليم، لا يغادر كما في leave home. حدّد الشيء ثم مكانه: leave the package at the door. ring the bell تعني قرع الجرس، وليس الاتصال الهاتفي في هذا السياق.",
+    "focusEn": "Leave means put something somewhere in delivery instructions, rather than depart as in leave home. Name the object and its location: leave the package at the door. Ring the bell means use the doorbell, not make a phone call here.",
+    "taskAr": "اطلب ترك الطرد عند الباب.",
+    "taskEn": "Ask for the package to be left at the door.",
+    "exampleEn": "Please leave the package at the door.",
+    "exampleAr": "من فضلك، اترك الطرد عند الباب.",
+    "check": {
+      "promptEn": "In Leave the order at the door, what does leave mean?",
+      "choices": [
+        "put it there and let it remain",
+        "cancel the order",
+        "open the door"
+      ],
+      "answer": "put it there and let it remain",
+      "explanationAr": "leave هنا تعني وضع الطلب وتركه في المكان المحدد. المعنى يتحدد بالمفعول وبعبارة المكان.",
+      "explanationEn": "Leave here means put the order in the named place and let it remain there. The object and location determine the meaning."
+    }
+  },
+  "a1-u10-l3": {
+    "focusAr": "اشرح المشكلة أولًا بجملة واقعية: I received the wrong item. ثم اذكر طلبك. wrong item منتج مختلف عن المطلوب، وbroken item منتج تالف؛ لا تعني العبارتان المشكلة نفسها.",
+    "focusEn": "First state the problem factually: I received the wrong item. Then explain what you want. A wrong item is different from the one ordered; a broken item is damaged. These describe different problems.",
+    "taskAr": "قل إنك استلمت المنتج الخطأ واطلب المساعدة.",
+    "taskEn": "Say that you received the wrong item and ask for help.",
+    "exampleEn": "I received the wrong item. Can you help me?",
+    "exampleAr": "استلمت المنتج الخطأ. هل يمكنك مساعدتي؟",
+    "check": {
+      "promptEn": "You ordered a shirt but received shoes. Which description fits?",
+      "choices": [
+        "the wrong item",
+        "the correct item",
+        "a late meeting"
+      ],
+      "answer": "the wrong item",
+      "explanationAr": "المنتج مختلف عن المطلوب، لذلك نقول the wrong item. لا نعرف من الموقف إن كان تالفًا.",
+      "explanationEn": "The product differs from the order, so it is the wrong item. The situation does not tell us whether it is damaged."
+    }
+  },
+  "a1-u10-l4": {
+    "focusAr": "lost هي صيغة الماضي من lose. أعط وصفًا محددًا للشيء المفقود: small black wallet. في هذا النمط تأتي صفة الحجم قبل اللون، ثم الاسم. لا تحذف a قبل الشيء المفرد المعدود.",
+    "focusEn": "Lost is the past of lose. Give a specific description of the missing item: small black wallet. In this pattern the size comes before the colour, followed by the noun. Keep a before a singular countable item.",
+    "taskAr": "قل إنك فقدت حقيبة حمراء صغيرة.",
+    "taskEn": "Say that you lost a small red bag.",
+    "exampleEn": "I lost a small red bag.",
+    "exampleAr": "فقدت حقيبة حمراء صغيرة.",
+    "check": {
+      "promptEn": "Choose the usual adjective order.",
+      "choices": [
+        "a small black wallet",
+        "a black small wallet",
+        "a wallet small black"
+      ],
+      "answer": "a small black wallet",
+      "explanationAr": "الترتيب المعتاد هنا هو الحجم ثم اللون ثم الاسم: small black wallet.",
+      "explanationEn": "The usual order here is size, colour, then noun: small black wallet."
+    }
+  },
+  "a1-u10-l5": {
+    "focusAr": "must تعني أن الفعل مطلوب، وmust not أوmustn't تعني أنه ممنوع. بعدهما يأتي الفعل الأساسي دون to. لا تخلط must not مع don't have to؛ فالأخيرة تعني أن الفعل غير مطلوب، لا أنه ممنوع.",
+    "focusEn": "Must makes an action necessary; must not or mustn't prohibits it. Both take a base verb without to. Do not confuse must not with don't have to, which removes necessity rather than forbidding the action.",
+    "taskAr": "انقل قاعدة مكتوبة تقول إن إظهار التذكرة مطلوب.",
+    "taskEn": "Report a written rule requiring passengers to show a ticket.",
+    "exampleEn": "You must show your ticket.",
+    "exampleAr": "يجب أن تُظهر تذكرتك.",
+    "check": {
+      "promptEn": "A sign says You must not smoke here. What does it mean?",
+      "choices": [
+        "Smoking is prohibited here.",
+        "Smoking is optional here.",
+        "Smoking is required here."
+      ],
+      "answer": "Smoking is prohibited here.",
+      "explanationAr": "must not تعبر عن المنع، لا عن حرية الاختيار ولا عن الإلزام بالفعل.",
+      "explanationEn": "Must not expresses prohibition, not a choice or a requirement to do the action."
+    }
+  },
+  "a1-u10-l6": {
+    "focusAr": "ميّز زمن كل جزء: yesterday مع فعل ماضٍ مثل booked، وtomorrow مع will ثم الفعل الأساسي. يمكنك جمعهما بـ and مع إبقاء كل زمن مناسبًا لمعناه. أضف طلبًا قصيرًا عندما يحتاج الموقف إلى مساعدة.",
+    "focusEn": "Match each part to its time: yesterday with a past verb such as booked, and tomorrow with will plus a base verb. Join them with and while keeping each tense appropriate. Add a short request when the situation needs help.",
+    "taskAr": "اذكر أنك حجزت غرفة أمس وستسافر غدًا، ثم اطلب مساعدة.",
+    "taskEn": "Say that you booked a room yesterday and will travel tomorrow, then ask for help.",
+    "exampleEn": "I booked a room yesterday. I will travel tomorrow. Can you help me?",
+    "exampleAr": "حجزت غرفة أمس. سأسافر غدًا. هل يمكنك مساعدتي؟",
+    "check": {
+      "promptEn": "Complete: Yesterday I _____ a room, and tomorrow I will travel.",
+      "choices": [
+        "booked",
+        "book",
+        "booking"
+      ],
+      "answer": "booked",
+      "explanationAr": "yesterday تضع الحجز في الماضي، لذلك نستخدم booked. أما السفر فمستقبل تحدده tomorrow وwill.",
+      "explanationEn": "Yesterday places the booking in the past, so use booked. Tomorrow and will place the travel in the future."
+    }
+  }
+}

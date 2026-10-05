@@ -40,6 +40,7 @@ OUT = ROOT / "Scripts/new_lessons"
 CURRICULUM = ROOT / "EnglishNova/Resources/Curriculum/curriculum.json"
 TRANSLATIONS = ROOT / "EnglishNova/Resources/LocalizationData/translations.json"
 WORDS_PER_LESSON = 8
+SPACED_RETRIEVAL = ROOT / "Scripts/spaced_retrieval.json"
 
 
 def parse(path: Path):
@@ -115,6 +116,8 @@ def main() -> int:
                 words.update(w["english"].strip().lower() for w in lesson["vocabulary"])
         taught[level["level"]] = words
 
+    retrieval = json.loads(SPACED_RETRIEVAL.read_text(encoding="utf-8"))
+    used_retrieval = set()
     failures, notes = [], []
     pending_outputs: list[tuple[Path, dict]] = []
     english: dict[str, str] = {}
@@ -139,14 +142,19 @@ def main() -> int:
                     failures.append(f"{lesson_at}: {len(vocab)} words (need {WORDS_PER_LESSON})")
                 if not any(re.search(rf"\b{re.escape(w['english'])}\b", lesson["modelSentence"], re.I) for w in vocab):
                     failures.append(f"{lesson_at}: model sentence contains none of its words")
-                for w in vocab:
+                for wi, w in enumerate(vocab, start=1):
                     key = w["english"].lower()
                     word_line = w.get("_source_line", lesson_line)
                     word_at = f"{path.name}:{word_line}: {lid}"
                     if key in seen:
                         failures.append(f"{word_at}: '{w['english']}' repeats inside {level}")
                     seen.add(key)
-                    if key in taught.get(level, set()):
+                    wid = f"{lid}-w{wi}"
+                    repeat = retrieval.get(wid, {})
+                    allowed_repeat = repeat.get("english") == key and bool(repeat.get("reason"))
+                    if allowed_repeat:
+                        used_retrieval.add(wid)
+                    if key in taught.get(level, set()) and not allowed_repeat:
                         failures.append(f"{word_at}: '{w['english']}' is already taught in {level}")
                     elif any(key in words for code, words in taught.items() if code != level):
                         notes.append(f"{word_at}: '{w['english']}' also appears in another level")
@@ -163,6 +171,8 @@ def main() -> int:
             pending_outputs.append((target, {"level": level, "units": chunk}))
         print(f"{path.name}: {level} {len(units)} units, {sum(len(u['lessons']) for u in units)} lessons")
 
+    if set(retrieval) - used_retrieval:
+        failures.append(f"Stale spaced-retrieval entries: {sorted(set(retrieval) - used_retrieval)}")
     for note in notes:
         print(f"  note: {note}")
     if not failures:

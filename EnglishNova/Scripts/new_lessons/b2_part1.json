@@ -71,8 +71,8 @@
           "titleAr": "التعبير عن الشك والتحفّظ",
           "titleEn": "Expressing Doubt and Reservation",
           "objectiveAr": "أن تعبّر عن شكوكك وتحفّظاتك بطريقة مهذبة ودقيقة.",
-          "modelSentence": "I have my doubts about whether this approach will actually solve the underlying problem.",
-          "modelSentenceArabic": "لديّ شكوكي حول ما إذا كان هذا النهج سيحلّ فعلًا المشكلة الجوهرية.",
+          "modelSentence": "I'm not entirely sure that this approach will solve the underlying problem.",
+          "modelSentenceArabic": "لست متأكدًا تمامًا من أن هذا الأسلوب سيحل المشكلة الأساسية.",
           "vocabulary": [
             {
               "english": "have one's doubts",
@@ -83,12 +83,12 @@
               "phonetic": "/hæv wʌnz daʊts/"
             },
             {
-              "english": "be skeptical",
-              "arabic": "يكون متشككًا",
+              "english": "skeptical",
+              "arabic": "متشكك",
               "example": "Many experts remain skeptical about the new theory.",
               "exampleArabic": "لا يزال كثير من الخبراء متشككين إزاء النظرية الجديدة.",
-              "partOfSpeech": "phrase",
-              "phonetic": "/biː ˈskeptɪkl/"
+              "partOfSpeech": "adjective",
+              "phonetic": "/ˈskeptɪkl/"
             },
             {
               "english": "I'm not entirely sure",
@@ -187,8 +187,8 @@
           "titleAr": "ربط الأسباب بالنتائج",
           "titleEn": "Connecting Cause and Effect",
           "objectiveAr": "أن تربط بين الأسباب والنتائج باستخدام روابط متنوعة وطبيعية.",
-          "modelSentence": "The sudden rise in fuel prices triggered a chain reaction across the entire economy.",
-          "modelSentenceArabic": "أدى الارتفاع المفاجئ في أسعار الوقود إلى سلسلة من ردود الأفعال في الاقتصاد بأكمله.",
+          "modelSentence": "The rise in fuel prices had a knock-on effect on delivery costs.",
+          "modelSentenceArabic": "كان لارتفاع أسعار الوقود أثر لاحق على تكاليف التسليم.",
           "vocabulary": [
             {
               "english": "trigger",
@@ -231,12 +231,12 @@
               "phonetic": "/ˈnɒk ɒn ɪˌfekt/"
             },
             {
-              "english": "attribute to",
+              "english": "attribute something to",
               "arabic": "يعزو إلى",
               "example": "They attributed the failure to a lack of funding.",
               "exampleArabic": "عزوا الفشل إلى نقص التمويل.",
-              "partOfSpeech": "verb",
-              "phonetic": "/əˈtrɪbjuːt tə/"
+              "partOfSpeech": "verb phrase",
+              "phonetic": "/əˈtrɪbjuːt ˈsʌmθɪŋ tə/"
             }
           ]
         },
@@ -250,9 +250,9 @@
           "vocabulary": [
             {
               "english": "would have",
-              "arabic": "كان من الممكن أن",
+              "arabic": "لَـ... في نتيجة افتراضية ماضية",
               "example": "I would have called you if I had had your number.",
-              "exampleArabic": "كان من الممكن أن أتصل بك لو كان معي رقمك.",
+              "exampleArabic": "لاتصلت بك لو كان لدي رقمك.",
               "partOfSpeech": "phrase",
               "phonetic": "/wʊd həv/"
             },
@@ -266,9 +266,9 @@
             },
             {
               "english": "in hindsight",
-              "arabic": "بعد فوات الأوان",
+              "arabic": "بالنظر إلى الماضي في ضوء ما اتضح لاحقًا",
               "example": "In hindsight, accepting that offer was a mistake.",
-              "exampleArabic": "بعد فوات الأوان، أدركت أنّ قبول ذلك العرض كان خطأ.",
+              "exampleArabic": "بالنظر إلى ما اتضح لاحقًا، كان قبول ذلك العرض خطأ.",
               "partOfSpeech": "phrase",
               "phonetic": "/ɪn ˈhaɪndsaɪt/"
             },
@@ -391,7 +391,7 @@
             },
             {
               "english": "hands-on",
-              "arabic": "مباشر التدخّل",
+              "arabic": "مشارك مباشرة في العمل",
               "example": "He prefers a hands-on approach to managing his team.",
               "exampleArabic": "يفضّل أسلوبًا مباشرًا في إدارة فريقه.",
               "partOfSpeech": "adjective",
@@ -428,8 +428,8 @@
           "titleAr": "تحفيز الفريق",
           "titleEn": "Motivating the Team",
           "objectiveAr": "أن تستخدم لغة محفّزة لرفع معنويات فريقك وتعزيز أدائه.",
-          "modelSentence": "Recognizing small achievements regularly can significantly boost team morale and productivity.",
-          "modelSentenceArabic": "إنّ الاعتراف بالإنجازات الصغيرة بانتظام يمكن أن يعزّز معنويات الفريق وإنتاجيته بشكل كبير.",
+          "modelSentence": "Specific thanks can boost morale by showing that careful work is noticed.",
+          "modelSentenceArabic": "قد يرفع الشكر المحدد المعنويات بإظهار أن العمل المتقن محل تقدير.",
           "vocabulary": [
             {
               "english": "boost morale",
@@ -486,8 +486,8 @@
           "titleAr": "وصف الاتجاهات",
           "titleEn": "Describing Trends",
           "objectiveAr": "أن تصف الاتجاهات الصاعدة والهابطة والمستقرة بلغة دقيقة ومهنية.",
-          "modelSentence": "Sales rose steadily in the first quarter before leveling off toward the end of the year.",
-          "modelSentenceArabic": "ارتفعت المبيعات بثبات في الربع الأول قبل أن تستقرّ مع اقتراب نهاية العام.",
+          "modelSentence": "The figures show an upward trend in the first quarter, followed by a stable period.",
+          "modelSentenceArabic": "تظهر الأرقام اتجاهًا تصاعديًا في الربع الأول، تتبعه فترة استقرار.",
           "vocabulary": [
             {
               "english": "rise steadily",
@@ -565,9 +565,9 @@
             },
             {
               "english": "significant",
-              "arabic": "ذو دلالة كبيرة",
+              "arabic": "كبير أو مهم؛ ذو دلالة بحسب السياق",
               "example": "There was a significant increase in user engagement.",
-              "exampleArabic": "كان هناك ارتفاع ذو دلالة كبيرة في تفاعل المستخدمين.",
+              "exampleArabic": "حدث ارتفاع ملحوظ في تفاعل المستخدمين.",
               "partOfSpeech": "adjective",
               "phonetic": "/sɪɡˈnɪfɪkənt/"
             },
@@ -590,8 +590,8 @@
             {
               "english": "outlier",
               "arabic": "قيمة شاذة",
-              "example": "We should remove the outlier before calculating the average.",
-              "exampleArabic": "علينا استبعاد القيمة الشاذة قبل حساب المتوسط.",
+              "example": "We should investigate the outlier before deciding whether to exclude it.",
+              "exampleArabic": "ينبغي أن نفحص القيمة الشاذة قبل أن نقرر ما إذا كنا سنستبعدها.",
               "partOfSpeech": "noun",
               "phonetic": "/ˈaʊtlaɪə/"
             }

@@ -1,0 +1,1142 @@
+{
+  "b2-u1-l1": {
+    "focusAr": "تُفهم التعابير الاصطلاحية كوحدة: get to the bottom of البحث حتى تتضح الحقيقة أو السبب، وlook into بدء فحص المسألة دون ضمان حلها. read between the lines استنتاج معنى ضمني لا إثبات نية خفية. استخدم take something with a pinch of salt للتحفظ على المعلومة، مع استبدال something بالخبر المقصود.",
+    "focusEn": "Treat idioms as units: get to the bottom of means investigate until the truth or cause is understood, while look into means examine an issue without guaranteeing resolution. Read between the lines refers to interpreting implications, not proving hidden intentions. Use take something with a pinch of salt to express caution, replacing something with the information concerned.",
+    "taskAr": "فسّر لزميل لماذا ينبغي فحص شكوى قبل إصدار حكم، واطلب التحقق من السبب الحقيقي.",
+    "taskEn": "Explain to a colleague why a complaint should be examined before reaching a conclusion, and request investigation of the underlying cause.",
+    "exampleEn": "We should look into the complaint before we jump to conclusions. The first account may be incomplete, so let's gather the records and get to the bottom of what happened.",
+    "exampleAr": "ينبغي أن نفحص الشكوى قبل التسرع في الحكم. قد تكون الرواية الأولى ناقصة، فلنجمع السجلات ونتوصل إلى حقيقة ما حدث.",
+    "check": {
+      "promptEn": "A manager says, 'We will look into the complaint.' What has the manager committed to?",
+      "choices": [
+        "Examining the complaint.",
+        "Guaranteeing that the complainant is correct.",
+        "Announcing that the root cause is already known."
+      ],
+      "answer": "Examining the complaint.",
+      "explanationAr": "look into تعني الفحص، ولا تتضمن حكمًا مسبقًا بصحة الشكوى أو إعلان معرفة السبب. هذه النتائج تحتاج أدلة لاحقة.",
+      "explanationEn": "Look into means investigate. It does not prejudge the complaint or state that its cause is known; those conclusions require further evidence."
+    }
+  },
+  "b2-extra-2": {
+    "focusAr": "ابنِ الحجة من ادعاء ودليل يخصه وتفسير للصلة بينهما. evidence اسم غير معدود، ونقول the evidence suggests عندما تدعم الأدلة استنتاجًا دون حسمه. counterargument اعتراض منطقي يستحق الرد، وليس هجومًا على صاحبه. premise مقدمة تعتمد عليها الحجة؛ إذا كانت ضعيفة فقد يضعف الاستنتاج حتى لو بدا مقنعًا.",
+    "focusEn": "Build an argument from a claim, relevant evidence, and an explanation of the connection. Evidence is uncountable, and the evidence suggests signals support without certainty. A counterargument is a reasoned objection to address, not a personal attack. A premise is an assumption or statement supporting the argument; a weak premise can undermine an apparently convincing conclusion.",
+    "taskAr": "في تجربة تدريبية، ارتفع الحضور بعد تغيير الموعد، لكن تغير المدرس أيضًا. اكتب استنتاجًا حذرًا واعتراضًا على نسب التحسن إلى الموعد وحده.",
+    "taskEn": "In a practice trial, attendance rose after the session time changed, but the teacher also changed. Write a cautious conclusion and an objection to attributing the improvement only to timing.",
+    "exampleEn": "The evidence suggests that the new arrangement may have helped attendance. However, we cannot attribute the increase to the timetable alone, because a different teacher also led the sessions.",
+    "exampleAr": "تشير الأدلة إلى أن الترتيب الجديد ربما ساعد على زيادة الحضور. لكن لا يمكننا نسب الزيادة إلى الجدول وحده، لأن معلمًا مختلفًا تولى الدروس أيضًا.",
+    "check": {
+      "promptEn": "Attendance increased after both the teacher and the timetable changed. Which claim is best supported?",
+      "choices": [
+        "The new arrangement coincided with higher attendance.",
+        "The timetable alone certainly caused the increase.",
+        "Changing teachers can never affect attendance."
+      ],
+      "answer": "The new arrangement coincided with higher attendance.",
+      "explanationAr": "المعطيات تظهر تزامن التغييرين مع الزيادة، ولا تعزل أثر كل تغيير. الادعاء السببي القاطع أو استبعاد أثر المعلم يتجاوز الأدلة.",
+      "explanationEn": "The information shows that the changes coincided with the increase, without isolating either effect. A definite causal claim or dismissal of the teacher's effect goes beyond the evidence."
+    }
+  },
+  "b2-extra-3": {
+    "focusAr": "فرّق بين الشرط المحتمل مثل if we leave now, we will arrive on time والافتراض مثل if we had more time, we would walk. provided that وas long as قد تضعان شرطًا، وunless تعني if not. in case تبرر احتياطًا يُتخذ مسبقًا، أما even if فتقول إن النتيجة لا تتغير مع الشرط المذكور.",
+    "focusEn": "Distinguish a possible condition, such as if we leave now, we will arrive on time, from a hypothetical one, such as if we had more time, we would walk. Provided that and as long as can set conditions; unless means if not. In case explains a precaution taken beforehand, while even if says the result holds despite the stated condition.",
+    "taskAr": "اكتب شرطًا لتمديد موعد مشروع، ثم اذكر إجراءً احتياطيًا لاحتمال تأخر الموافقة.",
+    "taskEn": "State a condition for extending a project deadline, then name a precaution in case approval is delayed.",
+    "exampleEn": "We can extend the deadline provided that the client agrees. I'll keep the original schedule ready in case the approval does not arrive in time.",
+    "exampleAr": "يمكننا تمديد الموعد النهائي بشرط موافقة العميل. سأبقي الجدول الأصلي جاهزًا تحسبًا لعدم وصول الموافقة في الوقت المناسب.",
+    "check": {
+      "promptEn": "'Take a printed copy in case the internet fails.' When should the copy be taken?",
+      "choices": [
+        "Beforehand, as a precaution.",
+        "Only after the internet has failed.",
+        "Only if failure is already certain."
+      ],
+      "answer": "Beforehand, as a precaution.",
+      "explanationAr": "in case تبرر الاحتياط قبل معرفة هل سيحدث العطل. ليست أمرًا بانتظار العطل، ولا تفيد أنه مؤكد.",
+      "explanationEn": "In case explains a precaution taken before knowing whether failure will occur. It does not mean wait for failure or assume it is certain."
+    }
+  },
+  "b2-extra-4": {
+    "focusAr": "يُبنى المبني للمجهول من be بالزمن المناسب والتصريف الثالث: was signed أوwill be implemented. يفيد حين تكون النتيجة أهم من الفاعل، لكنه قد يخفي المسؤولية إذا حُذف الفاعل في موقف يحتاجها. أضف by عندما تهم هوية المنفذ، وميّز بين be required to للإلزام وbe permitted to للسماح.",
+    "focusEn": "The passive uses be in the appropriate tense plus a past participle: was signed or will be implemented. It helps foreground an outcome, but omitting the agent can obscure responsibility where it matters. Add by when the agent's identity is relevant, and distinguish be required to for obligation from be permitted to for permission.",
+    "taskAr": "حوّل إعلان فحص إلى صياغة تركز على العمل وموعده، مع ذكر أن فريقًا مستقلًا سينفذه.",
+    "taskEn": "Rewrite an inspection announcement to focus on the work and timing, while naming the independent team that will perform it.",
+    "exampleEn": "The inspection will be carried out on Monday by an independent team. Staff will be informed of the results once the report is complete.",
+    "exampleAr": "سيُجرى الفحص يوم الاثنين بواسطة فريق مستقل. وسيُبلّغ الموظفون بالنتائج عند اكتمال التقرير.",
+    "check": {
+      "promptEn": "Which sentence preserves both the future inspection and the identity of its agent?",
+      "choices": [
+        "The inspection will be carried out by an independent team.",
+        "An independent team was inspected last year.",
+        "The inspection has already been completed by the staff."
+      ],
+      "answer": "The inspection will be carried out by an independent team.",
+      "explanationAr": "الجواب الصحيح يحافظ على الزمن المستقبلي وعلى الفريق بوصفه منفذ الفحص. البديلان يغيران الزمن أو الأدوار أو حالة الإنجاز.",
+      "explanationEn": "The correct answer preserves future time and the team's role as agent. The alternatives change the time, roles, or completion status."
+    }
+  },
+  "b2-extra-5": {
+    "focusAr": "نقل الكلام يتطلب الحفاظ على المعنى ومرجع الضمائر والوقت. بعد said قد يتحول am إلى was، لكن لا يلزم تغيير الزمن آليًا إذا بقي الكلام صحيحًا وكان السياق يسمح بذلك. claim تنقل ادعاء دون تبنّيه، وadmit اعتراف، وdeny إنكار. reportedly تسند الخبر إلى تقارير ولا تثبت صحته بنفسها.",
+    "focusEn": "Reporting speech requires preserving meaning and correctly tracking pronouns and time references. After said, am can become was, but tense changes are not automatic when the statement remains true and context allows the original tense. Claim reports an assertion without endorsing it; admit acknowledges, and deny rejects. Reportedly attributes information to reports rather than independently verifying it.",
+    "taskAr": "قالت منى يوم الاثنين: «أنا مشغولة اليوم، لكنني سأرسل الملف غدًا». انقل كلامها يوم الأربعاء مع توضيح الأيام.",
+    "taskEn": "On Monday, Mona said, 'I'm busy today, but I'll send the file tomorrow.' Report her words on Wednesday, making the days clear.",
+    "exampleEn": "Mona said that she was busy on Monday but would send the file on Tuesday. That was her plan; I still need to check whether she sent it.",
+    "exampleAr": "قالت منى إنها كانت مشغولة يوم الاثنين لكنها سترسل الملف يوم الثلاثاء. كانت تلك خطتها؛ وما زلت بحاجة إلى التحقق مما إذا كانت أرسلته.",
+    "check": {
+      "promptEn": "On Monday, Mona said she would send the file the next day. Which report preserves the promised day?",
+      "choices": [
+        "She said she would send it on Tuesday.",
+        "She said she would send it on Wednesday.",
+        "She confirmed that she had already sent it on Sunday."
+      ],
+      "answer": "She said she would send it on Tuesday.",
+      "explanationAr": "اليوم التالي للاثنين هو الثلاثاء. نقل الوعد لا يثبت تنفيذه، لذلك لا نحوله إلى تأكيد أن الإرسال حدث بالفعل.",
+      "explanationEn": "The day after Monday is Tuesday. Reporting a promise does not prove it was fulfilled, so it must not be turned into confirmation of a completed action."
+    }
+  },
+  "b2-extra-6": {
+    "focusAr": "وجّه المستمع بخريطة واضحة: outline لعرض موجز، وmove on to أوturn to للانتقال، وelaborate on للتفصيل، وsum up للخلاصة. لا تجعل الروابط بديلًا عن المحتوى؛ سمِّ الفكرة التالية وعلاقتها بما سبق. عند الإشارة إلى أرقام، اقرأ المعلومة المهمة ولا تعتمد على رؤية الشريحة وحدها.",
+    "focusEn": "Guide listeners with clear signposting: outline gives an overview, move on to or turn to marks a transition, elaborate on adds detail, and sum up introduces a summary. Links should not replace content: name the next idea and connect it to the previous one. When referring to figures, state the key information aloud rather than relying only on the slide.",
+    "taskAr": "اكتب افتتاحية قصيرة لعرض عن تأخر التسليم، وانتقالًا من الأسباب إلى الحلول، وخلاصة بإجراء مقترح.",
+    "taskEn": "Write a short opening for a presentation on delivery delays, a transition from causes to solutions, and a summary proposing an action.",
+    "exampleEn": "I'll outline the main causes of the delays and then discuss two options. Having considered the causes, let's turn to possible solutions. To sum up, I suggest testing the new schedule for one month.",
+    "exampleAr": "سأعرض بإيجاز الأسباب الرئيسية للتأخير ثم أناقش خيارين. بعد النظر في الأسباب، لننتقل إلى الحلول الممكنة. وخلاصة القول، أقترح تجربة الجدول الجديد شهرًا واحدًا.",
+    "check": {
+      "promptEn": "A listener asks you to elaborate on your second point. What should you do?",
+      "choices": [
+        "Explain that point in greater detail.",
+        "Immediately end the presentation with no explanation.",
+        "Repeat only the title of the talk."
+      ],
+      "answer": "Explain that point in greater detail.",
+      "explanationAr": "elaborate on طلب للتوسع في نقطة محددة، وليس لإنهاء العرض أو تكرار عنوانه دون معلومات إضافية.",
+      "explanationEn": "Elaborate on requests more detail about a particular point, not an immediate ending or a repetition of the title without added information."
+    }
+  },
+  "b2-extra-7": {
+    "focusAr": "may be able to احتمال مشروط بالقدرة أو الموافقة، وليس وعدًا نهائيًا. counteroffer عرض يعدّل شروطًا سابقة، وconcession تنازل لتحقيق تقدم. meet halfway مجاز لحل وسط لا تقسيم حسابي لازم. عند عرض بديل، حدّد ما تقدمه وما تطلبه في المقابل وما يحتاج تأكيدًا حتى لا يلتبس الاقتراح بالاتفاق.",
+    "focusEn": "May be able to signals possibility depending on capacity or approval, not a final promise. A counteroffer changes earlier terms, and a concession gives ground to advance agreement. Meet halfway figuratively means compromise, not necessarily an exact numerical split. State what you offer, what you request in return, and what still needs confirmation so a proposal is not mistaken for an agreement.",
+    "taskAr": "قدّم عرضًا مضادًا: إمكانية تسليم جزء من الطلب الجمعة والباقي الاثنين، بشرط موافقة العميل، مع طلب تأكيد كتابي.",
+    "taskEn": "Make a counteroffer: possible delivery of part of an order on Friday and the remainder on Monday, subject to customer agreement, requesting written confirmation.",
+    "exampleEn": "We may be able to deliver half the order on Friday and the rest on Monday. Would those terms be acceptable? If so, please confirm them in writing so we can check the final schedule.",
+    "exampleAr": "قد نتمكن من تسليم نصف الطلب الجمعة والباقي الاثنين. هل هذه الشروط مقبولة؟ إذا كانت كذلك، يرجى تأكيدها كتابةً لنتحقق من الجدول النهائي.",
+    "check": {
+      "promptEn": "A supplier says, 'We may be able to reduce the price.' What should you infer?",
+      "choices": [
+        "A reduction is possible but has not been firmly promised.",
+        "The lower price is already contractually confirmed.",
+        "The supplier has refused any discussion."
+      ],
+      "answer": "A reduction is possible but has not been firmly promised.",
+      "explanationAr": "may be able to تترك القدرة على التخفيض غير مؤكدة. لا تتحول الإمكانية وحدها إلى التزام نهائي، ولا تعني رفض التفاوض.",
+      "explanationEn": "May be able to leaves the reduction uncertain. Possibility alone is not a firm commitment, and the phrase does not reject negotiation."
+    }
+  },
+  "b2-extra-8": {
+    "focusAr": "قد يعرض المقال one perspective دون أن تكون كل معلوماته خاطئة. selective framing انتقاء جوانب أو طريقة عرض تؤثر في الفهم؛ افحص ما أُبرز وما أُغفل. source credibility تتعلق بالخبرة والأدلة والشفافية، ولا تغني عن فحص الادعاء نفسه. ميّز بين لغة مثيرة، وتحيز يمكن تبريره بأمثلة، وخطأ واقعي.",
+    "focusEn": "An article can present one perspective without every fact being false. Selective framing emphasizes particular aspects, so examine what is highlighted and omitted. Source credibility concerns expertise, evidence, and transparency, but does not replace checking the claim itself. Distinguish dramatic language, bias supported by examples, and factual error rather than treating them as identical.",
+    "taskAr": "حلّل عنوانًا يقول «الجميع يكره الخطة الجديدة» بينما استُطلع عشرة أشخاص فقط في قسم واحد، وجميعهم عارضوا الخطة. حدّد التعميم واقترح صياغة أدق.",
+    "taskEn": "Analyse a headline saying 'Everyone hates the new plan' when a survey asked only ten people in one department, all of whom opposed it. Identify the overstatement and propose a more precise wording.",
+    "exampleEn": "The headline generalizes from a small group to everyone. A more accurate version would be: 'Ten surveyed staff members in one department opposed the plan.' We would need wider evidence to describe the whole organization.",
+    "exampleAr": "يعمم العنوان رأي مجموعة صغيرة على الجميع. والصياغة الأدق: «عارض الخطة عشرة موظفين شملهم الاستطلاع في قسم واحد». نحتاج إلى أدلة أوسع لوصف المؤسسة كلها.",
+    "check": {
+      "promptEn": "Ten people in one department oppose a plan. Which headline stays within that evidence?",
+      "choices": [
+        "Ten surveyed employees in one department oppose the plan.",
+        "Every employee rejects the plan.",
+        "No employee will ever accept any future plan."
+      ],
+      "answer": "Ten surveyed employees in one department oppose the plan.",
+      "explanationAr": "يحافظ الجواب الصحيح على حجم المجموعة ونطاقها. الآخران يعممان على جميع الموظفين أو على المستقبل دون دليل.",
+      "explanationEn": "The correct answer preserves the group's size and scope. The alternatives generalize to all employees or future plans without evidence."
+    }
+  },
+  "b2-x-u1-l1": {
+    "focusAr": "عبارات اليقين تصف قوة موقف المتحدث، ولا تجعل التنبؤ حقيقة مضمونة. absolutely convinced تتبعها that وجملة، وbound to تأتي بعد be وقبل الفعل الأساسي. اربط تأكيدك بسبب يمكن فحصه، وميّز بين حدث تحققت منه وتوقع مبني على قرائن. قد يكون تخفيف العبارة أدق إذا كانت الأدلة محدودة.",
+    "focusEn": "Certainty expressions show the strength of the speaker's position; they do not make a prediction guaranteed. Absolutely convinced can take a that-clause, and bound to follows be and precedes a base verb. Link confidence to a checkable reason, distinguishing a verified event from an evidence-based expectation. A weaker expression may be more accurate when evidence is limited.",
+    "taskAr": "اكتب تأكيدًا عن وصول ملف تحققت منه بنفسك، ثم توقعًا أكثر تحفظًا بشأن موافقة العميل.",
+    "taskEn": "State confidently that a file arrived because you checked it yourself, then express a more cautious expectation about client approval.",
+    "exampleEn": "I'm positive the file arrived because I checked the delivery confirmation. I'm less certain about approval: the client still needs to review the final figures.",
+    "exampleAr": "أنا على يقين أن الملف وصل لأنني تحققت من تأكيد التسليم. أما الموافقة فأنا أقل يقينًا بشأنها؛ إذ ما زال العميل بحاجة إلى مراجعة الأرقام النهائية.",
+    "check": {
+      "promptEn": "A speaker says a team is bound to win. What does this expression convey?",
+      "choices": [
+        "The speaker expects victory very strongly.",
+        "The match has already ended in a verified win.",
+        "Winning is legally required."
+      ],
+      "answer": "The speaker expects victory very strongly.",
+      "explanationAr": "bound to في هذا السياق توقع قوي من المتحدث. لا تثبت العبارة أن الحدث وقع بالفعل أو أن هناك إلزامًا قانونيًا.",
+      "explanationEn": "Bound to here expresses the speaker's strong expectation. It does not establish that the event has already happened or that there is a legal obligation."
+    }
+  },
+  "b2-x-u1-l2": {
+    "focusAr": "reservation هنا تحفظ أو قلق محدد، وليس حجزًا. يمكن قول have doubts about ثم اسم أوwhether وجملة، مع تغيير one's إلى my أوher ونحوها بحسب الشخص. skeptical about تشكك يحتاج سببًا، وI'm not entirely sure تخفف الاعتراض. سمِّ الجزء الذي يحتاج تحققًا وما قد يغيّر رأيك بدل رفض الخطة كلها.",
+    "focusEn": "Reservation here means a particular concern, not a booking. Use have doubts about with a noun or whether-clause, replacing one's with my, her, or another appropriate possessive. Skeptical about should be supported by a reason; I'm not entirely sure softens disagreement. Identify what needs checking and what could change your view instead of dismissing the entire plan.",
+    "taskAr": "أبدِ تحفظًا بشأن تقدير تكلفة يفتقر إلى تفاصيل، ثم اطلب معلومة قد تساعدك على الحكم.",
+    "taskEn": "Express a reservation about a cost estimate lacking detail, then request information that would help you assess it.",
+    "exampleEn": "I'm not entirely sure that this estimate covers the full cost. My main reservation concerns maintenance. Could we see a breakdown before approving the budget?",
+    "exampleAr": "لست متأكدًا تمامًا من أن هذا التقدير يغطي التكلفة كاملة. يتعلق تحفظي الرئيسي بالصيانة. هل يمكننا الاطلاع على تفصيل التكاليف قبل اعتماد الميزانية؟",
+    "check": {
+      "promptEn": "Which response expresses a specific, evidence-oriented reservation?",
+      "choices": [
+        "I'm unsure whether maintenance is included; could we check the breakdown?",
+        "The plan is wrong because I dislike its title.",
+        "No information could ever affect my opinion."
+      ],
+      "answer": "I'm unsure whether maintenance is included; could we check the breakdown?",
+      "explanationAr": "يحدد الجواب الصحيح موضع الشك وطريقة فحصه. رفض العنوان أو استبعاد أي دليل جديد لا يقدمان تحفظًا قابلًا للتحقق.",
+      "explanationEn": "The correct answer identifies the uncertainty and a way to examine it. Disliking a title or ruling out new evidence does not offer a checkable reservation."
+    }
+  },
+  "b2-x-u1-l3": {
+    "focusAr": "must have مع التصريف الثالث تعبر عن استنتاج قوي بشأن الماضي، لا واجب ماضٍ؛ الواجب قد يُعبّر عنه بـ had to. judging by تذكر القرينة، وpresumably تترك مجالًا للخطأ. فرّق بين الملاحظة والاستنتاج، وفكّر في تفسير بديل قبل draw a conclusion، خصوصًا عندما تكون القرينة مثل الصمت غير حاسمة.",
+    "focusEn": "Must have plus a past participle expresses a strong inference about the past, not a past obligation; had to can express the latter. Judging by names the evidence, while presumably leaves room for error. Separate observation from inference and consider an alternative explanation before drawing a conclusion, especially with ambiguous clues such as silence.",
+    "taskAr": "وجدت مكتبًا مظلمًا وموقفًا فارغًا. اكتب تفسيرًا محتملًا وتفسيرًا بديلًا، ثم طريقة للتحقق.",
+    "taskEn": "You find a dark office and an empty car park. Give a possible explanation, an alternative, and a way to check.",
+    "exampleEn": "Judging by the empty car park, the staff may have left early. They could also be working at another site. I'll check the schedule before drawing a conclusion.",
+    "exampleAr": "بالنظر إلى موقف السيارات الفارغ، ربما غادر الموظفون مبكرًا. وقد يكونون يعملون في موقع آخر. سأراجع الجدول قبل استخلاص نتيجة.",
+    "check": {
+      "promptEn": "'She must have forgotten the meeting' expresses which meaning?",
+      "choices": [
+        "A strong inference about a past event.",
+        "An instruction requiring her to forget it.",
+        "Direct proof from her own admission."
+      ],
+      "answer": "A strong inference about a past event.",
+      "explanationAr": "must have forgotten استنتاج قوي عن الماضي، لكنه ليس أمرًا بالنسيان ولا يثبت أن المتحدث سمع اعترافًا منها.",
+      "explanationEn": "Must have forgotten is a strong past inference. It is neither an instruction to forget nor proof that the speaker heard an admission."
+    }
+  },
+  "b2-x-u1-l4": {
+    "focusAr": "اتجاه العلاقة مهم: problems stem from poor communication تجعل التواصل سببًا، بينما poor communication gives rise to problems تبدأ بالسبب وتصل إلى النتيجة. attribute something to a cause تنسب النتيجة إلى السبب، ولا تثبت النسبة وحدها. knock-on effect أثر لاحق ينتج عن أثر أول؛ اشرح السلسلة بدل جمع أحداث متزامنة فقط.",
+    "focusEn": "Direction matters: problems stem from poor communication presents communication as the cause, while poor communication gives rise to problems starts with the cause. Attribute something to a cause assigns an explanation without proving it. A knock-on effect is an indirect consequence of an earlier effect; explain the chain rather than merely listing simultaneous events.",
+    "taskAr": "اشرح سلسلة تدريبية: تعطلت آلة، فتأخر التغليف، ثم تأخر التسليم. ميّز السبب الأول من الأثر اللاحق.",
+    "taskEn": "Explain a practice chain: a machine failed, packaging was delayed, and deliveries then arrived late. Distinguish the initial cause from the later effect.",
+    "exampleEn": "The packaging delay stemmed from a machine failure. As a consequence, orders were not ready on time, which had a knock-on effect on deliveries.",
+    "exampleAr": "نتج تأخر التغليف عن تعطل آلة. وبناءً على ذلك، لم تجهز الطلبات في موعدها، مما أدى إلى أثر لاحق على التسليم.",
+    "check": {
+      "promptEn": "If delivery delays stem from a machine failure, which is the proposed cause?",
+      "choices": [
+        "The machine failure.",
+        "The delivery delays themselves.",
+        "The customer's response after delivery."
+      ],
+      "answer": "The machine failure.",
+      "explanationAr": "stem from تربط النتيجة بما يُطرح سببًا لها؛ فالذي يأتي بعدها هنا هو تعطل الآلة. لا تعكس الجملة اتجاه العلاقة.",
+      "explanationEn": "Stem from links an outcome to its proposed cause; the following phrase here is the machine failure. The sentence does not reverse that relationship."
+    }
+  },
+  "b2-x-u1-l5": {
+    "focusAr": "للندم على ماضٍ لم يحدث، استخدم if + had + التصريف الثالث، ثم would have + التصريف الثالث للنتيجة المتخيلة. if only تؤكد التمني، وregret doing تشير إلى الندم على فعل. in hindsight تعني النظر إلى الماضي بمعرفة لاحقة، ولا تعني بالضرورة أن الإصلاح صار مستحيلًا. لا تعرض السيناريو البديل كحقيقة مؤكدة.",
+    "focusEn": "For an unreal past, use if plus had and a past participle, followed by would have and a past participle for the imagined result. If only emphasizes a wish, while regret doing refers to regretting an action. In hindsight means looking back with later knowledge, not necessarily that repair is impossible. Do not present an alternative history as a verified fact.",
+    "taskAr": "عبّر عن ندمك على عدم مراجعة موعد، وتخيّل كيف كان يمكن تجنب التأخير، ثم اذكر ما ستفعله مستقبلًا.",
+    "taskEn": "Express regret about not checking a time, imagine how the delay could have been avoided, and state what you will do in future.",
+    "exampleEn": "If I had checked the timetable, I would have taken the earlier train. In hindsight, relying on an old screenshot was a mistake. Next time, I'll check the current schedule.",
+    "exampleAr": "لو راجعت الجدول، لاستقللت القطار الأبكر. وبالنظر إلى ما عرفته لاحقًا، كان الاعتماد على صورة قديمة خطأ. سأراجع الجدول الحالي في المرة القادمة.",
+    "check": {
+      "promptEn": "Which sentence describes an imagined alternative to a completed past event?",
+      "choices": [
+        "If I had checked, I would have noticed the error.",
+        "If I check tomorrow, I will notice the error.",
+        "I check the figures every morning."
+      ],
+      "answer": "If I had checked, I would have noticed the error.",
+      "explanationAr": "had checked مع would have noticed تشكل شرطًا افتراضيًا عن الماضي. الجملة الثانية احتمال مستقبلي، والثالثة عادة.",
+      "explanationEn": "Had checked with would have noticed forms an unreal past conditional. The second sentence is a future possibility, and the third describes a habit."
+    }
+  },
+  "b2-x-u2-l1": {
+    "focusAr": "delegate تفويض مهمة أو سلطة مع توضيح الحدود، وليس مجرد التخلص من العمل. قل assign a task to someone وempower someone to do something. حدّد المخرج المطلوب والموعد وحرية القرار ونقطة المتابعة. accountability تعني وضوح من يُسأل عن النتيجة؛ تفويض التنفيذ لا يلغي الحاجة إلى المتابعة المتفق عليها.",
+    "focusEn": "Delegate means entrust a task or authority with clear boundaries, not simply discard work. Say assign a task to someone and empower someone to do something. Specify the output, deadline, decision-making scope, and review point. Accountability identifies who answers for the outcome; delegation does not remove the need for agreed follow-up.",
+    "taskAr": "فوّض إعداد مسودة تقرير لزميل، وحدد الموعد وما يستطيع تقريره بنفسه ومتى تطلب منه الرجوع إليك.",
+    "taskEn": "Delegate a draft report to a colleague, specifying timing, what they can decide independently, and when they should consult you.",
+    "exampleEn": "Could you prepare the draft by Thursday? You can choose the examples, but please check with me before changing the agreed scope. Let's review your outline on Tuesday so I can help with any obstacles.",
+    "exampleAr": "هل يمكنك إعداد المسودة بحلول الخميس؟ يمكنك اختيار الأمثلة، لكن يرجى الرجوع إليّ قبل تغيير النطاق المتفق عليه. لنراجع خطتك يوم الثلاثاء لأساعدك في أي عقبات.",
+    "check": {
+      "promptEn": "Which instruction delegates with clear boundaries?",
+      "choices": [
+        "Prepare the draft by Thursday; choose the examples, but consult me on scope changes.",
+        "Do whatever is needed whenever you can.",
+        "Take responsibility, although I will not tell you the task."
+      ],
+      "answer": "Prepare the draft by Thursday; choose the examples, but consult me on scope changes.",
+      "explanationAr": "يوضح الجواب الصحيح الناتج والموعد وحدود القرار. الغموض في المهمة أو الوقت لا يساعد على التنفيذ أو المساءلة العادلة.",
+      "explanationEn": "The correct answer identifies the output, deadline, and decision limits. An unclear task or time does not support effective work or fair accountability."
+    }
+  },
+  "b2-x-u2-l2": {
+    "focusAr": "hands-on تصف المشاركة المباشرة في التفاصيل، ولا تعني تلقائيًا التدخل المفرط. take charge تولي القيادة، وstep back إفساح المجال للآخرين. decisive سرعة وحسم مع قدر كافٍ من المعلومات، لا رفض التشاور بالضرورة. عند مقارنة أسلوبين، اربط ميزتهما بسياق وخبرة الفريق بدل تقديم أحدهما حلًا مطلقًا.",
+    "focusEn": "Hands-on describes direct involvement in details, not automatically excessive interference. Take charge means assume leadership; step back means allow others space. Decisive suggests reaching decisions firmly with enough information, not necessarily refusing consultation. When comparing styles, connect their benefits to the context and team's experience rather than presenting either as universally best.",
+    "taskAr": "قارن أسلوبًا مباشرًا مع فريق جديد وأسلوبًا يمنح الاستقلالية لفريق خبير، مع ذكر قيد لكل اختيار.",
+    "taskEn": "Compare direct involvement with a new team and greater autonomy with an experienced team, noting a limit for each choice.",
+    "exampleEn": "A hands-on approach may help a new team understand the process, but constant checking can slow them down. With an experienced team, I would step back while keeping clear review points.",
+    "exampleAr": "قد تساعد المشاركة المباشرة فريقًا جديدًا على فهم العملية، لكن التحقق المستمر قد يبطئه. ومع فريق خبير، سأفسح المجال مع الحفاظ على نقاط مراجعة واضحة.",
+    "check": {
+      "promptEn": "A manager steps back while maintaining agreed reviews. What does this imply?",
+      "choices": [
+        "The team has more autonomy within an oversight arrangement.",
+        "The manager has necessarily abandoned all responsibility.",
+        "The manager must approve every tiny action in advance."
+      ],
+      "answer": "The team has more autonomy within an oversight arrangement.",
+      "explanationAr": "step back هنا تمنح مساحة للقرار ضمن متابعة متفق عليها. لا تعني التخلي عن المسؤولية أو الموافقة المسبقة على كل تفصيل.",
+      "explanationEn": "Step back here allows decision-making space within agreed oversight. It means neither abandoning responsibility nor pre-approving every detail."
+    }
+  },
+  "b2-x-u2-l3": {
+    "focusAr": "ميّز بين incentive، وهو حافز محدد، وmorale، وهي المعنويات العامة، وengagement، وهو الانخراط في العمل. عند تقدير إنجاز، سمِّ الفعل وأثره بدل مديح عام. recognize achievements لا يعني تجاهل العقبات؛ اسأل عن الدعم المطلوب واربط التشجيع بهدف واقعي يمكن للفريق فهمه.",
+    "focusEn": "Distinguish an incentive, a specific motivator, from morale, the group's confidence or spirits, and engagement, involvement in work. When recognizing achievement, identify the action and its impact instead of giving generic praise. Recognize achievements without ignoring obstacles; ask what support is needed and connect encouragement to an understandable, realistic goal.",
+    "taskAr": "اكتب رسالة لفريق أنجز مرحلة من المشروع، تشكر فعلًا محددًا وتوضح الخطوة التالية وتطلب ذكر العوائق.",
+    "taskEn": "Write to a team that completed a project stage, thanking them for a specific action, explaining the next step, and inviting concerns.",
+    "exampleEn": "Thank you for checking the customer records so carefully; we found the missing details before submission. Our next goal is to complete the summary by Friday. Please tell me if the workload makes that deadline unrealistic.",
+    "exampleAr": "شكرًا لمراجعتكم سجلات العملاء بعناية؛ فقد وجدنا التفاصيل الناقصة قبل التسليم. هدفنا التالي إكمال الملخص بحلول الجمعة. يرجى إخباري إذا كان عبء العمل يجعل هذا الموعد غير واقعي.",
+    "check": {
+      "promptEn": "Which message recognizes a specific achievement without dismissing practical limits?",
+      "choices": [
+        "Your careful checks found the error; let's discuss support for the next stage.",
+        "You are perfect, so no deadline can ever be difficult.",
+        "Anyone who needs help is not committed."
+      ],
+      "answer": "Your careful checks found the error; let's discuss support for the next stage.",
+      "explanationAr": "يشير الجواب الصحيح إلى فعل ونتيجة ويفتح مجال الدعم. المديح المطلق أو وصم طلب المساعدة لا يعالجان المتطلبات العملية.",
+      "explanationEn": "The correct message names an action and result while allowing support. Absolute praise or blaming requests for help does not address practical needs."
+    }
+  },
+  "b2-x-u2-l4": {
+    "focusAr": "صف الاتجاه والسرعة والفترة منفصلةً: rise steadily ارتفاع منتظم، وplummet هبوط حاد، وfluctuate تغير صعودًا وهبوطًا. level off استقرار بعد تغير، وليس استمرار الارتفاع ببطء. peak بلوغ أعلى مستوى ضمن الفترة المعروضة. استخدم أرقامًا ونطاقًا زمنيًا لتبرير الوصف، ولا تستنتج السبب من شكل الاتجاه وحده.",
+    "focusEn": "Separate direction, pace, and period: rise steadily means increase regularly, plummet means drop sharply, and fluctuate means move up and down. Level off means stabilize after change, not continue rising slowly. Peak means reach the highest point within the displayed period. Use figures and a time range to justify the description; a trend alone does not identify its cause.",
+    "taskAr": "صف سلسلة تدريبية للمبيعات: 20 ثم 30 ثم 40 ثم 40 خلال أربعة أشهر، دون اختراع سبب للتغير.",
+    "taskEn": "Describe a practice sales series of 20, 30, 40, and 40 across four months, without inventing a cause.",
+    "exampleEn": "Sales rose steadily from 20 to 40 over the first three months, then began to level off in the fourth month. The figures alone do not explain why growth stopped.",
+    "exampleAr": "ارتفعت المبيعات بانتظام من 20 إلى 40 خلال الأشهر الثلاثة الأولى، ثم بدأت تستقر في الشهر الرابع. ولا تفسر الأرقام وحدها سبب توقف النمو.",
+    "check": {
+      "promptEn": "After rising from 20 to 40, sales remain at 40 for three months. Which phrase fits the later period?",
+      "choices": [
+        "Sales level off.",
+        "Sales plummet.",
+        "Sales continue to double each month."
+      ],
+      "answer": "Sales level off.",
+      "explanationAr": "البقاء عند 40 بعد الارتفاع يدل على الاستقرار level off. لا يوجد هبوط حاد أو تضاعف مستمر في الأرقام المعطاة.",
+      "explanationEn": "Remaining at 40 after an increase indicates leveling off. The figures show neither a sharp fall nor continued doubling."
+    }
+  },
+  "b2-x-u2-l5": {
+    "focusAr": "correlation ارتباط بين متغيرين لا يثبت السببية وحده. significant قد تعني مهمًا أو كبيرًا في اللغة العامة، وقد تحمل معنى إحصائيًا يحتاج سياقه. outlier قيمة بعيدة عن بقية القيم؛ لا تحذفها لمجرد غرابتها، بل افحص مصدرها. margin of error لا يلخص كل مصادر الخطأ؛ اذكر حدود البيانات قبل تعميمها.",
+    "focusEn": "Correlation is an association, not proof of causation by itself. Significant can mean important or substantial in general language, or have a statistical meaning requiring context. An outlier lies far from other values; investigate its source instead of deleting it merely because it is unusual. A margin of error does not cover every possible error, so state data limits before generalizing.",
+    "taskAr": "وجد استطلاع تدريبي ارتباطًا بين حضور التدريب والأداء. اكتب استنتاجًا حذرًا واذكر تفسيرًا بديلًا يحتاج الفحص.",
+    "taskEn": "A practice survey found an association between training attendance and performance. Give a cautious conclusion and an alternative explanation to investigate.",
+    "exampleEn": "The data indicate a correlation between attendance and performance. However, more motivated employees may both attend training and perform well. We would need further evidence before claiming that training caused the difference.",
+    "exampleAr": "تشير البيانات إلى ارتباط بين الحضور والأداء. لكن الموظفين الأكثر حماسًا قد يحضرون التدريب ويؤدون جيدًا في الوقت نفسه. نحتاج إلى أدلة إضافية قبل القول إن التدريب سبب الفرق.",
+    "check": {
+      "promptEn": "An unusually high value appears in a dataset. What is the most defensible first response?",
+      "choices": [
+        "Check whether it reflects a recording error or a genuine observation.",
+        "Delete it automatically because it changes the average.",
+        "Assume that every other value is wrong."
+      ],
+      "answer": "Check whether it reflects a recording error or a genuine observation.",
+      "explanationAr": "قد تكون القيمة الشاذة خطأ أو ملاحظة صحيحة؛ لذا نتحقق أولًا. تأثيرها في المتوسط وحده ليس مبررًا كافيًا لحذفها.",
+      "explanationEn": "An outlier may be an error or a valid observation, so investigate first. Its effect on the average alone is not sufficient reason to remove it."
+    }
+  },
+  "b2-x-u3-l1": {
+    "focusAr": "lifelong learning يشمل التعلم المستمر داخل التعليم الرسمي وخارجه. self-directed يعني أن المتعلم يحدد جانبًا من أهدافه وطريقته، لا أنه لا يحتاج مساعدة. keep up with مواكبة التغيرات، بينما acquire a skill اكتساب قدرة بالممارسة. اربط خطة التعلم بحاجتك وطريقة تقييم تقدمك، دون ضمان وظيفة أو نجاح لمجرد إكمال دورة.",
+    "focusEn": "Lifelong learning includes continued learning inside and outside formal education. Self-directed means learners control aspects of their goals and methods, not that they never need help. Keep up with means stay informed about developments; acquire a skill means develop an ability through practice. Connect a learning plan to a need and a way to assess progress, without guaranteeing employment from course completion.",
+    "taskAr": "ضع خطة قصيرة لتطوير مهارة عرض البيانات، تتضمن هدفًا وتطبيقًا عمليًا وطريقة للحصول على ملاحظات.",
+    "taskEn": "Create a short plan to develop data-presentation skills, including a goal, a practical application, and feedback.",
+    "exampleEn": "To keep up with my role, I want to explain data more clearly. I'll complete a short course, prepare a five-minute presentation, and ask a colleague whether the main conclusion is easy to follow.",
+    "exampleAr": "لأواكب متطلبات دوري، أريد شرح البيانات بوضوح أكبر. سأكمل دورة قصيرة، وأعد عرضًا لخمس دقائق، وأسأل زميلًا إن كانت النتيجة الرئيسية سهلة المتابعة.",
+    "check": {
+      "promptEn": "Which plan makes learning progress observable?",
+      "choices": [
+        "Prepare a short presentation and request feedback on its clarity.",
+        "Collect course certificates without practising.",
+        "Assume that registering for a course guarantees employment."
+      ],
+      "answer": "Prepare a short presentation and request feedback on its clarity.",
+      "explanationAr": "العرض والملاحظات يقدمان دليلًا على تطبيق المهارة وتحسنها. التسجيل أو جمع الشهادات وحدهما لا يثبتان الإتقان أو يضمنان وظيفة.",
+      "explanationEn": "The presentation and feedback provide evidence of application and improvement. Registration or certificate collection alone proves neither competence nor guaranteed employment."
+    }
+  },
+  "b2-x-u3-l2": {
+    "focusAr": "curriculum محتوى التعلم وتنظيمه، وassessment كيفية تقدير الأداء، وهما مرتبطان لا مترادفان. rote memorization حفظ بالتكرار دون اشتراط الفهم؛ لا تجعل كل تذكر للمعلومات منه. equitable access إتاحة منصفة تراعي العوائق المختلفة. في مقترح الإصلاح، حدّد مشكلة وإجراءً وكيف ستقيس أثره وتكلفته بدل وعد شامل.",
+    "focusEn": "Curriculum concerns learning content and organization; assessment concerns judging performance. They are related but not interchangeable. Rote memorization is repetitive learning without necessarily understanding, not every form of recall. Equitable access considers differing barriers to participation. A reform proposal should name a problem, action, and method for assessing effects and costs rather than make an unlimited promise.",
+    "taskAr": "اقترح تجربة تقييم بمشروع إلى جانب الاختبار في مقرر واحد، مع معيار لفحص فائدتها وعائق محتمل.",
+    "taskEn": "Propose trying project assessment alongside an exam in one course, with a criterion for judging its benefit and a possible obstacle.",
+    "exampleEn": "We could add a small project to the assessment in one course. This would let students explain how they apply key ideas. We should compare the quality of their explanations and check whether the extra workload is manageable.",
+    "exampleAr": "يمكننا إضافة مشروع صغير إلى التقييم في مقرر واحد. سيتيح ذلك للطلاب شرح تطبيق الأفكار الأساسية. وينبغي أن نقارن جودة شرحهم ونتحقق من إمكان تحمل عبء العمل الإضافي.",
+    "check": {
+      "promptEn": "Which proposal includes both an action and a way to evaluate it?",
+      "choices": [
+        "Pilot a project and compare students' explanations before and after it.",
+        "Overhaul everything because change must be good.",
+        "Remove all assessment without examining its purpose."
+      ],
+      "answer": "Pilot a project and compare students' explanations before and after it.",
+      "explanationAr": "يقترح الجواب الصحيح إجراءً محدودًا ومعيارًا لملاحظة أثره، مع أن المقارنة وحدها لا تثبت السببية. البديلان لا يحددان فحصًا للنتيجة.",
+      "explanationEn": "The correct answer proposes a limited action and a way to observe its effect, though comparison alone does not prove causality. The alternatives provide no outcome check."
+    }
+  },
+  "b2-x-u3-l3": {
+    "focusAr": "wealth gap فرق في الثروة، وليس مجرد فرق في الراتب؛ الثروة تشمل ما يملكه الشخص بعد احتساب ديونه. social mobility تغير في الوضع الاجتماعي أو الاقتصادي. صف العوائق المحددة بدل اختزال الأشخاص في وصف underprivileged أوvulnerable. عند مناقشة سياسة، ميّز الفئة المستهدفة والآلية والنتيجة المتوقعة وحدود ما تعرفه.",
+    "focusEn": "A wealth gap concerns wealth, not merely salary; wealth includes what someone owns after debts are considered. Social mobility means movement in social or economic position. Describe specific barriers instead of reducing people to labels such as underprivileged or vulnerable. When discussing a policy, distinguish the intended group, mechanism, expected outcome, and limits of your information.",
+    "taskAr": "اشرح كيف قد تساعد منحة نقل طلابًا تمنعهم تكلفة المواصلات من الحضور، واذكر ما ينبغي فحصه لتقييمها.",
+    "taskEn": "Explain how a transport grant might help students whose travel costs limit attendance, and state what should be checked to evaluate it.",
+    "exampleEn": "A transport grant could address an issue that prevents some students from attending regularly. We should check whether it reaches those facing the greatest costs and whether their attendance improves.",
+    "exampleAr": "قد تعالج منحة النقل مشكلة تمنع بعض الطلاب من الحضور بانتظام. وينبغي أن نتحقق من وصولها إلى من يواجهون أعلى التكاليف، ومن تحسن حضورهم.",
+    "check": {
+      "promptEn": "Which statement identifies a specific barrier without stereotyping a group?",
+      "choices": [
+        "Some students miss classes because they cannot afford the journey.",
+        "All disadvantaged students lack motivation.",
+        "Every person in the same neighbourhood has identical needs."
+      ],
+      "answer": "Some students miss classes because they cannot afford the journey.",
+      "explanationAr": "يحدد الجواب الصحيح تكلفة الانتقال عائقًا لبعض الطلاب. لا يحول وضعهم الاقتصادي إلى حكم على الدافع أو افتراض تطابق الاحتياجات.",
+      "explanationEn": "The correct answer identifies travel cost as a barrier for some students. It does not turn economic circumstances into a judgement about motivation or assume identical needs."
+    }
+  },
+  "b2-x-u3-l4": {
+    "focusAr": "automation تنفيذ مهام آليًا، وليست كل أتمتة ذكاءً اصطناعيًا. job displacement يتعلق بفقدان أدوار أو انتقال العمل بسبب تغير طريقة إنجازه. عند مناقشة تقنية، اذكر مهمة محددة وفائدة محتملة ومخاوف مثل data privacy بدل توقع مطلق. ethical implications آثار تتعلق بالإنصاف والمسؤولية وقرارات الاستخدام، وليست أخطاء تقنية فقط.",
+    "focusEn": "Automation means performing tasks automatically; not all automation is artificial intelligence. Job displacement concerns roles lost or work shifted as methods change. Discuss a specific task, a possible benefit, and a concern such as data privacy rather than make absolute forecasts. Ethical implications concern fairness, responsibility, and use decisions, not only technical faults.",
+    "taskAr": "ناقش تجربة تخيلية تستخدم نظامًا آليًا لفرز رسائل العملاء: اذكر فائدة واحتمال خطأ ودور المراجعة البشرية.",
+    "taskEn": "Discuss an imagined automated system for sorting customer messages: identify a benefit, a possible error, and a role for human review.",
+    "exampleEn": "Automation could speed up the initial sorting of messages. However, an unusual complaint might be sent to the wrong team. Staff should be able to review uncertain cases and correct the category.",
+    "exampleAr": "قد تسرّع الأتمتة الفرز الأولي للرسائل. لكن شكوى غير معتادة قد تُرسل إلى الفريق الخطأ. ينبغي أن يستطيع الموظفون مراجعة الحالات غير المؤكدة وتصحيح التصنيف.",
+    "check": {
+      "promptEn": "Which evaluation balances a specific benefit with a limitation?",
+      "choices": [
+        "Sorting may be faster, but unusual messages may need human review.",
+        "The system must be perfect because it is new.",
+        "No automated process can ever be useful."
+      ],
+      "answer": "Sorting may be faster, but unusual messages may need human review.",
+      "explanationAr": "يقارن الجواب الصحيح فائدة محددة باحتمال خطأ وإجراء لمعالجته. الحكم بالكمال أو بانعدام الفائدة لا يستند إلى تفاصيل المهمة.",
+      "explanationEn": "The correct answer weighs a particular benefit against an error risk and a response. Claims of perfection or total uselessness ignore the task's details."
+    }
+  },
+  "b2-x-u3-l5": {
+    "focusAr": "hypothesis تفسير أو توقع قابل للاختبار، وليس حقيقة مثبتة مقدمًا. conduct research إجراء بحث، وpeer review تقييم متخصصين للعمل قبل نشره أو اعتماده ضمن سياقه؛ لا يجعل النتائج معصومة. evidence-based تعني الاستناد إلى أدلة قابلة للفحص. اذكر هل النتائج تدعم الفرضية وما يحدها بدل إعلان إثبات شامل من تجربة واحدة.",
+    "focusEn": "A hypothesis is a testable explanation or prediction, not a pre-established fact. Conduct research means investigate; peer review means specialist evaluation within a publication or assessment process, not a guarantee of infallibility. Evidence-based means grounded in examinable evidence. State whether results support a hypothesis and what limits them rather than claiming universal proof from one experiment.",
+    "taskAr": "لخّص تجربة صفية صغيرة تدعم فرضية أن تعليمات أوضح تقلل الأخطاء، مع ذكر الحاجة إلى تكرارها.",
+    "taskEn": "Summarize a small classroom experiment supporting the hypothesis that clearer instructions reduce errors, while noting a need for repetition.",
+    "exampleEn": "The results support our hypothesis that clearer instructions may reduce errors in this task. However, the group was small, so we should repeat the experiment before applying the conclusion more widely.",
+    "exampleAr": "تدعم النتائج فرضيتنا بأن التعليمات الأوضح قد تقلل الأخطاء في هذه المهمة. لكن المجموعة كانت صغيرة، لذا ينبغي تكرار التجربة قبل تعميم الاستنتاج.",
+    "check": {
+      "promptEn": "A small study supports a hypothesis. Which conclusion is appropriately limited?",
+      "choices": [
+        "The result supports the hypothesis in this setting, but more testing is needed.",
+        "The hypothesis is now proven for every situation.",
+        "Peer review means no future correction is possible."
+      ],
+      "answer": "The result supports the hypothesis in this setting, but more testing is needed.",
+      "explanationAr": "الدعم ضمن سياق محدد لا يثبت صلاحية النتيجة لكل وضع. كما أن المراجعة المتخصصة لا تمنع ظهور تصحيحات لاحقة.",
+      "explanationEn": "Support in one setting does not establish validity in every situation. Specialist review also does not prevent later corrections."
+    }
+  },
+  "b2-x-u4-l1": {
+    "focusAr": "ترؤس الاجتماع يشمل توجيه النقاش وتلخيص ما اتُفق عليه وما بقي مفتوحًا. recap لا ينبغي أن يحوّل اقتراحًا إلى قرار. استخدم move on بعد التأكد من وضوح الخطوة التالية، واطلب stick to the point بلباقة. سجّل في minutes القرار والمسؤول والموعد، مع تمييز الاعتراضات التي لم تُحسم.",
+    "focusEn": "Chairing includes guiding discussion and distinguishing agreed matters from open questions. A recap must not turn a proposal into a decision. Use move on after clarifying next steps, and request that speakers stick to the point tactfully. Record the decision, owner, and deadline in the minutes, identifying objections that remain unresolved.",
+    "taskAr": "لخّص اجتماعًا اتُفق فيه على تجربة جدول لشهر، بينما لم يُحسم موعد بدء التجربة، وحدد من سيتحقق منه.",
+    "taskEn": "Recap a meeting that agreed to trial a schedule for a month but did not settle the start date, identifying who will check it.",
+    "exampleEn": "To recap, we agreed to test the schedule for one month. The start date is still open, and Lina will confirm staff availability by Thursday. Let's record that in the minutes before we move on.",
+    "exampleAr": "للتلخيص، اتفقنا على تجربة الجدول شهرًا واحدًا. ما زال موعد البداية غير محسوم، وستؤكد لينا توفر الموظفين بحلول الخميس. لنسجل ذلك في المحضر قبل أن ننتقل.",
+    "check": {
+      "promptEn": "The trial is agreed, but its start date is not. Which recap is accurate?",
+      "choices": [
+        "We agreed to the trial; the start date remains open.",
+        "We unanimously fixed every detail of the trial.",
+        "The trial was rejected because one detail is open."
+      ],
+      "answer": "We agreed to the trial; the start date remains open.",
+      "explanationAr": "يفصل الجواب الصحيح القرار المتخذ عن التفصيل المعلّق. عدم حسم الموعد لا يعني حسم كل شيء أو رفض التجربة.",
+      "explanationEn": "The correct answer separates the decision made from the open detail. An unsettled date implies neither complete agreement on details nor rejection of the trial."
+    }
+  },
+  "b2-x-u4-l2": {
+    "focusAr": "trade-off مفاضلة تُقبل فيها خسارة جانب مقابل مكسب آخر، لا مجرد مقارنة خيارين. reach a consensus توافق لا يضمن غياب كل تحفظ، وrule out استبعاد احتمال. make a call قد تعني اتخاذ قرار في هذا السياق، لا مكالمة هاتفية. اذكر معايير القرار وما لا يزال غير مؤكد قبل إعلان النتيجة.",
+    "focusEn": "A trade-off accepts a loss in one aspect for a gain in another, rather than simply comparing two options. Reach a consensus means find broad agreement without necessarily removing every reservation; rule out means exclude a possibility. Make a call can mean decide here, not telephone. State decision criteria and remaining uncertainty before announcing the outcome.",
+    "taskAr": "قارن حلًا أسرع أغلى بحل أبطأ أرخص، ثم قدّم قرارًا مشروطًا بموعد التسليم المطلوب.",
+    "taskEn": "Compare a faster, more expensive solution with a slower, cheaper one, then state a decision dependent on the required delivery date.",
+    "exampleEn": "The faster option costs more, so there is a trade-off between time and price. If Friday's deadline cannot change, I would choose it. Otherwise, we should consider the cheaper option.",
+    "exampleAr": "الخيار الأسرع أعلى تكلفة، لذا توجد مفاضلة بين الوقت والسعر. إذا تعذر تغيير موعد الجمعة، فسأختاره. وإلا فينبغي النظر في الخيار الأرخص.",
+    "check": {
+      "promptEn": "Which situation illustrates a trade-off?",
+      "choices": [
+        "You pay more in exchange for faster delivery.",
+        "Both options have exactly the same cost and speed.",
+        "You have no information about either option."
+      ],
+      "answer": "You pay more in exchange for faster delivery.",
+      "explanationAr": "دفع تكلفة أعلى للحصول على سرعة أكبر يجمع مكسبًا وتضحية. التطابق أو غياب المعلومات لا يوضحان مفاضلة.",
+      "explanationEn": "Paying more for greater speed combines a benefit with a sacrifice. Identical options or missing information do not establish a trade-off."
+    }
+  },
+  "b2-x-u4-l3": {
+    "focusAr": "brainstorm توليد عدة أفكار قبل التقييم التفصيلي. put forward a proposal تقديم اقتراح واضح، وbuild on an idea تطوير فكرة سابقة مع بيان الإضافة. feasible تركز على إمكان التنفيذ ضمن القيود، وviable على إمكان نجاح الحل واستمراره؛ قد يتداخلان. حوّل الفكرة إلى تجربة محدودة واذكر الموارد ومعيار النجاح.",
+    "focusEn": "Brainstorm means generate several ideas before detailed evaluation. Put forward a proposal introduces a specific suggestion; build on an idea develops an earlier one while identifying the addition. Feasible stresses practical achievability within constraints, while viable stresses workable success over time; the meanings can overlap. Turn an idea into a limited trial with resources and a success criterion.",
+    "taskAr": "اقترح تجربة أسبوعين لنظام حجز قاعات، مبنيًا على فكرة زميل، مع معيار نجاح وحد للموارد.",
+    "taskEn": "Propose a two-week room-booking trial building on a colleague's idea, with a success criterion and a resource limit.",
+    "exampleEn": "To build on your idea, we could test the booking form with one team for two weeks. The trial would be feasible if it uses our existing tools. We could judge it by whether booking conflicts decrease.",
+    "exampleAr": "لتطوير فكرتك، يمكننا تجربة نموذج الحجز مع فريق واحد لأسبوعين. ستكون التجربة قابلة للتنفيذ إذا استخدمت أدواتنا الحالية. ويمكن تقييمها بانخفاض تعارض الحجوزات.",
+    "check": {
+      "promptEn": "Which proposal is specific enough to evaluate?",
+      "choices": [
+        "Trial the form with one team for two weeks and track booking conflicts.",
+        "Improve everything as soon as possible.",
+        "Be innovative without choosing any action."
+      ],
+      "answer": "Trial the form with one team for two weeks and track booking conflicts.",
+      "explanationAr": "يحدد الجواب الصحيح إجراءً ونطاقًا ومدة ومؤشرًا للنتيجة. العبارتان العامتان لا توضحان ما سينفذ أو كيف سيُقيّم.",
+      "explanationEn": "The correct answer names an action, scope, duration, and outcome measure. The vague alternatives do not specify what will happen or how it will be assessed."
+    }
+  },
+  "b2-x-u4-l4": {
+    "focusAr": "الإقناع الجيد يربط مصلحة الجمهور بدليل يخص الادعاء. compelling تعني مقنعًا بقوة، لكن التأثير العاطفي لا يثبت صحة الفكرة. back up a claim دعمها بأسباب أو بيانات مناسبة، وcredibility مصداقية تتأثر بدقة العرض وشفافيته. عند استخدام قصة شخصية، وضّح أنها مثال ولا تعممها تلقائيًا.",
+    "focusEn": "Effective persuasion connects the audience's interests with evidence relevant to the claim. Compelling means strongly convincing, but emotional impact does not establish truth. Back up a claim means support it with appropriate reasons or data, while credibility depends partly on accuracy and transparency. When using a personal story, identify it as an example rather than automatically generalizing it.",
+    "taskAr": "اقترح تحسين لافتات مبنى استنادًا إلى صعوبة واجهها زائر، وبيّن الحاجة إلى معلومات أوسع قبل التعميم.",
+    "taskEn": "Propose clearer building signs based on one visitor's difficulty, while explaining the need for broader information before generalizing.",
+    "exampleEn": "One visitor told us she could not find reception. That example makes the problem concrete, but it does not show how common it is. We could collect more feedback and test clearer signs in the entrance area.",
+    "exampleAr": "أخبرتنا زائرة بأنها لم تجد الاستقبال. يجعل هذا المثال المشكلة ملموسة، لكنه لا يوضح مدى انتشارها. يمكننا جمع ملاحظات إضافية وتجربة لافتات أوضح عند المدخل.",
+    "check": {
+      "promptEn": "Which statement uses a personal example without overstating its evidence?",
+      "choices": [
+        "This case illustrates the difficulty; we need more data to know its frequency.",
+        "One person's experience proves that everyone has the same problem.",
+        "A moving story means no evidence is necessary."
+      ],
+      "answer": "This case illustrates the difficulty; we need more data to know its frequency.",
+      "explanationAr": "يميز الجواب الصحيح بين توضيح المشكلة وقياس انتشارها. تجربة واحدة أو تأثير عاطفي لا يبرران تعميمًا على الجميع.",
+      "explanationEn": "The correct answer separates illustrating a problem from measuring its frequency. A single experience or emotional impact does not justify a universal claim."
+    }
+  },
+  "b2-x-u4-l5": {
+    "focusAr": "ابدأ بفهم الاعتراض وإعادة صياغته بدقة، ثم عالج النقطة نفسها بدل الانتقال إلى فائدة لا تجيب عنها. concede a point اعتراف بوجاهة جزئية لا تنازل عن المقترح كله. reassure طمأنة ينبغي دعمها بإجراء أو معلومة. ابحث عن common ground وحدد ما يحتاج تعديلًا أو تحققًا قبل الاتفاق.",
+    "focusEn": "First understand and accurately restate the objection, then address that issue rather than switch to an unrelated benefit. Concede a point acknowledges partial validity without abandoning the whole proposal. Reassure means reduce concern and should be supported by an action or information. Find common ground and identify what needs adjustment or checking before agreement.",
+    "taskAr": "رد على اعتراض أن خطة التدريب ستزيد ضغط العمل، مع الاعتراف بالمشكلة واقتراح تعديل قابل للفحص.",
+    "taskEn": "Respond to concern that a training plan will increase workload, acknowledging the issue and proposing a testable adjustment.",
+    "exampleEn": "I agree that two extra sessions a week could be difficult. We both want useful training without delaying current work. Could we start with one session and review the workload after a month?",
+    "exampleAr": "أتفق على أن جلستين إضافيتين أسبوعيًا قد تكونان صعبتين. كلانا يريد تدريبًا مفيدًا دون تأخير العمل الحالي. هل يمكننا البدء بجلسة واحدة ومراجعة عبء العمل بعد شهر؟",
+    "check": {
+      "promptEn": "Which response directly addresses concern about extra workload?",
+      "choices": [
+        "Let's reduce the initial sessions and review the effect on existing tasks.",
+        "The training room has attractive walls.",
+        "You should not have any concerns."
+      ],
+      "answer": "Let's reduce the initial sessions and review the effect on existing tasks.",
+      "explanationAr": "يستجيب الجواب الصحيح لمقدار العمل بإجراء ومراجعة. وصف الغرفة أو رفض القلق لا يعالج الاعتراض المطروح.",
+      "explanationEn": "The correct answer responds to workload with an action and review. Describing the room or dismissing concern does not address the objection."
+    }
+  },
+  "b2-x-u5-l1": {
+    "focusAr": "ميّز بين السبب والآلية والنتيجة: حرق fossil fuels يطلق greenhouse gases، وتساعد هذه الغازات على احتجاز الحرارة. emissions انبعاثات، وليست كل كلمة pollution مرادفًا دقيقًا لها. mitigate تعني تخفيف شدة أثر، لا إزالته تمامًا. عند وصف خطة، قل aims to إذا كانت هدفًا لم يتحقق بعد، واذكر النطاق بدل وعد شامل.",
+    "focusEn": "Separate cause, mechanism, and outcome: burning fossil fuels releases greenhouse gases, which help retain heat. Emissions are releases into the environment, not an exact synonym for every use of pollution. Mitigate means reduce the severity of an effect, not eliminate it. Use aims to for an unachieved target and state its scope instead of making an unlimited promise.",
+    "taskAr": "اشرح بإيجاز العلاقة بين الوقود الأحفوري والانبعاثات، ثم صف هدفًا تدريبيًا لشركة لخفض انبعاثاتها دون الادعاء أنه تحقق.",
+    "taskEn": "Briefly explain the link between fossil fuels and emissions, then describe an imagined company reduction target without claiming success already.",
+    "exampleEn": "Burning fossil fuels releases greenhouse gases. In this example, the company aims to reduce emissions from its buildings by improving energy efficiency. We would need measurements to know whether it meets the target.",
+    "exampleAr": "يؤدي حرق الوقود الأحفوري إلى إطلاق غازات دفيئة. في هذا المثال، تهدف الشركة إلى خفض انبعاثات مبانيها بتحسين كفاءة الطاقة. ونحتاج إلى قياسات لمعرفة هل تحقق الهدف.",
+    "check": {
+      "promptEn": "A company aims to cut emissions by half. What does that statement establish?",
+      "choices": [
+        "It has a target, but achievement is not established.",
+        "Its emissions have already fallen by half.",
+        "It has eliminated all environmental effects."
+      ],
+      "answer": "It has a target, but achievement is not established.",
+      "explanationAr": "aims to تصف هدفًا. لا تثبت تحقق الخفض، ولا تعني إزالة جميع الآثار البيئية.",
+      "explanationEn": "Aims to describes a target. It establishes neither completion of the reduction nor elimination of all environmental effects."
+    }
+  },
+  "b2-x-u5-l2": {
+    "focusAr": "renewable تصف مصدرًا يتجدد، ولا تعني أن الإنتاج ثابت في كل ساعة. intermittent إنتاج يتغير أو ينقطع، وstorage تخزين الطاقة لا تخزين البطاريات نفسها. capacity القدرة الممكنة، وهي غير كمية الطاقة المنتجة فعليًا. yet هنا رابط بمعنى «ومع ذلك»، فاستعمله لعرض ميزة يعقبها تحدٍ محدد.",
+    "focusEn": "Renewable describes a replenishing source, not constant output every hour. Intermittent describes varying or interrupted output; storage refers here to storing energy, not storing batteries themselves. Capacity is potential capability, not the energy actually generated. Yet means nevertheless as a connector here, useful for pairing a benefit with a specific challenge.",
+    "taskAr": "وازن في مقترح تدريبي بين الاستفادة من الطاقة الشمسية والحاجة إلى تدبير الكهرباء عند انخفاض الإنتاج، دون تحديد تكلفة غير معطاة.",
+    "taskEn": "In a practice proposal, balance using solar power with arranging electricity when output is low, without inventing a cost.",
+    "exampleEn": "Solar power could provide part of the site's electricity, yet output will vary. We would need to consider storage and the grid connection before deciding how much capacity to install.",
+    "exampleAr": "قد توفر الطاقة الشمسية جزءًا من كهرباء الموقع، لكن الإنتاج سيتغير. نحتاج إلى النظر في تخزين الطاقة والاتصال بالشبكة قبل تحديد القدرة التي سنركبها.",
+    "check": {
+      "promptEn": "A site increases generating capacity. Which conclusion does not automatically follow?",
+      "choices": [
+        "It produces the maximum possible output at every moment.",
+        "It has increased its potential generating capability.",
+        "Capacity and actual output need to be distinguished."
+      ],
+      "answer": "It produces the maximum possible output at every moment.",
+      "explanationAr": "زيادة القدرة لا تعني تشغيلها بأقصى إنتاج دائمًا؛ الإنتاج الفعلي يعتمد على ظروف التشغيل والمصدر. لذلك لا نستنتج التطابق المستمر بينهما.",
+      "explanationEn": "More capacity does not imply maximum output at every moment; actual generation depends on operating conditions and the source. Constant equality cannot be assumed."
+    }
+  },
+  "b2-x-u5-l3": {
+    "focusAr": "liveable ملائم للعيش وفق حاجات مثل السكن والتنقل والمساحات العامة، لا ترتيب عالمي ثابت. urban sprawl توسع عمراني ممتد، وrevitalise إعادة النشاط إلى منطقة. في اقتراح تخطيط حضري، وضّح من يستفيد ومن قد يتأثر مؤقتًا وكيف ستقيس النتيجة. كلمة green وحدها لا تكفي لإثبات أثر بيئي محدد.",
+    "focusEn": "Liveable concerns needs such as housing, transport, and public space, not a permanent global ranking. Urban sprawl is outward, spread-out development; revitalise means bring renewed activity to an area. In a planning proposal, identify beneficiaries, temporary disruption, and a way to measure results. Green language alone does not establish a particular environmental outcome.",
+    "taskAr": "اقترح مسار دراجات قرب مدرسة، مع فائدة محتملة ومخاوف تحتاج مشاورة ومعيار لتقييم التجربة.",
+    "taskEn": "Propose a cycle lane near a school, with a possible benefit, an issue requiring consultation, and a trial measure.",
+    "exampleEn": "A cycle lane could make the route to school more practical for some families. We should consult residents about access during construction and monitor how many people use the lane once it opens.",
+    "exampleAr": "قد يجعل مسار الدراجات الطريق إلى المدرسة أنسب لبعض الأسر. ينبغي استشارة السكان بشأن الوصول أثناء الإنشاء ومتابعة عدد مستخدمي المسار بعد افتتاحه.",
+    "check": {
+      "promptEn": "Which proposal includes a way to evaluate a transport initiative?",
+      "choices": [
+        "Count use of the new route and gather feedback about access.",
+        "Call it sustainable without checking any outcome.",
+        "Assume that every resident has identical travel needs."
+      ],
+      "answer": "Count use of the new route and gather feedback about access.",
+      "explanationAr": "يتضمن الجواب الصحيح ملاحظة الاستخدام وسؤال المتأثرين. التسمية الإيجابية أو افتراض تطابق الاحتياجات لا يقيّمان النتيجة.",
+      "explanationEn": "The correct answer observes use and asks affected people about access. A positive label or assumed identical needs does not evaluate outcomes."
+    }
+  },
+  "b2-x-u5-l4": {
+    "focusAr": "endangered مهدد بالانقراض، وليس extinct منقرضًا بالفعل. on the brink of يتبعها اسم أو فعل بصيغة ing لوصف القرب من تغير كبير. poaching صيد غير قانوني، بينما فقدان habitat تهديد مختلف. biodiversity تنوع الكائنات، وthrive نمو أو ازدهار؛ تعافي مجموعة في منطقة لا يثبت تعافي النوع في كل مكان.",
+    "focusEn": "Endangered means at risk of extinction, not already extinct. On the brink of takes a noun or an -ing form and describes nearing a major change. Poaching is illegal hunting, distinct from habitat loss. Biodiversity is the variety of living things, and thrive means prosper or grow well. Recovery in one area does not establish recovery everywhere.",
+    "taskAr": "لخّص تقريرًا تدريبيًا عن زيادة عدد حيوان داخل محمية مع بقاء موائله خارجها مهددة، دون تعميم التعافي.",
+    "taskEn": "Summarize a practice report showing an animal's numbers rising inside one reserve while habitats outside remain threatened, without generalizing recovery.",
+    "exampleEn": "The population has increased within the protected area, which is encouraging. However, habitat loss continues outside it, so we cannot conclude that the species is thriving everywhere.",
+    "exampleAr": "ازداد عدد الحيوانات داخل المنطقة المحمية، وهذا مشجع. لكن فقدان الموائل مستمر خارجها، لذلك لا يمكننا استنتاج أن النوع يزدهر في كل مكان.",
+    "check": {
+      "promptEn": "An endangered species is best described as which of the following?",
+      "choices": [
+        "A species at risk of becoming extinct.",
+        "A species that has already disappeared entirely.",
+        "Any species living in a zoo."
+      ],
+      "answer": "A species at risk of becoming extinct.",
+      "explanationAr": "endangered تصف خطر الانقراض، لا حدوثه بالفعل. ومجرد وجود نوع في حديقة حيوان لا يحدد حالته.",
+      "explanationEn": "Endangered describes a risk of extinction, not completed extinction. Merely living in a zoo does not establish a species' status."
+    }
+  },
+  "b2-x-u6-l1": {
+    "focusAr": "diagnosis تحديد الحالة، وtreatment علاجها؛ والتشخيص لا يضمن نجاح العلاج. clinical trial دراسة تدخل صحي على مشاركين لتقييم آثاره، وليست إعلانًا مسبقًا للنجاح. treatable قابل للعلاج لا يعني قابلًا للشفاء التام دائمًا. عند تلخيص دراسة، حافظ على كلمات الاحتمال وحجم المجموعة وحدود النتيجة بدل تضخيم وصف breakthrough.",
+    "focusEn": "Diagnosis identifies a condition; treatment addresses it, and diagnosis does not guarantee treatment success. A clinical trial studies a health intervention in participants to evaluate its effects, not announce success in advance. Treatable does not always mean completely curable. When summarizing a study, preserve uncertainty, group size, and limitations rather than exaggerating breakthrough language.",
+    "taskAr": "لخّص خبرًا تدريبيًا يقول إن علاجًا قيد التجربة أظهر نتائج أولية واعدة، دون الادعاء بفعاليته للجميع أو اعتماده.",
+    "taskEn": "Summarize a practice report saying an experimental treatment showed promising early results, without claiming universal effectiveness or approval.",
+    "exampleEn": "The report describes promising early results from a clinical trial. Further research is needed to assess the treatment's benefits and risks, so the findings should not be presented as a guaranteed cure.",
+    "exampleAr": "يصف التقرير نتائج أولية واعدة من تجربة سريرية. ما زالت هناك حاجة إلى بحث إضافي لتقييم فوائد العلاج ومخاطره، لذلك لا ينبغي عرض النتائج بوصفها شفاءً مضمونًا.",
+    "check": {
+      "promptEn": "A treatment is still in a clinical trial. What is the safest interpretation of that wording alone?",
+      "choices": [
+        "It is being evaluated; the wording alone does not establish success or approval.",
+        "It is guaranteed to cure every participant.",
+        "It has already been proved risk-free."
+      ],
+      "answer": "It is being evaluated; the wording alone does not establish success or approval.",
+      "explanationAr": "وجود العلاج في تجربة يعني تقييمه. العبارة وحدها لا تثبت نجاحًا شاملًا أو اعتمادًا أو انعدام المخاطر.",
+      "explanationEn": "Being in a trial means the treatment is being evaluated. The phrase alone establishes neither universal success, approval, nor absence of risk."
+    }
+  },
+  "b2-x-u6-l2": {
+    "focusAr": "استخدم لغة تصف تجربة الشخص دون تشخيصه أو اختزاله فيها. cope with تعني التعامل مع صعوبة، لا زوالها التام. burnout في السياق المهني مرتبط بضغط العمل المزمن، وليس مرادفًا لكل تعب. support network أشخاص وجهات يقدمون دعمًا، وseek help طلبه. اسأل عما يحتاجه الشخص بدل افتراض حل واحد يناسب الجميع.",
+    "focusEn": "Describe someone's experience without diagnosing or defining them by it. Cope with means manage a difficulty, not necessarily remove it. In occupational use, burnout concerns chronic workplace stress rather than every kind of tiredness. A support network includes people and services offering support; seek help means ask for it. Ask about needs instead of assuming one universal solution.",
+    "taskAr": "صُغ ردًا داعمًا لزميل يقول إن ضغط العمل مرهق، دون تشخيصه أو مطالبته بكشف تفاصيل شخصية.",
+    "taskEn": "Respond supportively to a colleague who says work pressure is overwhelming, without diagnosing them or demanding personal details.",
+    "exampleEn": "That sounds difficult. You don't have to share more than you want to. Would it help to discuss the workload or identify someone you would feel comfortable asking for support?",
+    "exampleAr": "يبدو ذلك صعبًا. لست مضطرًا إلى مشاركة أكثر مما ترغب فيه. هل يساعدك أن نناقش عبء العمل أو نحدد شخصًا ترتاح لطلب الدعم منه؟",
+    "check": {
+      "promptEn": "Which response respects the speaker's choice while offering support?",
+      "choices": [
+        "You can share as much as you want; what support would help?",
+        "You must tell me every private detail now.",
+        "I know your diagnosis from this single sentence."
+      ],
+      "answer": "You can share as much as you want; what support would help?",
+      "explanationAr": "الجواب الصحيح يترك للشخص التحكم في المشاركة ويسأل عن حاجته. إجباره على الإفصاح أو تشخيصه من جملة لا يحققان ذلك.",
+      "explanationEn": "The correct response preserves control over disclosure and asks about needs. Demanding details or diagnosing from one sentence does not."
+    }
+  },
+  "b2-x-u6-l3": {
+    "focusAr": "raise awareness زيادة المعرفة أو الانتباه، وهي ليست تلقائيًا تغيير behaviour. target هنا فعل يحدد الفئة المقصودة، وintervention إجراء منظم يحاول تغيير نتيجة. عند تقييم حملة، فرّق بين الوصول والتذكر والفعل اللاحق، وحدد مدة القياس. انخفاض مشكلة بعد الحملة لا يثبت وحده أنها السبب الوحيد.",
+    "focusEn": "Raise awareness means increase knowledge or attention, not automatically change behaviour. Target is a verb identifying the intended audience, and an intervention is an organized action seeking an outcome. Distinguish reach, recall, and later action when evaluating a campaign, and specify the measurement period. A decline after a campaign does not by itself prove sole causation.",
+    "taskAr": "حلّل حملة تدريبية شاهدها ألف شخص، لكن لا توجد بيانات عن السلوك اللاحق. اذكر ما نعرفه وما نحتاج إلى قياسه.",
+    "taskEn": "Analyse a practice campaign viewed by a thousand people when no later behaviour data exist. State what is known and what remains to be measured.",
+    "exampleEn": "The campaign reached a thousand viewers, but that figure does not show whether behaviour changed. We would need follow-up data linked to the campaign's specific goal before judging its longer-term effect.",
+    "exampleAr": "وصلت الحملة إلى ألف مشاهد، لكن هذا الرقم لا يبين هل تغير السلوك. نحتاج إلى بيانات متابعة مرتبطة بهدف الحملة المحدد قبل الحكم على أثرها طويل الأمد.",
+    "check": {
+      "promptEn": "A video has many views but no follow-up results. What can be concluded?",
+      "choices": [
+        "It reached viewers, but lasting behaviour change has not been demonstrated.",
+        "Every viewer changed their behaviour permanently.",
+        "The campaign certainly had no effect at all."
+      ],
+      "answer": "It reached viewers, but lasting behaviour change has not been demonstrated.",
+      "explanationAr": "عدد المشاهدات يبين الوصول ولا يثبت التغيير الدائم. غياب القياس لا يثبت النجاح الشامل ولا انعدام أي أثر.",
+      "explanationEn": "View counts show reach, not lasting change. Missing measurement proves neither universal success nor complete absence of effect."
+    }
+  },
+  "b2-x-u6-l4": {
+    "focusAr": "عند فحص ادعاء غذائي، ميّز بين myth اعتقاد خاطئ وادعاء لم يُختبر بعد؛ لا تستخدم الكلمة بدل الدليل. causal link علاقة سببية لا يثبتها تزامن حدثين. contrary to popular belief تحتاج اعتقادًا محددًا وتصحيحًا مسندًا. supplement مكمل غذائي؛ لا تفترض أن جميع المنتجات أو احتياجات الناس متطابقة.",
+    "focusEn": "When evaluating a nutrition claim, distinguish a myth, a false belief, from an untested claim; the label is not a substitute for evidence. A causal link is not established merely because two events occur together. Contrary to popular belief needs a specific belief and a supported correction. Supplement means a dietary supplement; do not assume every product or person's needs are identical.",
+    "taskAr": "فند منطقيًا إعلانًا تدريبيًا يستنتج فعالية مكمل من تجربة شخص واحد، دون إصدار توصية باستخدام المنتج أو تركه.",
+    "taskEn": "Critique a practice advertisement that infers a supplement's effectiveness from one person's experience, without recommending taking or stopping it.",
+    "exampleEn": "One person's experience does not establish a causal link between the supplement and the reported change. Other factors may have contributed. We would need relevant research on that particular product and outcome to assess the claim.",
+    "exampleAr": "لا تثبت تجربة شخص واحد علاقة سببية بين المكمل والتغير المذكور. ربما أسهمت عوامل أخرى. نحتاج إلى بحث ذي صلة بذلك المنتج والنتيجة المحددة لتقييم الادعاء.",
+    "check": {
+      "promptEn": "Someone felt better after taking a supplement. What does this observation alone prove?",
+      "choices": [
+        "Only that the reported improvement followed its use, not that it caused it.",
+        "The supplement works for everyone.",
+        "All other possible explanations have been excluded."
+      ],
+      "answer": "Only that the reported improvement followed its use, not that it caused it.",
+      "explanationAr": "ترتيب الحدثين زمنيًا لا يعزل السبب. لا تسمح تجربة واحدة بالتعميم أو باستبعاد جميع التفسيرات الأخرى.",
+      "explanationEn": "A sequence in time does not isolate the cause. One experience cannot justify generalization or eliminate every alternative explanation."
+    }
+  },
+  "b2-x-u7-l1": {
+    "focusAr": "consent هنا اسم بمعنى الموافقة؛ نقول give consent to something أوconsent to something عندما تكون فعلًا. opt out of تعني الانسحاب من مشاركة اختيارية. anonymous تتعلق بعدم معرفة الهوية، وconfidential تتعلق بتقييد الإفصاح؛ فهما ليسا مترادفين. عند الاستفسار عن البيانات، اسأل ما يُجمع ولماذا وكم يُحتفظ به بدل استنتاج التفاصيل من وصف عام.",
+    "focusEn": "Consent is a noun here: give consent to something, or consent to something when used as a verb. Opt out of means withdraw from optional participation. Anonymous concerns identity not being known, while confidential concerns restricted disclosure; they are not synonyms. Ask what data are collected, why, and for how long rather than inferring details from a general label.",
+    "taskAr": "اكتب استفسارًا عن استبيان قبل المشاركة: هل تُجمع الأسماء، ومن يرى الإجابات، وهل يمكن رفض المشاركة؟",
+    "taskEn": "Write an inquiry before completing a survey: ask whether names are collected, who sees answers, and whether participation can be declined.",
+    "exampleEn": "Before I give consent, could you explain whether you collect names and who can access the responses? I would also like to know whether I can opt out without affecting my access to the service.",
+    "exampleAr": "قبل أن أوافق، هل يمكنكم توضيح ما إذا كنتم تجمعون الأسماء ومن يستطيع الاطلاع على الإجابات؟ وأود أيضًا معرفة هل يمكنني عدم المشاركة دون التأثير في وصولي إلى الخدمة.",
+    "check": {
+      "promptEn": "A survey collects names but restricts who can read the answers. Which description fits the information given?",
+      "choices": [
+        "The responses are confidential, but not anonymous.",
+        "The responses are automatically anonymous because access is restricted.",
+        "No personal data are collected."
+      ],
+      "answer": "The responses are confidential, but not anonymous.",
+      "explanationAr": "جمع الأسماء يجعل الهوية معروفة، بينما تقييد الاطلاع يتعلق بالسرية. لا يحوّل تقييد الوصول البيانات المسماة إلى بيانات مجهولة الهوية.",
+      "explanationEn": "Collecting names makes identity known; restricting access concerns confidentiality. Restricted access does not make named data anonymous."
+    }
+  },
+  "b2-x-u7-l2": {
+    "focusAr": "go viral يصف سرعة الانتشار أو اتساعه، ولا يثبت صدق المحتوى. clickbait عنوان يغري بالنقر وقد يخفي معلومة مهمة أو يبالغ. echo chamber تكرار آراء متشابهة يعززها، وfilter bubble تضييق ما يصل للمستخدم بسبب التخصيص؛ قد تتداخل الظاهرتان. حلّل العنوان والمصدر والسياق بدل استخدام عدد المشاركات دليلًا على الصحة.",
+    "focusEn": "Go viral describes rapid or widespread sharing, not truth. Clickbait attracts clicks by withholding information or exaggerating. An echo chamber reinforces similar views, while a filter bubble narrows exposure through personalization; they can overlap. Analyse the headline, source, and context instead of treating share counts as proof.",
+    "taskAr": "حلّل منشورًا واسع الانتشار اقتطع نتيجة من دراسة: حدّد ما يلزم مراجعته قبل إعادة نشره.",
+    "taskEn": "Analyse a widely shared post quoting one study result out of context: state what should be checked before sharing it.",
+    "exampleEn": "The post has gone viral, but popularity does not establish accuracy. I would check the original study, the group it examined, and whether the post leaves out limitations that change the meaning.",
+    "exampleAr": "انتشر المنشور على نطاق واسع، لكن الشعبية لا تثبت الدقة. سأراجع الدراسة الأصلية والمجموعة التي فحصتها، وما إذا كان المنشور يحذف قيودًا تغيّر المعنى.",
+    "check": {
+      "promptEn": "A post has been shared a million times. What does that number establish on its own?",
+      "choices": [
+        "Extensive sharing, rather than verified accuracy.",
+        "Independent confirmation of every statement.",
+        "Proof that the original source has no limitations."
+      ],
+      "answer": "Extensive sharing, rather than verified accuracy.",
+      "explanationAr": "عدد المشاركات يدل على الانتشار فقط. قد يتداول الناس الادعاء نفسه دون تحقق مستقل، لذا لا يثبت العدد دقة المعلومة.",
+      "explanationEn": "Share counts establish circulation only. People may repeat the same unverified claim, so the number does not prove accuracy."
+    }
+  },
+  "b2-x-u7-l3": {
+    "focusAr": "فرّق بين routine task مهمة متكررة ومهنة تضم عدة مهام؛ أتمتة إحداها لا تعني استبدال المهنة كلها. retrain وreskill اكتساب تدريب أو مهارات جديدة، وقد يتداخلان. redundant في العمل تعني الاستغناء عن الدور، لا الحكم على قيمة الشخص. while قد تربط فكرتين متعارضتين بدل الدلالة على التزامن.",
+    "focusEn": "Distinguish a routine task from an occupation containing several tasks; automating one does not mean replacing the entire occupation. Retrain and reskill concern new training or skills and can overlap. Redundant in employment concerns a role becoming unnecessary, not a person's worth. While can express contrast rather than simultaneous time.",
+    "taskAr": "ناقش أتمتة إدخال البيانات في فريق تخيلي: اذكر ما قد يتغير وما يزال يحتاج عملًا بشريًا وتدريبًا.",
+    "taskEn": "Discuss automating data entry in an imagined team: identify what may change and what still needs human work and training.",
+    "exampleEn": "While software may handle routine data entry, staff will still need to investigate unusual cases in this plan. The team may need to reskill so that members can check results and resolve exceptions.",
+    "exampleAr": "مع أن البرمجيات قد تتولى الإدخال الروتيني للبيانات، سيظل الموظفون بحاجة إلى فحص الحالات غير المعتادة في هذه الخطة. وقد يحتاج الفريق إلى اكتساب مهارات جديدة لمراجعة النتائج ومعالجة الاستثناءات.",
+    "check": {
+      "promptEn": "Software automates one routine task within a role. Which conclusion is justified?",
+      "choices": [
+        "Part of the role changes; replacement of the whole role is not established.",
+        "The entire occupation must disappear immediately.",
+        "No employee will need to learn anything new."
+      ],
+      "answer": "Part of the role changes; replacement of the whole role is not established.",
+      "explanationAr": "أتمتة مهمة تحدد تغيرًا في جزء من العمل. لا تكفي وحدها لإثبات زوال الدور كله أو استبعاد الحاجة إلى التعلم.",
+      "explanationEn": "Automating a task establishes a change to part of the work. It neither proves that the whole role disappears nor rules out learning needs."
+    }
+  },
+  "b2-x-u7-l4": {
+    "focusAr": "phishing خداع يدفع الشخص إلى إفشاء معلومات أو فتح محتوى ضار، وmalware برمجيات خبيثة؛ قد يستخدم التصيد برمجيات خبيثة لكنه ليس مرادفًا لها. two-factor authentication تحقق بعاملين يضيف حماية، ولا يجعل الحساب محصنًا من كل هجوم. encrypted تعني مشفرًا، لكنها وحدها لا تثبت نوع التشفير أو حماية جميع أجزاء النظام.",
+    "focusEn": "Phishing tricks people into disclosing information or opening harmful content; malware is malicious software. Phishing can deliver malware, but they are not synonyms. Two-factor authentication adds protection without making an account immune to every attack. Encrypted alone does not establish the type of encryption or the security of every part of a system.",
+    "taskAr": "اشرح لزميل لماذا تتحقق من رسالة تطلب رمز الدخول عبر قناة معروفة، واذكر أن الحماية الإضافية لا تلغي الحذر.",
+    "taskEn": "Explain to a colleague why you check a message requesting a login code through a known channel, noting that additional protection does not remove the need for care.",
+    "exampleEn": "The unexpected request for a login code looks suspicious. I will check it through our usual support channel rather than reply to the message. Two-factor authentication adds protection, but it does not make every request genuine.",
+    "exampleAr": "يبدو الطلب غير المتوقع لرمز الدخول مريبًا. سأتحقق منه عبر قناة الدعم المعتادة بدل الرد على الرسالة. يضيف التحقق بعاملين حماية، لكنه لا يجعل كل طلب موثوقًا.",
+    "check": {
+      "promptEn": "A message tricks someone into revealing a password without installing software. Which term best describes the tactic?",
+      "choices": [
+        "Phishing.",
+        "Necessarily a malware installation.",
+        "Proof of end-to-end encryption."
+      ],
+      "answer": "Phishing.",
+      "explanationAr": "الخداع للحصول على كلمة المرور تصيد احتيالي، حتى دون تثبيت برمجيات. لا يثبت الموقف وجود برمجية خبيثة أو نوع تشفير.",
+      "explanationEn": "Deception to obtain a password is phishing even without software installation. The situation establishes neither malware installation nor an encryption method."
+    }
+  },
+  "b2-x-u8-l1": {
+    "focusAr": "hybrid يجمع العمل من المكتب وعن بعد وفق ترتيب محدد، ولا يعني نسبة ثابتة. asynchronous تواصل لا يتطلب حضور الجميع في اللحظة نفسها. switch off هنا الانفصال الذهني عن العمل. عند تقييم flexibility، اذكر أثرها في مهمة محددة وحدود التواصل؛ عدد ساعات الاتصال وحده ليس قياسًا كافيًا للإنتاجية.",
+    "focusEn": "Hybrid combines office and remote work under a particular arrangement, not a fixed ratio. Asynchronous communication does not require everyone to be present simultaneously. Switch off here means mentally disengage from work. When evaluating flexibility, identify its effect on a task and communication boundaries; online hours alone are not sufficient evidence of productivity.",
+    "taskAr": "اقترح لفريق يعمل عن بعد طريقة لتحديث التقدم دون اجتماع يومي، مع موعد للرد وقناة للمسائل العاجلة.",
+    "taskEn": "Propose a remote team's progress-update method without a daily meeting, including a response time and a channel for urgent issues.",
+    "exampleEn": "We could use asynchronous updates in a shared document, with replies by the next working day. Urgent problems would go through the agreed phone channel. This would allow flexibility while keeping responsibilities clear.",
+    "exampleAr": "يمكننا استخدام تحديثات غير متزامنة في مستند مشترك، مع الرد بحلول يوم العمل التالي. وتُناقش المشكلات العاجلة عبر قناة الهاتف المتفق عليها. يتيح ذلك المرونة مع وضوح المسؤوليات.",
+    "check": {
+      "promptEn": "Which arrangement is asynchronous?",
+      "choices": [
+        "Colleagues read and answer a shared update at different times.",
+        "Everyone joins the same live call at ten.",
+        "Two colleagues must speak simultaneously."
+      ],
+      "answer": "Colleagues read and answer a shared update at different times.",
+      "explanationAr": "قراءة التحديث والرد عليه في أوقات مختلفة لا يتطلبان حضورًا متزامنًا. أما المكالمة المباشرة فتتطلب ذلك.",
+      "explanationEn": "Reading and replying at different times does not require simultaneous presence. A live call does."
+    }
+  },
+  "b2-x-u8-l2": {
+    "focusAr": "take the plunge الإقدام على خطوة مهمة بعد تردد، وليس بالضرورة تصرفًا متهورًا. transferable skills مهارات تنفع في أكثر من مجال، لكنها قد تحتاج تكييفًا مع الدور الجديد. setback عائق أو تراجع، ولا يعني نهاية المسار. اشرح الدافع وخطوة الاستكشاف وعدم اليقين بدل تقديم تغيير المهنة ضمانًا للرضا.",
+    "focusEn": "Take the plunge means commit to a significant step after hesitation, not necessarily behave recklessly. Transferable skills apply across fields but may need adaptation. A setback is a difficulty or reversal, not necessarily the end of a path. Explain the motivation, exploration step, and uncertainty instead of presenting a career change as guaranteed fulfilment.",
+    "taskAr": "اشرح تغييرًا مهنيًا تخيليًا من خدمة العملاء إلى التدريب، وحدد مهارة قابلة للنقل وفجوة تحتاج تطويرًا.",
+    "taskEn": "Explain an imagined move from customer service into training, naming a transferable skill and a gap to develop.",
+    "exampleEn": "My communication skills may transfer well to training, and I find helping others learn fulfilling. However, I need practice in designing lessons. Before taking the plunge, I plan to assist with a short workshop.",
+    "exampleAr": "قد تفيدني مهارات التواصل في التدريب، وأجد مساعدة الآخرين على التعلم مُرضية. لكنني أحتاج إلى ممارسة تصميم الدروس. وقبل الإقدام على الخطوة، أنوي المساعدة في ورشة قصيرة.",
+    "check": {
+      "promptEn": "Which statement recognises both a transferable skill and a development need?",
+      "choices": [
+        "My presentation skills may help, but I need to learn course design.",
+        "Changing jobs guarantees that every skill transfers unchanged.",
+        "A setback means no future progress is possible."
+      ],
+      "answer": "My presentation skills may help, but I need to learn course design.",
+      "explanationAr": "يربط الجواب الصحيح مهارة موجودة بالدور الجديد ويحدد نقصًا قابلًا للتطوير. لا يفترض انتقال كل المهارات تلقائيًا أو استحالة تجاوز العثرات.",
+      "explanationEn": "The correct answer links an existing skill to the new role and identifies a trainable gap. It assumes neither automatic transfer of every skill nor permanent failure after a setback."
+    }
+  },
+  "b2-x-u8-l3": {
+    "focusAr": "clear the air مناقشة التوتر بصراحة لتوضيح سوء الفهم، لا مهاجمة الطرف الآخر. mediate مساعدة أطراف على الحوار، ولا تعني فرض قرار بالضرورة. de-escalate تخفيف حدة الموقف، وconstructive نقاش يركز على فهم المشكلة والحل. صف ما حدث وأثره وطلبك، وافصل الواقعة عن تفسير النوايا.",
+    "focusEn": "Clear the air means discuss tension openly to resolve misunderstanding, not attack the other person. Mediate means help parties communicate, not necessarily impose a decision. De-escalate means reduce intensity; constructive discussion focuses on understanding and solutions. State the event, its effect, and your request, separating observations from assumptions about intentions.",
+    "taskAr": "صغ افتتاحية لحوار حول تعديل زميل لملف دون إبلاغك، دون افتراض أنه قصد الإضرار بك.",
+    "taskEn": "Open a discussion about a colleague changing a file without telling you, without assuming malicious intent.",
+    "exampleEn": "I'd like to clear the air about yesterday's changes. I used an older version because I hadn't seen an update. Could we agree how to notify each other when we edit the shared file?",
+    "exampleAr": "أود تصفية الأجواء بشأن تعديلات أمس. استخدمت نسخة أقدم لأنني لم أرَ تحديثًا. هل يمكننا الاتفاق على طريقة لإبلاغ بعضنا عند تعديل الملف المشترك؟",
+    "check": {
+      "promptEn": "Which opening separates an observation from an accusation?",
+      "choices": [
+        "The file changed yesterday; could we discuss how to share updates?",
+        "You changed it because you wanted me to fail.",
+        "You always ruin everything intentionally."
+      ],
+      "answer": "The file changed yesterday; could we discuss how to share updates?",
+      "explanationAr": "الجواب الصحيح يذكر واقعة ويطلب مناقشة إجراء. البديلان ينسبان نية سلبية ويعممان دون دليل معطى.",
+      "explanationEn": "The correct answer states an event and asks to discuss a process. The alternatives assign harmful intent and generalize without supplied evidence."
+    }
+  },
+  "b2-x-u8-l4": {
+    "focusAr": "measurable هدف يمكن رصد إنجازه، لكنه يحتاج جودة ومعيارًا واقعيًا لا رقمًا وحده. constructive feedback تربط سلوكًا بنتيجة وتقترح تحسينًا. underperform تعني أن الأداء أقل من المتوقع، ولا تثبت الكسل أو تحدد السبب. ناقش الموارد والمعيار والفترة قبل الاتفاق على take on مسؤوليات إضافية.",
+    "focusEn": "A measurable goal has observable completion, but also needs quality criteria and realism, not just a number. Constructive feedback links behaviour with impact and suggests improvement. Underperform means perform below expectations; it does not establish laziness or identify the cause. Discuss resources, criteria, and timing before agreeing to take on more responsibility.",
+    "taskAr": "حوّل ملاحظة «حسّن تقاريرك» إلى هدف واضح لمدة شهر يتضمن قائمة تحقق ومراجعة زميل.",
+    "taskEn": "Turn 'Improve your reports' into a clear one-month goal including a checklist and a colleague's review.",
+    "exampleEn": "Over the next month, I will use the agreed checklist for each weekly report and ask a colleague to review the first two. We will assess whether the reports include all required figures and clearly explain the main conclusion.",
+    "exampleAr": "خلال الشهر القادم، سأستخدم قائمة التحقق المتفق عليها لكل تقرير أسبوعي وأطلب من زميل مراجعة أول تقريرين. سنقيّم ما إذا كانت التقارير تتضمن جميع الأرقام المطلوبة وتوضح النتيجة الرئيسية.",
+    "check": {
+      "promptEn": "Which goal provides a time frame and a quality criterion?",
+      "choices": [
+        "For one month, check each weekly report against the agreed completeness checklist.",
+        "Be better at everything someday.",
+        "Write more reports regardless of their accuracy."
+      ],
+      "answer": "For one month, check each weekly report against the agreed completeness checklist.",
+      "explanationAr": "يحدد الجواب الصحيح شهرًا ومعيار اكتمال واضحًا. التحسن العام أو زيادة العدد دون الدقة لا يقدمان هدف جودة قابلًا للتقييم.",
+      "explanationEn": "The correct answer sets a month and a clear completeness criterion. Vague improvement or more output without accuracy does not provide an assessable quality goal."
+    }
+  },
+  "b2-x-u9-l1": {
+    "focusAr": "ابدأ بوصف عنصر موجود في العمل، ثم قدّم interpretation بصيغة توضح أنها قراءتك مثل to me أوmay suggest. convey نقل معنى، وevoke استحضار شعور أو ذكرى. symbolism استخدام عنصر ليدل على معنى أوسع. لا تخلط بين ما يظهر في الوصف ونية الفنان التي تحتاج دليلًا مستقلًا.",
+    "focusEn": "Begin with a feature present in the work, then mark your interpretation with to me or may suggest. Convey means communicate meaning; evoke means bring a feeling or memory to mind. Symbolism uses an element to suggest a broader meaning. Distinguish what the description contains from the artist's intention, which needs separate evidence.",
+    "taskAr": "اعتمد على هذا الوصف النصي: «كرسي فارغ أمام نافذة مغلقة في غرفة واسعة». قدّم تفسيرًا مع عنصر يدعمه وتفسير بديل.",
+    "taskEn": "Use this text description: 'An empty chair faces a closed window in a large room.' Offer an interpretation supported by a detail and an alternative reading.",
+    "exampleEn": "To me, the empty chair may convey loneliness, especially in such a large room. However, another interpretation is that the room suggests a quiet pause rather than sadness.",
+    "exampleAr": "بالنسبة لي، قد ينقل الكرسي الفارغ شعورًا بالوحدة، خصوصًا في غرفة واسعة كهذه. لكن يمكن تفسير الغرفة أيضًا بأنها توحي باستراحة هادئة لا بالحزن.",
+    "check": {
+      "promptEn": "Which sentence marks an interpretation rather than asserting the artist's intention as fact?",
+      "choices": [
+        "The empty chair may suggest absence to me.",
+        "The artist definitely intended the chair to represent a particular death.",
+        "Every viewer must feel exactly the same emotion."
+      ],
+      "answer": "The empty chair may suggest absence to me.",
+      "explanationAr": "may suggest وto me توضحان أن المعنى تفسير مدعوم بعنصر، لا حقيقة مؤكدة عن نية الفنان أو استجابة جميع المتلقين.",
+      "explanationEn": "May suggest and to me identify a reading supported by a feature, not a proven intention or a universal audience response."
+    }
+  },
+  "b2-x-u9-l2": {
+    "focusAr": "heritage يشمل عناصر مادية مثل المباني وغير مادية مثل المعارف والممارسات المتوارثة. preserve الحفاظ، وrestore الترميم لاستعادة حالة أو وظيفة سابقة؛ ليس كل حفظ إعادة بناء. historic مهم تاريخيًا، وhistorical متعلق بالتاريخ عمومًا. عند اقتراح تحديث، وضّح ما سيبقى وما سيتغير ولماذا، مع إشراك أصحاب الممارسة.",
+    "focusEn": "Heritage includes physical elements such as buildings and intangible elements such as inherited knowledge and practices. Preserve means maintain; restore means repair towards an earlier state or function, so preservation is not always reconstruction. Historic means historically significant; historical means related to history. Explain what an update retains and changes, and involve the people practising the tradition.",
+    "taskAr": "اقترح استخدام مبنى تاريخي مركزًا للحرف مع الحفاظ على أبوابه القديمة وتحسين الوصول إليه.",
+    "taskEn": "Propose using a historic building as a craft centre while preserving its old doors and improving access.",
+    "exampleEn": "We could restore the building for use as a craft centre, preserving the original doors and their craftsmanship. Access improvements should be planned carefully with conservation specialists and local craftspeople.",
+    "exampleAr": "يمكننا ترميم المبنى ليصبح مركزًا للحرف، مع الحفاظ على الأبواب الأصلية وحِرفية صنعها. وينبغي تخطيط تحسينات الوصول بعناية مع متخصصي الحفاظ على التراث والحرفيين المحليين.",
+    "check": {
+      "promptEn": "Which example best fits intangible heritage?",
+      "choices": [
+        "A weaving technique taught across generations.",
+        "Only the bricks of a historic wall.",
+        "A newly purchased office chair with no cultural context."
+      ],
+      "answer": "A weaving technique taught across generations.",
+      "explanationAr": "تقنية النسج المتوارثة معرفة وممارسة غير مادية، حتى لو أُنتجت بها أشياء ملموسة. الطوب عنصر مادي، والكرسي المذكور لا يتضمن سياقًا تراثيًا.",
+      "explanationEn": "An inherited weaving technique is knowledge and practice, even though it produces physical objects. Bricks are material, and the stated chair has no heritage context."
+    }
+  },
+  "b2-x-u9-l3": {
+    "focusAr": "النقد يربط حكمًا بتفصيل فني وأثره: pacing سرعة تطور السرد، وcinematography التصوير السينمائي، وadaptation تحويل عمل إلى وسيط أو صيغة أخرى. underrated حكم عن مقدار التقدير الذي ناله العمل، لا مرادف «سيئ». nuanced تعني مراعاة الفروق والجوانب بدل حكم ثنائي مبسط.",
+    "focusEn": "Criticism connects a judgement with an artistic detail and its effect: pacing is narrative speed, cinematography concerns film imagery, and adaptation transforms a work for another medium or form. Underrated judges the recognition a work receives, not its poor quality. Nuanced means attending to distinctions and different aspects rather than offering a simplistic verdict.",
+    "taskAr": "اكتب مراجعة تدريبية لفيلم بطيء السرد لكنه يتيح فهم دوافع الشخصيات، واذكر من قد يستمتع به دون كشف النهاية.",
+    "taskEn": "Write a practice review of a slowly paced film that develops characters' motives, naming an audience that might enjoy it without revealing the ending.",
+    "exampleEn": "The pacing is slow, yet the extended conversations reveal the characters' conflicting motives. I found the result thought-provoking, although viewers seeking constant action may be less engaged.",
+    "exampleAr": "إيقاع السرد بطيء، لكن الحوارات الممتدة تكشف دوافع الشخصيات المتعارضة. وجدت النتيجة مثيرة للتفكير، وإن كان الباحثون عن حركة مستمرة قد يكونون أقل اندماجًا.",
+    "check": {
+      "promptEn": "A critic calls a film underrated. What do they mean?",
+      "choices": [
+        "It deserves more recognition than it has received.",
+        "It is necessarily too short.",
+        "It has no artistic strengths."
+      ],
+      "answer": "It deserves more recognition than it has received.",
+      "explanationAr": "underrated تتعلق بقلة التقدير مقارنة بما يراه الناقد مستحقًا. لا تحدد المدة، ولا تنفي نقاط القوة.",
+      "explanationEn": "Underrated concerns insufficient recognition relative to the critic's judgement. It does not specify length or deny artistic strengths."
+    }
+  },
+  "b2-x-u9-l4": {
+    "focusAr": "ميّز بين cross-cultural exchange تبادل قد ينتج أشكالًا جديدة وcultural homogenisation ازدياد التشابه الذي قد يقلل التميز. erode إضعاف تدريجي، لا اختفاء فوري. mainstream واسع القبول أو الانتشار، وليس أفضل بالضرورة. عند مناقشة الهوية، صف ممارسة محددة وآلية تغيرها بدل تصوير ثقافة كاملة كشيء ثابت.",
+    "focusEn": "Distinguish cross-cultural exchange, which may create new forms, from cultural homogenisation, increasing similarity that may reduce distinctiveness. Erode means weaken gradually, not disappear instantly. Mainstream means widely accepted or popular, not necessarily better. Discuss a specific practice and how it changes instead of treating an entire culture as fixed.",
+    "taskAr": "ناقش انتشار نوع موسيقي عالمي في مدينة تخيلية مع استمرار موسيقى محلية، مميزًا التبادل عن الاختفاء التام.",
+    "taskEn": "Discuss a global music style becoming popular in an imagined city while local music continues, distinguishing exchange from total disappearance.",
+    "exampleEn": "The new style has become mainstream, but local performers also blend it with traditional rhythms. This may create cross-cultural forms; it does not by itself show that local musical identity has disappeared.",
+    "exampleAr": "أصبح الأسلوب الجديد واسع الانتشار، لكن مؤدين محليين يمزجونه أيضًا بإيقاعات تقليدية. قد ينشئ ذلك أشكالًا عابرة للثقافات، ولا يدل وحده على اختفاء الهوية الموسيقية المحلية.",
+    "check": {
+      "promptEn": "A local group combines an international style with traditional rhythms. Which conclusion is directly supported?",
+      "choices": [
+        "A musical blend has been created.",
+        "All local traditions have disappeared.",
+        "Every listener now has the same taste."
+      ],
+      "answer": "A musical blend has been created.",
+      "explanationAr": "المعطى يثبت المزج في عمل المجموعة، لا زوال جميع التقاليد أو تطابق أذواق كل المستمعين.",
+      "explanationEn": "The information establishes a blend in the group's work, not the disappearance of all traditions or identical tastes among listeners."
+    }
+  },
+  "b2-x-u10-l1": {
+    "focusAr": "sentence هنا عقوبة يحكم بها القضاء، وليست جملة لغوية. deterrent رادع يُقصد به منع السلوك، وrehabilitation إعادة تأهيل، وreoffending عودة إلى ارتكاب جريمة. عند مقارنة سياسات العقوبة، ميّز الغرض عن الأثر المقاس وحدد نوع المخالفة والسياق؛ لا تستنتج قواعد بلد من مثال تدريبي عام.",
+    "focusEn": "Sentence here is a court-imposed punishment, not a grammatical sentence. A deterrent is intended to discourage conduct, rehabilitation supports change, and reoffending means committing another offence. Compare a punishment's purpose with measured effects, specifying the offence and context. Do not infer a country's rules from a general practice example.",
+    "taskAr": "قارن هدف الردع بهدف إعادة التأهيل في فقرة تدريبية، واذكر نوع دليل قد يساعد في تقييم برنامج.",
+    "taskEn": "Compare deterrence and rehabilitation in a practice paragraph, naming evidence that could help evaluate a programme.",
+    "exampleEn": "A penalty may be intended as a deterrent, while rehabilitation focuses on helping people avoid further offending. To evaluate a programme, we would need relevant reoffending data and a fair comparison group, rather than rely only on its stated aim.",
+    "exampleAr": "قد يُقصد بالعقوبة الردع، بينما تركز إعادة التأهيل على مساعدة الأشخاص على تجنب تكرار الجريمة. ولتقييم برنامج، نحتاج إلى بيانات مناسبة عن العودة للجريمة ومجموعة مقارنة ملائمة، لا إلى هدفه المعلن وحده.",
+    "check": {
+      "promptEn": "A policy is intended to reduce reoffending. Which statement follows from this wording alone?",
+      "choices": [
+        "Reducing reoffending is its aim, but success has not been established.",
+        "Reoffending has certainly fallen to zero.",
+        "The same policy is legally required everywhere."
+      ],
+      "answer": "Reducing reoffending is its aim, but success has not been established.",
+      "explanationAr": "intended to توضح الغرض ولا تثبت النتيجة أو وجود إلزام قانوني عالمي. التقييم يحتاج بيانات وسياقًا.",
+      "explanationEn": "Intended to identifies purpose, not the outcome or a worldwide legal requirement. Evaluation needs data and context."
+    }
+  },
+  "b2-x-u10-l2": {
+    "focusAr": "be entitled to تليها منفعة أو فعل مستحق بحسب السياق، وهي أقوى من مجرد رغبة. equality مساواة، وdiscrimination هنا تمييز مجحف. فرّق بين مبدأ حقوقي عام وطريقة تطبيقه وإجراءاته في نظام محدد. عند تلخيص نص، انسب إليه الحق وقيوده بدقة ولا تحوّل رأي المتحدث إلى حكم قضائي.",
+    "focusEn": "Be entitled to introduces a benefit or action regarded as a right, stronger than a wish. Equality means equal status or treatment; discrimination here means unjust differential treatment. Distinguish a general rights principle from its implementation and procedures in a particular system. Attribute rights and stated limits accurately without turning an opinion into a judicial ruling.",
+    "taskAr": "لخّص في سياق تعلم اللغة نصًا يؤكد المحاكمة العادلة، ثم اطلب توضيح الإجراء المتاح في الحالة محل النقاش.",
+    "taskEn": "In a language-practice context, summarize a text affirming a fair trial, then request clarification of the procedure relevant to the case discussed.",
+    "exampleEn": "The text affirms the right to a fair trial. To understand how that principle applies in this case, we would need to identify the relevant legal system and the available procedure.",
+    "exampleAr": "يؤكد النص الحق في محاكمة عادلة. ولفهم تطبيق هذا المبدأ في الحالة المطروحة، نحتاج إلى تحديد النظام القانوني المعني والإجراء المتاح.",
+    "check": {
+      "promptEn": "What is the difference between 'is entitled to a review' and 'would like a review'?",
+      "choices": [
+        "The first asserts a right; the second expresses a preference or request.",
+        "Both necessarily mean that a review has already happened.",
+        "The second always establishes a stronger legal right."
+      ],
+      "answer": "The first asserts a right; the second expresses a preference or request.",
+      "explanationAr": "is entitled to تقرر استحقاقًا ضمن سياقها، بينما would like تعبر عن رغبة. لا تثبت أي منهما أن المراجعة حدثت بالفعل.",
+      "explanationEn": "Is entitled to asserts entitlement within its context, while would like expresses desire. Neither establishes that the review has already occurred."
+    }
+  },
+  "b2-x-u10-l3": {
+    "focusAr": "comply with امتثال المخاطَب بالقاعدة، وenforce إنفاذها من الجهة المعنية. fine غرامة مالية، وpenalty جزاء أوسع. exemption استثناء مقرر وفق شروط، بينما loophole ثغرة في الصياغة أو النطاق؛ فهما ليسا مترادفين. عند شرح قاعدة، حدد مصدرها ومن تشمل ومتى تسري وما يذكره النص عن الاستثناءات.",
+    "focusEn": "Comply with describes following a rule; enforce describes the responsible authority making it effective. A fine is monetary, while penalty is broader. An exemption is an express exception under conditions; a loophole is a gap in wording or scope, so they are not synonyms. Explain a rule's source, coverage, timing, and stated exceptions.",
+    "taskAr": "اشرح قاعدة تدريبية لمكتبة تسمح بإعارة خمسة كتب أسبوعين، مع تمديد مشروط بعدم وجود حجز من قارئ آخر.",
+    "taskEn": "Explain a practice library rule allowing five books for two weeks, with renewal only if no other reader has reserved them.",
+    "exampleEn": "Under this library's policy, members may borrow up to five books for two weeks. A renewal is permitted only if no other reader has reserved the item. The condition applies to each book separately.",
+    "exampleAr": "بموجب سياسة هذه المكتبة، يجوز للأعضاء استعارة ما يصل إلى خمسة كتب لأسبوعين. ولا يسمح بالتمديد إلا إذا لم يحجز الكتاب قارئ آخر. ويطبق الشرط على كل كتاب على حدة.",
+    "check": {
+      "promptEn": "A rule expressly excludes a named group under stated conditions. Which word best describes that exclusion?",
+      "choices": [
+        "An exemption.",
+        "Automatically an unintended loophole.",
+        "A fine imposed on everyone."
+      ],
+      "answer": "An exemption.",
+      "explanationAr": "الاستبعاد المنصوص عليه بشروط exemption. لا يعني ثغرة غير مقصودة أو غرامة، فهذان مفهومان مختلفان.",
+      "explanationEn": "An expressly stated conditional exclusion is an exemption. It is not necessarily an unintended loophole or a monetary penalty."
+    }
+  },
+  "b2-x-u10-l4": {
+    "focusAr": "defective يصف العيب، وwarranty ضمان له نطاق وشروط، وproof of purchase دليل الشراء. claim فعل مطالبة، ولا يعني أن الاستحقاق ثبت أو المبلغ دُفع. replacement سلعة بديلة، وcompensation تعويض قد يخدم غرضًا آخر. في رسالة رسمية، اذكر الوقائع والمستندات والطلب واسأل عن القاعدة المطبقة دون اختراع حق أو مهلة.",
+    "focusEn": "Defective describes a fault; a warranty has a scope and conditions, and proof of purchase documents the transaction. Claim is a verb requesting something, not confirmation that entitlement is established or payment made. A replacement is another item; compensation may serve a different purpose. State facts, evidence, and the requested remedy, asking about applicable rules without inventing an entitlement or deadline.",
+    "taskAr": "اكتب طلب معالجة لمنتج لا يعمل، مع تاريخ شراء وإثبات وطلب بيان خيارات الضمان، دون افتراض حق محدد غير معطى.",
+    "taskEn": "Write about a non-working product, including a purchase date, evidence, and a request for warranty options without assuming an unstated entitlement.",
+    "exampleEn": "I purchased this device on 3 September, and it no longer switches on. I have attached proof of purchase. Please explain which repair or replacement options are available under the warranty and what information you need from me.",
+    "exampleAr": "اشتريت هذا الجهاز في 3 سبتمبر، ولم يعد يعمل عند تشغيله. أرفقت إثبات الشراء. يرجى توضيح خيارات الإصلاح أو الاستبدال المتاحة بموجب الضمان والمعلومات التي تحتاجون إليها مني.",
+    "check": {
+      "promptEn": "A customer has submitted a compensation claim. What is established by that wording?",
+      "choices": [
+        "They have requested compensation; the outcome is not yet stated.",
+        "The claim has already been approved and paid.",
+        "Every customer worldwide has the same entitlement."
+      ],
+      "answer": "They have requested compensation; the outcome is not yet stated.",
+      "explanationAr": "تقديم claim يعني المطالبة، ولا يثبت قبولها أو دفعها. كما لا يحدد حقوق عملاء آخرين أو أنظمة مختلفة.",
+      "explanationEn": "Submitting a claim establishes a request, not approval or payment. It does not determine other customers' rights or other legal systems."
+    }
+  },
+  "b2-x-u11-l1": {
+    "focusAr": "inflation ارتفاع عام في الأسعار، لا زيادة سلعة واحدة فقط. purchasing power ما يشتريه مبلغ معين؛ إذا ارتفعت الأسعار وبقي الدخل ثابتًا ضعفت قدرته الشرائية. تباطؤ التضخم قد يعني ارتفاعًا أبطأ لا انخفاض الأسعار. فرّق بين نسبة التغير ومستوى السعر، وحدد الفترة ومصدر الأرقام في أي شرح.",
+    "focusEn": "Inflation is a broad price increase, not just one item becoming dearer. Purchasing power is what an amount can buy; rising prices with unchanged income reduce that power. Slower inflation can mean prices rise more slowly, not that they fall. Distinguish a rate of change from the price level, and identify the period and source of figures.",
+    "taskAr": "اشرح مثالًا تدريبيًا لأسعار ترتفع 6% في سنة ثم 3% في التالية، دون القول إن الأسعار انخفضت.",
+    "taskEn": "Explain a practice example of prices rising 6% one year and 3% the next, without saying prices fell.",
+    "exampleEn": "Inflation slowed from six percent to three percent, but prices still increased in the second year. If income stayed unchanged, the same amount of money would buy less than before.",
+    "exampleAr": "تباطأ التضخم من ستة بالمئة إلى ثلاثة بالمئة، لكن الأسعار ظلت ترتفع في السنة الثانية. وإذا لم يتغير الدخل، فسيشتري المبلغ نفسه أقل مما كان يشتريه سابقًا.",
+    "check": {
+      "promptEn": "Inflation falls from 6% to 3% while remaining positive. What does this mean?",
+      "choices": [
+        "The general price level is rising more slowly.",
+        "Prices have necessarily fallen by 3%.",
+        "Every individual price is exactly unchanged."
+      ],
+      "answer": "The general price level is rising more slowly.",
+      "explanationAr": "النسبة الموجبة الأقل تعني تباطؤ ارتفاع المستوى العام للأسعار. لا تعني هبوطه أو ثبات كل سعر فردي.",
+      "explanationEn": "A lower positive rate means the general price level rises more slowly. It does not imply a falling level or unchanged individual prices."
+    }
+  },
+  "b2-x-u11-l2": {
+    "focusAr": "profitable تعني تحقيق ربح بعد التكاليف، بينما cash flow حركة دخول النقد وخروجه؛ قد تتأخر المقبوضات رغم وجود أرباح محاسبية. break even بلوغ نقطة تعادل الإيرادات والتكاليف في النطاق المحدد، لا تحقيق ربح كبير. في عرض مشروع، فرّق بين افتراضات الخطة ونتائج التشغيل الفعلية وحدد ما يحتاج اختبارًا.",
+    "focusEn": "Profitable means earning profit after costs, while cash flow concerns cash entering and leaving; receipts can be delayed despite accounting profit. Break even means revenue equals costs within the stated scope, not a large profit. In a business pitch, distinguish planning assumptions from actual operating results and identify what needs testing.",
+    "taskAr": "صف مشروعًا تدريبيًا يتوقع التعادل بعد ستة أشهر، واشرح خطر تأخر دفع العملاء دون تقديم التوقع كضمان.",
+    "taskEn": "Describe a practice venture expecting to break even after six months, explaining the risk of late customer payment without presenting the forecast as guaranteed.",
+    "exampleEn": "The business plan expects the café to break even after six months, assuming the forecast sales are achieved. Late payments from catering customers could still put pressure on cash flow, so that timing needs to be tested.",
+    "exampleAr": "تتوقع خطة العمل أن يصل المقهى إلى التعادل بعد ستة أشهر، بافتراض تحقق المبيعات المتوقعة. وقد يضغط تأخر مدفوعات عملاء تجهيز المناسبات على التدفق النقدي، لذا يحتاج هذا التوقيت إلى اختبار.",
+    "check": {
+      "promptEn": "Revenue equals all costs for the stated period. Which description fits?",
+      "choices": [
+        "The business breaks even for that period.",
+        "The business necessarily earns a large profit.",
+        "Cash receipts must exceed every outstanding payment."
+      ],
+      "answer": "The business breaks even for that period.",
+      "explanationAr": "تعادل الإيرادات والتكاليف هو break even ضمن الفترة المعطاة. لا يثبت ربحًا كبيرًا أو حالة التدفقات النقدية في كل لحظة.",
+      "explanationEn": "Equal revenue and costs means break even for the stated period. It establishes neither a large profit nor the timing of all cash movements."
+    }
+  },
+  "b2-x-u11-l3": {
+    "focusAr": "diversify توزيع الاستثمارات أو الأنشطة لتقليل الاعتماد على مصدر واحد، وليس إزالة جميع المخاطر. volatile كثير التقلب، ولا يعني هبوطًا مستمرًا فقط. return عائد إجمالي قد يكون موجبًا أو سالبًا، وdividend توزيع من الشركة للمساهمين وليس وعدًا دائمًا. في شرح لغوي، ميّز الأداء الماضي من توقع المستقبل دون ترشيح منتج.",
+    "focusEn": "Diversify means spread investments or activities to reduce reliance on one source, not eliminate all risk. Volatile means fluctuating, not only falling continuously. Return is an overall result that may be positive or negative; a dividend is a company distribution to shareholders, not a permanent promise. Distinguish past performance from future expectations without recommending a product.",
+    "taskAr": "اشرح لماذا لا يضمن عائد سابق بنسبة 6% العائد نفسه لاحقًا، مع استخدام return وvolatile.",
+    "taskEn": "Explain why a past return of 6% does not guarantee the same later return, using return and volatile.",
+    "exampleEn": "The investment produced a six percent return in the stated year, but that describes past performance. In a volatile market, future returns can differ, and diversification does not guarantee that losses will be avoided.",
+    "exampleAr": "حقق الاستثمار عائدًا قدره ستة بالمئة في السنة المذكورة، لكن ذلك يصف الأداء الماضي. قد تختلف العوائد المستقبلية في سوق متقلب، ولا يضمن التنويع تجنب الخسائر.",
+    "check": {
+      "promptEn": "A report states last year's return. What can be concluded from that figure alone?",
+      "choices": [
+        "It describes a past result, not a guaranteed future return.",
+        "The identical return is promised every year.",
+        "There is no possibility of any future loss."
+      ],
+      "answer": "It describes a past result, not a guaranteed future return.",
+      "explanationAr": "العائد السابق وصف لنتيجة زمنية محددة. لا ينشئ ضمانًا بالتكرار ولا يستبعد الخسارة المستقبلية.",
+      "explanationEn": "A past return describes one period's result. It creates no guarantee of repetition and does not rule out future loss."
+    }
+  },
+  "b2-x-u11-l4": {
+    "focusAr": "gig economy عمل يعتمد على مهام أو تعاقدات قصيرة، وليس كل عمل حر عبر منصة. freelance قد تكون صفة مثل freelance designer أوظرفًا مثل work freelance. job security استقرار الوظيفة، وbenefits المزايا؛ يختلفان بحسب الترتيب. عند مقارنة فرصتين، اذكر التحكم في الوقت وتقلب الدخل والتكاليف دون افتراض حقوق موحدة لجميع العاملين.",
+    "focusEn": "The gig economy centres on tasks or short engagements; not all freelance work uses a platform. Freelance can be an adjective in freelance designer or an adverb in work freelance. Job security and benefits depend on the arrangement. Compare control over time, income variation, and costs without assuming identical rights or conditions for every worker.",
+    "taskAr": "قارن في مثال تدريبي عملًا بمواعيد يختارها العامل ودخل متغير بوظيفة ذات ساعات وأجر ثابتين، دون إصدار توصية شخصية.",
+    "taskEn": "In a practice example, compare work offering chosen hours and variable income with a job offering fixed hours and pay, without making a personal recommendation.",
+    "exampleEn": "The first arrangement offers more control over working hours, but income depends on the tasks available. The second provides a fixed wage with less scheduling flexibility. We would also need to compare costs and stated benefits.",
+    "exampleAr": "يوفر الترتيب الأول تحكمًا أكبر في ساعات العمل، لكن الدخل يعتمد على المهام المتاحة. ويقدم الثاني أجرًا ثابتًا مع مرونة أقل في الجدول. ونحتاج أيضًا إلى مقارنة التكاليف والمزايا المعلنة.",
+    "check": {
+      "promptEn": "Which comparison stays within the stated arrangements?",
+      "choices": [
+        "One offers chosen hours and variable income; the other offers fixed hours and pay.",
+        "Every platform worker has identical benefits worldwide.",
+        "Flexible hours always guarantee higher take-home income."
+      ],
+      "answer": "One offers chosen hours and variable income; the other offers fixed hours and pay.",
+      "explanationAr": "يلتزم الجواب الصحيح بالمعلومات المعطاة. لا تثبت المرونة ارتفاع صافي الدخل، ولا تتساوى شروط جميع العاملين تلقائيًا.",
+      "explanationEn": "The correct answer stays within the information supplied. Flexibility does not establish higher net income, and workers' terms are not automatically identical."
+    }
+  },
+  "b2-x-u12-l1": {
+    "focusAr": "الملاحظة البنّاءة تحدد ما حدث وأثره وتغييرًا ممكنًا. it might be worth يتبعها فعل بصيغة ing لتقديم اقتراح لبق. feedback غير معدودة، فنقول some feedback أوa piece of feedback. اجعل الملاحظة specific وactionable؛ المجاملة العامة أو وصف الشخص كله لا يحددان ما يغيّره في عمله.",
+    "focusEn": "Constructive feedback identifies an observation, its effect, and a possible change. It might be worth takes an -ing form to offer a tactful suggestion. Feedback is uncountable: say some feedback or a piece of feedback. Keep comments specific and actionable; general praise or a label for the whole person does not identify a change to their work.",
+    "taskAr": "قدّم ملاحظة عن عرض كان ترتيبه واضحًا لكن مصطلحاته لم تُشرح، واقترح تغييرًا وكيفية التحقق من فائدته.",
+    "taskEn": "Give feedback on a clearly organized presentation with unexplained terms, suggesting a change and a way to check its benefit.",
+    "exampleEn": "The sequence was easy to follow, which helped me understand the argument. It might be worth defining the two technical terms when they first appear. We could ask a new listener whether the definitions make the conclusion clearer.",
+    "exampleAr": "كان تسلسل العرض سهل المتابعة، مما ساعدني على فهم الحجة. قد يكون من المفيد تعريف المصطلحين التقنيين عند ظهورهما أول مرة. ويمكننا سؤال مستمع جديد هل جعل التعريفان النتيجة أوضح.",
+    "check": {
+      "promptEn": "Which comment is most actionable?",
+      "choices": [
+        "Define the two unfamiliar terms before using them in the conclusion.",
+        "Be a more impressive person.",
+        "Your presentation was somehow not ideal."
+      ],
+      "answer": "Define the two unfamiliar terms before using them in the conclusion.",
+      "explanationAr": "يعطي الجواب الصحيح تعديلًا محددًا وموقعه في العرض. الوصف الشخصي والانطباع الغامض لا يوضحان الخطوة التالية.",
+      "explanationEn": "The correct answer identifies a change and where to make it. A personal label or vague impression does not specify the next action."
+    }
+  },
+  "b2-x-u12-l2": {
+    "focusAr": "reflect back إعادة صياغة فهمك مع ترك مجال للتصحيح، وليس تكرار كل كلمة أو إضافة استنتاجك. acknowledge الاعتراف بوجود قلق لا الموافقة على كل مطلب. clarifying question يحدد غموضًا واحدًا. لا تعتمد على إشارة جسدية وحدها للحكم على المشاعر؛ يمكن إظهار الإصغاء بعبارات واضحة وأسئلة دون إشارات بصرية.",
+    "focusEn": "Reflect back means restate your understanding while allowing correction, not repeat every word or add your own assumption. Acknowledge means recognize a concern, not agree to every demand. A clarifying question targets one ambiguity. Do not infer feelings from one physical cue alone; listening can be shown through clear words and questions without visual signals.",
+    "taskAr": "قال زميل: «أستطيع إنهاء النص الجمعة، لكن الرسم البياني يحتاج الاثنين». أعد صياغة كلامه واسأل عن إمكانية تسليم الجزأين في موعدَين.",
+    "taskEn": "A colleague says, 'I can finish the text on Friday, but the chart needs until Monday.' Paraphrase and ask whether separate delivery dates would work.",
+    "exampleEn": "So what you're saying is that the text will be ready on Friday, while the chart needs more time. Would submitting the text first and adding the chart on Monday address the problem?",
+    "exampleAr": "إذن تقصد أن النص سيكون جاهزًا الجمعة، بينما يحتاج الرسم البياني إلى وقت إضافي. هل يحل المشكلة تسليم النص أولًا وإضافة الرسم يوم الاثنين؟",
+    "check": {
+      "promptEn": "Which paraphrase preserves the colleague's distinction?",
+      "choices": [
+        "The text can be ready Friday, but the chart needs until Monday.",
+        "Nothing can be ready before Monday.",
+        "Both parts are already complete."
+      ],
+      "answer": "The text can be ready Friday, but the chart needs until Monday.",
+      "explanationAr": "تحافظ الصياغة الصحيحة على الفرق بين الجزأين والموعدين. البديلان يضيفان تعميمًا أو إنجازًا لم يذكره المتحدث.",
+      "explanationEn": "The correct paraphrase preserves the difference between parts and dates. The alternatives add a generalization or completion claim the speaker did not make."
+    }
+  },
+  "b2-x-u12-l3": {
+    "focusAr": "نظّم التقرير في purpose ونطاق وطريقة وfindings ثم recommendations مرتبطة بالنتائج. objective هنا صفة «موضوعي»، لا اسم «هدف». executive summary ملخص لأهم ما يحتاجه القارئ، لا مقدمة مطولة. اذكر limitation التي تؤثر في تفسير النتيجة، وافصل الملاحظة عن تقييمها وعن الإجراء المقترح.",
+    "focusEn": "Organize a report around purpose, scope, method, findings, and recommendations linked to the findings. Objective is an adjective meaning impartial here, not a noun meaning goal. An executive summary presents what readers most need, not an extended introduction. State a limitation affecting interpretation and separate observation, evaluation, and proposed action.",
+    "taskAr": "اكتب ملخصًا تنفيذيًا لتجربة جدول في فريق واحد: تحسن الالتزام بالموعد، لكن لا توجد بيانات عن الفرق الأخرى؛ أوصِ بخطوة محدودة.",
+    "taskEn": "Write an executive summary of a schedule trial in one team: timeliness improved, but other teams were not studied; recommend a limited next step.",
+    "exampleEn": "This report evaluates a one-month trial in one team. On-time submissions increased, but the findings may not apply to other departments. We recommend a further trial with a second team before wider adoption.",
+    "exampleAr": "يقيّم هذا التقرير تجربة لمدة شهر في فريق واحد. ازدادت التسليمات في موعدها، لكن النتائج قد لا تنطبق على الأقسام الأخرى. نوصي بتجربة إضافية مع فريق ثانٍ قبل التعميم.",
+    "check": {
+      "promptEn": "Which sentence states a limitation rather than a recommendation?",
+      "choices": [
+        "Only one team participated, so wider applicability is uncertain.",
+        "Run a second trial next month.",
+        "Adopt the schedule across every department now."
+      ],
+      "answer": "Only one team participated, so wider applicability is uncertain.",
+      "explanationAr": "الجملة الصحيحة تذكر حدًا في الأدلة وأثره في التعميم. الجملتان الأخريان تقترحان أفعالًا، فهما توصيتان.",
+      "explanationEn": "The correct sentence states a constraint on evidence and its effect on generalization. The alternatives propose actions, making them recommendations."
+    }
+  },
+  "b2-x-u12-l4": {
+    "focusAr": "summary تختصر أهم الأفكار، بينما paraphrase تعيد معنى مقطع بصياغة أخرى وقد لا تكون أقصر بكثير. حافظ على النفي والاحتمال والنطاق وإسناد الرأي لصاحبه. تغيير مرادفات منفردة لا يكفي إذا بقي البناء منسوخًا. استخدم in other words للتوضيح، وانسب الأفكار المستعارة إلى مصدرها حتى بعد إعادة الصياغة.",
+    "focusEn": "A summary compresses main ideas; a paraphrase restates a passage and may not be much shorter. Preserve negation, uncertainty, scope, and attribution. Replacing isolated words is insufficient when the original structure remains copied. Use in other words to clarify, and attribute borrowed ideas even after rewording them.",
+    "taskAr": "أعد صياغة هذه الفكرة دون تقوية ادعائها: «تشير الدراسة الصغيرة إلى أن بعض الطلاب قد يستفيدون من جلسات أقصر».",
+    "taskEn": "Paraphrase without strengthening this claim: 'The small study suggests that some students may benefit from shorter sessions.'",
+    "exampleEn": "According to the small study, shorter sessions might help certain students. The finding does not establish that the approach works for every learner.",
+    "exampleAr": "وفقًا للدراسة الصغيرة، قد تساعد الجلسات الأقصر بعض الطلاب. ولا تثبت النتيجة أن هذا الأسلوب يناسب كل متعلم.",
+    "check": {
+      "promptEn": "Which paraphrase preserves 'some students may benefit'?",
+      "choices": [
+        "The approach might help certain students.",
+        "The approach definitely helps every student.",
+        "No student can benefit from the approach."
+      ],
+      "answer": "The approach might help certain students.",
+      "explanationAr": "might تحافظ على الاحتمال وcertain students على نطاق «بعض الطلاب». البديلان يغيران قوة الادعاء أو يقلبان معناه.",
+      "explanationEn": "Might preserves uncertainty, and certain students preserves the limited group. The alternatives strengthen or reverse the claim."
+    }
+  }
+}

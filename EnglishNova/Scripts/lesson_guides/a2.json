@@ -1,0 +1,1158 @@
+{
+  "a2-u1-l1": {
+    "focusAr": "رسالة التأخر المفيدة تذكر المشكلة والوقت المتوقع أو تقترح موعدًا بديلًا. running late تعني التأخر عن الجدول، وon my way تعني أنك بدأت الطريق. apologize for تتبعها علة الاعتذار، مثل being late.",
+    "focusEn": "A useful delay message states the problem and expected arrival time or proposes another time. Running late means being behind schedule; on my way means the journey has started. Apologize for introduces the reason for the apology, such as being late.",
+    "taskAr": "اكتب رسالة اعتذار عن تأخر عشر دقائق مع بيان أنك في الطريق.",
+    "taskEn": "Write an apology for being ten minutes late and say that you are on your way.",
+    "exampleEn": "Sorry, I'm running late. I'm on my way and will arrive in ten minutes.",
+    "exampleAr": "آسف، أنا متأخر عن الموعد. أنا في الطريق وسأصل بعد عشر دقائق.",
+    "check": {
+      "promptEn": "Which message proposes changing the meeting time?",
+      "choices": [
+        "Can we reschedule the meeting for tomorrow?",
+        "I am on my way to the meeting.",
+        "I arrived ten minutes ago."
+      ],
+      "answer": "Can we reschedule the meeting for tomorrow?",
+      "explanationAr": "reschedule تطلب تغيير الموعد. الرسالتان الأخريان تصفان الطريق أو الوصول دون اقتراح موعد بديل.",
+      "explanationEn": "Reschedule asks to change the time. The other messages describe the journey or arrival without proposing another time."
+    }
+  },
+  "a2-extra-2": {
+    "focusAr": "اربط فعل الماضي بوقت واضح: visited مع last week أوtwo weeks ago. لا تستخدم will عندما تصف حدثًا انتهى. ضع ago بعد المدة، بينما last تأتي قبل الوحدة الزمنية: last month.",
+    "focusEn": "Link a past verb to a clear time: visited with last week or two weeks ago. Do not use will to describe a completed event. Ago follows the time period, whereas last comes before the time unit: last month.",
+    "taskAr": "اذكر زيارة لجدتك حدثت منذ أسبوعين.",
+    "taskEn": "Describe a visit to your grandmother two weeks ago.",
+    "exampleEn": "I visited my grandmother two weeks ago.",
+    "exampleAr": "زرت جدتي منذ أسبوعين.",
+    "check": {
+      "promptEn": "Which phrase identifies a finished past time?",
+      "choices": [
+        "two weeks ago",
+        "next week",
+        "tomorrow morning"
+      ],
+      "answer": "two weeks ago",
+      "explanationAr": "ago تنقل الوقت إلى الماضي. next week وtomorrow morning يشيران إلى المستقبل.",
+      "explanationEn": "Ago places the time in the past. Next week and tomorrow morning refer to the future."
+    },
+    "lessonUpdates": {
+      "objectiveAr": "أن تصف حدثًا ماضيًا وتحدد وقت وقوعه.",
+      "objectiveEn": "Describe a past event and specify when it happened."
+    }
+  },
+  "a2-extra-3": {
+    "focusAr": "ميّز الخطة من الأمل: plan to تدل على نية منظمة وhope to على رغبة في حدوث شيء. be going to تصف خطة أو نية؛ يحتاج I إلى am وshe إلى is. بعدها يأتي الفعل الأساسي.",
+    "focusEn": "Distinguish a plan from a hope: plan to expresses an intention, while hope to expresses a wish for an outcome. Be going to describes a plan or intention; I needs am and she needs is. A base verb follows.",
+    "taskAr": "اذكر خطة لدراسة الإنجليزية ساعة الليلة.",
+    "taskEn": "State a plan to study English for an hour tonight.",
+    "exampleEn": "I am going to study English for an hour tonight.",
+    "exampleAr": "سأدرس الإنجليزية لمدة ساعة الليلة.",
+    "check": {
+      "promptEn": "Complete: She _____ going to study tonight.",
+      "choices": [
+        "is",
+        "am",
+        "does"
+      ],
+      "answer": "is",
+      "explanationAr": "going to تحتاج هنا إلى صيغة be المناسبة، وهي is مع she.",
+      "explanationEn": "Going to needs the appropriate form of be here, which is is with she."
+    }
+  },
+  "a2-extra-4": {
+    "focusAr": "boarding gate مكان الصعود، وdeparture وقت المغادرة أو فعلها. check in إنهاء إجراءات السفر، وsecurity check التفتيش الأمني؛ ليست هذه إجراءات متطابقة. استخدم Where للمكان وWhat time للوقت.",
+    "focusEn": "A boarding gate is a place; departure names leaving or the time of leaving. Check in concerns travel registration, while a security check is a different process. Use Where for a location and What time for a time.",
+    "taskAr": "اسأل عن بوابة الصعود ثم عن موعد المغادرة.",
+    "taskEn": "Ask for the boarding gate and then the departure time.",
+    "exampleEn": "Where is the boarding gate? What time is our departure?",
+    "exampleAr": "أين بوابة الصعود؟ في أي وقت موعد مغادرتنا؟",
+    "check": {
+      "promptEn": "Which question asks for a place rather than a time?",
+      "choices": [
+        "Where is the boarding gate?",
+        "What time is departure?",
+        "When does the flight leave?"
+      ],
+      "answer": "Where is the boarding gate?",
+      "explanationAr": "Where تسأل عن المكان. What time وWhen تسألان عن الوقت.",
+      "explanationEn": "Where asks about location. What time and When ask about time."
+    },
+    "lessonUpdates": {
+      "objectiveAr": "أن تؤكد معلومات المغادرة بالسؤال عن الوقت والبوابة.",
+      "objectiveEn": "Confirm departure details by asking about the time and gate."
+    }
+  },
+  "a2-extra-5": {
+    "focusAr": "استخدم have مع أسماء الأعراض: a headache أوa cough، وfeel مع صفة مثل unwell. sore throat يصف ألم الحلق ولا يحدد سببه. لوصف أكثر من عرض، اربط جملتين بـ and دون أن تحوّل الوصف إلى تشخيص.",
+    "focusEn": "Use have with symptom nouns such as a headache or a cough, and feel with an adjective such as unwell. Sore throat describes discomfort without identifying its cause. Join symptoms with and when reporting how you feel.",
+    "taskAr": "صف ألمًا في الحلق مع شعور بالتوعك.",
+    "taskEn": "Describe a sore throat and feeling unwell.",
+    "exampleEn": "I have a sore throat and feel unwell.",
+    "exampleAr": "لدي ألم في الحلق وأشعر بتوعك.",
+    "check": {
+      "promptEn": "Which phrase correctly describes a feeling?",
+      "choices": [
+        "I feel unwell.",
+        "I feel a headache.",
+        "I am a cough."
+      ],
+      "answer": "I feel unwell.",
+      "explanationAr": "unwell صفة تناسب feel. نستخدم have مع a headache وa cough.",
+      "explanationEn": "Unwell is an adjective that follows feel. Use have with a headache and a cough."
+    },
+    "lessonUpdates": {
+      "objectiveAr": "أن تصف أعراضًا بسيطة بجمل واضحة.",
+      "objectiveEn": "Describe simple symptoms in clear sentences."
+    }
+  },
+  "a2-extra-6": {
+    "focusAr": "faster than تقارن السرعة، وas tall as تعبر عن تساوي الطول. احفظ حرف الجر مع الصفة: similar to وdifferent from. the best صيغة تفضيل تختار عنصرًا بين مجموعة، وليست مقارنة عادية بين عنصرين.",
+    "focusEn": "Faster than compares speed; as tall as expresses equal height. Learn the preposition with each adjective: similar to and different from. The best is a superlative selecting one member of a group rather than an ordinary two-item comparison.",
+    "taskAr": "قل إن هاتفك الجديد مختلف عن القديم.",
+    "taskEn": "Say that your new phone differs from your old one.",
+    "exampleEn": "My new phone is different from my old one.",
+    "exampleAr": "هاتفي الجديد مختلف عن هاتفي القديم.",
+    "check": {
+      "promptEn": "Complete: This model is similar _____ mine.",
+      "choices": [
+        "to",
+        "than",
+        "as"
+      ],
+      "answer": "to",
+      "explanationAr": "similar تتبعها to في هذا التركيب. than تأتي مع صفات المقارنة مثل faster.",
+      "explanationEn": "Similar takes to in this pattern. Than follows comparatives such as faster."
+    }
+  },
+  "a2-extra-7": {
+    "focusAr": "Would you like to دعوة، وWhy don't we اقتراح نشاط مشترك. Sounds good قبول للاقتراح في هذا السياق. Maybe another time رفض لطيف للموعد الحالي، ولا يؤكد موعدًا بديلًا محددًا.",
+    "focusEn": "Would you like to makes an invitation; Why don't we suggests a shared activity. Sounds good accepts a suggestion in this context. Maybe another time politely declines the current occasion without confirming a specific alternative time.",
+    "taskAr": "ارفض دعوة الليلة بأدب واقترح فرصة أخرى دون تحديد موعد.",
+    "taskEn": "Politely decline tonight's invitation and suggest another occasion without fixing a date.",
+    "exampleEn": "I can't come tonight. Maybe another time.",
+    "exampleAr": "لا أستطيع الحضور الليلة. ربما في وقت آخر.",
+    "check": {
+      "promptEn": "Maybe another time usually signals what here?",
+      "choices": [
+        "a polite refusal of the current invitation",
+        "a confirmed time for tonight",
+        "a request for directions"
+      ],
+      "answer": "a polite refusal of the current invitation",
+      "explanationAr": "العبارة ترفض المناسبة الحالية بلطف. لا تعطي وقتًا جديدًا مؤكدًا.",
+      "explanationEn": "The phrase politely declines the present invitation. It does not confirm a new time."
+    }
+  },
+  "a2-extra-8": {
+    "focusAr": "due date وdeadline يشيران إلى موعد التسليم النهائي في سياق المهمة؛ لا تختلق فرقًا بينهما دون سياق. in charge of تحدد الشخص المسؤول. اذكر المهمة ثم موعدها لتقديم تحديث عمل قابل للفهم.",
+    "focusEn": "Due date and deadline both identify when work must be submitted in this task context; do not invent a distinction without context. In charge of identifies responsibility. Name the task and its due date to give a clear update.",
+    "taskAr": "اذكر مسؤوليتك عن التقرير وأن موعد تسليمه الجمعة.",
+    "taskEn": "Say that you are responsible for the report and that it is due on Friday.",
+    "exampleEn": "I am in charge of the report. The due date is Friday.",
+    "exampleAr": "أنا مسؤول عن التقرير. موعد تسليمه يوم الجمعة.",
+    "check": {
+      "promptEn": "Complete: She is in charge _____ the project.",
+      "choices": [
+        "of",
+        "to",
+        "with"
+      ],
+      "answer": "of",
+      "explanationAr": "العبارة الكاملة هي in charge of بمعنى مسؤول عن، ويأتي بعدها الشيء أو الفريق المسؤول عنه.",
+      "explanationEn": "The complete phrase is in charge of, followed by the thing or team for which someone is responsible."
+    },
+    "lessonUpdates": {
+      "objectiveAr": "أن تقدم تحديثًا يحدد المهمة والمسؤول عنها وموعد تسليمها.",
+      "objectiveEn": "Give an update identifying a task, its owner and its due date."
+    }
+  },
+  "a2-x-u1-l1": {
+    "focusAr": "فرّق بين wake up، أي الاستيقاظ، وget up، أي مغادرة الفراش. shower اسم في take a shower، فلا نترجمه كفعل منفرد هنا. رتّب الروتين باستخدام before وafter مع اسم النشاط أو الحدث.",
+    "focusEn": "Distinguish wake up from get up: the first means stop sleeping, the second leave bed. Shower is a noun in take a shower. Organise a routine with before and after followed by an activity or event.",
+    "taskAr": "صف الاستحمام قبل الإفطار في جملة.",
+    "taskEn": "Describe taking a shower before breakfast.",
+    "exampleEn": "I take a shower before breakfast.",
+    "exampleAr": "أستحم قبل الإفطار.",
+    "check": {
+      "promptEn": "Which phrase correctly uses shower as a noun?",
+      "choices": [
+        "take a shower",
+        "take showering",
+        "do a shower"
+      ],
+      "answer": "take a shower",
+      "explanationAr": "التركيب المعتاد هو take a shower أوhave a shower. shower اسم معدود هنا، لذلك تأتي معها a.",
+      "explanationEn": "The usual expressions are take a shower and have a shower. Shower is countable here, so it takes a."
+    }
+  },
+  "a2-x-u1-l2": {
+    "focusAr": "تأتي ظروف التكرار عادة قبل الفعل الرئيسي، لكنها تأتي بعد be: I am usually tired. because تربط العادة بسببها. ميّز go to bed من sleep؛ الأولى الذهاب إلى الفراش ولا تضمن بدء النوم فورًا.",
+    "focusEn": "Frequency adverbs usually precede the main verb but follow be: I am usually tired. Because links a habit to its reason. Go to bed describes going to bed, which does not necessarily mean falling asleep immediately.",
+    "taskAr": "صف الذهاب المبكر إلى الفراش بسبب الاستيقاظ في السادسة.",
+    "taskEn": "Describe going to bed early because you get up at six.",
+    "exampleEn": "I usually go to bed early because I get up at six.",
+    "exampleAr": "أذهب عادة إلى الفراش مبكرًا لأنني أستيقظ في السادسة.",
+    "check": {
+      "promptEn": "Choose the usual word order.",
+      "choices": [
+        "I am usually tired at bedtime.",
+        "I usually am at bedtime tired.",
+        "I am tired usually at bedtime."
+      ],
+      "answer": "I am usually tired at bedtime.",
+      "explanationAr": "الموضع المعتاد لـ usually في هذا النمط بعد am وقبل tired. توجد مواضع أخرى للتوكيد، لكننا نتدرّب على الترتيب المحايد.",
+      "explanationEn": "The usual position in this pattern is after am and before tired. Other positions can add emphasis, but this exercise practises neutral word order."
+    }
+  },
+  "a2-x-u1-l3": {
+    "focusAr": "reserve a table لحجز مكان قبل الزيارة، وorder a dish لطلب الطعام في المطعم. Could I see the menu? طلب مهذب للاطلاع على الخيارات. قد تعني dish طبق الطعام نفسه أو نوع الوجبة؛ يحدد السياق المقصود.",
+    "focusEn": "Reserve a table means arrange a place in advance; order a dish means request food at the restaurant. Could I see the menu? politely asks to see the choices. Dish can mean a food item or the object it is served on, depending on context.",
+    "taskAr": "اطلب حجز طاولة لشخصين.",
+    "taskEn": "Ask to reserve a table for two people.",
+    "exampleEn": "I'd like to reserve a table for two, please.",
+    "exampleAr": "أود حجز طاولة لشخصين، من فضلك.",
+    "check": {
+      "promptEn": "You want a table for tomorrow evening. Which verb fits?",
+      "choices": [
+        "reserve",
+        "eat",
+        "wash"
+      ],
+      "answer": "reserve",
+      "explanationAr": "reserve تعني الحجز المسبق. السياق عن الطاولة غدًا، لا تناول الطعام الآن أو غسل شيء.",
+      "explanationEn": "Reserve means arrange in advance. The context concerns tomorrow's table, not eating now or washing something."
+    }
+  },
+  "a2-x-u1-l4": {
+    "focusAr": "spicy تصف حرافة المذاق، وhot قد تصف ارتفاع الحرارة. too spicy تعني أكثر حرافة مما يناسب الموقف، وليست مجرد وصف قوي مثل very spicy. استخدم but لربط طعام تحبه بآخر لا تحبه.",
+    "focusEn": "Spicy describes the taste of strong spices; hot can describe temperature. Too spicy means spicier than wanted or suitable, not merely very spicy. Use but to contrast food you like with food you dislike.",
+    "taskAr": "اذكر حب الخضروات الطازجة وعدم حب الطعام الحار المذاق.",
+    "taskEn": "Say that you like fresh vegetables but dislike spicy food.",
+    "exampleEn": "I like fresh vegetables, but I don't like spicy food.",
+    "exampleAr": "أحب الخضروات الطازجة، لكنني لا أحب الطعام الحار المذاق.",
+    "check": {
+      "promptEn": "This soup is too spicy for me means what?",
+      "choices": [
+        "It is spicier than I want.",
+        "It is exactly as spicy as I want.",
+        "It has no spices."
+      ],
+      "answer": "It is spicier than I want.",
+      "explanationAr": "too مع for me توضح تجاوز الدرجة المناسبة للمتكلم، ولا تعني انعدام التوابل.",
+      "explanationEn": "Too with for me shows that the degree exceeds what suits the speaker; it does not mean there are no spices."
+    }
+  },
+  "a2-x-u1-l5": {
+    "focusAr": "recipe خطوات التحضير وingredient أحد المكونات. استخدم First ثم Then لترتيب التعليمات، والفعل الأساسي للأمر: Cut the onions. بعد ذكر onions يمكنك استخدام them لتجنب تكرار الاسم.",
+    "focusEn": "A recipe gives preparation steps; an ingredient is one of the materials used. Sequence instructions with First and Then, using base verbs for commands: Cut the onions. After naming onions, use them to avoid repetition.",
+    "taskAr": "اكتب خطوتين: تقطيع البصل ثم طبخه في مقلاة.",
+    "taskEn": "Write two steps: cut the onions, then cook them in a pan.",
+    "exampleEn": "First, cut the onions. Then cook them in a pan.",
+    "exampleAr": "أولًا، قطّع البصل. ثم اطبخه في مقلاة.",
+    "check": {
+      "promptEn": "In Cut the onions, then cook them, what does them refer to?",
+      "choices": [
+        "the onions",
+        "the recipe",
+        "the pan"
+      ],
+      "answer": "the onions",
+      "explanationAr": "them يعود إلى onions لأنها جمع. في العربية قد نستخدم ضميرًا مفردًا مع «البصل».",
+      "explanationEn": "Them refers to plural onions. Arabic may use a singular pronoun with its collective word for onions."
+    }
+  },
+  "a2-x-u2-l1": {
+    "focusAr": "buy شراء من جهة الزبون، وsell بيع من جهة المتجر. استخدم Do you sell...? للسؤال عما يبيعه المكان. some مألوفة في طلب كمية، وany مألوفة في السؤال عن وجود السلعة.",
+    "focusEn": "Buy describes the customer's action; sell describes the shop's action. Ask Do you sell...? about what the shop offers. Some is common in requests for a quantity, while any is common when asking whether goods are available.",
+    "taskAr": "اسأل البائع إن كان يبيع خبزًا طازجًا.",
+    "taskEn": "Ask the seller whether they sell fresh bread.",
+    "exampleEn": "Do you sell fresh bread here?",
+    "exampleAr": "هل تبيعون خبزًا طازجًا هنا؟",
+    "check": {
+      "promptEn": "A customer pays for bread and takes it home. The customer _____ the bread.",
+      "choices": [
+        "buys",
+        "sells",
+        "cooks"
+      ],
+      "answer": "buys",
+      "explanationAr": "الزبون يحصل على الخبز مقابل المال، ولذلك buys. البائع هو الذي sells.",
+      "explanationEn": "The customer receives bread in exchange for money, so buys fits. The seller sells it."
+    }
+  },
+  "a2-x-u2-l2": {
+    "focusAr": "cost فعل للسؤال عن التكلفة، وprice اسم للسعر. نقول How much does it cost? ويعود cost إلى صيغته الأساسية بعد does. change في الدفع النقدي تعني باقي النقود، لا تغيير المنتج.",
+    "focusEn": "Cost is a verb for asking about an amount; price is a noun. Ask How much does it cost? with base-form cost after does. Change in a cash payment means money returned, not exchanging the product.",
+    "taskAr": "اسأل عن تكلفة المنتج واذكر أنك ستدفع نقدًا.",
+    "taskEn": "Ask the item's cost and say you will pay in cash.",
+    "exampleEn": "How much does this cost? I will pay in cash.",
+    "exampleAr": "كم يكلف هذا؟ سأدفع نقدًا.",
+    "check": {
+      "promptEn": "You pay 20 for an item costing 15. The 5 returned is your _____.",
+      "choices": [
+        "change",
+        "price",
+        "bill"
+      ],
+      "answer": "change",
+      "explanationAr": "change هو باقي النقود المعاد بعد الدفع. price هو ثمن المنتج، وbill تبين المبلغ المطلوب.",
+      "explanationEn": "Change is money returned after payment. Price is the item's cost, and a bill shows the amount owed."
+    }
+  },
+  "a2-x-u2-l3": {
+    "focusAr": "directions بالجمع إرشادات الطريق. استخدم straight ahead للسير إلى الأمام دون انعطاف، وturn left للانعطاف يسارًا. لا تجعل فهم الاتجاه معتمدًا على صورة؛ حدّد الحركة والمعلم المكاني نصيًا.",
+    "focusEn": "Directions in the plural means route instructions. Straight ahead means continue forward without turning; turn left asks for a change of direction. State both the movement and a landmark so the directions are understandable without a picture.",
+    "taskAr": "أعط إرشادًا بالسير للأمام ثم الانعطاف يسارًا عند الزاوية.",
+    "taskEn": "Give instructions to go straight and then turn left at the corner.",
+    "exampleEn": "Go straight ahead, then turn left at the corner.",
+    "exampleAr": "سر إلى الأمام مباشرة، ثم انعطف يسارًا عند الزاوية.",
+    "check": {
+      "promptEn": "What does Go straight ahead ask you to do?",
+      "choices": [
+        "continue forward without turning",
+        "turn left immediately",
+        "go back to where you started"
+      ],
+      "answer": "continue forward without turning",
+      "explanationAr": "straight ahead تطلب استمرار السير إلى الأمام، لا الانعطاف ولا الرجوع.",
+      "explanationEn": "Straight ahead asks you to continue forward, not turn or go back."
+    }
+  },
+  "a2-x-u2-l4": {
+    "focusAr": "take the bus تعني ركوب الحافلة، وby bus تسمّي وسيلة المواصلات. return ticket تشمل الذهاب والعودة في هذا السياق. استخدم cross فعلًا مباشرًا قبل road، لا cross to the road بمعنى عبوره.",
+    "focusEn": "Take the bus describes using the bus; by bus names the means of transport. A return ticket covers the outward and return journeys in this context. Use cross directly before road to mean go from one side to the other.",
+    "taskAr": "اذكر ركوب الحافلة إلى وسط المدينة كل صباح.",
+    "taskEn": "Say that you take the bus to the city centre every morning.",
+    "exampleEn": "I take the bus to the city centre every morning.",
+    "exampleAr": "أركب الحافلة إلى وسط المدينة كل صباح.",
+    "check": {
+      "promptEn": "A return ticket is for which journeys?",
+      "choices": [
+        "going there and coming back",
+        "only going there",
+        "only walking to the station"
+      ],
+      "answer": "going there and coming back",
+      "explanationAr": "return ticket تعني تذكرة ذهاب وعودة، بخلاف single ticket للذهاب فقط.",
+      "explanationEn": "A return ticket covers going there and coming back, unlike a single ticket for one direction."
+    }
+  },
+  "a2-x-u2-l5": {
+    "focusAr": "sunny صفة فتأتي بعد is. rain قد تكون اسمًا في The rain stopped، أو فعلًا في It will rain. لا تقل It is rain عند وصف حدوث المطر؛ استخدم It is raining أوIt is rainy بحسب المعنى.",
+    "focusEn": "Sunny is an adjective after is. Rain can be a noun in The rain stopped or a verb in It will rain. Do not say It is rain to describe wet weather; use It is raining or It is rainy depending on the meaning.",
+    "taskAr": "قارن جو اليوم المشمس بتوقع المطر غدًا.",
+    "taskEn": "Contrast today's sunshine with expected rain tomorrow.",
+    "exampleEn": "It is sunny today, but it will rain tomorrow.",
+    "exampleAr": "الجو مشمس اليوم، لكن المطر سيهطل غدًا.",
+    "check": {
+      "promptEn": "Which sentence uses rain as a verb?",
+      "choices": [
+        "It will rain tomorrow.",
+        "The rain stopped at noon.",
+        "The rain was heavy."
+      ],
+      "answer": "It will rain tomorrow.",
+      "explanationAr": "بعد will تأتي rain فعلًا. في الجملتين الأخريين تسبقها the وتعمل اسمًا للمطر.",
+      "explanationEn": "After will, rain is a verb. In the other sentences the precedes rain and it functions as a noun."
+    }
+  },
+  "a2-x-u3-l1": {
+    "focusAr": "parents تعني الوالدين، ولا تشمل الأجداد. cousin تشمل ابن العم أو الخال وأبناء العمات والخالات، وكذلك الإناث. لتحديد العمر النسبي استخدم older than أوyounger than، ولذكر أفراد البيت استخدم live with.",
+    "focusEn": "Parents means mother and father, not grandparents. Cousin includes male and female children of your parents' siblings. Use older than or younger than to compare ages, and live with to describe who shares your home.",
+    "taskAr": "صف عائلة من أربعة أفراد تعيش معهم.",
+    "taskEn": "Describe a family of four whose members live together.",
+    "exampleEn": "We are a family of four. I live with my parents and my sister.",
+    "exampleAr": "نحن عائلة من أربعة أفراد. أعيش مع والديّ وأختي.",
+    "check": {
+      "promptEn": "Your mother's sister has a daughter. She is your _____.",
+      "choices": [
+        "cousin",
+        "grandmother",
+        "mother"
+      ],
+      "answer": "cousin",
+      "explanationAr": "ابنة الخالة تدخل في معنى cousin، مثل أبناء العمومة والخؤولة الآخرين.",
+      "explanationEn": "Your aunt's daughter is your cousin, just like the other children of your parents' siblings."
+    }
+  },
+  "a2-x-u3-l2": {
+    "focusAr": "close friend صديق مقرّب، وليس مجرد شخص يسكن قريبًا. trust فعل يتبعه الشخص مباشرة: I trust her، دون in في هذا المعنى البسيط. married وsingle تصفان الحالة الاجتماعية ولا تدلان وحدهما على طريقة السكن.",
+    "focusEn": "A close friend is emotionally close, not simply someone living nearby. Trust takes the person directly: I trust her. Married and single describe relationship status and do not by themselves tell us who someone lives with.",
+    "taskAr": "اذكر أنك تثق بصديقك وأنكما تساعدان بعضكما.",
+    "taskEn": "Say that you trust your friend and help each other.",
+    "exampleEn": "I trust my friend, and we help each other.",
+    "exampleAr": "أثق بصديقي، ونساعد بعضنا بعضًا.",
+    "check": {
+      "promptEn": "A close friend is someone you _____.",
+      "choices": [
+        "know well and feel connected to",
+        "only pass in the street",
+        "have never met or spoken to"
+      ],
+      "answer": "know well and feel connected to",
+      "explanationAr": "close هنا تصف قوة العلاقة، لا مجرد القرب المكاني أو المرور بجانب شخص.",
+      "explanationEn": "Close here describes the strength of the relationship, not just physical distance or passing someone."
+    }
+  },
+  "a2-x-u3-l3": {
+    "focusAr": "اختر الصفة بحسب السلوك: honest للصدق، وpolite للأدب، وpatient للصبر. honest لا تعني بالضرورة أن طريقة الكلام لطيفة. بعد kind نستخدم to للشخص، وبعد patient نستخدم with.",
+    "focusEn": "Choose the adjective by behaviour: honest concerns truthfulness, polite concerns manners, and patient concerns waiting or tolerating difficulty calmly. Honesty does not automatically mean gentle wording. Use kind to someone and patient with someone.",
+    "taskAr": "صف معلمًا صبورًا مع الطلاب.",
+    "taskEn": "Describe a teacher who is patient with students.",
+    "exampleEn": "Our teacher is patient with the students.",
+    "exampleAr": "معلمنا صبور مع الطلاب.",
+    "check": {
+      "promptEn": "Someone tells the truth even when it is difficult. Which adjective fits?",
+      "choices": [
+        "honest",
+        "shy",
+        "funny"
+      ],
+      "answer": "honest",
+      "explanationAr": "honest تصف الصدق. shy للخجل وfunny لما يثير الضحك، ولا تستلزمان قول الحقيقة.",
+      "explanationEn": "Honest describes truthfulness. Shy and funny describe different traits and do not imply telling the truth."
+    }
+  },
+  "a2-x-u3-l4": {
+    "focusAr": "بعد enjoy يأتي الفعل بصيغة ing: enjoy reading. وبعد interested نستخدم in ثم الاسم أوing. painting هنا الرسم بالألوان، بينما reading نشاط القراءة. قل practise the guitar أوpractise playing the guitar.",
+    "focusEn": "Enjoy takes an ing form: enjoy reading. Interested takes in followed by a noun or ing form. Painting refers to working with paint, and reading names a different activity. Both practise the guitar and practise playing the guitar are useful patterns.",
+    "taskAr": "اذكر اهتمامك بالتصوير واستمتاعك بالرسم بالألوان.",
+    "taskEn": "Say that you are interested in photography and enjoy painting.",
+    "exampleEn": "I am interested in photography, and I enjoy painting.",
+    "exampleAr": "أنا مهتم بالتصوير وأستمتع بالرسم بالألوان.",
+    "check": {
+      "promptEn": "Complete: I enjoy _____ novels.",
+      "choices": [
+        "reading",
+        "to read",
+        "read"
+      ],
+      "answer": "reading",
+      "explanationAr": "بعد enjoy نستخدم صيغة ing، لذلك reading هي المناسبة هنا.",
+      "explanationEn": "Enjoy is followed by an ing form, so reading fits here."
+    }
+  },
+  "a2-x-u3-l5": {
+    "focusAr": "استخدم play مع ألعاب مثل football، وgo مع أنشطة مثل swimming، وdo مع exercise. team مجموعة اللاعبين، أما club فقد يكون المؤسسة التي تنظم النشاط. join يتبعها اسم المجموعة مباشرة دون to.",
+    "focusEn": "Use play with games such as football, go with activities such as swimming, and do with exercise. A team is a group of players; a club can be the organisation running the activity. Join takes the group directly without to.",
+    "taskAr": "ادع شخصًا إلى الانضمام إلى فريقك.",
+    "taskEn": "Invite someone to join your team.",
+    "exampleEn": "Would you like to join our team?",
+    "exampleAr": "هل ترغب في الانضمام إلى فريقنا؟",
+    "check": {
+      "promptEn": "Complete: Would you like to join _____?",
+      "choices": [
+        "our club",
+        "to our club",
+        "at our club"
+      ],
+      "answer": "our club",
+      "explanationAr": "join يتبعها المفعول مباشرة: join our club. لا نضيف to كما قد توحي الترجمة العربية.",
+      "explanationEn": "Join takes its object directly: join our club. Do not add to, even though Arabic uses a preposition."
+    }
+  },
+  "a2-x-u4-l1": {
+    "focusAr": "في المكالمة عرّف بطلبك بوضوح. call someone تعني الاتصال به، وanswer the phone الرد على الهاتف. إذا كان الشخص غير متاح يمكنك طلب أن يتصل بك لاحقًا أو ترك voicemail؛ لا تعني busy أن الرقم خاطئ.",
+    "focusEn": "Make your purpose clear on a call. Call someone means phone them; answer the phone means respond to a call. If someone is unavailable, ask them to call back or leave a voicemail. Busy does not mean the number is wrong.",
+    "taskAr": "اطلب من المتلقي أن يخبر سارة بالاتصال بك.",
+    "taskEn": "Ask the person who answered to tell Sara to call you.",
+    "exampleEn": "Could you ask Sara to call me, please?",
+    "exampleAr": "هل يمكنك أن تطلب من سارة الاتصال بي، من فضلك؟",
+    "check": {
+      "promptEn": "The line is busy. What does busy describe here?",
+      "choices": [
+        "the line being in use",
+        "the phone being new",
+        "the caller's address"
+      ],
+      "answer": "the line being in use",
+      "explanationAr": "busy تصف انشغال الخط في سياق الاتصال، لا صفات الجهاز أو عنوان المتصل.",
+      "explanationEn": "Busy describes the line being in use in this telephone context, not the device or the caller's address."
+    }
+  },
+  "a2-x-u4-l2": {
+    "focusAr": "text اسم لرسالة نصية هنا، وreply فعل يتبعه to قبل الرسالة: reply to my text. share something with someone تحدد الشيء والشخص معًا. notification إشعار بوصول حدث، وقد تحتاج إلى فتح الرسالة لمعرفة محتواها.",
+    "focusEn": "Text is a message noun here, and reply takes to before a message: reply to my text. Share something with someone names both the content and recipient. A notification reports an event; reading the message may be needed for its full content.",
+    "taskAr": "اطلب ردًا على رسالتك عندما يتفرغ الشخص.",
+    "taskEn": "Ask for a reply to your text when the person has time.",
+    "exampleEn": "Please reply to my text when you are free.",
+    "exampleAr": "من فضلك، رد على رسالتي النصية عندما تتفرغ.",
+    "check": {
+      "promptEn": "Complete: Can you share the file _____ me?",
+      "choices": [
+        "with",
+        "to",
+        "at"
+      ],
+      "answer": "with",
+      "explanationAr": "التركيب هو share something with someone، ولذلك نستخدم with قبل الشخص.",
+      "explanationEn": "The pattern is share something with someone, so with introduces the person."
+    }
+  },
+  "a2-x-u4-l3": {
+    "focusAr": "استخدم is مع صفة مثل tall، وhas مع اسم مثل hair أوbeard. hair بمعنى شعر الرأس عامة غير معدود: short black hair دون a. لتفصيل الوصف اذكر الطول ثم اللون قبل hair.",
+    "focusEn": "Use is with an adjective such as tall and has with a noun such as hair or beard. Hair as a whole is uncountable: short black hair without a. Put length and then colour before hair to make the description specific.",
+    "taskAr": "صف أخاك بأنه طويل القامة وله شعر بني قصير.",
+    "taskEn": "Describe your brother as tall with short brown hair.",
+    "exampleEn": "My brother is tall and has short brown hair.",
+    "exampleAr": "أخي طويل القامة وله شعر بني قصير.",
+    "check": {
+      "promptEn": "Complete: She _____ long brown hair.",
+      "choices": [
+        "has",
+        "is",
+        "are"
+      ],
+      "answer": "has",
+      "explanationAr": "hair اسم لما تملكه أو تتصف به، فنستخدم has. مع صفة مثل tall نستخدم is.",
+      "explanationEn": "Hair is a noun describing a feature someone has, so use has. Use is with an adjective such as tall."
+    }
+  },
+  "a2-x-u4-l4": {
+    "focusAr": "book أوmake an appointment لإنشاء الموعد، وconfirm لتأكيده، وcancel لإلغائه. available مع شخص تسأل عن تفرغه في الوقت المحدد. اقترح يومًا ثم تأكد من الساعة بدل اعتبار اليوم وحده تأكيدًا كاملًا.",
+    "focusEn": "Book or make an appointment sets it up; confirm verifies it and cancel removes it. Available asks whether a person is free at a particular time. Suggest a day and then confirm the hour rather than treating the day alone as complete confirmation.",
+    "taskAr": "اطلب موعدًا يوم الاثنين واسأل عن الساعة الثالثة.",
+    "taskEn": "Ask for a Monday appointment and ask whether three o'clock is available.",
+    "exampleEn": "I'd like an appointment for Monday. Is three o'clock available?",
+    "exampleAr": "أود موعدًا يوم الاثنين. هل الساعة الثالثة متاحة؟",
+    "check": {
+      "promptEn": "You can no longer attend and want to remove the booking. You need to _____.",
+      "choices": [
+        "cancel it",
+        "confirm it",
+        "attend it"
+      ],
+      "answer": "cancel it",
+      "explanationAr": "cancel تلغي الحجز، بينما confirm تثبته وattend تعني الحضور.",
+      "explanationEn": "Cancel removes the booking; confirm verifies it and attend means be present."
+    }
+  },
+  "a2-x-u4-l5": {
+    "focusAr": "للاتفاق على لقاء حدّد المكان والوقت: at the café at six. بعد wait نستخدم for قبل الشخص: wait for you. لا تخلط Are you free? للسؤال عن التفرغ مع Is it free? للسؤال المحتمل عن السعر.",
+    "focusEn": "Agree on both place and time: at the café at six. Wait takes for before a person: wait for you. Are you free? asks about availability, while Is it free? can ask whether something costs nothing.",
+    "taskAr": "اتفق على لقاء أمام المقهى في السادسة.",
+    "taskEn": "Arrange to meet in front of the café at six.",
+    "exampleEn": "Let's meet in front of the café at six.",
+    "exampleAr": "لنلتقِ أمام المقهى في السادسة.",
+    "check": {
+      "promptEn": "Complete: I will wait _____ you at the door.",
+      "choices": [
+        "for",
+        "to",
+        "at"
+      ],
+      "answer": "for",
+      "explanationAr": "نستخدم wait for someone للدلالة على انتظار الشخص.",
+      "explanationEn": "Use wait for someone to say who you are waiting for."
+    }
+  },
+  "a2-x-u5-l1": {
+    "focusAr": "استخدم There is مع قطعة أثاث واحدة وThere are مع الجمع، ثم حدّد المكان. upstairs وdownstairs ظرفان يمكن أن يأتيا دون in قبلهما. downstairs تعني في طابق أدنى، ولا تعني دائمًا القبو.",
+    "focusEn": "Use There is for one item and There are for more than one, then give the location. Upstairs and downstairs can be adverbs without in before them. Downstairs means on a lower floor, not necessarily in a basement.",
+    "taskAr": "صف كرسيًا بذراعين بجانب الأريكة.",
+    "taskEn": "Describe an armchair beside the sofa.",
+    "exampleEn": "There is an armchair next to the sofa.",
+    "exampleAr": "يوجد كرسي بذراعين بجانب الأريكة.",
+    "check": {
+      "promptEn": "Choose the natural sentence.",
+      "choices": [
+        "The bedrooms are upstairs.",
+        "The bedrooms are in upstairs.",
+        "The bedrooms are on upstairs."
+      ],
+      "answer": "The bedrooms are upstairs.",
+      "explanationAr": "upstairs تؤدي وظيفة ظرف المكان وحدها هنا، فلا نضيف in أوon.",
+      "explanationEn": "Upstairs functions as a place adverb on its own here, so do not add in or on."
+    }
+  },
+  "a2-x-u5-l2": {
+    "focusAr": "احفظ الفعل مع المهمة: do the washing-up، وmake the bed، وtake out the rubbish. tidy فعل ترتيب هنا، وقد تكون صفة في a tidy room. لتقسيم المهام بين شخصين استخدم I ثم he أوshe مع صيغة الفعل المناسبة.",
+    "focusEn": "Learn the verb with each chore: do the washing-up, make the bed and take out the rubbish. Tidy is a verb here but can be an adjective in a tidy room. When assigning tasks, match each verb to I, he or she.",
+    "taskAr": "اذكر أنك تغسل الصحون وأن أخاك يمسح الأرضية.",
+    "taskEn": "Say that you do the washing-up and your brother mops the floor.",
+    "exampleEn": "I do the washing-up, and my brother mops the floor.",
+    "exampleAr": "أغسل الصحون، ويمسح أخي الأرضية.",
+    "check": {
+      "promptEn": "Complete: I _____ the bed every morning.",
+      "choices": [
+        "make",
+        "do",
+        "take"
+      ],
+      "answer": "make",
+      "explanationAr": "التركيب الطبيعي هو make the bed. do يناسب مهام مثل do the washing-up.",
+      "explanationEn": "The natural phrase is make the bed. Do fits chores such as do the washing-up."
+    }
+  },
+  "a2-x-u5-l3": {
+    "focusAr": "rent هو الإيجار الدوري، وdeposit مبلغ تأمين منفصل في هذا السياق. furnished تعني وجود أثاث، ولا تعني أن الفواتير مشمولة. اسأل عن كل بند على حدة، واستعمل viewing لمعاينة الشقة قبل اختيارها.",
+    "focusEn": "Rent is the regular rental payment, while a deposit is a separate sum in this context. Furnished means furniture is provided; it does not mean bills are included. Ask about each item separately and use viewing for an appointment to see the flat.",
+    "taskAr": "اسأل عن الإيجار وما إذا كان يشمل الفواتير.",
+    "taskEn": "Ask the rent and whether bills are included.",
+    "exampleEn": "How much is the rent, and are the bills included?",
+    "exampleAr": "كم الإيجار، وهل الفواتير مشمولة؟",
+    "check": {
+      "promptEn": "A flat is furnished. What does this tell you?",
+      "choices": [
+        "It has furniture.",
+        "All bills are included.",
+        "No deposit is required."
+      ],
+      "answer": "It has furniture.",
+      "explanationAr": "furnished تصف الأثاث فقط؛ لا تحدد الفواتير أو التأمين أو غيرهما من الشروط.",
+      "explanationEn": "Furnished describes the furniture only; it does not specify bills, a deposit or other terms."
+    }
+  },
+  "a2-x-u5-l4": {
+    "focusAr": "quiet تصف قلة الضوضاء وcrowded كثرة الناس؛ قد يكون المكان أحدهما في وقت دون آخر. nearby في آخر الجملة تعني بالقرب من هنا. أما near فتتبعها غالبًا عبارة مكان: near my house.",
+    "focusEn": "Quiet concerns noise and crowded concerns the number of people; a place can change with the time of day. Nearby at the end of a sentence means close to here. Near is often followed by a place: near my house.",
+    "taskAr": "اسأل إن كان يوجد موقف حافلة قريب.",
+    "taskEn": "Ask whether there is a bus stop nearby.",
+    "exampleEn": "Is there a bus stop nearby?",
+    "exampleAr": "هل يوجد موقف حافلة قريب؟",
+    "check": {
+      "promptEn": "Complete: There is a pharmacy _____ my house.",
+      "choices": [
+        "near",
+        "nearby",
+        "nearly"
+      ],
+      "answer": "near",
+      "explanationAr": "near تتبعها عبارة my house مباشرة. nearby لا تأخذ مفعولًا بهذا الشكل، وnearly تعني تقريبًا.",
+      "explanationEn": "Near can be followed directly by my house. Nearby does not take an object this way, and nearly means almost."
+    }
+  },
+  "a2-x-u6-l1": {
+    "focusAr": "hurt قد يعني يؤلم في My knee hurts، أو يؤذي في I hurt my knee. صيغة الماضي منه hurt أيضًا. اربط الإصابة بظرفها: when I was playing football، لتحديد ما كنت تفعله وقت وقوعها.",
+    "focusEn": "Hurt can mean cause pain in My knee hurts or injure in I hurt my knee. Its past form is also hurt. Link an injury to its circumstances with when I was playing football to say what was happening at that time.",
+    "taskAr": "اذكر إصابة الركبة أثناء لعب كرة القدم أمس.",
+    "taskEn": "Say that you hurt your knee while playing football yesterday.",
+    "exampleEn": "I hurt my knee when I was playing football yesterday.",
+    "exampleAr": "أصبت ركبتي عندما كنت ألعب كرة القدم أمس.",
+    "check": {
+      "promptEn": "Complete: Yesterday, I _____ my wrist.",
+      "choices": [
+        "hurt",
+        "hurted",
+        "hurts"
+      ],
+      "answer": "hurt",
+      "explanationAr": "hurt لا تأخذ ed في الماضي. hurts صيغة مضارع مع فاعل مفرد غائب.",
+      "explanationEn": "Hurt does not take ed in the past. Hurts is a present-tense form for a third-person singular subject."
+    }
+  },
+  "a2-x-u6-l2": {
+    "focusAr": "في تعليمات التدريب، فرّق بين مقدار الجرعة وتكرارها وتوقيتها. one tablet كمية في المرة، وtwice a day عدد المرات. side effect أثر جانبي؛ عند طلب التوضيح استخدم سؤالًا، ولا تفترض الإجابة من اسم الدواء.",
+    "focusEn": "In practice instructions, distinguish quantity, frequency and timing. One tablet states the amount each time; twice a day states the frequency. Side effect means an additional effect. Ask for clarification rather than inferring the answer from the medicine's name.",
+    "taskAr": "اطلب من الصيدلي شرح الجرعة الموجودة على الملصق.",
+    "taskEn": "Ask the pharmacist to explain the dose on the label.",
+    "exampleEn": "Could you explain the dose on this label, please?",
+    "exampleAr": "هل يمكنك شرح الجرعة المذكورة على هذا الملصق، من فضلك؟",
+    "check": {
+      "promptEn": "A practice label says one tablet twice a day. How many tablets does it specify each time?",
+      "choices": [
+        "one",
+        "two",
+        "three"
+      ],
+      "answer": "one",
+      "explanationAr": "one tablet تحدد قرصًا واحدًا في كل مرة. twice تحدد مرتين يوميًا ولا تغيّر عدد الأقراص في المرة.",
+      "explanationEn": "One tablet specifies one tablet each time. Twice gives the daily frequency and does not change that quantity."
+    }
+  },
+  "a2-x-u6-l3": {
+    "focusAr": "work out فعل مركب بمعنى يتمرن؛ مع she يصبح works out. أما workout كلمة واحدة فاسم للتمرين. warm up للإحماء وcool down لخفض شدة النشاط في نهايته. اذكر عدد المرات باستخدام times a week.",
+    "focusEn": "Work out is a phrasal verb; with she it becomes works out. Workout as one word is a noun. Warm up and cool down name different stages of an exercise session. State frequency with times a week.",
+    "taskAr": "قل إنك تتمرن مرتين أسبوعيًا.",
+    "taskEn": "Say that you work out twice a week.",
+    "exampleEn": "I work out twice a week.",
+    "exampleAr": "أتمرن مرتين في الأسبوع.",
+    "check": {
+      "promptEn": "Complete: She _____ before breakfast.",
+      "choices": [
+        "works out",
+        "work out",
+        "is work out"
+      ],
+      "answer": "works out",
+      "explanationAr": "she تحتاج إلى works، وتبقى out بعد الفعل. workout كلمة واحدة اسم وليست صيغة الفعل هنا.",
+      "explanationEn": "She takes works, followed by out. Workout as one word is a noun, not the verb form needed here."
+    }
+  },
+  "a2-x-u6-l4": {
+    "focusAr": "go to bed الذهاب إلى الفراش، وfall asleep بدء النوم، وoversleep الاستمرار في النوم بعد الوقت المقصود للاستيقاظ. nap قيلولة قصيرة. قد تذهب إلى الفراش مبكرًا دون أن تغفو فورًا؛ صف المرحلتين بدقة.",
+    "focusEn": "Go to bed means get into bed, fall asleep means begin sleeping, and oversleep means sleep past the intended waking time. A nap is a short sleep. Going to bed early does not necessarily mean falling asleep immediately.",
+    "taskAr": "اذكر أنك تذهب إلى الفراش في العاشرة ثم تقرأ قبل النوم.",
+    "taskEn": "Say that you go to bed at ten and read before falling asleep.",
+    "exampleEn": "I go to bed at ten and read before I fall asleep.",
+    "exampleAr": "أذهب إلى الفراش في العاشرة وأقرأ قبل أن أغفو.",
+    "check": {
+      "promptEn": "You intended to wake at seven but woke at nine. You _____.",
+      "choices": [
+        "overslept",
+        "went to bed early",
+        "took a short break"
+      ],
+      "answer": "overslept",
+      "explanationAr": "overslept هي ماضي oversleep، وتعني أنك تجاوزت وقت الاستيقاظ المقصود.",
+      "explanationEn": "Overslept is the past of oversleep: you slept beyond the intended waking time."
+    }
+  },
+  "a2-x-u7-l1": {
+    "focusAr": "عند الحجز حدّد نوع الغرفة وعدد الليالي والسعر. twin room تعني غرفة بسريرين منفصلين، بينما double room تُستخدم عادة لغرفة لشخصين بسرير مزدوج. per night سعر الليلة، وليس مجموع الإقامة. اسأل إن كان الإفطار مشمولًا.",
+    "focusEn": "When booking, state the room type, number of nights and price. A twin room has separate beds, while a double room usually has a double bed for two people. Per night gives one night's price, not the stay's total. Ask whether breakfast is included.",
+    "taskAr": "اسأل عن غرفة بسريرين منفصلين لليلتين مع الإفطار.",
+    "taskEn": "Ask for a twin room for two nights with breakfast.",
+    "exampleEn": "Is a twin room available for two nights, and is breakfast included?",
+    "exampleAr": "هل تتوفر غرفة بسريرين منفصلين لليلتين، وهل الإفطار مشمول؟",
+    "check": {
+      "promptEn": "A room is 80 per night. What is the room charge for two nights, before any extras?",
+      "choices": [
+        "160",
+        "80",
+        "40"
+      ],
+      "answer": "160",
+      "explanationAr": "per night تعني لكل ليلة، لذلك نحسب ليلتين: 80 في 2 تساوي 160 قبل الإضافات.",
+      "explanationEn": "Per night means for each night, so two nights cost 80 times 2, or 160, before extras."
+    }
+  },
+  "a2-x-u7-l2": {
+    "focusAr": "حدد المشكلة ثم اطلب الإجراء: The air conditioning isn't working. Could someone check it? room service ترتبط غالبًا بتقديم الطعام إلى الغرفة، وhousekeeping بالتنظيف والمناشف. complaint شكوى، ونقول make a complaint.",
+    "focusEn": "State the problem and request an action: The air conditioning isn't working. Could someone check it? Room service commonly brings food; housekeeping handles cleaning and towels. Use make a complaint, not do a complaint.",
+    "taskAr": "أبلغ عن تعطل التكييف واطلب فحصه.",
+    "taskEn": "Report that the air conditioning is not working and ask for it to be checked.",
+    "exampleEn": "The air conditioning isn't working. Could someone check it, please?",
+    "exampleAr": "التكييف لا يعمل. هل يمكن لأحد فحصه، من فضلك؟",
+    "check": {
+      "promptEn": "Complete: I would like to _____ a complaint.",
+      "choices": [
+        "make",
+        "do",
+        "take"
+      ],
+      "answer": "make",
+      "explanationAr": "التركيب المعتاد هو make a complaint. نتعلم الاسم مع الفعل الذي يصاحبه.",
+      "explanationEn": "The standard expression is make a complaint. Learn the noun with its usual accompanying verb."
+    }
+  },
+  "a2-x-u7-l3": {
+    "focusAr": "pack فعل تجهيز الأمتعة، وsuitcase الحقيبة نفسها. لا تخلط charger، الذي يشحن الجهاز، مع travel adapter الذي يكيّف القابس. Don't forget to يتبعها فعل أساسي لتذكير الشخص بمهمة لم يفعلها بعد.",
+    "focusEn": "Pack is the action of preparing luggage; a suitcase is the container. A charger charges a device, while a travel adapter adapts the plug. Don't forget to takes a base verb to remind someone of a task still to do.",
+    "taskAr": "ذكّر زميلك بوضع الشاحن ومحوّل القابس في حقيبته.",
+    "taskEn": "Remind a companion to pack a charger and travel adapter.",
+    "exampleEn": "Don't forget to pack your charger and travel adapter.",
+    "exampleAr": "لا تنس وضع شاحنك ومحوّل قابس السفر في حقيبتك.",
+    "check": {
+      "promptEn": "Complete: Don't forget _____ your charger.",
+      "choices": [
+        "to pack",
+        "pack",
+        "packed"
+      ],
+      "answer": "to pack",
+      "explanationAr": "في التذكير بمهمة لاحقة نستخدم forget to ثم الفعل الأساسي. pack أوpacked لا تناسبان هذا التركيب.",
+      "explanationEn": "To remind someone about a task, use forget to followed by the base verb. Pack or packed alone does not fit this pattern."
+    }
+  },
+  "a2-x-u7-l4": {
+    "focusAr": "go sightseeing لمشاهدة المعالم، وtake photos لالتقاط الصور؛ لا نقول make photos في هذا المعنى المعتاد. في الماضي تصبح went sightseeing وtook photos. souvenir تذكار تحتفظ به، وlandmark مكان أو معلم بارز تزوره.",
+    "focusEn": "Use go sightseeing and take photos; make photos is not the usual phrase in this meaning. Their past forms are went sightseeing and took photos. A souvenir is something you keep, while a landmark is a notable place or feature you visit.",
+    "taskAr": "صف مشاهدة المعالم والتقاط الصور في عطلة ماضية.",
+    "taskEn": "Describe sightseeing and taking photos on a past holiday.",
+    "exampleEn": "We went sightseeing and took photos of the old town.",
+    "exampleAr": "ذهبنا لمشاهدة المعالم والتقطنا صورًا للمدينة القديمة.",
+    "check": {
+      "promptEn": "Complete: Yesterday, we _____ photos of the museum.",
+      "choices": [
+        "took",
+        "take",
+        "taking"
+      ],
+      "answer": "took",
+      "explanationAr": "Yesterday تحدد الماضي، وماضي take غير المنتظم هو took.",
+      "explanationEn": "Yesterday marks the past, and the irregular past of take is took."
+    }
+  },
+  "a2-x-u8-l1": {
+    "focusAr": "اختر طلب التوضيح المناسب: repeat لتكرار الكلام، وspell لذكر الحروف، وexplain لشرح المعنى. borrow أخذ شيء مؤقتًا لاستعماله ثم إعادته، وليست شراءه. عند السؤال عن المعنى استخدم What does... mean?",
+    "focusEn": "Choose the right clarification request: repeat asks for the words again, spell asks for the letters, and explain asks for meaning. Borrow means use something temporarily and return it, not buy it. Ask about meaning with What does... mean?",
+    "taskAr": "اطلب تهجئة اسم العائلة بأدب.",
+    "taskEn": "Politely ask someone to spell their surname.",
+    "exampleEn": "Could you spell your surname, please?",
+    "exampleAr": "هل يمكنك تهجئة اسم عائلتك، من فضلك؟",
+    "check": {
+      "promptEn": "You heard a name but need its letters. Ask someone to _____.",
+      "choices": [
+        "spell it",
+        "borrow it",
+        "underline your own name"
+      ],
+      "answer": "spell it",
+      "explanationAr": "spell تطلب الحروف بالترتيب. تكرار الصوت وحده قد لا يوضح الكتابة.",
+      "explanationEn": "Spell asks for the letters in order. Repeating the sound alone may not clarify the spelling."
+    }
+  },
+  "a2-x-u8-l2": {
+    "focusAr": "subject مادة دراسية، وtimetable جدول مواعيد الدروس. استخدم find مع المفعول ثم الصفة لتقييم صعوبة مادة: I find maths difficult. maths وphysics اسمان لمادتين يأخذ كل منهما is رغم النهاية s.",
+    "focusEn": "A subject is an area of study; a timetable schedules lessons. Use find with an object and adjective to evaluate difficulty: I find maths difficult. Maths and physics each take is as a subject name, despite ending in s.",
+    "taskAr": "اذكر حب التاريخ وصعوبة الكيمياء بالنسبة إليك.",
+    "taskEn": "Say that you like history but find chemistry difficult.",
+    "exampleEn": "I like history, but I find chemistry difficult.",
+    "exampleAr": "أحب التاريخ، لكنني أجد الكيمياء صعبة.",
+    "check": {
+      "promptEn": "Complete: Physics _____ my favourite subject.",
+      "choices": [
+        "is",
+        "are",
+        "am"
+      ],
+      "answer": "is",
+      "explanationAr": "Physics اسم مادة واحدة، ولذلك يتبعه is. النهاية s لا تجعله جمعًا هنا.",
+      "explanationEn": "Physics names one subject and takes is. The ending s does not make it plural here."
+    }
+  },
+  "a2-x-u8-l3": {
+    "focusAr": "revise فعل المراجعة للاختبار، وrevision اسم النشاط، خصوصًا في الإنجليزية البريطانية. pass وfail يصفان النتيجة، بينما mark وgrade قد يشيران إلى الدرجة أو التقدير بحسب النظام. لا تضمن المراجعة نتيجة معينة.",
+    "focusEn": "Revise is the verb and revision the activity noun, especially in British English. Pass and fail describe the outcome, while mark and grade can refer to scores or ratings depending on the system. Revising does not guarantee a particular result.",
+    "taskAr": "صف مراجعة ملاحظاتك ساعة كل مساء.",
+    "taskEn": "Describe revising your notes for an hour each evening.",
+    "exampleEn": "I revise my notes for an hour every evening.",
+    "exampleAr": "أراجع ملاحظاتي لمدة ساعة كل مساء.",
+    "check": {
+      "promptEn": "Complete: I need two hours of _____ tonight.",
+      "choices": [
+        "revision",
+        "revise",
+        "revises"
+      ],
+      "answer": "revision",
+      "explanationAr": "بعد of نحتاج إلى اسم النشاط revision. revise وrevises صيغتا فعل.",
+      "explanationEn": "After of, use the activity noun revision. Revise and revises are verb forms."
+    }
+  },
+  "a2-x-u8-l4": {
+    "focusAr": "pronunciation كيفية نطق الكلمات، وaccent نمط نطق يرتبط بلهجة أو خلفية لغوية. الطلاقة لا تعني غياب اللكنة ولا انعدام الأخطاء. استخدم make a mistake وimprove your pronunciation لوصف أهداف تدريب محددة.",
+    "focusEn": "Pronunciation concerns how words are spoken; accent is a speech pattern associated with a variety or language background. Fluency does not mean having no accent or making no mistakes. Use make a mistake and improve your pronunciation for specific learning goals.",
+    "taskAr": "حدد هدفًا لتحسين النطق باستخدام التدريب اليومي.",
+    "taskEn": "Set a pronunciation goal using daily practice.",
+    "exampleEn": "I practise every day to improve my pronunciation.",
+    "exampleAr": "أتدرب كل يوم لتحسين نطقي.",
+    "check": {
+      "promptEn": "Complete: It is normal to _____ mistakes while learning.",
+      "choices": [
+        "make",
+        "do",
+        "take"
+      ],
+      "answer": "make",
+      "explanationAr": "التركيب هو make mistakes. الهدف التعلمي فهم الخطأ والعمل عليه، لا اختيار فعل مترجم حرفيًا من العربية.",
+      "explanationEn": "The phrase is make mistakes. Learn the English verb-noun combination rather than translating the Arabic verb literally."
+    }
+  },
+  "a2-x-u9-l1": {
+    "focusAr": "استخدم a أوan مع اسم المهنة المفرد: a nurse وan engineer. لذكر مكان العمل استخدم works in a factory أوworks at a hotel. shift فترة العمل المحددة، وليست المهنة نفسها.",
+    "focusEn": "Use a or an with a singular job title: a nurse, an engineer. Name the workplace with works in a factory or works at a hotel. A shift is a scheduled period of work, not the person's occupation.",
+    "taskAr": "صف موظف استقبال يعمل في فندق.",
+    "taskEn": "Describe a receptionist who works at a hotel.",
+    "exampleEn": "My brother is a receptionist, and he works at a hotel.",
+    "exampleAr": "أخي موظف استقبال ويعمل في فندق.",
+    "check": {
+      "promptEn": "Complete: My sister is _____ engineer.",
+      "choices": [
+        "an",
+        "a",
+        "two"
+      ],
+      "answer": "an",
+      "explanationAr": "engineer اسم مهنة مفرد يبدأ بصوت متحرك، فيحتاج إلى an.",
+      "explanationEn": "Engineer is a singular job noun beginning with a vowel sound, so it takes an."
+    }
+  },
+  "a2-x-u9-l2": {
+    "focusAr": "فرّق بين answer emails وreply to emails؛ الأول لا يحتاج إلى to. task list قائمة بما ستفعله، وsupervisor الشخص الذي يتابع العمل. photocopy فعل تصوير المستند هنا، وليس التقاط صورة شخصية.",
+    "focusEn": "Distinguish answer emails from reply to emails; answer does not need to. A task list records what to do, and a supervisor oversees work. Photocopy is a verb for copying a document here, not taking a portrait.",
+    "taskAr": "رتّب مهمتين: الرد على الرسائل ثم مراجعة التقرير مع زميل.",
+    "taskEn": "Sequence two tasks: answer emails, then review a report with a colleague.",
+    "exampleEn": "First, I answer emails. Then I check the report with my colleague.",
+    "exampleAr": "أولًا، أرد على الرسائل الإلكترونية. ثم أراجع التقرير مع زميلي.",
+    "check": {
+      "promptEn": "Choose the correct phrase.",
+      "choices": [
+        "reply to emails",
+        "answer to emails",
+        "reply emails"
+      ],
+      "answer": "reply to emails",
+      "explanationAr": "reply تأخذ to قبل الرسائل، أما answer فتتبعها emails مباشرة.",
+      "explanationEn": "Reply takes to before emails, while answer takes emails directly."
+    }
+  },
+  "a2-x-u9-l3": {
+    "focusAr": "apply for a job تعني التقدم لوظيفة، وCV تعرض المؤهلات والخبرة. experience بمعنى الخبرة العملية غير معدودة: some experience، لا an experience. part-time وfull-time تصفان نمط الدوام، وليس بالضرورة مدة العقد.",
+    "focusEn": "Apply for a job means submit an application, and a CV presents qualifications and experience. Work experience is uncountable: some experience, not an experience. Part-time and full-time describe working hours, not necessarily contract length.",
+    "taskAr": "اذكر التقدم لوظيفة بدوام جزئي وامتلاك خبرة مبيعات.",
+    "taskEn": "Say that you want a part-time job and have sales experience.",
+    "exampleEn": "I want to apply for a part-time job. I have experience in sales.",
+    "exampleAr": "أريد التقدم لوظيفة بدوام جزئي. لدي خبرة في المبيعات.",
+    "check": {
+      "promptEn": "Complete: I want to apply _____ this job.",
+      "choices": [
+        "for",
+        "on",
+        "with"
+      ],
+      "answer": "for",
+      "explanationAr": "نستخدم apply for مع الوظيفة المطلوبة. لا نترجم حرف الجر العربي حرفيًا.",
+      "explanationEn": "Use apply for with the job being sought, rather than translating the Arabic preposition literally."
+    }
+  },
+  "a2-x-u9-l4": {
+    "focusAr": "a day off يوم لا تعمل فيه، وtake a day off أخذ ذلك اليوم إجازة. يمكن أن يفصل اسم اليوم take عن off: take Thursday off. approve فعل يتبعه الطلب مباشرة، بينما ask for يقدّم الشيء الذي تطلبه.",
+    "focusEn": "A day off is a non-working day; take a day off describes taking it. The day can separate take and off: take Thursday off. Approve takes the request directly, while ask for introduces what you are requesting.",
+    "taskAr": "اطلب إجازة يوم الخميس بأدب.",
+    "taskEn": "Politely ask to take Thursday off.",
+    "exampleEn": "Could I take Thursday off, please?",
+    "exampleAr": "هل يمكنني أخذ إجازة يوم الخميس، من فضلك؟",
+    "check": {
+      "promptEn": "Which request asks for time away from work?",
+      "choices": [
+        "Could I take Thursday off?",
+        "Could I work overtime on Thursday?",
+        "Could I start early on Thursday?"
+      ],
+      "answer": "Could I take Thursday off?",
+      "explanationAr": "take Thursday off تعني طلب عدم العمل ذلك اليوم. overtime عمل إضافي وstart early بدء مبكر.",
+      "explanationEn": "Take Thursday off asks not to work that day. Overtime means additional work, and start early means begin earlier."
+    }
+  },
+  "a2-x-u10-l1": {
+    "focusAr": "استخدم الماضي لسرد العطلة: visited وstayed وenjoyed. بعد Did يعود الفعل إلى enjoy. catch up في اللقاء الاجتماعي يعني تبادل الأخبار بعد غياب، وget together الاجتماع للتواصل أو نشاط مشترك.",
+    "focusEn": "Use past forms to recount a weekend: visited, stayed and enjoyed. After Did, the verb returns to enjoy. Catch up socially means exchange news after time apart, and get together means meet for company or a shared activity.",
+    "taskAr": "صف لقاء أقارب وإقامة حفلة شواء في العطلة الماضية.",
+    "taskEn": "Describe meeting relatives and having a barbecue last weekend.",
+    "exampleEn": "Last weekend, we visited our relatives and had a barbecue.",
+    "exampleAr": "في عطلة نهاية الأسبوع الماضية، زرنا أقاربنا وأقمنا حفلة شواء.",
+    "check": {
+      "promptEn": "Complete: Did you _____ the party?",
+      "choices": [
+        "enjoy",
+        "enjoyed",
+        "enjoying"
+      ],
+      "answer": "enjoy",
+      "explanationAr": "بعد Did نستخدم enjoy بصيغته الأساسية. enjoyed تستخدم في الخبر الماضي.",
+      "explanationEn": "Use base-form enjoy after Did. Enjoyed is used in a past-tense statement."
+    }
+  },
+  "a2-x-u10-l2": {
+    "focusAr": "استخدم proud of للتعبير عن الفخر بشخص. happiest صيغة تفضيل من happy؛ تتحول y إلى i قبل est. anniversary ذكرى سنوية لحدث، بينما graduation التخرج وwedding حفل الزواج نفسه.",
+    "focusEn": "Use proud of to express pride in someone. Happiest is the superlative of happy; y changes to i before est. An anniversary marks a past event each year, while graduation and wedding name the events themselves.",
+    "taskAr": "صف يوم تخرج لا يُنسى وفخر العائلة بك.",
+    "taskEn": "Describe a memorable graduation day and your family's pride.",
+    "exampleEn": "My graduation was memorable, and my family was proud of me.",
+    "exampleAr": "كان يوم تخرجي لا يُنسى، وكانت عائلتي فخورة بي.",
+    "check": {
+      "promptEn": "Complete: My parents were proud _____ me.",
+      "choices": [
+        "of",
+        "to",
+        "with"
+      ],
+      "answer": "of",
+      "explanationAr": "proud تتبعها of عند ذكر الشخص أو الإنجاز الذي تفخر به.",
+      "explanationEn": "Proud takes of before the person or achievement that inspires pride."
+    }
+  },
+  "a2-x-u10-l3": {
+    "focusAr": "used to تصف عادة أو حالة كانت في الماضي ولم تعد كما كانت. بعدها الفعل الأساسي: used to walk، وليس walked. grew up ماضي grow up بمعنى نشأ، بينما childhood اسم مرحلة الطفولة.",
+    "focusEn": "Used to describes a past habit or state that is no longer the same. It takes a base verb: used to walk, not walked. Grew up is the past of grow up, while childhood names the stage of life.",
+    "taskAr": "اذكر عادة المشي إلى المدرسة في طفولتك.",
+    "taskEn": "Describe a childhood habit of walking to school.",
+    "exampleEn": "When I was a child, I used to walk to school.",
+    "exampleAr": "عندما كنت طفلًا، كنت أذهب إلى المدرسة مشيًا.",
+    "check": {
+      "promptEn": "Complete: I used to _____ near my grandparents.",
+      "choices": [
+        "live",
+        "lived",
+        "living"
+      ],
+      "answer": "live",
+      "explanationAr": "بعد used to الخاصة بعادات الماضي يأتي الفعل الأساسي live. لا نخلطها مع be used to ذات المعنى المختلف.",
+      "explanationEn": "The past-habit pattern used to takes base-form live. Do not confuse it with the different pattern be used to."
+    }
+  },
+  "a2-x-u10-l4": {
+    "focusAr": "استخدم الماضي المستمر للخلفية: I was riding، والماضي البسيط للحدث المفاجئ: I fell. suddenly تفيد المفاجأة، ولا تكفي وحدها لتوضيح سبب الحادث. بعد السرد اذكر النتيجة أو التصرف بجملة محددة.",
+    "focusEn": "Use the past continuous for the background: I was riding, and the past simple for the sudden event: I fell. Suddenly marks an unexpected event but does not explain its cause. Add a specific result or response after recounting it.",
+    "taskAr": "احكِ سقوطًا أثناء ركوب الدراجة مع ذكر إصابة بسيطة.",
+    "taskEn": "Describe falling while cycling and mention a minor injury.",
+    "exampleEn": "I was riding my bike when I fell. I had a bruise on my leg.",
+    "exampleAr": "كنت أركب دراجتي عندما سقطت. أصبت بكدمة في ساقي.",
+    "check": {
+      "promptEn": "Complete: I was riding my bike when I _____.",
+      "choices": [
+        "fell",
+        "fall",
+        "am falling"
+      ],
+      "answer": "fell",
+      "explanationAr": "was riding تصف النشاط الجاري في الماضي، وfell تصف الحدث الذي وقع أثناءه.",
+      "explanationEn": "Was riding describes the ongoing past activity, and fell names the event that happened during it."
+    }
+  },
+  "a2-x-u11-l1": {
+    "focusAr": "wild تصف حيوانًا غير مستأنس، ولا تعني أنه غاضب أو شرس في كل لحظة. pet حيوان يُربى للصحبة. mammal تصنيف حيواني؛ مكان العيش وحده لا يحدد التصنيف، فالدلفين ثديي يعيش في الماء.",
+    "focusEn": "Wild describes an undomesticated animal, not an animal that is always angry or aggressive. A pet is kept for companionship. Mammal is a biological category; habitat alone does not decide it, since a dolphin is a mammal living in water.",
+    "taskAr": "اذكر امتلاك قطة أليفة وإطعامها كل يوم.",
+    "taskEn": "Say that you have a pet cat and feed it daily.",
+    "exampleEn": "I have a pet cat, and I feed it every day.",
+    "exampleAr": "لدي قطة أليفة وأطعمها كل يوم.",
+    "check": {
+      "promptEn": "Which word means an animal kept for companionship?",
+      "choices": [
+        "pet",
+        "cage",
+        "desert"
+      ],
+      "answer": "pet",
+      "explanationAr": "pet الحيوان الذي يربى للصحبة. cage قفص وdesert بيئة طبيعية، وليسا اسمين لحيوان.",
+      "explanationEn": "A pet is an animal kept for companionship. A cage is a container and a desert a habitat, not animals."
+    }
+  },
+  "a2-x-u11-l2": {
+    "focusAr": "countryside منطقة ريفية، وfield حقل، وfarm مزرعة قد تضم عدة حقول. للمقارنة استخدم more peaceful than، لا peacefuler. fresh air عبارة غير معدودة؛ نقول some fresh air دون a.",
+    "focusEn": "Countryside is a rural area, a field is a piece of land, and a farm may contain several fields. Compare with more peaceful than, not peacefuler. Fresh air is uncountable, so say some fresh air without a.",
+    "taskAr": "قارن هدوء قرية تعرفها بوسط المدينة.",
+    "taskEn": "Compare the peacefulness of a village you know with the city centre.",
+    "exampleEn": "Our village is more peaceful than the city centre.",
+    "exampleAr": "قريتنا أكثر هدوءًا من وسط المدينة.",
+    "check": {
+      "promptEn": "Complete: This village is _____ than the city centre.",
+      "choices": [
+        "more peaceful",
+        "peacefuler",
+        "most peaceful"
+      ],
+      "answer": "more peaceful",
+      "explanationAr": "نستخدم more مع peaceful للمقارنة بين المكانين. most peaceful صيغة تفضيل وليست النمط المطلوب مع than.",
+      "explanationEn": "Use more with peaceful to compare the two places. Most peaceful is a superlative, not the pattern needed with than."
+    }
+  },
+  "a2-x-u11-l3": {
+    "focusAr": "recommend يتبعها اسم أوفعل ing: recommend a walk أوrecommend visiting. لا تقل recommend to visit في هذا النمط. old town تشير إلى الجزء التاريخي من المدينة، وقد تكون جزءًا من city centre وليست مدينة منفصلة.",
+    "focusEn": "Recommend takes a noun or an ing form: recommend a walk or recommend visiting. Do not say recommend to visit in this pattern. The old town is the historic part and may be within the city centre rather than a separate town.",
+    "taskAr": "قدّم توصية بزيارة البلدة القديمة مساءً.",
+    "taskEn": "Recommend visiting the old town in the evening.",
+    "exampleEn": "I recommend visiting the old town in the evening.",
+    "exampleAr": "أوصي بزيارة البلدة القديمة مساءً.",
+    "check": {
+      "promptEn": "Complete: I recommend _____ the museum.",
+      "choices": [
+        "visiting",
+        "to visit",
+        "visit"
+      ],
+      "answer": "visiting",
+      "explanationAr": "بعد recommend نستخدم ing عند ذكر النشاط بهذا النمط، فتكون visiting صحيحة.",
+      "explanationEn": "Use an ing form after recommend when naming an activity in this pattern, so visiting is correct."
+    }
+  },
+  "a2-x-u11-l4": {
+    "focusAr": "cancelled تعني أُلغيت، وليست delayed التي تعني تأخرت. بعد because of يأتي اسم مثل a sandstorm، وبعد because تأتي جملة. forecast توقع لما سيحدث؛ لا تقدم حدثًا مستقبليًا بوصفه وقع بالفعل.",
+    "focusEn": "Cancelled means called off, not delayed. Because of takes a noun phrase such as a sandstorm, while because takes a clause. A forecast predicts what may happen; it does not describe a future event as already completed.",
+    "taskAr": "اشرح إلغاء رحلة بسبب عاصفة رملية.",
+    "taskEn": "Explain that a flight was cancelled because of a sandstorm.",
+    "exampleEn": "The flight was cancelled because of a sandstorm.",
+    "exampleAr": "أُلغيت الرحلة بسبب عاصفة رملية.",
+    "check": {
+      "promptEn": "Complete: The match was cancelled because _____ heavy rain.",
+      "choices": [
+        "of",
+        "to",
+        "for"
+      ],
+      "answer": "of",
+      "explanationAr": "بعد because نحتاج إلى of إذا تلاها اسم مثل heavy rain بدل جملة فيها فاعل وفعل.",
+      "explanationEn": "Because needs of when followed by a noun phrase such as heavy rain rather than a full clause."
+    }
+  },
+  "a2-x-u12-l1": {
+    "focusAr": "withdraw سحب المال وtransfer نقله بين حسابات. balance رصيد الحساب، وfee رسم للعملية أو الخدمة. debit card بطاقة خصم مباشر تختلف عن بطاقة الائتمان. اسأل عن الرسوم بدل افتراض أن كل عملية مجانية.",
+    "focusEn": "Withdraw means take money out; transfer means move it between accounts. Balance is the amount in the account and a fee is a charge. A debit card differs from a credit card. Ask about a fee rather than assuming a transaction is free.",
+    "taskAr": "اطلب فتح حساب واسأل عن رسوم بطاقة الخصم.",
+    "taskEn": "Ask to open an account and ask about the debit-card fee.",
+    "exampleEn": "I'd like to open a bank account. Is there a fee for the debit card?",
+    "exampleAr": "أود فتح حساب بنكي. هل توجد رسوم لبطاقة الخصم المباشر؟",
+    "check": {
+      "promptEn": "Which word means take money out of an account?",
+      "choices": [
+        "withdraw",
+        "transfer between accounts",
+        "check the balance"
+      ],
+      "answer": "withdraw",
+      "explanationAr": "withdraw تعني سحب المال. transfer نقله بين حسابات، وcheck the balance معرفة الرصيد.",
+      "explanationEn": "Withdraw means take money out. Transfer moves it between accounts, and checking the balance reveals the amount available."
+    }
+  },
+  "a2-x-u12-l2": {
+    "focusAr": "tracking number يحدد الطرد في نظام التتبع، وaddress يحدد مكان التسليم. yet في My parcel hasn't arrived yet تعني أن الوصول المتوقع لم يحدث حتى الآن. ميّز التأخر عن التلف: damaged تصف الحالة المادية للطرد.",
+    "focusEn": "A tracking number identifies the parcel in a tracking system; an address identifies the destination. Yet in My parcel hasn't arrived yet means the expected arrival has not happened up to now. Damaged describes physical condition, not lateness.",
+    "taskAr": "أبلغ عن عدم وصول طردك واطلب رقم التتبع.",
+    "taskEn": "Report that your parcel has not arrived and ask for its tracking number.",
+    "exampleEn": "My parcel hasn't arrived yet. Could you send me the tracking number?",
+    "exampleAr": "لم يصل طردي بعد. هل يمكنك إرسال رقم التتبع إليّ؟",
+    "check": {
+      "promptEn": "Which information helps identify a parcel in a tracking system?",
+      "choices": [
+        "the tracking number",
+        "the weather forecast",
+        "the colour of the driver's shirt"
+      ],
+      "answer": "the tracking number",
+      "explanationAr": "رقم التتبع يربط الطلب بسجله في النظام. الخياران الآخران لا يحددان الطرد بهذه الطريقة.",
+      "explanationEn": "The tracking number links the parcel to its system record. The other details do not identify it in that way."
+    }
+  },
+  "a2-x-u12-l3": {
+    "focusAr": "look for تصف البحث، وfind تصف الوصول إلى الشيء؛ قد تبحث دون أن تجده. belong to تحدد المالك وتأتي بعدها هوية الشخص. في وصف حقيبة اذكر اللون ثم المادة: a brown leather bag.",
+    "focusEn": "Look for describes the search; find describes locating the object, which may not happen. Belong to identifies the owner and is followed by the person. Describe a bag with colour before material: a brown leather bag.",
+    "taskAr": "قل إنك تبحث عن محفظة جلدية بنية فقدتها.",
+    "taskEn": "Say that you are looking for a brown leather wallet you lost.",
+    "exampleEn": "I'm looking for a brown leather wallet. I lost it this morning.",
+    "exampleAr": "أبحث عن محفظة جلدية بنية. فقدتها هذا الصباح.",
+    "check": {
+      "promptEn": "Complete: Does this wallet belong _____ you?",
+      "choices": [
+        "to",
+        "for",
+        "with"
+      ],
+      "answer": "to",
+      "explanationAr": "belong to هو التركيب المستخدم لتحديد ملكية الشيء.",
+      "explanationEn": "Belong to is the expression used to identify who owns something."
+    }
+  },
+  "a2-x-u12-l4": {
+    "focusAr": "repair إصلاح الشيء الموجود، وreplace استبداله بآخر. leaking تصف تسرب الماء هنا. سمّ العطل ثم الشخص المطلوب: plumber للسباكة وelectrician للكهرباء، واسأل عن موعد الإصلاح أو مدته.",
+    "focusEn": "Repair means fix the existing object; replace means put another one in its place. Leaking describes water escaping here. Name the fault and the relevant worker: a plumber for plumbing or an electrician for electrical work, then ask about timing.",
+    "taskAr": "أبلغ عن تسرب الصنبور واسأل متى يستطيع السباك الحضور.",
+    "taskEn": "Report a leaking tap and ask when a plumber can come.",
+    "exampleEn": "The tap is leaking. When can the plumber come?",
+    "exampleAr": "الصنبور يسرّب الماء. متى يستطيع السباك الحضور؟",
+    "check": {
+      "promptEn": "You remove a broken bulb and put in a new one. You _____ it.",
+      "choices": [
+        "replace",
+        "describe",
+        "borrow"
+      ],
+      "answer": "replace",
+      "explanationAr": "replace تعني وضع شيء آخر مكان التالف. repair تعني إصلاح الشيء نفسه، وليست ما حدث في هذا المثال.",
+      "explanationEn": "Replace means put another item in place of the damaged one. Repair would mean fixing the original item instead."
+    }
+  }
+}

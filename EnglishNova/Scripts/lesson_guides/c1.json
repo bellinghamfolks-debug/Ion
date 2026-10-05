@@ -1,0 +1,1142 @@
+{
+  "c1-u1-l1": {
+    "focusAr": "التحرير المتقدم يزيل التكرار الذي لا يضيف معنى، مع إبقاء القيود والنفي والإسناد والنبرة. redundancy هنا حشو أو تكرار زائد، وليست كل إعادة تأكيد عيبًا. economy of expression اقتصاد لغوي، لا حذف معلومات لازمة. اختبر التنقيح بسؤال: هل صار الادعاء أوسع أو أشد يقينًا أو أقل وضوحًا في المسؤولية؟",
+    "focusEn": "Advanced editing removes uninformative repetition while preserving qualifications, negation, attribution, and tone. Redundancy here is unnecessary repetition, not every purposeful emphasis. Economy of expression is linguistic efficiency, not omission of necessary information. Test a revision by asking whether it makes the claim broader, more certain, or less clear about responsibility.",
+    "taskAr": "اختصر مع الحفاظ على النطاق: «في رأي الفريق، قد يكون من الممكن أن تقل بعض الأخطاء إذا وُضّحت التعليمات».",
+    "taskEn": "Tighten this sentence without changing its scope: 'In the team's opinion, it may be possible that some errors could decrease if the instructions were clarified.'",
+    "exampleEn": "The team believes clearer instructions may reduce some errors. This revision removes repeated expressions of possibility while retaining attribution and the limited claim.",
+    "exampleAr": "يرى الفريق أن توضيح التعليمات قد يقلل بعض الأخطاء. تزيل الصياغة تكرار التعبير عن الاحتمال، مع الحفاظ على نسبة الرأي إلى الفريق وحدود الادعاء.",
+    "check": {
+      "promptEn": "Which revision preserves 'The team believes clearer instructions may reduce some errors'?",
+      "choices": [
+        "The team suggests that clearer instructions could reduce certain errors.",
+        "Clearer instructions eliminate all errors.",
+        "The team has proved that unclear instructions caused every error."
+      ],
+      "answer": "The team suggests that clearer instructions could reduce certain errors.",
+      "explanationAr": "تحافظ الصياغة الصحيحة على المصدر والاحتمال والنطاق الجزئي. البديلان يحولان الفكرة إلى يقين شامل أو إثبات سببي لم يرد في الأصل.",
+      "explanationEn": "The correct revision preserves attribution, uncertainty, and limited scope. The alternatives introduce universal certainty or causal proof absent from the original."
+    }
+  },
+  "c1-extra-2": {
+    "focusAr": "thesis statement موقف محوري قابل للدفاع، لا إعلان موضوع فقط. تتطور coherent paragraph بفكرة ودليل وتحليل يشرح صلته بالموقف؛ الاستشهاد وحده لا يقوم مقام التحليل. draw on توظيف مصدر مع إسناده، وsubstantiate دعم الادعاء بأدلة. ميّز بين قول المصدر واستنتاجك منه، وأبقِ كل فقرة في خدمة مسار الحجة.",
+    "focusEn": "A thesis statement advances a defensible position rather than merely announcing a topic. A coherent paragraph develops a point through evidence and analysis explaining its relevance; citation alone is not analysis. Draw on means use a source with attribution, while substantiate means support a claim with evidence. Separate a source's statement from your inference and connect each paragraph to the argument.",
+    "taskAr": "صغ أطروحة عن إتاحة الواجهات، ثم وضّح نوع دليل تحتاجه لإثباتها دون اختراع نتائج دراسة.",
+    "taskEn": "Formulate a thesis about accessible interfaces, then identify evidence needed to support it without inventing research findings.",
+    "exampleEn": "This essay argues that accessibility should inform interface design from the outset. To substantiate that position, it would compare users' ability to complete key tasks in accessible and inaccessible designs, while accounting for prior experience.",
+    "exampleAr": "تدافع هذه المقالة عن اعتبار إمكانية الوصول جزءًا من تصميم الواجهة منذ البداية. ولدعم هذا الموقف، ستقارن قدرة المستخدمين على إنجاز مهام أساسية في تصميمات ميسرة وأخرى غير ميسرة، مع مراعاة الخبرة السابقة.",
+    "check": {
+      "promptEn": "Which sentence presents a defensible thesis rather than merely naming a topic?",
+      "choices": [
+        "Accessibility should guide interface decisions from the earliest design stage.",
+        "This essay is about interfaces.",
+        "Several interface terms will appear below."
+      ],
+      "answer": "Accessibility should guide interface decisions from the earliest design stage.",
+      "explanationAr": "تطرح الجملة الصحيحة موقفًا يمكن دعمه أو الاعتراض عليه. الجملتان الأخريان تحددان موضوعًا أو محتوى دون حجة مركزية.",
+      "explanationEn": "The correct sentence advances a position that can be supported or challenged. The alternatives announce a topic or contents without a central argument."
+    }
+  },
+  "c1-extra-3": {
+    "focusAr": "التحفظ العلمي يضبط قوة الادعاء بحسب الدليل، لا يكدس كلمات الشك. may indicate احتمال، وappears to مظهر تدعمه المعطيات المتاحة، وtentatively تأويل مبدئي. presumably يحمل افتراضًا قد يحتاج تسويغًا. ضع القيد قرب الاستنتاج الذي يخصه وبيّن سببه، بدل جعل جميع الجمل غامضة بالقدر نفسه.",
+    "focusEn": "Academic hedging calibrates claims to evidence rather than piling up doubt markers. May indicate expresses possibility, appears to describes an evidential appearance, and tentatively marks a provisional interpretation. Presumably conveys an assumption that may need justification. Place a qualification beside the inference it limits and explain why it is needed instead of making every statement equally vague.",
+    "taskAr": "في بيانات تدريبية من فرع واحد، انخفض التأخير بعد تغيير الجدول. صغ نتيجة مبدئية تبين حدود التعميم والسببية.",
+    "taskEn": "In practice data from one branch, delays fell after a schedule change. State a tentative conclusion limiting both generalization and causality.",
+    "exampleEn": "The reduction may indicate that the revised schedule helped this branch, although other changes could also have contributed. We therefore interpret the result tentatively and cannot yet generalize it to the wider network.",
+    "exampleAr": "قد يشير الانخفاض إلى أن الجدول المعدل ساعد هذا الفرع، مع احتمال إسهام تغييرات أخرى. لذلك نفسر النتيجة مبدئيًا ولا نستطيع تعميمها بعد على الشبكة الأوسع.",
+    "check": {
+      "promptEn": "Which qualification explains why a conclusion is tentative?",
+      "choices": [
+        "The pattern appears promising, but the sample covers only one branch.",
+        "The pattern perhaps possibly might somehow maybe exist.",
+        "The pattern is certainly universal despite the single-branch sample."
+      ],
+      "answer": "The pattern appears promising, but the sample covers only one branch.",
+      "explanationAr": "يربط الجواب الصحيح التحفظ بقيد محدد في العينة. تكديس الاحتمالات لا يوضح السبب، والجزم بالتعميم يتجاوز البيانات.",
+      "explanationEn": "The correct answer links caution to a specific sampling limit. Stacked hedges do not explain the uncertainty, while universal certainty exceeds the evidence."
+    }
+  },
+  "c1-extra-4": {
+    "focusAr": "افصل صحة المقدمات عن سلامة الانتقال إلى النتيجة. logical gap تظهر عندما تحتاج الحجة مقدمة لم تُثبت، حتى لو كانت النتيجة plausible. ابحث عن تفسير بديل أو مثال مضاد ذي صلة، لا اعتراض هامشي. remains limited تحدد قصور الدعم ولا تعني أن النتيجة ثبت خطؤها؛ غياب الإثبات ليس دائمًا إثباتًا للنفي.",
+    "focusEn": "Separate the truth of premises from the validity of the inference. A logical gap arises when the argument needs an unestablished premise, even if its conclusion is plausible. Consider relevant alternatives or counterexamples rather than peripheral objections. Remains limited describes insufficient support, not a disproven conclusion; lack of proof is not always proof of the opposite.",
+    "taskAr": "حلّل الحجة: «تحسّن أداء المشاركين في دورة اختيارية، إذن الدورة وحدها سببت التحسن». حدّد الافتراض الناقص دون الجزم بأن الدورة عديمة الفائدة.",
+    "taskEn": "Analyse: 'Participants in an optional course improved, so the course alone caused the improvement.' Identify the missing assumption without declaring the course useless.",
+    "exampleEn": "The argument assumes that the course, rather than differences in motivation or other factors, explains the improvement. That logical gap weakens the causal conclusion, although it does not establish that the course had no benefit.",
+    "exampleAr": "تفترض الحجة أن الدورة تفسر التحسن، لا اختلاف الدافعية أو عوامل أخرى. تضعف هذه الفجوة المنطقية الاستنتاج السببي، لكنها لا تثبت أن الدورة لم تحقق أي فائدة.",
+    "check": {
+      "promptEn": "Insufficient evidence for a causal claim means which of the following?",
+      "choices": [
+        "The causal conclusion is not yet established.",
+        "The opposite causal claim has automatically been proved.",
+        "All observations in the study must be fabricated."
+      ],
+      "answer": "The causal conclusion is not yet established.",
+      "explanationAr": "قصور الدليل يمنع الجزم بالنتيجة المحددة. لا يثبت تلقائيًا نقيضها، ولا يبرر اتهام البيانات بالاختلاق.",
+      "explanationEn": "Insufficient evidence prevents establishing that particular conclusion. It neither automatically proves its opposite nor justifies alleging fabricated data."
+    }
+  },
+  "c1-extra-5": {
+    "focusAr": "تُتعلم المتلازمات بوحداتها: pose a challenge وstrike a balance between وbear the brunt of. لا يكفي استبدال كل كلمة بمرادف لتبقى العبارة طبيعية. far-reaching consequences آثار واسعة أو بعيدة المدى، وvested interest مصلحة راسخة قد تؤثر في الموقف. compelling case حجة قوية الإقناع، وليست دليلًا قاطعًا بالضرورة.",
+    "focusEn": "Learn collocations as units: pose a challenge, strike a balance between, and bear the brunt of. Replacing each word with a synonym may destroy natural phrasing. Far-reaching consequences are extensive effects; a vested interest is an established stake that may influence a position. A compelling case is strongly persuasive, not necessarily conclusive proof.",
+    "taskAr": "اكتب فقرة عن قرار تدريبي بإغلاق مكتب، تستخدم فيها أثرًا واسعًا وفئة تتحمل العبء والحاجة إلى موازنة هدفين.",
+    "taskEn": "Write about a hypothetical office closure, using an extensive consequence, a group bearing the burden, and a need to balance two aims.",
+    "exampleEn": "Closing the office could have far-reaching consequences for staff who rely on local transport. They may bear the brunt of longer journeys, so the proposal should strike a balance between cost savings and practical access.",
+    "exampleAr": "قد تكون لإغلاق المكتب آثار بعيدة المدى على الموظفين الذين يعتمدون على النقل المحلي. وقد يتحملون العبء الأكبر للرحلات الأطول، لذا ينبغي أن يوازن المقترح بين خفض التكاليف وسهولة الوصول الفعلية.",
+    "check": {
+      "promptEn": "Which phrase naturally describes the group most heavily affected by a change?",
+      "choices": [
+        "They bear the brunt of the disruption.",
+        "They make the brunt to the disruption.",
+        "They do a balance of the disruption."
+      ],
+      "answer": "They bear the brunt of the disruption.",
+      "explanationAr": "المتلازمة bear the brunt of تعني تحمل النصيب الأكبر من الأثر السلبي. تغيير الفعل وحرف الجر كما في البدائل يفسد التركيب.",
+      "explanationEn": "Bear the brunt of means experience the greatest burden of a negative effect. The alternative verbs and prepositions do not form this collocation."
+    }
+  },
+  "c1-extra-6": {
+    "focusAr": "في الصياغة المهنية، subject to قد تجعل الالتزام مشروطًا بموافقة، وwithout prejudice to تحفظ حقوقًا محددة من التأثر بالبند. notwithstanding تقدم أولوية رغم حكم سابق، لذا حدد ما تشير إليه. shall قد تستخدم للإلزام في نص معين، لكن تفسيرها يحتاج سياقه. لا تخلط قراءة بند تدريبي بتقرير أثره القانوني في كل نظام.",
+    "focusEn": "In professional drafting, subject to may make a commitment conditional on approval, while without prejudice to preserves specified rights from the clause's effect. Notwithstanding can give priority despite an earlier provision, so identify its reference. Shall may express obligation in a particular text, but interpretation depends on context. Reading a practice clause does not determine its legal effect in every system.",
+    "taskAr": "اشرح لغويًا هذا البند التدريبي: «The extension is subject to written approval and is without prejudice to existing payment obligations.»",
+    "taskEn": "Explain the language of this practice clause: 'The extension is subject to written approval and is without prejudice to existing payment obligations.'",
+    "exampleEn": "The extension depends on written approval. It does not, by this wording, remove the existing payment obligations. To interpret the clause's full legal effect, it would need to be read with the rest of the agreement and the applicable law.",
+    "exampleAr": "يتوقف التمديد على موافقة مكتوبة. ووفق هذه الصياغة، لا يلغي التزامات الدفع القائمة. أما تفسير أثر البند القانوني الكامل فيحتاج قراءته مع بقية الاتفاق والقانون المنطبق.",
+    "check": {
+      "promptEn": "In the quoted practice clause, what does 'subject to written approval' do?",
+      "choices": [
+        "It makes the extension conditional on written approval.",
+        "It states that approval has already been granted.",
+        "It cancels every payment obligation."
+      ],
+      "answer": "It makes the extension conditional on written approval.",
+      "explanationAr": "تضع العبارة شرطًا للتمديد ولا تثبت تحقق الشرط. كما أنها لا تتناول إلغاء التزامات الدفع المذكورة في الجزء الآخر.",
+      "explanationEn": "The phrase imposes a condition without establishing that it has been met. It does not cancel the payment obligations addressed in the other part."
+    }
+  },
+  "c1-extra-7": {
+    "focusAr": "اجمع السرد والدليل في حجة تميز المثال التوضيحي من قياس الانتشار. resonate with ملامسة اهتمامات الجمهور، لا ضمان موافقته. qualify a conclusion تضييقها بما يناسب الأدلة. اجعل call to action إجراءً محددًا يتناسب مع مستوى الثقة، ولا تطلب تعميمًا نهائيًا إذا كانت البيانات لا تسند إلا تجربة أولية.",
+    "focusEn": "Combine narrative and evidence while distinguishing illustration from prevalence. Resonate with means connect with an audience's concerns, not guarantee agreement. Qualify a conclusion means limit it to what evidence supports. Make the call to action specific and proportionate to confidence; preliminary data may justify a trial rather than immediate universal adoption.",
+    "taskAr": "اختم عرضًا عن تجربة صغيرة حسّنت الحضور، بذكر حد البيانات وطلب تجربة أوسع محددة بدل اعتماد نهائي.",
+    "taskEn": "Close a presentation about a small trial improving attendance by stating a limitation and requesting a defined wider trial rather than final adoption.",
+    "exampleEn": "The initial improvement is encouraging, but the results require careful interpretation because only one team participated. I therefore propose a three-month trial with two additional teams, followed by a review before any wider rollout.",
+    "exampleAr": "التحسن الأولي مشجع، لكن النتائج تحتاج تفسيرًا دقيقًا لأن فريقًا واحدًا فقط شارك. لذلك أقترح تجربة لثلاثة أشهر مع فريقين إضافيين، تتبعها مراجعة قبل أي تعميم أوسع.",
+    "check": {
+      "promptEn": "Which call to action matches limited but promising pilot evidence?",
+      "choices": [
+        "Authorize a bounded follow-up trial and review its results.",
+        "Declare the proposal successful everywhere immediately.",
+        "Hide the sample limit to strengthen the presentation."
+      ],
+      "answer": "Authorize a bounded follow-up trial and review its results.",
+      "explanationAr": "التجربة المحددة توسّع الأدلة دون الادعاء بأنها مكتملة. إعلان نجاح شامل أو إخفاء القيد يخلان بدقة الاستنتاج.",
+      "explanationEn": "A bounded trial extends evidence without pretending it is complete. Universal success claims or hidden limitations undermine accurate inference."
+    }
+  },
+  "c1-extra-8": {
+    "focusAr": "النقاش الدقيق يزن الحجج وفق قوتها، ولا يساويها آليًا لإظهار التوازن. concede a point اعتراف بجزء وجيه مع إمكان بقاء الخلاف. on balance حكم بعد موازنة، وwith the caveat that قيد يؤثر في القبول. اذكر أي اعتراض يغير موقفك وأي اختلاف يتعلق بالأولويات بدل الوقائع.",
+    "focusEn": "Nuanced debate weighs arguments by strength rather than making them artificially equal. Concede a point acknowledges a valid element while disagreement may remain. On balance marks an overall judgement; with the caveat that states a condition affecting acceptance. Identify which objection would change your view and which disagreement concerns priorities rather than facts.",
+    "taskAr": "أيد مقترحًا تجريبيًا لتغيير ساعات الخدمة مع الاعتراف بتكلفة إضافية وشرط مراجعة الأثر على المستخدمين.",
+    "taskEn": "Support a trial change to service hours while acknowledging extra cost and requiring a review of its effect on users.",
+    "exampleEn": "The cost objection has merit, and I concede that the change is not cost-neutral. On balance, I support a limited trial, with the caveat that we review access and staffing costs before extending it.",
+    "exampleAr": "للاعتراض المتعلق بالتكلفة وجاهته، وأسلّم بأن التغيير ليس بلا تكلفة إضافية. وفي المحصلة، أؤيد تجربة محدودة بشرط مراجعة أثرها على الوصول وتكاليف الموظفين قبل تمديدها.",
+    "check": {
+      "promptEn": "Which stance combines acknowledgement with conditional support?",
+      "choices": [
+        "The cost concern is valid; I support a trial subject to a cost review.",
+        "The cost concern is valid, so every other argument is irrelevant.",
+        "I support the proposal, so no review can be necessary."
+      ],
+      "answer": "The cost concern is valid; I support a trial subject to a cost review.",
+      "explanationAr": "يعترف الجواب الصحيح بالاعتراض ويجعل الدعم مقيدًا بمراجعة ذات صلة. البديلان يستبعدان جانبًا من النقاش دون موازنة.",
+      "explanationEn": "The correct answer acknowledges the objection and conditions support on a relevant review. The alternatives dismiss part of the debate without weighing it."
+    }
+  },
+  "c1-x-u1-l1": {
+    "focusAr": "التعبير الاصطلاحي يضيف معنى ونبرة، فلا تكدّس عدة تعابير لمجرد إظهار الطلاقة. get the hang of تعلّم طريقة الاستخدام، ولا تستلزم إتقانًا خبيرًا. the tip of the iceberg الجزء الظاهر من مشكلة أكبر، وa blessing in disguise حدث بدا سيئًا ثم ظهرت فائدته. اختَر تعبيرًا يناسب المقام واشرح الوقائع المحيطة به.",
+    "focusEn": "An idiom adds meaning and tone; piling up several does not demonstrate fluency. Get the hang of means learn how to use something, not necessarily become an expert. The tip of the iceberg suggests a larger hidden problem; a blessing in disguise describes an initially unwelcome event that later proves beneficial. Choose an expression fitting the register and explain its context.",
+    "taskAr": "استخدم a blessing in disguise في موقف تدريبي عن إلغاء لقاء أتاح اكتشاف خطأ قبل العرض، دون الادعاء أن كل انتكاسة مفيدة.",
+    "taskEn": "Use a blessing in disguise in a practice scenario where a cancelled meeting allowed an error to be found before a presentation, without generalizing to every setback.",
+    "exampleEn": "The cancellation turned out to be a blessing in disguise: it gave us time to spot an error in the figures. Had the meeting gone ahead, we might have presented a misleading total.",
+    "exampleAr": "تبيّن أن الإلغاء كان خيرًا غير متوقع؛ فقد أتاح لنا اكتشاف خطأ في الأرقام. ولو عُقد الاجتماع، فربما كنا عرضنا مجموعًا مضللًا.",
+    "check": {
+      "promptEn": "Which situation best fits a blessing in disguise?",
+      "choices": [
+        "An unwanted delay later gives you time to correct a serious mistake.",
+        "A pleasant event remains entirely pleasant from the start.",
+        "A hidden problem causes harm without any benefit emerging."
+      ],
+      "answer": "An unwanted delay later gives you time to correct a serious mistake.",
+      "explanationAr": "التعبير يحتاج جانبًا سلبيًا أوليًا تتضح فائدته لاحقًا. لا يكفي الإخفاء وحده أو حدث سار منذ البداية.",
+      "explanationEn": "The idiom requires an initially negative event whose benefit becomes clear later. Concealment alone or a pleasant event from the outset does not fit."
+    }
+  },
+  "c1-x-u1-l2": {
+    "focusAr": "denotation المعنى الأساسي، وconnotation الإيحاء المرتبط بالكلمة في السياق. frugal غالبًا تمدح الاقتصاد، وstingy تنتقد البخل، لكن النبرة قد تغيّر الأثر. loaded question قد تتضمن افتراضًا غير مسلّم به. ميّز بين نقد فعل ووصف شخص بلفظ pejorative، وافحص ما إذا كانت الصياغة توجه الحكم قبل عرض الأدلة.",
+    "focusEn": "Denotation is basic meaning; connotation is an associated implication in context. Frugal often praises careful spending, while stingy criticizes reluctance to spend, though tone can alter the effect. A loaded question may embed an unaccepted premise. Distinguish criticism of conduct from a pejorative label for a person, and examine whether wording prejudges the evidence.",
+    "taskAr": "أعد صياغة السؤال المشحون «لماذا أهملت واجبك مرة أخرى؟» إلى سؤال يستوضح ما حدث دون افتراض الإهمال أو تكراره.",
+    "taskEn": "Rephrase the loaded question 'Why did you neglect your duty again?' to ask what happened without presuming neglect or repetition.",
+    "exampleEn": "Could you explain what happened with the task and whether anything prevented its completion? This asks for an account without treating negligence or a repeated failure as established facts.",
+    "exampleAr": "هل يمكنك توضيح ما حدث للمهمة وما إذا كان هناك ما منع إنجازها؟ يطلب السؤال شرحًا دون اعتبار الإهمال أو تكرار الإخفاق حقيقتين ثابتتين.",
+    "check": {
+      "promptEn": "What makes 'Why did you neglect your duty again?' loaded?",
+      "choices": [
+        "It presupposes both neglect and a previous occurrence.",
+        "It contains no assumptions at all.",
+        "Every question beginning with why is necessarily insulting."
+      ],
+      "answer": "It presupposes both neglect and a previous occurrence.",
+      "explanationAr": "السؤال يفترض وقوع الإهمال وتكراره قبل أن يجيب المخاطَب. ليس سبب الإشكال مجرد استخدام why.",
+      "explanationEn": "The question assumes neglect and repetition before the person responds. The issue is not simply the word why."
+    }
+  },
+  "c1-x-u1-l3": {
+    "focusAr": "imply من جهة الرسالة أو المتحدث، وinfer من جهة المتلقي الذي يستنتج. allude to إشارة غير مباشرة إلى موضوع، وقد لا تتضمن استنتاجًا كاملًا. tacit مفهوم دون تصريح، لكنه لا يجعل كل صمت موافقة. ميّز القرينة اللغوية من تفسيرك، واستخدم سؤال تحقق عندما تترتب على الاستنتاج مسؤولية أو قرار.",
+    "focusEn": "Imply concerns what a speaker or message suggests; infer concerns what a recipient concludes. Allude to means refer indirectly to a topic, without necessarily conveying a complete inference. Tacit means unspoken, but not every silence signals agreement. Separate the linguistic cue from your reading and seek clarification when a decision or responsibility depends on it.",
+    "taskAr": "رد على عبارة «الخطة طموحة جدًا بالنسبة للوقت المتاح» باستنتاج محتمل وسؤال يختبره، دون نسب رفض صريح للمتحدث.",
+    "taskEn": "Respond to 'The plan is very ambitious for the time available' with a tentative inference and a question testing it, without attributing an explicit rejection.",
+    "exampleEn": "I infer that you may be concerned about the timetable rather than the goal itself. Are you suggesting that we reduce the initial scope, or would a later deadline address your concern?",
+    "exampleAr": "أستنتج أنك قد تكون قلقًا بشأن الجدول لا الهدف نفسه. هل تقترح تقليص النطاق الأولي، أم أن موعدًا نهائيًا لاحقًا يعالج مخاوفك؟",
+    "check": {
+      "promptEn": "Which statement correctly distinguishes imply from infer?",
+      "choices": [
+        "The remark may imply concern; the listener infers that concern from it.",
+        "The listener implies the speaker's meaning merely by understanding it.",
+        "Any inferred meaning must have been explicitly stated."
+      ],
+      "answer": "The remark may imply concern; the listener infers that concern from it.",
+      "explanationAr": "imply تصف ما توحي به العبارة، وinfer استنتاج المتلقي منها. الاستنتاج لا يشترط تصريح المعنى ولا يضمن صحة القراءة.",
+      "explanationEn": "Imply describes what a remark suggests; infer describes the listener's conclusion. An inference need not be explicit and is not guaranteed correct."
+    }
+  },
+  "c1-x-u1-l4": {
+    "focusAr": "metaphor تنقل فهمًا من مجال إلى آخر، وhyperbole تبالغ عمدًا ولا تُقرأ بوصفها رقمًا أو حقيقة حرفية. vivid وصف محسوس قد يستعين بالصوت والحركة والملمس، لا الرؤية وحدها. استخدم المجاز إذا أوضح الفكرة، ثم ارجع إلى صياغة مباشرة عندما يحتاج القارئ تعليمات أو التزامًا دقيقًا.",
+    "focusEn": "A metaphor carries understanding from one domain to another; hyperbole deliberately exaggerates and is not a literal measurement. Vivid description can use sound, movement, and texture, not only sight. Use figurative language when it clarifies an idea, then return to direct wording where readers need precise instructions or commitments.",
+    "taskAr": "حوّل «الموعد النهائي يطاردنا» إلى صياغة مهنية مباشرة، ثم بيّن ما يضيفه المجاز وما يحذفه التوضيح العملي.",
+    "taskEn": "Turn 'The deadline is chasing us' into direct professional wording, then explain what the metaphor adds and what practical clarification supplies.",
+    "exampleEn": "The metaphor conveys pressure, but the actionable message is: 'We have two days left and three sections to complete.' That wording states the actual constraint without relying on a figurative image.",
+    "exampleAr": "ينقل المجاز شعور الضغط، لكن الرسالة القابلة للتنفيذ هي: «بقي يومان وثلاثة أقسام يجب إكمالها». تحدد الصياغة القيد الفعلي دون الاعتماد على الصورة المجازية.",
+    "check": {
+      "promptEn": "Which interpretation recognizes hyperbole in 'I've told you a thousand times'?",
+      "choices": [
+        "The speaker emphasizes repeated telling, not necessarily an exact count.",
+        "The speaker has necessarily recorded exactly one thousand occasions.",
+        "The statement must be a mathematical report."
+      ],
+      "answer": "The speaker emphasizes repeated telling, not necessarily an exact count.",
+      "explanationAr": "العبارة الشائعة تبالغ لتأكيد التكرار. لا يقتضي معناها المقصود وجود إحصاء حرفي للألف مرة.",
+      "explanationEn": "The familiar expression exaggerates to emphasize repetition. Its intended meaning does not require a literal count of one thousand."
+    }
+  },
+  "c1-x-u1-l5": {
+    "focusAr": "الطلاقة ليست غياب التوقف، بل وضوح الفكرة والقدرة على مواصلة المسار. off the top of my head تشير إلى إجابة غير متحققة من مرجع الآن؛ لا تستخدمها لرقم يحتاج دقة نهائية. that said تستدرك قيدًا، وon balance تلخّص الموازنة. إذا استطرَدت، عد بعبارة تبين صلة التفصيل بالسؤال.",
+    "focusEn": "Fluency is not the absence of pauses but clarity and control of the developing message. Off the top of my head marks an answer not currently checked against a source; it is unsuitable as final confirmation of a critical figure. That said adds a qualification, while on balance gives an overall judgement. After a digression, explicitly reconnect to the question.",
+    "taskAr": "أجب شفهيًا في صياغة مكتوبة عن تقدير أولي لعدد المشاركين، ثم ضع قيدًا وبيّن كيف ستتحقق قبل اعتماد العدد.",
+    "taskEn": "Give a spoken-style written answer estimating attendance, qualify it, and explain how you will verify it before final confirmation.",
+    "exampleEn": "Off the top of my head, I would expect around forty participants. That said, several invitations are still unanswered. Let me check the registrations before we confirm the room size.",
+    "exampleAr": "بحسب ما يحضرني الآن، أتوقع نحو أربعين مشاركًا. ومع ذلك، لا تزال عدة دعوات بلا رد. دعني أراجع التسجيلات قبل تأكيد حجم القاعة.",
+    "check": {
+      "promptEn": "Which response handles an unverified estimate transparently?",
+      "choices": [
+        "About forty, off the top of my head; I'll check the registrations.",
+        "Exactly forty, although I have no record and have not checked.",
+        "A pause means I cannot communicate effectively."
+      ],
+      "answer": "About forty, off the top of my head; I'll check the registrations.",
+      "explanationAr": "يصرح الجواب الصحيح بأن الرقم تقديري ويحدد طريقة التحقق. الدقة الظاهرية دون أساس مضللة، والتوقف لا يعني انعدام الطلاقة.",
+      "explanationEn": "The correct answer marks the estimate and states how to check it. Unsupported exactness is misleading, and a pause does not establish lack of fluency."
+    }
+  },
+  "c1-x-u2-l1": {
+    "focusAr": "register اختيار لغوي يناسب العلاقة والغرض، لا سلم يجعل الكلمات الأطول أفضل. convene ملائمة لاجتماع رسمي، لكنها قد تبدو stilted في دعوة عادية. colloquial لغة تخاطب وليست خطأ بذاتها، وvernacular استعمال محلي. عدّل مستوى المباشرة والتحية والتفاصيل مع الحفاظ على وضوح الطلب نفسه.",
+    "focusEn": "Register fits language to relationship and purpose; longer words are not inherently better. Convene suits a formal meeting but may sound stilted in a casual invitation. Colloquial language is not inherently incorrect, and vernacular refers to local usage. Adjust directness, greetings, and detail while preserving the request's clarity.",
+    "taskAr": "صغ الطلب نفسه لزميل قريب ثم للجنة رسمية: الاجتماع الثلاثاء لمراجعة مسودة، دون جعل الصياغة الرسمية متكلفة.",
+    "taskEn": "Phrase the same request for a close colleague and a formal committee: meet Tuesday to review a draft, keeping the formal version natural.",
+    "exampleEn": "To a colleague: 'Could we meet on Tuesday to go through the draft?' To the committee: 'Would the committee be available on Tuesday to review the draft and agree on revisions?'",
+    "exampleAr": "لزميل: «هل يمكننا اللقاء يوم الثلاثاء لمراجعة المسودة معًا؟» وللجنة: «هل يتاح للجنة الاجتماع يوم الثلاثاء لمراجعة المسودة والاتفاق على التنقيحات؟»",
+    "check": {
+      "promptEn": "Which principle best guides a change of register?",
+      "choices": [
+        "Adapt language to purpose and audience while retaining clarity.",
+        "Replace every short word with the longest available synonym.",
+        "Treat all informal language as ungrammatical."
+      ],
+      "answer": "Adapt language to purpose and audience while retaining clarity.",
+      "explanationAr": "المقام يحدد الأسلوب المناسب، مع بقاء الوضوح أساسًا. طول الكلمات لا يضمن الرسمية المفيدة، واللغة غير الرسمية ليست بالضرورة خاطئة.",
+      "explanationEn": "Purpose and audience guide appropriate style while clarity remains central. Long words do not guarantee useful formality, and informal language is not necessarily incorrect."
+    }
+  },
+  "c1-x-u2-l2": {
+    "focusAr": "المفهوم abstract يحتاج تعريفًا تشغيليًا أو مثالًا ليصبح النقاش قابلًا للفحص. underpin يحدد ما يقوم عليه الموقف، وin essence تلخص جوهره لكنها قد تخفي فرقًا مهمًا إن أفرطت في الاختزال. اسأل هل الخلاف حول تعريف القيمة أم تطبيقها، واربط المبدأ بنتيجة tangible دون الادعاء أن المثال يستنفد المفهوم.",
+    "focusEn": "An abstract concept needs an operational definition or example to make discussion assessable. Underpin identifies a position's foundation; in essence summarizes its core but may hide a significant distinction if overused. Ask whether disagreement concerns the value's definition or its application, and connect principle to a tangible outcome without treating one example as exhaustive.",
+    "taskAr": "عرّف «إتاحة الخدمة» في سياق تدريب على تصميم نموذج، ثم اذكر مثالًا ملموسًا يوضح التعريف دون حصره فيه.",
+    "taskEn": "Define 'service accessibility' in a practice form-design discussion, then give a tangible illustration without reducing the concept to that example.",
+    "exampleEn": "In this discussion, accessibility means that people can complete the essential task using suitable means of interaction. Clear text labels are one tangible example, but they do not exhaust everything the notion includes.",
+    "exampleAr": "في هذا النقاش، تعني الإتاحة قدرة الناس على إكمال المهمة الأساسية بوسائل تفاعل مناسبة. التسميات النصية الواضحة مثال ملموس واحد، لكنها لا تستنفد كل ما يشمله المفهوم.",
+    "check": {
+      "promptEn": "Which move makes an abstract disagreement easier to examine?",
+      "choices": [
+        "Clarify the term's meaning and test it against a concrete case.",
+        "Repeat the term more forcefully without defining it.",
+        "Assume that sharing a word guarantees sharing a definition."
+      ],
+      "answer": "Clarify the term's meaning and test it against a concrete case.",
+      "explanationAr": "التعريف والمثال يوضحان موضع الاتفاق والخلاف. تكرار المصطلح أو افتراض معنى مشترك لا يحلان الغموض.",
+      "explanationEn": "A definition and example locate agreement and disagreement. Repetition or assuming a shared meaning does not resolve ambiguity."
+    }
+  },
+  "c1-x-u2-l3": {
+    "focusAr": "اللباقة تجمع احترام الشخص ووضوح المسألة؛ لا تعني إخفاء الاعتراض. broach طرح موضوع حساس، وcouch صياغته في إطار معين. with the greatest respect قد تبدو حادة أو ساخرة بحسب النبرة، فلا تعتمد عليها وحدها. قدّم واقعة محددة وسؤالًا يتيح التصحيح بدل تمهيد طويل يوحي بحكم مسبق.",
+    "focusEn": "Tact combines respect for the person with clarity about the issue; it does not require concealing disagreement. Broach means introduce a sensitive topic, while couch means express it in particular terms. With the greatest respect can sound sharp or ironic depending on tone, so it does not guarantee politeness. Offer a specific observation and a question allowing correction.",
+    "taskAr": "اطرح اختلافًا بين رقمين في تقرير زميل بصياغة تحفظ الاحترام ولا تخفي الحاجة إلى التصحيح.",
+    "taskEn": "Raise a discrepancy between two figures in a colleague's report, preserving respect without obscuring the need to resolve it.",
+    "exampleEn": "Could we revisit the total on page three? It differs from the sum of the listed items, so I may be missing an adjustment. Could you walk me through the calculation before we circulate the report?",
+    "exampleAr": "هل يمكننا مراجعة المجموع في الصفحة الثالثة؟ فهو يختلف عن مجموع البنود المدرجة، وربما فاتني تعديل. هل يمكنك شرح الحساب قبل تعميم التقرير؟",
+    "check": {
+      "promptEn": "Which response is tactful while still making the concern explicit?",
+      "choices": [
+        "The total differs from the listed amounts; could you explain the adjustment?",
+        "With respect, only an incompetent person would write this.",
+        "Everything is fine, although the discrepancy must be resolved."
+      ],
+      "answer": "The total differs from the listed amounts; could you explain the adjustment?",
+      "explanationAr": "يسمي الجواب الصحيح الفرق ويتيح تفسيره دون إهانة. عبارة احترام لا تلغي الإساءة التي تليها، وإخفاء المشكلة لا يعالجها.",
+      "explanationEn": "The correct answer identifies the discrepancy and allows explanation without insult. A respectful opener does not cancel a following insult, and hiding the issue does not resolve it."
+    }
+  },
+  "c1-x-u2-l4": {
+    "focusAr": "I see where you're coming from اعتراف بمنطلق الرأي، لا قبول نتيجته. concede إقرار بنقطة قد يتم عن اقتناع لا على مضض دائمًا. play devil's advocate اختبار حجة مخالفة دون تبنيها، وينبغي توضيح ذلك. لا تجعل تليين الرفض غموضًا بشأن القرار؛ اذكر ما ترفضه والسبب والبديل المتاح.",
+    "focusEn": "I see where you're coming from acknowledges the basis of a view without accepting its conclusion. Concede can be a willing acknowledgement, not always a reluctant one. Play devil's advocate tests an opposing argument without adopting it, which should be made clear. Softening a refusal should not obscure the decision: state what is declined, why, and any available alternative.",
+    "taskAr": "ارفض إطلاق مشروع الجمعة بسبب نقص اختبار محدد، مع الاعتراف بأهمية الموعد واقتراح مراجعة الاثنين.",
+    "taskEn": "Decline a Friday launch because a specific test is incomplete, acknowledging the timing concern and proposing a Monday review.",
+    "exampleEn": "I see where you're coming from about the deadline, but I cannot support Friday's launch while the access test remains incomplete. Could we review the results on Monday and decide then?",
+    "exampleAr": "أتفهم منطلقك بشأن الموعد النهائي، لكنني لا أستطيع تأييد إطلاق الجمعة ما دام اختبار الوصول غير مكتمل. هل يمكننا مراجعة النتائج يوم الاثنين واتخاذ القرار حينها؟",
+    "check": {
+      "promptEn": "Which refusal is both clear and tactful?",
+      "choices": [
+        "I cannot approve the launch before testing is complete; let's review it on Monday.",
+        "Perhaps everything is somehow acceptable, although I mean no.",
+        "Your concerns are pointless and need no response."
+      ],
+      "answer": "I cannot approve the launch before testing is complete; let's review it on Monday.",
+      "explanationAr": "يصرح الجواب الصحيح بالرفض وحده العملي وخطوة تالية. الغموض قد يُفهم موافقة، والازدراء يضعف الحوار.",
+      "explanationEn": "The correct answer states the refusal, its practical condition, and a next step. Ambiguity may be mistaken for agreement, while contempt undermines dialogue."
+    }
+  },
+  "c1-x-u2-l5": {
+    "focusAr": "euphemism يستبدل لفظًا مباشرًا بآخر ألطف، وunderstatement يقلل شدة الوصف؛ وقد يجتمعان. gloss over تجاوز تفاصيل غير مريحة، وdownplay تقليل أهميتها. تخفيف النبرة لا يبرر إخفاء أثر القرار على المتلقي. استخدم لغة محترمة ثم سمِّ الوقائع والإجراء المطلوب صراحةً عند الحاجة.",
+    "focusEn": "A euphemism substitutes a gentler expression, while understatement reduces descriptive intensity; they can overlap. Gloss over means pass lightly over uncomfortable details, and downplay means minimize their importance. Softening tone does not justify hiding a decision's impact. Use respectful language while stating the facts and required action explicitly where needed.",
+    "taskAr": "أعد صياغة «سنُحسّن حجم الفريق» في إعلان تدريبي يعني إلغاء ثلاثة أدوار، مع الحفاظ على الاحترام والوضوح.",
+    "taskEn": "Rewrite 'We will optimize the team's size' in a practice announcement that means three roles will be removed, retaining respect and clarity.",
+    "exampleEn": "The proposal would remove three roles from the team. We recognize the impact this could have on the people affected and will explain the process and available support directly to them.",
+    "exampleAr": "سيُلغي المقترح ثلاثة أدوار في الفريق. وندرك الأثر الذي قد يترتب على ذلك للمتأثرين، وسنشرح لهم الإجراء والدعم المتاح مباشرةً.",
+    "check": {
+      "promptEn": "Why might 'optimizing the team size' be problematic when announcing role reductions?",
+      "choices": [
+        "It can obscure the concrete effect on the people affected.",
+        "Every polite expression is necessarily deceptive.",
+        "A longer phrase always provides more detail."
+      ],
+      "answer": "It can obscure the concrete effect on the people affected.",
+      "explanationAr": "قد تخفي العبارة ما سيحدث فعلًا للوظائف. المشكلة ليست اللطف نفسه، بل غياب المعلومة اللازمة لفهم الأثر.",
+      "explanationEn": "The phrase may obscure what will actually happen to roles. The problem is not politeness itself but missing information needed to understand the impact."
+    }
+  },
+  "c1-x-u3-l1": {
+    "focusAr": "disaggregate تفصيل البيانات بحسب مجموعات، وقد يكشف اختلافات يخفيها المتوسط. extrapolate تمديد استنتاج خارج نطاق الملاحظات، ويحتاج افتراضات معلنة. statistically significant لا تعني أثرًا كبيرًا أو مهمًا عمليًا. confounding variable عامل قد يفسر ارتباطًا ظاهرًا؛ وفحصه يختلف عن حذف بيانات مزعجة. اذكر حجم الأثر وعدم اليقين وحدود العينة معًا.",
+    "focusEn": "Disaggregate means separate data by groups, potentially revealing differences hidden by an average. Extrapolate extends beyond observations and requires stated assumptions. Statistically significant does not mean a large or practically important effect. A confounding variable may help explain an apparent association; investigating it differs from deleting inconvenient data. Report effect size, uncertainty, and sample limits together.",
+    "taskAr": "صغ تعليقًا على فرق صغير ذي دلالة إحصائية في عينة كبيرة، موضحًا ما يلزم لتقييم أهميته العملية.",
+    "taskEn": "Comment on a small statistically significant difference in a large sample, explaining what is needed to judge practical importance.",
+    "exampleEn": "The difference is statistically significant, but its magnitude is small. Before recommending a change, we should examine the uncertainty around the estimate, the costs involved, and whether the effect matters in practice.",
+    "exampleAr": "الفرق ذو دلالة إحصائية، لكن حجمه صغير. وقبل التوصية بتغيير، ينبغي فحص عدم اليقين حول التقدير والتكاليف وما إذا كان للأثر أهمية عملية.",
+    "check": {
+      "promptEn": "Which conclusion is warranted by statistical significance alone?",
+      "choices": [
+        "It does not, by itself, establish a large or practically important effect.",
+        "It guarantees a large effect in every population.",
+        "It proves that no confounding variable exists."
+      ],
+      "answer": "It does not, by itself, establish a large or practically important effect.",
+      "explanationAr": "الدلالة الإحصائية لا تقيس وحدها حجم الأثر أو أهميته ولا تستبعد التشويش تلقائيًا. يلزم النظر في التصميم والحجم وعدم اليقين.",
+      "explanationEn": "Statistical significance alone establishes neither effect size, practical importance, nor absence of confounding. Design, magnitude, and uncertainty still matter."
+    }
+  },
+  "c1-x-u3-l2": {
+    "focusAr": "outstrip تجاوز مقدار أو سرعة شيء آخر، فحدّد المقارَن به. diminishing returns انخفاض العائد الإضافي مع زيادة المدخل، وليس بالضرورة انخفاض الناتج الكلي. monetary policy أدوات السياسة النقدية، وليست كل سياسة ضرائب أو إنفاق. عند تفسير سوق، افصل الآلية المفترضة عن التوقع، واذكر العوامل التي أبقيتها ثابتة.",
+    "focusEn": "Outstrip means exceed another quantity or rate, so name the comparison. Diminishing returns means smaller additional gains from extra input, not necessarily falling total output. Monetary policy is distinct from taxation or spending policy. In a market explanation, separate the assumed mechanism from the forecast and identify what is being held constant.",
+    "taskAr": "اشرح مثالًا تدريبيًا يضيف فيه كل عامل جديد إنتاجًا موجبًا لكنه أقل من العامل السابق، مع ثبات المعدات.",
+    "taskEn": "Explain a practice example where each additional worker adds positive but smaller output than the previous worker, with equipment fixed.",
+    "exampleEn": "With equipment held fixed, output still increases as workers are added, but the additional gain becomes smaller. This illustrates diminishing returns rather than an immediate fall in total production.",
+    "exampleAr": "مع ثبات المعدات، يظل الإنتاج يزداد بإضافة العمال، لكن الزيادة الإضافية تصغر. يوضح ذلك تناقص العوائد الإضافية، لا انخفاض الإنتاج الكلي فورًا.",
+    "check": {
+      "promptEn": "Additional input yields smaller positive additions to output. What is happening?",
+      "choices": [
+        "Marginal gains diminish while total output can still rise.",
+        "Total output must already be falling.",
+        "Every extra unit produces exactly the same gain."
+      ],
+      "answer": "Marginal gains diminish while total output can still rise.",
+      "explanationAr": "تناقص الزيادة الإضافية لا يلغي كونها موجبة. لذلك قد يستمر الناتج الكلي في الارتفاع بمعدل أبطأ.",
+      "explanationEn": "A smaller additional gain can still be positive. Total output may therefore continue rising at a slower rate."
+    }
+  },
+  "c1-x-u3-l3": {
+    "focusAr": "السياسة تُقيّم بتصميمها وتنفيذها وأثرها، لا نواياها وحدها. stakeholder متأثر أو معني، وقد تختلف مصالح الأطراف. unintended consequences نتائج لم تُقصد، وقد تكون نافعة أو ضارة. roll out تطبيق أو إتاحة، وتوضح in phases التدرج. صِف آلية الأثر وتوزيعه وما قد يدفعك إلى تعديل السياسة.",
+    "focusEn": "Assess policy through design, implementation, and effects rather than intentions alone. A stakeholder is affected or interested, and interests may differ. Unintended consequences can be beneficial or harmful. Roll out means introduce or implement; in phases specifies gradual introduction. Explain the mechanism, distribution of effects, and evidence that would justify revision.",
+    "taskAr": "حلّل نقل خدمة تخيلية إلى الإنترنت لتسريع الطلبات، مع احتمال إعاقة من يفتقرون إلى وسيلة مناسبة، واقترح فحصًا قبل التعميم.",
+    "taskEn": "Analyse moving an imagined service online to speed applications, considering access barriers for some users and a check before rollout.",
+    "exampleEn": "The proposal could shorten processing times, yet its unintended consequences may include excluding users without suitable access. A phased rollout should test completion rates across user groups and retain a workable alternative while barriers are addressed.",
+    "exampleAr": "قد يختصر المقترح وقت المعالجة، لكن من عواقبه غير المقصودة استبعاد مستخدمين لا تتوفر لهم وسيلة وصول مناسبة. ينبغي أن يختبر التطبيق المرحلي معدلات الإنجاز بين الفئات ويحافظ على بديل عملي أثناء معالجة العوائق.",
+    "check": {
+      "promptEn": "Average processing time improves while one group can no longer apply. Which evaluation is most complete?",
+      "choices": [
+        "Report both the efficiency gain and the unequal access effect.",
+        "Treat the average as proof that every user benefited.",
+        "Ignore access because exclusion was not intended."
+      ],
+      "answer": "Report both the efficiency gain and the unequal access effect.",
+      "explanationAr": "تقييم السياسة يشمل توزيع الأثر، لا المتوسط وحده. غياب قصد الاستبعاد لا يلغي أثره على الفئة المعنية.",
+      "explanationEn": "Policy evaluation includes the distribution of effects, not only the average. Unintended exclusion still affects the group concerned."
+    }
+  },
+  "c1-x-u3-l4": {
+    "focusAr": "المعضلة moral dilemma تعارض اعتبارات أخلاقية معتبرة، لا مجرد اختيار صعب تقنيًا. utilitarian منظور يزن النتائج والرفاه، وintrinsic value قيمة لذاتها لا لمنفعة خارجية فقط. افصل premise الوصفية عن المعيارية، واسأل هل النتيجة تلزم عنهما. صلاحية الاستدلال لا تجعل كل مقدمة صحيحة تلقائيًا.",
+    "focusEn": "A moral dilemma involves competing ethical considerations, not merely technical difficulty. A utilitarian perspective weighs outcomes and welfare; intrinsic value is value in itself rather than only for an external use. Distinguish descriptive from normative premises and ask whether the conclusion follows. Valid reasoning does not automatically make its premises true.",
+    "taskAr": "في مثال تخصيص قاعة عامة، قارن تعظيم عدد المستفيدين بمراعاة مجموعة تحتاج تجهيزات إتاحة خاصة، دون الادعاء بحل وحيد لازم.",
+    "taskEn": "In allocating a public room, compare maximizing attendance with accommodating a group needing accessibility features, without asserting one inevitable solution.",
+    "exampleEn": "One premise favours serving the greatest number, while another gives weight to access for those with fewer alternatives. To reconcile them, we would need to examine available rooms and whether the timetable can be adjusted without excluding either group.",
+    "exampleAr": "تفضل مقدمة خدمة أكبر عدد، بينما تعطي أخرى وزنًا لوصول من تقل بدائلهم. وللتوفيق بينهما، نحتاج إلى فحص القاعات المتاحة وإمكان تعديل الجدول دون استبعاد أي من المجموعتين.",
+    "check": {
+      "promptEn": "An argument is valid but starts from a false premise. Which statement is correct?",
+      "choices": [
+        "Validity alone does not establish the truth of its conclusion.",
+        "Validity proves every premise is true.",
+        "A false premise makes the argument's wording ungrammatical."
+      ],
+      "answer": "Validity alone does not establish the truth of its conclusion.",
+      "explanationAr": "صلاحية الاستدلال تتعلق باتباع النتيجة للمقدمات، ولا تضمن صدقها إذا لم تكن المقدمات صحيحة. المسألة منطقية وليست نحوية.",
+      "explanationEn": "Validity concerns whether a conclusion follows from premises. It does not guarantee truth when premises are false; this is a logical, not grammatical, issue."
+    }
+  },
+  "c1-x-u3-l5": {
+    "focusAr": "corroborate دعم إضافي ذو صلة، وتكرار الخبر من المصدر نفسه ليس تأييدًا مستقلًا. interrogate هنا تمحيص الافتراضات والمصدر، لا استجواب شخص. logical fallacy خلل في الاستدلال؛ تسميته لا تعفيك من بيان موضع الخلل. ميّز نقد موثوقية شاهد في مسألة ذات صلة عن مهاجمة شخص لرفض حجته دون فحصها.",
+    "focusEn": "Corroborate means provide relevant supporting evidence; repetition of one source is not independent confirmation. Interrogate here means critically examine assumptions and sources, not question a person. Naming a logical fallacy does not replace explaining the inference's defect. Distinguish relevant assessment of a witness's reliability from personal attacks used to dismiss an argument without examining it.",
+    "taskAr": "ثلاثة مقالات تنقل رقمًا من التقرير نفسه. اشرح لماذا لا تمثل ثلاثة تأكيدات مستقلة وما الذي سيضيف تأييدًا مفيدًا.",
+    "taskEn": "Three articles repeat a figure from the same report. Explain why this is not three independent confirmations and what would add useful corroboration.",
+    "exampleEn": "The articles share one underlying source, so their agreement does not constitute independent corroboration. A separately collected dataset, with a transparent method and a comparable scope, would provide a more informative check.",
+    "exampleAr": "تعتمد المقالات على مصدر أصلي واحد، لذا لا يمثل اتفاقها تأييدًا مستقلًا. وتوفر مجموعة بيانات جُمعت بصورة مستقلة، بمنهج واضح ونطاق قابل للمقارنة، فحصًا أكثر فائدة.",
+    "check": {
+      "promptEn": "Three outlets cite the same original estimate. How many independent estimates are established?",
+      "choices": [
+        "One.",
+        "Three merely because three outlets repeated it.",
+        "None, because repetition automatically makes the estimate false."
+      ],
+      "answer": "One.",
+      "explanationAr": "المصدر التقديري واحد رغم تعدد الناقلين. التكرار لا يضاعف الاستقلال، لكنه لا يثبت خطأ التقدير أيضًا.",
+      "explanationEn": "There is one underlying estimate despite multiple publishers. Repetition does not multiply independence, but it also does not establish falsity."
+    }
+  },
+  "c1-x-u4-l1": {
+    "focusAr": "الموقف طلب معلن، والمصلحة سبب أهميته للطرف. bargaining chip عنصر قابل للتبادل، وconcede تنازل في بند قد يقابله مكسب في آخر. win-win فائدة للطرفين لا تساوٍ لازم في المكاسب. اسأل عن القيود والأولويات، ثم اعرض حزمة مشروطة محددة بدل افتراض أن السعر وحده موضوع التفاوض.",
+    "focusEn": "A position is a stated demand; an interest explains why it matters. A bargaining chip is something exchangeable, and a concession on one term may gain another. Win-win means both benefit, not necessarily equally. Ask about constraints and priorities, then offer a defined conditional package rather than assume price is the only negotiating issue.",
+    "taskAr": "صغ عرضًا تدريبيًا يبقي السعر مقابل تسليم مبكر لجزء من الطلب، بعد توضيح أن حاجة العميل الأساسية هي بدء العمل.",
+    "taskEn": "Formulate a practice offer retaining the price in exchange for earlier delivery of part of an order, identifying that the client's key need is to begin work.",
+    "exampleEn": "If the priority is starting production, we could keep the agreed price and deliver the essential components first. That may offer common ground without requiring either side to concede on every term.",
+    "exampleAr": "إذا كانت الأولوية بدء الإنتاج، فيمكننا إبقاء السعر المتفق عليه وتسليم المكونات الأساسية أولًا. قد يوفر ذلك أرضية مشتركة دون أن يتنازل أي طرف عن جميع الشروط.",
+    "check": {
+      "promptEn": "A buyer demands earlier delivery because production cannot start without two parts. What identifies the underlying interest?",
+      "choices": [
+        "Being able to start production.",
+        "The phrase 'earlier delivery' considered without its purpose.",
+        "Assuming the buyer only wants the lowest possible price."
+      ],
+      "answer": "Being able to start production.",
+      "explanationAr": "بدء الإنتاج هو الحاجة التي تفسر الطلب المعلن. تحديدها يفتح بدائل مثل تسليم جزئي بدل الاكتفاء بالموقف نفسه.",
+      "explanationEn": "Starting production is the need explaining the stated demand. Identifying it allows alternatives such as partial delivery rather than repeating the position."
+    }
+  },
+  "c1-x-u4-l2": {
+    "focusAr": "impasse توقف التقدم عند خلاف، ولا يعني استحالة اتفاق لاحق. reframe يغير زاوية النظر دون تحريف الوقائع، وdefuse يخفف التوتر. meet halfway تسوية متبادلة لا متوسط حسابي لازم. لخّص موضع التعثر، وافصل البنود، واقترح خطوة تحفظ حرية الطرفين بدل تقديم تسوية على أنها مفروضة.",
+    "focusEn": "An impasse is stalled progress, not proof that later agreement is impossible. Reframe changes perspective without distorting facts; defuse reduces tension. Meet halfway is mutual compromise, not necessarily an arithmetic midpoint. Identify the blockage, separate issues, and propose a step preserving both parties' choice rather than presenting compromise as compulsory.",
+    "taskAr": "أعد تأطير خلاف حول يوم تسليم كامل إلى سؤال عن الأجزاء المطلوبة أولًا، مع إبقاء المواعيد غير المحسومة صريحة.",
+    "taskEn": "Reframe a dispute about full delivery into a question about which parts are needed first, keeping unresolved dates explicit.",
+    "exampleEn": "We appear to have reached an impasse over the final date. Could we separate the essential items from the rest and consider staged delivery? The remaining dates would still need agreement; this is a way to explore options, not a settled commitment.",
+    "exampleAr": "يبدو أننا وصلنا إلى طريق مسدود بشأن الموعد النهائي. هل يمكن فصل العناصر الأساسية عن الباقي والنظر في التسليم المرحلي؟ ستظل المواعيد الأخرى بحاجة إلى اتفاق؛ فهذا استكشاف للخيارات وليس التزامًا محسومًا.",
+    "check": {
+      "promptEn": "Which reframing preserves the facts while opening options?",
+      "choices": [
+        "Which items are essential first, and could we discuss separate dates?",
+        "Let us describe a missed deadline as if delivery already happened.",
+        "We have agreed, although one side has explicitly refused."
+      ],
+      "answer": "Which items are essential first, and could we discuss separate dates?",
+      "explanationAr": "السؤال الصحيح يغير زاوية البحث دون اختلاق إنجاز أو اتفاق. إعادة التأطير لا تبيح تحريف حالة التفاوض.",
+      "explanationEn": "The correct question changes the problem's framing without inventing completion or agreement. Reframing does not permit misrepresenting negotiations."
+    }
+  },
+  "c1-x-u4-l3": {
+    "focusAr": "narrative arc مسار يربط الوضع والتغير والاستجابة والنتيجة، ولا يشترط نهاية سعيدة. sensory detail تفصيل محسوس يخدم اللحظة، لا قائمة زينة. cliffhanger يعلّق نتيجة مهمة لخلق ترقب. اختر منظور الراوي ووزع المعلومات بحيث يفهم المستمع سبب التصرف، مع تجنب ادعاء معرفة أفكار شخص لم يكشفها.",
+    "focusEn": "A narrative arc connects a situation, change, response, and outcome without requiring a happy ending. A sensory detail serves the moment rather than decorate it. A cliffhanger withholds an important outcome to create anticipation. Choose a viewpoint and disclose enough information to make action intelligible without claiming access to another person's unspoken thoughts.",
+    "taskAr": "اكتب افتتاحية سردية قصيرة تعتمد على صوت واضح وتغير مفاجئ ونتيجة معلقة، دون صورة مطلوبة.",
+    "taskEn": "Write a short narrative opening using a clear sound, a sudden change, and an unresolved outcome, with no image required.",
+    "exampleEn": "The station announcement dissolved into static just as I heard my destination. Then every conversation around me stopped. I unfolded the note in my pocket, wondering whether its last instruction would finally make sense.",
+    "exampleAr": "تحول إعلان المحطة إلى تشويش في اللحظة التي سمعت فيها وجهتي. ثم سكتت كل الأحاديث حولي. فتحت الورقة في جيبي متسائلًا هل سيتضح أخيرًا معنى تعليماتها الأخيرة.",
+    "check": {
+      "promptEn": "What creates the cliffhanger in the opening?",
+      "choices": [
+        "The significance of the note's final instruction remains unresolved.",
+        "Every outcome is explained immediately.",
+        "The story provides no possible source of anticipation."
+      ],
+      "answer": "The significance of the note's final instruction remains unresolved.",
+      "explanationAr": "تبقى دلالة التعليمات معلقة، فيرغب المستمع في معرفة ما سيحدث. شرح النتيجة كاملة يزيل هذا التعليق.",
+      "explanationEn": "The instruction's unresolved significance creates anticipation. Explaining the outcome in full would remove that suspense."
+    }
+  },
+  "c1-x-u4-l4": {
+    "focusAr": "analogy تقارن علاقة بأخرى لتوضيحها، لكنها لا تثبت تطابق الحالتين. parallelism تكرار بنية نحوية يوضح التوازن، وrule of three ترتيب ثلاثي قد يسهل التذكر. rhetorical question تؤدي غرضًا غير طلب المعلومة المباشر؛ يحدد السياق ذلك. استخدم البلاغة لإبراز الاستدلال، لا لتعويض مقدمة مفقودة.",
+    "focusEn": "An analogy compares relationships to clarify them without proving the cases identical. Parallelism repeats grammatical structure to create balance; the rule of three organizes a memorable triad. A rhetorical question serves a purpose other than a straightforward information request, determined by context. Use rhetoric to emphasize reasoning rather than substitute for a missing premise.",
+    "taskAr": "صغ دعوة لتحسين خدمة في ثلاث عبارات متوازية، ثم اذكر قياسًا عمليًا يفحص الوعد البلاغي.",
+    "taskEn": "Write a service-improvement call using three parallel phrases, then name a practical measure to test the rhetorical promise.",
+    "exampleEn": "We should simplify the form, clarify the instructions, and shorten the response time. To assess whether those changes help, we can track successful completion and the number of clarification requests.",
+    "exampleAr": "ينبغي أن نبسّط النموذج، ونوضح التعليمات، ونقصّر زمن الرد. ولتقييم فائدة التغييرات، يمكن متابعة إكمال الطلبات بنجاح وعدد طلبات الاستيضاح.",
+    "check": {
+      "promptEn": "Which feature makes 'simplify the form, clarify the instructions, shorten the response time' parallel?",
+      "choices": [
+        "Each element uses a verb followed by its object.",
+        "All three phrases have exactly the same meaning.",
+        "The rhythm proves that the proposal will succeed."
+      ],
+      "answer": "Each element uses a verb followed by its object.",
+      "explanationAr": "يتكرر البناء النحوي: فعل ومفعول به. يمنح ذلك تنظيمًا وإيقاعًا، لكنه لا يجعل المعاني متطابقة أو يثبت النجاح.",
+      "explanationEn": "The verb-plus-object pattern repeats. This creates organization and rhythm without making meanings identical or proving success."
+    }
+  },
+  "c1-x-u4-l5": {
+    "focusAr": "marshal evidence تنظيم الأدلة بحسب علاقتها بالنتيجة، لا جمع أكبر عدد من الاقتباسات. emotional appeal يربط القضية باهتمام إنساني، لكن أثره لا يثبت الادعاء. credibility تتطلب عرض المصدر والحدود والاعتراض القوي بأمانة. win someone over كسب التأييد، لا مجرد كسب الود؛ اربط طلبك بالفعل الذي تسمح به الأدلة.",
+    "focusEn": "Marshal evidence means organize it by relevance, not accumulate quotations. An emotional appeal connects with human concerns but does not prove a claim. Credibility requires honest presentation of sources, limitations, and substantial objections. Win someone over means gain support, not merely affection. Match the requested action to what the evidence justifies.",
+    "taskAr": "صغ ختامًا مقنعًا لتحسين إتاحة نموذج: اربط تجربة مستخدم بأهمية المهمة واطلب اختبارًا محددًا، دون اختراع إحصاءات.",
+    "taskEn": "Write a persuasive close for improving a form's accessibility: connect one user's experience to the task's importance and request a defined test without inventing statistics.",
+    "exampleEn": "The difficulty described by this user deserves attention, though one account cannot tell us its prevalence. I propose testing the revised form with a varied group of users and publishing the completion problems we identify before adopting the design.",
+    "exampleAr": "تستحق الصعوبة التي وصفها هذا المستخدم الاهتمام، وإن كانت رواية واحدة لا تبين مدى انتشارها. أقترح اختبار النموذج المعدل مع مجموعة متنوعة من المستخدمين ونشر مشكلات الإنجاز التي نرصدها قبل اعتماد التصميم.",
+    "check": {
+      "promptEn": "Which strategy strengthens credibility while remaining persuasive?",
+      "choices": [
+        "Acknowledge the evidence limit and propose a relevant test.",
+        "Invent a percentage to make the story seem representative.",
+        "Omit every objection because confidence is more important than accuracy."
+      ],
+      "answer": "Acknowledge the evidence limit and propose a relevant test.",
+      "explanationAr": "الشفافية بشأن القيد مع خطوة عملية تدعم المصداقية والإقناع معًا. اختراع رقم أو حذف الاعتراضات يضعف أساس الحجة.",
+      "explanationEn": "Transparent limits paired with a practical step support both credibility and persuasion. Fabricated figures or hidden objections undermine the argument."
+    }
+  },
+  "c1-x-u5-l1": {
+    "focusAr": "خط الحجة line of reasoning يربط الأدلة بالادعاء عبر مقدمات واضحة. counter-argument اعتراض على هذا الربط، لا رأي مخالف عابر. tenuous تصف ضعف الصلة، وpremature توقيت استنتاج يسبق كفاية الدعم. عند qualify a claim، حدد الفئة أو الظروف أو درجة الثقة التي يقيدها caveat، بدل إلحاق تحفظ شكلي لا يغيّر الادعاء.",
+    "focusEn": "A line of reasoning connects evidence to a claim through explicit premises. A counter-argument challenges that connection rather than merely voicing disagreement. Tenuous describes a weak link; premature describes a conclusion reached before adequate support exists. Qualify a claim by specifying the population, conditions, or confidence limited by a caveat, rather than adding a decorative disclaimer.",
+    "taskAr": "راجع الادعاء «النظام الجديد أفضل للجميع» بعد تجربة في قسم واحد نجحت في المهام البسيطة فقط، وصغ اعتراضًا جادًا.",
+    "taskEn": "Revise 'The new system is better for everyone' after a single-department trial succeeded only on simple tasks, and formulate a serious objection.",
+    "exampleEn": "The trial suggests that the system may improve simple tasks in this department. A key counter-argument is that complex cases were not tested, so a general recommendation would be premature.",
+    "exampleAr": "تشير التجربة إلى أن النظام قد يحسن المهام البسيطة في هذا القسم. ومن الاعتراضات الرئيسية أن الحالات المعقدة لم تُختبر، لذا ستكون التوصية العامة سابقة لأوانها.",
+    "check": {
+      "promptEn": "Which caveat materially limits the claim?",
+      "choices": [
+        "The benefit was observed only for simple tasks in one department.",
+        "There are limitations, but the system is unquestionably best for everyone.",
+        "Some people may disagree, so no evidence should be considered."
+      ],
+      "answer": "The benefit was observed only for simple tasks in one department.",
+      "explanationAr": "القيد الصحيح يحدد المهمة والفئة التي شملها الدليل. التحفظ الشكلي لا يبرر الإبقاء على تعميم قاطع.",
+      "explanationEn": "The meaningful caveat identifies the task and group covered by evidence. A decorative disclaimer cannot justify retaining an absolute generalization."
+    }
+  },
+  "c1-x-u5-l2": {
+    "focusAr": "primary source مصدر مباشر بالنسبة لسؤال معين؛ قد يكون وثيقة أصلية منحازة، فلا تعني أوليته خلوه من الخطأ. peer-reviewed وصف لعملية تقييم، لا ضمان نهائي. conflict of interest سبب للفحص والإفصاح، لا برهان تلقائي على الكذب. cite بدقة ما يدعمه المصدر وحدد النسخة أو الموضع عندما يهم ذلك.",
+    "focusEn": "A primary source is direct evidence relative to a question; an original document can still be biased or mistaken. Peer-reviewed describes a review process, not a final guarantee. A conflict of interest warrants scrutiny and disclosure but is not automatic proof of falsehood. Cite what the source actually supports, identifying version or location where relevant.",
+    "taskAr": "قيّم رسالة تاريخية يبرر فيها كاتبها قراره: وضح قيمتها كمصدر أولي وحدودها وما يمكن أن يؤيدها.",
+    "taskEn": "Evaluate a historical letter whose writer defends a decision: explain its value as a primary source, limitations, and possible corroboration.",
+    "exampleEn": "The letter is a primary source for how its author presented the decision at the time. It is not necessarily an impartial account of every motive. Contemporary records from other participants could corroborate or challenge its claims.",
+    "exampleAr": "الرسالة مصدر أولي لكيفية عرض صاحبها القرار آنذاك. لكنها ليست بالضرورة رواية محايدة لكل الدوافع. ويمكن لسجلات معاصرة من مشاركين آخرين تأييد ادعاءاتها أو مناقضتها.",
+    "check": {
+      "promptEn": "An original letter is a primary source. What does that status alone establish?",
+      "choices": [
+        "Its direct relationship to the historical question, not automatic impartiality.",
+        "The truth of every claim it contains.",
+        "The absence of any conflict of interest."
+      ],
+      "answer": "Its direct relationship to the historical question, not automatic impartiality.",
+      "explanationAr": "الأولية تصف صلة المصدر بالسؤال والأحداث. لا تثبت وحدها الحياد أو صدق كل التفاصيل أو غياب المصالح.",
+      "explanationEn": "Primary status concerns the source's relationship to the question and events. It alone establishes neither impartiality, complete accuracy, nor absence of interests."
+    }
+  },
+  "c1-x-u5-l3": {
+    "focusAr": "nominalisation تحوّل فعلًا أو صفة إلى اسم، فتفيد في تسمية مفهوم أو ربط جمل، لكنها قد تطيل النص وتخفي الفاعل. قارن the rejection of the proposal مع the committee rejected the proposal. اختر التركيب بحسب بؤرة الحديث، وحافظ على accountability عندما يكون صاحب القرار جزءًا لازمًا من المعنى.",
+    "focusEn": "Nominalisation turns a verb or adjective into a noun, useful for naming concepts or linking sentences, but it can lengthen prose and conceal the agent. Compare the rejection of the proposal with the committee rejected the proposal. Choose according to focus, preserving accountability when the decision-maker is essential to the meaning.",
+    "taskAr": "حرر «تم اتخاذ قرار برفض الطلب» بحيث يتضح أن اللجنة رفضته لغياب مستند محدد، ثم قدّم صياغة اسمية تحافظ على المسؤولية.",
+    "taskEn": "Edit 'A decision was made regarding rejection of the application' to identify the committee and a missing document, then give a nominalized version retaining responsibility.",
+    "exampleEn": "The committee rejected the application because the required certificate was missing. Alternatively: 'The committee's rejection of the application was based on the missing certificate.' Both identify the actor and reason.",
+    "exampleAr": "رفضت اللجنة الطلب لغياب الشهادة المطلوبة. ويمكن القول: «استند رفض اللجنة للطلب إلى غياب الشهادة». تحدد الصياغتان صاحب القرار وسببه.",
+    "check": {
+      "promptEn": "Which revision preserves accountability most clearly?",
+      "choices": [
+        "The committee rejected the application.",
+        "A rejection occurred.",
+        "There was the occurrence of a decision concerning rejection."
+      ],
+      "answer": "The committee rejected the application.",
+      "explanationAr": "تسمية اللجنة والفعل توضح المسؤولية. الصيغتان الأخريان تزيلان الفاعل وتضيف إحداهما تعقيدًا لا يخدم المعنى.",
+      "explanationEn": "Naming the committee and action makes responsibility clear. The alternatives remove the agent, with one adding unnecessary complexity."
+    }
+  },
+  "c1-x-u5-l4": {
+    "focusAr": "الملخص البحثي يجمع السؤال والمنهج والنتيجة وحدود الدلالة في مساحة محدودة. methodology ليست مجرد اسم أداة؛ بيّن كيف جُمعت البيانات أو قورنت بالقدر اللازم. outcomes نتائج مقاسة، وimplications ما قد تعنيه للتطبيق. لا تُدخل في الملخص نتائج غير موجودة في الدراسة أو تحول علاقة وصفية إلى أثر سببي.",
+    "focusEn": "An abstract combines question, method, result, and limits within a small space. Methodology is more than naming a tool: state how data were gathered or compared where necessary. Outcomes are measured results; implications concern potential applications. Do not introduce unreported findings or turn a descriptive relationship into a causal effect.",
+    "taskAr": "اكتب ملخصًا تدريبيًا لدراسة مقارنة مقابلات مع 12 طالبًا عن التعلم المسجل، أظهرت تنوع التفضيلات ولا تقيس التحصيل.",
+    "taskEn": "Write a practice abstract for interviews comparing twelve students' views of recorded learning, finding varied preferences but not measuring achievement.",
+    "exampleEn": "This study examines how twelve students describe recorded learning. Interviews were compared to identify recurring preferences and difficulties. Responses varied according to scheduling needs, but the study did not measure achievement; its implications are therefore limited to reported experiences.",
+    "exampleAr": "تفحص الدراسة وصف اثني عشر طالبًا للتعلم المسجل. قورنت المقابلات لتحديد التفضيلات والصعوبات المتكررة. اختلفت الإجابات بحسب احتياجات الجدولة، لكن الدراسة لم تقس التحصيل؛ لذا تقتصر دلالاتها على التجارب المبلغ عنها.",
+    "check": {
+      "promptEn": "Which conclusion stays within an interview study that did not measure achievement?",
+      "choices": [
+        "Participants described differing experiences of recorded learning.",
+        "Recorded learning caused higher exam scores.",
+        "All students learn more effectively from recordings."
+      ],
+      "answer": "Participants described differing experiences of recorded learning.",
+      "explanationAr": "النتيجة الصحيحة تصف ما جُمع فعلًا من روايات. لا يمكن تقرير أثر على درجات لم تُقَس أو تعميم الفاعلية على الجميع.",
+      "explanationEn": "The supported conclusion describes the reported experiences actually collected. It cannot assert effects on unmeasured scores or universal effectiveness."
+    }
+  },
+  "c1-x-u6-l1": {
+    "focusAr": "empirical قائم على الملاحظة أو القياس، وليس بالضرورة تجربة تدخلية. falsifiable تعني وجود ملاحظة ممكنة تناقض الفرضية، لا أنها ثبت خطؤها. consistent with توافق النتيجة مع التوقع دون استبعاد كل تفسير بديل. عدم replicate قد يستدعي فحص التصميم والظروف، لا اتهامًا آليًا بالغش أو تجاهل النتيجة الأولى.",
+    "focusEn": "Empirical means based on observation or measurement, not necessarily an intervention experiment. Falsifiable means some possible observation could contradict the hypothesis, not that it has already been disproved. Consistent with means compatible with a prediction without excluding every alternative. Failure to replicate warrants examining design and conditions rather than automatic accusations or dismissal.",
+    "taskAr": "حوّل ادعاء «هذه الطريقة تنجح دائمًا مهما كانت النتيجة» إلى فرضية تدريبية قابلة للاختبار، واذكر ملاحظة قد تناقضها.",
+    "taskEn": "Turn 'This method always works regardless of the result' into a testable practice hypothesis and name an observation that could contradict it.",
+    "exampleEn": "We hypothesize that the revised instructions reduce errors on this task compared with the original instructions. If a comparable group makes as many or more errors under the stated conditions, that would count against the predicted improvement.",
+    "exampleAr": "نفترض أن التعليمات المعدلة تقلل أخطاء هذه المهمة مقارنة بالتعليمات الأصلية. وإذا ارتكبت مجموعة قابلة للمقارنة عددًا مساويًا أو أكبر من الأخطاء في الظروف المحددة، فسيكون ذلك دليلًا ضد التحسن المتوقع.",
+    "check": {
+      "promptEn": "A claim is falsifiable when which condition holds?",
+      "choices": [
+        "A possible observation could count against it.",
+        "It has necessarily already been shown false.",
+        "Every possible outcome is defined as confirmation."
+      ],
+      "answer": "A possible observation could count against it.",
+      "explanationAr": "قابلية الدحض تتعلق بإمكان تعارض الملاحظة مع الادعاء، لا بحكم سابق على صحته. اعتبار كل نتيجة تأكيدًا يمنع اختباره بهذه الطريقة.",
+      "explanationEn": "Falsifiability concerns the possibility of contrary observation, not a prior verdict. Defining every outcome as confirmation prevents that kind of test."
+    }
+  },
+  "c1-x-u6-l2": {
+    "focusAr": "hold promise يدل على إمكان واعد، لا فائدة سريرية مضمونة. safeguards إجراءات وقائية، وethical oversight مراجعة ورقابة أخلاقية، وinformed consent موافقة تقوم على فهم مناسب واختيار طوعي. حجة slippery slope تحتاج آلية تبين كيف قد يؤدي القرار إلى الخطوة المقلقة؛ مجرد تخيل نهاية سيئة لا يثبت وقوعها.",
+    "focusEn": "Hold promise signals encouraging potential, not guaranteed clinical benefit. Safeguards are protective measures, ethical oversight concerns review and supervision, and informed consent rests on adequate understanding and voluntary choice. A slippery-slope argument needs a mechanism linking the decision to the feared next step; imagining an adverse endpoint does not establish that it will occur.",
+    "taskAr": "صغ سؤالين لتقييم حجة ضد مشروع بحثي تخيلي تقول إنه سيقود حتمًا إلى استعمال ضار، دون شرح إجراء تجريبي.",
+    "taskEn": "Formulate two questions assessing an objection that an imagined research project will inevitably lead to harmful use, without describing an experimental procedure.",
+    "exampleEn": "What specific sequence would connect this project to the feared use, and what evidence supports that sequence? Which safeguards could interrupt it, and what uncertainty would remain even with ethical oversight?",
+    "exampleAr": "ما التسلسل المحدد الذي يربط المشروع بالاستخدام المخيف، وما الأدلة الداعمة له؟ وأي إجراءات وقائية يمكن أن تقطعه، وما عدم اليقين الذي سيبقى حتى مع الرقابة الأخلاقية؟",
+    "check": {
+      "promptEn": "Which response examines a slippery-slope claim critically?",
+      "choices": [
+        "Ask for the causal steps, supporting evidence, and possible safeguards.",
+        "Assume any imaginable harmful endpoint is inevitable.",
+        "Dismiss every concern because research sounds promising."
+      ],
+      "answer": "Ask for the causal steps, supporting evidence, and possible safeguards.",
+      "explanationAr": "يفحص الجواب الصحيح آلية الانتقال واحتمال منعه. لا يحوّل المخاوف إلى حتمية ولا يلغيها لمجرد وجود وعود.",
+      "explanationEn": "The correct response examines the proposed mechanism and ways to interrupt it. It neither treats fear as inevitability nor dismisses it because of potential benefits."
+    }
+  },
+  "c1-x-u6-l3": {
+    "focusAr": "opportunity cost قيمة أفضل بديل واقعي يُترك عند تخصيص الموارد، لا كل منفعة يمكن تخيلها. feasible إمكان عملي، وليس استحسانًا أخلاقيًا أو أولوية تمويلية. launch window فترة مناسبة للإطلاق وفق متطلبات المهمة. عند تقييم الإنفاق، ميّز الفوائد المتوقعة من المتحققة والبديل المتاح من البديل الافتراضي غير القابل للتنفيذ.",
+    "focusEn": "Opportunity cost is the value of the best feasible alternative forgone, not every imaginable benefit. Feasible means practically achievable, not automatically desirable or a funding priority. A launch window is a suitable period determined by mission requirements. Distinguish expected from realized benefits and available alternatives from options that cannot actually be implemented.",
+    "taskAr": "قارن تمويل مهمة بحثية تخيلية بتحسين مختبر قائم، وبيّن المعلومات اللازمة قبل الحكم على تكلفة الفرصة البديلة.",
+    "taskEn": "Compare funding an imagined research mission with upgrading an existing laboratory, identifying information needed to assess opportunity cost.",
+    "exampleEn": "We would need comparable estimates of costs, expected benefits, timing, and feasibility for both options. The mission's opportunity cost depends on the best alternative we could actually fund, not on adding together every desirable use of the money.",
+    "exampleAr": "نحتاج إلى تقديرات قابلة للمقارنة للتكاليف والمنافع المتوقعة والتوقيت وإمكان التنفيذ. تعتمد تكلفة فرصة المهمة على أفضل بديل يمكن تمويله فعلًا، لا مجموع كل استخدام مرغوب للمال.",
+    "check": {
+      "promptEn": "Which comparison correctly frames opportunity cost?",
+      "choices": [
+        "The value of the best feasible alternative forgone.",
+        "The sum of every imaginable project worldwide.",
+        "Proof that any expensive mission must be wasteful."
+      ],
+      "answer": "The value of the best feasible alternative forgone.",
+      "explanationAr": "تكلفة الفرصة البديلة مرتبطة بأفضل بديل واقعي متروك. لا تجمع جميع الرغبات ولا تصدر حكمًا آليًا على جدوى المهمة.",
+      "explanationEn": "Opportunity cost concerns the best feasible forgone option. It does not aggregate all wishes or automatically judge the mission's value."
+    }
+  },
+  "c1-x-u6-l4": {
+    "focusAr": "disrupt إحداث اضطراب أو تغيير في نمط قائم، ولا يعني كل تحديث طفيف. incumbent جهة راسخة في السوق، وlegacy system نظام موروث لا يزال مستخدمًا وقد يكون ضروريًا. obsolete متقادم بالنسبة للحاجة المحددة، لا مرادف قديم فقط. اختبر ادعاء paradigm shift بتغير واضح في الممارسة، لا لغة تسويقية عن الجِدّة.",
+    "focusEn": "Disrupt means disturb or substantially change an established pattern, not every minor update. An incumbent is an established participant, while a legacy system is inherited infrastructure still in use and possibly essential. Obsolete means no longer suitable for the relevant need, not merely old. Test a paradigm-shift claim against changes in practice rather than marketing language about novelty.",
+    "taskAr": "قيّم نظامًا جديدًا يعد بتغيير جذري لكنه يحتاج التكامل مع سجلات قديمة، وحدد سؤالين عن الفائدة والتكلفة الانتقالية.",
+    "taskEn": "Evaluate a new system promising radical change but requiring integration with older records, identifying questions about benefits and transition costs.",
+    "exampleEn": "The platform may improve access, but the legacy system still holds essential records. We should ask which tasks become measurably easier and what migration work is required before calling the change a paradigm shift.",
+    "exampleAr": "قد تحسن المنصة الوصول، لكن النظام الموروث لا يزال يحتفظ بسجلات أساسية. ينبغي أن نسأل أي المهام تصبح أسهل على نحو قابل للقياس وما أعمال نقل البيانات المطلوبة قبل وصف التغيير بأنه تحول جذري.",
+    "check": {
+      "promptEn": "A system is described as legacy. What follows from that word alone?",
+      "choices": [
+        "It is inherited from an earlier setup, not necessarily useless.",
+        "It has no remaining value or function.",
+        "It must be replaced immediately regardless of constraints."
+      ],
+      "answer": "It is inherited from an earlier setup, not necessarily useless.",
+      "explanationAr": "legacy تصف صلته ببنية سابقة، ولا تثبت انعدام قيمته أو وجوب استبداله فورًا. التقييم يحتاج معرفة وظيفته وقيوده.",
+      "explanationEn": "Legacy identifies inheritance from an earlier setup, not uselessness or an immediate replacement requirement. Assessment needs its function and constraints."
+    }
+  },
+  "c1-x-u7-l1": {
+    "focusAr": "bilateral بين طرفين وmultilateral بين عدة أطراف؛ لا يصفان نجاح الاتفاق أو عدالته. ceasefire توقف إطلاق نار وفق نطاق معين، وليس تسوية نهائية تلقائيًا. de-escalate خفض التوتر أو الشدة، وnegotiations عملية قد تسبق اتفاقًا أو تفشل. عند تلخيص بيان، انسب الأقوال وميّز المقترح والموافقة المبدئية والتنفيذ الفعلي.",
+    "focusEn": "Bilateral involves two parties and multilateral several; neither describes success or fairness. A ceasefire halts fighting within a stated scope, not automatically resolves a conflict. De-escalate means reduce intensity; negotiations may lead to agreement or fail. Attribute statements and distinguish a proposal, tentative acceptance, and actual implementation when summarizing a communiqué.",
+    "taskAr": "لخّص بيانًا دبلوماسيًا تخيليًا: قبل الطرفان مناقشة وقف مؤقت، لكن موعده وآلية متابعته لم يُحسما.",
+    "taskEn": "Summarize an imagined communiqué: both parties agreed to discuss a temporary ceasefire, but its timing and monitoring remain unsettled.",
+    "exampleEn": "The parties agreed to discuss a temporary ceasefire as part of efforts to de-escalate the conflict. This marks progress in negotiations, but it does not establish that a ceasefire has begun or that monitoring arrangements are settled.",
+    "exampleAr": "اتفق الطرفان على مناقشة وقف مؤقت لإطلاق النار ضمن جهود خفض التصعيد. يمثل ذلك تقدمًا في المفاوضات، لكنه لا يثبت بدء الوقف أو حسم ترتيبات متابعته.",
+    "check": {
+      "promptEn": "Agreement to discuss a ceasefire establishes which point?",
+      "choices": [
+        "Talks on the proposal are accepted, not that implementation has begun.",
+        "All fighting has necessarily stopped.",
+        "A final peace settlement has been signed."
+      ],
+      "answer": "Talks on the proposal are accepted, not that implementation has begun.",
+      "explanationAr": "الموافقة على المناقشة مرحلة تختلف عن الاتفاق النهائي والتنفيذ. لا يسمح النص باستنتاج توقف القتال أو تسوية شاملة.",
+      "explanationEn": "Acceptance of discussion differs from final agreement and implementation. The wording does not establish stopped fighting or a comprehensive settlement."
+    }
+  },
+  "c1-x-u7-l2": {
+    "focusAr": "drivers عوامل مؤثرة قد تتداخل، فلا تختزل حركة الناس في سبب واحد. push factor ضغط يدفع للمغادرة، وpull factor جاذب في الوجهة. asylum طلب حماية في سياق قانوني يختلف عن الهجرة عمومًا؛ تقديم الطلب لا يثبت قبوله. remittances تحويلات لأهل أو جهات في موطن الأصل، ولا تكشف وحدها وضع المرسل القانوني.",
+    "focusEn": "Drivers may interact rather than reduce movement to one cause. A push factor pressures departure; a pull factor attracts toward a destination. Asylum concerns protection in a legal context rather than migration generally, and an application does not establish approval. Remittances are transfers to people or recipients in a place of origin; they do not alone disclose the sender's legal status.",
+    "taskAr": "اشرح حالة تخيلية انتقل فيها شخص بسبب انعدام فرص العمل ولوجود فرصة تدريب في مدينة أخرى، مع فصل العامل الطارد عن الجاذب.",
+    "taskEn": "Explain an imagined move prompted by scarce employment and a training opportunity elsewhere, distinguishing push from pull factors.",
+    "exampleEn": "Limited employment at home was a push factor, while the training opportunity was a pull factor. Together they help explain the decision, but they do not establish the person's immigration status or any entitlement to asylum.",
+    "exampleAr": "كان نقص فرص العمل في موطنه عاملًا طاردًا، بينما كانت فرصة التدريب عاملًا جاذبًا. يساعد العاملان على تفسير القرار، لكنهما لا يحددان وضعه القانوني في الهجرة أو استحقاقه للجوء.",
+    "check": {
+      "promptEn": "A person has applied for asylum. What does that wording establish?",
+      "choices": [
+        "A protection request has been submitted; its outcome is not stated.",
+        "The request has automatically been approved.",
+        "The person has necessarily obtained citizenship."
+      ],
+      "answer": "A protection request has been submitted; its outcome is not stated.",
+      "explanationAr": "تقديم طلب لجوء يثبت الطلب فقط ضمن العبارة. لا يعني قبوله أو اكتساب الجنسية، وهما أمران مختلفان يحتاجان معلومات إضافية.",
+      "explanationEn": "Applying establishes a submitted request, not approval or citizenship. Those distinct outcomes require further information."
+    }
+  },
+  "c1-x-u7-l3": {
+    "focusAr": "preparedness استعداد قبل الحدث، وcontainment جهود للحد من انتشاره، وoutbreak تفشٍّ قد يكون محدود النطاق. inequalities فروق مقاسة، وhealth equity تتناول الفروق غير المنصفة القابلة للتجنب. عند مقارنة vaccine coverage، حدّد الفئة والجرعات والفترة؛ ارتفاع المتوسط قد يخفي نقصًا في فئة ولا يثبت وحده تساوي الوصول.",
+    "focusEn": "Preparedness concerns readiness before an event, containment attempts to limit spread, and an outbreak may be localized. Inequalities are measured differences; health equity concerns avoidable unfair differences. For vaccine coverage, specify population, doses, and period. A high average may hide a poorly served group and does not alone establish equal access.",
+    "taskAr": "لخّص تقريرًا تدريبيًا عن تغطية خدمة صحية مرتفعة إجمالًا ومنخفضة في منطقة بعيدة، مع اقتراح سؤال عن عائق الوصول.",
+    "taskEn": "Summarize a practice report with high overall health-service coverage but low coverage in a remote area, proposing a question about access barriers.",
+    "exampleEn": "Overall coverage is high, yet the regional figures reveal inequalities that the average conceals. Before attributing the difference to individual choice, we should examine travel distance, service availability, and how the figures were collected.",
+    "exampleAr": "التغطية الإجمالية مرتفعة، لكن الأرقام الإقليمية تكشف تفاوتًا يخفيه المتوسط. وقبل نسب الفرق إلى الاختيار الفردي، ينبغي فحص مسافة الانتقال وتوفر الخدمة وكيفية جمع الأرقام.",
+    "check": {
+      "promptEn": "A high national average coexists with low coverage in one region. Which inference is justified?",
+      "choices": [
+        "Coverage differs across regions despite the high overall figure.",
+        "Every resident has identical access.",
+        "Residents in the lower-coverage region must have refused the service."
+      ],
+      "answer": "Coverage differs across regions despite the high overall figure.",
+      "explanationAr": "المعطى يبين تفاوتًا بين المناطق، ولا يحدد سببه أو يثبت تطابق الوصول. نسبته إلى الرفض وحده تحتاج دليلًا آخر.",
+      "explanationEn": "The information establishes regional variation, not its cause or equal access. Attributing it solely to refusal requires additional evidence."
+    }
+  },
+  "c1-x-u7-l4": {
+    "focusAr": "capacity building تقوية مهارات ومؤسسات، لا مجرد تسليم معدات. conditionality شروط مرتبطة بالمساعدة، وgrassroots مبادرة ناشئة من المجتمع المحلي. ميّز output مثل عدد الدورات عن outcome مثل قدرة فريق محلي على أداء العمل لاحقًا. قيّم أثر المساعدة واستدامته مع السكان المعنيين، دون افتراض أن استمرارها يثبت التبعية أو أن وقفها يثبت التمكين.",
+    "focusEn": "Capacity building strengthens skills and institutions, not merely supplies equipment. Conditionality attaches terms to assistance; grassroots describes local community origins. Distinguish an output, such as courses delivered, from an outcome, such as later independent performance. Assess effects and durability with those concerned without treating continued aid as automatic dependency or withdrawal as proof of empowerment.",
+    "taskAr": "قيّم مشروعًا تدريبيًا سلّم معدات وعقد ورشًا: حدّد دليلًا إضافيًا تحتاجه لمعرفة هل بُنيت قدرة محلية مستدامة.",
+    "taskEn": "Evaluate a practice project providing equipment and workshops: identify further evidence needed to know whether lasting local capacity developed.",
+    "exampleEn": "The workshops and equipment are outputs, but capacity building requires evidence that the local team can operate, maintain, and adapt the service. We should examine follow-up performance and access to resources rather than infer success from delivery figures alone.",
+    "exampleAr": "الورش والمعدات مخرجات، لكن بناء القدرات يحتاج دليلًا على أن الفريق المحلي يستطيع تشغيل الخدمة وصيانتها وتكييفها. ينبغي فحص الأداء اللاحق وتوفر الموارد بدل استنتاج النجاح من أرقام التسليم وحدها.",
+    "check": {
+      "promptEn": "Which observation best indicates an outcome beyond delivery of aid inputs?",
+      "choices": [
+        "The local team independently maintains the service six months later.",
+        "Ten boxes of equipment were shipped.",
+        "The launch event attracted many photographs."
+      ],
+      "answer": "The local team independently maintains the service six months later.",
+      "explanationAr": "استمرار الصيانة المحلية يدل على قدرة عملية لاحقة. الشحن والتوثيق يصفان أنشطة أو مدخلات ولا يثبتان الاستدامة.",
+      "explanationEn": "Continued local maintenance indicates subsequent practical capacity. Shipping and publicity describe activities or inputs, not established sustainability."
+    }
+  },
+  "c1-x-u8-l1": {
+    "focusAr": "confirmation bias انتقاء أو تفسير معلومات تؤيد الاعتقاد السابق، وanchoring تأثر الحكم بنقطة بداية حتى لو كانت ضعيفة الصلة. hindsight قد يجعل الماضي يبدو أكثر قابلية للتوقع مما كان. لا تستخدم أسماء التحيزات تشخيصًا للنوايا؛ حدد نمط الاستدلال وافحصه على موقفك أيضًا، مع البحث عن دليل قد يغيره.",
+    "focusEn": "Confirmation bias concerns selecting or interpreting information to support an existing belief; anchoring concerns influence from an initial reference, even when weakly relevant. Hindsight can make past events seem more predictable than they were. Do not use bias labels to diagnose motives; identify a reasoning pattern, apply the same scrutiny to yourself, and seek potentially disconfirming evidence.",
+    "taskAr": "لاحظت أنك تحفظ تقييمات تؤيد منتجًا أعجبك وتتجاهل الشكاوى الموثقة. صغ طريقة مراجعة تقلل هذا الانتقاء.",
+    "taskEn": "You notice saving reviews favouring a product you like while ignoring documented complaints. Formulate a review method that reduces this selectivity.",
+    "exampleEn": "I may be favouring evidence that confirms my first impression. I'll apply the same criteria to positive and negative reports, examine the documented complaints, and specify what finding would make me revise my view.",
+    "exampleAr": "ربما أفضل الأدلة التي تؤكد انطباعي الأول. سأطبق المعايير نفسها على التقارير الإيجابية والسلبية، وأفحص الشكاوى الموثقة، وأحدد النتيجة التي قد تدفعني إلى تعديل رأيي.",
+    "check": {
+      "promptEn": "Which action directly challenges selective confirmation?",
+      "choices": [
+        "Set equal standards for supporting and opposing evidence.",
+        "Dismiss every negative report before reading it.",
+        "Call the other side biased without checking your own criteria."
+      ],
+      "answer": "Set equal standards for supporting and opposing evidence.",
+      "explanationAr": "المعيار المتسق يختبر الأدلة بغض النظر عن اتجاهها. الرفض المسبق أو إطلاق وصف على الطرف الآخر لا يعالجان الانتقاء الذاتي.",
+      "explanationEn": "A consistent standard tests evidence regardless of direction. Prior rejection or labeling opponents does not address one's own selectivity."
+    }
+  },
+  "c1-x-u8-l2": {
+    "focusAr": "intrinsic motivation اهتمام بالنشاط أو قيمته الذاتية، وليست مرادفًا لإرادة لا تتأثر بالظروف. cue إشارة لبدء سلوك، وreinforcement نتيجة تزيد احتمال تكراره. habit loop نموذج مبسط لفهم بعض العادات، لا قانون يفسر كل سلوك. صِف تجربة قابلة للملاحظة وعدّلها إذا لم تناسب الواقع بدل لوم الشخص.",
+    "focusEn": "Intrinsic motivation concerns interest in an activity or its inherent value, not willpower unaffected by circumstances. A cue prompts behaviour; reinforcement increases its likelihood of recurring. A habit loop is a simplified model for some habits, not a law explaining all behaviour. Describe an observable trial and adjust it to circumstances rather than blame the person.",
+    "taskAr": "صغ خطة تدريبية لقراءة فقرة إنجليزية بعد الإفطار، تتضمن إشارة واضحة ومراجعة بعد أسبوع، دون وعد بعادة ثابتة خلال مدة محددة.",
+    "taskEn": "Draft a practice plan to read an English paragraph after breakfast, with a clear cue and a one-week review, without guaranteeing habit formation by a fixed date.",
+    "exampleEn": "Finishing breakfast will be my cue to read one paragraph. I'll record whether I did it and what interrupted me, then review the pattern after a week. If the timing proves impractical, I'll change the cue rather than assume a lack of willpower.",
+    "exampleAr": "سيكون إنهاء الإفطار إشارتي لقراءة فقرة واحدة. سأدوّن هل فعلت ذلك وما قاطعني، ثم أراجع النمط بعد أسبوع. وإذا اتضح أن التوقيت غير عملي، فسأغيّر الإشارة بدل افتراض ضعف الإرادة.",
+    "check": {
+      "promptEn": "Which plan uses a cue and a review rather than an unsupported guarantee?",
+      "choices": [
+        "Read after breakfast and review the recorded pattern after a week.",
+        "Promise that every habit becomes permanent in exactly seven days.",
+        "Treat one missed day as proof that change is impossible."
+      ],
+      "answer": "Read after breakfast and review the recorded pattern after a week.",
+      "explanationAr": "يربط الجواب الصحيح السلوك بإشارة قابلة للتحديد ومراجعة فعلية. لا يضمن زمنًا موحدًا لتكوّن العادة أو يجعل تعثرًا واحدًا حكمًا نهائيًا.",
+      "explanationEn": "The correct plan links behaviour to a specific cue and an actual review. It neither guarantees a universal formation period nor treats one setback as decisive."
+    }
+  },
+  "c1-x-u8-l3": {
+    "focusAr": "calculated risk مخاطرة نوقشت احتمالاتها وآثارها، لا مخاطرة مضمونة النتيجة. expected value متوسط مرجح باحتمالات مفترضة، وليس ما سيحدث حتمًا في محاولة واحدة. downside risk يلفت إلى الخسارة الممكنة، وcontingency plan يحدد استجابة إذا تحقق شرط. اذكر ما تعرفه وما تفترضه ومتى تعيد النظر في القرار.",
+    "focusEn": "A calculated risk has considered likelihoods and consequences, not a guaranteed outcome. Expected value is a probability-weighted average under assumptions, not a certain single outcome. Downside risk highlights potential loss, and a contingency plan specifies a response to a condition. State what is known, what is assumed, and when the decision should be reconsidered.",
+    "taskAr": "اقترح قرارًا تدريبيًا بتجربة نظام على فريق صغير مع شرط إيقاف وخطة عودة إذا ظهرت مشكلة وصول.",
+    "taskEn": "Propose a practice decision to trial a system with one small team, including a stop condition and rollback if an access problem appears.",
+    "exampleEn": "We can take a calculated risk by limiting the trial to one team. If a participant cannot complete a core task using the supported access method, we will pause the trial and restore the previous process while investigating.",
+    "exampleAr": "يمكننا خوض مخاطرة محسوبة بقصر التجربة على فريق واحد. وإذا تعذر على مشارك إنجاز مهمة أساسية بوسيلة الوصول المدعومة، فسنوقف التجربة مؤقتًا ونعيد الإجراء السابق أثناء الفحص.",
+    "check": {
+      "promptEn": "What makes a contingency plan operational?",
+      "choices": [
+        "A defined trigger linked to a specific response and responsible person.",
+        "A vague promise that everything will work.",
+        "A prediction presented as certainty without assumptions."
+      ],
+      "answer": "A defined trigger linked to a specific response and responsible person.",
+      "explanationAr": "الخطة قابلة للتنفيذ عندما تحدد متى تُفعّل وماذا سيحدث ومن يتولاه. التفاؤل أو الجزم المجرد ليسا إجراءً احتياطيًا.",
+      "explanationEn": "A workable plan states when it activates, what happens, and who acts. Optimism or unsupported certainty is not a contingency procedure."
+    }
+  },
+  "c1-x-u8-l4": {
+    "focusAr": "self-awareness ملاحظة مشاعرك وافتراضاتك، وregulate تنظيم الاستجابة لا إنكار الشعور. empathy فهم تجربة الآخر دون ادعاء قراءتها يقينًا، وrapport علاقة تواصل مريحة لا موافقة على كل شيء. اربط composure بسلوك محدد مثل طلب مهلة وتوضيح الحاجة، ولا تجعل الثبات الخارجي حكمًا على ما يشعر به الشخص داخليًا.",
+    "focusEn": "Self-awareness involves noticing feelings and assumptions; regulate means manage a response, not deny emotion. Empathy seeks understanding without claiming certain access to another's experience. Rapport is comfortable communication, not agreement on everything. Connect composure with actions such as requesting a pause and clarifying needs, without judging inner experience from outward calm alone.",
+    "taskAr": "صغ ردًا على نقد مفاجئ يقر بانفعالك ويطلب مثالًا محددًا ووقتًا قصيرًا للرد، دون مهاجمة صاحبه.",
+    "taskEn": "Respond to unexpected criticism by acknowledging your reaction and asking for a specific example and brief time to respond without attacking the speaker.",
+    "exampleEn": "I notice I'm reacting defensively, and I want to understand the concern properly. Could you give one specific example? I'd appreciate a moment to consider it before we discuss what needs to change.",
+    "exampleAr": "ألاحظ أنني أتخذ موقفًا دفاعيًا، وأريد فهم الملاحظة جيدًا. هل يمكنك تقديم مثال محدد؟ أقدّر منحي لحظة للتفكير فيه قبل أن نناقش ما يحتاج إلى تغيير.",
+    "check": {
+      "promptEn": "Which response demonstrates self-awareness without claiming to know another's feelings?",
+      "choices": [
+        "I notice I'm becoming defensive; could you clarify the concern?",
+        "Your expression proves that you hate my work.",
+        "Calm people never experience strong emotions."
+      ],
+      "answer": "I notice I'm becoming defensive; could you clarify the concern?",
+      "explanationAr": "يسمي الجواب الصحيح استجابة المتحدث ويطلب الفهم. لا يستنتج شعور الآخر يقينًا من مظهره ولا ينكر مشاعر من يبدو هادئًا.",
+      "explanationEn": "The correct response notices one's own reaction and seeks understanding. It does not infer another's feelings with certainty or deny emotion behind calm behaviour."
+    }
+  },
+  "c1-x-u9-l1": {
+    "focusAr": "misinformation معلومات خاطئة أو مضللة دون اشتراط قصد الخداع، وdisinformation تتضمن قصدًا متعمدًا؛ لا تستنتج النية من الخطأ وحده. unfounded يصف غياب أساس كافٍ، وdebunk دحض ادعاء بفحص أو أدلة. source verification تتحقق من أصل المادة، لكنها لا تغني عن فحص الادعاء والسياق والتاريخ.",
+    "focusEn": "Misinformation is false or misleading information without a required intention to deceive; disinformation involves deliberate deception. Error alone does not establish intent. Unfounded means lacking adequate basis; debunk means expose a claim's falsity through scrutiny or evidence. Source verification checks origin but does not replace examination of the claim, context, and date.",
+    "taskAr": "اكتب تصحيحًا لتاريخ فعالية نُشر خطأ، مع تحديد الصحيح والمصدر وعدم اتهام الناشر بتعمد الخداع دون دليل.",
+    "taskEn": "Write a correction to a wrongly published event date, stating the accurate date and source without alleging deliberate deception without evidence.",
+    "exampleEn": "The earlier post gave Thursday as the event date, but the organizer's notice states Friday. Please use the corrected date. This establishes an error in the post; it does not establish whether the error was intentional.",
+    "exampleAr": "ذكر المنشور السابق أن الفعالية الخميس، لكن إعلان المنظم يحدد الجمعة. يرجى اعتماد التاريخ المصحح. يثبت ذلك خطأ في المنشور، لكنه لا يحدد هل كان متعمدًا.",
+    "check": {
+      "promptEn": "A post contains an error, but there is no evidence about intention. Which label is most defensible?",
+      "choices": [
+        "Misinformation, without asserting deliberate deception.",
+        "Disinformation, because any factual error proves intent.",
+        "A verified fact, because the author appears sincere."
+      ],
+      "answer": "Misinformation, without asserting deliberate deception.",
+      "explanationAr": "misinformation لا تشترط نية الخداع. الخطأ وحده لا يثبت disinformation، وصدق النية المحتمل لا يجعل المعلومة صحيحة.",
+      "explanationEn": "Misinformation does not require deceptive intent. An error alone does not establish disinformation, and possible sincerity does not make the content true."
+    }
+  },
+  "c1-x-u9-l2": {
+    "focusAr": "public interest منفعة عامة معتبرة، لا مجرد ما يثير فضول الجمهور. impartial إنصاف في التعامل مع الأدلة لا تساوٍ آلي لكل رواية. editorial قد تكون صفة «تحريري» أو اسمًا «افتتاحية» بحسب التركيب. retract سحب مادة، ويختلف عن تصحيح جزئي. حدّد ضرورة المعلومة الشخصية وصلتها بالمصلحة المطروحة قبل نشرها.",
+    "focusEn": "Public interest is a substantive public benefit, not simply audience curiosity. Impartiality concerns fair handling of evidence, not automatic equal weight for every account. Editorial can be an adjective or a noun for an opinion article. Retract means withdraw material, distinct from a partial correction. Establish the necessity and relevance of personal information before publication.",
+    "taskAr": "قيّم نشر عنوان منزل شخص في تحقيق تدريبي عن إنفاق مؤسسة: اسأل عن صلته بالدليل وإمكان عرض القصة دونه.",
+    "taskEn": "Evaluate publishing a person's home address in a practice investigation of institutional spending: question its evidential relevance and whether the story can be told without it.",
+    "exampleEn": "The spending allegation may be in the public interest, but the home address requires a separate justification. If it adds nothing necessary to the evidence, omitting it can preserve the substance of the investigation while reducing an intrusive disclosure.",
+    "exampleAr": "قد يخدم ادعاء الإنفاق المصلحة العامة، لكن عنوان المنزل يحتاج إلى تبرير مستقل. وإذا لم يضف شيئًا لازمًا إلى الأدلة، فقد يحافظ حذفه على جوهر التحقيق ويقلل كشفًا متطفلًا للمعلومات.",
+    "check": {
+      "promptEn": "Which distinction is central to public interest?",
+      "choices": [
+        "Information needed to assess a public issue versus information that merely attracts curiosity.",
+        "Any highly viewed story versus any little-viewed story.",
+        "All personal detail versus all institutional detail regardless of relevance."
+      ],
+      "answer": "Information needed to assess a public issue versus information that merely attracts curiosity.",
+      "explanationAr": "المعيار يتعلق بالصلة والضرورة والفائدة العامة، لا بعدد القراءات أو التصنيف المجرد للمعلومة. قد يحتاج كل تفصيل تقييمًا مستقلًا.",
+      "explanationEn": "The distinction concerns relevance, necessity, and public benefit, not view counts or an automatic information category. Each detail may need separate assessment."
+    }
+  },
+  "c1-x-u9-l3": {
+    "focusAr": "framing يختار زاوية العرض، وomission حذف قد يغيّر الفهم حتى لو بقيت الجمل صحيحة منفردة. baseline خط المقارنة اللازم لفهم الزيادة؛ ميّز التغير النسبي من فرق النسب المئوية. cherry-picking انتقاء نتائج ملائمة مع إهمال ما يغير الصورة. اعرض المقام والفترة والأرقام المطلقة عند الحاجة.",
+    "focusEn": "Framing selects an angle; omission can distort understanding even when individual sentences remain true. A baseline supplies the comparison needed for change. Distinguish relative change from percentage-point difference. Cherry-picking selects convenient results while omitting evidence that alters the picture. Include denominators, periods, and absolute figures where needed.",
+    "taskAr": "أعد صياغة عنوان «تضاعف معدل الأخطاء» عندما ارتفع من 1% إلى 2%، محافظًا على النسبتين والتغير دون تهويل أو تهوين.",
+    "taskEn": "Rewrite 'The error rate doubled' when it rose from 1% to 2%, preserving both rates and the change without exaggeration or minimization.",
+    "exampleEn": "The error rate rose from one percent to two percent: an increase of one percentage point, or a doubling relative to the original rate. The practical significance also depends on the number and consequences of errors.",
+    "exampleAr": "ارتفع معدل الأخطاء من واحد بالمئة إلى اثنين بالمئة: زيادة نقطة مئوية واحدة، أو تضاعف بالنسبة للمعدل الأصلي. وتعتمد الأهمية العملية أيضًا على عدد الأخطاء وآثارها.",
+    "check": {
+      "promptEn": "A rate rises from 1% to 2%. Which description is numerically precise?",
+      "choices": [
+        "One percentage point higher and 100% higher relative to the original rate.",
+        "One percent higher relative to the original rate.",
+        "Two percentage points higher."
+      ],
+      "answer": "One percentage point higher and 100% higher relative to the original rate.",
+      "explanationAr": "الفرق المطلق بين النسبتين نقطة مئوية، بينما زيادة 1 على أصل 1 تساوي 100% نسبيًا. النسبة المئوية والنقطة المئوية ليستا الشيء نفسه.",
+      "explanationEn": "The absolute difference is one percentage point; an increase of one over an original one is 100% relatively. Percent and percentage points measure different comparisons."
+    }
+  },
+  "c1-x-u9-l4": {
+    "focusAr": "provenance سجل أصل المادة ومسارها، وmetadata بيانات وصفية قد تساعد لكنها قد تُحذف أو تتغير. lateral reading فحص جهات مستقلة خارج الصفحة للتحقق من ناشرها وادعاءاتها. لا تكفي جودة الصوت أو المظهر لإثبات الأصالة، كما لا يثبت غياب بيانات وصفية وحده التزييف. ميّز قرينة تستحق الفحص من حكم محسوم.",
+    "focusEn": "Provenance concerns origin and history; metadata can provide clues but may be removed or altered. Lateral reading consults independent sources beyond a page to investigate its publisher and claims. Convincing sound or appearance does not establish authenticity, while missing metadata alone does not prove fabrication. Distinguish a clue warranting investigation from a settled conclusion.",
+    "taskAr": "صف خطة تحقق من تسجيل صوتي منسوب لمسؤول، باستخدام المصدر الأصلي والسياق وتأكيد مستقل دون الاعتماد على الصوت وحده.",
+    "taskEn": "Describe verification of an audio recording attributed to an official, using its original source, context, and independent confirmation rather than voice alone.",
+    "exampleEn": "I would trace the recording's provenance, look for the complete statement, and compare it with an independently maintained record. A familiar-sounding voice is not sufficient, and missing metadata would leave a question rather than prove a deepfake.",
+    "exampleAr": "سأتتبع أصل التسجيل، وأبحث عن البيان الكامل، وأقارنه بسجل مستقل. لا يكفي أن يبدو الصوت مألوفًا، وغياب البيانات الوصفية يترك سؤالًا لا يثبت تزييفًا عميقًا.",
+    "check": {
+      "promptEn": "A file lacks creation-date metadata. Which conclusion is warranted?",
+      "choices": [
+        "One potentially useful clue is unavailable, so authenticity remains to be checked.",
+        "The file must be a deepfake.",
+        "The content must be authentic because metadata would reveal manipulation."
+      ],
+      "answer": "One potentially useful clue is unavailable, so authenticity remains to be checked.",
+      "explanationAr": "غياب بيانات وصفية يحد القرائن المتاحة فقط. لا يحسم الأصالة أو التزييف في أي اتجاه.",
+      "explanationEn": "Missing metadata limits the available clues. It does not settle authenticity or manipulation in either direction."
+    }
+  },
+  "c1-x-u10-l1": {
+    "focusAr": "vision اتجاه بعيد، وobjective نتيجة محددة تخدمه، وbenchmark مرجع للمقارنة لا هدف مناسب بالضرورة. align ربط أهداف الأقسام بالغرض العام مع بيان الآلية. اذكر constraint واقعيًا بدل تجاهله، وحدد معيار جودة يحمي الهدف من اختزاله إلى رقم يمكن تحسينه على حساب الخدمة.",
+    "focusEn": "A vision sets direction; an objective specifies a contributing result, and a benchmark is a comparison point, not automatically an appropriate target. Align connects departmental goals to the overall purpose through an explicit mechanism. State realistic constraints and a quality criterion preventing a numerical target from improving at the service's expense.",
+    "taskAr": "حوّل رؤية «خدمة أسهل» إلى هدف لتقليل زمن المعالجة مع الحفاظ على دقة القرارات، واذكر معيار المقارنة.",
+    "taskEn": "Translate 'an easier service' into a processing-time objective that preserves decision accuracy, identifying the comparison point.",
+    "exampleEn": "Over the next quarter, we will compare processing times with the current benchmark while tracking correction rates. The aim is to shorten avoidable delays without increasing errors, subject to the staffing constraint identified in the plan.",
+    "exampleAr": "خلال الربع القادم، سنقارن أزمنة المعالجة بالمعيار الحالي مع متابعة معدلات التصحيح. الهدف تقليص التأخير الممكن تجنبه دون زيادة الأخطاء، ضمن قيد الموارد البشرية المحدد في الخطة.",
+    "check": {
+      "promptEn": "Which metric pairing best guards against speed improving at the expense of quality?",
+      "choices": [
+        "Processing time together with the rate of decisions needing correction.",
+        "Processing time alone, regardless of errors.",
+        "Number of staff messages unrelated to completed cases."
+      ],
+      "answer": "Processing time together with the rate of decisions needing correction.",
+      "explanationAr": "الجمع بين الزمن والتصحيحات يكشف مفاضلة السرعة والدقة. قياس الزمن وحده قد يخفي الأخطاء، والرسائل لا تقيس النتيجة المطلوبة مباشرة.",
+      "explanationEn": "Time paired with corrections reveals a speed-quality trade-off. Time alone may hide errors, while message counts do not directly measure the intended result."
+    }
+  },
+  "c1-x-u10-l2": {
+    "focusAr": "rationale يشرح سبب التغيير، وbuy-in قبول أو دعم يتجاوز مجرد تلقي الإعلان. resistance قد تكشف قيودًا أو ضررًا متوقعًا، فلا تنسبها تلقائيًا إلى العناد. pilot تجربة محدودة تحتاج شروط نجاح ومراجعة، وroll out تطبيق أوسع. فرّق بين قرار محسوم وجانب ما زال مفتوحًا للمشاركة حتى لا تكون المشاورة شكلية.",
+    "focusEn": "A rationale explains why change is proposed; buy-in means acceptance or support beyond merely receiving an announcement. Resistance may reveal constraints or expected harm, not automatically stubbornness. A pilot needs success criteria and review before wider rollout. Distinguish settled decisions from aspects still open to influence so consultation is meaningful.",
+    "taskAr": "اكتب إعلان تجربة عملية جديدة يوضح السبب وما يمكن للموظفين تعديله وموعد مراجعة التجربة.",
+    "taskEn": "Write a process-trial announcement explaining its rationale, what staff can influence, and when it will be reviewed.",
+    "exampleEn": "The pilot aims to reduce duplicate entry. The need to remove duplication is agreed, but the sequence of checks is still open to revision. Please record problems during the two-week trial; we will review them before deciding whether to roll out the process.",
+    "exampleAr": "تهدف التجربة المحدودة إلى تقليل الإدخال المكرر. اتُفق على ضرورة إزالة التكرار، لكن ترتيب الفحوص ما زال قابلًا للتعديل. يرجى تسجيل المشكلات خلال الأسبوعين؛ سنراجعها قبل اتخاذ قرار بالتعميم.",
+    "check": {
+      "promptEn": "Which statement invites meaningful input?",
+      "choices": [
+        "The sequence is open to revision, and we will review your recorded problems before rollout.",
+        "Every detail is fixed, but we promise your comments can change any detail.",
+        "Receiving this email automatically means you support the plan."
+      ],
+      "answer": "The sequence is open to revision, and we will review your recorded problems before rollout.",
+      "explanationAr": "يحدد الجواب الصحيح جانبًا يمكن التأثير فيه وآلية للمراجعة. الادعاء بمشاورة مفتوحة مع حسم كل التفاصيل مضلل، والاستلام ليس دعمًا.",
+      "explanationEn": "The correct statement identifies an influenceable element and review process. Claiming open consultation after fixing everything is misleading, and receipt is not endorsement."
+    }
+  },
+  "c1-x-u10-l3": {
+    "focusAr": "ethos قيم وممارسات توجه المؤسسة، لا شعارها فقط. psychological safety إمكان طرح سؤال أو خطأ دون خوف غير مبرر من الإذلال، ولا تعني غياب المعايير. retention بقاء الموظفين ويحتاج تفسيرًا متعدد العوامل. صف السلوك الفعلي عند raise concerns، واسأل عن المتابعة بدل الاستدلال من وثيقة سياسة وحدها.",
+    "focusEn": "An ethos involves guiding values and practices, not only a slogan. Psychological safety allows questions or mistakes to be raised without undue fear of humiliation, not absence of standards. Retention concerns employees staying and has multiple influences. Examine responses when people raise concerns and subsequent follow-up rather than infer culture from a policy document alone.",
+    "taskAr": "قيّم مؤسسة تعلن الشفافية لكن الموظفين لا يعرفون ماذا يحدث لبلاغاتهم، واقترح سؤالًا وإجراء متابعة واضحًا.",
+    "taskEn": "Evaluate an organization proclaiming transparency when staff do not know what happens to reports, proposing a question and a clear follow-up step.",
+    "exampleEn": "The stated ethos supports transparency, but the reporting experience needs examination. Who acknowledges a concern and explains the next stage? A documented response process could make responsibilities clearer without promising disclosure of confidential details.",
+    "exampleAr": "تدعم القيم المعلنة الشفافية، لكن تجربة الإبلاغ تحتاج فحصًا. من يؤكد استلام الملاحظة ويشرح المرحلة التالية؟ قد توضح آلية رد موثقة المسؤوليات دون الوعد بكشف تفاصيل سرية.",
+    "check": {
+      "promptEn": "Which evidence most directly tests whether concerns can be raised safely?",
+      "choices": [
+        "How actual reports are received, addressed, and followed up.",
+        "The word transparency appearing on the website.",
+        "A high retention figure treated as proof of every cultural claim."
+      ],
+      "answer": "How actual reports are received, addressed, and followed up.",
+      "explanationAr": "التعامل الفعلي مع البلاغات يفحص الممارسة ذات الصلة. الشعار أو مؤشر البقاء وحده لا يثبتان أمان الإبلاغ.",
+      "explanationEn": "Actual handling of concerns tests the relevant practice. A slogan or retention figure alone does not establish safety in reporting."
+    }
+  },
+  "c1-x-u10-l4": {
+    "focusAr": "holding statement بيان أولي يحدد المعلوم والمجهول والخطوة التالية، لا نصًا فارغًا لكسب الوقت. rectify تصحيح المشكلة، وcorrective action إجراء محدد يمكن تتبعه. الطمأنة الفعالة لا تعد بما لم يُتحقق منه. سمِّ الأثر المؤكد ومسؤولية المعالجة وموعد التحديث، وافصل الاعتراف بالواقعة عن تفسير سببها الذي قد يكون قيد الفحص.",
+    "focusEn": "A holding statement identifies what is known, unknown, and next, not empty delay. Rectify means correct a problem; corrective action is a trackable step. Effective reassurance does not promise unverified outcomes. State confirmed impact, responsibility for response, and an update time, distinguishing acknowledgment of an event from its still-investigated cause.",
+    "taskAr": "اكتب بيانًا أوليًا تخيليًا لتعطل حجز بدأ التاسعة، والسبب مجهول، والفريق يعالجه مع تحديث عند الحادية عشرة.",
+    "taskEn": "Write an imagined holding statement for a booking outage beginning at nine, with cause unconfirmed, response underway, and an update at eleven.",
+    "exampleEn": "The booking service has been unavailable since 9 a.m. We are investigating the cause and working to restore access. We recognize the disruption and will provide an update at 11 a.m., including any confirmed corrective action.",
+    "exampleAr": "خدمة الحجز غير متاحة منذ التاسعة صباحًا. نحقق في السبب ونعمل على استعادة الوصول. ندرك الإرباك الناتج، وسنقدم تحديثًا عند الحادية عشرة يتضمن أي إجراء تصحيحي مؤكد.",
+    "check": {
+      "promptEn": "Which sentence avoids an unsupported promise while committing to communication?",
+      "choices": [
+        "We will provide an update at eleven, even if the investigation is ongoing.",
+        "The service will definitely be restored by eleven, though no cause is known.",
+        "No users were affected, although access was unavailable."
+      ],
+      "answer": "We will provide an update at eleven, even if the investigation is ongoing.",
+      "explanationAr": "موعد التحديث التزام يمكن ضبطه دون ضمان إصلاح لم يُتحقق من مدته. البديلان يجزمان بنتيجة أو أثر لا تدعمه المعطيات.",
+      "explanationEn": "An update time is a controllable commitment without guaranteeing an unverified repair duration. The alternatives assert an unsupported outcome or absence of impact."
+    }
+  },
+  "c1-x-u11-l1": {
+    "focusAr": "الإيجاز يحذف التكرار دون إسقاط شرط يغيّر المعنى. استبدل due to the fact that بكلمة because عندما تؤدي المعنى نفسه، لكن احتفظ بقيد مثل in most cases إذا لم تنطبق النتيجة دائمًا. اختر فعلًا مباشرًا ومرجعًا واضحًا للضمير، واشرح المصطلح المتخصص عند مخاطبة غير المتخصصين. راجع ما بقي من المعنى بعد الاختصار، لا عدد الكلمات وحده.",
+    "focusEn": "Concision removes repetition without removing a condition that changes the meaning. Replace due to the fact that with because when the meaning is unchanged, but retain a qualifier such as in most cases if a finding is not universal. Prefer a direct verb and a clear pronoun reference. Explain specialist jargon to a general audience, then check that the shorter version preserves the claim.",
+    "taskAr": "اختصر هذه الجملة مع الاحتفاظ بنطاق الادعاء: Due to the fact that the sample was small, the findings may not apply to all customers.",
+    "taskEn": "Shorten this sentence while preserving its limitation: Due to the fact that the sample was small, the findings may not apply to all customers.",
+    "exampleEn": "Because the sample was small, the findings may not apply to all customers.",
+    "exampleAr": "لأن العينة كانت صغيرة، فقد لا تنطبق النتائج على جميع العملاء.",
+    "check": {
+      "promptEn": "Which edit preserves the meaning of 'In most cases, the procedure takes approximately ten minutes'?",
+      "choices": [
+        "The procedure usually takes about ten minutes.",
+        "The procedure always takes exactly ten minutes.",
+        "The procedure never takes ten minutes."
+      ],
+      "answer": "The procedure usually takes about ten minutes.",
+      "explanationAr": "تحافظ usually على قيد «في معظم الحالات»، وتحافظ about على التقريب. استبدالهما بكلمتي always وexactly يحوّل تقديرًا محدودًا إلى ادعاء مطلق.",
+      "explanationEn": "Usually preserves the limitation in most cases, and about preserves the approximation. Always and exactly would turn a qualified estimate into an absolute claim."
+    }
+  },
+  "c1-x-u11-l2": {
+    "focusAr": "قد تصف irony مفارقة بين المتوقع والواقع، وقد تكون لفظية حين يختلف المقصود عن ظاهر الكلام. تصف sarcastic تهكمًا قد يجرح المخاطب، بينما tongue-in-cheek تشير غالبًا إلى مزاح لا يراد أخذه بجدية. أما deadpan فتصف تقديم الدعابة بنبرة أو ملامح جادة. استنتج المقصود من السياق، واطلب توضيحًا إذا غابت النبرة بدل افتراض السخرية.",
+    "focusEn": "Irony can describe a contrast between expectation and reality, or a remark whose intended meaning differs from its literal wording. Sarcastic often suggests a cutting remark, while tongue-in-cheek usually signals playful insincerity. Deadpan describes a serious delivery of humour. Use the context to infer the speaker's intention; when tone is unavailable, ask for clarification instead of assuming sarcasm.",
+    "taskAr": "اشرح المفارقة في اجتماع هدفه تقصير الاجتماعات لكنه استمر ثلاث ساعات، ثم اكتب سؤالًا يتحقق بأدب من جدية تعليق «يا له من اجتماع قصير!».",
+    "taskEn": "Explain the irony of a three-hour meeting about shortening meetings, then politely check whether the comment 'What a short meeting!' was serious.",
+    "exampleEn": "The irony is that a meeting intended to save time lasted three hours. When you called it short, were you being serious or joking?",
+    "exampleAr": "المفارقة أن اجتماعًا هدفه توفير الوقت استمر ثلاث ساعات. عندما وصفته بالقصير، هل كنت جادًا أم تمزح؟",
+    "check": {
+      "promptEn": "A speaker tells a joke in a deliberately serious voice. Which word describes the delivery?",
+      "choices": [
+        "deadpan",
+        "literal",
+        "lengthy"
+      ],
+      "answer": "deadpan",
+      "explanationAr": "تصف deadpan إلقاء الدعابة بجدية ظاهرة، ولا تعني أن المقصود حرفي. أما lengthy فتصف الطول ولا تحدد طريقة الإلقاء.",
+      "explanationEn": "Deadpan describes an apparently serious delivery of humour; it does not make the message literal. Lengthy describes duration rather than delivery."
+    }
+  },
+  "c1-x-u11-l3": {
+    "focusAr": "عندما تبدأ الجملة بظرف نفي أو تقييد مثل seldom أو under no circumstances، قدّم الفعل المساعد على الفاعل. إن لم يوجد مساعد، استخدم do أو does أو did وأعد الفعل إلى صورته الأساسية. تنطبق هذه القاعدة على not only عندما تتقدم جملة كاملة؛ أما Not only Sara but also Ali attended فلا تحتاج قلبًا لأن التعبير يربط جزأي الفاعل. استخدم القلب باعتدال للتوكيد الرسمي.",
+    "focusEn": "When a negative or restrictive expression such as seldom or under no circumstances begins a clause, place the auxiliary before the subject. If there is no auxiliary, add do, does or did and use the base verb. Clause-initial not only follows this pattern, but Not only Sara but also Ali attended does not: it coordinates subjects. Use inversion selectively for formal emphasis.",
+    "taskAr": "أعد صياغة The team rarely receives such detailed feedback بتقديم rarely، ثم استخدم what matters is لتؤكد أن جودة الملاحظات أهم من طولها.",
+    "taskEn": "Rewrite The team rarely receives such detailed feedback with rarely first, then use what matters is to emphasise that quality matters more than length.",
+    "exampleEn": "Rarely does the team receive such detailed feedback. What matters is the quality of the comments, not their length.",
+    "exampleAr": "نادرًا ما يتلقى الفريق ملاحظات بهذه الدرجة من التفصيل. المهم هو جودة الملاحظات، لا طولها.",
+    "check": {
+      "promptEn": "Which sentence correctly uses clause-initial not only?",
+      "choices": [
+        "Not only did she identify the problem, but she also proposed a solution.",
+        "Not only she identified the problem, but she also proposed a solution.",
+        "Not only did she identified the problem, but she also proposed a solution."
+      ],
+      "answer": "Not only did she identify the problem, but she also proposed a solution.",
+      "explanationAr": "يتقدم did على الفاعل بعد not only هنا، ويأتي identify بصورته الأساسية لأن did يحمل علامة الماضي. لا نجمع did مع identified.",
+      "explanationEn": "Did precedes the subject after clause-initial not only here. Identify stays in the base form because did already marks the past; did identified marks it twice."
+    }
+  },
+  "c1-x-u11-l4": {
+    "focusAr": "اختر أداة الربط وفق العلاقة المنطقية: nevertheless تقدم نتيجة تخالف المتوقع، وconsequently تقدم نتيجة مترتبة على السبب، وinsofar as تحدد نطاق صلاحية الفكرة. تستخدم whereby لوصف آلية يتيحها نظام أو ترتيب. لا تثبت أداة الربط وحدها وجود علاقة سببية. افصل الجملتين المستقلتين بنقطة أو فاصلة منقوطة قبل nevertheless وconsequently، ثم ضع فاصلة بعد الأداة.",
+    "focusEn": "Choose the linker that matches the logical relationship. Nevertheless introduces an unexpected contrast, consequently a consequence, and insofar as a limitation on a claim. Whereby describes a mechanism enabled by a system or arrangement. A linker does not itself establish causation. Separate independent clauses with a full stop or semicolon before nevertheless or consequently, followed by a comma.",
+    "taskAr": "اربط الفكرتين لإظهار مفارقة: The pilot reduced processing time. Staff still found the interface confusing. ثم اشرح لماذا لا تناسب consequently هذه العلاقة.",
+    "taskEn": "Connect these ideas to show contrast: The pilot reduced processing time. Staff still found the interface confusing. Then explain why consequently does not fit the intended relationship.",
+    "exampleEn": "The pilot reduced processing time; nevertheless, staff still found the interface confusing. Consequently would suggest that the time saving caused the confusion.",
+    "exampleAr": "قلّل التشغيل التجريبي وقت المعالجة؛ ومع ذلك ظل الموظفون يجدون الواجهة مربكة. أما consequently فستشير إلى أن توفير الوقت تسبب في الإرباك.",
+    "check": {
+      "promptEn": "Which linker presents the second clause as an unexpected contrast? 'The evidence was limited; ___, the committee approved the proposal.'",
+      "choices": [
+        "nevertheless",
+        "consequently",
+        "whereby"
+      ],
+      "answer": "nevertheless",
+      "explanationAr": "الموافقة رغم محدودية الأدلة مفارقة يعبر عنها nevertheless. أما consequently فتقدم الموافقة بوصفها نتيجة لمحدودية الأدلة، وwhereby تتطلب تركيبًا يصف آلية.",
+      "explanationEn": "Nevertheless presents approval despite limited evidence as an unexpected contrast. Consequently would present approval as a consequence of the limitation, while whereby requires a construction describing a mechanism."
+    }
+  },
+  "c1-x-u12-l1": {
+    "focusAr": "إدارة الاجتماع تتطلب تحويل النقاش إلى قرار أو إجراء واضح. تعني park تأجيل مسألة مع تحديد وقت للعودة إليها، وminutes محضرًا يسجل القرارات لا كل كلمة منطوقة. اربط كل action point بمسؤول وموعد. لا تعلن consensus لمجرد الصمت؛ تحقق من الاعتراضات، وراع قواعد quorum الخاصة باللجنة قبل وصف تصويت بأنه معتمد.",
+    "focusEn": "Chairing a meeting means turning discussion into a clear decision or action. To park an issue is to defer it, ideally with a return point. Minutes record decisions rather than every spoken word. Give each action point an owner and a deadline. Do not infer consensus from silence: check for objections and follow the committee's own quorum rules before treating a vote as valid.",
+    "taskAr": "أجّل نقاش تصميم الشعار إلى الاجتماع القادم، ثم لخّص تكليف ليلى بإرسال تقدير التكلفة يوم الخميس، واسأل عن أي اعتراض على التكليف.",
+    "taskEn": "Defer the logo discussion until the next meeting, summarise Layla's action to send a cost estimate on Thursday, and invite objections to that action.",
+    "exampleEn": "Let's park the logo discussion until our next meeting. The action point is for Layla to circulate the cost estimate by Thursday. Are there any objections to that action?",
+    "exampleAr": "لنؤجّل نقاش الشعار إلى اجتماعنا القادم. بند العمل هو أن تعمّم ليلى تقدير التكلفة بحلول الخميس. هل هناك أي اعتراض على هذا التكليف؟",
+    "check": {
+      "promptEn": "Which action point is specific enough to follow up?",
+      "choices": [
+        "Omar will circulate the revised draft by Tuesday.",
+        "Someone should look at the draft soon.",
+        "The draft was discussed at length."
+      ],
+      "answer": "Omar will circulate the revised draft by Tuesday.",
+      "explanationAr": "يحدد الخيار الصحيح المسؤول والعمل المطلوب والموعد. العبارة الثانية تفتقر إلى مسؤول وموعد محددين، والثالثة تسجل نقاشًا ولا تحدد إجراءً.",
+      "explanationEn": "The correct option names an owner, a deliverable and a deadline. The second lacks a specific owner and date, while the third records discussion without assigning an action."
+    }
+  },
+  "c1-x-u12-l2": {
+    "focusAr": "ابن إجابة المقابلة القيادية على موقف محدد، ومسؤوليتك، والإجراء الذي اتخذته، والنتيجة القابلة للتحقق. تعني spearhead قيادة المبادرة، وoversee الإشراف على التنفيذ؛ لا تنسب لنفسك عمل الفريق كله. استخدم accountable for للمسؤولية وaccountable to للجهة التي تحاسبك. قدم الأرقام في سياقها، واذكر مساهمة الآخرين وحدود دورك لتكون الإجابة مقنعة ودقيقة.",
+    "focusEn": "Structure a leadership interview answer around the situation, your responsibility, your action and a verifiable result. Spearhead means lead an initiative; oversee means supervise its execution. Distinguish your contribution from the team's work. Use accountable for with a responsibility and accountable to with the person or body you answer to. Put figures in context and acknowledge other contributors.",
+    "taskAr": "في مثال تدريبي، كنت تشرف على فريق خفّض مدة الاستجابة من خمسة أيام إلى ثلاثة خلال ستة أشهر، وكان دورك إزالة عقبات التنسيق. صغ إجابة لا تنسب الإنجاز كله إليك.",
+    "taskEn": "In a practice scenario, you oversaw a team that reduced response time from five days to three over six months. Your role was removing coordination barriers. Describe the result without claiming sole credit.",
+    "exampleEn": "I oversaw the team and removed coordination barriers between departments. Over six months, the team reduced response time from five days to three. I was accountable for delivery, while colleagues led the individual improvements.",
+    "exampleAr": "أشرفت على الفريق وأزلت عقبات التنسيق بين الإدارات. وخلال ستة أشهر، خفّض الفريق مدة الاستجابة من خمسة أيام إلى ثلاثة. كنت مسؤولًا عن التنفيذ، بينما قاد الزملاء التحسينات الفردية.",
+    "check": {
+      "promptEn": "Which phrase correctly names the person a manager answers to?",
+      "choices": [
+        "accountable to the director",
+        "accountable for the director",
+        "accountable at the director"
+      ],
+      "answer": "accountable to the director",
+      "explanationAr": "نستخدم accountable to لتحديد الجهة التي يخضع الشخص لمساءلتها، وaccountable for لتحديد العمل أو النتيجة التي يتحمل مسؤوليتها.",
+      "explanationEn": "Accountable to identifies the person or body someone answers to. Accountable for identifies the work or outcome for which they are responsible."
+    }
+  },
+  "c1-x-u12-l3": {
+    "focusAr": "ساعد المستمع على متابعة الحجة بإشارات لفظية مثل first وthe key point is وto conclude. قدم حكاية قصيرة تخدم الفكرة، ثم وضح صلتها بالحجة. استخدم pause for effect لوقفة مقصودة قبل نقطة مهمة، ونوّع سرعة الإلقاء والنبر دون التضحية بالوضوح. لا تجعل فهم الخطاب متوقفًا على صورة أو إيماءة؛ انطق المعلومات الأساسية ووصفها بما يكفي للمستمع.",
+    "focusEn": "Use spoken signposting such as first, the key point is and to conclude to guide listeners through an argument. Keep an anecdote relevant and explain how it supports the point. Pause for effect before an important statement, and vary pace and emphasis without sacrificing clarity. Make the essential message understandable through words, so that it does not depend on seeing a slide or gesture.",
+    "taskAr": "اكتب افتتاحية قصيرة لحديث عن تبسيط النماذج الإلكترونية، تبدأ بمثال شخص انتظر أسبوعًا بسبب خانة غامضة، ثم تعلن النقطتين: وضوح التعليمات وتجربة المستخدم.",
+    "taskEn": "Write a short opening about simplifying online forms. Begin with a person delayed for a week by an unclear field, then signpost two points: clear instructions and user testing.",
+    "exampleEn": "One unclear field delayed a customer's application for a week. That anecdote illustrates the cost of ambiguity. Today I will address two ways to improve forms: first, clearer instructions; second, testing with the people who use them.",
+    "exampleAr": "أخّرت خانة واحدة غامضة طلب أحد العملاء أسبوعًا. توضح هذه الحكاية أثر الغموض. سأتناول اليوم طريقتين لتحسين النماذج: أولًا، تعليمات أوضح؛ وثانيًا، التجربة مع الأشخاص الذين يستخدمونها.",
+    "check": {
+      "promptEn": "Which sentence provides explicit signposting for listeners?",
+      "choices": [
+        "I will first explain the problem, then compare two possible solutions.",
+        "This topic is extremely important to many people.",
+        "I have spoken about this topic on several occasions."
+      ],
+      "answer": "I will first explain the problem, then compare two possible solutions.",
+      "explanationAr": "تعرض الجملة الصحيحة تسلسل الحديث بوضوح، فتساعد المستمع على توقع مراحله. الجملتان الأخريان تقدمان تقييمًا للموضوع أو خبرة المتحدث دون تنظيم الحجة.",
+      "explanationEn": "The correct sentence states the sequence of the talk, helping listeners anticipate its stages. The other options state importance or experience without organising the argument."
+    }
+  },
+  "c1-x-u12-l4": {
+    "focusAr": "يفصل المقترح المقنع بين المشكلة والدليل والحل المقترح والمخرجات وطريقة التقييم. تعني deliverables الأشياء التي ستسلّمها، أما outcomes فهي الآثار التي تسعى إليها؛ تسليم دليل لا يثبت تحسن الخدمة. اربط وصف cost-effective بمقارنة تكلفة ومنفعة واضحة. صغ العائد المتوقع كتقدير يعتمد على افتراضات معلنة، وحدد تجربة محدودة ومعيارًا للنجاح قبل التوسع.",
+    "focusEn": "A persuasive proposal separates the problem, evidence, proposed solution, deliverables and evaluation. Deliverables are what will be produced; outcomes are the effects sought. Producing a handbook does not prove that service improved. Support cost-effective with a clear comparison of costs and benefits. Present projected returns as estimates based on stated assumptions, and define a limited pilot and a success criterion before scaling up.",
+    "taskAr": "اقترح تجربة مدتها شهر لتبسيط نموذج طلب. المخرج نموذج معدّل، والهدف خفض الطلبات الناقصة من 20% إلى 10% دون زيادة وقت الإكمال. ميز بين الهدف والنتيجة التي لم تقس بعد.",
+    "taskEn": "Propose a one-month trial of a simpler application form. The deliverable is a revised form; the target is to reduce incomplete applications from 20% to 10% without increasing completion time. Distinguish the target from an observed result.",
+    "exampleEn": "We propose a one-month pilot with a revised form as the main deliverable. The target is to reduce incomplete applications from 20% to 10% without increasing completion time. These are proposed success criteria; the pilot will test whether they are achievable.",
+    "exampleAr": "نقترح تجربة مدتها شهر يكون النموذج المعدّل مخرجها الرئيسي. الهدف خفض الطلبات الناقصة من 20% إلى 10% دون زيادة وقت الإكمال. هذه معايير نجاح مقترحة، وستختبر التجربة إمكانية تحقيقها.",
+    "check": {
+      "promptEn": "Which statement distinguishes a deliverable from an outcome?",
+      "choices": [
+        "The revised handbook is a deliverable; fewer processing errors would be an outcome.",
+        "Fewer processing errors are a physical document to deliver.",
+        "Delivering a handbook proves that processing errors have fallen."
+      ],
+      "answer": "The revised handbook is a deliverable; fewer processing errors would be an outcome.",
+      "explanationAr": "الدليل المعدّل مخرج يمكن تسليمه، وانخفاض الأخطاء أثر يحتاج قياسًا. وجود الدليل لا يكفي لإثبات تحقق التحسن.",
+      "explanationEn": "The revised handbook is something that can be delivered; fewer errors would be an effect that needs measurement. Producing the document does not establish that improvement occurred."
+    }
+  }
+}

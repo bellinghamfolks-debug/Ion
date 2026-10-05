@@ -427,7 +427,7 @@
         "a0-009-same-3": [
           {
             "example": "Our bags are the same.",
-            "exampleArabic": "حقيبتانا متشابهتان."
+            "exampleArabic": "حقيبتانا متماثلتان."
           }
         ]
       }
@@ -474,8 +474,8 @@
         ],
         "a0-010-desk-3": [
           {
-            "example": "My book is on the desk.",
-            "exampleArabic": "كتابي على المكتب."
+            "example": "The desk is small.",
+            "exampleArabic": "المكتب صغير."
           }
         ]
       }
@@ -655,7 +655,7 @@
         "a0-014-six-1": [
           {
             "example": "I see six cats.",
-            "exampleArabic": "أرى ستة قطط."
+            "exampleArabic": "أرى ست قطط."
           }
         ],
         "a0-014-eight-2": [
@@ -708,8 +708,8 @@
         ],
         "a0-015-one-2": [
           {
-            "example": "I have one sister.",
-            "exampleArabic": "لدي أخت واحدة."
+            "example": "There is one window.",
+            "exampleArabic": "توجد نافذة واحدة."
           }
         ],
         "a0-015-two-3": [
@@ -852,7 +852,7 @@
         ],
         "a0-018-tomorrow-2": [
           {
-            "example": "I see you tomorrow.",
+            "example": "See you tomorrow.",
             "exampleArabic": "أراك غدًا."
           }
         ],
@@ -1002,8 +1002,8 @@
         ],
         "a0-021-person-3": [
           {
-            "example": "She is a kind person.",
-            "exampleArabic": "هي شخص لطيف."
+            "example": "One person is here.",
+            "exampleArabic": "يوجد شخص واحد هنا."
           }
         ]
       }
@@ -1038,8 +1038,8 @@
       "extraExamples": {
         "a0-022-child-1": [
           {
-            "example": "The child is happy.",
-            "exampleArabic": "الطفل سعيد."
+            "example": "The child is with her mother.",
+            "exampleArabic": "الطفلة مع أمها."
           }
         ],
         "a0-022-friend-2": [
@@ -1146,8 +1146,8 @@
         ],
         "a0-024-kind-3": [
           {
-            "example": "My teacher is kind.",
-            "exampleArabic": "معلمي لطيف."
+            "example": "She is kind to her friends.",
+            "exampleArabic": "هي لطيفة مع أصدقائها."
           }
         ]
       }
@@ -1182,8 +1182,8 @@
       "extraExamples": {
         "a0-025-house-1": [
           {
-            "example": "My house is big.",
-            "exampleArabic": "منزلي كبير."
+            "example": "My house has two doors.",
+            "exampleArabic": "في منزلي بابان."
           }
         ],
         "a0-025-room-2": [
@@ -1242,8 +1242,8 @@
         ],
         "a0-026-table-3": [
           {
-            "example": "The cup is on the table.",
-            "exampleArabic": "الكوب على الطاولة."
+            "example": "The table is in the kitchen.",
+            "exampleArabic": "الطاولة في المطبخ."
           }
         ]
       }
@@ -1284,8 +1284,8 @@
         ],
         "a0-027-phone-2": [
           {
-            "example": "My phone is in my bag.",
-            "exampleArabic": "هاتفي في حقيبتي."
+            "example": "This is my new phone.",
+            "exampleArabic": "هذا هاتفي الجديد."
           }
         ],
         "a0-027-bag-3": [
@@ -1338,8 +1338,8 @@
         ],
         "a0-028-under-3": [
           {
-            "example": "The cat is under the table.",
-            "exampleArabic": "القطة تحت الطاولة."
+            "example": "My shoes are under the bed.",
+            "exampleArabic": "حذائي تحت السرير."
           }
         ]
       }
@@ -1380,8 +1380,8 @@
         ],
         "a0-029-here-2": [
           {
-            "example": "My bag is here.",
-            "exampleArabic": "حقيبتي هنا."
+            "example": "Come here, please.",
+            "exampleArabic": "تعال إلى هنا، من فضلك."
           }
         ],
         "a0-029-there-3": [

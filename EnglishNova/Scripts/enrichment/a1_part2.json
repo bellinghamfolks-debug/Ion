@@ -175,13 +175,13 @@
         "a1-034-take-me-1": [
           {
             "example": "Please take me to the airport.",
-            "exampleArabic": "من فضلك خذني إلى المطار."
+            "exampleArabic": "من فضلك، أوصلني إلى المطار."
           }
         ],
         "a1-034-center-2": [
           {
-            "example": "The shop is in the center.",
-            "exampleArabic": "المتجر في الوسط."
+            "example": "The shop is in the city center.",
+            "exampleArabic": "المتجر في وسط المدينة."
           }
         ],
         "a1-034-driver-3": [
@@ -283,7 +283,7 @@
         "a1-036-direction-3": [
           {
             "example": "Thank you for the directions.",
-            "exampleArabic": "شكرًا على الاتجاهات."
+            "exampleArabic": "شكرًا على إرشادات الطريق."
           }
         ]
       }
@@ -474,8 +474,8 @@
         ],
         "a1-040-medicine-3": [
           {
-            "example": "Take this medicine after lunch.",
-            "exampleArabic": "خذ هذا الدواء بعد الغداء."
+            "example": "Where is my medicine?",
+            "exampleArabic": "أين دوائي؟"
           }
         ]
       }
@@ -510,20 +510,20 @@
       "extraExamples": {
         "a1-041-tablet-1": [
           {
-            "example": "Take one tablet in the morning.",
-            "exampleArabic": "خذ قرصًا واحدًا في الصباح."
+            "example": "The label says 'one tablet'.",
+            "exampleArabic": "يقول الملصق «قرص واحد»."
           }
         ],
         "a1-041-take-2": [
           {
-            "example": "Take this medicine every day.",
-            "exampleArabic": "خذ هذا الدواء كل يوم."
+            "example": "The instructions say: take it after lunch.",
+            "exampleArabic": "تقول التعليمات: تناوله بعد الغداء."
           }
         ],
         "a1-041-after-food-3": [
           {
-            "example": "Drink the syrup after food.",
-            "exampleArabic": "اشرب الشراب بعد الطعام."
+            "example": "The words 'after food' are on the label.",
+            "exampleArabic": "توجد عبارة «بعد الطعام» على الملصق."
           }
         ]
       }
@@ -1092,8 +1092,8 @@
         ],
         "a1-053-than-2": [
           {
-            "example": "Tea is hotter than juice.",
-            "exampleArabic": "الشاي أسخن من العصير."
+            "example": "This tea is hotter than that juice.",
+            "exampleArabic": "هذا الشاي أسخن من ذلك العصير."
           }
         ],
         "a1-053-bag-3": [

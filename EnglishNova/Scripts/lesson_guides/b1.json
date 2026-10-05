@@ -1,0 +1,1146 @@
+{
+  "b1-u1-l1": {
+    "focusAr": "اشرح المشكلة ثم اطلب إجراءً محددًا: إعادة الحجز أو البحث عن رحلة ربط. تعني has been delayed أن التأخير حدث وله صلة بالموقف الحالي. استخدم by two hours لمقدار تأخير الموعد، وfor two hours لمدة الانتظار. عبارة miss a connection تعني أن رحلة الربط تفوتك.",
+    "focusEn": "State the problem, then request a specific action, such as rebooking or finding a connecting flight. Has been delayed connects the delay with the present situation. Use by two hours for a change to the scheduled time and for two hours for time spent waiting. Miss a connection means fail to catch the next service.",
+    "taskAr": "اشرح أن موعد رحلتك أُخّر ساعتين، وأنك قد تفوّت رحلة الربط، واطلب المساعدة في إعادة الحجز.",
+    "taskEn": "Explain that your flight is two hours late, say you may miss your connection, and ask for help rebooking.",
+    "exampleEn": "My flight has been delayed by two hours, so I may miss my connection. Could you help me rebook?",
+    "exampleAr": "أُخّر موعد رحلتي ساعتين، لذا قد تفوتني رحلة الربط. هل يمكنك مساعدتي في إعادة الحجز؟",
+    "check": {
+      "promptEn": "Your flight now leaves at 4 instead of 2. Which sentence describes this change precisely?",
+      "choices": [
+        "The flight has been delayed by two hours.",
+        "We have waited at the airport for two hours.",
+        "We missed the flight two hours ago."
+      ],
+      "answer": "The flight has been delayed by two hours.",
+      "explanationAr": "تصف by two hours الفرق بين الموعد الأصلي والجديد. الجملتان الأخريان تضيفان انتظارًا أو فوات رحلة لم يذكرهما الموقف.",
+      "explanationEn": "By two hours states the difference between the old and new departure times. The other sentences add waiting or a missed flight that the situation does not mention."
+    },
+    "lessonUpdates": {
+      "modelSentence": "My flight has been delayed by two hours.",
+      "modelSentenceArabic": "أُخّر موعد رحلتي ساعتين."
+    }
+  },
+  "b1-extra-2": {
+    "focusAr": "يربط المضارع التام حدثًا سابقًا بالحاضر، ولا يعني دائمًا أن الحدث وقع للتو. يتكوّن من have أو has والتصريف الثالث. تستخدم already لإنجاز سبق توقعك، وyet في السؤال أو النفي عمّا حدث حتى الآن. عند ذكر وقت ماضٍ منتهٍ مثل yesterday نستخدم الماضي البسيط عادةً.",
+    "focusEn": "The present perfect connects a past event with the present; it does not always mean the event happened just now. Form it with have or has and a past participle. Already can show something happened earlier than expected; yet asks or states whether it has happened by now. A finished time such as yesterday normally takes the past simple.",
+    "taskAr": "اكتب تحديثًا عن واجبك: انتهيت منه بالفعل، لكنك لم ترسله بعد. ثم اسأل زميلك هل أرسله.",
+    "taskEn": "Write an assignment update: you have already finished, but you have not sent it yet. Then ask whether your classmate has sent theirs.",
+    "exampleEn": "I have already finished the assignment, but I haven't sent it yet. Have you sent yours yet?",
+    "exampleAr": "لقد أنهيت الواجب بالفعل، لكنني لم أرسله بعد. هل أرسلت واجبك؟",
+    "check": {
+      "promptEn": "Which update says the assignment is finished but has not been sent?",
+      "choices": [
+        "I've already finished it, but I haven't sent it yet.",
+        "I haven't finished it yet, but I've already sent it.",
+        "I finished it yesterday and sent it this morning."
+      ],
+      "answer": "I've already finished it, but I haven't sent it yet.",
+      "explanationAr": "تؤكد already الإنجاز، وينفي haven't sent مع yet الإرسال حتى الآن. البديلان يغيّران ما أُنجز وما لم يُنجز.",
+      "explanationEn": "Already confirms completion, while haven't sent with yet says sending has not happened by now. The alternatives change which actions are complete."
+    }
+  },
+  "b1-extra-3": {
+    "focusAr": "اجعل رأيك قابلًا للفهم بترتيب: رأي، ثم سبب، ثم مثال محدد. تعبّر In my opinion عن وجهة نظرك ولا تثبت أنها حقيقة عامة. قل agree with someone عند الاتفاق مع شخص، وagree about something عند الاتفاق بشأن موضوع. يمكنك الاختلاف بأدب مع الاعتراف بجزء مفيد من الرأي الآخر.",
+    "focusEn": "Build a clear opinion with a view, a reason, and a specific example. In my opinion marks your perspective; it does not establish a general fact. Use agree with someone for agreement with a person and agree about something for agreement on a topic. You can disagree politely while acknowledging a useful part of another view.",
+    "taskAr": "اكتب ثلاث جمل تدعم فيها رأيك بشأن العمل من المنزل بسبب ومثال، مع تجنب تعميم التجربة على الجميع.",
+    "taskEn": "Write three sentences supporting your view of working from home with a reason and an example, without treating everyone's experience as the same.",
+    "exampleEn": "In my opinion, working from home can save time. Some people do not need to travel to an office. For example, my sister now has an extra hour each morning.",
+    "exampleAr": "في رأيي، يمكن أن يوفر العمل من المنزل الوقت. فبعض الناس لا يحتاجون إلى الذهاب إلى مكتب. مثلًا، أصبح لدى أختي ساعة إضافية كل صباح.",
+    "check": {
+      "promptEn": "Which reason directly supports the view that working from home can save time?",
+      "choices": [
+        "Some workers no longer need to travel to an office.",
+        "Some workers prefer blue office walls.",
+        "Some workers disagree with their managers."
+      ],
+      "answer": "Some workers no longer need to travel to an office.",
+      "explanationAr": "يربط السبب الصحيح توفير الوقت بإلغاء الانتقال إلى المكتب. البديلان قد يكونان صحيحين عن بعض الناس، لكنهما لا يدعمان هذه الفكرة.",
+      "explanationEn": "The correct reason links saved time to removing the journey to an office. The alternatives could be true of some people but do not support this point."
+    }
+  },
+  "b1-extra-4": {
+    "focusAr": "تساعد then وafter that على ترتيب الأحداث، بينما تربط meanwhile حدثين يقعان في الوقت نفسه. استخدم at first لانطباع أو وضع أولي تغيّر لاحقًا، لا لمجرد تعداد الخطوات. حدّد بداية القصة، ثم التغير المهم، واختم بالنتيجة حتى يستطيع المستمع متابعة ما حدث.",
+    "focusEn": "Then and after that put events in order, while meanwhile connects events happening at the same time. At first introduces an initial impression or situation that later changed; it is not simply a way to number steps. Establish the beginning, explain the important change, and finish with the result so listeners can follow the story.",
+    "taskAr": "اروِ في ثلاث جمل موقفًا ظننت في بدايته أن الحجز مفقود، ثم عُثر عليه وانتهت المشكلة.",
+    "taskEn": "Tell a three-sentence story in which you first thought a booking was missing, then someone found it and the problem ended.",
+    "exampleEn": "At first, I thought the hotel had lost our booking. Then the receptionist found it under my brother's name. Finally, we went to our room.",
+    "exampleAr": "في البداية، ظننت أن الفندق أضاع حجزنا. ثم وجدته موظفة الاستقبال باسم أخي. وأخيرًا ذهبنا إلى غرفتنا.",
+    "check": {
+      "promptEn": "You checked the map while your friend bought tickets. Which link shows both actions happened at the same time?",
+      "choices": [
+        "I checked the map; meanwhile, my friend bought tickets.",
+        "I checked the map; after that, my friend bought tickets.",
+        "I checked the map; later on, my friend bought tickets."
+      ],
+      "answer": "I checked the map; meanwhile, my friend bought tickets.",
+      "explanationAr": "تعني meanwhile تزامن الحدثين. أما after that وlater on فتجعلان شراء التذاكر لاحقًا لفحص الخريطة.",
+      "explanationEn": "Meanwhile shows that the two actions overlapped. After that and later on place buying the tickets after checking the map."
+    }
+  },
+  "b1-extra-5": {
+    "focusAr": "قدّم المشكلة بوضوح قبل الحل، ثم بيّن كيف يساعد اقتراحك. يأتي بعد could الفعل بصيغته الأساسية، وبعد by فعل ينتهي بـ ing لوصف الطريقة. alternative بديل يمكن اختياره، أما workaround فهو طريقة مؤقتة لتجاوز المشكلة دون إصلاح سببها بالضرورة. اذكر قيدًا عمليًا عند مقارنة الحلول.",
+    "focusEn": "Describe the problem before offering a solution, then explain how your suggestion helps. Could takes a base verb; by takes an -ing form when explaining a method. An alternative is another option, while a workaround avoids a problem temporarily without necessarily fixing its cause. Mention a practical limit when comparing solutions.",
+    "taskAr": "اقترح حلًا مؤقتًا لتعطل نظام الحجز، واذكر فائدته وما ينبغي فعله بعد إصلاح النظام.",
+    "taskEn": "Suggest a temporary response to a booking system failure, explain its benefit, and say what should happen after the system is repaired.",
+    "exampleEn": "We could solve the immediate problem by taking bookings on paper. This workaround would let us help customers today. We would need to enter the bookings into the system later.",
+    "exampleAr": "يمكننا حل المشكلة الحالية بتسجيل الحجوزات على الورق. سيسمح لنا هذا الحل المؤقت بمساعدة العملاء اليوم. وسنحتاج إلى إدخال الحجوزات في النظام لاحقًا.",
+    "check": {
+      "promptEn": "Staff record orders on paper until the computer is repaired. What best describes this action?",
+      "choices": [
+        "A workaround that allows work to continue temporarily.",
+        "A permanent repair of the computer.",
+        "Proof that no computer is needed again."
+      ],
+      "answer": "A workaround that allows work to continue temporarily.",
+      "explanationAr": "يتيح الورق استمرار العمل مؤقتًا، لكنه لا يصلح الحاسوب ولا يثبت إمكان الاستغناء عنه نهائيًا.",
+      "explanationEn": "Paper allows work to continue temporarily, but it does not repair the computer or prove that it will never be needed again."
+    }
+  },
+  "b1-extra-6": {
+    "focusAr": "انسب المعلومة إلى مصدرها باستخدام The report says أو according to، ثم لخّص الفكرة دون إضافة ادعاءات. نقل ما يقوله مصدر لا يعني أنك تحققت منه بنفسك. قد يختصر headline التفاصيل أو يبرز جانبًا واحدًا؛ اقرأ النص وتحقق من المصدر والتاريخ قبل مشاركة الخبر.",
+    "focusEn": "Attribute information with The report says or according to, then summarize without adding claims. Reporting a source's statement does not mean you have independently verified it. A headline may leave out details or emphasize only one part of a story. Read the text and check its source and date before sharing it.",
+    "taskAr": "لخّص تقريرًا تدريبيًا يقول إن المكتبة ستفتح مساء الجمعة بدءًا من الشهر القادم، مع ذكر المصدر وموعد التغيير.",
+    "taskEn": "Summarize a practice report saying that the library will open on Friday evenings from next month. Include the source and the start date.",
+    "exampleEn": "According to the library's report, it will open on Friday evenings from next month. The report does not say whether weekend opening hours will change.",
+    "exampleAr": "وفقًا لتقرير المكتبة، ستفتح مساء الجمعة بدءًا من الشهر القادم. ولا يذكر التقرير ما إذا كانت ساعات العمل في بقية عطلة نهاية الأسبوع ستتغير.",
+    "check": {
+      "promptEn": "A report says one library will open later on Fridays. Which summary stays within the information given?",
+      "choices": [
+        "The report says that this library will open later on Fridays.",
+        "Every library will now open all night.",
+        "The report proves that all readers prefer evening visits."
+      ],
+      "answer": "The report says that this library will open later on Fridays.",
+      "explanationAr": "يحافظ الجواب الصحيح على نطاق الخبر: مكتبة واحدة ويوم الجمعة. التعميمان الآخران يضيفان معلومات لا يدعمها التقرير.",
+      "explanationEn": "The correct answer keeps the report's scope: one library and Fridays. The other answers add general claims that the report does not support."
+    }
+  },
+  "b1-extra-7": {
+    "focusAr": "agenda خطة موضوعات الاجتماع قبل انعقاده، وminutes سجل ما نوقش واتُّفق عليه. أما take notes فتعني تدوين ملاحظات قد تكون شخصية. عند طلب التوضيح سمِّ النقطة غير الواضحة، ثم لخّص الاتفاق. اجعل action item مهمة لها مسؤول وموعد. يأتي discuss مع الموضوع مباشرة دون about.",
+    "focusEn": "An agenda lists planned meeting topics; minutes record discussion and decisions. Take notes can refer to personal notes. When asking for clarification, identify the unclear point, then summarize the agreement. Give an action item an owner and a deadline. Discuss takes its topic directly, without about.",
+    "taskAr": "اطلب توضيح المسؤول عن التقرير، ثم لخّص أن سارة سترسله يوم الخميس وأنك ستدوّن ذلك في المحضر.",
+    "taskEn": "Ask who is responsible for the report, then summarize that Sara will send it on Thursday and you will record this in the minutes.",
+    "exampleEn": "Could you clarify who will send the report? So, Sara will send it on Thursday. I'll put that action item in the minutes.",
+    "exampleAr": "هل يمكنك توضيح من سيرسل التقرير؟ إذن سترسله سارة يوم الخميس. سأدوّن هذه المهمة في المحضر.",
+    "check": {
+      "promptEn": "Which action item gives both a responsible person and a deadline?",
+      "choices": [
+        "Sara will send the report by Thursday.",
+        "Someone should think about the report.",
+        "The report is on the agenda."
+      ],
+      "answer": "Sara will send the report by Thursday.",
+      "explanationAr": "يحدد الجواب الصحيح من سينفذ المهمة ومتى. التفكير في التقرير أو إدراجه في جدول الأعمال لا يحدد مسؤولية التنفيذ أو موعده.",
+      "explanationEn": "The correct answer states who will do the task and by when. Thinking about the report or listing it on an agenda does not assign responsibility or a deadline."
+    }
+  },
+  "b1-extra-8": {
+    "focusAr": "ابدأ البريد بسبب واضح باستخدام I am writing to ثم فعل، أو regarding ثم اسم. اجعل الطلب محددًا، واذكر موعد الرد إذا كان مهمًا. تأتي بعد look forward to صيغة ing مثل hearing، لأن to هنا حرف جر. اختم بتحية مناسبة مثل Kind regards ثم اسمك.",
+    "focusEn": "Open with a clear purpose using I am writing to followed by a verb, or regarding followed by a noun. Make your request specific and include a reply deadline when needed. Look forward to takes an -ing form such as hearing because to is a preposition here. Close with a suitable phrase such as Kind regards and your name.",
+    "taskAr": "اكتب رسالة قصيرة تؤكد اجتماع الثلاثاء الساعة العاشرة، وتطلب الرد بحلول الاثنين، وتنتهي بتحية واسم.",
+    "taskEn": "Write a short email confirming a meeting at ten on Tuesday, requesting a reply by Monday, and ending with a closing and name.",
+    "exampleEn": "I am writing to confirm our meeting at 10 on Tuesday. Please reply by Monday. I look forward to meeting you. Kind regards, Ali.",
+    "exampleAr": "أكتب لتأكيد اجتماعنا يوم الثلاثاء الساعة العاشرة. يرجى الرد بحلول يوم الاثنين. أتطلع إلى لقائك. مع أطيب التحيات، علي.",
+    "check": {
+      "promptEn": "Which sentence correctly uses look forward to in an email?",
+      "choices": [
+        "I look forward to hearing from you.",
+        "I look forward to hear from you.",
+        "I look forward hearing from you."
+      ],
+      "answer": "I look forward to hearing from you.",
+      "explanationAr": "تحتاج العبارة إلى to ثم hearing بصيغة ing. هنا to حرف جر، فلا نستخدم بعدها hear بصيغته الأساسية.",
+      "explanationEn": "The expression needs to followed by the -ing form hearing. Here to is a preposition, so the base form hear does not fit."
+    }
+  },
+  "b1-x-u1-l1": {
+    "focusAr": "ميّز بين وصف التجربة ووصف أثرها: challenging تعني أنها تتطلب جهدًا، وrewarding أنها تمنح شعورًا بالفائدة أو الرضا، وقد تجتمع الصفتان. لا تعني memorable أن التجربة سعيدة بالضرورة. استخدم الماضي البسيط لسرد حدث محدد، ثم وضّح لماذا كان turning point في حياتك.",
+    "focusEn": "Separate an experience from its effect: challenging means it requires effort, while rewarding means it brings satisfaction or value. Both can describe the same experience. Memorable does not necessarily mean happy. Use the past simple to describe a specific event, then explain why it was a turning point in your life.",
+    "taskAr": "صف تجربة تطوع كانت صعبة ومجزية معًا، واذكر تفصيلًا يوضح أثرها عليك.",
+    "taskEn": "Describe a volunteering experience that was both challenging and rewarding, and include a detail showing its effect on you.",
+    "exampleEn": "Helping at the festival was challenging because I had never worked with a large team. It was also rewarding: I learned to listen carefully and made new friends.",
+    "exampleAr": "كانت المساعدة في المهرجان صعبة لأنني لم أعمل من قبل مع فريق كبير. وكانت مجزية أيضًا؛ فقد تعلمت الإصغاء بعناية وكوّنت صداقات جديدة.",
+    "check": {
+      "promptEn": "A task was difficult, but you felt satisfied after helping someone. Which description fits both facts?",
+      "choices": [
+        "It was challenging and rewarding.",
+        "It was effortless and disappointing.",
+        "It was memorable, so it must have been easy."
+      ],
+      "answer": "It was challenging and rewarding.",
+      "explanationAr": "تعبّر challenging عن الصعوبة وrewarding عن الرضا الناتج عن المساعدة. لا تدل memorable وحدها على السهولة أو السعادة.",
+      "explanationEn": "Challenging describes the difficulty, and rewarding describes the satisfaction from helping. Memorable alone does not tell us whether something was easy or happy."
+    }
+  },
+  "b1-x-u1-l2": {
+    "focusAr": "achievement إنجاز محدد، وprogress تقدّم قد يحدث تدريجيًا دون اكتمال الهدف. نقول make progress دون a، ونستخدم be proud of مع اسم أو فعل بصيغة ing. عبارة milestone محطة مهمة في مسار أطول. اربط إنجازك بعقبة تجاوزتها لتشرح قيمته دون مبالغة.",
+    "focusEn": "An achievement is a particular success; progress can happen gradually before a goal is complete. Say make progress without a, and use be proud of with a noun or an -ing form. A milestone is an important stage in a longer process. Connect your achievement to an obstacle you overcame to explain its value without exaggeration.",
+    "taskAr": "صف إنجازًا في تعلم الإنجليزية، واذكر صعوبة واجهتها وخطوة تالية تريد تحقيقها.",
+    "taskEn": "Describe an achievement in learning English, mention a difficulty you faced, and name a next step.",
+    "exampleEn": "Giving my first presentation in English was an important achievement. I overcame my fear by practising with a friend. Now I want to answer questions more confidently.",
+    "exampleAr": "كان تقديم عرضي الأول بالإنجليزية إنجازًا مهمًا. تغلبت على خوفي بالتدرب مع صديق. والآن أريد الإجابة عن الأسئلة بثقة أكبر.",
+    "check": {
+      "promptEn": "Which sentence correctly describes gradual improvement?",
+      "choices": [
+        "I am making progress with my speaking.",
+        "I am making a progress with my speaking.",
+        "I am doing an achievement with my speaking."
+      ],
+      "answer": "I am making progress with my speaking.",
+      "explanationAr": "progress اسم غير معدود في هذا المعنى، ولذلك نقول make progress دون a. أما achievement فهو إنجاز محدد معدود.",
+      "explanationEn": "Progress is uncountable in this meaning, so we say make progress without a. An achievement is a separate, countable success."
+    }
+  },
+  "b1-x-u1-l3": {
+    "focusAr": "تختلف النصيحة عن الأمر؛ يمكنك عرض اقتراح وسببه ثم ترك الاختيار للآخر. يأتي بعد ought to الفعل الأساسي، وبعد recommend فعل بصيغة ing أو جملة تبدأ بـ that. نقول worth trying لا worth to try. تعني having second thoughts أنك بدأت تشك في قرار سابق، لا أنك اتخذت قرارًا ثانيًا نهائيًا.",
+    "focusEn": "Advice offers a suggestion and a reason while leaving the decision to the other person. Ought to takes a base verb; recommend can take an -ing form or a that-clause. Say worth trying, not worth to try. Having second thoughts means beginning to doubt an earlier decision, rather than making a final second decision.",
+    "taskAr": "انصح صديقًا مترددًا بشأن دورة لغة بأن يجرب درسًا أولًا، واذكر سببًا لهذا الاقتراح.",
+    "taskEn": "Advise a friend who is unsure about a language course to try a lesson first, and give a reason.",
+    "exampleEn": "I'd recommend trying one lesson before you pay for the whole course. It would give you a chance to see whether the teaching style suits you.",
+    "exampleAr": "أنصح بتجربة درس واحد قبل دفع رسوم الدورة كاملة. سيمنحك ذلك فرصة لمعرفة ما إذا كانت طريقة التدريس تناسبك.",
+    "check": {
+      "promptEn": "Which suggestion correctly follows recommend with an activity?",
+      "choices": [
+        "I'd recommend asking for a trial lesson.",
+        "I'd recommend to ask for a trial lesson.",
+        "I'd recommend ask for a trial lesson."
+      ],
+      "answer": "I'd recommend asking for a trial lesson.",
+      "explanationAr": "عند ذكر النشاط مباشرة بعد recommend نستخدم asking بصيغة ing. يمكن أيضًا استخدام جملة مثل I recommend that you ask.",
+      "explanationEn": "When an activity follows recommend directly, use the -ing form asking. A clause such as I recommend that you ask is another possible structure."
+    }
+  },
+  "b1-x-u1-l4": {
+    "focusAr": "intend to تصف نية، لكنها لا تؤكد أن جميع الترتيبات أُنجزت. أما be about to فتصف فعلًا سيبدأ قريبًا جدًا. يأتي بعد look forward to اسم أو فعل بصيغة ing للتعبير عن التطلع. استخدم in the long run للأثر البعيد، مع فصل هدفك عن الخطوة القريبة لتنفيذه.",
+    "focusEn": "Intend to expresses an intention without confirming that every arrangement is complete. Be about to describes an action starting very soon. Look forward to takes a noun or an -ing form to express anticipation. Use in the long run for a longer-term effect, separating your goal from the immediate step you will take towards it.",
+    "taskAr": "اذكر نيتك الالتحاق بدورة، ثم خطوة ستتخذها هذا الأسبوع وفائدة تتوقعها على المدى البعيد.",
+    "taskEn": "State your intention to take a course, one step you will take this week, and a benefit you expect in the long run.",
+    "exampleEn": "I intend to take an evening course next term. This week, I'll compare the timetables. In the long run, I hope it will help me communicate more confidently at work.",
+    "exampleAr": "أنوي الالتحاق بدورة مسائية الفصل القادم. سأقارن الجداول هذا الأسبوع. وآمل أن تساعدني على المدى البعيد على التواصل بثقة أكبر في العمل.",
+    "check": {
+      "promptEn": "The driver is closing the doors and the bus will leave in seconds. Which phrase best fits?",
+      "choices": [
+        "The bus is about to leave.",
+        "The bus intends to leave next year.",
+        "The bus left a long time ago."
+      ],
+      "answer": "The bus is about to leave.",
+      "explanationAr": "تصف is about to leave حدثًا وشيكًا جدًا، وهو ما توضحه الأبواب التي تُغلق. البديلان يتحدثان عن زمن مختلف.",
+      "explanationEn": "Is about to leave describes an event that will happen very soon, as the closing doors suggest. The alternatives refer to different times."
+    }
+  },
+  "b1-x-u1-l5": {
+    "focusAr": "قبل اتخاذ القرار، weigh up تعني تقييم الخيارات، وpros and cons مزايا كل خيار وعيوبه. make up your mind تصف حسم القرار، وgo with اختيار أحد البدائل في الحديث اليومي. وضّح معيار الاختيار مثل السعر أو الوقت، ولا تكتفِ بقول إن خيارًا هو الأفضل للجميع.",
+    "focusEn": "Before a decision, weigh up means consider the options, and pros and cons are their advantages and disadvantages. Make up your mind describes reaching a decision; go with means choose an option in everyday conversation. Explain your criterion, such as cost or time, rather than simply calling one option best for everyone.",
+    "taskAr": "قارن قطارًا أسرع بحافلة أرخص، ثم اختر وسيلة تناسب ميزانيتك وبيّن سبب اختيارك.",
+    "taskEn": "Compare a faster train with a cheaper bus, then choose an option that fits your budget and explain why.",
+    "exampleEn": "The train is faster, but the bus costs less. After considering the pros and cons, I'll go with the bus because I have enough time and a limited budget.",
+    "exampleAr": "القطار أسرع، لكن الحافلة أقل تكلفة. بعد النظر في المزايا والعيوب، سأختار الحافلة لأن لدي وقتًا كافيًا وميزانية محدودة.",
+    "check": {
+      "promptEn": "You have listed two options but have not chosen one. What remains to be done?",
+      "choices": [
+        "Make up your mind.",
+        "Say that the choice has already been made.",
+        "Treat both options as the same price."
+      ],
+      "answer": "Make up your mind.",
+      "explanationAr": "تعني make up your mind حسم الاختيار، وهي الخطوة التي لم تتم بعد. عرض الخيارات لا يعني اتخاذ القرار أو تساوي أسعارها.",
+      "explanationEn": "Make up your mind means reach a decision, which has not happened yet. Listing options does not mean a choice has been made or that prices are equal."
+    }
+  },
+  "b1-x-u2-l1": {
+    "focusAr": "قدّم الشكوى بتفصيل يمكن التحقق منه: ما اشتريته، وما المشكلة، وما الحل الذي تطلبه. تستخدم I'm afraid هنا لتلطيف خبر غير سار، وليس للتعبير عن الخوف الحرفي. faulty تصف عيبًا في المنتج، وdissatisfied تصف شعور العميل. قل dissatisfied with عند تحديد سبب عدم الرضا.",
+    "focusEn": "Make a complaint specific: identify the purchase, explain the problem, and request a solution. I'm afraid softens unwelcome news here rather than expressing literal fear. Faulty describes a product defect; dissatisfied describes a customer's reaction. Use dissatisfied with to identify what caused the dissatisfaction.",
+    "taskAr": "اشكُ بأدب من سماعات لا تعمل، واذكر وقت شرائها واطلب استبدالها.",
+    "taskEn": "Politely complain about headphones that do not work, state when you bought them, and ask for a replacement.",
+    "exampleEn": "I'm afraid the headphones I bought yesterday are faulty. There is no sound on the left side. Could you replace them, please?",
+    "exampleAr": "يؤسفني أن السماعات التي اشتريتها أمس معيبة. لا يصدر صوت من الجهة اليسرى. هل يمكنكم استبدالها، من فضلكم؟",
+    "check": {
+      "promptEn": "Which complaint gives a clear problem and a practical request?",
+      "choices": [
+        "The charger does not work. Could you replace it, please?",
+        "Everything here is always terrible.",
+        "I bought a charger yesterday."
+      ],
+      "answer": "The charger does not work. Could you replace it, please?",
+      "explanationAr": "يحدد الجواب الصحيح العيب والحل المطلوب. التعميم الغاضب لا يشرح العيب، وذكر الشراء وحده لا يوضح وجود مشكلة.",
+      "explanationEn": "The correct answer identifies the fault and the requested solution. An angry generalization does not explain the fault, and stating a purchase alone does not describe a problem."
+    }
+  },
+  "b1-x-u2-l2": {
+    "focusAr": "ابدأ الرد بالاعتراف بالمشكلة والاعتذار عن أثرها، ثم اعرض إجراءً واضحًا وموعدًا واقعيًا. refund إعادة المال، وreplacement منتج بديل؛ فلا تخلط بينهما. يأتي بعد apologise حرف الجر for عند ذكر السبب. make up for تعني التعويض عن أثر سلبي، ولا تعني دائمًا إعادة المبلغ.",
+    "focusEn": "Acknowledge the problem and apologize for its effect, then offer a clear action and a realistic time. A refund returns money; a replacement provides another item. Use apologise for when naming the reason. Make up for means compensate for a negative effect and does not always mean returning the payment.",
+    "taskAr": "اكتب ردًا على شكوى منتج تالف: اعتذر، واعرض إرسال بديل غدًا، واطلب تأكيد العنوان.",
+    "taskEn": "Reply to a complaint about a damaged item: apologize, offer to send a replacement tomorrow, and ask for address confirmation.",
+    "exampleEn": "We apologise for the inconvenience. We can send a replacement tomorrow. Could you confirm your delivery address, please?",
+    "exampleAr": "نعتذر عن الإزعاج. يمكننا إرسال بديل غدًا. هل يمكنك تأكيد عنوان التوصيل، من فضلك؟",
+    "check": {
+      "promptEn": "The customer wants their money back rather than another item. Which response matches this request?",
+      "choices": [
+        "We can arrange a refund.",
+        "We can send an identical replacement.",
+        "We can ask you to buy a second item."
+      ],
+      "answer": "We can arrange a refund.",
+      "explanationAr": "refund تعني إعادة المبلغ، أما replacement فيعني تقديم منتج آخر. الخيار الثالث يطلب شراءً جديدًا ولا يلبّي الطلب.",
+      "explanationEn": "A refund returns the payment, while a replacement provides another item. The third option asks for a new purchase and does not meet the request."
+    }
+  },
+  "b1-x-u2-l3": {
+    "focusAr": "اجعل طلب المساعدة محددًا بذكر المهمة والوقت المطلوب. give someone a hand تعني مساعدته، وkeep someone posted تعني إبلاغه بالمستجدات؛ يتغير someone بحسب الشخص. behind schedule تعني التأخر عن الخطة، لا التأخر في الحضور فقط. touch base تعبير غير رسمي نسبيًا لتواصل قصير بشأن العمل.",
+    "focusEn": "Make a request for help specific by naming the task and the time needed. Give someone a hand means help them; keep someone posted means update them, with someone replaced by the person involved. Behind schedule means later than planned, not just arriving late. Touch base is a fairly informal expression for a brief work update.",
+    "taskAr": "اطلب من زميل مراجعة جدول في تقريرك اليوم، واشرح أنك متأخر عن الخطة، ثم تعهّد بإبلاغه بالتقدم.",
+    "taskEn": "Ask a colleague to check a table in your report today, explain that you are behind schedule, and promise an update.",
+    "exampleEn": "Could you give me a hand checking this table today? I'm behind schedule with the report. I'll keep you posted on my progress.",
+    "exampleAr": "هل يمكنك مساعدتي في مراجعة هذا الجدول اليوم؟ أنا متأخر عن الخطة في إعداد التقرير. سأطلعك على ما أحرزه من تقدم.",
+    "check": {
+      "promptEn": "A colleague asks you to keep her posted. What does she want?",
+      "choices": [
+        "Updates when there is new information.",
+        "A printed poster for her office.",
+        "A promise that you will do all her work."
+      ],
+      "answer": "Updates when there is new information.",
+      "explanationAr": "تعني keep someone posted إبقاء الشخص على اطلاع بالمستجدات. لا تشير posted هنا إلى ملصق، ولا تتضمن تعهّدًا بتنفيذ جميع مهامه.",
+      "explanationEn": "Keep someone posted means keep them informed of developments. Posted here does not refer to a poster, and the phrase does not promise to do all their work."
+    }
+  },
+  "b1-x-u2-l4": {
+    "focusAr": "ميّز بين look into، أي فحص المشكلة، وfollow up، أي متابعة ما حدث بعدها. أخبر العميل بما ستفحصه ومتى ستعود إليه بدل وعد عام بنتيجة غير مؤكدة. inquiry سؤال أو طلب معلومات، وليس شكوى بالضرورة. assist أكثر رسمية قليلًا من help ويأتي معه الشخص أو المهمة المناسبة.",
+    "focusEn": "Distinguish look into, meaning investigate a problem, from follow up, meaning take further action afterwards. Tell the customer what you will check and when you will respond instead of promising an uncertain result. An inquiry is a request for information, not necessarily a complaint. Assist is slightly more formal than help and can introduce the person or task involved.",
+    "taskAr": "أجب عميلًا يسأل عن طلب متأخر: أكّد فهم السؤال، واذكر ما ستتحقق منه وموعد المتابعة.",
+    "taskEn": "Answer a customer asking about a delayed order: acknowledge the question, state what you will check, and give a follow-up time.",
+    "exampleEn": "I understand that your order has not arrived. I'll look into the delivery details and follow up with you by email this afternoon.",
+    "exampleAr": "أفهم أن طلبك لم يصل. سأتحقق من تفاصيل التوصيل وأتابع معك عبر البريد الإلكتروني بعد ظهر اليوم.",
+    "check": {
+      "promptEn": "Which response gives a specific next action and a time for an update?",
+      "choices": [
+        "I'll check the delivery record and email you by four.",
+        "You will definitely receive everything immediately.",
+        "Your question is an inquiry."
+      ],
+      "answer": "I'll check the delivery record and email you by four.",
+      "explanationAr": "يحدد الجواب الصحيح فحص سجل التوصيل وموعد إرسال التحديث. الوعد الفوري غير المدعوم أو تسمية السؤال لا يوضحان خطة متابعة عملية.",
+      "explanationEn": "The correct answer names the delivery-record check and a time for an update. An unsupported immediate promise or a label for the question does not provide a practical follow-up plan."
+    }
+  },
+  "b1-x-u2-l5": {
+    "focusAr": "urgent تعني أن الأمر لا يحتمل التأجيل، لكنها لا تعني وحدها أنه الأهم على المدى البعيد. عند ترتيب الأولويات، قارن الوقت المتاح وأثر التأخير. meet a deadline تعني الإنجاز بحلول الموعد، وfall behind التأخر عن التقدم المخطط. استخدم keep track of لمتابعة ما أُنجز وما بقي.",
+    "focusEn": "Urgent means an action cannot wait, but does not by itself mean it is most important in the long term. When prioritising, consider available time and the effect of a delay. Meet a deadline means finish by the required time; fall behind means make less progress than planned. Use keep track of for monitoring completed and remaining work.",
+    "taskAr": "رتّب تقريرًا مطلوبًا غدًا ومهمة صغيرة مطلوبة الأسبوع القادم، وبيّن كيف ستتابع تقدمك.",
+    "taskEn": "Prioritise a report due tomorrow and a small task due next week, and explain how you will monitor progress.",
+    "exampleEn": "I'll prioritise the report because its deadline is tomorrow. I'll keep track of the sections I finish and leave the smaller task until the report is complete.",
+    "exampleAr": "سأعطي الأولوية للتقرير لأن موعده النهائي غدًا. سأتابع الأقسام التي أنجزها وأؤجل المهمة الصغيرة حتى يكتمل التقرير.",
+    "check": {
+      "promptEn": "A report must be submitted by Friday. Which outcome means you meet the deadline?",
+      "choices": [
+        "You submit it on Thursday.",
+        "You start writing it on Saturday.",
+        "You submit it the following Monday."
+      ],
+      "answer": "You submit it on Thursday.",
+      "explanationAr": "التسليم يوم الخميس يسبق الموعد النهائي يوم الجمعة. بدء العمل بعد الموعد أو التسليم في الاثنين التالي لا يحقق الالتزام به.",
+      "explanationEn": "Submitting on Thursday is before Friday's deadline. Starting after the deadline or submitting the following Monday does not meet it."
+    }
+  },
+  "b1-x-u3-l1": {
+    "focusAr": "تحدث عن العادة وتكرارها وسبب اختيارها بدل وصفها بكلمة healthy فقط. cut down on تعني التقليل من شيء، لا التوقف عنه تمامًا. stay active تعني الحفاظ على النشاط، وget into shape تحسين اللياقة، ولا تفترض أنك كنت لائقًا سابقًا. استخدم trying to لجهد مستمر لم يتحول إلى عادة ثابتة بعد.",
+    "focusEn": "Describe a habit, its frequency, and your reason for choosing it instead of only calling it healthy. Cut down on means reduce something, not stop it completely. Stay active means remain physically active; get into shape means become fitter, without assuming you were fit before. Use trying to for an ongoing effort that is not yet an established habit.",
+    "taskAr": "صف تغييرًا تدريجيًا في روتينك، واذكر ما تفعله الآن وعدد مرات فعله وما تحاول تقليله.",
+    "taskEn": "Describe a gradual change in your routine, saying what you now do, how often, and what you are trying to reduce.",
+    "exampleEn": "I'm trying to stay active by walking to the local shops twice a week. I'm also trying to cut down on the time I spend sitting in front of the television.",
+    "exampleAr": "أحاول الحفاظ على نشاطي بالمشي إلى المتاجر القريبة مرتين أسبوعيًا. وأحاول أيضًا تقليل الوقت الذي أقضيه جالسًا أمام التلفاز.",
+    "check": {
+      "promptEn": "Someone used to have four sugary drinks a day and now has one. Which phrase describes the change?",
+      "choices": [
+        "They have cut down on sugary drinks.",
+        "They have stopped drinking sugary drinks completely.",
+        "They have increased the number of sugary drinks."
+      ],
+      "answer": "They have cut down on sugary drinks.",
+      "explanationAr": "cut down on تعني التقليل، وهو ما حدث من أربعة مشروبات إلى واحد. لا يعني ذلك التوقف التام أو الزيادة.",
+      "explanationEn": "Cut down on means reduce, as in the change from four drinks to one. It does not mean stopping completely or increasing the amount."
+    }
+  },
+  "b1-x-u3-l2": {
+    "focusAr": "stressed out تصف التوتر الشديد، وoverwhelmed شعورًا بأن المطالب تفوق قدرتك الحالية على التعامل معها. استخدم feel مع الصفة، وby لبيان سبب الإرهاق عند الحاجة. unwind فعل يعني الاسترخاء بعد الضغط. عند الحديث عن الراحة صف تجربتك الشخصية، دون افتراض أن الطريقة نفسها تناسب الجميع.",
+    "focusEn": "Stressed out describes strong stress; overwhelmed describes feeling that demands exceed your current ability to manage them. Use feel with an adjective and, when useful, by to identify the cause of pressure. Unwind is a verb meaning relax after stress. When discussing rest, describe your own experience without assuming the same approach suits everyone.",
+    "taskAr": "صف شعورك أمام عدة مواعيد نهائية، ثم اذكر ما يساعدك شخصيًا على الاسترخاء وطلبًا عمليًا للمساعدة.",
+    "taskEn": "Describe how you feel when facing several deadlines, then state what helps you unwind and make a practical request for help.",
+    "exampleEn": "I feel overwhelmed by these deadlines. A quiet walk usually helps me unwind. Could we agree which task I should finish first?",
+    "exampleAr": "أشعر بأن هذه المواعيد النهائية تفوق قدرتي على التعامل معها. عادةً ما تساعدني نزهة هادئة على الاسترخاء. هل يمكننا الاتفاق على المهمة التي ينبغي أن أنجزها أولًا؟",
+    "check": {
+      "promptEn": "Which sentence correctly uses unwind as a verb?",
+      "choices": [
+        "I unwind by reading after work.",
+        "I feel very unwind today.",
+        "My unwind is extremely stressed."
+      ],
+      "answer": "I unwind by reading after work.",
+      "explanationAr": "unwind فعل، فيناسبه فاعل وطريقة مثل by reading. بعد feel very نحتاج صفة مثل stressed، لا هذا الفعل.",
+      "explanationEn": "Unwind is a verb, so it fits with a subject and a method such as by reading. After feel very, we need an adjective such as stressed, not this verb."
+    }
+  },
+  "b1-x-u3-l3": {
+    "focusAr": "device جهاز مادي، وapp برنامج يعمل عليه، وupdate تحديث للبرنامج وقد يأتي أيضًا فعلًا. قل log in to your account للفعل، بينما login قد تكون اسمًا أو صفة. لشرح فائدة تقنية، اربط وظيفة محددة بنتيجة، مثل تذكير بالموعد يساعدك على توفير الوقت، بدل تعميم أنها تفعل كل شيء.",
+    "focusEn": "A device is physical equipment, an app is software running on it, and an update is a software change; update can also be a verb. Use log in to your account for the action, while login can be a noun or adjective. Explain a technical benefit by linking one function to a result instead of claiming it does everything.",
+    "taskAr": "اشرح لصديق كيف تستخدم تطبيقًا لتتبع الحافلة، مع ذكر تسجيل الدخول وفائدة عملية.",
+    "taskEn": "Explain to a friend how you use an app to track a bus, mentioning logging in and a practical benefit.",
+    "exampleEn": "I log in to the travel app to check when my bus will arrive. It helps me save time because I can leave home closer to the arrival time.",
+    "exampleAr": "أسجّل الدخول إلى تطبيق النقل لأتحقق من موعد وصول الحافلة. يساعدني ذلك على توفير الوقت لأنني أستطيع مغادرة المنزل في وقت أقرب إلى وصولها.",
+    "check": {
+      "promptEn": "You install new software on your existing phone. Which description is accurate?",
+      "choices": [
+        "You have installed an update, not bought another device.",
+        "You have bought a new physical device.",
+        "You have replaced your phone with a password."
+      ],
+      "answer": "You have installed an update, not bought another device.",
+      "explanationAr": "التحديث يغيّر البرنامج على الجهاز الموجود. تثبيت برنامج لا يعني شراء جهاز مادي جديد، وكلمة المرور ليست جهازًا.",
+      "explanationEn": "An update changes software on the existing device. Installing software does not mean buying new hardware, and a password is not a device."
+    }
+  },
+  "b1-x-u3-l4": {
+    "focusAr": "ميّز بين suspicious، أي مثير للشك، وscam، أي عملية احتيال؛ الشك وحده لا يثبت الاحتيال. back up فعل من كلمتين لإنشاء نسخة، وbackup اسم للنسخة. استخدم log out of an account للخروج من الحساب. عند وصف رسالة مريبة، حدّد العلامة التي أثارت شكك والإجراء الذي اتخذته.",
+    "focusEn": "Distinguish suspicious, meaning concerning, from scam, meaning a fraudulent scheme; suspicion alone is not proof. Back up is a two-word verb for making a copy, while backup is a noun for the copy. Use log out of an account for leaving it. When describing a suspicious message, identify what concerned you and what action you took.",
+    "taskAr": "صف رسالة طلبت كلمة مرورك وأثارت شكك، واذكر أنك لم تستخدم رابطها وتحققت عبر التطبيق المعتاد.",
+    "taskEn": "Describe a message requesting your password that made you suspicious, and say you avoided its link and checked through your usual app.",
+    "exampleEn": "The message seemed suspicious because it asked for my password. I did not use the link. I opened my usual app to check whether there was a message in my account.",
+    "exampleAr": "بدت الرسالة مريبة لأنها طلبت كلمة مروري. لم أستخدم الرابط. فتحت تطبيقي المعتاد لأتحقق مما إذا كانت هناك رسالة في حسابي.",
+    "check": {
+      "promptEn": "Which sentence uses back up correctly as an action?",
+      "choices": [
+        "I back up my files before changing devices.",
+        "I a back up my files before changing devices.",
+        "I backuped my files yesterday."
+      ],
+      "answer": "I back up my files before changing devices.",
+      "explanationAr": "back up فعل مركب يُكتب كلمتين، ويأتي مباشرة بعد الفاعل هنا. لا نضع a قبله، وصيغة الماضي backed up وليست backuped.",
+      "explanationEn": "Back up is a two-word verb and follows the subject directly here. It does not take a before it, and its past form is backed up, not backuped."
+    }
+  },
+  "b1-x-u3-l5": {
+    "focusAr": "recycle يعني معالجة مواد لتصبح قابلة للاستخدام مجددًا، بينما إعادة استخدام الشيء نفسه لا تتطلب هذه المعالجة. waste هنا نفايات وهو اسم غير معدود، لكن الكلمة قد تكون فعلًا بمعنى يهدر. تجنّب الوعود المطلقة عن الأثر البيئي؛ صف الإجراء المحدد وما تهدف إليه مثل تقليل النفايات أو توفير الطاقة.",
+    "focusEn": "Recycle means process materials so they can be used again; using the same object again does not necessarily involve that processing. Waste here means unwanted material and is uncountable, although waste can also be a verb. Avoid absolute claims about environmental effects; name the action and its intended result, such as reducing waste or saving energy.",
+    "taskAr": "اقترح إجراءين محددين في المكتب لتقليل النفايات وتوفير الطاقة، وبيّن كيف ستشارك فيهما.",
+    "taskEn": "Suggest two specific office actions to reduce waste and save energy, and explain your own part in them.",
+    "exampleEn": "We could use reusable cups to produce less waste. We could also turn off unused lights to save energy. I'll put a reminder near the meeting-room door.",
+    "exampleAr": "يمكننا استخدام أكواب قابلة لإعادة الاستخدام لإنتاج نفايات أقل. ويمكننا أيضًا إطفاء الأضواء غير المستخدمة لتوفير الطاقة. سأضع تذكيرًا قرب باب غرفة الاجتماع.",
+    "check": {
+      "promptEn": "You wash and use the same glass jar again without processing the glass. What are you doing?",
+      "choices": [
+        "Reusing the jar.",
+        "Manufacturing new glass from old glass.",
+        "Creating a new type of climate."
+      ],
+      "answer": "Reusing the jar.",
+      "explanationAr": "تستخدم الوعاء نفسه من جديد، وهذا إعادة استخدام. لم يذكر الموقف معالجة الزجاج لصنع مادة أو منتج جديد.",
+      "explanationEn": "You are using the same jar again, which is reuse. The situation does not describe processing the glass to make new material or a new product."
+    }
+  },
+  "b1-x-u4-l1": {
+    "focusAr": "tradition ممارسة موروثة أو مستمرة عبر الزمن، وcustom عادة اجتماعية شائعة؛ وقد تتداخل الكلمتان. heritage أوسع ويشمل عناصر من التراث الثقافي. تعني pass down نقل شيء إلى الجيل التالي. صف عائلتك أو مجتمعك المحدد، واستخدم many أوsome عند الحاجة بدل نسبة العادة إلى جميع أفراد بلد.",
+    "focusEn": "A tradition is a practice continued or inherited over time, while a custom is a common social practice; the words can overlap. Heritage is broader and includes elements of cultural inheritance. Pass down means transmit something to the next generation. Describe your own family or specific community, using many or some when needed rather than applying a practice to everyone in a country.",
+    "taskAr": "صف تقليدًا عائليًا، ومن نقله إليكم، ومتى تمارسونه، دون تعميمه على كل الأسر.",
+    "taskEn": "Describe a family tradition, who passed it down, and when you practise it, without generalizing to all families.",
+    "exampleEn": "In my family, we cook my grandmother's special rice dish when relatives visit. She passed down the recipe to my father, who taught it to me. It is a tradition I enjoy.",
+    "exampleAr": "في عائلتي، نعد طبق الأرز الخاص بجدتي عندما يزورنا الأقارب. نقلت الوصفة إلى أبي الذي علّمني إياها. إنه تقليد أستمتع به.",
+    "check": {
+      "promptEn": "A recipe passes from a grandmother to a parent and then to a child. Which expression fits?",
+      "choices": [
+        "The family passes down the recipe.",
+        "The family throws away every copy of the recipe.",
+        "The recipe is new and has never been shared."
+      ],
+      "answer": "The family passes down the recipe.",
+      "explanationAr": "pass down تصف نقل الوصفة بين الأجيال. حذف النسخ أو القول إنها لم تُشارك يناقض انتقالها المذكور في الموقف.",
+      "explanationEn": "Pass down describes sharing the recipe across generations. Throwing away copies or saying it has never been shared contradicts the situation."
+    }
+  },
+  "b1-x-u4-l2": {
+    "focusAr": "open-minded تعني الاستعداد للنظر في أفكار مختلفة، ولا تشترط الموافقة على كل فكرة. respect تعني الاحترام ويمكن أن يصاحبها اختلاف مهذب. fit in تصف الشعور بالاندماج في مجموعة. اسأل عن التفضيل الشخصي بدل افتراضه من الجنسية، وميّز بين تجربة فرد واحد وعادة واسعة الانتشار.",
+    "focusEn": "Open-minded means willing to consider different ideas, not required to agree with every idea. Respect can coexist with polite disagreement. Fit in describes feeling accepted within a group. Ask about a person's preferences instead of assuming them from nationality, and distinguish one individual's experience from a widely shared practice.",
+    "taskAr": "اكتب سؤالًا محترمًا لمضيفك عن العادة المتبعة عند الزيارة، ثم جوابًا يوضح أنك معتاد على طريقة مختلفة ومستعد للتعلم.",
+    "taskEn": "Ask a host respectfully about a visiting custom, then respond by explaining that you are used to a different practice and are willing to learn.",
+    "exampleEn": "Is there anything you would like guests to do when they arrive? We do things differently in my family, but I'd like to understand your custom.",
+    "exampleAr": "هل هناك شيء تفضّل أن يفعله الضيوف عند وصولهم؟ نتبع طريقة مختلفة في عائلتي، لكنني أود فهم عادتكم.",
+    "check": {
+      "promptEn": "Which response shows openness without pretending everyone has the same beliefs?",
+      "choices": [
+        "I see it differently, but I'd like to understand your view.",
+        "Everyone from your country must agree with you.",
+        "Respect means I must accept every opinion as true."
+      ],
+      "answer": "I see it differently, but I'd like to understand your view.",
+      "explanationAr": "يُظهر الجواب الصحيح استعدادًا للفهم مع الاحتفاظ برأي مختلف. لا يتطلب الاحترام تعميم رأي الفرد أو اعتبار كل رأي حقيقة.",
+      "explanationEn": "The correct response shows willingness to understand while keeping a different view. Respect does not require generalizing one person's opinion or treating every view as true."
+    }
+  },
+  "b1-x-u4-l3": {
+    "focusAr": "اربط strength، أي نقطة القوة، بمثال عملي؛ فذكر الصفة وحدها لا يوضح قدرتك. qualification مؤهل مناسب للوظيفة، وrésumé ملخص خبرتك وتعليمك. قل apply for a job وapply to a company. عند التدريب يمكنك استخدام مثال حقيقي من الدراسة أو التطوع إذا لم تكن لديك خبرة وظيفية.",
+    "focusEn": "Connect a strength with a practical example; naming a quality alone does not show what you can do. A qualification is relevant preparation or certification, and a résumé summarizes experience and education. Say apply for a job and apply to a company. In practice, use a real example from study or volunteering if you have no employment experience.",
+    "taskAr": "حضّر إجابة عن نقطة قوة باستخدام موقف دراسي أو تطوعي، واذكر الفعل الذي قمت به والنتيجة.",
+    "taskEn": "Prepare an answer about a strength using a study or volunteering situation, naming your action and its result.",
+    "exampleEn": "One of my strengths is organization. During a college event, I made a clear schedule for our team. Everyone knew when to arrive, and we were ready on time.",
+    "exampleAr": "إحدى نقاط قوتي التنظيم. خلال فعالية جامعية، أعددت جدولًا واضحًا لفريقنا. عرف الجميع متى يحضرون، وكنا مستعدين في الوقت المحدد.",
+    "check": {
+      "promptEn": "Which phrase correctly names the position you want?",
+      "choices": [
+        "I want to apply for the assistant role.",
+        "I want to apply at the assistant role.",
+        "I want to apply the assistant role."
+      ],
+      "answer": "I want to apply for the assistant role.",
+      "explanationAr": "نستخدم apply for مع الوظيفة أو الفرصة المطلوبة. ويمكن استخدام apply to مع المؤسسة التي تتلقى الطلب.",
+      "explanationEn": "Use apply for with the job or opportunity sought. Apply to can introduce the organization receiving the application."
+    }
+  },
+  "b1-x-u4-l4": {
+    "focusAr": "نظّم الإجابة في موقف ومهمة وفعل ونتيجة، مع إبراز دورك داخل الفريق دون نسب عمل الجميع إليك. experience بمعنى الخبرة غير معدودة، فنقول three years of experience. responsibility قد تكون مسؤولية محددة معدودة. قل responsible for مع اسم أو فعل بصيغة ing لتوضيح ما كنت تتولاه.",
+    "focusEn": "Organize an answer around the situation, task, action, and result, showing your contribution without claiming everyone's work. Experience meaning accumulated knowledge is uncountable: say three years of experience. A responsibility can be a particular, countable duty. Use responsible for with a noun or an -ing form to explain what you handled.",
+    "taskAr": "قدّم مثالًا على تعاونك في فريق: اذكر مسؤوليتك وفعلًا قمت به ونتيجة، باستخدام خبرة حقيقية أو موقف تدريبي واضح.",
+    "taskEn": "Give a teamwork example: state your responsibility, an action, and a result, using real experience or a clearly imagined practice situation.",
+    "exampleEn": "In a practice scenario, our team had to prepare an event. My responsibility was to contact volunteers. I confirmed their times, and we had enough people for every activity.",
+    "exampleAr": "في موقف تدريبي، كان على فريقنا إعداد فعالية. كانت مسؤوليتي التواصل مع المتطوعين. أكدت مواعيدهم، وتوفر لدينا عدد كافٍ لكل نشاط.",
+    "check": {
+      "promptEn": "Which answer clearly identifies your own contribution to a team task?",
+      "choices": [
+        "I organized the volunteer schedule, which helped us start on time.",
+        "We did many things, but I cannot say what I did.",
+        "I achieved everything, although all the work was done by others."
+      ],
+      "answer": "I organized the volunteer schedule, which helped us start on time.",
+      "explanationAr": "يذكر الجواب الصحيح فعلًا محددًا للمتحدث ونتيجته. الإجابة العامة لا تبيّن دوره، ونسب عمل الآخرين إلى النفس لا يصف مساهمة حقيقية.",
+      "explanationEn": "The correct answer gives the speaker's specific action and its result. A vague answer hides their role, while claiming others' work does not describe a genuine contribution."
+    }
+  },
+  "b1-x-u4-l5": {
+    "focusAr": "job offer عرض عمل، وليس مجرد دعوة لمقابلة. turn down تعني رفض عرض، وnegotiate مناقشة الشروط دون ضمان قبول التغيير. feedback اسم غير معدود، فنقول some feedback لا a feedback. في رسالة المتابعة، اذكر الوظيفة وتاريخ المقابلة واطلب تحديثًا بوضوح وأدب.",
+    "focusEn": "A job offer is an offer of employment, not simply an interview invitation. Turn down means reject an offer; negotiate means discuss terms without guaranteeing a change. Feedback is uncountable: say some feedback, not a feedback. In a follow-up message, identify the role and interview date, then request an update clearly and politely.",
+    "taskAr": "اكتب رسالة متابعة قصيرة تشكر فيها مسؤول التوظيف على مقابلة الاثنين وتسأل عن موعد الخطوة التالية.",
+    "taskEn": "Write a short follow-up thanking the recruiter for Monday's interview and asking when the next step is expected.",
+    "exampleEn": "Thank you for meeting with me on Monday about the assistant role. I enjoyed learning about the team. Could you let me know when I might receive an update?",
+    "exampleAr": "شكرًا للقائي يوم الاثنين بشأن وظيفة المساعد. سررت بالتعرف على الفريق. هل يمكنك إخباري بالموعد المتوقع لتلقي مستجدات؟",
+    "check": {
+      "promptEn": "A candidate decides not to accept a job offer. Which phrase describes this?",
+      "choices": [
+        "They turn down the offer.",
+        "They accept the salary and start work.",
+        "They receive their first interview invitation."
+      ],
+      "answer": "They turn down the offer.",
+      "explanationAr": "turn down تعني رفض العرض. قبول الراتب والبدء بالعمل يناقضان ذلك، ودعوة المقابلة ليست عرض توظيف.",
+      "explanationEn": "Turn down means reject the offer. Accepting the salary and starting work contradict that decision, while an interview invitation is not an employment offer."
+    }
+  },
+  "b1-x-u5-l1": {
+    "focusAr": "plot ترتيب أحداث القصة وروابطها، وcast مجموعة الممثلين، وsoundtrack ما نسمعه من موسيقى أو تسجيل صوتي مصاحب. disappointing تصف الشيء الذي خيّب أملك، وdisappointed شعورك أنت. عند إبداء رأيك، أعط سببًا دون كشف النهاية. sequel عمل لاحق يكمل قصة سابقة، وليس بالضرورة الجزء الثاني فقط.",
+    "focusEn": "The plot is the connected sequence of story events, the cast is the group of actors, and the soundtrack is the accompanying recorded sound or music. Disappointing describes what let you down; disappointed describes your feeling. Give a reason for your opinion without revealing the ending. A sequel continues an earlier story and is not necessarily only the second part.",
+    "taskAr": "اكتب تقييمًا من ثلاث جمل لفيلم: اذكر نقطة أعجبتك وأخرى خيبت أملك ومن قد يستمتع به، دون كشف النهاية.",
+    "taskEn": "Write a three-sentence film review: name something you liked, something disappointing, and who might enjoy it, without revealing the ending.",
+    "exampleEn": "The plot was gripping because every scene raised a new question. The final scene was a little disappointing, but I won't give any spoilers. I would recommend it to people who enjoy mysteries.",
+    "exampleAr": "كانت الحبكة مشوقة لأن كل مشهد أثار سؤالًا جديدًا. كان المشهد الأخير مخيبًا قليلًا، لكنني لن أكشف الأحداث. أوصي به لمن يستمتعون بالألغاز.",
+    "check": {
+      "promptEn": "Which sentence correctly distinguishes a film's effect from your feeling?",
+      "choices": [
+        "The ending was disappointing, so I felt disappointed.",
+        "The ending felt disappointed with me.",
+        "I was disappointing because I disliked the ending."
+      ],
+      "answer": "The ending was disappointing, so I felt disappointed.",
+      "explanationAr": "disappointing تصف النهاية التي سببت خيبة الأمل، وdisappointed تصف شعور المتحدث. تبديلهما يغيّر المعنى.",
+      "explanationEn": "Disappointing describes the ending that caused the reaction, and disappointed describes the speaker's feeling. Swapping them changes the meaning."
+    }
+  },
+  "b1-x-u5-l2": {
+    "focusAr": "venue المكان الذي تُقام فيه الفعالية، وaudience من يتابعون العرض، بينما crowd أي حشد وقد ينتظر خارج المكان. sold out تعني نفاد التذاكر المتاحة، ولا تعني إلغاء العرض. استخدم taste in music للذوق الموسيقي، وsing along with a singer أوsing along to a song لوصف الغناء المصاحب.",
+    "focusEn": "A venue is the event location; an audience watches or listens to a performance, while a crowd can simply be a group waiting outside. Sold out means all available tickets have been sold, not that the show was cancelled. Use taste in music for musical preferences, and sing along with a singer or to a song for joining in.",
+    "taskAr": "صف حفلًا تخيليًا بذكر المكان والأجواء وتفاعل الجمهور، ثم وضّح هل كانت هناك تذاكر متبقية.",
+    "taskEn": "Describe an imagined concert, naming the venue, atmosphere, and audience reaction, then say whether tickets were still available.",
+    "exampleEn": "The small venue had a friendly atmosphere, and the audience sang along to the final song. The concert was sold out, so my friend could not buy a ticket at the door.",
+    "exampleAr": "كانت أجواء المكان الصغير ودية، وغنّى الجمهور مع الأغنية الأخيرة. نفدت تذاكر الحفل، لذلك لم يستطع صديقي شراء تذكرة عند المدخل.",
+    "check": {
+      "promptEn": "The concert is sold out. What does this tell you?",
+      "choices": [
+        "All available tickets have been sold.",
+        "The concert has definitely been cancelled.",
+        "The venue has been sold to a new owner."
+      ],
+      "answer": "All available tickets have been sold.",
+      "explanationAr": "sold out هنا تصف نفاد التذاكر، ولا تقدم معلومات عن إلغاء الحفل أو بيع المبنى.",
+      "explanationEn": "Sold out here describes ticket availability. It does not state that the event is cancelled or that the building has been sold."
+    }
+  },
+  "b1-x-u5-l3": {
+    "focusAr": "author الشخص الذي كتب العمل، وnarrator الصوت الذي يروي القصة وقد يكون شخصية خيالية؛ لا تفترض أنهما الشخص نفسه. can't put it down تعبير عن شدة الانشغال بكتاب، لا عن العجز الجسدي. مع الضمير نقول put it down. عند التوصية، صف النوع والأسلوب دون كشف plot twist.",
+    "focusEn": "The author wrote the work; the narrator is the voice telling the story and may be fictional, so do not assume they are the same person. Can't put it down expresses being absorbed in a book, not physical inability. With a pronoun, say put it down. When recommending a book, describe its type and style without revealing a plot twist.",
+    "taskAr": "أوصِ برواية خيالية بجملتين تذكر فيهما الراوي أو الأسلوب، ثم صف عادة قراءة تساعدك على إكمالها.",
+    "taskEn": "Recommend an imagined novel in two sentences mentioning its narrator or style, then describe a reading habit that helps you finish it.",
+    "exampleEn": "I'd recommend this novel because its young narrator notices surprising details. The chapters are short, and I can't put it down. I read one chapter before bed each night.",
+    "exampleAr": "أوصي بهذه الرواية لأن راويها الصغير يلاحظ تفاصيل مفاجئة. فصولها قصيرة، ولا أستطيع التوقف عن قراءتها. أقرأ فصلًا كل ليلة قبل النوم.",
+    "check": {
+      "promptEn": "A fictional child tells a story written by an adult novelist. Who is the narrator?",
+      "choices": [
+        "The fictional child telling the story.",
+        "The publisher printing the copies.",
+        "Automatically the adult novelist."
+      ],
+      "answer": "The fictional child telling the story.",
+      "explanationAr": "الراوي هو الصوت الذي يروي القصة داخل العمل، وهنا هو الطفل الخيالي. المؤلف كتب العمل، والناشر ينتج نسخه أو ينشرها.",
+      "explanationEn": "The narrator is the voice telling the story within the work, here the fictional child. The author wrote the work; the publisher produces or distributes it."
+    }
+  },
+  "b1-x-u5-l4": {
+    "focusAr": "post في هذا الدرس فعل بمعنى ينشر، وfeed تدفق المنشورات الذي يظهر لك، لا منشوراتك أنت فقط. mute تخفي التنبيهات أو الصوت بحسب السياق، بينما unfollow توقف متابعة الحساب. addictive قد تصف شيئًا يصعب التوقف عنه في الكلام اليومي. اربط عادتك وأثرها بتغيير محدد تستطيع وصفه.",
+    "focusEn": "Post is a verb meaning publish in this lesson; a feed is the stream of posts shown to you, not just your own posts. Mute silences notifications or sound depending on context, while unfollow stops following an account. Addictive can describe something hard to stop using in everyday speech. Link your habit and its effect to a specific change.",
+    "taskAr": "صف كيف تؤثر تنبيهات مجموعة في تركيزك، ثم اذكر تغييرًا يمكنك فعله مع الاستمرار في متابعة المجموعة.",
+    "taskEn": "Describe how group notifications affect your concentration, then name a change that lets you remain in the group.",
+    "exampleEn": "I check my phone whenever the group sends a message, which interrupts my work. I now mute the chat while I study and read the messages later.",
+    "exampleAr": "أتفقد هاتفي كلما أرسلت المجموعة رسالة، وهذا يقاطع عملي. أصبحت أكتم تنبيهات المحادثة أثناء الدراسة وأقرأ الرسائل لاحقًا.",
+    "check": {
+      "promptEn": "You want to stop chat notifications while remaining in the group. Which action fits?",
+      "choices": [
+        "Mute the chat.",
+        "Post more messages in the chat.",
+        "Ask every member to follow a new account."
+      ],
+      "answer": "Mute the chat.",
+      "explanationAr": "كتم تنبيهات المحادثة يحقق الغرض المذكور دون مغادرة المجموعة. زيادة الرسائل أو طلب متابعة حساب آخر لا يعالجان التنبيهات.",
+      "explanationEn": "Muting chat notifications meets the stated purpose without leaving the group. Posting more messages or asking others to follow an account does not address notifications."
+    }
+  },
+  "b1-x-u6-l1": {
+    "focusAr": "قارن السكن وفق حاجتك المحددة: الموقع والتكلفة والمرافق وشروط الحجز. self-catering يعني توفر إمكانية إعداد الطعام، وليس شمول الوجبات. good value for money تعني أن ما تحصل عليه مناسب للسعر، لا أنه الأرخص دائمًا. لا تستنتج الخدمات من اسم hostel أوguesthouse وحده؛ اسأل عنها صراحة.",
+    "focusEn": "Compare accommodation against your needs: location, cost, facilities, and booking conditions. Self-catering means you can prepare your own meals, not that meals are included. Good value for money means the benefits justify the price, not always that it is cheapest. Do not infer every service from hostel or guesthouse alone; ask directly.",
+    "taskAr": "قارن شقة بمطبخ وفندقًا أغلى قرب المحطة، ثم اختر ما يناسب رحلة عائلية تريد خلالها إعداد الطعام.",
+    "taskEn": "Compare an apartment with a kitchen and a more expensive hotel near the station, then choose for a family trip where you want to cook.",
+    "exampleEn": "The hotel has a better location, but the self-catering apartment gives us space to cook. We'll choose the apartment because it suits our family and offers good value for money.",
+    "exampleAr": "موقع الفندق أفضل، لكن الشقة التي تتيح إعداد الطعام توفر لنا مكانًا للطبخ. سنختار الشقة لأنها تناسب عائلتنا وتقدم قيمة جيدة مقابل السعر.",
+    "check": {
+      "promptEn": "A listing says self-catering. What should you expect from that description?",
+      "choices": [
+        "Facilities for preparing your own meals.",
+        "Every meal automatically included in the price.",
+        "A guarantee that it is the cheapest property."
+      ],
+      "answer": "Facilities for preparing your own meals.",
+      "explanationAr": "self-catering تشير إلى إعداد النزيل طعامه باستخدام مرافق متاحة. لا تعني شمول الوجبات أو ضمان أدنى سعر.",
+      "explanationEn": "Self-catering refers to guests preparing their own food using available facilities. It does not mean meals are included or the price is the lowest."
+    }
+  },
+  "b1-x-u6-l2": {
+    "focusAr": "get used to تصف الانتقال إلى الاعتياد، وbe used to تصف حالة الاعتياد القائمة؛ يليهما اسم أو فعل بصيغة ing. لا تخلطهما مع used to للماضي المعتاد. fish out of water تصف الشعور بعدم الألفة. اشرح تجربتك الشخصية وما ساعدك على التأقلم دون تعميم شعورك على كل مسافر.",
+    "focusEn": "Get used to describes becoming familiar with something; be used to describes already being familiar. Both take a noun or an -ing form. Do not confuse them with used to for past habits. Fish out of water describes feeling out of place. Explain your own experience and what helped you adapt without generalizing to every traveller.",
+    "taskAr": "صف صعوبة واجهتها عند الانتقال إلى مكان جديد، ثم اذكر كيف بدأت تعتاد عليها بمساعدة شخص.",
+    "taskEn": "Describe a difficulty when moving somewhere new, then explain how you began to get used to it with someone's help.",
+    "exampleEn": "At first, I felt like a fish out of water at the college. A classmate showed me around, and I gradually got used to finding my way between buildings.",
+    "exampleAr": "في البداية، شعرت أنني في غير بيئتي في الكلية. اصطحبني زميل في جولة، وبدأت أعتاد تدريجيًا التنقل بين المباني.",
+    "check": {
+      "promptEn": "Which sentence means that living abroad is becoming more familiar?",
+      "choices": [
+        "I'm getting used to living abroad.",
+        "I used to live abroad, but now I don't.",
+        "I'm getting used to live abroad."
+      ],
+      "answer": "I'm getting used to living abroad.",
+      "explanationAr": "getting used to living تصف الاعتياد التدريجي ويتبعها فعل بصيغة ing. used to live تصف عادة أو حالة ماضية، لا عملية التأقلم الحالية.",
+      "explanationEn": "Getting used to living describes gradual adjustment and takes an -ing form. Used to live describes a past situation, not the present process of adapting."
+    }
+  },
+  "b1-x-u6-l3": {
+    "focusAr": "ابدأ التقييم بما لاحظته فعلًا، ثم اذكر أثره عليك وحكمك العام. overall تلخّص التجربة، وalthough تربط فكرتين متعارضتين. drawback عيب محدد، وoverpriced حكم بأن السعر أعلى مما يستحقه الشيء. لا تحتاج المراجعة المتوازنة إلى تساوي عدد المزايا والعيوب؛ المهم عدالة الوصف وتوضيح الأسباب.",
+    "focusEn": "Start a review with what you actually observed, then explain its effect and your overall view. Overall summarizes the experience; although connects contrasting ideas. A drawback is a specific disadvantage, while overpriced judges a price as too high for the value. A balanced review need not list equal numbers of positives and negatives; it should describe fairly and explain reasons.",
+    "taskAr": "اكتب تقييمًا لإقامة كانت غرفتها نظيفة وموظفوها متعاونين، لكن ضوضاء الشارع أزعجتك ليلًا.",
+    "taskEn": "Write a review of a stay with a clean room and helpful staff, but street noise that disturbed you at night.",
+    "exampleEn": "The room was spotless and the staff were helpful. The main drawback was street noise at night. Overall, I enjoyed the stay, although I would ask for a room away from the road next time.",
+    "exampleAr": "كانت الغرفة نظيفة تمامًا والموظفون متعاونين. كان العيب الرئيسي ضوضاء الشارع ليلًا. استمتعت بالإقامة عمومًا، لكنني سأطلب غرفة بعيدة عن الطريق في المرة القادمة.",
+    "check": {
+      "promptEn": "Which review supports an opinion with an observable detail?",
+      "choices": [
+        "The room was noisy because buses passed below the window at night.",
+        "The hotel is obviously the worst place in the world.",
+        "Everyone who stays here will dislike it."
+      ],
+      "answer": "The room was noisy because buses passed below the window at night.",
+      "explanationAr": "يربط الجواب الصحيح الرأي بتفصيل عن مصدر الضوضاء ووقتها. البديلان تعميمان لا يقدمان ملاحظة محددة تدعمهما.",
+      "explanationEn": "The correct answer links the opinion to a detail about the noise source and timing. The alternatives are sweeping claims without a specific supporting observation."
+    }
+  },
+  "b1-x-u6-l4": {
+    "focusAr": "impact أثر قد يكون إيجابيًا أو سلبيًا؛ وضّح نوعه بدل افتراض أنه ضرر دائمًا. litter نفايات تُترك في مكان غير مخصص لها، وwildlife الكائنات البرية لا حديقة حيوان. يأتي بعد avoid فعل بصيغة ing. عند اقتراح سلوك مسؤول، اذكر فعلًا واضحًا وسببًا يتعلق بالمكان أو السكان.",
+    "focusEn": "An impact can be positive or negative, so specify which rather than assuming harm. Litter is waste left where it does not belong, and wildlife refers to wild living things, not a zoo. Avoid takes an -ing form. When proposing responsible behaviour, name a clear action and a reason connected to the place or its residents.",
+    "taskAr": "اكتب نصيحة لزائر محمية تتضمن تجنب ترك النفايات وإزعاج الحيوانات، ثم فسّر الغرض بجملة.",
+    "taskEn": "Write advice for a nature-reserve visitor about avoiding litter and disturbance to animals, then explain the purpose in one sentence.",
+    "exampleEn": "Please avoid leaving litter and keep your distance from wildlife. These actions help keep the area clean and reduce disturbance to the animals.",
+    "exampleAr": "يرجى تجنب ترك النفايات والابتعاد مسافة مناسبة عن الكائنات البرية. تساعد هذه الأفعال على إبقاء المنطقة نظيفة وتقليل إزعاج الحيوانات.",
+    "check": {
+      "promptEn": "Which sentence correctly follows avoid with an action?",
+      "choices": [
+        "Visitors should avoid leaving litter.",
+        "Visitors should avoid to leave litter.",
+        "Visitors should avoid leave litter."
+      ],
+      "answer": "Visitors should avoid leaving litter.",
+      "explanationAr": "يتبع avoid الفعل بصيغة ing، لذا نستخدم leaving. لا نستخدم to leave أوleave مباشرة في هذا التركيب.",
+      "explanationEn": "Avoid takes an -ing form, so leaving fits. Neither to leave nor the bare verb leave follows avoid in this structure."
+    }
+  },
+  "b1-x-u7-l1": {
+    "focusAr": "income المال الداخل، وexpenses النفقات، وbudget خطة لتوزيع المال وليست المبلغ المصروف نفسه. afford تصف القدرة على تحمل تكلفة شيء؛ نقول afford a ticket أوafford to travel. run out of تعني نفاد الشيء تمامًا. عند شرح ميزانية تدريبية، اربط الإنفاق بسبب أو قيد محدد.",
+    "focusEn": "Income is money coming in, expenses are costs, and a budget is a plan for using money rather than the amount already spent. Afford describes ability to pay: say afford a ticket or afford to travel. Run out of means have none left. When explaining a practice budget, connect spending with a particular reason or limit.",
+    "taskAr": "في موقف تدريبي، اشرح لماذا تؤجل شراء جهاز حتى الشهر القادم، مستخدمًا income وexpenses وafford.",
+    "taskEn": "In a practice situation, explain why you are delaying a device purchase until next month, using income, expenses, and afford.",
+    "exampleEn": "My expenses are higher than usual this month, but my income is the same. I can't afford to buy the device now, so I'll review my budget next month.",
+    "exampleAr": "نفقاتي أعلى من المعتاد هذا الشهر، لكن دخلي لم يتغير. لا أستطيع تحمل تكلفة شراء الجهاز الآن، لذلك سأراجع ميزانيتي الشهر القادم.",
+    "check": {
+      "promptEn": "Which sentence correctly uses afford before an action?",
+      "choices": [
+        "I can't afford to buy it this month.",
+        "I can't afford buying it this month.",
+        "I can't afford buy it this month."
+      ],
+      "answer": "I can't afford to buy it this month.",
+      "explanationAr": "عندما يأتي فعل بعد afford نستخدم to ثم الفعل الأساسي: afford to buy. ويمكن أن يتبعه اسم مباشرة مثل afford a ticket.",
+      "explanationEn": "When an action follows afford, use to and the base verb: afford to buy. A noun can also follow directly, as in afford a ticket."
+    }
+  },
+  "b1-x-u7-l2": {
+    "focusAr": "save up for تربط الادخار بهدف شراء أو نفقة، وset aside تعني تخصيص جزء من مال أو وقت. savings اسم جمع للمدخرات، بينما saving قد يصف عملية الادخار. for a rainy day تعبير مجازي لوقت حاجة غير متوقع. interest هنا عائد مالي، لا اهتمام بشيء؛ يحدد السياق المعنى.",
+    "focusEn": "Save up for links saving to a planned purchase or expense, while set aside means reserve part of your money or time. Savings is a plural noun for money saved; saving can describe the activity. For a rainy day means for an unexpected need. Interest here is a financial return, not curiosity; context determines the meaning.",
+    "taskAr": "صف هدف ادخار تخيليًا لحاسوب، مع مبلغ أسبوعي ومبلغ مستهدف، دون تقديم نصيحة مالية عامة.",
+    "taskEn": "Describe an imagined laptop savings goal with a weekly amount and a target, without giving general financial advice.",
+    "exampleEn": "In this example, I want to save up for a laptop that costs 300. If I set aside 25 each week and the price stays the same, I will reach my goal in twelve weeks.",
+    "exampleAr": "في هذا المثال، أريد الادخار لحاسوب محمول ثمنه 300. إذا خصصت 25 كل أسبوع وبقي السعر نفسه، فسأصل إلى هدفي خلال اثني عشر أسبوعًا.",
+    "check": {
+      "promptEn": "Someone keeps money for a rainy day. What do they mean?",
+      "choices": [
+        "They reserve money for an unexpected need.",
+        "They can only spend the money when it rains.",
+        "They plan to buy every umbrella in a shop."
+      ],
+      "answer": "They reserve money for an unexpected need.",
+      "explanationAr": "for a rainy day تعبير مجازي عن الاحتفاظ بمال لوقت الحاجة، ولا يشترط طقسًا ممطرًا أو شراء مظلات.",
+      "explanationEn": "For a rainy day figuratively means keeping money for a time of need. It does not require rainy weather or buying umbrellas."
+    }
+  },
+  "b1-x-u7-l3": {
+    "focusAr": "fit تصف مناسبة المقاس، بينما suit قد تصف مناسبة اللون أو الأسلوب. exchange استبدال سلعة بأخرى، وrefund إعادة المبلغ. عند شرح المشكلة، اذكر رقم الطلب والعيب ثم اطلب الإجراء المطلوب. لا تفترض مدة موحدة للإرجاع؛ انسب المدة إلى return policy المذكورة في الموقف.",
+    "focusEn": "Fit describes size, while suit can describe a suitable style or colour. Exchange means replace an item with another; refund means return the payment. State the order reference and problem, then request the action you want. Do not assume a universal return period; attribute it to the return policy in the situation.",
+    "taskAr": "اكتب طلب استبدال لسترة ضيقة بالمقاس الأكبر، واسأل ماذا يحدث إذا لم يكن المقاس متاحًا.",
+    "taskEn": "Write a request to exchange a tight jacket for a larger size, and ask what happens if that size is unavailable.",
+    "exampleEn": "The jacket in order 42 doesn't fit me. Could I exchange it for a larger size? If that size is out of stock, could you explain the return policy?",
+    "exampleAr": "السترة في الطلب رقم 42 ليست على مقاسي. هل يمكنني استبدالها بمقاس أكبر؟ وإذا لم يتوفر ذلك المقاس، فهل يمكنكم توضيح سياسة الإرجاع؟",
+    "check": {
+      "promptEn": "A customer wants the same shirt in a larger size rather than money back. What are they requesting?",
+      "choices": [
+        "An exchange.",
+        "A refund only.",
+        "A receipt without changing the item."
+      ],
+      "answer": "An exchange.",
+      "explanationAr": "يريد العميل سلعة بديلة بمقاس مختلف، وهذا exchange. أما refund فيعيد المال، والإيصال لا يغيّر السلعة.",
+      "explanationEn": "The customer wants a replacement item in a different size, which is an exchange. A refund returns money, and a receipt does not change the item."
+    }
+  },
+  "b1-x-u7-l4": {
+    "focusAr": "lend تعني إعطاء شيء مؤقتًا، وborrow أخذه مؤقتًا: lend something to someone وborrow something from someone. تأتي owe مع الشخص والمبلغ مباشرة. pay back تعني إعادة المال؛ ومع الضمير نقول pay it back. عند طلب قرض شخصي في تدريب لغوي، حدّد المبلغ والموعد واترك للآخر مجال الرفض بأدب.",
+    "focusEn": "Lend means give something temporarily; borrow means receive it temporarily: lend something to someone and borrow something from someone. Owe takes the person and amount directly. Pay back means return money; with a pronoun, say pay it back. In a language-practice request, state the amount and repayment date while allowing a polite refusal.",
+    "taskAr": "اكتب حوارًا تدريبيًا من طلب مبلغ صغير حتى الجمعة، ثم رد مهذب يعتذر عن الإقراض.",
+    "taskEn": "Write a practice exchange requesting a small amount until Friday, followed by a polite refusal.",
+    "exampleEn": "Could you lend me ten until Friday? I'll pay you back then. — I'm sorry, but I can't lend any money this week.",
+    "exampleAr": "هل يمكنك إقراضي عشرة حتى الجمعة؟ سأعيدها إليك حينها. — آسف، لكنني لا أستطيع إقراض أي مبلغ هذا الأسبوع.",
+    "check": {
+      "promptEn": "Sara gives Ali twenty temporarily. Which sentence describes Sara's action?",
+      "choices": [
+        "Sara lends Ali twenty.",
+        "Sara borrows twenty from Ali.",
+        "Sara owes Ali twenty because she gave it to him."
+      ],
+      "answer": "Sara lends Ali twenty.",
+      "explanationAr": "سارة تعطي المال مؤقتًا، فهي تقرضه. علي هو الذي يستعير أو يقترض منها، وليس العكس.",
+      "explanationEn": "Sara gives the money temporarily, so she lends it. Ali is the person borrowing from her, not the other way round."
+    }
+  },
+  "b1-x-u8-l1": {
+    "focusAr": "rely on الاعتماد على شخص، وtrust هنا اسم للثقة، وget on with وصف لعلاقة جيدة. fall out with someone تعني التخاصم معه، وfall out over something تحدد سبب الخلاف. وجود أشياء مشتركة لا يعني التطابق في كل رأي؛ صف فعلًا يوضح الدعم بدل الاكتفاء بوصف الصديق بأنه جيد.",
+    "focusEn": "Rely on means depend on someone, trust is a noun here, and get on with describes a good relationship. Fall out with someone names the person; fall out over something names the disagreement. Having things in common does not mean sharing every opinion. Describe an action showing support rather than only calling a friend good.",
+    "taskAr": "صف صداقة تتضمن اهتمامًا مشتركًا وموقف دعم، ثم اذكر كيف تحافظان على التواصل رغم اختلاف مكان السكن.",
+    "taskEn": "Describe a friendship with a shared interest and an example of support, then explain how you keep in touch while living apart.",
+    "exampleEn": "We have an interest in books in common, but we don't always like the same stories. I can rely on her to listen when I need help. We keep in touch by calling every weekend.",
+    "exampleAr": "نشترك في الاهتمام بالكتب، لكننا لا نحب القصص نفسها دائمًا. أستطيع الاعتماد عليها في الإصغاء عندما أحتاج إلى مساعدة. ونبقى على تواصل بالاتصال كل عطلة أسبوعية.",
+    "check": {
+      "promptEn": "Two friends disagree about a plan and stop speaking for a while. Which phrase describes the disagreement?",
+      "choices": [
+        "They fall out over the plan.",
+        "They keep in touch more often than before.",
+        "They agree on every detail of the plan."
+      ],
+      "answer": "They fall out over the plan.",
+      "explanationAr": "fall out over تحدد وجود خلاف وموضوعه. لا يدل التوقف عن الكلام على زيادة التواصل أو الاتفاق على جميع التفاصيل.",
+      "explanationEn": "Fall out over identifies a disagreement and its subject. Stopping communication does not suggest more frequent contact or agreement on every detail."
+    }
+  },
+  "b1-x-u8-l2": {
+    "focusAr": "household مجموعة من يعيشون في بيت واحد وقد لا يكونون أقارب، بينما extended family تشمل الأقارب خارج الوالدين والأطفال. bring up تعني التربية، ويمكن أن تأتي bring them up مع الضمير. للمقارنة قل used to عن الماضي وnowadays عن الحاضر، وحدد الأسرة المقصودة بدل افتراض نمط واحد للجميع.",
+    "focusEn": "A household consists of people living in one home, who need not all be relatives; extended family includes relatives beyond parents and children. Bring up means raise children, with bring them up when using a pronoun. Compare used to for the past with nowadays for the present, identifying the family involved rather than assuming one pattern for everyone.",
+    "taskAr": "قارن طريقة تواصل عائلتك الممتدة في الماضي والحاضر، واذكر جانبًا بقي كما هو.",
+    "taskEn": "Compare how your extended family communicated in the past and now, and mention something that has stayed the same.",
+    "exampleEn": "My extended family used to meet every week when we lived nearby. Nowadays, we live in different cities and often make video calls. We still enjoy sharing family news.",
+    "exampleAr": "كانت عائلتي الممتدة تجتمع أسبوعيًا عندما كنا نسكن متقاربين. أما الآن فنعيش في مدن مختلفة ونجري مكالمات فيديو كثيرًا. وما زلنا نستمتع بتبادل أخبار العائلة.",
+    "check": {
+      "promptEn": "Three unrelated friends share one home. Which term describes them as people living together?",
+      "choices": [
+        "A household.",
+        "Three generations of one family.",
+        "Necessarily an extended family."
+      ],
+      "answer": "A household.",
+      "explanationAr": "household تتعلق بالسكن المشترك ولا تشترط القرابة. لا يثبت الموقف وجود ثلاثة أجيال أو عائلة ممتدة.",
+      "explanationEn": "Household refers to shared residence and does not require relatives. The situation does not establish three generations or an extended family."
+    }
+  },
+  "b1-x-u8-l3": {
+    "focusAr": "volunteer هنا فعل للتطوع، وقد يأتي اسمًا لشخص متطوع في سياق آخر. donate تتبعها التبرعات ثم to والجهة، وraise money for تحدد غرض جمع المال. give back تعبير عن رد الجميل للمجتمع. وضّح دورك ونتيجته؛ non-profit تصف غرض المنظمة، ولا تعني أن كل العاملين فيها بلا أجر.",
+    "focusEn": "Volunteer is a verb here, although it can also name a person. Donate takes the donation followed by to and the recipient; raise money for identifies the fundraising purpose. Give back expresses contributing in return for support received. Explain your role and its result. Non-profit describes an organization's purpose, not a guarantee that all staff are unpaid.",
+    "taskAr": "صف نشاطًا تطوعيًا تخيليًا لبيع الكتب، وحدد مهمتك والجهة المستفيدة وشيئًا تعلمته.",
+    "taskEn": "Describe an imagined volunteer book sale, identifying your task, the recipient of the money, and something you learned.",
+    "exampleEn": "I helped organise a book sale to raise money for a local charity. My job was to sort the books by topic. I learned how clear labels can help visitors find what they want.",
+    "exampleAr": "ساعدت في تنظيم بيع كتب لجمع المال لجمعية خيرية محلية. كانت مهمتي ترتيب الكتب حسب الموضوع. تعلمت كيف تساعد اللافتات الواضحة الزوار على العثور على ما يريدون.",
+    "check": {
+      "promptEn": "Which sentence correctly names the recipient after donate?",
+      "choices": [
+        "We donated books to a local charity.",
+        "We donated a local charity to books.",
+        "We donated for books a local charity."
+      ],
+      "answer": "We donated books to a local charity.",
+      "explanationAr": "نضع الشيء المتبرع به بعد donate، ثم to والجهة التي تتلقاه. الكتب هي التبرع، والجمعية هي الجهة المستفيدة.",
+      "explanationEn": "Place the donated item after donate, followed by to and the recipient. The books are the donation, and the charity receives them."
+    }
+  },
+  "b1-x-u8-l4": {
+    "focusAr": "عند طرح مشكلة مع جار، صف السلوك ووقته وأثره بدل الحكم على الشخص. complain about تحدد موضوع الشكوى، وcomplain to تحدد من يسمعها. keep the noise down طلب خفض الصوت، وput up with تعني تحمل وضع مزعج. اختم بطلب يمكن تنفيذه وامنح الآخر فرصة الرد.",
+    "focusEn": "When raising a problem with a neighbour, describe the behaviour, time, and effect rather than judging the person. Complain about names the issue; complain to names the person receiving the complaint. Keep the noise down requests lower sound levels, while put up with means tolerate an unpleasant situation. Finish with a practical request and allow a response.",
+    "taskAr": "اكتب طلبًا مهذبًا لخفض الموسيقى بعد العاشرة، واشرح أن الصوت يصل إلى غرفة نومك.",
+    "taskEn": "Write a polite request to lower music after ten, explaining that the sound reaches your bedroom.",
+    "exampleEn": "I'm sorry to complain, but I can hear the music clearly in my bedroom after ten. Could you keep the volume down at that time, please? I'd appreciate it.",
+    "exampleAr": "آسف على الشكوى، لكنني أسمع الموسيقى بوضوح في غرفة نومي بعد العاشرة. هل يمكنك خفض الصوت في ذلك الوقت، من فضلك؟ سأكون شاكرًا لك.",
+    "check": {
+      "promptEn": "Which request is specific and avoids a personal accusation?",
+      "choices": [
+        "Could you lower the music after ten? I can hear it in my bedroom.",
+        "You are always a terrible neighbour.",
+        "Everyone must agree that you are inconsiderate."
+      ],
+      "answer": "Could you lower the music after ten? I can hear it in my bedroom.",
+      "explanationAr": "يحدد الجواب الصحيح السلوك والوقت وأثره ويطلب تغييرًا واضحًا. البديلان يحكمان على الشخص ويعممان بدل وصف المشكلة.",
+      "explanationEn": "The correct answer identifies the behaviour, time, and effect and requests a clear change. The alternatives judge the person and generalize rather than describe the problem."
+    }
+  },
+  "b1-x-u9-l1": {
+    "focusAr": "major in شائعة في الإنجليزية الأمريكية للتخصص الجامعي، بينما enrol تشير إلى التسجيل في مقرر أو برنامج. scholarship منحة قد تغطي بعض الرسوم أو كلها؛ لا تفترض أنها تشمل كل النفقات. degree مؤهل جامعي، وpostgraduate تصف دراسة بعد الدرجة الجامعية الأولى. اشرح اهتمامك بالمجال مع متطلب عملي قبل اتخاذ القرار.",
+    "focusEn": "Major in is common in American English for a university subject, while enrol refers to joining a course or programme. A scholarship may cover some or all fees; do not assume it covers every expense. A degree is a university qualification, and postgraduate describes study after a first degree. Explain your interest alongside a practical requirement before deciding.",
+    "taskAr": "اشرح اختيارك دورة تصميم بسبب اهتمامك بالمجال، ثم اذكر سؤالين عن شروط القبول والرسوم.",
+    "taskEn": "Explain choosing a design course because of your interest, then ask two questions about entry requirements and fees.",
+    "exampleEn": "I'd like to enrol on a design course because I enjoy creating useful products. What are the entry requirements? Does the scholarship cover all the tuition fees or only part of them?",
+    "exampleAr": "أود التسجيل في دورة تصميم لأنني أستمتع بابتكار منتجات مفيدة. ما شروط القبول؟ وهل تغطي المنحة جميع الرسوم الدراسية أم جزءًا منها فقط؟",
+    "check": {
+      "promptEn": "A scholarship covers half the tuition fees. Which conclusion is supported?",
+      "choices": [
+        "Part of the tuition fees still needs to be paid.",
+        "All living costs are automatically covered.",
+        "The student has already completed the degree."
+      ],
+      "answer": "Part of the tuition fees still needs to be paid.",
+      "explanationAr": "تغطية نصف الرسوم تترك النصف الآخر للدفع. لا تخبرنا الجملة عن نفقات المعيشة أو إتمام الدراسة.",
+      "explanationEn": "Covering half the fees leaves the other half to be paid. The sentence gives no information about living costs or completing the degree."
+    }
+  },
+  "b1-x-u9-l2": {
+    "focusAr": "summarise تعني التعبير عن أهم الأفكار باختصار، لا حفظ الكلمات كما هي؛ memorise تعني حفظها. break down في هذا السياق تقسيم المهمة إلى أجزاء، ويمكن قول break it down. concentrate on تحدد ما تركز عليه. اقترح خطوة محددة وسببها بدل أمر عام مثل «ذاكر أكثر».",
+    "focusEn": "Summarise means express the main ideas briefly, not learn the original words exactly; memorise means learn them for recall. Break down here means divide a task into parts, and you can say break it down. Concentrate on identifies the focus. Suggest one specific step and its purpose instead of a vague instruction such as study more.",
+    "taskAr": "قدّم لصديق خطة قصيرة لإنجاز ملخص فصل طويل: تقسيم المهمة، تحديد الأفكار، وكتابة خلاصة.",
+    "taskEn": "Give a friend a short plan for summarising a long chapter: divide the task, identify the ideas, and write a brief summary.",
+    "exampleEn": "First, break down the chapter into sections. Read one section and note its main idea. Then summarise the chapter in your own words, leaving out small details.",
+    "exampleAr": "أولًا، قسّم الفصل إلى أقسام. اقرأ قسمًا واحدًا ودوّن فكرته الرئيسية. ثم لخّص الفصل بكلماتك مع استبعاد التفاصيل الصغيرة.",
+    "check": {
+      "promptEn": "Which task asks you to summarise rather than copy or memorise?",
+      "choices": [
+        "Explain the three main ideas briefly in your own words.",
+        "Copy every sentence exactly.",
+        "Repeat the entire chapter from memory."
+      ],
+      "answer": "Explain the three main ideas briefly in your own words.",
+      "explanationAr": "التلخيص ينتقي الأفكار الرئيسية ويعرضها بإيجاز. النسخ الكامل والحفظ الحرفي لا يحققان هذا الغرض.",
+      "explanationEn": "Summarising selects the main ideas and presents them briefly. Full copying and word-for-word memorisation do not perform that task."
+    }
+  },
+  "b1-x-u9-l3": {
+    "focusAr": "at your own pace تعني الدراسة بالسرعة المناسبة لك، لكنها لا تعني غياب المواعيد النهائية دائمًا. flexible تصف المرونة، وself-discipline القدرة على تنظيم سلوكك دون متابعة مستمرة. فرّق بين مواد مسجلة ولقاء مباشر يتيح interact with the teacher. قارن ميزتين أو قيدين محددين عند اختيار طريقة الدراسة.",
+    "focusEn": "At your own pace means studying at a suitable speed, but does not always mean there are no deadlines. Flexible describes adaptable arrangements; self-discipline means managing your behaviour without constant supervision. Distinguish recorded material from a live session where you can interact with the teacher. Compare specific benefits and limits when choosing a study format.",
+    "taskAr": "وازن بين فائدة الدروس المسجلة والحاجة إلى لقاء مباشر، ثم اقترح جدولًا يناسبك.",
+    "taskEn": "Balance the benefit of recorded lessons with the need for a live session, then propose a schedule that suits you.",
+    "exampleEn": "Recorded lessons let me study at my own pace after work. However, I also want to interact with the teacher, so I'll join the live session on Saturday and submit my coursework on Monday.",
+    "exampleAr": "تتيح لي الدروس المسجلة الدراسة بالسرعة المناسبة لي بعد العمل. لكنني أريد أيضًا التفاعل مع المعلم، لذلك سأحضر اللقاء المباشر يوم السبت وأسلّم أعمال المقرر يوم الاثنين.",
+    "check": {
+      "promptEn": "A course allows study at your own pace but sets a Friday submission deadline. What does this mean?",
+      "choices": [
+        "You can choose your study speed while still submitting by Friday.",
+        "You can ignore every deadline.",
+        "You must watch every lesson live at the same time."
+      ],
+      "answer": "You can choose your study speed while still submitting by Friday.",
+      "explanationAr": "المرونة في وتيرة الدراسة لا تلغي موعد التسليم المحدد. ولا يقول الموقف إن جميع الدروس مباشرة في وقت واحد.",
+      "explanationEn": "Flexibility in study pace does not remove the stated submission deadline. The situation also does not say every lesson is live at a fixed time."
+    }
+  },
+  "b1-x-u9-l4": {
+    "focusAr": "employer صاحب العمل، وemployee الموظف؛ لا تخلط بين دوري الطرفين. value هنا فعل بمعنى يقدّر. بدل سرد صفات عامة مثل confident وadaptable، اربط المهارة بسلوك واضح: الاستماع والتوضيح أو تغيير الخطة عند الحاجة. confidence ثقة، لكنها لا تعني معرفة كل الإجابات أو رفض المساعدة.",
+    "focusEn": "An employer provides work, while an employee works for them; keep the roles distinct. Value is a verb meaning appreciate here. Instead of listing general qualities such as confident and adaptable, connect a skill to an observable action: listening, clarifying, or changing a plan when needed. Confidence does not mean knowing every answer or refusing help.",
+    "taskAr": "صف موقفًا تدريبيًا تغير فيه موعد مشروع، وبيّن كيف تستخدم التواصل وإدارة الوقت للتكيف.",
+    "taskEn": "Describe a practice situation where a project date changes, explaining how you use communication and time management to adapt.",
+    "exampleEn": "When the deadline changes, I ask which tasks matter most. I agree on a revised plan with the team and explain any difficulties early. This shows that I can be adaptable while keeping others informed.",
+    "exampleAr": "عندما يتغير الموعد النهائي، أسأل عن المهام الأهم. أتفق مع الفريق على خطة معدلة وأوضح الصعوبات مبكرًا. يبيّن ذلك قدرتي على التكيف مع إبقاء الآخرين على اطلاع.",
+    "check": {
+      "promptEn": "Which example best demonstrates being adaptable?",
+      "choices": [
+        "You adjust the plan after discussing a new deadline.",
+        "You refuse to consider any change.",
+        "You claim the deadline cannot exist because it is new."
+      ],
+      "answer": "You adjust the plan after discussing a new deadline.",
+      "explanationAr": "تعديل الخطة استجابةً لمعلومة جديدة يوضح التكيف. رفض التغيير أو إنكار الموعد لا يوضح هذه المهارة.",
+      "explanationEn": "Adjusting the plan in response to new information demonstrates adaptability. Rejecting change or denying the deadline does not show that skill."
+    }
+  },
+  "b1-x-u10-l1": {
+    "focusAr": "convenient تعني مناسبًا عمليًا أو سهل الوصول، وليست مرادفًا دائمًا للراحة الجسدية comfortable. whereas تربط مقارنة متعارضة بين جملتين. amenities خدمات ومرافق تساعد الحياة اليومية، وisolated تصف بُعد المكان أو انفصاله. قارن مكانين محددين وفق حاجتك بدل افتراض أن كل مدينة أو قرية متشابهة.",
+    "focusEn": "Convenient means practical or easy to access, not always physically comfortable. Whereas connects contrasting clauses. Amenities are services and facilities that support daily life, and isolated describes distance or separation. Compare two specific places against your own needs rather than assuming all cities or villages are alike.",
+    "taskAr": "قارن حيًا قريبًا من عملك بقرية فيها مساحة خضراء، ثم بيّن أيهما يناسبك وسببًا عمليًا لذلك.",
+    "taskEn": "Compare a neighbourhood near work with a village offering green space, then say which suits you and give a practical reason.",
+    "exampleEn": "The neighbourhood is convenient for work, whereas the village has more green space. I would choose the neighbourhood because I do not have a car and can walk to the office.",
+    "exampleAr": "الحي مناسب للوصول إلى العمل، بينما تضم القرية مساحات خضراء أكثر. سأختار الحي لأنني لا أملك سيارة وأستطيع المشي إلى المكتب.",
+    "check": {
+      "promptEn": "A shop is convenient because it is next to your home. What does convenient mean here?",
+      "choices": [
+        "Easy and practical to reach.",
+        "Guaranteed to have comfortable chairs.",
+        "Always cheaper than every other shop."
+      ],
+      "answer": "Easy and practical to reach.",
+      "explanationAr": "السياق يربط convenient بسهولة الوصول وقرب المكان. لا يقدم معلومات عن المقاعد أو الأسعار.",
+      "explanationEn": "The context links convenient to easy access and a nearby location. It gives no information about seats or prices."
+    }
+  },
+  "b1-x-u10-l2": {
+    "focusAr": "frequent تصف تكرار الخدمة، وreliable تصف إمكان الاعتماد عليها؛ قد تتكرر الحافلات لكنها تتأخر عن جدولها. fare أجرة الرحلة، وroute مسارها، وdeparture board تعرض معلومات المغادرة. packed تعني شديد الازدحام في هذا السياق. اذكر وقت الرحلة عند المقارنة لأن rush hour قد يغيّر تجربتك.",
+    "focusEn": "Frequent describes how often a service runs, while reliable describes whether it can be depended on; buses can run often but miss their timetable. Fare is the travel price, route is the path, and a departure board displays departure information. Packed means very crowded here. Include the travel time in comparisons because rush hour can change your experience.",
+    "taskAr": "قارن حافلة أقل أجرة بقطار أكثر انتظامًا، وفسّر اختيارك عند الحاجة للوصول إلى مقابلة في موعدها.",
+    "taskEn": "Compare a cheaper bus with a more reliable train, and explain your choice when you need to arrive for an interview on time.",
+    "exampleEn": "The bus fare is lower, but the service is not very reliable. I'll take the train for the interview and check the departure board in case there is a delay.",
+    "exampleAr": "أجرة الحافلة أقل، لكن خدمتها ليست منتظمة كثيرًا. سأستقل القطار للمقابلة وأتحقق من لوحة المغادرة تحسبًا لوجود تأخير.",
+    "check": {
+      "promptEn": "A bus runs every five minutes but often arrives later than scheduled. Which description fits?",
+      "choices": [
+        "Frequent, but not very reliable.",
+        "Infrequent and always on time.",
+        "Free because it runs often."
+      ],
+      "answer": "Frequent, but not very reliable.",
+      "explanationAr": "تكرار الخدمة كل خمس دقائق يجعلها frequent، لكن التأخر المتكرر يضعف الاعتماد عليها. لا يحدد التكرار سعر التذكرة.",
+      "explanationEn": "Running every five minutes makes the service frequent, while repeated lateness reduces reliability. Frequency does not determine the fare."
+    }
+  },
+  "b1-x-u10-l3": {
+    "focusAr": "risen هي التصريف الثالث من rise، فنقول prices have risen دون مفعول به. أما raise فيحتاج شيئًا يُرفع مثل raise the rent. shortage of تعني نقصًا في شيء محدد، وaffordable تصف ما يمكن تحمل تكلفته نسبةً للقدرة المالية. lease عقد إيجار، وmortgage قرض مرتبط بعقار، وهما ليسا الشيء نفسه.",
+    "focusEn": "Risen is the past participle of rise: say prices have risen without an object. Raise takes an object, as in raise the rent. Shortage of names something in insufficient supply, and affordable relates cost to someone's ability to pay. A lease is a rental agreement; a mortgage is borrowing secured on property. They are not the same thing.",
+    "taskAr": "في وصف تدريبي لحي، اشرح أن الإيجارات ارتفعت وأن هناك نقصًا في المساكن المناسبة لميزانية الطلاب، ثم اذكر اقتراحًا دون ضمان نتيجته.",
+    "taskEn": "In a practice description of a neighbourhood, explain that rents have risen and student-budget housing is scarce, then offer a proposal without guaranteeing its result.",
+    "exampleEn": "Rents have risen in this neighbourhood, and there is a shortage of affordable rooms for students. Providing more shared accommodation could help, but we would need to compare the costs.",
+    "exampleAr": "ارتفعت الإيجارات في هذا الحي، وهناك نقص في الغرف التي يستطيع الطلاب تحمل تكلفتها. قد يساعد توفير مزيد من السكن المشترك، لكننا سنحتاج إلى مقارنة التكاليف.",
+    "check": {
+      "promptEn": "Which sentence correctly uses the past participle risen?",
+      "choices": [
+        "Rents have risen this year.",
+        "The owner has risen the rent.",
+        "Rents have rise this year."
+      ],
+      "answer": "Rents have risen this year.",
+      "explanationAr": "rise لا يأخذ مفعولًا به وتصريفه الثالث risen. عند ذكر المالك الذي زاد الإيجار نستخدم has raised the rent.",
+      "explanationEn": "Rise has no direct object and its past participle is risen. To describe the owner's action, use has raised the rent."
+    }
+  },
+  "b1-x-u10-l4": {
+    "focusAr": "commute الرحلة المنتظمة بين البيت والعمل أو الدراسة، وليست كل رحلة طويلة. traffic jam حالة ازدحام محددة، وcongestion حالة التكدس المروري عمومًا. نقول stuck in traffic وstuck at the station. يأتي بعد takes مقدار الزمن: my commute takes an hour. اربط التأخير بسببه ثم اذكر بديلًا واقعيًا.",
+    "focusEn": "A commute is regular travel between home and work or study, not every long trip. A traffic jam is a particular blockage, while congestion describes traffic crowding more generally. Say stuck in traffic and stuck at the station. Takes introduces duration: my commute takes an hour. Link a delay to its cause, then mention a realistic alternative.",
+    "taskAr": "صف رحلة عمل يومية طالت بسبب أعمال الطرق، واقترح تجربة القطار مع مقارنة الوقت.",
+    "taskEn": "Describe a commute made longer by roadworks, then suggest trying the train and comparing journey times.",
+    "exampleEn": "My commute usually takes thirty minutes, but roadworks have added twenty minutes this week. I might take the train tomorrow to see whether it is quicker.",
+    "exampleAr": "تستغرق رحلتي اليومية إلى العمل عادةً ثلاثين دقيقة، لكن أعمال الطرق أضافت عشرين دقيقة هذا الأسبوع. قد أستقل القطار غدًا لأرى هل هو أسرع.",
+    "check": {
+      "promptEn": "Which sentence naturally expresses journey duration?",
+      "choices": [
+        "My commute takes forty minutes.",
+        "My commute pays forty minutes.",
+        "My commute spends me forty minutes."
+      ],
+      "answer": "My commute takes forty minutes.",
+      "explanationAr": "نستخدم take مع الرحلة والمدة. ويمكن للشخص أن يستخدم spend بصيغة I spend forty minutes travelling، لكن ليس بالتركيب المذكور في البديل.",
+      "explanationEn": "Use take with a journey and its duration. A person can use spend in I spend forty minutes travelling, but not in the alternative structure shown."
+    }
+  },
+  "b1-x-u11-l1": {
+    "focusAr": "اربط التوصية بذوق الشخص بدل القول إن المطعم يناسب الجميع. dish طبق معين، وportion كمية الطعام المقدمة للشخص، وservice طريقة تقديم الخدمة. spicy تتعلق بالتوابل وقد تعني حار المذاق، بينما hot قد تصف درجة الحرارة. definitely تقوّي التوصية، لكنها لا تعني أن الحجز إلزامي.",
+    "focusEn": "Match a recommendation to the person's preferences instead of claiming a restaurant suits everyone. A dish is a particular food preparation, a portion is the amount served, and service is how customers are attended to. Spicy concerns seasoning and can mean hot-tasting, while hot can describe temperature. Definitely strengthens a recommendation but does not make booking compulsory.",
+    "taskAr": "أوصِ صديقًا بمطعم تخيلي، مع ذكر ذوق يناسبه وحجم الحصص وملاحظة عن الخدمة.",
+    "taskEn": "Recommend an imagined restaurant to a friend, mentioning a matching preference, portion size, and a point about service.",
+    "exampleEn": "If you enjoy spicy food, you might like this restaurant downtown. The portions are generous and the staff are friendly, although the service can be slow at busy times.",
+    "exampleAr": "إذا كنت تستمتع بالطعام الحار، فقد يعجبك هذا المطعم في وسط المدينة. الحصص كبيرة والموظفون ودودون، لكن الخدمة قد تكون بطيئة في أوقات الازدحام.",
+    "check": {
+      "promptEn": "A review says the portions are small. What is it describing?",
+      "choices": [
+        "The amount of food served.",
+        "The number of streets near the restaurant.",
+        "The temperature of the food."
+      ],
+      "answer": "The amount of food served.",
+      "explanationAr": "portion كمية الطعام في الحصة المقدمة، ولا تدل بذاتها على موقع المطعم أو حرارة الطبق.",
+      "explanationEn": "A portion is the amount of food in a serving. The word alone does not describe the restaurant's location or the dish's temperature."
+    }
+  },
+  "b1-x-u11-l2": {
+    "focusAr": "ميّز في الطلب بين التفضيل والقيود الغذائية: I don't like تعبر عن عدم الاستحسان، وI'm allergic to تصف حساسية وليست مجرد تفضيل. vegetarian تصف نظامًا دون لحوم، لكنها لا تعني بالضرورة تجنّب كل المنتجات الحيوانية. junk food لا تعني كل طعام سريع، وprocessed food وصف للمعالجة، لا حكم واحد على كل منتج.",
+    "focusEn": "Distinguish preferences from dietary restrictions: I don't like expresses dislike, while I'm allergic to states an allergy, not simply a preference. Vegetarian describes a diet without meat but does not necessarily exclude all animal products. Junk food does not mean every quickly prepared meal, and processed food describes processing rather than a single judgement about all products.",
+    "taskAr": "صُغ سؤالًا واضحًا لموظف مطعم عن وجود المكسرات في طبق، مع التصريح بالحساسية بدل وصفها كتفضيل.",
+    "taskEn": "Form a clear question for restaurant staff about nuts in a dish, explicitly stating an allergy rather than describing a preference.",
+    "exampleEn": "I'm allergic to nuts. Could you check whether this dish contains them and ask the kitchen about possible contact with nuts during preparation?",
+    "exampleAr": "لدي حساسية من المكسرات. هل يمكنك التحقق مما إذا كان هذا الطبق يحتوي عليها وسؤال المطبخ عن احتمال ملامسته للمكسرات أثناء التحضير؟",
+    "check": {
+      "promptEn": "Which sentence clearly states an allergy rather than a preference?",
+      "choices": [
+        "I'm allergic to nuts.",
+        "I don't usually choose nuts.",
+        "I prefer fruit to nuts."
+      ],
+      "answer": "I'm allergic to nuts.",
+      "explanationAr": "allergic to تصرّح بوجود حساسية. عدم اختيار المكسرات عادةً أو تفضيل الفاكهة لا ينقل هذه المعلومة.",
+      "explanationEn": "Allergic to explicitly states an allergy. Not usually choosing nuts or preferring fruit does not communicate that information."
+    }
+  },
+  "b1-x-u11-l3": {
+    "focusAr": "تستخدم الوصفة أفعال الأمر مع روابط مثل first وthen وfinally. chop تقطيع إلى قطع، وpeel إزالة القشرة، وstir تحريك المزيج. ميّز بين for لمدة محددة وuntil لنتيجة تنتهي عندها الخطوة. simmer طهي بسائل يغلي برفق، وليس غليانًا قويًا. وضّح المقصود بالضمير عند تعدد المكونات.",
+    "focusEn": "Recipes use imperative verbs with links such as first, then, and finally. Chop means cut into pieces, peel means remove the skin, and stir means move a mixture around. Distinguish for a duration from until an endpoint is reached. Simmer means cook in gently bubbling liquid rather than at a strong boil. Keep pronoun references clear when several ingredients are involved.",
+    "taskAr": "اكتب ثلاث خطوات لغوية لتحضير صلصة بسيطة: تقطيع البصل، قليه حتى يلين، ثم إضافة الطماطم وتركها تطهى برفق.",
+    "taskEn": "Write three language-practice steps for a simple sauce: chop onion, fry it until soft, then add tomatoes and let the mixture simmer.",
+    "exampleEn": "First, chop the onion into small pieces. Then fry it gently until it becomes soft. Finally, add the tomatoes and let the sauce simmer, stirring from time to time.",
+    "exampleAr": "أولًا، قطّع البصل قطعًا صغيرة. ثم اقله على نار هادئة حتى يلين. وأخيرًا، أضف الطماطم ودع الصلصة تطهى برفق مع التحريك من وقت لآخر.",
+    "check": {
+      "promptEn": "Which instruction uses until to name an endpoint rather than a duration?",
+      "choices": [
+        "Stir until the sugar dissolves.",
+        "Stir until five minutes.",
+        "Stir for the sugar dissolves."
+      ],
+      "answer": "Stir until the sugar dissolves.",
+      "explanationAr": "until تتبعها هنا نتيجة يمكن ملاحظتها: ذوبان السكر. مع مدة مثل five minutes نستخدم for، لا until.",
+      "explanationEn": "Until introduces an observable endpoint here: the sugar dissolving. Use for with a duration such as five minutes, not until."
+    }
+  },
+  "b1-x-u11-l4": {
+    "focusAr": "leftovers ما يبقى من طعام مُعدّ، وليست كل نفايات المطبخ. meal plan خطة وجبات، وbatch cook إعداد عدة وجبات أو كمية كبيرة مسبقًا. مع الضمير نقول throw it away. فرّق بين التخطيط للشراء وتعليمات تخزين كل منتج؛ لا تجعل تقليل الهدر سببًا لتجاهل ملصقه.",
+    "focusEn": "Leftovers are remaining prepared food, not all kitchen waste. A meal plan organizes meals, while batch cook means prepare several meals or a larger quantity in advance. With a pronoun, say throw it away. Distinguish purchase planning from each product's storage instructions; reducing waste is not a reason to ignore its label.",
+    "taskAr": "اشرح كيف تكتب قائمة مشتريات بعد مراجعة الموجود في المنزل، وما الذي تراجعه على الملصقات.",
+    "taskEn": "Explain how you write a shopping list after checking what you already have, and what you check on labels.",
+    "exampleEn": "I make a meal plan and check the cupboard before writing my shopping list. I buy the amounts I need and check the dates and storage instructions on the labels.",
+    "exampleAr": "أضع خطة للوجبات وأراجع خزانة الطعام قبل كتابة قائمة مشترياتي. أشتري الكميات التي أحتاج إليها وأتحقق من التواريخ وتعليمات التخزين على الملصقات.",
+    "check": {
+      "promptEn": "Which item is a leftover in the usual food sense?",
+      "choices": [
+        "Some cooked rice remaining after dinner.",
+        "An unopened empty shopping bag.",
+        "A shopping list for next week."
+      ],
+      "answer": "Some cooked rice remaining after dinner.",
+      "explanationAr": "الأرز المطهو المتبقي بعد الوجبة مثال على leftovers. الكيس والقائمة ليسا طعامًا مُعدًا متبقيًا.",
+      "explanationEn": "Cooked rice remaining after a meal is a leftover. A bag and a shopping list are not remaining prepared food."
+    }
+  },
+  "b1-x-u12-l1": {
+    "focusAr": "اختر الصفة بحسب السبب: relieved ارتياح بعد زوال قلق، وgrateful امتنان لمساعدة، وembarrassed حرج من موقف اجتماعي. frustrated غالبًا إحباط بسبب عائق، وdisappointed خيبة أمل عندما لا تتحقق التوقعات. يمكن اجتماع مشاعر عدة؛ اذكر السبب بدل افتراض أن لكل موقف شعورًا واحدًا لازمًا.",
+    "focusEn": "Choose an adjective by its cause: relieved is less worried after a concern ends, grateful is thankful for help, and embarrassed concerns social discomfort. Frustrated often relates to an obstacle, while disappointed relates to unmet hopes. Feelings can overlap; state the reason instead of assuming every situation has one compulsory emotional response.",
+    "taskAr": "صف تغير شعورك من القلق بشأن ملف مفقود إلى الارتياح عند العثور عليه، ثم عبّر عن الامتنان لمن ساعدك.",
+    "taskEn": "Describe moving from worry about a missing file to relief when it is found, then express gratitude to the helper.",
+    "exampleEn": "I felt anxious when I couldn't find the file. I was relieved when my colleague found a copy, and I was grateful for her help.",
+    "exampleAr": "شعرت بالقلق عندما لم أجد الملف. وارتحت عندما عثرت زميلتي على نسخة منه، وكنت ممتنًا لمساعدتها.",
+    "check": {
+      "promptEn": "You were worried about missing a train, then learned it had not left. Which word specifically expresses the end of that worry?",
+      "choices": [
+        "Relieved.",
+        "Guilty.",
+        "Embarrassed."
+      ],
+      "answer": "Relieved.",
+      "explanationAr": "relieved تصف زوال القلق المذكور. guilty ترتبط بالشعور بالذنب، وembarrassed بالإحراج؛ لا يذكر الموقف سببًا لأي منهما.",
+      "explanationEn": "Relieved specifically describes the stated worry ending. Guilty relates to guilt and embarrassed to social discomfort; no cause for either is given here."
+    }
+  },
+  "b1-x-u12-l2": {
+    "focusAr": "استخدم الماضي المستمر للخلفية التي كانت جارية، والماضي البسيط للحدث الجديد: I was waiting when she called. bump into في سياق الأشخاص قد تعني اللقاء صدفة، لا الاصطدام الحرفي. out of the blue تعني دون توقع، وturn out تقديم ما اتضح لاحقًا. اربط المفاجأة بنتيجتها ليكتمل السرد.",
+    "focusEn": "Use the past continuous for an ongoing background and the past simple for a new event: I was waiting when she called. Bump into can mean meet someone unexpectedly, not literally collide. Out of the blue means without warning, and turn out introduces what became clear later. Connect the surprise with its outcome to complete the story.",
+    "taskAr": "اروِ موقفًا تخيليًا كنت تنتظر فيه حافلة فصادفت زميلًا قديمًا، ثم اكتشفت أنه يعمل قريبًا منك.",
+    "taskEn": "Tell an imagined story in which you were waiting for a bus, met an old classmate by chance, and discovered that they work near you.",
+    "exampleEn": "I was waiting for the bus when I bumped into an old classmate. It turned out that she worked in the next building. We exchanged numbers so we could keep in touch.",
+    "exampleAr": "كنت أنتظر الحافلة عندما صادفت زميلة قديمة. واتضح أنها تعمل في المبنى المجاور. تبادلنا رقمي الهاتف لنبقى على تواصل.",
+    "check": {
+      "promptEn": "Which sentence combines an ongoing background with a new event?",
+      "choices": [
+        "I was waiting when my friend called.",
+        "I wait yesterday when my friend calls.",
+        "I was wait when my friend calling."
+      ],
+      "answer": "I was waiting when my friend called.",
+      "explanationAr": "was waiting تصف الخلفية المستمرة وcalled الحدث الجديد في الماضي. البديلان لا يستخدمان الصيغ المناسبة للجملة الماضية.",
+      "explanationEn": "Was waiting gives the ongoing background, and called gives the new past event. The alternatives do not use the required verb forms for this past account."
+    }
+  },
+  "b1-x-u12-l3": {
+    "focusAr": "I see your point وI take your point تعترفان بفهم الحجة أو وجاهتها دون موافقة كاملة بالضرورة. partly agree تحدد اتفاقًا جزئيًا، وon the other hand تضيف جانبًا مقابلًا. fair enough تقبّل معقولية كلام الآخر وقد تأتي مع تحفظ. عند الاختلاف، حدّد نقطة الاتفاق ثم سبب التحفظ واقتراحك.",
+    "focusEn": "I see your point and I take your point acknowledge understanding or merit without necessarily full agreement. Partly agree marks limited agreement, while on the other hand adds a contrasting consideration. Fair enough accepts that a point is reasonable and can still allow reservations. When disagreeing, identify common ground, explain your concern, and offer a proposal.",
+    "taskAr": "اختلف بأدب مع اختيار أرخص مكان للاجتماع: اعترف بفائدة السعر، واذكر صعوبة الوصول، واقترح مقارنة مكان آخر.",
+    "taskEn": "Politely question choosing the cheapest meeting venue: acknowledge the price benefit, mention access difficulties, and suggest comparing another place.",
+    "exampleEn": "I see your point about the price, but the venue is difficult to reach by bus. Could we compare it with one nearer the station before deciding?",
+    "exampleAr": "أتفهم وجهة نظرك بشأن السعر، لكن الوصول إلى المكان بالحافلة صعب. هل يمكننا مقارنته بمكان أقرب إلى المحطة قبل أن نقرر؟",
+    "check": {
+      "promptEn": "Someone says, 'I take your point, but I still have concerns.' What does this mean?",
+      "choices": [
+        "They acknowledge the argument while keeping reservations.",
+        "They agree with every part of the proposal.",
+        "They have not understood any part of the argument."
+      ],
+      "answer": "They acknowledge the argument while keeping reservations.",
+      "explanationAr": "العبارة تقرّ بوجاهة النقطة مع بقاء تحفظات يوضحها but. لا تعني اتفاقًا كاملًا أو انعدام الفهم.",
+      "explanationEn": "The phrase acknowledges the point while but introduces continuing reservations. It does not mean complete agreement or total lack of understanding."
+    }
+  },
+  "b1-x-u12-l4": {
+    "focusAr": "اجعل الاعتذار واضحًا: سمِّ الخطأ، وتحمل مسؤوليتك، واشرح السبب بإيجاز ثم اعرض إصلاحًا محددًا. accidentally تعني دون قصد لكنها لا تلغي أثر الخطأ. put something right تعني تصحيح الوضع، وmake amends تعويض المتضرر. تجنّب الوعود المطلقة إن كان الأنسب بيان خطوة تمنع تكرار المشكلة.",
+    "focusEn": "Make an apology clear: name the error, accept your responsibility, briefly explain, and offer a specific repair. Accidentally means unintentionally but does not remove the effect. Put something right means correct the situation, while make amends means compensate for harm. Instead of an absolute promise, explain a practical step to prevent a repeat when appropriate.",
+    "taskAr": "اعتذر عن إرسال موعد خاطئ، واذكر أنك ستصححه وتراجع التفاصيل قبل الرسائل القادمة.",
+    "taskEn": "Apologize for sending the wrong time, say you will correct it, and explain how you will check future messages.",
+    "exampleEn": "I'm sorry I sent the wrong meeting time. It was my fault: I copied an old message. I'll send the correct time now and check the details before sending the next update.",
+    "exampleAr": "آسف لأنني أرسلت موعد الاجتماع الخطأ. كان ذلك خطئي؛ فقد نسخت رسالة قديمة. سأرسل الموعد الصحيح الآن وأراجع التفاصيل قبل إرسال التحديث القادم.",
+    "check": {
+      "promptEn": "Which apology includes responsibility and a specific repair?",
+      "choices": [
+        "I sent the wrong file. I'm sorry, and I'll send the correct version now.",
+        "Mistakes happen, so there is nothing to do.",
+        "You should have guessed that I meant a different file."
+      ],
+      "answer": "I sent the wrong file. I'm sorry, and I'll send the correct version now.",
+      "explanationAr": "يسمي الجواب الصحيح الخطأ ويعتذر ويحدد إصلاحه. البديلان يتجنبان المعالجة أو يحمّلان المستلم مسؤولية التخمين.",
+      "explanationEn": "The correct answer names the error, apologizes, and states the repair. The alternatives avoid fixing it or shift responsibility to the recipient to guess."
+    }
+  }
+}

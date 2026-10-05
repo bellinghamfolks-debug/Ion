@@ -1,0 +1,1174 @@
+{
+  "a0-u1-l1": {
+    "focusAr": "ابدأ اللقاء بتحية: hello مناسبة في مواقف كثيرة، وhi أقرب إلى الحديث الودي. عند ذكر اسمك قل I am ثم الاسم؛ لا تحذف am رغم أن العربية تقول «أنا عمر» دون فعل ظاهر.",
+    "focusEn": "Use hello in many situations and hi in friendly conversation. To give your name, use I am followed by your name. English needs am here, although Arabic has no matching verb in the present-tense sentence.",
+    "taskAr": "حيّ شخصًا ثم عرّف بنفسك باسم عمر.",
+    "taskEn": "Greet someone and introduce yourself as Omar.",
+    "exampleEn": "Hello, I am Omar.",
+    "exampleAr": "مرحبًا، أنا عمر.",
+    "check": {
+      "promptEn": "Complete: I _____ Omar.",
+      "choices": [
+        "am",
+        "is",
+        "are"
+      ],
+      "answer": "am",
+      "explanationAr": "نستخدم am مع I. أما is فتأتي مع he وshe وit، وare مع you وغيرها.",
+      "explanationEn": "Use am with I. Use is with he, she and it, and are with you and other subjects."
+    }
+  },
+  "a0-u1-l2": {
+    "focusAr": "تأتي my قبل الشيء الذي يخص المتكلم: my name. استخدم your عند مخاطبة شخص، وhis عند الحديث عن رجل، وher عند الحديث عن امرأة. هذه الكلمات لا تتغير بحسب جنس الشيء المملوك.",
+    "focusEn": "Put my before something belonging to the speaker: my name. Use your when speaking to someone, his for a male owner and her for a female owner. The owner's identity determines the word, not the thing owned.",
+    "taskAr": "عرّف باسم سارة باستخدام My name.",
+    "taskEn": "Introduce yourself as Sara using My name.",
+    "exampleEn": "My name is Sara.",
+    "exampleAr": "اسمي سارة.",
+    "check": {
+      "promptEn": "You are speaking to Ali. Ask: What is _____ name?",
+      "choices": [
+        "your",
+        "his",
+        "her"
+      ],
+      "answer": "your",
+      "explanationAr": "نخاطب عليًا مباشرة، لذلك نقول your name. نستخدم his name عندما نتحدث عنه لشخص آخر.",
+      "explanationEn": "You are speaking directly to Ali, so use your name. Use his name when speaking about him to someone else."
+    }
+  },
+  "a0-u1-l3": {
+    "focusAr": "yes للموافقة وno للنفي. عند السؤال Are you ready? يمكن أن تجيب Yes, I am أو No, I am not. كلمة maybe تعني أنك غير متأكد، فلا تستخدمها لتأكيد الموافقة.",
+    "focusEn": "Use yes to agree and no to give a negative answer. Answer Are you ready? with Yes, I am or No, I am not. Maybe expresses uncertainty, not a definite yes.",
+    "taskAr": "أجب بالنفي عن سؤال Are you ready? بجملة قصيرة.",
+    "taskEn": "Give a short negative answer to Are you ready?",
+    "exampleEn": "No, I am not.",
+    "exampleAr": "لا، لست مستعدًا.",
+    "check": {
+      "promptEn": "Are you ready? Choose the negative answer.",
+      "choices": [
+        "No, I am not.",
+        "Yes, I am.",
+        "Okay, I am ready."
+      ],
+      "answer": "No, I am not.",
+      "explanationAr": "الإجابة المنفية تجمع no مع not. الخياران الآخران يؤكدان الاستعداد.",
+      "explanationEn": "The negative answer uses no and not. The other two answers say that you are ready."
+    }
+  },
+  "a0-u1-l4": {
+    "focusAr": "أضف please إلى الطلب ليكون مهذبًا. بعد المساعدة قل thank you، والرد المناسب you are welcome. استخدم excuse me لجذب الانتباه أو قبل السؤال، وsorry للاعتذار عن خطأ.",
+    "focusEn": "Add please to a request to make it polite. After receiving help, say thank you; the reply is you are welcome. Use excuse me to get attention or introduce a question, and sorry to apologise for a mistake.",
+    "taskAr": "اطلب ماء بأدب ثم اشكر الشخص.",
+    "taskEn": "Ask politely for water, then thank the person.",
+    "exampleEn": "Water, please. Thank you.",
+    "exampleAr": "ماء، من فضلك. شكرًا لك.",
+    "check": {
+      "promptEn": "Someone says Thank you. Choose the reply.",
+      "choices": [
+        "You are welcome.",
+        "I am late.",
+        "My name is Sara."
+      ],
+      "answer": "You are welcome.",
+      "explanationAr": "You are welcome رد على الشكر. لا تعني هنا أنك تدعو الشخص إلى مكان.",
+      "explanationEn": "You are welcome is a reply to thanks. Here it is not an invitation to a place."
+    }
+  },
+  "a0-u1-l5": {
+    "focusAr": "goodbye وbye تقالان عند الوداع. أضف See you tomorrow إذا كنت تتوقع اللقاء غدًا، أو See you later دون تحديد موعد. good night تقال عند الوداع ليلًا أو قبل النوم، وليست تحية الوصول المعتادة.",
+    "focusEn": "Say goodbye or bye when leaving. Add See you tomorrow for a meeting the next day, or See you later without a precise time. Good night is used when leaving at night or going to bed, rather than as the usual greeting on arrival.",
+    "taskAr": "ودّع صديقًا ستراه غدًا.",
+    "taskEn": "Say goodbye to a friend you will see tomorrow.",
+    "exampleEn": "Bye. See you tomorrow.",
+    "exampleAr": "وداعًا. أراك غدًا.",
+    "check": {
+      "promptEn": "You will meet your friend the next day. Complete: See you _____.",
+      "choices": [
+        "tomorrow",
+        "yesterday",
+        "now"
+      ],
+      "answer": "tomorrow",
+      "explanationAr": "tomorrow تعني غدًا، أي اليوم التالي. yesterday تعني أمس وnow تعني الآن.",
+      "explanationEn": "Tomorrow means the next day. Yesterday means the previous day, and now means the present moment."
+    }
+  },
+  "a0-u1-l6": {
+    "focusAr": "اسأل How are you? عن الحال. للإجابة استخدم I am ثم fine أو happy أو tired. لا تترجم «أنا بخير» إلى I fine؛ تحتاج الجملة الإنجليزية إلى am. ويمكنك إضافة thank you بعد الإجابة.",
+    "focusEn": "Ask How are you? about someone's wellbeing. Answer with I am followed by fine, happy or tired. Do not leave out am in I am fine. You can add thank you after your answer.",
+    "taskAr": "قل إنك متعب الآن بجملة كاملة.",
+    "taskEn": "Say that you are tired now in a complete sentence.",
+    "exampleEn": "I am tired now.",
+    "exampleAr": "أنا متعب الآن.",
+    "check": {
+      "promptEn": "Choose the complete sentence.",
+      "choices": [
+        "I am fine.",
+        "I fine.",
+        "I is fine."
+      ],
+      "answer": "I am fine.",
+      "explanationAr": "تحتاج الجملة إلى فعل الربط am مع I؛ لذا I fine ناقصة وI is fine غير صحيحة.",
+      "explanationEn": "The sentence needs am with I. I fine is missing the verb, and I is fine uses the wrong form."
+    }
+  },
+  "a0-u2-l1": {
+    "focusAr": "اسم الحرف A يختلف عن صوته في apple وant. والحرف نفسه قد يمثل صوتًا مختلفًا في arm؛ لذلك استمع إلى كل كلمة كاملة. في A is for apple نربط الحرف ببداية كلمة إنجليزية، لا ببداية ترجمتها العربية.",
+    "focusEn": "The name of the letter A differs from its sound in apple and ant. The same letter has a different sound in arm, so listen to the whole word. A is for apple links a letter to an English word, not to its Arabic translation.",
+    "taskAr": "اربط الحرف A بكلمة ant كما في نموذج الدرس.",
+    "taskEn": "Link the letter A to ant using the lesson pattern.",
+    "exampleEn": "A is for ant.",
+    "exampleAr": "تبدأ كلمة ant، أي نملة، بالحرف A.",
+    "check": {
+      "promptEn": "Which word begins with the letter A?",
+      "choices": [
+        "ant",
+        "book",
+        "cat"
+      ],
+      "answer": "ant",
+      "explanationAr": "كلمة ant تبدأ بالحرف A. ننظر إلى كتابة الكلمة الإنجليزية؛ فكلمة «نملة» ترجمة للمعنى فقط.",
+      "explanationEn": "Ant begins with A. The question concerns the English spelling; the Arabic word only gives its meaning."
+    },
+    "lessonUpdates": {
+      "modelSentence": "A is for apple.",
+      "modelSentenceArabic": "تبدأ كلمة apple، أي تفاحة، بالحرف A."
+    }
+  },
+  "a0-u2-l2": {
+    "focusAr": "تبدأ book وball بالحرف B، وتبدأ cat وcar بالحرف C. الحرف C في هاتين الكلمتين صوته قريب من ك، لكنه لا يحمل هذا الصوت في كل الكلمات. قل begin with عند ذكر الحرف الذي تبدأ به كلمة.",
+    "focusEn": "Book and ball begin with B; cat and car begin with C. In these two words C sounds like k, but C does not have this sound in every word. Use begin with to name a word's first letter.",
+    "taskAr": "اذكر كلمتين من الدرس تبدآن بالحرف B.",
+    "taskEn": "Name two lesson words beginning with B.",
+    "exampleEn": "Ball and book begin with B.",
+    "exampleAr": "تبدأ كلمتا ball وbook بالحرف B.",
+    "check": {
+      "promptEn": "Which pair begins with B?",
+      "choices": [
+        "ball and book",
+        "cat and car",
+        "cup and cat"
+      ],
+      "answer": "ball and book",
+      "explanationAr": "تبدأ ball وbook بالحرف B. أما الكلمات في الخيارين الآخرين فتبدأ بالحرف C.",
+      "explanationEn": "Ball and book both begin with B. The words in the other pairs begin with C."
+    },
+    "lessonUpdates": {
+      "modelSentence": "B is for book and C is for cat.",
+      "modelSentenceArabic": "تبدأ كلمة book بالحرف B وكلمة cat بالحرف C."
+    }
+  },
+  "a0-u2-l3": {
+    "focusAr": "uppercase وcapital letter تشيران إلى الحرف الكبير، وlowercase إلى الصغير. نبدأ أسماء الأشخاص وأول كلمة في الجملة بحرف كبير، ونكتب الضمير I كبيرًا دائمًا. اختلاف حالة الحرف لا يجعله حرفًا آخر في الأبجدية.",
+    "focusEn": "Uppercase and capital letter refer to a capital form; lowercase refers to a small form. Use capitals for people's names and the first word in a sentence. Always capitalise I. Changing case does not create a different letter of the alphabet.",
+    "taskAr": "اطلب كتابة الاسم بحرف كبير في البداية.",
+    "taskEn": "Ask someone to start a name with a capital letter.",
+    "exampleEn": "Begin your name with a capital letter.",
+    "exampleAr": "ابدأ اسمك بحرف كبير.",
+    "check": {
+      "promptEn": "A person's name begins with a _____.",
+      "choices": [
+        "capital letter",
+        "number",
+        "full stop"
+      ],
+      "answer": "capital letter",
+      "explanationAr": "تبدأ أسماء الأشخاص بحرف كبير في الإنجليزية. الحرف الكبير والصغير شكلان للحرف نفسه.",
+      "explanationEn": "People's names begin with a capital letter in English. Uppercase and lowercase are forms of the same letter."
+    }
+  },
+  "a0-u2-l4": {
+    "focusAr": "pen قلم حبر وpencil قلم رصاص، وnotebook دفتر. عند تسمية شيء واحد قل a pen أو a ruler. أما paper بمعنى مادة الورق فلا نضع قبلها a؛ ولعدّها نقول a piece of paper، أي ورقة واحدة.",
+    "focusEn": "A pen uses ink; a pencil is different. A notebook is a book for writing. Use a with one countable object: a pen, a ruler. Paper as a material is uncountable; a piece of paper names one sheet.",
+    "taskAr": "أشر إلى قلم رصاص وسمّه بجملة تبدأ بـ This is.",
+    "taskEn": "Point to a pencil and name it using This is.",
+    "exampleEn": "This is a pencil.",
+    "exampleAr": "هذا قلم رصاص.",
+    "check": {
+      "promptEn": "Choose the natural phrase for one ruler.",
+      "choices": [
+        "a ruler",
+        "an ruler",
+        "ruler a"
+      ],
+      "answer": "a ruler",
+      "explanationAr": "تأتي a قبل الاسم المفرد المعدود. ونستخدم a مع ruler لأن نطقه يبدأ بصوت ساكن.",
+      "explanationEn": "A comes before a singular countable noun. Ruler begins with a consonant sound, so use a, not an."
+    }
+  },
+  "a0-u2-l5": {
+    "focusAr": "this للمفرد القريب وthat للمفرد البعيد؛ يتبعهما is. مع الجمع نستخدم these للقريب وthose للبعيد، ويتبعهما are. الإنجليزية لا تفرق هنا بين المذكر والمؤنث، بل بين المفرد والجمع والقريب والبعيد.",
+    "focusEn": "Use this for one nearby thing and that for one distant thing; both take is. Use these for nearby plural things and those for distant plural things; both take are. The distinction is number and distance, not grammatical gender.",
+    "taskAr": "أشر إلى كتب قريبة وقل إنها كتبك.",
+    "taskEn": "Point to nearby books and say they are yours.",
+    "exampleEn": "These are my books.",
+    "exampleAr": "هذه كتبي.",
+    "check": {
+      "promptEn": "You are holding two pens. Complete: _____ are my pens.",
+      "choices": [
+        "These",
+        "This",
+        "That"
+      ],
+      "answer": "These",
+      "explanationAr": "pens جمع، والأقلام قريبة، لذلك نستخدم These مع are. This وThat للمفرد.",
+      "explanationEn": "Pens is plural and the pens are nearby, so use These with are. This and That are singular."
+    }
+  },
+  "a0-u2-l6": {
+    "focusAr": "في التعليمات نبدأ بالفعل مباشرة: Open your book. لا تحتاج إلى you قبل فعل الأمر. أضف please للتهذيب، واستخدم listen to عند ذكر الشخص أو الشيء الذي تستمع إليه: Listen to the teacher.",
+    "focusEn": "Start an instruction with the verb: Open your book. You do not need you before an imperative. Add please to be polite. Use listen to when naming the person or thing you listen to: Listen to the teacher.",
+    "taskAr": "اطلب من زميل أن يغلق كتابه بأدب.",
+    "taskEn": "Politely ask a classmate to close their book.",
+    "exampleEn": "Close your book, please.",
+    "exampleAr": "أغلق كتابك، من فضلك.",
+    "check": {
+      "promptEn": "Complete: Listen _____ the teacher.",
+      "choices": [
+        "to",
+        "at",
+        "on"
+      ],
+      "answer": "to",
+      "explanationAr": "نستخدم listen to قبل الشخص أو الصوت الذي نطلب الاستماع إليه.",
+      "explanationEn": "Use listen to before the person or sound someone should listen to."
+    },
+    "lessonUpdates": {
+      "modelSentence": "Please open your book.",
+      "modelSentenceArabic": "من فضلك، افتح كتابك."
+    }
+  },
+  "a0-u3-l1": {
+    "focusAr": "بعد one نستخدم الاسم المفرد: one book. ومع two وthree وfour وfive نستخدم الجمع: five books. تعلّم نطق الأعداد كلمةً كلمة، ولا تضف s إلى العدد نفسه عند عدّ أشياء محددة.",
+    "focusEn": "Use a singular noun after one: one book. Use a plural noun after two, three, four and five: five books. Learn each number's pronunciation. Do not add s to the number when counting a specific set of objects.",
+    "taskAr": "قل إن لديك ثلاثة أقلام.",
+    "taskEn": "Say that you have three pens.",
+    "exampleEn": "I have three pens.",
+    "exampleAr": "لدي ثلاثة أقلام.",
+    "check": {
+      "promptEn": "Complete: I have two _____.",
+      "choices": [
+        "books",
+        "book",
+        "a book"
+      ],
+      "answer": "books",
+      "explanationAr": "بعد two نستخدم الاسم الجمع books، ولا نضع a قبل الجمع.",
+      "explanationEn": "Two takes the plural noun books. Do not put a before a plural noun."
+    }
+  },
+  "a0-u3-l2": {
+    "focusAr": "لذكر العدد مع أشخاص أو أشياء جمع، استخدم There are ثم العدد ثم الاسم الجمع. تختلف nine عن ten بصوتها ومعناها؛ استمع إليهما منفردتين ثم ضعهما في جملة قصيرة.",
+    "focusEn": "To state how many people or things there are, use There are followed by the number and a plural noun. Nine and ten differ in sound and meaning. Listen to each number, then use it in a short sentence.",
+    "taskAr": "قل إن في الغرفة ستة كراسٍ.",
+    "taskEn": "Say that there are six chairs in the room.",
+    "exampleEn": "There are six chairs in the room.",
+    "exampleAr": "توجد ستة كراسٍ في الغرفة.",
+    "check": {
+      "promptEn": "Complete the sequence: seven, eight, _____.",
+      "choices": [
+        "nine",
+        "six",
+        "ten"
+      ],
+      "answer": "nine",
+      "explanationAr": "nine هو العدد الذي يلي eight مباشرة. ten يأتي بعد nine.",
+      "explanationEn": "Nine comes immediately after eight. Ten comes after nine."
+    }
+  },
+  "a0-u3-l3": {
+    "focusAr": "استخدم How many قبل اسم جمع للسؤال عن العدد: How many pens? وللسؤال عن الموجود أكمل بـ are there. عند الإجابة استخدم There is مع واحد وThere are مع أكثر من واحد.",
+    "focusEn": "Use How many before a plural noun to ask about a number: How many pens? Add are there to ask how many are present. In the answer, use There is for one and There are for more than one.",
+    "taskAr": "اسأل عن عدد الكتب باستخدام are there.",
+    "taskEn": "Ask how many books there are using are there.",
+    "exampleEn": "How many books are there?",
+    "exampleAr": "كم كتابًا يوجد؟",
+    "check": {
+      "promptEn": "Complete: How many _____ are there?",
+      "choices": [
+        "pens",
+        "pen",
+        "a pen"
+      ],
+      "answer": "pens",
+      "explanationAr": "تأتي How many مع اسم معدود جمع، لذلك pens هي الصيغة المناسبة.",
+      "explanationEn": "How many takes a plural countable noun, so pens is the correct form."
+    },
+    "lessonUpdates": {
+      "modelSentence": "How many pens are there? There are two.",
+      "modelSentenceArabic": "كم قلمًا يوجد؟ يوجد قلمان."
+    }
+  },
+  "a0-u3-l4": {
+    "focusAr": "نقرأ أرقام الهاتف رقمًا رقمًا للحفاظ على ترتيبها. في التدريب five, zero, four تعني 5 ثم 0 ثم 4، وليست عددًا واحدًا يُقرأ five hundred and four. قل phone number لتحديد نوع الرقم.",
+    "focusEn": "Read phone numbers digit by digit to keep their order clear. In this exercise, five, zero, four means 5 then 0 then 4, rather than the whole number five hundred and four. Say phone number to identify the kind of number.",
+    "taskAr": "اقرأ تسلسل التدريب 4 ثم 0 ثم 5 بالإنجليزية.",
+    "taskEn": "Read the practice digits 4, then 0, then 5 in English.",
+    "exampleEn": "Four, zero, five.",
+    "exampleAr": "أربعة، صفر، خمسة.",
+    "check": {
+      "promptEn": "Read these digits in order: 5, 0, 4.",
+      "choices": [
+        "five, zero, four",
+        "four, zero, five",
+        "five, four, zero"
+      ],
+      "answer": "five, zero, four",
+      "explanationAr": "يجب الحفاظ على ترتيب الأرقام: خمسة ثم صفر ثم أربعة.",
+      "explanationEn": "Keep the original digit order: five, then zero, then four."
+    }
+  },
+  "a0-u3-l5": {
+    "focusAr": "للسؤال عن الساعة قل What time is it? وللساعة الكاملة استخدم It is ثم العدد ثم o'clock. تفرق hour، وهي مدة زمنية، عن clock، وهي أداة معرفة الوقت؛ لا تعني الكلمتان الشيء نفسه.",
+    "focusEn": "Ask What time is it? To state a whole hour, use It is, the number and o'clock. An hour is a length of time; a clock is an object that tells the time. The two words are not interchangeable.",
+    "taskAr": "قل إن الساعة الخامسة تمامًا.",
+    "taskEn": "Say that it is exactly five o'clock.",
+    "exampleEn": "It is five o'clock.",
+    "exampleAr": "الساعة الخامسة تمامًا.",
+    "check": {
+      "promptEn": "Which question asks for the current time?",
+      "choices": [
+        "What time is it?",
+        "What is your name?",
+        "How many books are there?"
+      ],
+      "answer": "What time is it?",
+      "explanationAr": "What time is it? تسأل عن الوقت الحالي. السؤالان الآخران عن الاسم وعدد الكتب.",
+      "explanationEn": "What time is it? asks for the current time. The other questions ask for a name and a number of books."
+    }
+  },
+  "a0-u3-l6": {
+    "focusAr": "today اليوم الحالي، وtomorrow اليوم التالي، وyesterday اليوم السابق. يمكنك وضع today أو tomorrow في نهاية جملة بسيطة. أما night في التعبير عن وقت عادة فنستخدم معها at: I sleep at night.",
+    "focusEn": "Today is the current day, tomorrow is the next day and yesterday is the previous day. You can put today or tomorrow at the end of a simple sentence. Use at night to say when a habit happens: I sleep at night.",
+    "taskAr": "قل إنك تدرس اليوم باستخدام today.",
+    "taskEn": "Say that you study today using today.",
+    "exampleEn": "I study today.",
+    "exampleAr": "أدرس اليوم.",
+    "check": {
+      "promptEn": "Complete: I sleep _____ night.",
+      "choices": [
+        "at",
+        "on",
+        "to"
+      ],
+      "answer": "at",
+      "explanationAr": "التعبير المعتاد هو at night عند الحديث عن النوم أو عادة في الليل.",
+      "explanationEn": "At night is the usual phrase for sleeping or another habit during the night."
+    }
+  },
+  "a0-u4-l1": {
+    "focusAr": "mother أم وfather أب، أما parents فتعني الوالدين معًا وهي جمع. استخدم my قبل كلمة القرابة لبيان أنها تخصك: my mother. مع parents نقول are لا is.",
+    "focusEn": "Mother means a female parent and father means a male parent. Parents refers to them together and is plural. Put my before the family word to identify your relationship: my mother. Use are with parents, not is.",
+    "taskAr": "قدّم والدك بجملة تبدأ بـ This is.",
+    "taskEn": "Introduce your father using This is.",
+    "exampleEn": "This is my father.",
+    "exampleAr": "هذا أبي.",
+    "check": {
+      "promptEn": "Complete: My parents _____ kind.",
+      "choices": [
+        "are",
+        "is",
+        "am"
+      ],
+      "answer": "are",
+      "explanationAr": "parents جمع، لذلك نستخدم are. أما my mother وحدها فتأخذ is.",
+      "explanationEn": "Parents is plural, so use are. My mother on its own takes is."
+    }
+  },
+  "a0-u4-l2": {
+    "focusAr": "استخدم I have عند الحديث عن إخوتك: I have one brother. بعد one يأتي المفرد، وبعد two يأتي الجمع. older وyounger يصفان العمر؛ older brother أخ أكبر سنًا، وليس بالضرورة أطول قامة.",
+    "focusEn": "Use I have to talk about siblings: I have one brother. Use a singular noun after one and a plural noun after two. Older and younger describe age; an older brother is not necessarily taller.",
+    "taskAr": "قل إن لديك أختين.",
+    "taskEn": "Say that you have two sisters.",
+    "exampleEn": "I have two sisters.",
+    "exampleAr": "لدي أختان.",
+    "check": {
+      "promptEn": "Complete: I have one _____.",
+      "choices": [
+        "sister",
+        "sisters",
+        "two sisters"
+      ],
+      "answer": "sister",
+      "explanationAr": "one تدل على شخص واحد، ولذلك نستخدم sister دون s الجمع.",
+      "explanationEn": "One refers to a single person, so use sister without the plural s."
+    }
+  },
+  "a0-u4-l3": {
+    "focusAr": "man وwoman للبالغين، وboy وgirl للصغار. person تعني شخصًا واحدًا، والجمع الشائع people. نقول one person وtwo people، فلا نكوّن الجمع المعتاد بإضافة s في هذا السياق.",
+    "focusEn": "Man and woman describe adults; boy and girl describe children. Person means one individual, and its usual plural is people. Say one person and two people rather than adding s in this everyday context.",
+    "taskAr": "قل إن شخصين موجودان هنا.",
+    "taskEn": "Say that two people are here.",
+    "exampleEn": "Two people are here.",
+    "exampleAr": "يوجد شخصان هنا.",
+    "check": {
+      "promptEn": "Complete: one person, two _____.",
+      "choices": [
+        "people",
+        "person",
+        "peoples"
+      ],
+      "answer": "people",
+      "explanationAr": "الجمع المعتاد لـ person عند عد الأفراد هو people. أما peoples فلها استعمال آخر بمعنى شعوب.",
+      "explanationEn": "The usual plural of person when counting individuals is people. Peoples has a different use meaning distinct populations or nations."
+    }
+  },
+  "a0-u4-l4": {
+    "focusAr": "friend قد تعني صديقًا أو صديقة؛ يتضح ذلك من السياق. استخدم my friend بعد is للتعريف بالشخص. وعند ذكر اللعب مع شخص نستخدم play with، لا play وحدها قبل اسم الشخص.",
+    "focusEn": "Friend can refer to a male or female friend; context makes this clear. Use my friend after is to introduce someone. Say play with when naming a person you play with; do not omit with.",
+    "taskAr": "قل إنك تلعب مع صديقك.",
+    "taskEn": "Say that you play with your friend.",
+    "exampleEn": "I play with my friend.",
+    "exampleAr": "ألعب مع صديقي.",
+    "check": {
+      "promptEn": "Complete: I play _____ my friend.",
+      "choices": [
+        "with",
+        "at",
+        "from"
+      ],
+      "answer": "with",
+      "explanationAr": "with تعني «مع» وتوضح الشخص الذي يشاركك اللعب.",
+      "explanationEn": "With means together with and identifies the person who joins you in playing."
+    }
+  },
+  "a0-u4-l5": {
+    "focusAr": "استخدم he عند الحديث عن رجل أو ولد، وshe عن امرأة أو بنت، ويتبعهما is. استخدم we عندما تكون ضمن المجموعة وthey عند الحديث عن مجموعة أخرى، ويتبعهما are.",
+    "focusEn": "Use he for a man or boy and she for a woman or girl; both take is. Use we when you are part of the group and they for a group you are talking about; both take are.",
+    "taskAr": "قل إنك وزملاءك طلاب باستخدام We.",
+    "taskEn": "Say that you and your classmates are students using We.",
+    "exampleEn": "We are students.",
+    "exampleAr": "نحن طلاب.",
+    "check": {
+      "promptEn": "Sara is my sister. _____ is a student.",
+      "choices": [
+        "She",
+        "He",
+        "We"
+      ],
+      "answer": "She",
+      "explanationAr": "نشير إلى سارة، وهي أخت المتكلم، بالضمير She. We تعني مجموعة تشمل المتكلم.",
+      "explanationEn": "She refers to Sara, the speaker's sister. We refers to a group that includes the speaker."
+    }
+  },
+  "a0-u4-l6": {
+    "focusAr": "تأتي الصفة بعد is عند وصف شخص: He is tall. لا تضع a قبل صفة وحدها؛ قل She is kind. tall وshort للطول، وyoung وold للعمر، لذلك لا تستخدم tall بمعنى كبير في السن.",
+    "focusEn": "A description can follow is: He is tall. Do not put a before an adjective on its own: She is kind. Tall and short describe height; young and old describe age. Tall does not mean old.",
+    "taskAr": "صف معلمك بأنه لطيف بجملة كاملة.",
+    "taskEn": "Describe your teacher as kind in a complete sentence.",
+    "exampleEn": "My teacher is kind.",
+    "exampleAr": "معلمي لطيف.",
+    "check": {
+      "promptEn": "Choose the correct sentence.",
+      "choices": [
+        "She is kind.",
+        "She is a kind.",
+        "She kind."
+      ],
+      "answer": "She is kind.",
+      "explanationAr": "kind صفة هنا وتأتي بعد is دون a. نحتاج إلى a إذا أضفنا اسمًا مفردًا، مثل a kind teacher.",
+      "explanationEn": "Kind is an adjective after is and does not take a on its own. Use a when adding a singular noun, as in a kind teacher."
+    }
+  },
+  "a0-u5-l1": {
+    "focusAr": "house هو المنزل، وroom غرفة داخله، وkitchen نوع من الغرف. لوصف المكان قل in the house أو in my room. لا تضف the قبل my؛ فالعبارة my room تحدد الغرفة بالفعل.",
+    "focusEn": "A house is a building, a room is part of it, and a kitchen is a type of room. Say in the house or in my room. Do not add the before my; my room already identifies the room.",
+    "taskAr": "قل إن النافذة في غرفتك.",
+    "taskEn": "Say that the window is in your room.",
+    "exampleEn": "The window is in my room.",
+    "exampleAr": "النافذة في غرفتي.",
+    "check": {
+      "promptEn": "Choose the correct phrase.",
+      "choices": [
+        "in my room",
+        "in the my room",
+        "in my the room"
+      ],
+      "answer": "in my room",
+      "explanationAr": "تأتي my مباشرة قبل room، ولا نجمع بينها وبين the قبل الاسم نفسه.",
+      "explanationEn": "My comes directly before room. Do not combine my and the before the same noun."
+    }
+  },
+  "a0-u5-l2": {
+    "focusAr": "bed للنوم وchair للجلوس، وsofa أريكة تتسع عادة لأكثر من شخص. عند الحديث عن قطعة أثاث محددة نستخدم the: the chair. قل in the room للمكان داخل الغرفة وon the table لما هو على سطح الطاولة.",
+    "focusEn": "A bed is for sleeping, a chair for sitting, and a sofa usually seats more than one person. Use the for a particular object: the chair. Say in the room for its location inside a room and on the table for something on the tabletop.",
+    "taskAr": "قل إن المصباح على الطاولة.",
+    "taskEn": "Say that the lamp is on the table.",
+    "exampleEn": "The lamp is on the table.",
+    "exampleAr": "المصباح على الطاولة.",
+    "check": {
+      "promptEn": "Which object do you usually sleep in?",
+      "choices": [
+        "a bed",
+        "a lamp",
+        "a shelf"
+      ],
+      "answer": "a bed",
+      "explanationAr": "bed تعني سريرًا وهو المكان المعتاد للنوم؛ lamp مصباح وshelf رف.",
+      "explanationEn": "A bed is the usual place to sleep; a lamp gives light and a shelf holds objects."
+    }
+  },
+  "a0-u5-l3": {
+    "focusAr": "watch ساعة يد، وتختلف عن clock التي ليست ساعة يد. كلمة glasses بمعنى نظارة تعامل معاملة الجمع في الإنجليزية: My glasses are here، رغم أن العربية قد تستخدم اسمًا مفردًا.",
+    "focusEn": "A watch is worn on the wrist; a clock is a different kind of timepiece. Glasses meaning spectacles is grammatically plural in English: My glasses are here. Arabic may use a singular noun for the same object.",
+    "taskAr": "قل إن نظارتك هنا.",
+    "taskEn": "Say that your glasses are here.",
+    "exampleEn": "My glasses are here.",
+    "exampleAr": "نظارتي هنا.",
+    "check": {
+      "promptEn": "Complete: My glasses _____ on the desk.",
+      "choices": [
+        "are",
+        "is",
+        "am"
+      ],
+      "answer": "are",
+      "explanationAr": "glasses اسم جمع في الإنجليزية، لذلك يتبعه are، حتى لو كان المقصود نظارة واحدة.",
+      "explanationEn": "Glasses is grammatically plural, so use are even when referring to one pair."
+    }
+  },
+  "a0-u5-l4": {
+    "focusAr": "in تدل على وجود الشيء داخل مكان، وon على وجوده على سطح، وunder على وجوده أسفل شيء. استخدم next to للمجاورة، وbehind للخلف. حدّد العلاقة المكانية بالكلمات؛ لا تحتاج إلى صورة لفهمها.",
+    "focusEn": "In places something inside a space, on places it on a surface, and under places it below something. Use next to for a neighbouring position and behind for a position at the back. The words themselves describe the spatial relationship.",
+    "taskAr": "قل إن المفتاح داخل حقيبتك.",
+    "taskEn": "Say that your key is inside your bag.",
+    "exampleEn": "My key is in my bag.",
+    "exampleAr": "مفتاحي في حقيبتي.",
+    "check": {
+      "promptEn": "The key is inside the bag. Complete: The key is _____ the bag.",
+      "choices": [
+        "in",
+        "on",
+        "under"
+      ],
+      "answer": "in",
+      "explanationAr": "inside توضح أن المفتاح داخل الحقيبة، ولذلك نختار in، وليس on أو under.",
+      "explanationEn": "Inside tells us the key is within the bag, so use in rather than on or under."
+    }
+  },
+  "a0-u5-l5": {
+    "focusAr": "اسأل Where is ثم اسم الشيء المفرد. أجب بمكانه أو بـ here للقريب منك وthere للمكان الآخر. where سؤال عن المكان، أما here فإجابة محتملة؛ تشابه بعض الحروف لا يجعل الكلمتين متطابقتين.",
+    "focusEn": "Ask Where is followed by a singular object. Answer with its location, here for a place near you, or there for another place. Where asks about location; here can answer that question. Similar spelling does not make them the same word.",
+    "taskAr": "اسأل عن هاتفك باستخدام Where is.",
+    "taskEn": "Ask where your phone is using Where is.",
+    "exampleEn": "Where is my phone?",
+    "exampleAr": "أين هاتفي؟",
+    "check": {
+      "promptEn": "Which word asks about a place?",
+      "choices": [
+        "where",
+        "here",
+        "there"
+      ],
+      "answer": "where",
+      "explanationAr": "where تعني «أين» وتبدأ سؤالًا عن المكان. here وthere تعنيان «هنا» و«هناك».",
+      "explanationEn": "Where means in what place and introduces a question. Here and there identify locations."
+    },
+    "lessonUpdates": {
+      "modelSentence": "Where is my bag? It is here.",
+      "modelSentenceArabic": "أين حقيبتي؟ إنها هنا."
+    }
+  },
+  "a0-u5-l6": {
+    "focusAr": "يمكن وصل صفتين بـ and: clean and big. الصفة الإنجليزية لا تتغير للمذكر والمؤنث أو للجمع: a clean room وclean rooms. تفرق old بمعنى قديم للأشياء عن معناها كبير السن للأشخاص.",
+    "focusEn": "Join two descriptions with and: clean and big. English adjectives do not change for gender or plural nouns: a clean room, clean rooms. Old can mean not new for objects or advanced in age for people.",
+    "taskAr": "صف غرفتك بأنها صغيرة ونظيفة.",
+    "taskEn": "Describe your room as small and clean.",
+    "exampleEn": "My room is small and clean.",
+    "exampleAr": "غرفتي صغيرة ونظيفة.",
+    "check": {
+      "promptEn": "Complete: The rooms are _____.",
+      "choices": [
+        "clean",
+        "cleans",
+        "a clean"
+      ],
+      "answer": "clean",
+      "explanationAr": "clean صفة، فلا نضيف إليها s مع الجمع. كلمة rooms هي التي تحمل علامة الجمع.",
+      "explanationEn": "Clean is an adjective, so do not add s for plural nouns. Rooms carries the plural ending."
+    }
+  },
+  "a0-u6-l1": {
+    "focusAr": "استخدم I want مع اسم المشروب للتعبير عن رغبتك، وأضف please للتهذيب. water وtea وmilk أسماء غير معدودة عندما نتحدث عن المشروب عمومًا؛ لطلب كمية محددة يمكنك قول a cup of tea.",
+    "focusEn": "Use I want with a drink to say what you want, and add please to be polite. Water, tea and milk are uncountable when referring to the drinks generally. To name a serving, say a cup of tea.",
+    "taskAr": "اطلب كوب شاي بأدب.",
+    "taskEn": "Politely ask for a cup of tea.",
+    "exampleEn": "I want a cup of tea, please.",
+    "exampleAr": "أريد كوب شاي، من فضلك.",
+    "check": {
+      "promptEn": "Complete: a cup _____ tea.",
+      "choices": [
+        "of",
+        "to",
+        "at"
+      ],
+      "answer": "of",
+      "explanationAr": "نربط الوعاء بما يحتويه باستخدام of: a cup of tea.",
+      "explanationEn": "Use of to connect the container to its contents: a cup of tea."
+    }
+  },
+  "a0-u6-l2": {
+    "focusAr": "rice وbread أسماء غير معدودة في الحديث عن الطعام، فنقول I eat rice دون a. أما egg فاسم معدود: an egg للمفرد وeggs للجمع. نختار an لأن egg تبدأ بصوت متحرك.",
+    "focusEn": "Rice and bread are uncountable food nouns, so say I eat rice without a. Egg is countable: an egg for one and eggs for more than one. Use an because egg begins with a vowel sound.",
+    "taskAr": "اذكر أنك تأكل بيضة واحدة.",
+    "taskEn": "Say that you eat one egg.",
+    "exampleEn": "I eat an egg.",
+    "exampleAr": "آكل بيضة.",
+    "check": {
+      "promptEn": "Choose the phrase for one egg.",
+      "choices": [
+        "an egg",
+        "a egg",
+        "an eggs"
+      ],
+      "answer": "an egg",
+      "explanationAr": "egg اسم مفرد يبدأ بصوت متحرك، لذلك نستخدم an. الجمع eggs لا يأتي بعد an.",
+      "explanationEn": "Egg is singular and starts with a vowel sound, so use an. The plural eggs cannot follow an."
+    }
+  },
+  "a0-u6-l3": {
+    "focusAr": "لثمرة واحدة قل an apple أو an orange، لكن a banana؛ الاختيار بين a وan يعتمد على الصوت الأول. fruit اسم عام للفاكهة، بينما apple وbanana اسمان يمكن عدهما.",
+    "focusEn": "For one piece of fruit, say an apple or an orange, but a banana. Choose a or an by the first sound. Fruit is a general word for the food, while apple and banana are countable names of individual fruits.",
+    "taskAr": "اطلب موزة بأدب.",
+    "taskEn": "Politely ask for a banana.",
+    "exampleEn": "I want a banana, please.",
+    "exampleAr": "أريد موزة، من فضلك.",
+    "check": {
+      "promptEn": "Complete: I eat _____ apple.",
+      "choices": [
+        "an",
+        "a",
+        "two"
+      ],
+      "answer": "an",
+      "explanationAr": "نستخدم an قبل apple المفردة لأن نطقها يبدأ بصوت متحرك. مع two نحتاج إلى الجمع apples.",
+      "explanationEn": "Use an before singular apple because it begins with a vowel sound. Two would require plural apples."
+    }
+  },
+  "a0-u6-l4": {
+    "focusAr": "hungry جائع وthirsty عطشان وfull شبعان في سياق الطعام. هذه صفات تتبع am: I am hungry. أما drink ففعل، فنقول I drink water دون am قبل drink في هذه الجملة.",
+    "focusEn": "Hungry, thirsty and full describe how you feel; full means you have eaten enough in this context. Use am with these adjectives: I am hungry. Drink is a verb, so say I drink water without am in this sentence.",
+    "taskAr": "قل إنك عطشان وتريد ماء.",
+    "taskEn": "Say that you are thirsty and want water.",
+    "exampleEn": "I am thirsty. I want water.",
+    "exampleAr": "أنا عطشان. أريد ماء.",
+    "check": {
+      "promptEn": "You want a drink because you feel _____.",
+      "choices": [
+        "thirsty",
+        "full",
+        "tall"
+      ],
+      "answer": "thirsty",
+      "explanationAr": "thirsty تصف الحاجة إلى الشرب. full تعني شبعان وtall تعني طويل القامة.",
+      "explanationEn": "Thirsty describes the need for a drink. Full means you have eaten enough, and tall describes height."
+    }
+  },
+  "a0-u6-l5": {
+    "focusAr": "قل I like للتعبير عن الإعجاب، وI do not like أو I don't like للنفي. لا تقل I am like عند الحديث عن تفضيل الطعام. love في هذا السياق أقوى من like، وfavorite تصف الخيار المفضل.",
+    "focusEn": "Say I like for a preference and I do not like or I don't like for a negative preference. Do not say I am like when describing food preferences. Love is stronger than like here, and favorite identifies your preferred choice.",
+    "taskAr": "قل إنك لا تحب القهوة باستخدام don't.",
+    "taskEn": "Say that you do not like coffee using don't.",
+    "exampleEn": "I don't like coffee.",
+    "exampleAr": "لا أحب القهوة.",
+    "check": {
+      "promptEn": "Choose the negative preference.",
+      "choices": [
+        "I don't like coffee.",
+        "I am coffee.",
+        "I like coffee."
+      ],
+      "answer": "I don't like coffee.",
+      "explanationAr": "نضع don't قبل الفعل like لنفي التفضيل مع I. تبقى like بصيغتها الأساسية.",
+      "explanationEn": "Put don't before like to make a negative preference with I. Like stays in its base form."
+    }
+  },
+  "a0-u6-l6": {
+    "focusAr": "في المطعم يمكن أن يكون الطلب قصيرًا: One sandwich, please. menu قائمة تختار منها الطعام، وbill فاتورة تطلبها للدفع. لا تخلط بين طلب القائمة قبل الاختيار وطلب الفاتورة عند الحساب.",
+    "focusEn": "A restaurant request can be short: One sandwich, please. A menu lists the food you can choose; a bill tells you what to pay. Ask for the menu when choosing and the bill when paying.",
+    "taskAr": "اطلب الفاتورة بأدب.",
+    "taskEn": "Politely ask for the bill.",
+    "exampleEn": "The bill, please.",
+    "exampleAr": "الفاتورة، من فضلك.",
+    "check": {
+      "promptEn": "You have finished eating and want to pay. Ask for the _____.",
+      "choices": [
+        "bill",
+        "menu",
+        "sandwich"
+      ],
+      "answer": "bill",
+      "explanationAr": "bill هي الفاتورة التي تبين المبلغ المطلوب دفعه، بينما menu تعرض خيارات الطعام.",
+      "explanationEn": "The bill shows the amount to pay, while the menu lists food choices."
+    }
+  },
+  "a0-u7-l1": {
+    "focusAr": "hand اليد وarm الذراع؛ ليستا الجزء نفسه. نستخدم my مع أعضاء الجسم: my hand. في الجمع نقول hands وarms، لكن جمع foot هو feet، وليس foots.",
+    "focusEn": "A hand and an arm are different body parts. Use my when naming your own body parts: my hand. The plurals are hands and arms, but the plural of foot is feet, not foots.",
+    "taskAr": "قل إن لديك يدين باستخدام hands.",
+    "taskEn": "Say that you have two hands using hands.",
+    "exampleEn": "I have two hands.",
+    "exampleAr": "لدي يدان.",
+    "check": {
+      "promptEn": "Complete: one foot, two _____.",
+      "choices": [
+        "feet",
+        "foots",
+        "foot"
+      ],
+      "answer": "feet",
+      "explanationAr": "جمع foot غير منتظم، وصيغته feet. لا نضيف s كما نفعل مع hand.",
+      "explanationEn": "Foot has the irregular plural feet. Do not add s as you do with hand."
+    }
+  },
+  "a0-u7-l2": {
+    "focusAr": "eye عين وear أذن، وجمعهما eyes وears. استخدم with عند ذكر العضو الذي تؤدي به فعلًا: hear with my ears. لاحظ الفرق بين eye المفرد وeyes الجمع عند الاستماع والنطق.",
+    "focusEn": "Eye and ear name different sense organs; their plurals are eyes and ears. Use with to name the body part used for an action: hear with my ears. Listen for the difference between singular eye and plural eyes.",
+    "taskAr": "استخدم mouth لقول إنك تأكل بفمك.",
+    "taskEn": "Use mouth to say that you eat with your mouth.",
+    "exampleEn": "I eat with my mouth.",
+    "exampleAr": "آكل بفمي.",
+    "check": {
+      "promptEn": "Complete: I hear with my _____.",
+      "choices": [
+        "ears",
+        "eyes",
+        "nose"
+      ],
+      "answer": "ears",
+      "explanationAr": "ears هي الأذنان المرتبطتان بالسمع؛ eyes للعينين وnose للأنف.",
+      "explanationEn": "Ears are the organs associated with hearing; eyes and nose name different organs."
+    },
+    "lessonUpdates": {
+      "modelSentence": "I hear with my ears.",
+      "modelSentenceArabic": "أسمع بأذنيّ."
+    }
+  },
+  "a0-u7-l3": {
+    "focusAr": "shirt مفرد، فنقول My shirt is blue. أما shoes وclothes فجمع ويتبعهما are. نستخدم wear مع الملابس التي نرتديها عادة، ولا نستخدم carry للتعبير عن ارتداء قميص.",
+    "focusEn": "Shirt is singular: My shirt is blue. Shoes and clothes are plural and take are. Use wear for clothing you have on as a habit; carry does not mean wearing a shirt.",
+    "taskAr": "قل إن ملابسك جديدة.",
+    "taskEn": "Say that your clothes are new.",
+    "exampleEn": "My clothes are new.",
+    "exampleAr": "ملابسي جديدة.",
+    "check": {
+      "promptEn": "Complete: My clothes _____ new.",
+      "choices": [
+        "are",
+        "is",
+        "am"
+      ],
+      "answer": "are",
+      "explanationAr": "clothes جمع في الإنجليزية، لذلك نستخدم are. كلمة shirt وحدها مفرد وتأخذ is.",
+      "explanationEn": "Clothes is plural in English, so use are. Shirt on its own is singular and takes is."
+    }
+  },
+  "a0-u7-l4": {
+    "focusAr": "يمكن أن يأتي اللون بعد is: The bag is green، أو قبل الاسم: a green bag. لا يتغير green إلى صيغة مؤنثة أو جمع كما تتغير الصفة العربية. اختر اللون الذي تصفه الجملة دون الاعتماد على صورة.",
+    "focusEn": "A colour can follow is: The bag is green, or come before a noun: a green bag. Green does not change for feminine or plural nouns as Arabic adjectives do. Follow the colour named in the sentence without needing a picture.",
+    "taskAr": "صف حقيبة بأنها خضراء باستخدام a green bag.",
+    "taskEn": "Describe a bag using a green bag.",
+    "exampleEn": "This is a green bag.",
+    "exampleAr": "هذه حقيبة خضراء.",
+    "check": {
+      "promptEn": "Choose the correct phrase.",
+      "choices": [
+        "a red car",
+        "a car red",
+        "a reds car"
+      ],
+      "answer": "a red car",
+      "explanationAr": "عندما تصف الصفة اسمًا داخل هذه العبارة، تأتي قبله: red car. لا نضيف s إلى صفة اللون.",
+      "explanationEn": "In this noun phrase the adjective comes before the noun: red car. Do not add s to a colour adjective."
+    }
+  },
+  "a0-u7-l5": {
+    "focusAr": "اسأل What color is it? عن اللون. dark blue أزرق داكن وlight blue أزرق فاتح؛ تأتي dark أو light قبل اللون. وقد تعني dark «مظلمًا» في سياق الغرف، لذلك استعن بالسياق لتحديد المعنى.",
+    "focusEn": "Ask What color is it? about colour. Dark blue and light blue describe different shades; dark or light comes before the colour. Dark can also mean without light in a room, so use context to identify the meaning.",
+    "taskAr": "قل إن قميصك أزرق فاتح.",
+    "taskEn": "Say that your shirt is light blue.",
+    "exampleEn": "My shirt is light blue.",
+    "exampleAr": "قميصي أزرق فاتح.",
+    "check": {
+      "promptEn": "In dark blue, what does dark describe?",
+      "choices": [
+        "the shade of blue",
+        "the number of shirts",
+        "the time of day"
+      ],
+      "answer": "the shade of blue",
+      "explanationAr": "dark هنا تصف درجة اللون، لا عدد الأشياء ولا وقتًا من اليوم.",
+      "explanationEn": "Here dark describes the shade of the colour, not the number of objects or a time of day."
+    }
+  },
+  "a0-u7-l6": {
+    "focusAr": "استخدم I am مع tired وsick لوصف حالتك، لكن I have مع pain لأنه اسم. ولتحديد موضع الألم قل My head hurts أو My leg hurts؛ نضيف s للفعل مع هذا الفاعل المفرد.",
+    "focusEn": "Use I am with tired and sick to describe your condition, but I have with pain because it is a noun. To name the painful part, say My head hurts or My leg hurts; this singular subject takes the verb ending s.",
+    "taskAr": "عبّر عن ألم في رأسك باستخدام hurts.",
+    "taskEn": "Describe pain in your head using hurts.",
+    "exampleEn": "My head hurts.",
+    "exampleAr": "يؤلمني رأسي.",
+    "check": {
+      "promptEn": "Choose the complete sentence.",
+      "choices": [
+        "I am tired.",
+        "I tired.",
+        "I have tired."
+      ],
+      "answer": "I am tired.",
+      "explanationAr": "tired صفة وتحتاج هنا إلى am. نستخدم have مع الاسم، مثل I have pain.",
+      "explanationEn": "Tired is an adjective and needs am here. Use have with a noun, as in I have pain."
+    }
+  },
+  "a0-u8-l1": {
+    "focusAr": "school مدرسة وstore متجر وmarket سوق. لتحديد مكان شيء بالنسبة إلى آخر، استخدم near ثم المكان: near my house. لا تضف to بعد near في هذا التركيب البسيط.",
+    "focusEn": "A school, a store and a market are different places. To locate one place in relation to another, use near followed by the place: near my house. Do not add to after near in this simple pattern.",
+    "taskAr": "قل إن المتجر قريب من منزلك.",
+    "taskEn": "Say that the store is near your house.",
+    "exampleEn": "The store is near my house.",
+    "exampleAr": "المتجر قريب من منزلي.",
+    "check": {
+      "promptEn": "Complete: The school is near _____.",
+      "choices": [
+        "my house",
+        "to my house",
+        "at my house"
+      ],
+      "answer": "my house",
+      "explanationAr": "near تتبعها العبارة الاسمية مباشرة هنا: near my house.",
+      "explanationEn": "Near is followed directly by the noun phrase here: near my house."
+    },
+    "lessonUpdates": {
+      "modelSentence": "The school is near my house.",
+      "modelSentenceArabic": "المدرسة قريبة من منزلي."
+    }
+  },
+  "a0-u8-l2": {
+    "focusAr": "hospital مستشفى وpark حديقة عامة وbank بنك. استخدم here أو there بعد is لتحديد المكان بإيجاز. وإذا ذكرت ما تفعله داخل الحديقة، قل in the park، مثل play in the park.",
+    "focusEn": "A hospital, a park and a bank have different purposes. Use here or there after is to identify a location briefly. To say what you do inside a park, use in the park: play in the park.",
+    "taskAr": "قل إنك تمشي في الحديقة.",
+    "taskEn": "Say that you walk in the park.",
+    "exampleEn": "I walk in the park.",
+    "exampleAr": "أمشي في الحديقة.",
+    "check": {
+      "promptEn": "Complete: We play _____ the park.",
+      "choices": [
+        "in",
+        "to",
+        "from"
+      ],
+      "answer": "in",
+      "explanationAr": "in the park تعني داخل الحديقة. لا نستخدم to بعد play لوصف مكان اللعب.",
+      "explanationEn": "In the park means inside the park. Do not use to after play to describe where the activity happens."
+    }
+  },
+  "a0-u8-l3": {
+    "focusAr": "لإعطاء اتجاه قل Turn right أو Turn left دون to بين الفعل والاتجاه. وعند تحديد موقع شيء نستخدم on your right أو on your left. الفرق بين العبارتين هو الحركة مقابل موقع الشيء.",
+    "focusEn": "Give a direction with Turn right or Turn left, without to between the verb and direction. Locate something with on your right or on your left. The first pattern tells someone to move; the second describes a location.",
+    "taskAr": "اطلب من شخص أن ينعطف يسارًا هنا.",
+    "taskEn": "Ask someone to turn left here.",
+    "exampleEn": "Turn left here.",
+    "exampleAr": "انعطف يسارًا هنا.",
+    "check": {
+      "promptEn": "Choose the natural direction.",
+      "choices": [
+        "Turn right here.",
+        "Turn to right here.",
+        "Turn at right here."
+      ],
+      "answer": "Turn right here.",
+      "explanationAr": "في هذا التركيب تأتي right مباشرة بعد Turn. أما on your right فتصف موقع شيء.",
+      "explanationEn": "In this pattern right follows Turn directly. On your right describes an object's location."
+    }
+  },
+  "a0-u8-l4": {
+    "focusAr": "تعلّم in front of كوحدة كاملة بمعنى أمام؛ تحتاج إلى of قبل المكان. behind تعني خلف وتتبعها عبارة المكان مباشرة. أما between فتحدد وجود شيء بين مكانين أو شيئين مذكورين.",
+    "focusEn": "Learn in front of as a complete phrase; it needs of before the place. Behind is followed directly by the location. Between places something in the space separating two named things or places.",
+    "taskAr": "قل إن السيارة أمام المنزل.",
+    "taskEn": "Say that the car is in front of the house.",
+    "exampleEn": "The car is in front of the house.",
+    "exampleAr": "السيارة أمام المنزل.",
+    "check": {
+      "promptEn": "Complete: The car is in front _____ the house.",
+      "choices": [
+        "of",
+        "to",
+        "at"
+      ],
+      "answer": "of",
+      "explanationAr": "العبارة الكاملة هي in front of. حذف of أو استبدالها يفسد هذا التركيب.",
+      "explanationEn": "The complete phrase is in front of. Omitting of or replacing it breaks this pattern."
+    }
+  },
+  "a0-u8-l5": {
+    "focusAr": "لوصف المسافة قل near the school أو close to the school، لكن far from the school. يختلف حرف الجر بين العبارات؛ لا تجمع بينها في صيغة واحدة مثل close from.",
+    "focusEn": "Describe distance with near the school or close to the school, but far from the school. These phrases use different prepositions. Do not mix them into a form such as close from.",
+    "taskAr": "قل إن منزلك بعيد عن المدرسة باستخدام far from.",
+    "taskEn": "Say that your house is far from school using far from.",
+    "exampleEn": "My house is far from the school.",
+    "exampleAr": "منزلي بعيد عن المدرسة.",
+    "check": {
+      "promptEn": "Complete: The park is far _____ my house.",
+      "choices": [
+        "from",
+        "to",
+        "at"
+      ],
+      "answer": "from",
+      "explanationAr": "نستخدم far from عند تحديد المكان الذي نقيس البعد عنه.",
+      "explanationEn": "Use far from to name the place something is a long distance away from."
+    },
+    "lessonUpdates": {
+      "modelSentence": "The store is near my house.",
+      "modelSentenceArabic": "المتجر قريب من منزلي."
+    }
+  },
+  "a0-u8-l6": {
+    "focusAr": "في التعليمات استخدم الفعل مباشرة: Go أو Stop أو Wait. straight تصف السير إلى الأمام دون انعطاف. وعند تسمية الوجهة استخدم go to: Go to the store، لكن نقول go home دون to.",
+    "focusEn": "Start instructions with the verb: Go, Stop or Wait. Straight tells someone to continue forward without turning. Use go to before a named destination: Go to the store, but say go home without to.",
+    "taskAr": "اطلب من شخص أن ينتظر هنا بأدب.",
+    "taskEn": "Politely ask someone to wait here.",
+    "exampleEn": "Please wait here.",
+    "exampleAr": "من فضلك، انتظر هنا.",
+    "check": {
+      "promptEn": "Which instruction means do not move yet?",
+      "choices": [
+        "Wait here.",
+        "Go straight.",
+        "Turn right."
+      ],
+      "answer": "Wait here.",
+      "explanationAr": "Wait here تطلب البقاء والانتظار. الخياران الآخران يطلبان الحركة في اتجاه محدد.",
+      "explanationEn": "Wait here asks someone to stay and wait. The other two instructions ask them to move in a particular direction."
+    }
+  },
+  "a0-u9-l1": {
+    "focusAr": "wake up تعني الاستيقاظ، وsleep النوم نفسه. لتحديد الوقت قل at ten o'clock، وللفترة قل in the morning أو at night. early تعني مبكرًا وتأتي طبيعيًا بعد الفعل: I wake up early.",
+    "focusEn": "Wake up means stop sleeping; sleep names the sleeping activity. State a clock time with at ten o'clock, or a period with in the morning or at night. Early naturally follows the verb in I wake up early.",
+    "taskAr": "قل إنك تستيقظ مبكرًا وتشرب الماء.",
+    "taskEn": "Say that you wake up early and drink water.",
+    "exampleEn": "I wake up early and drink water.",
+    "exampleAr": "أستيقظ مبكرًا وأشرب الماء.",
+    "check": {
+      "promptEn": "Complete: I wake up _____ six o'clock.",
+      "choices": [
+        "at",
+        "in",
+        "on"
+      ],
+      "answer": "at",
+      "explanationAr": "نستخدم at مع وقت محدد على الساعة. in the morning عبارة مختلفة لفترة من اليوم.",
+      "explanationEn": "Use at with a specific clock time. In the morning is a different phrase for a period of the day."
+    }
+  },
+  "a0-u9-l2": {
+    "focusAr": "go to school تعني الذهاب إلى المدرسة، لكن مع home نقول go home دون to. come back تعني العودة، وليست بالضرورة المشي إلى الخلف. للتعبير عن وجودك في المنزل استخدم at home.",
+    "focusEn": "Go to school names a destination, but with home say go home without to. Come back means return; it does not necessarily mean moving backwards. Use at home to describe being in your home.",
+    "taskAr": "قل إنك تعود إلى المنزل في الخامسة باستخدام come back.",
+    "taskEn": "Say that you return home at five using come back.",
+    "exampleEn": "I come back home at five.",
+    "exampleAr": "أعود إلى المنزل في الخامسة.",
+    "check": {
+      "promptEn": "Choose the natural phrase.",
+      "choices": [
+        "go home",
+        "go to home",
+        "go at home"
+      ],
+      "answer": "go home",
+      "explanationAr": "تأتي home مباشرة بعد go في هذا المعنى. أما at home فتستخدم لوصف وجودك في المنزل.",
+      "explanationEn": "Home follows go directly in this meaning. At home describes being at your home."
+    }
+  },
+  "a0-u9-l3": {
+    "focusAr": "read للقراءة وwrite للكتابة. study تصف قضاء وقت في الدراسة، وlearn اكتساب معرفة أو مهارة. عند ذكر الأداة التي تكتب بها استخدم with: write with a pen.",
+    "focusEn": "Read and write name different activities. Study describes spending time on learning; learn describes gaining knowledge or a skill. Use with to name the tool you write with: write with a pen.",
+    "taskAr": "قل إنك تكتب بقلم.",
+    "taskEn": "Say that you write with a pen.",
+    "exampleEn": "I write with a pen.",
+    "exampleAr": "أكتب بقلم.",
+    "check": {
+      "promptEn": "Complete: I write _____ a pen.",
+      "choices": [
+        "with",
+        "at",
+        "from"
+      ],
+      "answer": "with",
+      "explanationAr": "with تربط فعل الكتابة بالأداة المستخدمة، وهي القلم.",
+      "explanationEn": "With connects the action of writing to the tool used, the pen."
+    }
+  },
+  "a0-u9-l4": {
+    "focusAr": "work وrest فعلان في I work وI rest. أما busy وfree فصفتان تحتاجان إلى am مع I. free في هذا السياق تعني متفرغًا، وقد تعني مجانًا في سياق الأسعار.",
+    "focusEn": "Work and rest are verbs in I work and I rest. Busy and free are adjectives and need am with I. Free means available in this context; it can mean costing nothing in a price context.",
+    "taskAr": "قل إنك مشغول اليوم باستخدام busy.",
+    "taskEn": "Say that you are busy today using busy.",
+    "exampleEn": "I am busy today.",
+    "exampleAr": "أنا مشغول اليوم.",
+    "check": {
+      "promptEn": "Choose the correct sentence.",
+      "choices": [
+        "I am busy.",
+        "I busy.",
+        "I am work."
+      ],
+      "answer": "I am busy.",
+      "explanationAr": "busy صفة وتحتاج إلى am. أما work فهو فعل في I work ولا نضيف قبله am في المضارع البسيط.",
+      "explanationEn": "Busy is an adjective and needs am. Work is a verb in I work; do not add am before it in the simple present."
+    }
+  },
+  "a0-u9-l5": {
+    "focusAr": "open قد تكون فعلًا: I open the door، أو صفة: The door is open. للطلب استخدم Close the door، ولوصف الحالة بعد الإغلاق قل The door is closed. لا تخلط بين فعل الإغلاق ووصف حالة الباب.",
+    "focusEn": "Open can be a verb: I open the door, or an adjective: The door is open. Give an instruction with Close the door; describe the resulting state with The door is closed. Distinguish the action from the state.",
+    "taskAr": "اطلب إغلاق الصندوق بأدب.",
+    "taskEn": "Politely ask someone to close the box.",
+    "exampleEn": "Close the box, please.",
+    "exampleAr": "أغلق الصندوق، من فضلك.",
+    "check": {
+      "promptEn": "Which sentence describes an action by the speaker?",
+      "choices": [
+        "I open the door.",
+        "The door is open.",
+        "The door is closed."
+      ],
+      "answer": "I open the door.",
+      "explanationAr": "I open the door تخبر بما يفعله المتكلم. الجملتان الأخريان تصفان حالة الباب.",
+      "explanationEn": "I open the door tells us what the speaker does. The other two sentences describe the door's state."
+    }
+  },
+  "a0-u9-l6": {
+    "focusAr": "sit down تعني اجلس وstand up تعني قف. لا نترجم down وup حرفيًا كلمةً كلمة في هذين الطلبين. لتحديد المكان قل sit on the chair أو stand near the door.",
+    "focusEn": "Sit down and stand up are common instructions. Do not translate down and up separately in these phrases. Name a position with sit on the chair or stand near the door.",
+    "taskAr": "اطلب من شخص أن يجلس هنا بأدب.",
+    "taskEn": "Politely ask someone to sit here.",
+    "exampleEn": "Please sit here.",
+    "exampleAr": "من فضلك، اجلس هنا.",
+    "check": {
+      "promptEn": "Complete the instruction: Please stand _____.",
+      "choices": [
+        "up",
+        "down",
+        "under"
+      ],
+      "answer": "up",
+      "explanationAr": "الطلب المعتاد للنهوض إلى وضع الوقوف هو stand up. sit down طلب الجلوس.",
+      "explanationEn": "The usual instruction to rise to a standing position is stand up. Sit down asks someone to sit."
+    }
+  },
+  "a0-u10-l1": {
+    "focusAr": "استخدم It is مع صفة الطقس: It is hot. لا تحذف It رغم أن الترجمة العربية تقول «الجو حار». warm أدفأ من البارد لكنه أقل حرارة من hot في الوصف المعتاد، وhot قد تصف مشروبًا ساخنًا أيضًا.",
+    "focusEn": "Use It is with a weather adjective: It is hot. Keep It even though Arabic expresses the subject differently. Warm usually describes a lower temperature than hot. Hot can also describe a drink.",
+    "taskAr": "قل إن الجو دافئ اليوم.",
+    "taskEn": "Say that the weather is warm today.",
+    "exampleEn": "It is warm today.",
+    "exampleAr": "الجو دافئ اليوم.",
+    "check": {
+      "promptEn": "Choose the complete weather sentence.",
+      "choices": [
+        "It is hot today.",
+        "Is hot today.",
+        "It hot today."
+      ],
+      "answer": "It is hot today.",
+      "explanationAr": "الجملة الإنجليزية الكاملة تحتاج إلى الفاعل It وفعل الربط is قبل hot.",
+      "explanationEn": "The complete English sentence needs the subject It and the linking verb is before hot."
+    }
+  },
+  "a0-u10-l2": {
+    "focusAr": "rain اسم بمعنى مطر، أما rainy فصفة بمعنى ممطر. لوصف الجو قل It is rainy، لا It is rain. اربط صفتين بـ and عندما تريد وصف البرودة والمطر معًا.",
+    "focusEn": "Rain is a noun; rainy is an adjective. Describe the weather with It is rainy, not It is rain. Join two adjectives with and to describe both cold weather and rain.",
+    "taskAr": "صف الجو بأنه بارد وممطر.",
+    "taskEn": "Describe the weather as cold and rainy.",
+    "exampleEn": "It is cold and rainy.",
+    "exampleAr": "الجو بارد وممطر.",
+    "check": {
+      "promptEn": "Complete: It is cold and _____.",
+      "choices": [
+        "rainy",
+        "rain",
+        "a rain"
+      ],
+      "answer": "rainy",
+      "explanationAr": "تحتاج الجملة إلى صفة توازي cold، لذا نستخدم rainy. rain اسم للمطر.",
+      "explanationEn": "The sentence needs an adjective alongside cold, so use rainy. Rain is the noun."
+    }
+  },
+  "a0-u10-l3": {
+    "focusAr": "قل I need help لطلب المساعدة، ثم أضف please للتهذيب أو now لتوضيح الحاجة الحالية. help اسم غير معدود في هذا الاستعمال، لذلك لا نقول a help. ويمكنك تحديد الشخص بقول your help.",
+    "focusEn": "Say I need help to request assistance, adding please to be polite or now to show an immediate need. Help is uncountable in this use, so do not say a help. Your help identifies whose assistance you need.",
+    "taskAr": "اطلب مساعدة الشخص الذي تخاطبه بأدب.",
+    "taskEn": "Politely ask for the listener's help.",
+    "exampleEn": "I need your help, please.",
+    "exampleAr": "أحتاج مساعدتك، من فضلك.",
+    "check": {
+      "promptEn": "Choose the natural request.",
+      "choices": [
+        "I need help, please.",
+        "I need a help, please.",
+        "I am need help, please."
+      ],
+      "answer": "I need help, please.",
+      "explanationAr": "نستخدم need فعلًا بعد I، وhelp دون a لأنها غير معدودة في هذا المعنى.",
+      "explanationEn": "Use need as the verb after I and help without a because it is uncountable in this meaning."
+    }
+  },
+  "a0-u10-l4": {
+    "focusAr": "I do not understand تعني أنك لا تفهم الكلام، وI do not know أنك لا تعرف المعلومة. لتسهيل الفهم اطلب التكرار بـ again أو تقليل سرعة الكلام بـ slowly؛ فهما طلبان مختلفان.",
+    "focusEn": "I do not understand concerns understanding the message; I do not know concerns lacking information. Ask for repetition with again or a slower pace with slowly. These are different requests.",
+    "taskAr": "اطلب من المتحدث أن يتكلم ببطء.",
+    "taskEn": "Ask the speaker to speak slowly.",
+    "exampleEn": "Please speak slowly.",
+    "exampleAr": "من فضلك، تحدث ببطء.",
+    "check": {
+      "promptEn": "The speaker is too fast. Choose the request.",
+      "choices": [
+        "Please speak slowly.",
+        "Please speak louder.",
+        "Please stand up."
+      ],
+      "answer": "Please speak slowly.",
+      "explanationAr": "slowly تطلب إبطاء الكلام. louder تطلب رفع الصوت ولا تعني تقليل السرعة.",
+      "explanationEn": "Slowly asks for a slower pace. Louder asks for more volume, not less speed."
+    }
+  },
+  "a0-u10-l5": {
+    "focusAr": "ابدأ الطلب المهذب بـ Can you ثم الفعل بصيغته الأساسية: repeat أو say. لا تضف to بعد can. repeat تعني تكرار الكلام، وlouder تعني بصوت أعلى؛ اختر الطلب الذي تحتاج إليه.",
+    "focusEn": "Start a polite request with Can you followed by a base verb such as repeat or say. Do not add to after can. Repeat asks for the words again; louder asks for more volume. Choose the request that matches your need.",
+    "taskAr": "اطلب تكرار الكلام بأدب.",
+    "taskEn": "Politely ask someone to repeat what they said.",
+    "exampleEn": "Can you repeat that, please?",
+    "exampleAr": "هل يمكنك تكرار ذلك، من فضلك؟",
+    "check": {
+      "promptEn": "Complete: Can you _____ that, please?",
+      "choices": [
+        "repeat",
+        "to repeat",
+        "repeats"
+      ],
+      "answer": "repeat",
+      "explanationAr": "بعد can يأتي الفعل بصيغته الأساسية دون to ودون s.",
+      "explanationEn": "After can, use the base form of the verb without to or s."
+    }
+  },
+  "a0-u10-l6": {
+    "focusAr": "اجمع ما تعلمته في تسلسل مفهوم: تحية، ثم طلب مساعدة، ثم سؤال عن مكان. بعد الحصول على الإجابة قل Thank you. لا يكفي حفظ الكلمات منفردة؛ اربط كل عبارة بوظيفتها في المحادثة.",
+    "focusEn": "Combine the language in a clear order: greet someone, ask for help, then ask about a location. After receiving the answer, say Thank you. Connect each phrase to its purpose in the conversation.",
+    "taskAr": "حيّ شخصًا ثم اطلب مساعدته واسأل عن المستشفى.",
+    "taskEn": "Greet someone, ask for help and ask where the hospital is.",
+    "exampleEn": "Hello. I need help, please. Where is the hospital?",
+    "exampleAr": "مرحبًا. أحتاج مساعدة، من فضلك. أين المستشفى؟",
+    "check": {
+      "promptEn": "Someone has told you the way. Choose a polite response.",
+      "choices": [
+        "Thank you.",
+        "What is your name?",
+        "I am hungry."
+      ],
+      "answer": "Thank you.",
+      "explanationAr": "Thank you تشكر الشخص على إرشادك. السؤال عن الاسم أو ذكر الجوع لا يؤدي هذه الوظيفة.",
+      "explanationEn": "Thank you acknowledges the person's directions. Asking their name or mentioning hunger does not serve that purpose."
+    }
+  }
+}

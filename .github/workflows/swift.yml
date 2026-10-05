@@ -49,6 +49,8 @@ jobs:
       - name: Validate curriculum semantics
         run: |
           python3 Scripts/audit_curriculum_quality.py
+          python3 Scripts/audit_lesson_guides.py
+          python3 Scripts/test_curriculum_review.py
           python3 Scripts/validate_content.py EnglishNova/Resources/Curriculum/curriculum.json
           Scripts/validate_core_semantics.sh
       - name: Validate all integrated server JavaScript syntax

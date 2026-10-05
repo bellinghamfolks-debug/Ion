@@ -71,8 +71,8 @@
           "titleAr": "التحدث عن إنجازاتك",
           "titleEn": "Talking About Achievements",
           "objectiveAr": "أن يتمكن المتعلم من وصف إنجازاته والتعبير عن الفخر بها بطريقة طبيعية ومتواضعة.",
-          "modelSentence": "I'm really proud of how far I've come since I started learning English.",
-          "modelSentenceArabic": "أنا فخور حقًّا بمدى التقدّم الذي أحرزته منذ أن بدأت تعلّم الإنجليزية.",
+          "modelSentence": "Learning to speak confidently was an achievement I am proud of.",
+          "modelSentenceArabic": "كان تعلّم التحدث بثقة إنجازًا أفخر به.",
           "vocabulary": [
             {
               "english": "accomplish",
@@ -129,8 +129,8 @@
           "titleAr": "تقديم النصائح والاقتراحات",
           "titleEn": "Giving Advice and Suggestions",
           "objectiveAr": "أن يتمكن المتعلم من تقديم النصائح والاقتراحات للآخرين باستخدام عبارات مهذبة ومناسبة.",
-          "modelSentence": "If I were you, I'd talk to your manager before making any decision.",
-          "modelSentenceArabic": "لو كنت مكانك، لتحدّثت إلى مديرك قبل اتخاذ أي قرار.",
+          "modelSentence": "I'd recommend talking to your manager before making a decision.",
+          "modelSentenceArabic": "أنصح بالتحدث إلى مديرك قبل اتخاذ قرار.",
           "vocabulary": [
             {
               "english": "ought to",
@@ -187,8 +187,8 @@
           "titleAr": "الخطط والنوايا المستقبلية",
           "titleEn": "Future Plans and Intentions",
           "objectiveAr": "أن يتمكن المتعلم من التحدث عن خططه ونواياه المستقبلية باستخدام التراكيب المناسبة.",
-          "modelSentence": "I'm planning to take a course next year to improve my career prospects.",
-          "modelSentenceArabic": "أنوي الالتحاق بدورة العام المقبل لتحسين فرصي المهنية.",
+          "modelSentence": "I intend to take a course next year to improve my English.",
+          "modelSentenceArabic": "أنوي الالتحاق بدورة العام المقبل لتحسين لغتي الإنجليزية.",
           "vocabulary": [
             {
               "english": "intend to",
@@ -290,7 +290,7 @@
             },
             {
               "english": "go with",
-              "arabic": "يختار، يقرّ على",
+              "arabic": "يختار، يستقرّ على",
               "example": "In the end, we decided to go with the blue design.",
               "exampleArabic": "في النهاية، قرّرنا اختيار التصميم الأزرق.",
               "partOfSpeech": "phrasal verb",
@@ -400,8 +400,8 @@
             {
               "english": "refund",
               "arabic": "استرداد المبلغ",
-              "example": "You're entitled to a full refund.",
-              "exampleArabic": "يحقّ لك استرداد المبلغ كاملًا.",
+              "example": "The shop offered a full refund for the faulty item.",
+              "exampleArabic": "عرض المتجر إعادة المبلغ كاملًا مقابل المنتج المعيب.",
               "partOfSpeech": "noun",
               "phonetic": "/ˈriːfʌnd/"
             },
@@ -429,15 +429,15 @@
           "titleEn": "Communicating with Colleagues",
           "objectiveAr": "أن يتمكن المتعلم من التواصل اليومي مع زملاء العمل بطريقة ودّية ومهنية.",
           "modelSentence": "Could you give me a hand with this report? I'm a bit behind schedule.",
-          "modelSentenceArabic": "هل يمكنك مساعدتي في هذا التقرير؟ أنا متأخّر قليلًا عن الموعد.",
+          "modelSentenceArabic": "هل يمكنك مساعدتي في هذا التقرير؟ أنا متأخر قليلًا عن الجدول المخطط.",
           "vocabulary": [
             {
-              "english": "give a hand",
+              "english": "give someone a hand",
               "arabic": "يساعد، يمدّ يد العون",
               "example": "Can you give me a hand carrying these boxes?",
               "exampleArabic": "هل يمكنك مساعدتي في حمل هذه الصناديق؟",
               "partOfSpeech": "idiom",
-              "phonetic": "/ɡɪv ə hænd/"
+              "phonetic": "/ɡɪv ˈsʌmwʌn ə hænd/"
             },
             {
               "english": "colleague",
@@ -449,7 +449,7 @@
             },
             {
               "english": "behind schedule",
-              "arabic": "متأخّر عن الموعد المحدّد",
+              "arabic": "متأخر عن الجدول المخطط",
               "example": "The project is running behind schedule.",
               "exampleArabic": "المشروع متأخّر عن الموعد المحدّد.",
               "partOfSpeech": "collocation",
@@ -486,8 +486,8 @@
           "titleAr": "التعامل مع العملاء",
           "titleEn": "Dealing with Customers",
           "objectiveAr": "أن يتمكن المتعلم من التعامل مع طلبات العملاء واستفساراتهم بطريقة احترافية ولبقة.",
-          "modelSentence": "How can I help you today? Please let me know if you have any questions.",
-          "modelSentenceArabic": "كيف يمكنني مساعدتك اليوم؟ من فضلك أخبرني إن كان لديك أي أسئلة.",
+          "modelSentence": "I will look into your inquiry and contact you this afternoon.",
+          "modelSentenceArabic": "سأبحث في استفسارك وأتواصل معك بعد ظهر اليوم.",
           "vocabulary": [
             {
               "english": "assist",
@@ -544,8 +544,8 @@
           "titleAr": "إدارة المهام والمواعيد النهائية",
           "titleEn": "Managing Tasks and Deadlines",
           "objectiveAr": "أن يتمكن المتعلم من التحدث عن تنظيم المهام وترتيب الأولويات والالتزام بالمواعيد النهائية.",
-          "modelSentence": "We need to prioritise the most urgent tasks to meet the deadline on time.",
-          "modelSentenceArabic": "علينا ترتيب أولويات المهام الأكثر إلحاحًا للالتزام بالموعد النهائي في وقته.",
+          "modelSentence": "We need to prioritise the urgent tasks to meet the deadline.",
+          "modelSentenceArabic": "علينا إعطاء الأولوية للمهام العاجلة للالتزام بالموعد النهائي.",
           "vocabulary": [
             {
               "english": "prioritise",

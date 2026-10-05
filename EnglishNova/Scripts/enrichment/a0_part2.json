@@ -31,13 +31,13 @@
         "a0-031-tea-1": [
           {
             "example": "The tea is hot.",
-            "exampleArabic": "الشاي حار."
+            "exampleArabic": "الشاي ساخن."
           }
         ],
         "a0-031-coffee-2": [
           {
-            "example": "I drink coffee in the morning.",
-            "exampleArabic": "أشرب القهوة في الصباح."
+            "example": "I want coffee with milk.",
+            "exampleArabic": "أريد قهوة بالحليب."
           }
         ],
         "a0-031-want-3": [
@@ -78,14 +78,14 @@
       "extraExamples": {
         "a0-032-bread-1": [
           {
-            "example": "I eat bread and egg.",
+            "example": "I eat bread and eggs.",
             "exampleArabic": "آكل الخبز والبيض."
           }
         ],
         "a0-032-rice-2": [
           {
             "example": "The rice is hot.",
-            "exampleArabic": "الأرز حار."
+            "exampleArabic": "الأرز ساخن."
           }
         ],
         "a0-032-eat-3": [
@@ -282,8 +282,8 @@
         ],
         "a0-036-one-3": [
           {
-            "example": "I want one tea.",
-            "exampleArabic": "أريد شايًا واحدًا."
+            "example": "I want one cup of tea.",
+            "exampleArabic": "أريد كوب شاي واحدًا."
           }
         ]
       }
@@ -318,8 +318,8 @@
       "extraExamples": {
         "a0-037-head-1": [
           {
-            "example": "My head is big.",
-            "exampleArabic": "رأسي كبير."
+            "example": "My head hurts today.",
+            "exampleArabic": "يؤلمني رأسي اليوم."
           }
         ],
         "a0-037-hand-2": [
@@ -420,8 +420,8 @@
         ],
         "a0-039-shoes-2": [
           {
-            "example": "My shoes are black.",
-            "exampleArabic": "حذائي أسود."
+            "example": "My shoes are under the chair.",
+            "exampleArabic": "حذائي تحت الكرسي."
           }
         ],
         "a0-039-clothes-3": [
@@ -654,8 +654,8 @@
       "extraExamples": {
         "a0-044-hospital-1": [
           {
-            "example": "The hospital is near.",
-            "exampleArabic": "المستشفى قريب."
+            "example": "The hospital is near the park.",
+            "exampleArabic": "المستشفى قريب من الحديقة."
           }
         ],
         "a0-044-park-2": [
@@ -798,8 +798,8 @@
       "extraExamples": {
         "a0-047-near-1": [
           {
-            "example": "The school is near.",
-            "exampleArabic": "المدرسة قريبة."
+            "example": "The store is near the bank.",
+            "exampleArabic": "المتجر قريب من البنك."
           }
         ],
         "a0-047-far-2": [
@@ -810,8 +810,8 @@
         ],
         "a0-047-walk-3": [
           {
-            "example": "I walk to school.",
-            "exampleArabic": "أمشي إلى المدرسة."
+            "example": "We walk in the park.",
+            "exampleArabic": "نمشي في الحديقة."
           }
         ]
       }
@@ -948,8 +948,8 @@
         ],
         "a0-050-come-2": [
           {
-            "example": "Please come here.",
-            "exampleArabic": "تعال هنا، من فضلك."
+            "example": "Can you come tomorrow?",
+            "exampleArabic": "هل يمكنك المجيء غدًا؟"
           }
         ],
         "a0-050-home-3": [
@@ -1141,7 +1141,7 @@
         "a0-054-stand-2": [
           {
             "example": "I stand near the door.",
-            "exampleArabic": "أقف بجانب الباب."
+            "exampleArabic": "أقف بالقرب من الباب."
           }
         ],
         "a0-054-chair-3": [
@@ -1183,13 +1183,13 @@
         "a0-055-hot-1": [
           {
             "example": "The tea is hot.",
-            "exampleArabic": "الشاي حار."
+            "exampleArabic": "الشاي ساخن."
           }
         ],
         "a0-055-sun-2": [
           {
-            "example": "The sun is big.",
-            "exampleArabic": "الشمس كبيرة."
+            "example": "The sun is behind a cloud.",
+            "exampleArabic": "الشمس خلف سحابة."
           }
         ],
         "a0-055-weather-3": [
@@ -1338,8 +1338,8 @@
         ],
         "a0-058-slowly-3": [
           {
-            "example": "Please speak slowly.",
-            "exampleArabic": "تكلم ببطء، من فضلك."
+            "example": "I read slowly.",
+            "exampleArabic": "أقرأ ببطء."
           }
         ]
       }

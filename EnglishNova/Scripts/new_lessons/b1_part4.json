@@ -27,8 +27,8 @@
       {
        "english": "career prospects",
        "arabic": "الفرص المهنية",
-       "example": "Engineering has excellent career prospects.",
-       "exampleArabic": "للهندسة فرص مهنية ممتازة.",
+       "example": "I asked about career prospects before choosing a course.",
+       "exampleArabic": "سألت عن الفرص المهنية قبل اختيار البرنامج الدراسي.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -74,7 +74,7 @@
       },
       {
        "english": "postgraduate",
-       "arabic": "دراسات عليا",
+       "arabic": "متعلق بالدراسات العليا",
        "example": "She plans to do a postgraduate course after her degree.",
        "exampleArabic": "تخطط لدراسة برنامج دراسات عليا بعد شهادتها.",
        "partOfSpeech": "adjective",
@@ -109,8 +109,8 @@
       {
        "english": "distraction",
        "arabic": "ما يشتّت الانتباه",
-       "example": "Phones are a big distraction for students.",
-       "exampleArabic": "الهواتف تشتّت انتباه الطلاب كثيرًا.",
+       "example": "Phone notifications are a distraction when I study.",
+       "exampleArabic": "تشتت إشعارات الهاتف انتباهي عندما أدرس.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -318,12 +318,12 @@
      "titleAr": "المدينة أم الريف؟",
      "titleEn": "City or Countryside?",
      "objectiveAr": "أن يقارن المتعلم بين العيش في المدينة والريف ويبرر تفضيله.",
-     "modelSentence": "Living in the city is convenient, whereas life in the countryside is more relaxed.",
-     "modelSentenceArabic": "العيش في المدينة مريح من حيث الخدمات، بينما الحياة في الريف أكثر استرخاءً.",
+     "modelSentence": "My city flat is convenient for work, whereas my village home is closer to green space.",
+     "modelSentenceArabic": "شقتي في المدينة مناسبة للوصول إلى العمل، بينما بيتي في القرية أقرب إلى المساحات الخضراء.",
      "vocabulary": [
       {
        "english": "convenient",
-       "arabic": "مريح؛ مناسب",
+       "arabic": "مناسب عمليًا؛ سهل الوصول",
        "example": "It's convenient to live near the metro.",
        "exampleArabic": "من المريح أن تعيش قرب المترو.",
        "partOfSpeech": "adjective",
@@ -340,8 +340,8 @@
       {
        "english": "pace of life",
        "arabic": "إيقاع الحياة",
-       "example": "The pace of life in big cities is fast.",
-       "exampleArabic": "إيقاع الحياة في المدن الكبيرة سريع.",
+       "example": "The pace of life in my new neighbourhood feels faster than before.",
+       "exampleArabic": "أشعر بأن إيقاع الحياة في حيّي الجديد أسرع من السابق.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -373,7 +373,7 @@
        "english": "green space",
        "arabic": "مساحة خضراء",
        "example": "Easy access to green space can make a neighbourhood more pleasant.",
-       "exampleArabic": "سهولة الوصول إلى مساحة خضراء تجعل الحي ألطف للعيش.",
+       "exampleArabic": "قد تجعل سهولة الوصول إلى مساحة خضراء الحي أكثر راحة للعيش.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -439,7 +439,7 @@
        "english": "frequent",
        "arabic": "متكرر",
        "example": "Trains are frequent on weekdays.",
-       "exampleArabic": "القطارات متكررة في أيام الأسبوع.",
+       "exampleArabic": "تنطلق القطارات على فترات متقاربة في أيام العمل.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -479,7 +479,7 @@
       },
       {
        "english": "risen",
-       "arabic": "ارتفع",
+       "arabic": "ارتفع (التصريف الثالث من rise)",
        "example": "Prices have risen by ten percent.",
        "exampleArabic": "ارتفعت الأسعار بنسبة عشرة بالمئة.",
        "partOfSpeech": "verb",
@@ -569,9 +569,9 @@
       },
       {
        "english": "carpool",
-       "arabic": "المشاركة في السيارة",
+       "arabic": "يتشارك سيارة في التنقل",
        "example": "My colleagues and I carpool to save money.",
-       "exampleArabic": "أشارك أنا وزملائي في السيارة لتوفير المال.",
+       "exampleArabic": "أتنقل أنا وزملائي معًا في سيارة واحدة لتوفير المال.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
@@ -638,7 +638,7 @@
        "english": "definitely",
        "arabic": "بالتأكيد",
        "example": "You should definitely book a table.",
-       "exampleArabic": "يجب عليك بالتأكيد حجز طاولة.",
+       "exampleArabic": "أنصحك بالتأكيد بحجز طاولة.",
        "partOfSpeech": "adverb",
        "phonetic": null
       },
@@ -686,7 +686,7 @@
        "english": "starter",
        "arabic": "طبق مقبلات",
        "example": "We shared a starter before the main course.",
-       "exampleArabic": "شاركنا طبق مقبلات قبل الطبق الرئيسي.",
+       "exampleArabic": "تقاسمنا طبق مقبلات قبل الطبق الرئيسي.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -696,9 +696,9 @@
      "id": "b1-x-u11-l2",
      "titleAr": "الأنظمة الغذائية والتغذية",
      "titleEn": "Diets and Nutrition",
-     "objectiveAr": "أن يتحدث المتعلم عن عاداته الغذائية ونظام غذائي صحي.",
+     "objectiveAr": "التعبير عن عادات غذائية وقيود محددة والسؤال بوضوح عن مكونات الطعام.",
      "modelSentence": "I've been trying to avoid junk food and eat more vegetables.",
-     "modelSentenceArabic": "أحاول تجنّب الوجبات السريعة غير الصحية وأكل مزيد من الخضار.",
+     "modelSentenceArabic": "أحاول تجنب الطعام منخفض القيمة الغذائية وتناول مزيد من الخضراوات.",
      "vocabulary": [
       {
        "english": "calories",
@@ -726,9 +726,9 @@
       },
       {
        "english": "junk food",
-       "arabic": "الوجبات السريعة غير الصحية",
-       "example": "Try to avoid junk food.",
-       "exampleArabic": "حاول تجنّب الوجبات السريعة غير الصحية.",
+       "arabic": "طعام منخفض القيمة الغذائية",
+       "example": "I used to eat a lot of junk food when I was busy.",
+       "exampleArabic": "كنت أتناول كثيرًا من الطعام منخفض القيمة الغذائية عندما أنشغل.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -772,7 +772,7 @@
      "titleEn": "Following a Recipe",
      "objectiveAr": "أن يشرح المتعلم خطوات تحضير طبق بترتيب واضح.",
      "modelSentence": "First chop the onions, then fry them gently until they turn golden.",
-     "modelSentenceArabic": "أولًا قطّع البصل، ثم اقْلِه برفق حتى يصبح ذهبيًا.",
+     "modelSentenceArabic": "أولًا قطّع البصل، ثم اقله على نار هادئة حتى يصبح ذهبيًا.",
      "vocabulary": [
       {
        "english": "chop",
@@ -785,8 +785,8 @@
       {
        "english": "fry",
        "arabic": "يقلي",
-       "example": "Fry the chicken for ten minutes.",
-       "exampleArabic": "اقلِ الدجاج لمدة عشر دقائق.",
+       "example": "Fry the onion gently until it softens.",
+       "exampleArabic": "اقْلِ البصل على نار هادئة حتى يلين.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
@@ -808,9 +808,9 @@
       },
       {
        "english": "boil",
-       "arabic": "يغلي",
-       "example": "Boil the rice for twenty minutes.",
-       "exampleArabic": "اغلِ الأرز لمدة عشرين دقيقة.",
+       "arabic": "يَغلي؛ يُغلي",
+       "example": "Boil the water before adding the pasta.",
+       "exampleArabic": "اغلِ الماء قبل إضافة المعكرونة.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
@@ -898,7 +898,7 @@
       },
       {
        "english": "use-by date",
-       "arabic": "تاريخ آخر استخدام",
+       "arabic": "تاريخ «يُستهلك قبل»",
        "example": "Check the use-by date before eating fresh meat.",
        "exampleArabic": "تحقق من تاريخ آخر استخدام قبل تناول اللحم الطازج.",
        "partOfSpeech": "noun",
@@ -1105,9 +1105,9 @@
       },
       {
        "english": "fair enough",
-       "arabic": "معك حق؛ هذا مقبول",
+       "arabic": "هذا معقول؛ مقبول",
        "example": "Fair enough, let's try your idea.",
-       "exampleArabic": "معك حق، لنجرّب فكرتك.",
+       "exampleArabic": "هذا معقول، لنجرّب فكرتك.",
        "partOfSpeech": "phrase",
        "phonetic": null
       },
@@ -1150,8 +1150,8 @@
      "titleAr": "الاعتذار والتوضيح",
      "titleEn": "Apologising and Explaining",
      "objectiveAr": "أن يعتذر المتعلم عن خطأ ويوضح سببه ويعرض حلًا.",
-     "modelSentence": "I'm really sorry for the misunderstanding, it won't happen again.",
-     "modelSentenceArabic": "أنا آسف حقًا على سوء الفهم، لن يتكرر ذلك.",
+     "modelSentence": "I'm really sorry for the misunderstanding. I'll confirm the correct date now.",
+     "modelSentenceArabic": "أنا آسف حقًا على سوء الفهم. سأؤكد الموعد الصحيح الآن.",
      "vocabulary": [
       {
        "english": "misunderstanding",
@@ -1163,7 +1163,7 @@
       },
       {
        "english": "mix-up",
-       "arabic": "لخبطة؛ خلط",
+       "arabic": "التباس؛ خلط",
        "example": "Sorry, there was a mix-up with your order.",
        "exampleArabic": "آسف، حدث خلط في طلبك.",
        "partOfSpeech": "noun",

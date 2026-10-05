@@ -38,6 +38,9 @@ import random
 import re
 from pathlib import Path
 
+from assessment_choices import equivalent_words, meaning_distractors
+from lesson_guides import load_guides, validate_guides, apply_lesson_updates, save_guide_translations
+
 ROOT = Path(__file__).resolve().parents[1]
 PATH = ROOT / "EnglishNova/Resources/Curriculum/curriculum.json"
 ENRICH_DIR = ROOT / "Scripts/enrichment"
@@ -63,7 +66,7 @@ def normalize_english_sentence(text: str) -> str:
     return value
 
 
-def apply_quality_fixes(catalog, fixes):
+def apply_quality_fixes(catalog, fixes, require_all=True):
     """Apply reviewed corrections before enrichment/exercise generation.
 
     Full replacements remove weak legacy upper-level vocabulary such as bare
@@ -97,7 +100,7 @@ def apply_quality_fixes(catalog, fixes):
                         gloss_fixed += 1
 
     missing = sorted((set(replacements) | set(glosses)) - seen_ids)
-    if missing:
+    if missing and require_all:
         raise SystemExit(f"Quality fixes reference missing vocabulary ids: {missing}")
     return replaced, gloss_fixed, punctuation_fixed
 
@@ -234,6 +237,30 @@ def pick_distractors(rng, pool, exclude, n=2):
     return candidates[:n]
 
 
+CONTRACTIONS = {
+    "I'm": "I am", "you're": "you are", "we're": "we are", "they're": "they are",
+    "I've": "I have", "you've": "you have", "we've": "we have", "they've": "they have",
+    "I'll": "I will", "you'll": "you will", "he'll": "he will", "she'll": "she will",
+    "we'll": "we will", "they'll": "they will", "won't": "will not",
+    "can't": "cannot", "isn't": "is not", "aren't": "are not", "wasn't": "was not",
+    "weren't": "were not", "don't": "do not", "doesn't": "does not", "didn't": "did not",
+    "haven't": "have not", "hasn't": "has not", "hadn't": "had not",
+    "wouldn't": "would not", "couldn't": "could not", "shouldn't": "should not",
+    "mustn't": "must not",
+}
+
+
+def sentence_answers(sentence):
+    """Accept unambiguous contraction variants without inventing paraphrases."""
+    expanded = sentence.replace("’", "'")
+    for short, full in CONTRACTIONS.items():
+        expanded = re.sub(rf"\b{re.escape(short)}\b", full, expanded, flags=re.IGNORECASE)
+    contracted = expanded
+    for short, full in CONTRACTIONS.items():
+        contracted = re.sub(rf"\b{re.escape(full)}\b", short, contracted, flags=re.IGNORECASE)
+    return list(dict.fromkeys([sentence, sentence.rstrip("."), expanded, contracted]))
+
+
 def shuffled(rng, items):
     out = list(items)
     rng.shuffle(out)
@@ -258,13 +285,15 @@ def arabic_policy(level: str) -> str:
             "B2": "minimal", "C1": "minimal"}.get(level, "full")
 
 
-def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, policy="full"):
+def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, policy="full", guide=None, unit_words=None):
     extra_examples = extra_examples or {}
     lid = lesson["id"]
     vocab = lesson.get("vocabulary", [])
     sentence = model_sentence(lesson)
     sentence_ar = model_sentence_arabic(lesson)
     objective = lesson.get("objectiveAr", "").strip()
+    lesson["modelSentence"] = sentence
+    lesson["modelSentenceArabic"] = sentence_ar
 
     full = policy == "full"
     minimal = policy == "minimal"
@@ -313,6 +342,8 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
         intro_lines.append("Listen to the model, then practise the words in the exercises.")
         intro_prompt = "Lesson intro & key words"
         intro_hint = "Listen to the model sentence, then continue"
+    if guide:
+        intro_lines.append("لاحظ طريقة الاستخدام:\n" + guide["focusAr"])
     add({
         "type": "explanation",
         "promptAr": intro_prompt,
@@ -371,10 +402,10 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
         if minimal and example_has_word:
             # English, context-based: complete the example sentence.
             gapped = re.sub(rf"\b{re.escape(en)}\b", "_____", example, count=1, flags=re.IGNORECASE)
-            en_distractors = pick_distractors(rng, unit_eng_pool, exclude={en}, n=2)
+            en_distractors = pick_distractors(rng, unit_eng_pool, exclude=equivalent_words(w, unit_words or vocab), n=2)
             add({
                 "type": "multipleChoice",
-                "promptAr": "Choose the word that completes the sentence:",
+                "promptAr": f"اختر التعبير الذي يعني «{ar}» لإكمال الجملة:",
                 "promptEn": gapped,
                 "answer": en,
                 "choices": shuffled(rng, [en] + en_distractors),
@@ -384,7 +415,7 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
             })
         else:
             # Arabic meaning (kept for full + reduced; minimal fallback).
-            ar_distractors = pick_distractors(rng, unit_ar_pool, exclude={ar}, n=2)
+            ar_distractors = meaning_distractors(rng, w, unit_words or vocab)
             add({
                 "type": "multipleChoice",
                 "promptAr": f"ما معنى {en}؟" if full else f"What does “{en}” mean?",
@@ -424,7 +455,7 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
                     "explanationAr": f"الترجمة النموذجية: {ex_en}\nلاحظ استخدام الكلمة {en}.",
                     "accessibilityHint": "اكتب الترجمة الإنجليزية ثم اضغط تحقق",
                     "speechText": ex_en,
-                    "acceptableAnswers": [ex_en, ex_en.rstrip(".")],
+                    "acceptableAnswers": sentence_answers(ex_en),
                 })
 
     # 3) Sentence work ---------------------------------------------------
@@ -458,7 +489,19 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
             if pat.search(sentence):
                 blank = (en, pat)
                 break
-        if blank:
+        if guide:
+            check = guide["check"]
+            add({
+                "type": "multipleChoice",
+                "promptAr": "اقرأ الموقف ثم اختر الإجابة المناسبة.",
+                "promptEn": check["promptEn"],
+                "answer": check["answer"],
+                "choices": shuffled(random.Random(f"{lid}:reviewed-check"), check["choices"]),
+                "explanationAr": check["explanationAr"],
+                "accessibilityHint": "اختر إجابة واحدة اعتمادًا على المعنى أو القاعدة المشروحة",
+                "speechText": check["promptEn"],
+            })
+        elif blank:
             en, pat = blank
             gapped = pat.sub("_____", sentence, count=1)
             add({
@@ -482,7 +525,7 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
                 "explanationAr": (f"الترجمة النموذجية: {sentence}" if full else f"Model answer: {sentence}"),
                 "accessibilityHint": "اكتب الترجمة الإنجليزية ثم اضغط تحقق" if full else "Write the English translation, then check",
                 "speechText": sentence,
-                "acceptableAnswers": [sentence, sentence.rstrip(".")],
+                "acceptableAnswers": sentence_answers(sentence),
             })
 
         # speak
@@ -495,7 +538,7 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
                               else "Focus on clear words and rhythm; don't worry about your accent."),
             "accessibilityHint": "استمع للنموذج ثم ابدأ التسجيل وانطق الجملة" if full else "Listen to the model, then record yourself",
             "speechText": sentence,
-            "acceptableAnswers": [sentence, sentence.rstrip(".")],
+            "acceptableAnswers": sentence_answers(sentence),
         })
 
     # 4) Review ----------------------------------------------------------
@@ -508,16 +551,21 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
             s = f"وتدرّبنا على الجملة: {sentence}"
             if sentence_ar:
                 s += f" ({sentence_ar})"
-            review_lines.append(s + ".")
+            review_lines.append(s)
         review_lines.append("أعد التمرين متى احتجت، وحاول أن تستخدم الكلمات في جملةٍ من عندك.")
         review_prompt, review_hint = "مراجعة الدرس", "اقرأ المراجعة ثم أنهِ الدرس"
     else:
         if words_inline:
             review_lines.append(f"You practised: {words_inline}.")
         if sentence:
-            review_lines.append(f"Key sentence: {sentence}.")
+            review_lines.append(f"Key sentence: {sentence}")
         review_lines.append("Try to use these words in a sentence of your own.")
         review_prompt, review_hint = "Lesson review", "Read the review, then finish the lesson"
+    if guide:
+        review_lines.extend([
+            "طبّق ما تعلمته:\n" + guide["taskAr"],
+            "إجابة ممكنة:\n" + guide["exampleEn"] + "\n" + guide["exampleAr"],
+        ])
     add({
         "type": "explanation",
         "promptAr": review_prompt,
@@ -550,8 +598,11 @@ def expand_lesson(lesson, unit_eng_pool, unit_ar_pool, extra_examples=None, poli
 
 def main():
     catalog = json.loads(PATH.read_text(encoding="utf-8"))
+    guides = load_guides()
+    validate_guides(guides, catalog, require_complete=True)
+    apply_lesson_updates(catalog, guides)
     quality = load_quality_fixes()
-    replaced, gloss_fixed, punctuation_fixed = apply_quality_fixes(catalog, quality)
+    replaced, gloss_fixed, punctuation_fixed = apply_quality_fixes(catalog, quality, require_all=False)
     enrichment = load_enrichment()
     words_before = words_added = 0
     enrichment_duplicates: list[str] = []
@@ -598,7 +649,8 @@ def main():
             for ls in unit_lessons:
                 total_before += len(ls.get("exercises", []))
                 extra = enrichment.get(ls["id"], {}).get("extraExamples", {})
-                expand_lesson(ls, eng_pool, ar_pool, extra_examples=extra, policy=policy)
+                expand_lesson(ls, eng_pool, ar_pool, extra_examples=extra, policy=policy, guide=guides.get(ls["id"]),
+                              unit_words=[w for sibling in unit_lessons for w in sibling["vocabulary"]])
                 total_after += len(ls["exercises"])
                 lessons += 1
 
@@ -606,7 +658,8 @@ def main():
         json.dumps(catalog, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    print(f"Expanded {lessons} lessons.")
+    save_guide_translations(guides, catalog, enrichment)
+    print(f"Expanded {lessons} lessons; {len(guides)} reviewed teaching guides.")
     print(f"Quality corrections: {replaced} vocabulary replacements, "
           f"{gloss_fixed} Arabic gloss fixes, {punctuation_fixed} explicit sentence punctuation fixes.")
     print(f"Vocabulary: {words_before} base words + {words_added} authored "

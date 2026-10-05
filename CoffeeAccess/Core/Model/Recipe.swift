@@ -57,7 +57,9 @@ struct Recipe: Codable, Hashable, Identifiable {
             aroma: spec.hasAroma ? spec.defaultAroma : nil,
             temperature: spec.hasTemperature ? spec.defaultTemperature : nil,
             milkFirst: false,
-            toGo: toGo
+            toGo: toGo,
+            coldIntensity: spec.supportsColdIntensity ? .original : nil,
+            iceLevel: spec.supportsIce ? .ice : nil
         )
     }
 

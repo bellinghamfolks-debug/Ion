@@ -682,5 +682,157 @@
       "explanationAr": "legacy تصف صلته ببنية سابقة، ولا تثبت انعدام قيمته أو وجوب استبداله فورًا. التقييم يحتاج معرفة وظيفته وقيوده.",
       "explanationEn": "Legacy identifies inheritance from an earlier setup, not uselessness or an immediate replacement requirement. Assessment needs its function and constraints."
     }
+  },
+  "c1-x-u7-l1": {
+    "focusAr": "bilateral بين طرفين وmultilateral بين عدة أطراف؛ لا يصفان نجاح الاتفاق أو عدالته. ceasefire توقف إطلاق نار وفق نطاق معين، وليس تسوية نهائية تلقائيًا. de-escalate خفض التوتر أو الشدة، وnegotiations عملية قد تسبق اتفاقًا أو تفشل. عند تلخيص بيان، انسب الأقوال وميّز المقترح والموافقة المبدئية والتنفيذ الفعلي.",
+    "focusEn": "Bilateral involves two parties and multilateral several; neither describes success or fairness. A ceasefire halts fighting within a stated scope, not automatically resolves a conflict. De-escalate means reduce intensity; negotiations may lead to agreement or fail. Attribute statements and distinguish a proposal, tentative acceptance, and actual implementation when summarizing a communiqué.",
+    "taskAr": "لخّص بيانًا دبلوماسيًا تخيليًا: قبل الطرفان مناقشة وقف مؤقت، لكن موعده وآلية متابعته لم يُحسما.",
+    "taskEn": "Summarize an imagined communiqué: both parties agreed to discuss a temporary ceasefire, but its timing and monitoring remain unsettled.",
+    "exampleEn": "The parties agreed to discuss a temporary ceasefire as part of efforts to de-escalate the conflict. This marks progress in negotiations, but it does not establish that a ceasefire has begun or that monitoring arrangements are settled.",
+    "exampleAr": "اتفق الطرفان على مناقشة وقف مؤقت لإطلاق النار ضمن جهود خفض التصعيد. يمثل ذلك تقدمًا في المفاوضات، لكنه لا يثبت بدء الوقف أو حسم ترتيبات متابعته.",
+    "check": {
+      "promptEn": "Agreement to discuss a ceasefire establishes which point?",
+      "choices": [
+        "Talks on the proposal are accepted, not that implementation has begun.",
+        "All fighting has necessarily stopped.",
+        "A final peace settlement has been signed."
+      ],
+      "answer": "Talks on the proposal are accepted, not that implementation has begun.",
+      "explanationAr": "الموافقة على المناقشة مرحلة تختلف عن الاتفاق النهائي والتنفيذ. لا يسمح النص باستنتاج توقف القتال أو تسوية شاملة.",
+      "explanationEn": "Acceptance of discussion differs from final agreement and implementation. The wording does not establish stopped fighting or a comprehensive settlement."
+    }
+  },
+  "c1-x-u7-l2": {
+    "focusAr": "drivers عوامل مؤثرة قد تتداخل، فلا تختزل حركة الناس في سبب واحد. push factor ضغط يدفع للمغادرة، وpull factor جاذب في الوجهة. asylum طلب حماية في سياق قانوني يختلف عن الهجرة عمومًا؛ تقديم الطلب لا يثبت قبوله. remittances تحويلات لأهل أو جهات في موطن الأصل، ولا تكشف وحدها وضع المرسل القانوني.",
+    "focusEn": "Drivers may interact rather than reduce movement to one cause. A push factor pressures departure; a pull factor attracts toward a destination. Asylum concerns protection in a legal context rather than migration generally, and an application does not establish approval. Remittances are transfers to people or recipients in a place of origin; they do not alone disclose the sender's legal status.",
+    "taskAr": "اشرح حالة تخيلية انتقل فيها شخص بسبب انعدام فرص العمل ولوجود فرصة تدريب في مدينة أخرى، مع فصل العامل الطارد عن الجاذب.",
+    "taskEn": "Explain an imagined move prompted by scarce employment and a training opportunity elsewhere, distinguishing push from pull factors.",
+    "exampleEn": "Limited employment at home was a push factor, while the training opportunity was a pull factor. Together they help explain the decision, but they do not establish the person's immigration status or any entitlement to asylum.",
+    "exampleAr": "كان نقص فرص العمل في موطنه عاملًا طاردًا، بينما كانت فرصة التدريب عاملًا جاذبًا. يساعد العاملان على تفسير القرار، لكنهما لا يحددان وضعه القانوني في الهجرة أو استحقاقه للجوء.",
+    "check": {
+      "promptEn": "A person has applied for asylum. What does that wording establish?",
+      "choices": [
+        "A protection request has been submitted; its outcome is not stated.",
+        "The request has automatically been approved.",
+        "The person has necessarily obtained citizenship."
+      ],
+      "answer": "A protection request has been submitted; its outcome is not stated.",
+      "explanationAr": "تقديم طلب لجوء يثبت الطلب فقط ضمن العبارة. لا يعني قبوله أو اكتساب الجنسية، وهما أمران مختلفان يحتاجان معلومات إضافية.",
+      "explanationEn": "Applying establishes a submitted request, not approval or citizenship. Those distinct outcomes require further information."
+    }
+  },
+  "c1-x-u7-l3": {
+    "focusAr": "preparedness استعداد قبل الحدث، وcontainment جهود للحد من انتشاره، وoutbreak تفشٍّ قد يكون محدود النطاق. inequalities فروق مقاسة، وhealth equity تتناول الفروق غير المنصفة القابلة للتجنب. عند مقارنة vaccine coverage، حدّد الفئة والجرعات والفترة؛ ارتفاع المتوسط قد يخفي نقصًا في فئة ولا يثبت وحده تساوي الوصول.",
+    "focusEn": "Preparedness concerns readiness before an event, containment attempts to limit spread, and an outbreak may be localized. Inequalities are measured differences; health equity concerns avoidable unfair differences. For vaccine coverage, specify population, doses, and period. A high average may hide a poorly served group and does not alone establish equal access.",
+    "taskAr": "لخّص تقريرًا تدريبيًا عن تغطية خدمة صحية مرتفعة إجمالًا ومنخفضة في منطقة بعيدة، مع اقتراح سؤال عن عائق الوصول.",
+    "taskEn": "Summarize a practice report with high overall health-service coverage but low coverage in a remote area, proposing a question about access barriers.",
+    "exampleEn": "Overall coverage is high, yet the regional figures reveal inequalities that the average conceals. Before attributing the difference to individual choice, we should examine travel distance, service availability, and how the figures were collected.",
+    "exampleAr": "التغطية الإجمالية مرتفعة، لكن الأرقام الإقليمية تكشف تفاوتًا يخفيه المتوسط. وقبل نسب الفرق إلى الاختيار الفردي، ينبغي فحص مسافة الانتقال وتوفر الخدمة وكيفية جمع الأرقام.",
+    "check": {
+      "promptEn": "A high national average coexists with low coverage in one region. Which inference is justified?",
+      "choices": [
+        "Coverage differs across regions despite the high overall figure.",
+        "Every resident has identical access.",
+        "Residents in the lower-coverage region must have refused the service."
+      ],
+      "answer": "Coverage differs across regions despite the high overall figure.",
+      "explanationAr": "المعطى يبين تفاوتًا بين المناطق، ولا يحدد سببه أو يثبت تطابق الوصول. نسبته إلى الرفض وحده تحتاج دليلًا آخر.",
+      "explanationEn": "The information establishes regional variation, not its cause or equal access. Attributing it solely to refusal requires additional evidence."
+    }
+  },
+  "c1-x-u7-l4": {
+    "focusAr": "capacity building تقوية مهارات ومؤسسات، لا مجرد تسليم معدات. conditionality شروط مرتبطة بالمساعدة، وgrassroots مبادرة ناشئة من المجتمع المحلي. ميّز output مثل عدد الدورات عن outcome مثل قدرة فريق محلي على أداء العمل لاحقًا. قيّم أثر المساعدة واستدامته مع السكان المعنيين، دون افتراض أن استمرارها يثبت التبعية أو أن وقفها يثبت التمكين.",
+    "focusEn": "Capacity building strengthens skills and institutions, not merely supplies equipment. Conditionality attaches terms to assistance; grassroots describes local community origins. Distinguish an output, such as courses delivered, from an outcome, such as later independent performance. Assess effects and durability with those concerned without treating continued aid as automatic dependency or withdrawal as proof of empowerment.",
+    "taskAr": "قيّم مشروعًا تدريبيًا سلّم معدات وعقد ورشًا: حدّد دليلًا إضافيًا تحتاجه لمعرفة هل بُنيت قدرة محلية مستدامة.",
+    "taskEn": "Evaluate a practice project providing equipment and workshops: identify further evidence needed to know whether lasting local capacity developed.",
+    "exampleEn": "The workshops and equipment are outputs, but capacity building requires evidence that the local team can operate, maintain, and adapt the service. We should examine follow-up performance and access to resources rather than infer success from delivery figures alone.",
+    "exampleAr": "الورش والمعدات مخرجات، لكن بناء القدرات يحتاج دليلًا على أن الفريق المحلي يستطيع تشغيل الخدمة وصيانتها وتكييفها. ينبغي فحص الأداء اللاحق وتوفر الموارد بدل استنتاج النجاح من أرقام التسليم وحدها.",
+    "check": {
+      "promptEn": "Which observation best indicates an outcome beyond delivery of aid inputs?",
+      "choices": [
+        "The local team independently maintains the service six months later.",
+        "Ten boxes of equipment were shipped.",
+        "The launch event attracted many photographs."
+      ],
+      "answer": "The local team independently maintains the service six months later.",
+      "explanationAr": "استمرار الصيانة المحلية يدل على قدرة عملية لاحقة. الشحن والتوثيق يصفان أنشطة أو مدخلات ولا يثبتان الاستدامة.",
+      "explanationEn": "Continued local maintenance indicates subsequent practical capacity. Shipping and publicity describe activities or inputs, not established sustainability."
+    }
+  },
+  "c1-x-u8-l1": {
+    "focusAr": "confirmation bias انتقاء أو تفسير معلومات تؤيد الاعتقاد السابق، وanchoring تأثر الحكم بنقطة بداية حتى لو كانت ضعيفة الصلة. hindsight قد يجعل الماضي يبدو أكثر قابلية للتوقع مما كان. لا تستخدم أسماء التحيزات تشخيصًا للنوايا؛ حدد نمط الاستدلال وافحصه على موقفك أيضًا، مع البحث عن دليل قد يغيره.",
+    "focusEn": "Confirmation bias concerns selecting or interpreting information to support an existing belief; anchoring concerns influence from an initial reference, even when weakly relevant. Hindsight can make past events seem more predictable than they were. Do not use bias labels to diagnose motives; identify a reasoning pattern, apply the same scrutiny to yourself, and seek potentially disconfirming evidence.",
+    "taskAr": "لاحظت أنك تحفظ تقييمات تؤيد منتجًا أعجبك وتتجاهل الشكاوى الموثقة. صغ طريقة مراجعة تقلل هذا الانتقاء.",
+    "taskEn": "You notice saving reviews favouring a product you like while ignoring documented complaints. Formulate a review method that reduces this selectivity.",
+    "exampleEn": "I may be favouring evidence that confirms my first impression. I'll apply the same criteria to positive and negative reports, examine the documented complaints, and specify what finding would make me revise my view.",
+    "exampleAr": "ربما أفضل الأدلة التي تؤكد انطباعي الأول. سأطبق المعايير نفسها على التقارير الإيجابية والسلبية، وأفحص الشكاوى الموثقة، وأحدد النتيجة التي قد تدفعني إلى تعديل رأيي.",
+    "check": {
+      "promptEn": "Which action directly challenges selective confirmation?",
+      "choices": [
+        "Set equal standards for supporting and opposing evidence.",
+        "Dismiss every negative report before reading it.",
+        "Call the other side biased without checking your own criteria."
+      ],
+      "answer": "Set equal standards for supporting and opposing evidence.",
+      "explanationAr": "المعيار المتسق يختبر الأدلة بغض النظر عن اتجاهها. الرفض المسبق أو إطلاق وصف على الطرف الآخر لا يعالجان الانتقاء الذاتي.",
+      "explanationEn": "A consistent standard tests evidence regardless of direction. Prior rejection or labeling opponents does not address one's own selectivity."
+    }
+  },
+  "c1-x-u8-l2": {
+    "focusAr": "intrinsic motivation اهتمام بالنشاط أو قيمته الذاتية، وليست مرادفًا لإرادة لا تتأثر بالظروف. cue إشارة لبدء سلوك، وreinforcement نتيجة تزيد احتمال تكراره. habit loop نموذج مبسط لفهم بعض العادات، لا قانون يفسر كل سلوك. صِف تجربة قابلة للملاحظة وعدّلها إذا لم تناسب الواقع بدل لوم الشخص.",
+    "focusEn": "Intrinsic motivation concerns interest in an activity or its inherent value, not willpower unaffected by circumstances. A cue prompts behaviour; reinforcement increases its likelihood of recurring. A habit loop is a simplified model for some habits, not a law explaining all behaviour. Describe an observable trial and adjust it to circumstances rather than blame the person.",
+    "taskAr": "صغ خطة تدريبية لقراءة فقرة إنجليزية بعد الإفطار، تتضمن إشارة واضحة ومراجعة بعد أسبوع، دون وعد بعادة ثابتة خلال مدة محددة.",
+    "taskEn": "Draft a practice plan to read an English paragraph after breakfast, with a clear cue and a one-week review, without guaranteeing habit formation by a fixed date.",
+    "exampleEn": "Finishing breakfast will be my cue to read one paragraph. I'll record whether I did it and what interrupted me, then review the pattern after a week. If the timing proves impractical, I'll change the cue rather than assume a lack of willpower.",
+    "exampleAr": "سيكون إنهاء الإفطار إشارتي لقراءة فقرة واحدة. سأدوّن هل فعلت ذلك وما قاطعني، ثم أراجع النمط بعد أسبوع. وإذا اتضح أن التوقيت غير عملي، فسأغيّر الإشارة بدل افتراض ضعف الإرادة.",
+    "check": {
+      "promptEn": "Which plan uses a cue and a review rather than an unsupported guarantee?",
+      "choices": [
+        "Read after breakfast and review the recorded pattern after a week.",
+        "Promise that every habit becomes permanent in exactly seven days.",
+        "Treat one missed day as proof that change is impossible."
+      ],
+      "answer": "Read after breakfast and review the recorded pattern after a week.",
+      "explanationAr": "يربط الجواب الصحيح السلوك بإشارة قابلة للتحديد ومراجعة فعلية. لا يضمن زمنًا موحدًا لتكوّن العادة أو يجعل تعثرًا واحدًا حكمًا نهائيًا.",
+      "explanationEn": "The correct plan links behaviour to a specific cue and an actual review. It neither guarantees a universal formation period nor treats one setback as decisive."
+    }
+  },
+  "c1-x-u8-l3": {
+    "focusAr": "calculated risk مخاطرة نوقشت احتمالاتها وآثارها، لا مخاطرة مضمونة النتيجة. expected value متوسط مرجح باحتمالات مفترضة، وليس ما سيحدث حتمًا في محاولة واحدة. downside risk يلفت إلى الخسارة الممكنة، وcontingency plan يحدد استجابة إذا تحقق شرط. اذكر ما تعرفه وما تفترضه ومتى تعيد النظر في القرار.",
+    "focusEn": "A calculated risk has considered likelihoods and consequences, not a guaranteed outcome. Expected value is a probability-weighted average under assumptions, not a certain single outcome. Downside risk highlights potential loss, and a contingency plan specifies a response to a condition. State what is known, what is assumed, and when the decision should be reconsidered.",
+    "taskAr": "اقترح قرارًا تدريبيًا بتجربة نظام على فريق صغير مع شرط إيقاف وخطة عودة إذا ظهرت مشكلة وصول.",
+    "taskEn": "Propose a practice decision to trial a system with one small team, including a stop condition and rollback if an access problem appears.",
+    "exampleEn": "We can take a calculated risk by limiting the trial to one team. If a participant cannot complete a core task using the supported access method, we will pause the trial and restore the previous process while investigating.",
+    "exampleAr": "يمكننا خوض مخاطرة محسوبة بقصر التجربة على فريق واحد. وإذا تعذر على مشارك إنجاز مهمة أساسية بوسيلة الوصول المدعومة، فسنوقف التجربة مؤقتًا ونعيد الإجراء السابق أثناء الفحص.",
+    "check": {
+      "promptEn": "What makes a contingency plan operational?",
+      "choices": [
+        "A defined trigger linked to a specific response and responsible person.",
+        "A vague promise that everything will work.",
+        "A prediction presented as certainty without assumptions."
+      ],
+      "answer": "A defined trigger linked to a specific response and responsible person.",
+      "explanationAr": "الخطة قابلة للتنفيذ عندما تحدد متى تُفعّل وماذا سيحدث ومن يتولاه. التفاؤل أو الجزم المجرد ليسا إجراءً احتياطيًا.",
+      "explanationEn": "A workable plan states when it activates, what happens, and who acts. Optimism or unsupported certainty is not a contingency procedure."
+    }
+  },
+  "c1-x-u8-l4": {
+    "focusAr": "self-awareness ملاحظة مشاعرك وافتراضاتك، وregulate تنظيم الاستجابة لا إنكار الشعور. empathy فهم تجربة الآخر دون ادعاء قراءتها يقينًا، وrapport علاقة تواصل مريحة لا موافقة على كل شيء. اربط composure بسلوك محدد مثل طلب مهلة وتوضيح الحاجة، ولا تجعل الثبات الخارجي حكمًا على ما يشعر به الشخص داخليًا.",
+    "focusEn": "Self-awareness involves noticing feelings and assumptions; regulate means manage a response, not deny emotion. Empathy seeks understanding without claiming certain access to another's experience. Rapport is comfortable communication, not agreement on everything. Connect composure with actions such as requesting a pause and clarifying needs, without judging inner experience from outward calm alone.",
+    "taskAr": "صغ ردًا على نقد مفاجئ يقر بانفعالك ويطلب مثالًا محددًا ووقتًا قصيرًا للرد، دون مهاجمة صاحبه.",
+    "taskEn": "Respond to unexpected criticism by acknowledging your reaction and asking for a specific example and brief time to respond without attacking the speaker.",
+    "exampleEn": "I notice I'm reacting defensively, and I want to understand the concern properly. Could you give one specific example? I'd appreciate a moment to consider it before we discuss what needs to change.",
+    "exampleAr": "ألاحظ أنني أتخذ موقفًا دفاعيًا، وأريد فهم الملاحظة جيدًا. هل يمكنك تقديم مثال محدد؟ أقدّر منحي لحظة للتفكير فيه قبل أن نناقش ما يحتاج إلى تغيير.",
+    "check": {
+      "promptEn": "Which response demonstrates self-awareness without claiming to know another's feelings?",
+      "choices": [
+        "I notice I'm becoming defensive; could you clarify the concern?",
+        "Your expression proves that you hate my work.",
+        "Calm people never experience strong emotions."
+      ],
+      "answer": "I notice I'm becoming defensive; could you clarify the concern?",
+      "explanationAr": "يسمي الجواب الصحيح استجابة المتحدث ويطلب الفهم. لا يستنتج شعور الآخر يقينًا من مظهره ولا ينكر مشاعر من يبدو هادئًا.",
+      "explanationEn": "The correct response notices one's own reaction and seeks understanding. It does not infer another's feelings with certainty or deny emotion behind calm behaviour."
+    }
   }
 }

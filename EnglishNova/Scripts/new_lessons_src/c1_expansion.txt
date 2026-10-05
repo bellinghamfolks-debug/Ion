@@ -67,7 +67,7 @@ W|launch window|نافذة إطلاق|The mission was delayed until the next lau
 L | الابتكار المُحدِث للتغيير | Innovation and Disruption | أن يحلل المتعلم كيف تغيّر الابتكارات أسواقًا كاملة. | A new service can disrupt an established market, but the extent and timing of change require evidence. | قد تحدث خدمة جديدة تغييرًا في سوق قائم، لكن تحديد مدى التغيير وتوقيته يحتاج إلى أدلة. | To analyse how innovations transform entire markets.
 W|disrupt|يُحدث تغييرًا جذريًا|Ride-sharing apps disrupted the taxi industry.|أحدثت تطبيقات مشاركة الرحلات تغييرًا جذريًا في قطاع سيارات الأجرة.|verb
 W|overnight|بين ليلة وضحاها|The app became a success overnight.|نجح التطبيق بين ليلة وضحاها.|adverb
-W | obsolete | عفا عليه الزمن | The component became obsolete when the new standard replaced it. | أصبح المكوّن متقادمًا عندما استُبدل به المعيار الجديد. | adjective
+W | obsolete | عفا عليه الزمن | The component became obsolete after the technical standard changed. | أصبح المكوّن متقادمًا بعد تغيير المعيار التقني. | adjective
 W|cutting-edge|متطوّر جدًا|The lab uses cutting-edge technology.|يستخدم المختبر تقنية متطورة جدًا.|adjective
 W|incumbent|القائم (الراسخ في السوق)|Incumbent firms were slow to react.|كانت الشركات الراسخة بطيئة في الاستجابة.|adjective
 W|paradigm shift|تحوّل جذري في المفاهيم|The internet caused a paradigm shift in communication.|أحدث الإنترنت تحوّلًا جذريًا في التواصل.|noun
@@ -75,9 +75,9 @@ W|legacy system|نظام قديم|The company struggled to integrate the new pla
 W|first-mover advantage|ميزة السبق|A first-mover advantage can disappear if competitors execute better.|قد تختفي ميزة السبق إذا نفذ المنافسون بصورة أفضل.|noun
 U|c1-x-u7|الشؤون الدولية|Global Affairs|ناقش الدبلوماسية والعلاقات الدولية والهجرة والصحة العالمية والتنمية والمساعدات.|globe|Discuss diplomacy and international relations, migration, global health, and development and aid.
 L|الدبلوماسية والعلاقات الدولية|Diplomacy and International Relations|أن يحلل المتعلم مواقف دبلوماسية بلغة محايدة ودقيقة.|The two governments reached a tentative agreement after months of negotiations.|توصّلت الحكومتان إلى اتفاق مبدئي بعد أشهر من المفاوضات.|To analyse diplomatic situations in neutral, precise language.
-W|envoy|مبعوث|The UN sent a special envoy to the region.|أرسلت الأمم المتحدة مبعوثًا خاصًا إلى المنطقة.|noun
+W | envoy | مبعوث | In this fictional scenario, an envoy carries a proposal to both governments. | في هذا السيناريو التخيلي، ينقل مبعوث مقترحًا إلى الحكومتين. | noun
 W|negotiations|مفاوضات|Negotiations broke down last night.|انهارت المفاوضات الليلة الماضية.|noun
-W|sanctions|عقوبات|The UN imposed sanctions on the regime.|فرضت الأمم المتحدة عقوبات على النظام.|noun
+W | sanctions | عقوبات | The briefing distinguishes proposed sanctions from measures already in force. | يميز الإحاطة بين العقوبات المقترحة والتدابير النافذة بالفعل. | noun
 W|bilateral|ثنائي|They signed a bilateral trade agreement.|وقّعوا اتفاقية تجارية ثنائية.|adjective
 W|sovereignty|السيادة|The issue touches on national sovereignty.|تمسّ القضية السيادة الوطنية.|noun
 W|de-escalate|يخفّف التصعيد|Both sides tried to de-escalate the crisis.|حاول الطرفان تخفيف التصعيد في الأزمة.|verb
@@ -95,13 +95,13 @@ W|pull factor|عامل جاذب|Higher wages may be a pull factor for some migra
 L|الصحة العالمية|Global Health|أن يناقش المتعلم التعاون الدولي في مواجهة الأوبئة.|The pandemic exposed deep inequalities in access to healthcare.|كشفت الجائحة عن تفاوت عميق في الوصول إلى الرعاية الصحية.|To discuss international cooperation in facing epidemics.
 W|pandemic|جائحة|The pandemic changed how we work.|غيّرت الجائحة طريقة عملنا.|noun
 W|expose|يكشف|The report exposed serious failures.|كشف التقرير عن إخفاقات خطيرة.|verb
-W|inequalities|أوجه التفاوت|Health inequalities are growing.|تتزايد أوجه التفاوت الصحي.|noun
+W | inequalities | أوجه التفاوت | The report examines inequalities in access across different regions. | يفحص التقرير التفاوت في الوصول بين المناطق المختلفة. | noun
 W|outbreak|تفشٍّ (لمرض)|An outbreak of measles was reported.|أُبلغ عن تفشٍّ للحصبة.|noun
 W|containment|الاحتواء|Early containment is essential.|الاحتواء المبكر ضروري.|noun
 W|preparedness|الجاهزية|Countries must improve pandemic preparedness.|يجب على الدول تحسين جاهزيتها للجوائح.|noun
 W|health equity|عدالة صحية|Health equity focuses on avoidable and unfair differences in health outcomes.|تركز العدالة الصحية على الفروق الصحية القابلة للتجنب وغير العادلة.|noun
 W|vaccine coverage|تغطية لقاحية|High vaccine coverage can reduce transmission for some vaccine-preventable diseases.|يمكن للتغطية اللقاحية المرتفعة أن تقلل الانتقال في بعض الأمراض التي يمكن الوقاية منها باللقاح.|noun
-L|التنمية والمساعدات|Development and Aid|أن يقيّم المتعلم فاعلية المساعدات الدولية وشروطها.|Aid is most effective when it empowers local communities rather than creating dependency.|تكون المساعدات أكثر فاعلية عندما تمكّن المجتمعات المحلية بدلًا من خلق الاعتماد عليها.|To evaluate how effective international aid is and the conditions attached to it.
+L | التنمية والمساعدات | Development and Aid | أن يقيّم المتعلم فاعلية المساعدات الدولية وشروطها. | An aid programme should examine whether it strengthens local capacity or creates unintended dependency. | ينبغي لبرنامج المساعدة أن يفحص ما إذا كان يقوي القدرة المحلية أو ينشئ اعتمادًا غير مقصود. | To evaluate how effective international aid is and the conditions attached to it.
 W|empower|يمكّن|Education empowers young women.|يمكّن التعليم الشابات.|verb
 W|dependency|الاعتماد (التبعية)|Long-term aid can create dependency.|قد تخلق المساعدات طويلة الأمد تبعية.|noun
 W|infrastructure|البنية التحتية|The country needs better infrastructure.|تحتاج البلاد إلى بنية تحتية أفضل.|noun
@@ -120,13 +120,13 @@ W|overconfidence|الثقة المفرطة|Overconfidence led to poor decisions.
 W|anchoring|الارتساء (التأثر بالرقم الأول)|Anchoring explains why first offers matter.|يفسّر الارتساء أهمية العرض الأول.|noun
 W|motivated reasoning|استدلال مدفوع بالميول|Motivated reasoning can make people judge the same evidence differently.|قد يجعل الاستدلال المدفوع بالميول الناس يقيمون الأدلة نفسها بصورة مختلفة.|noun
 W|overestimate|يبالغ في التقدير|People often overestimate the risk of rare events.|كثيرًا ما يبالغ الناس في تقدير خطر الأحداث النادرة.|verb
-L|الدافعية والعادات|Motivation and Habit|أن يشرح المتعلم كيف تتكوّن العادات وكيف تُغيَّر.|Small, consistent changes are far more sustainable than relying on willpower alone.|التغييرات الصغيرة المنتظمة أكثر استدامة بكثير من الاعتماد على قوة الإرادة وحدها.|To explain how habits form and how they can be changed.
-W|willpower|قوة الإرادة|It takes willpower to give up sugar.|يتطلب الإقلاع عن السكر قوة إرادة.|noun
+L | الدافعية والعادات | Motivation and Habit | أن يشرح المتعلم كيف تتكوّن العادات وكيف تُغيَّر. | A consistent routine may help, but the plan should be adjusted when the circumstances change. | قد يساعد روتين منتظم، لكن ينبغي تعديل الخطة عند تغير الظروف. | To explain how habits form and how they can be changed.
+W | willpower | قوة الإرادة | She found that planning her study time was more useful than relying on willpower alone. | وجدت أن تخطيط وقت الدراسة أفيد لها من الاعتماد على قوة الإرادة وحدها. | noun
 W|consistent|منتظم؛ ثابت|Consistent practice brings results.|التدرّب المنتظم يأتي بالنتائج.|adjective
-W|intrinsic|داخلي (نابع من الذات)|Intrinsic motivation lasts longer than rewards.|الدافعية الداخلية تدوم أطول من المكافآت.|adjective
+W | intrinsic | داخلي (نابع من الذات) | Her intrinsic motivation comes from enjoying the learning process itself. | تنبع دافعيتها الداخلية من الاستمتاع بعملية التعلم نفسها. | adjective
 W|trigger|محفّز؛ مثير|Stress is a common trigger for bad habits.|التوتر محفّز شائع للعادات السيئة.|noun
-W|reinforcement|تعزيز|Positive reinforcement works well with children.|يعمل التعزيز الإيجابي جيدًا مع الأطفال.|noun
-W|relapse|انتكاسة؛ يعود إلى|Many people relapse after a few weeks.|ينتكس كثير من الناس بعد بضعة أسابيع.|verb
+W | reinforcement | تعزيز | The researcher examined whether feedback acted as reinforcement for the behaviour. | فحص الباحث ما إذا كانت الملاحظات تعزز تكرار السلوك. | noun
+W | relapse | ينتكس؛ يعود إلى سلوك سابق | During a stressful period, people may relapse into an old habit. | قد يعود الناس إلى عادة قديمة خلال فترة ضاغطة. | verb
 W|habit loop|حلقة العادة|A habit loop links a cue, a routine and a reward.|تربط حلقة العادة بين محفز وروتين ومكافأة.|noun
 W|cue|محفز|Placing running shoes by the door can act as a cue for exercise.|يمكن لوضع حذاء الجري قرب الباب أن يعمل كمحفز للتمرين.|noun
 L|اتخاذ القرار في ظل عدم اليقين|Decision-Making Under Uncertainty|أن يناقش المتعلم استراتيجيات اتخاذ القرار عند نقص المعلومات.|When information is incomplete, it pays to weigh the trade-offs and consider worst-case scenarios.|عندما تكون المعلومات ناقصة، من المفيد موازنة المقايضات والنظر في أسوأ الاحتمالات.|To discuss decision-making strategies when information is incomplete.
@@ -139,7 +139,7 @@ W|contingency plan|خطة طوارئ|Always have a contingency plan.|احتفظ 
 W|expected value|قيمة متوقعة|Expected value can help compare uncertain options, although it does not capture every concern.|يمكن للقيمة المتوقعة أن تساعد في مقارنة الخيارات غير المؤكدة، لكنها لا تشمل كل الاعتبارات.|noun
 W|downside risk|مخاطر الجانب السلبي|The team examined the downside risk before approving the investment.|درس الفريق مخاطر الجانب السلبي قبل اعتماد الاستثمار.|noun
 L|الذكاء العاطفي|Emotional Intelligence|أن يصف المتعلم مهارات الذكاء العاطفي وأثرها في العمل والعلاقات.|People with high emotional intelligence can regulate their emotions under pressure.|يستطيع أصحاب الذكاء العاطفي المرتفع ضبط مشاعرهم تحت الضغط.|To describe emotional intelligence skills and their effect at work and in relationships.
-W|emotional intelligence|الذكاء العاطفي|Good leaders have high emotional intelligence.|يتمتع القادة الجيدون بذكاء عاطفي مرتفع.|noun
+W | emotional intelligence | الذكاء العاطفي | The workshop explored emotional intelligence through listening and reflection exercises. | استكشفت الورشة الذكاء العاطفي عبر تمارين الاستماع والتأمل. | noun
 W|regulate|يضبط؛ ينظّم|Children learn to regulate their emotions.|يتعلّم الأطفال ضبط مشاعرهم.|verb
 W|self-awareness|الوعي الذاتي|Self-awareness is the first step to change.|الوعي الذاتي هو الخطوة الأولى نحو التغيير.|noun
 W|perceptive|ثاقب الملاحظة|She is very perceptive about people's feelings.|إنها ثاقبة الملاحظة جدًا لمشاعر الناس.|adjective

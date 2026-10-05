@@ -51,37 +51,62 @@ jobs:
                       locale="en-US",
                   )
                   page=await ctx.new_page()
-                  candidates=[]
-                  for u in URLS:
-                      print("Opening",u)
-                      r=await page.goto(u,wait_until="domcontentloaded",timeout=120000)
-                      print("status",r.status if r else None,"title",await page.title())
-                      await page.wait_for_timeout(3000)
-                      hrefs=await page.locator("a").evaluate_all("els => els.map(a => a.href).filter(Boolean)")
-                      for h in hrefs:
-                          if "download.apkcombo.com" in h and h not in candidates:
-                              candidates.append(h)
-                      print("CDN candidates so far:",len(candidates))
-                  if not candidates:
-                      html=await page.content()
-                      open("/tmp/apkcombo/page.html","w",encoding="utf-8").write(html)
-                      print((await page.locator("body").inner_text())[:12000])
-                      raise RuntimeError("No APKCombo CDN candidate found")
-                  for n,h in enumerate(candidates[:20],1):
-                      print("Trying candidate",n,h[:180])
-                      p2=await ctx.new_page()
+                  download_page=URLS[0]
+                  print("Opening",download_page)
+                  r=await page.goto(download_page,wait_until="domcontentloaded",timeout=120000)
+                  print("status",r.status if r else None,"title",await page.title())
+                  await page.wait_for_timeout(3000)
+                  print((await page.locator("body").inner_text())[:16000])
+
+                  # Log useful clickable elements so failures are diagnosable.
+                  links=await page.locator("a").evaluate_all("""els => els.map(a => ({text:(a.innerText||'').trim(),href:a.href,html:a.outerHTML})).filter(x => /download|1\\.5\\.0|318|xapk|apk/i.test(x.text+' '+x.href))""")
+                  print("Relevant links:",len(links))
+                  for x in links[:80]:
+                      print("LINK",x["text"][:120],x["href"][:300],x["html"][:500])
+
+                  buttons=await page.locator("button").evaluate_all("""els => els.map(a => ({text:(a.innerText||'').trim(),html:a.outerHTML})).filter(x => /download|xapk|apk/i.test(x.text+' '+x.html))""")
+                  print("Relevant buttons:",len(buttons))
+                  for x in buttons[:50]:
+                      print("BUTTON",x["text"][:120],x["html"][:700])
+
+                  # APKCombo generates its signed CDN URL when the variant download control is activated.
+                  clickable=page.get_by_text(re.compile(r"(Download|XAPK).*?(95|MB)|95.*?(Download|XAPK)",re.I))
+                  count=await clickable.count()
+                  print("Text download candidates:",count)
+                  for idx in range(count):
+                      el=clickable.nth(idx)
                       try:
-                          async with p2.expect_download(timeout=180000) as di:
-                              await p2.goto(h,wait_until="commit",timeout=180000)
-                          d=await di.value
-                          await d.save_as(OUT)
-                          print("Saved",d.suggested_filename,os.path.getsize(OUT))
-                          await browser.close()
-                          return
-                      except Exception as e:
-                          print("candidate failed",repr(e))
-                          await p2.close()
-                  raise RuntimeError("All APKCombo download candidates failed")
+                          print("CLICKABLE",idx,(await el.inner_text())[:300],(await el.evaluate("e=>e.outerHTML"))[:800])
+                      except: pass
+
+                  # Try elements most likely to initiate the 1.5.0 bundle download.
+                  selectors=[
+                      "a[href*='/download/'][class*='download']",
+                      "a:has-text('Download APK')",
+                      "a:has-text('Download XAPK')",
+                      "button:has-text('Download')",
+                      "[data-download]",
+                  ]
+                  for sel in selectors:
+                      loc=page.locator(sel)
+                      for idx in range(min(await loc.count(),20)):
+                          el=loc.nth(idx)
+                          try:
+                              txt=(await el.inner_text()).strip()
+                              html=(await el.evaluate("e=>e.outerHTML"))
+                              print("Trying click",sel,idx,txt[:160],html[:500])
+                              async with page.expect_download(timeout=45000) as di:
+                                  await el.click(timeout=15000)
+                              d=await di.value
+                              await d.save_as(OUT)
+                              print("Saved",d.suggested_filename,os.path.getsize(OUT))
+                              await browser.close()
+                              return
+                          except Exception as e:
+                              print("click failed",sel,idx,repr(e))
+                              try: await page.wait_for_timeout(1000)
+                              except: pass
+                  raise RuntimeError("No APKCombo control initiated a browser download")
           asyncio.run(main())
           PY
 

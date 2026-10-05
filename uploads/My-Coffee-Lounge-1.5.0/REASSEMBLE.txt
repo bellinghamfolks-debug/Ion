@@ -1,0 +1,14 @@
+Original file: My+Coffee+Lounge_1.5.0_APKPure.xapk
+Original size: 99992559 bytes
+Original SHA-256: 78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81
+
+Linux/macOS:
+cat My_Coffee_Lounge_1.5.0.xapk.*.part > My+Coffee+Lounge_1.5.0_APKPure.xapk
+sha256sum My+Coffee+Lounge_1.5.0_APKPure.xapk
+
+Windows PowerShell:
+$parts = Get-ChildItem 'My_Coffee_Lounge_1.5.0.xapk.*.part' | Sort-Object Name
+$out = [System.IO.File]::Create('My+Coffee+Lounge_1.5.0_APKPure.xapk')
+foreach ($p in $parts) { $bytes=[System.IO.File]::ReadAllBytes($p.FullName); $out.Write($bytes,0,$bytes.Length) }
+$out.Close()
+Get-FileHash 'My+Coffee+Lounge_1.5.0_APKPure.xapk' -Algorithm SHA256

@@ -21,25 +21,78 @@ jobs:
         with:
           ref: upload/my-coffee-lounge-1.5.0
 
-      - name: Fetch Google Play version 318 and verify component hashes
+      - name: Fetch APKCombo bundle and verify component hashes
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf /tmp/gplay && mkdir -p /tmp/gplay
+          rm -rf /tmp/apkcombo /tmp/xapk-components
+          mkdir -p /tmp/apkcombo /tmp/xapk-components
 
-          python3 -m pip install --quiet 'gplaydl==2.1.7'
-          echo "Acquiring anonymous Google Play token..."
-          gplaydl auth
+          python3 -m pip install --quiet playwright
+          python3 -m playwright install chromium
 
-          echo "Downloading My Coffee Lounge versionCode 318 with all split APKs..."
-          gplaydl download com.delonghigroup.daedalus -v 318 -o /tmp/gplay
+          cat > /tmp/fetch_apkcombo.py <<'PY'
+          import asyncio, os, re
+          from playwright.async_api import async_playwright
 
-          echo "Downloaded files:"
-          find /tmp/gplay -maxdepth 1 -type f -printf '%f %s bytes\n' | sort
+          URLS = [
+              "https://apkcombo.com/my-coffee-lounge/com.delonghigroup.daedalus/download/apk",
+              "https://apkcombo.com/my-coffee-lounge/com.delonghigroup.daedalus/",
+          ]
+          OUT="/tmp/apkcombo/bundle.xapk"
+
+          async def main():
+              async with async_playwright() as p:
+                  browser=await p.chromium.launch(headless=True, args=["--no-sandbox"])
+                  ctx=await browser.new_context(
+                      accept_downloads=True,
+                      user_agent="Mozilla/5.0 (Linux; Android 12; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140 Mobile Safari/537.36",
+                      viewport={"width":1280,"height":900},
+                      locale="en-US",
+                  )
+                  page=await ctx.new_page()
+                  candidates=[]
+                  for u in URLS:
+                      print("Opening",u)
+                      r=await page.goto(u,wait_until="domcontentloaded",timeout=120000)
+                      print("status",r.status if r else None,"title",await page.title())
+                      await page.wait_for_timeout(3000)
+                      hrefs=await page.locator("a").evaluate_all("els => els.map(a => a.href).filter(Boolean)")
+                      for h in hrefs:
+                          if "download.apkcombo.com" in h and h not in candidates:
+                              candidates.append(h)
+                      print("CDN candidates so far:",len(candidates))
+                  if not candidates:
+                      html=await page.content()
+                      open("/tmp/apkcombo/page.html","w",encoding="utf-8").write(html)
+                      print((await page.locator("body").inner_text())[:12000])
+                      raise RuntimeError("No APKCombo CDN candidate found")
+                  for n,h in enumerate(candidates[:20],1):
+                      print("Trying candidate",n,h[:180])
+                      p2=await ctx.new_page()
+                      try:
+                          async with p2.expect_download(timeout=180000) as di:
+                              await p2.goto(h,wait_until="commit",timeout=180000)
+                          d=await di.value
+                          await d.save_as(OUT)
+                          print("Saved",d.suggested_filename,os.path.getsize(OUT))
+                          await browser.close()
+                          return
+                      except Exception as e:
+                          print("candidate failed",repr(e))
+                          await p2.close()
+                  raise RuntimeError("All APKCombo download candidates failed")
+          asyncio.run(main())
+          PY
+
+          python3 /tmp/fetch_apkcombo.py
+          file /tmp/apkcombo/bundle.xapk
+          ls -lh /tmp/apkcombo/bundle.xapk
+          unzip -l /tmp/apkcombo/bundle.xapk | head -80
 
           python3 - <<'PY'
-          import hashlib, os, sys
-          root='/tmp/gplay'
+          import zipfile, hashlib, os, sys, shutil
+          bundle='/tmp/apkcombo/bundle.xapk'
           expected={
             'base':'afd5256eabaf7d938825e62691188494cda5803d26fd20111ae92c18a4e3cbe2',
             'config.en':'0fbb67f6c390292cc12c8b5b3fda4d4588220a70b54d4c5b5f2389712154ddea',
@@ -47,29 +100,6 @@ jobs:
             'config.hdpi':'aa8cc2b93feffb48ddf3a06e251ebaa7b59f6c3b5b85f686e650301c6860b8f8',
             'config.arm64_v8a':'6e04a8549e0900c5193a9ec593d675a046832c680ca9795ad305c6f748b52483',
           }
-          files=[os.path.join(root,f) for f in os.listdir(root) if f.endswith('.apk')]
-          got={}
-          for p in files:
-              name=os.path.basename(p)
-              h=hashlib.sha256(open(p,'rb').read()).hexdigest()
-              if 'config.en' in name: key='config.en'
-              elif 'config.fr' in name: key='config.fr'
-              elif 'config.hdpi' in name: key='config.hdpi'
-              elif 'config.arm64_v8a' in name: key='config.arm64_v8a'
-              elif '-config.' not in name: key='base'
-              else: continue
-              got[key]=(p,h,os.path.getsize(p))
-              print(f'{key}: {name} size={os.path.getsize(p)} sha256={h}')
-          missing=[k for k in expected if k not in got]
-          mismatch=[k for k in expected if k in got and got[k][1]!=expected[k]]
-          if missing or mismatch:
-              print('Missing:', missing)
-              print('Mismatched:', mismatch)
-              sys.exit(1)
-          print('ALL_REQUIRED_COMPONENT_HASHES_MATCH=1')
-          # Put exact expected component filenames in a staging directory.
-          out='/tmp/xapk-components'
-          os.makedirs(out,exist_ok=True)
           mapping={
             'base':'com.delonghigroup.daedalus.apk',
             'config.en':'config.en.apk',
@@ -77,9 +107,28 @@ jobs:
             'config.hdpi':'config.hdpi.apk',
             'config.arm64_v8a':'config.arm64_v8a.apk',
           }
-          for k,(p,_,_) in got.items():
-              if k in mapping:
-                  open(os.path.join(out,mapping[k]),'wb').write(open(p,'rb').read())
+          z=zipfile.ZipFile(bundle)
+          got={}
+          for n in z.namelist():
+              if not n.lower().endswith('.apk'): continue
+              data=z.read(n); h=hashlib.sha256(data).hexdigest()
+              base=os.path.basename(n)
+              key=None
+              if 'config.en' in base: key='config.en'
+              elif 'config.fr' in base: key='config.fr'
+              elif 'config.hdpi' in base: key='config.hdpi'
+              elif 'config.arm64_v8a' in base or 'arm64-v8a' in base: key='config.arm64_v8a'
+              elif 'base' in base.lower() or base.startswith('com.delonghigroup.daedalus'): key='base'
+              print(base,len(data),h,'=>',key)
+              if key and h==expected[key]:
+                  got[key]=data
+          missing=[k for k in expected if k not in got]
+          if missing:
+              print("Exact required components not found:",missing)
+              sys.exit(1)
+          for k,data in got.items():
+              open('/tmp/xapk-components/'+mapping[k],'wb').write(data)
+          print("ALL_REQUIRED_COMPONENT_HASHES_MATCH=1")
           PY
 
       - name: Split into GitHub-safe parts

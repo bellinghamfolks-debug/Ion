@@ -1,0 +1,49 @@
+# Codemagic: builds an unsigned IPA on every push to main or claude/**.
+# Sign it on your own device with a free Apple ID (Sideloadly / AltStore).
+workflows:
+  coffee-access-unsigned-ipa:
+    name: Coffee Access — unsigned IPA
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      xcode: latest
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "main"
+          include: true
+        - pattern: "claude/**"
+          include: true
+    scripts:
+      - name: Source checks
+        script: |
+          python3 Scripts/validate_strings.py
+          python3 Scripts/check_contrast.py
+      - name: Install XcodeGen
+        script: brew install xcodegen
+      - name: Generate project
+        script: xcodegen generate
+      - name: Build unsigned app
+        script: |
+          set -o pipefail
+          xcodebuild build \
+            -project CoffeeAccess.xcodeproj \
+            -scheme CoffeeAccess \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build-device \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            COMPILER_INDEX_STORE_ENABLE=NO | xcpretty
+      - name: Package IPA
+        script: |
+          set -euo pipefail
+          APP="build-device/Build/Products/Release-iphoneos/CoffeeAccess.app"
+          test -d "$APP"
+          rm -rf Payload && mkdir Payload
+          cp -R "$APP" Payload/
+          zip -qry CoffeeAccess-unsigned.ipa Payload
+          cp CoffeeAccess-unsigned.ipa "CoffeeAccess-${CM_COMMIT:0:7}-unsigned.ipa"
+    artifacts:
+      - CoffeeAccess-*.ipa

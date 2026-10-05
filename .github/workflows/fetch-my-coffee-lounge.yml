@@ -1,0 +1,141 @@
+name: Fetch My Coffee Lounge 1.5.0 XAPK
+
+on:
+  push:
+    branches:
+      - upload/my-coffee-lounge-1.5.0
+    paths:
+      - .github/workflows/fetch-my-coffee-lounge.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-and-split:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: upload/my-coffee-lounge-1.5.0
+
+      - name: Download exact XAPK and verify SHA-256
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPECTED="78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81"
+          OUT="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
+          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/140 Safari/537.36"
+
+          try_url() {
+            local url="$1"
+            echo "Trying: $url"
+            rm -f "$OUT"
+            if curl -fL --retry 3 --retry-all-errors --connect-timeout 20 --max-time 600 \
+              -A "$UA" -H "Referer: https://apkpure.net/" "$url" -o "$OUT"; then
+              local actual
+              actual="$(sha256sum "$OUT" | awk '{print $1}')"
+              echo "Downloaded size: $(stat -c%s "$OUT") bytes"
+              echo "SHA-256: $actual"
+              if [[ "$actual" == "$EXPECTED" ]]; then
+                return 0
+              fi
+              echo "Hash mismatch; rejecting this download."
+            fi
+            return 1
+          }
+
+          urls=(
+            "https://d.apkpure.com/b/XAPK/com.delonghigroup.daedalus?version=latest"
+            "https://d.apkpure.com/b/XAPK/com.delonghigroup.daedalus?versionCode=318"
+            "https://d.apkpure.com/b/XAPK/com.delonghigroup.daedalus?version=1.5.0"
+          )
+
+          found=0
+          for url in "${urls[@]}"; do
+            if try_url "$url"; then
+              found=1
+              break
+            fi
+          done
+
+          if [[ "$found" -ne 1 ]]; then
+            echo "Direct links did not produce the exact file. Scraping the APKPure 1.5.0 download page for candidate links..."
+            PAGE="https://apkpure.net/my-coffee-lounge/com.delonghigroup.daedalus/download/1.5.0"
+            curl -fLsS -A "$UA" "$PAGE" -o /tmp/apkpure.html
+            python3 - <<'PY' > /tmp/candidates.txt
+          import html, re
+          s=open('/tmp/apkpure.html', encoding='utf-8', errors='ignore').read()
+          seen=set()
+          patterns=[
+              r'https://d\.apkpure\.com/[^"\'<> ]+',
+              r'https://[^"\'<> ]+\.apkpure\.com/[^"\'<> ]+(?:XAPK|xapk)[^"\'<> ]*',
+          ]
+          for p in patterns:
+              for u in re.findall(p, s):
+                  u=html.unescape(u).replace('\\u0026','&')
+                  if u not in seen:
+                      seen.add(u); print(u)
+          PY
+            while IFS= read -r url; do
+              [[ -n "$url" ]] || continue
+              if try_url "$url"; then
+                found=1
+                break
+              fi
+            done < /tmp/candidates.txt
+          fi
+
+          if [[ "$found" -ne 1 ]]; then
+            echo "Could not obtain a byte-for-byte match for the uploaded XAPK. Nothing will be committed."
+            exit 1
+          fi
+
+          echo "$EXPECTED  $OUT" | sha256sum -c -
+
+      - name: Split into GitHub-safe parts
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
+          DIR="uploads/My-Coffee-Lounge-1.5.0"
+          mkdir -p "$DIR"
+          rm -f "$DIR"/My_Coffee_Lounge_1.5.0.xapk.*.part
+          split -b 20M -d -a 2 "$SRC" /tmp/My_Coffee_Lounge_1.5.0.xapk.
+          for f in /tmp/My_Coffee_Lounge_1.5.0.xapk.[0-9][0-9]; do
+            mv "$f" "$DIR/$(basename "$f").part"
+          done
+          (cd "$DIR" && sha256sum My_Coffee_Lounge_1.5.0.xapk.*.part > SHA256SUMS.txt)
+          cat > "$DIR/REASSEMBLE.txt" <<'EOF'
+          Original file: My+Coffee+Lounge_1.5.0_APKPure.xapk
+          Original size: 99992559 bytes
+          Original SHA-256: 78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81
+
+          Linux/macOS:
+          cat My_Coffee_Lounge_1.5.0.xapk.*.part > My+Coffee+Lounge_1.5.0_APKPure.xapk
+          sha256sum My+Coffee+Lounge_1.5.0_APKPure.xapk
+
+          Windows PowerShell:
+          $parts = Get-ChildItem 'My_Coffee_Lounge_1.5.0.xapk.*.part' | Sort-Object Name
+          $out = [System.IO.File]::Create('My+Coffee+Lounge_1.5.0_APKPure.xapk')
+          foreach ($p in $parts) { $bytes=[System.IO.File]::ReadAllBytes($p.FullName); $out.Write($bytes,0,$bytes.Length) }
+          $out.Close()
+          Get-FileHash 'My+Coffee+Lounge_1.5.0_APKPure.xapk' -Algorithm SHA256
+          EOF
+          ls -lh "$DIR"
+
+      - name: Commit parts to branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add uploads/My-Coffee-Lounge-1.5.0
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Add My Coffee Lounge 1.5.0 XAPK parts [skip ci]"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

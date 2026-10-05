@@ -21,30 +21,104 @@ jobs:
         with:
           ref: upload/my-coffee-lounge-1.5.0
 
-      - name: Fetch APKPure 1.5.0 with apkeep
+      - name: Fetch APKCombo 1.5.0 bundle and verify exact components
         shell: bash
         run: |
           set -euo pipefail
-          PKG="com.delonghigroup.daedalus@1.5.0"
-          mkdir -p /tmp/apkeep1 /tmp/apkeep2\n          chmod 777 /tmp/apkeep1 /tmp/apkeep2
+          rm -rf /tmp/apkcombo /tmp/xapk-components
+          mkdir -p /tmp/apkcombo /tmp/xapk-components
 
-          docker pull ghcr.io/efforg/apkeep:edge
+          python3 -m pip install --quiet playwright
+          python3 -m playwright install chromium
 
-          docker run --rm -v /tmp/apkeep1:/output ghcr.io/efforg/apkeep:edge \
-            -a "$PKG" -d apk-pure \
-            -o 'acknowledge_dangers=true,arch=arm64-v8a' /output || true
+          cat > /tmp/fetch_apkcombo.py <<'PY'
+          import asyncio, os
+          from playwright.async_api import async_playwright
 
-          docker run --rm -v /tmp/apkeep2:/output ghcr.io/efforg/apkeep:edge \
-            -a "$PKG" -d apk-pure \
-            -o 'acknowledge_dangers=true' /output || true
+          PAGE="https://apkcombo.com/my-coffee-lounge/com.delonghigroup.daedalus/download/apk"
+          OUT="/tmp/apkcombo/bundle.xapk"
 
-          echo "Downloaded files:"
-          find /tmp/apkeep1 /tmp/apkeep2 -type f -printf '%p %s bytes\n' || true
+          async def main():
+              async with async_playwright() as p:
+                  browser=await p.chromium.launch(headless=True, args=["--no-sandbox"])
+                  ctx=await browser.new_context(
+                      accept_downloads=True,
+                      user_agent="Mozilla/5.0 (Linux; Android 12; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140 Mobile Safari/537.36",
+                      viewport={"width":1280,"height":900},
+                      locale="en-US",
+                  )
+                  page=await ctx.new_page()
+                  resp=await page.goto(PAGE,wait_until="domcontentloaded",timeout=120000)
+                  print("APKCombo status:",resp.status if resp else None)
+                  await page.wait_for_timeout(3000)
 
-          if ! find /tmp/apkeep1 /tmp/apkeep2 -type f | grep -q .; then
-            echo "apkeep did not download any files"
-            exit 1
-          fi
+                  loc=page.locator("a[href*='/d?u=']")
+                  count=await loc.count()
+                  print("Signed download links:",count)
+                  chosen=None
+                  for idx in range(count):
+                      el=loc.nth(idx)
+                      text=(await el.inner_text()).strip()
+                      href=await el.get_attribute("href") or ""
+                      print("Candidate",idx,text[:160],href[:180])
+                      if ("1.5.0" in text or "318" in text or
+                          "Y29tLmRlbG9uZ2hpZ3JvdXAuZGFlZGFsdXM" in href):
+                          chosen=el
+                          break
+                  if chosen is None and count:
+                      chosen=loc.nth(0)
+                  if chosen is None:
+                      raise RuntimeError("No APKCombo signed XAPK link found")
+
+                  async with page.expect_download(timeout=180000) as di:
+                      await chosen.click(timeout=30000)
+                  d=await di.value
+                  await d.save_as(OUT)
+                  print("Saved:",d.suggested_filename,os.path.getsize(OUT))
+                  await browser.close()
+
+          asyncio.run(main())
+          PY
+
+          python3 /tmp/fetch_apkcombo.py
+          test -s /tmp/apkcombo/bundle.xapk
+
+          python3 - <<'PY'
+          import zipfile, hashlib, os, sys
+          bundle='/tmp/apkcombo/bundle.xapk'
+          expected={
+            'base':'afd5256eabaf7d938825e62691188494cda5803d26fd20111ae92c18a4e3cbe2',
+            'config.en':'0fbb67f6c390292cc12c8b5b3fda4d4588220a70b54d4c5b5f2389712154ddea',
+            'config.fr':'ae55e4d481f25207c4c68e23731690549d1e47a8277bd9904be42b2b5c945241',
+            'config.hdpi':'aa8cc2b93feffb48ddf3a06e251ebaa7b59f6c3b5b85f686e650301c6860b8f8',
+            'config.arm64_v8a':'6e04a8549e0900c5193a9ec593d675a046832c680ca9795ad305c6f748b52483',
+          }
+          outnames={
+            'base':'com.delonghigroup.daedalus.apk',
+            'config.en':'config.en.apk',
+            'config.fr':'config.fr.apk',
+            'config.hdpi':'config.hdpi.apk',
+            'config.arm64_v8a':'config.arm64_v8a.apk',
+          }
+          z=zipfile.ZipFile(bundle)
+          got={}
+          for n in z.namelist():
+              if not n.lower().endswith('.apk'):
+                  continue
+              data=z.read(n)
+              h=hashlib.sha256(data).hexdigest()
+              for key,want in expected.items():
+                  if h==want and key not in got:
+                      got[key]=data
+                      print("MATCH",key,os.path.basename(n),len(data),h)
+                      break
+          missing=[k for k in expected if k not in got]
+          if missing:
+              raise SystemExit("Missing exact components: "+", ".join(missing))
+          for key,data in got.items():
+              open('/tmp/xapk-components/'+outnames[key],'wb').write(data)
+          print("ALL_REQUIRED_COMPONENT_HASHES_MATCH=1")
+          PY
 
       - name: Rebuild the exact user-supplied APKPure XAPK
         shell: bash
@@ -53,7 +127,7 @@ jobs:
           python3 - <<'PY'
           import base64, hashlib, os, shutil, struct, zipfile, zlib
 
-          roots=['/tmp/apkeep1','/tmp/apkeep2']
+          roots=['/tmp/xapk-components']
           work='/tmp/exact-components'
           shutil.rmtree(work, ignore_errors=True)
           os.makedirs(work)

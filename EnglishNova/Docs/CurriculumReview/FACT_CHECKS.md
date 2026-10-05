@@ -16,3 +16,5 @@ The review replaced unsourced rankings, changing conservation-status examples an
 
 - European Central Bank, What is inflation?: https://www.ecb.europa.eu/ecb-and-you/explainers/tell-me-more/html/what_is_inflation.en.html — checked 2026-10-05 for broad price rises and purchasing power; the examples use hypothetical rates rather than current figures.
 - SEC Investor.gov, Diversification: https://www.investor.gov/introduction-investing/investing-basics/glossary/diversification — checked 2026-10-05 for spreading exposure; investment lessons teach terminology and do not recommend a product.
+
+- American Statistical Association statement on statistical significance: https://www.amstat.org/asa/files/pdfs/p-valuestatement.pdf — checked 2026-10-05; informs correction of significance language and distinction from effect magnitude and practical importance.

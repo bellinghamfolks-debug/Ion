@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة عشرة دروس C1 عن التعابير والإيحاءات والأسلوب: ضبط المجاز والاستنتاج والافتراض المسبق، وصياغة اعتراضات واضحة تحافظ على اللباقة دون مواربة مضللة.",
-  "nextStep": "Continue editorial review from c1-x-u3-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة عشرة دروس C1 عن البحث والاقتصاد والسياسات والفلسفة والتفاوض والسرد: معاني متخصصة أدق، استدلال مضبوط، وتدريبات بلاغية تعتمد على النص والصوت الموصوف.",
+  "nextStep": "Continue editorial review from c1-x-u5-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -3829,90 +3829,120 @@
       "level": "C1",
       "titleAr": "البحث وتفسير البيانات",
       "titleEn": "Research and Interpreting Data",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-x-u3-l2",
       "level": "C1",
       "titleAr": "الاقتصاد والأسواق",
       "titleEn": "Economics and Markets",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-x-u3-l3",
       "level": "C1",
       "titleAr": "السياسات العامة",
       "titleEn": "Public Policy",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-x-u3-l4",
       "level": "C1",
       "titleAr": "الأخلاق والفلسفة",
       "titleEn": "Ethics and Philosophy",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-x-u3-l5",
       "level": "C1",
       "titleAr": "التفكير النقدي في الأدلة",
       "titleEn": "Critical Thinking About Evidence",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-x-u4-l1",
       "level": "C1",
       "titleAr": "أساسيات التفاوض المتقدّم",
       "titleEn": "Foundations of Advanced Negotiation",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-x-u4-l2",
       "level": "C1",
       "titleAr": "التعامل مع الجمود والصراع",
       "titleEn": "Handling Deadlock and Conflict",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-x-u4-l3",
       "level": "C1",
       "titleAr": "فنّ السرد القصصي",
       "titleEn": "The Art of Storytelling",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-x-u4-l4",
       "level": "C1",
       "titleAr": "الأدوات البلاغية",
       "titleEn": "Rhetorical Devices",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-x-u4-l5",
       "level": "C1",
       "titleAr": "الإقناع والتأثير",
       "titleEn": "Persuasion and Influence",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 6,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-x-u5-l1",
@@ -4211,7 +4241,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 318,
-    "pending": 42
+    "reviewed": 328,
+    "pending": 32
   }
 }

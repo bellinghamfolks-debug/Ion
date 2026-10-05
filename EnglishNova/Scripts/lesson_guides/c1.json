@@ -340,5 +340,195 @@
       "explanationAr": "قد تخفي العبارة ما سيحدث فعلًا للوظائف. المشكلة ليست اللطف نفسه، بل غياب المعلومة اللازمة لفهم الأثر.",
       "explanationEn": "The phrase may obscure what will actually happen to roles. The problem is not politeness itself but missing information needed to understand the impact."
     }
+  },
+  "c1-x-u3-l1": {
+    "focusAr": "disaggregate تفصيل البيانات بحسب مجموعات، وقد يكشف اختلافات يخفيها المتوسط. extrapolate تمديد استنتاج خارج نطاق الملاحظات، ويحتاج افتراضات معلنة. statistically significant لا تعني أثرًا كبيرًا أو مهمًا عمليًا. confounding variable عامل قد يفسر ارتباطًا ظاهرًا؛ وفحصه يختلف عن حذف بيانات مزعجة. اذكر حجم الأثر وعدم اليقين وحدود العينة معًا.",
+    "focusEn": "Disaggregate means separate data by groups, potentially revealing differences hidden by an average. Extrapolate extends beyond observations and requires stated assumptions. Statistically significant does not mean a large or practically important effect. A confounding variable may help explain an apparent association; investigating it differs from deleting inconvenient data. Report effect size, uncertainty, and sample limits together.",
+    "taskAr": "صغ تعليقًا على فرق صغير ذي دلالة إحصائية في عينة كبيرة، موضحًا ما يلزم لتقييم أهميته العملية.",
+    "taskEn": "Comment on a small statistically significant difference in a large sample, explaining what is needed to judge practical importance.",
+    "exampleEn": "The difference is statistically significant, but its magnitude is small. Before recommending a change, we should examine the uncertainty around the estimate, the costs involved, and whether the effect matters in practice.",
+    "exampleAr": "الفرق ذو دلالة إحصائية، لكن حجمه صغير. وقبل التوصية بتغيير، ينبغي فحص عدم اليقين حول التقدير والتكاليف وما إذا كان للأثر أهمية عملية.",
+    "check": {
+      "promptEn": "Which conclusion is warranted by statistical significance alone?",
+      "choices": [
+        "It does not, by itself, establish a large or practically important effect.",
+        "It guarantees a large effect in every population.",
+        "It proves that no confounding variable exists."
+      ],
+      "answer": "It does not, by itself, establish a large or practically important effect.",
+      "explanationAr": "الدلالة الإحصائية لا تقيس وحدها حجم الأثر أو أهميته ولا تستبعد التشويش تلقائيًا. يلزم النظر في التصميم والحجم وعدم اليقين.",
+      "explanationEn": "Statistical significance alone establishes neither effect size, practical importance, nor absence of confounding. Design, magnitude, and uncertainty still matter."
+    }
+  },
+  "c1-x-u3-l2": {
+    "focusAr": "outstrip تجاوز مقدار أو سرعة شيء آخر، فحدّد المقارَن به. diminishing returns انخفاض العائد الإضافي مع زيادة المدخل، وليس بالضرورة انخفاض الناتج الكلي. monetary policy أدوات السياسة النقدية، وليست كل سياسة ضرائب أو إنفاق. عند تفسير سوق، افصل الآلية المفترضة عن التوقع، واذكر العوامل التي أبقيتها ثابتة.",
+    "focusEn": "Outstrip means exceed another quantity or rate, so name the comparison. Diminishing returns means smaller additional gains from extra input, not necessarily falling total output. Monetary policy is distinct from taxation or spending policy. In a market explanation, separate the assumed mechanism from the forecast and identify what is being held constant.",
+    "taskAr": "اشرح مثالًا تدريبيًا يضيف فيه كل عامل جديد إنتاجًا موجبًا لكنه أقل من العامل السابق، مع ثبات المعدات.",
+    "taskEn": "Explain a practice example where each additional worker adds positive but smaller output than the previous worker, with equipment fixed.",
+    "exampleEn": "With equipment held fixed, output still increases as workers are added, but the additional gain becomes smaller. This illustrates diminishing returns rather than an immediate fall in total production.",
+    "exampleAr": "مع ثبات المعدات، يظل الإنتاج يزداد بإضافة العمال، لكن الزيادة الإضافية تصغر. يوضح ذلك تناقص العوائد الإضافية، لا انخفاض الإنتاج الكلي فورًا.",
+    "check": {
+      "promptEn": "Additional input yields smaller positive additions to output. What is happening?",
+      "choices": [
+        "Marginal gains diminish while total output can still rise.",
+        "Total output must already be falling.",
+        "Every extra unit produces exactly the same gain."
+      ],
+      "answer": "Marginal gains diminish while total output can still rise.",
+      "explanationAr": "تناقص الزيادة الإضافية لا يلغي كونها موجبة. لذلك قد يستمر الناتج الكلي في الارتفاع بمعدل أبطأ.",
+      "explanationEn": "A smaller additional gain can still be positive. Total output may therefore continue rising at a slower rate."
+    }
+  },
+  "c1-x-u3-l3": {
+    "focusAr": "السياسة تُقيّم بتصميمها وتنفيذها وأثرها، لا نواياها وحدها. stakeholder متأثر أو معني، وقد تختلف مصالح الأطراف. unintended consequences نتائج لم تُقصد، وقد تكون نافعة أو ضارة. roll out تطبيق أو إتاحة، وتوضح in phases التدرج. صِف آلية الأثر وتوزيعه وما قد يدفعك إلى تعديل السياسة.",
+    "focusEn": "Assess policy through design, implementation, and effects rather than intentions alone. A stakeholder is affected or interested, and interests may differ. Unintended consequences can be beneficial or harmful. Roll out means introduce or implement; in phases specifies gradual introduction. Explain the mechanism, distribution of effects, and evidence that would justify revision.",
+    "taskAr": "حلّل نقل خدمة تخيلية إلى الإنترنت لتسريع الطلبات، مع احتمال إعاقة من يفتقرون إلى وسيلة مناسبة، واقترح فحصًا قبل التعميم.",
+    "taskEn": "Analyse moving an imagined service online to speed applications, considering access barriers for some users and a check before rollout.",
+    "exampleEn": "The proposal could shorten processing times, yet its unintended consequences may include excluding users without suitable access. A phased rollout should test completion rates across user groups and retain a workable alternative while barriers are addressed.",
+    "exampleAr": "قد يختصر المقترح وقت المعالجة، لكن من عواقبه غير المقصودة استبعاد مستخدمين لا تتوفر لهم وسيلة وصول مناسبة. ينبغي أن يختبر التطبيق المرحلي معدلات الإنجاز بين الفئات ويحافظ على بديل عملي أثناء معالجة العوائق.",
+    "check": {
+      "promptEn": "Average processing time improves while one group can no longer apply. Which evaluation is most complete?",
+      "choices": [
+        "Report both the efficiency gain and the unequal access effect.",
+        "Treat the average as proof that every user benefited.",
+        "Ignore access because exclusion was not intended."
+      ],
+      "answer": "Report both the efficiency gain and the unequal access effect.",
+      "explanationAr": "تقييم السياسة يشمل توزيع الأثر، لا المتوسط وحده. غياب قصد الاستبعاد لا يلغي أثره على الفئة المعنية.",
+      "explanationEn": "Policy evaluation includes the distribution of effects, not only the average. Unintended exclusion still affects the group concerned."
+    }
+  },
+  "c1-x-u3-l4": {
+    "focusAr": "المعضلة moral dilemma تعارض اعتبارات أخلاقية معتبرة، لا مجرد اختيار صعب تقنيًا. utilitarian منظور يزن النتائج والرفاه، وintrinsic value قيمة لذاتها لا لمنفعة خارجية فقط. افصل premise الوصفية عن المعيارية، واسأل هل النتيجة تلزم عنهما. صلاحية الاستدلال لا تجعل كل مقدمة صحيحة تلقائيًا.",
+    "focusEn": "A moral dilemma involves competing ethical considerations, not merely technical difficulty. A utilitarian perspective weighs outcomes and welfare; intrinsic value is value in itself rather than only for an external use. Distinguish descriptive from normative premises and ask whether the conclusion follows. Valid reasoning does not automatically make its premises true.",
+    "taskAr": "في مثال تخصيص قاعة عامة، قارن تعظيم عدد المستفيدين بمراعاة مجموعة تحتاج تجهيزات إتاحة خاصة، دون الادعاء بحل وحيد لازم.",
+    "taskEn": "In allocating a public room, compare maximizing attendance with accommodating a group needing accessibility features, without asserting one inevitable solution.",
+    "exampleEn": "One premise favours serving the greatest number, while another gives weight to access for those with fewer alternatives. To reconcile them, we would need to examine available rooms and whether the timetable can be adjusted without excluding either group.",
+    "exampleAr": "تفضل مقدمة خدمة أكبر عدد، بينما تعطي أخرى وزنًا لوصول من تقل بدائلهم. وللتوفيق بينهما، نحتاج إلى فحص القاعات المتاحة وإمكان تعديل الجدول دون استبعاد أي من المجموعتين.",
+    "check": {
+      "promptEn": "An argument is valid but starts from a false premise. Which statement is correct?",
+      "choices": [
+        "Validity alone does not establish the truth of its conclusion.",
+        "Validity proves every premise is true.",
+        "A false premise makes the argument's wording ungrammatical."
+      ],
+      "answer": "Validity alone does not establish the truth of its conclusion.",
+      "explanationAr": "صلاحية الاستدلال تتعلق باتباع النتيجة للمقدمات، ولا تضمن صدقها إذا لم تكن المقدمات صحيحة. المسألة منطقية وليست نحوية.",
+      "explanationEn": "Validity concerns whether a conclusion follows from premises. It does not guarantee truth when premises are false; this is a logical, not grammatical, issue."
+    }
+  },
+  "c1-x-u3-l5": {
+    "focusAr": "corroborate دعم إضافي ذو صلة، وتكرار الخبر من المصدر نفسه ليس تأييدًا مستقلًا. interrogate هنا تمحيص الافتراضات والمصدر، لا استجواب شخص. logical fallacy خلل في الاستدلال؛ تسميته لا تعفيك من بيان موضع الخلل. ميّز نقد موثوقية شاهد في مسألة ذات صلة عن مهاجمة شخص لرفض حجته دون فحصها.",
+    "focusEn": "Corroborate means provide relevant supporting evidence; repetition of one source is not independent confirmation. Interrogate here means critically examine assumptions and sources, not question a person. Naming a logical fallacy does not replace explaining the inference's defect. Distinguish relevant assessment of a witness's reliability from personal attacks used to dismiss an argument without examining it.",
+    "taskAr": "ثلاثة مقالات تنقل رقمًا من التقرير نفسه. اشرح لماذا لا تمثل ثلاثة تأكيدات مستقلة وما الذي سيضيف تأييدًا مفيدًا.",
+    "taskEn": "Three articles repeat a figure from the same report. Explain why this is not three independent confirmations and what would add useful corroboration.",
+    "exampleEn": "The articles share one underlying source, so their agreement does not constitute independent corroboration. A separately collected dataset, with a transparent method and a comparable scope, would provide a more informative check.",
+    "exampleAr": "تعتمد المقالات على مصدر أصلي واحد، لذا لا يمثل اتفاقها تأييدًا مستقلًا. وتوفر مجموعة بيانات جُمعت بصورة مستقلة، بمنهج واضح ونطاق قابل للمقارنة، فحصًا أكثر فائدة.",
+    "check": {
+      "promptEn": "Three outlets cite the same original estimate. How many independent estimates are established?",
+      "choices": [
+        "One.",
+        "Three merely because three outlets repeated it.",
+        "None, because repetition automatically makes the estimate false."
+      ],
+      "answer": "One.",
+      "explanationAr": "المصدر التقديري واحد رغم تعدد الناقلين. التكرار لا يضاعف الاستقلال، لكنه لا يثبت خطأ التقدير أيضًا.",
+      "explanationEn": "There is one underlying estimate despite multiple publishers. Repetition does not multiply independence, but it also does not establish falsity."
+    }
+  },
+  "c1-x-u4-l1": {
+    "focusAr": "الموقف طلب معلن، والمصلحة سبب أهميته للطرف. bargaining chip عنصر قابل للتبادل، وconcede تنازل في بند قد يقابله مكسب في آخر. win-win فائدة للطرفين لا تساوٍ لازم في المكاسب. اسأل عن القيود والأولويات، ثم اعرض حزمة مشروطة محددة بدل افتراض أن السعر وحده موضوع التفاوض.",
+    "focusEn": "A position is a stated demand; an interest explains why it matters. A bargaining chip is something exchangeable, and a concession on one term may gain another. Win-win means both benefit, not necessarily equally. Ask about constraints and priorities, then offer a defined conditional package rather than assume price is the only negotiating issue.",
+    "taskAr": "صغ عرضًا تدريبيًا يبقي السعر مقابل تسليم مبكر لجزء من الطلب، بعد توضيح أن حاجة العميل الأساسية هي بدء العمل.",
+    "taskEn": "Formulate a practice offer retaining the price in exchange for earlier delivery of part of an order, identifying that the client's key need is to begin work.",
+    "exampleEn": "If the priority is starting production, we could keep the agreed price and deliver the essential components first. That may offer common ground without requiring either side to concede on every term.",
+    "exampleAr": "إذا كانت الأولوية بدء الإنتاج، فيمكننا إبقاء السعر المتفق عليه وتسليم المكونات الأساسية أولًا. قد يوفر ذلك أرضية مشتركة دون أن يتنازل أي طرف عن جميع الشروط.",
+    "check": {
+      "promptEn": "A buyer demands earlier delivery because production cannot start without two parts. What identifies the underlying interest?",
+      "choices": [
+        "Being able to start production.",
+        "The phrase 'earlier delivery' considered without its purpose.",
+        "Assuming the buyer only wants the lowest possible price."
+      ],
+      "answer": "Being able to start production.",
+      "explanationAr": "بدء الإنتاج هو الحاجة التي تفسر الطلب المعلن. تحديدها يفتح بدائل مثل تسليم جزئي بدل الاكتفاء بالموقف نفسه.",
+      "explanationEn": "Starting production is the need explaining the stated demand. Identifying it allows alternatives such as partial delivery rather than repeating the position."
+    }
+  },
+  "c1-x-u4-l2": {
+    "focusAr": "impasse توقف التقدم عند خلاف، ولا يعني استحالة اتفاق لاحق. reframe يغير زاوية النظر دون تحريف الوقائع، وdefuse يخفف التوتر. meet halfway تسوية متبادلة لا متوسط حسابي لازم. لخّص موضع التعثر، وافصل البنود، واقترح خطوة تحفظ حرية الطرفين بدل تقديم تسوية على أنها مفروضة.",
+    "focusEn": "An impasse is stalled progress, not proof that later agreement is impossible. Reframe changes perspective without distorting facts; defuse reduces tension. Meet halfway is mutual compromise, not necessarily an arithmetic midpoint. Identify the blockage, separate issues, and propose a step preserving both parties' choice rather than presenting compromise as compulsory.",
+    "taskAr": "أعد تأطير خلاف حول يوم تسليم كامل إلى سؤال عن الأجزاء المطلوبة أولًا، مع إبقاء المواعيد غير المحسومة صريحة.",
+    "taskEn": "Reframe a dispute about full delivery into a question about which parts are needed first, keeping unresolved dates explicit.",
+    "exampleEn": "We appear to have reached an impasse over the final date. Could we separate the essential items from the rest and consider staged delivery? The remaining dates would still need agreement; this is a way to explore options, not a settled commitment.",
+    "exampleAr": "يبدو أننا وصلنا إلى طريق مسدود بشأن الموعد النهائي. هل يمكن فصل العناصر الأساسية عن الباقي والنظر في التسليم المرحلي؟ ستظل المواعيد الأخرى بحاجة إلى اتفاق؛ فهذا استكشاف للخيارات وليس التزامًا محسومًا.",
+    "check": {
+      "promptEn": "Which reframing preserves the facts while opening options?",
+      "choices": [
+        "Which items are essential first, and could we discuss separate dates?",
+        "Let us describe a missed deadline as if delivery already happened.",
+        "We have agreed, although one side has explicitly refused."
+      ],
+      "answer": "Which items are essential first, and could we discuss separate dates?",
+      "explanationAr": "السؤال الصحيح يغير زاوية البحث دون اختلاق إنجاز أو اتفاق. إعادة التأطير لا تبيح تحريف حالة التفاوض.",
+      "explanationEn": "The correct question changes the problem's framing without inventing completion or agreement. Reframing does not permit misrepresenting negotiations."
+    }
+  },
+  "c1-x-u4-l3": {
+    "focusAr": "narrative arc مسار يربط الوضع والتغير والاستجابة والنتيجة، ولا يشترط نهاية سعيدة. sensory detail تفصيل محسوس يخدم اللحظة، لا قائمة زينة. cliffhanger يعلّق نتيجة مهمة لخلق ترقب. اختر منظور الراوي ووزع المعلومات بحيث يفهم المستمع سبب التصرف، مع تجنب ادعاء معرفة أفكار شخص لم يكشفها.",
+    "focusEn": "A narrative arc connects a situation, change, response, and outcome without requiring a happy ending. A sensory detail serves the moment rather than decorate it. A cliffhanger withholds an important outcome to create anticipation. Choose a viewpoint and disclose enough information to make action intelligible without claiming access to another person's unspoken thoughts.",
+    "taskAr": "اكتب افتتاحية سردية قصيرة تعتمد على صوت واضح وتغير مفاجئ ونتيجة معلقة، دون صورة مطلوبة.",
+    "taskEn": "Write a short narrative opening using a clear sound, a sudden change, and an unresolved outcome, with no image required.",
+    "exampleEn": "The station announcement dissolved into static just as I heard my destination. Then every conversation around me stopped. I unfolded the note in my pocket, wondering whether its last instruction would finally make sense.",
+    "exampleAr": "تحول إعلان المحطة إلى تشويش في اللحظة التي سمعت فيها وجهتي. ثم سكتت كل الأحاديث حولي. فتحت الورقة في جيبي متسائلًا هل سيتضح أخيرًا معنى تعليماتها الأخيرة.",
+    "check": {
+      "promptEn": "What creates the cliffhanger in the opening?",
+      "choices": [
+        "The significance of the note's final instruction remains unresolved.",
+        "Every outcome is explained immediately.",
+        "The story provides no possible source of anticipation."
+      ],
+      "answer": "The significance of the note's final instruction remains unresolved.",
+      "explanationAr": "تبقى دلالة التعليمات معلقة، فيرغب المستمع في معرفة ما سيحدث. شرح النتيجة كاملة يزيل هذا التعليق.",
+      "explanationEn": "The instruction's unresolved significance creates anticipation. Explaining the outcome in full would remove that suspense."
+    }
+  },
+  "c1-x-u4-l4": {
+    "focusAr": "analogy تقارن علاقة بأخرى لتوضيحها، لكنها لا تثبت تطابق الحالتين. parallelism تكرار بنية نحوية يوضح التوازن، وrule of three ترتيب ثلاثي قد يسهل التذكر. rhetorical question تؤدي غرضًا غير طلب المعلومة المباشر؛ يحدد السياق ذلك. استخدم البلاغة لإبراز الاستدلال، لا لتعويض مقدمة مفقودة.",
+    "focusEn": "An analogy compares relationships to clarify them without proving the cases identical. Parallelism repeats grammatical structure to create balance; the rule of three organizes a memorable triad. A rhetorical question serves a purpose other than a straightforward information request, determined by context. Use rhetoric to emphasize reasoning rather than substitute for a missing premise.",
+    "taskAr": "صغ دعوة لتحسين خدمة في ثلاث عبارات متوازية، ثم اذكر قياسًا عمليًا يفحص الوعد البلاغي.",
+    "taskEn": "Write a service-improvement call using three parallel phrases, then name a practical measure to test the rhetorical promise.",
+    "exampleEn": "We should simplify the form, clarify the instructions, and shorten the response time. To assess whether those changes help, we can track successful completion and the number of clarification requests.",
+    "exampleAr": "ينبغي أن نبسّط النموذج، ونوضح التعليمات، ونقصّر زمن الرد. ولتقييم فائدة التغييرات، يمكن متابعة إكمال الطلبات بنجاح وعدد طلبات الاستيضاح.",
+    "check": {
+      "promptEn": "Which feature makes 'simplify the form, clarify the instructions, shorten the response time' parallel?",
+      "choices": [
+        "Each element uses a verb followed by its object.",
+        "All three phrases have exactly the same meaning.",
+        "The rhythm proves that the proposal will succeed."
+      ],
+      "answer": "Each element uses a verb followed by its object.",
+      "explanationAr": "يتكرر البناء النحوي: فعل ومفعول به. يمنح ذلك تنظيمًا وإيقاعًا، لكنه لا يجعل المعاني متطابقة أو يثبت النجاح.",
+      "explanationEn": "The verb-plus-object pattern repeats. This creates organization and rhythm without making meanings identical or proving success."
+    }
+  },
+  "c1-x-u4-l5": {
+    "focusAr": "marshal evidence تنظيم الأدلة بحسب علاقتها بالنتيجة، لا جمع أكبر عدد من الاقتباسات. emotional appeal يربط القضية باهتمام إنساني، لكن أثره لا يثبت الادعاء. credibility تتطلب عرض المصدر والحدود والاعتراض القوي بأمانة. win someone over كسب التأييد، لا مجرد كسب الود؛ اربط طلبك بالفعل الذي تسمح به الأدلة.",
+    "focusEn": "Marshal evidence means organize it by relevance, not accumulate quotations. An emotional appeal connects with human concerns but does not prove a claim. Credibility requires honest presentation of sources, limitations, and substantial objections. Win someone over means gain support, not merely affection. Match the requested action to what the evidence justifies.",
+    "taskAr": "صغ ختامًا مقنعًا لتحسين إتاحة نموذج: اربط تجربة مستخدم بأهمية المهمة واطلب اختبارًا محددًا، دون اختراع إحصاءات.",
+    "taskEn": "Write a persuasive close for improving a form's accessibility: connect one user's experience to the task's importance and request a defined test without inventing statistics.",
+    "exampleEn": "The difficulty described by this user deserves attention, though one account cannot tell us its prevalence. I propose testing the revised form with a varied group of users and publishing the completion problems we identify before adopting the design.",
+    "exampleAr": "تستحق الصعوبة التي وصفها هذا المستخدم الاهتمام، وإن كانت رواية واحدة لا تبين مدى انتشارها. أقترح اختبار النموذج المعدل مع مجموعة متنوعة من المستخدمين ونشر مشكلات الإنجاز التي نرصدها قبل اعتماد التصميم.",
+    "check": {
+      "promptEn": "Which strategy strengthens credibility while remaining persuasive?",
+      "choices": [
+        "Acknowledge the evidence limit and propose a relevant test.",
+        "Invent a percentage to make the story seem representative.",
+        "Omit every objection because confidence is more important than accuracy."
+      ],
+      "answer": "Acknowledge the evidence limit and propose a relevant test.",
+      "explanationAr": "الشفافية بشأن القيد مع خطوة عملية تدعم المصداقية والإقناع معًا. اختراع رقم أو حذف الاعتراضات يضعف أساس الحجة.",
+      "explanationEn": "Transparent limits paired with a practical step support both credibility and persuasion. Fabricated figures or hidden objections undermine the argument."
+    }
   }
 }

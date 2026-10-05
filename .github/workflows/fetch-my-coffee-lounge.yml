@@ -67,6 +67,80 @@ jobs:
           echo "$EXPECTED  $OUT" | sha256sum -c -
           test "$(stat -c%s "$OUT")" = "99992559"
 
+      - name: Rebuild exact APKPure XAPK byte-for-byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
+          EXPECTED="78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81"
+
+          python3 - <<'PY'
+          import base64, hashlib, os, struct, zipfile, zlib
+
+          root='/tmp/xapk-components'
+          out='/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk'
+
+          # APKPure's icon is exactly this image embedded in the base APK.
+          with zipfile.ZipFile(os.path.join(root,'com.delonghigroup.daedalus.apk')) as z:
+              icon=z.read('res/mipmap-xxxhdpi-v4/launcher_icon.png')
+          open(os.path.join(root,'icon.png'),'wb').write(icon)
+
+          # Exact manifest.json bytes from the user-supplied APKPure XAPK.
+          manifest_b64='eyJ4YXBrX3ZlcnNpb24iOjIsInBhY2thZ2VfbmFtZSI6ImNvbS5kZWxvbmdoaWdyb3VwLmRhZWRhbHVzIiwibmFtZSI6Ik15IENvZmZlZSBMb3VuZ2UiLCJ2ZXJzaW9uX2NvZGUiOiIzMTgiLCJ2ZXJzaW9uX25hbWUiOiIxLjUuMCIsIm1pbl9zZGtfdmVyc2lvbiI6IjMyIiwidGFyZ2V0X3Nka192ZXJzaW9uIjoiMzYiLCJwZXJtaXNzaW9ucyI6WyJhbmRyb2lkLnBlcm1pc3Npb24uSU5URVJORVQiLCJhbmRyb2lkLnBlcm1pc3Npb24uQUNDRVNTX0NPQVJTRV9MT0NBVElPTiIsImFuZHJvaWQucGVybWlzc2lvbi5BQ0NFU1NfRklORV9MT0NBVElPTiIsImFuZHJvaWQucGVybWlzc2lvbi5BQ0NFU1NfV0lGSV9TVEFURSIsImFuZHJvaWQucGVybWlzc2lvbi5DSEFOR0VfV0lGSV9TVEFURSIsImFuZHJvaWQucGVybWlzc2lvbi5CTFVFVE9PVEgiLCJhbmRyb2lkLnBlcm1pc3Npb24uQkxVRVRPT1RIX0FETUlOIiwiYW5kcm9pZC5wZXJtaXNzaW9uLkJMVUVUT09USF9TQ0FOIiwiYW5kcm9pZC5wZXJtaXNzaW9uLkJMVUVUT09USF9DT05ORUNUIiwiYW5kcm9pZC5wZXJtaXNzaW9uLlJFQURfRVhURVJOQUxfU1RPUkFHRSIsImFuZHJvaWQucGVybWlzc2lvbi5XUklURV9FWFRFUk5BTF9TVE9SQUdFIiwiYW5kcm9pZC5wZXJtaXNzaW9uLlBPU1RfTk9USUZJQ0FUSU9OUyIsImFuZHJvaWQucGVybWlzc2lvbi5SRUFEX1BSSVZJTEVHRURfUEhPTkVfU1RBVEUiLCJhbmRyb2lkLnBlcm1pc3Npb24uQUNDRVNTX05FVFdPUktfU1RBVEUiLCJhbmRyb2lkLnBlcm1pc3Npb24uV0FLRV9MT0NLIiwiYW5kcm9pZC5wZXJtaXNzaW9uLkVYUEFORF9TVEFUVVNfQkFSIiwiYW5kcm9pZC5wZXJtaXNzaW9uLkNBTUVSQSIsImFuZHJvaWQucGVybWlzc2lvbi5SRUNPUkRfQVVESU8iLCJjb20uZ29vZ2xlLmFuZHJvaWQuYzJkbS5wZXJtaXNzaW9uLlJFQ0VJVkUiLCJjb20uZ29vZ2xlLmFuZHJvaWQuZ21zLnBlcm1pc3Npb24uQURfSUQiLCJhbmRyb2lkLnBlcm1pc3Npb24uQUNDRVNTX0FEU0VSVklDRVNfQVRUUklCVVRJT04iLCJhbmRyb2lkLnBlcm1pc3Npb24uQUNDRVNTX0FEU0VSVklDRVNfQURfSUQiLCJjb20uZ29vZ2xlLmFuZHJvaWQuZmluc2t5LnBlcm1pc3Npb24uQklORF9HRVRfSU5TVEFMTF9SRUZFUlJFUl9TRVJWSUNFIiwiYW5kcm9pZC5wZXJtaXNzaW9uLkFDQ0VTU19BRFNFUlZJQ0VTX0NVU1RPTV9BVURJRU5DRSIsImFuZHJvaWQucGVybWlzc2lvbi5BQ0NFU1NfQURTRVJWSUNFU19UT1BJQ1MiLCJjb20uZGVsb25naGlncm91cC5kYWVkYWx1cy5EWU5BTUlDX1JFQ0VJVkVSX05PVF9FWFBPUlRFRF9QRVJNSVNTSU9OIl0sInNwbGl0X2NvbmZpZ3MiOlsiY29uZmlnLmVuIiwiY29uZmlnLmZyIiwiY29uZmlnLmhkcGkiLCJjb25maWcuYXJtNjRfdjhhIl0sInRvdGFsX3NpemUiOjk5OTgzMzU1LCJpY29uIjoiaWNvbi5wbmciLCJzcGxpdF9hcGtzIjpbeyJmaWxlIjoiY29tLmRlbG9uZ2hpZ3JvdXAuZGFlZGFsdXMuYXBrIiwiaWQiOiJiYXNlIn0seyJmaWxlIjoiY29uZmlnLmVuLmFwayIsImlkIjoiY29uZmlnLmVuIn0seyJmaWxlIjoiY29uZmlnLmZyLmFwayIsImlkIjoiY29uZmlnLmZyIn0seyJmaWxlIjoiY29uZmlnLmhkcGkuYXBrIiwiaWQiOiJjb25maWcuaGRwaSJ9LHsiZmlsZSI6ImNvbmZpZy5hcm02NF92OGEuYXBrIiwiaWQiOiJjb25maWcuYXJtNjRfdjhhIn1dfQ=='
+          open(os.path.join(root,'manifest.json'),'wb').write(base64.b64decode(manifest_b64))
+
+          names=[
+              'com.delonghigroup.daedalus.apk',
+              'icon.png',
+              'config.en.apk',
+              'config.fr.apk',
+              'config.hdpi.apk',
+              'config.arm64_v8a.apk',
+              'manifest.json',
+          ]
+          records=[]
+          with open(out,'wb') as f:
+              for name in names:
+                  data=open(os.path.join(root,name),'rb').read()
+                  nb=name.encode('utf-8')
+                  crc=zlib.crc32(data)&0xffffffff
+                  size=len(data)
+                  offset=f.tell()
+                  # APKPure outer ZIP: stored entries, zero DOS timestamp,
+                  # bit 3 set, sizes/CRC supplied via data descriptor.
+                  f.write(struct.pack('<IHHHHHIIIHH',
+                      0x04034b50,20,8,0,0,0,0,0,0,len(nb),0))
+                  f.write(nb)
+                  f.write(data)
+                  f.write(struct.pack('<IIII',0x08074b50,crc,size,size))
+                  records.append((name,crc,size,offset))
+
+              central_start=f.tell()
+              comment=b'ApkPure.com'
+              for name,crc,size,offset in records:
+                  nb=name.encode('utf-8')
+                  f.write(struct.pack('<IHHHHHHIIIHHHHHII',
+                      0x02014b50,20,20,8,0,0,0,crc,size,size,
+                      len(nb),0,len(comment),0,0,0,offset))
+                  f.write(nb)
+                  f.write(comment)
+              central_size=f.tell()-central_start
+              f.write(struct.pack('<IHHHHIIH',
+                  0x06054b50,0,0,len(records),len(records),
+                  central_size,central_start,0))
+
+          actual=hashlib.sha256(open(out,'rb').read()).hexdigest()
+          size=os.path.getsize(out)
+          print('Rebuilt size:',size)
+          print('Rebuilt SHA-256:',actual)
+          expected='78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81'
+          if size!=99992559 or actual!=expected:
+              raise SystemExit('Rebuilt XAPK is not byte-for-byte identical')
+          print('BYTE_FOR_BYTE_MATCH=1')
+          PY
+
+          echo "$EXPECTED  $OUT" | sha256sum -c -
+
       - name: Split into GitHub-safe parts
         shell: bash
         run: |

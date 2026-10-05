@@ -101,6 +101,10 @@ def main() -> int:
     used.update(f"teaTemperature.{t}" for t in swift_cases(model / "Model/Beverage.swift", "BrewTemperature"))
     for case in swift_cases(model / "Model/Beverage.swift", "DrinkCollection"):
         used.update({f"collection.{case}.title", f"collection.{case}.summary"})
+    for case in swift_cases(APP / "Features/Drinks/DrinksView.swift", "DrinkFilter"):
+        used.add(f"filter.{case}")
+    for case in swift_cases(model / "Model/Recipe.swift", "FoamLevel"):
+        used.add(f"foam.{case}")
     recipe = (model / "Model/Recipe.swift").read_text(encoding="utf-8")
     for roast in re.search(r"enum Roast[^{]*\{ case ([^}]+) \}", recipe).group(1).split(","):
         used.add(f"roast.{roast.strip()}")

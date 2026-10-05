@@ -88,6 +88,9 @@ struct DemoMachineEngine: Equatable {
         plan = milkBefore ? milkStep + coffeeSteps : coffeeSteps + milkStep
         // Americano and long black pour water first, as on the machine.
         plan = waterStep + plan
+        if recipe.extraShot {
+            plan.append(Step(activity: .brewingCoffee, remaining: 8))
+        }
 
         steps = plan
         totalSeconds = plan.reduce(0) { $0 + $1.remaining }
@@ -193,7 +196,9 @@ struct DemoMachineEngine: Equatable {
             else if recipe.coffeeML != nil { coffeeDrinks += 1 }
         }
         if recipe.coffeeML != nil {
-            beanDoses = max(0, beanDoses - (recipe.beverage == .espressoDouble || recipe.beverage == .doppioPlus ? 2 : 1))
+            var doses = recipe.beverage == .espressoDouble || recipe.beverage == .doppioPlus ? 2 : 1
+            if recipe.extraShot { doses += 1 }
+            beanDoses = max(0, beanDoses - doses)
             groundsCount += 1
         }
         if recipe.milkSeconds != nil { milkCleanPending = true }

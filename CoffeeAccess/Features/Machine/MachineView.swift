@@ -27,6 +27,7 @@ struct MachineView: View {
                 case .beans: BeansView()
                 case .screenReader: MachineScreenReaderView()
                 case .troubleshooting: TroubleshootingView()
+                case .health: HealthStatusView()
                 }
             }
         }
@@ -83,6 +84,19 @@ struct MachineView: View {
     private var maintenanceSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             SectionTitle(text: L("machine.maintenance"))
+            NavigationLink(value: MachineRoute.health) {
+                HStack(spacing: 14) {
+                    Image(systemName: "heart.text.square.fill").font(.title3).foregroundStyle(Theme.accent).frame(width: 36).accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(L("health.title")).font(.headline).foregroundStyle(Theme.textPrimary)
+                        Text(L("health.subtitle")).font(.footnote).foregroundStyle(Theme.textSecondary)
+                    }
+                    Spacer(minLength: 0)
+                    Image(systemName: "chevron.forward").foregroundStyle(Theme.textSecondary).accessibilityHidden(true)
+                }
+                .padding(14).frame(minHeight: 64).card()
+            }
+            .buttonStyle(.plain)
             ForEach(MaintenanceGuideID.allCases) { guide in
                 NavigationLink(value: guide) {
                     HStack(spacing: 14) {
@@ -168,7 +182,7 @@ struct MachineView: View {
 }
 
 enum MachineRoute: Hashable {
-    case diagnostics, statistics, settings, beans, screenReader, troubleshooting
+    case diagnostics, statistics, settings, beans, screenReader, troubleshooting, health
 }
 
 struct AlarmRow: View {

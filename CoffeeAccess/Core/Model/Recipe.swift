@@ -1,5 +1,11 @@
 import Foundation
 
+/// Milk froth dial positions, matching the machine's small/medium/large foam.
+enum FoamLevel: String, CaseIterable, Codable {
+    case small, medium, large
+    var title: String { L("foam.\(rawValue)") }
+}
+
 /// A drink with the learner's chosen settings. Settings that a beverage does
 /// not have stay `nil`, so a recipe never carries a meaningless value.
 struct Recipe: Codable, Hashable, Identifiable {
@@ -15,6 +21,8 @@ struct Recipe: Codable, Hashable, Identifiable {
     var milkFirst: Bool = false
     /// Travel-mug size: larger amounts, for drinks that support it.
     var toGo: Bool = false
+    /// An extra 30 ml coffee shot added to the drink, as on the machine.
+    var extraShot: Bool = false
 
     var spec: BeverageSpec { beverage.spec }
     var coffeeRange: QuantityRange? { spec.coffeeRange(toGo: toGo) }
@@ -48,8 +56,20 @@ struct Recipe: Codable, Hashable, Identifiable {
         copy.aroma = spec.hasAroma ? (aroma ?? spec.defaultAroma) : nil
         copy.temperature = spec.hasTemperature ? (temperature ?? spec.defaultTemperature) : nil
         copy.milkFirst = spec.supportsMilkFirst && milkFirst
+        copy.extraShot = spec.supportsExtraShot && extraShot
         copy.customName = customName.trimmingCharacters(in: .whitespacesAndNewlines)
         return copy
+    }
+
+    /// The milk froth dial position to suggest, so the cup matches the recipe.
+    /// Advisory only — the dial is turned by hand on the machine.
+    var idealFoamLevel: FoamLevel? {
+        guard let milk = milkSeconds, spec.usesMilk else { return nil }
+        let range = milkRange ?? spec.milk
+        let span = (range?.max ?? 120) - (range?.min ?? 0)
+        guard span > 0 else { return .medium }
+        let fraction = Double(milk - (range?.min ?? 0)) / Double(span)
+        return fraction < 0.34 ? .small : (fraction < 0.67 ? .medium : .large)
     }
 
     /// Switches between cup and travel-mug size, scaling the amounts.
@@ -86,7 +106,8 @@ struct Recipe: Codable, Hashable, Identifiable {
         let coffee = (coffeeML ?? 0) / (spec.vessel == .pot ? 6 : perML)
         let water = (waterML ?? 0) / 8
         let milk = milkSeconds ?? 0
-        return max(8, grind + coffee + water + milk)
+        let shot = extraShot ? 14 : 0
+        return max(8, grind + coffee + water + milk + shot)
     }
 }
 

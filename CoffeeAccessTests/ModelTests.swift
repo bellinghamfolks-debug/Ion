@@ -63,6 +63,22 @@ final class RecipeTests: XCTestCase {
         XCTAssertEqual(Recipe.standard(.espresso).withToGo(true).toGo, false, "espresso has no travel size")
     }
 
+    func testExtraShotAndFoamHint() {
+        XCTAssertTrue(BeverageID.cappuccino.spec.supportsExtraShot)
+        XCTAssertFalse(BeverageID.espresso.spec.supportsExtraShot)
+        XCTAssertFalse(BeverageID.coldBrew.spec.supportsExtraShot)
+        var cap = Recipe.standard(.cappuccino)
+        cap.extraShot = true
+        XCTAssertTrue(cap.normalized().extraShot)
+        XCTAssertTrue(cap.normalized().spokenSummary.contains(L("summary.extraShot")))
+        var esp = Recipe.standard(.espresso)
+        esp.extraShot = true
+        XCTAssertFalse(esp.normalized().extraShot, "espresso drops the unsupported extra shot")
+        let latte = Recipe.standard(.latteMacchiato)
+        XCTAssertNotNil(latte.idealFoamLevel)
+        XCTAssertNil(Recipe.standard(.espresso).idealFoamLevel)
+    }
+
     func testTeaUsesWaterAndTemperatureOnly() {
         let green = Recipe.standard(.greenTea)
         XCTAssertNil(green.coffeeML)

@@ -101,6 +101,12 @@ struct BeverageSpec: Hashable {
     var usesMilk: Bool { milk != nil }
     var isCold: Bool { category == .coldCoffee || category == .coldMilk }
     var isTea: Bool { id == .greenTea || id == .blackTea || id == .herbalTea }
+    /// An extra 30 ml shot is offered on hot drinks that already pull coffee,
+    /// except the pot and the already-double espressos.
+    var supportsExtraShot: Bool {
+        coffee != nil && !isCold && vessel != .pot && !isTea
+            && id != .espressoDouble && id != .doppioPlus && id != .espresso && id != .ristretto
+    }
 
     func coffeeRange(toGo: Bool) -> QuantityRange? { toGo && supportsToGo ? coffee?.toGo(cap: 450) : coffee }
     func milkRange(toGo: Bool) -> QuantityRange? { toGo && supportsToGo ? milk?.toGo(cap: 180) : milk }

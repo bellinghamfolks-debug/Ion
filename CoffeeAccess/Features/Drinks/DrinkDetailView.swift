@@ -149,6 +149,26 @@ struct DrinkDetailView: View {
             .padding(16)
             .card()
         }
+        if spec.supportsExtraShot {
+            Toggle(isOn: $recipe.extraShot) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(L("param.extraShot")).font(.headline)
+                    Text(L("param.extraShot.detail")).font(.footnote).foregroundStyle(Theme.textSecondary)
+                }
+            }
+            .tint(Theme.accent)
+            .padding(16)
+            .card()
+        }
+        if let foam = recipe.idealFoamLevel {
+            Label(L("foam.hint", foam.title), systemImage: "dial.medium")
+                .font(.subheadline)
+                .foregroundStyle(Theme.textPrimary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(14)
+                .card(raised: true)
+                .accessibilityLabel(L("foam.hint", foam.title))
+        }
     }
 
     @ViewBuilder

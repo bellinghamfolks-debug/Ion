@@ -22,6 +22,7 @@ extension Recipe {
         if let aroma { parts.append(aroma.title) }
         if let temperature { parts.append(L("summary.temperature", spec.isTea ? temperature.teaTitle : temperature.title)) }
         if milkFirst { parts.append(L("summary.milkFirst")) }
+        if extraShot { parts.append(L("summary.extraShot")) }
         if toGo { parts.append(L("summary.toGo")) }
         let details = parts.joined(separator: L("list.separator"))
         return details.isEmpty ? displayName : L("summary.format", displayName, details)

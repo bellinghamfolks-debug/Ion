@@ -1,0 +1,5 @@
+01eeb8f35b43bdaffd521d1c64338df5df8298c1a4dccd946067626b36f2ffca  My_Coffee_Lounge_1.5.0.xapk.00.part
+01e0759197076d485aada6589cc930fa4401179037c651312281cd9618c76fa5  My_Coffee_Lounge_1.5.0.xapk.01.part
+6b68025fbc8117f4dc6108f2a98942ea22cc3cbfd8951f41ee9fadcd56f5b40a  My_Coffee_Lounge_1.5.0.xapk.02.part
+9559db1598ad0f313256cc85690c568d8759993877b54301b20499a3905db498  My_Coffee_Lounge_1.5.0.xapk.03.part
+109a893de33d030bf1a66c804bba45212ee8a724e88a475bb910fb7dbb877e95  My_Coffee_Lounge_1.5.0.xapk.04.part

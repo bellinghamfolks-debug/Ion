@@ -67,7 +67,8 @@ def main():
                 assert any(re.search(rf"\b{re.escape(w['english'])}\b", sentence)
                            for w in lesson["vocabulary"]), f"{lid}: no literal model vocabulary"
                 expand_lesson(lesson, en, ar, enrichment.get(lid, {}).get("extraExamples", {}),
-                              arabic_policy(level["level"]), guide)
+                              arabic_policy(level["level"]), guide,
+                              unit_words=[w for sibling in unit["lessons"] for w in sibling["vocabulary"]])
                 exercises = lesson["exercises"]
                 assert guide["focusAr"] in exercises[0]["explanationAr"], lid
                 assert guide["taskAr"] in exercises[-1]["explanationAr"], lid

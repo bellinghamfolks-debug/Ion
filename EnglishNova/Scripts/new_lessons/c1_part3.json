@@ -51,8 +51,8 @@
       {
        "english": "draw conclusions",
        "arabic": "يستخلص استنتاجات",
-       "example": "We cannot draw conclusions from one study.",
-       "exampleArabic": "لا يمكننا استخلاص استنتاجات من دراسة واحدة.",
+       "example": "We should not draw conclusions beyond what this single study supports.",
+       "exampleArabic": "ينبغي ألا نستخلص استنتاجات تتجاوز ما تدعمه هذه الدراسة الواحدة.",
        "partOfSpeech": "phrase",
        "phonetic": null
       },
@@ -87,8 +87,8 @@
      "titleAr": "توثيق المصادر وتقييمها",
      "titleEn": "Citing and Evaluating Sources",
      "objectiveAr": "أن يقيّم المتعلم موثوقية المصادر ويشير إليها بدقة.",
-     "modelSentence": "Peer-reviewed journals are generally more credible than anonymous websites.",
-     "modelSentenceArabic": "المجلات المحكّمة أكثر مصداقية عمومًا من المواقع مجهولة المصدر.",
+     "modelSentence": "A credible assessment considers the source’s evidence and methods, not its label alone.",
+     "modelSentenceArabic": "يراعي التقييم الموثوق أدلة المصدر ومنهجه، لا تصنيفه وحده.",
      "vocabulary": [
       {
        "english": "peer-reviewed",
@@ -160,7 +160,7 @@
      "id": "c1-x-u5-l3",
      "titleAr": "الاسمية والأسلوب الرسمي",
      "titleEn": "Nominalisation and Formal Style",
-     "objectiveAr": "أن يحوّل المتعلم الأفعال إلى أسماء لكتابة أسلوب أكاديمي موجز.",
+     "objectiveAr": "اختيار الصياغة الاسمية أو الفعلية بحسب الغرض مع الحفاظ على الوضوح والمسؤولية.",
      "modelSentence": "The implementation of the policy led to a significant reduction in waste.",
      "modelSentenceArabic": "أدى تطبيق السياسة إلى انخفاض ملحوظ في الهدر.",
      "vocabulary": [
@@ -183,8 +183,8 @@
       {
        "english": "reduction",
        "arabic": "انخفاض؛ تقليص",
-       "example": "We saw a reduction in costs.",
-       "exampleArabic": "لاحظنا انخفاضًا في التكاليف.",
+       "example": "The report recorded a reduction in costs after the schedule changed.",
+       "exampleArabic": "سجل التقرير انخفاضًا في التكاليف بعد تغيير الجدول.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -198,7 +198,7 @@
       },
       {
        "english": "formal register",
-       "arabic": "السجل الرسمي",
+       "arabic": "أسلوب لغوي رسمي",
        "example": "Academic essays require a formal register.",
        "exampleArabic": "تتطلب المقالات الأكاديمية سجلًا رسميًا.",
        "partOfSpeech": "noun",
@@ -257,8 +257,8 @@
       {
        "english": "outcomes",
        "arabic": "نتائج؛ مخرجات",
-       "example": "The programme improved health outcomes.",
-       "exampleArabic": "حسّن البرنامج النتائج الصحية.",
+       "example": "The study compared learning outcomes across the two groups.",
+       "exampleArabic": "قارنت الدراسة نتائج التعلم بين المجموعتين.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -273,8 +273,8 @@
       {
        "english": "sample size",
        "arabic": "حجم العينة",
-       "example": "The sample size was too small to be reliable.",
-       "exampleArabic": "كان حجم العينة أصغر من أن يكون موثوقًا.",
+       "example": "The small sample size limits the precision of this estimate.",
+       "exampleArabic": "يحد حجم العينة الصغير من دقة هذا التقدير.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -364,8 +364,8 @@
       {
        "english": "anomaly",
        "arabic": "حالة شاذة",
-       "example": "The result was dismissed as an anomaly.",
-       "exampleArabic": "استُبعدت النتيجة باعتبارها حالة شاذة.",
+       "example": "The team investigated the anomaly instead of automatically discarding it.",
+       "exampleArabic": "فحص الفريق النتيجة غير المعتادة بدل استبعادها تلقائيًا.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -398,8 +398,8 @@
       {
        "english": "gene editing",
        "arabic": "التعديل الجيني",
-       "example": "Gene editing could prevent hereditary diseases.",
-       "exampleArabic": "قد يمنع التعديل الجيني الأمراض الوراثية.",
+       "example": "The debate examined potential benefits and risks of gene editing.",
+       "exampleArabic": "فحص النقاش الفوائد والمخاطر المحتملة للتعديل الجيني.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -454,8 +454,8 @@
       {
        "english": "informed consent",
        "arabic": "موافقة مستنيرة",
-       "example": "Participants must give informed consent before joining most clinical research.",
-       "exampleArabic": "يجب أن يقدم المشاركون موافقة مستنيرة قبل الانضمام إلى معظم الأبحاث السريرية.",
+       "example": "The researcher explained the study before asking participants for informed consent.",
+       "exampleArabic": "شرح الباحث الدراسة قبل طلب الموافقة المستنيرة من المشاركين.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -488,8 +488,8 @@
       {
        "english": "mission",
        "arabic": "مهمة",
-       "example": "The mission landed safely on the Moon.",
-       "exampleArabic": "هبطت المهمة بأمان على القمر.",
+       "example": "The spacecraft completed its mission and returned the recorded data.",
+       "exampleArabic": "أكملت المركبة الفضائية مهمتها وأرسلت البيانات المسجلة.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -540,8 +540,8 @@
      "titleAr": "الابتكار المُحدِث للتغيير",
      "titleEn": "Innovation and Disruption",
      "objectiveAr": "أن يحلل المتعلم كيف تغيّر الابتكارات أسواقًا كاملة.",
-     "modelSentence": "Streaming services disrupted the music industry almost overnight.",
-     "modelSentenceArabic": "أحدثت خدمات البث تغييرًا جذريًا في صناعة الموسيقى بين ليلة وضحاها تقريبًا.",
+     "modelSentence": "A new service can disrupt an established market, but the extent and timing of change require evidence.",
+     "modelSentenceArabic": "قد تحدث خدمة جديدة تغييرًا في سوق قائم، لكن تحديد مدى التغيير وتوقيته يحتاج إلى أدلة.",
      "vocabulary": [
       {
        "english": "disrupt",
@@ -562,8 +562,8 @@
       {
        "english": "obsolete",
        "arabic": "عفا عليه الزمن",
-       "example": "Fax machines are now almost obsolete.",
-       "exampleArabic": "أصبحت أجهزة الفاكس الآن متقادمة تقريبًا.",
+       "example": "The component became obsolete after the technical standard changed.",
+       "exampleArabic": "أصبح المكوّن متقادمًا بعد تغيير المعيار التقني.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -629,8 +629,8 @@
       {
        "english": "envoy",
        "arabic": "مبعوث",
-       "example": "The UN sent a special envoy to the region.",
-       "exampleArabic": "أرسلت الأمم المتحدة مبعوثًا خاصًا إلى المنطقة.",
+       "example": "In this fictional scenario, an envoy carries a proposal to both governments.",
+       "exampleArabic": "في هذا السيناريو التخيلي، ينقل مبعوث مقترحًا إلى الحكومتين.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -645,8 +645,8 @@
       {
        "english": "sanctions",
        "arabic": "عقوبات",
-       "example": "The UN imposed sanctions on the regime.",
-       "exampleArabic": "فرضت الأمم المتحدة عقوبات على النظام.",
+       "example": "The briefing distinguishes proposed sanctions from measures already in force.",
+       "exampleArabic": "تميز الإحاطة بين العقوبات المقترحة والتدابير النافذة بالفعل.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -793,8 +793,8 @@
       {
        "english": "inequalities",
        "arabic": "أوجه التفاوت",
-       "example": "Health inequalities are growing.",
-       "exampleArabic": "تتزايد أوجه التفاوت الصحي.",
+       "example": "The report examines inequalities in access across different regions.",
+       "exampleArabic": "يفحص التقرير التفاوت في الوصول بين المناطق المختلفة.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -845,8 +845,8 @@
      "titleAr": "التنمية والمساعدات",
      "titleEn": "Development and Aid",
      "objectiveAr": "أن يقيّم المتعلم فاعلية المساعدات الدولية وشروطها.",
-     "modelSentence": "Aid is most effective when it empowers local communities rather than creating dependency.",
-     "modelSentenceArabic": "تكون المساعدات أكثر فاعلية عندما تمكّن المجتمعات المحلية بدلًا من خلق الاعتماد عليها.",
+     "modelSentence": "An aid programme should examine whether it strengthens local capacity or creates unintended dependency.",
+     "modelSentenceArabic": "ينبغي لبرنامج المساعدة أن يفحص ما إذا كان يقوي القدرة المحلية أو ينشئ اعتمادًا غير مقصود.",
      "vocabulary": [
       {
        "english": "empower",
@@ -1002,14 +1002,14 @@
      "titleAr": "الدافعية والعادات",
      "titleEn": "Motivation and Habit",
      "objectiveAr": "أن يشرح المتعلم كيف تتكوّن العادات وكيف تُغيَّر.",
-     "modelSentence": "Small, consistent changes are far more sustainable than relying on willpower alone.",
-     "modelSentenceArabic": "التغييرات الصغيرة المنتظمة أكثر استدامة بكثير من الاعتماد على قوة الإرادة وحدها.",
+     "modelSentence": "A consistent routine may help, but the plan should be adjusted when the circumstances change.",
+     "modelSentenceArabic": "قد يساعد روتين منتظم، لكن ينبغي تعديل الخطة عند تغير الظروف.",
      "vocabulary": [
       {
        "english": "willpower",
        "arabic": "قوة الإرادة",
-       "example": "It takes willpower to give up sugar.",
-       "exampleArabic": "يتطلب الإقلاع عن السكر قوة إرادة.",
+       "example": "She found that planning her study time was more useful than relying on willpower alone.",
+       "exampleArabic": "وجدت أن تخطيط وقت الدراسة أفيد لها من الاعتماد على قوة الإرادة وحدها.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -1024,8 +1024,8 @@
       {
        "english": "intrinsic",
        "arabic": "داخلي (نابع من الذات)",
-       "example": "Intrinsic motivation lasts longer than rewards.",
-       "exampleArabic": "الدافعية الداخلية تدوم أطول من المكافآت.",
+       "example": "Her intrinsic motivation comes from enjoying the learning process itself.",
+       "exampleArabic": "تنبع دافعيتها الداخلية من الاستمتاع بعملية التعلم نفسها.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -1040,16 +1040,16 @@
       {
        "english": "reinforcement",
        "arabic": "تعزيز",
-       "example": "Positive reinforcement works well with children.",
-       "exampleArabic": "يعمل التعزيز الإيجابي جيدًا مع الأطفال.",
+       "example": "The researcher examined whether feedback acted as reinforcement for the behaviour.",
+       "exampleArabic": "فحص الباحث ما إذا كانت الملاحظات تعزز تكرار السلوك.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
        "english": "relapse",
-       "arabic": "انتكاسة؛ يعود إلى",
-       "example": "Many people relapse after a few weeks.",
-       "exampleArabic": "ينتكس كثير من الناس بعد بضعة أسابيع.",
+       "arabic": "ينتكس؛ يعود إلى سلوك سابق",
+       "example": "During a stressful period, people may relapse into an old habit.",
+       "exampleArabic": "قد يعود الناس إلى عادة قديمة خلال فترة ضاغطة.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
@@ -1156,8 +1156,8 @@
       {
        "english": "emotional intelligence",
        "arabic": "الذكاء العاطفي",
-       "example": "Good leaders have high emotional intelligence.",
-       "exampleArabic": "يتمتع القادة الجيدون بذكاء عاطفي مرتفع.",
+       "example": "The workshop explored emotional intelligence through listening and reflection exercises.",
+       "exampleArabic": "استكشفت الورشة الذكاء العاطفي عبر تمارين الاستماع والتأمل.",
        "partOfSpeech": "noun",
        "phonetic": null
       },

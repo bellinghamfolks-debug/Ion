@@ -93,8 +93,8 @@
       {
        "english": "heritage",
        "arabic": "تراث",
-       "example": "The old city is a UNESCO heritage site.",
-       "exampleArabic": "المدينة القديمة موقع تراثي مسجّل لدى اليونسكو.",
+       "example": "Local crafts form an important part of the town’s heritage.",
+       "exampleArabic": "تشكل الحرف المحلية جزءًا مهمًا من تراث البلدة.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -274,13 +274,13 @@
        "english": "mainstream",
        "arabic": "السائد",
        "example": "The band became mainstream after their second album.",
-       "exampleArabic": "أصبحت الفرقة سائدة بعد ألبومها الثاني.",
+       "exampleArabic": "أصبحت الفرقة واسعة الانتشار بعد ألبومها الثاني.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
       {
        "english": "blend",
-       "arabic": "مزيج؛ يمزج",
+       "arabic": "مزيج",
        "example": "The food is a blend of Arabic and Indian styles.",
        "exampleArabic": "الطعام مزيج من الأسلوبين العربي والهندي.",
        "partOfSpeech": "noun",
@@ -324,8 +324,8 @@
       {
        "english": "offence",
        "arabic": "مخالفة؛ جريمة",
-       "example": "Driving without a licence is a serious offence.",
-       "exampleArabic": "القيادة دون رخصة مخالفة خطيرة.",
+       "example": "The report compares penalties for different types of offence.",
+       "exampleArabic": "يقارن التقرير العقوبات المقررة لأنواع مختلفة من الجرائم.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -339,7 +339,7 @@
       },
       {
        "english": "sentence",
-       "arabic": "حكم قضائي؛ يحكم",
+       "arabic": "عقوبة قضائية",
        "example": "The judge gave him a two-year sentence.",
        "exampleArabic": "أصدر القاضي بحقه حكمًا بالسجن عامين.",
        "partOfSpeech": "noun",
@@ -348,8 +348,8 @@
       {
        "english": "deterrent",
        "arabic": "رادع",
-       "example": "High fines act as a deterrent.",
-       "exampleArabic": "تعمل الغرامات المرتفعة كرادع.",
+       "example": "The policy uses fines as a deterrent, but its effects still need evaluation.",
+       "exampleArabic": "تستخدم السياسة الغرامات رادعًا، لكن آثارها لا تزال بحاجة إلى تقييم.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -398,8 +398,8 @@
       {
        "english": "be entitled to",
        "arabic": "يحق له",
-       "example": "Employees are entitled to paid holiday.",
-       "exampleArabic": "يحق للموظفين إجازة مدفوعة.",
+       "example": "Under this company’s policy, staff are entitled to one paid training day.",
+       "exampleArabic": "بموجب سياسة هذه الشركة، يحق للموظفين يوم تدريب واحد مدفوع الأجر.",
        "partOfSpeech": "phrase",
        "phonetic": null
       },
@@ -414,16 +414,16 @@
       {
        "english": "freedom of expression",
        "arabic": "حرية التعبير",
-       "example": "Freedom of expression has limits.",
-       "exampleArabic": "لحرية التعبير حدود.",
+       "example": "The seminar examined freedom of expression and how restrictions are justified.",
+       "exampleArabic": "تناولت الندوة حرية التعبير وكيفية تبرير القيود عليها.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
        "english": "discrimination",
        "arabic": "تمييز",
-       "example": "The law bans discrimination at work.",
-       "exampleArabic": "يحظر القانون التمييز في العمل.",
+       "example": "The report examines allegations of discrimination at work.",
+       "exampleArabic": "يفحص التقرير ادعاءات بوجود تمييز في العمل.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -480,8 +480,8 @@
       {
        "english": "regulations",
        "arabic": "أنظمة؛ لوائح",
-       "example": "Safety regulations are stricter now.",
-       "exampleArabic": "أنظمة السلامة أكثر صرامة الآن.",
+       "example": "We compared the proposed regulations with the existing rules.",
+       "exampleArabic": "قارنّا اللوائح المقترحة بالقواعد القائمة.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -511,9 +511,9 @@
       },
       {
        "english": "ban",
-       "arabic": "يحظر؛ حظر",
-       "example": "Smoking is banned in public buildings.",
-       "exampleArabic": "التدخين محظور في المباني العامة.",
+       "arabic": "يحظر",
+       "example": "The policy would ban smoking in the building.",
+       "exampleArabic": "ستحظر السياسة التدخين في المبنى.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
@@ -540,8 +540,8 @@
      "titleAr": "حقوق المستهلك",
      "titleEn": "Consumer Rights",
      "objectiveAr": "أن يطالب المتعلم بحقه كمستهلك بلغة رسمية واضحة.",
-     "modelSentence": "Under consumer law, you are entitled to a replacement if the product is defective.",
-     "modelSentenceArabic": "بموجب قانون حماية المستهلك، يحق لك الحصول على بديل إذا كان المنتج معيبًا.",
+     "modelSentence": "The product is defective, so I would like to discuss the available warranty options.",
+     "modelSentenceArabic": "المنتج معيب، لذلك أود مناقشة الخيارات المتاحة بموجب الضمان.",
      "vocabulary": [
       {
        "english": "consumer",
@@ -577,9 +577,9 @@
       },
       {
        "english": "claim",
-       "arabic": "يطالب بـ؛ مطالبة",
-       "example": "You can claim compensation for the delay.",
-       "exampleArabic": "يمكنك المطالبة بتعويض عن التأخير.",
+       "arabic": "يطالب بـ",
+       "example": "The customer asked how to claim compensation for the delay.",
+       "exampleArabic": "سأل العميل عن كيفية المطالبة بتعويض عن التأخير.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
@@ -623,8 +623,8 @@
      "titleAr": "التضخم والأسعار",
      "titleEn": "Inflation and Prices",
      "objectiveAr": "أن يشرح المتعلم التضخم وأثره على الحياة اليومية.",
-     "modelSentence": "As inflation rises, the purchasing power of ordinary families falls.",
-     "modelSentenceArabic": "مع ارتفاع التضخم، تنخفض القدرة الشرائية للأسر العادية.",
+     "modelSentence": "When prices rise faster than income, purchasing power falls.",
+     "modelSentenceArabic": "عندما ترتفع الأسعار أسرع من الدخل، تنخفض القدرة الشرائية.",
      "vocabulary": [
       {
        "english": "inflation",
@@ -637,8 +637,8 @@
       {
        "english": "purchasing power",
        "arabic": "القدرة الشرائية",
-       "example": "Low wages reduce purchasing power.",
-       "exampleArabic": "الأجور المنخفضة تقلّل القدرة الشرائية.",
+       "example": "When prices rise and income stays the same, purchasing power falls.",
+       "exampleArabic": "عندما ترتفع الأسعار ويبقى الدخل ثابتًا، تنخفض القدرة الشرائية.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -770,9 +770,9 @@
      "id": "b2-x-u11-l3",
      "titleAr": "أساسيات الاستثمار",
      "titleEn": "Investing Basics",
-     "objectiveAr": "أن يشرح المتعلم مبادئ الاستثمار الأساسية ويحذّر من المخاطر.",
-     "modelSentence": "It's wise to diversify your investments rather than put all your eggs in one basket.",
-     "modelSentenceArabic": "من الحكمة تنويع استثماراتك بدلًا من وضع كل البيض في سلة واحدة.",
+     "objectiveAr": "شرح مصطلحات الاستثمار والتمييز بين الأداء الماضي والعائد غير المضمون.",
+     "modelSentence": "A diversified portfolio can spread risk, but it cannot guarantee a positive return.",
+     "modelSentenceArabic": "يمكن لمحفظة متنوعة توزيع المخاطر، لكنها لا تضمن عائدًا موجبًا.",
      "vocabulary": [
       {
        "english": "diversify",
@@ -785,8 +785,8 @@
       {
        "english": "investment",
        "arabic": "استثمار",
-       "example": "Property can be a good investment.",
-       "exampleArabic": "يمكن أن يكون العقار استثمارًا جيدًا.",
+       "example": "We discussed the risks and costs of the proposed investment.",
+       "exampleArabic": "ناقشنا مخاطر الاستثمار المقترح وتكاليفه.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -845,8 +845,8 @@
      "titleAr": "اقتصاد العمل الحر",
      "titleEn": "The Gig Economy",
      "objectiveAr": "أن يناقش المتعلم مزايا العمل الحر عبر التطبيقات وعيوبه.",
-     "modelSentence": "Gig workers enjoy freedom, but they often lack job security and benefits.",
-     "modelSentenceArabic": "يتمتع العاملون الأحرار بالحرية، لكنهم غالبًا يفتقرون إلى الأمان الوظيفي والمزايا.",
+     "modelSentence": "Gig work may offer flexible hours, while income and benefits depend on the arrangement.",
+     "modelSentenceArabic": "قد يوفر العمل القائم على المهام ساعات مرنة، بينما يعتمد الدخل والمزايا على الترتيب المتفق عليه.",
      "vocabulary": [
       {
        "english": "gig economy",
@@ -858,17 +858,17 @@
       },
       {
        "english": "freelance",
-       "arabic": "عمل حر؛ يعمل لحسابه",
-       "example": "She works freelance as a designer.",
-       "exampleArabic": "تعمل مصممة بشكل حر.",
+       "arabic": "مستقل في عمله",
+       "example": "She is a freelance designer with several clients.",
+       "exampleArabic": "هي مصممة مستقلة تعمل مع عدة عملاء.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
       {
        "english": "job security",
        "arabic": "الأمان الوظيفي",
-       "example": "Contract work offers little job security.",
-       "exampleArabic": "العمل بالعقود يوفّر قليلًا من الأمان الوظيفي.",
+       "example": "He asked about job security before accepting the contract.",
+       "exampleArabic": "سأل عن الأمان الوظيفي قبل قبول العقد.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -882,7 +882,7 @@
       },
       {
        "english": "lack",
-       "arabic": "يفتقر إلى؛ نقص",
+       "arabic": "يفتقر إلى",
        "example": "The plan lacks detail.",
        "exampleArabic": "تفتقر الخطة إلى التفاصيل.",
        "partOfSpeech": "verb",
@@ -1040,8 +1040,8 @@
       {
        "english": "body language",
        "arabic": "لغة الجسد",
-       "example": "Your body language shows that you're nervous.",
-       "exampleArabic": "تُظهر لغة جسدك أنك متوتر.",
+       "example": "Body language may add context, but it does not reveal feelings with certainty.",
+       "exampleArabic": "قد تضيف لغة الجسد سياقًا، لكنها لا تكشف المشاعر بيقين.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -1131,7 +1131,7 @@
        "english": "executive summary",
        "arabic": "ملخص تنفيذي",
        "example": "An executive summary gives senior readers the report's main message quickly.",
-       "exampleArabic": "يقدم الملخص التنفيذي لكبار القراء الرسالة الرئيسية للتقرير بسرعة.",
+       "exampleArabic": "يتيح الملخص التنفيذي لصناع القرار فهم الرسالة الرئيسية للتقرير بسرعة.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -1150,8 +1150,8 @@
      "titleAr": "التلخيص وإعادة الصياغة",
      "titleEn": "Summarising and Paraphrasing",
      "objectiveAr": "أن يلخّص المتعلم نصًا ويعيد صياغة أفكاره بكلماته.",
-     "modelSentence": "In a nutshell, the author argues that cities must put people before cars.",
-     "modelSentenceArabic": "باختصار، يرى المؤلف أن على المدن أن تضع الناس قبل السيارات.",
+     "modelSentence": "To put it in a nutshell, the author argues that cities should put people before cars.",
+     "modelSentenceArabic": "وخلاصة القول، يرى المؤلف أن على المدن تقديم الناس على السيارات.",
      "vocabulary": [
       {
        "english": "in a nutshell",

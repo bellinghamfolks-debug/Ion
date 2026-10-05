@@ -13,12 +13,12 @@
      "titleAr": "التضليل الإعلامي",
      "titleEn": "Misinformation",
      "objectiveAr": "أن يميّز المتعلم بين الخطأ والتضليل المتعمد ويقترح طرق التحقق.",
-     "modelSentence": "Misinformation spreads faster than corrections, so fact-checking has never been more important.",
-     "modelSentenceArabic": "ينتشر التضليل أسرع من التصحيحات، لذلك لم يكن التحقق من الحقائق أهم مما هو عليه الآن.",
+     "modelSentence": "Careful fact-checking can identify false information without assuming that every error is deliberate.",
+     "modelSentenceArabic": "يمكن للتحقق الدقيق من الحقائق كشف المعلومات الخاطئة دون افتراض أن كل خطأ متعمد.",
      "vocabulary": [
       {
        "english": "misinformation",
-       "arabic": "معلومات مضلّلة",
+       "arabic": "معلومات خاطئة أو مضللة دون اشتراط التعمد",
        "example": "Misinformation about vaccines is dangerous.",
        "exampleArabic": "المعلومات المضلّلة عن اللقاحات خطيرة.",
        "partOfSpeech": "noun",
@@ -101,8 +101,8 @@
       {
        "english": "impartial",
        "arabic": "محايد",
-       "example": "The BBC aims to be impartial.",
-       "exampleArabic": "تسعى البي بي سي إلى أن تكون محايدة.",
+       "example": "An impartial assessment applies the same evidential standards to each account.",
+       "exampleArabic": "يطبق التقييم المحايد معايير الإثبات نفسها على كل رواية.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -132,10 +132,10 @@
       },
       {
        "english": "editorial",
-       "arabic": "افتتاحي؛ تحريري",
+       "arabic": "افتتاحية صحفية",
        "example": "The paper's editorial criticised the decision.",
        "exampleArabic": "انتقدت افتتاحية الصحيفة القرار.",
-       "partOfSpeech": "adjective",
+       "partOfSpeech": "noun",
        "phonetic": null
       },
       {
@@ -235,14 +235,14 @@
      "titleAr": "الوعي الرقمي",
      "titleEn": "Digital Literacy",
      "objectiveAr": "أن يشرح المتعلم مهارات تقييم المحتوى الرقمي بوعي نقدي.",
-     "modelSentence": "Digital literacy involves questioning who created a piece of content and why.",
-     "modelSentenceArabic": "يتضمن الوعي الرقمي التساؤل عمّن أنشأ المحتوى ولماذا.",
+     "modelSentence": "To develop digital literacy, ask who created a piece of content and why.",
+     "modelSentenceArabic": "لتنمية الوعي الرقمي، اسأل عمّن أنشأ المحتوى ولماذا.",
      "vocabulary": [
       {
        "english": "digital literacy",
        "arabic": "الوعي الرقمي",
-       "example": "Schools now teach digital literacy.",
-       "exampleArabic": "تدرّس المدارس الآن الوعي الرقمي.",
+       "example": "The course develops digital literacy through source-evaluation tasks.",
+       "exampleArabic": "تطور الدورة الوعي الرقمي عبر مهام تقييم المصادر.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -332,8 +332,8 @@
       {
        "english": "concrete",
        "arabic": "ملموس",
-       "example": "We need concrete proposals, not ideas.",
-       "exampleArabic": "نحتاج إلى مقترحات ملموسة لا أفكار.",
+       "example": "We need concrete proposals with clear actions and responsibilities.",
+       "exampleArabic": "نحتاج إلى مقترحات محددة تتضمن إجراءات ومسؤوليات واضحة.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -429,7 +429,7 @@
       },
       {
        "english": "roll out",
-       "arabic": "يطرح تدريجيًا",
+       "arabic": "يطبّق؛ يعمّم",
        "example": "The system will be rolled out next month.",
        "exampleArabic": "سيُطرح النظام الشهر المقبل.",
        "partOfSpeech": "phrasal verb",
@@ -636,9 +636,9 @@
       },
       {
        "english": "jargon",
-       "arabic": "مصطلحات متخصصة مبهمة",
+       "arabic": "مصطلحات متخصصة يصعب على غير المختص فهمها",
        "example": "Avoid jargon when you write for the public.",
-       "exampleArabic": "تجنّب المصطلحات المتخصصة المبهمة عندما تكتب للجمهور.",
+       "exampleArabic": "تجنّب المصطلحات التي يصعب على غير المختص فهمها عندما تكتب للجمهور.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -676,7 +676,7 @@
       },
       {
        "english": "qualifier",
-       "arabic": "عبارة تقييد",
+       "arabic": "عبارة تحدد نطاق الادعاء",
        "example": "A qualifier such as 'in most cases' can make a claim more precise.",
        "exampleArabic": "يمكن لعبارة تقييد مثل «في معظم الحالات» أن تجعل الادعاء أدق.",
        "partOfSpeech": "noun",
@@ -718,7 +718,7 @@
       },
       {
        "english": "tongue-in-cheek",
-       "arabic": "على سبيل المزاح",
+       "arabic": "مازح؛ غير مقصود على محمل الجد",
        "example": "His comment was tongue-in-cheek.",
        "exampleArabic": "كان تعليقه على سبيل المزاح.",
        "partOfSpeech": "adjective",
@@ -726,9 +726,9 @@
       },
       {
        "english": "deadpan",
-       "arabic": "بوجه جاد (دعابة جافة)",
-       "example": "She has a deadpan sense of humour.",
-       "exampleArabic": "لديها حس دعابة جاف بوجه جاد.",
+       "arabic": "جادّ المظهر أو النبرة عند المزاح",
+       "example": "She delivered the joke in a deadpan voice.",
+       "exampleArabic": "ألقت النكتة بنبرة جادة.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -800,7 +800,7 @@
       },
       {
        "english": "by no means",
-       "arabic": "بأي حال من الأحوال",
+       "arabic": "ليس ... على الإطلاق",
        "example": "The task is by no means easy.",
        "exampleArabic": "المهمة ليست سهلة بأي حال من الأحوال.",
        "partOfSpeech": "phrase",
@@ -808,7 +808,7 @@
       },
       {
        "english": "under no circumstances",
-       "arabic": "تحت أي ظرف",
+       "arabic": "لا ... تحت أي ظرف",
        "example": "Under no circumstances should you share your password.",
        "exampleArabic": "لا يجوز لك تحت أي ظرف مشاركة كلمة مرورك.",
        "partOfSpeech": "phrase",
@@ -832,9 +832,9 @@
       },
       {
        "english": "cleft sentence",
-       "arabic": "جملة مشطورة",
+       "arabic": "جملة مشطورة للتوكيد",
        "example": "A cleft sentence can highlight one part of a message: 'What we need is time.'",
-       "exampleArabic": "يمكن للجملة المشطورة إبراز جزء من الرسالة مثل: ما نحتاجه هو الوقت.",
+       "exampleArabic": "يمكن للجملة المشطورة إبراز جزء من الرسالة، مثل: «ما نحتاجه هو الوقت».",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -866,7 +866,7 @@
       },
       {
        "english": "whereby",
-       "arabic": "بموجبه؛ حيث",
+       "arabic": "بموجبه؛ من خلاله",
        "example": "They introduced a system whereby staff can work flexibly.",
        "exampleArabic": "أدخلوا نظامًا يمكن بموجبه للموظفين العمل بمرونة.",
        "partOfSpeech": "conjunction",
@@ -990,8 +990,8 @@
       {
        "english": "facilitate",
        "arabic": "ييسّر (النقاش أو العمل)",
-       "example": "A good chair can facilitate disagreement without letting the meeting lose focus.",
-       "exampleArabic": "يستطيع رئيس الجلسة الجيد تيسير النقاش رغم الخلاف دون أن يفقد الاجتماع تركيزه.",
+       "example": "A good chair can facilitate discussion without suppressing disagreement.",
+       "exampleArabic": "يستطيع رئيس الجلسة الجيد تيسير النقاش دون كبت الاختلاف.",
        "partOfSpeech": "verb",
        "phonetic": null
       }
@@ -1055,9 +1055,9 @@
       },
       {
        "english": "stakeholder management",
-       "arabic": "إدارة أصحاب المصلحة",
+       "arabic": "إدارة العلاقات مع أصحاب المصلحة",
        "example": "The role required careful stakeholder management across several departments.",
-       "exampleArabic": "تطلب الدور إدارة دقيقة لأصحاب المصلحة عبر عدة إدارات.",
+       "exampleArabic": "تطلب الدور إدارة دقيقة للعلاقات مع أصحاب المصلحة عبر عدة إدارات.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -1098,8 +1098,8 @@
       {
        "english": "eye contact",
        "arabic": "التواصل البصري",
-       "example": "Keep eye contact with the audience.",
-       "exampleArabic": "حافظ على التواصل البصري مع الجمهور.",
+       "example": "When appropriate, eye contact can help a speaker connect with listeners.",
+       "exampleArabic": "عندما يكون التواصل البصري مناسبًا، قد يساعد المتحدث على التواصل مع المستمعين.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -1113,9 +1113,9 @@
       },
       {
        "english": "pause for effect",
-       "arabic": "يتوقف للتأثير",
+       "arabic": "يتوقف قليلًا لإبراز المعنى",
        "example": "Pause for effect before your main point.",
-       "exampleArabic": "توقّف للتأثير قبل فكرتك الرئيسية.",
+       "exampleArabic": "توقّف قليلًا لإبراز المعنى قبل طرح فكرتك الرئيسية.",
        "partOfSpeech": "phrase",
        "phonetic": null
       },
@@ -1150,8 +1150,8 @@
      "titleAr": "كتابة المقترحات المقنعة",
      "titleEn": "Writing Persuasive Proposals",
      "objectiveAr": "أن يكتب المتعلم مقترحًا مقنعًا يعرض المشكلة والحل والعائد.",
-     "modelSentence": "This proposal outlines a cost-effective solution that will deliver measurable returns within a year.",
-     "modelSentenceArabic": "يعرض هذا المقترح حلًا فعّالًا من حيث التكلفة سيحقق عوائد قابلة للقياس خلال عام.",
+     "modelSentence": "This proposal outlines a cost-effective solution, with projected returns that depend on stated assumptions.",
+     "modelSentenceArabic": "يعرض هذا المقترح حلًا فعّالًا من حيث التكلفة، مع عوائد متوقعة تعتمد على افتراضات معلنة.",
      "vocabulary": [
       {
        "english": "outline",
@@ -1164,8 +1164,8 @@
       {
        "english": "cost-effective",
        "arabic": "فعّال من حيث التكلفة",
-       "example": "Solar panels are a cost-effective choice.",
-       "exampleArabic": "الألواح الشمسية خيار فعّال من حيث التكلفة.",
+       "example": "The team compared two training plans to find the more cost-effective option.",
+       "exampleArabic": "قارن الفريق خطتين للتدريب لتحديد الخيار الذي يحقق منفعة أكبر قياسًا إلى تكلفته.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -1196,16 +1196,16 @@
       {
        "english": "return on investment",
        "arabic": "العائد على الاستثمار",
-       "example": "The project offers a high return on investment.",
-       "exampleArabic": "يقدّم المشروع عائدًا مرتفعًا على الاستثمار.",
+       "example": "The proposal estimates the return on investment and states the assumptions behind it.",
+       "exampleArabic": "يقدّر المقترح العائد على الاستثمار ويوضح الافتراضات التي يستند إليها.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
        "english": "value proposition",
-       "arabic": "عرض قيمة",
+       "arabic": "بيان القيمة المقدّمة",
        "example": "The proposal needs a clear value proposition for the decision-maker.",
-       "exampleArabic": "يحتاج المقترح إلى عرض قيمة واضح لصاحب القرار.",
+       "exampleArabic": "يحتاج المقترح إلى بيان واضح للقيمة المقدّمة إلى صاحب القرار.",
        "partOfSpeech": "noun",
        "phonetic": null
       },

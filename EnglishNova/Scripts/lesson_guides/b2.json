@@ -135,8 +135,8 @@
   "b2-extra-8": {
     "focusAr": "قد يعرض المقال one perspective دون أن تكون كل معلوماته خاطئة. selective framing انتقاء جوانب أو طريقة عرض تؤثر في الفهم؛ افحص ما أُبرز وما أُغفل. source credibility تتعلق بالخبرة والأدلة والشفافية، ولا تغني عن فحص الادعاء نفسه. ميّز بين لغة مثيرة، وتحيز يمكن تبريره بأمثلة، وخطأ واقعي.",
     "focusEn": "An article can present one perspective without every fact being false. Selective framing emphasizes particular aspects, so examine what is highlighted and omitted. Source credibility concerns expertise, evidence, and transparency, but does not replace checking the claim itself. Distinguish dramatic language, bias supported by examples, and factual error rather than treating them as identical.",
-    "taskAr": "حلّل عنوانًا يقول «الجميع يكره الخطة الجديدة» بينما استُطلع عشرة أشخاص فقط في قسم واحد. حدّد التعميم واقترح صياغة أدق.",
-    "taskEn": "Analyse a headline saying 'Everyone hates the new plan' when only ten people in one department were surveyed. Identify the overstatement and propose a more precise wording.",
+    "taskAr": "حلّل عنوانًا يقول «الجميع يكره الخطة الجديدة» بينما استُطلع عشرة أشخاص فقط في قسم واحد، وجميعهم عارضوا الخطة. حدّد التعميم واقترح صياغة أدق.",
+    "taskEn": "Analyse a headline saying 'Everyone hates the new plan' when a survey asked only ten people in one department, all of whom opposed it. Identify the overstatement and propose a more precise wording.",
     "exampleEn": "The headline generalizes from a small group to everyone. A more accurate version would be: 'Ten surveyed staff members in one department opposed the plan.' We would need wider evidence to describe the whole organization.",
     "exampleAr": "يعمم العنوان رأي مجموعة صغيرة على الجميع. والصياغة الأدق: «عارض الخطة عشرة موظفين شملهم الاستطلاع في قسم واحد». نحتاج إلى أدلة أوسع لوصف المؤسسة كلها.",
     "check": {

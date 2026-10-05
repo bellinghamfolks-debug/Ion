@@ -56,7 +56,9 @@ struct Exercise: Codable, Identifiable, Hashable {
         switch type {
         case .matchPairs:
             return Self.pairs(from: response) == Self.pairs(from: answer)
-        case .trueFalse:
+        case .multipleChoice, .listenAndChoose, .trueFalse:
+            // Selected options are exact values, not approximate typed answers.
+            // Fuzzy matching can accept a distractor that differs by a negation.
             return response == answer
         default:
             let answers = [answer] + (acceptableAnswers ?? [])

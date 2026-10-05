@@ -124,7 +124,7 @@
       },
       {
        "english": "photocopy",
-       "arabic": "يصوّر (مستندًا)؛ نسخة مصوّرة",
+       "arabic": "يصوّر مستندًا",
        "example": "Can you photocopy these pages for me?",
        "exampleArabic": "هل يمكنك تصوير هذه الصفحات لي؟",
        "partOfSpeech": "verb",
@@ -191,8 +191,8 @@
       {
        "english": "salary",
        "arabic": "راتب",
-       "example": "The salary is paid every month.",
-       "exampleArabic": "يُدفع الراتب كل شهر.",
+       "example": "My salary is paid at the end of each month.",
+       "exampleArabic": "يُدفع راتبي في نهاية كل شهر.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -265,8 +265,8 @@
       {
        "english": "permission",
        "arabic": "إذن",
-       "example": "You need permission to leave early.",
-       "exampleArabic": "تحتاج إذنًا للمغادرة مبكرًا.",
+       "example": "At my office, we need permission to leave early.",
+       "exampleArabic": "في مكتبي، نحتاج إلى إذن للمغادرة مبكرًا.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -296,7 +296,7 @@
       },
       {
        "english": "approve",
-       "arabic": "يوافق",
+       "arabic": "يوافق على",
        "example": "My boss needs to approve the change to my shift.",
        "exampleArabic": "يحتاج مديري إلى الموافقة على تغيير مناوبتي.",
        "partOfSpeech": "verb",
@@ -319,7 +319,7 @@
      "titleEn": "Last Weekend",
      "objectiveAr": "أن يحكي المتعلم ما فعله في عطلة نهاية الأسبوع بالماضي البسيط.",
      "modelSentence": "Last weekend I visited my cousins and we had a barbecue in the garden.",
-     "modelSentenceArabic": "في عطلة نهاية الأسبوع الماضية زرت أبناء عمي وأقمنا شواءً في الحديقة.",
+     "modelSentenceArabic": "في عطلة نهاية الأسبوع الماضية زرت أبناء عمي وأقمنا حفلة شواء في الحديقة.",
      "vocabulary": [
       {
        "english": "weekend",
@@ -356,14 +356,14 @@
       {
        "english": "enjoyed",
        "arabic": "استمتع",
-       "example": "Did you enjoy the party?",
-       "exampleArabic": "هل استمتعت بالحفلة؟",
+       "example": "I enjoyed the party last night.",
+       "exampleArabic": "استمتعت بالحفلة الليلة الماضية.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
       {
        "english": "cousins",
-       "arabic": "أبناء العم أو الخال",
+       "arabic": "أبناء وبنات الأعمام والعمات والأخوال والخالات",
        "example": "My cousins live in Jeddah.",
        "exampleArabic": "يعيش أبناء عمي في جدة.",
        "partOfSpeech": "noun",
@@ -373,7 +373,7 @@
        "english": "catch up",
        "arabic": "يتبادل الأخبار بعد غياب",
        "example": "I met an old friend to catch up over coffee.",
-       "exampleArabic": "قابلت صديقًا قديمًا لنتبادل الأخبار على القهوة.",
+       "exampleArabic": "قابلت صديقًا قديمًا لنتبادل الأخبار أثناء شرب القهوة.",
        "partOfSpeech": "phrasal verb",
        "phonetic": null
       },
@@ -513,7 +513,7 @@
        "english": "naughty",
        "arabic": "شقي",
        "example": "I was a naughty child and I never sat still.",
-       "exampleArabic": "كنت طفلًا شقيًا ولا أجلس بهدوء أبدًا.",
+       "exampleArabic": "كنت طفلًا شقيًا لا يكف عن الحركة.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -541,7 +541,7 @@
      "titleEn": "An Accident or Problem",
      "objectiveAr": "أن يحكي المتعلم مشكلة بسيطة حدثت له وكيف تعامل معها.",
      "modelSentence": "I was riding my bike when I fell and broke my arm.",
-     "modelSentenceArabic": "كنت أركب دراجتي عندما سقطت وكُسرت ذراعي.",
+     "modelSentenceArabic": "كنت أركب دراجتي عندما سقطت وانكسرت ذراعي.",
      "vocabulary": [
       {
        "english": "fell",
@@ -587,7 +587,7 @@
        "english": "ambulance",
        "arabic": "سيارة إسعاف",
        "example": "They called an ambulance.",
-       "exampleArabic": "اتصلوا بسيارة إسعاف.",
+       "exampleArabic": "طلبوا سيارة إسعاف.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -697,8 +697,8 @@
      "titleAr": "في الريف",
      "titleEn": "In the Countryside",
      "objectiveAr": "أن يقارن المتعلم بين الريف والمدينة ويصف مكانًا طبيعيًا.",
-     "modelSentence": "The countryside is peaceful, and the air is much cleaner than in the city.",
-     "modelSentenceArabic": "الريف هادئ، والهواء أنظف بكثير منه في المدينة.",
+     "modelSentence": "The countryside around our village is more peaceful than the city centre.",
+     "modelSentenceArabic": "الريف المحيط بقريتنا أكثر هدوءًا من وسط المدينة.",
      "vocabulary": [
       {
        "english": "countryside",
@@ -851,8 +851,8 @@
       {
        "english": "sandstorm",
        "arabic": "عاصفة رملية",
-       "example": "Close the windows, there is a sandstorm.",
-       "exampleArabic": "أغلق النوافذ، هناك عاصفة رملية.",
+       "example": "Close the windows. There is a sandstorm.",
+       "exampleArabic": "أغلق النوافذ. توجد عاصفة رملية.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -866,17 +866,17 @@
       },
       {
        "english": "cancelled",
-       "arabic": "مُلغى",
+       "arabic": "أُلغي",
        "example": "The match was cancelled because of the rain.",
        "exampleArabic": "أُلغيت المباراة بسبب المطر.",
-       "partOfSpeech": "adjective",
+       "partOfSpeech": "verb",
        "phonetic": null
       },
       {
        "english": "heatwave",
        "arabic": "موجة حر",
-       "example": "Stay inside during the heatwave.",
-       "exampleArabic": "ابقَ في الداخل أثناء موجة الحر.",
+       "example": "The heatwave lasted three days.",
+       "exampleArabic": "استمرت موجة الحر ثلاثة أيام.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -884,7 +884,7 @@
        "english": "forecast",
        "arabic": "توقعات الطقس",
        "example": "The forecast says it will rain tomorrow.",
-       "exampleArabic": "تقول توقعات الطقس إنها ستمطر غدًا.",
+       "exampleArabic": "تشير توقعات الطقس إلى هطول المطر غدًا.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -929,7 +929,7 @@
      "titleEn": "At the Bank",
      "objectiveAr": "أن ينجز المتعلم معاملة بنكية بسيطة ويسأل عنها.",
      "modelSentence": "I'd like to open a bank account and get a debit card.",
-     "modelSentenceArabic": "أود فتح حساب بنكي والحصول على بطاقة صرّاف.",
+     "modelSentenceArabic": "أود فتح حساب بنكي والحصول على بطاقة خصم مباشر.",
      "vocabulary": [
       {
        "english": "bank account",
@@ -941,9 +941,9 @@
       },
       {
        "english": "debit card",
-       "arabic": "بطاقة خصم",
+       "arabic": "بطاقة خصم مباشر",
        "example": "I lost my debit card.",
-       "exampleArabic": "فقدت بطاقة الصرّاف.",
+       "exampleArabic": "فقدت بطاقة الخصم المباشر الخاصة بي.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -965,7 +965,7 @@
       },
       {
        "english": "transfer",
-       "arabic": "تحويل؛ يحوّل",
+       "arabic": "يحوّل مالًا",
        "example": "I transferred the money to my brother.",
        "exampleArabic": "حوّلت المال إلى أخي.",
        "partOfSpeech": "verb",
@@ -990,8 +990,8 @@
       {
        "english": "fee",
        "arabic": "رسوم",
-       "example": "The bank charges a small fee for international transfers.",
-       "exampleArabic": "يفرض البنك رسومًا بسيطة على التحويلات الدولية.",
+       "example": "What fee does the bank charge for this transfer?",
+       "exampleArabic": "ما الرسوم التي يفرضها البنك على هذا التحويل؟",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -1016,8 +1016,8 @@
       {
        "english": "delivery",
        "arabic": "توصيل",
-       "example": "Delivery takes three to five days.",
-       "exampleArabic": "يستغرق التوصيل من ثلاثة إلى خمسة أيام.",
+       "example": "The shop says delivery takes three to five days.",
+       "exampleArabic": "يقول المتجر إن التوصيل يستغرق من ثلاثة إلى خمسة أيام.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -1081,7 +1081,7 @@
      "vocabulary": [
       {
        "english": "lost",
-       "arabic": "فَقَد؛ مفقود",
+       "arabic": "فقد",
        "example": "I lost my keys again.",
        "exampleArabic": "فقدت مفاتيحي مرة أخرى.",
        "partOfSpeech": "verb",
@@ -1188,8 +1188,8 @@
       {
        "english": "repair",
        "arabic": "يصلح",
-       "example": "How long will it take to repair?",
-       "exampleArabic": "كم سيستغرق إصلاحه؟",
+       "example": "How long will it take to repair the tap?",
+       "exampleArabic": "كم سيستغرق إصلاح الصنبور؟",
        "partOfSpeech": "verb",
        "phonetic": null
       },

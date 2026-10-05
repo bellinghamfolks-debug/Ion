@@ -4,9 +4,9 @@
   "baselineCommit": "db78479c53590f1d62bf55918b6a622b9cf66f86",
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
-  "stage": "editorial_review",
-  "lastCompletedStep": "اكتملت المراجعة التحريرية لجميع الدروس الـ360، بما فيها الدقة والأسلوب والبلاغة وإدارة الاجتماعات والمقابلات والخطابة والمقترحات. تبدأ الآن إعادة البناء والتحقق الشامل.",
-  "nextStep": "All lessons reviewed; run full rebuild, semantic checks and release validation.",
+  "stage": "validated_sources_and_generated_resources",
+  "lastCompletedStep": "All 360 lessons reviewed; full deterministic rebuild and local content/localization checks passed.",
+  "nextStep": "Review pull request and run iOS XCTest/build/VoiceOver verification in an Apple environment before release.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -161,7 +161,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -173,7 +173,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -185,7 +185,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -197,7 +197,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -209,7 +209,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -221,7 +221,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -233,7 +233,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -245,7 +245,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -257,7 +257,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -269,7 +269,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -281,7 +281,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -293,7 +293,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -305,7 +305,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -317,7 +317,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -329,7 +329,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -341,7 +341,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -353,7 +353,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -365,7 +365,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -377,7 +377,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -389,7 +389,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -401,7 +401,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -413,7 +413,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -425,7 +425,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -437,7 +437,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -449,7 +449,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -461,7 +461,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -473,7 +473,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -485,7 +485,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -497,7 +497,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -509,7 +509,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -521,7 +521,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -533,7 +533,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -545,7 +545,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -557,7 +557,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -569,7 +569,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -581,7 +581,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -593,7 +593,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -605,7 +605,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -617,7 +617,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -629,7 +629,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -641,7 +641,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -653,7 +653,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -665,7 +665,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -677,7 +677,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -689,7 +689,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -701,7 +701,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -713,7 +713,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -725,7 +725,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -737,7 +737,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -749,7 +749,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -761,7 +761,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -773,7 +773,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -785,7 +785,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -797,7 +797,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -809,7 +809,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -821,7 +821,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -833,7 +833,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -845,7 +845,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -857,7 +857,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -869,7 +869,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -881,7 +881,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -893,7 +893,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -905,7 +905,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -917,7 +917,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -929,7 +929,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -941,7 +941,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -953,7 +953,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -965,7 +965,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -977,7 +977,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -989,7 +989,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1001,7 +1001,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1013,7 +1013,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1025,7 +1025,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1037,7 +1037,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1049,7 +1049,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1061,7 +1061,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1073,7 +1073,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1085,7 +1085,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1097,7 +1097,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1109,7 +1109,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1121,7 +1121,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1133,7 +1133,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1145,7 +1145,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1157,7 +1157,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1169,7 +1169,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1181,7 +1181,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1193,7 +1193,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1205,7 +1205,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1217,7 +1217,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1229,7 +1229,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1241,7 +1241,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1253,7 +1253,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1265,7 +1265,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1277,7 +1277,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1289,7 +1289,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1301,7 +1301,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1313,7 +1313,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1325,7 +1325,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1337,7 +1337,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1349,7 +1349,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1361,7 +1361,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1373,7 +1373,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1385,7 +1385,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1397,7 +1397,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1409,7 +1409,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1421,7 +1421,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1433,7 +1433,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1445,7 +1445,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1457,7 +1457,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1469,7 +1469,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1481,7 +1481,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1493,7 +1493,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1505,7 +1505,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1517,7 +1517,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1529,7 +1529,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1541,7 +1541,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1553,7 +1553,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1565,7 +1565,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1577,7 +1577,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1589,7 +1589,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1601,7 +1601,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1613,7 +1613,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1625,7 +1625,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1637,7 +1637,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1649,7 +1649,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1661,7 +1661,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1673,7 +1673,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1685,7 +1685,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1697,7 +1697,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1709,7 +1709,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1721,7 +1721,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1733,7 +1733,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1745,7 +1745,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1757,7 +1757,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1769,7 +1769,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1781,7 +1781,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1793,7 +1793,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1805,7 +1805,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1817,7 +1817,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1829,7 +1829,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1841,7 +1841,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1853,7 +1853,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1865,7 +1865,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1877,7 +1877,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1889,7 +1889,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1901,7 +1901,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1913,7 +1913,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1925,7 +1925,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1937,7 +1937,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1949,7 +1949,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1961,7 +1961,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1973,7 +1973,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1985,7 +1985,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -1997,7 +1997,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2009,7 +2009,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2021,7 +2021,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2033,7 +2033,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2045,7 +2045,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2057,7 +2057,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2069,7 +2069,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2081,7 +2081,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2093,7 +2093,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2105,7 +2105,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2117,7 +2117,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2129,7 +2129,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2141,7 +2141,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2153,7 +2153,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2165,7 +2165,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2177,7 +2177,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2189,7 +2189,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2201,7 +2201,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2213,7 +2213,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2225,7 +2225,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2237,7 +2237,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2249,7 +2249,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2261,7 +2261,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2273,7 +2273,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2285,7 +2285,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2297,7 +2297,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2309,7 +2309,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2321,7 +2321,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2333,7 +2333,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2345,7 +2345,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2357,7 +2357,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2369,7 +2369,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2381,7 +2381,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2393,7 +2393,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2405,7 +2405,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2417,7 +2417,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2429,7 +2429,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2441,7 +2441,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2453,7 +2453,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2465,7 +2465,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2477,7 +2477,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2489,7 +2489,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2501,7 +2501,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2513,7 +2513,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2525,7 +2525,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2537,7 +2537,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2549,7 +2549,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2561,7 +2561,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2573,7 +2573,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2585,7 +2585,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2597,7 +2597,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2609,7 +2609,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2621,7 +2621,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2633,7 +2633,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2645,7 +2645,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2657,7 +2657,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2669,7 +2669,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2681,7 +2681,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2693,7 +2693,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2705,7 +2705,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2717,7 +2717,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2729,7 +2729,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2741,7 +2741,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2753,7 +2753,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2765,7 +2765,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2777,7 +2777,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2789,7 +2789,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2801,7 +2801,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2813,7 +2813,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2825,7 +2825,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2837,7 +2837,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2849,7 +2849,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2861,7 +2861,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2873,7 +2873,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2885,7 +2885,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2897,7 +2897,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2909,7 +2909,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2921,7 +2921,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2933,7 +2933,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2945,7 +2945,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2957,7 +2957,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2969,7 +2969,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2981,7 +2981,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -2993,7 +2993,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3005,7 +3005,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3017,7 +3017,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3029,7 +3029,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3041,7 +3041,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3053,7 +3053,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3065,7 +3065,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3077,7 +3077,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3089,7 +3089,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3101,7 +3101,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3113,7 +3113,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3125,7 +3125,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3137,7 +3137,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3149,7 +3149,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3161,7 +3161,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3173,7 +3173,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3185,7 +3185,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3197,7 +3197,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3209,7 +3209,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3221,7 +3221,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3233,7 +3233,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3245,7 +3245,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3257,7 +3257,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3269,7 +3269,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3281,7 +3281,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3293,7 +3293,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3305,7 +3305,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3317,7 +3317,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3329,7 +3329,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3341,7 +3341,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3353,7 +3353,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3365,7 +3365,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3377,7 +3377,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3389,7 +3389,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3401,7 +3401,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3413,7 +3413,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3425,7 +3425,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3437,7 +3437,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3449,7 +3449,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3461,7 +3461,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3473,7 +3473,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3485,7 +3485,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3497,7 +3497,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3509,7 +3509,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3521,7 +3521,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3533,7 +3533,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3545,7 +3545,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3557,7 +3557,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3569,7 +3569,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3581,7 +3581,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3593,7 +3593,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3605,7 +3605,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3617,7 +3617,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3629,7 +3629,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3641,7 +3641,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3653,7 +3653,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3665,7 +3665,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3677,7 +3677,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3689,7 +3689,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3701,7 +3701,7 @@
       "vocabularyCount": 7,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3713,7 +3713,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3725,7 +3725,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3737,7 +3737,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3749,7 +3749,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3761,7 +3761,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3773,7 +3773,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3785,7 +3785,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3797,7 +3797,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3809,7 +3809,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3821,7 +3821,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3833,7 +3833,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3845,7 +3845,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3857,7 +3857,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3869,7 +3869,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3881,7 +3881,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3893,7 +3893,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3905,7 +3905,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3917,7 +3917,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3929,7 +3929,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3941,7 +3941,7 @@
       "vocabularyCount": 6,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3953,7 +3953,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3965,7 +3965,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3977,7 +3977,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -3989,7 +3989,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4001,7 +4001,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4013,7 +4013,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4025,7 +4025,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4037,7 +4037,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4049,7 +4049,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4061,7 +4061,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4073,7 +4073,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4085,7 +4085,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4097,7 +4097,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4109,7 +4109,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4121,7 +4121,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4133,7 +4133,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4145,7 +4145,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4157,7 +4157,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4169,7 +4169,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4181,7 +4181,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4193,7 +4193,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4205,7 +4205,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4217,7 +4217,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4229,7 +4229,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4241,7 +4241,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4253,7 +4253,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4265,7 +4265,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4277,7 +4277,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4289,7 +4289,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4301,7 +4301,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4313,7 +4313,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     },
     {
@@ -4325,7 +4325,7 @@
       "vocabularyCount": 8,
       "reviewNotes": [
         "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
-        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full rebuild and local resource validation passed; iOS checks pending."
       ]
     }
   ],
@@ -4338,5 +4338,14 @@
   },
   "counts": {
     "reviewed": 360
+  },
+  "validation": {
+    "reviewedLessons": 360,
+    "vocabularyEntries": 2448,
+    "baseExercises": 9744,
+    "pythonRegressionTests": 5,
+    "rebuildIdempotence": "pass",
+    "stableLessonAndVocabularyIds": "pass",
+    "iosBuildAndXCTest": "not run: Swift/Xcode unavailable"
   }
 }

@@ -116,7 +116,7 @@
       },
       {
        "english": "tidy",
-       "arabic": "يرتّب؛ مرتّب",
+       "arabic": "يرتّب",
        "example": "Please tidy your room before the guests arrive.",
        "exampleArabic": "من فضلك رتّب غرفتك قبل وصول الضيوف.",
        "partOfSpeech": "verb",
@@ -166,7 +166,7 @@
      "vocabulary": [
       {
        "english": "rent",
-       "arabic": "الإيجار؛ يستأجر",
+       "arabic": "إيجار",
        "example": "How much is the rent for this flat?",
        "exampleArabic": "كم إيجار هذه الشقة؟",
        "partOfSpeech": "noun",
@@ -198,9 +198,9 @@
       },
       {
        "english": "deposit",
-       "arabic": "تأمين (مبلغ مدفوع مقدمًا)",
-       "example": "You pay a deposit before you move in.",
-       "exampleArabic": "تدفع مبلغ التأمين قبل أن تنتقل إليها.",
+       "arabic": "مبلغ تأمين",
+       "example": "The deposit for this flat is two hundred pounds.",
+       "exampleArabic": "مبلغ التأمين لهذه الشقة مئتا جنيه.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -280,7 +280,7 @@
       },
       {
        "english": "nearby",
-       "arabic": "قريب",
+       "arabic": "بالقرب من هنا",
        "example": "Is there a pharmacy nearby?",
        "exampleArabic": "هل توجد صيدلية قريبة؟",
        "partOfSpeech": "adverb",
@@ -319,7 +319,7 @@
      "titleEn": "Parts of the Body",
      "objectiveAr": "أن يسمي المتعلم أجزاء الجسم ويصف ألمًا بسيطًا.",
      "modelSentence": "I hurt my knee when I was playing football yesterday.",
-     "modelSentenceArabic": "آذيت ركبتي عندما كنت ألعب كرة القدم أمس.",
+     "modelSentenceArabic": "أصبت ركبتي عندما كنت ألعب كرة القدم أمس.",
      "vocabulary": [
       {
        "english": "knee",
@@ -391,15 +391,15 @@
      "id": "a2-x-u6-l2",
      "titleAr": "في الصيدلية",
      "titleEn": "At the Pharmacy",
-     "objectiveAr": "أن يطلب المتعلم دواءً ويفهم تعليمات استخدامه.",
-     "modelSentence": "Take one tablet twice a day after meals.",
-     "modelSentenceArabic": "تناول قرصًا واحدًا مرتين يوميًا بعد الوجبات.",
+     "objectiveAr": "أن يسأل الصيدلي عن تعليمات استخدام الدواء ومعانيها.",
+     "modelSentence": "The label says: take one tablet twice a day after meals.",
+     "modelSentenceArabic": "يقول الملصق: تناول قرصًا واحدًا مرتين يوميًا بعد الوجبات.",
      "vocabulary": [
       {
        "english": "tablet",
        "arabic": "قرص (دواء)",
-       "example": "Take one tablet with water.",
-       "exampleArabic": "تناول قرصًا واحدًا مع الماء.",
+       "example": "The label says 'one tablet with water'.",
+       "exampleArabic": "يقول الملصق «قرص واحد مع الماء».",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -422,16 +422,16 @@
       {
        "english": "dose",
        "arabic": "جرعة",
-       "example": "Don't take more than the normal dose.",
-       "exampleArabic": "لا تتناول أكثر من الجرعة المعتادة.",
+       "example": "Please explain the dose on this label.",
+       "exampleArabic": "من فضلك، اشرح الجرعة المذكورة على هذا الملصق.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
        "english": "side effect",
-       "arabic": "عرض جانبي",
-       "example": "This medicine has no serious side effects.",
-       "exampleArabic": "ليس لهذا الدواء أعراض جانبية خطيرة.",
+       "arabic": "أثر جانبي",
+       "example": "Is tiredness a possible side effect?",
+       "exampleArabic": "هل يمكن أن يكون التعب أثرًا جانبيًا؟",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -454,8 +454,8 @@
       {
        "english": "cough syrup",
        "arabic": "شراب للسعال",
-       "example": "Take this cough syrup before you go to bed.",
-       "exampleArabic": "خذ شراب السعال هذا قبل أن تذهب إلى النوم.",
+       "example": "The cough syrup is in a small bottle.",
+       "exampleArabic": "شراب السعال في زجاجة صغيرة.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -480,8 +480,8 @@
       {
        "english": "fit",
        "arabic": "لائق بدنيًا",
-       "example": "Walking every day keeps you fit.",
-       "exampleArabic": "المشي كل يوم يحافظ على لياقتك.",
+       "example": "I walk every day to keep fit.",
+       "exampleArabic": "أمشي كل يوم لأحافظ على لياقتي.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -495,9 +495,9 @@
       },
       {
        "english": "stretch",
-       "arabic": "يتمدد؛ تمارين الإطالة",
-       "example": "Always stretch before you run.",
-       "exampleArabic": "قم بتمارين الإطالة دائمًا قبل الجري.",
+       "arabic": "يمدّد عضلاته",
+       "example": "I stretch my arms after sitting at my desk.",
+       "exampleArabic": "أمدّد عضلات ذراعيّ بعد الجلوس إلى مكتبي.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
@@ -520,8 +520,8 @@
       {
        "english": "warm up",
        "arabic": "يُجري الإحماء",
-       "example": "Always warm up before a hard workout.",
-       "exampleArabic": "احرص دائمًا على الإحماء قبل أي تمرين شاق.",
+       "example": "I warm up before my exercise class.",
+       "exampleArabic": "أقوم بالإحماء قبل حصة الرياضة.",
        "partOfSpeech": "phrasal verb",
        "phonetic": null
       },
@@ -539,23 +539,23 @@
      "id": "a2-x-u6-l4",
      "titleAr": "النوم والراحة",
      "titleEn": "Sleep and Rest",
-     "objectiveAr": "أن يصف المتعلم عادات نومه ويقدم نصيحة بسيطة للراحة.",
+     "objectiveAr": "أن يصف عادات نومه ويميّز بين الذهاب إلى الفراش وبدء النوم.",
      "modelSentence": "I try to go to bed early because I need eight hours of sleep.",
-     "modelSentenceArabic": "أحاول أن أنام مبكرًا لأنني أحتاج ثماني ساعات من النوم.",
+     "modelSentenceArabic": "أحاول الذهاب إلى الفراش مبكرًا لأنني أحتاج ثماني ساعات من النوم.",
      "vocabulary": [
       {
        "english": "go to bed",
-       "arabic": "يخلد إلى النوم",
+       "arabic": "يذهب إلى الفراش",
        "example": "I go to bed at eleven o'clock.",
-       "exampleArabic": "أخلد إلى النوم في الساعة الحادية عشرة.",
+       "exampleArabic": "أذهب إلى الفراش في الساعة الحادية عشرة.",
        "partOfSpeech": "phrasal verb",
        "phonetic": null
       },
       {
        "english": "sleep",
-       "arabic": "النوم؛ ينام",
-       "example": "Children need more sleep than adults.",
-       "exampleArabic": "يحتاج الأطفال إلى نوم أكثر من الكبار.",
+       "arabic": "نوم",
+       "example": "I need more sleep after a busy week.",
+       "exampleArabic": "أحتاج إلى مزيد من النوم بعد أسبوع حافل.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -593,9 +593,9 @@
       },
       {
        "english": "oversleep",
-       "arabic": "ينام أكثر من اللازم",
+       "arabic": "ينام حتى يفوته موعد الاستيقاظ",
        "example": "I oversleep if I forget to set my alarm.",
-       "exampleArabic": "أنام أكثر من اللازم إذا نسيت ضبط المنبه.",
+       "exampleArabic": "أستمر في النوم بعد موعد استيقاظي إذا نسيت ضبط المنبه.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
@@ -676,7 +676,7 @@
       },
       {
        "english": "availability",
-       "arabic": "توفّر؛ إتاحة",
+       "arabic": "توفر الغرف",
        "example": "I called the hotel to check availability for the weekend.",
        "exampleArabic": "اتصلت بالفندق للتحقق من توفر الغرف في عطلة نهاية الأسبوع.",
        "partOfSpeech": "noun",
@@ -726,9 +726,9 @@
       },
       {
        "english": "air conditioning",
-       "arabic": "المكيّف (التكييف)",
+       "arabic": "تكييف الهواء",
        "example": "The air conditioning is too cold.",
-       "exampleArabic": "المكيّف بارد جدًا.",
+       "exampleArabic": "درجة التكييف منخفضة أكثر من اللازم.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -752,7 +752,7 @@
        "english": "housekeeping",
        "arabic": "خدمة تنظيف الغرف",
        "example": "Housekeeping brought clean towels to our room.",
-       "exampleArabic": "أحضرت خدمة تنظيف الغرف مناشف نظيفة إلى غرفتنا.",
+       "exampleArabic": "أحضر موظفو تنظيف الغرف مناشف نظيفة إلى غرفتنا.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -824,17 +824,17 @@
       },
       {
        "english": "travel adapter",
-       "arabic": "محوّل كهربائي للسفر",
+       "arabic": "محوّل قابس للسفر",
        "example": "I packed a travel adapter for my phone charger.",
-       "exampleArabic": "وضعت محولًا كهربائيًا للسفر لشاحن هاتفي.",
+       "exampleArabic": "وضعت في حقيبتي محوّل قابس سفر لشاحن هاتفي.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
        "english": "toiletries",
-       "arabic": "أدوات النظافة الشخصية",
+       "arabic": "مستلزمات النظافة الشخصية",
        "example": "I keep my toiletries in a small bag.",
-       "exampleArabic": "أحتفظ بأدوات النظافة الشخصية في حقيبة صغيرة.",
+       "exampleArabic": "أحتفظ بمستلزمات النظافة الشخصية في حقيبة صغيرة.",
        "partOfSpeech": "noun",
        "phonetic": null
       }
@@ -891,8 +891,8 @@
       {
        "english": "take photos",
        "arabic": "يلتقط صورًا",
-       "example": "You can't take photos inside the palace.",
-       "exampleArabic": "لا يمكنك التقاط صور داخل القصر.",
+       "example": "The sign says we can't take photos inside the palace.",
+       "exampleArabic": "تقول اللافتة إنه لا يمكننا التقاط صور داخل القصر.",
        "partOfSpeech": "phrase",
        "phonetic": null
       },
@@ -1150,8 +1150,8 @@
      "titleAr": "تعلّم لغة",
      "titleEn": "Learning a Language",
      "objectiveAr": "أن يتحدث المتعلم عن طرق تعلّم اللغة والتحديات التي يواجهها.",
-     "modelSentence": "Practising every day is the best way to improve your English.",
-     "modelSentenceArabic": "التدرّب كل يوم هو أفضل طريقة لتحسين لغتك الإنجليزية.",
+     "modelSentence": "I practise every day to improve my English pronunciation.",
+     "modelSentenceArabic": "أتدرب كل يوم لتحسين نطقي باللغة الإنجليزية.",
      "vocabulary": [
       {
        "english": "improve",
@@ -1181,7 +1181,7 @@
        "english": "fluent",
        "arabic": "طليق (في اللغة)",
        "example": "She is fluent in three languages.",
-       "exampleArabic": "هي طليقة في ثلاث لغات.",
+       "exampleArabic": "تتحدث ثلاث لغات بطلاقة.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },

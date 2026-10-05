@@ -127,7 +127,12 @@ enum CurriculumEnhancer {
                     acceptableAnswers: nil
                 )
             }
-            result.append(exercise)
+            // Keep the authored recap and transfer model at the end.
+            if result.last?.type == .explanation {
+                result.insert(exercise, at: result.count - 1)
+            } else {
+                result.append(exercise)
+            }
             missing -= 1
         }
         return result

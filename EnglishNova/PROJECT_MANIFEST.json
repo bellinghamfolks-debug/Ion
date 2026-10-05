@@ -4,12 +4,12 @@
   "version": "2.0.0",
   "build": 60,
   "minimumIOS": "17.0",
-  "generatedDate": "2026-10-04",
+  "generatedDate": "2026-10-05",
   "recoveryVerified": false,
   "recoveryFingerprint": {
     "bundleIdentifier": "com.englishnova.app",
-    "curriculumSHA256": "a8bd6f9220afaf23ba22ba41e30fe1976ba8589a27241214e2134a4f6c6e8429",
-    "translationsSHA256": "b3fddb2d4e9230e293eb7b0dd4c0ed48773a183b6eca1bb498acd6f679b69e80"
+    "curriculumSHA256": "d4cc9aa13fcbacec771063678ac665b09b2d2ef430abc5b437afe9b53d2ac406",
+    "translationsSHA256": "1f6871ac5aad1df885ef03139d4db756c222d250ca4d70ae8846f2764cf9504d"
   },
   "swiftSourceFiles": 129,
   "testFiles": 24,
@@ -17,7 +17,7 @@
   "lessons": 360,
   "a0Lessons": 60,
   "a1Lessons": 60,
-  "exercises": 9715,
+  "exercises": 9744,
   "vocabularyEntries": 2448,
   "interactiveStories": 12,
   "conversationScenarios": 12,

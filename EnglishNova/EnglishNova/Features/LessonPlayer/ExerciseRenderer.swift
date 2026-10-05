@@ -25,7 +25,7 @@ struct ExerciseRenderer: View {
                     .buttonStyle(.bordered)
                 }
                 ForEach(exercise.choices ?? [], id: \.self) { choice in
-                    ChoiceButton(title: L(choice), selected: selectedAnswer == choice) {
+                    ChoiceButton(title: choice, selected: selectedAnswer == choice) {
                         selectedAnswer = choice
                     }
                 }

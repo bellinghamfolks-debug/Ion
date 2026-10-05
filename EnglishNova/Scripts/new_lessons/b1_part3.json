@@ -58,7 +58,7 @@
       },
       {
        "english": "spoiler",
-       "arabic": "حرق للأحداث",
+       "arabic": "كشف مسبق لأحداث القصة",
        "example": "Please don't tell me any spoilers!",
        "exampleArabic": "من فضلك لا تحرق لي أي أحداث!",
        "partOfSpeech": "noun",
@@ -74,7 +74,7 @@
       },
       {
        "english": "sequel",
-       "arabic": "جزء ثانٍ",
+       "arabic": "جزء لاحق يكمل القصة",
        "example": "The sequel was entertaining, but not as original as the first film.",
        "exampleArabic": "كان الجزء الثاني ممتعًا لكنه أقل أصالة من الفيلم الأول.",
        "partOfSpeech": "noun",
@@ -133,8 +133,8 @@
       {
        "english": "taste",
        "arabic": "ذوق",
-       "example": "We have very different taste in music.",
-       "exampleArabic": "ذوقنا في الموسيقى مختلف جدًا.",
+       "example": "Our tastes in music are very different.",
+       "exampleArabic": "أذواقنا في الموسيقى مختلفة جدًا.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -248,9 +248,9 @@
       },
       {
        "english": "feed",
-       "arabic": "صفحة المنشورات",
+       "arabic": "تدفق المنشورات المعروضة",
        "example": "My feed is full of food photos.",
-       "exampleArabic": "صفحة منشوراتي مليئة بصور الطعام.",
+       "exampleArabic": "المنشورات التي تظهر لي مليئة بصور الطعام.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -264,7 +264,7 @@
       },
       {
        "english": "post",
-       "arabic": "ينشر؛ منشور",
+       "arabic": "ينشر",
        "example": "He posts a photo every day.",
        "exampleArabic": "ينشر صورة كل يوم.",
        "partOfSpeech": "verb",
@@ -272,9 +272,9 @@
       },
       {
        "english": "addictive",
-       "arabic": "يسبّب الإدمان",
-       "example": "Some apps are designed to be addictive.",
-       "exampleArabic": "بعض التطبيقات مصمّمة لتسبّب الإدمان.",
+       "arabic": "يصعب التوقف عنه؛ إدماني",
+       "example": "I find this game addictive, so I set a time limit.",
+       "exampleArabic": "أجد صعوبة في التوقف عن هذه اللعبة، لذلك أحدد وقتًا للعب.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -288,9 +288,9 @@
       },
       {
        "english": "mute",
-       "arabic": "يكتم",
+       "arabic": "يكتم الصوت أو التنبيهات",
        "example": "I mute group chats when I need to concentrate.",
-       "exampleArabic": "أكتم المحادثات الجماعية عندما أحتاج إلى التركيز.",
+       "exampleArabic": "أكتم تنبيهات المحادثات الجماعية عندما أحتاج إلى التركيز.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
@@ -298,7 +298,7 @@
        "english": "unfollow",
        "arabic": "يلغي المتابعة",
        "example": "I unfollow accounts that make my feed stressful.",
-       "exampleArabic": "ألغي متابعة الحسابات التي تجعل صفحة منشوراتي مرهقة.",
+       "exampleArabic": "ألغي متابعة الحسابات التي تجعل المنشورات المعروضة لي مرهقة.",
        "partOfSpeech": "verb",
        "phonetic": null
       }
@@ -430,8 +430,8 @@
       {
        "english": "adapt",
        "arabic": "يتأقلم",
-       "example": "Children adapt quickly to new places.",
-       "exampleArabic": "يتأقلم الأطفال بسرعة مع الأماكن الجديدة.",
+       "example": "It took me a few weeks to adapt to the new timetable.",
+       "exampleArabic": "استغرق الأمر مني بضعة أسابيع للتأقلم مع الجدول الجديد.",
        "partOfSpeech": "verb",
        "phonetic": null
       },
@@ -512,8 +512,8 @@
       {
        "english": "overpriced",
        "arabic": "مبالغ في سعره",
-       "example": "The drinks at the hotel bar were overpriced.",
-       "exampleArabic": "كانت المشروبات في الفندق مبالغًا في سعرها.",
+       "example": "The drinks in the hotel café were overpriced.",
+       "exampleArabic": "كانت المشروبات في مقهى الفندق مبالغًا في سعرها.",
        "partOfSpeech": "adjective",
        "phonetic": null
       },
@@ -669,8 +669,8 @@
       {
        "english": "expenses",
        "arabic": "نفقات",
-       "example": "Rent is my biggest expense each month.",
-       "exampleArabic": "الإيجار أكبر نفقاتي كل شهر.",
+       "example": "My essential expenses include rent, food, and transport.",
+       "exampleArabic": "تشمل نفقاتي الأساسية الإيجار والطعام والنقل.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -734,9 +734,9 @@
       },
       {
        "english": "emergency fund",
-       "arabic": "صندوق طوارئ",
-       "example": "Everyone should have an emergency fund.",
-       "exampleArabic": "يجب أن يكون لدى كل شخص صندوق طوارئ.",
+       "arabic": "مدخرات مخصصة للطوارئ",
+       "example": "She used her emergency fund to pay for an unexpected repair.",
+       "exampleArabic": "استخدمت مدخراتها للطوارئ لدفع تكلفة إصلاح غير متوقع.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
@@ -772,21 +772,21 @@
      "titleEn": "Online Shopping and Returns",
      "objectiveAr": "أن يشرح المتعلم مشكلة في طلب عبر الإنترنت ويطلب إرجاعه.",
      "modelSentence": "The jacket didn't fit, so I sent it back and asked for a refund.",
-     "modelSentenceArabic": "لم يكن المعطف على مقاسي، فأعدته وطلبت استرداد المبلغ.",
+     "modelSentenceArabic": "لم تكن السترة على مقاسي، فأعدتها وطلبت استرداد المبلغ.",
      "vocabulary": [
       {
        "english": "receipt",
        "arabic": "إيصال",
-       "example": "Keep the receipt in case you need to return it.",
-       "exampleArabic": "احتفظ بالإيصال في حال احتجت إلى إرجاعه.",
+       "example": "Keep the receipt in case you need to return the jacket.",
+       "exampleArabic": "احتفظ بالإيصال في حال احتجت إلى إرجاع السترة.",
        "partOfSpeech": "noun",
        "phonetic": null
       },
       {
        "english": "send back",
        "arabic": "يعيد (يُرجع)",
-       "example": "You can send it back within thirty days.",
-       "exampleArabic": "يمكنك إعادته خلال ثلاثين يومًا.",
+       "example": "The shop says you can send back the item within thirty days.",
+       "exampleArabic": "يقول المتجر إنه يمكنك إعادة السلعة خلال ثلاثين يومًا.",
        "partOfSpeech": "phrasal verb",
        "phonetic": null
       },
@@ -808,7 +808,7 @@
       },
       {
        "english": "order",
-       "arabic": "طلب؛ يطلب",
+       "arabic": "طلب شراء",
        "example": "My order arrived two days late.",
        "exampleArabic": "وصل طلبي متأخرًا يومين.",
        "partOfSpeech": "noun",
@@ -850,9 +850,9 @@
      "vocabulary": [
       {
        "english": "lend",
-       "arabic": "يُقرض",
+       "arabic": "يُقرض؛ يُعير",
        "example": "Can you lend me your car for a day?",
-       "exampleArabic": "هل يمكنك إقراضي سيارتك ليوم واحد؟",
+       "exampleArabic": "هل يمكنك إعارتي سيارتك ليوم واحد؟",
        "partOfSpeech": "verb",
        "phonetic": null
       },
@@ -949,7 +949,7 @@
       },
       {
        "english": "trust",
-       "arabic": "يثق؛ ثقة",
+       "arabic": "ثقة",
        "example": "Trust is important in any friendship.",
        "exampleArabic": "الثقة مهمة في أي صداقة.",
        "partOfSpeech": "noun",
@@ -1002,8 +1002,8 @@
      "titleAr": "الحياة العائلية اليوم",
      "titleEn": "Family Life Today",
      "objectiveAr": "أن يقارن المتعلم بين الحياة العائلية في الماضي والحاضر.",
-     "modelSentence": "Nowadays both parents often work, so grandparents help to bring up the children.",
-     "modelSentenceArabic": "في هذه الأيام يعمل الوالدان غالبًا، لذلك يساعد الأجداد في تربية الأطفال.",
+     "modelSentence": "In our family, my grandparents helped to bring up the children while my parents worked.",
+     "modelSentenceArabic": "في عائلتنا، ساعد جدّي وجدّتي في تربية الأطفال بينما كان والداي يعملان.",
      "vocabulary": [
       {
        "english": "bring up",
@@ -1016,8 +1016,8 @@
       {
        "english": "nowadays",
        "arabic": "في هذه الأيام",
-       "example": "Nowadays most teenagers have a phone.",
-       "exampleArabic": "في هذه الأيام معظم المراهقين لديهم هاتف.",
+       "example": "Nowadays, my grandparents use video calls to speak to us.",
+       "exampleArabic": "في هذه الأيام، يستخدم جدّي وجدّتي مكالمات الفيديو للتحدث إلينا.",
        "partOfSpeech": "adverb",
        "phonetic": null
       },
@@ -1039,7 +1039,7 @@
       },
       {
        "english": "single parent",
-       "arabic": "والد يربّي أطفاله وحده",
+       "arabic": "أب أو أم يربّي الأطفال منفردًا",
        "example": "She is a single parent with two children.",
        "exampleArabic": "إنها أم تربّي طفلين وحدها.",
        "partOfSpeech": "noun",
@@ -1047,7 +1047,7 @@
       },
       {
        "english": "household",
-       "arabic": "الأسرة (أهل البيت)",
+       "arabic": "أهل بيت واحد",
        "example": "Every household has its own rules.",
        "exampleArabic": "لكل أسرة قواعدها الخاصة.",
        "partOfSpeech": "noun",
@@ -1077,11 +1077,11 @@
      "titleEn": "Volunteering",
      "objectiveAr": "أن يتحدث المتعلم عن تجربة تطوعية وفوائدها.",
      "modelSentence": "I volunteer at a local charity because I want to give something back to my community.",
-     "modelSentenceArabic": "أتطوع في جمعية خيرية محلية لأنني أريد أن أردّ شيئًا لمجتمعي.",
+     "modelSentenceArabic": "أتطوع في جمعية خيرية محلية لأنني أريد رد الجميل لمجتمعي.",
      "vocabulary": [
       {
        "english": "volunteer",
-       "arabic": "يتطوع؛ متطوع",
+       "arabic": "يتطوع",
        "example": "She volunteers at the hospital on weekends.",
        "exampleArabic": "تتطوع في المستشفى في عطلات نهاية الأسبوع.",
        "partOfSpeech": "verb",

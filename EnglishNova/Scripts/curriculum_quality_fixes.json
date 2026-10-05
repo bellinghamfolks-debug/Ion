@@ -1352,7 +1352,8 @@
       "english": "be permitted to",
       "arabic": "يُسمح له أن",
       "example": "Visitors will be permitted to enter once the inspection is complete.",
-      "exampleArabic": "سيُسمح للزوار بالدخول عند اكتمال الفحص."
+      "exampleArabic": "سيُسمح للزوار بالدخول عند اكتمال الفحص.",
+      "phonetic": "/biː pəˈmɪtɪd tə/"
     },
     "b2-extra-7-xv1": {
       "english": "meet halfway",
@@ -1421,40 +1422,50 @@
       "exampleArabic": "رغم نبرته المقنعة، يقوم المقال الافتتاحي على استدلال يشوبه خلل جوهري."
     },
     "c1-u1-l1-xv2": {
-      "english": "trim the fat"
+      "english": "trim the fat",
+      "phonetic": "/trɪm ðə fæt/"
     },
     "c1-u1-l1-xv4": {
-      "english": "convey meaning"
+      "english": "convey meaning",
+      "phonetic": "/kənˈveɪ ˈmiːnɪŋ/"
     },
     "c1-extra-2-xv2": {
       "english": "substantiate"
     },
     "c1-extra-2-xv4": {
-      "english": "draw on"
+      "english": "draw on",
+      "phonetic": "/drɔː ɒn/"
     },
     "c1-extra-3-xv2": {
-      "english": "be inclined to"
+      "english": "be inclined to",
+      "phonetic": "/bi ɪnˈklaɪnd tuː/"
     },
     "c1-extra-4-xv2": {
       "english": "scrutinise"
     },
     "c1-extra-4-xv4": {
-      "english": "hold up to scrutiny"
+      "english": "hold up to scrutiny",
+      "phonetic": "/həʊld ʌp tə ˈskruːtəni/"
     },
     "c1-extra-5-xv1": {
-      "english": "strike a balance"
+      "english": "strike a balance",
+      "phonetic": "/straɪk ə ˈbæləns/"
     },
     "c1-extra-5-xv3": {
-      "english": "bear the brunt"
+      "english": "bear the brunt",
+      "phonetic": "/beə ðə brʌnt/"
     },
     "c1-extra-7-xv1": {
-      "english": "resonate with"
+      "english": "resonate with",
+      "phonetic": "/ˈrezəneɪt wɪð/"
     },
     "c1-extra-7-xv3": {
-      "english": "drive the point home"
+      "english": "drive the point home",
+      "phonetic": "/draɪv ðə pɔɪnt həʊm/"
     },
     "c1-extra-8-xv1": {
-      "english": "concede a point"
+      "english": "concede a point",
+      "phonetic": "/kənˈsiːd ə pɔɪnt/"
     }
   },
   "arabicGlossById": {

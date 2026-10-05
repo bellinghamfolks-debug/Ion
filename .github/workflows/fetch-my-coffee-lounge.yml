@@ -21,84 +21,66 @@ jobs:
         with:
           ref: upload/my-coffee-lounge-1.5.0
 
-      - name: Download exact APKPure XAPK in a browser and verify SHA-256
+      - name: Fetch Google Play version 318 and verify component hashes
         shell: bash
         run: |
           set -euo pipefail
-          EXPECTED="78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81"
-          OUT="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
+          rm -rf /tmp/gplay && mkdir -p /tmp/gplay
 
-          python3 -m pip install --quiet playwright
-          python3 -m playwright install chromium
+          python3 -m pip install --quiet gplaydl
+          echo "Acquiring anonymous Google Play token..."
+          gplaydl auth
 
-          cat > /tmp/fetch_apkpure.py <<'PY'
-          import asyncio, os, re
-          from playwright.async_api import async_playwright
+          echo "Downloading My Coffee Lounge versionCode 318 with all split APKs..."
+          gplaydl download com.delonghigroup.daedalus -v 318 -o /tmp/gplay
 
-          PAGE = "https://apkpure.net/my-coffee-lounge/com.delonghigroup.daedalus/download/1.5.0"
-          OUT = "/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
+          echo "Downloaded files:"
+          find /tmp/gplay -maxdepth 1 -type f -printf '%f %s bytes\n' | sort
 
-          async def main():
-              async with async_playwright() as p:
-                  browser = await p.chromium.launch(
-                      headless=True,
-                      args=["--disable-blink-features=AutomationControlled", "--no-sandbox"]
-                  )
-                  context = await browser.new_context(
-                      accept_downloads=True,
-                      user_agent="Mozilla/5.0 (Linux; Android 12; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36",
-                      viewport={"width": 1280, "height": 900},
-                      locale="en-US"
-                  )
-                  page = await context.new_page()
-                  print("Opening APKPure download page...")
-                  resp = await page.goto(PAGE, wait_until="domcontentloaded", timeout=120000)
-                  print("Page status:", resp.status if resp else None)
-                  await page.wait_for_timeout(8000)
-                  print("Page title:", await page.title())
-
-                  hrefs = await page.locator("a").evaluate_all(
-                      """els => els.map(a => a.href).filter(h => h && h.includes('d.apkpure.com/b/XAPK/'))"""
-                  )
-                  print("Direct XAPK links found:", len(hrefs))
-                  for h in hrefs[:20]:
-                      print("HREF", h)
-
-                  candidates = [h for h in hrefs if "com.delonghigroup.daedalus" in h and ("versionCode=318" in h or "version=latest" in h)]
-                  if not candidates:
-                      html = await page.content()
-                      open("/tmp/apkpure-page.html","w",encoding="utf-8").write(html)
-                      raise RuntimeError("No matching XAPK link found in rendered APKPure page")
-
-                  # Navigate in the same browser context so any anti-bot cookies/session are retained.
-                  for idx, url in enumerate(candidates):
-                      print(f"Trying browser download candidate #{idx+1}")
-                      dl_page = await context.new_page()
-                      try:
-                          async with dl_page.expect_download(timeout=180000) as info:
-                              await dl_page.goto(url, wait_until="commit", timeout=180000)
-                          download = await info.value
-                          await download.save_as(OUT)
-                          print("Saved browser download:", download.suggested_filename)
-                          await dl_page.close()
-                          await browser.close()
-                          return
-                      except Exception as exc:
-                          print("Candidate failed:", repr(exc))
-                          await dl_page.close()
-
-                  raise RuntimeError("Browser could not download any APKPure candidate")
-          asyncio.run(main())
+          python3 - <<'PY'
+          import hashlib, os, sys
+          root='/tmp/gplay'
+          expected={
+            'base':'afd5256eabaf7d938825e62691188494cda5803d26fd20111ae92c18a4e3cbe2',
+            'config.en':'0fbb67f6c390292cc12c8b5b3fda4d4588220a70b54d4c5b5f2389712154ddea',
+            'config.fr':'ae55e4d481f25207c4c68e23731690549d1e47a8277bd9904be42b2b5c945241',
+            'config.hdpi':'aa8cc2b93feffb48ddf3a06e251ebaa7b59f6c3b5b85f686e650301c6860b8f8',
+            'config.arm64_v8a':'6e04a8549e0900c5193a9ec593d675a046832c680ca9795ad305c6f748b52483',
+          }
+          files=[os.path.join(root,f) for f in os.listdir(root) if f.endswith('.apk')]
+          got={}
+          for p in files:
+              name=os.path.basename(p)
+              h=hashlib.sha256(open(p,'rb').read()).hexdigest()
+              if 'config.en' in name: key='config.en'
+              elif 'config.fr' in name: key='config.fr'
+              elif 'config.hdpi' in name: key='config.hdpi'
+              elif 'config.arm64_v8a' in name: key='config.arm64_v8a'
+              elif '-config.' not in name: key='base'
+              else: continue
+              got[key]=(p,h,os.path.getsize(p))
+              print(f'{key}: {name} size={os.path.getsize(p)} sha256={h}')
+          missing=[k for k in expected if k not in got]
+          mismatch=[k for k in expected if k in got and got[k][1]!=expected[k]]
+          if missing or mismatch:
+              print('Missing:', missing)
+              print('Mismatched:', mismatch)
+              sys.exit(1)
+          print('ALL_REQUIRED_COMPONENT_HASHES_MATCH=1')
+          # Put exact expected component filenames in a staging directory.
+          out='/tmp/xapk-components'
+          os.makedirs(out,exist_ok=True)
+          mapping={
+            'base':'com.delonghigroup.daedalus.apk',
+            'config.en':'config.en.apk',
+            'config.fr':'config.fr.apk',
+            'config.hdpi':'config.hdpi.apk',
+            'config.arm64_v8a':'config.arm64_v8a.apk',
+          }
+          for k,(p,_,_) in got.items():
+              if k in mapping:
+                  open(os.path.join(out,mapping[k]),'wb').write(open(p,'rb').read())
           PY
-
-          python3 /tmp/fetch_apkpure.py
-
-          echo "Downloaded size: $(stat -c%s "$OUT") bytes"
-          ACTUAL="$(sha256sum "$OUT" | awk '{print $1}')"
-          echo "SHA-256: $ACTUAL"
-          test "$(stat -c%s "$OUT")" = "99992559"
-          test "$ACTUAL" = "$EXPECTED"
-          echo "Exact byte-for-byte match confirmed."
 
       - name: Split into GitHub-safe parts
         shell: bash

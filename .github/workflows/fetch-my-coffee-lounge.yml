@@ -14,97 +14,64 @@ permissions:
 jobs:
   fetch-and-split:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
         with:
           ref: upload/my-coffee-lounge-1.5.0
 
-      - name: Download exact XAPK and verify SHA-256
+      - name: Download exact XAPK with apkeep and verify SHA-256
         shell: bash
         run: |
           set -euo pipefail
           EXPECTED="78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81"
           OUT="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
+          IMAGE="ghcr.io/efforg/apkeep:stable"
 
-          try_url() {
-            local url="$1"
-            echo "Trying CDN candidate"
-            rm -f "$OUT"
-            if curl -fL --compressed --retry 2 --retry-all-errors --connect-timeout 20 --max-time 600 \
-              -A "APKPure/3.20.50 (Linux; Android 14)" "$url" -o "$OUT"; then
-              local actual size
-              actual="$(sha256sum "$OUT" | awk '{print $1}')"
-              size="$(stat -c%s "$OUT")"
-              echo "Downloaded size: $size bytes"
+          try_variant() {
+            local label="$1"
+            shift
+            rm -rf /tmp/apkeep-out
+            mkdir -p /tmp/apkeep-out
+            echo "Trying apkeep variant: $label"
+            docker run --rm -v "/tmp/apkeep-out:/output" "$IMAGE" \
+              -a "com.delonghigroup.daedalus@1.5.0" -d apk-pure "$@" /output || return 1
+
+            find /tmp/apkeep-out -maxdepth 1 -type f -printf '%f %s bytes\n' || true
+            while IFS= read -r f; do
+              [[ -n "$f" ]] || continue
+              actual="$(sha256sum "$f" | awk '{print $1}')"
+              size="$(stat -c%s "$f")"
+              echo "Candidate: $(basename "$f")"
+              echo "Size: $size"
               echo "SHA-256: $actual"
               if [[ "$actual" == "$EXPECTED" ]]; then
+                cp "$f" "$OUT"
                 return 0
               fi
-              echo "Hash mismatch; rejecting candidate."
-            fi
+            done < <(find /tmp/apkeep-out -maxdepth 1 -type f \( -name '*.xapk' -o -name '*.apk' \) | sort)
             return 1
           }
 
-          API="https://api.pureapk.com/m/v3/cms/app_version?hl=en-US&package_name=com.delonghigroup.daedalus"
-          echo "Requesting APKPure app-version API..."
-          curl -fLsS --compressed "$API" \
-            -H 'x-cv: 3172501' \
-            -H 'x-sv: 29' \
-            -H 'x-abis: arm64-v8a,armeabi-v7a,armeabi,x86,x86_64' \
-            -H 'x-gp: 1' \
-            -o /tmp/apkpure-api.bin
-
-          python3 - <<'PY' > /tmp/candidates.txt
-          import re
-          b=open('/tmp/apkpure-api.bin','rb').read()
-          s=b.decode('latin1', errors='ignore')
-          urls=[]
-          # APKPure API embeds XAPKJ immediately before XAPK download URLs.
-          for m in re.finditer(r'XAPKJ..(https?://[A-Za-z0-9@:%._+~#=()/?&;,-]+)', s, re.S):
-              urls.append(m.group(1))
-          # Fallback: harvest any absolute URL that visibly targets an XAPK.
-          if not urls:
-              for m in re.finditer(r'https?://[A-Za-z0-9@:%._+~#=()/?&;,-]+', s):
-                  u=m.group(0)
-                  if '/XAPK/' in u or 'xapk' in u.lower():
-                      urls.append(u)
-          seen=set()
-          for u in urls:
-              if u not in seen:
-                  seen.add(u)
-                  print(u)
-          PY
-
-          count="$(wc -l < /tmp/candidates.txt | tr -d ' ')"
-          echo "XAPK candidates returned by API: $count"
-          if [[ "$count" -eq 0 ]]; then
-            echo "No XAPK CDN links were found in the API response."
-            exit 1
-          fi
+          docker pull "$IMAGE"
 
           found=0
-          n=0
-          while IFS= read -r url; do
-            [[ -n "$url" ]] || continue
-            n=$((n+1))
-            echo "Testing candidate #$n"
-            if try_url "$url"; then
-              found=1
-              break
-            fi
-            # Latest versions are returned first. Avoid downloading an unbounded archive.
-            if [[ "$n" -ge 5 ]]; then
-              break
-            fi
-          done < /tmp/candidates.txt
+          if try_variant "arm64-v8a" -o 'arch=arm64-v8a'; then
+            found=1
+          elif try_variant "default architectures"; then
+            found=1
+          elif try_variant "arm64 plus legacy ARM" -o 'arch=arm64-v8a;armeabi-v7a;armeabi'; then
+            found=1
+          fi
 
           if [[ "$found" -ne 1 ]]; then
-            echo "No byte-for-byte match found. Nothing will be committed."
+            echo "apkeep did not return the byte-for-byte APKPure XAPK expected."
             exit 1
           fi
+
           echo "$EXPECTED  $OUT" | sha256sum -c -
+          test "$(stat -c%s "$OUT")" = "99992559"
 
       - name: Split into GitHub-safe parts
         shell: bash

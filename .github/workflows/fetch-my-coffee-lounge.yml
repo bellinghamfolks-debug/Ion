@@ -56,6 +56,9 @@ jobs:
 
           docker pull "$IMAGE"
 
+          echo "Listing APKPure versions visible to apkeep..."
+          docker run --rm "$IMAGE" -l -a "com.delonghigroup.daedalus" -d apk-pure -o 'acknowledge_dangers=true' . || true
+
           found=0
           if try_variant "arm64-v8a" -o 'acknowledge_dangers=true,arch=arm64-v8a'; then
             found=1

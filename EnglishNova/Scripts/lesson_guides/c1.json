@@ -150,5 +150,195 @@
       "explanationAr": "يعترف الجواب الصحيح بالاعتراض ويجعل الدعم مقيدًا بمراجعة ذات صلة. البديلان يستبعدان جانبًا من النقاش دون موازنة.",
       "explanationEn": "The correct answer acknowledges the objection and conditions support on a relevant review. The alternatives dismiss part of the debate without weighing it."
     }
+  },
+  "c1-x-u1-l1": {
+    "focusAr": "التعبير الاصطلاحي يضيف معنى ونبرة، فلا تكدّس عدة تعابير لمجرد إظهار الطلاقة. get the hang of تعلّم طريقة الاستخدام، ولا تستلزم إتقانًا خبيرًا. the tip of the iceberg الجزء الظاهر من مشكلة أكبر، وa blessing in disguise حدث بدا سيئًا ثم ظهرت فائدته. اختَر تعبيرًا يناسب المقام واشرح الوقائع المحيطة به.",
+    "focusEn": "An idiom adds meaning and tone; piling up several does not demonstrate fluency. Get the hang of means learn how to use something, not necessarily become an expert. The tip of the iceberg suggests a larger hidden problem; a blessing in disguise describes an initially unwelcome event that later proves beneficial. Choose an expression fitting the register and explain its context.",
+    "taskAr": "استخدم a blessing in disguise في موقف تدريبي عن إلغاء لقاء أتاح اكتشاف خطأ قبل العرض، دون الادعاء أن كل انتكاسة مفيدة.",
+    "taskEn": "Use a blessing in disguise in a practice scenario where a cancelled meeting allowed an error to be found before a presentation, without generalizing to every setback.",
+    "exampleEn": "The cancellation turned out to be a blessing in disguise: it gave us time to spot an error in the figures. Had the meeting gone ahead, we might have presented a misleading total.",
+    "exampleAr": "تبيّن أن الإلغاء كان خيرًا غير متوقع؛ فقد أتاح لنا اكتشاف خطأ في الأرقام. ولو عُقد الاجتماع، فربما كنا عرضنا مجموعًا مضللًا.",
+    "check": {
+      "promptEn": "Which situation best fits a blessing in disguise?",
+      "choices": [
+        "An unwanted delay later gives you time to correct a serious mistake.",
+        "A pleasant event remains entirely pleasant from the start.",
+        "A hidden problem causes harm without any benefit emerging."
+      ],
+      "answer": "An unwanted delay later gives you time to correct a serious mistake.",
+      "explanationAr": "التعبير يحتاج جانبًا سلبيًا أوليًا تتضح فائدته لاحقًا. لا يكفي الإخفاء وحده أو حدث سار منذ البداية.",
+      "explanationEn": "The idiom requires an initially negative event whose benefit becomes clear later. Concealment alone or a pleasant event from the outset does not fit."
+    }
+  },
+  "c1-x-u1-l2": {
+    "focusAr": "denotation المعنى الأساسي، وconnotation الإيحاء المرتبط بالكلمة في السياق. frugal غالبًا تمدح الاقتصاد، وstingy تنتقد البخل، لكن النبرة قد تغيّر الأثر. loaded question قد تتضمن افتراضًا غير مسلّم به. ميّز بين نقد فعل ووصف شخص بلفظ pejorative، وافحص ما إذا كانت الصياغة توجه الحكم قبل عرض الأدلة.",
+    "focusEn": "Denotation is basic meaning; connotation is an associated implication in context. Frugal often praises careful spending, while stingy criticizes reluctance to spend, though tone can alter the effect. A loaded question may embed an unaccepted premise. Distinguish criticism of conduct from a pejorative label for a person, and examine whether wording prejudges the evidence.",
+    "taskAr": "أعد صياغة السؤال المشحون «لماذا أهملت واجبك مرة أخرى؟» إلى سؤال يستوضح ما حدث دون افتراض الإهمال أو تكراره.",
+    "taskEn": "Rephrase the loaded question 'Why did you neglect your duty again?' to ask what happened without presuming neglect or repetition.",
+    "exampleEn": "Could you explain what happened with the task and whether anything prevented its completion? This asks for an account without treating negligence or a repeated failure as established facts.",
+    "exampleAr": "هل يمكنك توضيح ما حدث للمهمة وما إذا كان هناك ما منع إنجازها؟ يطلب السؤال شرحًا دون اعتبار الإهمال أو تكرار الإخفاق حقيقتين ثابتتين.",
+    "check": {
+      "promptEn": "What makes 'Why did you neglect your duty again?' loaded?",
+      "choices": [
+        "It presupposes both neglect and a previous occurrence.",
+        "It contains no assumptions at all.",
+        "Every question beginning with why is necessarily insulting."
+      ],
+      "answer": "It presupposes both neglect and a previous occurrence.",
+      "explanationAr": "السؤال يفترض وقوع الإهمال وتكراره قبل أن يجيب المخاطَب. ليس سبب الإشكال مجرد استخدام why.",
+      "explanationEn": "The question assumes neglect and repetition before the person responds. The issue is not simply the word why."
+    }
+  },
+  "c1-x-u1-l3": {
+    "focusAr": "imply من جهة الرسالة أو المتحدث، وinfer من جهة المتلقي الذي يستنتج. allude to إشارة غير مباشرة إلى موضوع، وقد لا تتضمن استنتاجًا كاملًا. tacit مفهوم دون تصريح، لكنه لا يجعل كل صمت موافقة. ميّز القرينة اللغوية من تفسيرك، واستخدم سؤال تحقق عندما تترتب على الاستنتاج مسؤولية أو قرار.",
+    "focusEn": "Imply concerns what a speaker or message suggests; infer concerns what a recipient concludes. Allude to means refer indirectly to a topic, without necessarily conveying a complete inference. Tacit means unspoken, but not every silence signals agreement. Separate the linguistic cue from your reading and seek clarification when a decision or responsibility depends on it.",
+    "taskAr": "رد على عبارة «الخطة طموحة جدًا بالنسبة للوقت المتاح» باستنتاج محتمل وسؤال يختبره، دون نسب رفض صريح للمتحدث.",
+    "taskEn": "Respond to 'The plan is very ambitious for the time available' with a tentative inference and a question testing it, without attributing an explicit rejection.",
+    "exampleEn": "I infer that you may be concerned about the timetable rather than the goal itself. Are you suggesting that we reduce the initial scope, or would a later deadline address your concern?",
+    "exampleAr": "أستنتج أنك قد تكون قلقًا بشأن الجدول لا الهدف نفسه. هل تقترح تقليص النطاق الأولي، أم أن موعدًا نهائيًا لاحقًا يعالج مخاوفك؟",
+    "check": {
+      "promptEn": "Which statement correctly distinguishes imply from infer?",
+      "choices": [
+        "The remark may imply concern; the listener infers that concern from it.",
+        "The listener implies the speaker's meaning merely by understanding it.",
+        "Any inferred meaning must have been explicitly stated."
+      ],
+      "answer": "The remark may imply concern; the listener infers that concern from it.",
+      "explanationAr": "imply تصف ما توحي به العبارة، وinfer استنتاج المتلقي منها. الاستنتاج لا يشترط تصريح المعنى ولا يضمن صحة القراءة.",
+      "explanationEn": "Imply describes what a remark suggests; infer describes the listener's conclusion. An inference need not be explicit and is not guaranteed correct."
+    }
+  },
+  "c1-x-u1-l4": {
+    "focusAr": "metaphor تنقل فهمًا من مجال إلى آخر، وhyperbole تبالغ عمدًا ولا تُقرأ بوصفها رقمًا أو حقيقة حرفية. vivid وصف محسوس قد يستعين بالصوت والحركة والملمس، لا الرؤية وحدها. استخدم المجاز إذا أوضح الفكرة، ثم ارجع إلى صياغة مباشرة عندما يحتاج القارئ تعليمات أو التزامًا دقيقًا.",
+    "focusEn": "A metaphor carries understanding from one domain to another; hyperbole deliberately exaggerates and is not a literal measurement. Vivid description can use sound, movement, and texture, not only sight. Use figurative language when it clarifies an idea, then return to direct wording where readers need precise instructions or commitments.",
+    "taskAr": "حوّل «الموعد النهائي يطاردنا» إلى صياغة مهنية مباشرة، ثم بيّن ما يضيفه المجاز وما يحذفه التوضيح العملي.",
+    "taskEn": "Turn 'The deadline is chasing us' into direct professional wording, then explain what the metaphor adds and what practical clarification supplies.",
+    "exampleEn": "The metaphor conveys pressure, but the actionable message is: 'We have two days left and three sections to complete.' That wording states the actual constraint without relying on a figurative image.",
+    "exampleAr": "ينقل المجاز شعور الضغط، لكن الرسالة القابلة للتنفيذ هي: «بقي يومان وثلاثة أقسام يجب إكمالها». تحدد الصياغة القيد الفعلي دون الاعتماد على الصورة المجازية.",
+    "check": {
+      "promptEn": "Which interpretation recognizes hyperbole in 'I've told you a thousand times'?",
+      "choices": [
+        "The speaker emphasizes repeated telling, not necessarily an exact count.",
+        "The speaker has necessarily recorded exactly one thousand occasions.",
+        "The statement must be a mathematical report."
+      ],
+      "answer": "The speaker emphasizes repeated telling, not necessarily an exact count.",
+      "explanationAr": "العبارة الشائعة تبالغ لتأكيد التكرار. لا يقتضي معناها المقصود وجود إحصاء حرفي للألف مرة.",
+      "explanationEn": "The familiar expression exaggerates to emphasize repetition. Its intended meaning does not require a literal count of one thousand."
+    }
+  },
+  "c1-x-u1-l5": {
+    "focusAr": "الطلاقة ليست غياب التوقف، بل وضوح الفكرة والقدرة على مواصلة المسار. off the top of my head تشير إلى إجابة غير متحققة من مرجع الآن؛ لا تستخدمها لرقم يحتاج دقة نهائية. that said تستدرك قيدًا، وon balance تلخّص الموازنة. إذا استطرَدت، عد بعبارة تبين صلة التفصيل بالسؤال.",
+    "focusEn": "Fluency is not the absence of pauses but clarity and control of the developing message. Off the top of my head marks an answer not currently checked against a source; it is unsuitable as final confirmation of a critical figure. That said adds a qualification, while on balance gives an overall judgement. After a digression, explicitly reconnect to the question.",
+    "taskAr": "أجب شفهيًا في صياغة مكتوبة عن تقدير أولي لعدد المشاركين، ثم ضع قيدًا وبيّن كيف ستتحقق قبل اعتماد العدد.",
+    "taskEn": "Give a spoken-style written answer estimating attendance, qualify it, and explain how you will verify it before final confirmation.",
+    "exampleEn": "Off the top of my head, I would expect around forty participants. That said, several invitations are still unanswered. Let me check the registrations before we confirm the room size.",
+    "exampleAr": "بحسب ما يحضرني الآن، أتوقع نحو أربعين مشاركًا. ومع ذلك، لا تزال عدة دعوات بلا رد. دعني أراجع التسجيلات قبل تأكيد حجم القاعة.",
+    "check": {
+      "promptEn": "Which response handles an unverified estimate transparently?",
+      "choices": [
+        "About forty, off the top of my head; I'll check the registrations.",
+        "Exactly forty, although I have no record and have not checked.",
+        "A pause means I cannot communicate effectively."
+      ],
+      "answer": "About forty, off the top of my head; I'll check the registrations.",
+      "explanationAr": "يصرح الجواب الصحيح بأن الرقم تقديري ويحدد طريقة التحقق. الدقة الظاهرية دون أساس مضللة، والتوقف لا يعني انعدام الطلاقة.",
+      "explanationEn": "The correct answer marks the estimate and states how to check it. Unsupported exactness is misleading, and a pause does not establish lack of fluency."
+    }
+  },
+  "c1-x-u2-l1": {
+    "focusAr": "register اختيار لغوي يناسب العلاقة والغرض، لا سلم يجعل الكلمات الأطول أفضل. convene ملائمة لاجتماع رسمي، لكنها قد تبدو stilted في دعوة عادية. colloquial لغة تخاطب وليست خطأ بذاتها، وvernacular استعمال محلي. عدّل مستوى المباشرة والتحية والتفاصيل مع الحفاظ على وضوح الطلب نفسه.",
+    "focusEn": "Register fits language to relationship and purpose; longer words are not inherently better. Convene suits a formal meeting but may sound stilted in a casual invitation. Colloquial language is not inherently incorrect, and vernacular refers to local usage. Adjust directness, greetings, and detail while preserving the request's clarity.",
+    "taskAr": "صغ الطلب نفسه لزميل قريب ثم للجنة رسمية: الاجتماع الثلاثاء لمراجعة مسودة، دون جعل الصياغة الرسمية متكلفة.",
+    "taskEn": "Phrase the same request for a close colleague and a formal committee: meet Tuesday to review a draft, keeping the formal version natural.",
+    "exampleEn": "To a colleague: 'Could we meet on Tuesday to go through the draft?' To the committee: 'Would the committee be available on Tuesday to review the draft and agree on revisions?'",
+    "exampleAr": "لزميل: «هل يمكننا اللقاء يوم الثلاثاء لمراجعة المسودة معًا؟» وللجنة: «هل يتاح للجنة الاجتماع يوم الثلاثاء لمراجعة المسودة والاتفاق على التنقيحات؟»",
+    "check": {
+      "promptEn": "Which principle best guides a change of register?",
+      "choices": [
+        "Adapt language to purpose and audience while retaining clarity.",
+        "Replace every short word with the longest available synonym.",
+        "Treat all informal language as ungrammatical."
+      ],
+      "answer": "Adapt language to purpose and audience while retaining clarity.",
+      "explanationAr": "المقام يحدد الأسلوب المناسب، مع بقاء الوضوح أساسًا. طول الكلمات لا يضمن الرسمية المفيدة، واللغة غير الرسمية ليست بالضرورة خاطئة.",
+      "explanationEn": "Purpose and audience guide appropriate style while clarity remains central. Long words do not guarantee useful formality, and informal language is not necessarily incorrect."
+    }
+  },
+  "c1-x-u2-l2": {
+    "focusAr": "المفهوم abstract يحتاج تعريفًا تشغيليًا أو مثالًا ليصبح النقاش قابلًا للفحص. underpin يحدد ما يقوم عليه الموقف، وin essence تلخص جوهره لكنها قد تخفي فرقًا مهمًا إن أفرطت في الاختزال. اسأل هل الخلاف حول تعريف القيمة أم تطبيقها، واربط المبدأ بنتيجة tangible دون الادعاء أن المثال يستنفد المفهوم.",
+    "focusEn": "An abstract concept needs an operational definition or example to make discussion assessable. Underpin identifies a position's foundation; in essence summarizes its core but may hide a significant distinction if overused. Ask whether disagreement concerns the value's definition or its application, and connect principle to a tangible outcome without treating one example as exhaustive.",
+    "taskAr": "عرّف «إتاحة الخدمة» في سياق تدريب على تصميم نموذج، ثم اذكر مثالًا ملموسًا يوضح التعريف دون حصره فيه.",
+    "taskEn": "Define 'service accessibility' in a practice form-design discussion, then give a tangible illustration without reducing the concept to that example.",
+    "exampleEn": "In this discussion, accessibility means that people can complete the essential task using suitable means of interaction. Clear text labels are one tangible example, but they do not exhaust everything the notion includes.",
+    "exampleAr": "في هذا النقاش، تعني الإتاحة قدرة الناس على إكمال المهمة الأساسية بوسائل تفاعل مناسبة. التسميات النصية الواضحة مثال ملموس واحد، لكنها لا تستنفد كل ما يشمله المفهوم.",
+    "check": {
+      "promptEn": "Which move makes an abstract disagreement easier to examine?",
+      "choices": [
+        "Clarify the term's meaning and test it against a concrete case.",
+        "Repeat the term more forcefully without defining it.",
+        "Assume that sharing a word guarantees sharing a definition."
+      ],
+      "answer": "Clarify the term's meaning and test it against a concrete case.",
+      "explanationAr": "التعريف والمثال يوضحان موضع الاتفاق والخلاف. تكرار المصطلح أو افتراض معنى مشترك لا يحلان الغموض.",
+      "explanationEn": "A definition and example locate agreement and disagreement. Repetition or assuming a shared meaning does not resolve ambiguity."
+    }
+  },
+  "c1-x-u2-l3": {
+    "focusAr": "اللباقة تجمع احترام الشخص ووضوح المسألة؛ لا تعني إخفاء الاعتراض. broach طرح موضوع حساس، وcouch صياغته في إطار معين. with the greatest respect قد تبدو حادة أو ساخرة بحسب النبرة، فلا تعتمد عليها وحدها. قدّم واقعة محددة وسؤالًا يتيح التصحيح بدل تمهيد طويل يوحي بحكم مسبق.",
+    "focusEn": "Tact combines respect for the person with clarity about the issue; it does not require concealing disagreement. Broach means introduce a sensitive topic, while couch means express it in particular terms. With the greatest respect can sound sharp or ironic depending on tone, so it does not guarantee politeness. Offer a specific observation and a question allowing correction.",
+    "taskAr": "اطرح اختلافًا بين رقمين في تقرير زميل بصياغة تحفظ الاحترام ولا تخفي الحاجة إلى التصحيح.",
+    "taskEn": "Raise a discrepancy between two figures in a colleague's report, preserving respect without obscuring the need to resolve it.",
+    "exampleEn": "Could we revisit the total on page three? It differs from the sum of the listed items, so I may be missing an adjustment. Could you walk me through the calculation before we circulate the report?",
+    "exampleAr": "هل يمكننا مراجعة المجموع في الصفحة الثالثة؟ فهو يختلف عن مجموع البنود المدرجة، وربما فاتني تعديل. هل يمكنك شرح الحساب قبل تعميم التقرير؟",
+    "check": {
+      "promptEn": "Which response is tactful while still making the concern explicit?",
+      "choices": [
+        "The total differs from the listed amounts; could you explain the adjustment?",
+        "With respect, only an incompetent person would write this.",
+        "Everything is fine, although the discrepancy must be resolved."
+      ],
+      "answer": "The total differs from the listed amounts; could you explain the adjustment?",
+      "explanationAr": "يسمي الجواب الصحيح الفرق ويتيح تفسيره دون إهانة. عبارة احترام لا تلغي الإساءة التي تليها، وإخفاء المشكلة لا يعالجها.",
+      "explanationEn": "The correct answer identifies the discrepancy and allows explanation without insult. A respectful opener does not cancel a following insult, and hiding the issue does not resolve it."
+    }
+  },
+  "c1-x-u2-l4": {
+    "focusAr": "I see where you're coming from اعتراف بمنطلق الرأي، لا قبول نتيجته. concede إقرار بنقطة قد يتم عن اقتناع لا على مضض دائمًا. play devil's advocate اختبار حجة مخالفة دون تبنيها، وينبغي توضيح ذلك. لا تجعل تليين الرفض غموضًا بشأن القرار؛ اذكر ما ترفضه والسبب والبديل المتاح.",
+    "focusEn": "I see where you're coming from acknowledges the basis of a view without accepting its conclusion. Concede can be a willing acknowledgement, not always a reluctant one. Play devil's advocate tests an opposing argument without adopting it, which should be made clear. Softening a refusal should not obscure the decision: state what is declined, why, and any available alternative.",
+    "taskAr": "ارفض إطلاق مشروع الجمعة بسبب نقص اختبار محدد، مع الاعتراف بأهمية الموعد واقتراح مراجعة الاثنين.",
+    "taskEn": "Decline a Friday launch because a specific test is incomplete, acknowledging the timing concern and proposing a Monday review.",
+    "exampleEn": "I see where you're coming from about the deadline, but I cannot support Friday's launch while the access test remains incomplete. Could we review the results on Monday and decide then?",
+    "exampleAr": "أتفهم منطلقك بشأن الموعد النهائي، لكنني لا أستطيع تأييد إطلاق الجمعة ما دام اختبار الوصول غير مكتمل. هل يمكننا مراجعة النتائج يوم الاثنين واتخاذ القرار حينها؟",
+    "check": {
+      "promptEn": "Which refusal is both clear and tactful?",
+      "choices": [
+        "I cannot approve the launch before testing is complete; let's review it on Monday.",
+        "Perhaps everything is somehow acceptable, although I mean no.",
+        "Your concerns are pointless and need no response."
+      ],
+      "answer": "I cannot approve the launch before testing is complete; let's review it on Monday.",
+      "explanationAr": "يصرح الجواب الصحيح بالرفض وحده العملي وخطوة تالية. الغموض قد يُفهم موافقة، والازدراء يضعف الحوار.",
+      "explanationEn": "The correct answer states the refusal, its practical condition, and a next step. Ambiguity may be mistaken for agreement, while contempt undermines dialogue."
+    }
+  },
+  "c1-x-u2-l5": {
+    "focusAr": "euphemism يستبدل لفظًا مباشرًا بآخر ألطف، وunderstatement يقلل شدة الوصف؛ وقد يجتمعان. gloss over تجاوز تفاصيل غير مريحة، وdownplay تقليل أهميتها. تخفيف النبرة لا يبرر إخفاء أثر القرار على المتلقي. استخدم لغة محترمة ثم سمِّ الوقائع والإجراء المطلوب صراحةً عند الحاجة.",
+    "focusEn": "A euphemism substitutes a gentler expression, while understatement reduces descriptive intensity; they can overlap. Gloss over means pass lightly over uncomfortable details, and downplay means minimize their importance. Softening tone does not justify hiding a decision's impact. Use respectful language while stating the facts and required action explicitly where needed.",
+    "taskAr": "أعد صياغة «سنُحسّن حجم الفريق» في إعلان تدريبي يعني إلغاء ثلاثة أدوار، مع الحفاظ على الاحترام والوضوح.",
+    "taskEn": "Rewrite 'We will optimize the team's size' in a practice announcement that means three roles will be removed, retaining respect and clarity.",
+    "exampleEn": "The proposal would remove three roles from the team. We recognize the impact this could have on the people affected and will explain the process and available support directly to them.",
+    "exampleAr": "سيُلغي المقترح ثلاثة أدوار في الفريق. وندرك الأثر الذي قد يترتب على ذلك للمتأثرين، وسنشرح لهم الإجراء والدعم المتاح مباشرةً.",
+    "check": {
+      "promptEn": "Why might 'optimizing the team size' be problematic when announcing role reductions?",
+      "choices": [
+        "It can obscure the concrete effect on the people affected.",
+        "Every polite expression is necessarily deceptive.",
+        "A longer phrase always provides more detail."
+      ],
+      "answer": "It can obscure the concrete effect on the people affected.",
+      "explanationAr": "قد تخفي العبارة ما سيحدث فعلًا للوظائف. المشكلة ليست اللطف نفسه، بل غياب المعلومة اللازمة لفهم الأثر.",
+      "explanationEn": "The phrase may obscure what will actually happen to roles. The problem is not politeness itself but missing information needed to understand the impact."
+    }
   }
 }

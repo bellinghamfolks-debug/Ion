@@ -12,15 +12,15 @@
           "id": "c1-x-u1-l1",
           "titleAr": "إتقان التعابير الاصطلاحية",
           "titleEn": "Mastering Idiomatic Expressions",
-          "objectiveAr": "أن توظّف التعابير الاصطلاحية بثقة وفي سياقها الصحيح لتبدو طبيعيًا كالمتحدث الأصلي.",
-          "modelSentence": "Once I got the hang of the new software, the rest of the project fell into place almost effortlessly.",
-          "modelSentenceArabic": "ما إن أتقنتُ استخدام البرنامج الجديد حتى انتظمت بقية المشروع بسلاسة وبلا عناء يُذكر.",
+          "objectiveAr": "اختيار تعبير اصطلاحي مناسب للموقف وتوظيفه مع توضيح معناه ونبرته.",
+          "modelSentence": "Once you get the hang of the software, the remaining steps should fall into place.",
+          "modelSentenceArabic": "بمجرد أن تتعلم طريقة استخدام البرنامج، يُفترض أن تتضح الخطوات المتبقية وتنتظم.",
           "vocabulary": [
             {
               "english": "get the hang of",
-              "arabic": "يتقن استخدام شيء بالممارسة",
+              "arabic": "يتعلم طريقة الاستخدام بالممارسة",
               "example": "It took me a week to get the hang of the espresso machine.",
-              "exampleArabic": "استغرقني الأمر أسبوعًا حتى أتقنتُ استخدام آلة الإسبريسو.",
+              "exampleArabic": "استغرق الأمر مني أسبوعًا لتعلم استخدام آلة الإسبريسو.",
               "partOfSpeech": "idiom",
               "phonetic": "/ɡɛt ðə hæŋ ʌv/"
             },
@@ -64,7 +64,8 @@
               "partOfSpeech": "idiom",
               "phonetic": "/baɪt ðə ˈbʊlɪt/"
             }
-          ]
+          ],
+          "objectiveEn": "Choose an idiom appropriate to a situation and use it with awareness of meaning and tone."
         },
         {
           "id": "c1-x-u1-l2",
@@ -72,19 +73,19 @@
           "titleEn": "Shades of Meaning and Connotation",
           "objectiveAr": "أن تميّز بين الكلمات المترادفة ظاهريًا بحسب إيحاءاتها الإيجابية أو السلبية وتختار الأدق.",
           "modelSentence": "Calling someone 'frugal' carries a positive connotation, whereas 'stingy' implies a rather unflattering meanness.",
-          "modelSentenceArabic": "وصف شخص بأنه «مقتصد» يحمل إيحاءً إيجابيًا، بينما تنطوي كلمة «بخيل» على دناءةٍ غير محمودة.",
+          "modelSentenceArabic": "وصف شخص بأنه «مقتصد» يحمل غالبًا إيحاءً إيجابيًا، بينما توحي كلمة «بخيل» بالشح على نحو سلبي.",
           "vocabulary": [
             {
               "english": "connotation",
               "arabic": "الإيحاء الضمني للكلمة بعيدًا عن معناها الحرفي",
               "example": "The word 'home' has warmer connotations than 'house'.",
-              "exampleArabic": "تحمل كلمة «دار» إيحاءاتٍ أكثر دفئًا من كلمة «منزل».",
+              "exampleArabic": "تحمل كلمة home إيحاءات أكثر دفئًا من house، مع أن كليهما قد يشير إلى مكان السكن.",
               "partOfSpeech": "noun",
               "phonetic": "/ˌkɒnəˈteɪʃən/"
             },
             {
               "english": "loaded",
-              "arabic": "مشحون بدلالات أو نوايا خفية",
+              "arabic": "مشحون بإيحاء أو افتراض مسبق",
               "example": "That was a loaded question designed to trap him.",
               "exampleArabic": "كان ذلك سؤالًا مشحونًا صُمّم لإيقاعه في فخ.",
               "partOfSpeech": "adjective",
@@ -129,8 +130,8 @@
           "titleAr": "التلميح والمعنى الضمني",
           "titleEn": "Implication and Inference",
           "objectiveAr": "أن تفهم ما يُلمَّح إليه دون تصريح وأن تنقل المعاني بمهارة عبر التلميح.",
-          "modelSentence": "Although she never said so outright, her hesitant tone strongly implied that she had reservations about the plan.",
-          "modelSentenceArabic": "مع أنها لم تصرّح بذلك صراحةً، إلا أن نبرتها المترددة كانت تلمّح بقوة إلى أن لديها تحفظات على الخطة.",
+          "modelSentence": "Her hesitant answer led me to infer that she had reservations, though I needed to check.",
+          "modelSentenceArabic": "دفعني جوابها المتردد إلى استنتاج أن لديها تحفظات، لكنني احتجت إلى التحقق.",
           "vocabulary": [
             {
               "english": "imply",
@@ -187,8 +188,8 @@
           "titleAr": "اللغة المجازية والتعبيرية",
           "titleEn": "Figurative and Expressive Language",
           "objectiveAr": "أن تثري كلامك باللغة المجازية لتنقل أفكارك بصور حيّة ومؤثرة.",
-          "modelSentence": "Time, that relentless thief, slips through our fingers no matter how tightly we try to grasp it.",
-          "modelSentenceArabic": "الوقت، ذلك اللص الذي لا يرحم، ينساب من بين أصابعنا مهما حاولنا الإمساك به بإحكام.",
+          "modelSentence": "The metaphor of time as a thief conveys a sense of loss rather than a literal claim.",
+          "modelSentenceArabic": "تنقل استعارة الوقت بوصفه لصًا شعورًا بالفقد، ولا تقدم ادعاءً حرفيًا.",
           "vocabulary": [
             {
               "english": "metaphor",
@@ -235,7 +236,7 @@
               "arabic": "صياغة لافتة بارعة للعبارة",
               "example": "She has a memorable turn of phrase in her speeches.",
               "exampleArabic": "تتميّز خطبها بصياغة لافتة لا تُنسى للعبارة.",
-              "partOfSpeech": "idiom",
+              "partOfSpeech": "noun phrase",
               "phonetic": "/tɜːrn ʌv freɪz/"
             }
           ]
@@ -274,9 +275,9 @@
             },
             {
               "english": "off the top of my head",
-              "arabic": "على عجل ودون تفكير أو تحضير مسبق",
+              "arabic": "بحسب ما يحضرني الآن دون مراجعة",
               "example": "Off the top of my head, I'd say about fifty people.",
-              "exampleArabic": "هكذا دون تفكير، أقول إن العدد نحو خمسين شخصًا.",
+              "exampleArabic": "بحسب ما يحضرني الآن، أقدّر العدد بنحو خمسين شخصًا.",
               "partOfSpeech": "idiom",
               "phonetic": "/ɔːf ðə tɒp ʌv maɪ hɛd/"
             },
@@ -428,8 +429,8 @@
           "titleAr": "الدبلوماسية واللباقة",
           "titleEn": "Diplomacy and Tact",
           "objectiveAr": "أن تعبّر عن آرائك الحساسة بلباقة دبلوماسية تحفظ ماء الوجه وتتجنّب الإساءة.",
-          "modelSentence": "With the greatest respect, I wonder whether we might revisit that figure, as it strikes me as somewhat optimistic.",
-          "modelSentenceArabic": "مع فائق احترامي، أتساءل إن كان بوسعنا إعادة النظر في ذلك الرقم، إذ يبدو لي متفائلًا بعض الشيء.",
+          "modelSentence": "A tactful question can identify a discrepancy without prejudging who caused it.",
+          "modelSentenceArabic": "يمكن لسؤال لبق أن يحدد اختلافًا دون حكم مسبق على من تسبب فيه.",
           "vocabulary": [
             {
               "english": "tactful",
@@ -441,7 +442,7 @@
             },
             {
               "english": "with the greatest respect",
-              "arabic": "مع فائق الاحترام؛ تمهيد لطيف لاعتراض",
+              "arabic": "مع فائق الاحترام (قد تمهد لاعتراض حاد)",
               "example": "With the greatest respect, I must disagree.",
               "exampleArabic": "مع فائق احترامي، لا بد أن أختلف معك.",
               "partOfSpeech": "idiom",
@@ -523,7 +524,7 @@
             },
             {
               "english": "concede",
-              "arabic": "يقرّ ويسلّم بصحة نقطة على مضض",
+              "arabic": "يسلّم بصحة نقطة؛ يقرّ بها",
               "example": "I'll concede that you have a valid point.",
               "exampleArabic": "أسلّم بأن وجهة نظرك وجيهة.",
               "partOfSpeech": "verb",
@@ -531,7 +532,7 @@
             },
             {
               "english": "with all due respect",
-              "arabic": "مع كامل الاحترام؛ تمهيد لطيف للاعتراض",
+              "arabic": "مع كامل الاحترام (يتحدد أثرها بالنبرة)",
               "example": "With all due respect, the data suggests otherwise.",
               "exampleArabic": "مع كامل احترامي، تشير البيانات إلى خلاف ذلك.",
               "partOfSpeech": "idiom",

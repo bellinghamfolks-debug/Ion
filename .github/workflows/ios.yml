@@ -2,7 +2,7 @@ name: iOS
 
 on:
   push:
-    branches: [main, "claude/**"]
+    branches: [main, "claude/coffee-access"]
   pull_request:
 
 concurrency:

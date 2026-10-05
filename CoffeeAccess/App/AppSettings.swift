@@ -9,6 +9,10 @@ struct AppSettings: Codable, Equatable {
     var haptics = true
     var speakWithoutVoiceOver = false
     var hasCompletedOnboarding = false
+    var notifyWhenReady = true
+    var remindBrewingUnitWeekly = false
+    var remindCarafeDaily = false
+    var remindFilterMonthly = false
 
     private static let key = "app.settings.v1"
 

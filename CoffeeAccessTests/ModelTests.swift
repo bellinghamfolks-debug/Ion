@@ -16,12 +16,75 @@ final class RecipeTests: XCTestCase {
             let standard = Recipe.standard(beverage)
             XCTAssertEqual(standard.normalized(), standard, "\(beverage)")
             XCTAssertTrue(standard.isStandard)
+            if spec.supportsToGo {
+                let toGo = Recipe.standard(beverage, toGo: true)
+                XCTAssertTrue(toGo.toGo)
+                XCTAssertEqual(toGo.normalized(), toGo, "\(beverage) to go")
+                XCTAssertGreaterThan(toGo.approximateVolumeML, standard.approximateVolumeML, "\(beverage)")
+            } else {
+                XCTAssertFalse(Recipe.standard(beverage, toGo: true).toGo)
+            }
         }
     }
 
-    func testEcamCodesAreUnique() {
-        let codes = BeverageID.allCases.compactMap(\.spec.ecamCode)
+    func testCatalogMatchesTheMachineMenu() {
+        XCTAssertEqual(BeverageID.allCases.count, 47)
+        XCTAssertEqual(BeverageCatalog.beverages(in: .hotCoffee).count, 14)
+        XCTAssertEqual(BeverageCatalog.beverages(in: .milk).count, 15)
+        XCTAssertEqual(BeverageCatalog.beverages(in: .coldCoffee).count, 6)
+        XCTAssertEqual(BeverageCatalog.beverages(in: .coldMilk).count, 8)
+        XCTAssertEqual(BeverageCatalog.beverages(in: .teaWater).count, 4)
+    }
+
+    func testEcamCodesAreUniqueExceptTheTeaProgramme() {
+        let codes = BeverageID.allCases.filter { !$0.spec.isTea }.compactMap(\.spec.ecamCode)
         XCTAssertEqual(codes.count, Set(codes).count)
+        XCTAssertEqual(Set([BeverageID.greenTea, .blackTea, .herbalTea].map(\.spec.ecamCode)), [0x16])
+    }
+
+    func testCollectionsAreNonEmptyAndDistinct() {
+        for collection in DrinkCollection.allCases {
+            let drinks = collection.beverages(hour: 9)
+            XCTAssertFalse(drinks.isEmpty, "\(collection)")
+            XCTAssertEqual(drinks.count, Set(drinks).count, "\(collection) repeats a drink")
+        }
+        XCTAssertNotEqual(DrinkCollection.suggested.beverages(hour: 8), DrinkCollection.suggested.beverages(hour: 21))
+        XCTAssertTrue(DrinkCollection.toGo.beverages().allSatisfy { $0.spec.supportsToGo })
+        XCTAssertTrue(DrinkCollection.refreshing.beverages().allSatisfy { $0.spec.isCold })
+    }
+
+    func testToGoDoublesAmountsAndBack() {
+        let cup = Recipe.standard(.caffeLatte)
+        let mug = cup.withToGo(true)
+        XCTAssertTrue(mug.toGo)
+        XCTAssertEqual(mug.coffeeML, 120)
+        XCTAssertEqual(mug.milkSeconds, 100)
+        XCTAssertEqual(mug.withToGo(false).coffeeML, cup.coffeeML)
+        XCTAssertEqual(Recipe.standard(.espresso).withToGo(true).toGo, false, "espresso has no travel size")
+    }
+
+    func testTeaUsesWaterAndTemperatureOnly() {
+        let green = Recipe.standard(.greenTea)
+        XCTAssertNil(green.coffeeML)
+        XCTAssertNil(green.aroma)
+        XCTAssertEqual(green.temperature, .low)
+        XCTAssertEqual(Recipe.standard(.blackTea).temperature, .high)
+        XCTAssertTrue(green.spokenSummary.contains(BrewTemperature.low.teaTitle))
+    }
+
+    func testBeanProfileTunesDefaults() {
+        var bean = BeanProfile(name: "Dark")
+        bean.roast = .dark
+        bean.strengthBias = 1
+        let adjusted = bean.adjust(.standard(.espresso))
+        XCTAssertEqual(adjusted.temperature, .low)
+        XCTAssertEqual(adjusted.aroma, .strong)
+        XCTAssertEqual(bean.recommendedGrind, 8)
+        var light = BeanProfile(name: "Light")
+        light.roast = .light
+        light.kind = .arabica
+        XCTAssertEqual(light.recommendedGrind, 3)
+        XCTAssertEqual(light.adjust(.standard(.greenTea)).temperature, .low, "tea temperature is not changed by beans")
     }
 
     func testClampKeepsValuesOnTheGridAndInRange() {
@@ -123,12 +186,39 @@ final class AppDataTests: XCTestCase {
 
     func testHistoryIsCappedAndFrequentCountsCompletedOnly() {
         var data = makeData()
-        for index in 0..<60 { data.record(.standard(index % 3 == 0 ? .espresso : .coffee), completed: true) }
-        data.record(.standard(.tea), completed: false)
+        for index in 0..<(AppData.historyLimit + 10) { data.record(.standard(index % 3 == 0 ? .espresso : .coffee), completed: true) }
+        data.record(.standard(.greenTea), completed: false)
         XCTAssertEqual(data.activeProfile.history.count, AppData.historyLimit)
         let frequent = data.frequentRecipes(limit: 3).map(\.beverage)
         XCTAssertEqual(frequent.first, .coffee)
-        XCTAssertFalse(frequent.contains(.tea))
+        XCTAssertFalse(frequent.contains(.greenTea))
+    }
+
+    func testGuestModeUsesStandardDrinksAndRecordsNothing() {
+        var data = makeData()
+        var personal = Recipe.standard(.coffee)
+        personal.aroma = .extraStrong
+        data.setPersonalDefault(personal)
+        data.guestMode = true
+        XCTAssertEqual(data.recipe(for: .coffee).aroma, Recipe.standard(.coffee).aroma)
+        data.record(.standard(.coffee), completed: true)
+        XCTAssertTrue(data.activeProfile.history.isEmpty)
+        data.guestMode = false
+        XCTAssertEqual(data.recipe(for: .coffee).aroma, .extraStrong)
+    }
+
+    func testBeanProfilesLimitAndActiveSelection() {
+        var data = makeData()
+        XCTAssertFalse(data.saveBean(BeanProfile(name: "   ")))
+        for index in 0..<BeanProfile.maxCount { XCTAssertTrue(data.saveBean(BeanProfile(name: "Bean \(index)"))) }
+        XCTAssertFalse(data.saveBean(BeanProfile(name: "Seventh")))
+        XCTAssertEqual(data.activeBean?.name, "Bean 0")
+        data.removeBean(id: data.beanProfiles[0].id)
+        XCTAssertEqual(data.activeBean?.name, "Bean 1")
+        var dark = data.beanProfiles[0]
+        dark.roast = .dark
+        data.saveBean(dark)
+        XCTAssertEqual(data.recipe(for: .espresso).temperature, .low)
     }
 
     func testStoreRoundTripsAndQuarantinesCorruptFiles() throws {
@@ -210,7 +300,7 @@ final class DemoMachineTests: XCTestCase {
 
     func testStopEndsTheDrinkEarly() throws {
         var engine = DemoMachineEngine(poweredOn: true)
-        let recipe = Recipe.standard(.longCoffee)
+        let recipe = Recipe.standard(.coffee)
         _ = try engine.brew(recipe)
         _ = engine.advance(by: 5)
         XCTAssertEqual(engine.stop().first, .stopped(recipe.normalized()))
@@ -224,7 +314,7 @@ final class DemoMachineTests: XCTestCase {
         while !engine.snapshot.alarms.contains(.waterTankEmpty), guardCount < 40 {
             _ = engine.emptyGrounds()
             _ = engine.refillBeans()
-            _ = try engine.brew(.standard(.travelMug))
+            _ = try engine.brew(.standard(.coffee, toGo: true))
             _ = engine.advance(by: 300)
             guardCount += 1
         }
@@ -286,9 +376,39 @@ final class LocalizationTests: XCTestCase {
         }
     }
 
+    func testSiriDrinkListMatchesTheCatalog() {
+        XCTAssertEqual(DrinkChoice.allCases.map(\.rawValue), BeverageID.allCases.map(\.rawValue))
+        for collection in DrinkCollection.allCases {
+            XCTAssertFalse(collection.title.hasPrefix("collection."), "\(collection)")
+        }
+    }
+
     func testFormattedStringsSubstituteArguments() {
         XCTAssertFalse(L("unit.ml", 40).contains("%"))
         XCTAssertTrue(L("unit.percent", 50).contains("50"))
         XCTAssertFalse(L("control.levelValue", "x", 2, 5).contains("%"))
+    }
+}
+
+final class StatisticsTests: XCTestCase {
+    func testLastDaysCountsCompletedDrinksPerDay() {
+        let calendar = Calendar(identifier: .gregorian)
+        let now = calendar.date(from: DateComponents(year: 2026, month: 10, day: 5, hour: 12))!
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: now)!
+        let history = [
+            BrewRecord(recipe: .standard(.espresso), date: now, completed: true),
+            BrewRecord(recipe: .standard(.cappuccino), date: now, completed: true),
+            BrewRecord(recipe: .standard(.coffee), date: yesterday, completed: true),
+            BrewRecord(recipe: .standard(.coffee), date: yesterday, completed: true),
+            BrewRecord(recipe: .standard(.coffee), date: yesterday, completed: false),
+        ]
+        let stats = DrinkStatistics(history: history)
+        let days = stats.lastDays(7, now: now, calendar: calendar)
+        XCTAssertEqual(days.count, 7)
+        XCTAssertEqual(days.last?.count, 2)
+        XCTAssertEqual(days[5].count, 2)
+        XCTAssertEqual(stats.total, 4)
+        XCTAssertEqual(stats.byCategory().map(\.category), [.hotCoffee, .milk])
+        XCTAssertEqual(stats.byDrink().first?.beverage, .coffee)
     }
 }

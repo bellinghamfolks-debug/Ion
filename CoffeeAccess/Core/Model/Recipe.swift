@@ -13,19 +13,26 @@ struct Recipe: Codable, Hashable, Identifiable {
     var aroma: Aroma?
     var temperature: BrewTemperature?
     var milkFirst: Bool = false
+    /// Travel-mug size: larger amounts, for drinks that support it.
+    var toGo: Bool = false
 
     var spec: BeverageSpec { beverage.spec }
+    var coffeeRange: QuantityRange? { spec.coffeeRange(toGo: toGo) }
+    var milkRange: QuantityRange? { spec.milkRange(toGo: toGo) }
+    var waterRange: QuantityRange? { spec.waterRange(toGo: toGo) }
 
-    static func standard(_ beverage: BeverageID) -> Recipe {
+    static func standard(_ beverage: BeverageID, toGo: Bool = false) -> Recipe {
         let spec = beverage.spec
+        let toGo = toGo && spec.supportsToGo
         return Recipe(
             beverage: beverage,
-            coffeeML: spec.coffee?.standard,
-            milkSeconds: spec.milk?.standard,
-            waterML: spec.water?.standard,
+            coffeeML: spec.coffeeRange(toGo: toGo)?.standard,
+            milkSeconds: spec.milkRange(toGo: toGo)?.standard,
+            waterML: spec.waterRange(toGo: toGo)?.standard,
             aroma: spec.hasAroma ? spec.defaultAroma : nil,
             temperature: spec.hasTemperature ? spec.defaultTemperature : nil,
-            milkFirst: false
+            milkFirst: false,
+            toGo: toGo
         )
     }
 
@@ -34,9 +41,10 @@ struct Recipe: Codable, Hashable, Identifiable {
     func normalized() -> Recipe {
         let spec = beverage.spec
         var copy = self
-        copy.coffeeML = spec.coffee.map { $0.clamp(coffeeML ?? $0.standard) }
-        copy.milkSeconds = spec.milk.map { $0.clamp(milkSeconds ?? $0.standard) }
-        copy.waterML = spec.water.map { $0.clamp(waterML ?? $0.standard) }
+        copy.toGo = spec.supportsToGo && toGo
+        copy.coffeeML = copy.coffeeRange.map { $0.clamp(coffeeML ?? $0.standard) }
+        copy.milkSeconds = copy.milkRange.map { $0.clamp(milkSeconds ?? $0.standard) }
+        copy.waterML = copy.waterRange.map { $0.clamp(waterML ?? $0.standard) }
         copy.aroma = spec.hasAroma ? (aroma ?? spec.defaultAroma) : nil
         copy.temperature = spec.hasTemperature ? (temperature ?? spec.defaultTemperature) : nil
         copy.milkFirst = spec.supportsMilkFirst && milkFirst
@@ -44,9 +52,21 @@ struct Recipe: Codable, Hashable, Identifiable {
         return copy
     }
 
+    /// Switches between cup and travel-mug size, scaling the amounts.
+    func withToGo(_ enabled: Bool) -> Recipe {
+        guard spec.supportsToGo, enabled != toGo else { return self }
+        var copy = self
+        copy.toGo = enabled
+        let factor = enabled ? 2.0 : 0.5
+        if let coffee = coffeeML { copy.coffeeML = Int(Double(coffee) * factor) }
+        if let milk = milkSeconds { copy.milkSeconds = Int(Double(milk) * factor) }
+        if let water = waterML { copy.waterML = Int(Double(water) * factor) }
+        return copy.normalized()
+    }
+
     /// True when the settings match the standard drink (ignores id and name).
     var isStandard: Bool {
-        var standard = Recipe.standard(beverage)
+        var standard = Recipe.standard(beverage, toGo: toGo)
         standard.id = id
         standard.customName = customName
         return standard == normalized()
@@ -62,9 +82,62 @@ struct Recipe: Codable, Hashable, Identifiable {
     /// does not report its own percentage.
     var estimatedSeconds: Int {
         let grind = coffeeML == nil ? 0 : 12
-        let coffee = (coffeeML ?? 0) / 3
+        let perML = spec.isCold && spec.layers.contains(.coffee) ? 2 : 3   // cold extraction is slower
+        let coffee = (coffeeML ?? 0) / (spec.vessel == .pot ? 6 : perML)
         let water = (waterML ?? 0) / 8
         let milk = milkSeconds ?? 0
         return max(8, grind + coffee + water + milk)
+    }
+}
+
+/// Bean Adapt: a profile per bag of beans. The machine's grinder is set by
+/// hand, so the app recommends a grind setting and adjusts the default
+/// strength and temperature of every drink for the beans in the hopper.
+struct BeanProfile: Codable, Hashable, Identifiable {
+    enum Roast: String, Codable, CaseIterable { case light, medium, dark }
+    enum Kind: String, Codable, CaseIterable { case arabica, blend, robusta }
+
+    var id = UUID()
+    var name: String
+    var roast: Roast = .medium
+    var kind: Kind = .blend
+    /// −1 milder, 0 as recommended, +1 stronger.
+    var strengthBias: Int = 0
+
+    static let maxCount = 6
+
+    /// Grinder setting 1 (finest) … 13 (coarsest). Darker, oilier beans and
+    /// robusta grind coarser to avoid over-extraction and grinder clogging.
+    var recommendedGrind: Int {
+        var setting: Int
+        switch roast {
+        case .light: setting = 4
+        case .medium: setting = 6
+        case .dark: setting = 8
+        }
+        if kind == .robusta { setting += 1 }
+        if kind == .arabica && roast == .light { setting -= 1 }
+        return max(1, min(13, setting))
+    }
+
+    /// Light roasts extract best hotter, dark roasts cooler.
+    var recommendedTemperature: BrewTemperature {
+        switch roast {
+        case .light: return .high
+        case .medium: return .medium
+        case .dark: return .low
+        }
+    }
+
+    func adjust(_ recipe: Recipe) -> Recipe {
+        var copy = recipe
+        let spec = recipe.spec
+        if spec.hasTemperature, recipe.temperature == spec.defaultTemperature, !spec.isTea {
+            copy.temperature = recommendedTemperature
+        }
+        if spec.hasAroma, let aroma = recipe.aroma, strengthBias != 0 {
+            copy.aroma = Aroma(rawValue: max(1, min(5, aroma.rawValue + strengthBias))) ?? aroma
+        }
+        return copy
     }
 }

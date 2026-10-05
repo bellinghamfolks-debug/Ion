@@ -8,15 +8,17 @@ struct DrinkIllustration: View {
     let beverage: BeverageID
     var fill: Double = 1
     var showsSteam = true
+    var toGo = false
 
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     @State var steamPhase = false
 
     var body: some View {
         let spec = beverage.spec
+        let vessel = toGo && spec.supportsToGo ? Vessel.travelMug : spec.vessel
         GeometryReader { proxy in
             let size = proxy.size
-            let frame = VesselGeometry(vessel: spec.vessel, size: size)
+            let frame = VesselGeometry(vessel: vessel, size: size)
             ZStack {
                 if frame.hasSaucer {
                     Capsule()
@@ -32,17 +34,17 @@ struct DrinkIllustration: View {
                         .position(x: frame.body.maxX + frame.body.width * 0.1, y: frame.body.minY + frame.body.height * 0.42)
                 }
                 liquid(spec: spec, frame: frame)
-                    .clipShape(VesselShape(vessel: spec.vessel).path(in: frame.body))
-                VesselShape(vessel: spec.vessel)
+                    .clipShape(VesselShape(vessel: vessel).path(in: frame.body))
+                VesselShape(vessel: vessel)
                     .path(in: frame.body)
                     .stroke(Theme.textSecondary.opacity(0.7), lineWidth: max(1.5, size.width * 0.018))
-                if spec.vessel == .travelMug {
+                if vessel == .travelMug {
                     RoundedRectangle(cornerRadius: 4)
                         .fill(Theme.textSecondary.opacity(0.75))
                         .frame(width: frame.body.width * 1.06, height: frame.body.height * 0.1)
                         .position(x: frame.body.midX, y: frame.body.minY - frame.body.height * 0.02)
                 }
-                if showsSteam, !spec.isCold, fill > 0.6, spec.vessel != .travelMug {
+                if showsSteam, !spec.isCold, fill > 0.6, vessel != .travelMug {
                     steam(frame: frame)
                 }
             }
@@ -133,7 +135,7 @@ struct VesselGeometry {
     init(vessel: Vessel, size: CGSize) {
         let w = size.width, h = size.height
         func rect(width: CGFloat, height: CGFloat, bottom: CGFloat) -> CGRect {
-            CGRect(x: (w - w * width) / 2 - (vessel == .tallGlass || vessel == .iceGlass || vessel == .travelMug ? 0 : w * 0.04),
+            CGRect(x: (w - w * width) / 2 - ([.tallGlass, .iceGlass, .travelMug].contains(vessel) ? 0 : w * 0.04),
                    y: h * bottom - h * height, width: w * width, height: h * height)
         }
         switch vessel {
@@ -151,6 +153,8 @@ struct VesselGeometry {
             body = rect(width: 0.48, height: 0.6, bottom: 0.9); fillRatio = 0.88; hasHandle = false; hasSaucer = false
         case .travelMug:
             body = rect(width: 0.38, height: 0.66, bottom: 0.92); fillRatio = 0.9; hasHandle = false; hasSaucer = false
+        case .pot:
+            body = rect(width: 0.5, height: 0.66, bottom: 0.92); fillRatio = 0.85; hasHandle = true; hasSaucer = false
         }
     }
 }
@@ -165,6 +169,7 @@ struct VesselShape: Shape {
         switch vessel {
         case .espressoCup, .cup, .teaCup: taper = 0.14; bottomRadius = rect.height * 0.32
         case .mug, .travelMug: taper = 0.02; bottomRadius = rect.width * 0.08
+        case .pot: taper = -0.06; bottomRadius = rect.width * 0.12
         case .tallGlass: taper = 0.06; bottomRadius = rect.width * 0.06
         case .iceGlass: taper = 0.1; bottomRadius = rect.width * 0.05
         }

@@ -22,6 +22,10 @@ targets:
     platform: iOS
     sources:
       - path: CoffeeAccess
+    info:
+      path: Config/Info.plist
+      properties:
+        UIBackgroundModes: [bluetooth-central]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.coffeeaccess.app
@@ -34,6 +38,7 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
         INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription: نستخدم البلوتوث للاتصال بماكينة القهوة ومعرفة حالتها وتحضير مشروباتك.
         INFOPLIST_KEY_NSLocalNetworkUsageDescription: نستخدم الشبكة المحلية للبحث عن ماكينة القهوة في منزلك أثناء فحص الاتصال.
+        INFOPLIST_KEY_NSCameraUsageDescription: نستخدم الكاميرا لقراءة شاشة ماكينة القهوة بصوت عالٍ. تُقرأ الصورة على جهازك ولا تُرفع.
         INFOPLIST_KEY_NSSiriUsageDescription: نستخدم Siri لتحضير مشروبك ومعرفة حالة الماكينة بصوتك.
     scheme:
       testTargets:

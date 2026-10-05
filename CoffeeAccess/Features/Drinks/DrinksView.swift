@@ -51,7 +51,7 @@ struct DrinksView: View {
     }
 
     private func card(for beverage: BeverageID) -> some View {
-        let recipe = profile.recipe(for: beverage)
+        let recipe = model.data.recipe(for: beverage)
         let isFavorite = profile.favorites.contains { $0.beverage == beverage && $0.customName.isEmpty }
         return NavigationLink(value: DrinkRoute.beverage(beverage)) {
             DrinkCard(recipe: recipe, isPersonal: profile.personalDefaults[beverage] != nil)

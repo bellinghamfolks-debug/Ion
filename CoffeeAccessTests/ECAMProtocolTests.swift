@@ -140,4 +140,61 @@ final class ECAMProtocolTests: XCTestCase {
         XCTAssertEqual(assembler.append(corrupt + good), [good])
         XCTAssertGreaterThan(assembler.rejectedPackets, 0)
     }
+
+    func testSettingsCommandsMatchCapture() {
+        XCTAssertEqual(ECAMCommands.writeParameter(.autoOff, value: 0), bytes("0d 0b 90 0f 00 3e 00 00 00 00 81 e3"))
+        XCTAssertEqual(ECAMCommands.writeParameter(.waterTemperature, value: 0), bytes("0d 0b 90 0f 00 3d 00 00 00 00 6f 31"))
+        XCTAssertEqual(ECAMCommands.selectProfile(1), bytes("0d 06 a9 f0 01 d7 c0"))
+        XCTAssertEqual(ECAMCommands.readParameter(.switches), bytes("0d 08 95 0f 00 3f 01 2b 83"))
+        XCTAssertEqual(ECAMCommands.statistics(start: 100, count: 10), bytes("0d 08 a2 0f 00 64 0a 23 97"))
+    }
+
+    func testSettingsBitmaskAndCommandList() {
+        var settings = MachineSettings()
+        settings.sounds = true
+        settings.cupLight = false
+        settings.energySaving = true
+        XCTAssertEqual(settings.switchMask, 0x14)
+        var copy = MachineSettings()
+        copy.applySwitchMask(0x08)
+        XCTAssertEqual([copy.sounds, copy.cupLight, copy.energySaving], [false, true, false])
+        settings.waterHardness = 3
+        let commands = ECAMCommands.commands(for: settings)
+        XCTAssertEqual(commands.count, 4)
+        XCTAssertTrue(commands.allSatisfy(ECAM.hasValidChecksum))
+        XCTAssertEqual(commands[1][9], 2, "hardness level 3 is sent as index 2")
+    }
+
+    private func reply(_ payload: [UInt8]) -> [UInt8] {
+        var packet: [UInt8] = [ECAM.inboundStart, UInt8(payload.count + 3)] + payload
+        let crc = ECAM.crc16(packet)
+        packet += [UInt8(crc >> 8), UInt8(crc & 0xFF)]
+        return packet
+    }
+
+    func testStatisticsReplyParsing() {
+        let packet = reply([0xA2, 0x0F, 0x00, 0x64, 0x00, 0x00, 0x00, 0x2A, 0x00, 0x69, 0x00, 0x00, 0x01, 0x00, 0x0B, 0xB8, 0x00, 0x00, 0x00, 0x07])
+        XCTAssertTrue(ECAM.hasValidChecksum(packet))
+        let values = ECAMReplies.statistics(packet)
+        XCTAssertEqual(values, [100: 42, 105: 256, 3000: 7])
+        var counters = MachineCounters()
+        counters.merge(values)
+        XCTAssertEqual(counters.totalCoffee, 7)
+        XCTAssertEqual(counters.descaleCount, 256)
+        XCTAssertNil(counters.tea)
+    }
+
+    func testParameterAndProfileNameReplies() {
+        let parameter = reply([0x95, 0x0F, 0x00, 0x3F, 0x00, 0x00, 0x00, 0x1C])
+        XCTAssertEqual(ECAMReplies.parameter(parameter)?.parameter, 0x3F)
+        XCTAssertEqual(ECAMReplies.parameter(parameter)?.value, 0x1C)
+
+        func slot(_ name: String) -> [UInt8] {
+            var bytes = Array(name.data(using: .utf16BigEndian)!)
+            bytes += Array(repeating: 0, count: 20 - bytes.count)
+            return bytes + [0x00]
+        }
+        let names = reply([0xA4, 0xF0] + slot("Ali") + slot("") + slot("Sara") + slot("Guest"))
+        XCTAssertEqual(ECAMReplies.profileNames(names), [1: "Ali", 3: "Sara", 4: "Guest"])
+    }
 }

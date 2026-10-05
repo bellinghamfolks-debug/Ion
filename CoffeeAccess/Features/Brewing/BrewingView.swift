@@ -13,7 +13,7 @@ struct BrewingView: View {
         VStack(spacing: 24) {
             if let session {
                 Spacer(minLength: 8)
-                DrinkIllustration(beverage: session.recipe.beverage, fill: max(0.05, session.progress))
+                DrinkIllustration(beverage: session.recipe.beverage, fill: max(0.05, session.progress), toGo: session.recipe.toGo)
                     .frame(maxWidth: 260)
                 titleBlock(session)
                 progressBlock(session)

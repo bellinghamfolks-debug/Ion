@@ -24,10 +24,48 @@ struct BrewRecord: Codable, Hashable, Identifiable {
 
 struct AppData: Codable, Equatable {
     static let profileCount = 4
-    static let historyLimit = 50
+    static let historyLimit = 1000
 
     var profiles: [UserProfile]
     var activeProfileID: Int
+    /// Bean Adapt profiles (up to six) and the beans currently in the hopper.
+    var beanProfiles: [BeanProfile] = []
+    var activeBeanID: UUID?
+    /// Guest mode: standard drinks, nothing saved to anyone's history.
+    var guestMode = false
+
+    var activeBean: BeanProfile? { beanProfiles.first { $0.id == activeBeanID } }
+
+    /// The recipe to start from when this drink is chosen: the profile's own
+    /// settings if it has them, otherwise the standard drink tuned for the
+    /// beans in the hopper.
+    func recipe(for beverage: BeverageID, toGo: Bool = false) -> Recipe {
+        if !guestMode, let personal = activeProfile.personalDefaults[beverage] {
+            return personal.normalized().withToGo(toGo)
+        }
+        let standard = Recipe.standard(beverage, toGo: toGo)
+        return activeBean?.adjust(standard) ?? standard
+    }
+
+    @discardableResult
+    mutating func saveBean(_ bean: BeanProfile) -> Bool {
+        var bean = bean
+        bean.name = String(bean.name.trimmingCharacters(in: .whitespacesAndNewlines).prefix(24))
+        guard !bean.name.isEmpty else { return false }
+        if let index = beanProfiles.firstIndex(where: { $0.id == bean.id }) {
+            beanProfiles[index] = bean
+        } else {
+            guard beanProfiles.count < BeanProfile.maxCount else { return false }
+            beanProfiles.append(bean)
+            if activeBeanID == nil { activeBeanID = bean.id }
+        }
+        return true
+    }
+
+    mutating func removeBean(id: UUID) {
+        beanProfiles.removeAll { $0.id == id }
+        if activeBeanID == id { activeBeanID = beanProfiles.first?.id }
+    }
 
     static func initial(names: [String]) -> AppData {
         let profiles = (1...profileCount).map { index in
@@ -45,6 +83,7 @@ struct AppData: Codable, Equatable {
     }
 
     mutating func record(_ recipe: Recipe, completed: Bool, at date: Date = Date()) {
+        guard !guestMode else { return }
         var profile = activeProfile
         profile.history.insert(BrewRecord(recipe: recipe, date: date, completed: completed), at: 0)
         if profile.history.count > Self.historyLimit { profile.history.removeLast(profile.history.count - Self.historyLimit) }

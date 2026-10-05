@@ -47,6 +47,19 @@ struct SettingsView: View {
 
                 Section(L("settings.brewing")) {
                     Toggle(L("settings.confirm"), isOn: settingBinding(\.confirmBeforeBrewing))
+                    Toggle(L("settings.guest"), isOn: Binding(get: { model.data.guestMode }, set: { model.setGuestMode($0) }))
+                    NavigationLink(L("beans.title")) { BeansView() }
+                }
+
+                Section {
+                    Toggle(L("settings.notifyReady"), isOn: settingBinding(\.notifyWhenReady))
+                    Toggle(L("reminder.brewingUnitWeekly.title"), isOn: settingBinding(\.remindBrewingUnitWeekly))
+                    Toggle(L("reminder.carafeDaily.title"), isOn: settingBinding(\.remindCarafeDaily))
+                    Toggle(L("reminder.filterMonthly.title"), isOn: settingBinding(\.remindFilterMonthly))
+                } header: {
+                    Text(L("settings.notifications"))
+                } footer: {
+                    Text(L("settings.notifications.footer"))
                 }
 
                 Section {
@@ -73,6 +86,7 @@ struct SettingsView: View {
                     NavigationLink(L("about.title")) { AboutView() }
                     NavigationLink(L("accessibility.title")) { AccessibilityStatementView() }
                     NavigationLink(L("help.title")) { HelpView() }
+                    NavigationLink(L("trouble.title")) { TroubleshootingView() }
                 }
             }
             .tint(Theme.accent)

@@ -2,3 +2,4 @@
 "NSBluetoothAlwaysUsageDescription" = "Bluetooth connects to your coffee machine to read its status and make your drinks.";
 "NSLocalNetworkUsageDescription" = "The local network is used to look for your coffee machine during the machine check.";
 "NSSiriUsageDescription" = "Siri lets you make a drink and hear the machine status by voice.";
+"NSCameraUsageDescription" = "The camera reads your coffee machine's screen aloud. Images are processed on your device and never uploaded.";

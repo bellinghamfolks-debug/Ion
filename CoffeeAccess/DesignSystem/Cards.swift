@@ -12,14 +12,14 @@ struct DrinkCard: View {
         Group {
             if typeSize.isAccessibilitySize {
                 HStack(spacing: 14) {
-                    DrinkIllustration(beverage: recipe.beverage, showsSteam: false)
+                    DrinkIllustration(beverage: recipe.beverage, showsSteam: false, toGo: recipe.toGo)
                         .frame(width: 72, height: 72)
                     text
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             } else {
                 VStack(spacing: 10) {
-                    DrinkIllustration(beverage: recipe.beverage, showsSteam: false)
+                    DrinkIllustration(beverage: recipe.beverage, showsSteam: false, toGo: recipe.toGo)
                         .frame(height: 110)
                     text
                 }
@@ -59,7 +59,7 @@ struct RecipeRow: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            DrinkIllustration(beverage: recipe.beverage, showsSteam: false)
+            DrinkIllustration(beverage: recipe.beverage, showsSteam: false, toGo: recipe.toGo)
                 .frame(width: 56, height: 56)
             VStack(alignment: .leading, spacing: 3) {
                 Text(recipe.displayName)

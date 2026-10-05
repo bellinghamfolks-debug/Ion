@@ -85,6 +85,46 @@ final class BluetoothMachineLink: NSObject, MachineLink {
         refreshSoon()
     }
 
+    func powerOff() async throws {
+        try await send(ECAMCommands.powerOff, expecting: nil)
+        refreshSoon()
+    }
+
+    func apply(_ settings: MachineSettings) async throws {
+        for command in ECAMCommands.commands(for: settings) {
+            try await send(command, expecting: nil)
+        }
+    }
+
+    func readSettings(into settings: MachineSettings) async -> MachineSettings? {
+        guard let reply = try? await send(ECAMCommands.readParameter(.switches), expecting: 0x95),
+              let parameter = ECAMReplies.parameter(reply) else { return nil }
+        var updated = settings
+        updated.applySwitchMask(parameter.value)
+        return updated
+    }
+
+    func readCounters() async -> MachineCounters {
+        var counters = MachineCounters()
+        for range in MachineCounters.requestRanges {
+            let command = ECAMCommands.statistics(start: range.start, count: range.count)
+            if let reply = try? await send(command, expecting: ECAM.Command.statistics.rawValue) {
+                counters.merge(ECAMReplies.statistics(reply))
+            }
+        }
+        return counters
+    }
+
+    func readProfileNames() async -> [Int: String] {
+        guard let reply = try? await send(ECAMCommands.profileNames, expecting: ECAM.Command.profileNames.rawValue) else { return [:] }
+        return ECAMReplies.profileNames(reply)
+    }
+
+    func setClock(_ date: Date) async throws {
+        let parts = Calendar.current.dateComponents([.hour, .minute], from: date)
+        try await send(ECAMCommands.setClock(hour: parts.hour ?? 0, minute: parts.minute ?? 0), expecting: nil)
+    }
+
     func selectProfile(_ profile: Int) async throws {
         try await send(ECAMCommands.selectProfile(profile), expecting: nil)
         snapshot.activeProfile = profile
@@ -268,6 +308,8 @@ extension BluetoothMachineLink: CBCentralManagerDelegate, CBPeripheralDelegate {
             UserDefaults.standard.set(peripheral.identifier.uuidString, forKey: Self.rememberedPeripheralKey)
             onConnection?(.connected(peripheral.name ?? L("machine.generic.name")))
             startPolling()
+            // Keep the machine's clock right, as the official app does.
+            Task { try? await self.setClock(Date()) }
         }
     }
 

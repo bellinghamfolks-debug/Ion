@@ -1,7 +1,7 @@
 import Foundation
 
 enum MaintenanceGuideID: String, CaseIterable, Identifiable {
-    case fillWater, fillBeans, emptyContainers, milkCarafe, brewingUnit, waterFilter, descaling
+    case fillWater, fillBeans, emptyContainers, milkCarafe, coldCarafe, brewingUnit, waterFilter, waterHardness, descaling
 
     var id: String { rawValue }
 
@@ -13,8 +13,10 @@ enum MaintenanceGuideID: String, CaseIterable, Identifiable {
         case .fillBeans: return 4
         case .emptyContainers: return 5
         case .milkCarafe: return 6
+        case .coldCarafe: return 5
         case .brewingUnit: return 7
         case .waterFilter: return 6
+        case .waterHardness: return 5
         case .descaling: return 9
         }
     }
@@ -24,8 +26,10 @@ enum MaintenanceGuideID: String, CaseIterable, Identifiable {
         case .fillWater, .fillBeans: return 1
         case .emptyContainers: return 2
         case .milkCarafe: return 5
+        case .coldCarafe: return 5
         case .brewingUnit: return 10
         case .waterFilter: return 5
+        case .waterHardness: return 2
         case .descaling: return 45
         }
     }
@@ -36,6 +40,8 @@ enum MaintenanceGuideID: String, CaseIterable, Identifiable {
         case .fillBeans: return "leaf.fill"
         case .emptyContainers: return "trash.fill"
         case .milkCarafe: return "cup.and.saucer.fill"
+        case .coldCarafe: return "snowflake"
+        case .waterHardness: return "testtube.2"
         case .brewingUnit: return "gearshape.2.fill"
         case .waterFilter: return "line.3.horizontal.decrease.circle.fill"
         case .descaling: return "sparkles"

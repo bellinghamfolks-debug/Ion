@@ -29,6 +29,15 @@ struct DemoMachineEngine: Equatable {
     private(set) var drinksUntilDescale = 120
     private(set) var milkCleanPending = false
     private(set) var current: Recipe?
+    private(set) var settings = MachineSettings()
+    // Lifetime counters, as the real machine keeps them.
+    private(set) var coffeeDrinks = 0
+    private(set) var milkDrinks = 0
+    private(set) var coldMilkDrinks = 0
+    private(set) var teaDrinks = 0
+    private(set) var waterUsedML = 0
+    private(set) var descaleCount = 0
+    private(set) var milkCleanings = 0
     private var steps: [Step] = []
     private var totalSeconds: Double = 0
     private var elapsed: Double = 0
@@ -68,8 +77,10 @@ struct DemoMachineEngine: Equatable {
         let recipe = recipe.normalized()
         let spec = recipe.spec
         var plan: [Step] = []
+        // Pots and cold extraction take longer per millilitre.
+        let secondsPerML = spec.vessel == .pot ? 1.0 / 6 : (spec.isCold && spec.layers.contains(.coffee) ? 0.4 : 0.25)
         let coffeeSteps: [Step] = recipe.coffeeML.map { ml in
-            [Step(activity: .grinding, remaining: 4), Step(activity: .brewingCoffee, remaining: Double(ml) / 4)]
+            [Step(activity: .grinding, remaining: 4), Step(activity: .brewingCoffee, remaining: Double(ml) * secondsPerML)]
         } ?? []
         let milkStep: [Step] = recipe.milkSeconds.map { [Step(activity: .dispensingMilk, remaining: Double($0))] } ?? []
         let waterStep: [Step] = recipe.waterML.map { [Step(activity: .dispensingWater, remaining: Double($0) / 12)] } ?? []
@@ -98,6 +109,15 @@ struct DemoMachineEngine: Equatable {
 
     mutating func selectProfile(_ profile: Int) {
         snapshot.activeProfile = max(1, min(profile, AppData.profileCount))
+    }
+
+    mutating func apply(_ settings: MachineSettings) { self.settings = settings }
+
+    var counters: MachineCounters {
+        MachineCounters(values: [
+            3000: coffeeDrinks, 3001: milkDrinks, 3017: coldMilkDrinks, 3025: teaDrinks,
+            106: waterUsedML * 2, 105: descaleCount, 111: milkCleanings, 108: 0,
+        ])
     }
 
     // MARK: Time
@@ -145,8 +165,12 @@ struct DemoMachineEngine: Equatable {
     mutating func refillWater() -> [Event] { mutateResources { $0.waterML = Self.waterCapacityML } }
     mutating func refillBeans() -> [Event] { mutateResources { $0.beanDoses = Self.beanCapacityDoses } }
     mutating func emptyGrounds() -> [Event] { mutateResources { $0.groundsCount = 0 } }
-    mutating func cleanMilkCarafe() -> [Event] { mutateResources { $0.milkCleanPending = false } }
-    mutating func completeDescaling() -> [Event] { mutateResources { $0.drinksUntilDescale = Self.drinksBetweenDescaling } }
+    mutating func cleanMilkCarafe() -> [Event] {
+        mutateResources { $0.milkCleanPending = false; $0.milkCleanings += 1 }
+    }
+    mutating func completeDescaling() -> [Event] {
+        mutateResources { $0.drinksUntilDescale = Self.drinksBetweenDescaling; $0.descaleCount += 1 }
+    }
 
     // MARK: Internals
 
@@ -161,6 +185,13 @@ struct DemoMachineEngine: Equatable {
         let share = max(0, min(fraction, 1))
         let water = Double((recipe.coffeeML ?? 0) + (recipe.waterML ?? 0)) * share
         waterML = max(0, waterML - Int(water.rounded()))
+        waterUsedML += Int(water.rounded())
+        if share >= 1 {
+            if recipe.spec.isTea { teaDrinks += 1 }
+            else if recipe.beverage == .coldMilk { coldMilkDrinks += 1 }
+            else if recipe.milkSeconds != nil && recipe.coffeeML != nil { milkDrinks += 1 }
+            else if recipe.coffeeML != nil { coffeeDrinks += 1 }
+        }
         if recipe.coffeeML != nil {
             beanDoses = max(0, beanDoses - (recipe.beverage == .espressoDouble || recipe.beverage == .doppioPlus ? 2 : 1))
             groundsCount += 1
@@ -232,11 +263,21 @@ final class DemoMachineLink: MachineLink {
 
     func powerOn() async throws { publish(engine.powerOn()) }
 
-    func powerOff() { engine.powerOff(); publish([]) }
-
     func brew(_ recipe: Recipe) async throws { publish(try engine.brew(recipe)) }
 
     func stop(_ beverage: BeverageID) async throws { publish(engine.stop()) }
+
+    func powerOff() async throws { engine.powerOff(); publish([]) }
+
+    func apply(_ settings: MachineSettings) async throws { engine.apply(settings) }
+
+    func readSettings(into settings: MachineSettings) async -> MachineSettings? { engine.settings }
+
+    func readCounters() async -> MachineCounters { engine.counters }
+
+    func readProfileNames() async -> [Int: String] { [:] }
+
+    func setClock(_ date: Date) async throws {}
 
     func selectProfile(_ profile: Int) async throws { engine.selectProfile(profile); publish([]) }
 

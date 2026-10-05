@@ -1,25 +1,68 @@
 import AppIntents
 import Foundation
 
-/// Drinks as a Siri / Shortcuts parameter.
+/// Drinks as a Siri / Shortcuts parameter. Generated from BeverageID by
+/// Scripts/generate_intents.py; App Intents needs literal display names.
 enum DrinkChoice: String, AppEnum {
-    case espresso, ristretto, espressoDouble, doppioPlus, coffee, longCoffee
-    case americano, longBlack, travelMug
-    case cappuccino, cappuccinoPlus, cappuccinoMix, latteMacchiato, caffeLatte
-    case flatWhite, espressoMacchiato, cortado, hotMilk
-    case overIce, icedCappuccino, icedLatteMacchiato, coldMilk
-    case hotWater, tea
+    case espresso, ristretto, espressoIntenso, espressoDouble, espressoLungo, doppioPlus
+    case coffee, americano, filterCoffee, mildFilter, coffeePot, verlaengerter
+    case redEye, blackEye, cappuccino, cappuccinoPlus, cappuccinoMix, latteMacchiato
+    case caffeLatte, flatWhite, espressoMacchiato, cortado, hotMilk, babyccino
+    case cafeAuLait, cafeConLeche, galao, milchkaffee, koffieVerkeerd, coldBrew
+    case coldBrewPot, coldBrewToMix, icedCoffee, icedEspresso, icedAmericano, coldBrewCappuccino
+    case coldBrewLatte, icedCaffeLatte, icedCappuccino, icedCappuccinoMix, icedFlatWhite, icedLatteMacchiato
+    case coldMilk, hotWater, greenTea, blackTea, herbalTea
 
     static var typeDisplayRepresentation: TypeDisplayRepresentation = "Drink"
 
     static var caseDisplayRepresentations: [DrinkChoice: DisplayRepresentation] = [
-        .espresso: "إسبريسو", .ristretto: "ريستريتو", .espressoDouble: "إسبريسو مزدوج", .doppioPlus: "دوبيو بلس",
-        .coffee: "قهوة", .longCoffee: "قهوة طويلة", .americano: "أمريكانو", .longBlack: "لونغ بلاك",
-        .travelMug: "كوب السفر", .cappuccino: "كابتشينو", .cappuccinoPlus: "كابتشينو بلس",
-        .cappuccinoMix: "كابتشينو ميكس", .latteMacchiato: "لاتيه ماكياتو", .caffeLatte: "كافيه لاتيه",
-        .flatWhite: "فلات وايت", .espressoMacchiato: "إسبريسو ماكياتو", .cortado: "كورتادو",
-        .hotMilk: "حليب ساخن", .overIce: "قهوة على الثلج", .icedCappuccino: "كابتشينو مثلج",
-        .icedLatteMacchiato: "لاتيه ماكياتو مثلج", .coldMilk: "حليب بارد", .hotWater: "ماء ساخن", .tea: "شاي",
+        .espresso: "إسبريسو",
+        .ristretto: "ريستريتو إيطالي",
+        .espressoIntenso: "إسبريسو إنتنسو",
+        .espressoDouble: "إسبريسو مزدوج",
+        .espressoLungo: "إسبريسو لونغو",
+        .doppioPlus: "دوبيو بلس",
+        .coffee: "قهوة",
+        .americano: "أمريكانو",
+        .filterCoffee: "قهوة مقطّرة",
+        .mildFilter: "قهوة مقطّرة خفيفة",
+        .coffeePot: "إبريق قهوة",
+        .verlaengerter: "فرلينغرتر",
+        .redEye: "ريد آي",
+        .blackEye: "بلاك آي",
+        .cappuccino: "كابتشينو",
+        .cappuccinoPlus: "كابتشينو بلس",
+        .cappuccinoMix: "كابتشينو ميكس",
+        .latteMacchiato: "لاتيه ماكياتو",
+        .caffeLatte: "كافيه لاتيه",
+        .flatWhite: "فلات وايت",
+        .espressoMacchiato: "إسبريسو ماكياتو",
+        .cortado: "كورتادو",
+        .hotMilk: "حليب ساخن",
+        .babyccino: "بيبيتشينو",
+        .cafeAuLait: "كافيه أو ليه",
+        .cafeConLeche: "كافيه كون ليتشي",
+        .galao: "غالاو",
+        .milchkaffee: "ميلشكافيه",
+        .koffieVerkeerd: "كوفي فيركيرد",
+        .coldBrew: "كولد برو",
+        .coldBrewPot: "إبريق كولد برو",
+        .coldBrewToMix: "كولد برو للمزج",
+        .icedCoffee: "قهوة مثلجة",
+        .icedEspresso: "إسبريسو مثلج",
+        .icedAmericano: "أمريكانو مثلج",
+        .coldBrewCappuccino: "كولد برو كابتشينو",
+        .coldBrewLatte: "كولد برو لاتيه",
+        .icedCaffeLatte: "كافيه لاتيه مثلج",
+        .icedCappuccino: "كابتشينو مثلج",
+        .icedCappuccinoMix: "كابتشينو ميكس مثلج",
+        .icedFlatWhite: "فلات وايت مثلج",
+        .icedLatteMacchiato: "لاتيه ماكياتو مثلج",
+        .coldMilk: "حليب بارد",
+        .hotWater: "ماء ساخن",
+        .greenTea: "شاي أخضر",
+        .blackTea: "شاي أسود",
+        .herbalTea: "شاي أعشاب",
     ]
 
     var beverage: BeverageID { BeverageID(rawValue: rawValue) ?? .coffee }
@@ -42,11 +85,13 @@ struct BrewDrinkIntent: AppIntent {
     @Parameter(title: "Drink") var drink: DrinkChoice
     @Parameter(title: "Strength") var strength: StrengthChoice?
     @Parameter(title: "Coffee (ml)") var coffeeML: Int?
+    @Parameter(title: "Travel mug", default: false) var toGo: Bool
 
     static var parameterSummary: some ParameterSummary {
         Summary("Make \(\.$drink)") {
             \.$strength
             \.$coffeeML
+            \.$toGo
         }
     }
 
@@ -54,9 +99,9 @@ struct BrewDrinkIntent: AppIntent {
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let model = AppModel.shared
         model.start()
-        var recipe = model.activeProfile.recipe(for: drink.beverage)
+        var recipe = model.data.recipe(for: drink.beverage, toGo: toGo)
         if let strength, recipe.spec.hasAroma { recipe.aroma = Aroma(rawValue: strength.rawValue) }
-        if let coffeeML, recipe.spec.coffee != nil { recipe.coffeeML = coffeeML }
+        if let coffeeML, recipe.coffeeRange != nil { recipe.coffeeML = coffeeML }
         recipe = recipe.normalized()
         try await IntentSupport.waitForConnection(model)
         let started = await model.brew(recipe)

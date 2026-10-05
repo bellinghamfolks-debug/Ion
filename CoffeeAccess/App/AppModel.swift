@@ -16,6 +16,9 @@ final class AppModel {
     private(set) var traffic: [BluetoothMachineLink.TrafficEntry] = []
     /// Bumped on every demo-engine change so demo level gauges refresh.
     private(set) var demoRevision = 0
+    private(set) var machineSettings: MachineSettings
+    private(set) var counters = MachineCounters()
+    private(set) var countersUpdatedAt: Date?
     var lastMessage: String?
 
     private(set) var link: MachineLink
@@ -32,6 +35,7 @@ final class AppModel {
         self.settings = settings
         self.data = store.load() ?? AppData.initial(names: (1...AppData.profileCount).map { L("profile.default.name", $0) })
         self.link = Self.makeLink(settings.linkKind)
+        self.machineSettings = Self.loadMachineSettings()
         applyFeedbackSettings()
     }
 
@@ -49,15 +53,31 @@ final class AppModel {
         var copy = settings
         change(&copy)
         guard copy != settings else { return }
+        let old = settings
         settings = copy
         settings.save()
         applyFeedbackSettings()
+        let notifications = NotificationManager.shared
+        let reminders: [(NotificationManager.Reminder, Bool, Bool)] = [
+            (.brewingUnitWeekly, old.remindBrewingUnitWeekly, copy.remindBrewingUnitWeekly),
+            (.carafeDaily, old.remindCarafeDaily, copy.remindCarafeDaily),
+            (.filterMonthly, old.remindFilterMonthly, copy.remindFilterMonthly),
+        ]
+        let turnedOn = reminders.contains { !$0.1 && $0.2 } || (!old.notifyWhenReady && copy.notifyWhenReady)
+        Task {
+            if turnedOn { await notifications.requestPermission() }
+            for (reminder, before, after) in reminders where before != after {
+                notifications.schedule(reminder, enabled: after)
+            }
+        }
     }
 
     func initialRecipe(for route: DrinkRoute) -> Recipe {
         switch route {
-        case .beverage(let beverage): return activeProfile.recipe(for: beverage)
+        case .beverage(let beverage): return data.recipe(for: beverage)
+        case .toGo(let beverage): return data.recipe(for: beverage, toGo: true)
         case .favorite(let favorite): return favorite.normalized()
+        case .newRecipe(let beverage): return data.recipe(for: beverage)
         }
     }
 
@@ -139,6 +159,77 @@ final class AppModel {
         }
     }
 
+    func powerOff() async {
+        do {
+            try await link.powerOff()
+            announcer.announce(L("announce.turningOff"))
+        } catch {
+            report(error)
+        }
+    }
+
+    /// Saves the machine settings and sends them to the machine.
+    func updateMachineSettings(_ change: (inout MachineSettings) -> Void) {
+        var copy = machineSettings
+        change(&copy)
+        guard copy != machineSettings else { return }
+        machineSettings = copy
+        if let data = try? JSONEncoder().encode(copy) { UserDefaults.standard.set(data, forKey: Self.machineSettingsKey) }
+        guard connection.isConnected else { return }
+        Task {
+            do {
+                try await link.apply(copy)
+                announcer.announce(L("announce.settingsSent"))
+            } catch {
+                report(error)
+            }
+        }
+    }
+
+    /// Reads back what the machine reports (sounds, cup light, energy saving).
+    func syncMachineSettings() async {
+        guard connection.isConnected, let read = await link.readSettings(into: machineSettings) else { return }
+        machineSettings = read
+    }
+
+    func refreshCounters() async {
+        guard connection.isConnected else { return }
+        let read = await link.readCounters()
+        if !read.isEmpty {
+            counters = read
+            countersUpdatedAt = Date()
+        }
+    }
+
+    /// Copies the profile names stored on the machine into the app.
+    @discardableResult
+    func importProfileNames() async -> Int {
+        guard connection.isConnected else { return 0 }
+        let names = await link.readProfileNames()
+        for (id, name) in names { renameProfile(id, to: name) }
+        return names.count
+    }
+
+    func setGuestMode(_ enabled: Bool) {
+        updateData { $0.guestMode = enabled }
+        announcer.announce(enabled ? L("announce.guestOn") : L("announce.guestOff"))
+    }
+
+    func selectBean(_ id: UUID?) {
+        updateData { $0.activeBeanID = id }
+        if let bean = data.activeBean {
+            announcer.announce(L("announce.beanSelected", bean.name, bean.recommendedGrind))
+        }
+    }
+
+    private static let machineSettingsKey = "machine.settings.v1"
+
+    private static func loadMachineSettings() -> MachineSettings {
+        guard let data = UserDefaults.standard.data(forKey: machineSettingsKey),
+              let settings = try? JSONDecoder().decode(MachineSettings.self, from: data) else { return MachineSettings() }
+        return settings
+    }
+
     func stopBrewing() async {
         guard let session, session.isRunning else { return }
         do {
@@ -185,7 +276,12 @@ final class AppModel {
         connection = state
         guard old != state else { return }
         switch state {
-        case .connected(let name): announcer.announce(L("announce.connected", name))
+        case .connected(let name):
+            announcer.announce(L("announce.connected", name))
+            Task {
+                await syncMachineSettings()
+                await refreshCounters()
+            }
         case .failed(let reason): announcer.announce(reason)
         case .disconnected where old.isConnected: announcer.announce(L("announce.disconnected"))
         default: break
@@ -198,6 +294,7 @@ final class AppModel {
         if settings.announceAlarms {
             let added = new.alarms.filter { !old.alarms.contains($0) }
             if !added.isEmpty {
+                if settings.notifyWhenReady { NotificationManager.shared.alarms(added) }
                 announcer.warning()
                 announcer.announce(L("announce.alarm", added.map(\.title).joined(separator: L("list.separator"))), priority: .high)
             }
@@ -271,6 +368,7 @@ final class AppModel {
         case .finished:
             announcer.success()
             announcer.announce(L("announce.brewFinished", current.recipe.displayName), priority: .high)
+            if settings.notifyWhenReady { NotificationManager.shared.drinkFinished(current.recipe) }
         case .stopped:
             announcer.announce(L("announce.brewStopped"))
         case .failed(let reason):

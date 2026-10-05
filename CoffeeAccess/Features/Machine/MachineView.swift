@@ -23,6 +23,10 @@ struct MachineView: View {
                 switch route {
                 case .diagnostics: DiagnosticsView()
                 case .statistics: StatisticsView()
+                case .settings: MachineSettingsView()
+                case .beans: BeansView()
+                case .screenReader: MachineScreenReaderView()
+                case .troubleshooting: TroubleshootingView()
                 }
             }
         }
@@ -59,7 +63,7 @@ struct MachineView: View {
                     Button(L("action.turnOn")) { Task { await model.powerOn() } }
                         .buttonStyle(PrimaryButtonStyle())
                 } else {
-                    Button(L("demo.turnOff")) { model.demoLink?.powerOff() }
+                    Button(L("demo.turnOff")) { Task { await model.powerOff() } }
                         .buttonStyle(SecondaryButtonStyle())
                 }
                 Button(L("demo.refillWater")) { model.demo { $0.refillWater() } }
@@ -127,18 +131,36 @@ struct MachineView: View {
         }
     }
 
+    private func toolLink(_ route: MachineRoute, title: String, symbol: String, hint: String) -> some View {
+        NavigationLink(value: route) {
+            HStack(spacing: 14) {
+                Image(systemName: symbol)
+                    .font(.title3)
+                    .foregroundStyle(Theme.accent)
+                    .frame(width: 32)
+                    .accessibilityHidden(true)
+                Text(title)
+                    .font(.headline)
+                    .foregroundStyle(Theme.textPrimary)
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.forward").foregroundStyle(Theme.textSecondary).accessibilityHidden(true)
+            }
+            .frame(maxWidth: .infinity, minHeight: 56, alignment: .leading)
+            .padding(.horizontal, 14)
+            .card()
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint(hint)
+    }
+
     private var toolsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             SectionTitle(text: L("machine.tools"))
-            NavigationLink(value: MachineRoute.diagnostics) {
-                Label(L("diagnostics.title"), systemImage: "stethoscope")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity, minHeight: 56, alignment: .leading)
-                    .padding(.horizontal, 14)
-                    .card()
-            }
-            .buttonStyle(.plain)
-            .accessibilityHint(L("diagnostics.hint"))
+            toolLink(.settings, title: L("machineSettings.title"), symbol: "slider.horizontal.3", hint: L("machineSettings.hint"))
+            toolLink(.beans, title: L("beans.title"), symbol: "leaf.circle.fill", hint: L("beans.hint"))
+            toolLink(.screenReader, title: L("reader.title"), symbol: "text.viewfinder", hint: L("reader.hint"))
+            toolLink(.troubleshooting, title: L("trouble.title"), symbol: "questionmark.circle.fill", hint: L("trouble.hint"))
+            toolLink(.diagnostics, title: L("diagnostics.title"), symbol: "stethoscope", hint: L("diagnostics.hint"))
             Button(L("action.reconnect")) { model.reconnect() }
                 .buttonStyle(SecondaryButtonStyle())
         }
@@ -146,7 +168,7 @@ struct MachineView: View {
 }
 
 enum MachineRoute: Hashable {
-    case diagnostics, statistics
+    case diagnostics, statistics, settings, beans, screenReader, troubleshooting
 }
 
 struct AlarmRow: View {
@@ -168,40 +190,5 @@ struct AlarmRow: View {
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
         .card()
-    }
-}
-
-/// Drinks made by the active profile, most popular first.
-struct StatisticsView: View {
-    @Environment(AppModel.self) var model
-
-    var body: some View {
-        let history = model.activeProfile.history.filter(\.completed)
-        let counts = Dictionary(grouping: history, by: \.recipe.beverage).mapValues(\.count)
-        let sorted = counts.sorted { $0.value > $1.value }
-        List {
-            Section {
-                LabeledContent(L("stats.totalLabel"), value: "\(history.count)")
-            }
-            Section(L("stats.byDrink")) {
-                if sorted.isEmpty {
-                    Text(L("stats.empty")).foregroundStyle(Theme.textSecondary)
-                }
-                ForEach(sorted, id: \.key) { entry in
-                    LabeledContent(entry.key.name, value: L("stats.cups", entry.value))
-                }
-            }
-            Section(L("stats.recent")) {
-                ForEach(model.activeProfile.history.prefix(20)) { record in
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(record.recipe.displayName).font(.headline)
-                        Text("\(record.date.formatted(date: .abbreviated, time: .shortened)) · \(record.completed ? L("stats.completed") : L("stats.notCompleted"))")
-                            .font(.footnote).foregroundStyle(Theme.textSecondary)
-                    }
-                    .accessibilityElement(children: .combine)
-                }
-            }
-        }
-        .navigationTitle(L("machine.statistics"))
     }
 }

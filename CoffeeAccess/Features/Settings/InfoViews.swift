@@ -54,6 +54,12 @@ struct AccessibilityStatementView: View {
 
 struct HelpView: View {
     var body: some View {
-        InfoPage(title: L("help.title"), sections: InfoPage.sections(prefix: "help", count: 7))
+        InfoPage(title: L("help.title"), sections: InfoPage.sections(prefix: "help", count: 9))
+    }
+}
+
+struct TroubleshootingView: View {
+    var body: some View {
+        InfoPage(title: L("trouble.title"), sections: InfoPage.sections(prefix: "trouble", count: 10))
     }
 }

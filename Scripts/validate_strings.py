@@ -19,7 +19,7 @@ APP = ROOT / "CoffeeAccess"
 STRINGS = APP / "Core/Localization/Strings.swift"
 
 ENTRY = re.compile(r'^\s*"([^"]+)":\s*\("((?:[^"\\]|\\.)*)",\s*"((?:[^"\\]|\\.)*)"\),\s*$')
-SPEC = re.compile(r"%(?:\d+\$)?[@dfs]|%%")
+SPEC = re.compile(r"%(?:\d+\$)?(?:\.\d+)?[@dfs]|%%")
 
 
 def swift_cases(path: Path, enum: str) -> list[str]:
@@ -57,7 +57,7 @@ def main() -> int:
             errors.append(f"{key}: empty translation")
         if sorted(SPEC.findall(ar)) != sorted(SPEC.findall(en)):
             errors.append(f"{key}: format specifiers differ: ar={SPEC.findall(ar)} en={SPEC.findall(en)}")
-        if re.search(r"%[^\d@dfs%]", ar + en):
+        if re.search(r"%(?!(?:\d+\$)?(?:\.\d+)?[@dfs]|%)", SPEC.sub("", ar + en)):
             errors.append(f"{key}: stray % sign (use %% for a literal percent)")
 
     used: set[str] = set()
@@ -97,6 +97,22 @@ def main() -> int:
         used.update({f"{prefix}.{n}.heading" for n in range(1, int(count) + 1)})
         used.update({f"{prefix}.{n}.body" for n in range(1, int(count) + 1)})
     used.update(f"onboarding.feature.{n}" for n in range(1, 5))
+    # Keys built at run time from enums and numeric levels.
+    used.update(f"teaTemperature.{t}" for t in swift_cases(model / "Model/Beverage.swift", "BrewTemperature"))
+    for case in swift_cases(model / "Model/Beverage.swift", "DrinkCollection"):
+        used.update({f"collection.{case}.title", f"collection.{case}.summary"})
+    recipe = (model / "Model/Recipe.swift").read_text(encoding="utf-8")
+    for roast in re.search(r"enum Roast[^{]*\{ case ([^}]+) \}", recipe).group(1).split(","):
+        used.add(f"roast.{roast.strip()}")
+    for kind in re.search(r"enum Kind[^{]*\{ case ([^}]+) \}", recipe).group(1).split(","):
+        used.add(f"beanKind.{kind.strip()}")
+    used.update(f"autoOff.{m}" for m in (15, 30, 60, 120, 180))
+    used.update(f"hardness.{n}" for n in range(1, 5))
+    used.update(f"waterTemperature.{n}" for n in range(4))
+    used.update({"summary.pot", "summary.coffee"})
+    notifications = (APP / "App/Notifications.swift").read_text(encoding="utf-8")
+    for case in re.search(r"case (brewingUnitWeekly[^\n]+)", notifications).group(1).split(","):
+        used.update({f"reminder.{case.strip()}.title", f"reminder.{case.strip()}.body"})
     used.update(f"profile.color.{n}" for n in range(4))
 
     missing = sorted(used - defined.keys())

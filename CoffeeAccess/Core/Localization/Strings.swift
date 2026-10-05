@@ -758,5 +758,24 @@ enum Strings {
         "health.filter.advice": ("غيّر فلتر الماء في وقته ليقلّ الترسّب.", "Replace the water filter on time to reduce scale."),
         "health.unit.advice": ("اغسل وحدة التحضير بالماء مرة شهريًا على الأقل.", "Rinse the brewing unit with water at least once a month."),
         "health.grounds.advice": ("أفرغ حاوية البن المستعمل بانتظام، وكل 72 ساعة على الأكثر.", "Empty the grounds container regularly, at most every 72 hours."),
+
+        // MARK: Coffee Journey
+        "journey.title": ("رحلتي مع القهوة", "My Coffee Journey"),
+        "journey.subtitle": ("اكتشف عاداتك وإنجازاتك مع ماكينتك.", "Discover your habits and achievements with your machine."),
+        "journey.period": ("المدة", "Period"),
+        "journey.period.week": ("الأسبوع", "Week"),
+        "journey.period.month": ("الشهر", "Month"),
+        "journey.period.year": ("السنة", "Year"),
+        "journey.period.all": ("من البداية", "All time"),
+        "journey.empty": ("لا توجد بيانات كافية في هذه المدة بعد. حضّر بعض المشروبات لتبدأ رحلتك.", "Not enough data in this period yet. Make a few drinks to start your journey."),
+        "journey.total.title": ("إجمالي المشروبات", "Total drinks"),
+        "journey.total.value": ("%d مشروبًا", "%d drinks"),
+        "journey.most.title": ("الأكثر تحضيرًا", "Most brewed"),
+        "journey.balance.title": ("ساخنة أم باردة", "Hot or cold"),
+        "journey.balance.hot": ("أغلب مشروباتك ساخنة (%d)", "Mostly hot drinks (%d)"),
+        "journey.balance.cold": ("أغلب مشروباتك باردة (%d)", "Mostly cold drinks (%d)"),
+        "journey.skill.title": ("مهارتك", "Your skill"),
+        "journey.skill.alchemist": ("خيميائي القهوة: حضّرت %d مشروبًا خاصًا", "Coffee alchemist: you made %d custom drinks"),
+        "journey.skill.explorer": ("مستكشف: جرّب إنشاء مشروب خاص بك", "Explorer: try creating your own drink"),
     ]
 }

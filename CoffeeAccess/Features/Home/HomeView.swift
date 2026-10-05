@@ -17,7 +17,22 @@ struct HomeView: View {
                     if model.data.guestMode { guestBanner }
                     if !model.data.guestMode { favoritesSection }
                     collectionsSection
-                    if !model.data.guestMode { frequentSection }
+                    if !model.data.guestMode {
+                        NavigationLink { CoffeeJourneyView() } label: {
+                            HStack(spacing: 12) {
+                                Image(systemName: "sparkles").font(.title2).foregroundStyle(Theme.accent).frame(width: 36).accessibilityHidden(true)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(L("journey.title")).font(.headline).foregroundStyle(Theme.textPrimary)
+                                    Text(L("journey.subtitle")).font(.footnote).foregroundStyle(Theme.textSecondary)
+                                }
+                                Spacer(minLength: 0)
+                                Image(systemName: "chevron.forward").foregroundStyle(Theme.textSecondary).accessibilityHidden(true)
+                            }
+                            .padding(14).frame(maxWidth: .infinity, minHeight: 64).card()
+                        }
+                        .buttonStyle(.plain)
+                        frequentSection
+                    }
                 }
                 .padding(16)
             }

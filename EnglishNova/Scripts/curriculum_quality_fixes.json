@@ -378,9 +378,9 @@
     },
     "c1-extra-2-w2": {
       "english": "thesis statement",
-      "arabic": "عبارة الأطروحة",
+      "arabic": "صياغة الأطروحة المركزية",
       "example": "A precise thesis statement tells the reader what the essay will argue.",
-      "exampleArabic": "تخبر عبارة الأطروحة الدقيقة القارئ بما ستجادل به المقالة.",
+      "exampleArabic": "توضح صياغة الأطروحة الدقيقة الموقف الذي ستدافع عنه المقالة.",
       "partOfSpeech": "noun phrase",
       "phonetic": null
     },
@@ -1397,6 +1397,64 @@
     },
     "b2-extra-8-xv2": {
       "english": "misrepresent"
+    },
+    "c1-u1-l1-xv1": {
+      "arabic": "تكرار زائد؛ حشو",
+      "exampleArabic": "جعل حذف التكرار الزائد من المسودة الحجة أسهل متابعة بكثير."
+    },
+    "c1-extra-2-w1": {
+      "arabic": "تدافع هذه المقالة عن أن",
+      "exampleArabic": "تدافع هذه المقالة عن اعتبار إمكانية الوصول مبدأ تصميم أساسيًا."
+    },
+    "c1-extra-5-xv4": {
+      "arabic": "حجة قوية الإقناع",
+      "exampleArabic": "يقدم التقرير حجة قوية الإقناع لإصلاح النظام الضريبي."
+    },
+    "c1-extra-6-xv1": {
+      "exampleArabic": "رُفعت دعوى على المورّد بسبب الإخلال بالعقد بعد تفويت موعد التسليم."
+    },
+    "c1-extra-6-xv4": {
+      "arabic": "الفحص النافي للجهالة؛ العناية الواجبة",
+      "exampleArabic": "أجرت الشركة فحصًا شاملًا نافيًا للجهالة قبل إتمام الاستحواذ."
+    },
+    "c1-extra-4-xv3": {
+      "exampleArabic": "رغم نبرته المقنعة، يقوم المقال الافتتاحي على استدلال يشوبه خلل جوهري."
+    },
+    "c1-u1-l1-xv2": {
+      "english": "trim the fat"
+    },
+    "c1-u1-l1-xv4": {
+      "english": "convey meaning"
+    },
+    "c1-extra-2-xv2": {
+      "english": "substantiate"
+    },
+    "c1-extra-2-xv4": {
+      "english": "draw on"
+    },
+    "c1-extra-3-xv2": {
+      "english": "be inclined to"
+    },
+    "c1-extra-4-xv2": {
+      "english": "scrutinise"
+    },
+    "c1-extra-4-xv4": {
+      "english": "hold up to scrutiny"
+    },
+    "c1-extra-5-xv1": {
+      "english": "strike a balance"
+    },
+    "c1-extra-5-xv3": {
+      "english": "bear the brunt"
+    },
+    "c1-extra-7-xv1": {
+      "english": "resonate with"
+    },
+    "c1-extra-7-xv3": {
+      "english": "drive the point home"
+    },
+    "c1-extra-8-xv1": {
+      "english": "concede a point"
     }
   },
   "arabicGlossById": {

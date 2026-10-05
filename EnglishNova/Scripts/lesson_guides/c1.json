@@ -1,0 +1,154 @@
+{
+  "c1-u1-l1": {
+    "focusAr": "التحرير المتقدم يزيل التكرار الذي لا يضيف معنى، مع إبقاء القيود والنفي والإسناد والنبرة. redundancy هنا حشو أو تكرار زائد، وليست كل إعادة تأكيد عيبًا. economy of expression اقتصاد لغوي، لا حذف معلومات لازمة. اختبر التنقيح بسؤال: هل صار الادعاء أوسع أو أشد يقينًا أو أقل وضوحًا في المسؤولية؟",
+    "focusEn": "Advanced editing removes uninformative repetition while preserving qualifications, negation, attribution, and tone. Redundancy here is unnecessary repetition, not every purposeful emphasis. Economy of expression is linguistic efficiency, not omission of necessary information. Test a revision by asking whether it makes the claim broader, more certain, or less clear about responsibility.",
+    "taskAr": "اختصر مع الحفاظ على النطاق: «في رأي الفريق، قد يكون من الممكن أن تقل بعض الأخطاء إذا وُضّحت التعليمات».",
+    "taskEn": "Tighten this sentence without changing its scope: 'In the team's opinion, it may be possible that some errors could decrease if the instructions were clarified.'",
+    "exampleEn": "The team believes clearer instructions may reduce some errors. This revision removes repeated expressions of possibility while retaining attribution and the limited claim.",
+    "exampleAr": "يرى الفريق أن توضيح التعليمات قد يقلل بعض الأخطاء. تزيل الصياغة تكرار التعبير عن الاحتمال، مع الحفاظ على نسبة الرأي إلى الفريق وحدود الادعاء.",
+    "check": {
+      "promptEn": "Which revision preserves 'The team believes clearer instructions may reduce some errors'?",
+      "choices": [
+        "The team suggests that clearer instructions could reduce certain errors.",
+        "Clearer instructions eliminate all errors.",
+        "The team has proved that unclear instructions caused every error."
+      ],
+      "answer": "The team suggests that clearer instructions could reduce certain errors.",
+      "explanationAr": "تحافظ الصياغة الصحيحة على المصدر والاحتمال والنطاق الجزئي. البديلان يحولان الفكرة إلى يقين شامل أو إثبات سببي لم يرد في الأصل.",
+      "explanationEn": "The correct revision preserves attribution, uncertainty, and limited scope. The alternatives introduce universal certainty or causal proof absent from the original."
+    }
+  },
+  "c1-extra-2": {
+    "focusAr": "thesis statement موقف محوري قابل للدفاع، لا إعلان موضوع فقط. تتطور coherent paragraph بفكرة ودليل وتحليل يشرح صلته بالموقف؛ الاستشهاد وحده لا يقوم مقام التحليل. draw on توظيف مصدر مع إسناده، وsubstantiate دعم الادعاء بأدلة. ميّز بين قول المصدر واستنتاجك منه، وأبقِ كل فقرة في خدمة مسار الحجة.",
+    "focusEn": "A thesis statement advances a defensible position rather than merely announcing a topic. A coherent paragraph develops a point through evidence and analysis explaining its relevance; citation alone is not analysis. Draw on means use a source with attribution, while substantiate means support a claim with evidence. Separate a source's statement from your inference and connect each paragraph to the argument.",
+    "taskAr": "صغ أطروحة عن إتاحة الواجهات، ثم وضّح نوع دليل تحتاجه لإثباتها دون اختراع نتائج دراسة.",
+    "taskEn": "Formulate a thesis about accessible interfaces, then identify evidence needed to support it without inventing research findings.",
+    "exampleEn": "This essay argues that accessibility should inform interface design from the outset. To substantiate that position, it would compare users' ability to complete key tasks in accessible and inaccessible designs, while accounting for prior experience.",
+    "exampleAr": "تدافع هذه المقالة عن اعتبار إمكانية الوصول جزءًا من تصميم الواجهة منذ البداية. ولدعم هذا الموقف، ستقارن قدرة المستخدمين على إنجاز مهام أساسية في تصميمات ميسرة وأخرى غير ميسرة، مع مراعاة الخبرة السابقة.",
+    "check": {
+      "promptEn": "Which sentence presents a defensible thesis rather than merely naming a topic?",
+      "choices": [
+        "Accessibility should guide interface decisions from the earliest design stage.",
+        "This essay is about interfaces.",
+        "Several interface terms will appear below."
+      ],
+      "answer": "Accessibility should guide interface decisions from the earliest design stage.",
+      "explanationAr": "تطرح الجملة الصحيحة موقفًا يمكن دعمه أو الاعتراض عليه. الجملتان الأخريان تحددان موضوعًا أو محتوى دون حجة مركزية.",
+      "explanationEn": "The correct sentence advances a position that can be supported or challenged. The alternatives announce a topic or contents without a central argument."
+    }
+  },
+  "c1-extra-3": {
+    "focusAr": "التحفظ العلمي يضبط قوة الادعاء بحسب الدليل، لا يكدس كلمات الشك. may indicate احتمال، وappears to مظهر تدعمه المعطيات المتاحة، وtentatively تأويل مبدئي. presumably يحمل افتراضًا قد يحتاج تسويغًا. ضع القيد قرب الاستنتاج الذي يخصه وبيّن سببه، بدل جعل جميع الجمل غامضة بالقدر نفسه.",
+    "focusEn": "Academic hedging calibrates claims to evidence rather than piling up doubt markers. May indicate expresses possibility, appears to describes an evidential appearance, and tentatively marks a provisional interpretation. Presumably conveys an assumption that may need justification. Place a qualification beside the inference it limits and explain why it is needed instead of making every statement equally vague.",
+    "taskAr": "في بيانات تدريبية من فرع واحد، انخفض التأخير بعد تغيير الجدول. صغ نتيجة مبدئية تبين حدود التعميم والسببية.",
+    "taskEn": "In practice data from one branch, delays fell after a schedule change. State a tentative conclusion limiting both generalization and causality.",
+    "exampleEn": "The reduction may indicate that the revised schedule helped this branch, although other changes could also have contributed. We therefore interpret the result tentatively and cannot yet generalize it to the wider network.",
+    "exampleAr": "قد يشير الانخفاض إلى أن الجدول المعدل ساعد هذا الفرع، مع احتمال إسهام تغييرات أخرى. لذلك نفسر النتيجة مبدئيًا ولا نستطيع تعميمها بعد على الشبكة الأوسع.",
+    "check": {
+      "promptEn": "Which qualification explains why a conclusion is tentative?",
+      "choices": [
+        "The pattern appears promising, but the sample covers only one branch.",
+        "The pattern perhaps possibly might somehow maybe exist.",
+        "The pattern is certainly universal despite the single-branch sample."
+      ],
+      "answer": "The pattern appears promising, but the sample covers only one branch.",
+      "explanationAr": "يربط الجواب الصحيح التحفظ بقيد محدد في العينة. تكديس الاحتمالات لا يوضح السبب، والجزم بالتعميم يتجاوز البيانات.",
+      "explanationEn": "The correct answer links caution to a specific sampling limit. Stacked hedges do not explain the uncertainty, while universal certainty exceeds the evidence."
+    }
+  },
+  "c1-extra-4": {
+    "focusAr": "افصل صحة المقدمات عن سلامة الانتقال إلى النتيجة. logical gap تظهر عندما تحتاج الحجة مقدمة لم تُثبت، حتى لو كانت النتيجة plausible. ابحث عن تفسير بديل أو مثال مضاد ذي صلة، لا اعتراض هامشي. remains limited تحدد قصور الدعم ولا تعني أن النتيجة ثبت خطؤها؛ غياب الإثبات ليس دائمًا إثباتًا للنفي.",
+    "focusEn": "Separate the truth of premises from the validity of the inference. A logical gap arises when the argument needs an unestablished premise, even if its conclusion is plausible. Consider relevant alternatives or counterexamples rather than peripheral objections. Remains limited describes insufficient support, not a disproven conclusion; lack of proof is not always proof of the opposite.",
+    "taskAr": "حلّل الحجة: «تحسّن أداء المشاركين في دورة اختيارية، إذن الدورة وحدها سببت التحسن». حدّد الافتراض الناقص دون الجزم بأن الدورة عديمة الفائدة.",
+    "taskEn": "Analyse: 'Participants in an optional course improved, so the course alone caused the improvement.' Identify the missing assumption without declaring the course useless.",
+    "exampleEn": "The argument assumes that the course, rather than differences in motivation or other factors, explains the improvement. That logical gap weakens the causal conclusion, although it does not establish that the course had no benefit.",
+    "exampleAr": "تفترض الحجة أن الدورة تفسر التحسن، لا اختلاف الدافعية أو عوامل أخرى. تضعف هذه الفجوة المنطقية الاستنتاج السببي، لكنها لا تثبت أن الدورة لم تحقق أي فائدة.",
+    "check": {
+      "promptEn": "Insufficient evidence for a causal claim means which of the following?",
+      "choices": [
+        "The causal conclusion is not yet established.",
+        "The opposite causal claim has automatically been proved.",
+        "All observations in the study must be fabricated."
+      ],
+      "answer": "The causal conclusion is not yet established.",
+      "explanationAr": "قصور الدليل يمنع الجزم بالنتيجة المحددة. لا يثبت تلقائيًا نقيضها، ولا يبرر اتهام البيانات بالاختلاق.",
+      "explanationEn": "Insufficient evidence prevents establishing that particular conclusion. It neither automatically proves its opposite nor justifies alleging fabricated data."
+    }
+  },
+  "c1-extra-5": {
+    "focusAr": "تُتعلم المتلازمات بوحداتها: pose a challenge وstrike a balance between وbear the brunt of. لا يكفي استبدال كل كلمة بمرادف لتبقى العبارة طبيعية. far-reaching consequences آثار واسعة أو بعيدة المدى، وvested interest مصلحة راسخة قد تؤثر في الموقف. compelling case حجة قوية الإقناع، وليست دليلًا قاطعًا بالضرورة.",
+    "focusEn": "Learn collocations as units: pose a challenge, strike a balance between, and bear the brunt of. Replacing each word with a synonym may destroy natural phrasing. Far-reaching consequences are extensive effects; a vested interest is an established stake that may influence a position. A compelling case is strongly persuasive, not necessarily conclusive proof.",
+    "taskAr": "اكتب فقرة عن قرار تدريبي بإغلاق مكتب، تستخدم فيها أثرًا واسعًا وفئة تتحمل العبء والحاجة إلى موازنة هدفين.",
+    "taskEn": "Write about a hypothetical office closure, using an extensive consequence, a group bearing the burden, and a need to balance two aims.",
+    "exampleEn": "Closing the office could have far-reaching consequences for staff who rely on local transport. They may bear the brunt of longer journeys, so the proposal should strike a balance between cost savings and practical access.",
+    "exampleAr": "قد تكون لإغلاق المكتب آثار بعيدة المدى على الموظفين الذين يعتمدون على النقل المحلي. وقد يتحملون العبء الأكبر للرحلات الأطول، لذا ينبغي أن يوازن المقترح بين خفض التكاليف وسهولة الوصول الفعلية.",
+    "check": {
+      "promptEn": "Which phrase naturally describes the group most heavily affected by a change?",
+      "choices": [
+        "They bear the brunt of the disruption.",
+        "They make the brunt to the disruption.",
+        "They do a balance of the disruption."
+      ],
+      "answer": "They bear the brunt of the disruption.",
+      "explanationAr": "المتلازمة bear the brunt of تعني تحمل النصيب الأكبر من الأثر السلبي. تغيير الفعل وحرف الجر كما في البدائل يفسد التركيب.",
+      "explanationEn": "Bear the brunt of means experience the greatest burden of a negative effect. The alternative verbs and prepositions do not form this collocation."
+    }
+  },
+  "c1-extra-6": {
+    "focusAr": "في الصياغة المهنية، subject to قد تجعل الالتزام مشروطًا بموافقة، وwithout prejudice to تحفظ حقوقًا محددة من التأثر بالبند. notwithstanding تقدم أولوية رغم حكم سابق، لذا حدد ما تشير إليه. shall قد تستخدم للإلزام في نص معين، لكن تفسيرها يحتاج سياقه. لا تخلط قراءة بند تدريبي بتقرير أثره القانوني في كل نظام.",
+    "focusEn": "In professional drafting, subject to may make a commitment conditional on approval, while without prejudice to preserves specified rights from the clause's effect. Notwithstanding can give priority despite an earlier provision, so identify its reference. Shall may express obligation in a particular text, but interpretation depends on context. Reading a practice clause does not determine its legal effect in every system.",
+    "taskAr": "اشرح لغويًا هذا البند التدريبي: «The extension is subject to written approval and is without prejudice to existing payment obligations.»",
+    "taskEn": "Explain the language of this practice clause: 'The extension is subject to written approval and is without prejudice to existing payment obligations.'",
+    "exampleEn": "The extension depends on written approval. It does not, by this wording, remove the existing payment obligations. To interpret the clause's full legal effect, it would need to be read with the rest of the agreement and the applicable law.",
+    "exampleAr": "يتوقف التمديد على موافقة مكتوبة. ووفق هذه الصياغة، لا يلغي التزامات الدفع القائمة. أما تفسير أثر البند القانوني الكامل فيحتاج قراءته مع بقية الاتفاق والقانون المنطبق.",
+    "check": {
+      "promptEn": "In the quoted practice clause, what does 'subject to written approval' do?",
+      "choices": [
+        "It makes the extension conditional on written approval.",
+        "It states that approval has already been granted.",
+        "It cancels every payment obligation."
+      ],
+      "answer": "It makes the extension conditional on written approval.",
+      "explanationAr": "تضع العبارة شرطًا للتمديد ولا تثبت تحقق الشرط. كما أنها لا تتناول إلغاء التزامات الدفع المذكورة في الجزء الآخر.",
+      "explanationEn": "The phrase imposes a condition without establishing that it has been met. It does not cancel the payment obligations addressed in the other part."
+    }
+  },
+  "c1-extra-7": {
+    "focusAr": "اجمع السرد والدليل في حجة تميز المثال التوضيحي من قياس الانتشار. resonate with ملامسة اهتمامات الجمهور، لا ضمان موافقته. qualify a conclusion تضييقها بما يناسب الأدلة. اجعل call to action إجراءً محددًا يتناسب مع مستوى الثقة، ولا تطلب تعميمًا نهائيًا إذا كانت البيانات لا تسند إلا تجربة أولية.",
+    "focusEn": "Combine narrative and evidence while distinguishing illustration from prevalence. Resonate with means connect with an audience's concerns, not guarantee agreement. Qualify a conclusion means limit it to what evidence supports. Make the call to action specific and proportionate to confidence; preliminary data may justify a trial rather than immediate universal adoption.",
+    "taskAr": "اختم عرضًا عن تجربة صغيرة حسّنت الحضور، بذكر حد البيانات وطلب تجربة أوسع محددة بدل اعتماد نهائي.",
+    "taskEn": "Close a presentation about a small trial improving attendance by stating a limitation and requesting a defined wider trial rather than final adoption.",
+    "exampleEn": "The initial improvement is encouraging, but the results require careful interpretation because only one team participated. I therefore propose a three-month trial with two additional teams, followed by a review before any wider rollout.",
+    "exampleAr": "التحسن الأولي مشجع، لكن النتائج تحتاج تفسيرًا دقيقًا لأن فريقًا واحدًا فقط شارك. لذلك أقترح تجربة لثلاثة أشهر مع فريقين إضافيين، تتبعها مراجعة قبل أي تعميم أوسع.",
+    "check": {
+      "promptEn": "Which call to action matches limited but promising pilot evidence?",
+      "choices": [
+        "Authorize a bounded follow-up trial and review its results.",
+        "Declare the proposal successful everywhere immediately.",
+        "Hide the sample limit to strengthen the presentation."
+      ],
+      "answer": "Authorize a bounded follow-up trial and review its results.",
+      "explanationAr": "التجربة المحددة توسّع الأدلة دون الادعاء بأنها مكتملة. إعلان نجاح شامل أو إخفاء القيد يخلان بدقة الاستنتاج.",
+      "explanationEn": "A bounded trial extends evidence without pretending it is complete. Universal success claims or hidden limitations undermine accurate inference."
+    }
+  },
+  "c1-extra-8": {
+    "focusAr": "النقاش الدقيق يزن الحجج وفق قوتها، ولا يساويها آليًا لإظهار التوازن. concede a point اعتراف بجزء وجيه مع إمكان بقاء الخلاف. on balance حكم بعد موازنة، وwith the caveat that قيد يؤثر في القبول. اذكر أي اعتراض يغير موقفك وأي اختلاف يتعلق بالأولويات بدل الوقائع.",
+    "focusEn": "Nuanced debate weighs arguments by strength rather than making them artificially equal. Concede a point acknowledges a valid element while disagreement may remain. On balance marks an overall judgement; with the caveat that states a condition affecting acceptance. Identify which objection would change your view and which disagreement concerns priorities rather than facts.",
+    "taskAr": "أيد مقترحًا تجريبيًا لتغيير ساعات الخدمة مع الاعتراف بتكلفة إضافية وشرط مراجعة الأثر على المستخدمين.",
+    "taskEn": "Support a trial change to service hours while acknowledging extra cost and requiring a review of its effect on users.",
+    "exampleEn": "The cost objection has merit, and I concede that the change is not cost-neutral. On balance, I support a limited trial, with the caveat that we review access and staffing costs before extending it.",
+    "exampleAr": "للاعتراض المتعلق بالتكلفة وجاهته، وأسلّم بأن التغيير ليس بلا تكلفة إضافية. وفي المحصلة، أؤيد تجربة محدودة بشرط مراجعة أثرها على الوصول وتكاليف الموظفين قبل تمديدها.",
+    "check": {
+      "promptEn": "Which stance combines acknowledgement with conditional support?",
+      "choices": [
+        "The cost concern is valid; I support a trial subject to a cost review.",
+        "The cost concern is valid, so every other argument is irrelevant.",
+        "I support the proposal, so no review can be necessary."
+      ],
+      "answer": "The cost concern is valid; I support a trial subject to a cost review.",
+      "explanationAr": "يعترف الجواب الصحيح بالاعتراض ويجعل الدعم مقيدًا بمراجعة ذات صلة. البديلان يستبعدان جانبًا من النقاش دون موازنة.",
+      "explanationEn": "The correct answer acknowledges the objection and conditions support on a relevant review. The alternatives dismiss part of the debate without weighing it."
+    }
+  }
+}

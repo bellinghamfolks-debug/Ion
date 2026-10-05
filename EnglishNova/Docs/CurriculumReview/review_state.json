@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "إكمال جميع دروس B2 الستين: تضخم واستثمار بصياغة دقيقة، وملاحظات واستماع وتقارير وتلخيص تحافظ على نطاق الادعاء ولا تعتمد على الإشارات البصرية.",
-  "nextStep": "Continue editorial review from c1-u1-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة أول ثمانية دروس C1: تحرير يحفظ المعنى، حجج وقيود علمية دقيقة، مصطلحات قانونية سليمة، وإصلاح أمثلة إضافية قديمة لا تستهدف المفردة.",
+  "nextStep": "Continue editorial review from c1-x-u1-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -3613,72 +3613,96 @@
       "level": "C1",
       "titleAr": "التحرير المتقدم",
       "titleEn": "Advanced Editing",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-extra-2",
       "level": "C1",
       "titleAr": "الكتابة الأكاديمية",
       "titleEn": "Academic Writing",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-extra-3",
       "level": "C1",
       "titleAr": "التحفظ العلمي",
       "titleEn": "Academic Hedging",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-extra-4",
       "level": "C1",
       "titleAr": "التحليل النقدي",
       "titleEn": "Critical Analysis",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-extra-5",
       "level": "C1",
       "titleAr": "المتلازمات اللفظية",
       "titleEn": "Advanced Collocations",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-extra-6",
       "level": "C1",
       "titleAr": "الإنجليزية القانونية والمهنية",
       "titleEn": "Legal and Business English",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-extra-7",
       "level": "C1",
       "titleAr": "العروض المقنعة",
       "titleEn": "Persuasive Presentations",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-extra-8",
       "level": "C1",
       "titleAr": "النقاش الدقيق",
       "titleEn": "Nuanced Debate",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 7,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-x-u1-l1",
@@ -4157,7 +4181,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 300,
-    "pending": 60
+    "reviewed": 308,
+    "pending": 52
   }
 }

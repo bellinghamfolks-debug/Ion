@@ -5,6 +5,10 @@ struct CoffeeAccessApp: App {
     @State var model = AppModel.shared
     @Environment(\.scenePhase) var scenePhase
 
+    init() {
+        Theme.configureBars()
+    }
+
     var body: some Scene {
         WindowGroup {
             RootView()
@@ -37,16 +41,16 @@ struct RootView: View {
     private var tabs: some View {
         TabView(selection: $tab) {
             HomeView(selectedTab: $tab)
-                .tabItem { Label(L("tab.home"), systemImage: "house.fill") }
+                .tabItem { Label(L("tab.home"), systemImage: "house") }
                 .tag(AppTab.home)
-            DrinksView()
-                .tabItem { Label(L("tab.drinks"), systemImage: "cup.and.saucer.fill") }
-                .tag(AppTab.drinks)
             MachineView()
-                .tabItem { Label(L("tab.machine"), systemImage: "gauge.with.dots.needle.67percent") }
+                .tabItem { Label(L("tab.machine"), image: "MachineTab") }
                 .tag(AppTab.machine)
+            DrinksView()
+                .tabItem { Label(L("tab.drinks"), systemImage: "cup.and.saucer") }
+                .tag(AppTab.drinks)
             SettingsView()
-                .tabItem { Label(L("tab.settings"), systemImage: "gearshape.fill") }
+                .tabItem { Label(L("tab.settings"), systemImage: "person") }
                 .tag(AppTab.settings)
         }
         .fullScreenCover(isPresented: Binding(

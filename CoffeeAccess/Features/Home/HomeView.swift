@@ -12,37 +12,29 @@ struct HomeView: View {
     var body: some View {
         NavigationStack(path: $path) {
             ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: 26) {
+                    header
                     MachineStatusCard()
                     if model.data.guestMode { guestBanner }
+                    if !model.data.guestMode { journeySection }
+                    momentSection
                     if !model.data.guestMode { favoritesSection }
                     collectionsSection
-                    if !model.data.guestMode {
-                        NavigationLink { CoffeeJourneyView() } label: {
-                            HStack(spacing: 12) {
-                                Image(systemName: "sparkles").font(.title2).foregroundStyle(Theme.accent).frame(width: 36).accessibilityHidden(true)
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(L("journey.title")).font(.headline).foregroundStyle(Theme.textPrimary)
-                                    Text(L("journey.subtitle")).font(.footnote).foregroundStyle(Theme.textSecondary)
-                                }
-                                Spacer(minLength: 0)
-                                Image(systemName: "chevron.forward").foregroundStyle(Theme.textSecondary).accessibilityHidden(true)
-                            }
-                            .padding(14).frame(maxWidth: .infinity, minHeight: 64).card()
-                        }
-                        .buttonStyle(.plain)
-                        frequentSection
-                    }
+                    if !model.data.guestMode { frequentSection }
                 }
-                .padding(16)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
             }
             .screenBackground()
-            .navigationTitle(model.data.guestMode ? L("guest.title") : greeting)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) { ProfileMenu() }
-            }
+            .navigationTitle(L("tab.home"))
+            .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(for: MaintenanceGuideID.self) { GuideView(guide: $0) }
             .navigationDestination(for: DrinkCollection.self) { CollectionView(collection: $0) }
+            .navigationDestination(for: HomeRoute.self) { route in
+                switch route {
+                case .journey: CoffeeJourneyView()
+                }
+            }
             .navigationDestination(for: DrinkRoute.self) { route in
                 DrinkDetailView(route: route, initial: model.initialRecipe(for: route))
             }
@@ -54,6 +46,20 @@ struct HomeView: View {
                 }
             }
         }
+    }
+
+    // MARK: Header
+
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text(model.data.guestMode ? L("guest.title") : greeting)
+                .font(.display(.largeTitle))
+                .foregroundStyle(Theme.textPrimary)
+                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityAddTraits(.isHeader)
+            ProfileMenu()
+        }
+        .padding(.top, 8)
     }
 
     private var greeting: String {
@@ -71,20 +77,82 @@ struct HomeView: View {
                 .buttonStyle(SecondaryButtonStyle())
         }
         .padding(16)
-        .card(raised: true)
+        .card()
     }
+
+    // MARK: My coffee journey
+
+    private var journeySection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            SectionTitle(text: L("journey.title"), linkTitle: L("action.viewAll")) { path.append(HomeRoute.journey) }
+            Button { path.append(HomeRoute.journey) } label: {
+                MilestoneCard(stats: DrinkStatistics(history: profile.history))
+            }
+            .buttonStyle(.plain)
+            .accessibilityHint(L("journey.open.hint"))
+        }
+    }
+
+    // MARK: Right now
+
+    private var moment: Moment { Moment(hour: Calendar.current.component(.hour, from: Date())) }
+
+    private var momentSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Button { path.append(DrinkCollection.suggested) } label: {
+                InfoChip(text: moment.title, symbol: moment.symbol)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(L("home.moment.label", moment.title))
+            .accessibilityHint(L("home.moment.hint"))
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 12) {
+                    Text(moment.pitch)
+                        .font(.display(.title3, weight: .semibold))
+                        .foregroundStyle(Theme.textPrimary)
+                        .padding(18)
+                        .frame(width: 170, height: 228, alignment: .bottomLeading)
+                        .card(raised: true)
+                    ForEach(DrinkCollection.suggested.beverages().prefix(5), id: \.self) { beverage in
+                        let recipe = model.data.recipe(for: beverage)
+                        NavigationLink(value: DrinkRoute.beverage(beverage)) {
+                            DrinkCard(recipe: recipe, isFavorite: isFavorite(beverage))
+                                .frame(width: 170)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityHint(L("drinks.card.hint"))
+                        .accessibilityAction(named: Text(L("action.brewNow"))) { pendingBrew = recipe }
+                    }
+                }
+                .padding(.vertical, 6)
+            }
+            .scrollClipDisabled()
+        }
+    }
+
+    private func isFavorite(_ beverage: BeverageID) -> Bool {
+        profile.favorites.contains { $0.beverage == beverage && $0.customName.isEmpty }
+    }
+
+    // MARK: Favorites
 
     @ViewBuilder
     private var favoritesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             SectionTitle(text: L("home.favorites"))
             if profile.favorites.isEmpty {
-                Text(L("home.favorites.empty"))
-                    .font(.body)
-                    .foregroundStyle(Theme.textSecondary)
-                    .padding(16)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .card()
+                HStack(spacing: 14) {
+                    Image(systemName: "heart")
+                        .font(.title2)
+                        .foregroundStyle(Theme.accent)
+                        .accessibilityHidden(true)
+                    Text(L("home.favorites.empty"))
+                        .font(.body)
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                .padding(18)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .card()
             } else {
                 ForEach(profile.favorites) { recipe in
                     Button { pendingBrew = recipe } label: { RecipeRow(recipe: recipe) }
@@ -106,23 +174,23 @@ struct HomeView: View {
             Button {
                 pickingBase = true
             } label: {
-                Label(L("recipe.new.button"), systemImage: "plus.circle.fill")
+                Label(L("recipe.new.button"), systemImage: "plus")
             }
-            .buttonStyle(SecondaryButtonStyle())
+            .buttonStyle(PrimaryButtonStyle())
         }
     }
 
+    // MARK: Collections
+
     private var collectionsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            SectionTitle(text: L("home.collections"))
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 220), spacing: 12)], spacing: 12) {
+            SectionTitle(text: L("home.collections"), linkTitle: L("home.allDrinks")) { selectedTab = .drinks }
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], spacing: 12) {
                 ForEach(DrinkCollection.allCases) { collection in
                     NavigationLink(value: collection) { CollectionTile(collection: collection) }
                         .buttonStyle(.plain)
                 }
             }
-            Button(L("home.allDrinks")) { selectedTab = .drinks }
-                .buttonStyle(SecondaryButtonStyle())
         }
     }
 
@@ -152,6 +220,95 @@ struct HomeView: View {
     private func deleteFavorite(_ recipe: Recipe) {
         model.updateData { $0.removeFavorite(id: recipe.id) }
         Announcer.shared.announce(L("announce.favoriteDeleted", recipe.displayName))
+    }
+}
+
+enum HomeRoute: Hashable {
+    case journey
+}
+
+/// The time of day, for the chip on the home screen and its drink row.
+enum Moment: String, CaseIterable {
+    case morning, lunchtime, afternoon, evening
+
+    init(hour: Int) {
+        switch hour {
+        case 5..<11: self = .morning
+        case 11..<15: self = .lunchtime
+        case 15..<18: self = .afternoon
+        default: self = .evening
+        }
+    }
+
+    var title: String { L("moment.\(rawValue).title") }
+    var pitch: String { L("moment.\(rawValue).pitch") }
+    var symbol: String {
+        switch self {
+        case .morning: return "sunrise.fill"
+        case .lunchtime: return "sun.max.fill"
+        case .afternoon: return "cup.and.saucer.fill"
+        case .evening: return "moon.stars.fill"
+        }
+    }
+}
+
+/// "Congratulations! You've brewed your 100th drink!" — the latest round
+/// number reached, with the drink that reached it.
+struct MilestoneCard: View {
+    let stats: DrinkStatistics
+
+    var body: some View {
+        Group {
+            if let milestone = stats.milestone() {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(L("journey.congrats"))
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Theme.accent)
+                    Text(L("journey.milestone", milestone.count))
+                        .font(.display(.title, weight: .semibold))
+                        .foregroundStyle(Theme.textPrimary)
+                        .fixedSize(horizontal: false, vertical: true)
+                    HStack(alignment: .bottom, spacing: 12) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Image(systemName: "trophy")
+                                .font(.title2)
+                                .foregroundStyle(Theme.accent)
+                                .accessibilityHidden(true)
+                            Text(L("journey.milestone.was", milestone.count))
+                                .font(.footnote)
+                                .foregroundStyle(Theme.textSecondary)
+                            Text(milestone.record.recipe.displayName)
+                                .font(.display(.title3, weight: .semibold))
+                                .foregroundStyle(Theme.accent)
+                        }
+                        Spacer(minLength: 0)
+                        DrinkIllustration(beverage: milestone.record.recipe.beverage, showsSteam: false)
+                            .frame(width: 120)
+                    }
+                }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(L("journey.milestone", milestone.count))
+                .accessibilityValue(L("journey.milestone.spoken", milestone.count, milestone.record.recipe.displayName))
+            } else {
+                HStack(spacing: 14) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(L("journey.start.title"))
+                            .font(.display(.title2, weight: .semibold))
+                            .foregroundStyle(Theme.textPrimary)
+                        Text(L("journey.start.body"))
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.textSecondary)
+                    }
+                    Spacer(minLength: 0)
+                    DrinkIllustration(beverage: .cappuccino, showsSteam: false)
+                        .frame(width: 96)
+                }
+                .accessibilityElement(children: .combine)
+            }
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .card()
     }
 }
 
@@ -220,14 +377,23 @@ struct ProfileMenu: View {
                 }
             }
         } label: {
-            HStack(spacing: 6) {
+            HStack(spacing: 10) {
                 Circle()
                     .fill(Theme.profileColors[model.activeProfile.colorIndex % Theme.profileColors.count])
-                    .frame(width: 26, height: 26)
-                    .overlay(Text(String(model.activeProfile.name.prefix(1))).font(.caption.bold()).foregroundStyle(.white))
-                Image(systemName: "chevron.down").font(.caption)
+                    .frame(width: 32, height: 32)
+                    .overlay(Text(String(model.activeProfile.name.prefix(1))).font(.subheadline.bold()).foregroundStyle(.white))
+                Text(model.data.guestMode ? L("guest.title") : model.activeProfile.name)
+                    .font(.headline)
+                    .foregroundStyle(Theme.textPrimary)
+                Image(systemName: "chevron.down")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(Theme.textPrimary)
             }
-            .frame(minWidth: 44, minHeight: 44)
+            .padding(.leading, 6)
+            .padding(.trailing, 16)
+            .frame(minHeight: 44)
+            .background(Capsule().fill(Theme.surface))
+            .shadow(color: .black.opacity(0.06), radius: 6, y: 2)
         }
         .accessibilityLabel(L("profile.switch"))
         .accessibilityValue(model.data.guestMode ? L("guest.title") : model.activeProfile.name)

@@ -113,10 +113,12 @@ struct Recipe: Codable, Hashable, Identifiable {
         return standard == normalized()
     }
 
+    /// On these machines a second of frothed milk is roughly 7-8 ml in the cup.
+    var approximateMilkML: Int { (milkSeconds ?? 0) * 15 / 2 }
+
     /// Approximate total volume in the cup, for the illustration and summary.
     var approximateVolumeML: Int {
-        // On these machines a second of frothed milk is roughly 7-8 ml in the cup.
-        (coffeeML ?? 0) + (waterML ?? 0) + (milkSeconds ?? 0) * 15 / 2
+        (coffeeML ?? 0) + (waterML ?? 0) + approximateMilkML
     }
 
     /// Rough preparation time in seconds, used for progress when the machine
@@ -130,6 +132,19 @@ struct Recipe: Codable, Hashable, Identifiable {
         let shot = extraShot ? 14 : 0
         return max(8, grind + coffee + water + milk + shot)
     }
+}
+
+/// The character of the cup a bean gives, for the coffee profile page.
+enum TasteFlavour: String, CaseIterable {
+    case fruity, balanced, chocolatey, bold
+}
+
+struct TasteProfile: Equatable {
+    let flavour: TasteFlavour
+    /// 1 (flat) … 10 (bright).
+    let acidity: Int
+    /// 1 (light, tea-like) … 10 (heavy, syrupy).
+    let body: Int
 }
 
 /// Bean Adapt: a profile per bag of beans. The machine's grinder is set by
@@ -169,6 +184,31 @@ struct BeanProfile: Codable, Hashable, Identifiable {
         case .medium: return .medium
         case .dark: return .low
         }
+    }
+
+    /// Light roasts and arabica are brighter and lighter; dark roasts and
+    /// robusta are heavier, lower in acidity and more chocolatey.
+    var taste: TasteProfile {
+        var acidity: Int
+        var body: Int
+        let flavour: TasteFlavour
+        switch roast {
+        case .light:
+            acidity = 8; body = 4
+            flavour = kind == .robusta ? .balanced : .fruity
+        case .medium:
+            acidity = 5; body = 6
+            flavour = kind == .robusta ? .chocolatey : .balanced
+        case .dark:
+            acidity = 3; body = 8
+            flavour = kind == .robusta ? .bold : .chocolatey
+        }
+        switch kind {
+        case .arabica: acidity += 1; body -= 1
+        case .blend: break
+        case .robusta: acidity -= 2; body += 2
+        }
+        return TasteProfile(flavour: flavour, acidity: max(1, min(10, acidity)), body: max(1, min(10, body)))
     }
 
     func adjust(_ recipe: Recipe) -> Recipe {

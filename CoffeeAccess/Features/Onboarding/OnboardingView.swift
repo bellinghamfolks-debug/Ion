@@ -23,32 +23,42 @@ struct OnboardingView: View {
             }
             footer
         }
-        .screenBackground()
+        .background {
+            if onHero {
+                HeroBackground().ignoresSafeArea()
+            } else {
+                Theme.background.ignoresSafeArea()
+            }
+        }
         .onAppear { titleFocused = true }
     }
 
+    /// The first page sits on the dark roasted backdrop.
+    private var onHero: Bool { page == 0 }
+
     private func title(_ text: String) -> some View {
         Text(text)
-            .font(.largeTitle.weight(.bold))
-            .foregroundStyle(Theme.textPrimary)
+            .font(.display(.largeTitle, weight: .semibold))
+            .foregroundStyle(onHero ? Color.white : Theme.textPrimary)
             .accessibilityAddTraits(.isHeader)
             .accessibilityFocused($titleFocused)
     }
 
     private var welcome: some View {
         VStack(alignment: .leading, spacing: 18) {
-            HStack(spacing: 8) {
-                DrinkIllustration(beverage: .espresso).frame(width: 90)
-                DrinkIllustration(beverage: .cappuccino).frame(width: 110)
-                DrinkIllustration(beverage: .latteMacchiato).frame(width: 90)
+            HStack(alignment: .bottom, spacing: 8) {
+                DrinkIllustration(beverage: .espresso, onDark: true).frame(width: 90)
+                DrinkIllustration(beverage: .icedCappuccino, showsSteam: false, onDark: true).frame(width: 120)
+                DrinkIllustration(beverage: .latteMacchiato, onDark: true).frame(width: 90)
             }
             .frame(maxWidth: .infinity)
+            .padding(.top, 20)
             title(L("onboarding.welcome.title"))
-            Text(L("onboarding.welcome.body")).font(.body).foregroundStyle(Theme.textPrimary)
+            Text(L("onboarding.welcome.body")).font(.body).foregroundStyle(.white.opacity(0.9))
             ForEach(1...4, id: \.self) { index in
                 Label(L("onboarding.feature.\(index)"), systemImage: ["cup.and.saucer.fill", "slider.horizontal.3", "bell.badge.fill", "mic.fill"][index - 1])
                     .font(.body)
-                    .foregroundStyle(Theme.textPrimary)
+                    .foregroundStyle(.white)
             }
         }
     }
@@ -107,7 +117,7 @@ struct OnboardingView: View {
             .buttonStyle(PrimaryButtonStyle())
         }
         .padding(20)
-        .background(Theme.background)
+        .background(onHero ? Color.clear : Theme.background)
     }
 
     private func go(_ next: Int) {

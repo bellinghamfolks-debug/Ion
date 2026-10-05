@@ -33,6 +33,7 @@ struct CoffeeJourneyView: View {
             VStack(alignment: .leading, spacing: 18) {
                 Text(L("journey.subtitle"))
                     .font(.body).foregroundStyle(Theme.textSecondary)
+                MilestoneCard(stats: DrinkStatistics(history: model.activeProfile.history))
                 Picker(L("journey.period"), selection: $period) {
                     ForEach(Period.allCases) { Text($0.title).tag($0) }
                 }
@@ -57,15 +58,23 @@ struct CoffeeJourneyView: View {
     }
 
     private func card(title: String, value: String, symbol: String) -> some View {
-        HStack(spacing: 14) {
-            Image(systemName: symbol).font(.title2).foregroundStyle(Theme.accent).frame(width: 40).accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 3) {
+        HStack(spacing: 16) {
+            Image(systemName: symbol)
+                .font(.title3)
+                .foregroundStyle(Theme.onAccent)
+                .frame(width: 48, height: 48)
+                .background(Circle().fill(Theme.accent))
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 4) {
                 Text(title).font(.subheadline).foregroundStyle(Theme.textSecondary)
-                Text(value).font(.headline).foregroundStyle(Theme.textPrimary)
+                Text(value)
+                    .font(.display(.title3, weight: .semibold))
+                    .foregroundStyle(Theme.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 0)
         }
-        .padding(16).frame(maxWidth: .infinity, alignment: .leading).card()
+        .padding(18).frame(maxWidth: .infinity, alignment: .leading).card()
         .accessibilityElement(children: .combine)
     }
 

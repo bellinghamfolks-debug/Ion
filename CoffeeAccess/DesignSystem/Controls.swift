@@ -222,14 +222,3 @@ struct LevelGauge: View {
         .accessibilityValue(L("unit.percent", percent))
     }
 }
-
-struct SectionTitle: View {
-    let text: String
-    var body: some View {
-        Text(text)
-            .font(.title2.weight(.bold))
-            .foregroundStyle(Theme.textPrimary)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .accessibilityAddTraits(.isHeader)
-    }
-}

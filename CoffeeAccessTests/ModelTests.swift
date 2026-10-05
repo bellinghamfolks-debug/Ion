@@ -442,4 +442,47 @@ final class StatisticsTests: XCTestCase {
         XCTAssertEqual(stats.byCategory().map(\.category), [.hotCoffee, .milk])
         XCTAssertEqual(stats.byDrink().first?.beverage, .coffee)
     }
+
+    func testWeekTotalsTopDrinksAndMilestone() {
+        let calendar = Calendar(identifier: .gregorian)
+        let now = calendar.date(from: DateComponents(year: 2026, month: 10, day: 5, hour: 12))!
+        func day(_ offset: Int) -> Date { calendar.date(byAdding: .day, value: -offset, to: now)! }
+        var history: [BrewRecord] = []
+        for _ in 0..<3 { history.append(BrewRecord(recipe: .standard(.cappuccino), date: day(1), completed: true)) }
+        history.append(BrewRecord(recipe: .standard(.espresso), date: day(2), completed: true))
+        history.append(BrewRecord(recipe: .standard(.coldBrew), date: day(3), completed: true))
+        history.append(BrewRecord(recipe: .standard(.coffee), date: day(9), completed: true))
+        history.append(BrewRecord(recipe: .standard(.coffee), date: day(20), completed: true))
+        let stats = DrinkStatistics(history: history)
+        let totals = stats.weekTotals(now: now, calendar: calendar)
+        XCTAssertEqual(totals.this, 5)
+        XCTAssertEqual(totals.previous, 1)
+        XCTAssertEqual(stats.topThisWeek(now: now, calendar: calendar).map(\.beverage).first, .cappuccino)
+        XCTAssertEqual(stats.topThisWeek(now: now, calendar: calendar).count, 3)
+        let milestone = stats.milestone()
+        XCTAssertEqual(milestone?.count, 5)
+        XCTAssertEqual(milestone?.record.recipe.beverage, .cappuccino)
+        XCTAssertNil(DrinkStatistics(history: []).milestone())
+    }
+
+    func testTasteProfileFollowsRoastAndKind() {
+        var bean = BeanProfile(name: "Kenya")
+        bean.roast = .light
+        bean.kind = .arabica
+        XCTAssertEqual(bean.taste.flavour, .fruity)
+        XCTAssertGreaterThan(bean.taste.acidity, bean.taste.body)
+        bean.roast = .dark
+        bean.kind = .robusta
+        XCTAssertEqual(bean.taste.flavour, .bold)
+        XCTAssertGreaterThan(bean.taste.body, bean.taste.acidity)
+        for roast in BeanProfile.Roast.allCases {
+            for kind in BeanProfile.Kind.allCases {
+                bean.roast = roast
+                bean.kind = kind
+                XCTAssertTrue((1...10).contains(bean.taste.acidity))
+                XCTAssertTrue((1...10).contains(bean.taste.body))
+                XCTAssertFalse(L("taste.\(bean.taste.flavour.rawValue).title").hasPrefix("taste."))
+            }
+        }
+    }
 }

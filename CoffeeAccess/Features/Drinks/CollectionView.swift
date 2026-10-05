@@ -16,12 +16,13 @@ struct CollectionView: View {
                 Text(collection.summary)
                     .font(.body)
                     .foregroundStyle(Theme.textSecondary)
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], spacing: 12) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 158), spacing: 12)], spacing: 12) {
                     ForEach(collection.beverages()) { beverage in
                         let route: DrinkRoute = collection == .toGo ? .toGo(beverage) : .beverage(beverage)
                         let recipe = model.initialRecipe(for: route)
                         NavigationLink(value: route) {
-                            DrinkCard(recipe: recipe, isPersonal: model.activeProfile.personalDefaults[beverage] != nil)
+                            DrinkCard(recipe: recipe, isPersonal: model.activeProfile.personalDefaults[beverage] != nil,
+                                      isFavorite: model.activeProfile.favorites.contains { $0.beverage == beverage && $0.customName.isEmpty })
                         }
                         .buttonStyle(.plain)
                         .accessibilityHint(L("drinks.card.hint"))
@@ -37,29 +38,35 @@ struct CollectionView: View {
     }
 }
 
-/// A tile that opens a collection.
+/// A tile that opens a collection: a glass from it, the name and the count.
 struct CollectionTile: View {
     let collection: DrinkCollection
 
     var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: collection.symbol)
-                .font(.title2)
-                .foregroundStyle(Theme.accent)
-                .frame(width: 40)
-                .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(collection.title)
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .top) {
+                Image(systemName: collection.symbol)
                     .font(.headline)
-                    .foregroundStyle(Theme.textPrimary)
-                Text(L("collection.count", collection.beverages().count))
-                    .font(.footnote)
-                    .foregroundStyle(Theme.textSecondary)
+                    .foregroundStyle(Theme.accent)
+                    .frame(width: 36, height: 36)
+                    .background(Circle().fill(Theme.surfaceRaised))
+                    .accessibilityHidden(true)
+                Spacer(minLength: 0)
+                if let first = collection.beverages().first {
+                    DrinkIllustration(beverage: first, showsSteam: false, toGo: collection == .toGo)
+                        .frame(width: 64, height: 64)
+                }
             }
-            Spacer(minLength: 0)
+            Text(collection.title)
+                .font(.display(.headline, weight: .semibold))
+                .foregroundStyle(Theme.textPrimary)
+                .fixedSize(horizontal: false, vertical: true)
+            Text(L("collection.count", collection.beverages().count))
+                .font(.footnote)
+                .foregroundStyle(Theme.textSecondary)
         }
-        .padding(14)
-        .frame(maxWidth: .infinity, minHeight: 64, alignment: .leading)
+        .padding(16)
+        .frame(maxWidth: .infinity, minHeight: 150, alignment: .topLeading)
         .card()
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(collection.title)

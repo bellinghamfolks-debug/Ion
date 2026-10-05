@@ -9,6 +9,35 @@ struct SettingsView: View {
         NavigationStack {
             Form {
                 Section {
+                    HStack(spacing: 14) {
+                        Circle()
+                            .fill(Theme.profileColors[model.activeProfile.colorIndex % Theme.profileColors.count])
+                            .frame(width: 56, height: 56)
+                            .overlay(Text(String(model.activeProfile.name.prefix(1))).font(.title2.bold()).foregroundStyle(.white))
+                            .accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(model.data.guestMode ? L("guest.title") : model.activeProfile.name)
+                                .font(.display(.title2, weight: .semibold))
+                                .foregroundStyle(Theme.textPrimary)
+                            Text(L("account.subtitle"))
+                                .font(.footnote)
+                                .foregroundStyle(Theme.textSecondary)
+                        }
+                    }
+                    .padding(.vertical, 6)
+                    .accessibilityElement(children: .combine)
+                    NavigationLink { StatisticsView() } label: {
+                        Label(L("account.habits"), systemImage: "chart.bar")
+                    }
+                    NavigationLink { CoffeeJourneyView() } label: {
+                        Label(L("journey.title"), systemImage: "sparkles")
+                    }
+                    NavigationLink { BeansView() } label: {
+                        Label(L("beans.title"), systemImage: "leaf")
+                    }
+                }
+
+                Section {
                     Picker(L("settings.connection"), selection: linkBinding) {
                         ForEach(MachineLinkKind.allCases) { kind in
                             Text(kind.title).tag(kind)
@@ -48,7 +77,6 @@ struct SettingsView: View {
                 Section(L("settings.brewing")) {
                     Toggle(L("settings.confirm"), isOn: settingBinding(\.confirmBeforeBrewing))
                     Toggle(L("settings.guest"), isOn: Binding(get: { model.data.guestMode }, set: { model.setGuestMode($0) }))
-                    NavigationLink(L("beans.title")) { BeansView() }
                 }
 
                 Section {
@@ -90,6 +118,8 @@ struct SettingsView: View {
                 }
             }
             .tint(Theme.accent)
+            .scrollContentBackground(.hidden)
+            .background(Theme.background.ignoresSafeArea())
             .navigationTitle(L("tab.settings"))
             .confirmationDialog(L("settings.forgetMachine.confirm"), isPresented: $confirmForget, titleVisibility: .visible) {
                 Button(L("settings.forgetMachine"), role: .destructive) {

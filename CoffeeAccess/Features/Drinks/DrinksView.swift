@@ -58,7 +58,7 @@ struct DrinksView: View {
                             if !drinks.isEmpty {
                                 VStack(alignment: .leading, spacing: 12) {
                                     SectionTitle(text: category.title)
-                                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], spacing: 12) {
+                                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 158), spacing: 12)], spacing: 12) {
                                         ForEach(drinks) { beverage in
                                             card(for: beverage)
                                         }
@@ -101,8 +101,9 @@ struct DrinksView: View {
                             .font(.subheadline.weight(.medium))
                             .padding(.horizontal, 14)
                             .frame(minHeight: 40)
-                            .background(Capsule().fill(option == filter ? Theme.accent : Theme.surfaceRaised))
-                            .foregroundStyle(option == filter ? Theme.onAccent : Theme.textPrimary)
+                            .background(Capsule().fill(option == filter ? Theme.ink : Theme.surface))
+                            .overlay(Capsule().strokeBorder(Theme.separator, lineWidth: option == filter ? 0 : 1))
+                            .foregroundStyle(option == filter ? Theme.onInk : Theme.textPrimary)
                     }
                     .buttonStyle(.plain)
                     .accessibilityAddTraits(option == filter ? [.isButton, .isSelected] : .isButton)
@@ -129,19 +130,43 @@ struct DrinksView: View {
 
     private func card(for beverage: BeverageID) -> some View {
         let recipe = model.data.recipe(for: beverage)
-        let isFavorite = profile.favorites.contains { $0.beverage == beverage && $0.customName.isEmpty }
-        return NavigationLink(value: DrinkRoute.beverage(beverage)) {
-            DrinkCard(recipe: recipe, isPersonal: profile.personalDefaults[beverage] != nil)
+        let favorite = profile.favorites.first { $0.beverage == beverage && $0.customName.isEmpty }
+        return ZStack(alignment: .topTrailing) {
+            NavigationLink(value: DrinkRoute.beverage(beverage)) {
+                DrinkCard(recipe: recipe, isPersonal: profile.personalDefaults[beverage] != nil, isFavorite: favorite != nil)
+            }
+            .buttonStyle(.plain)
+            .accessibilityHint(L("drinks.card.hint"))
+            .accessibilityAction(named: Text(L("action.brewNow"))) { pendingBrew = recipe }
+            .accessibilityAction(named: Text(favorite == nil ? L("action.addFavorite") : L("action.removeFavorite"))) {
+                toggleFavorite(recipe, existing: favorite)
+            }
+            .contextMenu {
+                Button(L("action.brewNow"), systemImage: "cup.and.saucer.fill") { pendingBrew = recipe }
+                Button(favorite == nil ? L("action.addFavorite") : L("action.removeFavorite"),
+                       systemImage: favorite == nil ? "heart" : "heart.slash") { toggleFavorite(recipe, existing: favorite) }
+            }
+            if !model.data.guestMode && !typeSizeIsLarge {
+                // The heart on the card: tap to add or remove the favorite.
+                // VoiceOver uses the card's action instead.
+                Button { toggleFavorite(recipe, existing: favorite) } label: {
+                    Color.clear.frame(width: 52, height: 52).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityHidden(true)
+            }
         }
-        .buttonStyle(.plain)
-        .accessibilityHint(L("drinks.card.hint"))
-        .accessibilityAction(named: Text(L("action.brewNow"))) { pendingBrew = recipe }
-        .accessibilityAction(named: Text(isFavorite ? L("action.alreadyFavorite") : L("action.addFavorite"))) {
+    }
+
+    @Environment(\.dynamicTypeSize) private var typeSize
+    private var typeSizeIsLarge: Bool { typeSize.isAccessibilitySize }
+
+    private func toggleFavorite(_ recipe: Recipe, existing: Recipe?) {
+        if let existing {
+            model.updateData { $0.removeFavorite(id: existing.id) }
+            Announcer.shared.announce(L("announce.favoriteDeleted", recipe.displayName))
+        } else {
             addFavorite(recipe)
-        }
-        .contextMenu {
-            Button(L("action.brewNow"), systemImage: "cup.and.saucer.fill") { pendingBrew = recipe }
-            Button(L("action.addFavorite"), systemImage: "star") { addFavorite(recipe) }
         }
     }
 

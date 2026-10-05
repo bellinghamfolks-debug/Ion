@@ -17,7 +17,10 @@ def ratio(a, b):
     return (la + 0.05) / (lb + 0.05)
 
 PAIRS = [(t, b, 4.5) for t in ("textPrimary", "textSecondary", "accent", "danger", "warning", "success")
-         for b in ("background", "surface", "surfaceRaised")] + [("onAccent", "accent", 4.5), ("onAccent", "danger", 4.5)]
+         for b in ("background", "surface", "surfaceRaised")] + [("onAccent", "accent", 4.5), ("onAccent", "danger", 4.5),
+     ("onInk", "ink", 4.5), ("onHotTag", "hotTag", 4.5), ("onColdTag", "coldTag", 4.5)] \
+  + [(t, "sky", 4.5) for t in ("textPrimary", "textSecondary")] \
+  + [("ink", b, 4.5) for b in ("background", "surface", "surfaceRaised")]
 failures = 0
 for text, bg, need in PAIRS:
     for mode in ("light", "dark", "lightHC", "darkHC"):

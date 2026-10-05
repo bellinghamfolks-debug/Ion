@@ -107,6 +107,10 @@ def main() -> int:
         used.add(f"foam.{case}")
     for case in swift_cases(APP / "Features/Journey/CoffeeJourneyView.swift", "Period"):
         used.add(f"journey.period.{case}")
+    for case in swift_cases(APP / "Features/Home/HomeView.swift", "Moment"):
+        used.update({f"moment.{case}.title", f"moment.{case}.pitch"})
+    for case in swift_cases(model / "Model/Recipe.swift", "TasteFlavour"):
+        used.update({f"taste.{case}.title", f"taste.{case}.detail"})
     for case in swift_cases(model / "Model/Recipe.swift", "ColdIntensity"):
         used.add(f"cold.intensity.{case}")
     for case in swift_cases(model / "Model/Recipe.swift", "IceLevel"):

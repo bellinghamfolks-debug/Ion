@@ -25,19 +25,32 @@ struct DrinkDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 18) {
-                header
-                if creatingRecipe { nameField }
-                controls
-                beanTip
-                summary
-                actions
+            VStack(alignment: .leading, spacing: 0) {
+                hero
+                VStack(alignment: .leading, spacing: 18) {
+                    description
+                    if creatingRecipe { nameField }
+                    ingredients
+                    SectionTitle(text: L("drink.customize"))
+                    controls
+                    beanTip
+                    summary
+                    actions
+                }
+                .padding(20)
+                .padding(.top, 8)
+                .background(
+                    UnevenRoundedRectangle(topLeadingRadius: 28, topTrailingRadius: 28, style: .continuous)
+                        .fill(Theme.background)
+                )
+                .padding(.top, -28)
             }
-            .padding(16)
         }
         .screenBackground()
         .navigationTitle(creatingRecipe ? L("recipe.new.title") : recipe.displayName)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.hidden, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .brewConfirmation(recipe: $pendingBrew)
         .alert(L("favorite.name.title"), isPresented: $namingFavorite) {
             TextField(L("favorite.name.placeholder"), text: $favoriteName)
@@ -52,22 +65,47 @@ struct DrinkDetailView: View {
         }
     }
 
-    private var header: some View {
-        VStack(spacing: 10) {
-            DrinkIllustration(beverage: recipe.beverage, fill: fillLevel, toGo: recipe.toGo)
-                .frame(maxWidth: 220)
+    /// The glass on a dark roasted backdrop, the tags and the name.
+    private var hero: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            DrinkIllustration(beverage: recipe.beverage, fill: fillLevel, toGo: recipe.toGo, onDark: true)
+                .frame(maxWidth: 230)
                 .frame(maxWidth: .infinity)
-            Text(recipe.displayName)
-                .font(.largeTitle.weight(.bold))
-                .foregroundStyle(Theme.textPrimary)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity)
+            HStack(spacing: 10) {
+                DrinkTag(isCold: spec.isCold)
+                if recipe.toGo {
+                    Label(L("param.toGo"), systemImage: "takeoutbag.and.cup.and.straw")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.white)
+                }
+                if spec.usesMilk {
+                    Label(spec.isCold ? L("param.coldMilk") : L("param.milk"), systemImage: "waterbottle")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.white)
+                }
+            }
+            Text(creatingRecipe && !favoriteName.isEmpty ? favoriteName : recipe.displayName)
+                .font(.display(.largeTitle, weight: .semibold))
+                .foregroundStyle(.white)
+                .fixedSize(horizontal: false, vertical: true)
                 .accessibilityAddTraits(.isHeader)
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 24)
+        .padding(.bottom, 48)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(alignment: .top) {
+            HeroBackground()
+                .ignoresSafeArea(edges: .top)
+        }
+    }
+
+    private var description: some View {
+        VStack(alignment: .leading, spacing: 10) {
             Text(recipe.beverage.summary)
                 .font(.body)
-                .foregroundStyle(Theme.textSecondary)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity)
+                .foregroundStyle(Theme.textPrimary)
+                .fixedSize(horizontal: false, vertical: true)
             if model.data.guestMode {
                 Label(L("guest.banner"), systemImage: "person.crop.circle.badge.questionmark")
                     .font(.footnote)
@@ -79,6 +117,53 @@ struct DrinkDetailView: View {
                     .foregroundStyle(Theme.warning)
             }
         }
+        .padding(.top, 12)
+    }
+
+    /// "Ingredients": what goes into the glass with the current settings.
+    private var ingredients: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(L("drink.ingredients"))
+                .font(.display(.title3, weight: .semibold))
+                .foregroundStyle(Theme.textPrimary)
+                .accessibilityAddTraits(.isHeader)
+                .padding(.bottom, 6)
+            ForEach(Array(ingredientRows.enumerated()), id: \.offset) { index, row in
+                if index > 0 { Divider().overlay(Theme.separator) }
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(row.name)
+                        .font(.headline)
+                        .foregroundStyle(Theme.textPrimary)
+                    Text(row.value)
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                .padding(.vertical, 10)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityElement(children: .combine)
+            }
+        }
+        .padding(18)
+        .card()
+    }
+
+    private var ingredientRows: [(name: String, value: String)] {
+        var rows: [(name: String, value: String)] = []
+        if let coffee = recipe.coffeeML {
+            let beans = model.data.activeBean.map { L("ingredient.beans.named", $0.name) } ?? L("ingredient.beans.any")
+            rows.append((L("ingredient.coffee"), "\(L("unit.ml", coffee)) · \(beans)"))
+        }
+        if recipe.extraShot { rows.append((L("param.extraShot"), L("unit.ml", 30))) }
+        if let water = recipe.waterML { rows.append((spec.isTea ? L("param.teaWater") : L("param.water"), L("unit.ml", water))) }
+        if let milk = recipe.milkSeconds {
+            rows.append((spec.isCold ? L("param.coldMilk") : L("param.milk"), L("ingredient.milk.value", milk, recipe.approximateMilkML)))
+        }
+        if let ice = recipe.iceLevel { rows.append((L("cold.ice.title"), L("ingredient.ice.value", ice.cubes))) }
+        if let aroma = recipe.aroma { rows.append((L("param.aroma"), aroma.title)) }
+        if let temperature = recipe.temperature {
+            rows.append((spec.isTea ? L("param.teaTemperature") : L("param.temperature"), spec.isTea ? temperature.teaTitle : temperature.title))
+        }
+        return rows
     }
 
     private var nameField: some View {

@@ -1,10 +1,12 @@
 import SwiftUI
 
-/// A drink tile for the menu grid. Reads as one element: name, then the
-/// short description; custom actions brew straight away or add a favorite.
+/// A drink tile: hot/cold tag and heart on top, the glass in the middle,
+/// then the name and short settings. Reads as one element; custom actions
+/// brew straight away or add a favorite.
 struct DrinkCard: View {
     let recipe: Recipe
     var isPersonal = false
+    var isFavorite = false
 
     @Environment(\.dynamicTypeSize) var typeSize
 
@@ -14,33 +16,53 @@ struct DrinkCard: View {
                 HStack(spacing: 14) {
                     DrinkIllustration(beverage: recipe.beverage, showsSteam: false, toGo: recipe.toGo)
                         .frame(width: 72, height: 72)
-                    text
+                    VStack(alignment: .leading, spacing: 8) {
+                        DrinkTag(isCold: recipe.spec.isCold)
+                        text
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             } else {
-                VStack(spacing: 10) {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        DrinkTag(isCold: recipe.spec.isCold)
+                        Spacer(minLength: 4)
+                        Image(systemName: isFavorite ? "heart.fill" : "heart")
+                            .font(.title3)
+                            .foregroundStyle(Theme.textPrimary)
+                            .accessibilityHidden(true)
+                    }
                     DrinkIllustration(beverage: recipe.beverage, showsSteam: false, toGo: recipe.toGo)
-                        .frame(height: 110)
+                        .frame(height: 112)
+                        .frame(maxWidth: .infinity)
                     text
                 }
             }
         }
         .padding(14)
-        .frame(maxWidth: .infinity, minHeight: typeSize.isAccessibilitySize ? 0 : 200)
+        .frame(maxWidth: .infinity, minHeight: typeSize.isAccessibilitySize ? 0 : 228, alignment: .top)
         .card()
         .contentShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(recipe.displayName)
-        .accessibilityValue(isPersonal ? L("drink.personalized", recipe.shortDetails) : recipe.beverage.summary)
+        .accessibilityValue(spokenValue)
         .accessibilityAddTraits(.isButton)
     }
 
+    private var spokenValue: String {
+        var parts = [recipe.spec.isCold ? L("tag.cold") : L("tag.hot")]
+        parts.append(isPersonal ? L("drink.personalized", recipe.shortDetails) : recipe.beverage.summary)
+        if isFavorite { parts.append(L("drink.inFavorites")) }
+        return parts.joined(separator: L("list.separator"))
+    }
+
     private var text: some View {
-        VStack(alignment: typeSize.isAccessibilitySize ? .leading : .center, spacing: 4) {
+        VStack(alignment: .leading, spacing: 3) {
             Text(recipe.displayName)
                 .font(.headline)
                 .foregroundStyle(Theme.textPrimary)
-                .multilineTextAlignment(typeSize.isAccessibilitySize ? .leading : .center)
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
             Text(recipe.shortDetails)
                 .font(.footnote)
                 .foregroundStyle(Theme.textSecondary)
@@ -50,17 +72,20 @@ struct DrinkCard: View {
                     .foregroundStyle(Theme.accent)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
-/// A favorite in a list: illustration, name and settings in one line.
+/// A favorite in a list: the glass, name and settings in one line.
 struct RecipeRow: View {
     let recipe: Recipe
 
     var body: some View {
         HStack(spacing: 14) {
             DrinkIllustration(beverage: recipe.beverage, showsSteam: false, toGo: recipe.toGo)
-                .frame(width: 56, height: 56)
+                .frame(width: 60, height: 60)
+                .padding(4)
+                .background(Circle().fill(Theme.surfaceRaised))
             VStack(alignment: .leading, spacing: 3) {
                 Text(recipe.displayName)
                     .font(.headline)
@@ -76,11 +101,12 @@ struct RecipeRow: View {
             }
             Spacer(minLength: 0)
             Image(systemName: "chevron.forward")
+                .font(.subheadline.weight(.semibold))
                 .foregroundStyle(Theme.textSecondary)
                 .accessibilityHidden(true)
         }
         .padding(12)
-        .frame(maxWidth: .infinity, minHeight: 72, alignment: .leading)
+        .frame(maxWidth: .infinity, minHeight: 76, alignment: .leading)
         .card()
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(recipe.displayName)
@@ -121,15 +147,16 @@ struct MachineStatusCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            HStack(alignment: .top, spacing: 14) {
+            HStack(alignment: .center, spacing: 14) {
                 Image(systemName: symbol)
-                    .font(.system(size: 30, weight: .semibold))
+                    .font(.system(size: 22, weight: .semibold))
                     .foregroundStyle(tint)
-                    .frame(width: 44)
+                    .frame(width: 46, height: 46)
+                    .background(Circle().fill(Theme.surfaceRaised))
                     .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 3) {
                     Text(headline)
-                        .font(.title3.weight(.bold))
+                        .font(.headline)
                         .foregroundStyle(Theme.textPrimary)
                     Text(subtitle)
                         .font(.subheadline)
@@ -146,7 +173,7 @@ struct MachineStatusCard: View {
             }
         }
         .padding(16)
-        .card(raised: true)
+        .card()
     }
 
     private var subtitle: String {

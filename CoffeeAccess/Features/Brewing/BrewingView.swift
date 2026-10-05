@@ -31,7 +31,7 @@ struct BrewingView: View {
     private func titleBlock(_ session: BrewSession) -> some View {
         VStack(spacing: 8) {
             Text(headline(session))
-                .font(.largeTitle.weight(.bold))
+                .font(.display(.largeTitle, weight: .semibold))
                 .foregroundStyle(Theme.textPrimary)
                 .multilineTextAlignment(.center)
                 .accessibilityAddTraits(.isHeader)

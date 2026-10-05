@@ -26,7 +26,7 @@ jobs:
         run: |
           set -euo pipefail
           PKG="com.delonghigroup.daedalus@1.5.0"
-          mkdir -p /tmp/apkeep1 /tmp/apkeep2
+          mkdir -p /tmp/apkeep1 /tmp/apkeep2\n          chmod 777 /tmp/apkeep1 /tmp/apkeep2
 
           docker pull ghcr.io/efforg/apkeep:edge
 

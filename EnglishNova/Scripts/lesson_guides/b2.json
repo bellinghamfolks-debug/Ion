@@ -834,5 +834,157 @@
       "explanationAr": "يحدد الجواب الصحيح شهرًا ومعيار اكتمال واضحًا. التحسن العام أو زيادة العدد دون الدقة لا يقدمان هدف جودة قابلًا للتقييم.",
       "explanationEn": "The correct answer sets a month and a clear completeness criterion. Vague improvement or more output without accuracy does not provide an assessable quality goal."
     }
+  },
+  "b2-x-u9-l1": {
+    "focusAr": "ابدأ بوصف عنصر موجود في العمل، ثم قدّم interpretation بصيغة توضح أنها قراءتك مثل to me أوmay suggest. convey نقل معنى، وevoke استحضار شعور أو ذكرى. symbolism استخدام عنصر ليدل على معنى أوسع. لا تخلط بين ما يظهر في الوصف ونية الفنان التي تحتاج دليلًا مستقلًا.",
+    "focusEn": "Begin with a feature present in the work, then mark your interpretation with to me or may suggest. Convey means communicate meaning; evoke means bring a feeling or memory to mind. Symbolism uses an element to suggest a broader meaning. Distinguish what the description contains from the artist's intention, which needs separate evidence.",
+    "taskAr": "اعتمد على هذا الوصف النصي: «كرسي فارغ أمام نافذة مغلقة في غرفة واسعة». قدّم تفسيرًا مع عنصر يدعمه وتفسير بديل.",
+    "taskEn": "Use this text description: 'An empty chair faces a closed window in a large room.' Offer an interpretation supported by a detail and an alternative reading.",
+    "exampleEn": "To me, the empty chair may convey loneliness, especially in such a large room. However, another interpretation is that the room suggests a quiet pause rather than sadness.",
+    "exampleAr": "بالنسبة لي، قد ينقل الكرسي الفارغ شعورًا بالوحدة، خصوصًا في غرفة واسعة كهذه. لكن يمكن تفسير الغرفة أيضًا بأنها توحي باستراحة هادئة لا بالحزن.",
+    "check": {
+      "promptEn": "Which sentence marks an interpretation rather than asserting the artist's intention as fact?",
+      "choices": [
+        "The empty chair may suggest absence to me.",
+        "The artist definitely intended the chair to represent a particular death.",
+        "Every viewer must feel exactly the same emotion."
+      ],
+      "answer": "The empty chair may suggest absence to me.",
+      "explanationAr": "may suggest وto me توضحان أن المعنى تفسير مدعوم بعنصر، لا حقيقة مؤكدة عن نية الفنان أو استجابة جميع المتلقين.",
+      "explanationEn": "May suggest and to me identify a reading supported by a feature, not a proven intention or a universal audience response."
+    }
+  },
+  "b2-x-u9-l2": {
+    "focusAr": "heritage يشمل عناصر مادية مثل المباني وغير مادية مثل المعارف والممارسات المتوارثة. preserve الحفاظ، وrestore الترميم لاستعادة حالة أو وظيفة سابقة؛ ليس كل حفظ إعادة بناء. historic مهم تاريخيًا، وhistorical متعلق بالتاريخ عمومًا. عند اقتراح تحديث، وضّح ما سيبقى وما سيتغير ولماذا، مع إشراك أصحاب الممارسة.",
+    "focusEn": "Heritage includes physical elements such as buildings and intangible elements such as inherited knowledge and practices. Preserve means maintain; restore means repair towards an earlier state or function, so preservation is not always reconstruction. Historic means historically significant; historical means related to history. Explain what an update retains and changes, and involve the people practising the tradition.",
+    "taskAr": "اقترح استخدام مبنى تاريخي مركزًا للحرف مع الحفاظ على أبوابه القديمة وتحسين الوصول إليه.",
+    "taskEn": "Propose using a historic building as a craft centre while preserving its old doors and improving access.",
+    "exampleEn": "We could restore the building for use as a craft centre, preserving the original doors and their craftsmanship. Access improvements should be planned carefully with conservation specialists and local craftspeople.",
+    "exampleAr": "يمكننا ترميم المبنى ليصبح مركزًا للحرف، مع الحفاظ على الأبواب الأصلية وحِرفية صنعها. وينبغي تخطيط تحسينات الوصول بعناية مع متخصصي الحفاظ على التراث والحرفيين المحليين.",
+    "check": {
+      "promptEn": "Which example best fits intangible heritage?",
+      "choices": [
+        "A weaving technique taught across generations.",
+        "Only the bricks of a historic wall.",
+        "A newly purchased office chair with no cultural context."
+      ],
+      "answer": "A weaving technique taught across generations.",
+      "explanationAr": "تقنية النسج المتوارثة معرفة وممارسة غير مادية، حتى لو أُنتجت بها أشياء ملموسة. الطوب عنصر مادي، والكرسي المذكور لا يتضمن سياقًا تراثيًا.",
+      "explanationEn": "An inherited weaving technique is knowledge and practice, even though it produces physical objects. Bricks are material, and the stated chair has no heritage context."
+    }
+  },
+  "b2-x-u9-l3": {
+    "focusAr": "النقد يربط حكمًا بتفصيل فني وأثره: pacing سرعة تطور السرد، وcinematography التصوير السينمائي، وadaptation تحويل عمل إلى وسيط أو صيغة أخرى. underrated حكم عن مقدار التقدير الذي ناله العمل، لا مرادف «سيئ». nuanced تعني مراعاة الفروق والجوانب بدل حكم ثنائي مبسط.",
+    "focusEn": "Criticism connects a judgement with an artistic detail and its effect: pacing is narrative speed, cinematography concerns film imagery, and adaptation transforms a work for another medium or form. Underrated judges the recognition a work receives, not its poor quality. Nuanced means attending to distinctions and different aspects rather than offering a simplistic verdict.",
+    "taskAr": "اكتب مراجعة تدريبية لفيلم بطيء السرد لكنه يتيح فهم دوافع الشخصيات، واذكر من قد يستمتع به دون كشف النهاية.",
+    "taskEn": "Write a practice review of a slowly paced film that develops characters' motives, naming an audience that might enjoy it without revealing the ending.",
+    "exampleEn": "The pacing is slow, yet the extended conversations reveal the characters' conflicting motives. I found the result thought-provoking, although viewers seeking constant action may be less engaged.",
+    "exampleAr": "إيقاع السرد بطيء، لكن الحوارات الممتدة تكشف دوافع الشخصيات المتعارضة. وجدت النتيجة مثيرة للتفكير، وإن كان الباحثون عن حركة مستمرة قد يكونون أقل اندماجًا.",
+    "check": {
+      "promptEn": "A critic calls a film underrated. What do they mean?",
+      "choices": [
+        "It deserves more recognition than it has received.",
+        "It is necessarily too short.",
+        "It has no artistic strengths."
+      ],
+      "answer": "It deserves more recognition than it has received.",
+      "explanationAr": "underrated تتعلق بقلة التقدير مقارنة بما يراه الناقد مستحقًا. لا تحدد المدة، ولا تنفي نقاط القوة.",
+      "explanationEn": "Underrated concerns insufficient recognition relative to the critic's judgement. It does not specify length or deny artistic strengths."
+    }
+  },
+  "b2-x-u9-l4": {
+    "focusAr": "ميّز بين cross-cultural exchange تبادل قد ينتج أشكالًا جديدة وcultural homogenisation ازدياد التشابه الذي قد يقلل التميز. erode إضعاف تدريجي، لا اختفاء فوري. mainstream واسع القبول أو الانتشار، وليس أفضل بالضرورة. عند مناقشة الهوية، صف ممارسة محددة وآلية تغيرها بدل تصوير ثقافة كاملة كشيء ثابت.",
+    "focusEn": "Distinguish cross-cultural exchange, which may create new forms, from cultural homogenisation, increasing similarity that may reduce distinctiveness. Erode means weaken gradually, not disappear instantly. Mainstream means widely accepted or popular, not necessarily better. Discuss a specific practice and how it changes instead of treating an entire culture as fixed.",
+    "taskAr": "ناقش انتشار نوع موسيقي عالمي في مدينة تخيلية مع استمرار موسيقى محلية، مميزًا التبادل عن الاختفاء التام.",
+    "taskEn": "Discuss a global music style becoming popular in an imagined city while local music continues, distinguishing exchange from total disappearance.",
+    "exampleEn": "The new style has become mainstream, but local performers also blend it with traditional rhythms. This may create cross-cultural forms; it does not by itself show that local musical identity has disappeared.",
+    "exampleAr": "أصبح الأسلوب الجديد واسع الانتشار، لكن مؤدين محليين يمزجونه أيضًا بإيقاعات تقليدية. قد ينشئ ذلك أشكالًا عابرة للثقافات، ولا يدل وحده على اختفاء الهوية الموسيقية المحلية.",
+    "check": {
+      "promptEn": "A local group combines an international style with traditional rhythms. Which conclusion is directly supported?",
+      "choices": [
+        "A musical blend has been created.",
+        "All local traditions have disappeared.",
+        "Every listener now has the same taste."
+      ],
+      "answer": "A musical blend has been created.",
+      "explanationAr": "المعطى يثبت المزج في عمل المجموعة، لا زوال جميع التقاليد أو تطابق أذواق كل المستمعين.",
+      "explanationEn": "The information establishes a blend in the group's work, not the disappearance of all traditions or identical tastes among listeners."
+    }
+  },
+  "b2-x-u10-l1": {
+    "focusAr": "sentence هنا عقوبة يحكم بها القضاء، وليست جملة لغوية. deterrent رادع يُقصد به منع السلوك، وrehabilitation إعادة تأهيل، وreoffending عودة إلى ارتكاب جريمة. عند مقارنة سياسات العقوبة، ميّز الغرض عن الأثر المقاس وحدد نوع المخالفة والسياق؛ لا تستنتج قواعد بلد من مثال تدريبي عام.",
+    "focusEn": "Sentence here is a court-imposed punishment, not a grammatical sentence. A deterrent is intended to discourage conduct, rehabilitation supports change, and reoffending means committing another offence. Compare a punishment's purpose with measured effects, specifying the offence and context. Do not infer a country's rules from a general practice example.",
+    "taskAr": "قارن هدف الردع بهدف إعادة التأهيل في فقرة تدريبية، واذكر نوع دليل قد يساعد في تقييم برنامج.",
+    "taskEn": "Compare deterrence and rehabilitation in a practice paragraph, naming evidence that could help evaluate a programme.",
+    "exampleEn": "A penalty may be intended as a deterrent, while rehabilitation focuses on helping people avoid further offending. To evaluate a programme, we would need relevant reoffending data and a fair comparison group, rather than rely only on its stated aim.",
+    "exampleAr": "قد يُقصد بالعقوبة الردع، بينما تركز إعادة التأهيل على مساعدة الأشخاص على تجنب تكرار الجريمة. ولتقييم برنامج، نحتاج إلى بيانات مناسبة عن العودة للجريمة ومجموعة مقارنة ملائمة، لا إلى هدفه المعلن وحده.",
+    "check": {
+      "promptEn": "A policy is intended to reduce reoffending. Which statement follows from this wording alone?",
+      "choices": [
+        "Reducing reoffending is its aim, but success has not been established.",
+        "Reoffending has certainly fallen to zero.",
+        "The same policy is legally required everywhere."
+      ],
+      "answer": "Reducing reoffending is its aim, but success has not been established.",
+      "explanationAr": "intended to توضح الغرض ولا تثبت النتيجة أو وجود إلزام قانوني عالمي. التقييم يحتاج بيانات وسياقًا.",
+      "explanationEn": "Intended to identifies purpose, not the outcome or a worldwide legal requirement. Evaluation needs data and context."
+    }
+  },
+  "b2-x-u10-l2": {
+    "focusAr": "be entitled to تليها منفعة أو فعل مستحق بحسب السياق، وهي أقوى من مجرد رغبة. equality مساواة، وdiscrimination هنا تمييز مجحف. فرّق بين مبدأ حقوقي عام وطريقة تطبيقه وإجراءاته في نظام محدد. عند تلخيص نص، انسب إليه الحق وقيوده بدقة ولا تحوّل رأي المتحدث إلى حكم قضائي.",
+    "focusEn": "Be entitled to introduces a benefit or action regarded as a right, stronger than a wish. Equality means equal status or treatment; discrimination here means unjust differential treatment. Distinguish a general rights principle from its implementation and procedures in a particular system. Attribute rights and stated limits accurately without turning an opinion into a judicial ruling.",
+    "taskAr": "لخّص في سياق تعلم اللغة نصًا يؤكد المحاكمة العادلة، ثم اطلب توضيح الإجراء المتاح في الحالة محل النقاش.",
+    "taskEn": "In a language-practice context, summarize a text affirming a fair trial, then request clarification of the procedure relevant to the case discussed.",
+    "exampleEn": "The text affirms the right to a fair trial. To understand how that principle applies in this case, we would need to identify the relevant legal system and the available procedure.",
+    "exampleAr": "يؤكد النص الحق في محاكمة عادلة. ولفهم تطبيق هذا المبدأ في الحالة المطروحة، نحتاج إلى تحديد النظام القانوني المعني والإجراء المتاح.",
+    "check": {
+      "promptEn": "What is the difference between 'is entitled to a review' and 'would like a review'?",
+      "choices": [
+        "The first asserts a right; the second expresses a preference or request.",
+        "Both necessarily mean that a review has already happened.",
+        "The second always establishes a stronger legal right."
+      ],
+      "answer": "The first asserts a right; the second expresses a preference or request.",
+      "explanationAr": "is entitled to تقرر استحقاقًا ضمن سياقها، بينما would like تعبر عن رغبة. لا تثبت أي منهما أن المراجعة حدثت بالفعل.",
+      "explanationEn": "Is entitled to asserts entitlement within its context, while would like expresses desire. Neither establishes that the review has already occurred."
+    }
+  },
+  "b2-x-u10-l3": {
+    "focusAr": "comply with امتثال المخاطَب بالقاعدة، وenforce إنفاذها من الجهة المعنية. fine غرامة مالية، وpenalty جزاء أوسع. exemption استثناء مقرر وفق شروط، بينما loophole ثغرة في الصياغة أو النطاق؛ فهما ليسا مترادفين. عند شرح قاعدة، حدد مصدرها ومن تشمل ومتى تسري وما يذكره النص عن الاستثناءات.",
+    "focusEn": "Comply with describes following a rule; enforce describes the responsible authority making it effective. A fine is monetary, while penalty is broader. An exemption is an express exception under conditions; a loophole is a gap in wording or scope, so they are not synonyms. Explain a rule's source, coverage, timing, and stated exceptions.",
+    "taskAr": "اشرح قاعدة تدريبية لمكتبة تسمح بإعارة خمسة كتب أسبوعين، مع تمديد مشروط بعدم وجود حجز من قارئ آخر.",
+    "taskEn": "Explain a practice library rule allowing five books for two weeks, with renewal only if no other reader has reserved them.",
+    "exampleEn": "Under this library's policy, members may borrow up to five books for two weeks. A renewal is permitted only if no other reader has reserved the item. The condition applies to each book separately.",
+    "exampleAr": "بموجب سياسة هذه المكتبة، يجوز للأعضاء استعارة ما يصل إلى خمسة كتب لأسبوعين. ولا يسمح بالتمديد إلا إذا لم يحجز الكتاب قارئ آخر. ويطبق الشرط على كل كتاب على حدة.",
+    "check": {
+      "promptEn": "A rule expressly excludes a named group under stated conditions. Which word best describes that exclusion?",
+      "choices": [
+        "An exemption.",
+        "Automatically an unintended loophole.",
+        "A fine imposed on everyone."
+      ],
+      "answer": "An exemption.",
+      "explanationAr": "الاستبعاد المنصوص عليه بشروط exemption. لا يعني ثغرة غير مقصودة أو غرامة، فهذان مفهومان مختلفان.",
+      "explanationEn": "An expressly stated conditional exclusion is an exemption. It is not necessarily an unintended loophole or a monetary penalty."
+    }
+  },
+  "b2-x-u10-l4": {
+    "focusAr": "defective يصف العيب، وwarranty ضمان له نطاق وشروط، وproof of purchase دليل الشراء. claim فعل مطالبة، ولا يعني أن الاستحقاق ثبت أو المبلغ دُفع. replacement سلعة بديلة، وcompensation تعويض قد يخدم غرضًا آخر. في رسالة رسمية، اذكر الوقائع والمستندات والطلب واسأل عن القاعدة المطبقة دون اختراع حق أو مهلة.",
+    "focusEn": "Defective describes a fault; a warranty has a scope and conditions, and proof of purchase documents the transaction. Claim is a verb requesting something, not confirmation that entitlement is established or payment made. A replacement is another item; compensation may serve a different purpose. State facts, evidence, and the requested remedy, asking about applicable rules without inventing an entitlement or deadline.",
+    "taskAr": "اكتب طلب معالجة لمنتج لا يعمل، مع تاريخ شراء وإثبات وطلب بيان خيارات الضمان، دون افتراض حق محدد غير معطى.",
+    "taskEn": "Write about a non-working product, including a purchase date, evidence, and a request for warranty options without assuming an unstated entitlement.",
+    "exampleEn": "I purchased this device on 3 September, and it no longer switches on. I have attached proof of purchase. Please explain which repair or replacement options are available under the warranty and what information you need from me.",
+    "exampleAr": "اشتريت هذا الجهاز في 3 سبتمبر، ولم يعد يعمل عند تشغيله. أرفقت إثبات الشراء. يرجى توضيح خيارات الإصلاح أو الاستبدال المتاحة بموجب الضمان والمعلومات التي تحتاجون إليها مني.",
+    "check": {
+      "promptEn": "A customer has submitted a compensation claim. What is established by that wording?",
+      "choices": [
+        "They have requested compensation; the outcome is not yet stated.",
+        "The claim has already been approved and paid.",
+        "Every customer worldwide has the same entitlement."
+      ],
+      "answer": "They have requested compensation; the outcome is not yet stated.",
+      "explanationAr": "تقديم claim يعني المطالبة، ولا يثبت قبولها أو دفعها. كما لا يحدد حقوق عملاء آخرين أو أنظمة مختلفة.",
+      "explanationEn": "Submitting a claim establishes a request, not approval or payment. It does not determine other customers' rights or other legal systems."
+    }
   }
 }

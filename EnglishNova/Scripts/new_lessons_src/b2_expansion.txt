@@ -158,7 +158,7 @@ W|striking|لافت للنظر|The use of colour is striking.|استخدام ا�
 W|symbolism|رمزية|The use of empty chairs adds symbolism to the painting.|يضيف استخدام الكراسي الفارغة رمزية إلى اللوحة.|noun
 W|evoke|يستحضر|The dark colours evoke a feeling of uncertainty.|تستحضر الألوان الداكنة شعورًا بعدم اليقين.|verb
 L|التراث الثقافي|Cultural Heritage|أن يناقش المتعلم أهمية الحفاظ على التراث وتوازنه مع التحديث.|Restoring historic buildings helps preserve our heritage for future generations.|ترميم المباني التاريخية يساعد على الحفاظ على تراثنا للأجيال القادمة.|To discuss why heritage matters and how to balance it with modernisation.
-W|heritage|تراث|The old city is a UNESCO heritage site.|المدينة القديمة موقع تراثي مسجّل لدى اليونسكو.|noun
+W | heritage | تراث | Local crafts form an important part of the town’s heritage. | تشكل الحرف المحلية جزءًا مهمًا من تراث البلدة. | noun
 W|preserve|يحافظ على|We must preserve these traditions.|يجب أن نحافظ على هذه التقاليد.|verb
 W|restore|يرمّم|The mosque was carefully restored.|رُمّم المسجد بعناية.|verb
 W|historic|تاريخي (ذو أهمية)|It was a historic moment for the country.|كانت لحظة تاريخية للبلاد.|adjective
@@ -180,44 +180,44 @@ W|globalisation|العولمة|Globalisation has connected markets worldwide.|ر
 W|erode|يُضعف تدريجيًا؛ يتآكل|Constant criticism can erode confidence.|قد يُضعف النقد المستمر الثقة تدريجيًا.|verb
 W|gradually|تدريجيًا|The situation improved gradually.|تحسّن الوضع تدريجيًا.|adverb
 W|diversity|التنوّع|The city is proud of its cultural diversity.|تفخر المدينة بتنوّعها الثقافي.|noun
-W|mainstream|السائد|The band became mainstream after their second album.|أصبحت الفرقة سائدة بعد ألبومها الثاني.|adjective
-W|blend|مزيج؛ يمزج|The food is a blend of Arabic and Indian styles.|الطعام مزيج من الأسلوبين العربي والهندي.|noun
+W | mainstream | السائد | The band became mainstream after their second album. | أصبحت الفرقة واسعة الانتشار بعد ألبومها الثاني. | adjective
+W | blend | مزيج | The food is a blend of Arabic and Indian styles. | الطعام مزيج من الأسلوبين العربي والهندي. | noun
 W|cultural homogenisation|تجانس ثقافي|Critics argue that cultural homogenisation can weaken distinctive local practices.|يرى منتقدون أن التجانس الثقافي قد يضعف الممارسات المحلية المميزة.|noun
 W|cross-cultural|عابر للثقافات|Cross-cultural exchange can create new forms of music and art.|يمكن للتبادل العابر للثقافات أن يخلق أشكالًا جديدة من الموسيقى والفن.|adjective
 U|b2-x-u10|القانون والمجتمع|Law and Society|ناقش الجريمة والعدالة وحقوق الإنسان والأنظمة وحقوق المستهلك.|building.columns.fill|Discuss crime and justice, human rights, rules and regulations, and consumer rights.
 L|الجريمة والعدالة|Crime and Justice|أن يناقش المتعلم أهداف العقوبة وبدائل السجن.|Some argue that community service is more effective than prison for minor offences.|يرى بعضهم أن الخدمة المجتمعية أكثر فاعلية من السجن في الجرائم البسيطة.|To discuss the aims of punishment and alternatives to prison.
-W|offence|مخالفة؛ جريمة|Driving without a licence is a serious offence.|القيادة دون رخصة مخالفة خطيرة.|noun
+W | offence | مخالفة؛ جريمة | The report compares penalties for different types of offence. | يقارن التقرير العقوبات المقررة لأنواع مختلفة من الجرائم. | noun
 W|community service|الخدمة المجتمعية|He was sentenced to community service.|حُكم عليه بالخدمة المجتمعية.|noun
-W|sentence|حكم قضائي؛ يحكم|The judge gave him a two-year sentence.|أصدر القاضي بحقه حكمًا بالسجن عامين.|noun
-W|deterrent|رادع|High fines act as a deterrent.|تعمل الغرامات المرتفعة كرادع.|noun
+W | sentence | عقوبة قضائية | The judge gave him a two-year sentence. | أصدر القاضي بحقه حكمًا بالسجن عامين. | noun
+W | deterrent | رادع | The policy uses fines as a deterrent, but its effects still need evaluation. | تستخدم السياسة الغرامات رادعًا، لكن آثارها لا تزال بحاجة إلى تقييم. | noun
 W|rehabilitation|إعادة التأهيل|Prisons should focus on rehabilitation.|ينبغي أن تركّز السجون على إعادة التأهيل.|noun
 W|minor|بسيط؛ ثانوي|It was only a minor accident.|كان مجرد حادث بسيط.|adjective
 W|reoffending|العودة إلى الجريمة|Rehabilitation programmes are often assessed by whether they reduce reoffending.|تُقيّم برامج إعادة التأهيل غالبًا بحسب ما إذا كانت تقلل العودة إلى الجريمة.|noun
 W|restorative justice|عدالة تصالحية|Restorative justice can involve dialogue between those affected where the process is appropriate.|قد تشمل العدالة التصالحية حوارًا بين المتأثرين عندما يكون هذا المسار مناسبًا.|noun
 L|حقوق الإنسان|Human Rights|أن يتحدث المتعلم عن حقوق أساسية وكيف تُحمى.|Everyone is entitled to a fair trial and freedom of expression.|لكل شخص الحق في محاكمة عادلة وحرية التعبير.|To talk about basic rights and how they are protected.
-W|be entitled to|يحق له|Employees are entitled to paid holiday.|يحق للموظفين إجازة مدفوعة.|phrase
+W | be entitled to | يحق له | Under this company’s policy, staff are entitled to one paid training day. | بموجب سياسة هذه الشركة، يحق للموظفين يوم تدريب واحد مدفوع الأجر. | phrase
 W|fair trial|محاكمة عادلة|Every suspect deserves a fair trial.|يستحق كل مشتبه به محاكمة عادلة.|noun
-W|freedom of expression|حرية التعبير|Freedom of expression has limits.|لحرية التعبير حدود.|noun
-W|discrimination|تمييز|The law bans discrimination at work.|يحظر القانون التمييز في العمل.|noun
+W | freedom of expression | حرية التعبير | The seminar examined freedom of expression and how restrictions are justified. | تناولت الندوة حرية التعبير وكيفية تبرير القيود عليها. | noun
+W | discrimination | تمييز | The report examines allegations of discrimination at work. | يفحص التقرير ادعاءات بوجود تمييز في العمل. | noun
 W|equality|المساواة|They campaign for gender equality.|يناضلون من أجل المساواة بين الجنسين.|noun
 W|violate|ينتهك|The decision violates basic rights.|ينتهك القرار حقوقًا أساسية.|verb
 W|civil liberties|حريات مدنية|Civil liberties protect individuals against certain forms of state interference.|تحمي الحريات المدنية الأفراد من بعض أشكال تدخل الدولة.|noun
 W|arbitrary|تعسفي|A restriction should not be arbitrary or applied without a lawful basis.|ينبغي ألا يكون القيد تعسفيًا أو مطبقًا دون أساس قانوني.|adjective
 L|الأنظمة واللوائح|Rules and Regulations|أن يناقش المتعلم ضرورة الأنظمة ونتائج مخالفتها.|Companies that fail to comply with safety regulations can face heavy fines.|الشركات التي لا تلتزم بأنظمة السلامة قد تواجه غرامات كبيرة.|To discuss why regulations are needed and what happens when they are broken.
 W|comply with|يمتثل لـ|All drivers must comply with the new rules.|يجب على جميع السائقين الامتثال للقواعد الجديدة.|phrasal verb
-W|regulations|أنظمة؛ لوائح|Safety regulations are stricter now.|أنظمة السلامة أكثر صرامة الآن.|noun
+W | regulations | أنظمة؛ لوائح | We compared the proposed regulations with the existing rules. | قارنّا اللوائح المقترحة بالقواعد القائمة. | noun
 W|fine|غرامة|He paid a fine for speeding.|دفع غرامة بسبب السرعة.|noun
 W|enforce|يطبّق (القانون)|The police enforce the speed limit.|تطبّق الشرطة حد السرعة.|verb
 W|loophole|ثغرة (قانونية)|They used a loophole to avoid paying tax.|استغلوا ثغرة لتجنّب دفع الضرائب.|noun
-W|ban|يحظر؛ حظر|Smoking is banned in public buildings.|التدخين محظور في المباني العامة.|verb
+W | ban | يحظر | The policy would ban smoking in the building. | ستحظر السياسة التدخين في المبنى. | verb
 W|penalty|عقوبة؛ جزاء|The possible penalty depends on the rule and the seriousness of the breach.|يعتمد الجزاء المحتمل على القاعدة وجسامة المخالفة.|noun
 W|exemption|استثناء|Some small organisations may qualify for an exemption under specific conditions.|قد تتأهل بعض المؤسسات الصغيرة لاستثناء وفق شروط محددة.|noun
-L|حقوق المستهلك|Consumer Rights|أن يطالب المتعلم بحقه كمستهلك بلغة رسمية واضحة.|Under consumer law, you are entitled to a replacement if the product is defective.|بموجب قانون حماية المستهلك، يحق لك الحصول على بديل إذا كان المنتج معيبًا.|To claim your rights as a consumer in clear, formal language.
+L | حقوق المستهلك | Consumer Rights | أن يطالب المتعلم بحقه كمستهلك بلغة رسمية واضحة. | The product is defective, so I would like to discuss the available warranty options. | المنتج معيب، لذلك أود مناقشة الخيارات المتاحة بموجب الضمان. | To claim your rights as a consumer in clear, formal language.
 W|consumer|مستهلك|Consumers have the right to clear information.|للمستهلكين الحق في معلومات واضحة.|noun
 W|replacement|بديل|The shop offered a replacement.|عرض المتجر بديلًا.|noun
 W|defective|معيب|The batch of phones was defective.|كانت دفعة الهواتف معيبة.|adjective
 W|warranty|ضمان|The laptop is still under warranty.|ما زال الحاسوب المحمول تحت الضمان.|noun
-W|claim|يطالب بـ؛ مطالبة|You can claim compensation for the delay.|يمكنك المطالبة بتعويض عن التأخير.|verb
+W | claim | يطالب بـ | The customer asked how to claim compensation for the delay. | سأل العميل عن كيفية المطالبة بتعويض عن التأخير. | verb
 W|compensation|تعويض|The airline paid compensation to passengers.|دفعت شركة الطيران تعويضًا للركاب.|noun
 W|consumer protection|حماية المستهلك|Consumer protection rules vary by jurisdiction and type of purchase.|تختلف قواعد حماية المستهلك باختلاف الولاية القضائية ونوع الشراء.|noun
 W|proof of purchase|إثبات شراء|Keep proof of purchase in case you need to make a claim.|احتفظ بإثبات الشراء في حال احتجت إلى تقديم مطالبة.|noun

@@ -11,3 +11,5 @@ These references support limited factual checks in language-learning material. F
 The review replaced unsourced rankings, changing conservation-status examples and broad treatment claims with stable language-practice contexts. No claim that every example is individually sourced is intended.
 
 - CISA, Secure Our World MFA tip sheet: https://www.cisa.gov/sites/default/files/2024-09/Secure-Our-World-MFA-Tip-Sheet.pdf and NIST phishing guidance: https://www.nist.gov/itl/smallbusinesscyber/guidance-topic/phishing — checked 2026-10-05 for MFA and phishing terminology. The lessons distinguish added protection from a guarantee against all attacks.
+
+- United Nations, Universal Declaration of Human Rights, Articles 10 and 19: https://www.un.org/en/about-us/universal-declaration-of-human-rights — checked 2026-10-05 for the fair-trial and expression examples. Employment and consumer examples were narrowed to stated policies or requests rather than universal jurisdiction-specific entitlements.

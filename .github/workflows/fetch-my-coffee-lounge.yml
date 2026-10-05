@@ -27,72 +27,83 @@ jobs:
           set -euo pipefail
           EXPECTED="78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81"
           OUT="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
-          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/140 Safari/537.36"
 
           try_url() {
             local url="$1"
-            echo "Trying: $url"
+            echo "Trying CDN candidate"
             rm -f "$OUT"
-            if curl -fL --retry 3 --retry-all-errors --connect-timeout 20 --max-time 600 \
-              -A "$UA" -H "Referer: https://apkpure.net/" "$url" -o "$OUT"; then
-              local actual
+            if curl -fL --compressed --retry 2 --retry-all-errors --connect-timeout 20 --max-time 600 \
+              -A "APKPure/3.20.50 (Linux; Android 14)" "$url" -o "$OUT"; then
+              local actual size
               actual="$(sha256sum "$OUT" | awk '{print $1}')"
-              echo "Downloaded size: $(stat -c%s "$OUT") bytes"
+              size="$(stat -c%s "$OUT")"
+              echo "Downloaded size: $size bytes"
               echo "SHA-256: $actual"
               if [[ "$actual" == "$EXPECTED" ]]; then
                 return 0
               fi
-              echo "Hash mismatch; rejecting this download."
+              echo "Hash mismatch; rejecting candidate."
             fi
             return 1
           }
 
-          urls=(
-            "https://d.apkpure.com/b/XAPK/com.delonghigroup.daedalus?version=latest"
-            "https://d.apkpure.com/b/XAPK/com.delonghigroup.daedalus?versionCode=318"
-            "https://d.apkpure.com/b/XAPK/com.delonghigroup.daedalus?version=1.5.0"
-          )
+          API="https://api.pureapk.com/m/v3/cms/app_version?hl=en-US&package_name=com.delonghigroup.daedalus"
+          echo "Requesting APKPure app-version API..."
+          curl -fLsS --compressed "$API" \
+            -H 'x-cv: 3172501' \
+            -H 'x-sv: 29' \
+            -H 'x-abis: arm64-v8a,armeabi-v7a,armeabi,x86,x86_64' \
+            -H 'x-gp: 1' \
+            -o /tmp/apkpure-api.bin
+
+          python3 - <<'PY' > /tmp/candidates.txt
+          import re
+          b=open('/tmp/apkpure-api.bin','rb').read()
+          s=b.decode('latin1', errors='ignore')
+          urls=[]
+          # APKPure API embeds XAPKJ immediately before XAPK download URLs.
+          for m in re.finditer(r'XAPKJ..(https?://[A-Za-z0-9@:%._+~#=()/?&;,-]+)', s, re.S):
+              urls.append(m.group(1))
+          # Fallback: harvest any absolute URL that visibly targets an XAPK.
+          if not urls:
+              for m in re.finditer(r'https?://[A-Za-z0-9@:%._+~#=()/?&;,-]+', s):
+                  u=m.group(0)
+                  if '/XAPK/' in u or 'xapk' in u.lower():
+                      urls.append(u)
+          seen=set()
+          for u in urls:
+              if u not in seen:
+                  seen.add(u)
+                  print(u)
+          PY
+
+          count="$(wc -l < /tmp/candidates.txt | tr -d ' ')"
+          echo "XAPK candidates returned by API: $count"
+          if [[ "$count" -eq 0 ]]; then
+            echo "No XAPK CDN links were found in the API response."
+            exit 1
+          fi
 
           found=0
-          for url in "${urls[@]}"; do
+          n=0
+          while IFS= read -r url; do
+            [[ -n "$url" ]] || continue
+            n=$((n+1))
+            echo "Testing candidate #$n"
             if try_url "$url"; then
               found=1
               break
             fi
-          done
+            # Latest versions are returned first. Avoid downloading an unbounded archive.
+            if [[ "$n" -ge 5 ]]; then
+              break
+            fi
+          done < /tmp/candidates.txt
 
           if [[ "$found" -ne 1 ]]; then
-            echo "Direct links did not produce the exact file. Scraping the APKPure 1.5.0 download page for candidate links..."
-            PAGE="https://apkpure.net/my-coffee-lounge/com.delonghigroup.daedalus/download/1.5.0"
-            curl -fLsS -A "$UA" "$PAGE" -o /tmp/apkpure.html
-            python3 - <<'PY' > /tmp/candidates.txt
-          import html, re
-          s=open('/tmp/apkpure.html', encoding='utf-8', errors='ignore').read()
-          seen=set()
-          patterns=[
-              r'https://d\.apkpure\.com/[^"\'<> ]+',
-              r'https://[^"\'<> ]+\.apkpure\.com/[^"\'<> ]+(?:XAPK|xapk)[^"\'<> ]*',
-          ]
-          for p in patterns:
-              for u in re.findall(p, s):
-                  u=html.unescape(u).replace('\\u0026','&')
-                  if u not in seen:
-                      seen.add(u); print(u)
-          PY
-            while IFS= read -r url; do
-              [[ -n "$url" ]] || continue
-              if try_url "$url"; then
-                found=1
-                break
-              fi
-            done < /tmp/candidates.txt
-          fi
-
-          if [[ "$found" -ne 1 ]]; then
-            echo "Could not obtain a byte-for-byte match for the uploaded XAPK. Nothing will be committed."
+            echo "No byte-for-byte match found. Nothing will be committed."
             exit 1
           fi
-
           echo "$EXPECTED  $OUT" | sha256sum -c -
 
       - name: Split into GitHub-safe parts

@@ -1,4 +1,4 @@
-# Codemagic: builds an unsigned IPA (start it from the Codemagic dashboard).
+# Codemagic: builds an unsigned IPA on every push to claude/coffee-access.
 # Sign it on your own device with a free Apple ID (Sideloadly / AltStore).
 workflows:
   coffee-access-unsigned-ipa:
@@ -7,8 +7,12 @@ workflows:
     max_build_duration: 30
     environment:
       xcode: latest
-    # Start builds manually from Codemagic until the first green GitHub run;
-    # automatic triggering is switched on once the app compiles cleanly.
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "claude/coffee-access"
+          include: true
     scripts:
       - name: Source checks
         script: |

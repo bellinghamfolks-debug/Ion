@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة ثمانية دروس B2 عن البيئة والصحة: تدقيق حقائق حساسة بمراجع رسمية، إزالة تعميمات طبية وتصنيفات متغيرة، وتمييز الأهداف والنتائج والسببية.",
-  "nextStep": "Continue editorial review from b2-x-u7-l1; save and validate each batch.",
+  "lastCompletedStep": "مراجعة ثمانية دروس B2 عن البيانات والإعلام والعمل: تمييز السرية من إخفاء الهوية، تصحيح المصادقة الثنائية، وأمثلة أدق على الأتمتة والخلاف والتقييم المهني.",
+  "nextStep": "Continue editorial review from b2-x-u9-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -3325,72 +3325,96 @@
       "level": "B2",
       "titleAr": "الخصوصية والبيانات",
       "titleEn": "Privacy and Data",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u7-l2",
       "level": "B2",
       "titleAr": "تأثير وسائل التواصل",
       "titleEn": "Social Media Influence",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u7-l3",
       "level": "B2",
       "titleAr": "الأتمتة والوظائف",
       "titleEn": "Automation and Jobs",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u7-l4",
       "level": "B2",
       "titleAr": "الأمن السيبراني",
       "titleEn": "Cybersecurity",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u8-l1",
       "level": "B2",
       "titleAr": "العمل عن بُعد",
       "titleEn": "Remote Work",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u8-l2",
       "level": "B2",
       "titleAr": "تغيير المسار المهني",
       "titleEn": "Career Changes",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u8-l3",
       "level": "B2",
       "titleAr": "الخلافات في العمل",
       "titleEn": "Workplace Conflict",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u8-l4",
       "level": "B2",
       "titleAr": "تقييم الأداء",
       "titleEn": "Performance Reviews",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u9-l1",
@@ -4085,7 +4109,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 276,
-    "pending": 84
+    "reviewed": 284,
+    "pending": 76
   }
 }

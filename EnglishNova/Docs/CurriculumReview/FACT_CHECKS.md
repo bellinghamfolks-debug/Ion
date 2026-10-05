@@ -9,3 +9,5 @@ These references support limited factual checks in language-learning material. F
 - NIH Office of Dietary Supplements, consumer information: https://ods.od.nih.gov/factsheets/WYNTK-Consumer/ — informs removal of a blanket claim that most people do not need supplements; the replacement is a language example asking about a possible interaction, not a treatment recommendation.
 
 The review replaced unsourced rankings, changing conservation-status examples and broad treatment claims with stable language-practice contexts. No claim that every example is individually sourced is intended.
+
+- CISA, Secure Our World MFA tip sheet: https://www.cisa.gov/sites/default/files/2024-09/Secure-Our-World-MFA-Tip-Sheet.pdf and NIST phishing guidance: https://www.nist.gov/itl/smallbusinesscyber/guidance-topic/phishing — checked 2026-10-05 for MFA and phishing terminology. The lessons distinguish added protection from a guarantee against all attacks.

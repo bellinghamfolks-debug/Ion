@@ -76,14 +76,14 @@ W|overrated|مبالغ في تقديره|Some so-called superfoods are overrated
 U|b2-x-u7|التقنية والأخلاقيات|Technology and Ethics|ناقش الخصوصية وتأثير وسائل التواصل والأتمتة والأمن السيبراني.|cpu.fill|Discuss privacy, the influence of social media, automation and cybersecurity.
 L|الخصوصية والبيانات|Privacy and Data|أن يناقش المتعلم جمع البيانات الشخصية وحقوق المستخدم.|Many apps collect personal data without users fully understanding what they have consented to.|تجمع تطبيقات كثيرة بيانات شخصية دون أن يفهم المستخدمون تمامًا ما وافقوا عليه.|To discuss the collection of personal data and users' rights.
 W|personal data|بيانات شخصية|Never share personal data with strangers.|لا تشارك بياناتك الشخصية مع الغرباء أبدًا.|noun
-W|consent|موافقة؛ يوافق|Users must give consent before tracking starts.|يجب أن يوافق المستخدمون قبل بدء التتبع.|noun
+W | consent | موافقة | The form asks for consent to use the responses in a report. | يطلب النموذج الموافقة على استخدام الإجابات في تقرير. | noun
 W|surveillance|مراقبة|Cameras have increased surveillance in public places.|زادت الكاميرات المراقبة في الأماكن العامة.|noun
-W|terms and conditions|الشروط والأحكام|Hardly anyone reads the terms and conditions.|نادرًا ما يقرأ أحد الشروط والأحكام.|noun
+W | terms and conditions | الشروط والأحكام | I read the terms and conditions before accepting the offer. | قرأت الشروط والأحكام قبل قبول العرض. | noun
 W|anonymous|مجهول الهوية|The survey is completely anonymous.|الاستبيان مجهول الهوية تمامًا.|adjective
 W|breach|اختراق؛ انتهاك|The data breach affected millions of customers.|أثّر اختراق البيانات على ملايين العملاء.|noun
 W|data protection|حماية البيانات|Data protection rules limit how organisations may use personal information.|تقيد قواعد حماية البيانات كيفية استخدام المؤسسات للمعلومات الشخصية.|noun
 W|opt out|يرفض المشاركة|Users should be able to opt out of optional tracking where the service allows it.|ينبغي أن يتمكن المستخدمون من رفض التتبع الاختياري عندما تسمح الخدمة بذلك.|phrasal verb
-L|تأثير وسائل التواصل|Social Media Influence|أن يحلل المتعلم أثر المؤثرين والخوارزميات في آراء الناس.|Algorithms tend to reinforce what we already believe and keep us in an echo chamber.|تميل الخوارزميات إلى تعزيز ما نؤمن به أصلًا وإبقائنا في غرفة صدى.|To analyse how influencers and algorithms shape people's opinions.
+L | تأثير وسائل التواصل | Social Media Influence | أن يحلل المتعلم أثر المؤثرين والخوارزميات في آراء الناس. | An algorithm may reinforce familiar views by repeatedly recommending similar content. | قد تعزز خوارزمية الآراء المألوفة بتكرار التوصية بمحتوى متشابه. | To analyse how influencers and algorithms shape people's opinions.
 W|algorithm|خوارزمية|The algorithm decides what you see first.|تحدّد الخوارزمية ما تراه أولًا.|noun
 W|influencer|مؤثّر|The influencer promoted a new skincare brand.|روّج المؤثّر لعلامة جديدة للعناية بالبشرة.|noun
 W|reinforce|يعزّز|The film reinforces old stereotypes.|يعزّز الفيلم صورًا نمطية قديمة.|verb
@@ -94,37 +94,37 @@ W|filter bubble|فقاعة ترشيح|A filter bubble may limit the range of vie
 W|misleading|مضلل|A viral post can be misleading even when part of it is technically true.|قد يكون المنشور واسع الانتشار مضللًا حتى لو كان جزء منه صحيحًا تقنيًا.|adjective
 L|الأتمتة والوظائف|Automation and Jobs|أن يناقش المتعلم أثر الأتمتة على سوق العمل بحجج متوازنة.|While automation may replace some jobs, it is also likely to create new roles.|في حين قد تحلّ الأتمتة محل بعض الوظائف، فمن المرجّح أيضًا أن تخلق أدوارًا جديدة.|To discuss the effect of automation on the job market with balanced arguments.
 W|robots|روبوتات|Robots now do much of the work in the factory.|تؤدي الروبوتات الآن كثيرًا من العمل في المصنع.|noun
-W|replace|يحلّ محلّ|Machines will not replace teachers.|لن تحلّ الآلات محل المعلمين.|verb
-W|workforce|القوى العاملة|Women make up half of the workforce.|تشكّل النساء نصف القوى العاملة.|noun
+W | replace | يحلّ محلّ | The proposal would replace paper forms with an online system. | سيستبدل المقترح النماذج الورقية بنظام إلكتروني. | verb
+W | workforce | القوى العاملة | The company asked its workforce about training needs. | سألت الشركة العاملين لديها عن احتياجات التدريب. | noun
 W|retrain|يعيد التأهيل|Many workers will need to retrain.|سيحتاج كثير من العمال إلى إعادة التأهيل.|verb
 W|redundant|مُستغنى عنه (من العمل)|Two hundred staff were made redundant.|استُغني عن مئتي موظف.|adjective
 W|while|في حين|While I agree in principle, I have some doubts.|في حين أنني أوافق من حيث المبدأ، لدي بعض الشكوك.|conjunction
 W|reskill|يعيد التأهيل المهاري|Some workers may need to reskill as technology changes their roles.|قد يحتاج بعض العاملين إلى إعادة التأهيل المهاري مع تغير أدوارهم بسبب التقنية.|verb
 W|routine task|مهمة روتينية|Software can automate a routine task without replacing an entire occupation.|يمكن للبرمجيات أتمتة مهمة روتينية دون استبدال مهنة كاملة.|noun
-L|الأمن السيبراني|Cybersecurity|أن يقدم المتعلم نصائح لحماية الحسابات من الاحتيال الإلكتروني.|Never click on suspicious links, and enable two-factor authentication on every account.|لا تنقر أبدًا على روابط مريبة، وفعّل التحقق بخطوتين في كل حساب.|To give advice on protecting accounts from online fraud.
+L | الأمن السيبراني | Cybersecurity | أن يقدم المتعلم نصائح لحماية الحسابات من الاحتيال الإلكتروني. | Enable two-factor authentication where available, and check unexpected requests through a trusted channel. | فعّل المصادقة الثنائية حيث تتوفر، وتحقق من الطلبات غير المتوقعة عبر قناة موثوقة. | To give advice on protecting accounts from online fraud.
 W|suspicious|مريب|Delete any suspicious emails.|احذف أي رسائل مريبة.|adjective
-W|two-factor authentication|التحقق بخطوتين|Two-factor authentication makes accounts safer.|يجعل التحقق بخطوتين الحسابات أكثر أمانًا.|noun
+W | two-factor authentication | المصادقة الثنائية؛ التحقق بعاملين | Two-factor authentication makes accounts safer. | تضيف المصادقة الثنائية حماية للحسابات. | noun
 W|phishing|التصيّد الاحتيالي|The bank warned customers about phishing emails.|حذّر البنك العملاء من رسائل التصيّد الاحتيالي.|noun
 W|hacker|مخترق|Hackers stole thousands of passwords.|سرق مخترقون آلاف كلمات المرور.|noun
-W|vulnerable|عُرضة للخطر|Older software is more vulnerable to attacks.|البرامج القديمة أكثر عرضة للهجمات.|adjective
-W|encrypted|مشفَّر|Your messages are encrypted end to end.|رسائلك مشفّرة من طرف إلى طرف.|adjective
+W | vulnerable | عُرضة للخطر | Unpatched software may be vulnerable to known attacks. | قد تكون البرمجيات التي لم تُثبَّت تحديثاتها الأمنية عرضة لهجمات معروفة. | adjective
+W | encrypted | مشفَّر | The team checked whether the stored files were encrypted. | تحقق الفريق مما إذا كانت الملفات المخزنة مشفرة. | adjective
 W|data leak|تسرب بيانات|The company reset accounts after discovering a data leak.|أعادت الشركة ضبط الحسابات بعد اكتشاف تسرب بيانات.|noun
 W|malware|برمجية خبيثة|Malware can enter a device through a malicious attachment or download.|قد تدخل البرمجية الخبيثة إلى الجهاز عبر مرفق أو تنزيل ضار.|noun
 U|b2-x-u8|العمل والمسار المهني|Work and Careers|تحدّث عن العمل عن بُعد وتغيير المسار المهني وخلافات العمل وتقييم الأداء.|briefcase.circle.fill|Talk about remote work, career changes, workplace conflict and performance reviews.
 L|العمل عن بُعد|Remote Work|أن يوازن المتعلم بين مزايا العمل عن بُعد وتحدياته.|Working from home gives me more flexibility, but I sometimes struggle to switch off.|يمنحني العمل من البيت مرونة أكبر، لكنني أجد صعوبة أحيانًا في الانفصال عن العمل.|To weigh up the benefits and challenges of remote work.
 W|flexibility|مرونة|The job offers a lot of flexibility.|توفّر الوظيفة قدرًا كبيرًا من المرونة.|noun
 W|switch off|ينفصل ذهنيًا (عن العمل)|I find it hard to switch off at weekends.|أجد صعوبة في الانفصال عن العمل في عطلة نهاية الأسبوع.|phrasal verb
-W|work-life balance|التوازن بين العمل والحياة|A good work-life balance prevents burnout.|التوازن الجيد بين العمل والحياة يمنع الاحتراق.|noun
-W|productivity|الإنتاجية|Some studies show productivity rises at home.|تُظهر بعض الدراسات أن الإنتاجية ترتفع في البيت.|noun
+W | work-life balance | التوازن بين العمل والحياة | We discussed work-life balance when setting expectations for evening messages. | ناقشنا التوازن بين العمل والحياة عند تحديد التوقعات بشأن الرسائل المسائية. | noun
+W | productivity | الإنتاجية | The team compared productivity before and after changing its work schedule. | قارن الفريق الإنتاجية قبل تغيير جدول عمله وبعده. | noun
 W|hybrid|هجين|We have a hybrid model: three days in the office.|لدينا نموذج هجين: ثلاثة أيام في المكتب.|adjective
 W|isolation|العزلة|Some remote workers suffer from isolation.|يعاني بعض العاملين عن بُعد من العزلة.|noun
 W|asynchronous|غير متزامن|Asynchronous communication lets colleagues respond at different times.|يسمح التواصل غير المتزامن للزملاء بالرد في أوقات مختلفة.|adjective
 W|collaboration|تعاون|Good collaboration requires clear expectations as well as useful tools.|يتطلب التعاون الجيد توقعات واضحة إلى جانب أدوات مفيدة.|noun
 L|تغيير المسار المهني|Career Changes|أن يشرح المتعلم أسباب تغيير مساره المهني والمخاطر المرتبطة به.|After ten years in banking, she decided to take the plunge and retrain as a teacher.|بعد عشر سنوات في القطاع المصرفي، قررت أن تخاطر وتعيد تأهيل نفسها لتصبح معلمة.|To explain the reasons for and risks of changing career.
-W|take the plunge|يخاطر ويُقدِم|It's time to take the plunge and start your own business.|حان الوقت لتُقدم وتبدأ مشروعك الخاص.|idiom
+W | take the plunge | يخاطر ويُقدِم | After researching the options, she decided to take the plunge. | بعد دراسة الخيارات، قررت الإقدام على الخطوة. | idiom
 W|career path|المسار المهني|She chose an unusual career path.|اختارت مسارًا مهنيًا غير معتاد.|noun
 W|transferable skills|مهارات قابلة للنقل|Leadership is a transferable skill.|القيادة مهارة قابلة للنقل.|noun
-W|fulfilling|مُرضٍ؛ يمنح الإشباع|Nursing is a very fulfilling job.|التمريض وظيفة مُرضية جدًا.|adjective
+W | fulfilling | مُرضٍ؛ يمنح الإشباع | She finds her work as a nurse fulfilling. | تجد عملها في التمريض مُرضيًا لها. | adjective
 W|setback|انتكاسة|Losing the contract was a major setback.|كانت خسارة العقد انتكاسة كبيرة.|noun
 W|leap|قفزة|Moving abroad was a big leap for me.|كان الانتقال إلى الخارج قفزة كبيرة بالنسبة لي.|noun
 W|career break|انقطاع مهني|She took a career break before deciding what to do next.|انقطعت عن العمل فترةً قبل أن تقرر خطوتها التالية.|noun
@@ -146,7 +146,7 @@ W|measurable|قابل للقياس|Set clear and measurable goals.|ضع أهدا
 W|room for improvement|مجال للتحسين|There is still room for improvement.|ما زال هناك مجال للتحسين.|phrase
 W|promotion|ترقية|She got a promotion after two years.|حصلت على ترقية بعد عامين.|noun
 W|constructive feedback|ملاحظات بناءة|Constructive feedback explains both what worked and what could improve.|توضح الملاحظات البناءة ما نجح وما يمكن تحسينه.|noun
-W|underperform|يقصّر في الأداء|If someone underperforms, discuss the reasons before setting new targets.|إذا قصّر أحدهم في الأداء، ناقش الأسباب قبل وضع أهداف جديدة.|verb
+W | underperform | يؤدي دون المستوى المتوقع | If someone underperforms, discuss the reasons before setting new targets. | إذا جاء أداء شخص دون المتوقع، فناقش الأسباب قبل تحديد أهداف جديدة. | verb
 U|b2-x-u9|الثقافة والفنون|Culture and the Arts|حلّل الأعمال الفنية، وتحدّث عن التراث الثقافي ونقد الأفلام والأدب والهوية في عصر العولمة.|paintpalette.fill|Interpret art, and talk about cultural heritage, film and book criticism, and identity in a globalised world.
 L|الفن وتفسيره|Art and Interpretation|أن يصف المتعلم عملًا فنيًا ويقدّم تفسيرًا مدعومًا.|The painting is open to interpretation, but to me it conveys a sense of loneliness.|اللوحة قابلة لتفسيرات مختلفة، لكنها بالنسبة لي تنقل إحساسًا بالوحدة.|To describe a work of art and offer a supported interpretation.
 W|interpretation|تفسير|Each viewer brings their own interpretation.|كل مشاهد يأتي بتفسيره الخاص.|noun

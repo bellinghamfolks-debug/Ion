@@ -682,5 +682,157 @@
       "explanationAr": "ترتيب الحدثين زمنيًا لا يعزل السبب. لا تسمح تجربة واحدة بالتعميم أو باستبعاد جميع التفسيرات الأخرى.",
       "explanationEn": "A sequence in time does not isolate the cause. One experience cannot justify generalization or eliminate every alternative explanation."
     }
+  },
+  "b2-x-u7-l1": {
+    "focusAr": "consent هنا اسم بمعنى الموافقة؛ نقول give consent to something أوconsent to something عندما تكون فعلًا. opt out of تعني الانسحاب من مشاركة اختيارية. anonymous تتعلق بعدم معرفة الهوية، وconfidential تتعلق بتقييد الإفصاح؛ فهما ليسا مترادفين. عند الاستفسار عن البيانات، اسأل ما يُجمع ولماذا وكم يُحتفظ به بدل استنتاج التفاصيل من وصف عام.",
+    "focusEn": "Consent is a noun here: give consent to something, or consent to something when used as a verb. Opt out of means withdraw from optional participation. Anonymous concerns identity not being known, while confidential concerns restricted disclosure; they are not synonyms. Ask what data are collected, why, and for how long rather than inferring details from a general label.",
+    "taskAr": "اكتب استفسارًا عن استبيان قبل المشاركة: هل تُجمع الأسماء، ومن يرى الإجابات، وهل يمكن رفض المشاركة؟",
+    "taskEn": "Write an inquiry before completing a survey: ask whether names are collected, who sees answers, and whether participation can be declined.",
+    "exampleEn": "Before I give consent, could you explain whether you collect names and who can access the responses? I would also like to know whether I can opt out without affecting my access to the service.",
+    "exampleAr": "قبل أن أوافق، هل يمكنكم توضيح ما إذا كنتم تجمعون الأسماء ومن يستطيع الاطلاع على الإجابات؟ وأود أيضًا معرفة هل يمكنني عدم المشاركة دون التأثير في وصولي إلى الخدمة.",
+    "check": {
+      "promptEn": "A survey collects names but restricts who can read the answers. Which description fits the information given?",
+      "choices": [
+        "The responses are confidential, but not anonymous.",
+        "The responses are automatically anonymous because access is restricted.",
+        "No personal data are collected."
+      ],
+      "answer": "The responses are confidential, but not anonymous.",
+      "explanationAr": "جمع الأسماء يجعل الهوية معروفة، بينما تقييد الاطلاع يتعلق بالسرية. لا يحوّل تقييد الوصول البيانات المسماة إلى بيانات مجهولة الهوية.",
+      "explanationEn": "Collecting names makes identity known; restricting access concerns confidentiality. Restricted access does not make named data anonymous."
+    }
+  },
+  "b2-x-u7-l2": {
+    "focusAr": "go viral يصف سرعة الانتشار أو اتساعه، ولا يثبت صدق المحتوى. clickbait عنوان يغري بالنقر وقد يخفي معلومة مهمة أو يبالغ. echo chamber تكرار آراء متشابهة يعززها، وfilter bubble تضييق ما يصل للمستخدم بسبب التخصيص؛ قد تتداخل الظاهرتان. حلّل العنوان والمصدر والسياق بدل استخدام عدد المشاركات دليلًا على الصحة.",
+    "focusEn": "Go viral describes rapid or widespread sharing, not truth. Clickbait attracts clicks by withholding information or exaggerating. An echo chamber reinforces similar views, while a filter bubble narrows exposure through personalization; they can overlap. Analyse the headline, source, and context instead of treating share counts as proof.",
+    "taskAr": "حلّل منشورًا واسع الانتشار اقتطع نتيجة من دراسة: حدّد ما يلزم مراجعته قبل إعادة نشره.",
+    "taskEn": "Analyse a widely shared post quoting one study result out of context: state what should be checked before sharing it.",
+    "exampleEn": "The post has gone viral, but popularity does not establish accuracy. I would check the original study, the group it examined, and whether the post leaves out limitations that change the meaning.",
+    "exampleAr": "انتشر المنشور على نطاق واسع، لكن الشعبية لا تثبت الدقة. سأراجع الدراسة الأصلية والمجموعة التي فحصتها، وما إذا كان المنشور يحذف قيودًا تغيّر المعنى.",
+    "check": {
+      "promptEn": "A post has been shared a million times. What does that number establish on its own?",
+      "choices": [
+        "Extensive sharing, rather than verified accuracy.",
+        "Independent confirmation of every statement.",
+        "Proof that the original source has no limitations."
+      ],
+      "answer": "Extensive sharing, rather than verified accuracy.",
+      "explanationAr": "عدد المشاركات يدل على الانتشار فقط. قد يتداول الناس الادعاء نفسه دون تحقق مستقل، لذا لا يثبت العدد دقة المعلومة.",
+      "explanationEn": "Share counts establish circulation only. People may repeat the same unverified claim, so the number does not prove accuracy."
+    }
+  },
+  "b2-x-u7-l3": {
+    "focusAr": "فرّق بين routine task مهمة متكررة ومهنة تضم عدة مهام؛ أتمتة إحداها لا تعني استبدال المهنة كلها. retrain وreskill اكتساب تدريب أو مهارات جديدة، وقد يتداخلان. redundant في العمل تعني الاستغناء عن الدور، لا الحكم على قيمة الشخص. while قد تربط فكرتين متعارضتين بدل الدلالة على التزامن.",
+    "focusEn": "Distinguish a routine task from an occupation containing several tasks; automating one does not mean replacing the entire occupation. Retrain and reskill concern new training or skills and can overlap. Redundant in employment concerns a role becoming unnecessary, not a person's worth. While can express contrast rather than simultaneous time.",
+    "taskAr": "ناقش أتمتة إدخال البيانات في فريق تخيلي: اذكر ما قد يتغير وما يزال يحتاج عملًا بشريًا وتدريبًا.",
+    "taskEn": "Discuss automating data entry in an imagined team: identify what may change and what still needs human work and training.",
+    "exampleEn": "While software may handle routine data entry, staff will still need to investigate unusual cases in this plan. The team may need to reskill so that members can check results and resolve exceptions.",
+    "exampleAr": "مع أن البرمجيات قد تتولى الإدخال الروتيني للبيانات، سيظل الموظفون بحاجة إلى فحص الحالات غير المعتادة في هذه الخطة. وقد يحتاج الفريق إلى اكتساب مهارات جديدة لمراجعة النتائج ومعالجة الاستثناءات.",
+    "check": {
+      "promptEn": "Software automates one routine task within a role. Which conclusion is justified?",
+      "choices": [
+        "Part of the role changes; replacement of the whole role is not established.",
+        "The entire occupation must disappear immediately.",
+        "No employee will need to learn anything new."
+      ],
+      "answer": "Part of the role changes; replacement of the whole role is not established.",
+      "explanationAr": "أتمتة مهمة تحدد تغيرًا في جزء من العمل. لا تكفي وحدها لإثبات زوال الدور كله أو استبعاد الحاجة إلى التعلم.",
+      "explanationEn": "Automating a task establishes a change to part of the work. It neither proves that the whole role disappears nor rules out learning needs."
+    }
+  },
+  "b2-x-u7-l4": {
+    "focusAr": "phishing خداع يدفع الشخص إلى إفشاء معلومات أو فتح محتوى ضار، وmalware برمجيات خبيثة؛ قد يستخدم التصيد برمجيات خبيثة لكنه ليس مرادفًا لها. two-factor authentication تحقق بعاملين يضيف حماية، ولا يجعل الحساب محصنًا من كل هجوم. encrypted تعني مشفرًا، لكنها وحدها لا تثبت نوع التشفير أو حماية جميع أجزاء النظام.",
+    "focusEn": "Phishing tricks people into disclosing information or opening harmful content; malware is malicious software. Phishing can deliver malware, but they are not synonyms. Two-factor authentication adds protection without making an account immune to every attack. Encrypted alone does not establish the type of encryption or the security of every part of a system.",
+    "taskAr": "اشرح لزميل لماذا تتحقق من رسالة تطلب رمز الدخول عبر قناة معروفة، واذكر أن الحماية الإضافية لا تلغي الحذر.",
+    "taskEn": "Explain to a colleague why you check a message requesting a login code through a known channel, noting that additional protection does not remove the need for care.",
+    "exampleEn": "The unexpected request for a login code looks suspicious. I will check it through our usual support channel rather than reply to the message. Two-factor authentication adds protection, but it does not make every request genuine.",
+    "exampleAr": "يبدو الطلب غير المتوقع لرمز الدخول مريبًا. سأتحقق منه عبر قناة الدعم المعتادة بدل الرد على الرسالة. يضيف التحقق بعاملين حماية، لكنه لا يجعل كل طلب موثوقًا.",
+    "check": {
+      "promptEn": "A message tricks someone into revealing a password without installing software. Which term best describes the tactic?",
+      "choices": [
+        "Phishing.",
+        "Necessarily a malware installation.",
+        "Proof of end-to-end encryption."
+      ],
+      "answer": "Phishing.",
+      "explanationAr": "الخداع للحصول على كلمة المرور تصيد احتيالي، حتى دون تثبيت برمجيات. لا يثبت الموقف وجود برمجية خبيثة أو نوع تشفير.",
+      "explanationEn": "Deception to obtain a password is phishing even without software installation. The situation establishes neither malware installation nor an encryption method."
+    }
+  },
+  "b2-x-u8-l1": {
+    "focusAr": "hybrid يجمع العمل من المكتب وعن بعد وفق ترتيب محدد، ولا يعني نسبة ثابتة. asynchronous تواصل لا يتطلب حضور الجميع في اللحظة نفسها. switch off هنا الانفصال الذهني عن العمل. عند تقييم flexibility، اذكر أثرها في مهمة محددة وحدود التواصل؛ عدد ساعات الاتصال وحده ليس قياسًا كافيًا للإنتاجية.",
+    "focusEn": "Hybrid combines office and remote work under a particular arrangement, not a fixed ratio. Asynchronous communication does not require everyone to be present simultaneously. Switch off here means mentally disengage from work. When evaluating flexibility, identify its effect on a task and communication boundaries; online hours alone are not sufficient evidence of productivity.",
+    "taskAr": "اقترح لفريق يعمل عن بعد طريقة لتحديث التقدم دون اجتماع يومي، مع موعد للرد وقناة للمسائل العاجلة.",
+    "taskEn": "Propose a remote team's progress-update method without a daily meeting, including a response time and a channel for urgent issues.",
+    "exampleEn": "We could use asynchronous updates in a shared document, with replies by the next working day. Urgent problems would go through the agreed phone channel. This would allow flexibility while keeping responsibilities clear.",
+    "exampleAr": "يمكننا استخدام تحديثات غير متزامنة في مستند مشترك، مع الرد بحلول يوم العمل التالي. وتُناقش المشكلات العاجلة عبر قناة الهاتف المتفق عليها. يتيح ذلك المرونة مع وضوح المسؤوليات.",
+    "check": {
+      "promptEn": "Which arrangement is asynchronous?",
+      "choices": [
+        "Colleagues read and answer a shared update at different times.",
+        "Everyone joins the same live call at ten.",
+        "Two colleagues must speak simultaneously."
+      ],
+      "answer": "Colleagues read and answer a shared update at different times.",
+      "explanationAr": "قراءة التحديث والرد عليه في أوقات مختلفة لا يتطلبان حضورًا متزامنًا. أما المكالمة المباشرة فتتطلب ذلك.",
+      "explanationEn": "Reading and replying at different times does not require simultaneous presence. A live call does."
+    }
+  },
+  "b2-x-u8-l2": {
+    "focusAr": "take the plunge الإقدام على خطوة مهمة بعد تردد، وليس بالضرورة تصرفًا متهورًا. transferable skills مهارات تنفع في أكثر من مجال، لكنها قد تحتاج تكييفًا مع الدور الجديد. setback عائق أو تراجع، ولا يعني نهاية المسار. اشرح الدافع وخطوة الاستكشاف وعدم اليقين بدل تقديم تغيير المهنة ضمانًا للرضا.",
+    "focusEn": "Take the plunge means commit to a significant step after hesitation, not necessarily behave recklessly. Transferable skills apply across fields but may need adaptation. A setback is a difficulty or reversal, not necessarily the end of a path. Explain the motivation, exploration step, and uncertainty instead of presenting a career change as guaranteed fulfilment.",
+    "taskAr": "اشرح تغييرًا مهنيًا تخيليًا من خدمة العملاء إلى التدريب، وحدد مهارة قابلة للنقل وفجوة تحتاج تطويرًا.",
+    "taskEn": "Explain an imagined move from customer service into training, naming a transferable skill and a gap to develop.",
+    "exampleEn": "My communication skills may transfer well to training, and I find helping others learn fulfilling. However, I need practice in designing lessons. Before taking the plunge, I plan to assist with a short workshop.",
+    "exampleAr": "قد تفيدني مهارات التواصل في التدريب، وأجد مساعدة الآخرين على التعلم مُرضية. لكنني أحتاج إلى ممارسة تصميم الدروس. وقبل الإقدام على الخطوة، أنوي المساعدة في ورشة قصيرة.",
+    "check": {
+      "promptEn": "Which statement recognises both a transferable skill and a development need?",
+      "choices": [
+        "My presentation skills may help, but I need to learn course design.",
+        "Changing jobs guarantees that every skill transfers unchanged.",
+        "A setback means no future progress is possible."
+      ],
+      "answer": "My presentation skills may help, but I need to learn course design.",
+      "explanationAr": "يربط الجواب الصحيح مهارة موجودة بالدور الجديد ويحدد نقصًا قابلًا للتطوير. لا يفترض انتقال كل المهارات تلقائيًا أو استحالة تجاوز العثرات.",
+      "explanationEn": "The correct answer links an existing skill to the new role and identifies a trainable gap. It assumes neither automatic transfer of every skill nor permanent failure after a setback."
+    }
+  },
+  "b2-x-u8-l3": {
+    "focusAr": "clear the air مناقشة التوتر بصراحة لتوضيح سوء الفهم، لا مهاجمة الطرف الآخر. mediate مساعدة أطراف على الحوار، ولا تعني فرض قرار بالضرورة. de-escalate تخفيف حدة الموقف، وconstructive نقاش يركز على فهم المشكلة والحل. صف ما حدث وأثره وطلبك، وافصل الواقعة عن تفسير النوايا.",
+    "focusEn": "Clear the air means discuss tension openly to resolve misunderstanding, not attack the other person. Mediate means help parties communicate, not necessarily impose a decision. De-escalate means reduce intensity; constructive discussion focuses on understanding and solutions. State the event, its effect, and your request, separating observations from assumptions about intentions.",
+    "taskAr": "صغ افتتاحية لحوار حول تعديل زميل لملف دون إبلاغك، دون افتراض أنه قصد الإضرار بك.",
+    "taskEn": "Open a discussion about a colleague changing a file without telling you, without assuming malicious intent.",
+    "exampleEn": "I'd like to clear the air about yesterday's changes. I used an older version because I hadn't seen an update. Could we agree how to notify each other when we edit the shared file?",
+    "exampleAr": "أود تصفية الأجواء بشأن تعديلات أمس. استخدمت نسخة أقدم لأنني لم أرَ تحديثًا. هل يمكننا الاتفاق على طريقة لإبلاغ بعضنا عند تعديل الملف المشترك؟",
+    "check": {
+      "promptEn": "Which opening separates an observation from an accusation?",
+      "choices": [
+        "The file changed yesterday; could we discuss how to share updates?",
+        "You changed it because you wanted me to fail.",
+        "You always ruin everything intentionally."
+      ],
+      "answer": "The file changed yesterday; could we discuss how to share updates?",
+      "explanationAr": "الجواب الصحيح يذكر واقعة ويطلب مناقشة إجراء. البديلان ينسبان نية سلبية ويعممان دون دليل معطى.",
+      "explanationEn": "The correct answer states an event and asks to discuss a process. The alternatives assign harmful intent and generalize without supplied evidence."
+    }
+  },
+  "b2-x-u8-l4": {
+    "focusAr": "measurable هدف يمكن رصد إنجازه، لكنه يحتاج جودة ومعيارًا واقعيًا لا رقمًا وحده. constructive feedback تربط سلوكًا بنتيجة وتقترح تحسينًا. underperform تعني أن الأداء أقل من المتوقع، ولا تثبت الكسل أو تحدد السبب. ناقش الموارد والمعيار والفترة قبل الاتفاق على take on مسؤوليات إضافية.",
+    "focusEn": "A measurable goal has observable completion, but also needs quality criteria and realism, not just a number. Constructive feedback links behaviour with impact and suggests improvement. Underperform means perform below expectations; it does not establish laziness or identify the cause. Discuss resources, criteria, and timing before agreeing to take on more responsibility.",
+    "taskAr": "حوّل ملاحظة «حسّن تقاريرك» إلى هدف واضح لمدة شهر يتضمن قائمة تحقق ومراجعة زميل.",
+    "taskEn": "Turn 'Improve your reports' into a clear one-month goal including a checklist and a colleague's review.",
+    "exampleEn": "Over the next month, I will use the agreed checklist for each weekly report and ask a colleague to review the first two. We will assess whether the reports include all required figures and clearly explain the main conclusion.",
+    "exampleAr": "خلال الشهر القادم، سأستخدم قائمة التحقق المتفق عليها لكل تقرير أسبوعي وأطلب من زميل مراجعة أول تقريرين. سنقيّم ما إذا كانت التقارير تتضمن جميع الأرقام المطلوبة وتوضح النتيجة الرئيسية.",
+    "check": {
+      "promptEn": "Which goal provides a time frame and a quality criterion?",
+      "choices": [
+        "For one month, check each weekly report against the agreed completeness checklist.",
+        "Be better at everything someday.",
+        "Write more reports regardless of their accuracy."
+      ],
+      "answer": "For one month, check each weekly report against the agreed completeness checklist.",
+      "explanationAr": "يحدد الجواب الصحيح شهرًا ومعيار اكتمال واضحًا. التحسن العام أو زيادة العدد دون الدقة لا يقدمان هدف جودة قابلًا للتقييم.",
+      "explanationEn": "The correct answer sets a month and a clear completeness criterion. Vague improvement or more output without accuracy does not provide an assessable quality goal."
+    }
   }
 }

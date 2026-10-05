@@ -81,6 +81,8 @@ jobs:
 
                   # Try elements most likely to initiate the 1.5.0 bundle download.
                   selectors=[
+                      "a[href*='/d?u=']",
+                      "a[href*='apkcombo.com/d?u=']",
                       "a[href*='/download/'][class*='download']",
                       "a:has-text('Download APK')",
                       "a:has-text('Download XAPK')",

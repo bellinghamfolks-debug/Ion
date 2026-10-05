@@ -9,6 +9,9 @@ concurrency:
   group: coffee-access-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+
 jobs:
   checks:
     name: Source checks
@@ -95,3 +98,17 @@ jobs:
           path: CoffeeAccess-unsigned.ipa
           if-no-files-found: error
           retention-days: 30
+      # Publish the unsigned IPA as a stable release asset so it has a direct
+      # download link. Only on the app branch, not on pull requests.
+      - name: Publish unsigned IPA to the latest release
+        if: github.ref == 'refs/heads/claude/coffee-access'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cp CoffeeAccess-unsigned.ipa "CoffeeAccess-${GITHUB_SHA:0:7}-unsigned.ipa"
+          notes="Unsigned iPhone build of قهوتي (Coffee Access) from ${GITHUB_SHA:0:7}. Sign it on your own device with a free Apple ID (Sideloadly / AltStore)."
+          gh release view coffee-access-latest >/dev/null 2>&1 \
+            && gh release edit coffee-access-latest --title "قهوتي — latest unsigned build" --notes "$notes" \
+            || gh release create coffee-access-latest --prerelease --title "قهوتي — latest unsigned build" --notes "$notes"
+          gh release upload coffee-access-latest CoffeeAccess-unsigned.ipa "CoffeeAccess-${GITHUB_SHA:0:7}-unsigned.ipa" --clobber

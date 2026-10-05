@@ -261,6 +261,9 @@ struct JobView: View {
     }
 
     private var navigationTitle: String {
+        if viewModel.selectedJob?.isContinuingOnServer == true {
+            return l10n.t("يعمل على خادم بصير", "Running on the Basir server")
+        }
         switch viewModel.status {
         case .idle: return l10n.t("المهمة", "Task")
         case .queued: return l10n.t("بانتظار البدء", "Queued")

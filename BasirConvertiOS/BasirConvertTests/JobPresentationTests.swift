@@ -131,7 +131,7 @@ final class PausedProgressTests: XCTestCase {
         XCTAssertEqual(BackgroundPausePhase(stage: .uploading), .uploading)
         XCTAssertEqual(BackgroundPausePhase(stage: .processing), .serverWorking)
         XCTAssertEqual(BackgroundPausePhase(stage: .downloading), .serverFinished)
-        XCTAssertEqual(BackgroundPausePhase(stage: .finalising), .serverFinished)
+        XCTAssertEqual(BackgroundPausePhase(stage: .finalising), .serverWorking)
     }
 
     func testOldSavedProgressWithoutPausedStageStillDecodes() throws {
@@ -141,3 +141,33 @@ final class PausedProgressTests: XCTestCase {
         XCTAssertEqual(JobStep.current(for: progress), .read)
     }
 }
+
+final class ServerContinuationTests: XCTestCase {
+    private func job(status: JobStatus, stage: ConversionStage, automatic: Bool?) -> BasirJob {
+        let working = ConversionProgress(current: 4, total: 20, stage: stage, detail: nil)
+        return BasirJob(
+            id: UUID(), sourcePath: "/tmp/a.pdf", sourceName: "a.pdf", sourceMetadata: nil,
+            options: ConversionOptions(operation: .convert, outputMode: .full, targetLanguage: nil,
+                                       embedVisuals: true, includeMath: false, interfaceLanguage: .arabic),
+            status: status,
+            progress: status == .paused ? working.replacingStage(.paused) : working,
+            resultPath: nil, diagnosticPath: nil, errorMessage: nil, failedItems: [], skippedBlankItems: [],
+            requestID: "request-123456", createdAt: Date(), updatedAt: Date(), startedAt: Date(),
+            completedAt: nil, automaticResumePending: automatic, executedModel: nil, qualityReport: nil
+        )
+    }
+
+    func testAppStoppedByIOSWhileTheServerWorksIsNotPaused() {
+        XCTAssertTrue(job(status: .paused, stage: .processing, automatic: true).isContinuingOnServer)
+        XCTAssertTrue(job(status: .paused, stage: .downloading, automatic: true).isReadyOnServer)
+    }
+
+    func testRealPausesStayPauses() {
+        // The person pressed Pause.
+        XCTAssertFalse(job(status: .paused, stage: .processing, automatic: false).isContinuingOnServer)
+        // The upload had not finished: the server does not have the file yet.
+        XCTAssertFalse(job(status: .paused, stage: .uploading, automatic: true).isContinuingOnServer)
+        XCTAssertFalse(job(status: .running, stage: .processing, automatic: nil).isContinuingOnServer)
+    }
+}
+

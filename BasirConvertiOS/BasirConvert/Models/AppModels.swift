@@ -596,6 +596,32 @@ struct BasirJob: Identifiable, Codable, Equatable, Sendable {
     var diagnosticURL: URL? { diagnosticPath.map(URL.init(fileURLWithPath:)) }
 }
 
+extension BasirJob {
+    /// iOS stopped Basir in the background after the server already had the
+    /// file. Nothing is paused: the server keeps converting (or has finished)
+    /// and Basir picks the task up again on its own. Shown as "running on the
+    /// server", never as "paused".
+    var isContinuingOnServer: Bool {
+        guard status == .paused, automaticResumePending == true, let stage = progress.pausedFrom else { return false }
+        return [.processing, .finalising, .downloading].contains(stage)
+    }
+
+    /// The server has finished; only saving the file to the iPhone remains.
+    var isReadyOnServer: Bool {
+        isContinuingOnServer && progress.pausedFrom == .downloading
+    }
+
+    @MainActor
+    func serverContinuationText(_ l10n: L10n) -> String {
+        if isReadyOnServer {
+            return l10n.t("ملف Word جاهز على خادم بصير، يُحفظ على جهازك عند فتح بصير",
+                          "The Word file is ready on the Basir server; it saves to your iPhone when you open Basir")
+        }
+        let percent = JobStep.overallPercent(for: progress)
+        return l10n.t("يعمل على خادم بصير، \(percent) بالمئة", "Running on the Basir server, \(percent) percent")
+    }
+}
+
 enum BasirError: LocalizedError {
     case notConfigured
     case unsupportedFile(String)

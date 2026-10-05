@@ -415,6 +415,7 @@ struct JobQueueView: View {
     }
 
     private func statusText(_ job: BasirJob) -> String {
+        if job.isContinuingOnServer { return job.serverContinuationText(l10n) }
         switch job.status {
         case .idle: return l10n.t("جديدة", "New")
         case .queued: return l10n.t("بانتظار البدء", "Queued")

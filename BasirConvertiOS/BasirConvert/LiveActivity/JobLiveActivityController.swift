@@ -110,6 +110,16 @@ final class JobLiveActivityController {
     @available(iOS 16.2, *)
     private func state(for job: BasirJob, l10n: L10n) -> BasirJobActivityAttributes.ContentState {
         let step = JobStep.current(for: job.progress)
+        if job.isContinuingOnServer {
+            // The server is still working (and updates this activity by push);
+            // never show it as paused.
+            let text = job.serverContinuationText(l10n)
+            return .init(stepIndex: step?.rawValue ?? 5,
+                         stepTitle: step?.activeTitle(l10n) ?? text,
+                         statusText: text,
+                         percent: JobStep.overallPercent(for: job.progress),
+                         isPaused: false, isFinished: false, succeeded: false)
+        }
         switch job.status {
         case .running:
             return .init(stepIndex: step?.rawValue ?? 5,

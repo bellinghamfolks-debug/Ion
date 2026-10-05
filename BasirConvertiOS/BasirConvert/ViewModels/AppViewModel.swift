@@ -33,6 +33,10 @@ final class AppViewModel: ObservableObject {
     private let liveActivity = JobLiveActivityController()
     private var lastAnnouncedProgress: [UUID: (current: Int, total: Int)] = [:]
     private var pauseRequested = false
+    /// One-time notices, so iOS waking and stopping the app repeatedly in
+    /// the background never repeats them.
+    private var readyNoticeSent: Set<UUID> = []
+    private var uploadPauseNoticeSent: Set<UUID> = []
     private var networkPauseRequested = false
     private var networkCancellable: AnyCancellable?
     private var networkLossTask: Task<Void, Never>?
@@ -555,21 +559,28 @@ final class AppViewModel: ObservableObject {
         // Ask iOS to wake the app again soon, and tell the person what is
         // really happening instead of leaving a stale percentage.
         backgroundExecution.schedule(earliest: Date(timeIntervalSinceNow: 60))
+        // No notification for this. iOS stopping the app is not a pause: the
+        // server keeps converting and reports progress and completion by
+        // push. A "stopped" notice every time iOS reclaims background time
+        // was exactly the false alarm people saw every few minutes.
         guard settings?.notificationsEnabled == true, let l10n else { return }
+        let pushActive = PushRegistrar.shared.remoteProgressJobs.contains(jobID)
         switch phase {
+        case .serverWorking:
+            return
         case .serverFinished:
-            // The server already announced "ready"; say the same thing and
-            // replace that notification rather than adding a second one.
+            // Without server push, say once that the file is ready.
+            guard !pushActive, !readyNoticeSent.contains(jobID) else { return }
+            readyNoticeSent.insert(jobID)
             OperationFeedback.notifyResultWaiting(
                 title: jobs[index].sourceName,
                 body: phase.notificationBody(percent: percent, l10n: l10n),
                 jobID: jobID
             )
-        case .serverWorking:
-            // With server push active the server keeps the notification current.
-            guard !PushRegistrar.shared.remoteProgressJobs.contains(jobID) else { return }
-            fallthrough
         case .uploading:
+            // The upload really does wait for the app. Say so once per task.
+            guard !uploadPauseNoticeSent.contains(jobID) else { return }
+            uploadPauseNoticeSent.insert(jobID)
             OperationFeedback.notifyBackgroundPause(
                 title: jobs[index].sourceName,
                 body: phase.notificationBody(percent: percent, l10n: l10n),
@@ -1004,8 +1015,8 @@ enum BackgroundPausePhase: Equatable {
     init(stage: ConversionStage) {
         switch stage {
         case .preparing, .waitingForNetwork, .uploading, .paused: self = .uploading
-        case .processing: self = .serverWorking
-        case .finalising, .downloading, .done: self = .serverFinished
+        case .processing, .finalising: self = .serverWorking
+        case .downloading, .done: self = .serverFinished
         }
     }
 
@@ -1031,8 +1042,8 @@ enum BackgroundPausePhase: Equatable {
             return l10n.t("توقف الرفع عند \(percent)٪ لأن iOS أوقف بصير في الخلفية. افتح بصير لإكماله.",
                           "The upload stopped at \(percent)% because iOS paused Basir in the background. Open Basir to finish it.")
         case .serverWorking:
-            return l10n.t("وصلت المهمة إلى \(percent)٪ وخادم بصير يواصل التحويل. افتح بصير بعد قليل لتنزيل الملف.",
-                          "The task is at \(percent)% and the Basir server keeps converting. Open Basir shortly to download the file.")
+            return l10n.t("خادم بصير يواصل التحويل، \(percent)٪.",
+                          "The Basir server keeps converting, \(percent)%.")
         case .serverFinished:
             return l10n.t("ملف Word جاهز. افتح بصير لحفظه على جهازك.",
                           "The Word file is ready. Open Basir to save it to your iPhone.")

@@ -291,6 +291,7 @@ struct MiniJobBar: View {
     }
 
     private func statusLine(_ job: BasirJob) -> String {
+        if job.isContinuingOnServer { return job.serverContinuationText(l10n) }
         switch job.status {
         case .running: return JobStep.spokenStatus(for: job.progress, l10n: l10n)
         case .queued: return l10n.t("بانتظار البدء", "Queued")

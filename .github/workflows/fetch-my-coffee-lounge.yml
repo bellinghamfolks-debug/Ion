@@ -21,29 +21,77 @@ jobs:
         with:
           ref: upload/my-coffee-lounge-1.5.0
 
-      - name: Download exact APKPure XAPK and verify SHA-256
+      - name: Download exact APKPure XAPK in a browser and verify SHA-256
         shell: bash
         run: |
           set -euo pipefail
           EXPECTED="78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81"
           OUT="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
-          URL="https://d.apkpure.com/b/XAPK/com.delonghigroup.daedalus?versionCode=318&nc=arm64-v8a&sv=32"
 
-          echo "Installing a local Tor client to avoid APKPure's GitHub-runner IP block..."
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq tor
-          sudo systemctl start tor || sudo service tor start
-          for i in {1..30}; do
-            if (echo > /dev/tcp/127.0.0.1/9050) >/dev/null 2>&1; then break; fi
-            sleep 1
-          done
+          python3 -m pip install --quiet playwright
+          python3 -m playwright install chromium
 
-          echo "Downloading exact APKPure variant through Tor..."
-          curl -fL --socks5-hostname 127.0.0.1:9050 \
-            --retry 4 --retry-all-errors --connect-timeout 30 --max-time 900 \
-            -A "Mozilla/5.0 (Linux; Android 12; Pixel 6) AppleWebKit/537.36 Chrome/140 Mobile Safari/537.36" \
-            -H "Referer: https://apkpure.net/" \
-            "$URL" -o "$OUT"
+          cat > /tmp/fetch_apkpure.py <<'PY'
+          import asyncio, os, re
+          from playwright.async_api import async_playwright
+
+          PAGE = "https://apkpure.net/my-coffee-lounge/com.delonghigroup.daedalus/download/1.5.0"
+          OUT = "/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
+
+          async def main():
+              async with async_playwright() as p:
+                  browser = await p.chromium.launch(
+                      headless=True,
+                      args=["--disable-blink-features=AutomationControlled", "--no-sandbox"]
+                  )
+                  context = await browser.new_context(
+                      accept_downloads=True,
+                      user_agent="Mozilla/5.0 (Linux; Android 12; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36",
+                      viewport={"width": 1280, "height": 900},
+                      locale="en-US"
+                  )
+                  page = await context.new_page()
+                  print("Opening APKPure download page...")
+                  resp = await page.goto(PAGE, wait_until="domcontentloaded", timeout=120000)
+                  print("Page status:", resp.status if resp else None)
+                  await page.wait_for_timeout(8000)
+                  print("Page title:", await page.title())
+
+                  hrefs = await page.locator("a").evaluate_all(
+                      """els => els.map(a => a.href).filter(h => h && h.includes('d.apkpure.com/b/XAPK/'))"""
+                  )
+                  print("Direct XAPK links found:", len(hrefs))
+                  for h in hrefs[:20]:
+                      print("HREF", h)
+
+                  candidates = [h for h in hrefs if "com.delonghigroup.daedalus" in h and ("versionCode=318" in h or "version=latest" in h)]
+                  if not candidates:
+                      html = await page.content()
+                      open("/tmp/apkpure-page.html","w",encoding="utf-8").write(html)
+                      raise RuntimeError("No matching XAPK link found in rendered APKPure page")
+
+                  # Navigate in the same browser context so any anti-bot cookies/session are retained.
+                  for idx, url in enumerate(candidates):
+                      print(f"Trying browser download candidate #{idx+1}")
+                      dl_page = await context.new_page()
+                      try:
+                          async with dl_page.expect_download(timeout=180000) as info:
+                              await dl_page.goto(url, wait_until="commit", timeout=180000)
+                          download = await info.value
+                          await download.save_as(OUT)
+                          print("Saved browser download:", download.suggested_filename)
+                          await dl_page.close()
+                          await browser.close()
+                          return
+                      except Exception as exc:
+                          print("Candidate failed:", repr(exc))
+                          await dl_page.close()
+
+                  raise RuntimeError("Browser could not download any APKPure candidate")
+          asyncio.run(main())
+          PY
+
+          python3 /tmp/fetch_apkpure.py
 
           echo "Downloaded size: $(stat -c%s "$OUT") bytes"
           ACTUAL="$(sha256sum "$OUT" | awk '{print $1}')"

@@ -4346,7 +4346,12 @@
     "pythonRegressionTests": 5,
     "rebuildIdempotence": "pass",
     "stableLessonAndVocabularyIds": "pass",
-    "iosBuildAndXCTest": "not run: Swift/Xcode unavailable"
+    "iosBuildAndXCTest": "Unsigned iOS build passed for 9ac85a7. 123/124 XCTest cases passed; the remaining test required a replaced fillBlank. Updated it to assert the authored assessment; CI rerun pending."
   },
-  "pullRequest": "https://github.com/bellinghamfolks-debug/Ion/pull/29"
+  "pullRequest": "https://github.com/bellinghamfolks-debug/Ion/pull/29",
+  "unsignedArtifact": {
+    "commit": "9ac85a78a4eba81a3bdcc6127e1f3fb56fa083d2",
+    "runId": 37288187838,
+    "artifactId": 11335770627
+  }
 }

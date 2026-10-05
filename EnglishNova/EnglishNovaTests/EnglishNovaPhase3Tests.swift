@@ -185,7 +185,18 @@ final class EnglishNovaPhase3Tests: XCTestCase {
             XCTAssertEqual(lesson.vocabulary.count, 8, lesson.id)
             XCTAssertGreaterThanOrEqual(lesson.exercises.count, 20, lesson.id)
             let types = Set(lesson.exercises.map(\.type))
-            XCTAssertTrue(types.isSuperset(of: [.flashcard, .multipleChoice, .listenAndChoose, .arrangeWords, .fillBlank, .speak]), lesson.id)
+            XCTAssertTrue(types.isSuperset(of: [.flashcard, .multipleChoice, .listenAndChoose, .arrangeWords, .speak]), lesson.id)
+            // The reviewed contextual assessment replaces the generic model gap.
+            let reviewedChecks = lesson.exercises.filter {
+                $0.type == .multipleChoice && $0.promptAr == "اقرأ الموقف ثم اختر الإجابة المناسبة."
+            }
+            XCTAssertEqual(reviewedChecks.count, 1, lesson.id)
+            if let check = reviewedChecks.first {
+                XCTAssertEqual(check.choices?.count, 3, lesson.id)
+                XCTAssertTrue(check.choices?.contains(check.answer) == true, lesson.id)
+                XCTAssertFalse(check.explanationAr.isEmpty, lesson.id)
+                XCTAssertFalse(check.promptEn?.isEmpty ?? true, lesson.id)
+            }
             XCTAssertFalse(lesson.titleEn.isEmpty, lesson.id)
             XCTAssertFalse(ExerciseSynthesizer.exercises(for: lesson).isEmpty, lesson.id)
         }

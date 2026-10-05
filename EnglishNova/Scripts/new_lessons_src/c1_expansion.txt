@@ -5,11 +5,11 @@ W|tenuous|واهٍ؛ ضعيف|The link between the two events is tenuous.|الص
 W|premature|سابق لأوانه|Celebrating now would be premature.|الاحتفال الآن سيكون سابقًا لأوانه.|adjective
 W|counter-argument|حجة مضادة|A strong essay addresses the main counter-argument.|المقال القوي يتناول الحجة المضادة الرئيسية.|noun
 W|substantiate|يدعم بالأدلة|The claim is difficult to substantiate.|يصعب دعم هذا الادعاء بالأدلة.|verb
-W|draw conclusions|يستخلص استنتاجات|We cannot draw conclusions from one study.|لا يمكننا استخلاص استنتاجات من دراسة واحدة.|phrase
+W | draw conclusions | يستخلص استنتاجات | We should not draw conclusions beyond what this single study supports. | ينبغي ألا نستخلص استنتاجات تتجاوز ما تدعمه هذه الدراسة الواحدة. | phrase
 W|line of reasoning|تسلسل الاستدلال|Her line of reasoning is easy to follow.|تسلسل استدلالها سهل المتابعة.|noun
 W|qualify a claim|يقيّد الادعاء|Good academic writing should qualify a claim when the evidence is limited.|ينبغي للكتابة الأكاديمية الجيدة أن تقيّد الادعاء عندما تكون الأدلة محدودة.|verb phrase
 W|caveat|تحفظ|The report includes a caveat about the small sample size.|يتضمن التقرير تحفظًا بشأن صغر حجم العينة.|noun
-L|توثيق المصادر وتقييمها|Citing and Evaluating Sources|أن يقيّم المتعلم موثوقية المصادر ويشير إليها بدقة.|Peer-reviewed journals are generally more credible than anonymous websites.|المجلات المحكّمة أكثر مصداقية عمومًا من المواقع مجهولة المصدر.|To evaluate how reliable sources are and refer to them accurately.
+L | توثيق المصادر وتقييمها | Citing and Evaluating Sources | أن يقيّم المتعلم موثوقية المصادر ويشير إليها بدقة. | A credible assessment considers the source’s evidence and methods, not its label alone. | يراعي التقييم الموثوق أدلة المصدر ومنهجه، لا تصنيفه وحده. | To evaluate how reliable sources are and refer to them accurately.
 W|peer-reviewed|محكَّم (علميًا)|The study was published in a peer-reviewed journal.|نُشرت الدراسة في مجلة محكّمة.|adjective
 W|credible|ذو مصداقية|Is this source credible?|هل هذا المصدر ذو مصداقية؟|adjective
 W|cite|يستشهد بـ؛ يوثّق|Always cite your sources correctly.|وثّق مصادرك دائمًا بشكل صحيح.|verb
@@ -18,21 +18,21 @@ W|primary source|مصدر أولي|Letters from the period are a valuable primar
 W|bias|تحيّز|The report shows a clear bias.|يُظهر التقرير تحيّزًا واضحًا.|noun
 W|corroborate|يؤيد بدليل مستقل|Independent records can corroborate parts of a witness account.|يمكن للسجلات المستقلة أن تؤيد أجزاء من رواية شاهد.|verb
 W|conflict of interest|تعارض مصالح|Readers should know about any conflict of interest that could affect a source.|ينبغي أن يعرف القراء بأي تعارض مصالح قد يؤثر في المصدر.|noun
-L|الاسمية والأسلوب الرسمي|Nominalisation and Formal Style|أن يحوّل المتعلم الأفعال إلى أسماء لكتابة أسلوب أكاديمي موجز.|The implementation of the policy led to a significant reduction in waste.|أدى تطبيق السياسة إلى انخفاض ملحوظ في الهدر.|To turn verbs into nouns to write in a concise academic style.
+L | الاسمية والأسلوب الرسمي | Nominalisation and Formal Style | اختيار الصياغة الاسمية أو الفعلية بحسب الغرض مع الحفاظ على الوضوح والمسؤولية. | The implementation of the policy led to a significant reduction in waste. | أدى تطبيق السياسة إلى انخفاض ملحوظ في الهدر. | Choose nominal or verbal phrasing to suit the purpose while preserving clarity and accountability.
 W|implementation|تطبيق؛ تنفيذ|The implementation of the plan took two years.|استغرق تنفيذ الخطة عامين.|noun
 W|significant|ملحوظ؛ كبير الأثر|There was a significant increase in sales.|حدثت زيادة ملحوظة في المبيعات.|adjective
-W|reduction|انخفاض؛ تقليص|We saw a reduction in costs.|لاحظنا انخفاضًا في التكاليف.|noun
+W | reduction | انخفاض؛ تقليص | The report recorded a reduction in costs after the schedule changed. | سجل التقرير انخفاضًا في التكاليف بعد تغيير الجدول. | noun
 W|nominalisation|الاسمية (تحويل الفعل إلى اسم)|Nominalisation makes writing sound more formal.|تجعل الاسمية الكتابة تبدو أكثر رسمية.|noun
-W|formal register|السجل الرسمي|Academic essays require a formal register.|تتطلب المقالات الأكاديمية سجلًا رسميًا.|noun
+W | formal register | أسلوب لغوي رسمي | Academic essays require a formal register. | تتطلب المقالات الأكاديمية سجلًا رسميًا. | noun
 W|impersonal|غير شخصي|Scientific writing is often impersonal.|غالبًا ما تكون الكتابة العلمية غير شخصية.|adjective
 W|passive construction|بناء للمجهول|A passive construction can be useful when the actor is unknown or unimportant.|يمكن أن يكون البناء للمجهول مفيدًا عندما يكون الفاعل مجهولًا أو غير مهم.|noun
 W|accountability|مساءلة|Writers should not use nominalisation to obscure accountability for an action.|ينبغي ألا يستخدم الكتّاب الاسمية لإخفاء المساءلة عن فعل.|noun
 L|كتابة ملخص بحثي|Writing Abstracts|أن يكتب المتعلم ملخصًا بحثيًا يعرض الهدف والمنهج والنتائج.|This study examines the extent to which remote learning affects student outcomes.|تبحث هذه الدراسة في مدى تأثير التعلّم عن بُعد على نتائج الطلاب.|To write an abstract that presents the aim, method and findings.
 W|examine|يبحث في؛ يفحص|The paper examines three case studies.|تبحث الورقة في ثلاث دراسات حالة.|verb
 W|extent|مدى|To what extent do you agree?|إلى أي مدى توافق؟|noun
-W|outcomes|نتائج؛ مخرجات|The programme improved health outcomes.|حسّن البرنامج النتائج الصحية.|noun
+W | outcomes | نتائج؛ مخرجات | The study compared learning outcomes across the two groups. | قارنت الدراسة نتائج التعلم بين المجموعتين. | noun
 W|methodology|منهجية|The methodology is clearly explained.|المنهجية مشروحة بوضوح.|noun
-W|sample size|حجم العينة|The sample size was too small to be reliable.|كان حجم العينة أصغر من أن يكون موثوقًا.|noun
+W | sample size | حجم العينة | The small sample size limits the precision of this estimate. | يحد حجم العينة الصغير من دقة هذا التقدير. | noun
 W|implications|دلالات؛ آثار مترتبة|The findings have important implications for teachers.|للنتائج دلالات مهمة للمعلمين.|noun
 W|research question|سؤال بحث|A clear abstract states the research question without unnecessary background.|يذكر الملخص الواضح سؤال البحث دون خلفية غير ضرورية.|noun
 W|scope|نطاق|The abstract should define the scope of the study briefly.|ينبغي أن يحدد الملخص نطاق الدراسة بإيجاز.|noun
@@ -43,31 +43,31 @@ W|testable|قابل للاختبار|A scientific claim must be testable.|يجب
 W|revision|مراجعة؛ تعديل|The theory underwent major revision.|خضعت النظرية لمراجعة كبيرة.|noun
 W|empirical|تجريبي (قائم على الملاحظة)|There is little empirical evidence for the claim.|هناك أدلة تجريبية قليلة على هذا الادعاء.|adjective
 W|replicate|يكرّر (تجربة)|Other labs failed to replicate the results.|فشلت مختبرات أخرى في تكرار النتائج.|verb
-W|anomaly|حالة شاذة|The result was dismissed as an anomaly.|استُبعدت النتيجة باعتبارها حالة شاذة.|noun
+W | anomaly | حالة شاذة | The team investigated the anomaly instead of automatically discarding it. | فحص الفريق النتيجة غير المعتادة بدل استبعادها تلقائيًا. | noun
 W|falsifiable|قابل للدحض|A scientific hypothesis should be falsifiable in principle.|ينبغي أن تكون الفرضية العلمية قابلة للدحض من حيث المبدأ.|adjective
 W|consistent with|متوافق مع|The result is consistent with the hypothesis, but it does not prove it.|تتوافق النتيجة مع الفرضية، لكنها لا تثبتها.|phrase
 L|جدل التقنية الحيوية|Biotechnology Debates|أن يناقش المتعلم الحجج الأخلاقية حول التعديل الجيني.|Gene editing holds enormous promise, but it also raises profound ethical questions.|يحمل التعديل الجيني وعودًا هائلة، لكنه يثير أيضًا أسئلة أخلاقية عميقة.|To discuss the ethical arguments around genetic modification.
-W|gene editing|التعديل الجيني|Gene editing could prevent hereditary diseases.|قد يمنع التعديل الجيني الأمراض الوراثية.|noun
+W | gene editing | التعديل الجيني | The debate examined potential benefits and risks of gene editing. | فحص النقاش الفوائد والمخاطر المحتملة للتعديل الجيني. | noun
 W|hold promise|يحمل وعودًا|The new treatment holds great promise.|يحمل العلاج الجديد وعودًا كبيرة.|phrase
 W|profound|عميق|The discovery had a profound effect on medicine.|كان للاكتشاف أثر عميق على الطب.|adjective
 W|slippery slope|منحدر زلق (يقود إلى عواقب أسوأ)|Critics warn that it is a slippery slope.|يحذّر المنتقدون من أنه منحدر زلق.|idiom
 W|genetically modified|معدّل وراثيًا|Some countries restrict genetically modified crops.|تقيّد بعض الدول المحاصيل المعدّلة وراثيًا.|adjective
 W|safeguards|ضمانات وقائية|Strong safeguards are needed before trials begin.|هناك حاجة إلى ضمانات قوية قبل بدء التجارب.|noun
 W|ethical oversight|رقابة أخلاقية|High-risk research requires robust ethical oversight.|تتطلب الأبحاث عالية المخاطر رقابة أخلاقية قوية.|noun
-W|informed consent|موافقة مستنيرة|Participants must give informed consent before joining most clinical research.|يجب أن يقدم المشاركون موافقة مستنيرة قبل الانضمام إلى معظم الأبحاث السريرية.|noun
+W | informed consent | موافقة مستنيرة | The researcher explained the study before asking participants for informed consent. | شرح الباحث الدراسة قبل طلب الموافقة المستنيرة من المشاركين. | noun
 L|استكشاف الفضاء|Space Exploration|أن يقيّم المتعلم جدوى الإنفاق على استكشاف الفضاء.|Critics question whether the vast sums spent on space missions could be better allocated on Earth.|يتساءل المنتقدون عمّا إذا كان يمكن تخصيص المبالغ الطائلة المنفقة على مهمات الفضاء بشكل أفضل على الأرض.|To assess whether spending on space exploration is worthwhile.
 W|vast|هائل|A vast amount of data was collected.|جُمعت كمية هائلة من البيانات.|adjective
 W|allocate|يخصّص|The budget allocates more money to research.|تخصّص الميزانية مالًا أكثر للبحث.|verb
-W|mission|مهمة|The mission landed safely on the Moon.|هبطت المهمة بأمان على القمر.|noun
+W | mission | مهمة | The spacecraft completed its mission and returned the recorded data. | أكملت المركبة الفضائية مهمتها وأرسلت البيانات المسجلة. | noun
 W|spin-off|منتج جانبي (مُستمد من مشروع)|Many everyday products are spin-offs of space research.|كثير من المنتجات اليومية مستمدة من أبحاث الفضاء.|noun
 W|frontier|حدود (مجال جديد)|Space remains the final frontier.|يبقى الفضاء الحدود الأخيرة.|noun
 W|feasible|ممكن عمليًا|Is a mission to Mars feasible this decade?|هل مهمة إلى المريخ ممكنة عمليًا في هذا العقد؟|adjective
 W|opportunity cost|تكلفة الفرصة البديلة|The opportunity cost of a space programme depends on what alternative uses are realistically available.|تعتمد تكلفة الفرصة البديلة لبرنامج فضائي على البدائل الواقعية المتاحة.|noun
 W|launch window|نافذة إطلاق|The mission was delayed until the next launch window.|تأجلت المهمة حتى نافذة الإطلاق التالية.|noun
-L|الابتكار المُحدِث للتغيير|Innovation and Disruption|أن يحلل المتعلم كيف تغيّر الابتكارات أسواقًا كاملة.|Streaming services disrupted the music industry almost overnight.|أحدثت خدمات البث تغييرًا جذريًا في صناعة الموسيقى بين ليلة وضحاها تقريبًا.|To analyse how innovations transform entire markets.
+L | الابتكار المُحدِث للتغيير | Innovation and Disruption | أن يحلل المتعلم كيف تغيّر الابتكارات أسواقًا كاملة. | A new service can disrupt an established market, but the extent and timing of change require evidence. | قد تحدث خدمة جديدة تغييرًا في سوق قائم، لكن تحديد مدى التغيير وتوقيته يحتاج إلى أدلة. | To analyse how innovations transform entire markets.
 W|disrupt|يُحدث تغييرًا جذريًا|Ride-sharing apps disrupted the taxi industry.|أحدثت تطبيقات مشاركة الرحلات تغييرًا جذريًا في قطاع سيارات الأجرة.|verb
 W|overnight|بين ليلة وضحاها|The app became a success overnight.|نجح التطبيق بين ليلة وضحاها.|adverb
-W|obsolete|عفا عليه الزمن|Fax machines are now almost obsolete.|أصبحت أجهزة الفاكس الآن متقادمة تقريبًا.|adjective
+W | obsolete | عفا عليه الزمن | The component became obsolete when the new standard replaced it. | أصبح المكوّن متقادمًا عندما استُبدل به المعيار الجديد. | adjective
 W|cutting-edge|متطوّر جدًا|The lab uses cutting-edge technology.|يستخدم المختبر تقنية متطورة جدًا.|adjective
 W|incumbent|القائم (الراسخ في السوق)|Incumbent firms were slow to react.|كانت الشركات الراسخة بطيئة في الاستجابة.|adjective
 W|paradigm shift|تحوّل جذري في المفاهيم|The internet caused a paradigm shift in communication.|أحدث الإنترنت تحوّلًا جذريًا في التواصل.|noun

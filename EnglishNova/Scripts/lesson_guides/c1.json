@@ -530,5 +530,157 @@
       "explanationAr": "الشفافية بشأن القيد مع خطوة عملية تدعم المصداقية والإقناع معًا. اختراع رقم أو حذف الاعتراضات يضعف أساس الحجة.",
       "explanationEn": "Transparent limits paired with a practical step support both credibility and persuasion. Fabricated figures or hidden objections undermine the argument."
     }
+  },
+  "c1-x-u5-l1": {
+    "focusAr": "خط الحجة line of reasoning يربط الأدلة بالادعاء عبر مقدمات واضحة. counter-argument اعتراض على هذا الربط، لا رأي مخالف عابر. tenuous تصف ضعف الصلة، وpremature توقيت استنتاج يسبق كفاية الدعم. عند qualify a claim، حدد الفئة أو الظروف أو درجة الثقة التي يقيدها caveat، بدل إلحاق تحفظ شكلي لا يغيّر الادعاء.",
+    "focusEn": "A line of reasoning connects evidence to a claim through explicit premises. A counter-argument challenges that connection rather than merely voicing disagreement. Tenuous describes a weak link; premature describes a conclusion reached before adequate support exists. Qualify a claim by specifying the population, conditions, or confidence limited by a caveat, rather than adding a decorative disclaimer.",
+    "taskAr": "راجع الادعاء «النظام الجديد أفضل للجميع» بعد تجربة في قسم واحد نجحت في المهام البسيطة فقط، وصغ اعتراضًا جادًا.",
+    "taskEn": "Revise 'The new system is better for everyone' after a single-department trial succeeded only on simple tasks, and formulate a serious objection.",
+    "exampleEn": "The trial suggests that the system may improve simple tasks in this department. A key counter-argument is that complex cases were not tested, so a general recommendation would be premature.",
+    "exampleAr": "تشير التجربة إلى أن النظام قد يحسن المهام البسيطة في هذا القسم. ومن الاعتراضات الرئيسية أن الحالات المعقدة لم تُختبر، لذا ستكون التوصية العامة سابقة لأوانها.",
+    "check": {
+      "promptEn": "Which caveat materially limits the claim?",
+      "choices": [
+        "The benefit was observed only for simple tasks in one department.",
+        "There are limitations, but the system is unquestionably best for everyone.",
+        "Some people may disagree, so no evidence should be considered."
+      ],
+      "answer": "The benefit was observed only for simple tasks in one department.",
+      "explanationAr": "القيد الصحيح يحدد المهمة والفئة التي شملها الدليل. التحفظ الشكلي لا يبرر الإبقاء على تعميم قاطع.",
+      "explanationEn": "The meaningful caveat identifies the task and group covered by evidence. A decorative disclaimer cannot justify retaining an absolute generalization."
+    }
+  },
+  "c1-x-u5-l2": {
+    "focusAr": "primary source مصدر مباشر بالنسبة لسؤال معين؛ قد يكون وثيقة أصلية منحازة، فلا تعني أوليته خلوه من الخطأ. peer-reviewed وصف لعملية تقييم، لا ضمان نهائي. conflict of interest سبب للفحص والإفصاح، لا برهان تلقائي على الكذب. cite بدقة ما يدعمه المصدر وحدد النسخة أو الموضع عندما يهم ذلك.",
+    "focusEn": "A primary source is direct evidence relative to a question; an original document can still be biased or mistaken. Peer-reviewed describes a review process, not a final guarantee. A conflict of interest warrants scrutiny and disclosure but is not automatic proof of falsehood. Cite what the source actually supports, identifying version or location where relevant.",
+    "taskAr": "قيّم رسالة تاريخية يبرر فيها كاتبها قراره: وضح قيمتها كمصدر أولي وحدودها وما يمكن أن يؤيدها.",
+    "taskEn": "Evaluate a historical letter whose writer defends a decision: explain its value as a primary source, limitations, and possible corroboration.",
+    "exampleEn": "The letter is a primary source for how its author presented the decision at the time. It is not necessarily an impartial account of every motive. Contemporary records from other participants could corroborate or challenge its claims.",
+    "exampleAr": "الرسالة مصدر أولي لكيفية عرض صاحبها القرار آنذاك. لكنها ليست بالضرورة رواية محايدة لكل الدوافع. ويمكن لسجلات معاصرة من مشاركين آخرين تأييد ادعاءاتها أو مناقضتها.",
+    "check": {
+      "promptEn": "An original letter is a primary source. What does that status alone establish?",
+      "choices": [
+        "Its direct relationship to the historical question, not automatic impartiality.",
+        "The truth of every claim it contains.",
+        "The absence of any conflict of interest."
+      ],
+      "answer": "Its direct relationship to the historical question, not automatic impartiality.",
+      "explanationAr": "الأولية تصف صلة المصدر بالسؤال والأحداث. لا تثبت وحدها الحياد أو صدق كل التفاصيل أو غياب المصالح.",
+      "explanationEn": "Primary status concerns the source's relationship to the question and events. It alone establishes neither impartiality, complete accuracy, nor absence of interests."
+    }
+  },
+  "c1-x-u5-l3": {
+    "focusAr": "nominalisation تحوّل فعلًا أو صفة إلى اسم، فتفيد في تسمية مفهوم أو ربط جمل، لكنها قد تطيل النص وتخفي الفاعل. قارن the rejection of the proposal مع the committee rejected the proposal. اختر التركيب بحسب بؤرة الحديث، وحافظ على accountability عندما يكون صاحب القرار جزءًا لازمًا من المعنى.",
+    "focusEn": "Nominalisation turns a verb or adjective into a noun, useful for naming concepts or linking sentences, but it can lengthen prose and conceal the agent. Compare the rejection of the proposal with the committee rejected the proposal. Choose according to focus, preserving accountability when the decision-maker is essential to the meaning.",
+    "taskAr": "حرر «تم اتخاذ قرار برفض الطلب» بحيث يتضح أن اللجنة رفضته لغياب مستند محدد، ثم قدّم صياغة اسمية تحافظ على المسؤولية.",
+    "taskEn": "Edit 'A decision was made regarding rejection of the application' to identify the committee and a missing document, then give a nominalized version retaining responsibility.",
+    "exampleEn": "The committee rejected the application because the required certificate was missing. Alternatively: 'The committee's rejection of the application was based on the missing certificate.' Both identify the actor and reason.",
+    "exampleAr": "رفضت اللجنة الطلب لغياب الشهادة المطلوبة. ويمكن القول: «استند رفض اللجنة للطلب إلى غياب الشهادة». تحدد الصياغتان صاحب القرار وسببه.",
+    "check": {
+      "promptEn": "Which revision preserves accountability most clearly?",
+      "choices": [
+        "The committee rejected the application.",
+        "A rejection occurred.",
+        "There was the occurrence of a decision concerning rejection."
+      ],
+      "answer": "The committee rejected the application.",
+      "explanationAr": "تسمية اللجنة والفعل توضح المسؤولية. الصيغتان الأخريان تزيلان الفاعل وتضيف إحداهما تعقيدًا لا يخدم المعنى.",
+      "explanationEn": "Naming the committee and action makes responsibility clear. The alternatives remove the agent, with one adding unnecessary complexity."
+    }
+  },
+  "c1-x-u5-l4": {
+    "focusAr": "الملخص البحثي يجمع السؤال والمنهج والنتيجة وحدود الدلالة في مساحة محدودة. methodology ليست مجرد اسم أداة؛ بيّن كيف جُمعت البيانات أو قورنت بالقدر اللازم. outcomes نتائج مقاسة، وimplications ما قد تعنيه للتطبيق. لا تُدخل في الملخص نتائج غير موجودة في الدراسة أو تحول علاقة وصفية إلى أثر سببي.",
+    "focusEn": "An abstract combines question, method, result, and limits within a small space. Methodology is more than naming a tool: state how data were gathered or compared where necessary. Outcomes are measured results; implications concern potential applications. Do not introduce unreported findings or turn a descriptive relationship into a causal effect.",
+    "taskAr": "اكتب ملخصًا تدريبيًا لدراسة مقارنة مقابلات مع 12 طالبًا عن التعلم المسجل، أظهرت تنوع التفضيلات ولا تقيس التحصيل.",
+    "taskEn": "Write a practice abstract for interviews comparing twelve students' views of recorded learning, finding varied preferences but not measuring achievement.",
+    "exampleEn": "This study examines how twelve students describe recorded learning. Interviews were compared to identify recurring preferences and difficulties. Responses varied according to scheduling needs, but the study did not measure achievement; its implications are therefore limited to reported experiences.",
+    "exampleAr": "تفحص الدراسة وصف اثني عشر طالبًا للتعلم المسجل. قورنت المقابلات لتحديد التفضيلات والصعوبات المتكررة. اختلفت الإجابات بحسب احتياجات الجدولة، لكن الدراسة لم تقس التحصيل؛ لذا تقتصر دلالاتها على التجارب المبلغ عنها.",
+    "check": {
+      "promptEn": "Which conclusion stays within an interview study that did not measure achievement?",
+      "choices": [
+        "Participants described differing experiences of recorded learning.",
+        "Recorded learning caused higher exam scores.",
+        "All students learn more effectively from recordings."
+      ],
+      "answer": "Participants described differing experiences of recorded learning.",
+      "explanationAr": "النتيجة الصحيحة تصف ما جُمع فعلًا من روايات. لا يمكن تقرير أثر على درجات لم تُقَس أو تعميم الفاعلية على الجميع.",
+      "explanationEn": "The supported conclusion describes the reported experiences actually collected. It cannot assert effects on unmeasured scores or universal effectiveness."
+    }
+  },
+  "c1-x-u6-l1": {
+    "focusAr": "empirical قائم على الملاحظة أو القياس، وليس بالضرورة تجربة تدخلية. falsifiable تعني وجود ملاحظة ممكنة تناقض الفرضية، لا أنها ثبت خطؤها. consistent with توافق النتيجة مع التوقع دون استبعاد كل تفسير بديل. عدم replicate قد يستدعي فحص التصميم والظروف، لا اتهامًا آليًا بالغش أو تجاهل النتيجة الأولى.",
+    "focusEn": "Empirical means based on observation or measurement, not necessarily an intervention experiment. Falsifiable means some possible observation could contradict the hypothesis, not that it has already been disproved. Consistent with means compatible with a prediction without excluding every alternative. Failure to replicate warrants examining design and conditions rather than automatic accusations or dismissal.",
+    "taskAr": "حوّل ادعاء «هذه الطريقة تنجح دائمًا مهما كانت النتيجة» إلى فرضية تدريبية قابلة للاختبار، واذكر ملاحظة قد تناقضها.",
+    "taskEn": "Turn 'This method always works regardless of the result' into a testable practice hypothesis and name an observation that could contradict it.",
+    "exampleEn": "We hypothesize that the revised instructions reduce errors on this task compared with the original instructions. If a comparable group makes as many or more errors under the stated conditions, that would count against the predicted improvement.",
+    "exampleAr": "نفترض أن التعليمات المعدلة تقلل أخطاء هذه المهمة مقارنة بالتعليمات الأصلية. وإذا ارتكبت مجموعة قابلة للمقارنة عددًا مساويًا أو أكبر من الأخطاء في الظروف المحددة، فسيكون ذلك دليلًا ضد التحسن المتوقع.",
+    "check": {
+      "promptEn": "A claim is falsifiable when which condition holds?",
+      "choices": [
+        "A possible observation could count against it.",
+        "It has necessarily already been shown false.",
+        "Every possible outcome is defined as confirmation."
+      ],
+      "answer": "A possible observation could count against it.",
+      "explanationAr": "قابلية الدحض تتعلق بإمكان تعارض الملاحظة مع الادعاء، لا بحكم سابق على صحته. اعتبار كل نتيجة تأكيدًا يمنع اختباره بهذه الطريقة.",
+      "explanationEn": "Falsifiability concerns the possibility of contrary observation, not a prior verdict. Defining every outcome as confirmation prevents that kind of test."
+    }
+  },
+  "c1-x-u6-l2": {
+    "focusAr": "hold promise يدل على إمكان واعد، لا فائدة سريرية مضمونة. safeguards إجراءات وقائية، وethical oversight مراجعة ورقابة أخلاقية، وinformed consent موافقة تقوم على فهم مناسب واختيار طوعي. حجة slippery slope تحتاج آلية تبين كيف قد يؤدي القرار إلى الخطوة المقلقة؛ مجرد تخيل نهاية سيئة لا يثبت وقوعها.",
+    "focusEn": "Hold promise signals encouraging potential, not guaranteed clinical benefit. Safeguards are protective measures, ethical oversight concerns review and supervision, and informed consent rests on adequate understanding and voluntary choice. A slippery-slope argument needs a mechanism linking the decision to the feared next step; imagining an adverse endpoint does not establish that it will occur.",
+    "taskAr": "صغ سؤالين لتقييم حجة ضد مشروع بحثي تخيلي تقول إنه سيقود حتمًا إلى استعمال ضار، دون شرح إجراء تجريبي.",
+    "taskEn": "Formulate two questions assessing an objection that an imagined research project will inevitably lead to harmful use, without describing an experimental procedure.",
+    "exampleEn": "What specific sequence would connect this project to the feared use, and what evidence supports that sequence? Which safeguards could interrupt it, and what uncertainty would remain even with ethical oversight?",
+    "exampleAr": "ما التسلسل المحدد الذي يربط المشروع بالاستخدام المخيف، وما الأدلة الداعمة له؟ وأي إجراءات وقائية يمكن أن تقطعه، وما عدم اليقين الذي سيبقى حتى مع الرقابة الأخلاقية؟",
+    "check": {
+      "promptEn": "Which response examines a slippery-slope claim critically?",
+      "choices": [
+        "Ask for the causal steps, supporting evidence, and possible safeguards.",
+        "Assume any imaginable harmful endpoint is inevitable.",
+        "Dismiss every concern because research sounds promising."
+      ],
+      "answer": "Ask for the causal steps, supporting evidence, and possible safeguards.",
+      "explanationAr": "يفحص الجواب الصحيح آلية الانتقال واحتمال منعه. لا يحوّل المخاوف إلى حتمية ولا يلغيها لمجرد وجود وعود.",
+      "explanationEn": "The correct response examines the proposed mechanism and ways to interrupt it. It neither treats fear as inevitability nor dismisses it because of potential benefits."
+    }
+  },
+  "c1-x-u6-l3": {
+    "focusAr": "opportunity cost قيمة أفضل بديل واقعي يُترك عند تخصيص الموارد، لا كل منفعة يمكن تخيلها. feasible إمكان عملي، وليس استحسانًا أخلاقيًا أو أولوية تمويلية. launch window فترة مناسبة للإطلاق وفق متطلبات المهمة. عند تقييم الإنفاق، ميّز الفوائد المتوقعة من المتحققة والبديل المتاح من البديل الافتراضي غير القابل للتنفيذ.",
+    "focusEn": "Opportunity cost is the value of the best feasible alternative forgone, not every imaginable benefit. Feasible means practically achievable, not automatically desirable or a funding priority. A launch window is a suitable period determined by mission requirements. Distinguish expected from realized benefits and available alternatives from options that cannot actually be implemented.",
+    "taskAr": "قارن تمويل مهمة بحثية تخيلية بتحسين مختبر قائم، وبيّن المعلومات اللازمة قبل الحكم على تكلفة الفرصة البديلة.",
+    "taskEn": "Compare funding an imagined research mission with upgrading an existing laboratory, identifying information needed to assess opportunity cost.",
+    "exampleEn": "We would need comparable estimates of costs, expected benefits, timing, and feasibility for both options. The mission's opportunity cost depends on the best alternative we could actually fund, not on adding together every desirable use of the money.",
+    "exampleAr": "نحتاج إلى تقديرات قابلة للمقارنة للتكاليف والمنافع المتوقعة والتوقيت وإمكان التنفيذ. تعتمد تكلفة فرصة المهمة على أفضل بديل يمكن تمويله فعلًا، لا مجموع كل استخدام مرغوب للمال.",
+    "check": {
+      "promptEn": "Which comparison correctly frames opportunity cost?",
+      "choices": [
+        "The value of the best feasible alternative forgone.",
+        "The sum of every imaginable project worldwide.",
+        "Proof that any expensive mission must be wasteful."
+      ],
+      "answer": "The value of the best feasible alternative forgone.",
+      "explanationAr": "تكلفة الفرصة البديلة مرتبطة بأفضل بديل واقعي متروك. لا تجمع جميع الرغبات ولا تصدر حكمًا آليًا على جدوى المهمة.",
+      "explanationEn": "Opportunity cost concerns the best feasible forgone option. It does not aggregate all wishes or automatically judge the mission's value."
+    }
+  },
+  "c1-x-u6-l4": {
+    "focusAr": "disrupt إحداث اضطراب أو تغيير في نمط قائم، ولا يعني كل تحديث طفيف. incumbent جهة راسخة في السوق، وlegacy system نظام موروث لا يزال مستخدمًا وقد يكون ضروريًا. obsolete متقادم بالنسبة للحاجة المحددة، لا مرادف قديم فقط. اختبر ادعاء paradigm shift بتغير واضح في الممارسة، لا لغة تسويقية عن الجِدّة.",
+    "focusEn": "Disrupt means disturb or substantially change an established pattern, not every minor update. An incumbent is an established participant, while a legacy system is inherited infrastructure still in use and possibly essential. Obsolete means no longer suitable for the relevant need, not merely old. Test a paradigm-shift claim against changes in practice rather than marketing language about novelty.",
+    "taskAr": "قيّم نظامًا جديدًا يعد بتغيير جذري لكنه يحتاج التكامل مع سجلات قديمة، وحدد سؤالين عن الفائدة والتكلفة الانتقالية.",
+    "taskEn": "Evaluate a new system promising radical change but requiring integration with older records, identifying questions about benefits and transition costs.",
+    "exampleEn": "The platform may improve access, but the legacy system still holds essential records. We should ask which tasks become measurably easier and what migration work is required before calling the change a paradigm shift.",
+    "exampleAr": "قد تحسن المنصة الوصول، لكن النظام الموروث لا يزال يحتفظ بسجلات أساسية. ينبغي أن نسأل أي المهام تصبح أسهل على نحو قابل للقياس وما أعمال نقل البيانات المطلوبة قبل وصف التغيير بأنه تحول جذري.",
+    "check": {
+      "promptEn": "A system is described as legacy. What follows from that word alone?",
+      "choices": [
+        "It is inherited from an earlier setup, not necessarily useless.",
+        "It has no remaining value or function.",
+        "It must be replaced immediately regardless of constraints."
+      ],
+      "answer": "It is inherited from an earlier setup, not necessarily useless.",
+      "explanationAr": "legacy تصف صلته ببنية سابقة، ولا تثبت انعدام قيمته أو وجوب استبداله فورًا. التقييم يحتاج معرفة وظيفته وقيوده.",
+      "explanationEn": "Legacy identifies inheritance from an earlier setup, not uselessness or an immediate replacement requirement. Assessment needs its function and constraints."
+    }
   }
 }

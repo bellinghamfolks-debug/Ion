@@ -21,142 +21,51 @@ jobs:
         with:
           ref: upload/my-coffee-lounge-1.5.0
 
-      - name: Fetch APKCombo bundle and verify component hashes
+      - name: Download exact XAPK with apkeep and verify SHA-256
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf /tmp/apkcombo /tmp/xapk-components
-          mkdir -p /tmp/apkcombo /tmp/xapk-components
+          EXPECTED="78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81"
+          OUT="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
+          PKG="com.delonghigroup.daedalus@1.5.0"
 
-          python3 -m pip install --quiet playwright
-          python3 -m playwright install chromium
+          mkdir -p /tmp/apkeep1 /tmp/apkeep2
 
-          cat > /tmp/fetch_apkcombo.py <<'PY'
-          import asyncio, os, re
-          from playwright.async_api import async_playwright
+          echo "Pulling current apkeep edge image..."
+          docker pull ghcr.io/efforg/apkeep:edge
 
-          URLS = [
-              "https://apkcombo.com/my-coffee-lounge/com.delonghigroup.daedalus/download/apk",
-              "https://apkcombo.com/my-coffee-lounge/com.delonghigroup.daedalus/",
-          ]
-          OUT="/tmp/apkcombo/bundle.xapk"
+          echo "Attempt 1: version 1.5.0, arm64-v8a"
+          docker run --rm -v /tmp/apkeep1:/output ghcr.io/efforg/apkeep:edge \
+            -a "$PKG" -d apk-pure -o 'arch=arm64-v8a' /output || true
 
-          async def main():
-              async with async_playwright() as p:
-                  browser=await p.chromium.launch(headless=True, args=["--no-sandbox"])
-                  ctx=await browser.new_context(
-                      accept_downloads=True,
-                      user_agent="Mozilla/5.0 (Linux; Android 12; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140 Mobile Safari/537.36",
-                      viewport={"width":1280,"height":900},
-                      locale="en-US",
-                  )
-                  page=await ctx.new_page()
-                  download_page=URLS[0]
-                  print("Opening",download_page)
-                  r=await page.goto(download_page,wait_until="domcontentloaded",timeout=120000)
-                  print("status",r.status if r else None,"title",await page.title())
-                  await page.wait_for_timeout(3000)
-                  print((await page.locator("body").inner_text())[:16000])
+          echo "Attempt 2: version 1.5.0, APKPure default architecture set"
+          docker run --rm -v /tmp/apkeep2:/output ghcr.io/efforg/apkeep:edge \
+            -a "$PKG" -d apk-pure /output || true
 
-                  # Log useful clickable elements so failures are diagnosable.
-                  links=await page.locator("a").evaluate_all("""els => els.map(a => ({text:(a.innerText||'').trim(),href:a.href,html:a.outerHTML})).filter(x => /download|1\\.5\\.0|318|xapk|apk/i.test(x.text+' '+x.href))""")
-                  print("Relevant links:",len(links))
-                  for x in links[:80]:
-                      print("LINK",x["text"][:120],x["href"][:300],x["html"][:500])
+          echo "Downloaded candidates:"
+          find /tmp/apkeep1 /tmp/apkeep2 -maxdepth 2 -type f -printf '%p %s bytes\n' || true
 
-                  buttons=await page.locator("button").evaluate_all("""els => els.map(a => ({text:(a.innerText||'').trim(),html:a.outerHTML})).filter(x => /download|xapk|apk/i.test(x.text+' '+x.html))""")
-                  print("Relevant buttons:",len(buttons))
-                  for x in buttons[:50]:
-                      print("BUTTON",x["text"][:120],x["html"][:700])
+          found=0
+          while IFS= read -r -d '' f; do
+            actual="$(sha256sum "$f" | awk '{print $1}')"
+            size="$(stat -c%s "$f")"
+            echo "Candidate: $f"
+            echo "Size: $size"
+            echo "SHA-256: $actual"
+            if [[ "$actual" == "$EXPECTED" ]]; then
+              cp "$f" "$OUT"
+              found=1
+              break
+            fi
+          done < <(find /tmp/apkeep1 /tmp/apkeep2 -type f -print0)
 
-                  # APKCombo generates its signed CDN URL when the variant download control is activated.
-                  clickable=page.get_by_text(re.compile(r"(Download|XAPK).*?(95|MB)|95.*?(Download|XAPK)",re.I))
-                  count=await clickable.count()
-                  print("Text download candidates:",count)
-                  for idx in range(count):
-                      el=clickable.nth(idx)
-                      try:
-                          print("CLICKABLE",idx,(await el.inner_text())[:300],(await el.evaluate("e=>e.outerHTML"))[:800])
-                      except: pass
+          if [[ "$found" -ne 1 ]]; then
+            echo "No byte-for-byte match found. Nothing will be committed."
+            exit 1
+          fi
 
-                  # Try elements most likely to initiate the 1.5.0 bundle download.
-                  selectors=[
-                      "a[href*='/d?u=']",
-                      "a[href*='apkcombo.com/d?u=']",
-                      "a[href*='/download/'][class*='download']",
-                      "a:has-text('Download APK')",
-                      "a:has-text('Download XAPK')",
-                      "button:has-text('Download')",
-                      "[data-download]",
-                  ]
-                  for sel in selectors:
-                      loc=page.locator(sel)
-                      for idx in range(min(await loc.count(),20)):
-                          el=loc.nth(idx)
-                          try:
-                              txt=(await el.inner_text()).strip()
-                              html=(await el.evaluate("e=>e.outerHTML"))
-                              print("Trying click",sel,idx,txt[:160],html[:500])
-                              async with page.expect_download(timeout=45000) as di:
-                                  await el.click(timeout=15000)
-                              d=await di.value
-                              await d.save_as(OUT)
-                              print("Saved",d.suggested_filename,os.path.getsize(OUT))
-                              await browser.close()
-                              return
-                          except Exception as e:
-                              print("click failed",sel,idx,repr(e))
-                              try: await page.wait_for_timeout(1000)
-                              except: pass
-                  raise RuntimeError("No APKCombo control initiated a browser download")
-          asyncio.run(main())
-          PY
-
-          python3 /tmp/fetch_apkcombo.py
-          file /tmp/apkcombo/bundle.xapk
-          ls -lh /tmp/apkcombo/bundle.xapk
-          unzip -l /tmp/apkcombo/bundle.xapk | head -80
-
-          python3 - <<'PY'
-          import zipfile, hashlib, os, sys, shutil
-          bundle='/tmp/apkcombo/bundle.xapk'
-          expected={
-            'base':'afd5256eabaf7d938825e62691188494cda5803d26fd20111ae92c18a4e3cbe2',
-            'config.en':'0fbb67f6c390292cc12c8b5b3fda4d4588220a70b54d4c5b5f2389712154ddea',
-            'config.fr':'ae55e4d481f25207c4c68e23731690549d1e47a8277bd9904be42b2b5c945241',
-            'config.hdpi':'aa8cc2b93feffb48ddf3a06e251ebaa7b59f6c3b5b85f686e650301c6860b8f8',
-            'config.arm64_v8a':'6e04a8549e0900c5193a9ec593d675a046832c680ca9795ad305c6f748b52483',
-          }
-          mapping={
-            'base':'com.delonghigroup.daedalus.apk',
-            'config.en':'config.en.apk',
-            'config.fr':'config.fr.apk',
-            'config.hdpi':'config.hdpi.apk',
-            'config.arm64_v8a':'config.arm64_v8a.apk',
-          }
-          z=zipfile.ZipFile(bundle)
-          got={}
-          for n in z.namelist():
-              if not n.lower().endswith('.apk'): continue
-              data=z.read(n); h=hashlib.sha256(data).hexdigest()
-              base=os.path.basename(n)
-              key=None
-              if 'config.en' in base: key='config.en'
-              elif 'config.fr' in base: key='config.fr'
-              elif 'config.hdpi' in base: key='config.hdpi'
-              elif 'config.arm64_v8a' in base or 'arm64-v8a' in base: key='config.arm64_v8a'
-              elif 'base' in base.lower() or base.startswith('com.delonghigroup.daedalus'): key='base'
-              print(base,len(data),h,'=>',key)
-              if key and h==expected[key]:
-                  got[key]=data
-          missing=[k for k in expected if k not in got]
-          if missing:
-              print("Exact required components not found:",missing)
-              sys.exit(1)
-          for k,data in got.items():
-              open('/tmp/xapk-components/'+mapping[k],'wb').write(data)
-          print("ALL_REQUIRED_COMPONENT_HASHES_MATCH=1")
-          PY
+          echo "$EXPECTED  $OUT" | sha256sum -c -
+          test "$(stat -c%s "$OUT")" = "99992559"
 
       - name: Split into GitHub-safe parts
         shell: bash

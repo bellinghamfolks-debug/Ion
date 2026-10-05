@@ -428,6 +428,9 @@ struct ConversionProgress: Codable, Equatable, Sendable {
     let succeeded: Int
     let failed: Int
     let skipped: Int?
+    /// While paused: the stage the task was in, so the percentage and the
+    /// wording stay true ("downloading, 94%") instead of falling back to 0.
+    let pausedFrom: ConversionStage?
 
     init(
         current: Int,
@@ -438,7 +441,8 @@ struct ConversionProgress: Codable, Equatable, Sendable {
         totalBytes: Int64 = 0,
         succeeded: Int = 0,
         failed: Int = 0,
-        skipped: Int? = nil
+        skipped: Int? = nil,
+        pausedFrom: ConversionStage? = nil
     ) {
         self.current = current
         self.total = total
@@ -449,6 +453,31 @@ struct ConversionProgress: Codable, Equatable, Sendable {
         self.succeeded = succeeded
         self.failed = failed
         self.skipped = skipped
+        self.pausedFrom = stage == .paused ? pausedFrom : nil
+    }
+
+    /// The same progress in another stage. Pausing remembers where the task
+    /// was; resuming forgets it.
+    func replacingStage(_ newStage: ConversionStage, keepingBytes: Bool = true) -> ConversionProgress {
+        ConversionProgress(
+            current: current,
+            total: total,
+            stage: newStage,
+            detail: detail,
+            transferredBytes: keepingBytes ? transferredBytes : 0,
+            totalBytes: keepingBytes ? totalBytes : 0,
+            succeeded: succeeded,
+            failed: failed,
+            skipped: skipped,
+            pausedFrom: newStage == .paused ? (stage == .paused ? pausedFrom : stage) : nil
+        )
+    }
+
+    /// The stage that describes the work: the real stage, or for a paused
+    /// task the stage it was paused in.
+    var effectiveStage: ConversionStage {
+        if stage == .paused, let pausedFrom, pausedFrom != .paused { return pausedFrom }
+        return stage
     }
 
     var fraction: Double? {

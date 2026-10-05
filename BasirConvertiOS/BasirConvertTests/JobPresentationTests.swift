@@ -106,3 +106,38 @@ final class ContactEndpointTests: XCTestCase {
         XCTAssertNil(url.query)
     }
 }
+
+final class PausedProgressTests: XCTestCase {
+    func testPausingKeepsTheRealPercentage() {
+        let downloading = ConversionProgress(current: 0, total: 0, stage: .downloading, detail: nil,
+                                             transferredBytes: 80_000, totalBytes: 251_000)
+        let paused = downloading.replacingStage(.paused)
+        XCTAssertEqual(paused.pausedFrom, .downloading)
+        XCTAssertEqual(JobStep.current(for: paused), .download)
+        XCTAssertEqual(JobStep.overallPercent(for: paused), JobStep.overallPercent(for: downloading))
+        XCTAssertGreaterThan(JobStep.overallPercent(for: paused), 90)
+        // Pausing twice still remembers the working stage; resuming forgets it.
+        XCTAssertEqual(paused.replacingStage(.paused).pausedFrom, .downloading)
+        XCTAssertNil(paused.replacingStage(.processing).pausedFrom)
+    }
+
+    func testReadingPausedMidwayKeepsItsPage() {
+        let reading = ConversionProgress(current: 5, total: 10, stage: .processing, detail: nil)
+        let paused = reading.replacingStage(.paused)
+        XCTAssertEqual(JobStep.overallPercent(for: paused), JobStep.overallPercent(for: reading))
+    }
+
+    func testPauseWordingFollowsWhereTheTaskWas() {
+        XCTAssertEqual(BackgroundPausePhase(stage: .uploading), .uploading)
+        XCTAssertEqual(BackgroundPausePhase(stage: .processing), .serverWorking)
+        XCTAssertEqual(BackgroundPausePhase(stage: .downloading), .serverFinished)
+        XCTAssertEqual(BackgroundPausePhase(stage: .finalising), .serverFinished)
+    }
+
+    func testOldSavedProgressWithoutPausedStageStillDecodes() throws {
+        let json = #"{"current":3,"total":9,"stage":"paused","transferredBytes":0,"totalBytes":0,"succeeded":3,"failed":0}"#
+        let progress = try JSONDecoder().decode(ConversionProgress.self, from: Data(json.utf8))
+        XCTAssertNil(progress.pausedFrom)
+        XCTAssertEqual(JobStep.current(for: progress), .read)
+    }
+}

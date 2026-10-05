@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 final class BackgroundTransferCoordinator: NSObject, @unchecked Sendable {
     static let shared = BackgroundTransferCoordinator()
@@ -81,6 +82,19 @@ final class BackgroundTransferCoordinator: NSObject, @unchecked Sendable {
         request: URLRequest,
         progress: @escaping @Sendable (Int64, Int64) -> Void
     ) async throws -> (URL, HTTPURLResponse) {
+        // With Basir open, fetch the result directly: it starts at once and
+        // runs at full speed. iOS schedules background-session transfers in a
+        // separate process, which can leave a small file crawling for minutes.
+        let isActive = await MainActor.run { UIApplication.shared.applicationState == .active }
+        if isActive {
+            do {
+                return try await activeDownload(request: request, progress: progress)
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch {
+                // Fall through: the background session survives suspension.
+            }
+        }
         do {
             return try await backgroundDownload(request: request, progress: progress)
         } catch let staging as DownloadStagingError {
@@ -95,6 +109,69 @@ final class BackgroundTransferCoordinator: NSObject, @unchecked Sendable {
                 progress: progress,
                 firstFailure: urlError
             )
+        }
+    }
+
+    /// Streams the result to a staging file, reporting real byte progress.
+    private func activeDownload(
+        request: URLRequest,
+        progress: @escaping @Sendable (Int64, Int64) -> Void
+    ) async throws -> (URL, HTTPURLResponse) {
+        let (bytes, response) = try await foregroundSession.bytes(for: request)
+        guard let http = response as? HTTPURLResponse else {
+            throw BasirError.invalidResponse("Missing HTTP response.")
+        }
+        let partial = FileManager.default.temporaryDirectory
+            .appendingPathComponent("BasirActiveDownload-\(UUID().uuidString).tmp")
+        FileManager.default.createFile(atPath: partial.path, contents: nil)
+        let handle = try FileHandle(forWritingTo: partial)
+        var completed = false
+        defer {
+            try? handle.close()
+            if !completed { try? FileManager.default.removeItem(at: partial) }
+        }
+        let expected = max(0, http.expectedContentLength)
+        var received: Int64 = 0
+        var buffer = Data()
+        buffer.reserveCapacity(256 * 1024)
+        var lastReport = Date.distantPast
+        for try await byte in bytes {
+            buffer.append(byte)
+            if buffer.count >= 256 * 1024 {
+                try handle.write(contentsOf: buffer)
+                received += Int64(buffer.count)
+                buffer.removeAll(keepingCapacity: true)
+                if Date().timeIntervalSince(lastReport) > 0.2 {
+                    lastReport = Date()
+                    // Never report more than the expected size: a compressed
+                    // transfer can decode to more bytes than its header said.
+                    progress(received, max(expected, received))
+                }
+            }
+        }
+        if !buffer.isEmpty {
+            try handle.write(contentsOf: buffer)
+            received += Int64(buffer.count)
+        }
+        try handle.close()
+        progress(received, received)
+        let retained = try retainDownloadedFile(partial)
+        completed = true
+        return (retained, http)
+    }
+
+    /// Transfers left in the shared background session by an earlier launch
+    /// have no one waiting for them; they only hold the session's connections
+    /// and slow the next transfer. Cancel them once at launch.
+    func cancelTransfersFromEarlierLaunch() async {
+        let tasks = await session.allTasks
+        lock.lock()
+        let owned = Set(states.keys)
+        lock.unlock()
+        let orphans = tasks.filter { !owned.contains($0.taskIdentifier) }
+        orphans.forEach { $0.cancel() }
+        if !orphans.isEmpty {
+            DiagnosticLogger.recordGlobal("TRANSFER cancelled \(orphans.count) orphaned background tasks")
         }
     }
 

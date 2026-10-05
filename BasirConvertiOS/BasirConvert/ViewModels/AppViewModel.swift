@@ -75,6 +75,9 @@ final class AppViewModel: ObservableObject {
         Task { [weak self] in
             guard let self else { return }
             let restored = await jobStore.load()
+            // Before any task starts, drop transfers an earlier launch left
+            // behind; nothing waits for them and they slow new transfers.
+            await BackgroundTransferCoordinator.shared.cancelTransfersFromEarlierLaunch()
             jobs = restored
             selectedJobID = restored.first(where: { [.paused, .waitingForNetwork, .queued].contains($0.status) })?.id
                 ?? restored.first?.id
@@ -535,30 +538,41 @@ final class AppViewModel: ObservableObject {
 
     private func suspendForSystemBackgroundLimit(jobID: UUID) {
         guard let index = jobs.firstIndex(where: { $0.id == jobID }), jobs[index].status == .running else { return }
+        // Read where the task really is before marking it paused.
+        let workingStage = jobs[index].progress.stage
+        let percent = JobStep.overallPercent(for: jobs[index].progress)
+        let phase = BackgroundPausePhase(stage: workingStage)
         pauseRequested = true
         jobs[index].status = .paused
         jobs[index].automaticResumePending = true
         jobs[index].progress = progressReplacingStage(jobs[index].progress, .paused)
-        jobs[index].errorMessage = l10n?.t(
-            "أوقف iOS متابعة المهمة مؤقتًا في الخلفية. الخادم قد يواصل العمل، وسيستأنف بصير التحقق تلقائيًا عند عودة التطبيق.",
-            "iOS paused background monitoring. The server may continue working, and Basir will resume checking automatically when the app returns."
-        )
+        jobs[index].errorMessage = l10n.map { phase.statusMessage(l10n: $0) }
         jobs[index].updatedAt = Date()
         persist()
         syncFacade()
         jobTask?.cancel()
-        DiagnosticLogger.recordGlobal("BACKGROUND limit reached appJob=\(jobID.uuidString) percent=\(JobStep.overallPercent(for: jobs[index].progress))")
-        // Ask iOS to wake the app again soon, and tell the person what is happening
-        // instead of leaving a stale percentage as the last notification.
+        DiagnosticLogger.recordGlobal("BACKGROUND limit reached appJob=\(jobID.uuidString) stage=\(workingStage.rawValue) percent=\(percent)")
+        // Ask iOS to wake the app again soon, and tell the person what is
+        // really happening instead of leaving a stale percentage.
         backgroundExecution.schedule(earliest: Date(timeIntervalSinceNow: 60))
-        // With server push active the server keeps the notification current.
-        if settings?.notificationsEnabled == true, !PushRegistrar.shared.remoteProgressJobs.contains(jobID), let l10n {
+        guard settings?.notificationsEnabled == true, let l10n else { return }
+        switch phase {
+        case .serverFinished:
+            // The server already announced "ready"; say the same thing and
+            // replace that notification rather than adding a second one.
+            OperationFeedback.notifyResultWaiting(
+                title: jobs[index].sourceName,
+                body: phase.notificationBody(percent: percent, l10n: l10n),
+                jobID: jobID
+            )
+        case .serverWorking:
+            // With server push active the server keeps the notification current.
+            guard !PushRegistrar.shared.remoteProgressJobs.contains(jobID) else { return }
+            fallthrough
+        case .uploading:
             OperationFeedback.notifyBackgroundPause(
                 title: jobs[index].sourceName,
-                body: l10n.t(
-                    "وصلت المهمة إلى \(JobStep.overallPercent(for: jobs[index].progress))٪. خادم بصير يواصل العمل، وسيعود التطبيق للمتابعة تلقائيًا عندما يسمح iOS. افتح بصير لإكمالها فورًا.",
-                    "The task reached \(JobStep.overallPercent(for: jobs[index].progress))%. The Basir server keeps working, and the app will check back automatically when iOS allows. Open Basir to finish it right away."
-                ),
+                body: phase.notificationBody(percent: percent, l10n: l10n),
                 jobID: jobID
             )
         }
@@ -877,16 +891,7 @@ final class AppViewModel: ObservableObject {
     }
 
     private func progressReplacingStage(_ progress: ConversionProgress, _ stage: ConversionStage) -> ConversionProgress {
-        ConversionProgress(
-            current: progress.current,
-            total: progress.total,
-            stage: stage,
-            detail: progress.detail,
-            transferredBytes: progress.transferredBytes,
-            totalBytes: progress.totalBytes,
-            succeeded: progress.succeeded,
-            failed: progress.failed
-        )
+        progress.replacingStage(stage)
     }
 
     private static func isNetworkWaitError(_ error: Error) -> Bool {
@@ -984,4 +989,53 @@ final class AppViewModel: ObservableObject {
         }
     }
 
+}
+
+/// Where a task was when iOS stopped the app in the background, which
+/// decides what is true to tell the person.
+enum BackgroundPausePhase: Equatable {
+    /// The file had not finished uploading: nothing happens until Basir opens.
+    case uploading
+    /// The server has the file and is converting it without the app.
+    case serverWorking
+    /// The server finished; only saving the result to the iPhone remains.
+    case serverFinished
+
+    init(stage: ConversionStage) {
+        switch stage {
+        case .preparing, .waitingForNetwork, .uploading, .paused: self = .uploading
+        case .processing: self = .serverWorking
+        case .finalising, .downloading, .done: self = .serverFinished
+        }
+    }
+
+    @MainActor
+    func statusMessage(l10n: L10n) -> String {
+        switch self {
+        case .uploading:
+            return l10n.t("توقف رفع الملف لأن iOS أوقف بصير في الخلفية. سيُكمل بصير الرفع عند فتحه.",
+                          "The upload stopped because iOS paused Basir in the background. Basir finishes it when you open it.")
+        case .serverWorking:
+            return l10n.t("خادم بصير يواصل التحويل. سيتابع التطبيق ويُنزل الملف عند فتحه.",
+                          "The Basir server keeps converting. The app checks back and downloads the file when you open it.")
+        case .serverFinished:
+            return l10n.t("ملف Word جاهز على خادم بصير. سيُنزَّل إلى جهازك عند فتح بصير.",
+                          "The Word file is ready on the Basir server. It downloads to your iPhone when you open Basir.")
+        }
+    }
+
+    @MainActor
+    func notificationBody(percent: Int, l10n: L10n) -> String {
+        switch self {
+        case .uploading:
+            return l10n.t("توقف الرفع عند \(percent)٪ لأن iOS أوقف بصير في الخلفية. افتح بصير لإكماله.",
+                          "The upload stopped at \(percent)% because iOS paused Basir in the background. Open Basir to finish it.")
+        case .serverWorking:
+            return l10n.t("وصلت المهمة إلى \(percent)٪ وخادم بصير يواصل التحويل. افتح بصير بعد قليل لتنزيل الملف.",
+                          "The task is at \(percent)% and the Basir server keeps converting. Open Basir shortly to download the file.")
+        case .serverFinished:
+            return l10n.t("ملف Word جاهز. افتح بصير لحفظه على جهازك.",
+                          "The Word file is ready. Open Basir to save it to your iPhone.")
+        }
+    }
 }

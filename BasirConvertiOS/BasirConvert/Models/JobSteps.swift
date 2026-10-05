@@ -57,7 +57,7 @@ enum JobStep: Int, CaseIterable, Identifiable, Codable, Hashable, Sendable {
 
     /// The step a progress update belongs to, or nil once the task is done.
     static func current(for progress: ConversionProgress) -> JobStep? {
-        switch progress.stage {
+        switch progress.effectiveStage {
         case .preparing, .uploading, .waitingForNetwork:
             return .upload
         case .processing:

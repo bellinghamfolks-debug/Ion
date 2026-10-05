@@ -21,14 +21,9 @@ actor PersistentJobStore {
         for index in jobs.indices where jobs[index].status == .running {
             jobs[index].status = .paused
             jobs[index].automaticResumePending = true
-            jobs[index].progress = ConversionProgress(
-                current: jobs[index].progress.current,
-                total: jobs[index].progress.total,
-                stage: .paused,
-                detail: jobs[index].progress.detail,
-                succeeded: jobs[index].progress.succeeded,
-                failed: jobs[index].progress.failed
-            )
+            // Transfers restart after a relaunch, so their byte counts are
+            // dropped; the stage is kept so the percentage stays true.
+            jobs[index].progress = jobs[index].progress.replacingStage(.paused, keepingBytes: false)
         }
         return jobs.filter { FileManager.default.fileExists(atPath: $0.sourcePath) || $0.resultPath != nil }
     }

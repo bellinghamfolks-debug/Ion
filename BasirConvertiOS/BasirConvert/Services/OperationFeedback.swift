@@ -84,6 +84,22 @@ enum OperationFeedback {
         UNUserNotificationCenter.current().add(request)
     }
 
+    /// The result is finished on the server but not yet on the iPhone. Uses
+    /// the same identifier as the server's "ready" push and the final
+    /// completion notice, so the three replace each other.
+    static func notifyResultWaiting(title: String, body: String, jobID: UUID) {
+        progressBuckets.removeValue(forKey: jobID)
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [progressIdentifier(jobID)])
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        content.threadIdentifier = "basir-job-\(jobID.uuidString)"
+        content.userInfo = ["job_id": jobID.uuidString]
+        content.interruptionLevel = .active
+        let request = UNNotificationRequest(identifier: "basir-\(jobID.uuidString)", content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request)
+    }
+
     static func notifyCompletion(title: String, body: String, jobID: UUID) {
         progressBuckets.removeValue(forKey: jobID)
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [progressIdentifier(jobID)])

@@ -27,8 +27,10 @@ struct HealthStatusView: View {
     private var items: [Item] {
         let engine = model.demoLink?.engine
         let _ = model.demoRevision
-        let descale: Int? = engine.map { Int((1 - Double($0.drinksUntilDescale) / Double(DemoMachineEngine.drinksBetweenDescaling)) * 100).clampedPercent }
-            ?? (model.snapshot.alarms.contains(.descaleNeeded) ? 100 : nil)
+        let descale: Int? = engine.map { engine in
+            let used = (1 - Double(engine.drinksUntilDescale) / Double(DemoMachineEngine.drinksBetweenDescaling)) * 100
+            return Int(min(100, max(0, used)))
+        } ?? (model.snapshot.alarms.contains(.descaleNeeded) ? 100 : nil)
         let grounds: Int? = engine.map { Int(($0.groundsLevel * 100).rounded()) }
             ?? (model.snapshot.alarms.contains(.wasteContainerFull) ? 100 : nil)
         return [
@@ -103,8 +105,4 @@ struct HealthStatusView: View {
         .accessibilityLabel(item.title)
         .accessibilityValue(item.percent.map { item.wear ? L("health.wear", $0) : L("unit.percent", $0) } ?? L("health.noReading"))
     }
-}
-
-private extension Double {
-    var clampedPercent: Double { Swift.max(0, Swift.min(100, self)) }
 }

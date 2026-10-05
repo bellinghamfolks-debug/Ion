@@ -79,6 +79,21 @@ final class RecipeTests: XCTestCase {
         XCTAssertNil(Recipe.standard(.espresso).idealFoamLevel)
     }
 
+    func testColdIntensityAndIceOnlyOnColdDrinks() {
+        var cold = Recipe.standard(.coldBrew).normalized()
+        XCTAssertEqual(cold.coldIntensity, .original)
+        cold.coldIntensity = .intense
+        XCTAssertEqual(cold.normalized().coldIntensity, .intense)
+        let iced = Recipe.standard(.icedCappuccino).normalized()
+        XCTAssertEqual(iced.iceLevel, .ice)
+        XCTAssertTrue(iced.spec.supportsIce)
+        var hot = Recipe.standard(.cappuccino)
+        hot.coldIntensity = .intense
+        hot.iceLevel = .extraIce
+        XCTAssertNil(hot.normalized().coldIntensity)
+        XCTAssertNil(hot.normalized().iceLevel)
+    }
+
     func testTeaUsesWaterAndTemperatureOnly() {
         let green = Recipe.standard(.greenTea)
         XCTAssertNil(green.coffeeML)

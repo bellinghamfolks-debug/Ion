@@ -127,6 +127,18 @@ struct DrinkDetailView: View {
             QuantityControl(title: spec.isCold ? L("param.coldMilk") : L("param.milk"), symbol: "carton",
                             value: binding(\.milkSeconds, fallback: range.standard), range: range, unitKey: "unit.seconds")
         }
+        if spec.supportsColdIntensity {
+            LevelControl(title: L("cold.intensity.title"), symbol: "drop.degreesign",
+                         levels: ColdIntensity.allCases,
+                         selection: Binding(get: { recipe.coldIntensity ?? .original }, set: { recipe.coldIntensity = $0 }),
+                         name: \.title)
+        }
+        if spec.supportsIce {
+            LevelControl(title: L("cold.ice.title"), symbol: "snowflake",
+                         levels: IceLevel.allCases,
+                         selection: Binding(get: { recipe.iceLevel ?? .ice }, set: { recipe.iceLevel = $0 }),
+                         name: \.title)
+        }
         if spec.hasAroma {
             LevelControl(title: L("param.aroma"), symbol: "leaf", levels: Aroma.allCases,
                          selection: Binding(get: { recipe.aroma ?? spec.defaultAroma }, set: { recipe.aroma = $0 }),

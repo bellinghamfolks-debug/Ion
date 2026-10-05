@@ -40,6 +40,11 @@ struct BrewingView: View {
                 .font(.body)
                 .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)
+            if let ice = session.recipe.iceLevel, session.isRunning {
+                Label(L("brew.ice.hint", ice.cubes), systemImage: "snowflake")
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(Theme.accent)
+            }
         }
     }
 

@@ -107,6 +107,10 @@ struct BeverageSpec: Hashable {
         coffee != nil && !isCold && vessel != .pot && !isTea
             && id != .espressoDouble && id != .doppioPlus && id != .espresso && id != .ristretto
     }
+    /// Cold-brew drinks offer an Original / Intense strength choice.
+    var supportsColdIntensity: Bool { coffee != nil && (id == .coldBrew || id == .coldBrewPot || id == .coldBrewToMix || id == .coldBrewCappuccino || id == .coldBrewLatte) }
+    /// Iced drinks served over ice offer an ice-amount choice.
+    var supportsIce: Bool { layers.contains(.ice) }
 
     func coffeeRange(toGo: Bool) -> QuantityRange? { toGo && supportsToGo ? coffee?.toGo(cap: 450) : coffee }
     func milkRange(toGo: Bool) -> QuantityRange? { toGo && supportsToGo ? milk?.toGo(cap: 180) : milk }

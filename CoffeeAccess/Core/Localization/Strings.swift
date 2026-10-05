@@ -777,5 +777,14 @@ enum Strings {
         "journey.skill.title": ("مهارتك", "Your skill"),
         "journey.skill.alchemist": ("خيميائي القهوة: حضّرت %d مشروبًا خاصًا", "Coffee alchemist: you made %d custom drinks"),
         "journey.skill.explorer": ("مستكشف: جرّب إنشاء مشروب خاص بك", "Explorer: try creating your own drink"),
+
+        // MARK: Cold brew intensity and ice
+        "cold.intensity.title": ("قوة الكولد برو", "Cold brew strength"),
+        "cold.intensity.original": ("أصلي", "Original"),
+        "cold.intensity.intense": ("مكثّف", "Intense"),
+        "cold.ice.title": ("كمية الثلج", "Ice amount"),
+        "cold.ice.ice": ("ثلج", "Ice"),
+        "cold.ice.extraIce": ("ثلج إضافي", "Extra ice"),
+        "brew.ice.hint": ("أضف %d مكعبات ثلج إلى الكوب.", "Add %d ice cubes to the cup."),
     ]
 }

@@ -6,6 +6,19 @@ enum FoamLevel: String, CaseIterable, Codable {
     var title: String { L("foam.\(rawValue)") }
 }
 
+/// Cold-brew strength choice, as the machine's pre-brew sheet offers it.
+enum ColdIntensity: String, CaseIterable, Codable {
+    case original, intense
+    var title: String { L("cold.intensity.\(rawValue)") }
+}
+
+/// How much ice, as the machine's pre-brew sheet offers it.
+enum IceLevel: String, CaseIterable, Codable {
+    case ice, extraIce
+    var title: String { L("cold.ice.\(rawValue)") }
+    var cubes: Int { self == .extraIce ? 6 : 4 }
+}
+
 /// A drink with the learner's chosen settings. Settings that a beverage does
 /// not have stay `nil`, so a recipe never carries a meaningless value.
 struct Recipe: Codable, Hashable, Identifiable {
@@ -23,6 +36,10 @@ struct Recipe: Codable, Hashable, Identifiable {
     var toGo: Bool = false
     /// An extra 30 ml coffee shot added to the drink, as on the machine.
     var extraShot: Bool = false
+    /// Cold-brew strength, for cold-brew drinks only.
+    var coldIntensity: ColdIntensity?
+    /// Ice amount, for iced drinks only.
+    var iceLevel: IceLevel?
 
     var spec: BeverageSpec { beverage.spec }
     var coffeeRange: QuantityRange? { spec.coffeeRange(toGo: toGo) }
@@ -57,6 +74,8 @@ struct Recipe: Codable, Hashable, Identifiable {
         copy.temperature = spec.hasTemperature ? (temperature ?? spec.defaultTemperature) : nil
         copy.milkFirst = spec.supportsMilkFirst && milkFirst
         copy.extraShot = spec.supportsExtraShot && extraShot
+        copy.coldIntensity = spec.supportsColdIntensity ? (coldIntensity ?? .original) : nil
+        copy.iceLevel = spec.supportsIce ? (iceLevel ?? .ice) : nil
         copy.customName = customName.trimmingCharacters(in: .whitespacesAndNewlines)
         return copy
     }

@@ -23,6 +23,8 @@ extension Recipe {
         if let temperature { parts.append(L("summary.temperature", spec.isTea ? temperature.teaTitle : temperature.title)) }
         if milkFirst { parts.append(L("summary.milkFirst")) }
         if extraShot { parts.append(L("summary.extraShot")) }
+        if let coldIntensity { parts.append(coldIntensity.title) }
+        if let iceLevel { parts.append(iceLevel.title) }
         if toGo { parts.append(L("summary.toGo")) }
         let details = parts.joined(separator: L("list.separator"))
         return details.isEmpty ? displayName : L("summary.format", displayName, details)

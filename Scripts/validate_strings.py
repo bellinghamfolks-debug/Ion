@@ -107,6 +107,10 @@ def main() -> int:
         used.add(f"foam.{case}")
     for case in swift_cases(APP / "Features/Journey/CoffeeJourneyView.swift", "Period"):
         used.add(f"journey.period.{case}")
+    for case in swift_cases(model / "Model/Recipe.swift", "ColdIntensity"):
+        used.add(f"cold.intensity.{case}")
+    for case in swift_cases(model / "Model/Recipe.swift", "IceLevel"):
+        used.add(f"cold.ice.{case}")
     recipe = (model / "Model/Recipe.swift").read_text(encoding="utf-8")
     for roast in re.search(r"enum Roast[^{]*\{ case ([^}]+) \}", recipe).group(1).split(","):
         used.add(f"roast.{roast.strip()}")

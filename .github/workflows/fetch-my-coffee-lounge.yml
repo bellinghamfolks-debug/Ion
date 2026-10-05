@@ -57,11 +57,11 @@ jobs:
           docker pull "$IMAGE"
 
           found=0
-          if try_variant "arm64-v8a" -o 'arch=arm64-v8a'; then
+          if try_variant "arm64-v8a" -o 'acknowledge_dangers=true,arch=arm64-v8a'; then
             found=1
-          elif try_variant "default architectures"; then
+          elif try_variant "default architectures" -o 'acknowledge_dangers=true'; then
             found=1
-          elif try_variant "arm64 plus legacy ARM" -o 'arch=arm64-v8a;armeabi-v7a;armeabi'; then
+          elif try_variant "arm64 plus legacy ARM" -o 'acknowledge_dangers=true,arch=arm64-v8a;armeabi-v7a;armeabi'; then
             found=1
           fi
 

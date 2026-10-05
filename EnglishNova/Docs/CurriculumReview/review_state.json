@@ -5,8 +5,8 @@
   "branch": "codex/englishnova-full-curriculum-audit-20261004",
   "baselineBuild": 60,
   "stage": "editorial_review",
-  "lastCompletedStep": "مراجعة ثمانية دروس B2 عن الفن والتراث والحقوق: تفسير مدعوم بوصف نصي، تمييز المفاهيم القانونية، وإزالة ضمانات وحقوق غير محددة النظام من الأمثلة.",
-  "nextStep": "Continue editorial review from b2-x-u11-l1; save and validate each batch.",
+  "lastCompletedStep": "إكمال جميع دروس B2 الستين: تضخم واستثمار بصياغة دقيقة، وملاحظات واستماع وتقارير وتلخيص تحافظ على نطاق الادعاء ولا تعتمد على الإشارات البصرية.",
+  "nextStep": "Continue editorial review from c1-u1-l1; save and validate each batch.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -3517,72 +3517,96 @@
       "level": "B2",
       "titleAr": "التضخم والأسعار",
       "titleEn": "Inflation and Prices",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u11-l2",
       "level": "B2",
       "titleAr": "ريادة الأعمال",
       "titleEn": "Entrepreneurship",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u11-l3",
       "level": "B2",
       "titleAr": "أساسيات الاستثمار",
       "titleEn": "Investing Basics",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u11-l4",
       "level": "B2",
       "titleAr": "اقتصاد العمل الحر",
       "titleEn": "The Gig Economy",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u12-l1",
       "level": "B2",
       "titleAr": "تقديم ملاحظات بنّاءة",
       "titleEn": "Giving Constructive Feedback",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u12-l2",
       "level": "B2",
       "titleAr": "الاستماع الفعّال",
       "titleEn": "Active Listening",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u12-l3",
       "level": "B2",
       "titleAr": "كتابة التقارير الرسمية",
       "titleEn": "Writing Formal Reports",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "b2-x-u12-l4",
       "level": "B2",
       "titleAr": "التلخيص وإعادة الصياغة",
       "titleEn": "Summarising and Paraphrasing",
-      "status": "pending",
+      "status": "reviewed",
       "vocabularyCount": 8,
-      "reviewNotes": []
+      "reviewNotes": [
+        "Reviewed vocabulary, bilingual examples, model, objective and extra examples; authored usage guidance, transfer task and a reasoned assessment.",
+        "PASS: reviewed guide integration, model vocabulary, unique exercise ids and duration; full release rebuild pending."
+      ]
     },
     {
       "id": "c1-u1-l1",
@@ -4133,7 +4157,7 @@
     "New teaching content": "Scripts/lesson_guides/<level>.json"
   },
   "counts": {
-    "reviewed": 292,
-    "pending": 68
+    "reviewed": 300,
+    "pending": 60
   }
 }

@@ -222,9 +222,9 @@ W|compensation|تعويض|The airline paid compensation to passengers.|دفعت 
 W|consumer protection|حماية المستهلك|Consumer protection rules vary by jurisdiction and type of purchase.|تختلف قواعد حماية المستهلك باختلاف الولاية القضائية ونوع الشراء.|noun
 W|proof of purchase|إثبات شراء|Keep proof of purchase in case you need to make a claim.|احتفظ بإثبات الشراء في حال احتجت إلى تقديم مطالبة.|noun
 U|b2-x-u11|الاقتصاد والمال|Economics and Finance|تحدّث عن التضخم وريادة الأعمال وأساسيات الاستثمار واقتصاد العمل الحر.|chart.line.uptrend.xyaxis|Talk about inflation, entrepreneurship, investing basics and the gig economy.
-L|التضخم والأسعار|Inflation and Prices|أن يشرح المتعلم التضخم وأثره على الحياة اليومية.|As inflation rises, the purchasing power of ordinary families falls.|مع ارتفاع التضخم، تنخفض القدرة الشرائية للأسر العادية.|To explain inflation and how it affects everyday life.
+L | التضخم والأسعار | Inflation and Prices | أن يشرح المتعلم التضخم وأثره على الحياة اليومية. | When prices rise faster than income, purchasing power falls. | عندما ترتفع الأسعار أسرع من الدخل، تنخفض القدرة الشرائية. | To explain inflation and how it affects everyday life.
 W|inflation|التضخم|Inflation reached its highest level in years.|بلغ التضخم أعلى مستوى له منذ سنوات.|noun
-W|purchasing power|القدرة الشرائية|Low wages reduce purchasing power.|الأجور المنخفضة تقلّل القدرة الشرائية.|noun
+W | purchasing power | القدرة الشرائية | When prices rise and income stays the same, purchasing power falls. | عندما ترتفع الأسعار ويبقى الدخل ثابتًا، تنخفض القدرة الشرائية. | noun
 W|cost of living|تكاليف المعيشة|The cost of living is rising fast.|ترتفع تكاليف المعيشة بسرعة.|noun
 W|soar|يرتفع بشدة|Fuel prices soared last month.|ارتفعت أسعار الوقود بشدة الشهر الماضي.|verb
 W|interest rates|أسعار الفائدة|The central bank raised interest rates.|رفع البنك المركزي أسعار الفائدة.|noun
@@ -240,21 +240,21 @@ W|profitable|مربح|The café became profitable in its second year.|أصبح �
 W|risk|مخاطرة؛ خطر|Starting a business always involves risk.|ينطوي تأسيس مشروع دائمًا على مخاطرة.|noun
 W|cash flow|تدفق نقدي|A profitable business can still face cash flow problems if customers pay late.|قد تواجه شركة رابحة مشكلات في التدفق النقدي إذا تأخر العملاء في الدفع.|noun
 W|break even|يصل إلى نقطة التعادل|The company expects to break even by the end of its second year.|تتوقع الشركة الوصول إلى نقطة التعادل بحلول نهاية عامها الثاني.|verb phrase
-L|أساسيات الاستثمار|Investing Basics|أن يشرح المتعلم مبادئ الاستثمار الأساسية ويحذّر من المخاطر.|It's wise to diversify your investments rather than put all your eggs in one basket.|من الحكمة تنويع استثماراتك بدلًا من وضع كل البيض في سلة واحدة.|To explain basic investment principles and warn about risks.
+L | أساسيات الاستثمار | Investing Basics | شرح مصطلحات الاستثمار والتمييز بين الأداء الماضي والعائد غير المضمون. | A diversified portfolio can spread risk, but it cannot guarantee a positive return. | يمكن لمحفظة متنوعة توزيع المخاطر، لكنها لا تضمن عائدًا موجبًا. | Explain investment terms and distinguish past performance from an unguaranteed future return.
 W|diversify|ينوّع|Farmers diversify their crops to reduce risk.|ينوّع المزارعون محاصيلهم لتقليل المخاطر.|verb
-W|investment|استثمار|Property can be a good investment.|يمكن أن يكون العقار استثمارًا جيدًا.|noun
+W | investment | استثمار | We discussed the risks and costs of the proposed investment. | ناقشنا مخاطر الاستثمار المقترح وتكاليفه. | noun
 W|put all your eggs in one basket|يضع كل البيض في سلة واحدة|Don't put all your eggs in one basket.|لا تضع كل البيض في سلة واحدة.|idiom
 W|shares|أسهم|He bought shares in a technology company.|اشترى أسهمًا في شركة تقنية.|noun
 W|return|عائد|The fund gave a return of six percent.|حقق الصندوق عائدًا بنسبة ستة بالمئة.|noun
 W|volatile|متقلّب|The market has been very volatile this year.|كان السوق متقلبًا جدًا هذا العام.|adjective
 W|portfolio|محفظة استثمارية|A diversified portfolio can spread exposure across different assets.|يمكن لمحفظة استثمارية متنوعة توزيع التعرض على أصول مختلفة.|noun
 W|dividend|توزيعات أرباح|A company may pay a dividend to shareholders, but payments are not guaranteed.|قد تدفع الشركة توزيعات أرباح للمساهمين، لكن هذه المدفوعات غير مضمونة.|noun
-L|اقتصاد العمل الحر|The Gig Economy|أن يناقش المتعلم مزايا العمل الحر عبر التطبيقات وعيوبه.|Gig workers enjoy freedom, but they often lack job security and benefits.|يتمتع العاملون الأحرار بالحرية، لكنهم غالبًا يفتقرون إلى الأمان الوظيفي والمزايا.|To discuss the pros and cons of app-based freelance work.
+L | اقتصاد العمل الحر | The Gig Economy | أن يناقش المتعلم مزايا العمل الحر عبر التطبيقات وعيوبه. | Gig work may offer flexible hours, while income and benefits depend on the arrangement. | قد يوفر العمل القائم على المهام ساعات مرنة، بينما يعتمد الدخل والمزايا على الترتيب المتفق عليه. | To discuss the pros and cons of app-based freelance work.
 W|gig economy|اقتصاد العمل الحر|The gig economy has grown rapidly.|نما اقتصاد العمل الحر بسرعة.|noun
-W|freelance|عمل حر؛ يعمل لحسابه|She works freelance as a designer.|تعمل مصممة بشكل حر.|adjective
-W|job security|الأمان الوظيفي|Contract work offers little job security.|العمل بالعقود يوفّر قليلًا من الأمان الوظيفي.|noun
+W | freelance | مستقل في عمله | She is a freelance designer with several clients. | هي مصممة مستقلة تعمل مع عدة عملاء. | adjective
+W | job security | الأمان الوظيفي | He asked about job security before accepting the contract. | سأل عن الأمان الوظيفي قبل قبول العقد. | noun
 W|benefits|مزايا وظيفية|The job comes with good benefits.|تأتي الوظيفة بمزايا جيدة.|noun
-W|lack|يفتقر إلى؛ نقص|The plan lacks detail.|تفتقر الخطة إلى التفاصيل.|verb
+W | lack | يفتقر إلى | The plan lacks detail. | تفتقر الخطة إلى التفاصيل. | verb
 W|exploit|يستغل|Some platforms exploit their workers.|تستغل بعض المنصات عامليها.|verb
 W|platform worker|عامل منصة|A platform worker may receive jobs through an app rather than a traditional employer.|قد يتلقى عامل المنصة المهام عبر تطبيق بدل صاحب عمل تقليدي.|noun
 W|on demand|عند الطلب|Delivery riders work on demand through an app.|يعمل سائقو التوصيل عند الطلب عبر تطبيق.|phrase
@@ -273,7 +273,7 @@ W|what you're saying is|ما تقصده هو|So what you're saying is that you n
 W|clarify|يوضّح|Could you clarify what you mean?|هل يمكنك توضيح ما تقصده؟|verb
 W|interrupt|يقاطع|Sorry to interrupt, but I have a question.|آسف على المقاطعة، لكن لدي سؤال.|verb
 W|empathy|التعاطف|A good manager shows empathy.|المدير الجيد يُظهر التعاطف.|noun
-W|body language|لغة الجسد|Your body language shows that you're nervous.|تُظهر لغة جسدك أنك متوتر.|noun
+W | body language | لغة الجسد | Body language may add context, but it does not reveal feelings with certainty. | قد تضيف لغة الجسد سياقًا، لكنها لا تكشف المشاعر بيقين. | noun
 W|acknowledge|يقرّ بـ؛ يعترف بـ|She acknowledged that the plan had problems.|أقرّت بأن الخطة فيها مشكلات.|verb
 W|clarifying question|سؤال توضيحي|A clarifying question can prevent you from responding to the wrong issue.|يمكن لسؤال توضيحي أن يمنعك من الرد على مسألة غير مقصودة.|noun
 W|reflect back|يعيد صياغة ما سمعه|Try to reflect back the speaker's main concern before offering advice.|حاول أن تعيد بكلماتك أهم ما يقلق المتحدث قبل أن تقدم النصيحة.|verb phrase
@@ -284,9 +284,9 @@ W|recommendations|توصيات|The report ends with three recommendations.|ين�
 W|findings|نتائج (دراسة)|The findings suggest a need for change.|تشير النتائج إلى الحاجة إلى التغيير.|noun
 W|scheme|برنامج؛ مخطط|The government launched a new training scheme.|أطلقت الحكومة برنامج تدريب جديدًا.|noun
 W|objective|موضوعي|A report should be objective, not emotional.|ينبغي أن يكون التقرير موضوعيًا لا عاطفيًا.|adjective
-W|executive summary|ملخص تنفيذي|An executive summary gives senior readers the report's main message quickly.|يقدم الملخص التنفيذي لكبار القراء الرسالة الرئيسية للتقرير بسرعة.|noun
+W | executive summary | ملخص تنفيذي | An executive summary gives senior readers the report's main message quickly. | يتيح الملخص التنفيذي لصناع القرار فهم الرسالة الرئيسية للتقرير بسرعة. | noun
 W|limitation|قيد|A good report states each important limitation of the evidence.|يذكر التقرير الجيد كل قيد مهم على الأدلة.|noun
-L|التلخيص وإعادة الصياغة|Summarising and Paraphrasing|أن يلخّص المتعلم نصًا ويعيد صياغة أفكاره بكلماته.|In a nutshell, the author argues that cities must put people before cars.|باختصار، يرى المؤلف أن على المدن أن تضع الناس قبل السيارات.|To summarise a text and paraphrase its ideas in your own words.
+L | التلخيص وإعادة الصياغة | Summarising and Paraphrasing | أن يلخّص المتعلم نصًا ويعيد صياغة أفكاره بكلماته. | To put it in a nutshell, the author argues that cities should put people before cars. | وخلاصة القول، يرى المؤلف أن على المدن تقديم الناس على السيارات. | To summarise a text and paraphrase its ideas in your own words.
 W|in a nutshell|باختصار|In a nutshell, the project was a success.|باختصار، كان المشروع ناجحًا.|idiom
 W|paraphrase|يعيد الصياغة|Try to paraphrase the quote in your own words.|حاول إعادة صياغة الاقتباس بكلماتك.|verb
 W|main idea|الفكرة الرئيسية|What is the main idea of the article?|ما الفكرة الرئيسية للمقال؟|noun

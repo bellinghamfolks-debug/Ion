@@ -986,5 +986,157 @@
       "explanationAr": "تقديم claim يعني المطالبة، ولا يثبت قبولها أو دفعها. كما لا يحدد حقوق عملاء آخرين أو أنظمة مختلفة.",
       "explanationEn": "Submitting a claim establishes a request, not approval or payment. It does not determine other customers' rights or other legal systems."
     }
+  },
+  "b2-x-u11-l1": {
+    "focusAr": "inflation ارتفاع عام في الأسعار، لا زيادة سلعة واحدة فقط. purchasing power ما يشتريه مبلغ معين؛ إذا ارتفعت الأسعار وبقي الدخل ثابتًا ضعفت قدرته الشرائية. تباطؤ التضخم قد يعني ارتفاعًا أبطأ لا انخفاض الأسعار. فرّق بين نسبة التغير ومستوى السعر، وحدد الفترة ومصدر الأرقام في أي شرح.",
+    "focusEn": "Inflation is a broad price increase, not just one item becoming dearer. Purchasing power is what an amount can buy; rising prices with unchanged income reduce that power. Slower inflation can mean prices rise more slowly, not that they fall. Distinguish a rate of change from the price level, and identify the period and source of figures.",
+    "taskAr": "اشرح مثالًا تدريبيًا لأسعار ترتفع 6% في سنة ثم 3% في التالية، دون القول إن الأسعار انخفضت.",
+    "taskEn": "Explain a practice example of prices rising 6% one year and 3% the next, without saying prices fell.",
+    "exampleEn": "Inflation slowed from six percent to three percent, but prices still increased in the second year. If income stayed unchanged, the same amount of money would buy less than before.",
+    "exampleAr": "تباطأ التضخم من ستة بالمئة إلى ثلاثة بالمئة، لكن الأسعار ظلت ترتفع في السنة الثانية. وإذا لم يتغير الدخل، فسيشتري المبلغ نفسه أقل مما كان يشتريه سابقًا.",
+    "check": {
+      "promptEn": "Inflation falls from 6% to 3% while remaining positive. What does this mean?",
+      "choices": [
+        "The general price level is rising more slowly.",
+        "Prices have necessarily fallen by 3%.",
+        "Every individual price is exactly unchanged."
+      ],
+      "answer": "The general price level is rising more slowly.",
+      "explanationAr": "النسبة الموجبة الأقل تعني تباطؤ ارتفاع المستوى العام للأسعار. لا تعني هبوطه أو ثبات كل سعر فردي.",
+      "explanationEn": "A lower positive rate means the general price level rises more slowly. It does not imply a falling level or unchanged individual prices."
+    }
+  },
+  "b2-x-u11-l2": {
+    "focusAr": "profitable تعني تحقيق ربح بعد التكاليف، بينما cash flow حركة دخول النقد وخروجه؛ قد تتأخر المقبوضات رغم وجود أرباح محاسبية. break even بلوغ نقطة تعادل الإيرادات والتكاليف في النطاق المحدد، لا تحقيق ربح كبير. في عرض مشروع، فرّق بين افتراضات الخطة ونتائج التشغيل الفعلية وحدد ما يحتاج اختبارًا.",
+    "focusEn": "Profitable means earning profit after costs, while cash flow concerns cash entering and leaving; receipts can be delayed despite accounting profit. Break even means revenue equals costs within the stated scope, not a large profit. In a business pitch, distinguish planning assumptions from actual operating results and identify what needs testing.",
+    "taskAr": "صف مشروعًا تدريبيًا يتوقع التعادل بعد ستة أشهر، واشرح خطر تأخر دفع العملاء دون تقديم التوقع كضمان.",
+    "taskEn": "Describe a practice venture expecting to break even after six months, explaining the risk of late customer payment without presenting the forecast as guaranteed.",
+    "exampleEn": "The business plan expects the café to break even after six months, assuming the forecast sales are achieved. Late payments from catering customers could still put pressure on cash flow, so that timing needs to be tested.",
+    "exampleAr": "تتوقع خطة العمل أن يصل المقهى إلى التعادل بعد ستة أشهر، بافتراض تحقق المبيعات المتوقعة. وقد يضغط تأخر مدفوعات عملاء تجهيز المناسبات على التدفق النقدي، لذا يحتاج هذا التوقيت إلى اختبار.",
+    "check": {
+      "promptEn": "Revenue equals all costs for the stated period. Which description fits?",
+      "choices": [
+        "The business breaks even for that period.",
+        "The business necessarily earns a large profit.",
+        "Cash receipts must exceed every outstanding payment."
+      ],
+      "answer": "The business breaks even for that period.",
+      "explanationAr": "تعادل الإيرادات والتكاليف هو break even ضمن الفترة المعطاة. لا يثبت ربحًا كبيرًا أو حالة التدفقات النقدية في كل لحظة.",
+      "explanationEn": "Equal revenue and costs means break even for the stated period. It establishes neither a large profit nor the timing of all cash movements."
+    }
+  },
+  "b2-x-u11-l3": {
+    "focusAr": "diversify توزيع الاستثمارات أو الأنشطة لتقليل الاعتماد على مصدر واحد، وليس إزالة جميع المخاطر. volatile كثير التقلب، ولا يعني هبوطًا مستمرًا فقط. return عائد إجمالي قد يكون موجبًا أو سالبًا، وdividend توزيع من الشركة للمساهمين وليس وعدًا دائمًا. في شرح لغوي، ميّز الأداء الماضي من توقع المستقبل دون ترشيح منتج.",
+    "focusEn": "Diversify means spread investments or activities to reduce reliance on one source, not eliminate all risk. Volatile means fluctuating, not only falling continuously. Return is an overall result that may be positive or negative; a dividend is a company distribution to shareholders, not a permanent promise. Distinguish past performance from future expectations without recommending a product.",
+    "taskAr": "اشرح لماذا لا يضمن عائد سابق بنسبة 6% العائد نفسه لاحقًا، مع استخدام return وvolatile.",
+    "taskEn": "Explain why a past return of 6% does not guarantee the same later return, using return and volatile.",
+    "exampleEn": "The investment produced a six percent return in the stated year, but that describes past performance. In a volatile market, future returns can differ, and diversification does not guarantee that losses will be avoided.",
+    "exampleAr": "حقق الاستثمار عائدًا قدره ستة بالمئة في السنة المذكورة، لكن ذلك يصف الأداء الماضي. قد تختلف العوائد المستقبلية في سوق متقلب، ولا يضمن التنويع تجنب الخسائر.",
+    "check": {
+      "promptEn": "A report states last year's return. What can be concluded from that figure alone?",
+      "choices": [
+        "It describes a past result, not a guaranteed future return.",
+        "The identical return is promised every year.",
+        "There is no possibility of any future loss."
+      ],
+      "answer": "It describes a past result, not a guaranteed future return.",
+      "explanationAr": "العائد السابق وصف لنتيجة زمنية محددة. لا ينشئ ضمانًا بالتكرار ولا يستبعد الخسارة المستقبلية.",
+      "explanationEn": "A past return describes one period's result. It creates no guarantee of repetition and does not rule out future loss."
+    }
+  },
+  "b2-x-u11-l4": {
+    "focusAr": "gig economy عمل يعتمد على مهام أو تعاقدات قصيرة، وليس كل عمل حر عبر منصة. freelance قد تكون صفة مثل freelance designer أوظرفًا مثل work freelance. job security استقرار الوظيفة، وbenefits المزايا؛ يختلفان بحسب الترتيب. عند مقارنة فرصتين، اذكر التحكم في الوقت وتقلب الدخل والتكاليف دون افتراض حقوق موحدة لجميع العاملين.",
+    "focusEn": "The gig economy centres on tasks or short engagements; not all freelance work uses a platform. Freelance can be an adjective in freelance designer or an adverb in work freelance. Job security and benefits depend on the arrangement. Compare control over time, income variation, and costs without assuming identical rights or conditions for every worker.",
+    "taskAr": "قارن في مثال تدريبي عملًا بمواعيد يختارها العامل ودخل متغير بوظيفة ذات ساعات وأجر ثابتين، دون إصدار توصية شخصية.",
+    "taskEn": "In a practice example, compare work offering chosen hours and variable income with a job offering fixed hours and pay, without making a personal recommendation.",
+    "exampleEn": "The first arrangement offers more control over working hours, but income depends on the tasks available. The second provides a fixed wage with less scheduling flexibility. We would also need to compare costs and stated benefits.",
+    "exampleAr": "يوفر الترتيب الأول تحكمًا أكبر في ساعات العمل، لكن الدخل يعتمد على المهام المتاحة. ويقدم الثاني أجرًا ثابتًا مع مرونة أقل في الجدول. ونحتاج أيضًا إلى مقارنة التكاليف والمزايا المعلنة.",
+    "check": {
+      "promptEn": "Which comparison stays within the stated arrangements?",
+      "choices": [
+        "One offers chosen hours and variable income; the other offers fixed hours and pay.",
+        "Every platform worker has identical benefits worldwide.",
+        "Flexible hours always guarantee higher take-home income."
+      ],
+      "answer": "One offers chosen hours and variable income; the other offers fixed hours and pay.",
+      "explanationAr": "يلتزم الجواب الصحيح بالمعلومات المعطاة. لا تثبت المرونة ارتفاع صافي الدخل، ولا تتساوى شروط جميع العاملين تلقائيًا.",
+      "explanationEn": "The correct answer stays within the information supplied. Flexibility does not establish higher net income, and workers' terms are not automatically identical."
+    }
+  },
+  "b2-x-u12-l1": {
+    "focusAr": "الملاحظة البنّاءة تحدد ما حدث وأثره وتغييرًا ممكنًا. it might be worth يتبعها فعل بصيغة ing لتقديم اقتراح لبق. feedback غير معدودة، فنقول some feedback أوa piece of feedback. اجعل الملاحظة specific وactionable؛ المجاملة العامة أو وصف الشخص كله لا يحددان ما يغيّره في عمله.",
+    "focusEn": "Constructive feedback identifies an observation, its effect, and a possible change. It might be worth takes an -ing form to offer a tactful suggestion. Feedback is uncountable: say some feedback or a piece of feedback. Keep comments specific and actionable; general praise or a label for the whole person does not identify a change to their work.",
+    "taskAr": "قدّم ملاحظة عن عرض كان ترتيبه واضحًا لكن مصطلحاته لم تُشرح، واقترح تغييرًا وكيفية التحقق من فائدته.",
+    "taskEn": "Give feedback on a clearly organized presentation with unexplained terms, suggesting a change and a way to check its benefit.",
+    "exampleEn": "The sequence was easy to follow, which helped me understand the argument. It might be worth defining the two technical terms when they first appear. We could ask a new listener whether the definitions make the conclusion clearer.",
+    "exampleAr": "كان تسلسل العرض سهل المتابعة، مما ساعدني على فهم الحجة. قد يكون من المفيد تعريف المصطلحين التقنيين عند ظهورهما أول مرة. ويمكننا سؤال مستمع جديد هل جعل التعريفان النتيجة أوضح.",
+    "check": {
+      "promptEn": "Which comment is most actionable?",
+      "choices": [
+        "Define the two unfamiliar terms before using them in the conclusion.",
+        "Be a more impressive person.",
+        "Your presentation was somehow not ideal."
+      ],
+      "answer": "Define the two unfamiliar terms before using them in the conclusion.",
+      "explanationAr": "يعطي الجواب الصحيح تعديلًا محددًا وموقعه في العرض. الوصف الشخصي والانطباع الغامض لا يوضحان الخطوة التالية.",
+      "explanationEn": "The correct answer identifies a change and where to make it. A personal label or vague impression does not specify the next action."
+    }
+  },
+  "b2-x-u12-l2": {
+    "focusAr": "reflect back إعادة صياغة فهمك مع ترك مجال للتصحيح، وليس تكرار كل كلمة أو إضافة استنتاجك. acknowledge الاعتراف بوجود قلق لا الموافقة على كل مطلب. clarifying question يحدد غموضًا واحدًا. لا تعتمد على إشارة جسدية وحدها للحكم على المشاعر؛ يمكن إظهار الإصغاء بعبارات واضحة وأسئلة دون إشارات بصرية.",
+    "focusEn": "Reflect back means restate your understanding while allowing correction, not repeat every word or add your own assumption. Acknowledge means recognize a concern, not agree to every demand. A clarifying question targets one ambiguity. Do not infer feelings from one physical cue alone; listening can be shown through clear words and questions without visual signals.",
+    "taskAr": "قال زميل: «أستطيع إنهاء النص الجمعة، لكن الرسم البياني يحتاج الاثنين». أعد صياغة كلامه واسأل عن إمكانية تسليم الجزأين في موعدَين.",
+    "taskEn": "A colleague says, 'I can finish the text on Friday, but the chart needs until Monday.' Paraphrase and ask whether separate delivery dates would work.",
+    "exampleEn": "So what you're saying is that the text will be ready on Friday, while the chart needs more time. Would submitting the text first and adding the chart on Monday address the problem?",
+    "exampleAr": "إذن تقصد أن النص سيكون جاهزًا الجمعة، بينما يحتاج الرسم البياني إلى وقت إضافي. هل يحل المشكلة تسليم النص أولًا وإضافة الرسم يوم الاثنين؟",
+    "check": {
+      "promptEn": "Which paraphrase preserves the colleague's distinction?",
+      "choices": [
+        "The text can be ready Friday, but the chart needs until Monday.",
+        "Nothing can be ready before Monday.",
+        "Both parts are already complete."
+      ],
+      "answer": "The text can be ready Friday, but the chart needs until Monday.",
+      "explanationAr": "تحافظ الصياغة الصحيحة على الفرق بين الجزأين والموعدين. البديلان يضيفان تعميمًا أو إنجازًا لم يذكره المتحدث.",
+      "explanationEn": "The correct paraphrase preserves the difference between parts and dates. The alternatives add a generalization or completion claim the speaker did not make."
+    }
+  },
+  "b2-x-u12-l3": {
+    "focusAr": "نظّم التقرير في purpose ونطاق وطريقة وfindings ثم recommendations مرتبطة بالنتائج. objective هنا صفة «موضوعي»، لا اسم «هدف». executive summary ملخص لأهم ما يحتاجه القارئ، لا مقدمة مطولة. اذكر limitation التي تؤثر في تفسير النتيجة، وافصل الملاحظة عن تقييمها وعن الإجراء المقترح.",
+    "focusEn": "Organize a report around purpose, scope, method, findings, and recommendations linked to the findings. Objective is an adjective meaning impartial here, not a noun meaning goal. An executive summary presents what readers most need, not an extended introduction. State a limitation affecting interpretation and separate observation, evaluation, and proposed action.",
+    "taskAr": "اكتب ملخصًا تنفيذيًا لتجربة جدول في فريق واحد: تحسن الالتزام بالموعد، لكن لا توجد بيانات عن الفرق الأخرى؛ أوصِ بخطوة محدودة.",
+    "taskEn": "Write an executive summary of a schedule trial in one team: timeliness improved, but other teams were not studied; recommend a limited next step.",
+    "exampleEn": "This report evaluates a one-month trial in one team. On-time submissions increased, but the findings may not apply to other departments. We recommend a further trial with a second team before wider adoption.",
+    "exampleAr": "يقيّم هذا التقرير تجربة لمدة شهر في فريق واحد. ازدادت التسليمات في موعدها، لكن النتائج قد لا تنطبق على الأقسام الأخرى. نوصي بتجربة إضافية مع فريق ثانٍ قبل التعميم.",
+    "check": {
+      "promptEn": "Which sentence states a limitation rather than a recommendation?",
+      "choices": [
+        "Only one team participated, so wider applicability is uncertain.",
+        "Run a second trial next month.",
+        "Adopt the schedule across every department now."
+      ],
+      "answer": "Only one team participated, so wider applicability is uncertain.",
+      "explanationAr": "الجملة الصحيحة تذكر حدًا في الأدلة وأثره في التعميم. الجملتان الأخريان تقترحان أفعالًا، فهما توصيتان.",
+      "explanationEn": "The correct sentence states a constraint on evidence and its effect on generalization. The alternatives propose actions, making them recommendations."
+    }
+  },
+  "b2-x-u12-l4": {
+    "focusAr": "summary تختصر أهم الأفكار، بينما paraphrase تعيد معنى مقطع بصياغة أخرى وقد لا تكون أقصر بكثير. حافظ على النفي والاحتمال والنطاق وإسناد الرأي لصاحبه. تغيير مرادفات منفردة لا يكفي إذا بقي البناء منسوخًا. استخدم in other words للتوضيح، وانسب الأفكار المستعارة إلى مصدرها حتى بعد إعادة الصياغة.",
+    "focusEn": "A summary compresses main ideas; a paraphrase restates a passage and may not be much shorter. Preserve negation, uncertainty, scope, and attribution. Replacing isolated words is insufficient when the original structure remains copied. Use in other words to clarify, and attribute borrowed ideas even after rewording them.",
+    "taskAr": "أعد صياغة هذه الفكرة دون تقوية ادعائها: «تشير الدراسة الصغيرة إلى أن بعض الطلاب قد يستفيدون من جلسات أقصر».",
+    "taskEn": "Paraphrase without strengthening this claim: 'The small study suggests that some students may benefit from shorter sessions.'",
+    "exampleEn": "According to the small study, shorter sessions might help certain students. The finding does not establish that the approach works for every learner.",
+    "exampleAr": "وفقًا للدراسة الصغيرة، قد تساعد الجلسات الأقصر بعض الطلاب. ولا تثبت النتيجة أن هذا الأسلوب يناسب كل متعلم.",
+    "check": {
+      "promptEn": "Which paraphrase preserves 'some students may benefit'?",
+      "choices": [
+        "The approach might help certain students.",
+        "The approach definitely helps every student.",
+        "No student can benefit from the approach."
+      ],
+      "answer": "The approach might help certain students.",
+      "explanationAr": "might تحافظ على الاحتمال وcertain students على نطاق «بعض الطلاب». البديلان يغيران قوة الادعاء أو يقلبان معناه.",
+      "explanationEn": "Might preserves uncertainty, and certain students preserves the limited group. The alternatives strengthen or reverse the claim."
+    }
   }
 }

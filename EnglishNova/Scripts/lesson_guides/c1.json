@@ -986,5 +986,157 @@
       "explanationAr": "موعد التحديث التزام يمكن ضبطه دون ضمان إصلاح لم يُتحقق من مدته. البديلان يجزمان بنتيجة أو أثر لا تدعمه المعطيات.",
       "explanationEn": "An update time is a controllable commitment without guaranteeing an unverified repair duration. The alternatives assert an unsupported outcome or absence of impact."
     }
+  },
+  "c1-x-u11-l1": {
+    "focusAr": "الإيجاز يحذف التكرار دون إسقاط شرط يغيّر المعنى. استبدل due to the fact that بكلمة because عندما تؤدي المعنى نفسه، لكن احتفظ بقيد مثل in most cases إذا لم تنطبق النتيجة دائمًا. اختر فعلًا مباشرًا ومرجعًا واضحًا للضمير، واشرح المصطلح المتخصص عند مخاطبة غير المتخصصين. راجع ما بقي من المعنى بعد الاختصار، لا عدد الكلمات وحده.",
+    "focusEn": "Concision removes repetition without removing a condition that changes the meaning. Replace due to the fact that with because when the meaning is unchanged, but retain a qualifier such as in most cases if a finding is not universal. Prefer a direct verb and a clear pronoun reference. Explain specialist jargon to a general audience, then check that the shorter version preserves the claim.",
+    "taskAr": "اختصر هذه الجملة مع الاحتفاظ بنطاق الادعاء: Due to the fact that the sample was small, the findings may not apply to all customers.",
+    "taskEn": "Shorten this sentence while preserving its limitation: Due to the fact that the sample was small, the findings may not apply to all customers.",
+    "exampleEn": "Because the sample was small, the findings may not apply to all customers.",
+    "exampleAr": "لأن العينة كانت صغيرة، فقد لا تنطبق النتائج على جميع العملاء.",
+    "check": {
+      "promptEn": "Which edit preserves the meaning of 'In most cases, the procedure takes approximately ten minutes'?",
+      "choices": [
+        "The procedure usually takes about ten minutes.",
+        "The procedure always takes exactly ten minutes.",
+        "The procedure never takes ten minutes."
+      ],
+      "answer": "The procedure usually takes about ten minutes.",
+      "explanationAr": "تحافظ usually على قيد «في معظم الحالات»، وتحافظ about على التقريب. استبدالهما بكلمتي always وexactly يحوّل تقديرًا محدودًا إلى ادعاء مطلق.",
+      "explanationEn": "Usually preserves the limitation in most cases, and about preserves the approximation. Always and exactly would turn a qualified estimate into an absolute claim."
+    }
+  },
+  "c1-x-u11-l2": {
+    "focusAr": "قد تصف irony مفارقة بين المتوقع والواقع، وقد تكون لفظية حين يختلف المقصود عن ظاهر الكلام. تصف sarcastic تهكمًا قد يجرح المخاطب، بينما tongue-in-cheek تشير غالبًا إلى مزاح لا يراد أخذه بجدية. أما deadpan فتصف تقديم الدعابة بنبرة أو ملامح جادة. استنتج المقصود من السياق، واطلب توضيحًا إذا غابت النبرة بدل افتراض السخرية.",
+    "focusEn": "Irony can describe a contrast between expectation and reality, or a remark whose intended meaning differs from its literal wording. Sarcastic often suggests a cutting remark, while tongue-in-cheek usually signals playful insincerity. Deadpan describes a serious delivery of humour. Use the context to infer the speaker's intention; when tone is unavailable, ask for clarification instead of assuming sarcasm.",
+    "taskAr": "اشرح المفارقة في اجتماع هدفه تقصير الاجتماعات لكنه استمر ثلاث ساعات، ثم اكتب سؤالًا يتحقق بأدب من جدية تعليق «يا له من اجتماع قصير!».",
+    "taskEn": "Explain the irony of a three-hour meeting about shortening meetings, then politely check whether the comment 'What a short meeting!' was serious.",
+    "exampleEn": "The irony is that a meeting intended to save time lasted three hours. When you called it short, were you being serious or joking?",
+    "exampleAr": "المفارقة أن اجتماعًا هدفه توفير الوقت استمر ثلاث ساعات. عندما وصفته بالقصير، هل كنت جادًا أم تمزح؟",
+    "check": {
+      "promptEn": "A speaker tells a joke in a deliberately serious voice. Which word describes the delivery?",
+      "choices": [
+        "deadpan",
+        "literal",
+        "lengthy"
+      ],
+      "answer": "deadpan",
+      "explanationAr": "تصف deadpan إلقاء الدعابة بجدية ظاهرة، ولا تعني أن المقصود حرفي. أما lengthy فتصف الطول ولا تحدد طريقة الإلقاء.",
+      "explanationEn": "Deadpan describes an apparently serious delivery of humour; it does not make the message literal. Lengthy describes duration rather than delivery."
+    }
+  },
+  "c1-x-u11-l3": {
+    "focusAr": "عندما تبدأ الجملة بظرف نفي أو تقييد مثل seldom أو under no circumstances، قدّم الفعل المساعد على الفاعل. إن لم يوجد مساعد، استخدم do أو does أو did وأعد الفعل إلى صورته الأساسية. تنطبق هذه القاعدة على not only عندما تتقدم جملة كاملة؛ أما Not only Sara but also Ali attended فلا تحتاج قلبًا لأن التعبير يربط جزأي الفاعل. استخدم القلب باعتدال للتوكيد الرسمي.",
+    "focusEn": "When a negative or restrictive expression such as seldom or under no circumstances begins a clause, place the auxiliary before the subject. If there is no auxiliary, add do, does or did and use the base verb. Clause-initial not only follows this pattern, but Not only Sara but also Ali attended does not: it coordinates subjects. Use inversion selectively for formal emphasis.",
+    "taskAr": "أعد صياغة The team rarely receives such detailed feedback بتقديم rarely، ثم استخدم what matters is لتؤكد أن جودة الملاحظات أهم من طولها.",
+    "taskEn": "Rewrite The team rarely receives such detailed feedback with rarely first, then use what matters is to emphasise that quality matters more than length.",
+    "exampleEn": "Rarely does the team receive such detailed feedback. What matters is the quality of the comments, not their length.",
+    "exampleAr": "نادرًا ما يتلقى الفريق ملاحظات بهذه الدرجة من التفصيل. المهم هو جودة الملاحظات، لا طولها.",
+    "check": {
+      "promptEn": "Which sentence correctly uses clause-initial not only?",
+      "choices": [
+        "Not only did she identify the problem, but she also proposed a solution.",
+        "Not only she identified the problem, but she also proposed a solution.",
+        "Not only did she identified the problem, but she also proposed a solution."
+      ],
+      "answer": "Not only did she identify the problem, but she also proposed a solution.",
+      "explanationAr": "يتقدم did على الفاعل بعد not only هنا، ويأتي identify بصورته الأساسية لأن did يحمل علامة الماضي. لا نجمع did مع identified.",
+      "explanationEn": "Did precedes the subject after clause-initial not only here. Identify stays in the base form because did already marks the past; did identified marks it twice."
+    }
+  },
+  "c1-x-u11-l4": {
+    "focusAr": "اختر أداة الربط وفق العلاقة المنطقية: nevertheless تقدم نتيجة تخالف المتوقع، وconsequently تقدم نتيجة مترتبة على السبب، وinsofar as تحدد نطاق صلاحية الفكرة. تستخدم whereby لوصف آلية يتيحها نظام أو ترتيب. لا تثبت أداة الربط وحدها وجود علاقة سببية. افصل الجملتين المستقلتين بنقطة أو فاصلة منقوطة قبل nevertheless وconsequently، ثم ضع فاصلة بعد الأداة.",
+    "focusEn": "Choose the linker that matches the logical relationship. Nevertheless introduces an unexpected contrast, consequently a consequence, and insofar as a limitation on a claim. Whereby describes a mechanism enabled by a system or arrangement. A linker does not itself establish causation. Separate independent clauses with a full stop or semicolon before nevertheless or consequently, followed by a comma.",
+    "taskAr": "اربط الفكرتين لإظهار مفارقة: The pilot reduced processing time. Staff still found the interface confusing. ثم اشرح لماذا لا تناسب consequently هذه العلاقة.",
+    "taskEn": "Connect these ideas to show contrast: The pilot reduced processing time. Staff still found the interface confusing. Then explain why consequently does not fit the intended relationship.",
+    "exampleEn": "The pilot reduced processing time; nevertheless, staff still found the interface confusing. Consequently would suggest that the time saving caused the confusion.",
+    "exampleAr": "قلّل التشغيل التجريبي وقت المعالجة؛ ومع ذلك ظل الموظفون يجدون الواجهة مربكة. أما consequently فستشير إلى أن توفير الوقت تسبب في الإرباك.",
+    "check": {
+      "promptEn": "Which linker presents the second clause as an unexpected contrast? 'The evidence was limited; ___, the committee approved the proposal.'",
+      "choices": [
+        "nevertheless",
+        "consequently",
+        "whereby"
+      ],
+      "answer": "nevertheless",
+      "explanationAr": "الموافقة رغم محدودية الأدلة مفارقة يعبر عنها nevertheless. أما consequently فتقدم الموافقة بوصفها نتيجة لمحدودية الأدلة، وwhereby تتطلب تركيبًا يصف آلية.",
+      "explanationEn": "Nevertheless presents approval despite limited evidence as an unexpected contrast. Consequently would present approval as a consequence of the limitation, while whereby requires a construction describing a mechanism."
+    }
+  },
+  "c1-x-u12-l1": {
+    "focusAr": "إدارة الاجتماع تتطلب تحويل النقاش إلى قرار أو إجراء واضح. تعني park تأجيل مسألة مع تحديد وقت للعودة إليها، وminutes محضرًا يسجل القرارات لا كل كلمة منطوقة. اربط كل action point بمسؤول وموعد. لا تعلن consensus لمجرد الصمت؛ تحقق من الاعتراضات، وراع قواعد quorum الخاصة باللجنة قبل وصف تصويت بأنه معتمد.",
+    "focusEn": "Chairing a meeting means turning discussion into a clear decision or action. To park an issue is to defer it, ideally with a return point. Minutes record decisions rather than every spoken word. Give each action point an owner and a deadline. Do not infer consensus from silence: check for objections and follow the committee's own quorum rules before treating a vote as valid.",
+    "taskAr": "أجّل نقاش تصميم الشعار إلى الاجتماع القادم، ثم لخّص تكليف ليلى بإرسال تقدير التكلفة يوم الخميس، واسأل عن أي اعتراض على التكليف.",
+    "taskEn": "Defer the logo discussion until the next meeting, summarise Layla's action to send a cost estimate on Thursday, and invite objections to that action.",
+    "exampleEn": "Let's park the logo discussion until our next meeting. The action point is for Layla to circulate the cost estimate by Thursday. Are there any objections to that action?",
+    "exampleAr": "لنؤجّل نقاش الشعار إلى اجتماعنا القادم. بند العمل هو أن تعمّم ليلى تقدير التكلفة بحلول الخميس. هل هناك أي اعتراض على هذا التكليف؟",
+    "check": {
+      "promptEn": "Which action point is specific enough to follow up?",
+      "choices": [
+        "Omar will circulate the revised draft by Tuesday.",
+        "Someone should look at the draft soon.",
+        "The draft was discussed at length."
+      ],
+      "answer": "Omar will circulate the revised draft by Tuesday.",
+      "explanationAr": "يحدد الخيار الصحيح المسؤول والعمل المطلوب والموعد. العبارة الثانية تفتقر إلى مسؤول وموعد محددين، والثالثة تسجل نقاشًا ولا تحدد إجراءً.",
+      "explanationEn": "The correct option names an owner, a deliverable and a deadline. The second lacks a specific owner and date, while the third records discussion without assigning an action."
+    }
+  },
+  "c1-x-u12-l2": {
+    "focusAr": "ابن إجابة المقابلة القيادية على موقف محدد، ومسؤوليتك، والإجراء الذي اتخذته، والنتيجة القابلة للتحقق. تعني spearhead قيادة المبادرة، وoversee الإشراف على التنفيذ؛ لا تنسب لنفسك عمل الفريق كله. استخدم accountable for للمسؤولية وaccountable to للجهة التي تحاسبك. قدم الأرقام في سياقها، واذكر مساهمة الآخرين وحدود دورك لتكون الإجابة مقنعة ودقيقة.",
+    "focusEn": "Structure a leadership interview answer around the situation, your responsibility, your action and a verifiable result. Spearhead means lead an initiative; oversee means supervise its execution. Distinguish your contribution from the team's work. Use accountable for with a responsibility and accountable to with the person or body you answer to. Put figures in context and acknowledge other contributors.",
+    "taskAr": "في مثال تدريبي، كنت تشرف على فريق خفّض مدة الاستجابة من خمسة أيام إلى ثلاثة خلال ستة أشهر، وكان دورك إزالة عقبات التنسيق. صغ إجابة لا تنسب الإنجاز كله إليك.",
+    "taskEn": "In a practice scenario, you oversaw a team that reduced response time from five days to three over six months. Your role was removing coordination barriers. Describe the result without claiming sole credit.",
+    "exampleEn": "I oversaw the team and removed coordination barriers between departments. Over six months, the team reduced response time from five days to three. I was accountable for delivery, while colleagues led the individual improvements.",
+    "exampleAr": "أشرفت على الفريق وأزلت عقبات التنسيق بين الإدارات. وخلال ستة أشهر، خفّض الفريق مدة الاستجابة من خمسة أيام إلى ثلاثة. كنت مسؤولًا عن التنفيذ، بينما قاد الزملاء التحسينات الفردية.",
+    "check": {
+      "promptEn": "Which phrase correctly names the person a manager answers to?",
+      "choices": [
+        "accountable to the director",
+        "accountable for the director",
+        "accountable at the director"
+      ],
+      "answer": "accountable to the director",
+      "explanationAr": "نستخدم accountable to لتحديد الجهة التي يخضع الشخص لمساءلتها، وaccountable for لتحديد العمل أو النتيجة التي يتحمل مسؤوليتها.",
+      "explanationEn": "Accountable to identifies the person or body someone answers to. Accountable for identifies the work or outcome for which they are responsible."
+    }
+  },
+  "c1-x-u12-l3": {
+    "focusAr": "ساعد المستمع على متابعة الحجة بإشارات لفظية مثل first وthe key point is وto conclude. قدم حكاية قصيرة تخدم الفكرة، ثم وضح صلتها بالحجة. استخدم pause for effect لوقفة مقصودة قبل نقطة مهمة، ونوّع سرعة الإلقاء والنبر دون التضحية بالوضوح. لا تجعل فهم الخطاب متوقفًا على صورة أو إيماءة؛ انطق المعلومات الأساسية ووصفها بما يكفي للمستمع.",
+    "focusEn": "Use spoken signposting such as first, the key point is and to conclude to guide listeners through an argument. Keep an anecdote relevant and explain how it supports the point. Pause for effect before an important statement, and vary pace and emphasis without sacrificing clarity. Make the essential message understandable through words, so that it does not depend on seeing a slide or gesture.",
+    "taskAr": "اكتب افتتاحية قصيرة لحديث عن تبسيط النماذج الإلكترونية، تبدأ بمثال شخص انتظر أسبوعًا بسبب خانة غامضة، ثم تعلن النقطتين: وضوح التعليمات وتجربة المستخدم.",
+    "taskEn": "Write a short opening about simplifying online forms. Begin with a person delayed for a week by an unclear field, then signpost two points: clear instructions and user testing.",
+    "exampleEn": "One unclear field delayed a customer's application for a week. That anecdote illustrates the cost of ambiguity. Today I will address two ways to improve forms: first, clearer instructions; second, testing with the people who use them.",
+    "exampleAr": "أخّرت خانة واحدة غامضة طلب أحد العملاء أسبوعًا. توضح هذه الحكاية أثر الغموض. سأتناول اليوم طريقتين لتحسين النماذج: أولًا، تعليمات أوضح؛ وثانيًا، التجربة مع الأشخاص الذين يستخدمونها.",
+    "check": {
+      "promptEn": "Which sentence provides explicit signposting for listeners?",
+      "choices": [
+        "I will first explain the problem, then compare two possible solutions.",
+        "This topic is extremely important to many people.",
+        "I have spoken about this topic on several occasions."
+      ],
+      "answer": "I will first explain the problem, then compare two possible solutions.",
+      "explanationAr": "تعرض الجملة الصحيحة تسلسل الحديث بوضوح، فتساعد المستمع على توقع مراحله. الجملتان الأخريان تقدمان تقييمًا للموضوع أو خبرة المتحدث دون تنظيم الحجة.",
+      "explanationEn": "The correct sentence states the sequence of the talk, helping listeners anticipate its stages. The other options state importance or experience without organising the argument."
+    }
+  },
+  "c1-x-u12-l4": {
+    "focusAr": "يفصل المقترح المقنع بين المشكلة والدليل والحل المقترح والمخرجات وطريقة التقييم. تعني deliverables الأشياء التي ستسلّمها، أما outcomes فهي الآثار التي تسعى إليها؛ تسليم دليل لا يثبت تحسن الخدمة. اربط وصف cost-effective بمقارنة تكلفة ومنفعة واضحة. صغ العائد المتوقع كتقدير يعتمد على افتراضات معلنة، وحدد تجربة محدودة ومعيارًا للنجاح قبل التوسع.",
+    "focusEn": "A persuasive proposal separates the problem, evidence, proposed solution, deliverables and evaluation. Deliverables are what will be produced; outcomes are the effects sought. Producing a handbook does not prove that service improved. Support cost-effective with a clear comparison of costs and benefits. Present projected returns as estimates based on stated assumptions, and define a limited pilot and a success criterion before scaling up.",
+    "taskAr": "اقترح تجربة مدتها شهر لتبسيط نموذج طلب. المخرج نموذج معدّل، والهدف خفض الطلبات الناقصة من 20% إلى 10% دون زيادة وقت الإكمال. ميز بين الهدف والنتيجة التي لم تقس بعد.",
+    "taskEn": "Propose a one-month trial of a simpler application form. The deliverable is a revised form; the target is to reduce incomplete applications from 20% to 10% without increasing completion time. Distinguish the target from an observed result.",
+    "exampleEn": "We propose a one-month pilot with a revised form as the main deliverable. The target is to reduce incomplete applications from 20% to 10% without increasing completion time. These are proposed success criteria; the pilot will test whether they are achievable.",
+    "exampleAr": "نقترح تجربة مدتها شهر يكون النموذج المعدّل مخرجها الرئيسي. الهدف خفض الطلبات الناقصة من 20% إلى 10% دون زيادة وقت الإكمال. هذه معايير نجاح مقترحة، وستختبر التجربة إمكانية تحقيقها.",
+    "check": {
+      "promptEn": "Which statement distinguishes a deliverable from an outcome?",
+      "choices": [
+        "The revised handbook is a deliverable; fewer processing errors would be an outcome.",
+        "Fewer processing errors are a physical document to deliver.",
+        "Delivering a handbook proves that processing errors have fallen."
+      ],
+      "answer": "The revised handbook is a deliverable; fewer processing errors would be an outcome.",
+      "explanationAr": "الدليل المعدّل مخرج يمكن تسليمه، وانخفاض الأخطاء أثر يحتاج قياسًا. وجود الدليل لا يكفي لإثبات تحقق التحسن.",
+      "explanationEn": "The revised handbook is something that can be delivered; fewer errors would be an effect that needs measurement. Producing the document does not establish that improvement occurred."
+    }
   }
 }

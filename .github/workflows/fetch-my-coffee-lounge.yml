@@ -27,7 +27,7 @@ jobs:
           set -euo pipefail
           rm -rf /tmp/gplay && mkdir -p /tmp/gplay
 
-          python3 -m pip install --quiet gplaydl
+          python3 -m pip install --quiet 'gplaydl==2.1.7'
           echo "Acquiring anonymous Google Play token..."
           gplaydl auth
 

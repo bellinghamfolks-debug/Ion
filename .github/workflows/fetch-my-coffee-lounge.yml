@@ -21,60 +21,26 @@ jobs:
         with:
           ref: upload/my-coffee-lounge-1.5.0
 
-      - name: Download exact XAPK with apkeep and verify SHA-256
+      - name: Download exact APKPure XAPK and verify SHA-256
         shell: bash
         run: |
           set -euo pipefail
           EXPECTED="78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81"
           OUT="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
-          IMAGE="ghcr.io/efforg/apkeep:stable"
+          URL="https://d.apkpure.com/b/XAPK/com.delonghigroup.daedalus?versionCode=318&nc=arm64-v8a&sv=32"
 
-          try_variant() {
-            local label="$1"
-            shift
-            rm -rf /tmp/apkeep-out
-            mkdir -p /tmp/apkeep-out
-            echo "Trying apkeep variant: $label"
-            docker run --rm -v "/tmp/apkeep-out:/output" "$IMAGE" \
-              -a "com.delonghigroup.daedalus@1.5.0" -d apk-pure "$@" /output || return 1
+          echo "Downloading APKPure variant: versionCode=318, arch=arm64-v8a, minSdk=32"
+          curl -fL --retry 3 --retry-all-errors --connect-timeout 20 --max-time 900 \
+            -A "Mozilla/5.0 (Linux; Android 12; Pixel 6) AppleWebKit/537.36 Chrome/140 Mobile Safari/537.36" \
+            -H "Referer: https://apkpure.net/" \
+            "$URL" -o "$OUT"
 
-            find /tmp/apkeep-out -maxdepth 1 -type f -printf '%f %s bytes\n' || true
-            while IFS= read -r f; do
-              [[ -n "$f" ]] || continue
-              actual="$(sha256sum "$f" | awk '{print $1}')"
-              size="$(stat -c%s "$f")"
-              echo "Candidate: $(basename "$f")"
-              echo "Size: $size"
-              echo "SHA-256: $actual"
-              if [[ "$actual" == "$EXPECTED" ]]; then
-                cp "$f" "$OUT"
-                return 0
-              fi
-            done < <(find /tmp/apkeep-out -maxdepth 1 -type f \( -name '*.xapk' -o -name '*.apk' \) | sort)
-            return 1
-          }
-
-          docker pull "$IMAGE"
-
-          echo "Listing APKPure versions visible to apkeep..."
-          docker run --rm "$IMAGE" -l -a "com.delonghigroup.daedalus" -d apk-pure -o 'acknowledge_dangers=true' . || true
-
-          found=0
-          if try_variant "arm64-v8a" -o 'acknowledge_dangers=true,arch=arm64-v8a'; then
-            found=1
-          elif try_variant "default architectures" -o 'acknowledge_dangers=true'; then
-            found=1
-          elif try_variant "arm64 plus legacy ARM" -o 'acknowledge_dangers=true,arch=arm64-v8a;armeabi-v7a;armeabi'; then
-            found=1
-          fi
-
-          if [[ "$found" -ne 1 ]]; then
-            echo "apkeep did not return the byte-for-byte APKPure XAPK expected."
-            exit 1
-          fi
-
-          echo "$EXPECTED  $OUT" | sha256sum -c -
+          echo "Downloaded size: $(stat -c%s "$OUT") bytes"
+          ACTUAL="$(sha256sum "$OUT" | awk '{print $1}')"
+          echo "SHA-256: $ACTUAL"
           test "$(stat -c%s "$OUT")" = "99992559"
+          test "$ACTUAL" = "$EXPECTED"
+          echo "Exact byte-for-byte match confirmed."
 
       - name: Split into GitHub-safe parts
         shell: bash

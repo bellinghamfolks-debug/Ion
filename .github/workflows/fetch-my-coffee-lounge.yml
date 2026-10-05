@@ -29,8 +29,18 @@ jobs:
           OUT="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
           URL="https://d.apkpure.com/b/XAPK/com.delonghigroup.daedalus?versionCode=318&nc=arm64-v8a&sv=32"
 
-          echo "Downloading APKPure variant: versionCode=318, arch=arm64-v8a, minSdk=32"
-          curl -fL --retry 3 --retry-all-errors --connect-timeout 20 --max-time 900 \
+          echo "Installing a local Tor client to avoid APKPure's GitHub-runner IP block..."
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tor
+          sudo systemctl start tor || sudo service tor start
+          for i in {1..30}; do
+            if (echo > /dev/tcp/127.0.0.1/9050) >/dev/null 2>&1; then break; fi
+            sleep 1
+          done
+
+          echo "Downloading exact APKPure variant through Tor..."
+          curl -fL --socks5-hostname 127.0.0.1:9050 \
+            --retry 4 --retry-all-errors --connect-timeout 30 --max-time 900 \
             -A "Mozilla/5.0 (Linux; Android 12; Pixel 6) AppleWebKit/537.36 Chrome/140 Mobile Safari/537.36" \
             -H "Referer: https://apkpure.net/" \
             "$URL" -o "$OUT"

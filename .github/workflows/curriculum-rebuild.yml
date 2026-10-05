@@ -9,6 +9,12 @@ on:
       - "EnglishNova/Scripts/new_lessons_src/**"
       - "EnglishNova/Scripts/new_lessons/**"
       - "EnglishNova/Scripts/enrichment/**"
+      - "EnglishNova/Scripts/lesson_guides/**"
+      - "EnglishNova/Scripts/lesson_guides.py"
+      - "EnglishNova/Scripts/assessment_choices.py"
+      - "EnglishNova/Scripts/spaced_retrieval.json"
+      - "EnglishNova/Scripts/audit_lesson_guides.py"
+      - "EnglishNova/Scripts/test_curriculum_review.py"
       - "EnglishNova/Scripts/build_seed_json.py"
       - "EnglishNova/Scripts/build_new_lessons.py"
       - "EnglishNova/Scripts/expand_curriculum.py"
@@ -36,6 +42,8 @@ jobs:
           python3 Scripts/build_seed_json.py
           python3 Scripts/build_new_lessons.py
           python3 Scripts/expand_curriculum.py
+          python3 Scripts/audit_lesson_guides.py
+          python3 Scripts/test_curriculum_review.py
           python3 Scripts/audit_curriculum_quality.py
           python3 Scripts/validate_content.py
 

@@ -6,7 +6,7 @@
   "baselineBuild": 60,
   "stage": "validated_sources_and_generated_resources",
   "lastCompletedStep": "All 360 lessons reviewed; full deterministic rebuild and local content/localization checks passed.",
-  "nextStep": "Review pull request and run iOS XCTest/build/VoiceOver verification in an Apple environment before release.",
+  "nextStep": "PR #29 is open. Await/check GitHub Actions iOS build and XCTest, then perform on-device VoiceOver verification before release.",
   "lessons": [
     {
       "id": "a0-u1-l1",
@@ -4347,5 +4347,6 @@
     "rebuildIdempotence": "pass",
     "stableLessonAndVocabularyIds": "pass",
     "iosBuildAndXCTest": "not run: Swift/Xcode unavailable"
-  }
+  },
+  "pullRequest": "https://github.com/bellinghamfolks-debug/Ion/pull/29"
 }

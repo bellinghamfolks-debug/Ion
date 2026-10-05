@@ -21,125 +21,141 @@ jobs:
         with:
           ref: upload/my-coffee-lounge-1.5.0
 
-      - name: Download exact XAPK with apkeep and verify SHA-256
+      - name: Fetch APKPure 1.5.0 with apkeep
         shell: bash
         run: |
           set -euo pipefail
-          EXPECTED="78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81"
-          OUT="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
           PKG="com.delonghigroup.daedalus@1.5.0"
-
           mkdir -p /tmp/apkeep1 /tmp/apkeep2
 
-          echo "Pulling current apkeep edge image..."
           docker pull ghcr.io/efforg/apkeep:edge
 
-          echo "Attempt 1: version 1.5.0, arm64-v8a"
           docker run --rm -v /tmp/apkeep1:/output ghcr.io/efforg/apkeep:edge \
-            -a "$PKG" -d apk-pure -o 'arch=arm64-v8a' /output || true
+            -a "$PKG" -d apk-pure \
+            -o 'acknowledge_dangers=true,arch=arm64-v8a' /output || true
 
-          echo "Attempt 2: version 1.5.0, APKPure default architecture set"
           docker run --rm -v /tmp/apkeep2:/output ghcr.io/efforg/apkeep:edge \
-            -a "$PKG" -d apk-pure /output || true
+            -a "$PKG" -d apk-pure \
+            -o 'acknowledge_dangers=true' /output || true
 
-          echo "Downloaded candidates:"
-          find /tmp/apkeep1 /tmp/apkeep2 -maxdepth 2 -type f -printf '%p %s bytes\n' || true
+          echo "Downloaded files:"
+          find /tmp/apkeep1 /tmp/apkeep2 -type f -printf '%p %s bytes\n' || true
 
-          found=0
-          while IFS= read -r -d '' f; do
-            actual="$(sha256sum "$f" | awk '{print $1}')"
-            size="$(stat -c%s "$f")"
-            echo "Candidate: $f"
-            echo "Size: $size"
-            echo "SHA-256: $actual"
-            if [[ "$actual" == "$EXPECTED" ]]; then
-              cp "$f" "$OUT"
-              found=1
-              break
-            fi
-          done < <(find /tmp/apkeep1 /tmp/apkeep2 -type f -print0)
-
-          if [[ "$found" -ne 1 ]]; then
-            echo "No byte-for-byte match found. Nothing will be committed."
+          if ! find /tmp/apkeep1 /tmp/apkeep2 -type f | grep -q .; then
+            echo "apkeep did not download any files"
             exit 1
           fi
 
-          echo "$EXPECTED  $OUT" | sha256sum -c -
-          test "$(stat -c%s "$OUT")" = "99992559"
-
-      - name: Rebuild exact APKPure XAPK byte-for-byte
+      - name: Rebuild the exact user-supplied APKPure XAPK
         shell: bash
         run: |
           set -euo pipefail
-          OUT="/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk"
-          EXPECTED="78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81"
-
           python3 - <<'PY'
-          import base64, hashlib, os, struct, zipfile, zlib
+          import base64, hashlib, os, shutil, struct, zipfile, zlib
 
-          root='/tmp/xapk-components'
-          out='/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk'
+          roots=['/tmp/apkeep1','/tmp/apkeep2']
+          work='/tmp/exact-components'
+          shutil.rmtree(work, ignore_errors=True)
+          os.makedirs(work)
 
-          # APKPure's icon is exactly this image embedded in the base APK.
-          with zipfile.ZipFile(os.path.join(root,'com.delonghigroup.daedalus.apk')) as z:
-              icon=z.read('res/mipmap-xxxhdpi-v4/launcher_icon.png')
-          open(os.path.join(root,'icon.png'),'wb').write(icon)
+          expected={
+            'com.delonghigroup.daedalus.apk':'afd5256eabaf7d938825e62691188494cda5803d26fd20111ae92c18a4e3cbe2',
+            'config.en.apk':'0fbb67f6c390292cc12c8b5b3fda4d4588220a70b54d4c5b5f2389712154ddea',
+            'config.fr.apk':'ae55e4d481f25207c4c68e23731690549d1e47a8277bd9904be42b2b5c945241',
+            'config.hdpi.apk':'aa8cc2b93feffb48ddf3a06e251ebaa7b59f6c3b5b85f686e650301c6860b8f8',
+            'config.arm64_v8a.apk':'6e04a8549e0900c5193a9ec593d675a046832c680ca9795ad305c6f748b52483',
+          }
 
-          # Exact manifest.json bytes from the user-supplied APKPure XAPK.
+          def sha(data): return hashlib.sha256(data).hexdigest()
+
+          found={}
+          for root in roots:
+            for dp,_,files in os.walk(root):
+              for fn in files:
+                path=os.path.join(dp,fn)
+                try:
+                  data=open(path,'rb').read()
+                except OSError:
+                  continue
+
+                for outname,h in expected.items():
+                  if outname not in found and sha(data)==h:
+                    open(os.path.join(work,outname),'wb').write(data)
+                    found[outname]=path
+
+                try:
+                  with zipfile.ZipFile(path) as z:
+                    for zi in z.infolist():
+                      try:
+                        data=z.read(zi.filename)
+                      except Exception:
+                        continue
+                      for outname,h in expected.items():
+                        if outname not in found and sha(data)==h:
+                          open(os.path.join(work,outname),'wb').write(data)
+                          found[outname]=f'{path}!{zi.filename}'
+                except zipfile.BadZipFile:
+                  pass
+
+          print('Matched components:')
+          for k in expected:
+            print(k, '->', found.get(k,'MISSING'))
+          missing=[k for k in expected if k not in found]
+          if missing:
+            raise SystemExit('Missing exact APK components: '+', '.join(missing))
+
+          base=os.path.join(work,'com.delonghigroup.daedalus.apk')
+          with zipfile.ZipFile(base) as z:
+            icon=z.read('res/mipmap-xxxhdpi-v4/launcher_icon.png')
+          if sha(icon)!='66e9b1af2fdb47b4c87f40027acd904f51c6e82c8eeaa58d3352658f3a98eac6':
+            raise SystemExit('Icon mismatch')
+          open(os.path.join(work,'icon.png'),'wb').write(icon)
+
           manifest_b64='eyJ4YXBrX3ZlcnNpb24iOjIsInBhY2thZ2VfbmFtZSI6ImNvbS5kZWxvbmdoaWdyb3VwLmRhZWRhbHVzIiwibmFtZSI6Ik15IENvZmZlZSBMb3VuZ2UiLCJ2ZXJzaW9uX2NvZGUiOiIzMTgiLCJ2ZXJzaW9uX25hbWUiOiIxLjUuMCIsIm1pbl9zZGtfdmVyc2lvbiI6IjMyIiwidGFyZ2V0X3Nka192ZXJzaW9uIjoiMzYiLCJwZXJtaXNzaW9ucyI6WyJhbmRyb2lkLnBlcm1pc3Npb24uSU5URVJORVQiLCJhbmRyb2lkLnBlcm1pc3Npb24uQUNDRVNTX0NPQVJTRV9MT0NBVElPTiIsImFuZHJvaWQucGVybWlzc2lvbi5BQ0NFU1NfRklORV9MT0NBVElPTiIsImFuZHJvaWQucGVybWlzc2lvbi5BQ0NFU1NfV0lGSV9TVEFURSIsImFuZHJvaWQucGVybWlzc2lvbi5DSEFOR0VfV0lGSV9TVEFURSIsImFuZHJvaWQucGVybWlzc2lvbi5CTFVFVE9PVEgiLCJhbmRyb2lkLnBlcm1pc3Npb24uQkxVRVRPT1RIX0FETUlOIiwiYW5kcm9pZC5wZXJtaXNzaW9uLkJMVUVUT09USF9TQ0FOIiwiYW5kcm9pZC5wZXJtaXNzaW9uLkJMVUVUT09USF9DT05ORUNUIiwiYW5kcm9pZC5wZXJtaXNzaW9uLlJFQURfRVhURVJOQUxfU1RPUkFHRSIsImFuZHJvaWQucGVybWlzc2lvbi5XUklURV9FWFRFUk5BTF9TVE9SQUdFIiwiYW5kcm9pZC5wZXJtaXNzaW9uLlBPU1RfTk9USUZJQ0FUSU9OUyIsImFuZHJvaWQucGVybWlzc2lvbi5SRUFEX1BSSVZJTEVHRURfUEhPTkVfU1RBVEUiLCJhbmRyb2lkLnBlcm1pc3Npb24uQUNDRVNTX05FVFdPUktfU1RBVEUiLCJhbmRyb2lkLnBlcm1pc3Npb24uV0FLRV9MT0NLIiwiYW5kcm9pZC5wZXJtaXNzaW9uLkVYUEFORF9TVEFUVVNfQkFSIiwiYW5kcm9pZC5wZXJtaXNzaW9uLkNBTUVSQSIsImFuZHJvaWQucGVybWlzc2lvbi5SRUNPUkRfQVVESU8iLCJjb20uZ29vZ2xlLmFuZHJvaWQuYzJkbS5wZXJtaXNzaW9uLlJFQ0VJVkUiLCJjb20uZ29vZ2xlLmFuZHJvaWQuZ21zLnBlcm1pc3Npb24uQURfSUQiLCJhbmRyb2lkLnBlcm1pc3Npb24uQUNDRVNTX0FEU0VSVklDRVNfQVRUUklCVVRJT04iLCJhbmRyb2lkLnBlcm1pc3Npb24uQUNDRVNTX0FEU0VSVklDRVNfQURfSUQiLCJjb20uZ29vZ2xlLmFuZHJvaWQuZmluc2t5LnBlcm1pc3Npb24uQklORF9HRVRfSU5TVEFMTF9SRUZFUlJFUl9TRVJWSUNFIiwiYW5kcm9pZC5wZXJtaXNzaW9uLkFDQ0VTU19BRFNFUlZJQ0VTX0NVU1RPTV9BVURJRU5DRSIsImFuZHJvaWQucGVybWlzc2lvbi5BQ0NFU1NfQURTRVJWSUNFU19UT1BJQ1MiLCJjb20uZGVsb25naGlncm91cC5kYWVkYWx1cy5EWU5BTUlDX1JFQ0VJVkVSX05PVF9FWFBPUlRFRF9QRVJNSVNTSU9OIl0sInNwbGl0X2NvbmZpZ3MiOlsiY29uZmlnLmVuIiwiY29uZmlnLmZyIiwiY29uZmlnLmhkcGkiLCJjb25maWcuYXJtNjRfdjhhIl0sInRvdGFsX3NpemUiOjk5OTgzMzU1LCJpY29uIjoiaWNvbi5wbmciLCJzcGxpdF9hcGtzIjpbeyJmaWxlIjoiY29tLmRlbG9uZ2hpZ3JvdXAuZGFlZGFsdXMuYXBrIiwiaWQiOiJiYXNlIn0seyJmaWxlIjoiY29uZmlnLmVuLmFwayIsImlkIjoiY29uZmlnLmVuIn0seyJmaWxlIjoiY29uZmlnLmZyLmFwayIsImlkIjoiY29uZmlnLmZyIn0seyJmaWxlIjoiY29uZmlnLmhkcGkuYXBrIiwiaWQiOiJjb25maWcuaGRwaSJ9LHsiZmlsZSI6ImNvbmZpZy5hcm02NF92OGEuYXBrIiwiaWQiOiJjb25maWcuYXJtNjRfdjhhIn1dfQ=='
-          open(os.path.join(root,'manifest.json'),'wb').write(base64.b64decode(manifest_b64))
+          manifest=base64.b64decode(manifest_b64)
+          if sha(manifest)!='1cf98380b7d2449c6227266dd276921f9f94ffc94bd4582c8330cacd5d482cb8':
+            raise SystemExit('Manifest mismatch')
+          open(os.path.join(work,'manifest.json'),'wb').write(manifest)
 
           names=[
-              'com.delonghigroup.daedalus.apk',
-              'icon.png',
-              'config.en.apk',
-              'config.fr.apk',
-              'config.hdpi.apk',
-              'config.arm64_v8a.apk',
-              'manifest.json',
+            'com.delonghigroup.daedalus.apk',
+            'icon.png',
+            'config.en.apk',
+            'config.fr.apk',
+            'config.hdpi.apk',
+            'config.arm64_v8a.apk',
+            'manifest.json',
           ]
+          out='/tmp/My+Coffee+Lounge_1.5.0_APKPure.xapk'
           records=[]
           with open(out,'wb') as f:
-              for name in names:
-                  data=open(os.path.join(root,name),'rb').read()
-                  nb=name.encode('utf-8')
-                  crc=zlib.crc32(data)&0xffffffff
-                  size=len(data)
-                  offset=f.tell()
-                  # APKPure outer ZIP: stored entries, zero DOS timestamp,
-                  # bit 3 set, sizes/CRC supplied via data descriptor.
-                  f.write(struct.pack('<IHHHHHIIIHH',
-                      0x04034b50,20,8,0,0,0,0,0,0,len(nb),0))
-                  f.write(nb)
-                  f.write(data)
-                  f.write(struct.pack('<IIII',0x08074b50,crc,size,size))
-                  records.append((name,crc,size,offset))
-
-              central_start=f.tell()
-              comment=b'ApkPure.com'
-              for name,crc,size,offset in records:
-                  nb=name.encode('utf-8')
-                  f.write(struct.pack('<IHHHHHHIIIHHHHHII',
-                      0x02014b50,20,20,8,0,0,0,crc,size,size,
-                      len(nb),0,len(comment),0,0,0,offset))
-                  f.write(nb)
-                  f.write(comment)
-              central_size=f.tell()-central_start
-              f.write(struct.pack('<IHHHHIIH',
-                  0x06054b50,0,0,len(records),len(records),
-                  central_size,central_start,0))
+            for name in names:
+              data=open(os.path.join(work,name),'rb').read()
+              nb=name.encode('utf-8')
+              crc=zlib.crc32(data)&0xffffffff
+              size=len(data)
+              offset=f.tell()
+              f.write(struct.pack('<IHHHHHIIIHH',0x04034b50,20,8,0,0,0,0,0,0,len(nb),0))
+              f.write(nb); f.write(data)
+              f.write(struct.pack('<IIII',0x08074b50,crc,size,size))
+              records.append((name,crc,size,offset))
+            cstart=f.tell()
+            comment=b'ApkPure.com'
+            for name,crc,size,offset in records:
+              nb=name.encode('utf-8')
+              f.write(struct.pack('<IHHHHHHIIIHHHHHII',0x02014b50,20,20,8,0,0,0,crc,size,size,len(nb),0,len(comment),0,0,0,offset))
+              f.write(nb); f.write(comment)
+            csize=f.tell()-cstart
+            f.write(struct.pack('<IHHHHIIH',0x06054b50,0,0,len(records),len(records),csize,cstart,0))
 
           actual=hashlib.sha256(open(out,'rb').read()).hexdigest()
           size=os.path.getsize(out)
           print('Rebuilt size:',size)
           print('Rebuilt SHA-256:',actual)
-          expected='78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81'
-          if size!=99992559 or actual!=expected:
-              raise SystemExit('Rebuilt XAPK is not byte-for-byte identical')
+          if size!=99992559 or actual!='78c56e96a73be5cd965fef4a04fd1213c5ac1e28685fd8e1005c3a0fe69c1a81':
+            raise SystemExit('Rebuilt XAPK is not byte-for-byte identical')
           print('BYTE_FOR_BYTE_MATCH=1')
           PY
-
-          echo "$EXPECTED  $OUT" | sha256sum -c -
 
       - name: Split into GitHub-safe parts
         shell: bash
@@ -162,15 +178,7 @@ jobs:
           Linux/macOS:
           cat My_Coffee_Lounge_1.5.0.xapk.*.part > My+Coffee+Lounge_1.5.0_APKPure.xapk
           sha256sum My+Coffee+Lounge_1.5.0_APKPure.xapk
-
-          Windows PowerShell:
-          $parts = Get-ChildItem 'My_Coffee_Lounge_1.5.0.xapk.*.part' | Sort-Object Name
-          $out = [System.IO.File]::Create('My+Coffee+Lounge_1.5.0_APKPure.xapk')
-          foreach ($p in $parts) { $bytes=[System.IO.File]::ReadAllBytes($p.FullName); $out.Write($bytes,0,$bytes.Length) }
-          $out.Close()
-          Get-FileHash 'My+Coffee+Lounge_1.5.0_APKPure.xapk' -Algorithm SHA256
           EOF
-          ls -lh "$DIR"
 
       - name: Commit parts to branch
         shell: bash
@@ -179,9 +187,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add uploads/My-Coffee-Lounge-1.5.0
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
           git commit -m "Add My Coffee Lounge 1.5.0 XAPK parts [skip ci]"
           git push origin "HEAD:${GITHUB_REF_NAME}"

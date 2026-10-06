@@ -100,6 +100,14 @@ enum OperationFeedback {
         UNUserNotificationCenter.current().add(request)
     }
 
+    /// Removes this task's progress notification (after a cancellation).
+    static func clearProgress(_ jobID: UUID) {
+        progressBuckets.removeValue(forKey: jobID)
+        let center = UNUserNotificationCenter.current()
+        center.removeDeliveredNotifications(withIdentifiers: [progressIdentifier(jobID)])
+        center.removePendingNotificationRequests(withIdentifiers: [progressIdentifier(jobID)])
+    }
+
     static func notifyCompletion(title: String, body: String, jobID: UUID) {
         progressBuckets.removeValue(forKey: jobID)
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [progressIdentifier(jobID)])

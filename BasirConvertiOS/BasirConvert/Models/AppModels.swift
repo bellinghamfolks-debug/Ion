@@ -590,6 +590,9 @@ struct BasirJob: Identifiable, Codable, Equatable, Sendable {
     var automaticResumePending: Bool?
     var executedModel: String?
     var qualityReport: QualityReport?
+    /// The person cancelled and the server has not confirmed it yet. Kept on
+    /// disk so the request is sent again after a relaunch or reconnection.
+    var serverCancelPending: Bool?
 
     var sourceURL: URL { URL(fileURLWithPath: sourcePath) }
     var resultURL: URL? { resultPath.map(URL.init(fileURLWithPath:)) }

@@ -625,6 +625,35 @@ actor ProxyClient {
         return (try? JSONDecoder().decode(PushRegistrationResponse.self, from: data).pushEnabled) ?? false
     }
 
+    /// Asks the server to stop the task created with this request ID. The
+    /// server identifies the task from the same key the app used to create
+    /// it, so this works even if the app never learned the server job id.
+    func cancelServerTask(requestID: String) async throws -> ServerCancellation {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/jobs/cancel"))
+        request.httpMethod = "POST"
+        request.timeoutInterval = 20
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        applyServerHeaders(to: &request, requestID: requestID)
+        let (data, response) = try await retryingData(request: request)
+        if response.statusCode == 404 { return .neverReachedServer }
+        try Self.validateHTTP(response, data: data)
+        struct Body: Decodable {
+            let status: String
+            let alreadyFinished: Bool?
+            enum CodingKeys: String, CodingKey {
+                case status
+                case alreadyFinished = "already_finished"
+            }
+        }
+        let body = try JSONDecoder().decode(Body.self, from: data)
+        if body.alreadyFinished == true { return .alreadyFinished }
+        guard ["cancelled", "canceled"].contains(body.status.lowercased()) else {
+            throw BasirError.invalidResponse("The server did not confirm the cancellation.")
+        }
+        return .cancelled
+    }
+
     private func retryingData(request: URLRequest) async throws -> (Data, HTTPURLResponse) {
         var lastError: Error?
         for attempt in 0..<4 {
@@ -756,3 +785,14 @@ actor ProxyClient {
     }
 
 }
+
+/// What the server did with a cancellation request.
+enum ServerCancellation: Equatable, Sendable {
+    /// The server stopped the task; no result will be produced.
+    case cancelled
+    /// The task finished before the request arrived; its result exists.
+    case alreadyFinished
+    /// The task never reached the server, so nothing runs there.
+    case neverReachedServer
+}
+

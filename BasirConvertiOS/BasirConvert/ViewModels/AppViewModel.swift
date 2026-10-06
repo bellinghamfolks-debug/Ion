@@ -36,6 +36,7 @@ final class AppViewModel: ObservableObject {
     /// One-time notices, so iOS waking and stopping the app repeatedly in
     /// the background never repeats them.
     private var readyNoticeSent: Set<UUID> = []
+    private var cancellationTasks: [UUID: Task<Void, Never>] = [:]
     private var uploadPauseNoticeSent: Set<UUID> = []
     private var networkPauseRequested = false
     private var networkCancellable: AnyCancellable?
@@ -97,6 +98,7 @@ final class AppViewModel: ObservableObject {
         DiagnosticLogger.recordGlobal("APP attached notifications=\(settings.notificationsEnabled) automaticResume=\(settings.automaticResume) wifiOnly=\(settings.wifiOnly) allowLowData=\(settings.allowLowData)")
         lastConfiguration = settings.configuration
         outputLibrary.refresh()
+        resendPendingCancellations()
         networkCancellable = NetworkMonitor.shared.$snapshot
             .removeDuplicates()
             .sink { [weak self] snapshot in
@@ -341,6 +343,17 @@ final class AppViewModel: ObservableObject {
         let id = jobID ?? selectedJobID
         guard let id, let index = jobs.firstIndex(where: { $0.id == id }),
               [.paused, .failed, .cancelled, .waitingForNetwork, .partial].contains(jobs[index].status) else { return }
+        // Restarting before the server confirmed the cancellation could let
+        // the late cancellation stop the new run. Wait for the confirmation.
+        if jobs[index].serverCancelPending == true {
+            if let l10n {
+                UIAccessibility.post(notification: .announcement, argument: l10n.t(
+                    "انتظر حتى يؤكد الخادم الإلغاء، ثم أعد المحاولة.",
+                    "Wait until the server confirms the cancellation, then try again."))
+            }
+            sendServerCancellation(jobID: id)
+            return
+        }
         jobs[index].status = .queued
         jobs[index].automaticResumePending = false
         jobs[index].errorMessage = nil
@@ -361,24 +374,127 @@ final class AppViewModel: ObservableObject {
               [.running, .queued, .waitingForNetwork, .paused, .failed, .partial]
                 .contains(jobs[index].status) else { return }
         let wasRunning = jobs[index].status == .running
+        let jobID = jobs[index].id
         activeLogger?.record("USER cancel requested status=\(jobs[index].status.rawValue)")
         pauseRequested = false
         networkPauseRequested = false
         jobs[index].status = .cancelled
+        // The task is only really cancelled once the server stops working on
+        // it. Until the server confirms, say so, and keep asking.
+        jobs[index].serverCancelPending = true
         jobs[index].errorMessage = l10n?.t(
-            "أُلغيت المهمة. بقي المصدر محفوظًا ويمكنك إعادة المحاولة.",
-            "The task was cancelled. Its source is retained so you can retry."
+            "جارٍ إيقاف المهمة على خادم بصير…",
+            "Stopping the task on the Basir server…"
         )
         jobs[index].updatedAt = Date()
         persist()
         syncFacade()
         if wasRunning { jobTask?.cancel() }
+        OperationFeedback.clearProgress(jobID)
+        PushRegistrar.shared.jobFinished(jobID)
+        sendServerCancellation(jobID: jobID)
         processNextIfPossible()
+    }
+
+    /// Sends the cancellation to the server until it is confirmed, with
+    /// growing pauses between attempts. Survives relaunches through
+    /// `serverCancelPending`, which `attach` and reconnection pick up again.
+    private func sendServerCancellation(jobID: UUID) {
+        guard cancellationTasks[jobID] == nil else { return }
+        cancellationTasks[jobID] = Task { [weak self] in
+            var attempt = 0
+            while let model = self,
+                  let job = model.jobs.first(where: { $0.id == jobID }),
+                  job.serverCancelPending == true,
+                  !Task.isCancelled {
+                guard let configuration = model.serverConfiguration else { break }
+                do {
+                    let outcome = try await ProxyClient(configuration: configuration)
+                        .cancelServerTask(requestID: job.requestID)
+                    model.serverCancellationConfirmed(jobID: jobID, outcome: outcome)
+                    break
+                } catch is CancellationError {
+                    break
+                } catch {
+                    DiagnosticLogger.recordGlobal("CANCEL not confirmed appJob=\(jobID.uuidString) attempt=\(attempt) description=\(error.localizedDescription)")
+                    model.serverCancellationWaiting(jobID: jobID)
+                    attempt += 1
+                    try? await Task.sleep(for: .seconds(min(60, 2 << min(attempt, 5))))
+                }
+            }
+            self?.cancellationTasks[jobID] = nil
+        }
+    }
+
+    private var serverConfiguration: ServerConfiguration? {
+        if let configuration = settings?.configuration, configuration.isConfigured { return configuration }
+        return lastConfiguration
+    }
+
+    private func serverCancellationConfirmed(jobID: UUID, outcome: ServerCancellation) {
+        guard let index = jobs.firstIndex(where: { $0.id == jobID }) else { return }
+        jobs[index].serverCancelPending = nil
+        let message: String
+        switch outcome {
+        case .cancelled:
+            message = l10n?.t(
+                "أُلغيت المهمة وتوقف خادم بصير عن العمل عليها. بقي المصدر محفوظًا ويمكنك إعادة المحاولة.",
+                "The task was cancelled and the Basir server stopped working on it. The source is kept so you can retry."
+            ) ?? ""
+        case .neverReachedServer:
+            message = l10n?.t(
+                "أُلغيت المهمة قبل أن تصل إلى الخادم. بقي المصدر محفوظًا ويمكنك إعادة المحاولة.",
+                "The task was cancelled before it reached the server. The source is kept so you can retry."
+            ) ?? ""
+        case .alreadyFinished:
+            message = l10n?.t(
+                "كانت المهمة قد اكتملت على الخادم قبل وصول الإلغاء. اختر «إعادة المحاولة» لتنزيل النتيجة دون تحويل جديد.",
+                "The task had already finished on the server before the cancellation arrived. Choose Try again to download the result without converting again."
+            ) ?? ""
+        }
+        jobs[index].errorMessage = message
+        jobs[index].updatedAt = Date()
+        DiagnosticLogger.recordGlobal("CANCEL confirmed appJob=\(jobID.uuidString) outcome=\(outcome)")
+        persist()
+        syncFacade()
+        UIAccessibility.post(notification: .announcement, argument: message)
+    }
+
+    private func serverCancellationWaiting(jobID: UUID) {
+        guard let index = jobs.firstIndex(where: { $0.id == jobID }) else { return }
+        jobs[index].errorMessage = l10n?.t(
+            "لم يصل الإلغاء إلى الخادم بعد بسبب الاتصال. سيُرسل تلقائيًا حتى يتأكد.",
+            "The cancellation has not reached the server yet because of the connection. It is sent again automatically until confirmed."
+        )
+        persist()
+        syncFacade()
+    }
+
+    /// Cancellations left unconfirmed by an earlier launch or a lost
+    /// connection are sent again.
+    private func resendPendingCancellations() {
+        for job in jobs where job.serverCancelPending == true {
+            sendServerCancellation(jobID: job.id)
+        }
     }
 
     func removeJob(_ id: UUID, deleteResult: Bool = false) {
         guard let index = jobs.firstIndex(where: { $0.id == id }), jobs[index].status != .running else { return }
         let removed = jobs.remove(at: index)
+        // Removing a task that may still be converting on the server (paused,
+        // queued, waiting, or with an unconfirmed cancellation) stops it there.
+        if [.paused, .queued, .waitingForNetwork].contains(removed.status) || removed.serverCancelPending == true,
+           let configuration = serverConfiguration {
+            let requestID = removed.requestID
+            Task.detached {
+                for attempt in 0..<6 {
+                    if (try? await ProxyClient(configuration: configuration).cancelServerTask(requestID: requestID)) != nil { return }
+                    try? await Task.sleep(for: .seconds(2 << attempt))
+                }
+            }
+        }
+        cancellationTasks[id]?.cancel()
+        cancellationTasks[id] = nil
         Task { await jobStore.removeFiles(for: removed, keepingResult: !deleteResult) }
         if selectedJobID == id { selectedJobID = jobs.first?.id }
         persist()
@@ -809,6 +925,7 @@ final class AppViewModel: ObservableObject {
         if snapshot.isConnected {
             networkLossTask?.cancel()
             networkLossTask = nil
+            resendPendingCancellations()
             if settings?.automaticResume == true { processNextIfPossible() }
             return
         }

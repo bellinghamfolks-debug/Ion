@@ -87,7 +87,9 @@ targets:
       - path: BasirLiveActivity
         excludes:
           - Info.plist
+          - BasirLiveActivity.entitlements
       - path: BasirConvert/LiveActivity/BasirJobActivityAttributes.swift
+      - path: BasirConvert/Shared/BasirShortcutIntents.swift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.basir.convert.ios.liveactivity
@@ -96,6 +98,8 @@ targets:
         CURRENT_PROJECT_VERSION: 13
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: BasirLiveActivity/Info.plist
+        CODE_SIGN_ENTITLEMENTS: BasirLiveActivity/BasirLiveActivity.entitlements
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) BASIR_EXTENSION"
         APPLICATION_EXTENSION_API_ONLY: YES
         SKIP_INSTALL: YES
         CODE_SIGNING_ALLOWED: NO

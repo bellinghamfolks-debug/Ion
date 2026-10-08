@@ -39,7 +39,13 @@ struct RootView: View {
         }
         .tint(BasirPalette.accent)
         .accessibilityAction(.magicTap) { toggleCurrentJob() }
-        .onOpenURL { viewModel.receiveExternalURL($0, l10n: l10n) }
+        .onOpenURL { url in
+            if let link = BasirLink(url: url) {
+                intents.pendingAction = link == .scan ? .guidedCapture : .readLatestResult
+            } else {
+                viewModel.receiveExternalURL(url, l10n: l10n)
+            }
+        }
         .onChange(of: viewModel.routedExternalBatch?.id) { _ in selectTabForRoutedDocument() }
         .onChange(of: viewModel.routedExternalDocument?.id) { _ in selectTabForRoutedDocument() }
         .onChange(of: intents.pendingAction) { _ in handleIntents() }

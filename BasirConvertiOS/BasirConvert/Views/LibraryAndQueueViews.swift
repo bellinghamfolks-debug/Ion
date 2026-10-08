@@ -29,6 +29,7 @@ struct ResultLibraryView: View {
     @State private var renameItem: OutputRecord?
     @State private var deleteItem: OutputRecord?
     @State private var reportItem: OutputRecord?
+    @State private var readItem: OutputRecord?
     @State private var newName = ""
     @State private var query = ""
     @AppStorage("library_sort") private var sortRaw = LibrarySort.newest.rawValue
@@ -112,6 +113,7 @@ struct ResultLibraryView: View {
         .searchable(text: $query, prompt: l10n.t("ابحث في ملفاتك", "Search your files"))
         .onAppear { library.refresh() }
         .sheet(item: $previewItem) { QuickLookPreview(url: $0.url).ignoresSafeArea() }
+        .fullScreenCover(item: $readItem) { DocumentReaderView(url: $0.url) }
         .sheet(item: $shareItem) { ActivityShareView(urls: [$0.url]) }
         .sheet(item: $exportItem) { ExportDocumentPicker(urls: [$0.url]) }
         .sheet(item: $openItem) { OpenInApplicationView(url: $0.url) }
@@ -157,7 +159,10 @@ struct ResultLibraryView: View {
             titleVisibility: .visible
         ) {
             Button(l10n.t("حذف نهائيًا", "Delete permanently"), role: .destructive) {
-                if let item = deleteItem { try? library.delete(item) }
+                if let item = deleteItem {
+                    try? library.delete(item)
+                    ReaderMemory(fileName: item.url.lastPathComponent).forget()
+                }
                 deleteItem = nil
             }
             Button(l10n.t("إلغاء", "Cancel"), role: .cancel) { deleteItem = nil }
@@ -193,18 +198,24 @@ struct ResultLibraryView: View {
                     .buttonStyle(.plain)
             }
             AdaptiveStack {
-                CardActionButton(title: l10n.t("معاينة", "Preview"), systemImage: "eye.fill", prominent: true) {
-                    previewItem = item
+                if item.isReadable {
+                    CardActionButton(title: l10n.t("اقرأ في بصير", "Read in Basir"), systemImage: "text.book.closed.fill",
+                                     prominent: true) {
+                        readItem = item
+                    }
                 }
-                CardActionButton(title: l10n.t("مشاركة", "Share"), systemImage: "square.and.arrow.up") {
-                    shareItem = item
+                CardActionButton(title: l10n.t("معاينة", "Preview"), systemImage: "eye.fill", prominent: !item.isReadable) {
+                    previewItem = item
                 }
             }
             AdaptiveStack {
-                CardActionButton(title: l10n.t("حفظ في الملفات", "Save to Files"), systemImage: "folder.badge.plus") {
-                    exportItem = item
+                CardActionButton(title: l10n.t("مشاركة", "Share"), systemImage: "square.and.arrow.up") {
+                    shareItem = item
                 }
                 Menu {
+                    Button { exportItem = item } label: {
+                        Label(l10n.t("حفظ في الملفات", "Save to Files"), systemImage: "folder.badge.plus")
+                    }
                     Button { openItem = item } label: {
                         Label(l10n.t("فتح باستخدام", "Open in app"), systemImage: "arrow.up.forward.app")
                     }
@@ -231,10 +242,14 @@ struct ResultLibraryView: View {
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(item.displayName)
         .accessibilityValue(accessibilitySummary(item))
-        .accessibilityHint(l10n.t("اضغط مرتين للمعاينة. اسحب للأعلى أو للأسفل لبقية الإجراءات.",
-                                  "Double-tap to preview. Swipe up or down for more actions."))
+        .accessibilityHint(item.isReadable
+            ? l10n.t("اضغط مرتين للقراءة في بصير. اسحب للأعلى أو للأسفل لبقية الإجراءات.",
+                     "Double-tap to read in Basir. Swipe up or down for more actions.")
+            : l10n.t("اضغط مرتين للمعاينة. اسحب للأعلى أو للأسفل لبقية الإجراءات.",
+                     "Double-tap to preview. Swipe up or down for more actions."))
         .accessibilityAddTraits(.isButton)
-        .accessibilityAction { previewItem = item }
+        .accessibilityAction { if item.isReadable { readItem = item } else { previewItem = item } }
+        .modifier(ReadActionModifier(item: item, title: l10n.t("اقرأ في بصير", "Read in Basir")) { readItem = item })
         .accessibilityAction(named: l10n.t("معاينة", "Preview")) { previewItem = item }
         .accessibilityAction(named: l10n.t("مشاركة", "Share")) { shareItem = item }
         .accessibilityAction(named: l10n.t("حفظ في الملفات", "Save to Files")) { exportItem = item }
@@ -278,6 +293,27 @@ struct ResultLibraryView: View {
         }
         return parts.joined(separator: " • ")
     }
+}
+
+/// Adds the in-app reader action only to Word results.
+private struct ReadActionModifier: ViewModifier {
+    let item: OutputRecord
+    let title: String
+    let action: () -> Void
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if item.isReadable {
+            content.accessibilityAction(named: title, action)
+        } else {
+            content
+        }
+    }
+}
+
+extension OutputRecord {
+    /// Word results open in Basir's own reader.
+    var isReadable: Bool { url.pathExtension.lowercased() == "docx" }
 }
 
 /// Adds the verification-report action only to files that have a report.

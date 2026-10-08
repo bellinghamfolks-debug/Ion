@@ -1,4 +1,5 @@
 import Foundation
+import WidgetKit
 import Combine
 
 actor PersistentJobStore {
@@ -97,6 +98,21 @@ final class OutputLibraryStore: ObservableObject {
             errorMessage = nil
         } catch {
             errorMessage = error.localizedDescription
+        }
+        publishLatestForWidget()
+    }
+
+    /// Keeps the Home Screen and Lock Screen widget on the newest result.
+    private func publishLatestForWidget() {
+        let latest = items.max { $0.createdAt < $1.createdAt }
+        let isArabic = UserDefaults.standard.string(forKey: "interface_language").map { $0 == "ar" }
+            ?? (Locale.current.language.languageCode?.identifier == "ar")
+        let snapshot = latest.map {
+            LatestResultSnapshot(fileName: $0.displayName, createdAt: $0.createdAt,
+                                 isTranslation: $0.operation == .translate, isArabic: isArabic)
+        }
+        if LatestResultSnapshot.store(snapshot) {
+            WidgetCenter.shared.reloadTimelines(ofKind: LatestResultSnapshot.widgetKind)
         }
     }
 

@@ -6,6 +6,11 @@ import WidgetKit
 struct BasirLiveActivityBundle: WidgetBundle {
     var body: some Widget {
         BasirJobLiveActivity()
+        BasirLatestResultWidget()
+        if #available(iOS 18.0, *) {
+            BasirScanControl()
+            BasirReadLatestControl()
+        }
     }
 }
 

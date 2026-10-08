@@ -26,6 +26,7 @@ struct TaskComposerView: View {
     @State private var showConfigurationRequired = false
     @State private var pickerError: String?
     @State private var previewItem: PreviewItem?
+    @State private var readerItem: PreviewItem?
     @State private var shareItem: OutputRecord?
     @State private var customOutputName = ""
     @State private var passwordURL: URL?
@@ -210,6 +211,7 @@ struct TaskComposerView: View {
             .ignoresSafeArea()
         }
         .sheet(item: $previewItem) { QuickLookPreview(url: $0.url).ignoresSafeArea() }
+        .fullScreenCover(item: $readerItem) { DocumentReaderView(url: $0.url) }
         .sheet(item: $shareItem) { ActivityShareView(urls: [$0.url]) }
         .onAppear {
             receiveExternalIfNeeded()
@@ -699,14 +701,21 @@ struct TaskComposerView: View {
             intents.pendingAction = nil
             operation = requested
             showFiles = true
-        case .openLatestResult:
+        case .openLatestResult, .readLatestResult:
             intents.pendingAction = nil
             library.refresh()
-            if let latest = library.items.first {
-                previewItem = PreviewItem(url: latest.url)
+            if let latest = library.items.max(by: { $0.createdAt < $1.createdAt }) {
+                if action == .readLatestResult, latest.isReadable {
+                    readerItem = PreviewItem(url: latest.url)
+                } else {
+                    previewItem = PreviewItem(url: latest.url)
+                }
             } else {
                 pickerError = l10n.t("لا توجد نتيجة محفوظة بعد.", "There is no saved result yet.")
             }
+        case .guidedCapture:
+            intents.pendingAction = nil
+            openGuidedCapture()
         }
     }
 

@@ -29,6 +29,17 @@
         <string>ar</string>
         <string>en</string>
     </array>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>com.basir.convert.ios.links</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>basir</string>
+            </array>
+        </dict>
+    </array>
     <key>CFBundleDocumentTypes</key>
     <array>
         <dict>

@@ -32,6 +32,7 @@ def main() -> None:
         root / "BasirConvert/BasirConvert.entitlements",
         root / "BasirShareExtension/Info.plist",
         root / "BasirShareExtension/ShareExtension.entitlements",
+        root / "BasirLiveActivity/BasirLiveActivity.entitlements",
         root / "project.yml",
         root / "cloud-project.yml",
         root / "scripts/build_unsigned_ipa.sh",
@@ -78,13 +79,21 @@ def main() -> None:
     for relative in (
         "BasirConvert/BasirConvert.entitlements",
         "BasirShareExtension/ShareExtension.entitlements",
+        "BasirLiveActivity/BasirLiveActivity.entitlements",
     ):
         with (root / relative).open("rb") as handle:
             entitlement_values.append(
                 plistlib.load(handle).get("com.apple.security.application-groups", [])
             )
-    if entitlement_values != [["group.com.basir.convert.ios"], ["group.com.basir.convert.ios"]]:
-        fail("app and Share Extension App Group entitlements do not match")
+    if entitlement_values != [["group.com.basir.convert.ios"]] * 3:
+        fail("app, Share Extension and widget App Group entitlements do not match")
+    url_schemes = {
+        scheme
+        for entry in info.get("CFBundleURLTypes", [])
+        for scheme in entry.get("CFBundleURLSchemes", [])
+    }
+    if "basir" not in url_schemes:
+        fail("the basir:// scheme used by the widget and controls is not registered")
 
     for name in ("project.yml", "cloud-project.yml"):
         specification = (root / name).read_text(encoding="utf-8")
@@ -93,6 +102,8 @@ def main() -> None:
             "INFOPLIST_FILE: BasirConvert/Supporting/Info.plist",
             "CODE_SIGN_ENTITLEMENTS: BasirConvert/BasirConvert.entitlements",
             "CODE_SIGN_ENTITLEMENTS: BasirShareExtension/ShareExtension.entitlements",
+            "CODE_SIGN_ENTITLEMENTS: BasirLiveActivity/BasirLiveActivity.entitlements",
+            "BasirConvert/Shared/BasirShortcutIntents.swift",
             "MARKETING_VERSION: 3.1.0",
             "CURRENT_PROJECT_VERSION: 13",
         ):

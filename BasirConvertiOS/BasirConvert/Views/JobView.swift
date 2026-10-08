@@ -10,6 +10,7 @@ struct JobView: View {
     @State private var previewURL: URL?
     @State private var shareURL: URL?
     @State private var exportURL: URL?
+    @State private var readerURL: URL?
     @State private var showCancelConfirmation = false
 
     var body: some View {
@@ -52,6 +53,7 @@ struct JobView: View {
         }
         .escapeToDismiss { viewModel.dismissJob() }
         .sheet(item: bindingURL($previewURL)) { QuickLookPreview(url: $0.url).ignoresSafeArea() }
+        .fullScreenCover(item: bindingURL($readerURL)) { DocumentReaderView(url: $0.url) }
         .sheet(item: bindingURL($shareURL)) { ActivityShareView(urls: [$0.url]) }
         .sheet(item: bindingURL($exportURL)) { ExportDocumentPicker(urls: [$0.url]) }
         .confirmationDialog(
@@ -189,10 +191,15 @@ struct JobView: View {
                     Label(result.lastPathComponent, systemImage: "doc.richtext.fill")
                         .font(.headline)
                         .fixedSize(horizontal: false, vertical: true)
-                    PrimaryActionButton(title: l10n.t("معاينة ملف Word", "Preview Word file"), systemImage: "eye.fill") {
-                        previewURL = result
+                    if result.pathExtension.lowercased() == "docx" {
+                        PrimaryActionButton(title: l10n.t("اقرأ في بصير", "Read in Basir"), systemImage: "text.book.closed.fill") {
+                            readerURL = result
+                        }
                     }
                     AdaptiveStack {
+                        CardActionButton(title: l10n.t("معاينة ملف Word", "Preview Word file"), systemImage: "eye.fill") {
+                            previewURL = result
+                        }
                         CardActionButton(title: l10n.t("مشاركة", "Share"), systemImage: "square.and.arrow.up") {
                             shareURL = result
                         }

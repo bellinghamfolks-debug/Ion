@@ -6,6 +6,8 @@ import SwiftUI
 enum IntentAction: Equatable {
     case chooseFile(OperationKind)
     case openLatestResult
+    case readLatestResult
+    case guidedCapture
 }
 
 /// Bridges App Intents (which run in the app process because they open the
@@ -108,6 +110,20 @@ struct BasirShortcuts: AppShortcutsProvider {
                 "Open the last result in \(.applicationName)",
                 "Open my latest \(.applicationName) file",
                 "افتح آخر نتيجة في \(.applicationName)"
+            ]
+        )
+        AppShortcut(
+            intent: StartGuidedCaptureIntent(),
+            phrases: [
+                "Scan a document with \(.applicationName)",
+                "صوّر مستندًا ب\(.applicationName)"
+            ]
+        )
+        AppShortcut(
+            intent: ReadLatestResultIntent(),
+            phrases: [
+                "Read my latest \(.applicationName) result",
+                "اقرأ آخر نتيجة في \(.applicationName)"
             ]
         )
         AppShortcut(

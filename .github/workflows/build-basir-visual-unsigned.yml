@@ -73,28 +73,28 @@ jobs:
 
           (root/'Basir/Helpers/BasirVisualFileOpen.swift').write_text(r'''import Foundation
 
-@MainActor
-extension ShareInbox {
-    func handleVisualExternalURL(_ url: URL) {
-        if !url.isFileURL { handle(url); return }
-        let didAccess = url.startAccessingSecurityScopedResource()
-        defer { if didAccess { url.stopAccessingSecurityScopedResource() } }
-        let ext = url.pathExtension.lowercased()
-        let images: Set<String> = ["jpg","jpeg","png","heic","heif","gif","bmp","tif","tiff","webp"]
-        let text: Set<String> = ["txt","csv","md","markdown","json","xml","html","htm","log","rtf"]
-        let docs: Set<String> = ["pdf","docx","pptx"]
-        guard images.contains(ext) || text.contains(ext) || docs.contains(ext) else { return }
-        guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Self.appGroup) else { return }
-        let task = images.contains(ext) ? "describe_image" : (docs.contains(ext) ? "convert" : "ask")
-        let dst = container.appendingPathComponent("share-\(task)-\(UUID().uuidString).\(ext)")
-        do {
-            try? FileManager.default.removeItem(at: dst)
-            try FileManager.default.copyItem(at: url, to: dst)
-            pending = Incoming(task: task, fileURL: dst, fileExtension: ext)
-        } catch { }
-    }
-}
-''')
+          @MainActor
+          extension ShareInbox {
+              func handleVisualExternalURL(_ url: URL) {
+                  if !url.isFileURL { handle(url); return }
+                  let didAccess = url.startAccessingSecurityScopedResource()
+                  defer { if didAccess { url.stopAccessingSecurityScopedResource() } }
+                  let ext = url.pathExtension.lowercased()
+                  let images: Set<String> = ["jpg","jpeg","png","heic","heif","gif","bmp","tif","tiff","webp"]
+                  let text: Set<String> = ["txt","csv","md","markdown","json","xml","html","htm","log","rtf"]
+                  let docs: Set<String> = ["pdf","docx","pptx"]
+                  guard images.contains(ext) || text.contains(ext) || docs.contains(ext) else { return }
+                  guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Self.appGroup) else { return }
+                  let task = images.contains(ext) ? "describe_image" : (docs.contains(ext) ? "convert" : "ask")
+                  let dst = container.appendingPathComponent("share-\(task)-\(UUID().uuidString).\(ext)")
+                  do {
+                      try? FileManager.default.removeItem(at: dst)
+                      try FileManager.default.copyItem(at: url, to: dst)
+                      pending = Incoming(task: task, fileURL: dst, fileExtension: ext)
+                  } catch { }
+              }
+          }
+          ''')
 
           app = root/'Basir/BasirApp.swift'
           text = app.read_text().replace('.onOpenURL { shareInbox.handle($0) }', '.onOpenURL { shareInbox.handleVisualExternalURL($0) }')

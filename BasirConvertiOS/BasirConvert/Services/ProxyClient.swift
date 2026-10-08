@@ -654,6 +654,35 @@ actor ProxyClient {
         return .cancelled
     }
 
+    /// Removes the server's copy of a finished task (its source and result).
+    func deleteServerTask(requestID: String) async throws {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/jobs"))
+        request.httpMethod = "DELETE"
+        request.timeoutInterval = 20
+        applyServerHeaders(to: &request, requestID: requestID)
+        let (data, response) = try await retryingData(request: request)
+        if response.statusCode == 404 { return }
+        try Self.validateHTTP(response, data: data)
+    }
+
+    /// Asks about a document (POST /api/assist). The body is already JSON;
+    /// the answer comes back as JSON for DocumentAssistant to decode.
+    func assist(body: Data) async throws -> Data {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/assist"))
+        request.httpMethod = "POST"
+        // A long document can take the model a while before the first byte.
+        request.timeoutInterval = 150
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpBody = body
+        applyServerHeaders(to: &request, requestID: UUID().uuidString)
+        let (data, response) = try await retryingData(request: request)
+        try Self.validateHTTP(response, data: data)
+        return data
+    }
+
     private func retryingData(request: URLRequest) async throws -> (Data, HTTPURLResponse) {
         var lastError: Error?
         for attempt in 0..<4 {

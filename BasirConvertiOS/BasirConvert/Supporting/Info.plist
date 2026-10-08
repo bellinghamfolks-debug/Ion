@@ -66,6 +66,12 @@
     <false/>
     <key>NSCameraUsageDescription</key>
     <string>يستخدم بصير الكاميرا لالتقاط مستند أو صورة تختار تحويلها أو ترجمتها.</string>
+    <key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+    <string>يضيف بصير إلى تقويمك المواعيد التي تختارها من مستنداتك فقط، ولا يقرأ مواعيدك.</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>يضيف بصير إلى تقويمك المواعيد التي تختارها من مستنداتك فقط.</string>
+    <key>NSFaceIDUsageDescription</key>
+    <string>يستخدم بصير بصمة الوجه لفتح التطبيق عندما تفعّل القفل في الإعدادات.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>يتيح بصير اختيار الصور التي تريد تحويلها أو ترجمتها فقط.</string>
     <key>BGTaskSchedulerPermittedIdentifiers</key>

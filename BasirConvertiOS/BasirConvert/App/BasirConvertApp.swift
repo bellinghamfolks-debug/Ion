@@ -77,6 +77,7 @@ struct BasirConvertApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .modifier(AppLockModifier())
                 .environmentObject(l10n)
                 .environmentObject(settings)
                 .environmentObject(viewModel)

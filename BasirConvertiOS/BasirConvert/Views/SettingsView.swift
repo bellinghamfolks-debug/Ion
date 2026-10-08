@@ -22,6 +22,7 @@ struct SettingsView: View {
                         appearanceCard
                         feedbackCard
                         networkCard
+                        privacyCard
                         SectionHeading(title: l10n.t("المزيد", "More"))
                         VStack(spacing: 0) {
                             settingsLink(l10n.t("خيارات متقدمة", "Advanced options"),
@@ -165,6 +166,26 @@ struct SettingsView: View {
         .onChange(of: settings.wifiOnly) { _ in settings.save(); OperationFeedback.selectionChanged() }
         .onChange(of: settings.allowLowData) { _ in settings.save(); OperationFeedback.selectionChanged() }
         .onChange(of: settings.automaticResume) { _ in settings.save(); OperationFeedback.selectionChanged() }
+    }
+
+    private var privacyCard: some View {
+        VStack(alignment: .leading, spacing: BasirSpacing.m) {
+            GlassSectionTitle(title: l10n.t("الخصوصية", "Privacy"), systemImage: "lock.shield.fill")
+            Toggle(l10n.t("قفل بصير ببصمة الوجه أو الرمز", "Lock Basir with Face ID or passcode"), isOn: $settings.appLock)
+            Toggle(l10n.t("حذف نسخة الخادم فور التنزيل", "Delete the server copy after download"), isOn: $settings.deleteServerCopy)
+            Text(l10n.t("مع القفل يطلب بصير بصمة الوجه أو رمز الجهاز كلما عدت إليه. ومع الحذف تُمسح نسخة الملف ونتيجته من الخادم بمجرد وصول ملف Word إلى هاتفك؛ النتائج الجزئية تبقى حتى تعيد محاولة صفحاتها. ولإخفاء أرقام الهوية والحسابات أثناء القراءة استخدم قائمة «بصير» في القارئ.",
+                        "With the lock, Basir asks for Face ID or your passcode whenever you return. With deletion, the file and its result are removed from the server as soon as the Word file reaches your phone; partial results stay until you retry their pages. To hide ID and account numbers while reading, use the Basir menu in the reader."))
+                .font(.footnote)
+                .foregroundStyle(BasirPalette.secondaryText)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .tint(BasirPalette.accent)
+        .glassSurface()
+        .onChange(of: settings.appLock) { enabled in
+            OperationFeedback.selectionChanged()
+            if enabled { AppLock.confirmCanLock(settings: settings, l10n: l10n) }
+        }
+        .onChange(of: settings.deleteServerCopy) { _ in OperationFeedback.selectionChanged() }
     }
 
     private var feedbackCard: some View {

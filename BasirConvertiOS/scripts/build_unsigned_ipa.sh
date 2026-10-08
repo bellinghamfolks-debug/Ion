@@ -10,7 +10,7 @@ cd "$ROOT"
 DERIVED="$ROOT/build/DerivedData"
 APP="$DERIVED/Build/Products/Release-iphoneos/BasirConvert.app"
 EXTENSION="$APP/PlugIns/BasirShareExtension.appex"
-IPA="$ROOT/dist/Basir_v3.1.0_unsigned.ipa"
+IPA="$ROOT/dist/Basir_v3.2.0_unsigned.ipa"
 SECRET_XCCONFIG="$(mktemp)"
 trap 'rm -f "$SECRET_XCCONFIG"' EXIT
 chmod 600 "$SECRET_XCCONFIG"

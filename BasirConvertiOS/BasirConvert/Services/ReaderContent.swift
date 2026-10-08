@@ -158,3 +158,27 @@ struct ReaderMemory {
         defaults.removeObject(forKey: key + ".bookmarks")
     }
 }
+
+/// Hides long numbers (ID, card, account, IBAN, phone) in what the reader
+/// shows and says, keeping the last four digits so the person can still
+/// tell which one it is.
+enum SensitiveMask {
+    private static let pattern = try! NSRegularExpression(
+        pattern: "(?<![0-9٠-٩])[0-9٠-٩](?:[ \\-]?[0-9٠-٩]){8,}(?![0-9٠-٩])"
+    )
+
+    static func mask(_ text: String, isArabic: Bool) -> String {
+        let range = NSRange(text.startIndex..., in: text)
+        let matches = pattern.matches(in: text, range: range)
+        guard !matches.isEmpty else { return text }
+        var result = text
+        for match in matches.reversed() {
+            guard let swiftRange = Range(match.range, in: result) else { continue }
+            let digits = result[swiftRange].filter { $0.isNumber }
+            let last = String(digits.suffix(4))
+            let replacement = isArabic ? "(رقم مخفي ينتهي بـ \(last))" : "(hidden number ending \(last))"
+            result.replaceSubrange(swiftRange, with: replacement)
+        }
+        return result
+    }
+}

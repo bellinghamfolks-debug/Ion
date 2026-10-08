@@ -98,6 +98,7 @@ struct TaskComposerView: View {
                             .foregroundStyle(BasirPalette.secondaryText)
                             .fixedSize(horizontal: false, vertical: true)
                         }
+                        BasirToolsSection()
                     } else {
                         selectedFilesSection
                         if estimates.values.contains(where: \.suggestsPageSelection) || !pageSelectionOverride.isEmpty {

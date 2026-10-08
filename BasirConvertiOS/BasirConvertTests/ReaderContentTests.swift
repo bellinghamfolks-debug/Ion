@@ -55,3 +55,16 @@ final class ReaderContentTests: XCTestCase {
         XCTAssertEqual(memory.bookmarks, [])
     }
 }
+
+final class SensitiveMaskTests: XCTestCase {
+    func testLongNumbersAreHiddenKeepingTheLastFour() {
+        XCTAssertEqual(SensitiveMask.mask("الهوية 1098765432", isArabic: true), "الهوية (رقم مخفي ينتهي بـ 5432)")
+        XCTAssertEqual(SensitiveMask.mask("Card 4111 1111 1111 1234", isArabic: false), "Card (hidden number ending 1234)")
+        XCTAssertEqual(SensitiveMask.mask("IBAN SA0380000000608010167519", isArabic: false), "IBAN SA(hidden number ending 7519)")
+    }
+
+    func testDatesAmountsAndShortNumbersStay() {
+        let text = "الموعد 2026-10-15 والمبلغ 1,500,000 ريال والغرفة 12"
+        XCTAssertEqual(SensitiveMask.mask(text, isArabic: true), text)
+    }
+}

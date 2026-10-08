@@ -7,11 +7,34 @@ import UIKit
 /// rotors jump between tables, images, pages and bookmarks, and the place
 /// the person stopped is kept for next time. It can also read aloud.
 struct DocumentReaderView: View {
-    let url: URL
+    /// The Word file, or nil for text read on the phone (instant read).
+    let url: URL?
+    private let preloaded: [ReaderBlock]?
+    private let givenTitle: String
+
+    init(url: URL) {
+        self.url = url
+        preloaded = nil
+        givenTitle = url.deletingPathExtension().lastPathComponent
+    }
+
+    init(title: String, blocks: [ReaderBlock]) {
+        url = nil
+        preloaded = blocks
+        givenTitle = title
+    }
+
     @EnvironmentObject private var l10n: L10n
+    @EnvironmentObject private var settings: SettingsStore
     @Environment(\.dismiss) private var dismiss
     @StateObject private var speaker = ReaderSpeaker()
+    @StateObject private var translator = BilingualTranslator()
+    @StateObject private var audiobook = AudiobookExporter()
+    @AppStorage("reader.maskSensitive") private var maskSensitive = false
+    @State private var rawBlocks: [ReaderBlock] = []
     @State private var blocks: [ReaderBlock] = []
+    @State private var bilingual = false
+    @State private var showAudiobook = false
     @State private var loading = true
     @State private var bookmarks: [Int] = []
     @State private var visible: Set<Int> = []
@@ -19,11 +42,14 @@ struct DocumentReaderView: View {
     @State private var resumeFrom: Int?
     @State private var showContents = false
     @State private var pendingJump: Int?
+    @State private var assistMode: DocumentAssistView.Mode?
+    @State private var explainedTable: ReaderBlock?
     @AccessibilityFocusState private var focusedID: Int?
     @Namespace private var rotorSpace
 
-    private var memory: ReaderMemory { ReaderMemory(fileName: url.lastPathComponent) }
-    private var title: String { url.deletingPathExtension().lastPathComponent }
+    private var memory: ReaderMemory { ReaderMemory(fileName: url?.lastPathComponent ?? "instant") }
+    private var remembers: Bool { url != nil }
+    private var title: String { givenTitle }
     private var tables: [ReaderBlock] { blocks.filter { $0.kind == .table } }
     private var images: [ReaderBlock] { blocks.filter { $0.kind == .image } }
     private var pages: [ReaderBlock] { blocks.filter { $0.pageNumber != nil } }
@@ -109,14 +135,56 @@ struct DocumentReaderView: View {
                     Button(l10n.t("تم", "Done")) { close() }
                         .fontWeight(.semibold)
                 }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Menu {
+                        Button { assistMode = .brief } label: {
+                            Label(l10n.t("ماذا يطلب مني؟", "What does it ask of me?"), systemImage: "checklist")
+                        }
+                        Button { assistMode = .dates } label: {
+                            Label(l10n.t("أضف المواعيد إلى التقويم", "Add dates to Calendar"), systemImage: "calendar.badge.plus")
+                        }
+                        Button { assistMode = .ask } label: {
+                            Label(l10n.t("اسأل عن المستند", "Ask about the document"), systemImage: "questionmark.bubble")
+                        }
+                        Divider()
+                        Button { toggleBilingual() } label: {
+                            Label(bilingual ? l10n.t("أوقف القراءة ثنائية اللغة", "Turn off bilingual reading")
+                                            : l10n.t("قراءة ثنائية اللغة", "Bilingual reading"),
+                                  systemImage: "character.bubble")
+                        }
+                        Button { showAudiobook = true } label: {
+                            Label(l10n.t("احفظ كملف صوتي", "Save as audiobook"), systemImage: "waveform")
+                        }
+                        Button { maskSensitive.toggle(); applyMask(); announceMask() } label: {
+                            Label(maskSensitive ? l10n.t("أظهر الأرقام الحساسة", "Show sensitive numbers")
+                                                : l10n.t("أخفِ الأرقام الحساسة", "Hide sensitive numbers"),
+                                  systemImage: maskSensitive ? "eye" : "eye.slash")
+                        }
+                    } label: {
+                        Label(l10n.t("بصير", "Basir"), systemImage: "sparkles")
+                    }
+                    .disabled(blocks.isEmpty)
+                }
             }
             .sheet(isPresented: $showContents) { contentsSheet }
+            .sheet(item: Binding(get: { assistMode.map(AssistSheet.init) }, set: { assistMode = $0?.mode })) { sheet in
+                DocumentAssistView(title: title, blocks: blocks, initialMode: sheet.mode) { id in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { pendingJump = id }
+                }
+            }
+            .sheet(item: $explainedTable) { block in
+                TableExplanationView(rows: block.rows, context: context(around: block))
+            }
+            .sheet(isPresented: $showAudiobook) {
+                AudiobookExportView(exporter: audiobook, title: title, passages: audiobookPassages)
+            }
         }
         .escapeToDismiss { close() }
         .task { await load() }
         .onDisappear {
             speaker.stop()
-            if !blocks.isEmpty { memory.position = position }
+            audiobook.cancel()
+            if remembers, !blocks.isEmpty { memory.position = position }
         }
     }
 
@@ -124,6 +192,48 @@ struct DocumentReaderView: View {
 
     @ViewBuilder
     private func row(_ block: ReaderBlock, proxy: ScrollViewProxy) -> some View {
+        if bilingual, Self.translatable(block) {
+            VStack(alignment: .leading, spacing: BasirSpacing.xs) {
+                decoratedRow(block)
+                translationView(block)
+            }
+            .onAppear { translator.need(block.id, text: block.text) }
+        } else {
+            decoratedRow(block)
+        }
+    }
+
+    private static func translatable(_ block: ReaderBlock) -> Bool {
+        guard block.pageNumber == nil else { return false }
+        switch block.kind {
+        case .heading, .paragraph, .listItem, .link: return !block.text.isEmpty
+        default: return false
+        }
+    }
+
+    @ViewBuilder
+    private func translationView(_ block: ReaderBlock) -> some View {
+        if let translated = translator.translations[block.id] {
+            Text(translated)
+                .font(.callout)
+                .foregroundStyle(BasirPalette.secondaryText)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.leading, BasirSpacing.s)
+                .overlay(alignment: .leading) {
+                    Rectangle().fill(BasirPalette.accent.opacity(0.5)).frame(width: 2)
+                }
+                .environment(\.layoutDirection, translator.target == "ar" ? .rightToLeft : .leftToRight)
+                .accessibilityLabel(l10n.t("الترجمة: ", "Translation: ") + translated)
+        } else if translator.failed {
+            EmptyView()
+        } else {
+            ProgressView()
+                .accessibilityLabel(l10n.t("جارٍ الترجمة", "Translating"))
+        }
+    }
+
+    @ViewBuilder
+    private func decoratedRow(_ block: ReaderBlock) -> some View {
         let isMarked = bookmarks.contains(block.id)
         let isSpeaking = speaker.speakingID == block.id
         blockContent(block)
@@ -146,6 +256,9 @@ struct DocumentReaderView: View {
             .accessibilityAction(named: l10n.t("اقرأ بصوت عالٍ من هنا", "Read aloud from here")) {
                 play(from: block.id)
             }
+            .modifier(TableActionModifier(isTable: block.kind == .table, title: l10n.t("اشرح الجدول", "Explain this table")) {
+                explainedTable = block
+            })
             .contextMenu {
                 Button { toggleBookmark(block.id) } label: {
                     Label(isMarked ? l10n.t("إزالة العلامة", "Remove bookmark") : l10n.t("ضع علامة هنا", "Bookmark here"),
@@ -203,7 +316,15 @@ struct DocumentReaderView: View {
             .padding(.leading, CGFloat(level) * 16)
             .accessibilityElement(children: .combine)
         case .table:
-            ReaderTableView(rows: block.rows, summary: tableLabel(block))
+            VStack(alignment: .leading, spacing: BasirSpacing.s) {
+                ReaderTableView(rows: block.rows, summary: tableLabel(block))
+                Button { explainedTable = block } label: {
+                    Label(l10n.t("اشرح الجدول", "Explain this table"), systemImage: "tablecells.badge.ellipsis")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(minHeight: 44)
+                }
+                .tint(BasirPalette.accent)
+            }
         case .image:
             VStack(alignment: .leading, spacing: BasirSpacing.xs) {
                 if let data = block.imageData, let image = UIImage(data: data) {
@@ -249,7 +370,7 @@ struct DocumentReaderView: View {
                 }
                 CardActionButton(title: l10n.t("من البداية", "From the start"), systemImage: "arrow.up.to.line") {
                     resumeFrom = nil
-                    memory.position = 0
+                    if remembers { memory.position = 0 }
                     focusedID = blocks.first?.id
                 }
             }
@@ -260,8 +381,9 @@ struct DocumentReaderView: View {
     // MARK: Controls
 
     private var controls: some View {
-        HStack(spacing: BasirSpacing.s) {
+        AdaptiveStack {
             controlButton(l10n.t("المحتوى", "Contents"), systemImage: "list.bullet") { showContents = true }
+            controlButton(l10n.t("اسأل", "Ask"), systemImage: "questionmark.bubble") { assistMode = .ask }
             controlButton(speaker.isSpeaking && !speaker.isPaused ? l10n.t("إيقاف مؤقت", "Pause")
                                                                   : l10n.t("استماع", "Listen"),
                           systemImage: speaker.isSpeaking && !speaker.isPaused ? "pause.fill" : "play.fill",
@@ -333,6 +455,12 @@ struct DocumentReaderView: View {
         }
     }
 
+    /// Text just before a table (its caption or heading), to explain it.
+    private func context(around block: ReaderBlock) -> String {
+        let start = max(0, block.id - 3)
+        return blocks[start..<block.id].map(\.text).filter { !$0.isEmpty }.joined(separator: "\n")
+    }
+
     // MARK: Labels
 
     private func tableLabel(_ block: ReaderBlock) -> String {
@@ -364,15 +492,24 @@ struct DocumentReaderView: View {
     // MARK: Actions
 
     private func load() async {
-        let url = self.url
-        let parsed = await Task.detached(priority: .userInitiated) { () -> [ReaderBlock] in
-            guard let document = try? DocxExtractor.parse(url: url) else { return [] }
-            return ReaderContent.blocks(from: document)
-        }.value
-        blocks = parsed
-        bookmarks = memory.bookmarks.filter { $0 < parsed.count }
-        let saved = memory.position
-        if saved > 0, saved < parsed.count { resumeFrom = saved }
+        let parsed: [ReaderBlock]
+        if let preloaded {
+            parsed = preloaded
+        } else if let url {
+            parsed = await Task.detached(priority: .userInitiated) { () -> [ReaderBlock] in
+                guard let document = try? DocxExtractor.parse(url: url) else { return [] }
+                return ReaderContent.blocks(from: document)
+            }.value
+        } else {
+            parsed = []
+        }
+        rawBlocks = parsed
+        applyMask()
+        if remembers {
+            bookmarks = memory.bookmarks.filter { $0 < parsed.count }
+            let saved = memory.position
+            if saved > 0, saved < parsed.count { resumeFrom = saved }
+        }
         loading = false
         let summary = l10n.t("\(title). \(headings.count) عنوانًا، \(tables.count) جدولًا، \(pages.count) صفحة.",
                              "\(title). \(headings.count) headings, \(tables.count) tables, \(pages.count) pages.")
@@ -392,8 +529,48 @@ struct DocumentReaderView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { focusedID = id }
     }
 
+    private func applyMask() {
+        guard maskSensitive else {
+            blocks = rawBlocks
+            return
+        }
+        let arabic = l10n.isArabic
+        blocks = rawBlocks.map { block in
+            ReaderBlock(id: block.id, kind: block.kind, text: SensitiveMask.mask(block.text, isArabic: arabic),
+                        rows: block.rows.map { $0.map { SensitiveMask.mask($0, isArabic: arabic) } },
+                        imageData: block.imageData, pageNumber: block.pageNumber)
+        }
+    }
+
+    private func announceMask() {
+        UIAccessibility.post(notification: .announcement, argument: maskSensitive
+            ? l10n.t("أُخفيت الأرقام الطويلة مثل الهوية والحساب والبطاقة، ويبقى آخر أربعة أرقام.",
+                     "Long numbers such as IDs, accounts and cards are hidden; the last four digits stay.")
+            : l10n.t("تظهر الأرقام كاملة.", "Numbers are shown in full."))
+    }
+
+    private func toggleBilingual() {
+        bilingual.toggle()
+        if bilingual {
+            // Arabic documents are shown with English, everything else with Arabic.
+            let sample = blocks.prefix(40).map(\.text).joined(separator: " ")
+            let target = ReaderContent.speechLanguage(for: sample) == "ar-SA" ? "en" : "ar"
+            translator.reset(target: target, configuration: settings.configuration)
+            for block in blocks where Self.translatable(block) && visible.contains(block.id) {
+                translator.need(block.id, text: block.text)
+            }
+        }
+        UIAccessibility.post(notification: .announcement, argument: bilingual
+            ? l10n.t("القراءة ثنائية اللغة مفعّلة. تظهر الترجمة بعد كل فقرة.", "Bilingual reading on. Each paragraph is followed by its translation.")
+            : l10n.t("أُوقفت القراءة ثنائية اللغة.", "Bilingual reading off."))
+    }
+
+    private var audiobookPassages: [String] {
+        blocks.map { ReaderContent.spokenText(for: $0, l10n: l10n) }
+    }
+
     private func toggleBookmark(_ id: Int) {
-        guard blocks.indices.contains(id) else { return }
+        guard remembers, blocks.indices.contains(id) else { return }
         let added = memory.toggleBookmark(id)
         bookmarks = memory.bookmarks
         UIAccessibility.post(notification: .announcement,
@@ -409,14 +586,101 @@ struct DocumentReaderView: View {
     }
 
     private func play(from id: Int) {
-        let items = blocks.filter { $0.id >= id }.map { (id: $0.id, text: ReaderContent.spokenText(for: $0, l10n: l10n)) }
+        let items = blocks.filter { $0.id >= id }.map { block -> (id: Int, text: String) in
+            var text = ReaderContent.spokenText(for: block, l10n: l10n)
+            if bilingual, let translated = translator.translations[block.id] { text += "\n" + translated }
+            return (id: block.id, text: text)
+        }
         speaker.play(items)
     }
 
     private func close() {
         speaker.stop()
-        if !blocks.isEmpty { memory.position = position }
+        if remembers, !blocks.isEmpty { memory.position = position }
         dismiss()
+    }
+}
+
+/// Saves the document as an m4a made on the phone, then shares it.
+private struct AudiobookExportView: View {
+    @ObservedObject var exporter: AudiobookExporter
+    let title: String
+    let passages: [String]
+
+    @EnvironmentObject private var l10n: L10n
+    @Environment(\.dismiss) private var dismiss
+    @State private var share = false
+    @State private var lastAnnounced = 0
+
+    var body: some View {
+        NavigationStack {
+            VStack(alignment: .leading, spacing: BasirSpacing.l) {
+                Text(l10n.t("يحوّل بصير المستند إلى ملف صوتي على هاتفك بنفس الأصوات العربية والإنجليزية، دون إرسال شيء. يمكنك الاستماع إليه في أي تطبيق.",
+                            "Basir turns the document into an audio file on your phone with the same Arabic and English voices, without sending anything. Listen in any app."))
+                    .fixedSize(horizontal: false, vertical: true)
+                if exporter.running {
+                    ProgressView(value: exporter.fraction) {
+                        Text(l10n.t("جارٍ التسجيل: \(exporter.done) من \(exporter.total)",
+                                    "Recording: \(exporter.done) of \(exporter.total)"))
+                    }
+                    SecondaryActionButton(title: l10n.t("إيقاف", "Stop"), systemImage: "stop.fill") { exporter.cancel() }
+                } else if let url = exporter.resultURL {
+                    InlineMessage(text: l10n.t("الملف الصوتي جاهز.", "The audio file is ready."), isError: false)
+                    PrimaryActionButton(title: l10n.t("مشاركة أو حفظ", "Share or save"), systemImage: "square.and.arrow.up") {
+                        share = true
+                    }
+                    .sheet(isPresented: $share) { ActivityShareView(urls: [url]) }
+                } else {
+                    if exporter.failed {
+                        InlineMessage(text: l10n.t("تعذر إنشاء الملف الصوتي.", "The audio file could not be made."), isError: true)
+                    }
+                    PrimaryActionButton(title: l10n.t("ابدأ", "Start"), systemImage: "waveform") {
+                        exporter.start(passages: passages, title: title)
+                    }
+                }
+                Spacer()
+            }
+            .appScreenContent()
+            .background(BasirPalette.background.ignoresSafeArea())
+            .foregroundStyle(BasirPalette.primaryText)
+            .navigationTitle(l10n.t("كتاب صوتي", "Audiobook"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) { Button(l10n.t("تم", "Done")) { dismiss() } }
+            }
+        }
+        .escapeToDismiss { dismiss() }
+        .presentationDetents([.medium, .large])
+        .onChange(of: exporter.done) { done in
+            // A short progress note every quarter, not on every passage.
+            guard exporter.total > 0 else { return }
+            let quarter = Int(Double(done) / Double(exporter.total) * 4)
+            if quarter > lastAnnounced, quarter < 4 {
+                lastAnnounced = quarter
+                UIAccessibility.post(notification: .announcement, argument: l10n.t("\(quarter * 25) بالمئة", "\(quarter * 25) percent"))
+            }
+        }
+        .onChange(of: exporter.resultURL) { url in
+            if url != nil {
+                UIAccessibility.post(notification: .announcement, argument: l10n.t("الملف الصوتي جاهز", "The audio file is ready"))
+            }
+        }
+    }
+}
+
+private struct AssistSheet: Identifiable {
+    let mode: DocumentAssistView.Mode
+    var id: DocumentAssistView.Mode { mode }
+}
+
+private struct TableActionModifier: ViewModifier {
+    let isTable: Bool
+    let title: String
+    let action: () -> Void
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if isTable { content.accessibilityAction(named: title, action) } else { content }
     }
 }
 

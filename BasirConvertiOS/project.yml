@@ -36,8 +36,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.basir.convert.ios
         PRODUCT_NAME: BasirConvert
-        MARKETING_VERSION: 3.1.0
-        CURRENT_PROJECT_VERSION: 13
+        MARKETING_VERSION: 3.2.0
+        CURRENT_PROJECT_VERSION: 14
         BASIR_SERVER_URL: "https://basir-convert-api-1045442243599.europe-west4.run.app"
         BASIR_CLIENT_TOKEN: ""
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
@@ -66,8 +66,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.basir.convert.ios.share
         PRODUCT_NAME: BasirShareExtension
-        MARKETING_VERSION: 3.1.0
-        CURRENT_PROJECT_VERSION: 13
+        MARKETING_VERSION: 3.2.0
+        CURRENT_PROJECT_VERSION: 14
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: BasirShareExtension/Info.plist
         CODE_SIGN_ENTITLEMENTS: BasirShareExtension/ShareExtension.entitlements
@@ -89,8 +89,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.basir.convert.ios.liveactivity
         PRODUCT_NAME: BasirLiveActivity
-        MARKETING_VERSION: 3.1.0
-        CURRENT_PROJECT_VERSION: 13
+        MARKETING_VERSION: 3.2.0
+        CURRENT_PROJECT_VERSION: 14
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: BasirLiveActivity/Info.plist
         CODE_SIGN_ENTITLEMENTS: BasirLiveActivity/BasirLiveActivity.entitlements

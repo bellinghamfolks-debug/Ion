@@ -35,6 +35,8 @@ final class SettingsStore: ObservableObject {
         static let preferredModel = "ai_preferred_model"
         static let appearance = "interface_appearance"
         static let highContrast = "interface_high_contrast"
+        static let appLock = "privacy_app_lock"
+        static let deleteServerCopy = "privacy_delete_server_copy"
     }
 
     private let bundledConfiguration: ServerConfiguration
@@ -46,6 +48,14 @@ final class SettingsStore: ObservableObject {
     }
     @Published var highContrast: Bool {
         didSet { defaults.set(highContrast, forKey: Key.highContrast) }
+    }
+    /// Ask for Face ID, Touch ID or the passcode when Basir opens.
+    @Published var appLock: Bool {
+        didSet { defaults.set(appLock, forKey: Key.appLock) }
+    }
+    /// Remove the server copy as soon as the verified result is on the phone.
+    @Published var deleteServerCopy: Bool {
+        didSet { defaults.set(deleteServerCopy, forKey: Key.deleteServerCopy) }
     }
 
     @Published var outputMode: OutputMode
@@ -77,6 +87,9 @@ final class SettingsStore: ObservableObject {
         self.defaults = defaults
         appearance = AppAppearance(rawValue: defaults.string(forKey: Key.appearance) ?? "system") ?? .system
         highContrast = defaults.bool(forKey: Key.highContrast)
+        appLock = defaults.bool(forKey: Key.appLock)
+        deleteServerCopy = defaults.object(forKey: Key.deleteServerCopy) == nil
+            ? true : defaults.bool(forKey: Key.deleteServerCopy)
         outputMode = OutputMode(rawValue: defaults.string(forKey: Key.outputMode) ?? "full") ?? .full
         embedVisuals = defaults.object(forKey: Key.embedVisuals) == nil
             ? true : defaults.bool(forKey: Key.embedVisuals)

@@ -629,6 +629,11 @@ final class AppViewModel: ObservableObject {
                 outputLibrary?.writeMetadata(for: output, job: jobs[finishedIndex])
                 persist()
                 syncFacade()
+                if settings.deleteServerCopy, outcome.failedItems.isEmpty {
+                    // A partial result keeps its server copy so failed pages can be retried.
+                    let requestID = snapshot.requestID
+                    Task.detached { try? await ProxyClient(configuration: configuration).deleteServerTask(requestID: requestID) }
+                }
                 OperationFeedback.play(.completed, theme: settings.soundTheme)
                 if settings.notificationsEnabled {
                     OperationFeedback.notifyCompletion(

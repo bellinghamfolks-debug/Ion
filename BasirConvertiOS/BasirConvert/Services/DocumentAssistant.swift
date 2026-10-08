@@ -105,6 +105,10 @@ struct DocumentComparison: Codable, Equatable, Sendable {
     var changes: [Change]
 }
 
+private struct AssistEnvelope<Value: Decodable>: Decodable {
+    let result: Value
+}
+
 enum DocumentAssistant {
     /// Matches the server's limit; longer documents are cut at a heading.
     static let maximumCharacters = 590_000
@@ -115,11 +119,10 @@ enum DocumentAssistant {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
         let data = try await ProxyClient(configuration: configuration).assist(body: encoder.encode(body))
-        struct Envelope<Value: Decodable>: Decodable { let result: Value }
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         do {
-            return try decoder.decode(Envelope<Result>.self, from: data).result
+            return try decoder.decode(AssistEnvelope<Result>.self, from: data).result
         } catch {
             throw BasirError.invalidResponse("The answer could not be read.")
         }
@@ -286,17 +289,17 @@ final class BilingualTranslator: ObservableObject {
     private func pump() {
         guard !running, !pending.isEmpty, let configuration else { return }
         running = true
-        var batch: [(Int, String)] = []
+        var collected: [(Int, String)] = []
         var characters = 0
         for id in pending.keys.sorted() {
             guard let text = pending[id] else { continue }
-            if batch.count >= 40 || characters + text.count > 20_000 { break }
-            batch.append((id, text))
+            if collected.count >= 40 || characters + text.count > 20_000 { break }
+            collected.append((id, text))
             characters += text.count
         }
-        batch.forEach { pending[$0.0] = nil; inFlight.insert($0.0) }
+        collected.forEach { pending[$0.0] = nil; inFlight.insert($0.0) }
         let target = self.target
-        let batch = batch
+        let batch = collected
         Task {
             defer {
                 batch.forEach { inFlight.remove($0.0) }
@@ -306,7 +309,7 @@ final class BilingualTranslator: ObservableObject {
             do {
                 struct Result: Decodable { let translations: [String] }
                 var body = AssistRequestBody(task: .translate, language: target == "ar" ? "ar" : "en")
-                body.segments = batch.map(\.1)
+                body.segments = batch.map { $0.1 }
                 body.target = target
                 let result = try await DocumentAssistant.send(body, as: Result.self, configuration: configuration)
                 guard target == self.target else { return }

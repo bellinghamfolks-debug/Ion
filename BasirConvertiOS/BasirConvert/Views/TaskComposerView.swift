@@ -30,6 +30,12 @@ struct TaskComposerView: View {
     @State private var customOutputName = ""
     @State private var passwordURL: URL?
     @State private var pdfPassword = ""
+    @State private var showGuidedCapture = false
+    @State private var estimates: [String: TaskEstimate] = [:]
+    @State private var scanReports: [String: ScanQualityReport] = [:]
+    @State private var checkingScan: Set<String> = []
+    /// Pages for this task only; empty means the setting (usually all pages).
+    @State private var pageSelectionOverride = ""
     @AccessibilityFocusState private var focusSelectedFiles: Bool
 
     private var isTranslation: Bool { operation == .translate }
@@ -51,7 +57,8 @@ struct TaskComposerView: View {
             preserveSymbols: settings.preserveSymbols,
             interfaceLanguage: l10n.language,
             pdfQuality: settings.pdfQuality,
-            pageSelection: settings.pageSelection,
+            pageSelection: pageSelectionOverride.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                ? settings.pageSelection : pageSelectionOverride,
             includeSpeakerNotes: settings.includeSpeakerNotes,
             includeHiddenSlides: settings.includeHiddenSlides,
             preserveLinks: settings.preserveLinks,
@@ -92,6 +99,9 @@ struct TaskComposerView: View {
                         }
                     } else {
                         selectedFilesSection
+                        if estimates.values.contains(where: \.suggestsPageSelection) || !pageSelectionOverride.isEmpty {
+                            pageSelectionCard
+                        }
                         if isTranslation { languageCard }
                         taskSummaryCard
                         resultNameCard
@@ -174,6 +184,21 @@ struct TaskComposerView: View {
             } onCancel: { showCamera = false }
             .ignoresSafeArea()
         }
+        .fullScreenCover(isPresented: $showGuidedCapture) {
+            GuidedCaptureView { pages in
+                showGuidedCapture = false
+                guard !pages.isEmpty else { return }
+                Task {
+                    do {
+                        let pdf = try await Task.detached(priority: .userInitiated) {
+                            try MediaImport.combineImagesAsPDF(pages, name: "مستند مصوَّر.pdf")
+                        }.value
+                        handleSelected([pdf])
+                    } catch { pickerError = error.localizedDescription }
+                }
+            } onCancel: { showGuidedCapture = false }
+            .environmentObject(l10n)
+        }
         .fullScreenCover(isPresented: $showScanner) {
             DocumentScanner { url in
                 showScanner = false
@@ -246,6 +271,9 @@ struct TaskComposerView: View {
             SourceTile(title: l10n.t("ملف", "File"),
                        detail: l10n.t("من تطبيق الملفات", "From the Files app"),
                        systemImage: "folder.fill") { showFiles = true }
+            SourceTile(title: l10n.t("تصوير موجَّه", "Guided capture"),
+                       detail: l10n.t("يرشدك بالصوت حتى تظهر الورقة كاملة", "Spoken directions until the whole page is in view"),
+                       systemImage: "viewfinder.circle.fill") { openGuidedCapture() }
             SourceTile(title: l10n.t("مسح ضوئي", "Scan"),
                        detail: l10n.t("مستند متعدد الصفحات", "Multi-page document"),
                        systemImage: "doc.viewfinder.fill") { openScanner() }
@@ -264,6 +292,9 @@ struct TaskComposerView: View {
     private var addMoreMenu: some View {
         Menu {
             Button { showFiles = true } label: { Label(l10n.t("ملف", "File"), systemImage: "folder") }
+            Button { openGuidedCapture() } label: {
+                Label(l10n.t("تصوير موجَّه", "Guided capture"), systemImage: "viewfinder.circle")
+            }
             Button { openScanner() } label: { Label(l10n.t("مسح ضوئي", "Scan"), systemImage: "doc.viewfinder") }
             Button { openCamera() } label: { Label(l10n.t("كاميرا", "Camera"), systemImage: "camera") }
             Button { pasteImages() } label: { Label(l10n.t("لصق", "Paste"), systemImage: "doc.on.clipboard") }
@@ -280,6 +311,11 @@ struct TaskComposerView: View {
 
     private func openCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) { showCamera = true }
+        else { pickerError = l10n.t("الكاميرا غير متاحة على هذا الجهاز.", "The camera is not available on this device.") }
+    }
+
+    private func openGuidedCapture() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) { showGuidedCapture = true }
         else { pickerError = l10n.t("الكاميرا غير متاحة على هذا الجهاز.", "The camera is not available on this device.") }
     }
 
@@ -314,6 +350,13 @@ struct TaskComposerView: View {
                     } else {
                         ProgressView().tint(BasirPalette.cyan).accessibilityLabel(l10n.t("جارٍ فحص الملف", "Inspecting file"))
                     }
+                    if let estimate = estimates[url.standardizedFileURL.path] {
+                        Label(estimate.sentence(l10n), systemImage: "clock")
+                            .font(.footnote)
+                            .foregroundStyle(BasirPalette.secondaryText)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    scanCheckView(for: url)
                     AdaptiveStack {
                         CardActionButton(title: l10n.t("معاينة", "Preview"), systemImage: "eye") {
                             previewItem = PreviewItem(url: url)
@@ -352,6 +395,136 @@ struct TaskComposerView: View {
             "المحتوى: \(settings.outputMode.title(l10n)) • الصور: \(settings.embedVisuals ? yes : no) • المعادلات: \(settings.includeMath ? yes : no) • النموذج: \(settings.preferredModel.title(l10n))",
             "Content: \(settings.outputMode.title(l10n)) • images: \(settings.embedVisuals ? yes : no) • math: \(settings.includeMath ? yes : no) • model: \(settings.preferredModel.title(l10n))"
         )
+    }
+
+    /// Narrow a long document to the pages actually needed, for this task.
+    private var pageSelectionCard: some View {
+        VStack(alignment: .leading, spacing: BasirSpacing.m) {
+            GlassSectionTitle(title: l10n.t("الصفحات المطلوبة", "Pages to process"), systemImage: "doc.on.doc")
+            Text(l10n.t("الملف طويل. يمكنك اختيار الصفحات التي تحتاجها فقط ليكون أسرع، مثل 1-10 أو 3، 7، 12. اتركه فارغًا لكل الصفحات.",
+                        "This is a long file. Choose only the pages you need to make it faster, like 1-10 or 3, 7, 12. Leave empty for all pages."))
+                .font(.footnote)
+                .foregroundStyle(BasirPalette.secondaryText)
+                .fixedSize(horizontal: false, vertical: true)
+            TextField(l10n.t("كل الصفحات", "All pages"), text: $pageSelectionOverride)
+                .keyboardType(.numbersAndPunctuation)
+                .padding(BasirSpacing.m)
+                .background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .accessibilityLabel(l10n.t("الصفحات المطلوبة", "Pages to process"))
+            AdaptiveStack {
+                CardActionButton(title: l10n.t("أول 10 صفحات", "First 10 pages"), systemImage: "1.circle") {
+                    pageSelectionOverride = "1-10"
+                    refreshEstimates()
+                }
+                CardActionButton(title: l10n.t("كل الصفحات", "All pages"), systemImage: "doc.on.doc") {
+                    pageSelectionOverride = ""
+                    refreshEstimates()
+                }
+            }
+        }
+        .glassSurface()
+        .onChange(of: pageSelectionOverride) { _ in refreshEstimates() }
+    }
+
+    @ViewBuilder
+    private func scanCheckView(for url: URL) -> some View {
+        let key = url.standardizedFileURL.path
+        if checkingScan.contains(key) {
+            HStack(spacing: BasirSpacing.s) {
+                ProgressView().tint(BasirPalette.cyan)
+                Text(l10n.t("جارٍ فحص جودة المسح على جهازك…", "Checking scan quality on your iPhone…"))
+                    .font(.footnote)
+            }
+            .accessibilityElement(children: .combine)
+        } else if let report = scanReports[key] {
+            if report.isClean {
+                Label(l10n.t("فحص المسح: الصفحات واضحة ولا تكرار فيها.", "Scan check: pages are clear, none repeated."),
+                      systemImage: "checkmark.seal.fill")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(BasirPalette.success)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else {
+                VStack(alignment: .leading, spacing: BasirSpacing.xs) {
+                    Text(l10n.t("فحص المسح", "Scan check"))
+                        .font(.footnote.weight(.bold))
+                        .accessibilityAddTraits(.isHeader)
+                    ForEach(report.issues) { issue in
+                        Label(issue.sentence(l10n), systemImage: issue.kind == .upsideDown ? "arrow.uturn.down" : "exclamationmark.triangle.fill")
+                            .font(.footnote)
+                            .foregroundStyle(issue.kind == .upsideDown ? BasirPalette.secondaryText : BasirPalette.warning)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    CardActionButton(title: l10n.t("أعد التصوير", "Retake"), systemImage: "camera.viewfinder") {
+                        remove(url)
+                        openGuidedCapture()
+                    }
+                }
+            }
+        }
+    }
+
+    private var selectedPageCount: Int? {
+        let text = pageSelectionOverride.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !text.isEmpty else { return nil }
+        let pages = text.replacingOccurrences(of: "،", with: ",").split(separator: ",").reduce(0) { total, token in
+            let bounds = token.split(separator: "-").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) }
+            if bounds.count == 2, bounds[1] >= bounds[0] { return total + bounds[1] - bounds[0] + 1 }
+            return total + (bounds.count == 1 ? 1 : 0)
+        }
+        return pages > 0 ? pages : nil
+    }
+
+    private func refreshEstimates() {
+        let op = operation
+        let selected = selectedPageCount
+        for url in pendingURLs {
+            let key = url.standardizedFileURL.path
+            Task {
+                let estimate = await Task.detached(priority: .utility) {
+                    TaskEstimator.estimate(url: url, operation: op, selectedPages: selected)
+                }.value
+                estimates[key] = estimate
+            }
+        }
+    }
+
+    /// Estimate first, then (for scans and photos) check page quality and
+    /// turn upside-down pages the right way before anything is sent.
+    private func analyze(_ url: URL) {
+        let key = url.standardizedFileURL.path
+        let op = operation
+        let selected = selectedPageCount
+        Task {
+            let estimate = await Task.detached(priority: .utility) {
+                TaskEstimator.estimate(url: url, operation: op, selectedPages: selected)
+            }.value
+            estimates[key] = estimate
+            let scanned = await Task.detached(priority: .utility) { ScanQualityChecker.looksScanned(url: url) }.value
+            guard scanned else { return }
+            checkingScan.insert(key)
+            let report = await Task.detached(priority: .utility) { ScanQualityChecker.check(url: url) }.value
+            checkingScan.remove(key)
+            var finalURL = url
+            if !report.upsideDownPages.isEmpty,
+               let fixed = try? await Task.detached(priority: .utility, operation: {
+                   try ScanQualityChecker.correctingOrientation(of: url, upsideDownPages: report.upsideDownPages)
+               }).value,
+               fixed != url,
+               let index = pendingURLs.firstIndex(where: { $0.standardizedFileURL == url.standardizedFileURL }) {
+                pendingURLs[index] = fixed
+                finalURL = fixed
+                let newKey = fixed.standardizedFileURL.path
+                metadata[newKey] = metadata.removeValue(forKey: key)
+                estimates[newKey] = estimates.removeValue(forKey: key)
+                viewModel.discardExternalSource(url)
+            }
+            guard pendingURLs.contains(where: { $0.standardizedFileURL == finalURL.standardizedFileURL }) else { return }
+            scanReports[finalURL.standardizedFileURL.path] = report
+            let summary = report.isClean
+                ? l10n.t("فحص المسح: الصفحات واضحة.", "Scan check: the pages are clear.")
+                : l10n.t("فحص المسح وجد \(report.issues.count) من الملاحظات.", "Scan check found \(report.issues.count) note(s).")
+            UIAccessibility.post(notification: .announcement, argument: summary)
+        }
     }
 
     private var languageCard: some View {
@@ -458,6 +631,7 @@ struct TaskComposerView: View {
             do {
                 let value = try await Task.detached(priority: .utility) { try DocumentInspector.inspect(url) }.value
                 metadata[url.standardizedFileURL.path] = value
+                analyze(url)
             } catch {
                 if let basir = error as? BasirError, case .passwordProtectedPDF = basir {
                     passwordURL = url
@@ -495,6 +669,9 @@ struct TaskComposerView: View {
     private func remove(_ url: URL) {
         pendingURLs.removeAll { $0.standardizedFileURL == url.standardizedFileURL }
         metadata.removeValue(forKey: url.standardizedFileURL.path)
+        estimates.removeValue(forKey: url.standardizedFileURL.path)
+        scanReports.removeValue(forKey: url.standardizedFileURL.path)
+        checkingScan.remove(url.standardizedFileURL.path)
         viewModel.discardExternalSource(url)
     }
 
@@ -537,9 +714,14 @@ struct TaskComposerView: View {
         let selected = pendingURLs
         pendingURLs = []
         metadata = [:]
+        estimates = [:]
+        scanReports = [:]
+        checkingScan = []
         customOutputName = ""
         settings.save()
-        viewModel.start(pickerURLs: selected, options: options,
+        let chosenOptions = options
+        pageSelectionOverride = ""
+        viewModel.start(pickerURLs: selected, options: chosenOptions,
                         configuration: settings.configuration, l10n: l10n)
     }
 

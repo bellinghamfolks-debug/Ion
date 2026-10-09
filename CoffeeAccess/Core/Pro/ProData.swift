@@ -195,7 +195,8 @@ struct MemberCup: Codable, Equatable {
 /// Who had how many cups at the office, and what each owes.
 struct OfficeTally: Codable, Equatable {
     var people: [OfficePerson] = []
-    var since = Date()
+    /// When the count was last reset; nil until the first reset.
+    var since: Date?
     var pricePerCup: Double = 2
 }
 

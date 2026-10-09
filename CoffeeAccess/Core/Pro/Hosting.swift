@@ -129,8 +129,8 @@ extension OfficeTally {
     func owed(by person: OfficePerson) -> Double { Double(person.cups) * pricePerCup }
 
     func text() -> String {
-        let since = since.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted).locale(AppLanguage.current.locale))
-        var lines = [L("office.share.header", since)]
+        let style = Date.FormatStyle(date: .abbreviated, time: .omitted).locale(AppLanguage.current.locale)
+        var lines = [since.map { L("office.share.header", $0.formatted(style)) } ?? L("office.share.headerAll")]
         for person in people.sorted(by: { $0.cups > $1.cups }) {
             lines.append(L("office.share.line", person.name, person.cups, CostPerCup.text(owed(by: person))))
         }

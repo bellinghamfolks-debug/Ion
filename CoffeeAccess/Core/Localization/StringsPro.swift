@@ -419,6 +419,7 @@ enum StringsPro {
         "office.reset": ("ابدأ شهرًا جديدًا", "Start a new month"),
         "office.share": ("شارك الحساب", "Share the bill"),
         "office.share.header": ("حساب القهوة منذ %@:", "Coffee bill since %@:"),
+        "office.share.headerAll": ("حساب القهوة:", "Coffee bill:"),
         "office.share.line": ("• %1$@: %2$d أكواب = %3$@", "• %1$@: %2$d cups = %3$@"),
         "office.share.total": ("المجموع: %1$d أكواب = %2$@", "Total: %1$d cups = %2$@"),
         "office.total": ("المجموع", "Total"),

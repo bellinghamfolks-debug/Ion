@@ -54,6 +54,7 @@ final class ContractTests: XCTestCase {
     }
 
     func testOnlyCurrentGAModelsAreVisibleAndPassThrough() {
+        XCTAssertEqual(AIModelChoice.flash38.serverModelID, "gemini-3.8-flash")
         XCTAssertEqual(AIModelChoice.flash.serverModelID, "gemini-3.7-flash")
         XCTAssertEqual(AIModelChoice.flash36.serverModelID, "gemini-3.6-flash")
         XCTAssertEqual(AIModelChoice.flash35.serverModelID, "gemini-3.5-flash")
@@ -61,10 +62,10 @@ final class ContractTests: XCTestCase {
         XCTAssertEqual(AIModelChoice.automatic.serverModelID, "auto")
         XCTAssertEqual(
             AIModelChoice.allCases,
-            [.automatic, .flash, .flash36, .flash35, .economy]
+            [.automatic, .flash38, .flash, .flash36, .flash35, .economy]
         )
         XCTAssertFalse(AIModelChoice.allCases.contains(.pro))
-        XCTAssertEqual(AIModelChoice.pro.serverModelID, "gemini-3.7-flash")
+        XCTAssertEqual(AIModelChoice.pro.serverModelID, "gemini-3.8-flash")
     }
 
     func testConversionDefaultsToThreeParallelPagesAndPreservesCurrentSelectedModel() {
@@ -92,7 +93,7 @@ final class ContractTests: XCTestCase {
             interfaceLanguage: .arabic,
             preferredModel: "gemini-3.1-pro-preview"
         )
-        XCTAssertEqual(options.effectivePreferredModel, "gemini-3.7-flash")
+        XCTAssertEqual(options.effectivePreferredModel, "gemini-3.8-flash")
     }
 
     func testStablePreviewIdentityUsesNormalizedFileURL() {
@@ -145,10 +146,10 @@ final class ContractTests: XCTestCase {
             configuration: ServerConfiguration(baseURL: "https://example.invalid", clientToken: "test")
         )
 
-        XCTAssertEqual(store.preferredModel, .flash)
+        XCTAssertEqual(store.preferredModel, .flash38)
         XCTAssertEqual(store.concurrentPages, 3)
-        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.7-flash")
+        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.8-flash")
         store.save(defaults: defaults)
-        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.7-flash")
+        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.8-flash")
     }
 }

@@ -53,6 +53,7 @@ struct InstantReadView: View {
     @State private var working = false
     @State private var message: String?
     @State private var result: ReaderSession?
+    @State private var pageProgress: (done: Int, total: Int)?
 
     struct ReaderSession: Identifiable {
         let id = UUID()
@@ -82,8 +83,16 @@ struct InstantReadView: View {
                         showFiles = true
                     }
                     if working {
-                        ProgressView(l10n.t("جارٍ القراءة على الهاتف…", "Reading on the phone…"))
-                            .frame(maxWidth: .infinity)
+                        if let pageProgress, pageProgress.total > 1 {
+                            ProgressView(value: Double(pageProgress.done), total: Double(pageProgress.total)) {
+                                Text(l10n.t("قُرئت \(pageProgress.done) من \(pageProgress.total) صفحات",
+                                            "\(pageProgress.done) of \(pageProgress.total) pages read"))
+                            }
+                            .accessibilityElement(children: .combine)
+                        } else {
+                            ProgressView(l10n.t("جارٍ القراءة على الهاتف…", "Reading on the phone…"))
+                                .frame(maxWidth: .infinity)
+                        }
                     }
                     if let message { InlineMessage(text: message, isError: true) }
                 }
@@ -132,11 +141,22 @@ struct InstantReadView: View {
         message = nil
         let arabic = l10n.isArabic
         let title = urls.count == 1 ? urls[0].deletingPathExtension().lastPathComponent : l10n.t("قراءة فورية", "Instant read")
+        pageProgress = nil
         Task {
             let outcome = await Task.detached(priority: .userInitiated) {
-                try? InstantReader.read(urls, isArabic: arabic)
+                try? await InstantReader.read(urls, isArabic: arabic) { done, total in
+                    Task { @MainActor in
+                        pageProgress = (done, total)
+                        // A spoken note every few pages, not on each one.
+                        if total > 3, done < total, done % 3 == 0 {
+                            UIAccessibility.post(notification: .announcement,
+                                                 argument: l10n.t("\(done) من \(total)", "\(done) of \(total)"))
+                        }
+                    }
+                }
             }.value
             working = false
+            pageProgress = nil
             guard let outcome, !outcome.blocks.isEmpty else {
                 message = l10n.t("لم يجد بصير نصًا يمكن قراءته على الهاتف. جرّب التحويل.",
                                  "Basir found no text it could read on the phone. Try conversion.")

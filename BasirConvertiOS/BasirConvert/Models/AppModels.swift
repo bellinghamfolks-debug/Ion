@@ -195,6 +195,7 @@ struct SupportedLanguage: Identifiable, Hashable, Codable, Sendable {
 
 enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
     case automatic = "auto"
+    case flash38 = "gemini-3.8-flash"
     case flash = "gemini-3.7-flash"
     case flash36 = "gemini-3.6-flash"
     case flash35 = "gemini-3.5-flash"
@@ -205,7 +206,7 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
     case pro = "gemini-3.1-pro-preview"
 
     static var allCases: [AIModelChoice] {
-        [.automatic, .flash, .flash36, .flash35, .economy]
+        [.automatic, .flash38, .flash, .flash36, .flash35, .economy]
     }
 
     var id: String { rawValue }
@@ -213,8 +214,8 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
     var serverModelID: String {
         switch self {
         case .pro:
-            return AIModelChoice.flash.rawValue
-        case .automatic, .flash, .flash36, .flash35, .economy:
+            return AIModelChoice.flash38.rawValue
+        case .automatic, .flash38, .flash, .flash36, .flash35, .economy:
             return rawValue
         }
     }
@@ -224,6 +225,8 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
         switch self {
         case .automatic:
             return l10n.t("تلقائي موصى به", "Automatic (recommended)")
+        case .flash38:
+            return "Gemini 3.8 Flash"
         case .flash:
             return "Gemini 3.7 Flash"
         case .flash36:
@@ -233,7 +236,7 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
         case .economy:
             return "Gemini 3.5 Flash-Lite"
         case .pro:
-            return "Gemini 3.7 Flash"
+            return "Gemini 3.8 Flash"
         }
     }
 
@@ -245,10 +248,15 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
                 "يستخدم الخادم النموذج الإنتاجي الموصى به حاليًا.",
                 "Uses the production model currently recommended by the server."
             )
+        case .flash38:
+            return l10n.t(
+                "أحدث نموذج Flash، وهو الخيار الموصى به للتحويل. إن لم يتوفر على الخادم بعد، يستخدم الخادم 3.7 تلقائيًا.",
+                "Newest Flash model and the recommended conversion choice. If the server cannot use it yet, it uses 3.7 automatically."
+            )
         case .flash:
             return l10n.t(
-                "أحدث نموذج Flash معتمد للإنتاج، وهو الخيار الموصى به للتحويل.",
-                "Newest GA Flash model and the recommended conversion choice."
+                "نموذج Flash السابق، معتمد للإنتاج ومجرَّب.",
+                "The previous Flash model, proven in production."
             )
         case .flash36:
             return l10n.t(
@@ -267,8 +275,8 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
             )
         case .pro:
             return l10n.t(
-                "تم ترحيل هذا الاختيار القديم تلقائيًا إلى Gemini 3.7 Flash.",
-                "This legacy selection is automatically migrated to Gemini 3.7 Flash."
+                "تم ترحيل هذا الاختيار القديم تلقائيًا إلى Gemini 3.8 Flash.",
+                "This legacy selection is automatically migrated to Gemini 3.8 Flash."
             )
         }
     }

@@ -1,5 +1,6 @@
 import SwiftUI
 import AVFoundation
+import ImageIO
 import UIKit
 
 /// Reads a Basir Word result inside the app, built for VoiceOver first:
@@ -37,8 +38,17 @@ struct DocumentReaderView: View {
     @State private var showAudiobook = false
     @State private var loading = true
     @State private var bookmarks: [Int] = []
-    @State private var visible: Set<Int> = []
+    /// Blocks on screen. A reference, so scrolling does not redraw the reader.
+    @State private var visibility = VisibleBlocks()
     @State private var position = 0
+    /// Page mode: one page per screen with Previous and Next.
+    @AppStorage("reader.paged") private var paged = true
+    @State private var readerPages: [ReaderPage] = []
+    @State private var currentPage = 0
+    /// Images decoded once, off the main thread, at screen size.
+    @State private var decodedImages: [Int: UIImage] = [:]
+    @State private var readerIndex = ReaderIndex()
+    @AccessibilityFocusState private var pageHeaderFocused: Bool
     @State private var resumeFrom: Int?
     @State private var showContents = false
     @State private var pendingJump: Int?
@@ -50,11 +60,32 @@ struct DocumentReaderView: View {
     private var memory: ReaderMemory { ReaderMemory(fileName: url?.lastPathComponent ?? "instant") }
     private var remembers: Bool { url != nil }
     private var title: String { givenTitle }
-    private var tables: [ReaderBlock] { blocks.filter { $0.kind == .table } }
-    private var images: [ReaderBlock] { blocks.filter { $0.kind == .image } }
-    private var pages: [ReaderBlock] { blocks.filter { $0.pageNumber != nil } }
-    private var headings: [ReaderBlock] { blocks.filter { $0.isHeading && $0.pageNumber == nil } }
-    private var marked: [ReaderBlock] { bookmarks.compactMap { id in blocks.first { $0.id == id } } }
+    // Worked out once per load, not on every redraw.
+    private var tables: [ReaderBlock] { readerIndex.tables }
+    private var images: [ReaderBlock] { readerIndex.images }
+    private var pages: [ReaderBlock] { readerIndex.pages }
+    private var headings: [ReaderBlock] { readerIndex.headings }
+    private var marked: [ReaderBlock] { bookmarks.compactMap { id in blocks.indices.contains(id) ? blocks[id] : nil } }
+
+    private var isPaging: Bool { paged && readerPages.count > 1 }
+
+    /// The blocks drawn now: the current page, or the whole document.
+    private var shownBlocks: ArraySlice<ReaderBlock> {
+        guard isPaging, readerPages.indices.contains(currentPage) else { return blocks[...] }
+        let range = readerPages[currentPage].range.clamped(to: blocks.indices)
+        // The page header replaces the document's own "Page N" line.
+        return blocks[range]
+    }
+
+    private var pageTitle: String {
+        guard readerPages.indices.contains(currentPage) else { return "" }
+        let page = readerPages[currentPage]
+        let count = readerPages.count
+        if let printed = page.printedNumber, printed != page.index + 1 {
+            return l10n.t("الصفحة \(printed) (\(page.index + 1) من \(count))", "Page \(printed) (\(page.index + 1) of \(count))")
+        }
+        return l10n.t("الصفحة \(page.index + 1) من \(count)", "Page \(page.index + 1) of \(count)")
+    }
 
     var body: some View {
         NavigationStack {
@@ -71,14 +102,18 @@ struct DocumentReaderView: View {
                                      systemImage: "doc.text.magnifyingglass")
                         } else {
                             if let resume = resumeFrom { resumeCard(resume, proxy: proxy) }
-                            ForEach(blocks) { block in
-                                row(block, proxy: proxy)
-                                    .id(block.id)
-                                    .accessibilityRotorEntry(id: block.id, in: rotorSpace)
-                                    .accessibilityFocused($focusedID, equals: block.id)
-                                    .onAppear { visible.insert(block.id); trackTop() }
-                                    .onDisappear { visible.remove(block.id); trackTop() }
+                            if isPaging { pageHeader(proxy: proxy) }
+                            ForEach(shownBlocks) { block in
+                                if !(isPaging && block.pageNumber != nil) {
+                                    row(block, proxy: proxy)
+                                        .id(block.id)
+                                        .accessibilityRotorEntry(id: block.id, in: rotorSpace)
+                                        .accessibilityFocused($focusedID, equals: block.id)
+                                        .onAppear { visibility.ids.insert(block.id); trackTop() }
+                                        .onDisappear { visibility.ids.remove(block.id); trackTop() }
+                                }
                             }
+                            if isPaging { pageFooter(proxy: proxy) }
                         }
                     }
                     .appScreenContent(bottomPadding: 120)
@@ -86,36 +121,36 @@ struct DocumentReaderView: View {
                 .accessibilityRotor(Text(l10n.t("الجداول", "Tables"))) {
                     ForEach(tables) { block in
                         AccessibilityRotorEntry(Text(tableLabel(block)), id: block.id, in: rotorSpace) {
-                            proxy.scrollTo(block.id, anchor: .top)
+                            reveal(block.id, proxy: proxy)
                         }
                     }
                 }
                 .accessibilityRotor(Text(l10n.t("الصور", "Images"))) {
                     ForEach(images) { block in
                         AccessibilityRotorEntry(Text(imageLabel(block)), id: block.id, in: rotorSpace) {
-                            proxy.scrollTo(block.id, anchor: .top)
+                            reveal(block.id, proxy: proxy)
                         }
                     }
                 }
                 .accessibilityRotor(Text(l10n.t("الصفحات", "Pages"))) {
                     ForEach(pages) { block in
                         AccessibilityRotorEntry(Text(pageLabel(block)), id: block.id, in: rotorSpace) {
-                            proxy.scrollTo(block.id, anchor: .top)
+                            reveal(block.id, proxy: proxy)
                         }
                     }
                 }
                 .accessibilityRotor(Text(l10n.t("العلامات", "Bookmarks"))) {
                     ForEach(marked) { block in
                         AccessibilityRotorEntry(Text(excerpt(block)), id: block.id, in: rotorSpace) {
-                            proxy.scrollTo(block.id, anchor: .top)
+                            reveal(block.id, proxy: proxy)
                         }
                     }
                 }
-                .safeAreaInset(edge: .bottom) { controls }
+                .safeAreaInset(edge: .bottom) { controls(proxy: proxy) }
                 .onChange(of: speaker.speakingID) { id in
                     guard let id else { return }
                     position = id
-                    withAnimation { proxy.scrollTo(id, anchor: .top) }
+                    follow(id, proxy: proxy)
                 }
                 .onChange(of: focusedID) { id in
                     if let id { position = id }
@@ -151,6 +186,11 @@ struct DocumentReaderView: View {
                             Label(bilingual ? l10n.t("أوقف القراءة ثنائية اللغة", "Turn off bilingual reading")
                                             : l10n.t("قراءة ثنائية اللغة", "Bilingual reading"),
                                   systemImage: "character.bubble")
+                        }
+                        Button { togglePaging() } label: {
+                            Label(paged ? l10n.t("اعرض المستند كاملًا متصلًا", "Show the whole document as one scroll")
+                                        : l10n.t("اقرأ صفحة صفحة", "Read page by page"),
+                                  systemImage: paged ? "doc.plaintext" : "book.pages")
                         }
                         Button { showAudiobook = true } label: {
                             Label(l10n.t("احفظ كملف صوتي", "Save as audiobook"), systemImage: "waveform")
@@ -327,7 +367,7 @@ struct DocumentReaderView: View {
             }
         case .image:
             VStack(alignment: .leading, spacing: BasirSpacing.xs) {
-                if let data = block.imageData, let image = UIImage(data: data) {
+                if let image = decodedImages[block.id] {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
@@ -380,7 +420,68 @@ struct DocumentReaderView: View {
 
     // MARK: Controls
 
-    private var controls: some View {
+    private func controls(proxy: ScrollViewProxy) -> some View {
+        VStack(spacing: BasirSpacing.xs) {
+            if isPaging { pager(proxy: proxy) }
+            mainControls
+        }
+        .padding(.horizontal, BasirSpacing.l)
+        .padding(.vertical, BasirSpacing.s)
+        .background(.ultraThinMaterial)
+        .disabled(blocks.isEmpty)
+    }
+
+    /// Previous, where you are, Next. The middle is adjustable with VoiceOver:
+    /// swipe up or down on it to turn the page.
+    private func pager(proxy: ScrollViewProxy) -> some View {
+        HStack(spacing: BasirSpacing.s) {
+            CardActionButton(title: l10n.t("السابقة", "Previous"), systemImage: "chevron.backward") { turnPage(-1, proxy: proxy) }
+                .disabled(currentPage == 0)
+                .opacity(currentPage == 0 ? 0.45 : 1)
+                .accessibilityLabel(l10n.t("الصفحة السابقة", "Previous page"))
+            Text(pageTitle)
+                .font(.footnote.weight(.semibold).monospacedDigit())
+                .multilineTextAlignment(.center)
+                .frame(minWidth: 70)
+                .accessibilityLabel(pageTitle)
+                .accessibilityHint(l10n.t("اسحب لأعلى أو لأسفل لتقليب الصفحات", "Swipe up or down to turn pages"))
+                .accessibilityAdjustableAction { direction in
+                    turnPage(direction == .increment ? 1 : -1, proxy: proxy)
+                }
+            CardActionButton(title: l10n.t("التالية", "Next"), systemImage: "chevron.forward") { turnPage(1, proxy: proxy) }
+                .disabled(currentPage >= readerPages.count - 1)
+                .opacity(currentPage >= readerPages.count - 1 ? 0.45 : 1)
+                .accessibilityLabel(l10n.t("الصفحة التالية", "Next page"))
+        }
+    }
+
+    private func pageHeader(proxy: ScrollViewProxy) -> some View {
+        Text(pageTitle)
+            .font(.headline)
+            .foregroundStyle(BasirPalette.secondaryText)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityAddTraits(.isHeader)
+            .accessibilityFocused($pageHeaderFocused)
+            .id("page-header")
+    }
+
+    @ViewBuilder
+    private func pageFooter(proxy: ScrollViewProxy) -> some View {
+        if currentPage < readerPages.count - 1 {
+            CardActionButton(title: l10n.t("الصفحة التالية", "Next page"), systemImage: "chevron.forward", prominent: true) {
+                turnPage(1, proxy: proxy)
+            }
+            .padding(.top, BasirSpacing.m)
+        } else {
+            Text(l10n.t("نهاية المستند", "End of the document"))
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(BasirPalette.secondaryText)
+                .frame(maxWidth: .infinity)
+                .padding(.top, BasirSpacing.m)
+        }
+    }
+
+    private var mainControls: some View {
         AdaptiveStack {
             controlButton(l10n.t("المحتوى", "Contents"), systemImage: "list.bullet") { showContents = true }
             controlButton(l10n.t("اسأل", "Ask"), systemImage: "questionmark.bubble") { assistMode = .ask }
@@ -394,10 +495,6 @@ struct DocumentReaderView: View {
                 toggleBookmark(position)
             }
         }
-        .padding(.horizontal, BasirSpacing.l)
-        .padding(.vertical, BasirSpacing.s)
-        .background(.ultraThinMaterial)
-        .disabled(blocks.isEmpty)
     }
 
     private func controlButton(_ title: String, systemImage: String, prominent: Bool = false,
@@ -505,12 +602,21 @@ struct DocumentReaderView: View {
         }
         rawBlocks = parsed
         applyMask()
+        readerPages = ReaderPaging.pages(for: parsed)
         if remembers {
             bookmarks = memory.bookmarks.filter { $0 < parsed.count }
             let saved = memory.position
             if saved > 0, saved < parsed.count { resumeFrom = saved }
         }
         loading = false
+        let pictures = parsed.compactMap { block in block.imageData.map { (block.id, $0) } }
+        if !pictures.isEmpty {
+            decodedImages = await Task.detached(priority: .utility) { () -> [Int: UIImage] in
+                var result: [Int: UIImage] = [:]
+                for (id, data) in pictures { result[id] = ReaderImageDecoder.thumbnail(data) }
+                return result
+            }.value
+        }
         let summary = l10n.t("\(title). \(headings.count) عنوانًا، \(tables.count) جدولًا، \(pages.count) صفحة.",
                              "\(title). \(headings.count) headings, \(tables.count) tables, \(pages.count) pages.")
         UIAccessibility.post(notification: .screenChanged, argument: summary)
@@ -519,17 +625,64 @@ struct DocumentReaderView: View {
     private func trackTop() {
         // The first block on screen is where the person is, unless VoiceOver
         // focus or speech say otherwise.
-        guard focusedID == nil, !speaker.isSpeaking, let top = visible.min() else { return }
+        guard focusedID == nil, !speaker.isSpeaking, let top = visibility.ids.min(), top != position else { return }
         position = top
+    }
+
+    /// Opens the page holding a block (in page mode) and scrolls to it.
+    private func reveal(_ id: Int, proxy: ScrollViewProxy) {
+        if isPaging {
+            let target = ReaderPaging.pageIndex(of: id, in: readerPages)
+            if target != currentPage { currentPage = target }
+        }
+        DispatchQueue.main.async { proxy.scrollTo(id, anchor: .top) }
     }
 
     private func jump(to id: Int, proxy: ScrollViewProxy) {
         position = id
-        proxy.scrollTo(id, anchor: .top)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { focusedID = id }
+        reveal(id, proxy: proxy)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { focusedID = id }
+    }
+
+    /// While reading aloud: turn the page when the voice reaches the next
+    /// one, and scroll only if the passage is off screen, without animation,
+    /// so the screen stays still.
+    private func follow(_ id: Int, proxy: ScrollViewProxy) {
+        if isPaging, readerPages.indices.contains(currentPage), !readerPages[currentPage].range.contains(id) {
+            currentPage = ReaderPaging.pageIndex(of: id, in: readerPages)
+            DispatchQueue.main.async { proxy.scrollTo("page-header", anchor: .top) }
+            return
+        }
+        if !visibility.ids.contains(id) { proxy.scrollTo(id, anchor: .top) }
+    }
+
+    private func turnPage(_ delta: Int, proxy: ScrollViewProxy) {
+        let target = currentPage + delta
+        guard readerPages.indices.contains(target) else {
+            UIAccessibility.post(notification: .announcement, argument: delta > 0
+                ? l10n.t("هذه آخر صفحة", "This is the last page") : l10n.t("هذه أول صفحة", "This is the first page"))
+            return
+        }
+        currentPage = target
+        let first = readerPages[target].range.lowerBound
+        position = first
+        // Listening continues from the new page.
+        if speaker.isSpeaking { play(from: first) }
+        DispatchQueue.main.async { proxy.scrollTo("page-header", anchor: .top) }
+        pageHeaderFocused = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { pageHeaderFocused = true }
+    }
+
+    private func togglePaging() {
+        paged.toggle()
+        if paged, !readerPages.isEmpty { currentPage = ReaderPaging.pageIndex(of: position, in: readerPages) }
+        UIAccessibility.post(notification: .announcement, argument: paged
+            ? l10n.t("القراءة صفحة صفحة. استخدم التالية والسابقة أسفل الشاشة.", "Page by page. Use Next and Previous at the bottom.")
+            : l10n.t("المستند كاملًا في شاشة واحدة.", "The whole document on one screen."))
     }
 
     private func applyMask() {
+        defer { readerIndex = ReaderIndex(blocks) }
         guard maskSensitive else {
             blocks = rawBlocks
             return
@@ -556,7 +709,7 @@ struct DocumentReaderView: View {
             let sample = blocks.prefix(40).map(\.text).joined(separator: " ")
             let target = ReaderContent.speechLanguage(for: sample) == "ar-SA" ? "en" : "ar"
             translator.reset(target: target, configuration: settings.configuration)
-            for block in blocks where Self.translatable(block) && visible.contains(block.id) {
+            for block in blocks where Self.translatable(block) && visibility.ids.contains(block.id) {
                 translator.need(block.id, text: block.text)
             }
         }
@@ -726,30 +879,86 @@ private struct ReaderTableView: View {
     }
 }
 
+/// Blocks currently on screen. A plain reference: changing it never redraws.
+final class VisibleBlocks {
+    var ids = Set<Int>()
+}
+
+/// Tables, images, page markers and headings, found once per load.
+struct ReaderIndex {
+    var tables: [ReaderBlock] = []
+    var images: [ReaderBlock] = []
+    var pages: [ReaderBlock] = []
+    var headings: [ReaderBlock] = []
+
+    init() {}
+
+    init(_ blocks: [ReaderBlock]) {
+        for block in blocks {
+            if block.kind == .table { tables.append(block) }
+            if block.kind == .image { images.append(block) }
+            if block.pageNumber != nil { pages.append(block) } else if block.isHeading { headings.append(block) }
+        }
+    }
+}
+
+/// Decodes a document image at screen size instead of full resolution.
+enum ReaderImageDecoder {
+    static func thumbnail(_ data: Data, maxPixels: Int = 1_400) -> UIImage? {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else { return UIImage(data: data) }
+        let options: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxPixels,
+        ]
+        guard let image = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else { return UIImage(data: data) }
+        return UIImage(cgImage: image)
+    }
+}
+
 /// Reads blocks aloud one after another, in Arabic or English per passage.
+/// Long passages are spoken a sentence at a time. A watchdog restarts the
+/// speech engine if it goes quiet without saying it finished, which iOS
+/// sometimes does after an interruption or on long texts.
 @MainActor
 final class ReaderSpeaker: NSObject, ObservableObject, AVSpeechSynthesizerDelegate {
     @Published private(set) var speakingID: Int?
     @Published private(set) var isSpeaking = false
     @Published private(set) var isPaused = false
 
-    private let synthesizer = AVSpeechSynthesizer()
+    private var synthesizer = AVSpeechSynthesizer()
     private var queue: [(id: Int, text: String)] = []
-    private var current: AVSpeechUtterance?
+    private var current: (id: Int, text: String)?
+    private var currentUtterance: AVSpeechUtterance?
+    private var lastProgress = Date()
+    private var restarts = 0
+    private var watchdog: Task<Void, Never>?
+    private var interruptionObserver: NSObjectProtocol?
 
     override init() {
         super.init()
         synthesizer.delegate = self
+        interruptionObserver = NotificationCenter.default.addObserver(
+            forName: AVAudioSession.interruptionNotification, object: nil, queue: .main
+        ) { [weak self] note in
+            let type = (note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt).flatMap(AVAudioSession.InterruptionType.init)
+            Task { @MainActor in self?.handleInterruption(type) }
+        }
+    }
+
+    deinit {
+        if let interruptionObserver { NotificationCenter.default.removeObserver(interruptionObserver) }
     }
 
     func play(_ items: [(id: Int, text: String)]) {
         stop()
-        queue = items.filter { !$0.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+        queue = items.flatMap { item in SpeechChunker.chunks(item.text).map { (id: item.id, text: $0) } }
         guard !queue.isEmpty else { return }
         let audio = AVAudioSession.sharedInstance()
         try? audio.setCategory(.playback, mode: .spokenAudio, options: [.duckOthers])
         try? audio.setActive(true)
         isSpeaking = true
+        startWatchdog()
         speakNext()
     }
 
@@ -759,13 +968,17 @@ final class ReaderSpeaker: NSObject, ObservableObject, AVSpeechSynthesizerDelega
     }
 
     func resume() {
-        synthesizer.continueSpeaking()
         isPaused = false
+        lastProgress = Date()
+        if !synthesizer.continueSpeaking() { restartCurrent() }
     }
 
     func stop() {
+        watchdog?.cancel()
+        watchdog = nil
         queue = []
         current = nil
+        currentUtterance = nil
         if synthesizer.isSpeaking || synthesizer.isPaused { synthesizer.stopSpeaking(at: .immediate) }
         if isSpeaking {
             try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
@@ -781,17 +994,85 @@ final class ReaderSpeaker: NSObject, ObservableObject, AVSpeechSynthesizerDelega
             return
         }
         let item = queue.removeFirst()
-        speakingID = item.id
+        current = item
+        restarts = 0
+        if speakingID != item.id { speakingID = item.id }
+        speak(item)
+    }
+
+    private func speak(_ item: (id: Int, text: String)) {
         let utterance = AVSpeechUtterance(string: item.text)
         utterance.voice = AVSpeechSynthesisVoice(language: ReaderContent.speechLanguage(for: item.text))
-        utterance.postUtteranceDelay = 0.15
-        current = utterance
+        utterance.postUtteranceDelay = 0.1
+        currentUtterance = utterance
+        lastProgress = Date()
         synthesizer.speak(utterance)
+    }
+
+    /// A fresh engine for the passage that got stuck. Twice stuck: skip it.
+    private func restartCurrent() {
+        guard let item = current else { speakNext(); return }
+        restarts += 1
+        currentUtterance = nil
+        synthesizer.delegate = nil
+        synthesizer.stopSpeaking(at: .immediate)
+        synthesizer = AVSpeechSynthesizer()
+        synthesizer.delegate = self
+        if restarts > 2 { speakNext() } else { speak(item) }
+    }
+
+    private func startWatchdog() {
+        watchdog?.cancel()
+        watchdog = Task { @MainActor [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                guard let self else { return }
+                guard self.isSpeaking, !self.isPaused, self.currentUtterance != nil else { continue }
+                let quiet = Date().timeIntervalSince(self.lastProgress)
+                if !self.synthesizer.isSpeaking, quiet > 2.5 {
+                    // Finished, but the "did finish" call never came.
+                    self.speakNext()
+                } else if quiet > 10 {
+                    // Speaking, but no word for ten seconds: stuck.
+                    self.restartCurrent()
+                }
+            }
+        }
+    }
+
+    private func handleInterruption(_ type: AVAudioSession.InterruptionType?) {
+        guard isSpeaking else { return }
+        switch type {
+        case .began:
+            isPaused = true
+        case .ended:
+            try? AVAudioSession.sharedInstance().setActive(true)
+            isPaused = false
+            restartCurrent()
+        default:
+            break
+        }
+    }
+
+    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
+        Task { @MainActor in
+            guard utterance === self.currentUtterance else { return }
+            self.lastProgress = Date()
+        }
+    }
+
+    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange,
+                                       utterance: AVSpeechUtterance) {
+        Task { @MainActor in
+            guard utterance === self.currentUtterance else { return }
+            self.lastProgress = Date()
+        }
     }
 
     nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         Task { @MainActor in
-            guard utterance === self.current else { return }
+            guard utterance === self.currentUtterance else { return }
+            self.currentUtterance = nil
             self.speakNext()
         }
     }

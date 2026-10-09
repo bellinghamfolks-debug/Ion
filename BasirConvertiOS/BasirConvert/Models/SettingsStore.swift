@@ -124,8 +124,8 @@ final class SettingsStore: ObservableObject {
             rawValue: defaults.string(forKey: Key.preferredModel) ?? "auto"
         ) ?? .automatic
         if storedModel == .pro {
-            preferredModel = .flash
-            defaults.set(AIModelChoice.flash.rawValue, forKey: Key.preferredModel)
+            preferredModel = .flash38
+            defaults.set(AIModelChoice.flash38.rawValue, forKey: Key.preferredModel)
         } else {
             preferredModel = storedModel
         }

@@ -24,6 +24,13 @@ final class AppModel {
     var routineStatus: String?
     /// A drink opened from a scheduled reminder, waiting to be confirmed.
     var pendingScheduledRecipe: Recipe?
+    /// A drink offered again (after an alarm, or once connected).
+    var offer: BrewOffer?
+    /// Several drinks in a row, confirmed one by one.
+    var sequence: BrewSequence?
+    /// The beans ran out and were refilled: which beans are in the hopper now?
+    var askWhichBean = false
+    let proRuntime = ProRuntime()
 
     private(set) var link: MachineLink
     private let store: AppDataStore
@@ -153,16 +160,22 @@ final class AppModel {
             return false
         }
         let recipe = recipe.normalized()
+        if let reason = brewBlockReason(recipe) {
+            report(message: reason)
+            return false
+        }
         do {
             try await link.brew(recipe)
             session = BrewSession(recipe: recipe, startedAt: Date())
             announcer.tick()
-            announcer.announce(L("announce.brewStarted", recipe.displayName), priority: .high)
+            announcer.announce(startAnnouncement(for: recipe), priority: .high)
             let checklist = preBrewChecklist(for: recipe)
-            if !checklist.isEmpty { announcer.announce(checklist.joined(separator: L("sentence.separator"))) }
+            if !checklist.isEmpty, settings.verbosity > 0 { announcer.announce(checklist.joined(separator: L("sentence.separator"))) }
             BrewActivityController.shared.start(recipe: recipe, enabled: settings.liveActivities)
+            didStartBrewing(recipe)
             return true
         } catch {
+            if (error as? MachineError) == .notConnected, queueForConnection(recipe) { return false }
             report(error)
             return false
         }
@@ -288,14 +301,16 @@ final class AppModel {
         guard old != state else { return }
         switch state {
         case .connected(let name):
-            announcer.announce(L("announce.connected", name))
+            if !isQuietReconnect() { announcer.announce(L("announce.connected", name)) }
             rememberConnectedMachine()
+            proDidConnect()
             Task {
                 await syncMachineSettings()
                 await refreshCounters()
             }
         case .failed(let reason): announcer.announce(reason)
-        case .disconnected where old.isConnected: announcer.announce(L("announce.disconnected"))
+        case .disconnected where old.isConnected:
+            announceDisconnect { [weak self] in self?.announcer.announce(L("announce.disconnected")) }
         default: break
         }
     }
@@ -303,8 +318,12 @@ final class AppModel {
     private func receive(_ new: MachineSnapshot) {
         let old = snapshot
         snapshot = new
+        let addedAlarms = new.alarms.filter { !old.alarms.contains($0) }
+        if !addedAlarms.isEmpty { proDidReceiveAlarms(addedAlarms) }
+        if old.alarms != new.alarms { proAlarmsChanged(from: old, to: new) }
+        proSnapshotChanged(from: old, to: new)
         if settings.announceAlarms {
-            let added = new.alarms.filter { !old.alarms.contains($0) }
+            let added = addedAlarms
             if !added.isEmpty {
                 if settings.notifyWhenReady { NotificationManager.shared.alarms(added) }
                 announcer.warning()
@@ -330,7 +349,7 @@ final class AppModel {
         }
         // Bluetooth sessions are tracked entirely from status polls.
         let previousActivity = current.activity
-        current.update(with: new)
+        current.update(with: new, expectedSeconds: expectedSecondsForSession)
         session = current
         if current.activity != previousActivity { announcePhase(current.activity) }
         announceMilestones()
@@ -360,13 +379,17 @@ final class AppModel {
 
     private func announcePhase(_ activity: MachineActivity) {
         didChangePhase(activity)
+        proPhase(activity)
         if let session { BrewActivityController.shared.update(session) }
         guard settings.announcePhases, let text = activity.phaseAnnouncement else { return }
         announcer.announce(text)
     }
 
     private func announceMilestones() {
-        if let session { BrewActivityController.shared.update(session) }
+        if let session {
+            BrewActivityController.shared.update(session)
+            progressTick(session.progress)
+        }
         guard settings.announceProgress, var current = session else { return }
         let due = current.milestonesToAnnounce()
         session = current
@@ -384,7 +407,7 @@ final class AppModel {
         switch outcome {
         case .finished:
             announcer.success()
-            announcer.announce(L("announce.brewFinished", current.recipe.displayName), priority: .high)
+            announcer.announce(L("announce.brewFinished", settings.brailleBrief ? current.recipe.brief : current.recipe.displayName), priority: .high)
             if settings.notifyWhenReady { NotificationManager.shared.drinkFinished(current.recipe) }
         case .stopped:
             announcer.announce(L("announce.brewStopped"))
@@ -415,6 +438,9 @@ final class AppModel {
     private func applyFeedbackSettings() {
         announcer.hapticsEnabled = settings.haptics
         announcer.speakWithoutVoiceOver = settings.speakWithoutVoiceOver
+        announcer.voiceID = settings.speechVoiceID
+        announcer.rate = settings.speechRate
+        announcer.focusQuiet = FocusFilterState.quiet
     }
 }
 

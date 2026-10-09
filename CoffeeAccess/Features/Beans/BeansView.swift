@@ -45,11 +45,22 @@ struct BeansView: View {
                 Text(L("beans.footer"))
                     .font(.footnote)
                     .foregroundStyle(Theme.textSecondary)
+                NavigationLink { PurchasesView() } label: {
+                    NavigationRowCard(title: L("screen.purchases"), subtitle: L("purchases.subtitle"), symbol: "bag")
+                }
+                .buttonStyle(.plain)
+                if beans.count >= 2 {
+                    NavigationLink { CompareBeansView() } label: {
+                        NavigationRowCard(title: L("screen.compareBeans"), symbol: "arrow.left.arrow.right")
+                    }
+                    .buttonStyle(.plain)
+                }
             }
             .padding(20)
         }
         .screenBackground()
         .navigationTitle(L("beans.title"))
+        .toolbar { ToolbarItem(placement: .primaryAction) { HelpButton(topic: .beans) } }
         .sheet(item: $editing) { bean in
             BeanEditor(bean: bean) { saved in
                 var ok = false
@@ -147,6 +158,13 @@ struct BeansView: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(bean.name).font(.headline).foregroundStyle(Theme.textPrimary)
                     Text(bean.summary).font(.footnote).foregroundStyle(Theme.textSecondary)
+                    let freshness = Freshness.state(of: bean)
+                    if freshness != .unknown || bean.decaf {
+                        Text([freshness == .unknown ? "" : freshness.title, bean.decaf ? L("beans.decaf") : ""]
+                            .filter { !$0.isEmpty }.joined(separator: " · "))
+                            .font(.footnote.weight(.semibold))
+                            .foregroundStyle(freshness == .stale || freshness == .fading ? Theme.warning : Theme.accent)
+                    }
                 }
                 Spacer(minLength: 0)
                 Image(systemName: active ? "checkmark.circle.fill" : "circle")
@@ -302,6 +320,7 @@ struct BeanEditor: View {
                 } footer: {
                     Text(L("beans.bag.footer"))
                 }
+                BeanV3Sections(bean: $bean)
                 Section(L("beans.notes")) {
                     TextField(L("beans.notes.placeholder"), text: $bean.notes, axis: .vertical)
                         .lineLimit(2...6)

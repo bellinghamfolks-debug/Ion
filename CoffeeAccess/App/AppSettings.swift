@@ -41,6 +41,38 @@ struct AppSettings: Codable, Equatable {
     /// Live Activity on the Lock Screen while a drink is made.
     var liveActivities = true
 
+    // Version 3
+    /// Vibration patterns for every phase, for people who neither see nor hear.
+    var hapticOnly = false
+    /// Short wording for braille displays ("Cappuccino, strong, 60 ml").
+    var brailleBrief = false
+    /// Voice and rate for announcements spoken without VoiceOver.
+    var speechVoiceID = ""
+    var speechRate: Double = 0.5
+    /// 0 brief, 1 standard, 2 detailed.
+    var verbosity = 1
+    var shakeForStatus = true
+    var giantBrewing = false
+    /// Two-finger double-tap on Home makes the usual drink.
+    var magicTapUsual = true
+    var progressTicks = false
+    var dripWait = true
+    var offlineQueue = true
+    var cupPrewarm = false
+    var waterReminder = false
+    var milkFridgeReminder = true
+    var tankWaterReminder = true
+    var quietReconnect = true
+    var settingsLock = false
+    var leftOnReminder = true
+    var followMachineProfile = true
+    var locationSwitch = false
+    /// What a coffee costs at the café, for "you saved".
+    var cafePrice: Double = 15
+    /// 0 automatic in Ramadan, 1 always on, 2 off.
+    var ramadanMode = 0
+    var lastSeenVersion = ""
+
     private static let key = "app.settings.v1"
 
     static func load(from defaults: UserDefaults = .standard) -> AppSettings {
@@ -86,6 +118,29 @@ extension AppSettings {
         predictiveCareReminders = read(.predictiveCareReminders, predictiveCareReminders)
         iCloudSync = read(.iCloudSync, iCloudSync)
         liveActivities = read(.liveActivities, liveActivities)
+        hapticOnly = read(.hapticOnly, hapticOnly)
+        brailleBrief = read(.brailleBrief, brailleBrief)
+        speechVoiceID = read(.speechVoiceID, speechVoiceID)
+        speechRate = read(.speechRate, speechRate)
+        verbosity = read(.verbosity, verbosity)
+        shakeForStatus = read(.shakeForStatus, shakeForStatus)
+        giantBrewing = read(.giantBrewing, giantBrewing)
+        magicTapUsual = read(.magicTapUsual, magicTapUsual)
+        progressTicks = read(.progressTicks, progressTicks)
+        dripWait = read(.dripWait, dripWait)
+        offlineQueue = read(.offlineQueue, offlineQueue)
+        cupPrewarm = read(.cupPrewarm, cupPrewarm)
+        waterReminder = read(.waterReminder, waterReminder)
+        milkFridgeReminder = read(.milkFridgeReminder, milkFridgeReminder)
+        tankWaterReminder = read(.tankWaterReminder, tankWaterReminder)
+        quietReconnect = read(.quietReconnect, quietReconnect)
+        settingsLock = read(.settingsLock, settingsLock)
+        leftOnReminder = read(.leftOnReminder, leftOnReminder)
+        followMachineProfile = read(.followMachineProfile, followMachineProfile)
+        locationSwitch = read(.locationSwitch, locationSwitch)
+        cafePrice = read(.cafePrice, cafePrice)
+        ramadanMode = read(.ramadanMode, ramadanMode)
+        lastSeenVersion = read(.lastSeenVersion, lastSeenVersion)
     }
 }
 
@@ -113,7 +168,7 @@ struct BrewSession: Equatable, Identifiable {
     }
 
     /// Bluetooth brewing: infer progress and completion from status polls.
-    mutating func update(with snapshot: MachineSnapshot, now: Date = Date()) {
+    mutating func update(with snapshot: MachineSnapshot, now: Date = Date(), expectedSeconds: Double? = nil) {
         guard isRunning else { return }
         if snapshot.power == .busy {
             sawMachineBusy = true
@@ -121,7 +176,8 @@ struct BrewSession: Equatable, Identifiable {
             if let reported = snapshot.progress {
                 progress = max(progress, Double(reported) / 100)
             } else {
-                let estimate = now.timeIntervalSince(startedAt) / Double(max(recipe.estimatedSeconds, 1))
+                let expected = expectedSeconds ?? Double(max(recipe.estimatedSeconds, 1))
+                let estimate = now.timeIntervalSince(startedAt) / max(expected, 1)
                 progress = max(progress, min(0.95, estimate))
             }
         } else if snapshot.power == .ready, sawMachineBusy {

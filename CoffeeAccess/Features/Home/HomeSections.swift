@@ -11,6 +11,32 @@ struct ReadyCard: View {
         let usual = model.usualRecipe
         VStack(alignment: .leading, spacing: 14) {
             MachineStatusCard()
+            let shape = StatusShape(snapshot: model.snapshot, connected: model.connection.isConnected)
+            HStack(spacing: 8) {
+                shape
+                Text(shape.legend).font(.footnote).foregroundStyle(Theme.textSecondary)
+            }
+            .accessibilityElement(children: .combine)
+            if let queued = model.data.life.pro.queuedBrew {
+                Label(L("offline.waiting", queued.displayName), systemImage: "clock.arrow.circlepath")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Theme.accent)
+            }
+            if model.settings.tankWaterReminder, TankWater.isStale(filledAt: model.data.life.pro.tankFilledAt) {
+                Label(L("tank.stale", TankWater.days(since: model.data.life.pro.tankFilledAt)), systemImage: "drop.triangle")
+                    .font(.footnote)
+                    .foregroundStyle(Theme.warning)
+            }
+            if let milk = MilkFreshness.warning(openedAt: model.data.life.pro.milkOpenedAt, shelfDays: model.data.life.pro.milkShelfDays) {
+                Label(milk, systemImage: "exclamationmark.triangle")
+                    .font(.footnote)
+                    .foregroundStyle(Theme.warning)
+            }
+            if model.ramadanActive {
+                Label(L("ramadan.chip"), systemImage: "moon.stars")
+                    .font(.footnote)
+                    .foregroundStyle(Theme.textSecondary)
+            }
             if let status = model.routineStatus {
                 Label(status, systemImage: "sunrise.fill")
                     .font(.headline)
@@ -22,6 +48,8 @@ struct ReadyCard: View {
             }
             .buttonStyle(PrimaryButtonStyle())
             .accessibilityHint(usual.spokenSummary)
+            .accessibilityInputLabels([L("ready.usual", usual.displayName), L("voice.usual")])
+            if !model.data.guestMode { OneTimeTweakRow(usual: usual, pendingBrew: $pendingBrew) }
             if let last = model.lastRecipe, last.beverage != usual.beverage || last.customName != usual.customName {
                 Button { pendingBrew = last } label: {
                     Label(L("ready.last", last.displayName), systemImage: "arrow.uturn.backward")
@@ -75,7 +103,7 @@ struct CaffeineChip: View {
 
     var body: some View {
         let today = model.caffeineToday
-        let limit = max(1, model.settings.caffeineLimitMg)
+        let limit = max(1, model.caffeineLimitToday)
         let fraction = min(1, Double(today) / Double(limit))
         Button(action: open) {
             VStack(alignment: .leading, spacing: 10) {

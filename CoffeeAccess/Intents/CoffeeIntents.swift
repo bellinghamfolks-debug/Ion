@@ -233,5 +233,41 @@ struct CoffeeShortcuts: AppShortcutsProvider {
             shortTitle: "Turn on",
             systemImageName: "power"
         )
+        AppShortcut(
+            intent: TurnOffMachineIntent(),
+            phrases: [
+                "أطفئ الماكينة في \(.applicationName)",
+                "Turn off the machine with \(.applicationName)",
+            ],
+            shortTitle: "Turn off",
+            systemImageName: "power.circle"
+        )
+        AppShortcut(
+            intent: MachineNeedsIntent(),
+            phrases: [
+                "ماذا تحتاج الماكينة في \(.applicationName)",
+                "What does the machine need in \(.applicationName)",
+            ],
+            shortTitle: "Machine needs",
+            systemImageName: "wrench.and.screwdriver"
+        )
+        AppShortcut(
+            intent: CaffeineTodayIntent(),
+            phrases: [
+                "كم كافيين اليوم في \(.applicationName)",
+                "How much caffeine today in \(.applicationName)",
+            ],
+            shortTitle: "Caffeine today",
+            systemImageName: "bolt.heart"
+        )
+        AppShortcut(
+            intent: DrinkForNowIntent(),
+            phrases: [
+                "حضّر القهوة المناسبة الآن في \(.applicationName)",
+                "Make the right coffee for now with \(.applicationName)",
+            ],
+            shortTitle: "Coffee for now",
+            systemImageName: "clock"
+        )
     }
 }

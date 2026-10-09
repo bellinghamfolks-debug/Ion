@@ -18,7 +18,8 @@ ROOT = Path(__file__).resolve().parents[1]
 APP = ROOT / "CoffeeAccess"
 STRINGS = APP / "Core/Localization/Strings.swift"
 STRINGS_LIFE = APP / "Core/Localization/StringsLife.swift"
-STRING_FILES = (STRINGS, STRINGS_LIFE)
+STRINGS_PRO = APP / "Core/Localization/StringsPro.swift"
+STRING_FILES = (STRINGS, STRINGS_LIFE, STRINGS_PRO)
 
 ENTRY = re.compile(r'^\s*"([^"]+)":\s*\("((?:[^"\\]|\\.)*)",\s*"((?:[^"\\]|\\.)*)"\),\s*$')
 SPEC = re.compile(r"%(?:\d+\$)?(?:\.\d+)?[@dfs]|%%")
@@ -180,6 +181,43 @@ def main() -> int:
     descale = (APP / "App/AppModel+Life.swift").read_text(encoding="utf-8")
     for key in re.findall(r'\("(descale\.stage\.\w+)", \d+\)', descale):
         used.update({key, f"{key}.title"})
+
+    # Version 3 keys built at run time.
+    pro = model / "Pro"
+    proviews = APP / "Features/Pro"
+    for enum, file, prefix in (("MilkType", pro / "ProData.swift", "milk"), ("WaterSource", pro / "ProData.swift", "water"),
+                               ("OneTimeTweak", pro / "BrewPlanning.swift", "tweak"),
+                               ("SignalStrength", pro / "MachineCare.swift", "signal.strength"),
+                               ("ProScreen", pro / "Knowledge.swift", "screen"),
+                               ("Pattern", APP / "Accessibility/HapticPatterns.swift", "haptic")):
+        for case in swift_cases(file, enum):
+            used.add(f"{prefix}.{case}")
+    for case in swift_cases(pro / "BeanCare.swift", "Freshness"):
+        used.update({f"freshness.{case}", f"freshness.{case}.detail"})
+    for case in swift_cases(pro / "CaffeineCare.swift", "CaffeineLimitPreset"):
+        used.update({f"limit.{case}.title", f"limit.{case}.source"})
+    for enum, prefix in (("GlossaryTerm", "glossary"), ("HelpTopic", "helpTopic")):
+        for case in swift_cases(pro / "Knowledge.swift", enum):
+            used.update({f"{prefix}.{case}.title", f"{prefix}.{case}.body"})
+    for case in swift_cases(pro / "Knowledge.swift", "AcademyLesson"):
+        used.add(f"academy.{case}.title")
+        used.update(f"academy.{case}.p{n}" for n in range(1, 4))
+        for q in (1, 2):
+            used.add(f"academy.{case}.q{q}")
+            used.update(f"academy.{case}.q{q}.a{a}" for a in range(1, 4))
+    knowledge = (pro / "Knowledge.swift").read_text(encoding="utf-8")
+    whats_new = int(re.search(r"static let count = (\d+)", knowledge.split("enum WhatsNew")[1]).group(1))
+    used.update(f"whatsNew.{n}.{part}" for n in range(1, whats_new + 1) for part in ("title", "body"))
+    care = (pro / "MachineCare.swift").read_text(encoding="utf-8")
+    travel = int(re.search(r"enum TravelChecklist \{\s*static let count = (\d+)", care).group(1))
+    used.update(f"travel.item.{n}" for n in range(1, travel + 1))
+    brew_views = proviews / "ProBrewViews.swift"
+    for case in swift_cases(brew_views, "Tea"):
+        used.update({f"tea.{case}", f"tea.advice.{case}"})
+    access_views = (proviews / "ProAccessibilityViews.swift").read_text(encoding="utf-8")
+    lessons = re.search(r"enum Lesson: Int, CaseIterable \{ case ([^}]+) \}", access_views).group(1).split(",")
+    used.update(f"vo.lesson.{n}.{part}" for n in range(len(lessons)) for part in ("title", "body"))
+    used.update({"vo.lesson.2.try", "vo.lesson.3.try"})
 
     missing = sorted(used - defined.keys())
     errors += [f"missing key: {key}" for key in missing]

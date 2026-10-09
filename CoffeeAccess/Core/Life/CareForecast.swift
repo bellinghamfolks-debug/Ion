@@ -22,7 +22,8 @@ struct CareForecast: Equatable {
     static let filterLitres = 50.0
     static let brewingUnitDays = 7
 
-    static func make(history: [BrewRecord], log: CoffeeLife, hardness: Int, usesFilter: Bool,
+    /// `waterFactor` is how fast scale builds compared with tap water (bottled, softened water: slower).
+    static func make(history: [BrewRecord], log: CoffeeLife, hardness: Int, usesFilter: Bool, waterFactor: Double = 1,
                      now: Date = Date(), calendar: Calendar = .current) -> CareForecast {
         let monthAgo = calendar.date(byAdding: .day, value: -28, to: now) ?? now
         let recent = history.filter { $0.completed && $0.date >= monthAgo }
@@ -37,7 +38,7 @@ struct CareForecast: Equatable {
 
         var items: [Item] = []
         // Descaling: by water through the machine since the last descaling.
-        let interval = (descaleLitres[max(1, min(4, hardness))] ?? 80) * (usesFilter ? 2 : 1)
+        let interval = (descaleLitres[max(1, min(4, hardness))] ?? 80) * (usesFilter ? 2 : 1) / max(0.2, waterFactor)
         let lastDescale = log.lastDone(.descaling)
         let usedSinceDescale = lastDescale == nil ? interval * 0.5 : litresSince(lastDescale)
         let descaleDays = Int(max(0, interval - usedSinceDescale) / max(litresPerDay, 0.05))
@@ -77,21 +78,24 @@ enum ShoppingList {
         var reason: String
     }
 
-    static func entries(forecast: CareForecast, beans: [BeanProfile], profiles: [UserProfile]) -> [Entry] {
+    static func entries(forecast: CareForecast, beans: [BeanProfile], profiles: [UserProfile], supplies: Supplies? = nil) -> [Entry] {
         var list: [Entry] = []
         for item in forecast.items where item.daysLeft <= 21 {
             switch item.task {
-            case .descaling:
+            case .descaling where (supplies?.descaler ?? 0) == 0:
                 list.append(Entry(id: "descaler", title: L("shopping.descaler"), reason: L("shopping.dueIn", item.daysLeft)))
-            case .waterFilter:
+            case .waterFilter where (supplies?.filters ?? 0) == 0:
                 list.append(Entry(id: "filter", title: L("shopping.filter"), reason: L("shopping.dueIn", item.daysLeft)))
             default: break
             }
         }
+        if let supplies, supplies.milkCleaner == 0, list.count < 10 {
+            list.append(Entry(id: "milkCleaner", title: L("shopping.milkCleaner"), reason: L("shopping.noneLeft")))
+        }
         for bean in beans {
             if let stock = BeanStock.estimate(for: bean, profiles: profiles), stock.isLow {
-                list.append(Entry(id: "beans-\(bean.id)", title: L("shopping.beans", bean.name),
-                                  reason: L("shopping.cupsLeft", stock.cupsLeft)))
+                let reason = bean.buyAgain ? L("shopping.buyAgain", stock.cupsLeft) : L("shopping.cupsLeft", stock.cupsLeft)
+                list.append(Entry(id: "beans-\(bean.id)", title: L("shopping.beans", bean.name), reason: reason))
             }
         }
         return list

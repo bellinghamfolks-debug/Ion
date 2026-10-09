@@ -249,6 +249,17 @@ struct DrinkDetailView: View {
             .padding(16)
             .card()
         }
+        if spec.supportsDouble, !recipe.toGo {
+            Toggle(isOn: Binding(get: { recipe.double == true }, set: { recipe.double = $0 ? true : nil; Announcer.shared.tick() })) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(L("double.title")).font(.headline)
+                    Text(L("double.detail")).font(.footnote).foregroundStyle(Theme.textSecondary)
+                }
+            }
+            .tint(Theme.accent)
+            .padding(16)
+            .card()
+        }
         if spec.supportsExtraShot {
             Toggle(isOn: $recipe.extraShot) {
                 VStack(alignment: .leading, spacing: 2) {
@@ -289,14 +300,31 @@ struct DrinkDetailView: View {
             Text(recipe.spokenSummary)
                 .font(.body)
                 .foregroundStyle(Theme.textSecondary)
-            Text(L("drink.summary.time", recipe.estimatedSeconds))
+            Text(L("drink.summary.time", Int(LearnedDuration.expected(for: recipe, learned: model.data.life.pro.learnedSeconds).rounded())))
                 .font(.footnote)
                 .foregroundStyle(Theme.textSecondary)
+            ForEach(extraFacts, id: \.self) { fact in
+                Text(fact).font(.footnote).foregroundStyle(Theme.textSecondary)
+            }
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .card(raised: true)
         .accessibilityElement(children: .combine)
+    }
+
+    /// Calories, cost per cup and which cup it fits, where known.
+    private var extraFacts: [String] {
+        var facts: [String] = []
+        let milk = model.data.life.pro.milk(for: recipe, profileID: model.activeProfile.id)
+        let kcal = Nutrition.calories(for: recipe, milk: milk)
+        if kcal > 0 { facts.append(L("nutrition.line", kcal)) }
+        if let cost = CostPerCup.total(for: recipe, bean: model.data.activeBean, milkPricePerLitre: model.data.life.pro.milkPricePerLitre) {
+            facts.append(L("cost.line", CostPerCup.text(cost)))
+        }
+        if let cup = CupFit.sentence(for: recipe, cups: model.data.life.pro.cups) { facts.append(cup) }
+        if model.data.activeBean?.decaf == true, recipe.coffeeML != nil { facts.append(L("decaf.line")) }
+        return facts
     }
 
     private var actions: some View {
@@ -362,7 +390,12 @@ struct DrinkDetailView: View {
     }
 
     private func saveChanges() {
-        model.updateData { _ = $0.saveFavorite(recipe) }
+        let previous = model.activeProfile.favorites.first { $0.id == recipe.id }
+        model.updateData { data in
+            // Keep the version being replaced, so the change can be undone.
+            if let previous, previous != recipe.normalized() { data.life.pro.rememberVersion(of: previous) }
+            _ = data.saveFavorite(recipe)
+        }
         Announcer.shared.announce(L("announce.favoriteUpdated", recipe.displayName))
         dismiss()
     }

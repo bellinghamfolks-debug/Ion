@@ -8,6 +8,8 @@ struct CoffeeWidgetsBundle: WidgetBundle {
     var body: some Widget {
         UsualDrinkWidget()
         MachineStatusWidget()
+        FavoritesWidget()
+        BeanCareWidget()
         BrewLiveActivity()
         if #available(iOS 18.0, *) {
             UsualDrinkControl()
@@ -150,6 +152,105 @@ struct MachineStatusWidgetView: View {
                     Text(status).font(.headline).foregroundStyle(.white).lineLimit(3)
                     Spacer(minLength: 0)
                     Text(caffeine).font(.caption).foregroundStyle(.white.opacity(0.8)).lineLimit(2)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .accessibilityElement(children: .combine)
+            }
+        }
+        .environment(\.layoutDirection, texts.arabic ? .rightToLeft : .leftToRight)
+        .widgetURL(CoffeeLink.home)
+        .modifier(WidgetBackground())
+    }
+}
+
+// MARK: - Three favorites (medium)
+
+struct FavoritesWidget: Widget {
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: SharedCoffee.favoritesWidgetKind, provider: CoffeeProvider()) { entry in
+            FavoritesWidgetView(entry: entry)
+        }
+        .configurationDisplayName("مفضلاتي")
+        .description("Three favorites, one tap each · ثلاث مفضلات بلمسة")
+        .supportedFamilies([.systemMedium])
+    }
+}
+
+struct FavoritesWidgetView: View {
+    let entry: CoffeeEntry
+
+    var body: some View {
+        let texts = Texts(entry.snapshot)
+        let favorites = entry.snapshot?.favorites ?? []
+        VStack(alignment: .leading, spacing: 8) {
+            Text(texts.t("مفضلاتي", "My favorites")).font(.caption).foregroundStyle(.white.opacity(0.75))
+            if favorites.isEmpty {
+                Text(texts.t("احفظ مشروبًا في المفضلة ليظهر هنا.", "Save a favorite to see it here."))
+                    .font(.subheadline).foregroundStyle(.white)
+            }
+            HStack(spacing: 8) {
+                ForEach(favorites) { favorite in
+                    Button(intent: BrewFavoriteByIDIntent(favoriteID: favorite.id)) {
+                        VStack(spacing: 4) {
+                            Image(systemName: "cup.and.saucer.fill").font(.title3).accessibilityHidden(true)
+                            Text(favorite.name).font(.caption.weight(.semibold)).lineLimit(2).multilineTextAlignment(.center)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                    .tint(accent)
+                    .accessibilityLabel(texts.t("حضّر \(favorite.name)", "Make \(favorite.name)"))
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .environment(\.layoutDirection, texts.arabic ? .rightToLeft : .leftToRight)
+        .widgetURL(CoffeeLink.home)
+        .modifier(WidgetBackground())
+    }
+}
+
+// MARK: - Beans left and next care
+
+struct BeanCareWidget: Widget {
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: SharedCoffee.beanCareWidgetKind, provider: CoffeeProvider()) { entry in
+            BeanCareWidgetView(entry: entry)
+        }
+        .configurationDisplayName("البن والعناية")
+        .description("Beans left and the next care job · البن المتبقي والعناية القادمة")
+        .supportedFamilies([.systemSmall, .accessoryRectangular])
+    }
+}
+
+struct BeanCareWidgetView: View {
+    @Environment(\.widgetFamily) var family
+    let entry: CoffeeEntry
+
+    var body: some View {
+        let texts = Texts(entry.snapshot)
+        let snapshot = entry.snapshot
+        let beans: String = {
+            guard let name = snapshot?.beanName else { return texts.t("لا بن محدد", "No beans set") }
+            guard let cups = snapshot?.beanCupsLeft else { return name }
+            return texts.t("\(name): نحو \(cups) كوب", "\(name): about \(cups) cups")
+        }()
+        let care: String = {
+            guard let task = snapshot?.nextCare, let days = snapshot?.nextCareDays else { return "" }
+            return days <= 0 ? texts.t("\(task): الآن", "\(task): now") : texts.t("\(task) بعد \(days) يوم", "\(task) in \(days) days")
+        }()
+        Group {
+            if family == .accessoryRectangular {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(beans).font(.headline).lineLimit(1)
+                    Text(care).font(.caption2).lineLimit(1)
+                }
+                .accessibilityElement(children: .combine)
+            } else {
+                VStack(alignment: .leading, spacing: 8) {
+                    Image(systemName: "leaf.fill").font(.title2).foregroundStyle(accent).accessibilityHidden(true)
+                    Text(beans).font(.headline).foregroundStyle(.white).lineLimit(3)
+                    Spacer(minLength: 0)
+                    Text(care).font(.caption).foregroundStyle(.white.opacity(0.8)).lineLimit(2)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .accessibilityElement(children: .combine)

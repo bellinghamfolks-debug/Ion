@@ -12,8 +12,13 @@ struct HouseholdView: View {
                 ForEach(model.data.life.household) { member in
                     Button { editing = member } label: {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(member.name).font(.headline).foregroundStyle(Theme.textPrimary)
+                            Text(member.isGuest == true ? L("family.guestName", member.name) : member.name)
+                                .font(.headline).foregroundStyle(Theme.textPrimary)
                             Text(member.recipe.spokenSummary).font(.footnote).foregroundStyle(Theme.textSecondary)
+                            if member.lactoseFree == true {
+                                Label(L("family.lactoseFree"), systemImage: "exclamationmark.triangle")
+                                    .font(.footnote).foregroundStyle(Theme.warning)
+                            }
                         }
                     }
                     .accessibilityAction(named: Text(L("action.delete"))) { delete(member) }
@@ -28,8 +33,19 @@ struct HouseholdView: View {
                 Button {
                     editing = HouseholdMember(name: "", recipe: model.data.recipe(for: .cappuccino))
                 } label: { Label(L("family.add"), systemImage: "person.badge.plus") }
+                Button {
+                    editing = HouseholdMember(name: "", recipe: model.data.recipe(for: .cappuccino), isGuest: true)
+                } label: { Label(L("family.addGuest"), systemImage: "person.crop.circle.badge.plus") }
+            }
+            MemberCaffeineSection()
+            Section {
+                NavigationLink { GuestMenuView() } label: { Label(L("screen.guestMenu"), systemImage: "list.number") }
+                NavigationLink { HostingPlannerView() } label: { Label(L("screen.hosting"), systemImage: "person.3") }
+                NavigationLink { OfficeTallyView() } label: { Label(L("screen.office"), systemImage: "building.2") }
+                NavigationLink { ChildProfilesView() } label: { Label(L("screen.children"), systemImage: "figure.and.child.holdinghands") }
             }
         }
+        .toolbar { ToolbarItem(placement: .primaryAction) { HelpButton(topic: .household) } }
         .scrollContentBackground(.hidden)
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle(L("family.title"))
@@ -64,6 +80,8 @@ struct HouseholdEditor: View {
             Form {
                 TextField(L("family.name"), text: $member.name)
                 RecipePicker(recipe: $member.recipe)
+                Toggle(L("family.lactoseFree"), isOn: Binding(get: { member.lactoseFree == true }, set: { member.lactoseFree = $0 ? true : nil }))
+                Toggle(L("family.isGuest"), isOn: Binding(get: { member.isGuest == true }, set: { member.isGuest = $0 ? true : nil }))
             }
             .navigationTitle(L("family.edit"))
             .navigationBarTitleDisplayMode(.inline)
@@ -116,8 +134,17 @@ struct RecipePicker: View {
                 LabeledContent(L("param.milk"), value: L("unit.seconds", recipe.milkSeconds ?? range.standard))
             }
         }
+        if let range = recipe.waterRange {
+            Stepper(value: Binding(get: { recipe.waterML ?? range.standard }, set: { recipe.waterML = range.clamp($0) }),
+                    in: range.min...range.max, step: range.step) {
+                LabeledContent(L("param.water"), value: L("unit.ml", recipe.waterML ?? range.standard))
+            }
+        }
         if recipe.spec.supportsToGo {
             Toggle(L("summary.toGo"), isOn: Binding(get: { recipe.toGo }, set: { recipe = recipe.withToGo($0) }))
+        }
+        if recipe.spec.supportsDouble, !recipe.toGo {
+            Toggle(L("double.title"), isOn: Binding(get: { recipe.double == true }, set: { recipe.double = $0 ? true : nil }))
         }
     }
 }
@@ -135,6 +162,9 @@ final class FamilyQueue {
         let id = UUID()
         let name: String
         let recipe: Recipe
+        var memberID: UUID? = nil
+        /// Say "lactose-free milk" before this person's milk drink.
+        var lactoseFree = false
     }
 
     var items: [Item] = []
@@ -189,13 +219,21 @@ final class FamilyQueue {
 
     private func announceNext() {
         guard let item = current else { return }
-        Announcer.shared.announce(L("queue.next", item.recipe.displayName, item.name), priority: .high)
+        var text = L("queue.next", item.recipe.displayName, item.name)
+        if item.lactoseFree, item.recipe.spec.usesMilk { text += L("sentence.separator") + L("queue.lactose", item.name) }
+        Announcer.shared.announce(text, priority: .high)
     }
 }
 
 struct FamilyQueueView: View {
     @Environment(AppModel.self) var model
     @State var selected: Set<UUID> = []
+    @State var smartOrder = true
+
+    /// The chosen people in the best order (black, hot milk, cold milk) when asked.
+    private func planned(_ members: [HouseholdMember]) -> [HouseholdMember] {
+        smartOrder ? QueuePlanner.ordered(members, recipe: { $0.recipe }) : members
+    }
     private var queue: FamilyQueue { FamilyQueue.shared }
 
     var body: some View {
@@ -211,9 +249,14 @@ struct FamilyQueueView: View {
                             .font(.display(.title2, weight: .semibold))
                             .foregroundStyle(Theme.textPrimary)
                             .accessibilityAddTraits(.isHeader)
+                        if item.lactoseFree, item.recipe.spec.usesMilk {
+                            Label(L("queue.lactose", item.name), systemImage: "exclamationmark.triangle")
+                                .font(.headline).foregroundStyle(Theme.warning)
+                        }
                         if queue.waitingForCup {
                             Button(L("queue.cupReady")) { queue.cupReady(model: model) }
                                 .buttonStyle(PrimaryButtonStyle())
+                                .accessibilityInputLabels([L("queue.cupReady"), L("voice.ready")])
                         } else {
                             Text(L("queue.making")).foregroundStyle(Theme.textSecondary)
                         }
@@ -246,8 +289,13 @@ struct FamilyQueueView: View {
                         .buttonStyle(.plain)
                         .accessibilityAddTraits(selected.contains(member.id) ? .isSelected : [])
                     }
+                    let chosen = members.filter { selected.contains($0.id) }
+                    Toggle(L("queue.smartOrder"), isOn: $smartOrder).tint(Theme.accent)
+                    QueuePlanSection(recipes: planned(chosen).map { ($0.name, $0.recipe) })
                     Button(L("queue.start", selected.count)) {
-                        let items = members.filter { selected.contains($0.id) }.map { FamilyQueue.Item(name: $0.name, recipe: $0.recipe) }
+                        let items = planned(chosen).map {
+                            FamilyQueue.Item(name: $0.name, recipe: $0.recipe, memberID: $0.id, lactoseFree: $0.lactoseFree == true)
+                        }
                         queue.start(items, model: model)
                     }
                     .buttonStyle(PrimaryButtonStyle())

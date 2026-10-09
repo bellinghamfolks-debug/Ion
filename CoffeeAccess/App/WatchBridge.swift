@@ -24,7 +24,10 @@ final class WatchBridge: NSObject, WCSessionDelegate {
         items += model.activeProfile.favorites.prefix(8).map { Item(id: $0.id.uuidString, name: $0.displayName) }
         let status = model.connection.isConnected ? model.snapshot.spokenStatus : model.connection.title
         guard let data = try? JSONEncoder().encode(items) else { return }
-        try? WCSession.default.updateApplicationContext(["items": data, "status": status, "arabic": AppLanguage.current == .arabic])
+        let caffeine = L("caffeine.value", model.caffeineToday, model.caffeineLimitToday)
+        let care = model.forecast.items.first.map { L("needs.nextCare", $0.task.title, $0.daysLeft) } ?? ""
+        try? WCSession.default.updateApplicationContext(["items": data, "status": status, "arabic": AppLanguage.current == .arabic,
+                                                         "ready": model.snapshot.isReadyToBrew, "caffeine": caffeine, "care": care])
     }
 
     private func handle(_ id: String) async -> String {
@@ -45,6 +48,17 @@ final class WatchBridge: NSObject, WCSessionDelegate {
     nonisolated func sessionDidDeactivate(_ session: WCSession) { session.activate() }
 
     nonisolated func session(_ session: WCSession, didReceiveMessage message: [String: Any], replyHandler: @escaping ([String: Any]) -> Void) {
+        if message["routine"] != nil {
+            Task { @MainActor in replyHandler(["text": await QuickActions.routineFromWatch()]) }
+            return
+        }
+        if message["stop"] != nil {
+            Task { @MainActor in
+                await QuickActions.stop()
+                replyHandler(["text": L("announce.brewStopped")])
+            }
+            return
+        }
         guard let id = message["brew"] as? String else { replyHandler([:]); return }
         Task { @MainActor in
             let text = await self.handle(id)

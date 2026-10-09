@@ -7,6 +7,13 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationStack {
+            SettingsLockGate {
+                settingsForm
+            }
+        }
+    }
+
+    private var settingsForm: some View {
             Form {
                 Section {
                     HStack(spacing: 14) {
@@ -42,6 +49,44 @@ struct SettingsView: View {
                     NavigationLink { HouseholdView() } label: { Label(L("family.title"), systemImage: "person.2") }
                     NavigationLink { ScheduleListView() } label: { Label(L("schedule.title"), systemImage: "alarm") }
                     NavigationLink { CompareDrinksView() } label: { Label(L("compare.title"), systemImage: "arrow.left.arrow.right") }
+                    NavigationLink { GlobalSearchView() } label: { Label(L("globalSearch.title"), systemImage: "magnifyingglass") }
+                    ProLinks([(.monthly, "calendar.badge.clock"), (.organizer, "tag"), (.combos, "square.stack.3d.down.right"),
+                              (.cups, "cup.and.saucer"), (.teaTimer, "timer")])
+                }
+
+                Group {
+                Section {
+                    ProLinks([(.accessibility3, "accessibility"), (.voPractice, "hand.tap")])
+                } header: {
+                    Text(L("settings.v3.accessibility"))
+                }
+
+                Section {
+                    Toggle(L("settings.offlineQueue"), isOn: model.binding(\.offlineQueue))
+                    Toggle(L("settings.cupPrewarm"), isOn: model.binding(\.cupPrewarm))
+                    Toggle(L("settings.quietReconnect"), isOn: model.binding(\.quietReconnect))
+                    Toggle(L("settings.leftOn"), isOn: model.binding(\.leftOnReminder))
+                    Toggle(L("settings.followProfile"), isOn: model.binding(\.followMachineProfile))
+                    Toggle(L("settings.locationSwitch"), isOn: model.binding(\.locationSwitch))
+                    Toggle(L("settings.waterReminder"), isOn: model.binding(\.waterReminder))
+                } header: {
+                    Text(L("settings.v3.smart"))
+                } footer: {
+                    Text(L("settings.v3.smart.footer"))
+                }
+
+                Section {
+                    ProLinks([(.backup, "externaldrive"), (.historyEditor, "clock.arrow.circlepath"), (.privacy, "hand.raised"),
+                              (.children, "figure.and.child.holdinghands")])
+                } header: {
+                    Text(L("settings.v3.data"))
+                }
+
+                Section {
+                    ProLinks([(.academy, "graduationcap"), (.glossary, "character.book.closed"), (.whatsNew, "sparkles"), (.report, "ladybug")])
+                } header: {
+                    Text(L("settings.v3.learn"))
+                }
                 }
 
                 Section {
@@ -160,7 +205,7 @@ struct SettingsView: View {
                 }
                 Button(L("action.cancel"), role: .cancel) {}
             }
-        }
+            .toolbar { ToolbarItem(placement: .primaryAction) { HelpButton(topic: .settings) } }
     }
 
     private var linkBinding: Binding<MachineLinkKind> {

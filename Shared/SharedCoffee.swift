@@ -10,6 +10,8 @@ enum SharedCoffee {
     static let snapshotKey = "widget.snapshot.v1"
     static let widgetKind = "CoffeeHomeWidget"
     static let statusWidgetKind = "CoffeeStatusWidget"
+    static let favoritesWidgetKind = "CoffeeFavoritesWidget"
+    static let beanCareWidgetKind = "CoffeeBeanCareWidget"
 }
 
 /// What the widgets show, written by the app whenever it changes.
@@ -23,6 +25,12 @@ struct WidgetSnapshot: Codable, Equatable {
     var caffeineLimit: Int
     var isArabic: Bool
     var updatedAt: Date
+    // Version 3 (absent in older snapshots).
+    var favorites: [WidgetFavorite]?
+    var beanName: String?
+    var beanCupsLeft: Int?
+    var nextCare: String?
+    var nextCareDays: Int?
 
     static func load() -> WidgetSnapshot? {
         guard let data = UserDefaults(suiteName: SharedCoffee.appGroup)?.data(forKey: SharedCoffee.snapshotKey) else { return nil }
@@ -43,6 +51,11 @@ struct WidgetSnapshot: Codable, Equatable {
         defaults.set(data, forKey: SharedCoffee.snapshotKey)
         return true
     }
+}
+
+struct WidgetFavorite: Codable, Equatable, Identifiable {
+    var id: String
+    var name: String
 }
 
 /// coffeeaccess://usual, coffeeaccess://brew/<beverage>, coffeeaccess://recipe?d=…

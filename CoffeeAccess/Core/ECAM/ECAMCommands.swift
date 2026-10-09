@@ -39,7 +39,7 @@ enum ECAMCommands {
         if let coffee = recipe.coffeeML { bytes += encode(.coffee, coffee) }
         if let milk = recipe.milkSeconds { bytes += encode(.milk, milk) }
         if let aroma = recipe.aroma { bytes += encode(.taste, aroma.rawValue) }
-        if recipe.beverage == .espresso { bytes += encode(.dueXPer, 0) }
+        if recipe.beverage == .espresso || recipe.double == true { bytes += encode(.dueXPer, recipe.double == true ? 1 : 0) }
         if let water = recipe.waterML { bytes += encode(.hotWater, water) }
         if recipe.beverage == .hotWater { bytes += encode(.accessory, 1) }
         if let temperature = recipe.temperature { bytes += encode(.temperature, temperature.rawValue) }

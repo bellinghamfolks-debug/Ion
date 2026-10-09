@@ -154,10 +154,12 @@ struct CaffeineView: View {
                     Text(L("caffeine.none"))
                 }
                 ForEach(todayRecords) { record in
-                    LabeledContent(record.recipe.displayName,
-                                   value: L("caffeine.mg", CaffeineEstimator.milligrams(for: record.recipe)))
+                    let spilled = model.data.life.pro.spilled.contains(record.id)
+                    LabeledContent(spilled ? L("history.spilledName", record.recipe.displayName) : record.recipe.displayName,
+                                   value: L("caffeine.mg", spilled ? 0 : CaffeineEstimator.milligrams(for: record, decafBeans: model.decafBeanIDs)))
                 }
             }
+            CaffeinePlusSections()
             Section {
                 Toggle(L("caffeine.health"), isOn: Binding(get: { model.settings.writeCaffeineToHealth }, set: { value in
                     if value {
@@ -180,5 +182,6 @@ struct CaffeineView: View {
         .scrollContentBackground(.hidden)
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle(L("caffeine.title"))
+        .toolbar { ToolbarItem(placement: .primaryAction) { HelpButton(topic: .caffeine) } }
     }
 }

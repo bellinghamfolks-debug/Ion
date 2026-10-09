@@ -53,6 +53,8 @@ struct MachineSnapshot: Equatable {
     var progress: Int?
     var activeProfile: Int = 1
     var updatedAt = Date()
+    /// Bluetooth signal strength (dBm) when the link reports it.
+    var rssi: Int?
 
     var isReadyToBrew: Bool { power == .ready && !alarms.contains(where: \.blocksBrewing) }
     var blockingAlarms: [MachineAlarm] { alarms.filter(\.blocksBrewing) }

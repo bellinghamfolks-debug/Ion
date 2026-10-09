@@ -11,7 +11,9 @@ struct BrewingView: View {
 
     var body: some View {
         VStack(spacing: 24) {
-            if let session {
+            if let session, session.isRunning, model.settings.giantBrewing {
+                GiantBrewingPanel(session: session) { Task { await model.stopBrewing() } }
+            } else if let session {
                 Spacer(minLength: 8)
                 DrinkIllustration(beverage: session.recipe.beverage, fill: max(0.05, session.progress), toGo: session.recipe.toGo)
                     .frame(maxWidth: 260)
@@ -89,8 +91,27 @@ struct BrewingView: View {
             }
             .buttonStyle(PrimaryButtonStyle(role: .destructive))
             .accessibilityHint(L("brew.stop.hint"))
+            .accessibilityInputLabels([L("action.stop"), L("voice.stop")])
         } else {
             VStack(spacing: 12) {
+                if session.outcome == .finished, let sequence = model.sequence, let next = sequence.current {
+                    VStack(alignment: .leading, spacing: 8) {
+                        if let instruction = sequence.nextInstructionForCurrent {
+                            Text(instruction).font(.headline).foregroundStyle(Theme.textPrimary)
+                        }
+                        Button(L("sequence.continue", next.displayName)) { Task { await model.continueSequence() } }
+                            .buttonStyle(PrimaryButtonStyle())
+                            .accessibilityInputLabels([L("sequence.continue", next.displayName), L("voice.next")])
+                        Button(L("sequence.cancel")) { model.cancelSequence() }
+                            .buttonStyle(TextLinkButtonStyle())
+                    }
+                    .padding(14)
+                    .card(raised: true)
+                }
+                if session.outcome == .finished, session.recipe.spec.isTea || session.recipe.beverage == .hotWater, model.sequence == nil {
+                    NavigationLink { TeaTimerView() } label: { Label(L("screen.teaTimer"), systemImage: "timer") }
+                        .buttonStyle(SecondaryButtonStyle())
+                }
                 if session.outcome == .finished, !model.data.guestMode, let record = model.lastFinishedRecord,
                    record.recipe.beverage == session.recipe.beverage {
                     RatingCard(recordID: record.id, recipe: session.recipe)

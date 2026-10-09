@@ -48,3 +48,29 @@ struct StopBrewingIntent: AppIntent, LiveActivityIntent {
         return .result()
     }
 }
+
+/// One favorite from the medium widget, by its id.
+struct BrewFavoriteByIDIntent: AppIntent, LiveActivityIntent {
+    static var title: LocalizedStringResource = "Make a favorite drink"
+    static var description = IntentDescription("Makes one of your favorites, chosen on the widget.")
+    static var openAppWhenRun = false
+    static var isDiscoverable = false
+
+    @Parameter(title: "Favorite")
+    var favoriteID: String
+
+    init() {}
+
+    init(favoriteID: String) {
+        self.favoriteID = favoriteID
+    }
+
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        #if COFFEE_WIDGET
+        return .result(dialog: "")
+        #else
+        let text = await QuickActions.brewFavorite(id: favoriteID)
+        return .result(dialog: IntentDialog(stringLiteral: text))
+        #endif
+    }
+}

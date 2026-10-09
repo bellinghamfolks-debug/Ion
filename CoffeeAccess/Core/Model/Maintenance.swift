@@ -1,7 +1,7 @@
 import Foundation
 
 enum MaintenanceGuideID: String, CaseIterable, Identifiable {
-    case fillWater, fillBeans, emptyContainers, milkCarafe, coldCarafe, brewingUnit, waterFilter, waterHardness, descaling
+    case fillWater, fillBeans, emptyContainers, milkCarafe, coldCarafe, brewingUnit, waterFilter, waterHardness, descaling, preGround
 
     var id: String { rawValue }
 
@@ -18,6 +18,16 @@ enum MaintenanceGuideID: String, CaseIterable, Identifiable {
         case .waterFilter: return 6
         case .waterHardness: return 5
         case .descaling: return 9
+        case .preGround: return 6
+        }
+    }
+
+    /// Steps (numbered from 1) that involve waiting, with the minutes, for a step timer.
+    var stepTimers: [Int: Int] {
+        switch self {
+        case .brewingUnit: return [6: 15]   // let the unit dry
+        case .waterFilter: return [2: 1]    // run water through the new filter
+        default: return [:]
         }
     }
 
@@ -31,6 +41,7 @@ enum MaintenanceGuideID: String, CaseIterable, Identifiable {
         case .waterFilter: return 5
         case .waterHardness: return 2
         case .descaling: return 45
+        case .preGround: return 2
         }
     }
 
@@ -45,6 +56,7 @@ enum MaintenanceGuideID: String, CaseIterable, Identifiable {
         case .brewingUnit: return "gearshape.2.fill"
         case .waterFilter: return "line.3.horizontal.decrease.circle.fill"
         case .descaling: return "sparkles"
+        case .preGround: return "takeoutbag.and.cup.and.straw"
         }
     }
 

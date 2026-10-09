@@ -10,6 +10,7 @@ struct MachineView: View {
                 VStack(alignment: .leading, spacing: 24) {
                     MachineHero()
                     MachineStatusCard()
+                    if model.connection.isConnected { SignalStrengthRow(rssi: model.snapshot.rssi) }
                     NavigationLink(value: MachineRoute.health) { HealthOverviewCard(health: health) }
                         .buttonStyle(.plain)
                     if let machine = model.data.life.activeMachine {
@@ -37,6 +38,7 @@ struct MachineView: View {
             }
             .screenBackground()
             .navigationTitle(L("tab.machine"))
+            .toolbar { ToolbarItem(placement: .primaryAction) { HelpButton(topic: .machine) } }
             .navigationDestination(for: MaintenanceGuideID.self) { GuideView(guide: $0) }
             .navigationDestination(for: MachineRoute.self) { route in
                 switch route {
@@ -283,10 +285,31 @@ struct MachineView: View {
             toolLink(.screenReader, title: L("reader.title"), symbol: "text.viewfinder", hint: L("reader.hint"))
             toolLink(.troubleshooting, title: L("trouble.title"), symbol: "questionmark.circle.fill", hint: L("trouble.hint"))
             toolLink(.diagnostics, title: L("diagnostics.title"), symbol: "stethoscope", hint: L("diagnostics.hint"))
+            ForEach(Self.proTools, id: \.screen) { tool in
+                NavigationLink { ProScreenView(screen: tool.screen) } label: {
+                    NavigationRowCard(title: tool.screen.title, symbol: tool.symbol)
+                }
+                .buttonStyle(.plain)
+            }
             Button(L("action.reconnect")) { model.reconnect() }
                 .buttonStyle(SecondaryButtonStyle())
         }
     }
+}
+
+extension MachineView {
+    struct ProTool { let screen: ProScreen; let symbol: String }
+
+    static let proTools: [ProTool] = [
+        ProTool(screen: .alarmHistory, symbol: "exclamationmark.bubble"),
+        ProTool(screen: .serviceReport, symbol: "doc.text"),
+        ProTool(screen: .supplies, symbol: "shippingbox"),
+        ProTool(screen: .milk, symbol: "drop"),
+        ProTool(screen: .travel, symbol: "suitcase"),
+        ProTool(screen: .profileNames, symbol: "person.2.badge.gearshape"),
+        ProTool(screen: .touchGuide, symbol: "hand.point.up.left"),
+        ProTool(screen: .cupCheck, symbol: "camera.viewfinder"),
+    ]
 }
 
 enum MachineRoute: Hashable {

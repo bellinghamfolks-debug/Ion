@@ -9,12 +9,14 @@ extension AppModel {
 
     var usualRecipe: Recipe { Suggestions.usual(for: data) }
     var lastRecipe: Recipe? { data.guestMode ? nil : Suggestions.last(in: activeProfile.history) }
-    var caffeineToday: Int { CaffeineEstimator.total(on: Date(), in: activeProfile.history) }
+    var caffeineToday: Int {
+        CaffeineEstimator.total(on: Date(), in: activeProfile.history, spilled: Set(data.life.pro.spilled), decafBeans: decafBeanIDs)
+    }
 
     func caffeineWarning(for recipe: Recipe) -> String? {
-        guard !data.guestMode else { return nil }
-        return CaffeineEstimator.warning(for: recipe, today: caffeineToday, limit: settings.caffeineLimitMg,
-                                         cutoffHour: settings.caffeineCutoffHour)
+        guard !data.guestMode, data.activeBean?.decaf != true else { return nil }
+        return CaffeineEstimator.warning(for: recipe, today: caffeineToday, limit: caffeineLimitToday,
+                                         cutoffHour: ramadanActive ? -1 : settings.caffeineCutoffHour)
     }
 
     /// What to do before the machine starts: cup, travel mug, froth dial, ice.
@@ -66,11 +68,20 @@ extension AppModel {
 
     var forecast: CareForecast {
         CareForecast.make(history: data.profiles.flatMap(\.history), log: data.life,
-                          hardness: machineSettings.waterHardness, usesFilter: data.life.usesWaterFilter)
+                          hardness: machineSettings.waterHardness, usesFilter: data.life.usesWaterFilter,
+                          waterFactor: data.life.pro.waterSource.scaleFactor)
     }
 
     func logCare(_ task: CareTask, note: String = "") {
-        updateData { $0.life.log(task, note: note) }
+        updateData { data in
+            data.life.log(task, note: note)
+            // Supplies used up by this job.
+            switch task {
+            case .descaling: data.life.pro.supplies.descaler = max(0, data.life.pro.supplies.descaler - 1)
+            case .waterFilter: data.life.pro.supplies.filters = max(0, data.life.pro.supplies.filters - 1)
+            default: break
+            }
+        }
         if task == .milkCarafe { markCarafeCleaned(announce: false) }
         Announcer.shared.announce(L("log.saved", task.title))
         NotificationManager.shared.scheduleCare(forecast, enabled: settings.predictiveCareReminders)
@@ -212,6 +223,7 @@ extension AppModel {
 
     /// Refreshes everything computed from the history when the app opens.
     func appBecameActive() {
+        proBecameActive()
         NotificationManager.shared.scheduleCare(forecast, enabled: settings.predictiveCareReminders)
         NotificationManager.shared.scheduleWeeklySummary(WeeklySummary.make(history: activeProfile.history).sentence,
                                                          enabled: settings.weeklySummary)
@@ -237,7 +249,11 @@ extension AppModel {
         let snapshot = WidgetSnapshot(
             usualName: usual.displayName, usualSummary: usual.spokenSummary, usualLink: CoffeeLink.usual.absoluteString,
             machineStatus: status, machineReady: self.snapshot.isReadyToBrew, caffeineToday: caffeineToday,
-            caffeineLimit: settings.caffeineLimitMg, isArabic: AppLanguage.current == .arabic, updatedAt: Date())
+            caffeineLimit: caffeineLimitToday, isArabic: AppLanguage.current == .arabic, updatedAt: Date(),
+            favorites: activeProfile.favorites.prefix(3).map { WidgetFavorite(id: $0.id.uuidString, name: $0.displayName) },
+            beanName: data.activeBean?.name,
+            beanCupsLeft: data.activeBean.flatMap { BeanStock.estimate(for: $0, profiles: data.profiles)?.cupsLeft },
+            nextCare: forecast.items.first?.task.title, nextCareDays: forecast.items.first?.daysLeft)
         if snapshot.store() { WidgetReloader.reload() }
         WatchBridge.shared.publish(model: self)
     }
@@ -246,12 +262,14 @@ extension AppModel {
 
     /// Called when a session ends, after it is recorded in history.
     func didFinishSession(_ session: BrewSession) {
+        proDidFinish(session)
         FamilyQueue.shared.sessionEnded(session.outcome)
+        let quiet = FocusFilterState.quiet
         guard session.outcome == .finished else {
-            if settings.soundCues { Tones.shared.cue(.problem) }
+            if settings.soundCues, !quiet { Tones.shared.cue(.problem) }
             return
         }
-        if settings.soundCues { Tones.shared.cue(.ready) }
+        if settings.soundCues, !quiet { Tones.shared.cue(.ready) }
         if data.life.beanSettleCups > 0 {
             updateData { $0.life.beanSettleCups -= 1 }
         }
@@ -265,7 +283,7 @@ extension AppModel {
     }
 
     func didChangePhase(_ activity: MachineActivity) {
-        guard settings.soundCues else { return }
+        guard settings.soundCues, !FocusFilterState.quiet else { return }
         switch activity {
         case .grinding: Tones.shared.cue(.grinding)
         case .dispensingMilk, .steaming: Tones.shared.cue(.milk)

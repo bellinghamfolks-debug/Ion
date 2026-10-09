@@ -23,6 +23,8 @@ struct CoffeeLife: Codable, Equatable {
     var madeSignatures: [String] = []
     /// A filter cartridge is fitted in the water tank.
     var usesWaterFilter = true
+    /// Everything added in version 3.
+    var pro = ProData()
 
     init() {}
 
@@ -42,6 +44,7 @@ struct CoffeeLife: Codable, Equatable {
         carafeCleanPending = read(.carafeCleanPending, false)
         madeSignatures = read(.madeSignatures, [])
         usesWaterFilter = read(.usesWaterFilter, true)
+        pro = read(.pro, ProData())
     }
 
     /// The saved order, with any section added in a later version at the end.
@@ -131,6 +134,10 @@ struct HouseholdMember: Codable, Equatable, Identifiable, Hashable {
     var id = UUID()
     var name: String
     var recipe: Recipe
+    /// Needs lactose-free milk.
+    var lactoseFree: Bool?
+    /// A regular guest rather than someone who lives here.
+    var isGuest: Bool?
 }
 
 /// The care jobs the log and the forecast know about.
@@ -157,7 +164,7 @@ enum CareTask: String, Codable, CaseIterable, Identifiable {
         case .milkCarafe, .coldCarafe: self = .milkCarafe
         case .emptyContainers: self = .emptyContainers
         case .waterHardness: self = .waterHardness
-        case .fillWater, .fillBeans: return nil
+        case .fillWater, .fillBeans, .preGround: return nil
         }
     }
 }
@@ -179,6 +186,9 @@ struct MachineRecord: Codable, Equatable, Identifiable, Hashable {
     var warrantyYears: Int = 2
     /// The Bluetooth identity the app remembered for this machine.
     var peripheralID: String?
+    /// Where the machine is, to switch to it on arrival.
+    var latitude: Double?
+    var longitude: Double?
 
     var warrantyEnds: Date? {
         purchaseDate.flatMap { Calendar.current.date(byAdding: .year, value: warrantyYears, to: $0) }

@@ -25,7 +25,8 @@ final class NotificationManager {
 
     func drinkFinished(_ recipe: Recipe) {
         guard inBackground else { return }
-        post(id: "drink-ready", title: L("notify.ready.title"), body: L("announce.brewFinished", recipe.displayName))
+        post(id: "drink-ready", title: L("notify.ready.title"), body: L("announce.brewFinished", recipe.displayName),
+             category: Self.readyCategory, userInfo: ["again": recipe.id.uuidString])
     }
 
     func alarms(_ alarms: [MachineAlarm]) {
@@ -55,11 +56,13 @@ final class NotificationManager {
         center.add(request)
     }
 
-    private func post(id: String, title: String, body: String) {
+    private func post(id: String, title: String, body: String, category: String? = nil, userInfo: [String: String] = [:]) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
         content.sound = .default
+        if let category { content.categoryIdentifier = category }
+        content.userInfo = userInfo
         content.interruptionLevel = .timeSensitive
         center.add(UNNotificationRequest(identifier: id, content: content, trigger: nil))
     }
@@ -72,11 +75,26 @@ extension NotificationManager {
     static let brewAction = "BREW_NOW"
     static let carafeID = "carafe-rinse"
 
-    /// Registers the "Make it now" action shown on scheduled-drink reminders.
+    static let carafeCategory = "CARAFE"
+    static let carafeAction = "CARAFE_CLEANED"
+    static let readyCategory = "DRINK_READY"
+    static let againAction = "BREW_AGAIN"
+    static let leftOnCategory = "LEFT_ON"
+    static let turnOffAction = "TURN_OFF"
+
+    /// Actions on notifications: make a scheduled drink now, mark the carafe
+    /// cleaned, make the same drink again, turn the machine off.
     func registerCategories() {
         let brew = UNNotificationAction(identifier: Self.brewAction, title: L("schedule.notify.action"), options: [.foreground])
-        let category = UNNotificationCategory(identifier: Self.brewCategory, actions: [brew], intentIdentifiers: [])
-        UNUserNotificationCenter.current().setNotificationCategories([category])
+        let cleaned = UNNotificationAction(identifier: Self.carafeAction, title: L("carafe.cleaned"), options: [])
+        let again = UNNotificationAction(identifier: Self.againAction, title: L("notify.again"), options: [.foreground])
+        let off = UNNotificationAction(identifier: Self.turnOffAction, title: L("leftOn.turnOff"), options: [.foreground])
+        UNUserNotificationCenter.current().setNotificationCategories([
+            UNNotificationCategory(identifier: Self.brewCategory, actions: [brew], intentIdentifiers: []),
+            UNNotificationCategory(identifier: Self.carafeCategory, actions: [cleaned], intentIdentifiers: []),
+            UNNotificationCategory(identifier: Self.readyCategory, actions: [again], intentIdentifiers: []),
+            UNNotificationCategory(identifier: Self.leftOnCategory, actions: [off], intentIdentifiers: []),
+        ])
     }
 
     /// Replaces every scheduled-drink reminder with the current list.
@@ -119,6 +137,7 @@ extension NotificationManager {
         content.title = L("carafe.notify.title")
         content.body = L("carafe.notify.body")
         content.sound = .default
+        content.categoryIdentifier = Self.carafeCategory
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
         UNUserNotificationCenter.current().add(UNNotificationRequest(identifier: Self.carafeID, content: content, trigger: trigger))
     }
@@ -178,12 +197,112 @@ extension NotificationManager {
     }
 }
 
-/// Opens the app from a scheduled-drink reminder and starts the drink.
+// MARK: - Version 3: milk, machine left on, warranty
+
+extension NotificationManager {
+    /// Ten minutes after a milk drink: the milk back in the fridge.
+    func remindMilkToFridge() {
+        let content = UNMutableNotificationContent()
+        content.title = L("milkFridge.title")
+        content.body = L("milkFridge.body")
+        content.sound = .default
+        UNUserNotificationCenter.current().add(UNNotificationRequest(
+            identifier: "milk-fridge", content: content,
+            trigger: UNTimeIntervalNotificationTrigger(timeInterval: 600, repeats: false)))
+    }
+
+    /// The morning the opened milk reaches its last day.
+    func scheduleMilkExpiry(openedAt: Date?, shelfDays: Int) {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: ["milk-expiry"])
+        guard let openedAt, let day = Calendar.current.date(byAdding: .day, value: shelfDays, to: openedAt), day > Date() else { return }
+        var components = Calendar.current.dateComponents([.year, .month, .day], from: day)
+        components.hour = 8
+        let content = UNMutableNotificationContent()
+        content.title = L("milk.expiry.title")
+        content.body = L("milk.lastDay")
+        center.add(UNNotificationRequest(identifier: "milk-expiry", content: content,
+                                         trigger: UNCalendarNotificationTrigger(dateMatching: components, repeats: false)))
+    }
+
+    /// The machine may still be on an hour after the last drink.
+    func remindLeftOn(after seconds: TimeInterval) {
+        let content = UNMutableNotificationContent()
+        content.title = L("leftOn.title")
+        content.body = L("leftOn.body")
+        content.sound = .default
+        content.categoryIdentifier = Self.leftOnCategory
+        UNUserNotificationCenter.current().add(UNNotificationRequest(
+            identifier: "left-on", content: content,
+            trigger: UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)))
+    }
+
+    func cancelLeftOn() {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["left-on"])
+    }
+
+    /// A countdown that ends with a sound even when the phone is locked.
+    func scheduleTimer(id: String, title: String, body: String, seconds: Int) {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        content.sound = .default
+        content.interruptionLevel = .timeSensitive
+        UNUserNotificationCenter.current().add(UNNotificationRequest(
+            identifier: "timer-\(id)", content: content,
+            trigger: UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(max(1, seconds)), repeats: false)))
+    }
+
+    func cancelTimer(id: String) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["timer-\(id)"])
+    }
+
+    /// Thirty days before the warranty ends.
+    func scheduleWarranty(_ machine: MachineRecord) {
+        let id = "warranty-\(machine.id.uuidString)"
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: [id])
+        guard let date = WarrantyReminder.date(for: machine), date > Date() else { return }
+        let content = UNMutableNotificationContent()
+        content.title = L("warranty.notify.title", machine.name)
+        content.body = L("warranty.notify.body")
+        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+        center.add(UNNotificationRequest(identifier: id, content: content,
+                                         trigger: UNCalendarNotificationTrigger(dateMatching: components, repeats: false)))
+    }
+}
+
+/// Opens the app from a reminder and acts on its buttons.
 final class NotificationRouter: NSObject, UNUserNotificationCenterDelegate {
     static let shared = NotificationRouter()
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        guard let raw = response.notification.request.content.userInfo["schedule"] as? String,
+        let action = response.actionIdentifier
+        let info = response.notification.request.content.userInfo
+        if action == NotificationManager.carafeAction {
+            await MainActor.run { AppModel.shared.markCarafeCleaned() }
+            return
+        }
+        if action == NotificationManager.turnOffAction {
+            await MainActor.run {
+                let model = AppModel.shared
+                model.start()
+                Task {
+                    try? await IntentSupport.waitForConnection(model)
+                    await model.powerOff()
+                }
+            }
+            return
+        }
+        if action == NotificationManager.againAction, let raw = info["again"] as? String {
+            await MainActor.run {
+                let model = AppModel.shared
+                let recipe = model.lastRecipe ?? model.usualRecipe
+                if recipe.id.uuidString == raw || model.lastRecipe != nil { model.pendingScheduledRecipe = recipe }
+            }
+            return
+        }
+        guard let raw = info["schedule"] as? String,
               let id = UUID(uuidString: raw) else { return }
         let brewNow = response.actionIdentifier == NotificationManager.brewAction
         await MainActor.run { AppModel.shared.openScheduled(id, brewNow: brewNow) }

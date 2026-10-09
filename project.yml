@@ -10,8 +10,8 @@ settings:
     SWIFT_VERSION: 5.10
     DEVELOPMENT_TEAM: ""
     CODE_SIGN_STYLE: Automatic
-    CURRENT_PROJECT_VERSION: 2
-    MARKETING_VERSION: 2.0.0
+    CURRENT_PROJECT_VERSION: 3
+    MARKETING_VERSION: 3.0.0
     GENERATE_INFOPLIST_FILE: YES
     ENABLE_USER_SCRIPT_SANDBOXING: YES
     ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
@@ -45,6 +45,9 @@ targets:
         NSHealthUpdateUsageDescription: يكتب قهوتي تقدير الكافيين في كل مشروب إلى تطبيق «صحتي» عندما تفعّل ذلك.
         NSHealthShareUsageDescription: لا يقرأ قهوتي أي بيانات صحية؛ يكتب تقدير الكافيين فقط عندما تفعّل ذلك.
         NSRemindersFullAccessUsageDescription: يضيف قهوتي قائمة مشترياتك (مزيل الترسبات والفلتر والبن) إلى «التذكيرات» عندما تطلب ذلك.
+        NSLocationWhenInUseUsageDescription: يحدد قهوتي الماكينة الأقرب إليك (المنزل أو المكتب) عند فتح التطبيق، فقط إذا فعّلت ذلك. لا يُحفظ موقعك إلا مكانًا لكل ماكينة على جهازك.
+        NSPhotoLibraryUsageDescription: يقرأ قهوتي صورة تختارها (كيس البن أو شاشة الماكينة) على جهازك فقط.
+        NSFaceIDUsageDescription: يستخدم قهوتي بصمة الوجه لقفل الإعدادات عندما تفعّل ذلك.
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.coffeeaccess.app
@@ -91,6 +94,13 @@ targets:
     deploymentTarget: "10.0"
     sources:
       - path: CoffeeWatch
+    dependencies:
+      - target: CoffeeWatchWidgets
+        embed: true
+    entitlements:
+      path: Config/CoffeeWatch.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.coffeeaccess.app]
     info:
       path: Config/CoffeeWatch-Info.plist
       properties:
@@ -106,6 +116,27 @@ targets:
         INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp: NO
         SKIP_INSTALL: YES
         ASSETCATALOG_COMPILER_APPICON_NAME: ""
+  CoffeeWatchWidgets:
+    type: app-extension
+    platform: watchOS
+    deploymentTarget: "10.0"
+    sources:
+      - path: CoffeeWatchWidgets
+        excludes: [Info.plist]
+    entitlements:
+      path: Config/CoffeeWatchWidgets.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.coffeeaccess.app]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.coffeeaccess.app.watchkitapp.widgets
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: CoffeeWatchWidgets/Info.plist
+        APPLICATION_EXTENSION_API_ONLY: YES
+        SKIP_INSTALL: YES
+    dependencies:
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
   CoffeeAccessTests:
     type: bundle.unit-test
     platform: iOS

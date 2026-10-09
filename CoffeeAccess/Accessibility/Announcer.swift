@@ -11,6 +11,11 @@ final class Announcer {
 
     var speakWithoutVoiceOver = false
     var hapticsEnabled = true
+    /// A chosen voice (empty for the language's default) and rate 0…1.
+    var voiceID = ""
+    var rate: Double = 0.5
+    /// A Focus asked for quiet: nothing is spoken without VoiceOver.
+    var focusQuiet = false
 
     private let synthesizer = AVSpeechSynthesizer()
     private let notification = UINotificationFeedbackGenerator()
@@ -24,15 +29,24 @@ final class Announcer {
                 .accessibilitySpeechQueueAnnouncement: priority != .high,
             ])
             UIAccessibility.post(notification: .announcement, argument: attributed)
-        } else if speakWithoutVoiceOver {
+        } else if speakWithoutVoiceOver, !focusQuiet {
             if priority == .high { synthesizer.stopSpeaking(at: .immediate) }
-            let utterance = AVSpeechUtterance(string: text)
-            utterance.voice = AVSpeechSynthesisVoice(language: AppLanguage.current.speechCode)
-            synthesizer.speak(utterance)
+            speak(text)
         }
     }
 
     enum Priority { case normal, high }
+
+    /// Speaks with the chosen voice and rate, whatever VoiceOver is doing
+    /// (used to preview a voice).
+    func speak(_ text: String) {
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = (voiceID.isEmpty ? nil : AVSpeechSynthesisVoice(identifier: voiceID))
+            ?? AVSpeechSynthesisVoice(language: AppLanguage.current.speechCode)
+        let minimum = Double(AVSpeechUtteranceMinimumSpeechRate), maximum = Double(AVSpeechUtteranceMaximumSpeechRate)
+        utterance.rate = Float(minimum + (maximum - minimum) * max(0, min(1, rate)))
+        synthesizer.speak(utterance)
+    }
 
     func success() {
         guard hapticsEnabled else { return }

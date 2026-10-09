@@ -63,6 +63,10 @@ struct GuideView: View {
             .accessibilityElement(children: .combine)
             .accessibilityFocused($stepFocused)
 
+            if let minutes = guide.stepTimers[step + 1] {
+                StepTimer(minutes: minutes, label: guide.steps[step])
+            }
+
             ProgressView(value: Double(step + 1), total: Double(guide.stepCount))
                 .tint(Theme.accent)
                 .accessibilityHidden(true)
@@ -116,5 +120,57 @@ struct GuideView: View {
         Announcer.shared.tick()
         stepFocused = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { stepFocused = true }
+    }
+}
+
+/// A countdown for a step that involves waiting (soaking, drying, rinsing),
+/// spoken each minute and ending with a sound even when the phone is locked.
+struct StepTimer: View {
+    let minutes: Int
+    let label: String
+    @State var remaining: Int?
+    @State var task: Task<Void, Never>?
+
+    var body: some View {
+        Group {
+            if let remaining {
+                HStack {
+                    Text(String(format: "%d:%02d", remaining / 60, remaining % 60))
+                        .font(.title2.monospacedDigit().weight(.semibold))
+                        .accessibilityAddTraits(.updatesFrequently)
+                    Spacer()
+                    Button(L("tea.stop"), role: .destructive) { stop() }.buttonStyle(.bordered)
+                }
+            } else {
+                Button { start() } label: { Label(L("stepTimer.start", minutes), systemImage: "timer") }
+                    .buttonStyle(SecondaryButtonStyle())
+            }
+        }
+        .onDisappear { stop() }
+    }
+
+    private func start() {
+        let total = minutes * 60
+        remaining = total
+        Announcer.shared.announce(L("stepTimer.started", minutes))
+        NotificationManager.shared.scheduleTimer(id: "step", title: L("stepTimer.done"), body: label, seconds: total)
+        task = Task { @MainActor in
+            for left in stride(from: total - 1, through: 0, by: -1) {
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                if Task.isCancelled { return }
+                remaining = left
+                if left > 0, left % 60 == 0 { Announcer.shared.announce(L("tea.minutesLeft", left / 60)) }
+            }
+            remaining = nil
+            Announcer.shared.success()
+            Announcer.shared.announce(L("stepTimer.done"), priority: .high)
+        }
+    }
+
+    private func stop() {
+        task?.cancel()
+        task = nil
+        remaining = nil
+        NotificationManager.shared.cancelTimer(id: "step")
     }
 }

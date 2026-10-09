@@ -245,15 +245,7 @@ struct MachinesView: View {
 
     /// Each machine remembers its Bluetooth identity; switching connects to it.
     private func switchTo(_ machine: MachineRecord) {
-        guard machine.id != model.data.life.activeMachine?.id else { return }
-        model.updateData { $0.life.activeMachineID = machine.id }
-        if let id = machine.peripheralID {
-            UserDefaults.standard.set(id, forKey: BluetoothMachineLink.rememberedPeripheralKey)
-        } else {
-            model.bluetoothLink?.forgetMachine()
-        }
-        if model.settings.linkKind == .bluetooth { model.reconnect() }
-        Announcer.shared.announce(L("machines.switched", machine.name))
+        model.switchMachine(to: machine)
     }
 }
 
@@ -280,6 +272,7 @@ struct MachineInfoEditor: View {
                     Text(machine.warrantyActive() == true ? L("machineInfo.underWarranty") : L("machineInfo.outOfWarranty"))
                         .font(.footnote)
                 }
+                MachineLocationRow(machine: $machine)
                 if !machine.serial.isEmpty {
                     Button(L("machineInfo.copySerial")) {
                         UIPasteboard.general.string = machine.serial
@@ -407,7 +400,8 @@ struct ShoppingListView: View {
     @State var message: String?
 
     var body: some View {
-        let entries = ShoppingList.entries(forecast: model.forecast, beans: model.data.beanProfiles, profiles: model.data.profiles)
+        let entries = ShoppingList.entries(forecast: model.forecast, beans: model.data.beanProfiles, profiles: model.data.profiles,
+                                           supplies: model.data.life.pro.supplies)
         List {
             if entries.isEmpty {
                 Text(L("shopping.empty")).foregroundStyle(Theme.textSecondary)

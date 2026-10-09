@@ -28,6 +28,10 @@ struct HomeView: View {
                 .padding(.vertical, 16)
             }
             .background(TimeOfDayBackground(enabled: model.settings.timeOfDayTheme))
+            // Two-finger double-tap anywhere on Home: the usual drink (asks first when confirmations are on).
+            .accessibilityAction(.magicTap) {
+                if model.settings.magicTapUsual, model.session?.isRunning != true { pendingBrew = model.usualRecipe }
+            }
             .navigationTitle(L("tab.home"))
             .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(for: MaintenanceGuideID.self) { GuideView(guide: $0) }
@@ -47,6 +51,8 @@ struct HomeView: View {
                 case .goals: GoalsView()
                 case .weekly: WeeklySummaryView()
                 case .journal: TastingJournalView()
+                case .globalSearch: GlobalSearchView()
+                case .pro(let screen): ProScreenView(screen: screen)
                 }
             }
             .navigationDestination(for: DrinkRoute.self) { route in
@@ -85,6 +91,20 @@ struct HomeView: View {
                 }
                 .accessibilityLabel(L("search.open"))
                 .accessibilityHint(L("search.open.hint"))
+                .accessibilityInputLabels([L("search.open"), L("voice.search")])
+                Button { path.append(HomeRoute.globalSearch) } label: {
+                    Image(systemName: "text.magnifyingglass")
+                        .font(.headline)
+                        .foregroundStyle(Theme.textPrimary)
+                        .frame(width: 44, height: 44)
+                        .background(Circle().fill(Theme.surface))
+                }
+                .accessibilityLabel(L("globalSearch.title"))
+                .accessibilityHint(L("globalSearch.hint"))
+                HelpButton(topic: .home)
+                    .font(.headline)
+                    .frame(width: 44, height: 44)
+                    .background(Circle().fill(Theme.surface))
             }
         }
         .padding(.top, 8)
@@ -215,9 +235,11 @@ struct HomeView: View {
                         .accessibilityAction(named: Text(L("action.moveUp"))) { move(recipe, by: -1) }
                         .accessibilityAction(named: Text(L("action.moveDown"))) { move(recipe, by: 1) }
                         .accessibilityAction(named: Text(L("action.delete"))) { deleteFavorite(recipe) }
+                        .accessibilityAction(named: Text(L("organizer.duplicate"))) { FavoriteTools.duplicate(recipe, model: model) }
                         .contextMenu {
                             Button(L("action.brewNow"), systemImage: "cup.and.saucer.fill") { pendingBrew = recipe }
                             Button(L("action.edit"), systemImage: "slider.horizontal.3") { path.append(DrinkRoute.favorite(recipe)) }
+                            Button(L("organizer.duplicate"), systemImage: "plus.square.on.square") { FavoriteTools.duplicate(recipe, model: model) }
                             Button(L("action.moveUp"), systemImage: "arrow.up") { move(recipe, by: -1) }
                             Button(L("action.moveDown"), systemImage: "arrow.down") { move(recipe, by: 1) }
                             Button(L("action.delete"), systemImage: "trash", role: .destructive) { deleteFavorite(recipe) }
@@ -230,6 +252,10 @@ struct HomeView: View {
                 Label(L("recipe.new.button"), systemImage: "plus")
             }
             .buttonStyle(PrimaryButtonStyle())
+            HStack(spacing: 10) {
+                Button(L("screen.organizer")) { path.append(HomeRoute.pro(.organizer)) }.buttonStyle(PillButtonStyle())
+                Button(L("screen.combos")) { path.append(HomeRoute.pro(.combos)) }.buttonStyle(PillButtonStyle())
+            }
         }
     }
 
@@ -278,7 +304,9 @@ struct HomeView: View {
 
 enum HomeRoute: Hashable {
     case journey, search, layout, caffeine, signatures, household, schedules, queue, compare, goals, weekly, journal
+    case globalSearch
     case signature(SignatureRecipeID)
+    case pro(ProScreen)
 }
 
 /// The time of day, for the chip on the home screen and its drink row.
@@ -477,10 +505,11 @@ private struct BrewConfirmation: ViewModifier {
 
     /// The recipe, then what to do before it starts, then a caffeine note.
     private func confirmationMessage(_ item: Recipe) -> String {
-        var parts = [item.spokenSummary]
-        let checklist = model.preBrewChecklist(for: item)
+        var parts = [model.settings.brailleBrief ? item.brief : item.spokenSummary]
+        let checklist = model.preBrewChecklist(for: item) + model.proChecklist(for: item)
         if !checklist.isEmpty { parts.append(L("prebrew.title") + " " + checklist.joined(separator: L("sentence.separator"))) }
         if let warning = model.caffeineWarning(for: item) { parts.append(warning) }
+        if let reason = model.brewBlockReason(item) { parts.append(reason) }
         return parts.joined(separator: "\n\n")
     }
 
@@ -498,6 +527,18 @@ private struct BrewConfirmation: ViewModifier {
                 Button(L("action.brewNow")) {
                     recipe = nil
                     Task { await model.brew(item) }
+                }
+                if model.settings.cupPrewarm, !item.spec.isCold, item.beverage != .hotWater {
+                    Button(L("prewarm.button")) {
+                        recipe = nil
+                        Task { await model.brewWithPrewarm(item) }
+                    }
+                }
+                if model.caffeineWarning(for: item) != nil, let lighter = Lighter.alternative(to: item) {
+                    Button(L("lighter.button")) {
+                        recipe = nil
+                        Task { await model.brew(lighter) }
+                    }
                 }
                 Button(L("action.cancel"), role: .cancel) { recipe = nil }
             } message: { item in

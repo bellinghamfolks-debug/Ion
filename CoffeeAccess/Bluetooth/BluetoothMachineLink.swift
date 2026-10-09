@@ -226,6 +226,8 @@ final class BluetoothMachineLink: NSObject, MachineLink {
         pollTask = Task { @MainActor in
             while !Task.isCancelled {
                 try? await self.send(ECAMCommands.monitor, expecting: ECAM.Command.monitor.rawValue)
+                // Signal strength for the diagnostics and "move closer" advice.
+                if self.peripheral?.state == .connected { self.peripheral?.readRSSI() }
                 let interval: UInt64 = self.snapshot.power == .busy ? 1_000_000_000 : 2_500_000_000
                 try? await Task.sleep(nanoseconds: interval)
             }
@@ -310,6 +312,16 @@ extension BluetoothMachineLink: CBCentralManagerDelegate, CBPeripheralDelegate {
             startPolling()
             // Keep the machine's clock right, as the official app does.
             Task { try? await self.setClock(Date()) }
+        }
+    }
+
+    nonisolated func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: Error?) {
+        let value = RSSI.intValue
+        MainActor.assumeIsolated {
+            // 127 means "not available".
+            guard error == nil, value != 127, snapshot.rssi != value else { return }
+            snapshot.rssi = value
+            onSnapshot?(snapshot)
         }
     }
 

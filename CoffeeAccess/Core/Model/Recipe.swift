@@ -40,6 +40,8 @@ struct Recipe: Codable, Hashable, Identifiable {
     var coldIntensity: ColdIntensity?
     /// Ice amount, for iced drinks only.
     var iceLevel: IceLevel?
+    /// Two cups at once from the double spout ("2x"), where the drink allows it.
+    var double: Bool?
 
     var spec: BeverageSpec { beverage.spec }
     var coffeeRange: QuantityRange? { spec.coffeeRange(toGo: toGo) }
@@ -78,6 +80,7 @@ struct Recipe: Codable, Hashable, Identifiable {
         copy.extraShot = spec.supportsExtraShot && extraShot
         copy.coldIntensity = spec.supportsColdIntensity ? (coldIntensity ?? .original) : nil
         copy.iceLevel = spec.supportsIce ? (iceLevel ?? .ice) : nil
+        copy.double = spec.supportsDouble && double == true && !copy.toGo ? true : nil
         copy.customName = customName.trimmingCharacters(in: .whitespacesAndNewlines)
         return copy
     }
@@ -171,6 +174,17 @@ struct BeanProfile: Codable, Hashable, Identifiable {
     var roaster: String = ""
     /// Tasting notes kept with the beans.
     var notes: String = ""
+    // Version 3
+    var roastDate: Date?
+    /// Price paid for the bag, in the person's currency.
+    var price: Double?
+    var decaf = false
+    /// 1…5 stars for the bag.
+    var rating: Int?
+    var buyAgain = false
+    var barcode: String = ""
+    /// Grind settings tried with these beans and how the cup was rated.
+    var grindNotes: [GrindNote] = []
 
     static let maxCount = 6
 
@@ -256,5 +270,20 @@ extension BeanProfile {
         origin = (try? c.decodeIfPresent(String.self, forKey: .origin)) ?? ""
         roaster = (try? c.decodeIfPresent(String.self, forKey: .roaster)) ?? ""
         notes = (try? c.decodeIfPresent(String.self, forKey: .notes)) ?? ""
+        roastDate = try? c.decodeIfPresent(Date.self, forKey: .roastDate)
+        price = try? c.decodeIfPresent(Double.self, forKey: .price)
+        decaf = (try? c.decodeIfPresent(Bool.self, forKey: .decaf)) ?? false
+        rating = try? c.decodeIfPresent(Int.self, forKey: .rating)
+        buyAgain = (try? c.decodeIfPresent(Bool.self, forKey: .buyAgain)) ?? false
+        barcode = (try? c.decodeIfPresent(String.self, forKey: .barcode)) ?? ""
+        grindNotes = (try? c.decodeIfPresent([GrindNote].self, forKey: .grindNotes)) ?? []
     }
+}
+
+/// One grind setting tried with a bag, and how the cup turned out.
+struct GrindNote: Codable, Hashable {
+    var grind: Int
+    /// 1…5.
+    var rating: Int
+    var date = Date()
 }

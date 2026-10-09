@@ -95,10 +95,23 @@ struct BeansView: View {
                 profileTile(L("beans.grind"), value: L("beans.grind.value", bean.recommendedGrind), symbol: "dial.medium")
                 profileTile(L("param.temperature"), value: bean.recommendedTemperature.title, symbol: "thermometer.medium")
             }
+            BeanStockRow(bean: bean)
             NavigationLink {
                 TasteProfileView(bean: bean)
             } label: {
                 NavigationRowCard(title: L("taste.open"), subtitle: L("taste.\(bean.taste.flavour.rawValue).title"), symbol: "sparkles")
+            }
+            .buttonStyle(.plain)
+            NavigationLink {
+                CalibrationView(beanID: bean.id)
+            } label: {
+                NavigationRowCard(title: L("calibration.title"), subtitle: L("calibration.subtitle"), symbol: "dial.medium")
+            }
+            .buttonStyle(.plain)
+            NavigationLink {
+                BeanLibraryView()
+            } label: {
+                NavigationRowCard(title: L("library.title"), subtitle: L("library.subtitle"), symbol: "books.vertical")
             }
             .buttonStyle(.plain)
         }
@@ -256,6 +269,7 @@ struct TasteProfileView: View {
 struct BeanEditor: View {
     @Environment(\.dismiss) var dismiss
     @State var bean: BeanProfile
+    @State var scanning = false
     let onSave: (BeanProfile) -> Void
 
     init(bean: BeanProfile, onSave: @escaping (BeanProfile) -> Void) {
@@ -268,6 +282,29 @@ struct BeanEditor: View {
             Form {
                 Section(L("beans.name")) {
                     TextField(L("beans.name.placeholder"), text: $bean.name)
+                    Button { scanning = true } label: { Label(L("bagscan.button"), systemImage: "camera.viewfinder") }
+                }
+                Section {
+                    TextField(L("beans.origin"), text: $bean.origin)
+                    TextField(L("beans.roaster"), text: $bean.roaster)
+                    Stepper(value: Binding(get: { bean.bagGrams ?? 250 }, set: { bean.bagGrams = $0 }), in: 100...2000, step: 50) {
+                        LabeledContent(L("beans.bag"), value: L("stock.grams", bean.bagGrams ?? 250))
+                    }
+                    DatePicker(L("beans.opened"), selection: Binding(get: { bean.openedAt ?? Date() }, set: { bean.openedAt = $0 }),
+                               in: ...Date(), displayedComponents: .date)
+                    Button(L("beans.openedToday")) {
+                        bean.openedAt = Date()
+                        if bean.bagGrams == nil { bean.bagGrams = 250 }
+                        Announcer.shared.announce(L("beans.openedToday.done"))
+                    }
+                } header: {
+                    Text(L("beans.bagSection"))
+                } footer: {
+                    Text(L("beans.bag.footer"))
+                }
+                Section(L("beans.notes")) {
+                    TextField(L("beans.notes.placeholder"), text: $bean.notes, axis: .vertical)
+                        .lineLimit(2...6)
                 }
                 Section(L("beans.roast")) {
                     Picker(L("beans.roast"), selection: $bean.roast) {
@@ -298,6 +335,15 @@ struct BeanEditor: View {
                     Text(L("beans.grind.howTo"))
                         .font(.footnote)
                         .foregroundStyle(Theme.textSecondary)
+                }
+            }
+            .sheet(isPresented: $scanning) {
+                BagScannerSheet { reading in
+                    if let name = reading.name, bean.name.isEmpty { bean.name = String(name.prefix(24)) }
+                    if let roast = reading.roast { bean.roast = roast }
+                    if let kind = reading.kind { bean.kind = kind }
+                    if let origin = reading.origin { bean.origin = origin.title }
+                    if let grams = reading.grams, (100...2000).contains(grams) { bean.bagGrams = grams }
                 }
             }
             .navigationTitle(bean.name.isEmpty ? L("beans.add") : bean.name)

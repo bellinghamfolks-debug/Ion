@@ -14,18 +14,20 @@ struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 26) {
                     header
-                    MachineStatusCard()
                     if model.data.guestMode { guestBanner }
-                    if !model.data.guestMode { journeySection }
-                    momentSection
-                    if !model.data.guestMode { favoritesSection }
-                    collectionsSection
-                    if !model.data.guestMode { frequentSection }
+                    ForEach(model.data.life.visibleHomeSections) { section in
+                        sectionView(section)
+                    }
+                    Button { path.append(HomeRoute.layout) } label: {
+                        Label(L("homeLayout.open"), systemImage: "rectangle.3.group")
+                    }
+                    .buttonStyle(TextLinkButtonStyle())
+                    .frame(maxWidth: .infinity)
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 16)
             }
-            .screenBackground()
+            .background(TimeOfDayBackground(enabled: model.settings.timeOfDayTheme))
             .navigationTitle(L("tab.home"))
             .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(for: MaintenanceGuideID.self) { GuideView(guide: $0) }
@@ -33,12 +35,26 @@ struct HomeView: View {
             .navigationDestination(for: HomeRoute.self) { route in
                 switch route {
                 case .journey: CoffeeJourneyView()
+                case .search: DrinkSearchView()
+                case .layout: HomeLayoutView()
+                case .caffeine: CaffeineView()
+                case .signatures: SignatureListView()
+                case .signature(let id): SignatureRecipeView(recipeID: id)
+                case .household: HouseholdView()
+                case .schedules: ScheduleListView()
+                case .queue: FamilyQueueView()
+                case .compare: CompareDrinksView()
+                case .goals: GoalsView()
+                case .weekly: WeeklySummaryView()
+                case .journal: TastingJournalView()
                 }
             }
             .navigationDestination(for: DrinkRoute.self) { route in
                 DrinkDetailView(route: route, initial: model.initialRecipe(for: route))
             }
             .brewConfirmation(recipe: $pendingBrew)
+            .onAppear(perform: takeScheduled)
+            .onChange(of: model.pendingScheduledRecipe) { _, _ in takeScheduled() }
             .sheet(isPresented: $pickingBase) {
                 BasePickerView { beverage in
                     pickingBase = false
@@ -57,9 +73,46 @@ struct HomeView: View {
                 .foregroundStyle(Theme.textPrimary)
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityAddTraits(.isHeader)
-            ProfileMenu()
+            HStack(spacing: 10) {
+                ProfileMenu()
+                Spacer(minLength: 0)
+                Button { path.append(HomeRoute.search) } label: {
+                    Image(systemName: "magnifyingglass")
+                        .font(.headline)
+                        .foregroundStyle(Theme.textPrimary)
+                        .frame(width: 44, height: 44)
+                        .background(Circle().fill(Theme.surface))
+                }
+                .accessibilityLabel(L("search.open"))
+                .accessibilityHint(L("search.open.hint"))
+            }
         }
         .padding(.top, 8)
+    }
+
+    @ViewBuilder
+    private func sectionView(_ section: HomeSection) -> some View {
+        let guest = model.data.guestMode
+        switch section {
+        case .ready: ReadyCard(path: $path, pendingBrew: $pendingBrew)
+        case .caffeine: if !guest { CaffeineChip { path.append(HomeRoute.caffeine) } }
+        case .today: DrinkOfTheDayCard(pendingBrew: $pendingBrew)
+        case .family: if !guest { FamilySection(path: $path, pendingBrew: $pendingBrew) }
+        case .favorites: if !guest { favoritesSection }
+        case .journey: if !guest { journeySection }
+        case .moment: momentSection
+        case .seasonal: SeasonalSection(path: $path)
+        case .recommended: if !guest { RecommendedSection(pendingBrew: $pendingBrew) }
+        case .signature: SignatureSection(path: $path)
+        case .collections: collectionsSection
+        case .frequent: if !guest { frequentSection }
+        }
+    }
+
+    private func takeScheduled() {
+        guard let recipe = model.pendingScheduledRecipe else { return }
+        model.pendingScheduledRecipe = nil
+        pendingBrew = recipe
     }
 
     private var greeting: String {
@@ -224,7 +277,8 @@ struct HomeView: View {
 }
 
 enum HomeRoute: Hashable {
-    case journey
+    case journey, search, layout, caffeine, signatures, household, schedules, queue, compare, goals, weekly, journal
+    case signature(SignatureRecipeID)
 }
 
 /// The time of day, for the chip on the home screen and its drink row.
@@ -421,6 +475,15 @@ private struct BrewConfirmation: ViewModifier {
     @Environment(AppModel.self) var model
     @Binding var recipe: Recipe?
 
+    /// The recipe, then what to do before it starts, then a caffeine note.
+    private func confirmationMessage(_ item: Recipe) -> String {
+        var parts = [item.spokenSummary]
+        let checklist = model.preBrewChecklist(for: item)
+        if !checklist.isEmpty { parts.append(L("prebrew.title") + " " + checklist.joined(separator: L("sentence.separator"))) }
+        if let warning = model.caffeineWarning(for: item) { parts.append(warning) }
+        return parts.joined(separator: "\n\n")
+    }
+
     func body(content: Content) -> some View {
         content
             .confirmationDialog(
@@ -438,7 +501,7 @@ private struct BrewConfirmation: ViewModifier {
                 }
                 Button(L("action.cancel"), role: .cancel) { recipe = nil }
             } message: { item in
-                Text(item.spokenSummary)
+                Text(confirmationMessage(item))
             }
             .onChange(of: recipe) { _, new in
                 guard let new, !model.settings.confirmBeforeBrewing else { return }

@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 @main
 struct CoffeeAccessApp: App {
@@ -7,6 +8,9 @@ struct CoffeeAccessApp: App {
 
     init() {
         Theme.configureBars()
+        UNUserNotificationCenter.current().delegate = NotificationRouter.shared
+        NotificationManager.shared.registerCategories()
+        WatchBridge.shared.activate()
     }
 
     var body: some Scene {
@@ -14,9 +18,13 @@ struct CoffeeAccessApp: App {
             RootView()
                 .environment(model)
                 .tint(Theme.accent)
-                .onAppear { model.start() }
+                .onAppear {
+                    model.start()
+                    model.appBecameActive()
+                }
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .active, model.connection.isConnected { model.link.refresh() }
+                    if phase == .active { model.appBecameActive() }
                 }
         }
     }
@@ -29,12 +37,42 @@ enum AppTab: Hashable {
 struct RootView: View {
     @Environment(AppModel.self) var model
     @State var tab: AppTab = .home
+    @State var importedRecipe: Recipe?
 
     var body: some View {
-        if model.settings.hasCompletedOnboarding {
-            tabs
-        } else {
-            OnboardingView()
+        Group {
+            if !model.settings.hasCompletedOnboarding {
+                OnboardingView()
+            } else if model.settings.simpleMode {
+                SimpleModeView()
+                    .fullScreenCover(isPresented: Binding(
+                        get: { model.session != nil },
+                        set: { if !$0 { model.dismissSession() } }
+                    )) {
+                        BrewingView().environment(model)
+                    }
+            } else {
+                tabs
+            }
+        }
+        .onOpenURL(perform: open)
+        .sheet(item: $importedRecipe) { ImportedRecipeSheet(recipe: $0) }
+    }
+
+    /// coffeeaccess:// links from widgets, controls and shared recipes.
+    private func open(_ url: URL) {
+        if let recipe = RecipeShare.recipe(from: url) {
+            importedRecipe = recipe
+            return
+        }
+        switch url.host {
+        case "usual":
+            tab = .home
+            model.pendingScheduledRecipe = model.usualRecipe
+        case "stop":
+            Task { await model.stopBrewing() }
+        default:
+            tab = .home
         }
     }
 

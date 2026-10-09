@@ -160,12 +160,26 @@ struct BeanProfile: Codable, Hashable, Identifiable {
     var kind: Kind = .blend
     /// −1 milder, 0 as recommended, +1 stronger.
     var strengthBias: Int = 0
+    /// Steps finer (−) or coarser (+) than the starting point, from tasting.
+    var grindOffset: Int = 0
+    /// A temperature chosen while tasting, instead of the roast's default.
+    var temperatureOverride: BrewTemperature?
+    /// Bag weight in grams when it was opened, for the stock estimate.
+    var bagGrams: Int?
+    var openedAt: Date?
+    var origin: String = ""
+    var roaster: String = ""
+    /// Tasting notes kept with the beans.
+    var notes: String = ""
 
     static let maxCount = 6
 
+    /// The grind to set, including what tasting taught.
+    var recommendedGrind: Int { max(1, min(13, baseGrind + grindOffset)) }
+
     /// Grinder setting 1 (finest) … 13 (coarsest). Darker, oilier beans and
     /// robusta grind coarser to avoid over-extraction and grinder clogging.
-    var recommendedGrind: Int {
+    var baseGrind: Int {
         var setting: Int
         switch roast {
         case .light: setting = 4
@@ -178,7 +192,9 @@ struct BeanProfile: Codable, Hashable, Identifiable {
     }
 
     /// Light roasts extract best hotter, dark roasts cooler.
-    var recommendedTemperature: BrewTemperature {
+    var recommendedTemperature: BrewTemperature { temperatureOverride ?? roastTemperature }
+
+    var roastTemperature: BrewTemperature {
         switch roast {
         case .light: return .high
         case .medium: return .medium
@@ -221,5 +237,24 @@ struct BeanProfile: Codable, Hashable, Identifiable {
             copy.aroma = Aroma(rawValue: max(1, min(5, aroma.rawValue + strengthBias))) ?? aroma
         }
         return copy
+    }
+}
+
+extension BeanProfile {
+    /// Bean profiles saved before version 2 have none of the newer fields.
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        name = try c.decodeIfPresent(String.self, forKey: .name) ?? ""
+        roast = (try? c.decodeIfPresent(Roast.self, forKey: .roast)) ?? .medium
+        kind = (try? c.decodeIfPresent(Kind.self, forKey: .kind)) ?? .blend
+        strengthBias = (try? c.decodeIfPresent(Int.self, forKey: .strengthBias)) ?? 0
+        grindOffset = (try? c.decodeIfPresent(Int.self, forKey: .grindOffset)) ?? 0
+        temperatureOverride = try? c.decodeIfPresent(BrewTemperature.self, forKey: .temperatureOverride)
+        bagGrams = try? c.decodeIfPresent(Int.self, forKey: .bagGrams)
+        openedAt = try? c.decodeIfPresent(Date.self, forKey: .openedAt)
+        origin = (try? c.decodeIfPresent(String.self, forKey: .origin)) ?? ""
+        roaster = (try? c.decodeIfPresent(String.self, forKey: .roaster)) ?? ""
+        notes = (try? c.decodeIfPresent(String.self, forKey: .notes)) ?? ""
     }
 }

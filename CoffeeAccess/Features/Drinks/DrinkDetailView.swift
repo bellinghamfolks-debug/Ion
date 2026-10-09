@@ -34,8 +34,11 @@ struct DrinkDetailView: View {
                     SectionTitle(text: L("drink.customize"))
                     controls
                     beanTip
+                    CupFillGauge(recipe: recipe)
                     summary
                     actions
+                    DrinkKnowledgeCard(recipe: recipe)
+                    ShareRecipeButton(recipe: recipe)
                 }
                 .padding(20)
                 .padding(.top, 8)

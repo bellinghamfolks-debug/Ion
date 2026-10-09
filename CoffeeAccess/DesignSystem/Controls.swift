@@ -97,6 +97,9 @@ struct QuantityControl: View {
         guard next != value else { return }
         value = next
         Announcer.shared.tick()
+        if AppModel.shared.settings.quantityTones, range.max > range.min {
+            Tones.shared.level(Double(next - range.min) / Double(range.max - range.min))
+        }
     }
 }
 

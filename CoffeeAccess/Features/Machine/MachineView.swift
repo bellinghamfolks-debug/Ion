@@ -12,6 +12,18 @@ struct MachineView: View {
                     MachineStatusCard()
                     NavigationLink(value: MachineRoute.health) { HealthOverviewCard(health: health) }
                         .buttonStyle(.plain)
+                    if let machine = model.data.life.activeMachine {
+                        NavigationLink(value: MachineRoute.machines) {
+                            NavigationRowCard(title: machine.name, subtitle: L("machines.current", model.data.life.machines.count), symbol: "cup.and.saucer")
+                        }
+                        .buttonStyle(.plain)
+                    } else {
+                        NavigationLink(value: MachineRoute.setup) {
+                            NavigationRowCard(title: L("setup.title"), subtitle: L("setup.subtitle"), symbol: "sparkles")
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    CareForecastCard()
                     closerLook(health)
                     alarmsSection
                     beanCard
@@ -36,6 +48,12 @@ struct MachineView: View {
                 case .troubleshooting: TroubleshootingView()
                 case .health: HealthStatusView()
                 case .help: HelpView()
+                case .setup: MachineSetupView()
+                case .machines: MachinesView()
+                case .hardness: HardnessTestView()
+                case .descale: DescaleRunView()
+                case .signals: SignalLookupView()
+                case .tour: MachineTourView()
                 }
             }
         }
@@ -254,6 +272,12 @@ struct MachineView: View {
         VStack(alignment: .leading, spacing: 12) {
             SectionTitle(text: L("machine.tools"))
             toolLink(.settings, title: L("machineSettings.title"), symbol: "slider.horizontal.3", hint: L("machineSettings.hint"))
+            toolLink(.descale, title: L("descale.run.title"), symbol: "timer", hint: L("descale.run.subtitle"))
+            toolLink(.hardness, title: L("hardness.title"), symbol: "testtube.2", hint: L("hardness.subtitle"))
+            toolLink(.signals, title: L("signal.title"), symbol: "lightbulb.max", hint: L("signal.hint"))
+            toolLink(.tour, title: L("tour.title"), symbol: "figure.walk.motion", hint: L("tour.hint"))
+            toolLink(.machines, title: L("machines.title"), symbol: "square.stack.3d.up", hint: L("machines.hint"))
+            toolLink(.setup, title: L("setup.title"), symbol: "sparkles", hint: L("setup.subtitle"))
             toolLink(.statistics, title: L("machine.statistics"), symbol: "chart.bar", hint: L("stats.hint"))
             toolLink(.beans, title: L("beans.title"), symbol: "leaf.circle.fill", hint: L("beans.hint"))
             toolLink(.screenReader, title: L("reader.title"), symbol: "text.viewfinder", hint: L("reader.hint"))
@@ -267,6 +291,7 @@ struct MachineView: View {
 
 enum MachineRoute: Hashable {
     case diagnostics, statistics, settings, beans, screenReader, troubleshooting, health, help
+    case setup, machines, hardness, descale, signals, tour
 }
 
 struct AlarmRow: View {

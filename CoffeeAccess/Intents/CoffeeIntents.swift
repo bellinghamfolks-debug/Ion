@@ -179,6 +179,24 @@ enum IntentSupport {
 struct CoffeeShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
+            intent: BrewUsualIntent(),
+            phrases: [
+                "حضّر قهوتي المعتادة في \(.applicationName)",
+                "Make my usual coffee with \(.applicationName)",
+            ],
+            shortTitle: "My usual",
+            systemImageName: "cup.and.saucer"
+        )
+        AppShortcut(
+            intent: MorningRoutineIntent(),
+            phrases: [
+                "روتين القهوة الصباحي في \(.applicationName)",
+                "Start my morning coffee in \(.applicationName)",
+            ],
+            shortTitle: "Morning routine",
+            systemImageName: "sunrise"
+        )
+        AppShortcut(
             intent: BrewDrinkIntent(),
             phrases: [
                 "حضّر \(\.$drink) في \(.applicationName)",

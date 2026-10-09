@@ -20,6 +20,8 @@ struct BrewRecord: Codable, Hashable, Identifiable {
     var recipe: Recipe
     var date: Date
     var completed: Bool
+    /// The beans in the hopper when this cup was made (for bean stock).
+    var beanID: UUID?
 }
 
 struct AppData: Codable, Equatable {
@@ -33,6 +35,9 @@ struct AppData: Codable, Equatable {
     var activeBeanID: UUID?
     /// Guest mode: standard drinks, nothing saved to anyone's history.
     var guestMode = false
+    /// Everything added in version 2: ratings, schedules, household,
+    /// machines, maintenance log, home layout and more.
+    var life = CoffeeLife()
 
     var activeBean: BeanProfile? { beanProfiles.first { $0.id == activeBeanID } }
 
@@ -85,7 +90,7 @@ struct AppData: Codable, Equatable {
     mutating func record(_ recipe: Recipe, completed: Bool, at date: Date = Date()) {
         guard !guestMode else { return }
         var profile = activeProfile
-        profile.history.insert(BrewRecord(recipe: recipe, date: date, completed: completed), at: 0)
+        profile.history.insert(BrewRecord(recipe: recipe, date: date, completed: completed, beanID: activeBeanID), at: 0)
         if profile.history.count > Self.historyLimit { profile.history.removeLast(profile.history.count - Self.historyLimit) }
         activeProfile = profile
     }
@@ -154,6 +159,32 @@ struct AppData: Codable, Equatable {
             }
         }
         return counts.values.sorted { $0.count > $1.count }.prefix(limit).map { $0.latest }
+    }
+}
+
+// Data saved by an earlier version lacks the newer fields; every field is
+// read if present so an update never loses (or resets) what was saved.
+extension AppData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        profiles = try container.decode([UserProfile].self, forKey: .profiles)
+        activeProfileID = try container.decodeIfPresent(Int.self, forKey: .activeProfileID) ?? 1
+        beanProfiles = try container.decodeIfPresent([BeanProfile].self, forKey: .beanProfiles) ?? []
+        activeBeanID = try container.decodeIfPresent(UUID.self, forKey: .activeBeanID)
+        guestMode = try container.decodeIfPresent(Bool.self, forKey: .guestMode) ?? false
+        life = (try? container.decodeIfPresent(CoffeeLife.self, forKey: .life)) ?? CoffeeLife()
+    }
+}
+
+extension UserProfile {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        name = try container.decodeIfPresent(String.self, forKey: .name) ?? "\(id)"
+        colorIndex = try container.decodeIfPresent(Int.self, forKey: .colorIndex) ?? 0
+        personalDefaults = try container.decodeIfPresent([BeverageID: Recipe].self, forKey: .personalDefaults) ?? [:]
+        favorites = try container.decodeIfPresent([Recipe].self, forKey: .favorites) ?? []
+        history = try container.decodeIfPresent([BrewRecord].self, forKey: .history) ?? []
     }
 }
 

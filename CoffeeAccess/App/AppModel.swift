@@ -20,6 +20,10 @@ final class AppModel {
     private(set) var counters = MachineCounters()
     private(set) var countersUpdatedAt: Date?
     var lastMessage: String?
+    /// Spoken step of the morning routine while it runs.
+    var routineStatus: String?
+    /// A drink opened from a scheduled reminder, waiting to be confirmed.
+    var pendingScheduledRecipe: Recipe?
 
     private(set) var link: MachineLink
     private let store: AppDataStore
@@ -47,6 +51,7 @@ final class AppModel {
         guard copy != data else { return }
         data = copy
         persist()
+        if settings.iCloudSync, !CloudSync.shared.applying { CloudSync.shared.schedulePush(from: self) }
     }
 
     func updateSettings(_ change: (inout AppSettings) -> Void) {
@@ -57,6 +62,7 @@ final class AppModel {
         settings = copy
         settings.save()
         applyFeedbackSettings()
+        didChangeSettings(from: old)
         let notifications = NotificationManager.shared
         let reminders: [(NotificationManager.Reminder, Bool, Bool)] = [
             (.brewingUnitWeekly, old.remindBrewingUnitWeekly, copy.remindBrewingUnitWeekly),
@@ -152,6 +158,9 @@ final class AppModel {
             session = BrewSession(recipe: recipe, startedAt: Date())
             announcer.tick()
             announcer.announce(L("announce.brewStarted", recipe.displayName), priority: .high)
+            let checklist = preBrewChecklist(for: recipe)
+            if !checklist.isEmpty { announcer.announce(checklist.joined(separator: L("sentence.separator"))) }
+            BrewActivityController.shared.start(recipe: recipe, enabled: settings.liveActivities)
             return true
         } catch {
             report(error)
@@ -216,7 +225,9 @@ final class AppModel {
     }
 
     func selectBean(_ id: UUID?) {
+        let previous = data.activeBeanID
         updateData { $0.activeBeanID = id }
+        didSelectBean(previous: previous)
         if let bean = data.activeBean {
             announcer.announce(L("announce.beanSelected", bean.name, bean.recommendedGrind))
         }
@@ -278,6 +289,7 @@ final class AppModel {
         switch state {
         case .connected(let name):
             announcer.announce(L("announce.connected", name))
+            rememberConnectedMachine()
             Task {
                 await syncMachineSettings()
                 await refreshCounters()
@@ -347,11 +359,14 @@ final class AppModel {
     }
 
     private func announcePhase(_ activity: MachineActivity) {
+        didChangePhase(activity)
+        if let session { BrewActivityController.shared.update(session) }
         guard settings.announcePhases, let text = activity.phaseAnnouncement else { return }
         announcer.announce(text)
     }
 
     private func announceMilestones() {
+        if let session { BrewActivityController.shared.update(session) }
         guard settings.announceProgress, var current = session else { return }
         let due = current.milestonesToAnnounce()
         session = current
@@ -364,6 +379,8 @@ final class AppModel {
         if outcome == .finished { current.progress = 1 }
         session = current
         updateData { $0.record(current.recipe, completed: outcome == .finished) }
+        BrewActivityController.shared.end(current)
+        didFinishSession(current)
         switch outcome {
         case .finished:
             announcer.success()

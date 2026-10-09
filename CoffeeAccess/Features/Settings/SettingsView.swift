@@ -35,6 +35,13 @@ struct SettingsView: View {
                     NavigationLink { BeansView() } label: {
                         Label(L("beans.title"), systemImage: "leaf")
                     }
+                    NavigationLink { GoalsView() } label: { Label(L("goals.title"), systemImage: "flag.checkered") }
+                    NavigationLink { WeeklySummaryView() } label: { Label(L("weekly.title"), systemImage: "calendar") }
+                    NavigationLink { TastingJournalView() } label: { Label(L("journal.title"), systemImage: "book") }
+                    NavigationLink { CaffeineView() } label: { Label(L("caffeine.title"), systemImage: "bolt.heart") }
+                    NavigationLink { HouseholdView() } label: { Label(L("family.title"), systemImage: "person.2") }
+                    NavigationLink { ScheduleListView() } label: { Label(L("schedule.title"), systemImage: "alarm") }
+                    NavigationLink { CompareDrinksView() } label: { Label(L("compare.title"), systemImage: "arrow.left.arrow.right") }
                 }
 
                 Section {
@@ -77,6 +84,31 @@ struct SettingsView: View {
                 Section(L("settings.brewing")) {
                     Toggle(L("settings.confirm"), isOn: settingBinding(\.confirmBeforeBrewing))
                     Toggle(L("settings.guest"), isOn: Binding(get: { model.data.guestMode }, set: { model.setGuestMode($0) }))
+                    Toggle(L("settings.prebrew"), isOn: settingBinding(\.preBrewReminders))
+                    Toggle(L("settings.carafe"), isOn: settingBinding(\.carafeCleanPrompt))
+                    Toggle(L("settings.liveActivities"), isOn: settingBinding(\.liveActivities))
+                }
+
+                Section {
+                    Toggle(L("settings.simpleMode"), isOn: settingBinding(\.simpleMode))
+                    Toggle(L("settings.soundCues"), isOn: settingBinding(\.soundCues))
+                    Toggle(L("settings.quantityTones"), isOn: settingBinding(\.quantityTones))
+                    Toggle(L("settings.timeTheme"), isOn: settingBinding(\.timeOfDayTheme))
+                } header: {
+                    Text(L("settings.experience"))
+                } footer: {
+                    Text(L("settings.experience.footer"))
+                }
+
+                Section {
+                    Toggle(L("settings.icloud"), isOn: settingBinding(\.iCloudSync))
+                    if model.settings.iCloudSync, let last = CloudSync.shared.lastSyncText {
+                        LabeledContent(L("settings.icloud.last"), value: last)
+                    }
+                } header: {
+                    Text(L("settings.icloud.header"))
+                } footer: {
+                    Text(L("settings.icloud.footer"))
                 }
 
                 Section {

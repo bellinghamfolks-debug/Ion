@@ -4,6 +4,7 @@ import SwiftUI
 /// focus moves to the new step so it is read straight away. "All steps"
 /// shows the whole guide as a list for reading ahead.
 struct GuideView: View {
+    @Environment(AppModel.self) var model
     let guide: MaintenanceGuideID
     @State var step = 0
     @State var showAll = false
@@ -16,6 +17,18 @@ struct GuideView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
+                if guide == .descaling {
+                    NavigationLink { DescaleRunView() } label: {
+                        NavigationRowCard(title: L("descale.run.title"), subtitle: L("descale.run.subtitle"), symbol: "timer")
+                    }
+                    .buttonStyle(.plain)
+                }
+                if guide == .waterHardness {
+                    NavigationLink { HardnessTestView() } label: {
+                        NavigationRowCard(title: L("hardness.title"), subtitle: L("hardness.subtitle"), symbol: "testtube.2")
+                    }
+                    .buttonStyle(.plain)
+                }
                 Text(guide.intro)
                     .font(.body)
                     .foregroundStyle(Theme.textSecondary)
@@ -65,6 +78,7 @@ struct GuideView: View {
                     Button(L("guide.finish")) {
                         Announcer.shared.success()
                         Announcer.shared.announce(L("guide.finished", guide.title))
+                        if let task = CareTask(guide: guide) { model.logCare(task) }
                     }
                     .buttonStyle(PrimaryButtonStyle())
                 }

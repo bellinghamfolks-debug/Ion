@@ -17,6 +17,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 APP = ROOT / "CoffeeAccess"
 STRINGS = APP / "Core/Localization/Strings.swift"
+STRINGS_LIFE = APP / "Core/Localization/StringsLife.swift"
+STRING_FILES = (STRINGS, STRINGS_LIFE)
 
 ENTRY = re.compile(r'^\s*"([^"]+)":\s*\("((?:[^"\\]|\\.)*)",\s*"((?:[^"\\]|\\.)*)"\),\s*$')
 SPEC = re.compile(r"%(?:\d+\$)?(?:\.\d+)?[@dfs]|%%")
@@ -42,16 +44,17 @@ def swift_cases(path: Path, enum: str) -> list[str]:
 def main() -> int:
     errors: list[str] = []
     defined: dict[str, tuple[str, str]] = {}
-    for number, line in enumerate(STRINGS.read_text(encoding="utf-8").splitlines(), 1):
+    for strings_file in STRING_FILES:
+      for number, line in enumerate(strings_file.read_text(encoding="utf-8").splitlines(), 1):
         if not line.strip().startswith('"'):
             continue
         match = ENTRY.match(line)
         if not match:
-            errors.append(f"Strings.swift:{number}: unparseable entry")
+            errors.append(f"{strings_file.name}:{number}: unparseable entry")
             continue
         key, ar, en = match.groups()
         if key in defined:
-            errors.append(f"duplicate key {key!r} (line {number})")
+            errors.append(f"duplicate key {key!r} ({strings_file.name} line {number})")
         defined[key] = (ar, en)
         if not ar.strip() or not en.strip():
             errors.append(f"{key}: empty translation")
@@ -62,7 +65,7 @@ def main() -> int:
 
     used: set[str] = set()
     for swift in APP.rglob("*.swift"):
-        if swift == STRINGS:
+        if swift in STRING_FILES:
             continue
         text = swift.read_text(encoding="utf-8")
         used.update(re.findall(r'\bL\("([^"\\]+)"', text))
@@ -128,6 +131,55 @@ def main() -> int:
     for case in re.search(r"case (brewingUnitWeekly[^\n]+)", notifications).group(1).split(","):
         used.update({f"reminder.{case.strip()}.title", f"reminder.{case.strip()}.body"})
     used.update(f"profile.color.{n}" for n in range(4))
+
+    # Version 2 keys built at run time.
+    life = model / "Life"
+    lifeviews = APP / "Features/Life"
+    for case in swift_cases(life / "CoffeeLife.swift", "HomeSection"):
+        used.add(f"homeSection.{case}")
+    for case in swift_cases(life / "CoffeeLife.swift", "CareTask"):
+        used.add(f"care.{case}")
+    for case in swift_cases(life / "CoffeeLife.swift", "StrengthFeedback"):
+        used.add(f"rating.strength.{case}")
+    bean_stock = (life / "BeanStock.swift").read_text(encoding="utf-8")
+    for enum, prefix in (("Taste", "calibration.taste"), ("Body", "calibration.body")):
+        # Nested enums: read their single "case a, b, c" line.
+        cases = re.search(rf"enum {enum}\b[^{{]*\{{\s*case ([^\n]+)", bean_stock).group(1)
+        used.update(f"{prefix}.{case.strip()}" for case in cases.split(","))
+    for case in swift_cases(life / "SignatureRecipes.swift", "Season"):
+        used.add(f"season.{case}")
+    for case in swift_cases(life / "Goals.swift", "Goal"):
+        used.update({f"goal.{case}.title", f"goal.{case}.detail"})
+    for case in swift_cases(life / "BeanLibrary.swift", "BeanOrigin"):
+        used.update({f"library.origin.{case}.title", f"library.origin.{case}.notes"})
+    for roast in re.search(r"enum Roast[^{]*\{ case ([^}]+) \}", recipe).group(1).split(","):
+        used.add(f"library.roast.{roast.strip()}")
+    for case in swift_cases(model / "Model/Beverage.swift", "Vessel"):
+        used.add(f"vessel.{case}")
+    for case in beverages:
+        used.add(f"drink.{case}.origin")
+    signatures = (life / "SignatureRecipes.swift").read_text(encoding="utf-8")
+    spec_rows = re.findall(r"case \.(\w+): return SignatureSpec\(base: \.\w+, aroma: [.\w]+, ingredients: (\d+), before: (\d+), after: (\d+)", signatures)
+    if len(spec_rows) != len(swift_cases(life / "SignatureRecipes.swift", "SignatureRecipeID")):
+        errors.append("every signature recipe needs a SignatureSpec row")
+    for case, ingredients, before, after in spec_rows:
+        used.update({f"signature.{case}.title", f"signature.{case}.summary"})
+        used.update(f"signature.{case}.ingredient.{n}" for n in range(1, int(ingredients) + 1))
+        used.update(f"signature.{case}.before.{n}" for n in range(1, int(before) + 1))
+        used.update(f"signature.{case}.after.{n}" for n in range(1, int(after) + 1))
+    machine_extras = (lifeviews / "MachineExtras.swift").read_text(encoding="utf-8")
+    setup_steps = int(re.search(r"private let stepCount = (\d+)", machine_extras).group(1))
+    used.update(f"setup.step{n}.{part}" for n in range(1, setup_steps + 1) for part in ("title", "body"))
+    for part in re.search(r"static let parts = \[([^\]]+)\]", machine_extras).group(1).split(","):
+        name = part.strip().strip('"')
+        used.update({f"tour.{name}.title", f"tour.{name}.body"})
+    extra_count = int(re.search(r"static let extraCount = (\d+)", machine_extras).group(1))
+    used.update(f"signal.extra.{n}.{part}" for n in range(1, extra_count + 1) for part in ("title", "advice", "words"))
+    for case in swift_cases(machine, "MachineAlarm"):
+        used.add(f"signal.alarm.{case}.words")
+    descale = (APP / "App/AppModel+Life.swift").read_text(encoding="utf-8")
+    for key in re.findall(r'\("(descale\.stage\.\w+)", \d+\)', descale):
+        used.update({key, f"{key}.title"})
 
     missing = sorted(used - defined.keys())
     errors += [f"missing key: {key}" for key in missing]

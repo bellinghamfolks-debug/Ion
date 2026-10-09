@@ -18,7 +18,7 @@ enum AppLanguage: String {
 /// Looks up interface text. Missing keys show the key itself so they are
 /// caught in testing (Scripts/validate_strings.py fails the build on them).
 func L(_ key: String) -> String {
-    guard let entry = Strings.table[key] else { return key }
+    guard let entry = Strings.table[key] ?? StringsLife.table[key] else { return key }
     return AppLanguage.current == .english ? entry.en : entry.ar
 }
 

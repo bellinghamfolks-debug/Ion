@@ -98,12 +98,10 @@ struct UsualDrinkView: View {
                     Text(texts.t("مشروبك المعتاد", "Your usual")).font(.caption).foregroundStyle(.white.opacity(0.75))
                     Text(name).font(.headline).foregroundStyle(.white).lineLimit(3)
                     Spacer(minLength: 0)
-                    if #available(iOS 17.0, *) {
-                        Button(intent: BrewUsualIntent()) {
-                            Text(texts.t("حضّر", "Make it")).font(.subheadline.weight(.semibold)).frame(maxWidth: .infinity)
-                        }
-                        .tint(accent)
+                    Button(intent: BrewUsualIntent()) {
+                        Text(texts.t("حضّر", "Make it")).font(.subheadline.weight(.semibold)).frame(maxWidth: .infinity)
                     }
+                    .tint(accent)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
@@ -199,7 +197,7 @@ struct BrewLiveActivity: Widget {
                     VStack(alignment: .leading) {
                         Text(context.attributes.drinkName).font(.headline)
                         Text(context.state.phase).font(.subheadline)
-                        if !context.state.finished, #available(iOS 17.0, *) {
+                        if !context.state.finished {
                             Button(intent: StopBrewingIntent()) {
                                 Label(context.attributes.isArabic ? "إيقاف" : "Stop", systemImage: "stop.fill")
                             }

@@ -133,7 +133,7 @@ struct CompareDrinksView: View {
             }
             Section(L("compare.result")) {
                 row(L("param.coffee"), a.coffeeML.map { L("unit.ml", $0) }, b.coffeeML.map { L("unit.ml", $0) })
-                row(L("param.milk"), a.milkSeconds.map { L("unit.ml", a.approximateMilkML) }, b.milkSeconds.map { L("unit.ml", b.approximateMilkML) })
+                row(L("param.milk"), a.milkSeconds.map { _ in L("unit.ml", a.approximateMilkML) }, b.milkSeconds.map { _ in L("unit.ml", b.approximateMilkML) })
                 row(L("param.water"), a.waterML.map { L("unit.ml", $0) }, b.waterML.map { L("unit.ml", $0) })
                 row(L("param.aroma"), a.aroma?.title, b.aroma?.title)
                 row(L("compare.volume"), L("unit.ml", a.approximateVolumeML), L("unit.ml", b.approximateVolumeML))

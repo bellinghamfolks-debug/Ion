@@ -983,6 +983,12 @@ final class AppViewModel: ObservableObject {
             || jobs.contains(where: { $0.status == .running })
     }
 
+    /// A file Basir made itself (for example a PDF from images), already in
+    /// the app's import area, handed to the composer for this operation.
+    func routeCreatedFile(_ url: URL, to operation: OperationKind, l10n: L10n) {
+        route(stagedURLs: [url], to: operation, l10n: l10n)
+    }
+
     private func route(stagedURLs: [URL], to operation: OperationKind, l10n: L10n) {
         if let first = stagedURLs.first, stagedURLs.count == 1 {
             routedExternalDocument = RoutedExternalDocument(id: UUID(), url: first, operation: operation)
@@ -1038,7 +1044,7 @@ final class AppViewModel: ObservableObject {
         }
     }
 
-    private static func localized(_ error: Error, l10n: L10n) -> String {
+    static func localized(_ error: Error, l10n: L10n) -> String {
         if let urlError = error as? URLError {
             switch urlError.code {
             case .notConnectedToInternet, .networkConnectionLost:
@@ -1077,8 +1083,12 @@ final class AppViewModel: ObservableObject {
             return l10n.t("تعذر إنشاء اتصال آمن بالخدمة.",
                           "A secure service connection could not be created.")
         case .fileTooLarge:
-            return l10n.t("حجم الملف أكبر من الحد المسموح وهو 200 ميجابايت.",
-                          "The file is larger than the 200 MB limit.")
+            let limit = FileAccess.maximumSourceBytes / (1024 * 1024)
+            return l10n.t("حجم الملف أكبر من الحد المسموح وهو \(limit) ميجابايت.",
+                          "The file is larger than the \(limit) MB limit.")
+        case .tooManyImages(let count, let limit):
+            return l10n.t("عدد الصور \(count)، والحد الأقصى في ملف واحد \(limit) صورة. قسّمها على أكثر من ملف.",
+                          "That is \(count) images; one file can hold up to \(limit). Split them across more than one file.")
         case .networkUnavailable:
             return l10n.t("لا يوجد اتصال بالإنترنت. المهمة محفوظة في قائمة الانتظار.",
                           "No internet connection. Your task is saved in the queue.")

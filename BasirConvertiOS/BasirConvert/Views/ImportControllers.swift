@@ -27,6 +27,14 @@ struct PhotoLibraryPicker: UIViewControllerRepresentable {
     let onPick: ([URL]) -> Void
     let onError: (Error) -> Void
     let onCancel: () -> Void
+    /// Images saved so far, out of the number chosen.
+    var onProgress: ((Int, Int) -> Void)? = nil
+
+    /// Long edge kept from each photo: sharper than any page needs, while a
+    /// 48-megapixel photo is never decoded at full size.
+    static let maximumPixel: CGFloat = 5_000
+    /// Photos read at the same time.
+    static let parallelImports = 3
 
     func makeCoordinator() -> Coordinator { Coordinator(parent: self) }
 
@@ -49,33 +57,62 @@ struct PhotoLibraryPicker: UIViewControllerRepresentable {
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             picker.dismiss(animated: true)
             guard !results.isEmpty else { parent.onCancel(); return }
-            let group = DispatchGroup()
-            let lock = NSLock()
-            var ordered = [Int: URL]()
-            var firstError: Error?
-            for (index, result) in results.enumerated() {
-                group.enter()
-                result.itemProvider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier) { data, error in
-                    defer { group.leave() }
-                    do {
-                        if let error { throw error }
-                        guard let data, let image = UIImage(data: data),
-                              let jpeg = image.jpegData(compressionQuality: 0.94) else {
-                            throw BasirError.invalidFileContent
-                        }
-                        let url = try FileAccess.persistImportedData(
-                            jpeg,
-                            preferredName: "صورة \(index + 1).jpg"
-                        )
-                        lock.lock(); ordered[index] = url; lock.unlock()
-                    } catch {
-                        lock.lock(); if firstError == nil { firstError = error }; lock.unlock()
+            let parent = self.parent
+            let providers = results.map(\.itemProvider)
+            parent.onProgress?(0, providers.count)
+            Task { @MainActor in
+                do {
+                    let urls = try await PhotoLibraryPicker.importAll(providers) { done in
+                        parent.onProgress?(done, providers.count)
                     }
+                    parent.onPick(urls)
+                } catch {
+                    parent.onError(error)
                 }
             }
-            group.notify(queue: .main) {
-                if let firstError { self.parent.onError(firstError) }
-                else { self.parent.onPick(ordered.keys.sorted().compactMap { ordered[$0] }) }
+        }
+    }
+
+    /// Saves the chosen photos in their chosen order, a few at a time.
+    @MainActor
+    static func importAll(_ providers: [NSItemProvider], progress: @escaping (Int) -> Void) async throws -> [URL] {
+        var ordered = [URL?](repeating: nil, count: providers.count)
+        var done = 0
+        try await withThrowingTaskGroup(of: (Int, URL).self) { group in
+            var next = 0
+            func addNext() {
+                guard next < providers.count else { return }
+                let index = next
+                let provider = providers[index]
+                next += 1
+                group.addTask { (index, try await importImage(provider, index: index)) }
+            }
+            for _ in 0..<min(parallelImports, providers.count) { addNext() }
+            while let (index, url) = try await group.next() {
+                ordered[index] = url
+                done += 1
+                progress(done)
+                addNext()
+            }
+        }
+        return ordered.compactMap { $0 }
+    }
+
+    private static func importImage(_ provider: NSItemProvider, index: Int) async throws -> URL {
+        try await withCheckedThrowingContinuation { continuation in
+            provider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { file, error in
+                // The file is deleted when this returns, so it is read here.
+                do {
+                    if let error { throw error }
+                    guard let file,
+                          let image = ImagePDFBuilder.downsample(file, maxPixel: maximumPixel),
+                          let jpeg = UIImage(cgImage: image).jpegData(compressionQuality: 0.94) else {
+                        throw BasirError.invalidFileContent
+                    }
+                    continuation.resume(returning: try FileAccess.persistImportedData(jpeg, preferredName: "صورة \(index + 1).jpg"))
+                } catch {
+                    continuation.resume(throwing: error)
+                }
             }
         }
     }

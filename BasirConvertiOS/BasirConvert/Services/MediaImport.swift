@@ -15,17 +15,10 @@ enum MediaImport {
         }
     }
 
+    /// One PDF page per image, built a page at a time so long scans and
+    /// large photo selections do not run out of memory.
     static func combineImagesAsPDF(_ imageURLs: [URL], name: String = "صور مجمعة.pdf") throws -> URL {
-        guard !imageURLs.isEmpty else { throw BasirError.emptyDocument }
-        let document = PDFDocument()
-        for (index, url) in imageURLs.enumerated() {
-            guard let image = UIImage(contentsOfFile: url.path), let page = PDFPage(image: image) else {
-                throw BasirError.invalidFileContent
-            }
-            document.insert(page, at: index)
-        }
-        guard let data = document.dataRepresentation() else { throw BasirError.invalidFileContent }
-        return try FileAccess.persistImportedData(data, preferredName: name)
+        try ImagePDFBuilder.build(imageURLs, name: name).url
     }
 
     @MainActor

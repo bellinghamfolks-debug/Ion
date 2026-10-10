@@ -1,4 +1,4 @@
-# Basir Convert iOS 3.3.0 (15)
+# Basir Convert iOS 3.4.0 (16)
 
 تطبيق iPhone أصلي للتحويل والترجمة عبر خادم Basir الخاص، مع VoiceOver، نقل خلفي
 قابل للاستئناف، حفظ المهام، والتحقق من ملف Word قبل اعتماده.
@@ -77,7 +77,7 @@ xcodebuild test -project BasirConvert.xcodeproj -scheme BasirConvert \
 scripts/build_unsigned_ipa.sh
 ```
 
-الناتج هو `dist/Basir_v3.3.0_unsigned.ipa` مع ملف SHA-256 مرافق.
+الناتج هو `dist/Basir_v3.4.0_unsigned.ipa` مع ملف SHA-256 مرافق.
 
 ## الأمان
 

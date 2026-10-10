@@ -66,7 +66,7 @@ workflows:
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/BasirConvertiOS"
-          IPA="dist/Basir_v3.3.0_unsigned.ipa"
+          IPA="dist/Basir_v3.4.0_unsigned.ipa"
           test -s "$IPA"
           shasum -a 256 -c "$IPA.sha256"
           unzip -t "$IPA"
@@ -88,7 +88,7 @@ workflows:
           fi
 
     artifacts:
-      - BasirConvertiOS/dist/Basir_v3.3.0_unsigned.ipa
-      - BasirConvertiOS/dist/Basir_v3.3.0_unsigned.ipa.sha256
+      - BasirConvertiOS/dist/Basir_v3.4.0_unsigned.ipa
+      - BasirConvertiOS/dist/Basir_v3.4.0_unsigned.ipa.sha256
       - BasirConvertiOS/build/DerivedData/Build/Products/Release-iphoneos/BasirConvert.app.dSYM
 

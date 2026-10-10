@@ -59,41 +59,46 @@ enum ScanQualityChecker {
     static let analysisEdge: CGFloat = 900
 
     static func check(url: URL, maximumPages: Int = 120) -> ScanQualityReport {
-        let images = pageImages(url: url, maximumPages: maximumPages)
+        // One page image at a time, released before the next, so a PDF of
+        // hundreds of pages does not hold hundreds of images in memory.
+        let source = PageImageSource(url: url, maximumPages: maximumPages)
         var issues: [ScanIssue] = []
         var hashes: [(page: Int, hash: UInt64)] = []
         var printedNumbers: [(page: Int, number: Int)] = []
-        for (index, image) in images.enumerated() {
+        for index in 0..<source.count {
             let page = index + 1
-            guard let gray = GrayImage(image: image, maximumEdge: 400) else { continue }
-            let stats = gray.statistics()
-            if stats.inkRatio < 0.003 {
-                issues.append(ScanIssue(kind: .blank, pages: [page]))
-                continue
+            autoreleasepool {
+                guard let image = source.image(at: index) else { return }
+                guard let gray = GrayImage(image: image, maximumEdge: 400) else { return }
+                let stats = gray.statistics()
+                if stats.inkRatio < 0.003 {
+                    issues.append(ScanIssue(kind: .blank, pages: [page]))
+                    return
+                }
+                if stats.mean < 60 { issues.append(ScanIssue(kind: .dark, pages: [page])) }
+                if gray.laplacianVariance() < blurThreshold(for: stats) {
+                    issues.append(ScanIssue(kind: .blurry, pages: [page]))
+                }
+                let hash = gray.differenceHash()
+                if let earlier = hashes.first(where: { ($0.hash ^ hash).nonzeroBitCount <= 4 }) {
+                    var issue = ScanIssue(kind: .duplicate, pages: [page])
+                    issue.duplicateOf = earlier.page
+                    issues.append(issue)
+                }
+                hashes.append((page, hash))
+                let reading = TextProbe.read(image)
+                if reading.upsideDownScore > reading.uprightScore * 2, reading.upsideDownScore >= 20 {
+                    issues.append(ScanIssue(kind: .upsideDown, pages: [page]))
+                }
+                if let number = reading.pageNumber { printedNumbers.append((page, number)) }
             }
-            if stats.mean < 60 { issues.append(ScanIssue(kind: .dark, pages: [page])) }
-            if gray.laplacianVariance() < blurThreshold(for: stats) {
-                issues.append(ScanIssue(kind: .blurry, pages: [page]))
-            }
-            let hash = gray.differenceHash()
-            if let earlier = hashes.first(where: { ($0.hash ^ hash).nonzeroBitCount <= 4 }) {
-                var issue = ScanIssue(kind: .duplicate, pages: [page])
-                issue.duplicateOf = earlier.page
-                issues.append(issue)
-            }
-            hashes.append((page, hash))
-            let reading = TextProbe.read(image)
-            if reading.upsideDownScore > reading.uprightScore * 2, reading.upsideDownScore >= 20 {
-                issues.append(ScanIssue(kind: .upsideDown, pages: [page]))
-            }
-            if let number = reading.pageNumber { printedNumbers.append((page, number)) }
         }
         if let gap = missingNumbers(printedNumbers), !gap.isEmpty {
             var issue = ScanIssue(kind: .missingPages, pages: [])
             issue.missingNumbers = gap
             issues.append(issue)
         }
-        return ScanQualityReport(pageCount: images.count, issues: merge(issues))
+        return ScanQualityReport(pageCount: source.count, issues: merge(issues))
     }
 
     /// Sharp text pages have strong edges; a page with little ink needs a
@@ -130,20 +135,36 @@ enum ScanQualityChecker {
         return merged
     }
 
-    static func pageImages(url: URL, maximumPages: Int) -> [UIImage] {
-        let didAccess = url.startAccessingSecurityScopedResource()
-        defer { if didAccess { url.stopAccessingSecurityScopedResource() } }
-        if url.pathExtension.lowercased() == "pdf" {
-            guard let pdf = PDFDocument(url: url) else { return [] }
-            return (0..<min(pdf.pageCount, maximumPages)).compactMap { index in
+    /// The pages to analyse, rendered small and one at a time.
+    final class PageImageSource {
+        private let url: URL
+        private let pdf: PDFDocument?
+        let count: Int
+
+        init(url: URL, maximumPages: Int) {
+            self.url = url
+            let didAccess = url.startAccessingSecurityScopedResource()
+            defer { if didAccess { url.stopAccessingSecurityScopedResource() } }
+            if url.pathExtension.lowercased() == "pdf" {
+                pdf = PDFDocument(url: url)
+                count = min(pdf?.pageCount ?? 0, maximumPages)
+            } else {
+                pdf = nil
+                count = 1
+            }
+        }
+
+        func image(at index: Int) -> UIImage? {
+            if let pdf {
                 guard let page = pdf.page(at: index) else { return nil }
                 let bounds = page.bounds(for: .mediaBox)
                 let scale = analysisEdge / max(bounds.width, bounds.height, 1)
                 return page.thumbnail(of: CGSize(width: bounds.width * scale, height: bounds.height * scale), for: .mediaBox)
             }
+            let didAccess = url.startAccessingSecurityScopedResource()
+            defer { if didAccess { url.stopAccessingSecurityScopedResource() } }
+            return ImagePDFBuilder.downsample(url, maxPixel: analysisEdge).map { UIImage(cgImage: $0) }
         }
-        guard let image = UIImage(contentsOfFile: url.path) else { return [] }
-        return [image]
     }
 
     /// A copy with the given pages turned the right way up. PDFs keep their

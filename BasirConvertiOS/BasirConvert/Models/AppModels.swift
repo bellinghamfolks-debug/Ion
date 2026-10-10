@@ -652,6 +652,7 @@ enum BasirError: LocalizedError {
     case passwordProtectedPDF
     case invalidPageSelection
     case conversionFailed(String)
+    case tooManyImages(Int, Int)
 
     var errorDescription: String? {
         switch self {
@@ -692,6 +693,8 @@ enum BasirError: LocalizedError {
             return "The selected PDF page range is invalid."
         case .conversionFailed(let message):
             return message
+        case .tooManyImages(let count, let limit):
+            return "Too many images: \(count). One PDF can hold up to \(limit) images."
         }
     }
 }

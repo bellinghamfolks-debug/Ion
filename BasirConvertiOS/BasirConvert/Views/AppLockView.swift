@@ -12,14 +12,40 @@ enum AppLock {
         return (try? await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason)) ?? false
     }
 
-    /// Turning the lock on needs a passcode on the device; otherwise it is undone.
+    /// Turning the lock on or off always asks for Face ID or the passcode
+    /// first, and the setting changes only when that succeeds. Turning it on
+    /// takes effect at once: the next return to Basir asks again.
     @MainActor
-    static func confirmCanLock(settings: SettingsStore, l10n: L10n) {
+    static func change(to enabled: Bool, settings: SettingsStore, l10n: L10n) async {
+        guard enabled != settings.appLock else { return }
         var error: NSError?
-        if !LAContext().canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-            settings.appLock = false
-            UIAccessibility.post(notification: .announcement, argument: l10n.t(
-                "لتفعيل قفل بصير، عيّن رمز دخول لجهازك أولًا.", "Set a device passcode before enabling Basir’s app lock."))
+        guard LAContext().canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
+            announce(l10n.t("لتفعيل قفل بصير، عيّن رمز دخول لجهازك أولًا من إعدادات iPhone.",
+                            "To use Basir’s app lock, set a device passcode first in iPhone Settings."))
+            return
+        }
+        let reason = enabled
+            ? l10n.t("تحقق من هويتك لتفعيل قفل بصير", "Verify your identity to turn on Basir’s lock")
+            : l10n.t("تحقق من هويتك لإيقاف قفل بصير", "Verify your identity to turn off Basir’s lock")
+        guard await authenticate(reason: reason) else {
+            announce(enabled
+                ? l10n.t("لم يُفعَّل القفل لأن التحقق لم يكتمل.", "The lock was not turned on because verification did not finish.")
+                : l10n.t("بقي القفل مفعّلًا لأن التحقق لم يكتمل.", "The lock is still on because verification did not finish."))
+            return
+        }
+        settings.appLock = enabled
+        settings.save()
+        OperationFeedback.selectionChanged()
+        announce(enabled
+            ? l10n.t("تم تفعيل القفل. سيطلب بصير التحقق من هويتك كلما عدت إليه.",
+                     "The lock is on. Basir will ask you to verify your identity each time you return.")
+            : l10n.t("تم إيقاف القفل.", "The lock is off."))
+    }
+
+    private static func announce(_ text: String) {
+        // After the Face ID sheet closes, VoiceOver needs a moment before it speaks.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            UIAccessibility.post(notification: .announcement, argument: text)
         }
     }
 }

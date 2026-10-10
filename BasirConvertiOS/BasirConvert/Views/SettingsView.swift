@@ -8,6 +8,7 @@ struct SettingsView: View {
     @EnvironmentObject private var l10n: L10n
     @EnvironmentObject private var settings: SettingsStore
     @EnvironmentObject private var network: NetworkMonitor
+    @State private var changingLock = false
 
     var body: some View {
         NavigationStack {
@@ -168,10 +169,27 @@ struct SettingsView: View {
         .onChange(of: settings.automaticResume) { _ in settings.save(); OperationFeedback.selectionChanged() }
     }
 
+    /// The switch shows the saved state; flipping it asks for Face ID or the
+    /// passcode, and only a successful check changes the setting.
+    private var appLockBinding: Binding<Bool> {
+        Binding(
+            get: { settings.appLock },
+            set: { enabled in
+                guard !changingLock else { return }
+                changingLock = true
+                Task { @MainActor in
+                    await AppLock.change(to: enabled, settings: settings, l10n: l10n)
+                    changingLock = false
+                }
+            }
+        )
+    }
+
     private var privacyCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             GlassSectionTitle(title: l10n.t("الخصوصية", "Privacy"), systemImage: "lock.shield.fill")
-            Toggle(l10n.t("قفل بصير ببصمة الوجه أو رمز الدخول", "Lock Basir with Face ID or passcode"), isOn: $settings.appLock)
+            Toggle(l10n.t("قفل بصير ببصمة الوجه أو رمز الدخول", "Lock Basir with Face ID or passcode"), isOn: appLockBinding)
+                .disabled(changingLock)
             Toggle(l10n.t("حذف الملفات من الخادم بعد التنزيل", "Delete files from the server after download"), isOn: $settings.deleteServerCopy)
             Text(l10n.t("عند تفعيل القفل، يلزم التحقق من هويتك كلما عدت إلى بصير.\n\nعند تفعيل الحذف، تُحذف نسخة الملف ونتيجته من الخادم بعد تنزيل النتيجة المكتملة. تبقى النتائج الجزئية لإتاحة إعادة محاولة الصفحات.\n\nلإخفاء أرقام الهوية والحسابات أثناء القراءة، افتح قائمة «خيارات القراءة» في القارئ.",
                         "With app lock on, you’ll need to verify your identity each time you return to Basir.\n\nWith deletion on, the source file and result are removed from the server after the completed result downloads. Partial results are kept so you can retry pages.\n\nTo hide ID and account numbers while reading, open Reading options in the reader."))
@@ -181,10 +199,6 @@ struct SettingsView: View {
         }
         .tint(BasirPalette.accent)
         .glassSurface()
-        .onChange(of: settings.appLock) { enabled in
-            OperationFeedback.selectionChanged()
-            if enabled { AppLock.confirmCanLock(settings: settings, l10n: l10n) }
-        }
         .onChange(of: settings.deleteServerCopy) { _ in OperationFeedback.selectionChanged() }
     }
 
@@ -458,19 +472,11 @@ struct AboutBasirView: View {
         .glassSurface()
     }
 
-    /// Help pages stay inside the app.
+    /// Help pages stay inside the app. Contact us lives once, in Settings.
     private var helpCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
-            GlassSectionTitle(title: l10n.t("المساعدة والتواصل", "Help and contact"), systemImage: "questionmark.circle.fill")
+            GlassSectionTitle(title: l10n.t("المساعدة", "Help"), systemImage: "questionmark.circle.fill")
             internalLink(l10n.t("الأسئلة الشائعة", "Frequently Asked Questions"), icon: "questionmark.bubble", slug: "faq")
-            NavigationLink {
-                ContactFormView()
-            } label: {
-                Label(l10n.t("تواصل معنا", "Contact us"), systemImage: "envelope")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .frame(minHeight: 44)
-            }
-            .tint(BasirPalette.accent)
         }
         .glassSurface()
     }

@@ -49,7 +49,7 @@ struct ContactFormView: View {
 
     private var form: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.l) {
-            Text(l10n.t("تواصل معنا", "Contact us"))
+            Text(l10n.t("راسل فريق بصير", "Write to the Basir team"))
                 .font(.system(.largeTitle, design: .rounded, weight: .bold))
                 .accessibilityAddTraits(.isHeader)
             Text(l10n.t("لديك سؤال أو ملاحظة؟ أرسلها إلى فريق بصير، وسنرد على بريدك الإلكتروني.",

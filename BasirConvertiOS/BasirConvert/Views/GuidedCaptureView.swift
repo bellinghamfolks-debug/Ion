@@ -46,7 +46,7 @@ struct GuidedCaptureView: View {
                     captureButton(l10n.t("التقط الآن", "Capture now"), systemImage: "camera.shutter.button") {
                         camera.captureNow()
                     }
-                    captureButton(camera.torchOn ? l10n.t("إطفاء الإضاءة", "Light off") : l10n.t("تشغيل الإضاءة", "Light on"),
+                    captureButton(camera.torchOn ? l10n.t("إطفاء إضاءة الكاميرا", "Turn camera light off") : l10n.t("تشغيل إضاءة الكاميرا", "Turn camera light on"),
                                   systemImage: camera.torchOn ? "flashlight.off.fill" : "flashlight.on.fill") {
                         camera.toggleTorch()
                     }
@@ -56,7 +56,7 @@ struct GuidedCaptureView: View {
                         camera.stop()
                         onCancel()
                     }
-                    captureButton(l10n.t("تم (\(camera.pages.count))", "Done (\(camera.pages.count))"),
+                    captureButton(l10n.t("استخدام الصفحات (\(camera.pages.count))", "Use pages (\(camera.pages.count))"),
                                   systemImage: "checkmark", prominent: true) {
                         camera.stop()
                         onFinish(camera.pages)
@@ -239,8 +239,8 @@ final class GuidedCaptureController: NSObject, ObservableObject {
             let urls = try MediaImport.persist([image], prefix: "صفحة \(pages.count + 1)")
             pages.append(contentsOf: urls)
             errorText = nil
-            let text = l10n?.t("التُقطت الصفحة \(pages.count). وجّه الكاميرا إلى الصفحة التالية، أو اختر تم.",
-                               "Page \(pages.count) captured. Point the camera at the next page, or choose Done.") ?? ""
+            let text = l10n?.t("التُقطت الصفحة \(pages.count). صوّر الصفحة التالية، أو اختر «استخدام الصفحات» للمتابعة.",
+                               "Page \(pages.count) captured. Capture the next page, or choose Use pages to continue.") ?? ""
             statusText = text
             announce(text)
         } catch {

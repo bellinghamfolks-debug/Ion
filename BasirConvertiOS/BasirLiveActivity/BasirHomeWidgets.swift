@@ -33,7 +33,7 @@ private struct LatestResultTexts {
 
     var title: String { t("آخر نتيجة", "Latest result") }
     var empty: String { t("لا توجد نتيجة بعد", "No result yet") }
-    var scan: String { t("صوّر مستندًا", "Scan a page") }
+    var scan: String { t("صوّر مستندًا", "Scan a document") }
 
     func age(_ date: Date) -> String {
         let formatter = RelativeDateTimeFormatter()
@@ -111,8 +111,8 @@ struct LatestResultWidgetView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .accessibilityElement(children: .combine)
-            .accessibilityHint(entry.snapshot == nil ? texts.t("يفتح الكاميرا الموجّهة", "Opens the guided camera")
-                                                     : texts.t("يفتحها في قارئ بصير", "Opens it in Basir's reader"))
+            .accessibilityHint(entry.snapshot == nil ? texts.t("يفتح التصوير الموجّه بالصوت", "Opens the camera with spoken guidance")
+                                                     : texts.t("يفتح آخر نتيجة في قارئ بصير", "Opens the latest result in Basir’s reader"))
         }
     }
 }
@@ -134,7 +134,7 @@ struct BasirLatestResultWidget: Widget {
             LatestResultWidgetView(entry: entry)
         }
         .configurationDisplayName("بصير — آخر نتيجة")
-        .description("Latest Basir result · آخر ملف حوّله بصير، يُفتح في القارئ مباشرة.")
+        .description("افتح آخر نتيجة في قارئ بصير. Open your latest result in Basir’s reader.")
         .supportedFamilies([.systemSmall, .accessoryRectangular, .accessoryInline])
     }
 }
@@ -148,10 +148,10 @@ struct BasirScanControl: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(kind: "com.basir.convert.ios.control.scan") {
             ControlWidgetButton(action: StartGuidedCaptureIntent()) {
-                Label(Self.isArabic ? "صوّر مستندًا" : "Scan a page", systemImage: "doc.viewfinder")
+                Label(Self.isArabic ? "صوّر مستندًا" : "Scan a document", systemImage: "doc.viewfinder")
             }
         }
-        .displayName(LocalizedStringResource(String.LocalizationValue(Self.isArabic ? "بصير: صوّر مستندًا" : "Basir: Scan a page")))
+        .displayName(LocalizedStringResource(String.LocalizationValue(Self.isArabic ? "بصير: صوّر مستندًا" : "Basir: Scan a document")))
         .description(LocalizedStringResource(String.LocalizationValue(Self.isArabic
             ? "يفتح الكاميرا الموجّهة بالصوت مباشرة."
             : "Opens Basir's voice-guided camera directly.")))
@@ -170,7 +170,7 @@ struct BasirReadLatestControl: ControlWidget {
         }
         .displayName(LocalizedStringResource(String.LocalizationValue(Self.isArabic ? "بصير: اقرأ آخر نتيجة" : "Basir: Read latest result")))
         .description(LocalizedStringResource(String.LocalizationValue(Self.isArabic
-            ? "يفتح آخر ملف في قارئ بصير من حيث توقفت."
-            : "Opens the latest file in Basir's reader where you stopped.")))
+            ? "يفتح آخر نتيجة ويستأنف القراءة من حيث توقفت."
+            : "Opens the latest result and resumes where you left off.")))
     }
 }

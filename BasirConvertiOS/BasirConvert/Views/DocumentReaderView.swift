@@ -96,9 +96,9 @@ struct DocumentReaderView: View {
                             ProgressView(l10n.t("جارٍ فتح الملف", "Opening the file"))
                                 .frame(maxWidth: .infinity, minHeight: 200)
                         } else if blocks.isEmpty {
-                            InfoCard(title: l10n.t("لا يوجد نص لعرضه", "Nothing to read"),
-                                     text: l10n.t("لم يجد بصير نصًا في هذا الملف. جرّب المعاينة.",
-                                                  "Basir found no text in this file. Try Preview."),
+                            InfoCard(title: l10n.t("لا يوجد نص قابل للقراءة", "No readable text"),
+                                     text: l10n.t("لم يعثر بصير على نص في هذا الملف. افتح «معاينة» لعرض الملف الأصلي.",
+                                                  "Basir found no text in this file. Open Preview to view the original file."),
                                      systemImage: "doc.text.magnifyingglass")
                         } else {
                             if let resume = resumeFrom { resumeCard(resume, proxy: proxy) }
@@ -139,7 +139,7 @@ struct DocumentReaderView: View {
                         }
                     }
                 }
-                .accessibilityRotor(Text(l10n.t("العلامات", "Bookmarks"))) {
+                .accessibilityRotor(Text(l10n.t("العلامات المرجعية", "Bookmarks"))) {
                     ForEach(marked) { block in
                         AccessibilityRotorEntry(Text(excerpt(block)), id: block.id, in: rotorSpace) {
                             reveal(block.id, proxy: proxy)
@@ -173,35 +173,35 @@ struct DocumentReaderView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Menu {
                         Button { assistMode = .brief } label: {
-                            Label(l10n.t("ماذا يطلب مني؟", "What does it ask of me?"), systemImage: "checklist")
+                            Label(l10n.t("المطلوب مني", "Action items"), systemImage: "checklist")
                         }
                         Button { assistMode = .dates } label: {
-                            Label(l10n.t("أضف المواعيد إلى التقويم", "Add dates to Calendar"), systemImage: "calendar.badge.plus")
+                            Label(l10n.t("مراجعة المواعيد", "Review dates"), systemImage: "calendar.badge.plus")
                         }
                         Button { assistMode = .ask } label: {
                             Label(l10n.t("اسأل عن المستند", "Ask about the document"), systemImage: "questionmark.bubble")
                         }
                         Divider()
                         Button { toggleBilingual() } label: {
-                            Label(bilingual ? l10n.t("أوقف القراءة ثنائية اللغة", "Turn off bilingual reading")
+                            Label(bilingual ? l10n.t("إيقاف القراءة ثنائية اللغة", "Turn off bilingual reading")
                                             : l10n.t("قراءة ثنائية اللغة", "Bilingual reading"),
                                   systemImage: "character.bubble")
                         }
                         Button { togglePaging() } label: {
-                            Label(paged ? l10n.t("اعرض المستند كاملًا متصلًا", "Show the whole document as one scroll")
-                                        : l10n.t("اقرأ صفحة صفحة", "Read page by page"),
+                            Label(paged ? l10n.t("عرض المستند كاملًا", "Show full document")
+                                        : l10n.t("عرض صفحة بصفحة", "Show page by page"),
                                   systemImage: paged ? "doc.plaintext" : "book.pages")
                         }
                         Button { showAudiobook = true } label: {
-                            Label(l10n.t("احفظ كملف صوتي", "Save as audiobook"), systemImage: "waveform")
+                            Label(l10n.t("إنشاء ملف صوتي", "Create audio file"), systemImage: "waveform")
                         }
                         Button { maskSensitive.toggle(); applyMask(); announceMask() } label: {
-                            Label(maskSensitive ? l10n.t("أظهر الأرقام الحساسة", "Show sensitive numbers")
-                                                : l10n.t("أخفِ الأرقام الحساسة", "Hide sensitive numbers"),
+                            Label(maskSensitive ? l10n.t("إظهار الأرقام الحساسة", "Show sensitive numbers")
+                                                : l10n.t("إخفاء الأرقام الحساسة", "Hide sensitive numbers"),
                                   systemImage: maskSensitive ? "eye" : "eye.slash")
                         }
                     } label: {
-                        Label(l10n.t("بصير", "Basir"), systemImage: "sparkles")
+                        Label(l10n.t("خيارات القراءة", "Reading options"), systemImage: "sparkles")
                     }
                     .disabled(blocks.isEmpty)
                 }
@@ -288,12 +288,12 @@ struct DocumentReaderView: View {
                         .accessibilityHidden(true)
                 }
             }
-            .accessibilityValue(isMarked ? l10n.t("عليه علامة", "Bookmarked") : "")
-            .accessibilityAction(named: isMarked ? l10n.t("إزالة العلامة", "Remove bookmark")
-                                                 : l10n.t("ضع علامة هنا", "Bookmark here")) {
+            .accessibilityValue(isMarked ? l10n.t("موضع محفوظ", "Bookmarked") : "")
+            .accessibilityAction(named: isMarked ? l10n.t("إزالة العلامة المرجعية", "Remove bookmark")
+                                                 : l10n.t("إضافة علامة مرجعية", "Add bookmark")) {
                 toggleBookmark(block.id)
             }
-            .accessibilityAction(named: l10n.t("اقرأ بصوت عالٍ من هنا", "Read aloud from here")) {
+            .accessibilityAction(named: l10n.t("الاستماع من هنا", "Listen from here")) {
                 play(from: block.id)
             }
             .modifier(TableActionModifier(isTable: block.kind == .table, title: l10n.t("اشرح الجدول", "Explain this table")) {
@@ -301,11 +301,11 @@ struct DocumentReaderView: View {
             })
             .contextMenu {
                 Button { toggleBookmark(block.id) } label: {
-                    Label(isMarked ? l10n.t("إزالة العلامة", "Remove bookmark") : l10n.t("ضع علامة هنا", "Bookmark here"),
+                    Label(isMarked ? l10n.t("إزالة العلامة المرجعية", "Remove bookmark") : l10n.t("إضافة علامة مرجعية", "Add bookmark"),
                           systemImage: isMarked ? "bookmark.slash" : "bookmark")
                 }
                 Button { play(from: block.id) } label: {
-                    Label(l10n.t("اقرأ بصوت عالٍ من هنا", "Read aloud from here"), systemImage: "play.fill")
+                    Label(l10n.t("الاستماع من هنا", "Listen from here"), systemImage: "play.fill")
                 }
             }
     }
@@ -399,16 +399,16 @@ struct DocumentReaderView: View {
 
     private func resumeCard(_ id: Int, proxy: ScrollViewProxy) -> some View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
-            Text(l10n.t("توقفت سابقًا عند: \(excerpt(blocks[id]))", "You stopped at: \(excerpt(blocks[id]))"))
+            Text(l10n.t("آخر موضع قرأته: \(excerpt(blocks[id]))", "You last read: \(excerpt(blocks[id]))"))
                 .font(.subheadline)
                 .fixedSize(horizontal: false, vertical: true)
             AdaptiveStack {
-                CardActionButton(title: l10n.t("تابع من حيث توقفت", "Continue where you stopped"),
+                CardActionButton(title: l10n.t("متابعة القراءة", "Continue reading"),
                                  systemImage: "arrow.uturn.forward", prominent: true) {
                     resumeFrom = nil
                     jump(to: id, proxy: proxy)
                 }
-                CardActionButton(title: l10n.t("من البداية", "From the start"), systemImage: "arrow.up.to.line") {
+                CardActionButton(title: l10n.t("القراءة من البداية", "Read from the beginning"), systemImage: "arrow.up.to.line") {
                     resumeFrom = nil
                     if remembers { memory.position = 0 }
                     focusedID = blocks.first?.id
@@ -483,14 +483,14 @@ struct DocumentReaderView: View {
 
     private var mainControls: some View {
         AdaptiveStack {
-            controlButton(l10n.t("المحتوى", "Contents"), systemImage: "list.bullet") { showContents = true }
+            controlButton(l10n.t("فهرس المستند", "Document contents"), systemImage: "list.bullet") { showContents = true }
             controlButton(l10n.t("اسأل", "Ask"), systemImage: "questionmark.bubble") { assistMode = .ask }
             controlButton(speaker.isSpeaking && !speaker.isPaused ? l10n.t("إيقاف مؤقت", "Pause")
                                                                   : l10n.t("استماع", "Listen"),
                           systemImage: speaker.isSpeaking && !speaker.isPaused ? "pause.fill" : "play.fill",
                           prominent: true) { togglePlayback() }
-            controlButton(bookmarks.contains(position) ? l10n.t("إزالة العلامة", "Unmark")
-                                                       : l10n.t("علامة", "Bookmark"),
+            controlButton(bookmarks.contains(position) ? l10n.t("إزالة العلامة المرجعية", "Remove bookmark")
+                                                       : l10n.t("علامة مرجعية", "Bookmark"),
                           systemImage: bookmarks.contains(position) ? "bookmark.slash" : "bookmark") {
                 toggleBookmark(position)
             }
@@ -506,7 +506,7 @@ struct DocumentReaderView: View {
         NavigationStack {
             List {
                 if !marked.isEmpty {
-                    Section(l10n.t("العلامات", "Bookmarks")) {
+                    Section(l10n.t("العلامات المرجعية", "Bookmarks")) {
                         ForEach(marked) { block in contentsButton(excerpt(block), id: block.id) }
                     }
                 }
@@ -530,7 +530,7 @@ struct DocumentReaderView: View {
                     }
                 }
             }
-            .navigationTitle(l10n.t("المحتوى", "Contents"))
+            .navigationTitle(l10n.t("فهرس المستند", "Document contents"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -563,12 +563,12 @@ struct DocumentReaderView: View {
     private func tableLabel(_ block: ReaderBlock) -> String {
         let columns = block.rows.first?.count ?? 0
         let headers = (block.rows.first ?? []).filter { !$0.isEmpty }.prefix(3).joined(separator: "، ")
-        return l10n.t("جدول من \(block.rows.count) صفوف و\(columns) أعمدة", "Table, \(block.rows.count) rows, \(columns) columns")
+        return l10n.t("جدول. عدد الصفوف: \(block.rows.count)، وعدد الأعمدة: \(columns)", "Table. Rows: \(block.rows.count). Columns: \(columns)")
             + (headers.isEmpty ? "" : ": " + headers)
     }
 
     private func imageLabel(_ block: ReaderBlock) -> String {
-        block.text.isEmpty ? l10n.t("صورة بلا وصف", "Image without a description") : l10n.t("صورة: ", "Image: ") + block.text
+        block.text.isEmpty ? l10n.t("صورة دون وصف نصي", "Image with no text description") : l10n.t("صورة: ", "Image: ") + block.text
     }
 
     private func pageLabel(_ block: ReaderBlock) -> String {
@@ -617,8 +617,8 @@ struct DocumentReaderView: View {
                 return result
             }.value
         }
-        let summary = l10n.t("\(title). \(headings.count) عنوانًا، \(tables.count) جدولًا، \(pages.count) صفحة.",
-                             "\(title). \(headings.count) headings, \(tables.count) tables, \(pages.count) pages.")
+        let summary = l10n.t("\(title). العناوين: \(headings.count). الجداول: \(tables.count). الصفحات: \(pages.count).",
+                             "\(title). Headings: \(headings.count). Tables: \(tables.count). Pages: \(pages.count).")
         UIAccessibility.post(notification: .screenChanged, argument: summary)
     }
 
@@ -677,8 +677,8 @@ struct DocumentReaderView: View {
         paged.toggle()
         if paged, !readerPages.isEmpty { currentPage = ReaderPaging.pageIndex(of: position, in: readerPages) }
         UIAccessibility.post(notification: .announcement, argument: paged
-            ? l10n.t("القراءة صفحة صفحة. استخدم التالية والسابقة أسفل الشاشة.", "Page by page. Use Next and Previous at the bottom.")
-            : l10n.t("المستند كاملًا في شاشة واحدة.", "The whole document on one screen."))
+            ? l10n.t("فُعّل عرض صفحة بصفحة. استخدم زري الصفحة التالية والسابقة للتنقل.", "Page-by-page view is on. Use the Next page and Previous page buttons to navigate.")
+            : l10n.t("فُعّل عرض المستند كاملًا. مرّر للتنقل بين أجزائه.", "Full document view is on. Scroll to move through the document."))
     }
 
     private func applyMask() {
@@ -697,8 +697,8 @@ struct DocumentReaderView: View {
 
     private func announceMask() {
         UIAccessibility.post(notification: .announcement, argument: maskSensitive
-            ? l10n.t("أُخفيت الأرقام الطويلة مثل الهوية والحساب والبطاقة، ويبقى آخر أربعة أرقام.",
-                     "Long numbers such as IDs, accounts and cards are hidden; the last four digits stay.")
+            ? l10n.t("أُخفيت الأرقام الطويلة في القارئ، مثل أرقام الهوية والحسابات، مع إظهار آخر أربعة أرقام.",
+                     "Long numbers, such as IDs and account numbers, are hidden in the reader except for their last four digits.")
             : l10n.t("تظهر الأرقام كاملة.", "Numbers are shown in full."))
     }
 
@@ -727,7 +727,7 @@ struct DocumentReaderView: View {
         let added = memory.toggleBookmark(id)
         bookmarks = memory.bookmarks
         UIAccessibility.post(notification: .announcement,
-                             argument: added ? l10n.t("أُضيفت علامة", "Bookmark added") : l10n.t("أُزيلت العلامة", "Bookmark removed"))
+                             argument: added ? l10n.t("أُضيفت علامة مرجعية", "Bookmark added") : l10n.t("أُزيلت العلامة المرجعية", "Bookmark removed"))
     }
 
     private func togglePlayback() {
@@ -768,15 +768,15 @@ private struct AudiobookExportView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: BasirSpacing.l) {
-                Text(l10n.t("يحوّل بصير المستند إلى ملف صوتي على هاتفك بنفس الأصوات العربية والإنجليزية، دون إرسال شيء. يمكنك الاستماع إليه في أي تطبيق.",
-                            "Basir turns the document into an audio file on your phone with the same Arabic and English voices, without sending anything. Listen in any app."))
+                Text(l10n.t("أنشئ نسخة صوتية من المستند باستخدام أصوات القراءة العربية والإنجليزية على جهازك. لا يُرسل النص إلى الخادم، ويمكنك حفظ الملف أو مشاركته بعد الانتهاء.",
+                            "Create an audio version using the Arabic and English reading voices on your device. The text is not sent to a server. Save or share the audio file when it’s ready."))
                     .fixedSize(horizontal: false, vertical: true)
                 if exporter.running {
                     ProgressView(value: exporter.fraction) {
-                        Text(l10n.t("جارٍ التسجيل: \(exporter.done) من \(exporter.total)",
-                                    "Recording: \(exporter.done) of \(exporter.total)"))
+                        Text(l10n.t("جارٍ إنشاء الملف الصوتي. المقاطع المكتملة: \(exporter.done) من \(exporter.total)",
+                                    "Creating audio. Segments completed: \(exporter.done) of \(exporter.total)"))
                     }
-                    SecondaryActionButton(title: l10n.t("إيقاف", "Stop"), systemImage: "stop.fill") { exporter.cancel() }
+                    SecondaryActionButton(title: l10n.t("إلغاء الإنشاء", "Cancel creation"), systemImage: "stop.fill") { exporter.cancel() }
                 } else if let url = exporter.resultURL {
                     InlineMessage(text: l10n.t("الملف الصوتي جاهز.", "The audio file is ready."), isError: false)
                     PrimaryActionButton(title: l10n.t("مشاركة أو حفظ", "Share or save"), systemImage: "square.and.arrow.up") {
@@ -785,9 +785,9 @@ private struct AudiobookExportView: View {
                     .sheet(isPresented: $share) { ActivityShareView(urls: [url]) }
                 } else {
                     if exporter.failed {
-                        InlineMessage(text: l10n.t("تعذر إنشاء الملف الصوتي.", "The audio file could not be made."), isError: true)
+                        InlineMessage(text: l10n.t("تعذر إنشاء الملف الصوتي. حاول مرة أخرى.", "Could not create the audio file. Try again."), isError: true)
                     }
-                    PrimaryActionButton(title: l10n.t("ابدأ", "Start"), systemImage: "waveform") {
+                    PrimaryActionButton(title: l10n.t("إنشاء الملف الصوتي", "Create audio file"), systemImage: "waveform") {
                         exporter.start(passages: passages, title: title)
                     }
                 }
@@ -796,7 +796,7 @@ private struct AudiobookExportView: View {
             .appScreenContent()
             .background(BasirPalette.background.ignoresSafeArea())
             .foregroundStyle(BasirPalette.primaryText)
-            .navigationTitle(l10n.t("كتاب صوتي", "Audiobook"))
+            .navigationTitle(l10n.t("نسخة صوتية من المستند", "Document audio"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button(l10n.t("تم", "Done")) { dismiss() } }

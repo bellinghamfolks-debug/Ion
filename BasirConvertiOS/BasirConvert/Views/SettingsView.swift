@@ -26,13 +26,13 @@ struct SettingsView: View {
                         SectionHeading(title: l10n.t("المزيد", "More"))
                         VStack(spacing: 0) {
                             settingsLink(l10n.t("خيارات متقدمة", "Advanced options"),
-                                         detail: l10n.t("النموذج، محتوى Word، خيارات PDF والعروض",
-                                                        "Model, Word content, PDF and presentation options"),
+                                         detail: l10n.t("محتوى الملفات وجودة التحويل ونموذج المعالجة",
+                                                        "File content, conversion quality, and AI model"),
                                          systemImage: "slider.horizontal.3") { AdvancedSettingsView() }
                             Divider().padding(.leading, 44)
                             settingsLink(l10n.t("تواصل معنا", "Contact us"),
-                                         detail: l10n.t("أرسل سؤالًا أو مشكلة أو اقتراحًا إلى فريق بصير",
-                                                        "Send a question, problem, or idea to the Basir team"),
+                                         detail: l10n.t("للاستفسارات والملاحظات والاقتراحات",
+                                                        "Questions, feedback, and suggestions"),
                                          systemImage: "envelope") { ContactFormView() }
                             Divider().padding(.leading, 44)
                             settingsLink(l10n.t("عن بصير", "About Basir"),
@@ -133,7 +133,7 @@ struct SettingsView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(l10n.t("تباين عالٍ", "High contrast"))
                             .font(.body.weight(.semibold))
-                        Text(l10n.t("ألوان أقوى وحدود أوضح ونص أغمق.", "Stronger colors, clearer borders, and darker text."))
+                        Text(l10n.t("تمييز أوضح بين النص والخلفية، وحدود أكثر وضوحًا.", "Clearer contrast between text and backgrounds, with more visible borders."))
                             .font(.footnote)
                             .foregroundStyle(BasirPalette.secondaryText)
                             .fixedSize(horizontal: false, vertical: true)
@@ -141,8 +141,8 @@ struct SettingsView: View {
                 }
                 .tint(BasirPalette.accent)
             } else {
-                Text(l10n.t("للتباين العالي فعّل «زيادة التباين» من إعدادات تسهيلات الاستخدام في iPhone.",
-                            "For high contrast, turn on Increase Contrast in the iPhone Accessibility settings."))
+                Text(l10n.t("لتوضيح النص والحدود، فعّل «زيادة التباين» من إعدادات تسهيلات الاستخدام في iPhone.",
+                            "For clearer text and borders, turn on Increase Contrast in your iPhone’s Accessibility settings."))
                     .font(.footnote)
                     .foregroundStyle(BasirPalette.secondaryText)
                     .fixedSize(horizontal: false, vertical: true)
@@ -153,9 +153,9 @@ struct SettingsView: View {
 
     private var networkCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
-            GlassSectionTitle(title: l10n.t("الشبكة والاستئناف", "Network and resume"), systemImage: "wifi")
+            GlassSectionTitle(title: l10n.t("الاتصال واستئناف المهام", "Connection and task resumption"), systemImage: "wifi")
             Toggle(l10n.t("رفع الملفات عبر Wi‑Fi فقط", "Upload only on Wi-Fi"), isOn: $settings.wifiOnly)
-            Toggle(l10n.t("السماح أثناء وضع البيانات المنخفضة", "Allow Low Data Mode"), isOn: $settings.allowLowData)
+            Toggle(l10n.t("السماح بالمعالجة في وضع البيانات المنخفضة", "Allow processing in Low Data Mode"), isOn: $settings.allowLowData)
             Toggle(l10n.t("استئناف المهام تلقائيًا", "Resume tasks automatically"), isOn: $settings.automaticResume)
             Text(networkDescription)
                 .font(.footnote)
@@ -171,10 +171,10 @@ struct SettingsView: View {
     private var privacyCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             GlassSectionTitle(title: l10n.t("الخصوصية", "Privacy"), systemImage: "lock.shield.fill")
-            Toggle(l10n.t("قفل بصير ببصمة الوجه أو الرمز", "Lock Basir with Face ID or passcode"), isOn: $settings.appLock)
-            Toggle(l10n.t("حذف نسخة الخادم فور التنزيل", "Delete the server copy after download"), isOn: $settings.deleteServerCopy)
-            Text(l10n.t("مع القفل يطلب بصير بصمة الوجه أو رمز الجهاز كلما عدت إليه. ومع الحذف تُمسح نسخة الملف ونتيجته من الخادم بمجرد وصول ملف Word إلى هاتفك؛ النتائج الجزئية تبقى حتى تعيد محاولة صفحاتها. ولإخفاء أرقام الهوية والحسابات أثناء القراءة استخدم قائمة «بصير» في القارئ.",
-                        "With the lock, Basir asks for Face ID or your passcode whenever you return. With deletion, the file and its result are removed from the server as soon as the Word file reaches your phone; partial results stay until you retry their pages. To hide ID and account numbers while reading, use the Basir menu in the reader."))
+            Toggle(l10n.t("قفل بصير ببصمة الوجه أو رمز الدخول", "Lock Basir with Face ID or passcode"), isOn: $settings.appLock)
+            Toggle(l10n.t("حذف الملفات من الخادم بعد التنزيل", "Delete files from the server after download"), isOn: $settings.deleteServerCopy)
+            Text(l10n.t("عند تفعيل القفل، يلزم التحقق من هويتك كلما عدت إلى بصير.\n\nعند تفعيل الحذف، تُحذف نسخة الملف ونتيجته من الخادم بعد تنزيل النتيجة المكتملة. تبقى النتائج الجزئية لإتاحة إعادة محاولة الصفحات.\n\nلإخفاء أرقام الهوية والحسابات أثناء القراءة، افتح قائمة «خيارات القراءة» في القارئ.",
+                        "With app lock on, you’ll need to verify your identity each time you return to Basir.\n\nWith deletion on, the source file and result are removed from the server after the completed result downloads. Partial results are kept so you can retry pages.\n\nTo hide ID and account numbers while reading, open Reading options in the reader."))
                 .font(.footnote)
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
@@ -191,8 +191,8 @@ struct SettingsView: View {
     private var feedbackCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             GlassSectionTitle(title: l10n.t("الأصوات والإشعارات", "Sounds and notifications"), systemImage: "speaker.wave.2.fill")
-            Picker(l10n.t("صوت المهمة", "Task sound"), selection: $settings.soundTheme) {
-                Text(l10n.t("متوقف", "Off")).tag(SoundTheme.off)
+            Picker(l10n.t("تنبيهات المهام", "Task feedback"), selection: $settings.soundTheme) {
+                Text(l10n.t("بلا صوت أو اهتزاز", "No sound or haptics")).tag(SoundTheme.off)
                 Text(l10n.t("هادئ", "Gentle")).tag(SoundTheme.gentle)
                 Text(l10n.t("واضح", "Clear")).tag(SoundTheme.clear)
                 Text(l10n.t("اهتزاز فقط", "Haptics only")).tag(SoundTheme.tactile)
@@ -289,8 +289,8 @@ struct AdvancedSettingsView: View {
             }
             Toggle(l10n.t("إدراج الصور والشعارات", "Include images and logos"), isOn: $settings.embedVisuals)
             Toggle(l10n.t("شرح المعادلات الرياضية", "Explain mathematical equations"), isOn: $settings.includeMath)
-            Toggle(l10n.t("الحفاظ على الرموز ومعانيها", "Preserve symbols and their meaning"), isOn: $settings.preserveSymbols)
-            Toggle(l10n.t("الحفاظ على الروابط", "Preserve links"), isOn: $settings.preserveLinks)
+            Toggle(l10n.t("الاحتفاظ بالرموز ومعانيها", "Keep symbols and their meanings"), isOn: $settings.preserveSymbols)
+            Toggle(l10n.t("الاحتفاظ بالروابط", "Keep links"), isOn: $settings.preserveLinks)
         }
         .tint(BasirPalette.accent)
         .glassSurface()
@@ -304,18 +304,18 @@ struct AdvancedSettingsView: View {
     private var documentCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             GlassSectionTitle(title: l10n.t("خيارات PDF والعروض", "PDF and presentation options"), systemImage: "doc.on.doc")
-            Picker(l10n.t("دقة صفحات PDF", "PDF page quality"), selection: $settings.pdfQuality) {
+            Picker(l10n.t("جودة معالجة PDF", "PDF processing quality"), selection: $settings.pdfQuality) {
                 Text(l10n.t("سريعة", "Fast")).tag(PDFQuality.fast)
                 Text(l10n.t("متوازنة", "Balanced")).tag(PDFQuality.balanced)
                 Text(l10n.t("عالية", "High")).tag(PDFQuality.accurate)
             }
             .pickerStyle(.menu)
             Toggle(l10n.t("تخطي الصفحات الفارغة", "Skip blank pages"), isOn: $settings.skipBlankPages)
-            Toggle(l10n.t("استخدام نص PDF الأصلي عند موثوقيته", "Use embedded PDF text when reliable"), isOn: $settings.preferPDFText)
+            Toggle(l10n.t("استخدام النص الأصلي في PDF متى كان موثوقًا", "Use the PDF’s original text when reliable"), isOn: $settings.preferPDFText)
             VStack(alignment: .leading, spacing: 7) {
                 Text(l10n.t("صفحات PDF المطلوبة", "PDF pages"))
                     .font(.subheadline.weight(.semibold))
-                TextField(l10n.t("الكل، أو مثال: 1-20، 25", "All, or example: 1-20, 25"), text: $settings.pageSelection)
+                TextField(l10n.t("مثل: 1-20، 25", "For example: 1-20, 25"), text: $settings.pageSelection)
                     .keyboardType(.numbersAndPunctuation)
                     .padding(BasirSpacing.m)
                     .background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
@@ -325,7 +325,7 @@ struct AdvancedSettingsView: View {
             }
             Toggle(l10n.t("إدراج ملاحظات الشرائح", "Include slide notes"), isOn: $settings.includeSpeakerNotes)
             Toggle(l10n.t("إدراج الشرائح المخفية", "Include hidden slides"), isOn: $settings.includeHiddenSlides)
-            Picker(l10n.t("تصحيح دوران PDF", "PDF rotation correction"), selection: $settings.rotationCorrection) {
+            Picker(l10n.t("تدوير صفحات PDF", "PDF page rotation"), selection: $settings.rotationCorrection) {
                 Text(l10n.t("تلقائي", "Automatic")).tag(0)
                 Text("90°").tag(90)
                 Text("180°").tag(180)
@@ -387,14 +387,14 @@ struct AboutBasirView: View {
                     InfoCard(
                         title: l10n.t("الخصوصية", "Privacy"),
                         text: l10n.t(
-                            "يتصل التطبيق بخادم بصير المشفّر فقط. لا توجد إعلانات أو أدوات تتبع. لا يُستخدم ملفك لتدريب نموذج خاص ببصير. احتفظ دائمًا بنسختك الأصلية؛ بصير ليس أرشيفًا.",
-                            "The app connects only to the encrypted Basir server. It has no ads or tracking. Your file is not used to train a Basir-specific model. Always keep your original; Basir is not an archive."
+                            "يستخدم بصير اتصالًا مشفّرًا بخادمه، ولا يتضمن إعلانات أو أدوات تتبع. لا تُستخدم ملفاتك لتدريب نموذج خاص ببصير. احتفظ بنسخك الأصلية في مكان آمن.",
+                            "Basir uses an encrypted connection to its server, with no ads or tracking. Your files are not used to train a Basir-specific model. Keep your original files in a safe place."
                         ),
                         systemImage: "hand.raised.fill"
                     )
                     legalCard
                     helpCard
-                    SecondaryActionButton(title: l10n.t("عرض جولة الترحيب مجددًا", "Show the welcome tour again"),
+                    SecondaryActionButton(title: l10n.t("إعادة عرض جولة الترحيب", "Show welcome tour"),
                                           systemImage: "sparkles") {
                         // Close Settings first so the tour can be presented over the app.
                         viewModel.isSettingsPresented = false
@@ -413,8 +413,8 @@ struct AboutBasirView: View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
             GlassSectionTitle(title: l10n.t("ما هو بصير؟", "What is Basir?"), systemImage: "eye")
             Text(l10n.t(
-                "بصير يحوّل المستندات التي يصعب قراءتها إلى ملفات Word مرتبة يسهل التنقل فيها بقارئ الشاشة: عناوين حقيقية، وجداول قابلة للتنقل، وصور موصوفة بالنص. صُمم أولًا للمكفوفين وضعاف البصر، ويفيد كل من يحتاج نصًا واضحًا من ملف مصوّر.",
-                "Basir turns hard-to-read documents into well-structured Word files that are easy to navigate with a screen reader: real headings, navigable tables, and images described in text. It is designed first for blind and low-vision readers, and helps anyone who needs clear text from a scanned file."
+                "بصير يساعدك على قراءة المستندات المصوّرة وتحويلها إلى ملفات Word منظمة، بعناوين وجداول يسهل التنقل بينها، وأوصاف نصية للصور. صُمم مع الاهتمام باحتياجات المكفوفين وضعاف البصر واستخدام قارئات الشاشة.",
+                "Basir helps you read scanned documents by turning them into structured Word files, with headings, navigable tables, and text descriptions of images. It is designed with blind and low-vision readers and screen reader use in mind."
             ))
             .font(.body)
             .foregroundStyle(BasirPalette.secondaryText)
@@ -425,12 +425,12 @@ struct AboutBasirView: View {
 
     private var featuresCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
-            GlassSectionTitle(title: l10n.t("ماذا يستطيع؟", "What can it do?"), systemImage: "checklist")
+            GlassSectionTitle(title: l10n.t("مزايا بصير", "What you can do with Basir"), systemImage: "checklist")
             feature("doc.richtext", l10n.t("تحويل PDF والصور والعروض إلى Word.", "Convert PDFs, images, and presentations to Word."))
-            feature("waveform", l10n.t("تفريغ التسجيلات الصوتية، بما فيها الطويلة، إلى نص مكتوب.", "Transcribe audio recordings, including long ones, into written text."))
+            feature("waveform", l10n.t("تحويل التسجيلات الصوتية إلى نص مكتوب.", "Transcribe audio recordings into text."))
             feature("character.book.closed", l10n.t("ترجمة المستندات إلى 15 لغة.", "Translate documents into 15 languages."))
             feature("text.below.photo", l10n.t("وصف الصور والشعارات والرسوم داخل الملف.", "Describe images, logos, and charts inside the file."))
-            feature("checkmark.shield", l10n.t("التحقق من كل نتيجة قبل حفظها، مع تقرير بلغة بسيطة.", "Verify every result before saving it, with a plain-language report."))
+            feature("checkmark.shield", l10n.t("فحص النتائج قبل حفظها، مع تقرير يوضح ما يحتاج إلى مراجعة.", "Check results before saving, with a report showing any points to review."))
         }
         .glassSurface()
     }
@@ -451,7 +451,7 @@ struct AboutBasirView: View {
     /// Terms and privacy open on the website in Safari.
     private var legalCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
-            GlassSectionTitle(title: l10n.t("القانونية والسياسات", "Legal and policies"), systemImage: "doc.text.fill")
+            GlassSectionTitle(title: l10n.t("الشروط والخصوصية", "Terms and privacy"), systemImage: "doc.text.fill")
             externalLink(l10n.t("الشروط والأحكام", "Terms and Conditions"), icon: "doc.text", path: "/legal/terms")
             externalLink(l10n.t("سياسة الخصوصية", "Privacy Policy"), icon: "hand.raised", path: "/legal/privacy")
         }
@@ -462,7 +462,7 @@ struct AboutBasirView: View {
     private var helpCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
             GlassSectionTitle(title: l10n.t("المساعدة والتواصل", "Help and contact"), systemImage: "questionmark.circle.fill")
-            internalLink(l10n.t("الأسئلة المتكررة", "Frequently Asked Questions"), icon: "questionmark.bubble", slug: "faq")
+            internalLink(l10n.t("الأسئلة الشائعة", "Frequently Asked Questions"), icon: "questionmark.bubble", slug: "faq")
             NavigationLink {
                 ContactFormView()
             } label: {

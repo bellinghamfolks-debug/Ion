@@ -19,7 +19,7 @@ enum AppLock {
         if !LAContext().canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
             settings.appLock = false
             UIAccessibility.post(notification: .announcement, argument: l10n.t(
-                "لا يمكن القفل لأن الجهاز بلا رمز دخول.", "The lock needs a device passcode, which is not set."))
+                "لتفعيل قفل بصير، عيّن رمز دخول لجهازك أولًا.", "Set a device passcode before enabling Basir’s app lock."))
         }
     }
 }
@@ -74,7 +74,7 @@ struct AppLockModifier: ViewModifier {
                     .font(.title2.weight(.bold))
                     .accessibilityAddTraits(.isHeader)
                 if locked {
-                    PrimaryActionButton(title: l10n.t("افتح القفل", "Unlock"), systemImage: "faceid") { unlock() }
+                    PrimaryActionButton(title: l10n.t("فتح بصير", "Unlock Basir"), systemImage: "faceid") { unlock() }
                         .padding(.horizontal, BasirSpacing.xl)
                 }
             }
@@ -87,7 +87,7 @@ struct AppLockModifier: ViewModifier {
         guard !authenticating else { return }
         authenticating = true
         Task {
-            let ok = await AppLock.authenticate(reason: l10n.t("افتح بصير", "Unlock Basir"))
+            let ok = await AppLock.authenticate(reason: l10n.t("تحقق من هويتك لفتح بصير", "Verify your identity to open Basir"))
             authenticating = false
             if ok {
                 locked = false

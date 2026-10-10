@@ -123,17 +123,17 @@ enum OutputMode: String, CaseIterable, Identifiable, Codable, Sendable {
     func detail(_ l10n: L10n) -> String {
         switch self {
         case .full:
-            return l10n.t("النص والعناوين والجداول والصور مع وصفها.",
-                          "Text, headings, tables, and described images.")
+            return l10n.t("يشمل النص والعناوين والجداول والصور وأوصافها.",
+                          "Includes text, headings, tables, images, and image descriptions.")
         case .simple:
-            return l10n.t("محتوى مباشر مع حذف الزخارف غير المهمة.",
-                          "Direct content with nonessential decoration removed.")
+            return l10n.t("يعرض المحتوى الأساسي بتنسيق مبسط، دون الزخارف غير الضرورية.",
+                          "Keeps the main content in a simple layout, without unnecessary decoration.")
         case .textOnly:
-            return l10n.t("يحذف الصور وأوصافها ويحتفظ بالنص والجداول.",
-                          "Keeps text and tables and omits images and their descriptions.")
+            return l10n.t("يشمل النص والجداول فقط، دون الصور أو أوصافها.",
+                          "Includes text and tables only, without images or image descriptions.")
         case .descriptionsOnly:
-            return l10n.t("يحتفظ بالصور والشعارات ووصفها دون بقية النص.",
-                          "Keeps images, logos, and their descriptions without the remaining text.")
+            return l10n.t("يشمل الصور والشعارات وأوصافها فقط، دون بقية النص.",
+                          "Includes images, logos, and their descriptions only, without the rest of the text.")
         }
     }
 }
@@ -224,7 +224,7 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
     func title(_ l10n: L10n) -> String {
         switch self {
         case .automatic:
-            return l10n.t("تلقائي موصى به", "Automatic (recommended)")
+            return l10n.t("تلقائي (موصى به)", "Automatic (recommended)")
         case .flash38:
             return "Gemini 3.8 Flash"
         case .flash:
@@ -245,38 +245,38 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
         switch self {
         case .automatic:
             return l10n.t(
-                "يستخدم الخادم النموذج الإنتاجي الموصى به حاليًا.",
-                "Uses the production model currently recommended by the server."
+                "يختار بصير نموذج المعالجة الموصى به تلقائيًا.",
+                "Basir automatically selects its recommended processing model."
             )
         case .flash38:
             return l10n.t(
-                "أحدث نموذج Flash، وهو الخيار الموصى به للتحويل. إن لم يتوفر على الخادم بعد، يستخدم الخادم 3.7 تلقائيًا.",
-                "Newest Flash model and the recommended conversion choice. If the server cannot use it yet, it uses 3.7 automatically."
+                "خيار بصير الموصى به للتحويل. إذا لم يتوفر على الخادم، يُستخدم Gemini 3.7 Flash تلقائيًا.",
+                "Basir’s recommended choice for conversion. If unavailable on the server, Gemini 3.7 Flash is used automatically."
             )
         case .flash:
             return l10n.t(
-                "نموذج Flash السابق، معتمد للإنتاج ومجرَّب.",
-                "The previous Flash model, proven in production."
+                "إصدار سابق من Flash لمعالجة المستندات.",
+                "An earlier Flash version for document processing."
             )
         case .flash36:
             return l10n.t(
-                "نموذج Flash معتمد للإنتاج للمهام العامة والتحويل متعدد الخطوات.",
-                "GA Flash model for general and multi-step conversion."
+                "خيار من Flash لمعالجة المستندات ومهام التحويل العامة.",
+                "A Flash option for document processing and general conversion tasks."
             )
         case .flash35:
             return l10n.t(
-                "نموذج Flash معتمد للإنتاج، سريع وفعّال من حيث التكلفة.",
-                "GA Flash model that is fast and cost-efficient."
+                "خيار من Flash يوازن بين سرعة المعالجة وتكلفتها.",
+                "A Flash option that balances processing speed and cost."
             )
         case .economy:
             return l10n.t(
-                "أحدث Flash-Lite معتمد للإنتاج للملفات الأبسط والأقل تكلفة.",
-                "Latest GA Flash-Lite for simpler, lower-cost documents."
+                "خيار اقتصادي للمستندات البسيطة.",
+                "A lower-cost option for simple documents."
             )
         case .pro:
             return l10n.t(
-                "تم ترحيل هذا الاختيار القديم تلقائيًا إلى Gemini 3.8 Flash.",
-                "This legacy selection is automatically migrated to Gemini 3.8 Flash."
+                "يُستخدم Gemini 3.8 Flash بدلًا من هذا الخيار السابق.",
+                "Gemini 3.8 Flash is used in place of this older option."
             )
         }
     }
@@ -415,13 +415,13 @@ enum ConversionStage: String, Codable, Sendable {
     func label(_ l10n: L10n) -> String {
         switch self {
         case .preparing: return l10n.t("جارٍ تجهيز الملف", "Preparing the file")
-        case .waitingForNetwork: return l10n.t("بانتظار الشبكة", "Waiting for network")
+        case .waitingForNetwork: return l10n.t("بانتظار الاتصال", "Waiting for connection")
         case .uploading: return l10n.t("جارٍ رفع الملف", "Uploading the file")
         case .processing: return l10n.t("جارٍ معالجة المحتوى", "Processing the content")
         case .downloading: return l10n.t("جارٍ تنزيل النتيجة", "Downloading the result")
         case .paused: return l10n.t("المهمة متوقفة مؤقتًا", "Task paused")
         case .finalising: return l10n.t("جارٍ إنشاء ملف Word", "Creating the Word file")
-        case .done: return l10n.t("اكتملت العملية", "Completed")
+        case .done: return l10n.t("اكتملت المهمة", "Task complete")
         }
     }
 }
@@ -625,11 +625,11 @@ extension BasirJob {
     @MainActor
     func serverContinuationText(_ l10n: L10n) -> String {
         if isReadyOnServer {
-            return l10n.t("ملف Word جاهز على خادم بصير، يُحفظ على جهازك عند فتح بصير",
-                          "The Word file is ready on the Basir server; it saves to your iPhone when you open Basir")
+            return l10n.t("ملف Word جاهز. افتح بصير لتنزيله وحفظه على جهازك",
+                          "Your Word file is ready. Open Basir to download and save it")
         }
         let percent = JobStep.overallPercent(for: progress)
-        return l10n.t("يعمل على خادم بصير، \(percent) بالمئة", "Running on the Basir server, \(percent) percent")
+        return l10n.t("المعالجة مستمرة على خادم بصير. التقدم: \(percent) بالمئة", "Processing continues on Basir’s server. Progress: \(percent) percent")
     }
 }
 
@@ -660,17 +660,17 @@ enum BasirError: LocalizedError {
         case .unsupportedFile(let extensionName):
             return "Unsupported file type: \(extensionName)."
         case .invalidFileContent:
-            return "The selected file content does not match its filename."
+            return "The file’s content does not match its file type."
         case .emptyDocument:
             return "The document does not contain readable content."
         case .noReadablePages:
             return "No PDF pages could be converted."
         case .invalidServerURL:
-            return "The processing service address is invalid."
+            return "Basir could not connect to the processing service."
         case .invalidResponse(let message):
             return "The processing service returned an invalid response. \(message)"
         case .fileTooLarge(let size):
-            return "The selected file is too large (\(size) bytes)."
+            return "The file exceeds the size limit. File size: \(size) bytes."
         case .networkUnavailable:
             return "No internet connection is available."
         case .wifiRequired:
@@ -678,14 +678,14 @@ enum BasirError: LocalizedError {
         case .constrainedNetwork:
             return "Low Data Mode is active for this network."
         case .authenticationFailed:
-            return "The service rejected the authentication details."
+            return "Basir could not verify access to the service."
         case .rateLimited(let retryAfter):
-            if let retryAfter { return "The service rate limit was reached. Retry after \(Int(retryAfter)) seconds." }
-            return "The service rate limit was reached."
+            if let retryAfter { return "Too many requests. Try again in \(Int(retryAfter)) seconds." }
+            return "Too many requests. Please try again later."
         case .invalidServerContentType(let type):
             return "The server returned an unexpected content type: \(type)."
         case .checksumMismatch:
-            return "The downloaded file checksum does not match the server checksum."
+            return "The downloaded file failed its integrity check. Please try downloading it again."
         case .passwordProtectedPDF:
             return "This PDF is protected by a password."
         case .invalidPageSelection:

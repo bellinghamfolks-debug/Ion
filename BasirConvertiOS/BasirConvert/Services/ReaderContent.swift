@@ -90,15 +90,15 @@ enum ReaderContent {
         case .table:
             let headers = block.rows.first ?? []
             let columns = headers.count
-            var parts = [l10n.t("جدول من \(block.rows.count) صفوف و\(columns) أعمدة.",
-                                "Table with \(block.rows.count) rows and \(columns) columns.")]
+            var parts = [l10n.t("جدول. عدد الصفوف: \(block.rows.count). عدد الأعمدة: \(columns).",
+                                "Table. Rows: \(block.rows.count). Columns: \(columns).")]
             parts.append(headers.filter { !$0.isEmpty }.joined(separator: "، "))
             for (index, row) in block.rows.dropFirst().enumerated() {
                 parts.append(l10n.t("الصف \(index + 1): ", "Row \(index + 1): ") + rowSentence(row, headers: headers))
             }
             return parts.joined(separator: "\n")
         case .image:
-            return block.text.isEmpty ? l10n.t("صورة.", "Image.") : l10n.t("صورة: ", "Image: ") + block.text
+            return block.text.isEmpty ? l10n.t("صورة دون وصف نصي.", "Image with no text description.") : l10n.t("صورة: ", "Image: ") + block.text
         case .math:
             return l10n.t("معادلة: ", "Equation: ") + block.text
         default:

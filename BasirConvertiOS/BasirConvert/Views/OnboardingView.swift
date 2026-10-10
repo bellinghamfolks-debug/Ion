@@ -18,16 +18,16 @@ struct OnboardingView: View {
         [
             Page(icon: "doc.richtext.fill",
                  title: l10n.t("أهلًا بك في بصير", "Welcome to Basir"),
-                 text: l10n.t("حوّل ملفات PDF والصور والعروض والتسجيلات إلى ملفات Word مرتبة وسهلة القراءة، أو ترجمها إلى لغتك.",
-                              "Turn PDFs, images, presentations, and recordings into well-structured Word files that are easy to read, or translate them.")),
+                 text: l10n.t("حوّل مستنداتك وصورك وتسجيلاتك إلى ملفات Word سهلة القراءة، وترجم مستنداتك إلى اللغة التي تختارها.",
+                              "Turn documents, images, and recordings into Word files that are easy to read. Translate documents into your chosen language.")),
             Page(icon: "plus.circle.fill",
-                 title: l10n.t("ابدأ من «جديد»", "Start from New"),
-                 text: l10n.t("اختر ملفًا أو امسح مستندًا أو التقط صورة أو الصق صورة. تظهر المهمة في شريط صغير أسفل الشاشة، ويمكنك متابعة استخدام التطبيق.",
-                              "Choose a file, scan a document, take a photo, or paste an image. The task appears in a small bar at the bottom, so you can keep using the app.")),
+                 title: l10n.t("اختر ملفك وابدأ", "Choose a file to begin"),
+                 text: l10n.t("من تبويب «جديد»، أضف ملفًا أو صوّر مستندًا. تابع تقدم المهمة من الشريط أسفل الشاشة، وواصل استخدام بصير أثناء المعالجة.",
+                              "Add a file or scan a document from the New tab. Follow its progress in the bar at the bottom while you keep using Basir.")),
             Page(icon: "checkmark.shield.fill",
-                 title: l10n.t("نتائج موثوقة", "Results you can trust"),
-                 text: l10n.t("يتحقق بصير من كل ملف Word قبل حفظه، ويخبرك بما قُرئ وما يحتاج مراجعة. مستخدمو VoiceOver: النقر مرتين بإصبعين يوقف المهمة أو يستأنفها.",
-                              "Basir checks every Word file before saving it and tells you what was read and what needs review. VoiceOver users: a two-finger double-tap pauses or resumes a task."))
+                 title: l10n.t("اقرأ نتيجتك وراجعها", "Read and review your result"),
+                 text: l10n.t("تجد نتائجك في «ملفاتي»، مع تقرير يوضح جودة الملف وما يحتاج إلى مراجعة. مع VoiceOver، انقر مرتين بإصبعين لإيقاف المهمة مؤقتًا أو استئنافها.",
+                              "Find your results in My files, with a quality report and any points to review. With VoiceOver, double-tap with two fingers to pause or resume a task."))
         ]
     }
 

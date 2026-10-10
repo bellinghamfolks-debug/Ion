@@ -1,3 +1,14 @@
 "app_name" = "Basir";
-
-
+"Convert a File with Basir" = "Convert a file to Word with Basir";
+"Opens the file picker in Basir so you can choose a file to convert." = "Opens the file picker in Basir so you can choose a file to convert.";
+"Translate a File with Basir" = "Translate a document with Basir";
+"Opens the file picker in Basir so you can choose a document to translate." = "Opens the file picker in Basir so you can choose a document to translate.";
+"Open the Latest Basir Result" = "Open the latest Basir result";
+"Opens the most recent Word file Basir created." = "Opens the most recent Word file Basir created.";
+"Send File to Basir" = "Send a file to Basir";
+"Sends a file to Basir, where you can choose conversion or translation for supported formats." = "Sends a file to Basir, where you can choose conversion or translation for supported formats.";
+"File" = "File";
+"Scan a Document with Basir" = "Scan a document with Basir";
+"Opens Basir’s camera with spoken guidance to help you capture the whole page." = "Opens Basir’s camera with spoken guidance to help you capture the whole page.";
+"Read the Latest Basir Result" = "Read the latest Basir result";
+"Opens your latest Word file in Basir’s reader and resumes where you left off." = "Opens your latest Word file in Basir’s reader and resumes where you left off.";

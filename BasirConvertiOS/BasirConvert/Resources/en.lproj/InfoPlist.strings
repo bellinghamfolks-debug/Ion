@@ -1,2 +1,6 @@
 "CFBundleDisplayName" = "Basir";
-
+"NSCameraUsageDescription" = "Basir uses the camera to capture what you want to read, convert, translate, or ask about.";
+"NSPhotoLibraryUsageDescription" = "Choose photos to read, convert, translate, or ask about in Basir.";
+"NSCalendarsWriteOnlyAccessUsageDescription" = "Basir adds dates you select from your documents to Calendar without reading your existing events.";
+"NSCalendarsUsageDescription" = "Basir uses Calendar to add dates you select from your documents.";
+"NSFaceIDUsageDescription" = "Basir uses Face ID to verify your identity when you open the app with app lock enabled.";

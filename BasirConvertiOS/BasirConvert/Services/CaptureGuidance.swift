@@ -19,16 +19,16 @@ enum CaptureInstruction: Equatable, Sendable {
     @MainActor
     func spoken(_ l10n: L10n) -> String {
         switch self {
-        case .searching: return l10n.t("لا أرى ورقة بعد. ضع الورقة على سطح داكن ووجّه الهاتف نحوها.",
-                                       "No page yet. Put the page on a dark surface and point the phone at it.")
+        case .searching: return l10n.t("لم تظهر الصفحة بعد. ضعها على سطح داكن ووجّه الكاميرا نحوها.",
+                                       "No page detected yet. Place it on a dark surface and point the camera at it.")
         case .moveLeft: return l10n.t("حرّك الهاتف قليلًا لليسار", "Move the phone a little to the left")
         case .moveRight: return l10n.t("حرّك الهاتف قليلًا لليمين", "Move the phone a little to the right")
-        case .moveUp: return l10n.t("حرّك الهاتف قليلًا للأعلى", "Move the phone a little up")
-        case .moveDown: return l10n.t("حرّك الهاتف قليلًا للأسفل", "Move the phone a little down")
+        case .moveUp: return l10n.t("حرّك الهاتف قليلًا نحو أعلى الصفحة", "Move the phone slightly toward the top of the page")
+        case .moveDown: return l10n.t("حرّك الهاتف قليلًا نحو أسفل الصفحة", "Move the phone slightly toward the bottom of the page")
         case .closer: return l10n.t("قرّب الهاتف من الورقة", "Bring the phone closer to the page")
-        case .farther: return l10n.t("ارفع الهاتف قليلًا، الورقة لا تظهر كاملة", "Lift the phone a little; the page is not fully in view")
+        case .farther: return l10n.t("أبعد الهاتف قليلًا عن الورقة لتظهر كاملة", "Move the phone slightly away from the page to fit it all in")
         case .holdSteady: return l10n.t("ثبّت الهاتف", "Hold the phone steady")
-        case .ready: return l10n.t("الورقة كاملة. جارٍ الالتقاط", "The whole page is in view. Capturing")
+        case .ready: return l10n.t("الصفحة ظاهرة بالكامل. جارٍ التقاط الصورة", "The whole page is in view. Capturing now")
         }
     }
 }

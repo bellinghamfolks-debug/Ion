@@ -1,3 +1,14 @@
 "app_name" = "بصير";
-
-
+"Convert a File with Basir" = "تحويل ملف إلى Word في بصير";
+"Opens the file picker in Basir so you can choose a file to convert." = "يفتح اختيار الملفات في بصير لتحديد الملف الذي تريد تحويله.";
+"Translate a File with Basir" = "ترجمة مستند في بصير";
+"Opens the file picker in Basir so you can choose a document to translate." = "يفتح اختيار الملفات في بصير لتحديد المستند الذي تريد ترجمته.";
+"Open the Latest Basir Result" = "فتح آخر نتيجة في بصير";
+"Opens the most recent Word file Basir created." = "يفتح آخر ملف Word أنشأه بصير.";
+"Send File to Basir" = "إرسال ملف إلى بصير";
+"Sends a file to Basir, where you can choose conversion or translation for supported formats." = "يرسل الملف إلى بصير لتختار تحويله أو ترجمته بحسب الصيغة المدعومة.";
+"File" = "الملف";
+"Scan a Document with Basir" = "تصوير مستند في بصير";
+"Opens Basir’s camera with spoken guidance to help you capture the whole page." = "يفتح كاميرا بصير مع إرشادات صوتية تساعدك على تصوير الصفحة كاملة.";
+"Read the Latest Basir Result" = "قراءة آخر نتيجة في بصير";
+"Opens your latest Word file in Basir’s reader and resumes where you left off." = "يفتح آخر ملف Word في قارئ بصير ويستأنف القراءة من حيث توقفت.";

@@ -65,10 +65,10 @@ struct JobView: View {
                 OperationFeedback.warningImpact()
                 viewModel.cancel()
             }
-            Button(l10n.t("متابعة المعالجة", "Keep processing"), role: .cancel) { }
+            Button(l10n.t("متابعة المهمة", "Keep task running"), role: .cancel) { }
         } message: {
-            Text(l10n.t("سيتوقف العمل الجاري، وسيبقى الملف المصدر محفوظًا لإعادة المحاولة.",
-                        "Current processing will stop. The source file will be kept for retry."))
+            Text(l10n.t("سيُرسل طلب لإلغاء المهمة. سيبقى الملف الأصلي محفوظًا لتتمكن من إعادة المحاولة.",
+                        "A cancellation request will be sent. The original file will be kept so you can try again."))
         }
     }
 
@@ -130,9 +130,9 @@ struct JobView: View {
             }
             TimelineView(.periodic(from: .now, by: 1)) { _ in
                 AdaptiveStack {
-                    metric(l10n.t("الوقت المنقضي", "Elapsed"), format(viewModel.elapsedTime))
+                    metric(l10n.t("الوقت المنقضي", "Elapsed time"), format(viewModel.elapsedTime))
                     if let remaining = viewModel.estimatedRemaining {
-                        metric(l10n.t("المتبقي تقديريًا", "Estimated left"), format(remaining))
+                        metric(l10n.t("الوقت المتبقي تقريبًا", "Estimated time left"), format(remaining))
                     }
                 }
                 .accessibilityElement(children: .combine)
@@ -145,8 +145,8 @@ struct JobView: View {
                     showCancelConfirmation = true
                 }
             }
-            Text(l10n.t("تلميح: النقر مرتين بإصبعين يوقف المهمة أو يستأنفها من أي مكان.",
-                        "Tip: a two-finger double-tap pauses or resumes the task from anywhere."))
+            Text(l10n.t("مع VoiceOver، انقر مرتين بإصبعين لإيقاف المهمة مؤقتًا أو استئنافها.",
+                        "With VoiceOver, double-tap with two fingers to pause or resume the task."))
                 .font(.footnote)
                 .foregroundStyle(BasirPalette.tertiaryText)
                 .fixedSize(horizontal: false, vertical: true)
@@ -156,8 +156,8 @@ struct JobView: View {
 
     private var waitingContent: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
-            Text(viewModel.errorMessage ?? l10n.t("ستبدأ المهمة تلقائيًا عندما يصبح الاتصال مناسبًا.",
-                                                   "The task will start automatically when the connection is suitable."))
+            Text(viewModel.errorMessage ?? l10n.t("ستبدأ المهمة عند توفر اتصال يطابق إعدادات الشبكة التي اخترتها.",
+                                                   "The task will start when a connection matching your network settings is available."))
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
             PrimaryActionButton(title: l10n.t("المحاولة الآن", "Try now"), systemImage: "arrow.clockwise") {
@@ -170,8 +170,8 @@ struct JobView: View {
     private var pausedContent: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             JobStepTimeline(progress: viewModel.progress)
-            Text(l10n.t("تم حفظ تقدمك. عند الاستئناف، سيكمل بصير من آخر جزء انتهى منه.",
-                        "Progress is saved. Basir will reuse completed pages when you resume."))
+            Text(l10n.t("تقدمك محفوظ. عند الاستئناف، يستخدم بصير الصفحات التي اكتملت معالجتها.",
+                        "Your progress is saved. Basir will reuse completed pages when you resume."))
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
             PrimaryActionButton(title: l10n.t("استئناف المهمة", "Resume task"), systemImage: "play.fill") {
@@ -192,7 +192,7 @@ struct JobView: View {
                         .font(.headline)
                         .fixedSize(horizontal: false, vertical: true)
                     if result.pathExtension.lowercased() == "docx" {
-                        PrimaryActionButton(title: l10n.t("اقرأ في بصير", "Read in Basir"), systemImage: "text.book.closed.fill") {
+                        PrimaryActionButton(title: l10n.t("قراءة في بصير", "Read in Basir"), systemImage: "text.book.closed.fill") {
                             readerURL = result
                         }
                     }
@@ -210,13 +210,13 @@ struct JobView: View {
                 }
                 if let job = viewModel.selectedJob, !job.failedItems.isEmpty {
                     Text(l10n.t(
-                        "صفحات حُفظت كصور موصوفة بعد تعذر قراءة نصها: \(pageRanges(job.failedItems))",
-                        "Pages kept as described images because their text could not be read: \(pageRanges(job.failedItems))"
+                        "تعذرت قراءة نص هذه الصفحات، فحُفظت كصور مع وصف نصي: \(pageRanges(job.failedItems))",
+                        "These pages were saved as images with text descriptions because their text could not be read: \(pageRanges(job.failedItems))"
                     ))
                     .font(.footnote)
                     .foregroundStyle(BasirPalette.warning)
                     .fixedSize(horizontal: false, vertical: true)
-                    SecondaryActionButton(title: l10n.t("إعادة محاولة هذه الصفحات", "Retry these pages"),
+                    SecondaryActionButton(title: l10n.t("إعادة معالجة هذه الصفحات", "Retry these pages"),
                                           systemImage: "arrow.clockwise.circle") { viewModel.retryFailedItems() }
                 }
             }
@@ -242,7 +242,7 @@ struct JobView: View {
                     .foregroundStyle(viewModel.status == .failed ? BasirPalette.danger : BasirPalette.primaryText)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            PrimaryActionButton(title: l10n.t("إعادة المحاولة بنفس الملف", "Retry with the same file"),
+            PrimaryActionButton(title: l10n.t("إعادة المحاولة", "Try again"),
                                 systemImage: "arrow.clockwise") { viewModel.retry() }
             helpLink
         }
@@ -252,7 +252,7 @@ struct JobView: View {
     @ViewBuilder private var helpLink: some View {
         if let diagnostic = viewModel.diagnosticURL {
             ShareLink(item: diagnostic) {
-                Label(l10n.t("مشاركة معلومات المساعدة", "Share support information"), systemImage: "lifepreserver")
+                Label(l10n.t("مشاركة تقرير المشكلة", "Share diagnostic report"), systemImage: "lifepreserver")
                     .frame(minHeight: 44)
             }
             .tint(BasirPalette.accent)
@@ -269,17 +269,17 @@ struct JobView: View {
 
     private var navigationTitle: String {
         if viewModel.selectedJob?.isContinuingOnServer == true {
-            return l10n.t("يعمل على خادم بصير", "Running on the Basir server")
+            return l10n.t("المعالجة مستمرة على الخادم", "Processing continues on the server")
         }
         switch viewModel.status {
         case .idle: return l10n.t("المهمة", "Task")
         case .queued: return l10n.t("بانتظار البدء", "Queued")
-        case .waitingForNetwork: return l10n.t("بانتظار الشبكة", "Waiting for network")
-        case .running: return l10n.t("جارٍ تنفيذ المهمة", "Working")
+        case .waitingForNetwork: return l10n.t("بانتظار الاتصال", "Waiting for connection")
+        case .running: return l10n.t("جارٍ تنفيذ المهمة", "Task in progress")
         case .paused: return l10n.t("متوقفة مؤقتًا", "Paused")
         case .partial: return l10n.t("نتيجة جزئية جاهزة", "Partial result ready")
         case .completed: return l10n.t("ملف Word جاهز", "Word file ready")
-        case .failed: return l10n.t("لم تكتمل العملية", "Could not complete")
+        case .failed: return l10n.t("لم تكتمل المهمة", "Task did not complete")
         case .cancelled: return l10n.t("أُلغيت المهمة", "Task cancelled")
         }
     }
@@ -311,10 +311,10 @@ struct JobView: View {
         let requested = AIModelChoice(rawValue: job.options.effectivePreferredModel)?.title(l10n)
             ?? job.options.effectivePreferredModel
         if let executed = job.executedModel, !executed.isEmpty {
-            return l10n.t("النموذج: \(requested) • نُفذ: \(executed)",
-                          "Model: \(requested) • executed: \(executed)")
+            return l10n.t("النموذج المختار: \(requested). النموذج المستخدم: \(executed)",
+                          "Selected model: \(requested). Model used: \(executed)")
         }
-        return l10n.t("النموذج المطلوب: \(requested)", "Requested model: \(requested)")
+        return l10n.t("النموذج المختار: \(requested)", "Selected model: \(requested)")
     }
 
     private func completionAccounting(_ job: BasirJob) -> some View {
@@ -325,8 +325,8 @@ struct JobView: View {
         let exact = sourceTotal <= 0 || accounted == sourceTotal
         return VStack(alignment: .leading, spacing: 5) {
             Text(l10n.t(
-                "المصدر \(sourceTotal) • أُدرجت \(retained) • فارغة متخطاة \(skipped) • المحاسبة \(accounted)/\(sourceTotal)",
-                "Source \(sourceTotal) • retained \(retained) • blank skipped \(skipped) • accounted \(accounted)/\(sourceTotal)"
+                "عدد العناصر في المصدر: \(sourceTotal). أُدرج في النتيجة: \(retained). عناصر فارغة جرى تخطيها: \(skipped). الإجمالي: \(accounted) من \(sourceTotal).",
+                "Source items: \(sourceTotal). Included in the result: \(retained). Blank items skipped: \(skipped). Total accounted for: \(accounted) of \(sourceTotal)."
             ))
             .font(.footnote.weight(.semibold))
             .foregroundStyle(exact ? BasirPalette.secondaryText : BasirPalette.danger)
@@ -343,8 +343,8 @@ struct JobView: View {
             if !exact {
                 Label(
                     l10n.t(
-                        "تحذير: أرقام الصفحات لا تتطابق مع المصدر. لا تعتمد النتيجة.",
-                        "Warning: page accounting does not match the source. Do not rely on this result."
+                        "عدد الصفحات لا يطابق الملف الأصلي. راجع النتيجة قبل الاعتماد عليها.",
+                        "The page count does not match the original file. Review the result before relying on it."
                     ),
                     systemImage: "exclamationmark.triangle.fill"
                 )
@@ -376,7 +376,7 @@ struct JobView: View {
 
     private func metadataSummary(_ metadata: DocumentMetadata) -> String {
         var parts = [metadata.humanReadableSize]
-        if let count = metadata.itemCount { parts.append(l10n.t("\(count) صفحة أو عنصر", "\(count) page(s) or item(s)")) }
+        if let count = metadata.itemCount { parts.append(l10n.t("عدد الصفحات أو العناصر: \(count)", "Pages or items: \(count)")) }
         if let width = metadata.pixelWidth, let height = metadata.pixelHeight { parts.append("\(width)×\(height)") }
         return parts.joined(separator: " • ")
     }

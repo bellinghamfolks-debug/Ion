@@ -84,16 +84,16 @@ struct ResultLibraryView: View {
                         .accessibilityAddTraits(.isHeader)
                     if library.items.isEmpty {
                         InfoCard(
-                            title: l10n.t("لا توجد نتائج بعد", "No results yet"),
-                            text: l10n.t("ستظهر ملفات Word المكتملة هنا تلقائيًا.",
-                                         "Completed Word files will appear here automatically."),
+                            title: l10n.t("لا توجد ملفات محفوظة", "No saved files"),
+                            text: l10n.t("ابدأ بتحويل ملف أو ترجمته من تبويب «جديد». ستجد النتيجة هنا بعد اكتمالها.",
+                                         "Convert or translate a file from the New tab. Your result will appear here when it’s ready."),
                             systemImage: "tray"
                         )
                     } else {
                         sortMenu
                         if filtered.isEmpty {
                             InfoCard(title: l10n.t("لا توجد نتائج مطابقة", "No matching files"),
-                                     text: l10n.t("جرّب كلمة بحث أخرى.", "Try another search word."),
+                                     text: l10n.t("جرّب البحث باسم آخر أو بجزء من اسم الملف.", "Try another name or part of a file name."),
                                      systemImage: "magnifyingglass")
                         }
                         ForEach(groups) { group in
@@ -132,7 +132,7 @@ struct ResultLibraryView: View {
                     .appScreenContent()
                 }
                 .background(BasirPalette.background.ignoresSafeArea())
-                .navigationTitle(l10n.t("تقرير التحقق", "Verification report"))
+                .navigationTitle(l10n.t("تقرير الجودة", "Quality report"))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
@@ -143,12 +143,12 @@ struct ResultLibraryView: View {
             .escapeToDismiss { reportItem = nil }
             .presentationDetents([.medium, .large])
         }
-        .alert(l10n.t("إعادة تسمية النتيجة", "Rename result"), isPresented: Binding(
+        .alert(l10n.t("إعادة تسمية الملف", "Rename file"), isPresented: Binding(
             get: { renameItem != nil }, set: { if !$0 { renameItem = nil } }
         )) {
             TextField(l10n.t("اسم الملف", "File name"), text: $newName)
             Button(l10n.t("إلغاء", "Cancel"), role: .cancel) { renameItem = nil }
-            Button(l10n.t("حفظ الاسم", "Save name")) {
+            Button(l10n.t("حفظ", "Save")) {
                 if let item = renameItem { _ = try? library.rename(item, to: newName) }
                 renameItem = nil
             }
@@ -199,7 +199,7 @@ struct ResultLibraryView: View {
             }
             AdaptiveStack {
                 if item.isReadable {
-                    CardActionButton(title: l10n.t("اقرأ في بصير", "Read in Basir"), systemImage: "text.book.closed.fill",
+                    CardActionButton(title: l10n.t("قراءة في بصير", "Read in Basir"), systemImage: "text.book.closed.fill",
                                      prominent: true) {
                         readItem = item
                     }
@@ -249,14 +249,14 @@ struct ResultLibraryView: View {
                      "Double-tap to preview. Swipe up or down for more actions."))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { if item.isReadable { readItem = item } else { previewItem = item } }
-        .modifier(ReadActionModifier(item: item, title: l10n.t("اقرأ في بصير", "Read in Basir")) { readItem = item })
+        .modifier(ReadActionModifier(item: item, title: l10n.t("قراءة في بصير", "Read in Basir")) { readItem = item })
         .accessibilityAction(named: l10n.t("معاينة", "Preview")) { previewItem = item }
         .accessibilityAction(named: l10n.t("مشاركة", "Share")) { shareItem = item }
         .accessibilityAction(named: l10n.t("حفظ في الملفات", "Save to Files")) { exportItem = item }
         .accessibilityAction(named: l10n.t("فتح باستخدام", "Open in app")) { openItem = item }
         .accessibilityAction(named: l10n.t("إعادة تسمية", "Rename")) { beginRename(item) }
         .accessibilityAction(named: l10n.t("حذف", "Delete")) { deleteItem = item }
-        .modifier(ReportActionModifier(item: item, title: l10n.t("تقرير التحقق", "Verification report")) {
+        .modifier(ReportActionModifier(item: item, title: l10n.t("تقرير الجودة", "Quality report")) {
             reportItem = item
         })
     }
@@ -269,8 +269,8 @@ struct ResultLibraryView: View {
     private func accessibilitySummary(_ item: OutputRecord) -> String {
         var parts = [metadataText(item)]
         if let quality = item.quality {
-            parts.append(quality.hasConcerns ? l10n.t("تم التحقق مع ملاحظات", "verified with notes")
-                                             : l10n.t("تم التحقق من الجودة", "quality verified"))
+            parts.append(quality.hasConcerns ? l10n.t("اكتمل الفحص مع ملاحظات", "checked with notes")
+                                             : l10n.t("اكتمل فحص الجودة", "quality check complete"))
         }
         return parts.joined(separator: l10n.isArabic ? "، " : ", ")
     }
@@ -347,7 +347,7 @@ struct JobQueueView: View {
                         Text(l10n.t("المهام", "Tasks"))
                             .font(.system(.largeTitle, design: .rounded, weight: .bold))
                             .accessibilityAddTraits(.isHeader)
-                        InfoCard(title: l10n.t("لا توجد مهام", "The queue is empty"),
+                        InfoCard(title: l10n.t("لا توجد مهام بعد", "No tasks yet"),
                                  text: l10n.t("ابدأ مهمة من تبويب «جديد».",
                                               "Start a task from the New tab."),
                                  systemImage: "checklist")
@@ -378,7 +378,7 @@ struct JobQueueView: View {
         .toolbar {
             if viewModel.jobs.count > 1 {
                 ToolbarItem(placement: .primaryAction) {
-                    Button(isReordering ? l10n.t("تم", "Done") : l10n.t("ترتيب", "Reorder")) {
+                    Button(isReordering ? l10n.t("تم", "Done") : l10n.t("ترتيب المهام", "Reorder tasks")) {
                         isReordering.toggle()
                     }
                 }
@@ -455,12 +455,12 @@ struct JobQueueView: View {
         switch job.status {
         case .idle: return l10n.t("جديدة", "New")
         case .queued: return l10n.t("بانتظار البدء", "Queued")
-        case .waitingForNetwork: return l10n.t("بانتظار الشبكة", "Waiting for network")
+        case .waitingForNetwork: return l10n.t("بانتظار الاتصال", "Waiting for connection")
         case .running: return JobStep.spokenStatus(for: job.progress, l10n: l10n)
         case .paused: return l10n.t("متوقفة مؤقتًا", "Paused")
         case .partial: return l10n.t("نتيجة جزئية جاهزة", "Partial result ready")
         case .completed: return l10n.t("مكتملة", "Completed")
-        case .failed: return l10n.t("تحتاج إعادة محاولة", "Needs retry")
+        case .failed: return l10n.t("تعذّر إكمالها", "Could not complete")
         case .cancelled: return l10n.t("ملغاة", "Cancelled")
         }
     }

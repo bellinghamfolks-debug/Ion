@@ -87,12 +87,12 @@ struct TaskComposerView: View {
                     operationPicker
 
                     if pendingURLs.isEmpty {
-                        SectionHeading(title: l10n.t("من أين الملف؟", "Where is the file?"))
+                        SectionHeading(title: l10n.t("أضف ملفًا", "Add a file"))
                         sourceGrid
                         if !isTranslation {
                             Text(l10n.t(
-                                "يقبل التحويل ملفات PDF والعروض والصور والتسجيلات الصوتية.",
-                                "Conversion accepts PDF, presentations, images, and audio recordings."
+                                "حوّل ملفات PDF والعروض التقديمية والصور والتسجيلات الصوتية إلى Word.",
+                                "Convert PDFs, presentations, images, and audio recordings to Word."
                             ))
                             .font(.footnote)
                             .foregroundStyle(BasirPalette.secondaryText)
@@ -133,18 +133,18 @@ struct TaskComposerView: View {
         .foregroundStyle(BasirPalette.primaryText)
         .navigationTitle(l10n.t("جديد", "New"))
         .navigationBarTitleDisplayMode(.inline)
-        .alert(l10n.t("تأكيد الإرسال", "Confirm sending"), isPresented: $showPrivacyConfirmation) {
+        .alert(l10n.t("إرسال الملفات للمعالجة؟", "Send files for processing?"), isPresented: $showPrivacyConfirmation) {
             Button(l10n.t("إلغاء", "Cancel"), role: .cancel) { }
             Button(isTranslation ? l10n.t("ابدأ الترجمة", "Start translation")
                                  : l10n.t("ابدأ التحويل", "Start conversion")) { enqueuePending() }
         } message: { Text(privacyMessage) }
-        .alert(l10n.t("تعذر بدء المهمة", "Unable to start"), isPresented: $showConfigurationRequired) {
+        .alert(l10n.t("تعذر بدء المهمة", "Could not start the task"), isPresented: $showConfigurationRequired) {
             Button(l10n.t("حسنًا", "OK"), role: .cancel) { }
         } message: {
-            Text(l10n.t("هذه النسخة غير مرتبطة بخادم بصير بعد. ثبّت النسخة النهائية المرتبطة بالخادم.",
-                        "This build is not connected to the Basir server. Install the final server-enabled build."))
+            Text(l10n.t("خدمة المعالجة غير مهيأة في هذه النسخة. تواصل مع فريق بصير للحصول على نسخة جاهزة للاستخدام.",
+                        "Processing is not set up in this version. Contact the Basir team for a ready-to-use version."))
         }
-        .alert(l10n.t("ملف PDF محمي", "Password-protected PDF"), isPresented: Binding(
+        .alert(l10n.t("ملف PDF محمي بكلمة مرور", "Password-protected PDF"), isPresented: Binding(
             get: { passwordURL != nil },
             set: { if !$0 { passwordURL = nil; pdfPassword = "" } }
         )) {
@@ -156,8 +156,8 @@ struct TaskComposerView: View {
             }
             Button(l10n.t("فتح الملف", "Unlock")) { unlockPDF() }
         } message: {
-            Text(l10n.t("تُستخدم كلمة المرور محليًا لإنشاء نسخة غير محمية، ولا تُحفظ ولا تُرسل.",
-                        "The password is used locally to make an unlocked copy. It is neither stored nor sent."))
+            Text(l10n.t("أدخل كلمة المرور لفتح الملف. يستخدمها بصير على جهازك لإنشاء نسخة غير محمية، دون حفظ كلمة المرور أو إرسالها.",
+                        "Enter the password to open the PDF. Basir uses it on your device to create an unlocked copy, without storing or sending the password."))
         }
         .fullScreenCover(isPresented: $showFiles) {
             BasirDocumentPicker(contentTypes: contentTypes, allowsMultipleSelection: true) { urls in
@@ -275,7 +275,7 @@ struct TaskComposerView: View {
                        detail: l10n.t("من تطبيق الملفات", "From the Files app"),
                        systemImage: "folder.fill") { showFiles = true }
             SourceTile(title: l10n.t("تصوير موجَّه", "Guided capture"),
-                       detail: l10n.t("يرشدك بالصوت حتى تظهر الورقة كاملة", "Spoken directions until the whole page is in view"),
+                       detail: l10n.t("إرشادات صوتية لتصوير الصفحة كاملة", "Spoken guidance to capture the whole page"),
                        systemImage: "viewfinder.circle.fill") { openGuidedCapture() }
             SourceTile(title: l10n.t("مسح ضوئي", "Scan"),
                        detail: l10n.t("مستند متعدد الصفحات", "Multi-page document"),
@@ -287,7 +287,7 @@ struct TaskComposerView: View {
                        detail: l10n.t("صورة من الحافظة", "Image from clipboard"),
                        systemImage: "doc.on.clipboard.fill") { pasteImages() }
             SourceTile(title: l10n.t("الصور", "Photos"),
-                       detail: l10n.t("من مكتبة الصور", "From your library"),
+                       detail: l10n.t("من مكتبة الصور", "From your photo library"),
                        systemImage: "photo.on.rectangle.angled") { showPhotos = true }
         }
     }
@@ -305,7 +305,7 @@ struct TaskComposerView: View {
                 Label(l10n.t("الصور", "Photos"), systemImage: "photo.on.rectangle.angled")
             }
         } label: {
-            Label(l10n.t("إضافة المزيد", "Add more"), systemImage: "plus")
+            Label(l10n.t("إضافة ملفات", "Add files"), systemImage: "plus")
                 .font(.subheadline.weight(.semibold))
                 .frame(minHeight: 44)
         }
@@ -324,7 +324,7 @@ struct TaskComposerView: View {
 
     private func openScanner() {
         if VNDocumentCameraViewController.isSupported { showScanner = true }
-        else { pickerError = l10n.t("ماسح المستندات غير متاح على هذا الجهاز.", "Document scanning is not available on this device.") }
+        else { pickerError = l10n.t("المسح الضوئي غير متاح على هذا الجهاز. يمكنك اختيار ملف أو صورة.", "Document scanning is not available on this device. Choose a file or photo instead.") }
     }
 
     // MARK: - Selected files and options
@@ -383,7 +383,7 @@ struct TaskComposerView: View {
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
             Button { viewModel.isSettingsPresented = true } label: {
-                Label(l10n.t("تغيير الخيارات", "Change options"), systemImage: "gearshape")
+                Label(l10n.t("تعديل الخيارات", "Edit options"), systemImage: "gearshape")
                     .font(.subheadline.weight(.semibold))
                     .frame(minHeight: 44)
             }
@@ -395,8 +395,8 @@ struct TaskComposerView: View {
     private var summaryText: String {
         let yes = l10n.t("نعم", "on"), no = l10n.t("لا", "off")
         return l10n.t(
-            "المحتوى: \(settings.outputMode.title(l10n)) • الصور: \(settings.embedVisuals ? yes : no) • المعادلات: \(settings.includeMath ? yes : no) • النموذج: \(settings.preferredModel.title(l10n))",
-            "Content: \(settings.outputMode.title(l10n)) • images: \(settings.embedVisuals ? yes : no) • math: \(settings.includeMath ? yes : no) • model: \(settings.preferredModel.title(l10n))"
+            "المحتوى: \(settings.outputMode.title(l10n)). إدراج الصور: \(settings.embedVisuals ? yes : no). شرح المعادلات: \(settings.includeMath ? yes : no). النموذج: \(settings.preferredModel.title(l10n)).",
+            "Content: \(settings.outputMode.title(l10n)). Images: \(settings.embedVisuals ? yes : no). Equation explanations: \(settings.includeMath ? yes : no). Model: \(settings.preferredModel.title(l10n))."
         )
     }
 
@@ -404,12 +404,12 @@ struct TaskComposerView: View {
     private var pageSelectionCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             GlassSectionTitle(title: l10n.t("الصفحات المطلوبة", "Pages to process"), systemImage: "doc.on.doc")
-            Text(l10n.t("الملف طويل. يمكنك اختيار الصفحات التي تحتاجها فقط ليكون أسرع، مثل 1-10 أو 3، 7، 12. اتركه فارغًا لكل الصفحات.",
-                        "This is a long file. Choose only the pages you need to make it faster, like 1-10 or 3, 7, 12. Leave empty for all pages."))
+            Text(l10n.t("لتقليل وقت المعالجة، حدّد الصفحات المطلوبة، مثل 1-10 أو 3، 7، 12. اترك الحقل فارغًا لاستخدام اختيار الصفحات المحفوظ في الإعدادات.",
+                        "Choose the pages you need to reduce processing time, such as 1-10 or 3, 7, 12. Leave blank to use the page selection saved in Settings."))
                 .font(.footnote)
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
-            TextField(l10n.t("كل الصفحات", "All pages"), text: $pageSelectionOverride)
+            TextField(l10n.t("حسب الإعدادات", "Use saved settings"), text: $pageSelectionOverride)
                 .keyboardType(.numbersAndPunctuation)
                 .padding(BasirSpacing.m)
                 .background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
@@ -419,7 +419,7 @@ struct TaskComposerView: View {
                     pageSelectionOverride = "1-10"
                     refreshEstimates()
                 }
-                CardActionButton(title: l10n.t("كل الصفحات", "All pages"), systemImage: "doc.on.doc") {
+                CardActionButton(title: l10n.t("حسب الإعدادات", "Use saved settings"), systemImage: "doc.on.doc") {
                     pageSelectionOverride = ""
                     refreshEstimates()
                 }
@@ -435,20 +435,20 @@ struct TaskComposerView: View {
         if checkingScan.contains(key) {
             HStack(spacing: BasirSpacing.s) {
                 ProgressView().tint(BasirPalette.cyan)
-                Text(l10n.t("جارٍ فحص جودة المسح على جهازك…", "Checking scan quality on your iPhone…"))
+                Text(l10n.t("جارٍ فحص وضوح الصفحات على جهازك…", "Checking page clarity on your device…"))
                     .font(.footnote)
             }
             .accessibilityElement(children: .combine)
         } else if let report = scanReports[key] {
             if report.isClean {
-                Label(l10n.t("فحص المسح: الصفحات واضحة ولا تكرار فيها.", "Scan check: pages are clear, none repeated."),
+                Label(l10n.t("لم يرصد الفحص مشكلات في وضوح الصفحات أو تكرارها.", "The scan check found no issues with page clarity or duplicates."),
                       systemImage: "checkmark.seal.fill")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(BasirPalette.success)
                     .fixedSize(horizontal: false, vertical: true)
             } else {
                 VStack(alignment: .leading, spacing: BasirSpacing.xs) {
-                    Text(l10n.t("فحص المسح", "Scan check"))
+                    Text(l10n.t("فحص الصفحات", "Page check"))
                         .font(.footnote.weight(.bold))
                         .accessibilityAddTraits(.isHeader)
                     ForEach(report.issues) { issue in
@@ -457,7 +457,7 @@ struct TaskComposerView: View {
                             .foregroundStyle(issue.kind == .upsideDown ? BasirPalette.secondaryText : BasirPalette.warning)
                             .fixedSize(horizontal: false, vertical: true)
                     }
-                    CardActionButton(title: l10n.t("أعد التصوير", "Retake"), systemImage: "camera.viewfinder") {
+                    CardActionButton(title: l10n.t("إعادة التصوير", "Retake"), systemImage: "camera.viewfinder") {
                         remove(url)
                         openGuidedCapture()
                     }
@@ -524,8 +524,8 @@ struct TaskComposerView: View {
             guard pendingURLs.contains(where: { $0.standardizedFileURL == finalURL.standardizedFileURL }) else { return }
             scanReports[finalURL.standardizedFileURL.path] = report
             let summary = report.isClean
-                ? l10n.t("فحص المسح: الصفحات واضحة.", "Scan check: the pages are clear.")
-                : l10n.t("فحص المسح وجد \(report.issues.count) من الملاحظات.", "Scan check found \(report.issues.count) note(s).")
+                ? l10n.t("اكتمل فحص الصفحات دون ملاحظات.", "Page check complete. No issues found.")
+                : l10n.t("اكتمل فحص الصفحات. الملاحظات: \(report.issues.count).", "Page check complete. Issues found: \(report.issues.count).")
             UIAccessibility.post(notification: .announcement, argument: summary)
         }
     }
@@ -548,8 +548,8 @@ struct TaskComposerView: View {
 
     private var resultNameCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
-            GlassSectionTitle(title: l10n.t("اسم النتيجة (اختياري)", "Result name (optional)"), systemImage: "pencil")
-            TextField(l10n.t("يُستخدم اسم الملف الأصلي إذا تركته فارغًا", "The original name is used if left empty"),
+            GlassSectionTitle(title: l10n.t("اسم الملف الناتج (اختياري)", "Output file name (optional)"), systemImage: "pencil")
+            TextField(l10n.t("اتركه فارغًا للاحتفاظ بالاسم الأصلي", "Leave blank to keep the original name"),
                       text: $customOutputName)
                 .textInputAutocapitalization(.sentences)
                 .padding(BasirSpacing.m)
@@ -593,10 +593,10 @@ struct TaskComposerView: View {
         let valid = urls.filter { supportedExtensions.contains($0.pathExtension.lowercased()) }
         guard valid.count == urls.count else {
             pickerError = isTranslation
-                ? l10n.t("أحد العناصر المختارة لا يمكن ترجمته. التسجيلات الصوتية تُحوَّل فقط.",
-                         "One selected item cannot be translated. Audio recordings can only be converted.")
-                : l10n.t("أحد العناصر المختارة لا يمكن تحويله. ملفات Word تُترجم فقط.",
-                         "One selected item cannot be converted. Word files can only be translated.")
+                ? l10n.t("بعض الملفات لا تدعم الترجمة. لتحويل تسجيل صوتي إلى نص، اختر «تحويل إلى Word».",
+                         "Some files do not support translation. To transcribe an audio recording, choose Convert to Word.")
+                : l10n.t("بعض الملفات لا تدعم التحويل. ملفات Word متاحة للترجمة فقط.",
+                         "Some files do not support conversion. Word files can only be translated.")
             return
         }
         Task {
@@ -614,8 +614,8 @@ struct TaskComposerView: View {
                     inspect(url)
                 }
                 UIAccessibility.post(notification: .announcement,
-                                     argument: l10n.t("تمت إضافة \(normalized.count) من العناصر. اختر ابدأ عند الجاهزية.",
-                                                      "Added \(normalized.count) item(s). Choose Start when ready."))
+                                     argument: l10n.t("الملفات المضافة: \(normalized.count). راجع الخيارات ثم ابدأ المهمة.",
+                                                      "Files added: \(normalized.count). Review your options, then start the task."))
                 focusSelectedFiles = true
             } catch { pickerError = error.localizedDescription }
         }
@@ -625,8 +625,8 @@ struct TaskComposerView: View {
         let unsupported = pendingURLs.filter { !supportedExtensions.contains($0.pathExtension.lowercased()) }
         guard !unsupported.isEmpty else { return }
         unsupported.forEach(remove)
-        pickerError = l10n.t("أُزيل \(unsupported.count) من العناصر لأنه لا يناسب هذه المهمة.",
-                             "Removed \(unsupported.count) item(s) that do not fit this task.")
+        pickerError = l10n.t("أُزيلت ملفات غير مدعومة لهذه المهمة. عددها: \(unsupported.count).",
+                             "Unsupported files removed from this task: \(unsupported.count).")
     }
 
     private func inspect(_ url: URL) {
@@ -680,7 +680,7 @@ struct TaskComposerView: View {
 
     private func pasteImages() {
         do { handleSelected(try MediaImport.pasteboardImages()) }
-        catch { pickerError = l10n.t("لا توجد صورة قابلة للصق في الحافظة.", "There is no pasteable image on the clipboard.") }
+        catch { pickerError = l10n.t("لا توجد صورة في الحافظة. انسخ صورة ثم أعد المحاولة.", "There is no image on the clipboard. Copy an image, then try again.") }
     }
 
     private func receiveExternalIfNeeded() {
@@ -712,7 +712,7 @@ struct TaskComposerView: View {
                     previewItem = PreviewItem(url: latest.url)
                 }
             } else {
-                pickerError = l10n.t("لا توجد نتيجة محفوظة بعد.", "There is no saved result yet.")
+                pickerError = l10n.t("لم تُحفظ أي نتيجة بعد. ابدأ بتحويل ملف أو ترجمته.", "No results have been saved yet. Convert or translate a file to get started.")
             }
         case .guidedCapture:
             intents.pendingAction = nil
@@ -737,7 +737,7 @@ struct TaskComposerView: View {
 
     private func metadataText(_ value: DocumentMetadata) -> String {
         var parts = [value.humanReadableSize]
-        if let count = value.itemCount { parts.append(l10n.t("\(count) صفحة أو صورة", "\(count) page(s) or image(s)")) }
+        if let count = value.itemCount { parts.append(l10n.t("عدد الصفحات أو الصور: \(count)", "Pages or images: \(count)")) }
         if let width = value.pixelWidth, let height = value.pixelHeight { parts.append("\(width)×\(height)") }
         return parts.joined(separator: " • ")
     }
@@ -746,8 +746,8 @@ struct TaskComposerView: View {
         let networkNotice = network.snapshot.isExpensive
             ? l10n.t(" أنت تستخدم بيانات الهاتف.", " You are using cellular data.") : ""
         return l10n.t(
-            "سيُرسل محتوى \(pendingURLs.count) من العناصر إلى خادم بصير لمعالجته، ثم تُنزّل النتيجة إلى جهازك.\(networkNotice)",
-            "Content from \(pendingURLs.count) item(s) will be sent to the Basir server, then the result will be downloaded to your device.\(networkNotice)"
+            "سيُرسل محتوى الملفات المحددة إلى خادم بصير للمعالجة، ثم تُنزّل النتائج إلى جهازك. عدد الملفات: \(pendingURLs.count).\(networkNotice)",
+            "The selected files will be sent to Basir’s server for processing, then the results will be downloaded to your device. Files selected: \(pendingURLs.count).\(networkNotice)"
         )
     }
 

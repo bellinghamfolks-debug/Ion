@@ -65,15 +65,15 @@
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
     <key>NSCameraUsageDescription</key>
-    <string>يستخدم بصير الكاميرا لالتقاط مستند أو صورة تختار تحويلها أو ترجمتها.</string>
+    <string>يستخدم بصير الكاميرا لتصوير ما تريد قراءته أو تحويله أو ترجمته أو السؤال عنه.</string>
     <key>NSCalendarsWriteOnlyAccessUsageDescription</key>
-    <string>يضيف بصير إلى تقويمك المواعيد التي تختارها من مستنداتك فقط، ولا يقرأ مواعيدك.</string>
+    <string>يضيف بصير المواعيد التي تختارها من مستنداتك إلى التقويم، دون قراءة مواعيدك الحالية.</string>
     <key>NSCalendarsUsageDescription</key>
-    <string>يضيف بصير إلى تقويمك المواعيد التي تختارها من مستنداتك فقط.</string>
+    <string>يستخدم بصير التقويم لإضافة المواعيد التي تختارها من مستنداتك.</string>
     <key>NSFaceIDUsageDescription</key>
-    <string>يستخدم بصير بصمة الوجه لفتح التطبيق عندما تفعّل القفل في الإعدادات.</string>
+    <string>يستخدم بصير بصمة الوجه للتحقق من هويتك عند فتح التطبيق إذا فعّلت القفل.</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>يتيح بصير اختيار الصور التي تريد تحويلها أو ترجمتها فقط.</string>
+    <string>اختر من مكتبة الصور ما تريد قراءته أو تحويله أو ترجمته أو السؤال عنه في بصير.</string>
     <key>BGTaskSchedulerPermittedIdentifiers</key>
     <array>
         <string>com.basir.convert.ios.processing</string>

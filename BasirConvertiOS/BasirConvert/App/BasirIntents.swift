@@ -27,7 +27,7 @@ final class IntentRouter: ObservableObject {
 struct ConvertLatestFileIntent: AppIntent {
     static var title: LocalizedStringResource = "Convert a File with Basir"
     static var description = IntentDescription(
-        "Opens Basir with the file browser ready, starting from your recent files."
+        "Opens the file picker in Basir so you can choose a file to convert."
     )
     static var openAppWhenRun: Bool = true
 
@@ -41,7 +41,7 @@ struct ConvertLatestFileIntent: AppIntent {
 struct TranslateFileIntent: AppIntent {
     static var title: LocalizedStringResource = "Translate a File with Basir"
     static var description = IntentDescription(
-        "Opens Basir in translation mode with the file browser ready."
+        "Opens the file picker in Basir so you can choose a document to translate."
     )
     static var openAppWhenRun: Bool = true
 
@@ -69,7 +69,7 @@ struct OpenLatestResultIntent: AppIntent {
 struct SendFileToBasirIntent: AppIntent {
     static var title: LocalizedStringResource = "Send File to Basir"
     static var description = IntentDescription(
-        "Sends a PDF, presentation, image, Word, or audio file to Basir and asks whether to convert or translate it."
+        "Sends a file to Basir, where you can choose conversion or translation for supported formats."
     )
     static var openAppWhenRun: Bool = true
 

@@ -24,21 +24,21 @@ struct ScanIssue: Identifiable, Equatable, Sendable {
         let list = pages.map(String.init).joined(separator: l10n.isArabic ? "، " : ", ")
         switch kind {
         case .blurry:
-            return l10n.t("الصفحة \(list) ضبابية وقد لا تُقرأ جيدًا.", "Page \(list) is blurry and may not read well.")
+            return l10n.t("الصورة غير واضحة في الصفحة \(list). قد تتأثر دقة قراءة النص.", "Page \(list) is blurry. Text recognition may be less accurate.")
         case .dark:
-            return l10n.t("الصفحة \(list) معتمة. أعد التصوير بإضاءة أفضل.", "Page \(list) is too dark. Retake it with more light.")
+            return l10n.t("الإضاءة ضعيفة في الصفحة \(list). أعد التصوير في مكان أكثر إضاءة.", "Page \(list) is too dark. Retake it in better lighting.")
         case .blank:
             return l10n.t("الصفحة \(list) تبدو فارغة.", "Page \(list) looks blank.")
         case .upsideDown:
-            return l10n.t("الصفحة \(list) تبدو مقلوبة. سيُصححها بصير تلقائيًا.",
-                          "Page \(list) looks upside down. Basir will turn it the right way.")
+            return l10n.t("الصفحة \(list) تبدو مقلوبة. سيحاول بصير تصحيح اتجاهها تلقائيًا.",
+                          "Page \(list) appears upside down. Basir will try to correct its orientation automatically.")
         case .duplicate:
-            return l10n.t("الصفحة \(list) تكرار للصفحة \(duplicateOf ?? 0).",
-                          "Page \(list) repeats page \(duplicateOf ?? 0).")
+            return l10n.t("الصفحة \(list) تبدو نسخة مكررة من الصفحة \(duplicateOf ?? 0).",
+                          "Page \(list) appears to duplicate page \(duplicateOf ?? 0).")
         case .missingPages:
             let numbers = missingNumbers.map(String.init).joined(separator: l10n.isArabic ? "، " : ", ")
-            return l10n.t("قد تكون صفحات ناقصة: لم أجد الصفحات المرقّمة \(numbers).",
-                          "Pages may be missing: printed page numbers \(numbers) were not found.")
+            return l10n.t("قد تكون هناك صفحات ناقصة. لم يرصد الفحص أرقام الصفحات التالية: \(numbers).",
+                          "Some pages may be missing. These printed page numbers were not detected: \(numbers).")
         }
     }
 }

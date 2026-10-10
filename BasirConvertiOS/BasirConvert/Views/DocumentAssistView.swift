@@ -43,9 +43,9 @@ struct DocumentAssistView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: BasirSpacing.l) {
-                    Picker(l10n.t("النوع", "Kind"), selection: $mode) {
+                    Picker(l10n.t("نوع المساعدة", "Assistance type"), selection: $mode) {
                         Text(l10n.t("اسأل", "Ask")).tag(Mode.ask)
-                        Text(l10n.t("ماذا يطلب مني؟", "What it asks")).tag(Mode.brief)
+                        Text(l10n.t("المطلوب مني", "Action items")).tag(Mode.brief)
                         Text(l10n.t("المواعيد", "Dates")).tag(Mode.dates)
                     }
                     .pickerStyle(.segmented)
@@ -56,12 +56,12 @@ struct DocumentAssistView: View {
                     case .dates: datesSection
                     }
                     if working {
-                        ProgressView(l10n.t("بصير يقرأ المستند…", "Basir is reading the document…"))
+                        ProgressView(l10n.t("جارٍ مراجعة المستند…", "Reviewing the document…"))
                             .frame(maxWidth: .infinity)
                     }
                     if let errorText { InlineMessage(text: errorText, isError: true) }
-                    Text(l10n.t("تأتي الإجابات من نص هذا المستند فقط، ويُرسل النص إلى خادم بصير لهذا الطلب ولا يُحفظ.",
-                                "Answers come only from this document's text, which is sent to the Basir server for this request and not kept."))
+                    Text(l10n.t("يعتمد بصير على نص المستند للإجابة. يُرسل النص إلى خادم بصير لهذا الطلب، ولا يُحفظ على الخادم.",
+                                "Basir uses the document’s text to answer. The text is sent to Basir’s server for this request and is not stored there."))
                         .font(.footnote)
                         .foregroundStyle(BasirPalette.secondaryText)
                         .fixedSize(horizontal: false, vertical: true)
@@ -70,7 +70,7 @@ struct DocumentAssistView: View {
             }
             .background(BasirPalette.background.ignoresSafeArea())
             .foregroundStyle(BasirPalette.primaryText)
-            .navigationTitle(l10n.t("اسأل بصير", "Ask Basir"))
+            .navigationTitle(l10n.t("مساعد المستند", "Document assistant"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -110,7 +110,7 @@ struct DocumentAssistView: View {
                 .disabled(working || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             if exchanges.isEmpty {
                 VStack(alignment: .leading, spacing: BasirSpacing.s) {
-                    Text(l10n.t("أمثلة", "Examples")).font(.subheadline.weight(.semibold))
+                    Text(l10n.t("أسئلة مقترحة", "Suggested questions")).font(.subheadline.weight(.semibold))
                     ForEach(examples, id: \.self) { example in
                         Button { question = example; ask() } label: {
                             Label(example, systemImage: "text.bubble")
@@ -163,7 +163,7 @@ struct DocumentAssistView: View {
         }
         .disabled(target == nil)
         .accessibilityLabel(l10n.t("من المستند: ", "From the document: ") + quote)
-        .accessibilityHint(target == nil ? "" : l10n.t("يفتح هذا الموضع في المستند", "Opens this place in the document"))
+        .accessibilityHint(target == nil ? "" : l10n.t("ينتقل إلى الاقتباس في المستند", "Jumps to this quote in the document"))
     }
 
     private func ask() {
@@ -195,11 +195,11 @@ struct DocumentAssistView: View {
                      request.details].filter { !$0.isEmpty }.joined(separator: l10n.isArabic ? "، " : ", ")
                 })
                 briefList(l10n.t("المبالغ", "Amounts"), items: brief.amounts.map { "\($0.label): \($0.value)" })
-                briefList(l10n.t("الأوراق المطلوبة", "Documents needed"), items: brief.documentsNeeded)
-                briefList(l10n.t("للتواصل", "Contacts"), items: brief.contacts)
+                briefList(l10n.t("المستندات المطلوبة", "Required documents"), items: brief.documentsNeeded)
+                briefList(l10n.t("بيانات التواصل", "Contact details"), items: brief.contacts)
                 briefList(l10n.t("تنبيهات", "Warnings"), items: brief.warnings)
                 if brief.requests.contains(where: { !$0.deadline.isEmpty }) {
-                    SecondaryActionButton(title: l10n.t("أضف المواعيد إلى التقويم", "Add the dates to Calendar"),
+                    SecondaryActionButton(title: l10n.t("مراجعة المواعيد", "Review dates"),
                                           systemImage: "calendar.badge.plus") { mode = .dates }
                 }
             }
@@ -230,8 +230,8 @@ struct DocumentAssistView: View {
                 as: DocumentBrief.self, configuration: settings.configuration)
             brief = result
             let count = result.requests.count
-            announce(l10n.t("\(result.documentType). \(result.summary) المطلوب منك \(count) أمور.",
-                            "\(result.documentType). \(result.summary) \(count) things to do."))
+            announce(l10n.t("\(result.documentType). \(result.summary) عدد الإجراءات المطلوبة: \(count).",
+                            "\(result.documentType). \(result.summary) Action items: \(count)."))
         }
     }
 
@@ -242,12 +242,12 @@ struct DocumentAssistView: View {
         if let events {
             VStack(alignment: .leading, spacing: BasirSpacing.m) {
                 if events.isEmpty {
-                    InfoCard(title: l10n.t("لا مواعيد في هذا المستند", "No dates in this document"),
-                             text: l10n.t("لم يجد بصير مواعيد أو آخر مواعيد للتقويم.", "Basir found no appointments or deadlines."),
+                    InfoCard(title: l10n.t("لم يُعثر على مواعيد", "No dates found"),
+                             text: l10n.t("لم يعثر بصير على مواعيد أو مهل يمكن إضافتها إلى التقويم.", "Basir found no appointments or deadlines to add to Calendar."),
                              systemImage: "calendar")
                 } else {
                     ForEach(events) { event in eventRow(event) }
-                    PrimaryActionButton(title: l10n.t("أضف \(chosenEvents.count) إلى التقويم", "Add \(chosenEvents.count) to Calendar"),
+                    PrimaryActionButton(title: l10n.t("إضافة المحدد إلى التقويم (\(chosenEvents.count))", "Add selected to Calendar (\(chosenEvents.count))"),
                                         systemImage: "calendar.badge.plus") { addToCalendar(events) }
                         .disabled(chosenEvents.isEmpty || working)
                 }
@@ -280,7 +280,7 @@ struct DocumentAssistView: View {
         .buttonStyle(.plain)
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(chosen ? [.isButton, .isSelected] : .isButton)
-        .accessibilityHint(chosen ? l10n.t("محدد للإضافة. اضغط مرتين لإلغاء التحديد.", "Selected. Double-tap to deselect.")
+        .accessibilityHint(chosen ? l10n.t("محدد للإضافة إلى التقويم. اضغط مرتين لإلغاء تحديده.", "Selected for Calendar. Double-tap to deselect.")
                                   : l10n.t("اضغط مرتين لتحديده.", "Double-tap to select."))
     }
 
@@ -300,9 +300,9 @@ struct DocumentAssistView: View {
             let usable = result.events.filter { $0.start != nil }
             events = usable
             chosenEvents = Set(usable.map(\.id))
-            announce(usable.isEmpty ? l10n.t("لا مواعيد في هذا المستند", "No dates in this document")
-                                    : l10n.t("وجد بصير \(usable.count) مواعيد، كلها محددة للإضافة.",
-                                             "Basir found \(usable.count) dates, all selected."))
+            announce(usable.isEmpty ? l10n.t("لم يُعثر على مواعيد", "No dates found")
+                                    : l10n.t("المواعيد المتاحة: \(usable.count). جميعها محددة؛ راجعها قبل الإضافة.",
+                                             "Dates found: \(usable.count). All are selected. Review them before adding."))
         }
     }
 
@@ -314,11 +314,11 @@ struct DocumentAssistView: View {
             working = false
             switch outcome {
             case .added(let count):
-                calendarMessage = l10n.t("أُضيف \(count) إلى التقويم مع تذكير.", "\(count) added to Calendar with a reminder.")
+                calendarMessage = l10n.t("أُضيفت المواعيد إلى التقويم مع تذكير. عدد المواعيد المضافة: \(count).", "Added to Calendar with reminders. Events added: \(count).")
                 OperationFeedback.selectionChanged()
             case .denied:
-                calendarMessage = l10n.t("لم يُسمح لبصير بالإضافة إلى التقويم. يمكنك السماح من الإعدادات > بصير > التقويمات.",
-                                         "Basir is not allowed to add to Calendar. Allow it in Settings > Basir > Calendars.")
+                calendarMessage = l10n.t("يحتاج بصير إلى إذنك لإضافة المواعيد. افتح إعدادات iPhone، ثم ابحث عن بصير واسمح له بالوصول إلى التقويم.",
+                                         "Basir needs permission to add events. Open iPhone Settings, find Basir, and allow calendar access.")
             case .failed:
                 calendarMessage = l10n.t("تعذرت الإضافة إلى التقويم.", "Could not add to Calendar.")
             }
@@ -367,12 +367,12 @@ struct TableExplanationView: View {
                     if let explanation {
                         Text(explanation.overview).fixedSize(horizontal: false, vertical: true)
                         section(l10n.t("الأعمدة", "Columns"), explanation.columns.map { "\($0.name): \($0.meaning)" })
-                        section(l10n.t("أبرز ما فيه", "What stands out"), explanation.highlights)
-                        section(l10n.t("المجاميع", "Totals"), explanation.totals)
+                        section(l10n.t("أبرز المعلومات", "Key information"), explanation.highlights)
+                        section(l10n.t("الإجماليات", "Totals"), explanation.totals)
                     } else if let errorText {
                         InlineMessage(text: errorText, isError: true)
                     } else {
-                        ProgressView(l10n.t("بصير يقرأ الجدول…", "Basir is reading the table…"))
+                        ProgressView(l10n.t("جارٍ تحليل الجدول…", "Analyzing the table…"))
                             .frame(maxWidth: .infinity, minHeight: 160)
                     }
                 }
@@ -380,7 +380,7 @@ struct TableExplanationView: View {
             }
             .background(BasirPalette.background.ignoresSafeArea())
             .foregroundStyle(BasirPalette.primaryText)
-            .navigationTitle(l10n.t("شرح الجدول", "Table explained"))
+            .navigationTitle(l10n.t("شرح الجدول", "Table explanation"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button(l10n.t("تم", "Done")) { dismiss() } }

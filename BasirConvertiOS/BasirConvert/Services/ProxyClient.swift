@@ -359,7 +359,7 @@ actor ProxyClient {
             if ["completed", "complete", "done", "succeeded", "partial"].contains(state) {
                 guard let terminalQuality = qualityStatus else {
                     logger.record("QUALITY terminal manifest missing")
-                    throw BasirError.invalidResponse("تعذر التحقق من جودة المستند الناتج. لم يتم اعتماد الملف.")
+                    throw BasirError.invalidResponse("تعذر التحقق من جودة النتيجة، لذلك لم يُحفظ الملف.")
                 }
                 let retainedNumbers = qualityMetrics.retainedPageNumbers ?? []
                 let skippedNumbers = qualityMetrics.skippedBlankPageNumbers ?? skippedItems
@@ -371,7 +371,7 @@ actor ProxyClient {
                 logger.record("QUALITY terminal status=\(terminalQuality) score=\(qualityScore ?? -1) warnings=\(qualityWarnings.joined(separator: ",")) engine=\(qualityMetrics.conversionEngine ?? "legacy") natural=\(isNaturalEngine)")
                 logger.record("QUALITY pages retained=\(retainedNumbers) skippedBlank=\(skippedNumbers) fallback=\(fallbackNumbers) relaxedLayout=\(relaxedNumbers) accountingExact=\(accountingExact.map(String.init) ?? "nil") numberingExact=\(numberingExact.map(String.init) ?? "nil")")
                 guard terminalQuality == "passed" else {
-                    throw BasirError.conversionFailed("لم يصل المستند الناتج إلى مستوى الجودة الآمن للاعتماد. لم يتم حفظ نتيجة ناقصة أو مشوهة.")
+                    throw BasirError.conversionFailed("لم يجتز الملف فحص الجودة، لذلك لم تُحفظ النتيجة. أعد المحاولة.")
                 }
                 if expectedSourcePages > 0 {
                     if isNaturalEngine {

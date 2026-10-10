@@ -216,7 +216,7 @@ struct NetworkStatusPill: View {
 
     private var accessibilityText: String {
         var value = label
-        if network.snapshot.isExpensive { value += l10n.t("، شبكة بيانات خلوية", ", cellular data") }
+        if network.snapshot.isExpensive { value += l10n.t("، اتصال عبر بيانات الهاتف", ", using cellular data") }
         if network.snapshot.isConstrained { value += l10n.t("، وضع البيانات المنخفضة", ", Low Data Mode") }
         return value
     }

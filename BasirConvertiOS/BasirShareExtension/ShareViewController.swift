@@ -11,7 +11,7 @@ final class ShareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        statusLabel.text = text("جارٍ استلام العناصر…", "Receiving items…")
+        statusLabel.text = text("جارٍ استلام الملفات…", "Receiving files…")
         statusLabel.textAlignment = .center
         statusLabel.numberOfLines = 0
         statusLabel.font = .preferredFont(forTextStyle: .headline)
@@ -35,8 +35,8 @@ final class ShareViewController: UIViewController {
         guard let root = sharedContainerURL() else {
             finish(
                 message: text(
-                    "لم تُمنح بصير صلاحية استقبال المشاركات عند توقيع التطبيق. أعد توقيع النسخة مع الاحتفاظ بصلاحية App Groups.",
-                    "Basir was not granted shared-container access during signing. Re-sign the app while preserving its App Groups entitlement."
+                    "مشاركة الملفات غير مهيأة في هذه النسخة. يمكنك فتح بصير واختيار الملف من داخله، أو التواصل مع فريق الدعم.",
+                    "File sharing is not set up in this version. Open Basir and choose the file there, or contact support."
                 ),
                 error: true
             )
@@ -50,7 +50,7 @@ final class ShareViewController: UIViewController {
                 ofItemAtPath: inbox.path
             )
         } catch {
-            finish(message: text("تعذر تجهيز مجلد الاستلام.", "Could not prepare the receiving folder."), error: true)
+            finish(message: text("تعذر حفظ الملفات المرسلة. افتح بصير واختر الملفات من داخله.", "Could not save the shared files. Open Basir and choose the files there."), error: true)
             return
         }
 
@@ -103,18 +103,18 @@ final class ShareViewController: UIViewController {
             guard let self else { return }
             if saved > 0 {
                 let message = self.text(
-                    "تم إرسال \(saved) من العناصر إلى بصير. افتح التطبيق للمتابعة.",
-                    "Sent \(saved) item(s) to Basir. Open the app to continue."
+                    "الملفات المرسلة إلى بصير: \(saved). افتح التطبيق للمتابعة.",
+                    "Files sent to Basir: \(saved). Open the app to continue."
                 )
                 self.finish(message: message, error: false)
             } else if tooLarge > 0 {
                 self.finish(
-                    message: self.text("حجم العنصر أكبر من 200 ميجابايت.", "The item is larger than 200 MB."),
+                    message: self.text("حجم الملف يتجاوز الحد المسموح، وهو 200 ميجابايت.", "The file exceeds the 200 MB size limit."),
                     error: true
                 )
             } else {
                 self.finish(
-                    message: self.text("تعذر استلام العناصر المرسلة.", "The shared items could not be received."),
+                    message: self.text("تعذر استلام الملفات. حاول مشاركتها مرة أخرى.", "Could not receive the files. Try sharing them again."),
                     error: true
                 )
             }

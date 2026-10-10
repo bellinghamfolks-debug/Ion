@@ -142,16 +142,16 @@ final class AppViewModel: ObservableObject {
     func receiveExternalURLs(_ urls: [URL], l10n: L10n) {
         guard !urls.isEmpty, urls.allSatisfy(\.isFileURL) else {
             externalImportError = l10n.t(
-                "لا يستطيع بصير فتح هذا الرابط. أرسل ملفًا أو صورة.",
-                "Basir cannot open this link. Send a file or image instead."
+                "هذا الرابط غير مدعوم. شارك الملف أو الصورة نفسها مع بصير.",
+                "This link is not supported. Share the file or image itself with Basir."
             )
             return
         }
         let supported = urls.filter { !SupportedInput.operations(for: $0).isEmpty }
         guard supported.count == urls.count else {
             externalImportError = l10n.t(
-                "توجد صيغة غير مدعومة. أرسل PDF أو Word أو PowerPoint أو صورة أو تسجيلًا صوتيًا مدعومًا.",
-                "One of the items is unsupported. Send PDF, Word, PowerPoint, a supported image, or an audio recording."
+                "بعض الملفات بصيغة غير مدعومة. اختر PDF أو Word أو PowerPoint أو صورة أو تسجيلًا صوتيًا مدعومًا.",
+                "Some files use an unsupported format. Choose a PDF, Word document, presentation, supported image, or audio recording."
             )
             return
         }
@@ -183,8 +183,8 @@ final class AppViewModel: ObservableObject {
         guard !common.isEmpty else {
             urls.forEach(discardExternalSource)
             externalImportError = l10n.t(
-                "لا يمكن تنفيذ عملية واحدة على مجموعة الملفات المختارة.",
-                "The selected files do not share one compatible operation."
+                "لا يمكن معالجة هذه الملفات معًا. اختر ملفات تدعم جميعها التحويل، أو ملفات تدعم جميعها الترجمة.",
+                "These files cannot be processed together. Select files that all support conversion, or files that all support translation."
             )
             return
         }
@@ -195,8 +195,8 @@ final class AppViewModel: ObservableObject {
             UIAccessibility.post(
                 notification: .announcement,
                 argument: l10n.t(
-                    "تم استلام \(urls.count) من العناصر. اختر التحويل أو الترجمة.",
-                    "Received \(urls.count) items. Choose Convert or Translate."
+                    "الملفات المستلمة: \(urls.count). اختر التحويل أو الترجمة.",
+                    "Files received: \(urls.count). Choose conversion or translation."
                 )
             )
         }
@@ -263,8 +263,8 @@ final class AppViewModel: ObservableObject {
         // 3.1: the task appears in the compact bar instead of covering the screen.
         UIAccessibility.post(
             notification: .announcement,
-            argument: l10n.t("بدأت المهمة. تابعها من الشريط أسفل الشاشة.",
-                             "The task has started. Follow it in the bar at the bottom of the screen.")
+            argument: l10n.t("أُضيفت المهمة. تابع حالتها من الشريط أسفل الشاشة أو تبويب «المهام».",
+                             "Task added. Follow its status in the bar at the bottom or in the Tasks tab.")
         )
         Task { [weak self] in
             guard let self else { return }
@@ -348,8 +348,8 @@ final class AppViewModel: ObservableObject {
         if jobs[index].serverCancelPending == true {
             if let l10n {
                 UIAccessibility.post(notification: .announcement, argument: l10n.t(
-                    "انتظر حتى يؤكد الخادم الإلغاء، ثم أعد المحاولة.",
-                    "Wait until the server confirms the cancellation, then try again."))
+                    "جارٍ تأكيد إلغاء المهمة. انتظر قليلًا ثم أعد المحاولة.",
+                    "Cancellation is being confirmed. Please wait a moment, then try again."))
             }
             sendServerCancellation(jobID: id)
             return
@@ -383,8 +383,8 @@ final class AppViewModel: ObservableObject {
         // it. Until the server confirms, say so, and keep asking.
         jobs[index].serverCancelPending = true
         jobs[index].errorMessage = l10n?.t(
-            "جارٍ إيقاف المهمة على خادم بصير…",
-            "Stopping the task on the Basir server…"
+            "جارٍ إلغاء المهمة على خادم بصير…",
+            "Cancelling the task on Basir’s server…"
         )
         jobs[index].updatedAt = Date()
         persist()
@@ -438,18 +438,18 @@ final class AppViewModel: ObservableObject {
         switch outcome {
         case .cancelled:
             message = l10n?.t(
-                "أُلغيت المهمة وتوقف خادم بصير عن العمل عليها. بقي المصدر محفوظًا ويمكنك إعادة المحاولة.",
-                "The task was cancelled and the Basir server stopped working on it. The source is kept so you can retry."
+                "أُلغيت المهمة وتوقفت معالجتها. الملف الأصلي محفوظ، ويمكنك إعادة المحاولة.",
+                "The task was cancelled and processing has stopped. The original file is saved, so you can try again."
             ) ?? ""
         case .neverReachedServer:
             message = l10n?.t(
-                "أُلغيت المهمة قبل أن تصل إلى الخادم. بقي المصدر محفوظًا ويمكنك إعادة المحاولة.",
-                "The task was cancelled before it reached the server. The source is kept so you can retry."
+                "أُلغيت المهمة قبل بدء معالجتها على الخادم. الملف الأصلي محفوظ، ويمكنك إعادة المحاولة.",
+                "The task was cancelled before server processing began. The original file is saved, so you can try again."
             ) ?? ""
         case .alreadyFinished:
             message = l10n?.t(
-                "كانت المهمة قد اكتملت على الخادم قبل وصول الإلغاء. اختر «إعادة المحاولة» لتنزيل النتيجة دون تحويل جديد.",
-                "The task had already finished on the server before the cancellation arrived. Choose Try again to download the result without converting again."
+                "اكتملت المعالجة قبل وصول طلب الإلغاء. اختر «إعادة المحاولة» لتنزيل النتيجة الجاهزة دون تكرار التحويل.",
+                "Processing finished before the cancellation request arrived. Choose Try again to download the existing result without repeating the conversion."
             ) ?? ""
         }
         jobs[index].errorMessage = message
@@ -463,8 +463,8 @@ final class AppViewModel: ObservableObject {
     private func serverCancellationWaiting(jobID: UUID) {
         guard let index = jobs.firstIndex(where: { $0.id == jobID }) else { return }
         jobs[index].errorMessage = l10n?.t(
-            "لم يصل الإلغاء إلى الخادم بعد بسبب الاتصال. سيُرسل تلقائيًا حتى يتأكد.",
-            "The cancellation has not reached the server yet because of the connection. It is sent again automatically until confirmed."
+            "تعذر تأكيد الإلغاء بسبب الاتصال. سيواصل بصير إرسال الطلب تلقائيًا حتى يتأكد توقف المهمة.",
+            "A connection issue prevented cancellation from being confirmed. Basir will keep retrying until the task is confirmed as stopped."
         )
         persist()
         syncFacade()
@@ -645,9 +645,9 @@ final class AppViewModel: ObservableObject {
                 UIAccessibility.post(
                     notification: .announcement,
                     argument: outcome.failedItems.isEmpty
-                        ? l10n.t("اكتملت العملية وأصبح ملف Word جاهزًا.", "The Word file is ready.")
-                        : l10n.t("اكتملت النتيجة جزئيًا. نجح \(outcome.succeededItems) وفشل \(outcome.failedItems.count).",
-                                 "A partial result is ready. \(outcome.succeededItems) succeeded and \(outcome.failedItems.count) failed.")
+                        ? l10n.t("اكتملت المهمة. ملف Word جاهز للقراءة.", "Task complete. Your Word file is ready to read.")
+                        : l10n.t("نتيجة جزئية جاهزة. العناصر المكتملة: \(outcome.succeededItems). العناصر التي تحتاج إلى إعادة محاولة: \(outcome.failedItems.count).",
+                                 "A partial result is ready. Completed items: \(outcome.succeededItems). Items to retry: \(outcome.failedItems.count).")
                 )
                 PushRegistrar.shared.jobFinished(jobID)
                 completeCurrentTaskAndContinue()
@@ -821,8 +821,8 @@ final class AppViewModel: ObservableObject {
             total: jobs[index].progress.total,
             stage: .processing,
             detail: l10n?.t(
-                "انقطعت متابعة الاتصال لحظيًا. جارٍ إعادة الاتصال بنفس مهمة الخادم دون فقد التقدم.",
-                "Connection monitoring was interrupted. Reconnecting to the same server task without losing progress."
+                "انقطع الاتصال مؤقتًا. جارٍ إعادة الاتصال لمتابعة المهمة الحالية؛ تقدمك محفوظ.",
+                "The connection was briefly interrupted. Reconnecting to your current task. Your progress is saved."
             ),
             transferredBytes: jobs[index].progress.transferredBytes,
             totalBytes: jobs[index].progress.totalBytes,
@@ -902,7 +902,7 @@ final class AppViewModel: ObservableObject {
            !Self.isNetworkWaitError(error),
            let l10n {
             OperationFeedback.notifyFailure(
-                title: l10n.t("تعذرت مهمة بصير", "Basir task failed"),
+                title: l10n.t("لم تكتمل مهمة بصير", "Basir task did not complete"),
                 body: Self.localized(error, l10n: l10n),
                 jobID: jobID
             )
@@ -994,8 +994,8 @@ final class AppViewModel: ObservableObject {
         UIAccessibility.post(
             notification: .announcement,
             argument: operation == .convert
-                ? l10n.t("تم تجهيز \(stagedURLs.count) للتحويل.", "Prepared \(stagedURLs.count) item(s) for conversion.")
-                : l10n.t("تم تجهيز \(stagedURLs.count) للترجمة.", "Prepared \(stagedURLs.count) item(s) for translation.")
+                ? l10n.t("الملفات الجاهزة للتحويل: \(stagedURLs.count).", "Files ready for conversion: \(stagedURLs.count).")
+                : l10n.t("الملفات الجاهزة للترجمة: \(stagedURLs.count).", "Files ready for translation: \(stagedURLs.count).")
         )
     }
 
@@ -1042,37 +1042,37 @@ final class AppViewModel: ObservableObject {
         if let urlError = error as? URLError {
             switch urlError.code {
             case .notConnectedToInternet, .networkConnectionLost:
-                return l10n.t("لا يوجد اتصال بالإنترنت. ستستأنف المهمة عند عودة الشبكة.",
-                              "There is no internet connection. The task will resume when the network returns.")
+                return l10n.t("انقطع الاتصال بالإنترنت. ستُستأنف المهمة عند عودة الاتصال.",
+                              "The internet connection was lost. The task will resume when you’re connected again.")
             case .timedOut:
-                return l10n.t("انتهت مهلة الاتصال بالخدمة.", "The service connection timed out.")
+                return l10n.t("استغرقت الخدمة وقتًا طويلًا للرد. حاول مرة أخرى.", "The service took too long to respond. Try again.")
             case .cannotFindHost, .dnsLookupFailed:
-                return l10n.t("تعذر العثور على عنوان الخدمة.", "The service address could not be resolved.")
+                return l10n.t("تعذر الوصول إلى خدمة بصير. تحقق من اتصالك وحاول مرة أخرى.", "Could not reach Basir. Check your connection and try again.")
             case .secureConnectionFailed, .serverCertificateUntrusted, .serverCertificateHasBadDate:
-                return l10n.t("تعذر إنشاء اتصال مشفر موثوق بالخدمة.",
-                              "A trusted encrypted connection to the service could not be established.")
+                return l10n.t("تعذر الاتصال بالخدمة بأمان. تحقق من اتصالك وإعدادات التاريخ والوقت.",
+                              "Could not connect securely. Check your connection and your device’s date and time settings.")
             default:
                 return l10n.t("تعذر الاتصال بالشبكة: \(urlError.localizedDescription)",
                               "Network error: \(urlError.localizedDescription)")
             }
         }
         guard let basir = error as? BasirError else {
-            return l10n.t("تعذّرت العملية: \(error.localizedDescription)",
-                          "The operation failed: \(error.localizedDescription)")
+            return l10n.t("تعذر إكمال المهمة: \(error.localizedDescription)",
+                          "Could not complete the task: \(error.localizedDescription)")
         }
         switch basir {
         case .notConfigured:
-            return l10n.t("تعذر بدء المهمة حاليًا.",
-                          "The task cannot start right now.")
+            return l10n.t("خدمة المعالجة غير مهيأة في هذه النسخة. تواصل مع فريق بصير.",
+                          "Processing is not set up in this version. Contact the Basir team.")
         case .unsupportedFile:
             return l10n.t("نوع الملف غير مدعوم لهذه المهمة.", "This file type is not supported for this task.")
         case .invalidFileContent:
-            return l10n.t("محتوى الملف لا يطابق نوعه، لذلك أوقفه التطبيق لحمايتك.",
-                          "The file content does not match its type, so the app stopped for your protection.")
+            return l10n.t("محتوى الملف لا يطابق صيغته. احفظ نسخة جديدة من التطبيق الأصلي ثم أعد المحاولة.",
+                          "The file’s content does not match its format. Save a new copy from the original app, then try again.")
         case .emptyDocument:
             return l10n.t("لا يحتوي الملف على محتوى قابل للقراءة.", "The file contains no readable content.")
         case .noReadablePages:
-            return l10n.t("تعذّر تحويل أي صفحة.", "No page could be converted.")
+            return l10n.t("تعذرت قراءة صفحات الملف. تحقق من وضوحها ثم أعد المحاولة.", "The file’s pages could not be read. Check their clarity, then try again.")
         case .invalidServerURL:
             return l10n.t("تعذر إنشاء اتصال آمن بالخدمة.",
                           "A secure service connection could not be created.")
@@ -1080,45 +1080,45 @@ final class AppViewModel: ObservableObject {
             return l10n.t("حجم الملف أكبر من الحد المسموح وهو 200 ميجابايت.",
                           "The file is larger than the 200 MB limit.")
         case .networkUnavailable:
-            return l10n.t("لا يوجد اتصال. ستبقى المهمة في الانتظار.",
-                          "There is no connection. The task will remain queued.")
+            return l10n.t("لا يوجد اتصال بالإنترنت. المهمة محفوظة في قائمة الانتظار.",
+                          "No internet connection. Your task is saved in the queue.")
         case .wifiRequired:
-            return l10n.t("هذه المهمة تنتظر شبكة Wi‑Fi حسب إعدادك.",
-                          "This task is waiting for Wi-Fi, as requested in Settings.")
+            return l10n.t("المهمة بانتظار Wi‑Fi وفق إعداداتك. اتصل بشبكة Wi‑Fi أو غيّر خيار الاتصال في الإعدادات.",
+                          "Your settings require Wi-Fi. Connect to Wi-Fi or change the connection option in Settings.")
         case .constrainedNetwork:
-            return l10n.t("وضع البيانات المنخفضة مفعّل، والمهمة تنتظر شبكة مناسبة.",
-                          "Low Data Mode is active. The task is waiting for a suitable network.")
+            return l10n.t("المهمة متوقفة بسبب وضع البيانات المنخفضة. يمكنك السماح بالمعالجة في هذا الوضع من إعدادات بصير.",
+                          "Low Data Mode is preventing this task from running. You can allow processing in this mode in Basir’s settings.")
         case .authenticationFailed:
-            return l10n.t("تعذر التحقق من الاتصال. حدّث التطبيق إذا استمرت المشكلة.",
-                          "The connection could not be verified. Update the app if the problem continues.")
+            return l10n.t("تعذر التحقق من صلاحية الوصول إلى الخدمة. حدّث التطبيق، أو تواصل مع فريق بصير إذا استمرت المشكلة.",
+                          "Could not verify access to the service. Update the app, or contact the Basir team if the issue continues.")
         case .rateLimited(let seconds):
             return seconds.map {
                 l10n.t("الخدمة مشغولة. أعد المحاولة بعد \(Int($0)) ثانية.",
                        "The service is busy. Retry after \(Int($0)) seconds.")
-            } ?? l10n.t("الخدمة مشغولة مؤقتًا.", "The service is temporarily busy.")
+            } ?? l10n.t("الخدمة مشغولة الآن. حاول مرة أخرى بعد قليل.", "The service is busy. Please try again shortly.")
         case .invalidServerContentType:
-            return l10n.t("وصل نوع ملف غير متوقع بدل Word.",
-                          "An unexpected file type was returned instead of Word.")
+            return l10n.t("لم يصل ملف Word المتوقع. أعد المحاولة لتنزيل النتيجة.",
+                          "The expected Word file was not received. Try downloading the result again.")
         case .checksumMismatch:
-            return l10n.t("فشل فحص سلامة الملف المنزّل.", "The downloaded file failed its integrity check.")
+            return l10n.t("تعذر التأكد من سلامة الملف المنزّل. أعد المحاولة لتنزيله مجددًا.", "The downloaded file could not be verified. Try downloading it again.")
         case .passwordProtectedPDF:
             return l10n.t("ملف PDF محمي بكلمة مرور. افتحه واحفظ نسخة غير محمية أولًا.",
                           "The PDF is password protected. Open it and save an unlocked copy first.")
         case .invalidPageSelection:
-            return l10n.t("نطاق الصفحات غير صالح. مثال صحيح: 1-20، 25، 30-40.",
-                          "The page range is invalid. Example: 1-20, 25, 30-40.")
+            return l10n.t("راجع أرقام الصفحات المطلوبة. أدخلها مثل: 1-20، 25، 30-40.",
+                          "Check the requested page numbers. Use a format such as 1-20, 25, 30-40.")
         case .invalidResponse:
-            return l10n.t("وصل رد غير مكتمل من الخدمة.", "The service returned an incomplete result.")
+            return l10n.t("تعذر التحقق من النتيجة التي أرسلتها الخدمة. حاول مرة أخرى.", "Could not verify the result returned by the service. Try again.")
         case .conversionFailed(let message):
             if message.contains("401") || message.contains("403") {
-                return l10n.t("تعذر التحقق من بيانات الاتصال.", "The connection credentials were rejected.")
+                return l10n.t("تعذر التحقق من صلاحية الوصول إلى الخدمة. تواصل مع فريق بصير إذا استمرت المشكلة.", "Could not verify access to the service. Contact the Basir team if the issue continues.")
             }
             if message.contains("429") {
-                return l10n.t("الخدمة مشغولة أو وصل الحساب إلى حده المؤقت.",
-                              "The service is busy or the account reached a temporary limit.")
+                return l10n.t("الخدمة مشغولة أو بلغ حسابك الحد المؤقت للطلبات. حاول لاحقًا.",
+                              "The service is busy or your account has reached a temporary request limit. Try again later.")
             }
-            return l10n.t("تعذر إكمال العملية. يمكنك إعادة المحاولة من نفس النقطة.",
-                          "The operation could not be completed. You can retry from the same checkpoint.")
+            return l10n.t("تعذر إكمال المهمة. أعد المحاولة لمتابعتها من آخر تقدم محفوظ.",
+                          "Could not complete the task. Try again to continue from the last saved progress.")
         }
     }
 
@@ -1146,14 +1146,14 @@ enum BackgroundPausePhase: Equatable {
     func statusMessage(l10n: L10n) -> String {
         switch self {
         case .uploading:
-            return l10n.t("توقف رفع الملف لأن iOS أوقف بصير في الخلفية. سيُكمل بصير الرفع عند فتحه.",
-                          "The upload stopped because iOS paused Basir in the background. Basir finishes it when you open it.")
+            return l10n.t("أوقف النظام رفع الملف مؤقتًا أثناء عمل بصير في الخلفية. افتح التطبيق لاستكمال الرفع.",
+                          "The system paused the upload while Basir was in the background. Open the app to continue uploading.")
         case .serverWorking:
-            return l10n.t("خادم بصير يواصل التحويل. سيتابع التطبيق ويُنزل الملف عند فتحه.",
-                          "The Basir server keeps converting. The app checks back and downloads the file when you open it.")
+            return l10n.t("المعالجة مستمرة على خادم بصير. عند فتح التطبيق، سيتابع تقدم المهمة ويُنزّل النتيجة عند جاهزيتها.",
+                          "Processing continues on Basir’s server. When you open the app, it will check progress and download the result when ready.")
         case .serverFinished:
-            return l10n.t("ملف Word جاهز على خادم بصير. سيُنزَّل إلى جهازك عند فتح بصير.",
-                          "The Word file is ready on the Basir server. It downloads to your iPhone when you open Basir.")
+            return l10n.t("ملف Word جاهز. افتح بصير لتنزيله على جهازك.",
+                          "Your Word file is ready. Open Basir to download it to your device.")
         }
     }
 
@@ -1161,11 +1161,11 @@ enum BackgroundPausePhase: Equatable {
     func notificationBody(percent: Int, l10n: L10n) -> String {
         switch self {
         case .uploading:
-            return l10n.t("توقف الرفع عند \(percent)٪ لأن iOS أوقف بصير في الخلفية. افتح بصير لإكماله.",
-                          "The upload stopped at \(percent)% because iOS paused Basir in the background. Open Basir to finish it.")
+            return l10n.t("توقف رفع الملف مؤقتًا عند \(percent)٪ أثناء عمل التطبيق في الخلفية. افتح بصير لاستكمال الرفع.",
+                          "The upload paused at \(percent)% while the app was in the background. Open Basir to continue.")
         case .serverWorking:
-            return l10n.t("خادم بصير يواصل التحويل، \(percent)٪.",
-                          "The Basir server keeps converting, \(percent)%.")
+            return l10n.t("المعالجة مستمرة على خادم بصير. التقدم: \(percent)٪.",
+                          "Processing continues on Basir’s server. Progress: \(percent)%.")
         case .serverFinished:
             return l10n.t("ملف Word جاهز. افتح بصير لحفظه على جهازك.",
                           "The Word file is ready. Open Basir to save it to your iPhone.")

@@ -59,7 +59,7 @@ struct JobStepTimeline: View {
         func spoken(_ l10n: L10n) -> String {
             switch self {
             case .done: return l10n.t("مكتملة", "Done")
-            case .current: return l10n.t("جارية الآن", "In progress")
+            case .current: return l10n.t("قيد التنفيذ", "In progress")
             case .waiting: return l10n.t("لم تبدأ", "Not started")
             }
         }
@@ -87,9 +87,9 @@ struct QualityBadge: View {
 
     private var text: String {
         if report.hasConcerns {
-            return l10n.t("تم التحقق مع ملاحظات", "Verified with notes")
+            return l10n.t("اكتمل الفحص مع ملاحظات", "Checked with notes")
         }
-        return l10n.t("تم التحقق من الجودة", "Quality verified")
+        return l10n.t("اكتمل فحص الجودة", "Quality check complete")
     }
 }
 
@@ -100,7 +100,7 @@ struct QualityReportCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
-            GlassSectionTitle(title: l10n.t("تقرير التحقق", "Verification report"),
+            GlassSectionTitle(title: l10n.t("تقرير الجودة", "Quality report"),
                               systemImage: report.hasConcerns ? "checkmark.shield" : "checkmark.shield.fill")
             Text(headline)
                 .font(.body.weight(.semibold))
@@ -126,14 +126,14 @@ struct QualityReportCard: View {
     private var headline: String {
         if let score = report.percentScore {
             return report.hasConcerns
-                ? l10n.t("اجتاز الملف فحص الجودة بنسبة \(score) من 100، مع ملاحظات أدناه.",
-                         "The file passed the quality check with \(score) out of 100, with notes below.")
-                : l10n.t("اجتاز الملف فحص الجودة بنسبة \(score) من 100.",
-                         "The file passed the quality check with \(score) out of 100.")
+                ? l10n.t("تقييم الفحص الآلي: \(score) من 100. توجد ملاحظات للمراجعة.",
+                         "Automated check score: \(score) out of 100. Review the notes below.")
+                : l10n.t("تقييم الفحص الآلي: \(score) من 100.",
+                         "Automated check score: \(score) out of 100.")
         }
         return report.hasConcerns
-            ? l10n.t("اجتاز الملف فحص الجودة، مع ملاحظات أدناه.", "The file passed the quality check, with notes below.")
-            : l10n.t("اجتاز الملف فحص الجودة.", "The file passed the quality check.")
+            ? l10n.t("اكتمل فحص الملف. راجع الملاحظات التالية.", "The file check is complete. Review the notes below.")
+            : l10n.t("اكتمل فحص الملف دون ملاحظات.", "The file check is complete with no issues reported.")
     }
 
     private struct Line: Hashable {
@@ -146,49 +146,49 @@ struct QualityReportCard: View {
         var result: [Line] = []
         if let pages = report.sourcePages, pages > 0 {
             result.append(Line(icon: "doc.on.doc",
-                               text: l10n.t("قُرئت \(report.retainedPages) من \(pages) صفحة.",
-                                            "\(report.retainedPages) of \(pages) pages were read.")))
+                               text: l10n.t("الصفحات المحفوظة في النتيجة: \(report.retainedPages) من \(pages).",
+                                            "Pages included in the result: \(report.retainedPages) of \(pages).")))
         } else if report.retainedPages > 0 {
             result.append(Line(icon: "doc.on.doc",
-                               text: l10n.t("قُرئت \(report.retainedPages) صفحة.", "\(report.retainedPages) pages were read.")))
+                               text: l10n.t("الصفحات المحفوظة في النتيجة: \(report.retainedPages).", "Pages included in the result: \(report.retainedPages).")))
         }
         if report.skippedBlankPages > 0 {
             result.append(Line(icon: "doc",
-                               text: l10n.t("تُخطيت \(report.skippedBlankPages) صفحة فارغة.",
-                                            "\(report.skippedBlankPages) blank pages were skipped.")))
+                               text: l10n.t("الصفحات الفارغة التي جرى تخطيها: \(report.skippedBlankPages).",
+                                            "Blank pages skipped: \(report.skippedBlankPages).")))
         }
         if report.fallbackPages > 0 {
             result.append(Line(icon: "photo.on.rectangle",
-                               text: l10n.t("\(report.fallbackPages) صفحة حُفظت كصورة موصوفة لأن نصها لم يُقرأ بثقة. يمكنك إعادة محاولتها.",
-                                            "\(report.fallbackPages) pages were kept as described images because their text could not be read confidently. You can retry them."),
+                               text: l10n.t("صفحات حُفظت كصور مع وصف نصي لتعذر قراءة نصها بوضوح: \(report.fallbackPages). يمكنك إعادة محاولة معالجتها.",
+                                            "Pages saved as images with text descriptions because their text could not be read clearly: \(report.fallbackPages). You can retry them."),
                                isConcern: true))
         }
         if report.tables > 0 {
             result.append(Line(icon: "tablecells",
-                               text: l10n.t("يحتوي الملف على \(report.tables) جدول حقيقي قابل للتنقل.",
-                                            "The file contains \(report.tables) real, navigable tables.")))
+                               text: l10n.t("الجداول القابلة للتنقل بقارئ الشاشة: \(report.tables).",
+                                            "Tables you can navigate with a screen reader: \(report.tables).")))
         }
         if report.images > 0 {
             if report.imagesMissingDescription == 0 {
                 result.append(Line(icon: "text.below.photo",
-                                   text: l10n.t("لكل صورة من الصور الـ\(report.images) وصف نصي.",
-                                                "All \(report.images) images have a text description.")))
+                                   text: l10n.t("جميع الصور لها وصف نصي. عدد الصور: \(report.images).",
+                                                "All images have text descriptions. Total images: \(report.images).")))
             } else {
                 result.append(Line(icon: "text.below.photo",
-                                   text: l10n.t("\(report.imagesMissingDescription) من \(report.images) صورة بلا وصف.",
-                                                "\(report.imagesMissingDescription) of \(report.images) images have no description."),
+                                   text: l10n.t("الصور التي لا يتوفر لها وصف نصي: \(report.imagesMissingDescription) من \(report.images).",
+                                                "Images without text descriptions: \(report.imagesMissingDescription) of \(report.images)."),
                                    isConcern: true))
             }
         }
         if report.textCharacters > 0 {
             let words = max(1, report.textCharacters / 6)
             result.append(Line(icon: "text.alignleft",
-                               text: l10n.t("نحو \(words) كلمة من النص.", "About \(words) words of text.")))
+                               text: l10n.t("عدد الكلمات التقريبي: \(words).", "Approximate word count: \(words).")))
         }
         if report.wordPackageVerified {
             result.append(Line(icon: "checkmark.seal",
-                               text: l10n.t("فحص بصير ملف Word على جهازك قبل حفظه، وهو سليم.",
-                                            "Basir checked the Word file on your device before saving it, and it is intact.")))
+                               text: l10n.t("اجتاز ملف Word فحص سلامة الملف على جهازك قبل حفظه.",
+                                            "The Word file passed an integrity check on your device before it was saved.")))
         }
         for warning in report.warnings.prefix(5) {
             result.append(Line(icon: "exclamationmark.triangle", text: Self.describe(warning, l10n: l10n), isConcern: true))
@@ -200,15 +200,15 @@ struct QualityReportCard: View {
     @MainActor
     static func describe(_ code: String, l10n: L10n) -> String {
         let known: [String: (String, String)] = [
-            "low_confidence_pages": ("بعض الصفحات قُرئت بثقة أقل من المعتاد.", "Some pages were read with lower confidence than usual."),
+            "low_confidence_pages": ("قد تحتوي بعض الصفحات على أخطاء في قراءة النص. يُنصح بمراجعتها.", "Text recognition may be less accurate on some pages. Please review them."),
             "handwriting_detected": ("يحتوي المستند على خط يد؛ راجع تلك المواضع.", "The document contains handwriting; review those parts."),
             "fallback_pages": ("بعض الصفحات حُفظت كصور موصوفة.", "Some pages were kept as described images."),
-            "missing_alt_text": ("بعض الصور بلا وصف.", "Some images have no description."),
+            "missing_alt_text": ("بعض الصور ليس لها وصف نصي.", "Some images have no text description."),
             "relaxed_layout": ("بُسّط تخطيط بعض الصفحات للحفاظ على النص.", "Some page layouts were simplified to preserve the text.")
         ]
         let key = code.lowercased()
         if let match = known[key] { return l10n.t(match.0, match.1) }
         let readable = code.replacingOccurrences(of: "_", with: " ")
-        return l10n.t("ملاحظة من الفحص: \(readable)", "Check note: \(readable)")
+        return l10n.t("ملاحظة في تقرير الجودة: \(readable)", "Quality report note: \(readable)")
     }
 }

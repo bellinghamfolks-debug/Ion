@@ -67,7 +67,7 @@ struct RootView: View {
             handleIntents()
         }
         .confirmationDialog(
-            l10n.t("ماذا تريد أن تفعل بالعناصر؟", "What would you like to do with the items?"),
+            l10n.t("كيف تريد معالجة الملفات؟", "What would you like to do with these files?"),
             isPresented: Binding(
                 get: { viewModel.externalImportBatch != nil || viewModel.externalImportCandidate != nil },
                 set: { if !$0 { viewModel.cancelExternalImport() } }
@@ -92,8 +92,8 @@ struct RootView: View {
             Button(l10n.t("إلغاء", "Cancel"), role: .cancel) { viewModel.cancelExternalImport() }
         } message: {
             let count = viewModel.externalImportBatch?.urls.count ?? 1
-            Text(l10n.t("استلم بصير \(count) من العناصر. اختر العملية المطلوبة.",
-                        "Basir received \(count) item(s) from another app."))
+            Text(l10n.t("الملفات المستلمة: \(count). اختر التحويل أو الترجمة.",
+                        "Files received: \(count). Choose conversion or translation."))
         }
         .alert(
             l10n.t("تعذر فتح الملف", "Could not open the file"),
@@ -261,7 +261,7 @@ struct MiniJobBar: View {
             .buttonStyle(.plain)
             .accessibilityLabel(l10n.t("المهمة الحالية: \(job.sourceName)", "Current task: \(job.sourceName)"))
             .accessibilityValue(statusLine(job))
-            .accessibilityHint(l10n.t("اضغط مرتين لعرض التفاصيل", "Double-tap to show details"))
+            .accessibilityHint(l10n.t("اضغط مرتين لفتح تفاصيل المهمة", "Double-tap to open task details"))
 
             toggleButton(job)
         }
@@ -301,8 +301,8 @@ struct MiniJobBar: View {
         switch job.status {
         case .running: return JobStep.spokenStatus(for: job.progress, l10n: l10n)
         case .queued: return l10n.t("بانتظار البدء", "Queued")
-        case .waitingForNetwork: return l10n.t("بانتظار الشبكة", "Waiting for network")
-        case .paused: return l10n.t("متوقفة مؤقتًا، تقدمك محفوظ", "Paused, progress saved")
+        case .waitingForNetwork: return l10n.t("بانتظار الاتصال", "Waiting for connection")
+        case .paused: return l10n.t("متوقفة مؤقتًا. تقدمك محفوظ", "Paused. Progress saved")
         default: return ""
         }
     }

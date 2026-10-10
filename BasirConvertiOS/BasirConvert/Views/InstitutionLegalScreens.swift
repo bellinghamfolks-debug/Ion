@@ -58,16 +58,16 @@ struct ServerPublicDocumentView: View {
                     .padding(20)
                 }
             } else if isLoading {
-                ProgressView(isArabic ? "جاري تحميل المحتوى…" : "Loading content…")
+                ProgressView(isArabic ? "جارٍ تحميل المحتوى…" : "Loading content…")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .accessibilityLabel(isArabic ? "جاري تحميل المحتوى" : "Loading content")
+                    .accessibilityLabel(isArabic ? "جارٍ تحميل المحتوى" : "Loading content")
             } else {
                 VStack(spacing: 14) {
                     Image(systemName: "exclamationmark.triangle")
                         .font(.title2)
                     Text(errorMessage ?? (isArabic ? "تعذر تحميل المحتوى." : "Unable to load content."))
                         .multilineTextAlignment(.center)
-                    Button(isArabic ? "إعادة المحاولة" : "Try Again") {
+                    Button(isArabic ? "إعادة المحاولة" : "Try again") {
                         Task { await load() }
                     }
                     .buttonStyle(.borderedProminent)
@@ -87,8 +87,8 @@ struct ServerPublicDocumentView: View {
         switch slug {
         case "terms": return isArabic ? "الشروط والأحكام" : "Terms and Conditions"
         case "privacy": return isArabic ? "سياسة الخصوصية" : "Privacy Policy"
-        case "faq": return isArabic ? "الأسئلة المتكررة" : "Frequently Asked Questions"
-        case "contact": return isArabic ? "التواصل" : "Contact"
+        case "faq": return isArabic ? "الأسئلة الشائعة" : "Frequently Asked Questions"
+        case "contact": return isArabic ? "تواصل معنا" : "Contact us"
         case "about": return isArabic ? "عن بصير" : "About Basir"
         default: return isArabic ? "بصير" : "Basir"
         }
@@ -102,13 +102,13 @@ struct ServerPublicDocumentView: View {
         let language = isArabic ? "ar" : "en"
         guard var components = URLComponents(string: "https://basir-convert-api-1045442243599.europe-west4.run.app/api/public/content/\(slug)") else {
             isLoading = false
-            errorMessage = isArabic ? "تعذر تجهيز عنوان المحتوى." : "Unable to prepare the content request."
+            errorMessage = isArabic ? "تعذر فتح هذه الصفحة الآن. حاول لاحقًا." : "Could not open this page. Please try again later."
             return
         }
         components.queryItems = [URLQueryItem(name: "lang", value: language)]
         guard let url = components.url else {
             isLoading = false
-            errorMessage = isArabic ? "تعذر تجهيز عنوان المحتوى." : "Unable to prepare the content request."
+            errorMessage = isArabic ? "تعذر فتح هذه الصفحة الآن. حاول لاحقًا." : "Could not open this page. Please try again later."
             return
         }
         do {

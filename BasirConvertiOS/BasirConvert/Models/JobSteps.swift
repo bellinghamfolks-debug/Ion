@@ -17,7 +17,7 @@ enum JobStep: Int, CaseIterable, Identifiable, Codable, Hashable, Sendable {
         case .upload: return l10n.t("رفع", "Upload")
         case .read: return l10n.t("قراءة", "Read")
         case .verify: return l10n.t("تحقق", "Verify")
-        case .writeWord: return l10n.t("كتابة Word", "Write Word")
+        case .writeWord: return l10n.t("إنشاء Word", "Create Word")
         case .download: return l10n.t("تنزيل", "Download")
         }
     }
@@ -27,8 +27,8 @@ enum JobStep: Int, CaseIterable, Identifiable, Codable, Hashable, Sendable {
         switch self {
         case .upload: return l10n.t("جارٍ رفع الملف", "Uploading the file")
         case .read: return l10n.t("جارٍ قراءة المحتوى", "Reading the content")
-        case .verify: return l10n.t("جارٍ التحقق من الجودة", "Verifying quality")
-        case .writeWord: return l10n.t("جارٍ كتابة ملف Word", "Writing the Word file")
+        case .verify: return l10n.t("جارٍ فحص الجودة", "Checking quality")
+        case .writeWord: return l10n.t("جارٍ إنشاء ملف Word", "Creating the Word file")
         case .download: return l10n.t("جارٍ تنزيل النتيجة", "Downloading the result")
         }
     }

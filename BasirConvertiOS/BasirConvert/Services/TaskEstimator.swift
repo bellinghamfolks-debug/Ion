@@ -25,16 +25,16 @@ struct TaskEstimate: Equatable, Sendable {
     func sentence(_ l10n: L10n) -> String {
         let what: String
         switch content {
-        case .textPDF: what = l10n.t("PDF نصي من \(units) صفحة", "a \(units)-page text PDF")
-        case .scannedPDF: what = l10n.t("PDF ممسوح ضوئيًا من \(units) صفحة", "a \(units)-page scanned PDF")
-        case .mixedPDF: what = l10n.t("PDF من \(units) صفحة، بعضها ممسوح ضوئيًا", "a \(units)-page PDF, partly scanned")
-        case .images: what = l10n.t("\(units) من الصور", "\(units) image(s)")
-        case .presentation: what = l10n.t("عرض من \(units) شريحة", "a \(units)-slide presentation")
-        case .word: what = l10n.t("مستند Word", "a Word document")
-        case .audio: what = l10n.t("تسجيل مدته نحو \(units) دقيقة", "a recording of about \(units) minute(s)")
+        case .textPDF: what = l10n.t("PDF نصي. عدد الصفحات: \(units)", "Text PDF. Pages: \(units)")
+        case .scannedPDF: what = l10n.t("PDF مصوّر. عدد الصفحات: \(units)", "Scanned PDF. Pages: \(units)")
+        case .mixedPDF: what = l10n.t("PDF يحتوي على صفحات نصية ومصوّرة. عدد الصفحات: \(units)", "PDF with text and scanned pages. Pages: \(units)")
+        case .images: what = l10n.t("عدد الصور: \(units)", "Images: \(units)")
+        case .presentation: what = l10n.t("عرض تقديمي. عدد الشرائح: \(units)", "Presentation. Slides: \(units)")
+        case .word: what = l10n.t("مستند Word", "Word document")
+        case .audio: what = l10n.t("تسجيل صوتي. المدة التقريبية بالدقائق: \(units)", "Audio recording. Approximate duration in minutes: \(units)")
         }
-        return l10n.t("هذا \(what). الوقت المتوقع \(Self.duration(seconds, l10n: l10n)) تقريبًا، بعد الرفع.",
-                      "This is \(what). Expected time: about \(Self.duration(seconds, l10n: l10n)), after upload.")
+        return l10n.t("\(what). المدة المتوقعة بعد الرفع \(Self.duration(seconds, l10n: l10n)).",
+                      "\(what). Estimated time after upload: \(Self.duration(seconds, l10n: l10n)).")
     }
 
     @MainActor
@@ -42,8 +42,8 @@ struct TaskEstimate: Equatable, Sendable {
         func minutes(_ value: Int) -> Int { max(1, Int((Double(value) / 60).rounded())) }
         let low = minutes(range.lowerBound), high = minutes(range.upperBound)
         if high <= 1 { return l10n.t("أقل من دقيقتين", "under two minutes") }
-        if low == high { return l10n.t("\(low) دقائق", "\(low) minutes") }
-        return l10n.t("من \(low) إلى \(high) دقائق", "\(low) to \(high) minutes")
+        if low == high { return l10n.t("بالدقائق: \(low)", "\(low) minutes") }
+        return l10n.t("بالدقائق: من \(low) إلى \(high)", "\(low) to \(high) minutes")
     }
 }
 

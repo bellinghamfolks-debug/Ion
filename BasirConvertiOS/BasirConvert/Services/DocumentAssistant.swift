@@ -184,10 +184,10 @@ enum DocumentAssistant {
         if let error = error as? BasirError {
             switch error {
             case .notConfigured, .invalidServerURL, .authenticationFailed:
-                return l10n.t("هذه الميزة تحتاج خادم بصير، وهو غير متاح في هذه النسخة.",
-                              "This needs the Basir server, which this build cannot reach.")
+                return l10n.t("هذه الميزة غير مهيأة في نسختك الحالية. تواصل مع فريق بصير.",
+                              "This feature is not set up in your current version. Contact the Basir team.")
             case .rateLimited:
-                return l10n.t("طلبات كثيرة في وقت قصير. حاول بعد دقائق.", "Too many requests. Try again in a few minutes.")
+                return l10n.t("بلغت الحد المؤقت للطلبات. حاول مجددًا بعد بضع دقائق.", "You’ve reached the temporary request limit. Try again in a few minutes.")
             case .networkUnavailable:
                 return l10n.t("لا يوجد اتصال بالإنترنت.", "There is no internet connection.")
             default: break
@@ -198,7 +198,7 @@ enum DocumentAssistant {
             return l10n.t("تعذر الوصول إلى بصير. تحقق من الاتصال وحاول مرة أخرى.",
                           "Basir could not be reached. Check the connection and try again.")
         }
-        return l10n.t("تعذر الحصول على إجابة الآن. حاول مرة أخرى.", "No answer right now. Please try again.")
+        return l10n.t("تعذر الحصول على إجابة الآن. حاول مرة أخرى بعد قليل.", "Could not get an answer right now. Please try again shortly.")
     }
 }
 

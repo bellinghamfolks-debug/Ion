@@ -1,2 +1,6 @@
 "CFBundleDisplayName" = "بصير";
-
+"NSCameraUsageDescription" = "يستخدم بصير الكاميرا لتصوير ما تريد قراءته أو تحويله أو ترجمته أو السؤال عنه.";
+"NSPhotoLibraryUsageDescription" = "اختر من مكتبة الصور ما تريد قراءته أو تحويله أو ترجمته أو السؤال عنه في بصير.";
+"NSCalendarsWriteOnlyAccessUsageDescription" = "يضيف بصير المواعيد التي تختارها من مستنداتك إلى التقويم، دون قراءة مواعيدك الحالية.";
+"NSCalendarsUsageDescription" = "يستخدم بصير التقويم لإضافة المواعيد التي تختارها من مستنداتك.";
+"NSFaceIDUsageDescription" = "يستخدم بصير بصمة الوجه للتحقق من هويتك عند فتح التطبيق إذا فعّلت القفل.";

@@ -21,9 +21,9 @@ struct ContactFormView: View {
     private static let categories: [(key: String, ar: String, en: String)] = [
         ("question", "استفسار عام", "General question"),
         ("technical", "مشكلة تقنية", "Technical problem"),
-        ("quality", "جودة نتيجة التحويل", "Conversion quality"),
+        ("quality", "جودة التحويل", "Conversion quality"),
         ("accessibility", "إمكانية الوصول", "Accessibility"),
-        ("suggestion", "اقتراح أو فكرة", "Suggestion or idea"),
+        ("suggestion", "اقتراح", "Suggestion"),
         ("privacy", "الخصوصية أو حذف البيانات", "Privacy or data deletion"),
         ("other", "أخرى", "Other")
     ]
@@ -52,8 +52,8 @@ struct ContactFormView: View {
             Text(l10n.t("تواصل معنا", "Contact us"))
                 .font(.system(.largeTitle, design: .rounded, weight: .bold))
                 .accessibilityAddTraits(.isHeader)
-            Text(l10n.t("تصل رسالتك مباشرة إلى فريق بصير، ونرد على بريدك.",
-                        "Your message goes straight to the Basir team, and we reply to your email."))
+            Text(l10n.t("لديك سؤال أو ملاحظة؟ أرسلها إلى فريق بصير، وسنرد على بريدك الإلكتروني.",
+                        "Have a question or feedback? Send it to the Basir team, and we’ll reply by email."))
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
 
@@ -93,7 +93,7 @@ struct ContactFormView: View {
                                         lineWidth: invalidFields.contains("message") ? 2 : 1)
                         }
                         .accessibilityLabel(l10n.t("الرسالة", "Message"))
-                        .accessibilityHint(l10n.t("10 أحرف على الأقل. لا تكتب كلمات مرور.", "At least 10 characters. Do not include passwords."))
+                        .accessibilityHint(l10n.t("اكتب 10 أحرف على الأقل، وتجنب تضمين كلمات المرور.", "Use at least 10 characters and leave out passwords."))
                     if invalidFields.contains("message") {
                         Text(l10n.t("اكتب رسالة من 10 أحرف على الأقل.", "Write at least 10 characters."))
                             .font(.footnote.weight(.semibold))
@@ -102,7 +102,7 @@ struct ContactFormView: View {
                 }
                 Toggle(isOn: $includeDeviceInfo) {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(l10n.t("إرفاق إصدار التطبيق ونوع الجهاز", "Include app version and device type"))
+                        Text(l10n.t("تضمين إصدار التطبيق ونوع الجهاز", "Include app version and device type"))
                         Text(deviceSummary)
                             .font(.footnote)
                             .foregroundStyle(BasirPalette.secondaryText)
@@ -144,7 +144,7 @@ struct ContactFormView: View {
                         .stroke(invalidFields.contains(key) ? BasirPalette.danger : BasirPalette.stroke,
                                 lineWidth: invalidFields.contains(key) ? 2 : 1)
                 }
-                .accessibilityValue(invalidFields.contains(key) ? l10n.t("غير صحيح", "Invalid") : "")
+                .accessibilityValue(invalidFields.contains(key) ? l10n.t("يحتاج إلى تصحيح", "Needs correction") : "")
             if invalidFields.contains(key) {
                 Text(fieldError(key))
                     .font(.footnote.weight(.semibold))
@@ -156,7 +156,7 @@ struct ContactFormView: View {
     private func fieldError(_ key: String) -> String {
         switch key {
         case "name": return l10n.t("اكتب اسمك (حرفان على الأقل).", "Enter your name (at least 2 characters).")
-        case "email": return l10n.t("اكتب بريدًا صحيحًا مثل name@example.com.", "Enter a valid email such as name@example.com.")
+        case "email": return l10n.t("أدخل عنوان بريد إلكتروني صحيحًا، مثل name@example.com.", "Enter a valid email address, such as name@example.com.")
         default: return l10n.t("راجع هذا الحقل.", "Check this field.")
         }
     }
@@ -167,12 +167,12 @@ struct ContactFormView: View {
                 .font(.system(size: 44))
                 .foregroundStyle(BasirPalette.success)
                 .accessibilityHidden(true)
-            Text(l10n.t("وصلت رسالتك", "Your message was sent"))
+            Text(l10n.t("أُرسلت رسالتك", "Message sent"))
                 .font(.title.weight(.bold))
                 .accessibilityAddTraits(.isHeader)
                 .accessibilityFocused($focusedStatus)
-            Text(l10n.t("شكرًا لك. وصلت رسالتك إلى فريق بصير وسنرد على بريدك.",
-                        "Thank you. Your message reached the Basir team and we will reply to your email."))
+            Text(l10n.t("شكرًا لتواصلك. سيطّلع فريق بصير على رسالتك ويرد على بريدك الإلكتروني.",
+                        "Thanks for getting in touch. The Basir team will review your message and reply by email."))
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
             Text(l10n.t("الرقم المرجعي: \(reference)", "Reference number: \(reference)"))
@@ -210,7 +210,7 @@ struct ContactFormView: View {
         if trimmedMessage.count < 10 { invalid.insert("message") }
         invalidFields = invalid
         guard invalid.isEmpty else {
-            showError(l10n.t("راجع الحقول المعلّمة ثم أرسل مرة أخرى.", "Check the highlighted fields, then send again."))
+            showError(l10n.t("راجع الاسم والبريد الإلكتروني ونص الرسالة، ثم أعد الإرسال.", "Check your name, email address, and message, then send again."))
             return
         }
         guard let url = BasirPublicLinks.endpoint("/api/public/contact") else {
@@ -250,10 +250,10 @@ struct ContactFormView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { focusedStatus = true }
             case 422:
                 invalidFields = Set((json?["fields"] as? [String]) ?? [])
-                showError(l10n.t("راجع الحقول المعلّمة ثم أرسل مرة أخرى.", "Check the highlighted fields, then send again."))
+                showError(l10n.t("راجع الاسم والبريد الإلكتروني ونص الرسالة، ثم أعد الإرسال.", "Check your name, email address, and message, then send again."))
             case 429:
-                showError(l10n.t("أرسلت رسائل كثيرة خلال وقت قصير. حاول بعد بضع دقائق.",
-                                 "You have sent many messages in a short time. Try again in a few minutes."))
+                showError(l10n.t("بلغت الحد المؤقت لإرسال الرسائل. حاول مجددًا بعد بضع دقائق.",
+                                 "You’ve reached the temporary message limit. Try again in a few minutes."))
             default:
                 showError(l10n.t("تعذر إرسال الرسالة الآن. حاول مرة أخرى بعد قليل.",
                                  "The message could not be sent right now. Please try again shortly."))

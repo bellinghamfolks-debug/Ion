@@ -8,7 +8,7 @@ import Foundation
 struct StartGuidedCaptureIntent: AppIntent {
     static var title: LocalizedStringResource = "Scan a Document with Basir"
     static var description = IntentDescription(
-        "Opens Basir's guided camera, which tells you how to move the phone until the whole page is in view."
+        "Opens Basir’s camera with spoken guidance to help you capture the whole page."
     )
     static var openAppWhenRun: Bool = true
 
@@ -23,7 +23,7 @@ struct StartGuidedCaptureIntent: AppIntent {
 
 struct ReadLatestResultIntent: AppIntent {
     static var title: LocalizedStringResource = "Read the Latest Basir Result"
-    static var description = IntentDescription("Opens the most recent Word file in Basir's reader, where you stopped.")
+    static var description = IntentDescription("Opens your latest Word file in Basir’s reader and resumes where you left off.")
     static var openAppWhenRun: Bool = true
 
     @MainActor

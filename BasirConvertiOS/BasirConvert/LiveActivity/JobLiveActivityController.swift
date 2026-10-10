@@ -129,7 +129,7 @@ final class JobLiveActivityController {
                          isPaused: false, isFinished: false, succeeded: false)
         case .paused, .queued, .waitingForNetwork:
             let text = job.status == .waitingForNetwork
-                ? l10n.t("بانتظار الشبكة", "Waiting for network")
+                ? l10n.t("بانتظار الاتصال", "Waiting for connection")
                 : l10n.t("متوقفة مؤقتًا", "Paused")
             return .init(stepIndex: step?.rawValue ?? 0, stepTitle: text, statusText: text,
                          percent: JobStep.overallPercent(for: job.progress),

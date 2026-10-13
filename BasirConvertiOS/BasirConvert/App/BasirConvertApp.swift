@@ -71,6 +71,9 @@ struct BasirConvertApp: App {
     @StateObject private var intents = IntentRouter.shared
 
     init() {
+        #if DEBUG
+        ScreenshotSeed.runIfRequested()
+        #endif
         BackgroundExecution.shared.register()
     }
 

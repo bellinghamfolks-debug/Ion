@@ -115,6 +115,22 @@ targets:
       - target: BasirConvert
       - package: ZIPFoundation
 
+  # Screenshot tour of every screen (see .github/workflows/basir-ios-screenshots.yml).
+  # Not part of the BasirConvert scheme, so normal builds and tests are unchanged.
+  BasirScreenshots:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: BasirScreenshotsUITests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.basir.convert.ios.screenshots
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: BasirConvert
+    dependencies:
+      - target: BasirConvert
+
 schemes:
   BasirConvert:
     build:
@@ -131,3 +147,14 @@ schemes:
       config: Debug
     archive:
       config: Release
+  BasirScreenshots:
+    build:
+      targets:
+        BasirConvert: all
+        BasirShareExtension: all
+        BasirLiveActivity: all
+        BasirScreenshots: [test]
+    test:
+      config: Debug
+      targets:
+        - BasirScreenshots

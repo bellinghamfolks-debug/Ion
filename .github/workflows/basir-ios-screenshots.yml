@@ -1,0 +1,141 @@
+# Basir iOS — screenshot tour of every screen.
+#
+# Runs the BasirScreenshots UI tests on an iPhone simulator (Arabic, sample
+# content from the Debug-only ScreenshotSeed), exports every screenshot from
+# the result bundle as JPEG and publishes them on the basir-screenshots
+# branch (and as a workflow artifact). Nothing here touches release builds.
+
+name: Basir iOS screenshots
+
+on:
+  push:
+    branches: ["claude/basir-*"]
+    paths:
+      - "BasirConvertiOS/BasirScreenshotsUITests/**"
+      - "BasirConvertiOS/BasirConvert/App/ScreenshotSeed.swift"
+      - ".github/workflows/basir-ios-screenshots.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: basir-ios-screenshots
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  screenshots:
+    name: Screenshot tour (iOS Simulator)
+    runs-on: macos-15
+    timeout-minutes: 60
+
+    defaults:
+      run:
+        working-directory: BasirConvertiOS
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select latest stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Generate Xcode project
+        run: |
+          set -euo pipefail
+          brew install xcodegen
+          xcodegen generate --spec project.yml
+
+      - name: Create a fresh iPhone simulator
+        id: sim
+        run: |
+          set -euo pipefail
+          SDK_VERSION="$(xcrun --sdk iphonesimulator --show-sdk-version)"
+          read -r RUNTIME_ID DEVICE_TYPE <<< "$(xcrun simctl list runtimes available -j | SDK_VERSION="$SDK_VERSION" python3 -c '
+          import json, os, re, sys
+          sdk = os.environ["SDK_VERSION"]
+          runtimes = [r for r in json.load(sys.stdin)["runtimes"]
+                      if r.get("isAvailable") and r["identifier"].startswith("com.apple.CoreSimulator.SimRuntime.iOS")]
+          exact = [r for r in runtimes if r["version"] == sdk or r["version"].startswith(sdk + ".")]
+          major = [r for r in runtimes if r["version"].split(".")[0] == sdk.split(".")[0]]
+          runtime = (exact or major or runtimes)[-1]
+          phones = [d for d in runtime.get("supportedDeviceTypes", [])
+                    if d.get("productFamily") == "iPhone" or d["name"].startswith("iPhone")]
+          plain = [d for d in phones if not re.search(r"Plus|Max|SE|mini|Air|\d+e\b", d["name"])]
+          device = (plain or phones)[-1]
+          print(runtime["identifier"], device["identifier"])
+          ')"
+          UDID="$(xcrun simctl create "Basir Screenshots" "$DEVICE_TYPE" "$RUNTIME_ID")"
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl bootstatus "$UDID" -b
+          # A clean, consistent status bar in every screenshot.
+          xcrun simctl status_bar "$UDID" override --time "9:41" --batteryState charged --batteryLevel 100 \
+            --cellularMode active --cellularBars 4 --wifiBars 3 || true
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: Run the screenshot tour
+        run: |
+          set +e
+          mkdir -p build
+          xcodebuild test \
+            -project BasirConvert.xcodeproj \
+            -scheme BasirScreenshots \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -configuration Debug \
+            -derivedDataPath build \
+            -resultBundlePath build/Screenshots.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            COMPILER_INDEX_STORE_ENABLE=NO > build/screenshots.log 2>&1
+          STATUS=$?
+          grep -E "Test Case .*(passed|failed)|error:|\*\* TEST" build/screenshots.log | tail -40
+          echo "xcodebuild exit status: $STATUS (screenshots are kept either way)"
+          test -d build/Screenshots.xcresult
+
+      - name: Export screenshots
+        run: |
+          set -euo pipefail
+          rm -rf raw shots && mkdir -p raw shots
+          xcrun xcresulttool export attachments --path build/Screenshots.xcresult --output-path raw
+          python3 - <<'PY'
+          import json, re, subprocess
+          from pathlib import Path
+          raw, shots = Path("raw"), Path("shots")
+          manifest = json.loads((raw / "manifest.json").read_text())
+          count = 0
+          for test in manifest:
+              for item in test.get("attachments", []):
+                  source = raw / item["exportedFileName"]
+                  name = item.get("suggestedHumanReadableName") or source.stem
+                  name = re.sub(r"_\d+_[0-9A-F-]{36}$", "", Path(name).stem)
+                  name = re.sub(r'[/\\:*?"<>|]', "-", name).strip()
+                  target = shots / f"{name}.jpg"
+                  subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", "78",
+                                  "-Z", "1400", str(source), "--out", str(target)],
+                                 check=True, capture_output=True)
+                  count += 1
+          print(f"exported {count} screenshots")
+          PY
+          ls shots | sort | head -200
+
+      - name: Upload screenshots artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: basir-screenshots
+          path: BasirConvertiOS/shots
+
+      - name: Publish on the basir-screenshots branch
+        run: |
+          set -euo pipefail
+          TMP="$(mktemp -d)"
+          cp -R shots "$TMP/shots"
+          cd "$TMP"
+          git init -q
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -q -b basir-screenshots
+          git add shots
+          git commit -q -m "Basir screenshots from ${GITHUB_SHA::7}"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" basir-screenshots
+          echo "Published $(ls shots | wc -l) screenshots to the basir-screenshots branch"

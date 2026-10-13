@@ -2,6 +2,13 @@ import Foundation
 import UIKit
 import ZIPFoundation
 
+struct PreparedImage {
+    let data: Data
+    let mimeType: String
+    let pixelWidth: Int
+    let pixelHeight: Int
+}
+
 enum ExtractedDocumentBlock {
     case heading(Int, String)
     case paragraph(String)

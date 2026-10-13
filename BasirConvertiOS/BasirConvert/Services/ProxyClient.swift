@@ -745,7 +745,7 @@ actor ProxyClient {
         expectedPages: Int, expectedTables: Int, expectedImages: Int
     ) throws {
         do {
-            try DocxBuilder.validate(url: temporary, expectedPages: expectedPages, expectedTables: expectedTables, expectedImages: expectedImages)
+            try DocxValidator.validate(url: temporary, expectedPages: expectedPages, expectedTables: expectedTables, expectedImages: expectedImages)
         } catch {
             let type = response.value(forHTTPHeaderField: "Content-Type")?
                 .split(separator: ";").first.map(String.init)?.lowercased() ?? "missing"

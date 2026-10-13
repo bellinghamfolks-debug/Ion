@@ -24,12 +24,14 @@ final class ScreenshotTour: XCTestCase {
             shot("الترحيب \(arabic(page))")
         }
         tap(button: "ابدأ")
+        pause(2.5)
         shot("أول شاشة بعد الترحيب")
     }
 
     func test2_NewTask() {
         launch()
         shotScrolling("جديد - تحويل إلى Word")
+        scrollToTop()
         tap(button: "ترجمة")
         shotScrolling("جديد - ترجمة")
         tap(button: "تحويل إلى Word")
@@ -41,13 +43,15 @@ final class ScreenshotTour: XCTestCase {
                 close()
             }
         }
-        for source in ["ملف", "الصور", "مسح ضوئي", "تصوير موجَّه", "كاميرا"] {
-            scrollTo(source, upward: true)
-            if tap(button: source, exact: true) {
-                pause(2)
-                shot("مصدر - \(source)")
-                close()
-            }
+        scrollToTop()
+        for source in ["ملف", "الصور"] {
+            let tile = app.scrollViews.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", source)).firstMatch
+            guard tile.waitForExistence(timeout: 3), tile.isHittable else { continue }
+            tile.tap()
+            pause(6)
+            shot("مصدر - \(source)")
+            close()
+            scrollToTop()
         }
     }
 
@@ -102,7 +106,10 @@ final class ScreenshotTour: XCTestCase {
             guard row.waitForExistence(timeout: 3) else { continue }
             row.tap()
             pause(2)
-            shotScrolling("مهمة - \(name)")
+            let grabber = app.otherElements.matching(NSPredicate(format: "label CONTAINS %@ OR identifier CONTAINS %@", "Grabber", "Grabber")).firstMatch
+            if grabber.exists { grabber.swipeUp() } else { app.navigationBars.firstMatch.swipeUp() }
+            pause(1.5)
+            shotScrolling("مهمة - \(name)", limit: 3)
             close()
         }
     }
@@ -172,6 +179,7 @@ final class ScreenshotTour: XCTestCase {
     // MARK: - Screenshots
 
     private func shot(_ name: String) {
+        dismissSystemTips()
         counter += 1
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         attachment.name = String(format: "%@-%02d %@", testPrefix, counter, name)
@@ -189,11 +197,11 @@ final class ScreenshotTour: XCTestCase {
             scrollable.swipeUp(velocity: .slow)
             pause(1)
             let current = XCUIScreen.main.screenshot().pngRepresentation
-            if current == previous { return }
+            if current == previous { break }
             shot("\(name) (\(arabic(index)))")
             previous = current
         }
-        if app.scrollViews.firstMatch.exists { app.scrollViews.firstMatch.swipeDown(velocity: .fast) }
+        scrollToTop()
     }
 
     private var testPrefix: String {
@@ -262,14 +270,30 @@ final class ScreenshotTour: XCTestCase {
 
     @discardableResult
     private func back() -> Bool {
-        let bar = app.navigationBars.firstMatch
-        let button = bar.buttons.element(boundBy: 0)
-        if bar.exists, button.exists, button.isHittable, button.label != "الإعدادات" {
+        let button = app.navigationBars.buttons["BackButton"].firstMatch
+        if button.exists, button.isHittable {
             button.tap()
             pause(1.5)
             return true
         }
         return false
+    }
+
+    private func scrollToTop() {
+        for _ in 0..<4 {
+            let scrollable = app.scrollViews.firstMatch
+            guard scrollable.exists else { return }
+            scrollable.swipeDown(velocity: .fast)
+        }
+        pause(1)
+    }
+
+    /// The system's one-time keyboard tip covers half the screen.
+    private func dismissSystemTips() {
+        for label in ["Continue", "متابعة"] {
+            let button = app.buttons[label].firstMatch
+            if button.exists, button.isHittable { button.tap(); pause(1) }
+        }
     }
 
     private func dismissMenu() {

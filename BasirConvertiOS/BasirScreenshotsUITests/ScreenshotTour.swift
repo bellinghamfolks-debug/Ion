@@ -48,7 +48,7 @@ final class ScreenshotTour: XCTestCase {
             let tile = app.scrollViews.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", source)).firstMatch
             guard tile.waitForExistence(timeout: 3), tile.isHittable else { continue }
             tile.tap()
-            pause(6)
+            pause(12)
             shot("مصدر - \(source)")
             close()
             scrollToTop()
@@ -161,8 +161,7 @@ final class ScreenshotTour: XCTestCase {
             "-interface_language", "ar",
             "-AppleLanguages", "(ar)",
             "-AppleLocale", "ar_SA",
-            "-onboarding_completed_v3_1", onboardingDone ? "YES" : "NO",
-        ] + (extra.contains("-interface_appearance") ? [] : ["-interface_appearance", "light"]) + extra
+        ] + (onboardingDone ? ["-onboarding_completed_v3_1", "YES"] : []) + (extra.contains("-interface_appearance") ? [] : ["-interface_appearance", "light"]) + extra
         app.launch()
         pause(2)
         allowSystemAlerts()
@@ -279,13 +278,10 @@ final class ScreenshotTour: XCTestCase {
         return false
     }
 
+    /// Tapping the status bar scrolls to the top without ever dismissing a sheet.
     private func scrollToTop() {
-        for _ in 0..<4 {
-            let scrollable = app.scrollViews.firstMatch
-            guard scrollable.exists else { return }
-            scrollable.swipeDown(velocity: .fast)
-        }
-        pause(1)
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.012)).tap()
+        pause(1.2)
     }
 
     /// The system's one-time keyboard tip covers half the screen.

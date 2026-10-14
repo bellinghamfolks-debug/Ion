@@ -178,6 +178,15 @@ def main() -> None:
     if "codesign --force" in build_script:
         fail("the unsigned package script unexpectedly signs code")
 
+    # Codemagic validates and publishes the IPA by name: it must be the one
+    # the build script makes, or the build fails after compiling.
+    codemagic = root.parent / "codemagic.yaml"
+    if codemagic.exists():
+        ipa = re.search(r"Basir_v[\d.]+_unsigned\.ipa", build_script)
+        named = set(re.findall(r"Basir_v[\d.]+_unsigned\.ipa", codemagic.read_text(encoding="utf-8")))
+        if ipa and named != {ipa.group(0)}:
+            fail(f"codemagic.yaml names {sorted(named)} but the build script makes {ipa.group(0)}")
+
     expected = json.loads((root / "BasirConvertTests/Fixtures/expected.json").read_text(encoding="utf-8"))
     pages = sorted((root / "BasirConvertTests/Fixtures/markdown").glob("page-*.md"))
     if len(pages) != expected["source_pages"]:

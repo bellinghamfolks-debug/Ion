@@ -23,7 +23,14 @@ enum PreviewReloadPolicy {
     }
 }
 
+// The pickers below are shown with .fullScreenCover and close through
+// SwiftUI's dismiss action, never UIKit's dismiss(animated:). A UIKit dismiss
+// leaves SwiftUI believing the cover is still up; when the caller later sets
+// its binding to false (after the photos are imported), SwiftUI dismisses
+// again and closes the screen underneath, such as the Ask about a picture or
+// Instant read tool.
 struct PhotoLibraryPicker: UIViewControllerRepresentable {
+    @Environment(\.dismiss) private var dismiss
     let onPick: ([URL]) -> Void
     let onError: (Error) -> Void
     let onCancel: () -> Void
@@ -36,7 +43,7 @@ struct PhotoLibraryPicker: UIViewControllerRepresentable {
     /// Photos read at the same time.
     static let parallelImports = 3
 
-    func makeCoordinator() -> Coordinator { Coordinator(parent: self) }
+    func makeCoordinator() -> Coordinator { Coordinator(parent: self, close: { dismiss() }) }
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
@@ -52,10 +59,14 @@ struct PhotoLibraryPicker: UIViewControllerRepresentable {
 
     final class Coordinator: NSObject, PHPickerViewControllerDelegate {
         let parent: PhotoLibraryPicker
-        init(parent: PhotoLibraryPicker) { self.parent = parent }
+        let close: () -> Void
+        init(parent: PhotoLibraryPicker, close: @escaping () -> Void) {
+            self.parent = parent
+            self.close = close
+        }
 
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            picker.dismiss(animated: true)
+            close()
             guard !results.isEmpty else { parent.onCancel(); return }
             let parent = self.parent
             let providers = results.map(\.itemProvider)
@@ -119,11 +130,12 @@ struct PhotoLibraryPicker: UIViewControllerRepresentable {
 }
 
 struct CameraPicker: UIViewControllerRepresentable {
+    @Environment(\.dismiss) private var dismiss
     let onPick: (URL) -> Void
     let onError: (Error) -> Void
     let onCancel: () -> Void
 
-    func makeCoordinator() -> Coordinator { Coordinator(parent: self) }
+    func makeCoordinator() -> Coordinator { Coordinator(parent: self, close: { dismiss() }) }
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.sourceType = .camera
@@ -135,15 +147,19 @@ struct CameraPicker: UIViewControllerRepresentable {
 
     final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         let parent: CameraPicker
-        init(parent: CameraPicker) { self.parent = parent }
+        let close: () -> Void
+        init(parent: CameraPicker, close: @escaping () -> Void) {
+            self.parent = parent
+            self.close = close
+        }
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            picker.dismiss(animated: true); parent.onCancel()
+            close(); parent.onCancel()
         }
         func imagePickerController(
             _ picker: UIImagePickerController,
             didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
         ) {
-            picker.dismiss(animated: true)
+            close()
             do {
                 guard let image = info[.originalImage] as? UIImage,
                       let data = image.jpegData(compressionQuality: 0.94) else {
@@ -156,11 +172,12 @@ struct CameraPicker: UIViewControllerRepresentable {
 }
 
 struct DocumentScanner: UIViewControllerRepresentable {
+    @Environment(\.dismiss) private var dismiss
     let onPick: (URL) -> Void
     let onError: (Error) -> Void
     let onCancel: () -> Void
 
-    func makeCoordinator() -> Coordinator { Coordinator(parent: self) }
+    func makeCoordinator() -> Coordinator { Coordinator(parent: self, close: { dismiss() }) }
     func makeUIViewController(context: Context) -> VNDocumentCameraViewController {
         let scanner = VNDocumentCameraViewController()
         scanner.delegate = context.coordinator
@@ -170,21 +187,25 @@ struct DocumentScanner: UIViewControllerRepresentable {
 
     final class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
         let parent: DocumentScanner
-        init(parent: DocumentScanner) { self.parent = parent }
+        let close: () -> Void
+        init(parent: DocumentScanner, close: @escaping () -> Void) {
+            self.parent = parent
+            self.close = close
+        }
         func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-            controller.dismiss(animated: true); parent.onCancel()
+            close(); parent.onCancel()
         }
         func documentCameraViewController(
             _ controller: VNDocumentCameraViewController,
             didFailWithError error: Error
         ) {
-            controller.dismiss(animated: true); parent.onError(error)
+            close(); parent.onError(error)
         }
         func documentCameraViewController(
             _ controller: VNDocumentCameraViewController,
             didFinishWith scan: VNDocumentCameraScan
         ) {
-            controller.dismiss(animated: true)
+            close()
             do {
                 let images = (0..<scan.pageCount).map { scan.imageOfPage(at: $0) }
                 let urls = try MediaImport.persist(images, prefix: "مسح")

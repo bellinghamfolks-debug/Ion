@@ -105,7 +105,7 @@ def main() -> None:
             "CODE_SIGN_ENTITLEMENTS: BasirLiveActivity/BasirLiveActivity.entitlements",
             "BasirConvert/Shared/BasirShortcutIntents.swift",
             "MARKETING_VERSION: 3.5.0",
-            "CURRENT_PROJECT_VERSION: 17",
+            "CURRENT_PROJECT_VERSION: 18",
         ):
             if token not in specification:
                 fail(f"{name} is missing {token}")
@@ -133,6 +133,11 @@ def main() -> None:
     picker = (root / "BasirConvert/Views/DocumentPicker.swift").read_text(encoding="utf-8")
     if "UIDocumentPickerViewController" not in picker or "asCopy: true" not in picker:
         fail("the reliable copy-mode document picker is missing")
+    importers = (root / "BasirConvert/Views/ImportControllers.swift").read_text(encoding="utf-8")
+    if re.search(r"(picker|controller)\.dismiss\(animated", importers):
+        # A UIKit dismiss inside a SwiftUI cover makes the later binding reset
+        # close the screen underneath (the tool window after picking a photo).
+        fail("a picker dismisses itself with UIKit instead of SwiftUI's dismiss action")
     view_source = "\n".join(
         (root / "BasirConvert/Views" / name).read_text(encoding="utf-8")
         for name in ("ConvertView.swift", "TranslateView.swift")

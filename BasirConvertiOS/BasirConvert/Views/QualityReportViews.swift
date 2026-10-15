@@ -159,8 +159,8 @@ struct QualityReportCard: View {
         }
         if report.fallbackPages > 0 {
             result.append(Line(icon: "photo.on.rectangle",
-                               text: l10n.t("صفحات حُفظت كصور مع وصف نصي لتعذر قراءة نصها بوضوح: \(report.fallbackPages). يمكنك إعادة محاولة معالجتها.",
-                                            "Pages saved as images with text descriptions because their text could not be read clearly: \(report.fallbackPages). You can retry them."),
+                               text: l10n.t("صفحات تعذرت قراءة نصها رغم عدة محاولات، فحُفظت صورها في أماكنها مع تنبيه: \(report.fallbackPages). يمكنك إعادة معالجتها.",
+                                            "Pages whose text could not be read despite several attempts, kept in place as pictures with a notice: \(report.fallbackPages). You can process them again."),
                                isConcern: true))
         }
         if report.tables > 0 {
@@ -216,7 +216,7 @@ struct QualityReportCard: View {
         let known: [String: (String, String)] = [
             "low_confidence_pages": ("قد تحتوي بعض الصفحات على أخطاء في قراءة النص. يُنصح بمراجعتها.", "Text recognition may be less accurate on some pages. Please review them."),
             "handwriting_detected": ("يحتوي المستند على خط يد؛ راجع تلك المواضع.", "The document contains handwriting; review those parts."),
-            "fallback_pages": ("بعض الصفحات حُفظت كصور موصوفة.", "Some pages were kept as described images."),
+            "fallback_pages": ("تعذرت قراءة نص بعض الصفحات، فحُفظت صورها في أماكنها مع تنبيه.", "Some pages could not be read and were kept in place as pictures with a notice."),
             "missing_alt_text": ("بعض الصور ليس لها وصف نصي.", "Some images have no text description."),
             "relaxed_layout": ("بُسّط تخطيط بعض الصفحات للحفاظ على النص.", "Some page layouts were simplified to preserve the text."),
             "summary_unavailable": ("تعذر إعداد الملخص هذه المرة، فحُفظ المستند كاملًا دونه. يمكنك طلب الملخص من القارئ.", "The summary could not be prepared this time, so the full document was saved without it. You can ask for it from the reader."),

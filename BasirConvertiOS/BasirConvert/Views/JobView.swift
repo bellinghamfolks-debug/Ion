@@ -210,8 +210,8 @@ struct JobView: View {
                 }
                 if let job = viewModel.selectedJob, !job.failedItems.isEmpty {
                     Text(l10n.t(
-                        "تعذرت قراءة نص هذه الصفحات، فحُفظت كصور مع وصف نصي: \(pageRanges(job.failedItems))",
-                        "These pages were saved as images with text descriptions because their text could not be read: \(pageRanges(job.failedItems))"
+                        "تنبيه: تعذرت قراءة نص هذه الصفحات رغم عدة محاولات، فحُفظت صورها في أماكنها من الملف مع تنبيه عند كل منها: \(pageRanges(job.failedItems)). يمكنك إعادة معالجتها.",
+                        "Note: the text of these pages could not be read despite several attempts, so their pictures are kept in place in the file, each with a notice: \(pageRanges(job.failedItems)). You can process them again."
                     ))
                     .font(.footnote)
                     .foregroundStyle(BasirPalette.warning)

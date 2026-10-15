@@ -30,6 +30,9 @@ struct ResultLibraryView: View {
     @State private var deleteItem: OutputRecord?
     @State private var reportItem: OutputRecord?
     @State private var readItem: OutputRecord?
+    @State private var summaryItems: SummaryTargets?
+    @State private var choosingForSummary = false
+    @State private var chosenForSummary: Set<String> = []
     @State private var newName = ""
     @State private var query = ""
     @AppStorage("library_sort") private var sortRaw = LibrarySort.newest.rawValue
@@ -41,6 +44,8 @@ struct ResultLibraryView: View {
         let matches = needle.isEmpty ? library.items : library.items.filter {
             $0.displayName.localizedCaseInsensitiveContains(needle)
                 || ($0.sourceName?.localizedCaseInsensitiveContains(needle) ?? false)
+                // A file is also found by what its summary says (ت15).
+                || (SummaryStore.latest(forOutput: $0.url)?.searchableText.localizedCaseInsensitiveContains(needle) ?? false)
         }
         switch sort {
         case .newest: return matches.sorted { $0.createdAt > $1.createdAt }
@@ -91,6 +96,13 @@ struct ResultLibraryView: View {
                         )
                     } else {
                         sortMenu
+                        if library.items.count > 1 {
+                            CardActionButton(title: l10n.t("لخّص عدة ملفات معًا", "Summarize several files together"),
+                                             systemImage: "square.stack.3d.up") {
+                                chosenForSummary = []
+                                choosingForSummary = true
+                            }
+                        }
                         if filtered.isEmpty {
                             InfoCard(title: l10n.t("لا توجد نتائج مطابقة", "No matching files"),
                                      text: l10n.t("جرّب البحث باسم آخر أو بجزء من اسم الملف.", "Try another name or part of a file name."),
@@ -114,6 +126,8 @@ struct ResultLibraryView: View {
         .onAppear { library.refresh() }
         .sheet(item: $previewItem) { QuickLookPreview(url: $0.url).ignoresSafeArea() }
         .fullScreenCover(item: $readItem) { DocumentReaderView(url: $0.url) }
+        .fullScreenCover(item: $summaryItems) { SummaryLauncherView(input: .outputs($0.urls)) }
+        .sheet(isPresented: $choosingForSummary) { multiSummaryPicker }
         .sheet(item: $shareItem) { ActivityShareView(urls: [$0.url]) }
         .sheet(item: $exportItem) { ExportDocumentPicker(urls: [$0.url]) }
         .sheet(item: $openItem) { OpenInApplicationView(url: $0.url) }
@@ -208,6 +222,13 @@ struct ResultLibraryView: View {
                     previewItem = item
                 }
             }
+            if item.isReadable {
+                CardActionButton(title: SummaryStore.hasSummary(forOutput: item.url)
+                                    ? l10n.t("الملخص", "Summary") : l10n.t("لخّص", "Summarize"),
+                                 systemImage: "text.badge.star") {
+                    summaryItems = SummaryTargets(urls: [item.url])
+                }
+            }
             AdaptiveStack {
                 CardActionButton(title: l10n.t("مشاركة", "Share"), systemImage: "square.and.arrow.up") {
                     shareItem = item
@@ -251,6 +272,9 @@ struct ResultLibraryView: View {
         .accessibilityAction { if item.isReadable { readItem = item } else { previewItem = item } }
         .modifier(ReadActionModifier(item: item, title: l10n.t("قراءة في بصير", "Read in Basir")) { readItem = item })
         .accessibilityAction(named: l10n.t("معاينة", "Preview")) { previewItem = item }
+        .accessibilityAction(named: l10n.t("الملخص", "Summary")) {
+            if item.isReadable { summaryItems = SummaryTargets(urls: [item.url]) }
+        }
         .accessibilityAction(named: l10n.t("مشاركة", "Share")) { shareItem = item }
         .accessibilityAction(named: l10n.t("حفظ في الملفات", "Save to Files")) { exportItem = item }
         .accessibilityAction(named: l10n.t("فتح باستخدام", "Open in app")) { openItem = item }
@@ -259,6 +283,48 @@ struct ResultLibraryView: View {
         .modifier(ReportActionModifier(item: item, title: l10n.t("تقرير الجودة", "Quality report")) {
             reportItem = item
         })
+    }
+
+    /// Choose the files to summarize together (ت9).
+    private var multiSummaryPicker: some View {
+        NavigationStack {
+            List {
+                Section {
+                    ForEach(library.items.filter(\.isReadable)) { item in
+                        let chosen = chosenForSummary.contains(item.id)
+                        Button {
+                            if chosen { chosenForSummary.remove(item.id) } else { chosenForSummary.insert(item.id) }
+                        } label: {
+                            HStack {
+                                Image(systemName: chosen ? "checkmark.circle.fill" : "circle")
+                                    .foregroundStyle(BasirPalette.accent)
+                                    .accessibilityHidden(true)
+                                Text(item.displayName).foregroundStyle(BasirPalette.primaryText)
+                            }
+                        }
+                        .accessibilityAddTraits(chosen ? .isSelected : [])
+                    }
+                } footer: {
+                    Text(l10n.t("يكتب بصير ملخصًا واحدًا يبيّن ما تتفق عليه الملفات وما تختلف فيه وما ينفرد به كل ملف، مع ذكر الملف والصفحة لكل نقطة. اختر ملفين على الأقل وحتى 12 ملفًا.",
+                                "Basir writes one summary of what the files agree on, where they differ and what only one says, naming the file and page of every point. Choose two to twelve files."))
+                }
+            }
+            .navigationTitle(l10n.t("لخّص عدة ملفات", "Summarize several files"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(l10n.t("إلغاء", "Cancel")) { choosingForSummary = false }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(l10n.t("لخّص (\(chosenForSummary.count))", "Summarize (\(chosenForSummary.count))")) {
+                        let urls = library.items.filter { chosenForSummary.contains($0.id) }.map(\.url)
+                        choosingForSummary = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { summaryItems = SummaryTargets(urls: urls) }
+                    }
+                    .disabled(!(2...12).contains(chosenForSummary.count))
+                }
+            }
+        }
     }
 
     private func beginRename(_ item: OutputRecord) {
@@ -293,6 +359,11 @@ struct ResultLibraryView: View {
         }
         return parts.joined(separator: " • ")
     }
+}
+
+struct SummaryTargets: Identifiable {
+    let urls: [URL]
+    var id: String { urls.map(\.path).joined(separator: "|") }
 }
 
 /// Adds the in-app reader action only to Word results.

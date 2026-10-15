@@ -193,50 +193,34 @@ struct SupportedLanguage: Identifiable, Hashable, Codable, Sendable {
     }
 }
 
+/// How Basir chooses its AI processing (م8). The person picks a plain goal;
+/// the server routes every task and page (its model and how deeply it
+/// reads). Model names are never shown.
 enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
     case automatic = "auto"
-    case flash38 = "gemini-3.8-flash"
-    case flash = "gemini-3.7-flash"
-    case flash36 = "gemini-3.6-flash"
-    case flash35 = "gemini-3.5-flash"
-    case economy = "gemini-3.5-flash-lite"
+    case fastest = "fast"
+    case accurate = "accurate"
 
-    // Kept only so a preference written by the immediately previous app build
-    // can still decode and migrate. It is never shown and never sent to Vertex.
-    case pro = "gemini-3.1-pro-preview"
-
-    static var allCases: [AIModelChoice] {
-        [.automatic, .flash38, .flash, .flash36, .flash35, .economy]
+    /// Any older stored value (a model name chosen in an earlier build)
+    /// becomes Automatic.
+    init?(rawValue: String) {
+        switch rawValue.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        case "fast": self = .fastest
+        case "accurate": self = .accurate
+        default: self = .automatic
+        }
     }
 
     var id: String { rawValue }
 
-    var serverModelID: String {
-        switch self {
-        case .pro:
-            return AIModelChoice.flash38.rawValue
-        case .automatic, .flash38, .flash, .flash36, .flash35, .economy:
-            return rawValue
-        }
-    }
+    var serverModelID: String { rawValue }
 
     @MainActor
     func title(_ l10n: L10n) -> String {
         switch self {
-        case .automatic:
-            return l10n.t("تلقائي (موصى به)", "Automatic (recommended)")
-        case .flash38:
-            return "Gemini 3.8 Flash"
-        case .flash:
-            return "Gemini 3.7 Flash"
-        case .flash36:
-            return "Gemini 3.6 Flash"
-        case .flash35:
-            return "Gemini 3.5 Flash"
-        case .economy:
-            return "Gemini 3.5 Flash-Lite"
-        case .pro:
-            return "Gemini 3.8 Flash"
+        case .automatic: return l10n.t("تلقائي (موصى به)", "Automatic (recommended)")
+        case .fastest: return l10n.t("الأسرع", "Fastest")
+        case .accurate: return l10n.t("الأدق", "Most accurate")
         }
     }
 
@@ -245,38 +229,18 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
         switch self {
         case .automatic:
             return l10n.t(
-                "يختار بصير نموذج المعالجة الموصى به تلقائيًا.",
-                "Basir automatically selects its recommended processing model."
+                "يقرأ بصير الصفحات السهلة بسرعة، ويقرأ الصعبة منها بعمق أكبر، مثل الجداول المعقدة والمعادلات والخط اليدوي والصور الضعيفة. وإذا فشل فحص صفحة أعاد قراءتها بطريقة أقوى.",
+                "Basir reads easy pages quickly and hard ones more deeply: complex tables, equations, handwriting and weak scans. A page that fails a check is read again more thoroughly."
             )
-        case .flash38:
+        case .fastest:
             return l10n.t(
-                "خيار بصير الموصى به للتحويل. إذا لم يتوفر على الخادم، يُستخدم Gemini 3.7 Flash تلقائيًا.",
-                "Basir’s recommended choice for conversion. If unavailable on the server, Gemini 3.7 Flash is used automatically."
+                "أسرع نتيجة ممكنة. مناسب للمستندات النصية الواضحة.",
+                "The fastest result. Suited to clear text documents."
             )
-        case .flash:
+        case .accurate:
             return l10n.t(
-                "إصدار سابق من Flash لمعالجة المستندات.",
-                "An earlier Flash version for document processing."
-            )
-        case .flash36:
-            return l10n.t(
-                "خيار من Flash لمعالجة المستندات ومهام التحويل العامة.",
-                "A Flash option for document processing and general conversion tasks."
-            )
-        case .flash35:
-            return l10n.t(
-                "خيار من Flash يوازن بين سرعة المعالجة وتكلفتها.",
-                "A Flash option that balances processing speed and cost."
-            )
-        case .economy:
-            return l10n.t(
-                "خيار اقتصادي للمستندات البسيطة.",
-                "A lower-cost option for simple documents."
-            )
-        case .pro:
-            return l10n.t(
-                "يُستخدم Gemini 3.8 Flash بدلًا من هذا الخيار السابق.",
-                "Gemini 3.8 Flash is used in place of this older option."
+                "يقرأ كل صفحة بأعلى عمق ممكن. أبطأ، ومفيد للمستندات المهمة أو الصعبة.",
+                "Reads every page as deeply as possible. Slower, for important or difficult documents."
             )
         }
     }
@@ -301,6 +265,8 @@ struct ConversionOptions: Codable, Equatable, Sendable {
     let rotationCorrection: Int
     let outputName: String?
     let preferredModel: String?
+    /// Optional so tasks saved by earlier builds still decode.
+    let includeSummary: Bool?
 
     init(
         operation: OperationKind,
@@ -320,7 +286,8 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         concurrentPages: Int = 3,
         rotationCorrection: Int = 0,
         outputName: String? = nil,
-        preferredModel: String? = nil
+        preferredModel: String? = nil,
+        includeSummary: Bool = false
     ) {
         self.operation = operation
         self.outputMode = outputMode
@@ -340,7 +307,10 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         self.rotationCorrection = [0, 90, 180, 270].contains(rotationCorrection) ? rotationCorrection : 0
         self.outputName = outputName
         self.preferredModel = AIModelChoice(rawValue: preferredModel ?? "auto")?.rawValue ?? "auto"
+        self.includeSummary = includeSummary
     }
+
+    var wantsSummary: Bool { includeSummary == true }
 
     var outputLanguageCode: String {
         targetLanguage?.code ?? "auto"
@@ -372,6 +342,7 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         if preferPDFText { value += "|pdf_text" }
         value += "|parallel:\(concurrentPages)"
         if rotationCorrection != 0 { value += "|rotate:\(rotationCorrection)" }
+        if wantsSummary { value += "|summary" }
         return value
     }
 }
@@ -534,6 +505,12 @@ struct QualityReport: Codable, Equatable, Hashable, Sendable {
     var imagesMissingDescription: Int
     var textCharacters: Int
     var wordPackageVerified: Bool
+    /// Automatic mode (م9): pages read more deeply than the light default,
+    /// and pages read again after a failed check. Nil from older servers.
+    var deepReadPages: Int? = nil
+    var escalatedPages: Int? = nil
+    /// Whether the summary asked for at conversion time opens the file (ت17).
+    var summaryIncluded: Bool? = nil
 
     /// Score on a 0–100 scale whether the server reports 0–1 or 0–100.
     var percentScore: Int? {

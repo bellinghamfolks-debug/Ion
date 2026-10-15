@@ -7,6 +7,7 @@ enum IntentAction: Equatable {
     case chooseFile(OperationKind)
     case openLatestResult
     case readLatestResult
+    case summarizeLatestResult
     case guidedCapture
 }
 
@@ -93,6 +94,20 @@ struct SendFileToBasirIntent: AppIntent {
     }
 }
 
+/// "Summarize my latest Basir file" (ت18): opens the summary of the newest
+/// result, made at once if it was not made before.
+struct SummarizeLatestResultIntent: AppIntent {
+    static var title: LocalizedStringResource = "Summarize the Latest Basir Result"
+    static var description = IntentDescription("Opens a verified summary of the most recent Word file Basir created.")
+    static var openAppWhenRun: Bool = true
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        IntentRouter.shared.pendingAction = .summarizeLatestResult
+        return .result()
+    }
+}
+
 struct BasirShortcuts: AppShortcutsProvider {
     @AppShortcutsBuilder
     static var appShortcuts: [AppShortcut] {
@@ -124,6 +139,14 @@ struct BasirShortcuts: AppShortcutsProvider {
             phrases: [
                 "Read my latest \(.applicationName) result",
                 "اقرأ آخر نتيجة في \(.applicationName)"
+            ]
+        )
+        AppShortcut(
+            intent: SummarizeLatestResultIntent(),
+            phrases: [
+                "Summarize my latest \(.applicationName) file",
+                "Summarize the last file in \(.applicationName)",
+                "لخّص آخر ملف في \(.applicationName)"
             ]
         )
         AppShortcut(

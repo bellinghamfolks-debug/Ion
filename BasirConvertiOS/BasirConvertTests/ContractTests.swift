@@ -53,19 +53,14 @@ final class ContractTests: XCTestCase {
         ))
     }
 
-    func testOnlyCurrentGAModelsAreVisibleAndPassThrough() {
-        XCTAssertEqual(AIModelChoice.flash38.serverModelID, "gemini-3.8-flash")
-        XCTAssertEqual(AIModelChoice.flash.serverModelID, "gemini-3.7-flash")
-        XCTAssertEqual(AIModelChoice.flash36.serverModelID, "gemini-3.6-flash")
-        XCTAssertEqual(AIModelChoice.flash35.serverModelID, "gemini-3.5-flash")
-        XCTAssertEqual(AIModelChoice.economy.serverModelID, "gemini-3.5-flash-lite")
+    func testOnlyThePlainChoicesAreVisibleAndNoModelNameIsShown() {
+        XCTAssertEqual(AIModelChoice.allCases, [.automatic, .fastest, .accurate])
         XCTAssertEqual(AIModelChoice.automatic.serverModelID, "auto")
-        XCTAssertEqual(
-            AIModelChoice.allCases,
-            [.automatic, .flash38, .flash, .flash36, .flash35, .economy]
-        )
-        XCTAssertFalse(AIModelChoice.allCases.contains(.pro))
-        XCTAssertEqual(AIModelChoice.pro.serverModelID, "gemini-3.8-flash")
+        XCTAssertEqual(AIModelChoice.fastest.serverModelID, "fast")
+        XCTAssertEqual(AIModelChoice.accurate.serverModelID, "accurate")
+        // A model name stored by an earlier build becomes Automatic.
+        XCTAssertEqual(AIModelChoice(rawValue: "gemini-3.7-flash"), .automatic)
+        XCTAssertEqual(AIModelChoice(rawValue: "gemini-3.1-pro-preview"), .automatic)
     }
 
     func testConversionDefaultsToThreeParallelPagesAndPreservesCurrentSelectedModel() {
@@ -76,14 +71,14 @@ final class ContractTests: XCTestCase {
             embedVisuals: true,
             includeMath: false,
             interfaceLanguage: .arabic,
-            preferredModel: "gemini-3.6-flash"
+            preferredModel: "accurate"
         )
         XCTAssertEqual(options.concurrentPages, 3)
-        XCTAssertEqual(options.effectivePreferredModel, "gemini-3.6-flash")
+        XCTAssertEqual(options.effectivePreferredModel, "accurate")
         XCTAssertTrue(options.encodedMode.contains("parallel:3"))
     }
 
-    func testLegacyPreviewSelectionMapsToCurrentRecommendedModel() {
+    func testAModelNameFromAnEarlierBuildMeansAutomatic() {
         let options = ConversionOptions(
             operation: .convert,
             outputMode: .full,
@@ -93,7 +88,7 @@ final class ContractTests: XCTestCase {
             interfaceLanguage: .arabic,
             preferredModel: "gemini-3.1-pro-preview"
         )
-        XCTAssertEqual(options.effectivePreferredModel, "gemini-3.8-flash")
+        XCTAssertEqual(options.effectivePreferredModel, "auto")
     }
 
     func testStablePreviewIdentityUsesNormalizedFileURL() {
@@ -146,9 +141,9 @@ final class ContractTests: XCTestCase {
             configuration: ServerConfiguration(baseURL: "https://example.invalid", clientToken: "test")
         )
 
-        XCTAssertEqual(store.preferredModel, .flash38)
+        XCTAssertEqual(store.preferredModel, .automatic)
         XCTAssertEqual(store.concurrentPages, 3)
-        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.8-flash")
+        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "auto")
         store.save(defaults: defaults)
         XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.8-flash")
     }

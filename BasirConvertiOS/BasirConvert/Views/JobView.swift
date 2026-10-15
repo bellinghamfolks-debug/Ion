@@ -308,13 +308,8 @@ struct JobView: View {
     }
 
     private func modelSummary(_ job: BasirJob) -> String {
-        let requested = AIModelChoice(rawValue: job.options.effectivePreferredModel)?.title(l10n)
-            ?? job.options.effectivePreferredModel
-        if let executed = job.executedModel, !executed.isEmpty {
-            return l10n.t("النموذج المختار: \(requested). النموذج المستخدم: \(executed)",
-                          "Selected model: \(requested). Model used: \(executed)")
-        }
-        return l10n.t("النموذج المختار: \(requested)", "Selected model: \(requested)")
+        let requested = (AIModelChoice(rawValue: job.options.effectivePreferredModel) ?? .automatic).title(l10n)
+        return l10n.t("طريقة المعالجة: \(requested)", "Processing: \(requested)")
     }
 
     private func completionAccounting(_ job: BasirJob) -> some View {

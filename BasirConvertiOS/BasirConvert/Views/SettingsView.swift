@@ -270,13 +270,13 @@ struct AdvancedSettingsView: View {
 
     private var modelCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
-            GlassSectionTitle(title: l10n.t("نموذج الذكاء الاصطناعي", "AI model"), systemImage: "brain.head.profile")
-            Picker(l10n.t("النموذج", "Model"), selection: $settings.preferredModel) {
+            GlassSectionTitle(title: l10n.t("طريقة المعالجة", "Processing"), systemImage: "brain.head.profile")
+            Picker(l10n.t("طريقة المعالجة", "Processing"), selection: $settings.preferredModel) {
                 ForEach(AIModelChoice.allCases) { model in
                     Text(model.title(l10n)).tag(model)
                 }
             }
-            .pickerStyle(.menu)
+            .pickerStyle(.segmented)
             .tint(BasirPalette.accent)
             Text(settings.preferredModel.detail(l10n))
                 .font(.footnote)

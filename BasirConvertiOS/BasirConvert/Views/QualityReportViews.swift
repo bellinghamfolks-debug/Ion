@@ -185,6 +185,20 @@ struct QualityReportCard: View {
             result.append(Line(icon: "text.alignleft",
                                text: l10n.t("عدد الكلمات التقريبي: \(words).", "Approximate word count: \(words).")))
         }
+        if let deep = report.deepReadPages, deep > 0 {
+            result.append(Line(icon: "sparkle.magnifyingglass",
+                               text: l10n.t("صفحات احتاجت قراءة أعمق فقرأها بصير بعناية أكبر: \(deep).",
+                                            "Pages that needed deeper reading, read with extra care: \(deep).")))
+        }
+        if let escalated = report.escalatedPages, escalated > 0 {
+            result.append(Line(icon: "arrow.triangle.2.circlepath",
+                               text: l10n.t("صفحات لم تجتز الفحص الأول فأُعيدت قراءتها بطريقة أقوى: \(escalated).",
+                                            "Pages that failed the first check and were read again more thoroughly: \(escalated).")))
+        }
+        if report.summaryIncluded == true {
+            result.append(Line(icon: "text.badge.star",
+                               text: l10n.t("يبدأ الملف بملخص للمستند.", "The file opens with a summary of the document.")))
+        }
         if report.wordPackageVerified {
             result.append(Line(icon: "checkmark.seal",
                                text: l10n.t("اجتاز ملف Word فحص سلامة الملف على جهازك قبل حفظه.",
@@ -204,7 +218,10 @@ struct QualityReportCard: View {
             "handwriting_detected": ("يحتوي المستند على خط يد؛ راجع تلك المواضع.", "The document contains handwriting; review those parts."),
             "fallback_pages": ("بعض الصفحات حُفظت كصور موصوفة.", "Some pages were kept as described images."),
             "missing_alt_text": ("بعض الصور ليس لها وصف نصي.", "Some images have no text description."),
-            "relaxed_layout": ("بُسّط تخطيط بعض الصفحات للحفاظ على النص.", "Some page layouts were simplified to preserve the text.")
+            "relaxed_layout": ("بُسّط تخطيط بعض الصفحات للحفاظ على النص.", "Some page layouts were simplified to preserve the text."),
+            "summary_unavailable": ("تعذر إعداد الملخص هذه المرة، فحُفظ المستند كاملًا دونه. يمكنك طلب الملخص من القارئ.", "The summary could not be prepared this time, so the full document was saved without it. You can ask for it from the reader."),
+            "partial_source_pages_failed": ("تعذرت قراءة بعض الصفحات فحُفظت صورها.", "Some pages could not be read and were kept as images."),
+            "translation_quality_degraded_retained": ("بقيت أجزاء قليلة دون ترجمة كاملة. راجعها.", "A few parts may not be fully translated. Please review them.")
         ]
         let key = code.lowercased()
         if let match = known[key] { return l10n.t(match.0, match.1) }

@@ -104,8 +104,8 @@ def main() -> None:
             "CODE_SIGN_ENTITLEMENTS: BasirShareExtension/ShareExtension.entitlements",
             "CODE_SIGN_ENTITLEMENTS: BasirLiveActivity/BasirLiveActivity.entitlements",
             "BasirConvert/Shared/BasirShortcutIntents.swift",
-            "MARKETING_VERSION: 3.5.0",
-            "CURRENT_PROJECT_VERSION: 18",
+            "MARKETING_VERSION: 3.6.0",
+            "CURRENT_PROJECT_VERSION: 19",
         ):
             if token not in specification:
                 fail(f"{name} is missing {token}")
@@ -176,7 +176,7 @@ def main() -> None:
         "CODE_SIGNING_ALLOWED=NO",
         "BasirShareExtension.appex",
         "_CodeSignature",
-        "Basir_v3.5.0_unsigned.ipa",
+        "Basir_v3.6.0_unsigned.ipa",
     ):
         if token not in build_script:
             fail(f"unsigned build script is missing {token}")

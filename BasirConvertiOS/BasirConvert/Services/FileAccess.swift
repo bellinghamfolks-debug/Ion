@@ -206,6 +206,10 @@ enum FileAccess {
         if FileManager.default.fileExists(atPath: oldSidecar.path) {
             try? FileManager.default.moveItem(at: oldSidecar, to: sidecarURL(for: destination))
         }
+        let oldSummary = SummaryStore.url(forOutput: standardized)
+        if FileManager.default.fileExists(atPath: oldSummary.path) {
+            try? FileManager.default.moveItem(at: oldSummary, to: SummaryStore.url(forOutput: destination))
+        }
         return destination
     }
 
@@ -219,6 +223,7 @@ enum FileAccess {
             try FileManager.default.removeItem(at: standardized)
         }
         try? FileManager.default.removeItem(at: sidecarURL(for: standardized))
+        try? FileManager.default.removeItem(at: SummaryStore.url(forOutput: standardized))
     }
 
     static func sidecarURL(for output: URL) -> URL {

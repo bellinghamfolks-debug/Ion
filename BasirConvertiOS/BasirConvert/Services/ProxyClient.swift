@@ -95,6 +95,9 @@ actor ProxyClient {
         var handwritingReviewedPages: Int? = nil
         var visualReviewedPages: Int? = nil
         var visualsWithoutModelDescription: Int? = nil
+        var autoDeepPages: Int? = nil
+        var autoEscalatedPages: Int? = nil
+        var summaryIncluded: Bool? = nil
 
         enum CodingKeys: String, CodingKey {
             case retainedPageNumbers = "retained_page_numbers"
@@ -120,6 +123,9 @@ actor ProxyClient {
             case handwritingReviewedPages = "handwriting_reviewed_pages"
             case visualReviewedPages = "visual_reviewed_pages"
             case visualsWithoutModelDescription = "visuals_without_model_description"
+            case autoDeepPages = "auto_deep_pages"
+            case autoEscalatedPages = "auto_escalated_pages"
+            case summaryIncluded = "summary_included"
         }
 
         var isNaturalMarkdownEngine: Bool {
@@ -434,7 +440,10 @@ actor ProxyClient {
                     imagesMissingDescription: max(0, artifactMissingAlt),
                     textCharacters: artifactText,
                     // Set only after the downloaded package passes verifyAndMove below.
-                    wordPackageVerified: false
+                    wordPackageVerified: false,
+                    deepReadPages: qualityMetrics.autoDeepPages,
+                    escalatedPages: qualityMetrics.autoEscalatedPages,
+                    summaryIncluded: qualityMetrics.summaryIncluded
                 )
                 outcome = ConversionOutcome(
                     succeededItems: succeeded,
@@ -491,6 +500,15 @@ actor ProxyClient {
             expectedImages: validatedExpectedImages
         )
         logger.record("job completed requestID=\(stableRequestID) naturalEngine=\(naturalEngineResult)")
+        if options.wantsSummary {
+            // Best effort: the Word file already opens with the summary; the
+            // structured copy is what the summary screen opens instantly (ت15).
+            if let data = try? await jobSummary(jobID: created.jobID, requestID: stableRequestID),
+               let summary = try? DocumentSummary.decode(data) {
+                SummaryStore.save(summary, variant: SummaryStore.conversionVariant(language: summary.language),
+                                  forOutput: outputURL)
+            }
+        }
         progress(.init(current: 1, total: 1, stage: .done, detail: nil))
         var verifiedQuality = outcome.quality
         verifiedQuality?.wordPackageVerified = true
@@ -813,6 +831,154 @@ actor ProxyClient {
         try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
     }
 
+}
+
+// MARK: - Summaries (ت1–ت4)
+
+/// Progress of a background summary job.
+struct SummaryJobProgress: Equatable, Sendable {
+    let status: String
+    let current: Int
+    let total: Int
+    let error: String?
+
+    var isFinished: Bool { ["completed", "partial"].contains(status) }
+    var isFailed: Bool { ["failed", "cancelled", "canceled"].contains(status) }
+}
+
+extension ProxyClient {
+    /// The server answers this when a document is too long to summarize in
+    /// one request; the summary then runs as a background job.
+    static let summaryUseJob = "summary_use_job"
+
+    /// Summarizes at once (POST /api/summaries). Throws
+    /// `BasirError.invalidResponse(summaryUseJob)` for a document that needs
+    /// the background path.
+    func summarize(body: Data) async throws -> Data {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/summaries"))
+        request.httpMethod = "POST"
+        // Several parts are read in parallel, then merged: allow the time.
+        request.timeoutInterval = 300
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpBody = body
+        applyServerHeaders(to: &request, requestID: UUID().uuidString)
+        let (data, response) = try await retryingData(request: request)
+        if response.statusCode == 413 {
+            throw BasirError.invalidResponse(Self.summaryUseJob)
+        }
+        try Self.validateHTTP(response, data: data)
+        guard let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let summary = object["summary"] else {
+            throw BasirError.invalidResponse("The summary could not be read.")
+        }
+        return try JSONSerialization.data(withJSONObject: summary)
+    }
+
+    /// Starts (or resumes, for the same request) a background summary job and
+    /// returns its server identifier (ت4). The same request ID always maps to
+    /// the same job, so asking again after a restart picks the job back up.
+    func startSummaryJob(body: Data, requestID: String, title: String, language: String,
+                         choice: String) async throws -> String {
+        let base = try secureBaseURL()
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("basir-summary-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let source = directory.appendingPathComponent("summary.json")
+        try body.write(to: source, options: .atomic)
+        let checksum = try DocumentInspector.sha256(source)
+        let creation = JobCreationRequest(
+            filename: "summary.json",
+            contentType: "application/json",
+            contentLength: Int64(body.count),
+            sourceSHA256: checksum,
+            operation: "summarize",
+            mode: "summary",
+            targetLanguage: "",
+            interfaceLanguage: language == "en" ? "en" : "ar",
+            pageSelection: "",
+            outputName: String(title.prefix(110)).isEmpty ? nil : String(title.prefix(110)),
+            preferredModel: choice
+        )
+        var create = URLRequest(url: base.appendingPathComponent("/api/jobs"))
+        create.httpMethod = "POST"
+        create.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        create.setValue("application/json", forHTTPHeaderField: "Accept")
+        create.httpBody = try JSONEncoder().encode(creation)
+        applyServerHeaders(to: &create, requestID: requestID)
+        let (creationData, creationResponse) = try await retryingData(request: create)
+        try Self.validateHTTP(creationResponse, data: creationData)
+        guard let created = try? JSONDecoder().decode(JobCreationResponse.self, from: creationData),
+              !created.jobID.isEmpty else {
+            throw BasirError.invalidResponse("The server did not return valid upload details.")
+        }
+        if created.resume { return created.jobID }
+        guard let uploadURL = created.uploadURL, uploadURL.scheme?.lowercased() == "https" else {
+            throw BasirError.invalidResponse("The server returned unsafe upload details.")
+        }
+        try await uploadInChunks(sourceURL: source, created: created, uploadURL: uploadURL,
+                                 totalBytes: Int64(body.count)) { _ in }
+        var commit = URLRequest(url: base.appendingPathComponent("/api/jobs/\(created.jobID)/commit"))
+        commit.httpMethod = "POST"
+        commit.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        commit.setValue("application/json", forHTTPHeaderField: "Accept")
+        commit.httpBody = try JSONEncoder().encode(CommitRequest(sourceSHA256: checksum,
+                                                                 contentLength: Int64(body.count)))
+        applyServerHeaders(to: &commit, requestID: requestID)
+        let (commitData, commitResponse) = try await retryingData(request: commit)
+        try Self.validateHTTP(commitResponse, data: commitData)
+        return created.jobID
+    }
+
+    func summaryJobProgress(jobID: String, requestID: String) async throws -> SummaryJobProgress {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/jobs/\(jobID)"))
+        request.httpMethod = "GET"
+        applyServerHeaders(to: &request, requestID: requestID)
+        let (data, response) = try await retryingData(request: request)
+        try Self.validateHTTP(response, data: data)
+        guard let status = try? JSONDecoder().decode(JobStatusResponse.self, from: data) else {
+            throw BasirError.invalidResponse("The server returned an invalid task status.")
+        }
+        return SummaryJobProgress(status: status.status.lowercased(), current: status.current,
+                                  total: status.total, error: status.error)
+    }
+
+    /// The structured summary of a finished summary job, or of a conversion
+    /// that asked for one.
+    func jobSummary(jobID: String, requestID: String) async throws -> Data {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/jobs/\(jobID)/summary"))
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        applyServerHeaders(to: &request, requestID: requestID)
+        let (data, response) = try await retryingData(request: request)
+        try Self.validateHTTP(response, data: data)
+        return data
+    }
+
+    /// The summary as an accessible Word file, written by the server from the
+    /// summary itself (no model call, nothing stored) (ت16).
+    func summaryDocument(summary: Data, title: String) async throws -> Data {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/summaries/document"))
+        request.httpMethod = "POST"
+        request.timeoutInterval = 60
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                         forHTTPHeaderField: "Accept")
+        guard var object = try JSONSerialization.jsonObject(with: summary) as? [String: Any] else {
+            throw BasirError.invalidResponse("The summary could not be read.")
+        }
+        object = ["summary": object, "title": title]
+        request.httpBody = try JSONSerialization.data(withJSONObject: object)
+        applyServerHeaders(to: &request, requestID: UUID().uuidString)
+        let (data, response) = try await retryingData(request: request)
+        try Self.validateHTTP(response, data: data)
+        return data
+    }
 }
 
 /// What the server did with a cancellation request.

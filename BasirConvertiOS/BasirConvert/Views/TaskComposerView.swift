@@ -27,6 +27,8 @@ struct TaskComposerView: View {
     @State private var pickerError: String?
     @State private var previewItem: PreviewItem?
     @State private var readerItem: PreviewItem?
+    @State private var summaryTargets: SummaryTargets?
+    @State private var summaryFiles: SummaryTargets?
     @State private var shareItem: OutputRecord?
     @State private var customOutputName = ""
     @State private var passwordURL: URL?
@@ -69,7 +71,8 @@ struct TaskComposerView: View {
             rotationCorrection: settings.rotationCorrection,
             outputName: customOutputName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                 ? nil : customOutputName,
-            preferredModel: settings.preferredModel.rawValue
+            preferredModel: settings.preferredModel.rawValue,
+            includeSummary: settings.includeSummary
         )
     }
 
@@ -213,6 +216,8 @@ struct TaskComposerView: View {
         }
         .sheet(item: $previewItem) { QuickLookPreview(url: $0.url).ignoresSafeArea() }
         .fullScreenCover(item: $readerItem) { DocumentReaderView(url: $0.url) }
+        .fullScreenCover(item: $summaryTargets) { SummaryLauncherView(input: .outputs($0.urls)) }
+        .fullScreenCover(item: $summaryFiles) { SummaryLauncherView(input: .files($0.urls)) }
         .sheet(item: $shareItem) { ActivityShareView(urls: [$0.url]) }
         .onAppear {
             receiveExternalIfNeeded()
@@ -339,6 +344,12 @@ struct TaskComposerView: View {
                 Spacer(minLength: 0)
                 addMoreMenu
             }
+            // Files shared from another app can be summarized without converting first (ت18).
+            CardActionButton(title: pendingURLs.count > 1 ? l10n.t("لخّص هذه الملفات بدل التحويل", "Summarize these files instead")
+                                                          : l10n.t("لخّص هذا الملف بدل التحويل", "Summarize this file instead"),
+                             systemImage: "text.badge.star") {
+                summaryFiles = SummaryTargets(urls: pendingURLs)
+            }
             ForEach(pendingURLs, id: \.standardizedFileURL) { url in
                 VStack(alignment: .leading, spacing: BasirSpacing.s) {
                     Text(url.lastPathComponent)
@@ -382,6 +393,19 @@ struct TaskComposerView: View {
                 .font(.subheadline)
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
+            Toggle(isOn: $settings.includeSummary) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(l10n.t("أضف ملخصًا في بداية الملف", "Add a summary at the start of the file"))
+                        .font(.subheadline.weight(.semibold))
+                    Text(l10n.t("يبدأ ملف Word بملخص تحقق بصير من نقاطه في النص، ويُحفظ الملخص مع الملف في «ملفاتي».",
+                                "The Word file opens with a summary whose points Basir checked against the text, and the summary is kept with the file in My Files."))
+                        .font(.footnote)
+                        .foregroundStyle(BasirPalette.secondaryText)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .tint(BasirPalette.accent)
+            .onChange(of: settings.includeSummary) { _ in settings.save() }
             Button { viewModel.isSettingsPresented = true } label: {
                 Label(l10n.t("تعديل الخيارات", "Edit options"), systemImage: "gearshape")
                     .font(.subheadline.weight(.semibold))
@@ -395,7 +419,7 @@ struct TaskComposerView: View {
     private var summaryText: String {
         let yes = l10n.t("نعم", "on"), no = l10n.t("لا", "off")
         return l10n.t(
-            "المحتوى: \(settings.outputMode.title(l10n)). إدراج الصور: \(settings.embedVisuals ? yes : no). شرح المعادلات: \(settings.includeMath ? yes : no). النموذج: \(settings.preferredModel.title(l10n)).",
+            "المحتوى: \(settings.outputMode.title(l10n)). إدراج الصور: \(settings.embedVisuals ? yes : no). شرح المعادلات: \(settings.includeMath ? yes : no). طريقة المعالجة: \(settings.preferredModel.title(l10n)).",
             "Content: \(settings.outputMode.title(l10n)). Images: \(settings.embedVisuals ? yes : no). Equation explanations: \(settings.includeMath ? yes : no). Model: \(settings.preferredModel.title(l10n))."
         )
     }
@@ -702,11 +726,13 @@ struct TaskComposerView: View {
             intents.pendingAction = nil
             operation = requested
             showFiles = true
-        case .openLatestResult, .readLatestResult:
+        case .openLatestResult, .readLatestResult, .summarizeLatestResult:
             intents.pendingAction = nil
             library.refresh()
             if let latest = library.items.max(by: { $0.createdAt < $1.createdAt }) {
-                if action == .readLatestResult, latest.isReadable {
+                if action == .summarizeLatestResult, latest.isReadable {
+                    summaryTargets = SummaryTargets(urls: [latest.url])
+                } else if action == .readLatestResult, latest.isReadable {
                     readerItem = PreviewItem(url: latest.url)
                 } else {
                     previewItem = PreviewItem(url: latest.url)

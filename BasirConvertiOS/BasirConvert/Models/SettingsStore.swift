@@ -33,6 +33,8 @@ final class SettingsStore: ObservableObject {
         static let concurrentPages = "concurrent_pdf_pages"
         static let rotationCorrection = "pdf_rotation_correction"
         static let preferredModel = "ai_preferred_model"
+        static let includeSummary = "convert_include_summary"
+        static let summaryLanguage = "summary_language"
         static let appearance = "interface_appearance"
         static let highContrast = "interface_high_contrast"
         static let appLock = "privacy_app_lock"
@@ -78,6 +80,8 @@ final class SettingsStore: ObservableObject {
     @Published var concurrentPages: Int
     @Published var rotationCorrection: Int
     @Published var preferredModel: AIModelChoice
+    /// Put a summary at the start of every converted file (ت17).
+    @Published var includeSummary: Bool
 
     init(
         defaults: UserDefaults = .standard,
@@ -120,14 +124,13 @@ final class SettingsStore: ObservableObject {
         let savedRotation = defaults.integer(forKey: Key.rotationCorrection)
         rotationCorrection = [0, 90, 180, 270].contains(savedRotation) ? savedRotation : 0
 
-        let storedModel = AIModelChoice(
-            rawValue: defaults.string(forKey: Key.preferredModel) ?? "auto"
-        ) ?? .automatic
-        if storedModel == .pro {
-            preferredModel = .flash38
-            defaults.set(AIModelChoice.flash38.rawValue, forKey: Key.preferredModel)
-        } else {
-            preferredModel = storedModel
+        includeSummary = defaults.bool(forKey: Key.includeSummary)
+        // A model name stored by an earlier build becomes Automatic.
+        let stored = defaults.string(forKey: Key.preferredModel) ?? "auto"
+        let storedModel = AIModelChoice(rawValue: stored) ?? .automatic
+        preferredModel = storedModel
+        if stored != storedModel.rawValue {
+            defaults.set(storedModel.rawValue, forKey: Key.preferredModel)
         }
     }
 
@@ -159,5 +162,6 @@ final class SettingsStore: ObservableObject {
         defaults.set(max(1, min(3, concurrentPages)), forKey: Key.concurrentPages)
         defaults.set(rotationCorrection, forKey: Key.rotationCorrection)
         defaults.set(preferredModel.serverModelID, forKey: Key.preferredModel)
+        defaults.set(includeSummary, forKey: Key.includeSummary)
     }
 }

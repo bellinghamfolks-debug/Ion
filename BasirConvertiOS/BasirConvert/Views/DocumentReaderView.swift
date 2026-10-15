@@ -12,17 +12,21 @@ struct DocumentReaderView: View {
     let url: URL?
     private let preloaded: [ReaderBlock]?
     private let givenTitle: String
+    /// A source page to open at, for "Go to the page" from a summary (ت12).
+    private let startAtPage: Int?
 
-    init(url: URL) {
+    init(url: URL, startAtPage: Int? = nil) {
         self.url = url
         preloaded = nil
         givenTitle = url.deletingPathExtension().lastPathComponent
+        self.startAtPage = startAtPage
     }
 
     init(title: String, blocks: [ReaderBlock]) {
         url = nil
         preloaded = blocks
         givenTitle = title
+        startAtPage = nil
     }
 
     @EnvironmentObject private var l10n: L10n
@@ -54,6 +58,7 @@ struct DocumentReaderView: View {
     @State private var pendingJump: Int?
     @State private var assistMode: DocumentAssistView.Mode?
     @State private var explainedTable: ReaderBlock?
+    @State private var showSummary = false
     @AccessibilityFocusState private var focusedID: Int?
     @Namespace private var rotorSpace
 
@@ -172,6 +177,9 @@ struct DocumentReaderView: View {
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Menu {
+                        Button { showSummary = true } label: {
+                            Label(l10n.t("ملخص المستند", "Document summary"), systemImage: "text.badge.star")
+                        }
                         Button { assistMode = .brief } label: {
                             Label(l10n.t("المطلوب مني", "Action items"), systemImage: "checklist")
                         }
@@ -209,6 +217,18 @@ struct DocumentReaderView: View {
             .sheet(isPresented: $showContents) { contentsSheet }
             .sheet(item: Binding(get: { assistMode.map(AssistSheet.init) }, set: { assistMode = $0?.mode })) { sheet in
                 DocumentAssistView(title: title, blocks: blocks, initialMode: sheet.mode) { id in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { pendingJump = id }
+                }
+            }
+            .sheet(isPresented: $showSummary) {
+                SummaryView(source: SummarySource(
+                    title: title,
+                    text: DocumentAssistant.text(of: blocks),
+                    home: url.map { SummaryHome.output($0) }
+                        ?? .key(SummaryStore.fingerprint(DocumentAssistant.text(of: blocks))),
+                    blocks: blocks,
+                    outputURL: url
+                )) { id in
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { pendingJump = id }
                 }
             }
@@ -609,6 +629,10 @@ struct DocumentReaderView: View {
             if saved > 0, saved < parsed.count { resumeFrom = saved }
         }
         loading = false
+        if let startAtPage, let target = parsed.first(where: { $0.pageNumber == startAtPage }) {
+            resumeFrom = nil
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { pendingJump = target.id }
+        }
         let pictures = parsed.compactMap { block in block.imageData.map { (block.id, $0) } }
         if !pictures.isEmpty {
             decodedImages = await Task.detached(priority: .utility) { () -> [Int: UIImage] in
@@ -755,7 +779,7 @@ struct DocumentReaderView: View {
 }
 
 /// Saves the document as an m4a made on the phone, then shares it.
-private struct AudiobookExportView: View {
+struct AudiobookExportView: View {
     @ObservedObject var exporter: AudiobookExporter
     let title: String
     let passages: [String]

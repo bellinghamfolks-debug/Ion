@@ -224,6 +224,7 @@ struct SettingsView: View {
                         }
                     }
                 }
+            NotificationStatusView()
         }
         .tint(BasirPalette.accent)
         .glassSurface()

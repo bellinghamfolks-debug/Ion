@@ -37,9 +37,7 @@ final class AppViewModel: ObservableObject {
     var pauseRequested = false
     /// One-time notices, so iOS waking and stopping the app repeatedly in
     /// the background never repeats them.
-    var readyNoticeSent: Set<UUID> = []
     var cancellationTasks: [UUID: Task<Void, Never>] = [:]
-    var uploadPauseNoticeSent: Set<UUID> = []
     var networkPauseRequested = false
     private var networkCancellable: AnyCancellable?
     var networkLossTask: Task<Void, Never>?
@@ -102,6 +100,12 @@ final class AppViewModel: ObservableObject {
         }
         backgroundExecution.expirationHandler = { [weak self] in
             self?.suspendRunningJobForBackgroundExpiry()
+        }
+        JobWatcher.shared.onFinished = { [weak self] entry, status, _ in
+            // The server finished while Basir was away: fetch and save the
+            // result now, in the short time iOS gives this wake-up.
+            guard entry.work == .conversion, status == "completed" || status == "partial" else { return }
+            self?.resumeInterruptedJobsIfNeeded()
         }
         if settings.notificationsEnabled {
             Task {
@@ -264,7 +268,8 @@ final class AppViewModel: ObservableObject {
         persist()
         syncFacade()
         if wasRunning { jobTask?.cancel() }
-        OperationFeedback.clearProgress(jobID)
+        JobNotifier.remove(jobID.uuidString)
+        JobWatcher.shared.stop(id: jobID.uuidString)
         PushRegistrar.shared.jobFinished(jobID)
         sendServerCancellation(jobID: jobID)
         processNextIfPossible()
@@ -382,8 +387,12 @@ final class AppViewModel: ObservableObject {
                     },
                     logger: logger,
                     checkpointDirectory: checkpoint,
-                    serverJobCreated: { [language = l10n.language.rawValue] serverJobID in
+                    serverJobCreated: { [language = l10n.language.rawValue, title = snapshot.sourceName] serverJobID in
                         Task { @MainActor in
+                            // Followed in the background from now on, with or without push.
+                            JobWatcher.shared.watch(id: jobID.uuidString, serverJobID: serverJobID,
+                                                    work: .conversion, title: title,
+                                                    arabic: language == "ar", appJobID: jobID)
                             PushRegistrar.shared.serverJobCreated(
                                 clientJobID: jobID, serverJobID: serverJobID,
                                 configuration: configuration, language: language
@@ -421,12 +430,15 @@ final class AppViewModel: ObservableObject {
                     Task.detached { try? await ProxyClient(configuration: configuration).deleteServerTask(requestID: requestID) }
                 }
                 OperationFeedback.play(.completed, theme: settings.soundTheme)
-                if settings.notificationsEnabled {
-                    OperationFeedback.notifyCompletion(
-                        title: l10n.t("اكتملت مهمة بصير", "Basir task completed"),
-                        body: output.lastPathComponent,
-                        jobID: jobID
-                    )
+                JobWatcher.shared.stop(id: jobID.uuidString)
+                if UIApplication.shared.applicationState == .active {
+                    // Basir is open and says so itself; clear the old notice.
+                    JobNotifier.remove(jobID.uuidString)
+                } else {
+                    JobNotifier.show(JobNotifier.finished(task: .conversion, title: output.lastPathComponent,
+                                                          partial: !outcome.failedItems.isEmpty,
+                                                          arabic: l10n.isArabic),
+                                     id: jobID.uuidString, openJob: jobID)
                 }
                 UIAccessibility.post(
                     notification: .announcement,
@@ -476,16 +488,10 @@ final class AppViewModel: ObservableObject {
                 }
             }
         }
-        // Once the server reports this job's progress by push, the app stops
-        // sending its own progress notifications so nothing appears twice.
-        if settings?.notificationsEnabled == true, !PushRegistrar.shared.remoteProgressJobs.contains(jobID), let l10n {
-            OperationFeedback.notifyProgress(
-                title: jobs[index].sourceName,
-                body: JobStep.spokenStatus(for: effective, l10n: l10n),
-                jobID: jobID,
-                percent: JobStep.overallPercent(for: effective)
-            )
-        }
+        // Progress is on screen while Basir is open; the watcher remembers it
+        // for the one notice shown when Basir is left.
+        JobWatcher.shared.noteProgress(id: jobID.uuidString, percent: JobStep.overallPercent(for: effective),
+                                       uploading: [.preparing, .uploading].contains(effective.stage))
         if update.current > 0, update.current % 10 == 0 {
             OperationFeedback.play(.progress, theme: settings?.soundTheme ?? .off)
         }
@@ -535,14 +541,16 @@ final class AppViewModel: ObservableObject {
         persist()
         syncFacade()
         OperationFeedback.play(.failed, theme: settings?.soundTheme ?? .gentle)
-        if settings?.notificationsEnabled == true,
-           !Self.isNetworkWaitError(error),
-           let l10n {
-            OperationFeedback.notifyFailure(
-                title: l10n.t("لم تكتمل مهمة بصير", "Basir task did not complete"),
-                body: Self.localized(error, l10n: l10n),
-                jobID: jobID
-            )
+        if !Self.isNetworkWaitError(error), let l10n {
+            JobWatcher.shared.stop(id: jobID.uuidString)
+            if UIApplication.shared.applicationState == .active {
+                JobNotifier.remove(jobID.uuidString)
+            } else {
+                let title = jobs.first(where: { $0.id == jobID })?.sourceName ?? l10n.t("بصير", "Basir")
+                JobNotifier.show(JobNotifier.failed(title: title, reason: Self.localized(error, l10n: l10n),
+                                                    arabic: l10n.isArabic),
+                                 id: jobID.uuidString, openJob: jobID)
+            }
         }
         PushRegistrar.shared.jobFinished(jobID)
         completeCurrentTaskAndContinue(allowNext: false)

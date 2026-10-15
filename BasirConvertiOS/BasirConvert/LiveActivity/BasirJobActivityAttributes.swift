@@ -15,6 +15,10 @@ struct BasirJobActivityAttributes: ActivityAttributes {
         var isPaused: Bool
         var isFinished: Bool
         var succeeded: Bool
+        /// When the work began. The Lock Screen shows the time running from
+        /// here, so a task that is still working never looks frozen between
+        /// updates. Absent in pushes from older servers.
+        var startedAt: Date? = nil
     }
 
     var fileName: String

@@ -8,6 +8,9 @@ final class BasirAppDelegate: NSObject, UIApplicationDelegate, UNUserNotificatio
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         UNUserNotificationCenter.current().delegate = self
+        // Reconnects the background requests that follow server tasks, so
+        // their answers reach Basir even after it was closed.
+        JobWatcher.shared.resume()
         return true
     }
 
@@ -18,8 +21,8 @@ final class BasirAppDelegate: NSObject, UIApplicationDelegate, UNUserNotificatio
     ) {
         // In the foreground the app already shows progress, so progress updates
         // only refresh Notification Center; results and failures still show a banner.
-        if notification.request.identifier.hasPrefix("basir-progress-")
-            || notification.request.content.userInfo["basir_kind"] as? String == "progress" {
+        let kind = notification.request.content.userInfo["basir_kind"] as? String
+        if kind == "progress" || kind == "working" {
             completionHandler([.list])
         } else {
             completionHandler([.banner, .list, .sound])
@@ -52,6 +55,10 @@ final class BasirAppDelegate: NSObject, UIApplicationDelegate, UNUserNotificatio
         handleEventsForBackgroundURLSession identifier: String,
         completionHandler: @escaping () -> Void
     ) {
+        if identifier == JobWatcher.sessionIdentifier {
+            JobWatcher.shared.reconnect(identifier: identifier, completionHandler: completionHandler)
+            return
+        }
         BackgroundTransferCoordinator.shared.reconnectBackgroundEvents(
             identifier: identifier,
             completionHandler: completionHandler
@@ -92,6 +99,9 @@ struct BasirConvertApp: App {
                 .onChange(of: scenePhase) { phase in
                     if phase == .background {
                         BackgroundExecution.shared.schedule()
+                        JobWatcher.shared.appWillLeave()
+                    } else if phase == .active {
+                        JobWatcher.shared.resume()
                     }
                 }
         }

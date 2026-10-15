@@ -648,6 +648,27 @@ actor ProxyClient {
     /// Asks the server to stop the task created with this request ID. The
     /// server identifies the task from the same key the app used to create
     /// it, so this works even if the app never learned the server job id.
+    /// The long request iOS holds open for JobWatcher: the server answers
+    /// when the task ends, or (until=step) at its next quarter.
+    func waitRequest(serverJobID: String, after: Int, until: String, maxSeconds: Int) throws -> URLRequest {
+        let base = try secureBaseURL()
+        guard var components = URLComponents(url: base.appendingPathComponent("/api/jobs/\(serverJobID)/wait"),
+                                             resolvingAgainstBaseURL: false) else {
+            throw BasirError.invalidServerURL
+        }
+        components.queryItems = [
+            URLQueryItem(name: "after", value: String(max(0, min(100, after)))),
+            URLQueryItem(name: "until", value: until),
+            URLQueryItem(name: "max", value: String(maxSeconds)),
+        ]
+        guard let url = components.url else { throw BasirError.invalidServerURL }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        applyServerHeaders(to: &request, requestID: UUID().uuidString)
+        return request
+    }
+
     func cancelServerTask(requestID: String) async throws -> ServerCancellation {
         let base = try secureBaseURL()
         var request = URLRequest(url: base.appendingPathComponent("/api/jobs/cancel"))

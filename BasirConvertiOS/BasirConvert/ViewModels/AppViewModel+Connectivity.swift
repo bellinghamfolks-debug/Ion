@@ -85,33 +85,21 @@ extension AppViewModel {
         // Ask iOS to wake the app again soon, and tell the person what is
         // really happening instead of leaving a stale percentage.
         backgroundExecution.schedule(earliest: Date(timeIntervalSinceNow: 60))
-        // No notification for this. iOS stopping the app is not a pause: the
-        // server keeps converting and reports progress and completion by
-        // push. A "stopped" notice every time iOS reclaims background time
-        // was exactly the false alarm people saw every few minutes.
-        guard settings?.notificationsEnabled == true, let l10n else { return }
-        let pushActive = PushRegistrar.shared.remoteProgressJobs.contains(jobID)
+        // iOS stopping Basir is not a pause: the server keeps converting and
+        // JobWatcher reports its quarters and its end. Only two things are
+        // worth a notice here, each shown once (JobNotifier never repeats or
+        // goes backwards).
+        let id = jobID.uuidString
+        let title = jobs[index].sourceName
+        let arabic = l10n?.isArabic ?? true
         switch phase {
         case .serverWorking:
             return
         case .serverFinished:
-            // Without server push, say once that the file is ready.
-            guard !pushActive, !readyNoticeSent.contains(jobID) else { return }
-            readyNoticeSent.insert(jobID)
-            OperationFeedback.notifyResultWaiting(
-                title: jobs[index].sourceName,
-                body: phase.notificationBody(percent: percent, l10n: l10n),
-                jobID: jobID
-            )
+            JobNotifier.show(JobNotifier.ready(task: .conversion, title: title, arabic: arabic), id: id, openJob: jobID)
         case .uploading:
-            // The upload really does wait for the app. Say so once per task.
-            guard !uploadPauseNoticeSent.contains(jobID) else { return }
-            uploadPauseNoticeSent.insert(jobID)
-            OperationFeedback.notifyBackgroundPause(
-                title: jobs[index].sourceName,
-                body: phase.notificationBody(percent: percent, l10n: l10n),
-                jobID: jobID
-            )
+            JobNotifier.show(JobNotifier.uploadNeedsApp(title: title, percent: percent, arabic: arabic),
+                             id: id, openJob: jobID)
         }
     }
 

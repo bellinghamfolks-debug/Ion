@@ -123,6 +123,16 @@ private struct LockScreenJobView: View {
                 .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.9))
                 .lineLimit(2)
+            if !state.isFinished, !state.isPaused, let started = state.startedAt {
+                // Ticks by itself: proof the task is alive between updates.
+                HStack(spacing: 4) {
+                    Text(attributes.isArabic ? "مضى" : "Elapsed")
+                    Text(timerInterval: started...Date.distantFuture, countsDown: false)
+                        .monospacedDigit()
+                }
+                .font(.caption)
+                .foregroundStyle(.white.opacity(0.75))
+            }
         }
         .padding(16)
         .accessibilityElement(children: .combine)

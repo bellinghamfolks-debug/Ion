@@ -1,7 +1,6 @@
 import Foundation
 import CryptoKit
 import UIKit
-import UserNotifications
 
 /// Summaries kept on the phone (ت15): next to their Word file in My Files
 /// (renamed and deleted with it), or by the text's fingerprint for documents
@@ -209,14 +208,14 @@ final class SummaryRunner: ObservableObject {
             phase = .finished
             UINotificationFeedbackGenerator().notificationOccurred(.success)
             announce(l10n.t("الملخص جاهز.", "The summary is ready."))
+            let id = Self.notificationID(data)
+            JobWatcher.shared.stop(id: id)
             if UIApplication.shared.applicationState != .active {
                 // Basir is in the background: say so where the person will hear it.
-                let content = UNMutableNotificationContent()
-                content.title = l10n.t("الملخص جاهز", "The summary is ready")
-                content.body = body.title.isEmpty ? l10n.t("افتح بصير لقراءته.", "Open Basir to read it.") : body.title
-                content.sound = .default
-                UNUserNotificationCenter.current().add(UNNotificationRequest(
-                    identifier: "basir-summary-" + String(SummaryStore.fingerprint(home.id).prefix(24)), content: content, trigger: nil))
+                JobNotifier.show(JobNotifier.finished(task: .summary, title: Self.title(body, l10n: l10n),
+                                                      partial: false, arabic: l10n.isArabic), id: id)
+            } else {
+                JobNotifier.remove(id)
             }
         } catch is CancellationError {
             phase = .idle
@@ -224,6 +223,14 @@ final class SummaryRunner: ObservableObject {
             let message = Self.message(for: error, l10n: l10n)
             phase = .failed(message)
             announce(message)
+            if let data = try? body.encoded() {
+                let id = Self.notificationID(data)
+                JobWatcher.shared.stop(id: id)
+                if UIApplication.shared.applicationState != .active {
+                    JobNotifier.show(JobNotifier.failed(title: Self.title(body, l10n: l10n), reason: message,
+                                                        arabic: l10n.isArabic), id: id)
+                }
+            }
         }
     }
 
@@ -239,9 +246,16 @@ final class SummaryRunner: ObservableObject {
                                                      language: body.language, choice: body.choice)
             SummaryStore.setPendingJob(jobID, for: requestKey)
         }
-        // The server tells the person when it is ready, even if iOS suspends Basir.
-        PushRegistrar.shared.serverJobCreated(clientJobID: UUID(), serverJobID: jobID, configuration: configuration,
-                                              language: l10n.isArabic ? "ar" : "en")
+        // Followed while iOS suspends Basir (and by push where available), under
+        // one identifier so the two never show the same news twice.
+        let notificationID = Self.notificationID(data)
+        JobWatcher.shared.watch(id: notificationID, serverJobID: jobID, work: .summary,
+                                title: Self.title(body, l10n: l10n), arabic: l10n.isArabic)
+        if let clientJobID = UUID(uuidString: notificationID) {
+            PushRegistrar.shared.serverJobCreated(clientJobID: clientJobID, serverJobID: jobID,
+                                                  configuration: configuration,
+                                                  language: l10n.isArabic ? "ar" : "en")
+        }
         var lastAnnounced = -1
         var misses = 0
         while true {
@@ -293,6 +307,20 @@ final class SummaryRunner: ObservableObject {
     /// The same request always gets the same key, so the server resumes its job.
     static func requestKey(_ data: Data) -> String {
         "summary-" + String(SummaryStore.fingerprint(String(decoding: data, as: UTF8.self)).prefix(48))
+    }
+
+    /// A stable task identifier in UUID form for this request: the one
+    /// notification about it, here and in the server's push, uses it.
+    static func notificationID(_ data: Data) -> String {
+        let hex = Array(SummaryStore.fingerprint(String(decoding: data, as: UTF8.self)).prefix(32).uppercased())
+        guard hex.count == 32 else { return requestKey(data) }
+        let parts = [0..<8, 8..<12, 12..<16, 16..<20, 20..<32].map { String(hex[$0]) }
+        return parts.joined(separator: "-")
+    }
+
+    static func title(_ body: SummaryRequestBody, l10n: L10n) -> String {
+        let name = body.title.trimmingCharacters(in: .whitespacesAndNewlines)
+        return name.isEmpty ? l10n.t("ملخص بصير", "Basir summary") : l10n.t("ملخص: \(name)", "Summary: \(name)")
     }
 
     static func saved(_ body: SummaryRequestBody, home: SummaryHome) -> DocumentSummary? {

@@ -17,9 +17,6 @@ final class PushRegistrar {
     private(set) var deviceToken: String?
     private var serverJobs: [UUID: ServerJob] = [:]
     private var liveActivityTokens: [UUID: String] = [:]
-    /// Jobs whose progress the server now reports; local progress
-    /// notifications are skipped for them so nothing is shown twice.
-    private(set) var remoteProgressJobs: Set<UUID> = []
 
     private init() {}
 
@@ -52,7 +49,6 @@ final class PushRegistrar {
     func jobFinished(_ clientJobID: UUID) {
         serverJobs.removeValue(forKey: clientJobID)
         liveActivityTokens.removeValue(forKey: clientJobID)
-        remoteProgressJobs.remove(clientJobID)
     }
 
     private func send(_ clientJobID: UUID) {
@@ -67,12 +63,11 @@ final class PushRegistrar {
             environment: Self.apsEnvironment,
             language: job.language
         )
-        Task { [weak self] in
+        Task {
             do {
                 let enabled = try await ProxyClient(configuration: job.configuration)
                     .registerPush(serverJobID: job.serverJobID, body: body)
                 DiagnosticLogger.recordGlobal("PUSH registered serverJob=\(job.serverJobID) enabled=\(enabled) liveActivity=\(activity != nil)")
-                if enabled, device != nil { self?.remoteProgressJobs.insert(clientJobID) }
             } catch {
                 // Older servers or a disabled key: local notifications keep working.
                 DiagnosticLogger.recordGlobal("PUSH register failed description=\(error.localizedDescription)")

@@ -21,8 +21,10 @@ final class JobLiveActivityController {
     private func syncActivity(jobs: [BasirJob], l10n: L10n) {
         if !cleanedUpStaleActivities {
             cleanedUpStaleActivities = true
-            // Activities left over from a previous launch can no longer be updated.
-            for stale in Activity<BasirJobActivityAttributes>.activities {
+            // Activities from an earlier launch stay only for tasks the server
+            // is still working on (JobWatcher keeps them current); the rest end.
+            let alive = Set(jobs.filter { $0.status == .running || $0.isContinuingOnServer }.map(\.sourceName))
+            for stale in Activity<BasirJobActivityAttributes>.activities where !alive.contains(stale.attributes.fileName) {
                 Task { await stale.end(nil, dismissalPolicy: .immediate) }
             }
         }
@@ -55,6 +57,17 @@ final class JobLiveActivityController {
         )
         let initial = state(for: job, l10n: l10n)
         let content = ActivityContent(state: initial, staleDate: nil)
+        if let existing = Activity<BasirJobActivityAttributes>.activities.first(where: {
+            $0.attributes.fileName == job.sourceName && $0.activityState == .active
+        }) {
+            // The task resumed after Basir was away: keep the same activity.
+            activity = existing
+            trackedJobID = job.id
+            lastState = initial
+            lastUpdate = Date()
+            Task { await existing.update(content) }
+            return
+        }
         let started: Activity<BasirJobActivityAttributes>
         do {
             // A push token lets the server keep the activity current while
@@ -118,7 +131,7 @@ final class JobLiveActivityController {
                          stepTitle: step?.activeTitle(l10n) ?? text,
                          statusText: text,
                          percent: JobStep.overallPercent(for: job.progress),
-                         isPaused: false, isFinished: false, succeeded: false)
+                         isPaused: false, isFinished: false, succeeded: false, startedAt: job.startedAt)
         }
         switch job.status {
         case .running:
@@ -126,7 +139,7 @@ final class JobLiveActivityController {
                          stepTitle: step?.activeTitle(l10n) ?? l10n.t("اكتملت", "Complete"),
                          statusText: JobStep.spokenStatus(for: job.progress, l10n: l10n),
                          percent: JobStep.overallPercent(for: job.progress),
-                         isPaused: false, isFinished: false, succeeded: false)
+                         isPaused: false, isFinished: false, succeeded: false, startedAt: job.startedAt)
         case .paused, .queued, .waitingForNetwork:
             let text = job.status == .waitingForNetwork
                 ? l10n.t("بانتظار الاتصال", "Waiting for connection")
@@ -147,6 +160,34 @@ final class JobLiveActivityController {
             return .init(stepIndex: step?.rawValue ?? 0, stepTitle: text, statusText: text,
                          percent: JobStep.overallPercent(for: job.progress),
                          isPaused: false, isFinished: true, succeeded: false)
+        }
+    }
+
+    /// Updates the Lock Screen activity for a task the server is working on
+    /// while Basir is suspended (from JobWatcher's wake-ups).
+    static func serverUpdate(title: String, percent: Int, finished: Bool, succeeded: Bool, arabic: Bool,
+                             startedAt: Date?) {
+        guard #available(iOS 16.2, *) else { return }
+        let text: String
+        if finished {
+            text = succeeded
+                ? (arabic ? "جاهز. افتح بصير ليحفظه" : "Ready. Open Basir to save it")
+                : (arabic ? "لم تكتمل المهمة" : "Task did not complete")
+        } else {
+            text = arabic ? "يعمل الخادم: \(percent) بالمئة" : "The server is working: \(percent) percent"
+        }
+        let state = BasirJobActivityAttributes.ContentState(
+            stepIndex: finished ? 5 : 1, stepTitle: text, statusText: text, percent: percent,
+            isPaused: false, isFinished: finished, succeeded: succeeded, startedAt: startedAt)
+        for activity in Activity<BasirJobActivityAttributes>.activities where activity.attributes.fileName == title {
+            let content = ActivityContent(state: state, staleDate: nil)
+            Task {
+                if finished {
+                    await activity.end(content, dismissalPolicy: .after(Date().addingTimeInterval(30 * 60)))
+                } else {
+                    await activity.update(content)
+                }
+            }
         }
     }
 }

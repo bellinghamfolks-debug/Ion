@@ -151,7 +151,7 @@ def main() -> None:
         "pageSelection: normalizedPageSelection",
         "JobStatusResponse",
         "Idempotency-Key",
-        "Basir-iOS/3.0.0",
+        "Basir-iOS/\\(Self.appVersion)",
     ):
         if token not in proxy and token not in combined:
             fail(f"stable server contract is missing {token}")

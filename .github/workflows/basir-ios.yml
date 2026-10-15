@@ -104,17 +104,67 @@ jobs:
               echo "::group::Compile errors"
               grep -E " error: " "build/test-$attempt.log" | sort -u | head -100
               echo "::endgroup::"
+              grep -E " error: " "build/test-$attempt.log" | sort -u | head -40 > build/problems.txt
               exit 1
             fi
             echo "::group::Failures (attempt $attempt)"
             grep -E "error|failed|Fail|crash" "build/test-$attempt.log" | tail -60
             echo "::endgroup::"
+            grep -E "error: -\[|: error: | failed \(" "build/test-$attempt.log" | sort -u | head -40 > build/problems.txt
             echo "Test run $attempt failed; retrying once on a rebooted simulator."
             xcrun simctl shutdown "$UDID" || true
             xcrun simctl boot "$UDID" || true
             xcrun simctl bootstatus "$UDID" -b || true
           done
           exit 1
+
+      # GitHub keeps ten error annotations per step; four steps carry forty.
+      - name: Report problems (1)
+        if: failure()
+        run: |
+          [ -f build/problems.txt ] || exit 0
+          sed -n '1,10p' build/problems.txt | while IFS= read -r line; do
+            file=$(printf '%s' "$line" | sed -nE 's#^(/[^:]+):([0-9]+):.*#\1#p' | sed 's#.*/BasirConvertiOS/##')
+            row=$(printf '%s' "$line" | sed -nE 's#^/[^:]+:([0-9]+):.*#\1#p')
+            message=$(printf '%s' "$line" | sed -E 's#^.* error: ##' | cut -c1-400)
+            if [ -n "$file" ]; then echo "::error file=$file,line=$row::$message"; else echo "::error::$(printf '%s' "$line" | cut -c1-400)"; fi
+          done
+
+      # GitHub keeps ten error annotations per step; four steps carry forty.
+      - name: Report problems (2)
+        if: failure()
+        run: |
+          [ -f build/problems.txt ] || exit 0
+          sed -n '11,20p' build/problems.txt | while IFS= read -r line; do
+            file=$(printf '%s' "$line" | sed -nE 's#^(/[^:]+):([0-9]+):.*#\1#p' | sed 's#.*/BasirConvertiOS/##')
+            row=$(printf '%s' "$line" | sed -nE 's#^/[^:]+:([0-9]+):.*#\1#p')
+            message=$(printf '%s' "$line" | sed -E 's#^.* error: ##' | cut -c1-400)
+            if [ -n "$file" ]; then echo "::error file=$file,line=$row::$message"; else echo "::error::$(printf '%s' "$line" | cut -c1-400)"; fi
+          done
+
+      # GitHub keeps ten error annotations per step; four steps carry forty.
+      - name: Report problems (3)
+        if: failure()
+        run: |
+          [ -f build/problems.txt ] || exit 0
+          sed -n '21,30p' build/problems.txt | while IFS= read -r line; do
+            file=$(printf '%s' "$line" | sed -nE 's#^(/[^:]+):([0-9]+):.*#\1#p' | sed 's#.*/BasirConvertiOS/##')
+            row=$(printf '%s' "$line" | sed -nE 's#^/[^:]+:([0-9]+):.*#\1#p')
+            message=$(printf '%s' "$line" | sed -E 's#^.* error: ##' | cut -c1-400)
+            if [ -n "$file" ]; then echo "::error file=$file,line=$row::$message"; else echo "::error::$(printf '%s' "$line" | cut -c1-400)"; fi
+          done
+
+      # GitHub keeps ten error annotations per step; four steps carry forty.
+      - name: Report problems (4)
+        if: failure()
+        run: |
+          [ -f build/problems.txt ] || exit 0
+          sed -n '31,40p' build/problems.txt | while IFS= read -r line; do
+            file=$(printf '%s' "$line" | sed -nE 's#^(/[^:]+):([0-9]+):.*#\1#p' | sed 's#.*/BasirConvertiOS/##')
+            row=$(printf '%s' "$line" | sed -nE 's#^/[^:]+:([0-9]+):.*#\1#p')
+            message=$(printf '%s' "$line" | sed -E 's#^.* error: ##' | cut -c1-400)
+            if [ -n "$file" ]; then echo "::error file=$file,line=$row::$message"; else echo "::error::$(printf '%s' "$line" | cut -c1-400)"; fi
+          done
 
       - name: Build for device (unsigned, Release)
         run: |

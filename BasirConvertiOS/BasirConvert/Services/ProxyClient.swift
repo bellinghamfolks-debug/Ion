@@ -650,7 +650,7 @@ actor ProxyClient {
     /// it, so this works even if the app never learned the server job id.
     /// The long request iOS holds open for JobWatcher: the server answers
     /// when the task ends, or (until=step) at its next quarter.
-    func waitRequest(serverJobID: String, after: Int, until: String, maxSeconds: Int) throws -> URLRequest {
+    nonisolated func waitRequest(serverJobID: String, after: Int, until: String, maxSeconds: Int) throws -> URLRequest {
         let base = try secureBaseURL()
         guard var components = URLComponents(url: base.appendingPathComponent("/api/jobs/\(serverJobID)/wait"),
                                              resolvingAgainstBaseURL: false) else {
@@ -749,7 +749,7 @@ actor ProxyClient {
         throw lastError ?? BasirError.conversionFailed("Request failed after retries.")
     }
 
-    private func secureBaseURL() throws -> URL {
+    private nonisolated func secureBaseURL() throws -> URL {
         guard let secure = configuration.secureBaseURL else { throw BasirError.invalidServerURL }
         var value = secure.absoluteString
         while value.hasSuffix("/") { value.removeLast() }
@@ -759,7 +759,7 @@ actor ProxyClient {
         return result
     }
 
-    private func applyServerHeaders(to request: inout URLRequest, requestID: String) {
+    private nonisolated func applyServerHeaders(to request: inout URLRequest, requestID: String) {
         request.setValue("Basir-iOS/\(Self.appVersion)", forHTTPHeaderField: "User-Agent")
         request.setValue(requestID, forHTTPHeaderField: "X-Request-ID")
         request.setValue(requestID, forHTTPHeaderField: "Idempotency-Key")

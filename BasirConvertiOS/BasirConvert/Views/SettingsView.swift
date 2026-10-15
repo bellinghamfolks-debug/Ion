@@ -26,6 +26,10 @@ struct SettingsView: View {
                         privacyCard
                         SectionHeading(title: l10n.t("المزيد", "More"))
                         VStack(spacing: 0) {
+                            settingsLink(l10n.t("الترجمة", "Translation"),
+                                         detail: settings.translation.summary(l10n),
+                                         systemImage: "character.bubble") { TranslationSettingsView() }
+                            Divider().padding(.leading, 44)
                             settingsLink(l10n.t("خيارات متقدمة", "Advanced options"),
                                          detail: l10n.t("محتوى الملفات وجودة التحويل ونموذج المعالجة",
                                                         "File content, conversion quality, and AI model"),

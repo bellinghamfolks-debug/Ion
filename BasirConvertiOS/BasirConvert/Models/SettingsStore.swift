@@ -35,6 +35,7 @@ final class SettingsStore: ObservableObject {
         static let preferredModel = "ai_preferred_model"
         static let includeSummary = "convert_include_summary"
         static let pdfReading = "pdf_reading_mode"
+        static let translation = "translation_preferences"
         static let summaryLanguage = "summary_language"
         static let appearance = "interface_appearance"
         static let highContrast = "interface_high_contrast"
@@ -85,6 +86,8 @@ final class SettingsStore: ObservableObject {
     @Published var includeSummary: Bool
     /// How PDFs are read: every page by AI (the default), or hybrid.
     @Published var pdfReading: PDFReadingMode
+    /// How translations are written (Settings › Translation).
+    @Published var translation: TranslationPreferences
 
     init(
         defaults: UserDefaults = .standard,
@@ -129,6 +132,8 @@ final class SettingsStore: ObservableObject {
 
         includeSummary = defaults.bool(forKey: Key.includeSummary)
         pdfReading = PDFReadingMode(rawValue: defaults.string(forKey: Key.pdfReading) ?? "") ?? .full
+        translation = defaults.data(forKey: Key.translation)
+            .flatMap { try? JSONDecoder().decode(TranslationPreferences.self, from: $0) } ?? .standard
         // A model name stored by an earlier build becomes Automatic.
         let stored = defaults.string(forKey: Key.preferredModel) ?? "auto"
         let storedModel = AIModelChoice(rawValue: stored) ?? .automatic
@@ -168,5 +173,6 @@ final class SettingsStore: ObservableObject {
         defaults.set(preferredModel.serverModelID, forKey: Key.preferredModel)
         defaults.set(includeSummary, forKey: Key.includeSummary)
         defaults.set(pdfReading.rawValue, forKey: Key.pdfReading)
+        defaults.set(try? JSONEncoder().encode(translation), forKey: Key.translation)
     }
 }

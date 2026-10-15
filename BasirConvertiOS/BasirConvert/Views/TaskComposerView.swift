@@ -36,6 +36,7 @@ struct TaskComposerView: View {
     @State private var showGuidedCapture = false
     @State private var estimates: [String: TaskEstimate] = [:]
     @State private var scanReports: [String: ScanQualityReport] = [:]
+    @State private var showTranslationSettings = false
     @State private var checkingScan: Set<String> = []
     /// Pages for this task only; empty means the setting (usually all pages).
     @State private var pageSelectionOverride = ""
@@ -73,7 +74,8 @@ struct TaskComposerView: View {
                 ? nil : customOutputName,
             preferredModel: settings.preferredModel.rawValue,
             includeSummary: settings.includeSummary,
-            hybridPDF: settings.pdfReading == .hybrid
+            hybridPDF: settings.pdfReading == .hybrid,
+            translation: isTranslation ? settings.translation : nil
         )
     }
 
@@ -567,8 +569,33 @@ struct TaskComposerView: View {
             .pickerStyle(.menu).tint(BasirPalette.cyan)
             .padding(BasirSpacing.m).frame(maxWidth: .infinity, alignment: .leading)
             .background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            Text(settings.translation.summary(l10n))
+                .font(.footnote)
+                .foregroundStyle(BasirPalette.secondaryText)
+                .fixedSize(horizontal: false, vertical: true)
+            Button {
+                showTranslationSettings = true
+            } label: {
+                Label(l10n.t("خيارات الترجمة", "Translation options"), systemImage: "slider.horizontal.3")
+            }
+            .buttonStyle(.bordered)
+            .accessibilityHint(l10n.t("الأسلوب والأسماء والمصطلحات والأرقام وقاموسك الخاص",
+                                      "Style, names, terms, digits and your glossary"))
         }
         .glassSurface()
+        .sheet(isPresented: $showTranslationSettings) {
+            NavigationStack {
+                TranslationSettingsView()
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button(l10n.t("تم", "Done")) { showTranslationSettings = false }
+                                .fontWeight(.semibold)
+                        }
+                    }
+            }
+            .environmentObject(l10n)
+            .environmentObject(settings)
+        }
     }
 
     private var resultNameCard: some View {

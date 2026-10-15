@@ -21,6 +21,8 @@ actor ProxyClient {
         let pageSelection: String
         let outputName: String?
         let preferredModel: String
+        /// Only for translations; omitted otherwise.
+        let translation: TranslationPreferences.Payload?
 
         enum CodingKeys: String, CodingKey {
             case filename
@@ -33,6 +35,7 @@ actor ProxyClient {
             case pageSelection = "page_selection"
             case outputName = "output_name"
             case preferredModel = "preferred_model"
+            case translation
         }
     }
 
@@ -274,7 +277,8 @@ actor ProxyClient {
             interfaceLanguage: options.interfaceLanguage.rawValue,
             pageSelection: normalizedPageSelection,
             outputName: options.outputName,
-            preferredModel: options.effectivePreferredModel
+            preferredModel: options.effectivePreferredModel,
+            translation: options.operation == .translate ? (options.translation ?? .standard).payload : nil
         )
 
         var createRequest = URLRequest(url: base.appendingPathComponent("/api/jobs"))
@@ -929,7 +933,8 @@ extension ProxyClient {
             interfaceLanguage: language == "en" ? "en" : "ar",
             pageSelection: "",
             outputName: String(title.prefix(110)).isEmpty ? nil : String(title.prefix(110)),
-            preferredModel: choice
+            preferredModel: choice,
+            translation: nil
         )
         var create = URLRequest(url: base.appendingPathComponent("/api/jobs"))
         create.httpMethod = "POST"

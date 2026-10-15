@@ -277,6 +277,8 @@ struct ConversionOptions: Codable, Equatable, Sendable {
     let includeSummary: Bool?
     /// Hybrid PDF reading, chosen explicitly in Settings. Optional for older tasks.
     let hybridPDF: Bool?
+    /// The translation preferences in force when the task was created.
+    let translation: TranslationPreferences?
 
     init(
         operation: OperationKind,
@@ -298,7 +300,8 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         outputName: String? = nil,
         preferredModel: String? = nil,
         includeSummary: Bool = false,
-        hybridPDF: Bool = false
+        hybridPDF: Bool = false,
+        translation: TranslationPreferences? = nil
     ) {
         self.operation = operation
         self.outputMode = outputMode
@@ -320,6 +323,7 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         self.preferredModel = AIModelChoice(rawValue: preferredModel ?? "auto")?.rawValue ?? "auto"
         self.includeSummary = includeSummary
         self.hybridPDF = hybridPDF
+        self.translation = translation
     }
 
     var wantsSummary: Bool { includeSummary == true }

@@ -21,18 +21,18 @@ final class NotificationTests: XCTestCase {
     func testTheWordsAreTrue() {
         let working = JobNotifier.working(task: .conversion, title: "عقد", percent: 35, uploading: false, arabic: true)
         XCTAssertTrue(working.body.contains("35٪"))
-        XCTAssertTrue(working.body.contains("ولو أغلقت التطبيق"))
+        XCTAssertTrue(working.body.contains("يمكنك استخدام تطبيق آخر"))
         XCTAssertFalse(working.body.contains("متوقف"))
         let uploading = JobNotifier.working(task: .conversion, title: "عقد", percent: 40, uploading: true, arabic: true)
         XCTAssertTrue(uploading.body.contains("أبقِ بصير مفتوحًا"))
         let progress = JobNotifier.progress(task: .summary, title: "ملخص", percent: 50,
                                             at: Date(timeIntervalSince1970: 0), arabic: false)
         XCTAssertTrue(progress.body.hasPrefix("Summary: 50%"))
-        XCTAssertTrue(progress.body.contains("Updated"))
+        XCTAssertTrue(progress.body.contains("Last updated:"))
         XCTAssertEqual(JobNotifier.failed(title: "x", reason: "  ", arabic: true).body,
                        "لم تكتمل المهمة. افتح بصير لإعادة المحاولة.")
         XCTAssertTrue(JobNotifier.finished(task: .conversion, title: "x", partial: true, arabic: false)
-            .body.contains("retry"))
+            .body.contains("try reading them again"))
     }
 
     func testOneIdentifierPerTaskMatchesTheServersPush() {

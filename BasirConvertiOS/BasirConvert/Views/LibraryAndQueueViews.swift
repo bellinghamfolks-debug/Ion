@@ -97,7 +97,7 @@ struct ResultLibraryView: View {
                     } else {
                         sortMenu
                         if library.items.count > 1 {
-                            CardActionButton(title: l10n.t("لخّص عدة ملفات معًا", "Summarize several files together"),
+                            CardActionButton(title: l10n.t("تلخيص عدة ملفات", "Summarize several files"),
                                              systemImage: "square.stack.3d.up") {
                                 chosenForSummary = []
                                 choosingForSummary = true
@@ -105,7 +105,7 @@ struct ResultLibraryView: View {
                         }
                         if filtered.isEmpty {
                             InfoCard(title: l10n.t("لا توجد نتائج مطابقة", "No matching files"),
-                                     text: l10n.t("جرّب البحث باسم آخر أو بجزء من اسم الملف.", "Try another name or part of a file name."),
+                                     text: l10n.t("جرّب جزءًا من اسم الملف أو كلمة من ملخصه.", "Try part of the file name or a word from its summary."),
                                      systemImage: "magnifyingglass")
                         }
                         ForEach(groups) { group in
@@ -264,9 +264,9 @@ struct ResultLibraryView: View {
         .accessibilityLabel(item.displayName)
         .accessibilityValue(accessibilitySummary(item))
         .accessibilityHint(item.isReadable
-            ? l10n.t("اضغط مرتين للقراءة في بصير. اسحب للأعلى أو للأسفل لبقية الإجراءات.",
+            ? l10n.t("اضغط مرتين لقراءة الملف. اسحب لأعلى أو لأسفل لاختيار إجراء آخر.",
                      "Double-tap to read in Basir. Swipe up or down for more actions.")
-            : l10n.t("اضغط مرتين للمعاينة. اسحب للأعلى أو للأسفل لبقية الإجراءات.",
+            : l10n.t("اضغط مرتين لمعاينة الملف. اسحب لأعلى أو لأسفل لاختيار إجراء آخر.",
                      "Double-tap to preview. Swipe up or down for more actions."))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { if item.isReadable { readItem = item } else { previewItem = item } }
@@ -305,11 +305,11 @@ struct ResultLibraryView: View {
                         .accessibilityAddTraits(chosen ? .isSelected : [])
                     }
                 } footer: {
-                    Text(l10n.t("يكتب بصير ملخصًا واحدًا يبيّن ما تتفق عليه الملفات وما تختلف فيه وما ينفرد به كل ملف، مع ذكر الملف والصفحة لكل نقطة. اختر ملفين على الأقل وحتى 12 ملفًا.",
+                    Text(l10n.t("اختر من ملفين إلى 12 ملفًا. يجمع بصير أهم النقاط في ملخص واحد، ويوضح أوجه التشابه والاختلاف مع الإشارة إلى الملف والصفحة.",
                                 "Basir writes one summary of what the files agree on, where they differ and what only one says, naming the file and page of every point. Choose two to twelve files."))
                 }
             }
-            .navigationTitle(l10n.t("لخّص عدة ملفات", "Summarize several files"))
+            .navigationTitle(l10n.t("تلخيص عدة ملفات", "Summarize several files"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -419,7 +419,7 @@ struct JobQueueView: View {
                             .font(.system(.largeTitle, design: .rounded, weight: .bold))
                             .accessibilityAddTraits(.isHeader)
                         InfoCard(title: l10n.t("لا توجد مهام بعد", "No tasks yet"),
-                                 text: l10n.t("ابدأ مهمة من تبويب «جديد».",
+                                 text: l10n.t("أضف ملفًا من تبويب «جديد» لتحويله أو ترجمته. ستظهر مهامك هنا.",
                                               "Start a task from the New tab."),
                                  systemImage: "checklist")
                     }
@@ -529,7 +529,7 @@ struct JobQueueView: View {
         case .waitingForNetwork: return l10n.t("بانتظار الاتصال", "Waiting for connection")
         case .running: return JobStep.spokenStatus(for: job.progress, l10n: l10n)
         case .paused: return l10n.t("متوقفة مؤقتًا", "Paused")
-        case .partial: return l10n.t("نتيجة جزئية جاهزة", "Partial result ready")
+        case .partial: return l10n.t("اكتمل جزئيًا", "Partially complete")
         case .completed: return l10n.t("مكتملة", "Completed")
         case .failed: return l10n.t("تعذّر إكمالها", "Could not complete")
         case .cancelled: return l10n.t("ملغاة", "Cancelled")

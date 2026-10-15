@@ -71,8 +71,8 @@ struct SummaryLauncherView: View {
                 let blocks = await SummaryText.blocks(of: url, isArabic: arabic)
                 documents.append((name: url.deletingPathExtension().lastPathComponent, blocks: blocks.blocks, output: nil))
                 if blocks.truncated {
-                    note = l10n.t("قرأ بصير على جهازك أول \(InstantReader.maximumPages) صفحة من الملف المصوَّر. لتلخيص الملف كاملًا، حوّله إلى Word أولًا أو اختر «أضف ملخصًا» عند التحويل.",
-                                  "Basir read the first \(InstantReader.maximumPages) pages of the scanned file on your device. To summarize all of it, convert it to Word first, or choose “Add a summary” when converting.")
+                    note = l10n.t("قرأ بصير على جهازك أول \(InstantReader.maximumPages) صفحة من الملف المصوَّر. لتلخيص الملف كاملًا، حوّله إلى Word أولًا أو اختر «إضافة ملخص في بداية الملف» عند التحويل.",
+                                  "Basir read the first \(InstantReader.maximumPages) pages of the scanned file on your device. To summarize all of it, convert it to Word first, or choose “Add a summary at the start of the file” when converting.")
                 }
             }
             build(documents)

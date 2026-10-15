@@ -156,7 +156,7 @@ struct JobView: View {
 
     private var waitingContent: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
-            Text(viewModel.errorMessage ?? l10n.t("ستبدأ المهمة عند توفر اتصال يطابق إعدادات الشبكة التي اخترتها.",
+            Text(viewModel.errorMessage ?? l10n.t("المهمة بانتظار اتصال بالإنترنت يسمح به اختيارك في الإعدادات.",
                                                    "The task will start when a connection matching your network settings is available."))
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
@@ -170,7 +170,7 @@ struct JobView: View {
     private var pausedContent: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             JobStepTimeline(progress: viewModel.progress)
-            Text(l10n.t("تقدمك محفوظ. عند الاستئناف، يستخدم بصير الصفحات التي اكتملت معالجتها.",
+            Text(l10n.t("تقدمك محفوظ. استأنف المهمة لمتابعة العمل دون إعادة معالجة الصفحات المكتملة.",
                         "Your progress is saved. Basir will reuse completed pages when you resume."))
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
@@ -210,13 +210,13 @@ struct JobView: View {
                 }
                 if let job = viewModel.selectedJob, !job.failedItems.isEmpty {
                     Text(l10n.t(
-                        "تنبيه: تعذرت قراءة نص هذه الصفحات رغم عدة محاولات، فحُفظت صورها في أماكنها من الملف مع تنبيه عند كل منها: \(pageRanges(job.failedItems)). يمكنك إعادة معالجتها.",
+                        "تعذرت قراءة نص الصفحات التالية: \(pageRanges(job.failedItems)). احتفظ بصير بصورها في مواضعها داخل الملف، مع تنبيه عند كل صفحة. يمكنك إعادة محاولة قراءتها.",
                         "Note: the text of these pages could not be read despite several attempts, so their pictures are kept in place in the file, each with a notice: \(pageRanges(job.failedItems)). You can process them again."
                     ))
                     .font(.footnote)
                     .foregroundStyle(BasirPalette.warning)
                     .fixedSize(horizontal: false, vertical: true)
-                    SecondaryActionButton(title: l10n.t("إعادة معالجة هذه الصفحات", "Retry these pages"),
+                    SecondaryActionButton(title: l10n.t("إعادة محاولة قراءة هذه الصفحات", "Retry these pages"),
                                           systemImage: "arrow.clockwise.circle") { viewModel.retryFailedItems() }
                 }
             }
@@ -269,7 +269,7 @@ struct JobView: View {
 
     private var navigationTitle: String {
         if viewModel.selectedJob?.isContinuingOnServer == true {
-            return l10n.t("المعالجة مستمرة على الخادم", "Processing continues on the server")
+            return l10n.t("بصير يواصل معالجة الملف", "Processing continues on the server")
         }
         switch viewModel.status {
         case .idle: return l10n.t("المهمة", "Task")
@@ -277,7 +277,7 @@ struct JobView: View {
         case .waitingForNetwork: return l10n.t("بانتظار الاتصال", "Waiting for connection")
         case .running: return l10n.t("جارٍ تنفيذ المهمة", "Task in progress")
         case .paused: return l10n.t("متوقفة مؤقتًا", "Paused")
-        case .partial: return l10n.t("نتيجة جزئية جاهزة", "Partial result ready")
+        case .partial: return l10n.t("اكتمل جزئيًا", "Partially complete")
         case .completed: return l10n.t("ملف Word جاهز", "Word file ready")
         case .failed: return l10n.t("لم تكتمل المهمة", "Task did not complete")
         case .cancelled: return l10n.t("أُلغيت المهمة", "Task cancelled")

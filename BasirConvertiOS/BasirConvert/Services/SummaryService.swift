@@ -165,7 +165,7 @@ final class SummaryRunner: ObservableObject {
             return
         }
         phase = .working(detail: l10n.t("جارٍ إعداد الملخص", "Preparing the summary"), done: 0, total: 0)
-        announce(l10n.t("جارٍ إعداد الملخص. سأخبرك عند اكتماله.", "Preparing the summary. I will tell you when it is ready."))
+        announce(l10n.t("جارٍ إعداد الملخص.", "Preparing the summary."))
         task = Task { [weak self] in
             await self?.work(body, home: home, configuration: configuration, l10n: l10n)
         }

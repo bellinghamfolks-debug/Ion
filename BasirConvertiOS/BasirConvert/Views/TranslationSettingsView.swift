@@ -16,8 +16,8 @@ struct TranslationSettingsView: View {
             AuroraBackground()
             ScrollView {
                 VStack(alignment: .leading, spacing: BasirSpacing.l) {
-                    Text(l10n.t("كل خيار هنا يُرسل مع كل مهمة ترجمة ويغيّر الملف المترجم فعلًا. القيم الافتراضية تُبقي الترجمة كما كانت.",
-                                "Every choice here is sent with each translation task and really changes the translated file. The defaults keep translation as it was."))
+                    Text(l10n.t("اختر لغة الترجمة وأسلوبها، وحدّد طريقة كتابة الأسماء والمصطلحات. تُحفظ اختياراتك للترجمات القادمة.",
+                                "Choose the translation language, writing style, and how names and terms should appear. Your choices are saved for future translations."))
                         .font(.footnote)
                         .foregroundStyle(BasirPalette.secondaryText)
                         .fixedSize(horizontal: false, vertical: true)
@@ -28,7 +28,7 @@ struct TranslationSettingsView: View {
                     Button(role: .destructive) {
                         confirmingReset = true
                     } label: {
-                        Label(l10n.t("إعادة إعدادات الترجمة الافتراضية", "Reset translation settings"),
+                        Label(l10n.t("استعادة الإعدادات الافتراضية", "Reset translation settings"),
                               systemImage: "arrow.counterclockwise")
                     }
                     .buttonStyle(.bordered)
@@ -40,12 +40,12 @@ struct TranslationSettingsView: View {
         .foregroundStyle(BasirPalette.primaryText)
         .navigationTitle(l10n.t("الترجمة", "Translation"))
         .navigationBarTitleDisplayMode(.inline)
-        .confirmationDialog(l10n.t("إعادة كل خيارات الترجمة وحذف القاموس؟", "Reset every translation option and clear the glossary?"),
+        .confirmationDialog(l10n.t("استعادة إعدادات الترجمة الافتراضية وحذف جميع مصطلحات قاموسك؟", "Reset every translation option and clear the glossary?"),
                             isPresented: $confirmingReset, titleVisibility: .visible) {
             Button(l10n.t("إعادة الضبط", "Reset"), role: .destructive) {
                 prefs.wrappedValue = .standard
                 UIAccessibility.post(notification: .announcement,
-                                     argument: l10n.t("أُعيدت إعدادات الترجمة الافتراضية.", "Translation settings reset."))
+                                     argument: l10n.t("تمت استعادة إعدادات الترجمة الافتراضية.", "Translation settings reset."))
             }
         }
     }
@@ -60,14 +60,14 @@ struct TranslationSettingsView: View {
                                       set: { settings.targetLanguageCode = $0; settings.save() })) {
                 ForEach(SupportedLanguage.all) { Text($0.name(interface: l10n.language)).tag($0.code) }
             }
-            picker(l10n.t("لغة المستند الأصلية", "Language of the original"), selection: prefs.sourceLanguage) {
+            picker(l10n.t("لغة المستند", "Document language"), selection: prefs.sourceLanguage) {
                 Text(l10n.t("اكتشاف تلقائي", "Detect automatically")).tag("")
                 ForEach(SupportedLanguage.all) { Text($0.name(interface: l10n.language)).tag($0.code) }
             }
             note(prefs.wrappedValue.sourceLanguage.isEmpty
-                 ? l10n.t("يتعرّف بصير على لغة المستند وحده. حدّدها إذا كان المستند يخلط لغتين وتريد ترجمة إحداهما فقط؛ النص المكتوب أصلًا بلغة الترجمة يبقى كما هو.",
+                 ? l10n.t("يكتشف بصير لغة المستند تلقائيًا. إذا احتوى على أكثر من لغة، يمكنك تحديد اللغة التي تريد ترجمتها. يبقى النص المكتوب بلغة الترجمة كما هو.",
                           "Basir detects the document's language. Set it when the document mixes two languages and you want only one translated; text already in the target language stays as it is.")
-                 : l10n.t("يُترجم النص المكتوب بهذه اللغة، ويبقى ما هو مكتوب أصلًا بلغة الترجمة كما هو.",
+                 : l10n.t("يترجم بصير النص المكتوب باللغة المحددة. يبقى النص المكتوب بلغة الترجمة كما هو.",
                           "Text in this language is translated; text already in the target language stays as it is."))
         }
         .glassSurface()
@@ -79,25 +79,25 @@ struct TranslationSettingsView: View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             GlassSectionTitle(title: l10n.t("أسلوب الترجمة", "Translation style"), systemImage: "text.quote")
             picker(l10n.t("الأسلوب", "Style"), selection: prefs.style) {
-                Text(l10n.t("أمين (قريب من الأصل)", "Faithful (close to the original)")).tag(TranslationPreferences.Style.faithful)
-                Text(l10n.t("طبيعي (بلغة سلسة)", "Natural (fluent)")).tag(TranslationPreferences.Style.natural)
-                Text(l10n.t("مبسّط (لغة سهلة)", "Plain language")).tag(TranslationPreferences.Style.plain)
+                Text(l10n.t("قريب من الأصل", "Close to the original")).tag(TranslationPreferences.Style.faithful)
+                Text(l10n.t("سلس", "Natural")).tag(TranslationPreferences.Style.natural)
+                Text(l10n.t("مبسّط", "Plain language")).tag(TranslationPreferences.Style.plain)
             }
             note(styleNote)
-            picker(l10n.t("مستوى اللغة", "Register"), selection: prefs.formality) {
+            picker(l10n.t("درجة الرسمية", "Formality"), selection: prefs.formality) {
                 Text(l10n.t("رسمي", "Formal")).tag(TranslationPreferences.Formality.formal)
-                Text(l10n.t("محايد يومي", "Neutral, everyday")).tag(TranslationPreferences.Formality.neutral)
+                Text(l10n.t("غير متكلّف", "Everyday")).tag(TranslationPreferences.Formality.neutral)
             }
             note(prefs.wrappedValue.formality == .formal
-                 ? l10n.t("فصحى رسمية، وصيغ المخاطبة الرسمية في اللغات التي تفرّق بينها (مثل vous وSie).",
-                          "Formal register, and formal address where the language distinguishes it (vous, Sie).")
-                 : l10n.t("فصحى معاصرة واضحة بلا عبارات متكلّفة، وصيغ المخاطبة غير الرسمية حيث تفرّق اللغة.",
-                          "Clear contemporary wording without ornate phrasing, and informal address where the language distinguishes it."))
+                 ? l10n.t("لغة رسمية تناسب الخطابات والوثائق، مع استخدام صيغ المخاطبة الرسمية عند توفرها في لغة الترجمة.",
+                          "Formal wording for letters and documents, using formal forms of address where available.")
+                 : l10n.t("لغة واضحة تناسب الاستخدام اليومي، مع صيغ مخاطبة غير رسمية. تبقى الترجمة العربية بالفصحى.",
+                          "Clear, everyday wording with informal forms of address. Arabic translations still use Modern Standard Arabic."))
             Toggle(l10n.t("ملاحظات المترجم", "Translator's notes"), isOn: prefs.notes)
             note(prefs.wrappedValue.notes
-                 ? l10n.t("يضيف شرحًا قصيرًا بين معقوفين بعد كل مصطلح ثقافي أو تاريخي أو ديني قد يغمض على القارئ، يبدأ بـ«ملاحظة المترجم».",
+                 ? l10n.t("يطلب من المترجم توضيح المصطلحات الثقافية والتاريخية والدينية التي قد تحتاج إلى شرح. تظهر التوضيحات بين معقوفين بعنوان «ملاحظة المترجم».",
                           "Adds a short explanation in square brackets after a cultural, historical or religious term that might be unclear, starting with “Translator's note”.")
-                 : l10n.t("لا يضيف أي شرح ليس في الأصل.", "Adds no explanation that is not in the original."))
+                 : l10n.t("ترجمة دون ملاحظات توضيحية إضافية.", "Adds no explanation that is not in the original."))
         }
         .glassSurface()
     }
@@ -105,14 +105,14 @@ struct TranslationSettingsView: View {
     private var styleNote: String {
         switch prefs.wrappedValue.style {
         case .faithful:
-            return l10n.t("يلتزم بألفاظ الأصل وترتيب جمله قدر ما تسمح به اللغة. مناسب للعقود والوثائق الرسمية والنصوص الدقيقة.",
-                          "Stays close to the original wording and sentence order. Suits contracts, official documents and precise texts.")
+            return l10n.t("يحافظ قدر الإمكان على ألفاظ النص وترتيب جمله. يناسب الوثائق الرسمية والنصوص التي تهم فيها دقة الصياغة.",
+                          "Keeps the original wording and sentence order where possible. Suits official documents and texts where precise wording matters.")
         case .natural:
-            return l10n.t("يكتب بلغة سلسة كأنها كُتبت أصلًا بلغة الترجمة، ويعيد بناء الجمل عند الحاجة دون أن يُسقط معلومة.",
-                          "Reads as if written in the target language, restructuring sentences where needed without dropping any fact.")
+            return l10n.t("يعيد صياغة الجمل لتبدو طبيعية في لغة الترجمة، مع الحفاظ على المعنى والتفاصيل.",
+                          "Restructures sentences to sound natural in the target language while preserving the meaning and details.")
         case .plain:
-            return l10n.t("جمل قصيرة وكلمات شائعة وشرح مختصر للمصطلحات، مع الحفاظ على كل معلومة واسم ورقم وخطوة.",
-                          "Short sentences, common words and brief explanations of jargon, keeping every fact, name, number and step.")
+            return l10n.t("يستخدم جملًا قصيرة وكلمات مألوفة، ويوضح المصطلحات الصعبة مع الحفاظ على تفاصيل النص.",
+                          "Uses short sentences and familiar words, explaining difficult terms while preserving the details.")
         }
     }
 
@@ -121,30 +121,30 @@ struct TranslationSettingsView: View {
     private var contentCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             GlassSectionTitle(title: l10n.t("الأسماء والمصطلحات والأرقام", "Names, terms and numbers"), systemImage: "textformat.abc")
-            picker(l10n.t("أسماء الأعلام والجهات", "Names of people and organisations"), selection: prefs.names) {
-                Text(l10n.t("تبقى بحروفها الأصلية", "Keep in the original script")).tag(TranslationPreferences.Names.keep)
-                Text(l10n.t("تُكتب بحروف لغة الترجمة", "Write in the target script")).tag(TranslationPreferences.Names.targetScript)
+            picker(l10n.t("أسماء الأشخاص والجهات", "Names of people and organisations"), selection: prefs.names) {
+                Text(l10n.t("الاحتفاظ بالحروف الأصلية", "Keep in the original script")).tag(TranslationPreferences.Names.keep)
+                Text(l10n.t("كتابتها بحروف لغة الترجمة", "Write in the target script")).tag(TranslationPreferences.Names.targetScript)
             }
             picker(l10n.t("المصطلحات التقنية", "Technical terms"), selection: prefs.terms) {
-                Text(l10n.t("تُترجم", "Translate")).tag(TranslationPreferences.Terms.translate)
-                Text(l10n.t("تُترجم مع الأصل بين قوسين", "Translate, original in parentheses")).tag(TranslationPreferences.Terms.translateWithOriginal)
-                Text(l10n.t("تبقى بلغتها الأصلية", "Keep in the original language")).tag(TranslationPreferences.Terms.keep)
+                Text(l10n.t("ترجمتها", "Translate")).tag(TranslationPreferences.Terms.translate)
+                Text(l10n.t("الترجمة مع المصطلح الأصلي بين قوسين", "Translate, original in parentheses")).tag(TranslationPreferences.Terms.translateWithOriginal)
+                Text(l10n.t("الاحتفاظ باللغة الأصلية", "Keep in the original language")).tag(TranslationPreferences.Terms.keep)
             }
             picker(l10n.t("الاقتباسات والشعر والنصوص الدينية", "Quotations, poetry and religious texts"), selection: prefs.quotations) {
-                Text(l10n.t("تبقى بنصها الأصلي", "Keep the original text")).tag(TranslationPreferences.Quotations.keep)
+                Text(l10n.t("الاحتفاظ بالنص الأصلي", "Keep the original text")).tag(TranslationPreferences.Quotations.keep)
                 Text(l10n.t("النص الأصلي ثم ترجمة معناه", "Original, then its translated meaning")).tag(TranslationPreferences.Quotations.keepWithMeaning)
-                Text(l10n.t("تُترجم مع باقي النص", "Translate with the rest")).tag(TranslationPreferences.Quotations.translate)
+                Text(l10n.t("ترجمتها ضمن النص", "Translate with the rest")).tag(TranslationPreferences.Quotations.translate)
             }
             picker(l10n.t("الأرقام", "Digits"), selection: prefs.numerals) {
                 Text(l10n.t("كما في الأصل", "As in the original")).tag(TranslationPreferences.Numerals.source)
                 Text(l10n.t("أرقام 0123", "Digits 0123")).tag(TranslationPreferences.Numerals.western)
                 Text(l10n.t("أرقام ٠١٢٣", "Digits ٠١٢٣")).tag(TranslationPreferences.Numerals.eastern)
             }
-            note(l10n.t("يُطبَّق اختيار الأرقام على الملف بعد الترجمة أيضًا، ما عدا الروابط والرموز المختلطة بحروف لاتينية مثل A320.",
-                        "The digit choice is also applied to the file after translation, except in links and codes mixed with Latin letters such as A320."))
+            note(l10n.t("يحدد هذا الخيار شكل الأرقام في الملف المترجم. لا تتغير الأرقام داخل الروابط أو الرموز التي تحتوي على حروف لاتينية، مثل A320.",
+                        "Choose how numbers appear in the translated file. Numbers in links or codes containing Latin letters, such as A320, stay unchanged."))
             picker(l10n.t("النص داخل الصور", "Text inside pictures"), selection: prefs.imageText) {
-                Text(l10n.t("يُترجم في وصف الصورة", "Translate in the description")).tag(TranslationPreferences.ImageText.translate)
-                Text(l10n.t("يُنقل بلغته الأصلية", "Quote in its original language")).tag(TranslationPreferences.ImageText.keep)
+                Text(l10n.t("ترجمته ضمن وصف الصورة", "Translate in the description")).tag(TranslationPreferences.ImageText.translate)
+                Text(l10n.t("نقله بلغته الأصلية", "Quote in its original language")).tag(TranslationPreferences.ImageText.keep)
             }
         }
         .glassSurface()
@@ -155,17 +155,17 @@ struct TranslationSettingsView: View {
     private var glossaryCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             GlassSectionTitle(title: l10n.t("قاموسك الخاص", "Your glossary"), systemImage: "book.closed")
-            note(l10n.t("مصطلحات تريد ترجمتها دائمًا بطريقتك. يلتزم بها بصير في الترجمة، ويستبدل أي مصطلح منها بقي دون ترجمة في الملف. حتى \(TranslationPreferences.maximumGlossary) مصطلحًا.",
-                        "Terms you always want translated your way. Basir follows them when translating, and replaces any that stayed untranslated in the file. Up to \(TranslationPreferences.maximumGlossary) terms."))
+            note(l10n.t("أضف المصطلحات والترجمة التي تفضّلها لكل منها ليستخدمها بصير في مستنداتك. يمكنك إضافة حتى \(TranslationPreferences.maximumGlossary) مصطلحًا.",
+                        "Add terms and your preferred translation for each one. Basir uses these in your documents. You can add up to \(TranslationPreferences.maximumGlossary) terms."))
             ForEach(Array(prefs.wrappedValue.glossary.enumerated()), id: \.element.id) { index, entry in
                 VStack(alignment: .leading, spacing: BasirSpacing.s) {
-                    TextField(l10n.t("المصطلح في الأصل", "Term in the original"), text: glossaryBinding(entry.id, \.source))
+                    TextField(l10n.t("المصطلح الأصلي", "Original term"), text: glossaryBinding(entry.id, \.source))
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .padding(BasirSpacing.s)
                         .background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
                         .accessibilityLabel(l10n.t("المصطلح \(index + 1) في الأصل", "Term \(index + 1) in the original"))
-                    TextField(l10n.t("ترجمته التي تريدها", "Your translation"), text: glossaryBinding(entry.id, \.target))
+                    TextField(l10n.t("الترجمة المفضّلة", "Preferred translation"), text: glossaryBinding(entry.id, \.target))
                         .autocorrectionDisabled()
                         .padding(BasirSpacing.s)
                         .background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
@@ -184,7 +184,7 @@ struct TranslationSettingsView: View {
             Button {
                 prefs.wrappedValue.glossary.append(.init(source: "", target: ""))
                 UIAccessibility.post(notification: .announcement,
-                                     argument: l10n.t("أُضيف مصطلح جديد في آخر القائمة.", "A new term was added at the end of the list."))
+                                     argument: l10n.t("تمت إضافة خانة لمصطلح جديد في نهاية القائمة.", "A new term was added at the end of the list."))
             } label: {
                 Label(l10n.t("إضافة مصطلح", "Add a term"), systemImage: "plus.circle")
             }
@@ -228,23 +228,23 @@ extension TranslationPreferences {
         var parts: [String] = []
         switch style {
         case .faithful: break
-        case .natural: parts.append(l10n.t("أسلوب طبيعي", "natural style"))
+        case .natural: parts.append(l10n.t("أسلوب سلس", "natural style"))
         case .plain: parts.append(l10n.t("لغة مبسّطة", "plain language"))
         }
-        if formality == .neutral { parts.append(l10n.t("لغة يومية", "everyday register")) }
-        if names == .targetScript { parts.append(l10n.t("الأسماء بحروف الترجمة", "names in target script")) }
-        if terms == .translateWithOriginal { parts.append(l10n.t("المصطلحات مع أصلها", "terms with originals")) }
-        if terms == .keep { parts.append(l10n.t("المصطلحات بلغتها", "terms kept")) }
+        if formality == .neutral { parts.append(l10n.t("أسلوب غير متكلّف", "everyday register")) }
+        if names == .targetScript { parts.append(l10n.t("الأسماء بحروف لغة الترجمة", "names in target script")) }
+        if terms == .translateWithOriginal { parts.append(l10n.t("المصطلحات مع نصها الأصلي", "terms with originals")) }
+        if terms == .keep { parts.append(l10n.t("المصطلحات بلغتها الأصلية", "terms kept")) }
         if quotations == .keepWithMeaning { parts.append(l10n.t("الاقتباسات مع معناها", "quotations with meaning")) }
         if quotations == .translate { parts.append(l10n.t("الاقتباسات مترجمة", "quotations translated")) }
         if numerals == .western { parts.append(l10n.t("أرقام 0123", "digits 0123")) }
         if numerals == .eastern { parts.append(l10n.t("أرقام ٠١٢٣", "digits ٠١٢٣")) }
         if notes { parts.append(l10n.t("ملاحظات المترجم", "translator's notes")) }
-        if imageText == .keep { parts.append(l10n.t("نص الصور بلغته", "picture text kept")) }
+        if imageText == .keep { parts.append(l10n.t("نص الصور بلغته الأصلية", "picture text kept")) }
         let terms = usableGlossary.count
         if terms > 0 { parts.append(l10n.t("قاموس: \(terms)", "glossary: \(terms)")) }
         return parts.isEmpty
-            ? l10n.t("الإعدادات الافتراضية: ترجمة أمينة رسمية.", "Default settings: faithful, formal translation.")
+            ? l10n.t("الإعدادات الافتراضية: أسلوب رسمي قريب من الأصل.", "Default settings: faithful, formal translation.")
             : parts.joined(separator: l10n.isArabic ? "، " : ", ")
     }
 }

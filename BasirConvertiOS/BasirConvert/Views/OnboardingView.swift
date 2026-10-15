@@ -25,8 +25,8 @@ struct OnboardingView: View {
                  text: l10n.t("من تبويب «جديد»، أضف ملفًا أو صوّر مستندًا. تابع تقدم المهمة من الشريط أسفل الشاشة، وواصل استخدام بصير أثناء المعالجة.",
                               "Add a file or scan a document from the New tab. Follow its progress in the bar at the bottom while you keep using Basir.")),
             Page(icon: "checkmark.shield.fill",
-                 title: l10n.t("اقرأ نتيجتك وراجعها", "Read and review your result"),
-                 text: l10n.t("تجد نتائجك في «ملفاتي»، مع تقرير يوضح جودة الملف وما يحتاج إلى مراجعة. مع VoiceOver، انقر مرتين بإصبعين لإيقاف المهمة مؤقتًا أو استئنافها.",
+                 title: l10n.t("اقرأ ملفاتك وراجعها", "Read and review your result"),
+                 text: l10n.t("تجد الملفات الجاهزة في «ملفاتي»، مع تقرير يوضح ملاحظات الفحص. أثناء تنفيذ مهمة، يمكنك النقر مرتين بإصبعين مع VoiceOver لإيقافها مؤقتًا أو استئنافها.",
                               "Find your results in My files, with a quality report and any points to review. With VoiceOver, double-tap with two fingers to pause or resume a task."))
         ]
     }

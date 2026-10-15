@@ -180,8 +180,8 @@ struct SummaryView: View {
                 } else {
                     ProgressView { Text(detail) }
                 }
-                Text(l10n.t("يقرأ بصير المستند جزءًا جزءًا، ثم يجمع الملخص ويتحقق من كل نقطة في النص نفسه. يمكنك إغلاق هذه الشاشة؛ ستصلك رسالة عند اكتمال الملخص الطويل.",
-                            "Basir reads the document part by part, then writes the summary and checks every point against the text itself. You can close this screen; a long summary will notify you when it is ready."))
+                Text(l10n.t("يقرأ بصير المستند ويعدّ الملخص، ثم يراجع نقاطه بالرجوع إلى النص الأصلي. يمكنك مغادرة هذه الشاشة أثناء العمل. عند تلخيص مستند طويل، ينبهك بصير عند اكتماله إذا كانت الإشعارات مفعّلة.",
+                            "Basir reads the document, prepares a summary, and checks its points against the source text. You can leave this screen while it works. For long summaries, Basir notifies you when it finishes if notifications are enabled."))
                     .font(.footnote)
                     .foregroundStyle(BasirPalette.secondaryText)
                     .fixedSize(horizontal: false, vertical: true)
@@ -190,14 +190,14 @@ struct SummaryView: View {
             .glassSurface()
         case .failed(let message):
             InlineMessage(text: message, isError: true)
-            PrimaryActionButton(title: l10n.t("حاول مرة أخرى", "Try again"), systemImage: "arrow.clockwise") { summarize() }
+            PrimaryActionButton(title: l10n.t("إعادة المحاولة", "Try again"), systemImage: "arrow.clockwise") { summarize() }
             SecondaryActionButton(title: l10n.t("خيارات الملخص", "Summary options"), systemImage: "slider.horizontal.3") {
                 showOptions = true
             }
         default:
             VStack(alignment: .leading, spacing: BasirSpacing.m) {
-                Text(l10n.t("لخّص المستند بنقاط مرتبطة بصفحاتها، تحقق بصير من كل نقطة منها في النص نفسه.",
-                            "Summarize the document in points linked to their pages, each checked by Basir against the text itself."))
+                Text(l10n.t("احصل على ملخص لأهم النقاط مع مراجع إلى صفحات المستند. يراجع بصير النقاط بالرجوع إلى النص الأصلي.",
+                            "Get a summary of the key points with references to the document’s pages. Basir checks the points against the source text."))
                     .fixedSize(horizontal: false, vertical: true)
                 PrimaryActionButton(title: l10n.t("لخّص الآن", "Summarize now"), systemImage: "text.badge.star") { summarize() }
                 SecondaryActionButton(title: l10n.t("خيارات الملخص", "Summary options"), systemImage: "slider.horizontal.3") {
@@ -243,7 +243,7 @@ struct SummaryView: View {
             ForEach(Level.allCases) { item in Text(item.title(l10n)).tag(item.rawValue) }
         }
         .pickerStyle(.segmented)
-        .accessibilityHint(l10n.t("يتغير الملخص دون طلب جديد.", "The summary changes without a new request."))
+        .accessibilityHint(l10n.t("يعرض نسخة أخرى من الملخص دون إعادة تلخيص المستند.", "Shows another version of the summary without summarizing the document again."))
 
         levelContent(summary)
 
@@ -253,7 +253,7 @@ struct SummaryView: View {
         }
 
         if !summary.sections.isEmpty {
-            SectionHeading(title: l10n.t("حسب الأقسام", "Section by section"))
+            SectionHeading(title: l10n.t("أقسام الملخص", "Section by section"))
             ForEach(summary.sections) { section in sectionRow(section, in: summary) }
         }
 
@@ -261,7 +261,7 @@ struct SummaryView: View {
         if !summary.quiz.isEmpty { quiz(summary) }
 
         if !summary.keyPoints.isEmpty || !summary.groups.isEmpty {
-            Text(l10n.t("كل نقطة تذكر صفحتها. «غير مؤكد في النص» يعني أن بصير لم يجد ما يؤيدها حرفيًا في المستند، فارجع إلى الأصل قبل الاعتماد عليها.",
+            Text(l10n.t("تظهر مراجع الصفحات مع نقاط الملخص. إذا ظهرت عبارة «غير مؤكد في النص»، فراجع المستند الأصلي؛ لم يجد بصير نصًا يؤكد هذه النقطة.",
                         "Every point names its page. “Not confirmed in the text” means Basir found no passage that supports it word for word; check the original before relying on it."))
                 .font(.footnote)
                 .foregroundStyle(BasirPalette.secondaryText)
@@ -426,8 +426,8 @@ struct SummaryView: View {
                     .background(BasirPalette.surface, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                 }
                 .buttonStyle(.plain)
-                .accessibilityHint(revealed ? l10n.t("اضغط لإخفاء الإجابة", "Double-tap to hide the answer")
-                                            : l10n.t("اضغط لإظهار الإجابة", "Double-tap to show the answer"))
+                .accessibilityHint(revealed ? l10n.t("اضغط مرتين لإخفاء الإجابة", "Double-tap to hide the answer")
+                                            : l10n.t("اضغط مرتين لإظهار الإجابة", "Double-tap to show the answer"))
             }
         }
     }
@@ -447,7 +447,7 @@ struct SummaryView: View {
                             let right = index == question.answerIndex
                             UIAccessibility.post(notification: .announcement, argument: right
                                 ? l10n.t("إجابة صحيحة. \(question.explanation)", "Correct. \(question.explanation)")
-                                : l10n.t("ليست الإجابة. الصحيح: \(question.choices[question.answerIndex])",
+                                : l10n.t("إجابة غير صحيحة. الإجابة الصحيحة: \(question.choices[question.answerIndex])",
                                          "Not quite. The answer is: \(question.choices[question.answerIndex])"))
                         } label: {
                             HStack {
@@ -532,7 +532,7 @@ struct SummaryView: View {
                         Text("English").tag("en")
                     }
                     .pickerStyle(.segmented)
-                    Text(l10n.t("يُكتب الملخص بهذه اللغة مهما كانت لغة المستند.", "The summary is written in this language whatever the document’s language."))
+                    Text(l10n.t("اختر لغة الملخص، حتى لو كانت مختلفة عن لغة المستند.", "The summary is written in this language whatever the document’s language."))
                         .font(.footnote).foregroundStyle(BasirPalette.secondaryText)
                 }
                 if !isSeveralFiles {
@@ -540,7 +540,7 @@ struct SummaryView: View {
                         Picker(l10n.t("نوع المستند", "Document type"), selection: $template) {
                             ForEach(SummaryTemplate.singleDocumentChoices) { item in Text(item.title(l10n)).tag(item) }
                         }
-                        Text(l10n.t("يرتّب بصير الملخص تحت العناوين المناسبة لنوع المستند، مثل الالتزامات والغرامات في العقد.",
+                        Text(l10n.t("يساعد نوع المستند بصير على اختيار عناوين الملخص. في العقود مثلًا، يجمع الالتزامات والغرامات تحت عناوين مستقلة.",
                                     "Basir arranges the summary under headings that suit the document type, such as obligations and penalties in a contract."))
                             .font(.footnote).foregroundStyle(BasirPalette.secondaryText)
                     }
@@ -549,7 +549,7 @@ struct SummaryView: View {
                     Toggle(l10n.t("بطاقات مراجعة واختبار قصير", "Study cards and a short quiz"), isOn: $includeStudy)
                 }
                 Section {
-                    Button(l10n.t("أعد التلخيص بهذه الخيارات", "Summarize again with these options")) {
+                    Button(l10n.t("إعادة التلخيص بهذه الخيارات", "Summarize again with these options")) {
                         showOptions = false
                         summarize()
                     }

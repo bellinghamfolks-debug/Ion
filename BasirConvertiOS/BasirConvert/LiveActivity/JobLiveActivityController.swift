@@ -150,7 +150,7 @@ final class JobLiveActivityController {
         case .completed, .partial:
             let text = job.status == .completed
                 ? l10n.t("ملف Word جاهز", "Word file ready")
-                : l10n.t("نتيجة جزئية جاهزة", "Partial result ready")
+                : l10n.t("اكتمل جزئيًا", "Partially complete")
             return .init(stepIndex: 5, stepTitle: text, statusText: text, percent: 100,
                          isPaused: false, isFinished: true, succeeded: true)
         case .failed, .cancelled, .idle:

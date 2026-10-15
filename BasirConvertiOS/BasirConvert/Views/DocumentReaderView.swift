@@ -102,8 +102,8 @@ struct DocumentReaderView: View {
                                 .frame(maxWidth: .infinity, minHeight: 200)
                         } else if blocks.isEmpty {
                             InfoCard(title: l10n.t("لا يوجد نص قابل للقراءة", "No readable text"),
-                                     text: l10n.t("لم يعثر بصير على نص في هذا الملف. افتح «معاينة» لعرض الملف الأصلي.",
-                                                  "Basir found no text in this file. Open Preview to view the original file."),
+                                     text: l10n.t("لم يتمكن بصير من استخراج نص للقراءة. اختر «معاينة» لفتح الملف.",
+                                                  "Basir could not extract text for reading. Choose Preview to open the file."),
                                      systemImage: "doc.text.magnifyingglass")
                         } else {
                             if let resume = resumeFrom { resumeCard(resume, proxy: proxy) }
@@ -701,8 +701,8 @@ struct DocumentReaderView: View {
         paged.toggle()
         if paged, !readerPages.isEmpty { currentPage = ReaderPaging.pageIndex(of: position, in: readerPages) }
         UIAccessibility.post(notification: .announcement, argument: paged
-            ? l10n.t("فُعّل عرض صفحة بصفحة. استخدم زري الصفحة التالية والسابقة للتنقل.", "Page-by-page view is on. Use the Next page and Previous page buttons to navigate.")
-            : l10n.t("فُعّل عرض المستند كاملًا. مرّر للتنقل بين أجزائه.", "Full document view is on. Scroll to move through the document."))
+            ? l10n.t("أصبح العرض صفحة بصفحة. استخدم زري «الصفحة التالية» و«الصفحة السابقة» للتنقل.", "Page-by-page view is on. Use the Next page and Previous page buttons to navigate.")
+            : l10n.t("يظهر المستند كاملًا الآن. مرّر للتنقل بين أجزائه.", "Full document view is on. Scroll to move through the document."))
     }
 
     private func applyMask() {
@@ -792,7 +792,7 @@ struct AudiobookExportView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: BasirSpacing.l) {
-                Text(l10n.t("أنشئ نسخة صوتية من المستند باستخدام أصوات القراءة العربية والإنجليزية على جهازك. لا يُرسل النص إلى الخادم، ويمكنك حفظ الملف أو مشاركته بعد الانتهاء.",
+                Text(l10n.t("حوّل نص المستند إلى ملف صوتي يمكنك حفظه أو مشاركته. يستخدم بصير أصوات القراءة العربية والإنجليزية على جهازك، دون إرسال النص إلى الخادم.",
                             "Create an audio version using the Arabic and English reading voices on your device. The text is not sent to a server. Save or share the audio file when it’s ready."))
                     .fixedSize(horizontal: false, vertical: true)
                 if exporter.running {
@@ -803,7 +803,7 @@ struct AudiobookExportView: View {
                     SecondaryActionButton(title: l10n.t("إلغاء الإنشاء", "Cancel creation"), systemImage: "stop.fill") { exporter.cancel() }
                 } else if let url = exporter.resultURL {
                     InlineMessage(text: l10n.t("الملف الصوتي جاهز.", "The audio file is ready."), isError: false)
-                    PrimaryActionButton(title: l10n.t("مشاركة أو حفظ", "Share or save"), systemImage: "square.and.arrow.up") {
+                    PrimaryActionButton(title: l10n.t("حفظ أو مشاركة", "Save or share"), systemImage: "square.and.arrow.up") {
                         share = true
                     }
                     .sheet(isPresented: $share) { ActivityShareView(urls: [url]) }

@@ -34,29 +34,29 @@ struct NotificationStatusView: View {
                 .accessibilityElement(children: .combine)
                 .accessibilityLabel((check.ok ? l10n.t("جيد: ", "OK: ") : l10n.t("تنبيه: ", "Attention: ")) + check.text)
             }
-            Text(l10n.t("يتابع بصير مهامك على الخادم ولو أغلقت الشاشة أو انتقلت لتطبيق آخر، ويصلك إشعار عند كل ربع من التقدم وعند الاكتمال. لا تُغلق بصير بسحبه من مبدّل التطبيقات أثناء مهمة: iOS يوقف عندها كل متابعة حتى تفتحه.",
-                        "Basir follows your tasks on the server even when the screen is off or you are in another app, and notifies you at each quarter and when done. Do not swipe Basir away in the app switcher during a task: iOS then stops all following until you open it."))
+            Text(l10n.t("بعد رفع الملف، تستمر معالجته حتى لو انتقلت إلى تطبيق آخر. يحدّث بصير الإشعار عند بلوغ 25 و50 و75 بالمئة، ثم عند الاكتمال. قد يؤخر iPhone التحديثات في الخلفية. تجنّب إغلاق بصير من مبدّل التطبيقات أثناء المهمة حتى يتمكن من متابعة تقدمها.",
+                        "Once the file has uploaded, processing continues even when you switch apps. Basir updates the notification at 25, 50, and 75 percent, then on completion. Your iPhone may delay background updates. Avoid closing Basir from the app switcher during a task so it can keep checking progress."))
                 .font(.footnote)
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
             HStack {
-                Button(l10n.t("أرسل إشعارًا تجريبيًا", "Send a test notification")) {
+                Button(l10n.t("إرسال إشعار تجريبي", "Send a test notification")) {
                     JobNotifier.sendTest(arabic: l10n.isArabic)
                     sentTest = true
                     UIAccessibility.post(notification: .announcement,
-                                         argument: l10n.t("سيصل الإشعار بعد ثلاث ثوانٍ.", "It arrives in three seconds."))
+                                         argument: l10n.t("تمت جدولة إشعار تجريبي بعد ثلاث ثوانٍ.", "A test notification is scheduled for three seconds from now."))
                 }
                 .buttonStyle(.bordered)
                 if checks.contains(where: { !$0.ok }) {
-                    Button(l10n.t("افتح إعدادات iOS", "Open iOS Settings")) {
+                    Button(l10n.t("فتح إعدادات iPhone", "Open iOS Settings")) {
                         if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
                     }
                     .buttonStyle(.bordered)
                 }
             }
             if sentTest {
-                Text(l10n.t("إن لم يصل خلال ثوانٍ، فالإشعارات متوقفة في إعدادات iOS أو التركيز مفعّل.",
-                            "If it does not arrive within seconds, notifications are off in iOS Settings or a Focus is on."))
+                Text(l10n.t("إذا لم يظهر الإشعار، فتحقق من السماح بإشعارات بصير ومن إعدادات التركيز في iPhone.",
+                            "If the notification does not appear, check Basir’s notification permissions and your iPhone’s Focus settings."))
                     .font(.footnote)
                     .foregroundStyle(BasirPalette.secondaryText)
                     .fixedSize(horizontal: false, vertical: true)
@@ -81,12 +81,12 @@ struct NotificationStatusView: View {
                                 : l10n.t("الإشعارات مسموحة، لكنها لا تظهر على شاشة القفل.", "Notifications are allowed but hidden from the Lock Screen.")))
         case .denied:
             list.append(Check(id: "allowed", ok: false,
-                              text: l10n.t("الإشعارات متوقفة لبصير في إعدادات iOS. فعّلها ليصلك خبر مهامك.",
-                                           "Notifications are off for Basir in iOS Settings. Turn them on to hear about your tasks.")))
+                              text: l10n.t("إشعارات بصير غير مسموحة. فعّلها من إعدادات iPhone لمتابعة حالة مهامك.",
+                                           "Basir notifications are not allowed. Enable them in iPhone Settings to receive task updates.")))
         default:
             list.append(Check(id: "allowed", ok: false,
                               text: l10n.t("لم يُطلب إذن الإشعارات بعد. فعّل «إشعار عند اكتمال المهمة».",
-                                           "Notification permission was not asked yet. Turn on “Notify when a task completes”.")))
+                                           "Basir has not requested notification permission yet. Turn on “Notify when a task completes” to allow notifications.")))
         }
         switch UIApplication.shared.backgroundRefreshStatus {
         case .available:
@@ -95,12 +95,12 @@ struct NotificationStatusView: View {
         default:
             list.append(Check(id: "refresh", ok: false,
                               text: l10n.t("تحديث التطبيقات في الخلفية متوقف لبصير؛ قد تتأخر الإشعارات حتى تفتحه.",
-                                           "Background App Refresh is off for Basir; notices may wait until you open it.")))
+                                           "Background App Refresh is off for Basir. Notifications may be delayed until you open the app.")))
         }
         if ProcessInfo.processInfo.isLowPowerModeEnabled {
             list.append(Check(id: "power", ok: false,
                               text: l10n.t("وضع توفير الطاقة مفعّل؛ قد يؤخر iOS متابعة المهام في الخلفية.",
-                                           "Low Power Mode is on; iOS may delay following tasks in the background.")))
+                                           "Low Power Mode is on. Your iPhone may delay background progress updates.")))
         }
         if #available(iOS 16.2, *) {
             let enabled = ActivityAuthorizationInfo().areActivitiesEnabled

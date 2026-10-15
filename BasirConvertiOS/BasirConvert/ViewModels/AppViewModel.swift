@@ -143,7 +143,7 @@ final class AppViewModel: ObservableObject {
         // The task appears in the compact bar instead of covering the screen.
         UIAccessibility.post(
             notification: .announcement,
-            argument: l10n.t("أُضيفت المهمة. تابع حالتها من الشريط أسفل الشاشة أو تبويب «المهام».",
+            argument: l10n.t("تمت إضافة المهمة. يمكنك متابعة تقدمها من الشريط أسفل الشاشة أو من تبويب «المهام».",
                              "Task added. Follow its status in the bar at the bottom or in the Tasks tab.")
         )
         Task { [weak self] in
@@ -330,7 +330,7 @@ final class AppViewModel: ObservableObject {
         guard let configuration, configuration.isConfigured else {
             jobs[index].status = .paused
             jobs[index].errorMessage = l10n.t(
-                "تعذر بدء المهمة حاليًا. أغلق التطبيق وافتحه ثم حاول مرة أخرى.",
+                "تعذر بدء المهمة. أعد فتح بصير ثم حاول مرة أخرى.",
                 "The task cannot start right now. Reopen the app and try again."
             )
             selectedJobID = jobs[index].id
@@ -444,7 +444,7 @@ final class AppViewModel: ObservableObject {
                     notification: .announcement,
                     argument: outcome.failedItems.isEmpty
                         ? l10n.t("اكتملت المهمة. ملف Word جاهز للقراءة.", "Task complete. Your Word file is ready to read.")
-                        : l10n.t("نتيجة جزئية جاهزة. العناصر المكتملة: \(outcome.succeededItems). العناصر التي تحتاج إلى إعادة محاولة: \(outcome.failedItems.count).",
+                        : l10n.t("اكتملت المهمة جزئيًا. عدد العناصر المكتملة: \(outcome.succeededItems). عدد العناصر التي تحتاج إلى إعادة المحاولة: \(outcome.failedItems.count).",
                                  "A partial result is ready. Completed items: \(outcome.succeededItems). Items to retry: \(outcome.failedItems.count).")
                 )
                 PushRegistrar.shared.jobFinished(jobID)

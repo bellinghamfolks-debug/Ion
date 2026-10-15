@@ -31,8 +31,8 @@ struct SettingsView: View {
                                          systemImage: "character.bubble") { TranslationSettingsView() }
                             Divider().padding(.leading, 44)
                             settingsLink(l10n.t("خيارات متقدمة", "Advanced options"),
-                                         detail: l10n.t("محتوى الملفات وجودة التحويل ونموذج المعالجة",
-                                                        "File content, conversion quality, and AI model"),
+                                         detail: l10n.t("محتوى ملف Word وجودة التحويل وقراءة ملفات PDF",
+                                                        "Word file content, conversion quality, and PDF reading"),
                                          systemImage: "slider.horizontal.3") { AdvancedSettingsView() }
                             Divider().padding(.leading, 44)
                             settingsLink(l10n.t("تواصل معنا", "Contact us"),
@@ -138,7 +138,7 @@ struct SettingsView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(l10n.t("تباين عالٍ", "High contrast"))
                             .font(.body.weight(.semibold))
-                        Text(l10n.t("تمييز أوضح بين النص والخلفية، وحدود أكثر وضوحًا.", "Clearer contrast between text and backgrounds, with more visible borders."))
+                        Text(l10n.t("يزيد وضوح النص وحدود العناصر على الخلفية.", "Clearer contrast between text and backgrounds, with more visible borders."))
                             .font(.footnote)
                             .foregroundStyle(BasirPalette.secondaryText)
                             .fixedSize(horizontal: false, vertical: true)
@@ -158,7 +158,7 @@ struct SettingsView: View {
 
     private var networkCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
-            GlassSectionTitle(title: l10n.t("الاتصال واستئناف المهام", "Connection and task resumption"), systemImage: "wifi")
+            GlassSectionTitle(title: l10n.t("الإنترنت واستئناف المهام", "Internet and task resumption"), systemImage: "wifi")
             Toggle(l10n.t("رفع الملفات عبر Wi‑Fi فقط", "Upload only on Wi-Fi"), isOn: $settings.wifiOnly)
             Toggle(l10n.t("السماح بالمعالجة في وضع البيانات المنخفضة", "Allow processing in Low Data Mode"), isOn: $settings.allowLowData)
             Toggle(l10n.t("استئناف المهام تلقائيًا", "Resume tasks automatically"), isOn: $settings.automaticResume)
@@ -209,7 +209,7 @@ struct SettingsView: View {
     private var feedbackCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             GlassSectionTitle(title: l10n.t("الأصوات والإشعارات", "Sounds and notifications"), systemImage: "speaker.wave.2.fill")
-            Picker(l10n.t("تنبيهات المهام", "Task feedback"), selection: $settings.soundTheme) {
+            Picker(l10n.t("الصوت والاهتزاز أثناء المهام", "Task sounds and vibrations"), selection: $settings.soundTheme) {
                 Text(l10n.t("بلا صوت أو اهتزاز", "No sound or haptics")).tag(SoundTheme.off)
                 Text(l10n.t("هادئ", "Gentle")).tag(SoundTheme.gentle)
                 Text(l10n.t("واضح", "Clear")).tag(SoundTheme.clear)
@@ -331,15 +331,15 @@ struct AdvancedSettingsView: View {
             .pickerStyle(.menu)
             VStack(alignment: .leading, spacing: 7) {
                 Picker(l10n.t("طريقة قراءة ملفات PDF", "How PDFs are read"), selection: $settings.pdfReading) {
-                    Text(l10n.t("كل صفحة بالذكاء الاصطناعي (الحالي)", "Every page by AI (current)")).tag(PDFReadingMode.full)
-                    Text(l10n.t("هجين: نص الملف + الذكاء الاصطناعي (أسرع)", "Hybrid: the file's text + AI (faster)")).tag(PDFReadingMode.hybrid)
+                    Text(l10n.t("قراءة جميع الصفحات بالذكاء الاصطناعي", "Read every page with AI")).tag(PDFReadingMode.full)
+                    Text(l10n.t("قراءة النص مباشرة عند الإمكان (أسرع)", "Read text directly when possible (faster)")).tag(PDFReadingMode.hybrid)
                 }
                 .pickerStyle(.menu)
                 Text(settings.pdfReading == .hybrid
-                     ? l10n.t("في الوضع الهجين يأخذ بصير نص الصفحة المخزَّن داخل ملف PDF مباشرة متى كان سليمًا، فيصير الكتاب الرقمي أسرع بكثير. ويقرأ بالذكاء الاصطناعي الصفحات المصوّرة، والتي فيها صور أو جداول أو معادلات أو أعمدة. ويتحقق أولًا من بعض الصفحات، فإن لم يطابق نص الملف ما تُظهره الصفحة قرأ كل الصفحات بالذكاء الاصطناعي.",
-                              "In hybrid mode Basir takes a page's text straight from the PDF when it is sound, which makes digital books much faster. It reads by AI the scanned pages and those with pictures, tables, equations or columns. It checks a few pages first: if the file's text does not match the page, every page is read by AI.")
-                     : l10n.t("يقرأ بصير كل صفحة من صورتها بالذكاء الاصطناعي. هذا هو الوضع الحالي: أدق في الملفات المعقدة، وأبطأ في الكتب الطويلة.",
-                              "Basir reads every page from its picture by AI. This is the current mode: most careful with complex files, slower for long books."))
+                     ? l10n.t("يسرّع هذا الخيار قراءة الملفات التي تحتوي على نص قابل للتحديد. يستخدم بصير الذكاء الاصطناعي للصفحات المصوّرة أو التي تتضمن صورًا أو جداول أو معادلات أو أعمدة. وإذا أظهر فحص عينة من الصفحات أن النص لا يطابق محتواها، يستخدم الذكاء الاصطناعي لقراءة الملف كاملًا.",
+                              "Speeds up reading PDFs with selectable text. Basir uses AI for scanned pages and pages with images, tables, equations, or columns. If a sample check finds that the stored text does not match the pages, Basir reads the entire file with AI.")
+                     : l10n.t("يستخدم بصير الذكاء الاصطناعي لقراءة صورة كل صفحة. يناسب هذا الخيار المستندات المعقدة، وقد يستغرق وقتًا أطول مع الكتب الكبيرة.",
+                              "Basir uses AI to read an image of every page. This suits complex documents but can take longer for large books."))
                     .font(.footnote)
                     .foregroundStyle(BasirPalette.secondaryText)
                     .fixedSize(horizontal: false, vertical: true)
@@ -429,7 +429,7 @@ struct AboutBasirView: View {
                     )
                     legalCard
                     helpCard
-                    SecondaryActionButton(title: l10n.t("إعادة عرض جولة الترحيب", "Show welcome tour"),
+                    SecondaryActionButton(title: l10n.t("عرض دليل البدء", "Show getting started guide"),
                                           systemImage: "sparkles") {
                         // Close Settings first so the tour can be presented over the app.
                         viewModel.isSettingsPresented = false
@@ -448,7 +448,7 @@ struct AboutBasirView: View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
             GlassSectionTitle(title: l10n.t("ما هو بصير؟", "What is Basir?"), systemImage: "eye")
             Text(l10n.t(
-                "بصير يساعدك على قراءة المستندات المصوّرة وتحويلها إلى ملفات Word منظمة، بعناوين وجداول يسهل التنقل بينها، وأوصاف نصية للصور. صُمم مع الاهتمام باحتياجات المكفوفين وضعاف البصر واستخدام قارئات الشاشة.",
+                "يساعدك بصير على قراءة المستندات المصوّرة بتحويلها إلى ملفات Word منظمة. تتضمن الملفات عناوين وجداول وأوصافًا نصية للصور، لتسهيل القراءة والتنقل باستخدام قارئ الشاشة. صُمم التطبيق ليراعي احتياجات المكفوفين وضعاف البصر.",
                 "Basir helps you read scanned documents by turning them into structured Word files, with headings, navigable tables, and text descriptions of images. It is designed with blind and low-vision readers and screen reader use in mind."
             ))
             .font(.body)

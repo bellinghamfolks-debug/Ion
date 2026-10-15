@@ -38,7 +38,7 @@ struct ImagesToPDFView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: BasirSpacing.l) {
-                    Text(l10n.t("اجمع الصور في ملف PDF واحد على جهازك، بالترتيب الذي تختاره، ثم حوّله إلى Word أو ترجمه أو احفظه. يصل الملف إلى \(limit) صورة.",
+                    Text(l10n.t("أضف حتى \(limit) صورة ورتّبها لإنشاء ملف PDF على جهازك. يمكنك بعدها حفظ الملف أو تحويله إلى Word أو ترجمته.",
                                 "Combine photos into one PDF on your device, in the order you choose, then convert it to Word, translate it, or save it. A file can hold up to \(limit) images."))
                         .fixedSize(horizontal: false, vertical: true)
                     if let outcome {
@@ -186,8 +186,8 @@ struct ImagesToPDFView: View {
                     Button(role: .destructive) {
                         images.forEach { discard($0.url) }
                         images.removeAll()
-                        announce(l10n.t("حُذفت كل الصور.", "All images removed."))
-                    } label: { Label(l10n.t("حذف كل الصور", "Remove all images"), systemImage: "trash") }
+                        announce(l10n.t("تمت إزالة جميع الصور من هذا الملف.", "All images removed."))
+                    } label: { Label(l10n.t("إزالة جميع الصور", "Remove all images"), systemImage: "trash") }
                 } label: {
                     Label(l10n.t("خيارات الصفحات", "Page options"), systemImage: "ellipsis.circle")
                         .labelStyle(.iconOnly)
@@ -251,14 +251,14 @@ struct ImagesToPDFView: View {
         guard images.indices.contains(index), images.indices.contains(target), index != target else { return }
         let item = images.remove(at: index)
         images.insert(item, at: target)
-        announce(l10n.t("نُقلت إلى الصفحة \(target + 1) من \(images.count).",
+        announce(l10n.t("أصبح موضع الصفحة \(target + 1) من \(images.count).",
                         "Moved to page \(target + 1) of \(images.count)."))
     }
 
     private func remove(_ index: Int) {
         guard images.indices.contains(index) else { return }
         discard(images.remove(at: index).url)
-        announce(l10n.t("حُذفت الصفحة. بقي \(images.count).", "Page removed. \(images.count) left."))
+        announce(l10n.t("تمت إزالة الصفحة. عدد الصفحات المتبقية: \(images.count).", "Page removed. \(images.count) left."))
     }
 
     // MARK: - Options and building
@@ -279,7 +279,7 @@ struct ImagesToPDFView: View {
                 Text("Letter").tag(ImagePDFBuilder.PageSize.letter)
             }
             Picker(l10n.t("الجودة", "Quality"), selection: $quality) {
-                Text(l10n.t("عالية، للنص الصغير", "High, for small print")).tag(ImagePDFBuilder.Quality.high)
+                Text(l10n.t("عالية (للنصوص الصغيرة)", "High, for small print")).tag(ImagePDFBuilder.Quality.high)
                 Text(l10n.t("متوسطة", "Standard")).tag(ImagePDFBuilder.Quality.standard)
                 Text(l10n.t("ملف أصغر", "Smaller file")).tag(ImagePDFBuilder.Quality.compact)
             }
@@ -372,7 +372,7 @@ struct ImagesToPDFView: View {
             SecondaryActionButton(title: l10n.t("معاينة", "Preview"), systemImage: "eye") {
                 preview = StablePreviewItem(url: outcome.url)
             }
-            SecondaryActionButton(title: l10n.t("تعديل الصور", "Edit the images"), systemImage: "pencil") {
+            SecondaryActionButton(title: l10n.t("ترتيب الصور أو إزالتها", "Reorder or remove images"), systemImage: "pencil") {
                 discardFile(outcome.url)
                 self.outcome = nil
             }
@@ -385,11 +385,11 @@ struct ImagesToPDFView: View {
         var text = l10n.t("«\(outcome.url.lastPathComponent)»: \(outcome.pages) صفحة، الحجم \(size).",
                           "“\(outcome.url.lastPathComponent)”: \(outcome.pages) pages, \(size).")
         if outcome.quality < quality {
-            text += " " + l10n.t("خُفّضت الجودة ليبقى الملف ضمن حد الرفع.", "The quality was lowered to keep the file within the upload limit.")
+            text += " " + l10n.t("تم تقليل جودة الصور حتى لا يتجاوز الملف الحجم المسموح لإرساله.", "The quality was lowered to keep the file within the upload limit.")
         }
         if !outcome.skipped.isEmpty {
             let pages = outcome.skipped.prefix(10).map(String.init).joined(separator: "، ")
-            text += " " + l10n.t("تعذرت قراءة الصور: \(pages)، ولم تُضف.", "These images could not be read and were left out: \(pages).")
+            text += " " + l10n.t("لم تُضف الصور التالية لأن بصير لم يتمكن من قراءتها: \(pages).", "These images could not be read and were left out: \(pages).")
         }
         return text
     }

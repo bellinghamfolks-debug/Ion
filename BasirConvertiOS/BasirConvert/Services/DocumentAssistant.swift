@@ -184,7 +184,7 @@ enum DocumentAssistant {
         if let error = error as? BasirError {
             switch error {
             case .notConfigured, .invalidServerURL, .authenticationFailed:
-                return l10n.t("هذه الميزة غير مهيأة في نسختك الحالية. تواصل مع فريق بصير.",
+                return l10n.t("هذه الميزة غير متاحة في نسختك الحالية. تواصل مع فريق بصير.",
                               "This feature is not set up in your current version. Contact the Basir team.")
             case .rateLimited:
                 return l10n.t("بلغت الحد المؤقت للطلبات. حاول مجددًا بعد بضع دقائق.", "You’ve reached the temporary request limit. Try again in a few minutes.")

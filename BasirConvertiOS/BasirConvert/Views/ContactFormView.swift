@@ -95,7 +95,7 @@ struct ContactFormView: View {
                         .accessibilityLabel(l10n.t("الرسالة", "Message"))
                         .accessibilityHint(l10n.t("اكتب 10 أحرف على الأقل، وتجنب تضمين كلمات المرور.", "Use at least 10 characters and leave out passwords."))
                     if invalidFields.contains("message") {
-                        Text(l10n.t("اكتب رسالة من 10 أحرف على الأقل.", "Write at least 10 characters."))
+                        Text(l10n.t("يجب ألا تقل الرسالة عن 10 أحرف.", "Write at least 10 characters."))
                             .font(.footnote.weight(.semibold))
                             .foregroundStyle(BasirPalette.danger)
                     }
@@ -144,7 +144,7 @@ struct ContactFormView: View {
                         .stroke(invalidFields.contains(key) ? BasirPalette.danger : BasirPalette.stroke,
                                 lineWidth: invalidFields.contains(key) ? 2 : 1)
                 }
-                .accessibilityValue(invalidFields.contains(key) ? l10n.t("يحتاج إلى تصحيح", "Needs correction") : "")
+                .accessibilityValue(invalidFields.contains(key) ? l10n.t("تحقق من البيانات المدخلة", "Needs correction") : "")
             if invalidFields.contains(key) {
                 Text(fieldError(key))
                     .font(.footnote.weight(.semibold))
@@ -252,7 +252,7 @@ struct ContactFormView: View {
                 invalidFields = Set((json?["fields"] as? [String]) ?? [])
                 showError(l10n.t("راجع الاسم والبريد الإلكتروني ونص الرسالة، ثم أعد الإرسال.", "Check your name, email address, and message, then send again."))
             case 429:
-                showError(l10n.t("بلغت الحد المؤقت لإرسال الرسائل. حاول مجددًا بعد بضع دقائق.",
+                showError(l10n.t("أرسلت عدة رسائل خلال وقت قصير. انتظر بضع دقائق ثم أعد الإرسال.",
                                  "You’ve reached the temporary message limit. Try again in a few minutes."))
             default:
                 showError(l10n.t("تعذر إرسال الرسالة الآن. حاول مرة أخرى بعد قليل.",

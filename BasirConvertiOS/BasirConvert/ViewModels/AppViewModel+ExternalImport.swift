@@ -65,7 +65,7 @@ extension AppViewModel {
         guard !common.isEmpty else {
             urls.forEach(discardExternalSource)
             externalImportError = l10n.t(
-                "لا يمكن معالجة هذه الملفات معًا. اختر ملفات تدعم جميعها التحويل، أو ملفات تدعم جميعها الترجمة.",
+                "لا يمكن تنفيذ المهمة نفسها على جميع الملفات المحددة. اختر ملفات مناسبة للتحويل معًا أو للترجمة معًا.",
                 "These files cannot be processed together. Select files that all support conversion, or files that all support translation."
             )
             return

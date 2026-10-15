@@ -41,7 +41,7 @@ enum ErrorLocalizer {
         }
         switch basir {
         case .notConfigured:
-            return l10n.t("خدمة المعالجة غير مهيأة في هذه النسخة. تواصل مع فريق بصير.",
+            return l10n.t("هذه النسخة غير متصلة بخدمة المعالجة. تواصل مع فريق بصير.",
                           "Processing is not set up in this version. Contact the Basir team.")
         case .unsupportedFile:
             return l10n.t("نوع الملف غير مدعوم لهذه المهمة.", "This file type is not supported for this task.")
@@ -80,7 +80,7 @@ enum ErrorLocalizer {
                        "The service is busy. Retry after \(Int($0)) seconds.")
             } ?? l10n.t("الخدمة مشغولة الآن. حاول مرة أخرى بعد قليل.", "The service is busy. Please try again shortly.")
         case .invalidServerContentType:
-            return l10n.t("لم يصل ملف Word المتوقع. أعد المحاولة لتنزيل النتيجة.",
+            return l10n.t("تعذر تنزيل ملف Word. أعد المحاولة لتنزيل النتيجة.",
                           "The expected Word file was not received. Try downloading the result again.")
         case .checksumMismatch:
             return l10n.t("تعذر التأكد من سلامة الملف المنزّل. أعد المحاولة لتنزيله مجددًا.", "The downloaded file could not be verified. Try downloading it again.")

@@ -247,7 +247,7 @@ struct DocumentAssistView: View {
                              systemImage: "calendar")
                 } else {
                     ForEach(events) { event in eventRow(event) }
-                    PrimaryActionButton(title: l10n.t("إضافة المحدد إلى التقويم (\(chosenEvents.count))", "Add selected to Calendar (\(chosenEvents.count))"),
+                    PrimaryActionButton(title: l10n.t("إضافة المواعيد المحددة (\(chosenEvents.count))", "Add selected to Calendar (\(chosenEvents.count))"),
                                         systemImage: "calendar.badge.plus") { addToCalendar(events) }
                         .disabled(chosenEvents.isEmpty || working)
                 }
@@ -301,7 +301,7 @@ struct DocumentAssistView: View {
             events = usable
             chosenEvents = Set(usable.map(\.id))
             announce(usable.isEmpty ? l10n.t("لم يُعثر على مواعيد", "No dates found")
-                                    : l10n.t("المواعيد المتاحة: \(usable.count). جميعها محددة؛ راجعها قبل الإضافة.",
+                                    : l10n.t("عدد المواعيد: \(usable.count). تم تحديدها جميعًا. راجعها وألغِ تحديد ما لا تريد إضافته إلى التقويم.",
                                              "Dates found: \(usable.count). All are selected. Review them before adding."))
         }
     }
@@ -314,13 +314,13 @@ struct DocumentAssistView: View {
             working = false
             switch outcome {
             case .added(let count):
-                calendarMessage = l10n.t("أُضيفت المواعيد إلى التقويم مع تذكير. عدد المواعيد المضافة: \(count).", "Added to Calendar with reminders. Events added: \(count).")
+                calendarMessage = l10n.t("تمت إضافة \(count) من المواعيد إلى التقويم مع تذكير لكل منها.", "Added to Calendar with reminders. Events added: \(count).")
                 OperationFeedback.selectionChanged()
             case .denied:
                 calendarMessage = l10n.t("يحتاج بصير إلى إذنك لإضافة المواعيد. افتح إعدادات iPhone، ثم ابحث عن بصير واسمح له بالوصول إلى التقويم.",
                                          "Basir needs permission to add events. Open iPhone Settings, find Basir, and allow calendar access.")
             case .failed:
-                calendarMessage = l10n.t("تعذرت الإضافة إلى التقويم.", "Could not add to Calendar.")
+                calendarMessage = l10n.t("تعذر حفظ المواعيد في التقويم. حاول مرة أخرى.", "Could not add to Calendar.")
             }
             announce(calendarMessage ?? "")
         }

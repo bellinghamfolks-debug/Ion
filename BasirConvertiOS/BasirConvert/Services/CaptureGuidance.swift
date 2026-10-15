@@ -19,7 +19,7 @@ enum CaptureInstruction: Equatable, Sendable {
     @MainActor
     func spoken(_ l10n: L10n) -> String {
         switch self {
-        case .searching: return l10n.t("لم تظهر الصفحة بعد. ضعها على سطح داكن ووجّه الكاميرا نحوها.",
+        case .searching: return l10n.t("لم تكتشف الكاميرا الصفحة بعد. ضع الورقة على سطح داكن ووجّه الكاميرا نحوها.",
                                        "No page detected yet. Place it on a dark surface and point the camera at it.")
         case .moveLeft: return l10n.t("حرّك الهاتف قليلًا لليسار", "Move the phone a little to the left")
         case .moveRight: return l10n.t("حرّك الهاتف قليلًا لليمين", "Move the phone a little to the right")

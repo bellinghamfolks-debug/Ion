@@ -146,11 +146,11 @@ struct QualityReportCard: View {
         var result: [Line] = []
         if let pages = report.sourcePages, pages > 0 {
             result.append(Line(icon: "doc.on.doc",
-                               text: l10n.t("الصفحات المحفوظة في النتيجة: \(report.retainedPages) من \(pages).",
+                               text: l10n.t("الصفحات المدرجة في الملف: \(report.retainedPages) من \(pages).",
                                             "Pages included in the result: \(report.retainedPages) of \(pages).")))
         } else if report.retainedPages > 0 {
             result.append(Line(icon: "doc.on.doc",
-                               text: l10n.t("الصفحات المحفوظة في النتيجة: \(report.retainedPages).", "Pages included in the result: \(report.retainedPages).")))
+                               text: l10n.t("الصفحات المدرجة في الملف: \(report.retainedPages).", "Pages included in the result: \(report.retainedPages).")))
         }
         if report.skippedBlankPages > 0 {
             result.append(Line(icon: "doc",
@@ -159,8 +159,8 @@ struct QualityReportCard: View {
         }
         if report.fallbackPages > 0 {
             result.append(Line(icon: "photo.on.rectangle",
-                               text: l10n.t("صفحات تعذرت قراءة نصها رغم عدة محاولات، فحُفظت صورها في أماكنها مع تنبيه: \(report.fallbackPages). يمكنك إعادة معالجتها.",
-                                            "Pages whose text could not be read despite several attempts, kept in place as pictures with a notice: \(report.fallbackPages). You can process them again."),
+                               text: l10n.t("عدد الصفحات التي تعذرت قراءة نصها: \(report.fallbackPages). احتفظ بصير بصورها في مواضعها مع تنبيه. يمكنك إعادة محاولة قراءتها.",
+                                            "Pages whose text could not be read: \(report.fallbackPages). Basir kept their images in place with a notice. You can try reading them again."),
                                isConcern: true))
         }
         if report.tables > 0 {
@@ -187,22 +187,22 @@ struct QualityReportCard: View {
         }
         if let deep = report.deepReadPages, deep > 0 {
             result.append(Line(icon: "sparkle.magnifyingglass",
-                               text: l10n.t("صفحات احتاجت قراءة أعمق فقرأها بصير بعناية أكبر: \(deep).",
-                                            "Pages that needed deeper reading, read with extra care: \(deep).")))
+                               text: l10n.t("عدد الصفحات التي عولجت بالتفصيل: \(deep).",
+                                            "Pages read using detailed processing: \(deep).")))
         }
         if let escalated = report.escalatedPages, escalated > 0 {
             result.append(Line(icon: "arrow.triangle.2.circlepath",
-                               text: l10n.t("صفحات لم تجتز الفحص الأول فأُعيدت قراءتها بطريقة أقوى: \(escalated).",
-                                            "Pages that failed the first check and were read again more thoroughly: \(escalated).")))
+                               text: l10n.t("عدد الصفحات التي أعاد بصير قراءتها بمعالجة مفصّلة بعد الفحص الأول: \(escalated).",
+                                            "Pages reread using detailed processing after the first check: \(escalated).")))
         }
         if let hybrid = report.hybridTextPages, hybrid > 0 {
             result.append(Line(icon: "bolt.horizontal",
-                               text: l10n.t("الوضع الهجين: صفحات قُرئت مباشرة من نص الملف بعد التحقق منه: \(hybrid). وقُرئت بقية الصفحات بالذكاء الاصطناعي.",
-                                            "Hybrid mode: pages read directly from the file's own verified text: \(hybrid). The other pages were read by AI.")))
+                               text: l10n.t("عدد الصفحات التي استُخرج نصها مباشرة من الملف بعد فحصه: \(hybrid). استُخدم الذكاء الاصطناعي لقراءة بقية الصفحات.",
+                                            "Pages read directly from the file’s text after checking it: \(hybrid). AI was used to read the remaining pages.")))
         } else if report.hybridStatus == "untrusted" {
             result.append(Line(icon: "bolt.horizontal",
-                               text: l10n.t("الوضع الهجين: لم يطابق نص الملف المخزَّن ما تُظهره الصفحات، فقُرئت كل الصفحات بالذكاء الاصطناعي حفاظًا على الدقة.",
-                                            "Hybrid mode: the file's stored text did not match its pages, so every page was read by AI to keep it accurate.")))
+                               text: l10n.t("لم يطابق النص المخزّن في الملف محتوى الصفحات. استخدم بصير الذكاء الاصطناعي لقراءة جميع الصفحات.",
+                                            "The stored text did not match the pages. Basir used AI to read every page.")))
         }
         if report.summaryIncluded == true {
             result.append(Line(icon: "text.badge.star",
@@ -210,7 +210,7 @@ struct QualityReportCard: View {
         }
         if report.wordPackageVerified {
             result.append(Line(icon: "checkmark.seal",
-                               text: l10n.t("اجتاز ملف Word فحص سلامة الملف على جهازك قبل حفظه.",
+                               text: l10n.t("اجتاز ملف Word فحص السلامة على جهازك قبل حفظه.",
                                             "The Word file passed an integrity check on your device before it was saved.")))
         }
         for warning in report.warnings.prefix(5) {
@@ -224,13 +224,13 @@ struct QualityReportCard: View {
     static func describe(_ code: String, l10n: L10n) -> String {
         let known: [String: (String, String)] = [
             "low_confidence_pages": ("قد تحتوي بعض الصفحات على أخطاء في قراءة النص. يُنصح بمراجعتها.", "Text recognition may be less accurate on some pages. Please review them."),
-            "handwriting_detected": ("يحتوي المستند على خط يد؛ راجع تلك المواضع.", "The document contains handwriting; review those parts."),
+            "handwriting_detected": ("يحتوي المستند على نص بخط اليد. راجع هذا النص للتأكد من صحة قراءته.", "The document contains handwriting; review those parts."),
             "fallback_pages": ("تعذرت قراءة نص بعض الصفحات، فحُفظت صورها في أماكنها مع تنبيه.", "Some pages could not be read and were kept in place as pictures with a notice."),
             "missing_alt_text": ("بعض الصور ليس لها وصف نصي.", "Some images have no text description."),
             "relaxed_layout": ("بُسّط تخطيط بعض الصفحات للحفاظ على النص.", "Some page layouts were simplified to preserve the text."),
-            "summary_unavailable": ("تعذر إعداد الملخص هذه المرة، فحُفظ المستند كاملًا دونه. يمكنك طلب الملخص من القارئ.", "The summary could not be prepared this time, so the full document was saved without it. You can ask for it from the reader."),
+            "summary_unavailable": ("تم حفظ المستند كاملًا، لكن تعذر إعداد ملخصه. افتح الملف في القارئ لإعادة طلب الملخص.", "The full document was saved, but its summary could not be prepared. Open the document in the reader to request the summary again."),
             "partial_source_pages_failed": ("تعذرت قراءة بعض الصفحات فحُفظت صورها.", "Some pages could not be read and were kept as images."),
-            "translation_quality_degraded_retained": ("بقيت أجزاء قليلة دون ترجمة كاملة. راجعها.", "A few parts may not be fully translated. Please review them.")
+            "translation_quality_degraded_retained": ("قد تكون بعض الأجزاء غير مترجمة بالكامل. راجعها في الملف.", "A few parts may not be fully translated. Please review them.")
         ]
         let key = code.lowercased()
         if let match = known[key] { return l10n.t(match.0, match.1) }

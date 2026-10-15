@@ -22,7 +22,7 @@ struct BasirToolsSection: View {
             SectionHeading(title: l10n.t("أدوات سريعة", "Quick tools"))
             LazyVGrid(columns: columns, spacing: BasirSpacing.m) {
                 SourceTile(title: l10n.t("صور إلى PDF", "Images to PDF"),
-                           detail: l10n.t("اجمع الصور في ملف واحد ثم حوّله", "Combine photos into one file, then convert it"),
+                           detail: l10n.t("رتّب الصور واحفظها في ملف PDF", "Arrange photos and save them as a PDF"),
                            systemImage: "photo.stack.fill") { tool = .imagesToPDF }
                 SourceTile(title: l10n.t("قراءة فورية", "Instant read"),
                            detail: l10n.t("اقرأ النص دون اتصال بالإنترنت", "Read text without an internet connection"),
@@ -69,7 +69,7 @@ struct InstantReadView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: BasirSpacing.l) {
-                    Text(l10n.t("استخرج النص على جهازك وافتحه في القارئ دون اتصال بالإنترنت. للمستندات التي تتضمن جداول أو نصوصًا عربية معقدة، جرّب «تحويل إلى Word» للحصول على نتيجة أكثر تفصيلًا.",
+                    Text(l10n.t("اقرأ النص مباشرة على جهازك دون إنترنت. إذا كان المستند يحتوي على جداول أو نص عربي معقد، فاستخدم «تحويل إلى Word» للحصول على تنسيق أكثر تفصيلًا.",
                                 "Extract text on your device and open it in the reader without an internet connection. For tables or complex Arabic text, try Convert to Word for a more detailed result."))
                         .fixedSize(horizontal: false, vertical: true)
                     if !InstantReader.supportsArabic {
@@ -80,10 +80,10 @@ struct InstantReadView: View {
                     PrimaryActionButton(title: l10n.t("تصوير موجَّه", "Guided capture"), systemImage: "viewfinder") {
                         showCapture = true
                     }
-                    SecondaryActionButton(title: l10n.t("صورة من المكتبة", "Photo from library"), systemImage: "photo") {
+                    SecondaryActionButton(title: l10n.t("اختيار صورة", "Photo from library"), systemImage: "photo") {
                         showPhotos = true
                     }
-                    SecondaryActionButton(title: l10n.t("ملف PDF أو صورة", "PDF or image file"), systemImage: "folder") {
+                    SecondaryActionButton(title: l10n.t("اختيار PDF أو صورة", "PDF or image file"), systemImage: "folder") {
                         showFiles = true
                     }
                     if working {
@@ -342,7 +342,7 @@ struct CompareVersionsView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: BasirSpacing.l) {
-                    Text(l10n.t("اختر نسختين من ملفاتك المحوّلة لمقارنة النص على جهازك. بعد عرض التغييرات، يمكنك طلب ملخص لأبرز الفروق.",
+                    Text(l10n.t("اختر نسختين من ملفاتك المحوّلة لعرض الاختلافات بين نصيهما. تتم المقارنة على جهازك، ويمكنك بعدها طلب ملخص لأهم التغييرات.",
                                 "Choose two converted files to compare their text on your device. After reviewing the changes, you can request a summary of the main differences."))
                         .fixedSize(horizontal: false, vertical: true)
                     picker(l10n.t("النسخة السابقة", "Earlier version"), selection: $oldItem)

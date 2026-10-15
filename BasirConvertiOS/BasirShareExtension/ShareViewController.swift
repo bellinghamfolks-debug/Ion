@@ -35,7 +35,7 @@ final class ShareViewController: UIViewController {
         guard let root = sharedContainerURL() else {
             finish(
                 message: text(
-                    "مشاركة الملفات غير مهيأة في هذه النسخة. يمكنك فتح بصير واختيار الملف من داخله، أو التواصل مع فريق الدعم.",
+                    "مشاركة الملفات مع بصير غير متاحة في هذه النسخة. افتح بصير واختر الملف من داخله. إذا استمرت المشكلة، تواصل مع فريق الدعم.",
                     "File sharing is not set up in this version. Open Basir and choose the file there, or contact support."
                 ),
                 error: true
@@ -103,7 +103,7 @@ final class ShareViewController: UIViewController {
             guard let self else { return }
             if saved > 0 {
                 let message = self.text(
-                    "الملفات المرسلة إلى بصير: \(saved). افتح التطبيق للمتابعة.",
+                    "تم إرسال \(saved) من الملفات إلى بصير. افتح التطبيق لاختيار ما تريد فعله بها.",
                     "Files sent to Basir: \(saved). Open the app to continue."
                 )
                 self.finish(message: message, error: false)

@@ -134,7 +134,7 @@ enum OutputMode: String, CaseIterable, Identifiable, Codable, Sendable {
             return l10n.t("يشمل النص والعناوين والجداول والصور وأوصافها.",
                           "Includes text, headings, tables, images, and image descriptions.")
         case .simple:
-            return l10n.t("يعرض المحتوى الأساسي بتنسيق مبسط، دون الزخارف غير الضرورية.",
+            return l10n.t("يحافظ على المحتوى الأساسي ويبسّط تنسيق الصفحة لتسهيل القراءة.",
                           "Keeps the main content in a simple layout, without unnecessary decoration.")
         case .textOnly:
             return l10n.t("يشمل النص والجداول فقط، دون الصور أو أوصافها.",
@@ -227,8 +227,8 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
     func title(_ l10n: L10n) -> String {
         switch self {
         case .automatic: return l10n.t("تلقائي (موصى به)", "Automatic (recommended)")
-        case .fastest: return l10n.t("الأسرع", "Fastest")
-        case .accurate: return l10n.t("الأدق", "Most accurate")
+        case .fastest: return l10n.t("سريع", "Fast")
+        case .accurate: return l10n.t("دقيق", "Detailed")
         }
     }
 
@@ -237,18 +237,18 @@ enum AIModelChoice: String, CaseIterable, Identifiable, Codable, Sendable {
         switch self {
         case .automatic:
             return l10n.t(
-                "يقرأ بصير الصفحات السهلة بسرعة، ويقرأ الصعبة منها بعمق أكبر، مثل الجداول المعقدة والمعادلات والخط اليدوي والصور الضعيفة. وإذا فشل فحص صفحة أعاد قراءتها بطريقة أقوى.",
-                "Basir reads easy pages quickly and hard ones more deeply: complex tables, equations, handwriting and weak scans. A page that fails a check is read again more thoroughly."
+                "يختار بصير طريقة القراءة بحسب محتوى كل صفحة. يخصص معالجة أكثر تفصيلًا للجداول المعقدة والمعادلات والخط اليدوي والصور غير الواضحة، ويعيد قراءة الصفحات التي لا تجتاز الفحص.",
+                "Basir chooses how to read each page based on its content. It uses more detailed processing for complex tables, equations, handwriting, and unclear scans, and rereads pages that do not pass the check."
             )
         case .fastest:
             return l10n.t(
-                "أسرع نتيجة ممكنة. مناسب للمستندات النصية الواضحة.",
-                "The fastest result. Suited to clear text documents."
+                "يعطي الأولوية لسرعة التحويل. يناسب المستندات ذات النص الواضح والتنسيق البسيط.",
+                "Prioritizes speed. Suits documents with clear text and simple layouts."
             )
         case .accurate:
             return l10n.t(
-                "يقرأ كل صفحة بأعلى عمق ممكن. أبطأ، ومفيد للمستندات المهمة أو الصعبة.",
-                "Reads every page as deeply as possible. Slower, for important or difficult documents."
+                "يستخدم معالجة مفصّلة لكل صفحة. يناسب المستندات المعقدة، لكنه يستغرق وقتًا أطول.",
+                "Uses detailed processing for every page. Suits complex documents but takes longer."
             )
         }
     }

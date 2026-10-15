@@ -67,7 +67,7 @@ struct RootView: View {
             handleIntents()
         }
         .confirmationDialog(
-            l10n.t("كيف تريد معالجة الملفات؟", "What would you like to do with these files?"),
+            l10n.t("ماذا تريد أن تفعل بهذه الملفات؟", "What would you like to do with these files?"),
             isPresented: Binding(
                 get: { viewModel.externalImportBatch != nil || viewModel.externalImportCandidate != nil },
                 set: { if !$0 { viewModel.cancelExternalImport() } }
@@ -92,7 +92,7 @@ struct RootView: View {
             Button(l10n.t("إلغاء", "Cancel"), role: .cancel) { viewModel.cancelExternalImport() }
         } message: {
             let count = viewModel.externalImportBatch?.urls.count ?? 1
-            Text(l10n.t("الملفات المستلمة: \(count). اختر التحويل أو الترجمة.",
+            Text(l10n.t("عدد الملفات: \(count). اختر تحويلها إلى Word أو ترجمتها.",
                         "Files received: \(count). Choose conversion or translation."))
         }
         .alert(

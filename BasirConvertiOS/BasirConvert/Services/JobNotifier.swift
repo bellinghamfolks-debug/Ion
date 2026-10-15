@@ -61,19 +61,19 @@ enum JobNotifier {
             return Message(
                 title: title,
                 body: arabic
-                    ? "يُرفع الملف (\(percent)٪). أبقِ بصير مفتوحًا حتى يكتمل الرفع؛ بعده يكمل الخادم وحده ويصلك إشعار عند الاكتمال."
-                    : "Uploading (\(percent)%). Keep Basir open until the upload finishes; then the server carries on alone and notifies you when it is done.",
+                    ? "جارٍ رفع الملف: \(percent)٪. أبقِ بصير مفتوحًا حتى ينتهي الرفع. بعدها تستمر المعالجة حتى لو انتقلت إلى تطبيق آخر."
+                    : "Uploading: \(percent)%. Keep Basir open until the upload finishes. Processing can then continue while you use another app.",
                 phase: .working)
         }
         let what = task == .summary
-            ? (arabic ? "يُعد خادم بصير الملخص" : "Basir’s server is writing the summary")
-            : (arabic ? "يعمل خادم بصير على ملفك" : "Basir’s server is working on your file")
+            ? (arabic ? "جارٍ إعداد الملخص" : "Preparing the summary")
+            : (arabic ? "جارٍ معالجة الملف" : "Processing the file")
         let progress = percent > 0 ? (arabic ? " (\(percent)٪)" : " (\(percent)%)") : ""
         return Message(
             title: title,
             body: arabic
-                ? "\(what)\(progress). العمل مستمر ولو أغلقت التطبيق، وسيصلك إشعار عند كل ربع من التقدم وعند الاكتمال."
-                : "\(what)\(progress). It continues even if you close the app; you will be notified at each quarter and when it is done.",
+                ? "\(what)\(progress). يمكنك استخدام تطبيق آخر أثناء الانتظار. قد تتأخر تحديثات التقدم في الخلفية."
+                : "\(what)\(progress). You can use another app while you wait. Background progress updates may be delayed.",
             phase: .working)
     }
 
@@ -85,8 +85,8 @@ enum JobNotifier {
         return Message(
             title: title,
             body: arabic
-                ? "\(what): \(percent)٪. ما زال الخادم يعمل. آخر تحديث \(time)."
-                : "\(what): \(percent)%. The server is still working. Updated \(time).",
+                ? "\(what): \(percent)٪. العمل مستمر. آخر تحديث: \(time)."
+                : "\(what): \(percent)%. Still in progress. Last updated: \(time).",
             phase: .progress)
     }
 
@@ -94,8 +94,8 @@ enum JobNotifier {
         Message(
             title: title,
             body: arabic
-                ? "توقف رفع الملف عند \(percent)٪ لأن iOS أوقف بصير في الخلفية. افتح بصير ليكمل الرفع، وبعدها يكمل الخادم وحده."
-                : "The upload stopped at \(percent)% because iOS paused Basir in the background. Open Basir to finish it; the server then carries on alone.",
+                ? "توقف رفع الملف مؤقتًا عند \(percent)٪ أثناء عمل بصير في الخلفية. افتح بصير لاستكمال الرفع وبدء المعالجة."
+                : "The upload paused at \(percent)% while Basir was in the background. Open Basir to finish uploading and start processing.",
             phase: .needsApp)
     }
 
@@ -114,10 +114,10 @@ enum JobNotifier {
         case (.summary, _):
             body = arabic ? "الملخص جاهز للقراءة." : "The summary is ready to read."
         case (.conversion, false):
-            body = arabic ? "اكتمل التحويل، وملف Word محفوظ في ملفاتي." : "Done. The Word file is saved in My Files."
+            body = arabic ? "اكتمل التحويل. ستجد ملف Word في «ملفاتي»." : "Done. The Word file is saved in My Files."
         case (.conversion, true):
-            body = arabic ? "اكتمل التحويل جزئيًا. افتح بصير لإعادة محاولة الصفحات الناقصة."
-                          : "Partly done. Open Basir to retry the missing pages."
+            body = arabic ? "الملف جاهز، لكن بعض الصفحات تحتاج إلى مراجعة. افتح بصير للاطلاع عليها وإعادة محاولة قراءتها."
+                          : "The file is ready, but some pages need review. Open Basir to check them and try reading them again."
         }
         return Message(title: title, body: body, phase: .finished)
     }
@@ -211,7 +211,7 @@ enum JobNotifier {
     static func sendTest(arabic: Bool) {
         let content = UNMutableNotificationContent()
         content.title = arabic ? "بصير" : "Basir"
-        content.body = arabic ? "هكذا تصلك إشعارات بصير." : "This is how Basir notifications arrive."
+        content.body = arabic ? "هذا إشعار تجريبي من بصير." : "This is a test notification from Basir."
         content.sound = .default
         content.interruptionLevel = .active
         content.userInfo = ["basir_kind": "test"]

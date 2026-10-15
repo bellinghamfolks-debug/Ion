@@ -147,7 +147,7 @@ struct TaskComposerView: View {
         .alert(l10n.t("تعذر بدء المهمة", "Could not start the task"), isPresented: $showConfigurationRequired) {
             Button(l10n.t("حسنًا", "OK"), role: .cancel) { }
         } message: {
-            Text(l10n.t("خدمة المعالجة غير مهيأة في هذه النسخة. تواصل مع فريق بصير للحصول على نسخة جاهزة للاستخدام.",
+            Text(l10n.t("هذه النسخة غير متصلة بخدمة المعالجة. تواصل مع فريق بصير للحصول على نسخة تعمل بالخدمة.",
                         "Processing is not set up in this version. Contact the Basir team for a ready-to-use version."))
         }
         .alert(l10n.t("ملف PDF محمي بكلمة مرور", "Password-protected PDF"), isPresented: Binding(
@@ -162,7 +162,7 @@ struct TaskComposerView: View {
             }
             Button(l10n.t("فتح الملف", "Unlock")) { unlockPDF() }
         } message: {
-            Text(l10n.t("أدخل كلمة المرور لفتح الملف. يستخدمها بصير على جهازك لإنشاء نسخة غير محمية، دون حفظ كلمة المرور أو إرسالها.",
+            Text(l10n.t("أدخل كلمة مرور الملف. سيفتح بصير نسخة منه على جهازك لإرسالها للمعالجة. لن يحفظ كلمة المرور أو يرسلها.",
                         "Enter the password to open the PDF. Basir uses it on your device to create an unlocked copy, without storing or sending the password."))
         }
         .fullScreenCover(isPresented: $showFiles) {
@@ -348,8 +348,8 @@ struct TaskComposerView: View {
                 addMoreMenu
             }
             // Files shared from another app can be summarized without converting first (ت18).
-            CardActionButton(title: pendingURLs.count > 1 ? l10n.t("لخّص هذه الملفات بدل التحويل", "Summarize these files instead")
-                                                          : l10n.t("لخّص هذا الملف بدل التحويل", "Summarize this file instead"),
+            CardActionButton(title: pendingURLs.count > 1 ? l10n.t("تلخيص الملفات مباشرة", "Summarize these files directly")
+                                                          : l10n.t("تلخيص الملف مباشرة", "Summarize this file directly"),
                              systemImage: "text.badge.star") {
                 summaryFiles = SummaryTargets(urls: pendingURLs)
             }
@@ -398,10 +398,10 @@ struct TaskComposerView: View {
                 .fixedSize(horizontal: false, vertical: true)
             Toggle(isOn: $settings.includeSummary) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(l10n.t("أضف ملخصًا في بداية الملف", "Add a summary at the start of the file"))
+                    Text(l10n.t("إضافة ملخص في بداية الملف", "Add a summary at the start of the file"))
                         .font(.subheadline.weight(.semibold))
-                    Text(l10n.t("يبدأ ملف Word بملخص تحقق بصير من نقاطه في النص، ويُحفظ الملخص مع الملف في «ملفاتي».",
-                                "The Word file opens with a summary whose points Basir checked against the text, and the summary is kept with the file in My Files."))
+                    Text(l10n.t("يضيف بصير ملخصًا في بداية ملف Word ويراجع نقاطه بالرجوع إلى النص الأصلي. تجد الملخص والملف في «ملفاتي».",
+                                "Basir adds a summary at the start of the Word file and checks its points against the source text. Find both the summary and the file in My Files."))
                         .font(.footnote)
                         .foregroundStyle(BasirPalette.secondaryText)
                         .fixedSize(horizontal: false, vertical: true)
@@ -431,12 +431,12 @@ struct TaskComposerView: View {
     private var pageSelectionCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             GlassSectionTitle(title: l10n.t("الصفحات المطلوبة", "Pages to process"), systemImage: "doc.on.doc")
-            Text(l10n.t("لتقليل وقت المعالجة، حدّد الصفحات المطلوبة، مثل 1-10 أو 3، 7، 12. اترك الحقل فارغًا لاستخدام اختيار الصفحات المحفوظ في الإعدادات.",
+            Text(l10n.t("حدّد الصفحات التي تحتاجها لتقليل وقت المعالجة. مثلًا: 1-10 للصفحات من 1 إلى 10، أو 3، 7، 12 لصفحات متفرقة. اترك الحقل فارغًا لاستخدام الصفحات المحددة في الإعدادات.",
                         "Choose the pages you need to reduce processing time, such as 1-10 or 3, 7, 12. Leave blank to use the page selection saved in Settings."))
                 .font(.footnote)
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
-            TextField(l10n.t("حسب الإعدادات", "Use saved settings"), text: $pageSelectionOverride)
+            TextField(l10n.t("استخدام الإعدادات المحفوظة", "Use saved settings"), text: $pageSelectionOverride)
                 .keyboardType(.numbersAndPunctuation)
                 .padding(BasirSpacing.m)
                 .background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
@@ -446,7 +446,7 @@ struct TaskComposerView: View {
                     pageSelectionOverride = "1-10"
                     refreshEstimates()
                 }
-                CardActionButton(title: l10n.t("حسب الإعدادات", "Use saved settings"), systemImage: "doc.on.doc") {
+                CardActionButton(title: l10n.t("استخدام الإعدادات المحفوظة", "Use saved settings"), systemImage: "doc.on.doc") {
                     pageSelectionOverride = ""
                     refreshEstimates()
                 }
@@ -468,7 +468,7 @@ struct TaskComposerView: View {
             .accessibilityElement(children: .combine)
         } else if let report = scanReports[key] {
             if report.isClean {
-                Label(l10n.t("لم يرصد الفحص مشكلات في وضوح الصفحات أو تكرارها.", "The scan check found no issues with page clarity or duplicates."),
+                Label(l10n.t("لم يكتشف الفحص صفحات غير واضحة أو مكررة.", "The scan check found no issues with page clarity or duplicates."),
                       systemImage: "checkmark.seal.fill")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(BasirPalette.success)
@@ -600,7 +600,7 @@ struct TaskComposerView: View {
 
     private var resultNameCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
-            GlassSectionTitle(title: l10n.t("اسم الملف الناتج (اختياري)", "Output file name (optional)"), systemImage: "pencil")
+            GlassSectionTitle(title: l10n.t("اسم الملف بعد المعالجة (اختياري)", "Output file name (optional)"), systemImage: "pencil")
             TextField(l10n.t("اتركه فارغًا للاحتفاظ بالاسم الأصلي", "Leave blank to keep the original name"),
                       text: $customOutputName)
                 .textInputAutocapitalization(.sentences)
@@ -645,9 +645,9 @@ struct TaskComposerView: View {
         let valid = urls.filter { supportedExtensions.contains($0.pathExtension.lowercased()) }
         guard valid.count == urls.count else {
             pickerError = isTranslation
-                ? l10n.t("بعض الملفات لا تدعم الترجمة. لتحويل تسجيل صوتي إلى نص، اختر «تحويل إلى Word».",
+                ? l10n.t("لا يمكن ترجمة بعض الملفات المحددة. إذا أردت تحويل تسجيل صوتي إلى نص، اختر «تحويل إلى Word».",
                          "Some files do not support translation. To transcribe an audio recording, choose Convert to Word.")
-                : l10n.t("بعض الملفات لا تدعم التحويل. ملفات Word متاحة للترجمة فقط.",
+                : l10n.t("لا يمكن تحويل بعض الملفات المحددة. يمكنك ترجمة ملفات Word، لكنها لا تحتاج إلى تحويل.",
                          "Some files do not support conversion. Word files can only be translated.")
             return
         }
@@ -677,7 +677,7 @@ struct TaskComposerView: View {
         let unsupported = pendingURLs.filter { !supportedExtensions.contains($0.pathExtension.lowercased()) }
         guard !unsupported.isEmpty else { return }
         unsupported.forEach(remove)
-        pickerError = l10n.t("أُزيلت ملفات غير مدعومة لهذه المهمة. عددها: \(unsupported.count).",
+        pickerError = l10n.t("تمت إزالة بعض الملفات من المهمة لأن صيغتها لا تناسب الخيار الجديد. عددها: \(unsupported.count).",
                              "Unsupported files removed from this task: \(unsupported.count).")
     }
 
@@ -800,7 +800,7 @@ struct TaskComposerView: View {
         let networkNotice = network.snapshot.isExpensive
             ? l10n.t(" أنت تستخدم بيانات الهاتف.", " You are using cellular data.") : ""
         return l10n.t(
-            "سيُرسل محتوى الملفات المحددة إلى خادم بصير للمعالجة، ثم تُنزّل النتائج إلى جهازك. عدد الملفات: \(pendingURLs.count).\(networkNotice)",
+            "سيرسل بصير الملفات المحددة إلى خادمه لمعالجتها، ثم ينزّل النتائج إلى جهازك. عدد الملفات: \(pendingURLs.count).\(networkNotice)",
             "The selected files will be sent to Basir’s server for processing, then the results will be downloaded to your device. Files selected: \(pendingURLs.count).\(networkNotice)"
         )
     }

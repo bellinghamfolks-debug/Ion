@@ -127,7 +127,7 @@ final class ContractTests: XCTestCase {
     }
 
     @MainActor
-    func testSettingsStoreMigratesPersistedPreviewModelAndUsesThreePageDefault() {
+    func testSettingsStoreMigratesAStoredModelNameToAutomaticAndUsesThreePageDefault() {
         let suite = "BasirContractTests-\(UUID().uuidString)"
         guard let defaults = UserDefaults(suiteName: suite) else {
             XCTFail("Unable to create isolated UserDefaults")
@@ -145,6 +145,6 @@ final class ContractTests: XCTestCase {
         XCTAssertEqual(store.concurrentPages, 3)
         XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "auto")
         store.save(defaults: defaults)
-        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "gemini-3.8-flash")
+        XCTAssertEqual(defaults.string(forKey: "ai_preferred_model"), "auto")
     }
 }

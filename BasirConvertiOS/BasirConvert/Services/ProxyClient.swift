@@ -98,6 +98,8 @@ actor ProxyClient {
         var autoDeepPages: Int? = nil
         var autoEscalatedPages: Int? = nil
         var summaryIncluded: Bool? = nil
+        var hybridTextPages: Int? = nil
+        var hybridStatus: String? = nil
 
         enum CodingKeys: String, CodingKey {
             case retainedPageNumbers = "retained_page_numbers"
@@ -126,6 +128,8 @@ actor ProxyClient {
             case autoDeepPages = "auto_deep_pages"
             case autoEscalatedPages = "auto_escalated_pages"
             case summaryIncluded = "summary_included"
+            case hybridTextPages = "hybrid_text_pages"
+            case hybridStatus = "hybrid_status"
         }
 
         var isNaturalMarkdownEngine: Bool {
@@ -445,7 +449,9 @@ actor ProxyClient {
                     wordPackageVerified: false,
                     deepReadPages: qualityMetrics.autoDeepPages,
                     escalatedPages: qualityMetrics.autoEscalatedPages,
-                    summaryIncluded: qualityMetrics.summaryIncluded
+                    summaryIncluded: qualityMetrics.summaryIncluded,
+                    hybridTextPages: qualityMetrics.hybridTextPages,
+                    hybridStatus: qualityMetrics.hybridStatus
                 )
                 outcome = ConversionOutcome(
                     succeededItems: succeeded,

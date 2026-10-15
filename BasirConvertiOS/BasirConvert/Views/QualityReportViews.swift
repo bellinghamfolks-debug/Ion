@@ -195,6 +195,15 @@ struct QualityReportCard: View {
                                text: l10n.t("صفحات لم تجتز الفحص الأول فأُعيدت قراءتها بطريقة أقوى: \(escalated).",
                                             "Pages that failed the first check and were read again more thoroughly: \(escalated).")))
         }
+        if let hybrid = report.hybridTextPages, hybrid > 0 {
+            result.append(Line(icon: "bolt.horizontal",
+                               text: l10n.t("الوضع الهجين: صفحات قُرئت مباشرة من نص الملف بعد التحقق منه: \(hybrid). وقُرئت بقية الصفحات بالذكاء الاصطناعي.",
+                                            "Hybrid mode: pages read directly from the file's own verified text: \(hybrid). The other pages were read by AI.")))
+        } else if report.hybridStatus == "untrusted" {
+            result.append(Line(icon: "bolt.horizontal",
+                               text: l10n.t("الوضع الهجين: لم يطابق نص الملف المخزَّن ما تُظهره الصفحات، فقُرئت كل الصفحات بالذكاء الاصطناعي حفاظًا على الدقة.",
+                                            "Hybrid mode: the file's stored text did not match its pages, so every page was read by AI to keep it accurate.")))
+        }
         if report.summaryIncluded == true {
             result.append(Line(icon: "text.badge.star",
                                text: l10n.t("يبدأ الملف بملخص للمستند.", "The file opens with a summary of the document.")))

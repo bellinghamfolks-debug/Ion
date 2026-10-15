@@ -14,6 +14,14 @@ enum OperationKind: String, Codable, Hashable, Sendable {
     case translate
 }
 
+/// How PDF pages are read (Settings › PDF and presentation options).
+enum PDFReadingMode: String, CaseIterable, Codable, Sendable {
+    /// Every page is read from its picture by AI: the current behaviour.
+    case full
+    /// A page's own stored text when it is trustworthy, AI for the rest.
+    case hybrid
+}
+
 enum PDFQuality: String, CaseIterable, Identifiable, Codable, Sendable {
     case fast
     case balanced
@@ -267,6 +275,8 @@ struct ConversionOptions: Codable, Equatable, Sendable {
     let preferredModel: String?
     /// Optional so tasks saved by earlier builds still decode.
     let includeSummary: Bool?
+    /// Hybrid PDF reading, chosen explicitly in Settings. Optional for older tasks.
+    let hybridPDF: Bool?
 
     init(
         operation: OperationKind,
@@ -287,7 +297,8 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         rotationCorrection: Int = 0,
         outputName: String? = nil,
         preferredModel: String? = nil,
-        includeSummary: Bool = false
+        includeSummary: Bool = false,
+        hybridPDF: Bool = false
     ) {
         self.operation = operation
         self.outputMode = outputMode
@@ -308,6 +319,7 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         self.outputName = outputName
         self.preferredModel = AIModelChoice(rawValue: preferredModel ?? "auto")?.rawValue ?? "auto"
         self.includeSummary = includeSummary
+        self.hybridPDF = hybridPDF
     }
 
     var wantsSummary: Bool { includeSummary == true }
@@ -343,6 +355,7 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         value += "|parallel:\(concurrentPages)"
         if rotationCorrection != 0 { value += "|rotate:\(rotationCorrection)" }
         if wantsSummary { value += "|summary" }
+        if hybridPDF == true { value += "|hybrid" }
         return value
     }
 }
@@ -511,6 +524,10 @@ struct QualityReport: Codable, Equatable, Hashable, Sendable {
     var escalatedPages: Int? = nil
     /// Whether the summary asked for at conversion time opens the file (ت17).
     var summaryIncluded: Bool? = nil
+    /// Hybrid reading: pages built from the file's own text, and whether the
+    /// text proved trustworthy ("on", "untrusted", "off"). Nil from older servers.
+    var hybridTextPages: Int? = nil
+    var hybridStatus: String? = nil
 
     /// Score on a 0–100 scale whether the server reports 0–1 or 0–100.
     var percentScore: Int? {

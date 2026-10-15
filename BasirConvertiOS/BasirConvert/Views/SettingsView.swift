@@ -325,6 +325,21 @@ struct AdvancedSettingsView: View {
                 Text(l10n.t("عالية", "High")).tag(PDFQuality.accurate)
             }
             .pickerStyle(.menu)
+            VStack(alignment: .leading, spacing: 7) {
+                Picker(l10n.t("طريقة قراءة ملفات PDF", "How PDFs are read"), selection: $settings.pdfReading) {
+                    Text(l10n.t("كل صفحة بالذكاء الاصطناعي (الحالي)", "Every page by AI (current)")).tag(PDFReadingMode.full)
+                    Text(l10n.t("هجين: نص الملف + الذكاء الاصطناعي (أسرع)", "Hybrid: the file's text + AI (faster)")).tag(PDFReadingMode.hybrid)
+                }
+                .pickerStyle(.menu)
+                Text(settings.pdfReading == .hybrid
+                     ? l10n.t("في الوضع الهجين يأخذ بصير نص الصفحة المخزَّن داخل ملف PDF مباشرة متى كان سليمًا، فيصير الكتاب الرقمي أسرع بكثير. ويقرأ بالذكاء الاصطناعي الصفحات المصوّرة، والتي فيها صور أو جداول أو معادلات أو أعمدة. ويتحقق أولًا من بعض الصفحات، فإن لم يطابق نص الملف ما تُظهره الصفحة قرأ كل الصفحات بالذكاء الاصطناعي.",
+                              "In hybrid mode Basir takes a page's text straight from the PDF when it is sound, which makes digital books much faster. It reads by AI the scanned pages and those with pictures, tables, equations or columns. It checks a few pages first: if the file's text does not match the page, every page is read by AI.")
+                     : l10n.t("يقرأ بصير كل صفحة من صورتها بالذكاء الاصطناعي. هذا هو الوضع الحالي: أدق في الملفات المعقدة، وأبطأ في الكتب الطويلة.",
+                              "Basir reads every page from its picture by AI. This is the current mode: most careful with complex files, slower for long books."))
+                    .font(.footnote)
+                    .foregroundStyle(BasirPalette.secondaryText)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
             Toggle(l10n.t("تخطي الصفحات الفارغة", "Skip blank pages"), isOn: $settings.skipBlankPages)
             Toggle(l10n.t("استخدام النص الأصلي في PDF متى كان موثوقًا", "Use the PDF’s original text when reliable"), isOn: $settings.preferPDFText)
             VStack(alignment: .leading, spacing: 7) {
@@ -351,6 +366,7 @@ struct AdvancedSettingsView: View {
         .tint(BasirPalette.accent)
         .glassSurface()
         .onChange(of: settings.pdfQuality) { _ in settings.save(); OperationFeedback.selectionChanged() }
+        .onChange(of: settings.pdfReading) { _ in settings.save(); OperationFeedback.selectionChanged() }
         .onChange(of: settings.skipBlankPages) { _ in settings.save(); OperationFeedback.selectionChanged() }
         .onChange(of: settings.preferPDFText) { _ in settings.save(); OperationFeedback.selectionChanged() }
         .onChange(of: settings.pageSelection) { _ in settings.save() }

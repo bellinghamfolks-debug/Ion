@@ -34,6 +34,7 @@ final class SettingsStore: ObservableObject {
         static let rotationCorrection = "pdf_rotation_correction"
         static let preferredModel = "ai_preferred_model"
         static let includeSummary = "convert_include_summary"
+        static let pdfReading = "pdf_reading_mode"
         static let summaryLanguage = "summary_language"
         static let appearance = "interface_appearance"
         static let highContrast = "interface_high_contrast"
@@ -82,6 +83,8 @@ final class SettingsStore: ObservableObject {
     @Published var preferredModel: AIModelChoice
     /// Put a summary at the start of every converted file (ت17).
     @Published var includeSummary: Bool
+    /// How PDFs are read: every page by AI (the default), or hybrid.
+    @Published var pdfReading: PDFReadingMode
 
     init(
         defaults: UserDefaults = .standard,
@@ -125,6 +128,7 @@ final class SettingsStore: ObservableObject {
         rotationCorrection = [0, 90, 180, 270].contains(savedRotation) ? savedRotation : 0
 
         includeSummary = defaults.bool(forKey: Key.includeSummary)
+        pdfReading = PDFReadingMode(rawValue: defaults.string(forKey: Key.pdfReading) ?? "") ?? .full
         // A model name stored by an earlier build becomes Automatic.
         let stored = defaults.string(forKey: Key.preferredModel) ?? "auto"
         let storedModel = AIModelChoice(rawValue: stored) ?? .automatic
@@ -163,5 +167,6 @@ final class SettingsStore: ObservableObject {
         defaults.set(rotationCorrection, forKey: Key.rotationCorrection)
         defaults.set(preferredModel.serverModelID, forKey: Key.preferredModel)
         defaults.set(includeSummary, forKey: Key.includeSummary)
+        defaults.set(pdfReading.rawValue, forKey: Key.pdfReading)
     }
 }

@@ -72,7 +72,8 @@ struct TaskComposerView: View {
             outputName: customOutputName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                 ? nil : customOutputName,
             preferredModel: settings.preferredModel.rawValue,
-            includeSummary: settings.includeSummary
+            includeSummary: settings.includeSummary,
+            hybridPDF: settings.pdfReading == .hybrid
         )
     }
 

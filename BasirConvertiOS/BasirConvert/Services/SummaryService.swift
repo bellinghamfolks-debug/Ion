@@ -1,6 +1,7 @@
 import Foundation
 import CryptoKit
 import UIKit
+import UserNotifications
 
 /// Summaries kept on the phone (ت15): next to their Word file in My Files
 /// (renamed and deleted with it), or by the text's fingerprint for documents
@@ -97,6 +98,29 @@ enum SummaryStore {
 enum SummaryHome: Equatable, Sendable {
     case output(URL)
     case key(String)
+
+    var id: String {
+        switch self {
+        case .output(let url): return "output:" + url.standardizedFileURL.path
+        case .key(let key): return "key:" + key
+        }
+    }
+}
+
+/// Keeps each document's summary work alive for the life of the app, so
+/// closing the summary screen never stops it: opening the screen again shows
+/// the progress, or the finished summary.
+@MainActor
+final class SummaryCenter {
+    static let shared = SummaryCenter()
+    private var runners: [String: SummaryRunner] = [:]
+
+    func runner(for home: SummaryHome) -> SummaryRunner {
+        if let existing = runners[home.id] { return existing }
+        let runner = SummaryRunner()
+        runners[home.id] = runner
+        return runner
+    }
 }
 
 /// Makes one summary: at once for ordinary documents, as a background job
@@ -117,8 +141,8 @@ final class SummaryRunner: ObservableObject {
     private var task: Task<Void, Never>?
 
     /// Documents up to this size are summarized in one request; longer ones
-    /// go straight to the background path (the server agrees: 150,000).
-    static let directLimit = 140_000
+    /// go straight to the server job, which survives Basir being closed.
+    static let directLimit = 60_000
 
     func showSaved(_ summary: DocumentSummary) {
         self.summary = summary
@@ -156,10 +180,22 @@ final class SummaryRunner: ObservableObject {
             let data = try body.encoded()
             let client = ProxyClient(configuration: configuration)
             var result: DocumentSummary?
-            if body.totalCharacters <= Self.directLimit {
+            // A job already running for this request (Basir was closed while it
+            // worked) is picked up again instead of starting over.
+            let resuming = SummaryStore.pendingJob(for: Self.requestKey(data)) != nil
+            if body.totalCharacters <= Self.directLimit, !resuming {
                 do {
                     result = try DocumentSummary.decode(try await client.summarize(body: data))
-                } catch BasirError.invalidResponse(let reason) where reason == ProxyClient.summaryUseJob {
+                } catch is CancellationError {
+                    throw CancellationError()
+                } catch BasirError.authenticationFailed {
+                    throw BasirError.authenticationFailed
+                } catch BasirError.notConfigured {
+                    throw BasirError.notConfigured
+                } catch {
+                    // Too long, cut off when Basir went to the background, or a
+                    // passing failure: the server job finishes it either way.
+                    if Task.isCancelled { throw CancellationError() }
                     result = nil
                 }
             }
@@ -173,6 +209,15 @@ final class SummaryRunner: ObservableObject {
             phase = .finished
             UINotificationFeedbackGenerator().notificationOccurred(.success)
             announce(l10n.t("الملخص جاهز.", "The summary is ready."))
+            if UIApplication.shared.applicationState != .active {
+                // Basir is in the background: say so where the person will hear it.
+                let content = UNMutableNotificationContent()
+                content.title = l10n.t("الملخص جاهز", "The summary is ready")
+                content.body = body.title.isEmpty ? l10n.t("افتح بصير لقراءته.", "Open Basir to read it.") : body.title
+                content.sound = .default
+                UNUserNotificationCenter.current().add(UNNotificationRequest(
+                    identifier: "basir-summary-" + String(SummaryStore.fingerprint(home.id).prefix(24)), content: content, trigger: nil))
+            }
         } catch is CancellationError {
             phase = .idle
         } catch {
@@ -184,7 +229,7 @@ final class SummaryRunner: ObservableObject {
 
     private func runJob(data: Data, body: SummaryRequestBody, client: ProxyClient,
                         configuration: ServerConfiguration, l10n: L10n) async throws -> DocumentSummary {
-        let requestKey = "summary-" + String(SummaryStore.fingerprint(String(decoding: data, as: UTF8.self)).prefix(48))
+        let requestKey = Self.requestKey(data)
         let jobID: String
         if let pending = SummaryStore.pendingJob(for: requestKey) {
             jobID = pending
@@ -198,9 +243,23 @@ final class SummaryRunner: ObservableObject {
         PushRegistrar.shared.serverJobCreated(clientJobID: UUID(), serverJobID: jobID, configuration: configuration,
                                               language: l10n.isArabic ? "ar" : "en")
         var lastAnnounced = -1
+        var misses = 0
         while true {
             try Task.checkCancellation()
-            let progress = try await client.summaryJobProgress(jobID: jobID, requestID: requestKey)
+            let progress: SummaryJobProgress
+            do {
+                progress = try await client.summaryJobProgress(jobID: jobID, requestID: requestKey)
+                misses = 0
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch {
+                // The connection drops while iOS suspends Basir; the job keeps
+                // running on the server, so keep asking.
+                misses += 1
+                if misses >= 60 { throw error }
+                try await Task.sleep(nanoseconds: 5_000_000_000)
+                continue
+            }
             if progress.isFinished {
                 let summary = try DocumentSummary.decode(try await client.jobSummary(jobID: jobID, requestID: requestKey))
                 SummaryStore.setPendingJob(nil, for: requestKey)
@@ -230,6 +289,11 @@ final class SummaryRunner: ObservableObject {
     }
 
     // MARK: Helpers
+
+    /// The same request always gets the same key, so the server resumes its job.
+    static func requestKey(_ data: Data) -> String {
+        "summary-" + String(SummaryStore.fingerprint(String(decoding: data, as: UTF8.self)).prefix(48))
+    }
 
     static func saved(_ body: SummaryRequestBody, home: SummaryHome) -> DocumentSummary? {
         switch home {

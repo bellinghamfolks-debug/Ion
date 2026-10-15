@@ -55,15 +55,19 @@ struct SummaryView: View {
     /// Moves the reader to a block (set when opened from the reader).
     var onJump: ((Int) -> Void)?
 
+    @MainActor
     init(source: SummarySource, onJump: ((Int) -> Void)? = nil) {
         self.source = source
         self.onJump = onJump
+        // The work lives in the app, not in this screen: closing the screen
+        // never stops a summary, and opening it again shows where it is.
+        _runner = ObservedObject(wrappedValue: SummaryCenter.shared.runner(for: source.home))
     }
 
     @EnvironmentObject private var l10n: L10n
     @EnvironmentObject private var settings: SettingsStore
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var runner = SummaryRunner()
+    @ObservedObject private var runner: SummaryRunner
     @StateObject private var speaker = ReaderSpeaker()
     @StateObject private var audiobook = AudiobookExporter()
     @AppStorage("summary.level") private var levelRaw = Level.short.rawValue
@@ -128,7 +132,7 @@ struct SummaryView: View {
         }
         .escapeToDismiss { close() }
         .onAppear(perform: start)
-        .onDisappear { speaker.stop(); audiobook.cancel(); runner.cancel() }
+        .onDisappear { speaker.stop(); audiobook.cancel() }
     }
 
     // MARK: Start
@@ -146,7 +150,9 @@ struct SummaryView: View {
     }
 
     private func start() {
-        if language.isEmpty { language = l10n.isArabic ? "ar" : "en" }
+        if language.isEmpty { language = runner.summary?.language ?? (l10n.isArabic ? "ar" : "en") }
+        // Still working from an earlier visit: show its progress, do not restart.
+        if case .working = runner.phase { return }
         guard runner.summary == nil else { return }
         if let saved = SummaryRunner.saved(request, home: source.home) {
             runner.showSaved(saved)

@@ -204,6 +204,10 @@ final class SummaryRunner: ObservableObject {
             if progress.isFinished {
                 let summary = try DocumentSummary.decode(try await client.jobSummary(jobID: jobID, requestID: requestKey))
                 SummaryStore.setPendingJob(nil, for: requestKey)
+                // The summary is now on the phone; the server copy goes, as the
+                // privacy setting asks (on by default).
+                let deleteCopy = UserDefaults.standard.object(forKey: "privacy_delete_server_copy") as? Bool ?? true
+                if deleteCopy { try? await client.deleteServerTask(requestID: requestKey) }
                 return summary
             }
             if progress.isFailed {

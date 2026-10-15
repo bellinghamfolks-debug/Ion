@@ -166,6 +166,8 @@ actor ProxyClient {
     }
 
     private static let maximumResponseBytes = 250 * 1024 * 1024
+    /// The app's own version, as the person sees it in About.
+    static let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0"
     private static let retryableCodes = Set([408, 425, 429, 500, 502, 503, 504])
     private let configuration: ServerConfiguration
     private let session: URLSession
@@ -737,10 +739,10 @@ actor ProxyClient {
     }
 
     private func applyServerHeaders(to request: inout URLRequest, requestID: String) {
-        request.setValue("Basir-iOS/3.0.0", forHTTPHeaderField: "User-Agent")
+        request.setValue("Basir-iOS/\(Self.appVersion)", forHTTPHeaderField: "User-Agent")
         request.setValue(requestID, forHTTPHeaderField: "X-Request-ID")
         request.setValue(requestID, forHTTPHeaderField: "Idempotency-Key")
-        request.setValue("3.0", forHTTPHeaderField: "X-Basir-Client-Version")
+        request.setValue(Self.appVersion, forHTTPHeaderField: "X-Basir-Client-Version")
         request.setValue(configuration.clientToken, forHTTPHeaderField: "X-Basir-Client-Token")
     }
 

@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-/// Basir 3.1 colour system. Every colour adapts to light and dark appearance
+/// Basir colour system. Every colour adapts to light and dark appearance
 /// and to Increase Contrast (system setting or the in-app high-contrast
 /// option, which is applied as a trait override on iOS 17 and later).
 enum BasirPalette {

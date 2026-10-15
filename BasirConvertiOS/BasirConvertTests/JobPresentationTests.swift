@@ -46,7 +46,7 @@ final class JobPresentationTests: XCTestCase {
     }
 
     func testJobsSavedByVersion3Decode() throws {
-        // A 3.0 job record has no quality report; it must still load.
+        // An older job record has no quality report; it must still load.
         let json = """
         {"id":"7B1C7A58-6D2C-4E3A-9E54-0F3B7B0B3A11","sourcePath":"/tmp/a.pdf","sourceName":"a.pdf",
          "options":{"operation":"convert","outputMode":"full","embedVisuals":true,"includeMath":false,

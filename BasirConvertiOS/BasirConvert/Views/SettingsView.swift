@@ -1,7 +1,7 @@
 import SwiftUI
 import Foundation
 
-/// Settings, split in 3.1: everyday options here, document and model options
+/// Settings: everyday options here, document and model options
 /// under "Advanced", and policies and help under "About Basir".
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss

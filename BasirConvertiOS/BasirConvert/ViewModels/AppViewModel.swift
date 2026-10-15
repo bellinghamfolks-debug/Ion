@@ -136,7 +136,7 @@ final class AppViewModel: ObservableObject {
             return
         }
         lastConfiguration = configuration
-        // 3.1: the task appears in the compact bar instead of covering the screen.
+        // The task appears in the compact bar instead of covering the screen.
         UIAccessibility.post(
             notification: .announcement,
             argument: l10n.t("أُضيفت المهمة. تابع حالتها من الشريط أسفل الشاشة أو تبويب «المهام».",

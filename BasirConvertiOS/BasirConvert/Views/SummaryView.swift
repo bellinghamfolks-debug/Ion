@@ -55,6 +55,11 @@ struct SummaryView: View {
     /// Moves the reader to a block (set when opened from the reader).
     var onJump: ((Int) -> Void)?
 
+    init(source: SummarySource, onJump: ((Int) -> Void)? = nil) {
+        self.source = source
+        self.onJump = onJump
+    }
+
     @EnvironmentObject private var l10n: L10n
     @EnvironmentObject private var settings: SettingsStore
     @Environment(\.dismiss) private var dismiss

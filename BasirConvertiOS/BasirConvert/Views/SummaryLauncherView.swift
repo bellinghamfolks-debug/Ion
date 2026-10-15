@@ -14,6 +14,10 @@ struct SummaryLauncherView: View {
 
     let input: Input
 
+    init(input: Input) {
+        self.input = input
+    }
+
     @EnvironmentObject private var l10n: L10n
     @Environment(\.dismiss) private var dismiss
     @State private var source: SummarySource?

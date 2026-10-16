@@ -31,6 +31,7 @@ enum BillingPlanID: String, Codable, CaseIterable, Sendable {
         paid.flatMap { [$0.productID(yearly: false), $0.productID(yearly: true)].compactMap { $0 } }
     }
 
+    @MainActor
     func name(_ l10n: L10n) -> String {
         switch self {
         case .free: return l10n.t("مجاني", "Free")
@@ -42,6 +43,7 @@ enum BillingPlanID: String, Codable, CaseIterable, Sendable {
     }
 
     /// Who the plan is for, in a sentence a screen reader can say on its own.
+    @MainActor
     func audience(_ l10n: L10n) -> String {
         switch self {
         case .free: return l10n.t("للتجربة: مستندات قصيرة كل شهر.", "To try Basir: a few short documents a month.")

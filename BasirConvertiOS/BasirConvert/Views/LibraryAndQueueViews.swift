@@ -409,7 +409,8 @@ struct JobQueueView: View {
     @State private var pendingDeleteJobID: UUID?
     @State private var isReordering = false
 
-    /// Completed tasks leave the list by themselves; their files are in My Files.
+    /// Completed and cancelled tasks leave the list by themselves; completed
+    /// files are in My Files.
     private var listed: [BasirJob] { JobQueuePolicy.listed(viewModel.jobs) }
 
     var body: some View {
@@ -422,8 +423,8 @@ struct JobQueueView: View {
                             .font(.system(.largeTitle, design: .rounded, weight: .bold))
                             .accessibilityAddTraits(.isHeader)
                         InfoCard(title: l10n.t("لا توجد مهام جارية", "No tasks in progress"),
-                                 text: l10n.t("أضف ملفًا من تبويب «جديد» لتحويله أو ترجمته. تظهر هنا المهام الجارية، وعند اكتمال المهمة تختفي من هنا وتجد ملفها في «ملفاتي».",
-                                              "Start a task from the New tab. Tasks in progress appear here; when one is complete it leaves this list and its file is in My Files."),
+                                 text: l10n.t("أضف ملفًا من تبويب «جديد» لتحويله أو ترجمته. تظهر هنا المهام الجارية. المهمة المكتملة أو الملغاة تختفي من هنا تلقائيًا، وتجد ملف المكتملة في «ملفاتي».",
+                                              "Start a task from the New tab. Tasks in progress appear here. Completed and cancelled tasks leave this list by themselves; completed files are in My Files."),
                                  systemImage: "checklist")
                     }
                     .appScreenContent(bottomPadding: 28)

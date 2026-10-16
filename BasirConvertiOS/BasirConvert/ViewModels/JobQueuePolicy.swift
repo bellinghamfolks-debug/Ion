@@ -22,11 +22,18 @@ enum JobQueuePolicy {
     }
 
     /// What the Tasks list shows: everything that still needs the person or
-    /// the server. A completed task's file is in My Files, so the task
-    /// leaves the list by itself instead of waiting to be deleted by hand.
-    /// Partial, failed and cancelled tasks stay: they can still be retried.
+    /// the server. A completed task's file is in My Files and a cancelled
+    /// task is over, so both leave the list by themselves instead of waiting
+    /// to be deleted by hand. A cancellation the server has not confirmed
+    /// yet stays until it has. Partial and failed tasks stay: they can still
+    /// be retried.
     static func listed(_ jobs: [BasirJob]) -> [BasirJob] {
-        jobs.filter { $0.status != .completed }
+        jobs.filter { !isOver($0) }
+    }
+
+    /// Finished for good: nothing left for the person or the server to do.
+    static func isOver(_ job: BasirJob) -> Bool {
+        job.status == .completed || (job.status == .cancelled && job.serverCancelPending != true)
     }
 
     /// The full queue after the person reordered the listed tasks: listed

@@ -72,12 +72,13 @@ final class AppViewModel: ObservableObject {
         Task { [weak self] in
             guard let self else { return }
             let loaded = await jobStore.load()
-            // Completed tasks from an earlier launch have nothing left to
-            // show: their Word file is in My Files. Drop the task and its
-            // copy of the source, and keep the result.
-            let completed = loaded.filter { $0.status == .completed }
+            // Completed and cancelled tasks from an earlier launch have
+            // nothing left to show: a completed task's Word file is in My
+            // Files. Drop the task and its copy of the source, and keep any
+            // result.
+            let completed = loaded.filter(JobQueuePolicy.isOver)
             for job in completed { await jobStore.removeFiles(for: job, keepingResult: true) }
-            let restored = loaded.filter { $0.status != .completed }
+            let restored = loaded.filter { !JobQueuePolicy.isOver($0) }
             // Before any task starts, drop transfers an earlier launch left
             // behind; nothing waits for them and they slow new transfers.
             await BackgroundTransferCoordinator.shared.cancelTransfersFromEarlierLaunch()

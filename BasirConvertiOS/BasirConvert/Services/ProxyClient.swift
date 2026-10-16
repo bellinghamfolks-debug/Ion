@@ -983,7 +983,9 @@ extension ProxyClient {
             pageSelection: "",
             outputName: String(title.prefix(110)).isEmpty ? nil : String(title.prefix(110)),
             preferredModel: choice,
-            translation: nil
+            translation: nil,
+            // A summary is counted by its length, on the server.
+            estimatedPages: nil
         )
         var create = URLRequest(url: base.appendingPathComponent("/api/jobs"))
         create.httpMethod = "POST"

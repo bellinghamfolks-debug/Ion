@@ -101,6 +101,7 @@ struct BasirConvertApp: App {
                         BackgroundExecution.shared.schedule()
                         JobWatcher.shared.appWillLeave()
                     } else if phase == .active {
+                        JobWatcher.shared.prune()
                         JobWatcher.shared.resume()
                     }
                 }

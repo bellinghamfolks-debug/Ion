@@ -135,6 +135,9 @@ enum JobNotifier {
     static func allows(_ next: Phase, after previous: Phase?) -> Bool {
         guard let previous else { return true }
         if previous.isFinal { return false }
+        // "Still working" is said once per task. Leaving Basir again and
+        // again must not repeat it; real progress arrives as `.progress`.
+        if next == .working { return false }
         if previous == .ready { return next.isFinal }
         return true
     }

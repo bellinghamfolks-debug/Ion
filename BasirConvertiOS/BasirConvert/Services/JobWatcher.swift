@@ -75,6 +75,17 @@ final class JobWatcher: NSObject, @unchecked Sendable {
     /// Main-actor reactions, set by the app (notifications, Lock Screen, saving).
     @MainActor var onFinished: ((Entry, String, String?) -> Void)?
 
+    /// Whether the app still has this task in flight. The app is the one
+    /// that knows a task was finished, cancelled or deleted; a follow-up
+    /// entry it no longer recognises is stale and must never speak again.
+    /// Unset (iOS woke Basir before any screen exists): treated as active.
+    @MainActor var isStillActive: (@MainActor (Entry) -> Bool)?
+
+    /// Entries the app no longer recognises (tested).
+    static func stale(_ entries: [Entry], isActive: (Entry) -> Bool) -> [Entry] {
+        entries.filter { !$0.finished && !isActive($0) }
+    }
+
     private let lock = NSLock()
     private var answers: [Int: Data] = [:]
     private var backgroundCompletion: (() -> Void)?
@@ -99,18 +110,22 @@ final class JobWatcher: NSObject, @unchecked Sendable {
     /// while Basir is open, so iOS treats the requests as urgent.
     func watch(id: String, serverJobID: String, work: JobNotifier.Work, title: String, arabic: Bool,
                appJobID: UUID? = nil) {
-        var entries = load()
-        if let existing = entries.first(where: { $0.id == id }), existing.serverJobID == serverJobID,
-           !existing.finished {
-            arm(existing)
-            return
-        }
-        entries.removeAll { $0.id == id }
         let entry = Entry(id: id, serverJobID: serverJobID, work: work, title: title, arabic: arabic,
                           percent: 0, uploading: work == .conversion, startedAt: Date(), finished: false,
                           appJobID: appJobID)
-        entries.append(entry)
-        save(entries)
+        var existing: Entry?
+        mutate { entries in
+            if let found = entries.first(where: { $0.id == id }), found.serverJobID == serverJobID, !found.finished {
+                existing = found
+                return
+            }
+            entries.removeAll { $0.id == id }
+            entries.append(entry)
+        }
+        if let existing {
+            arm(existing)
+            return
+        }
         JobNotifier.reset(id)
         cancelTasks(for: id) { [weak self] in self?.arm(entry) }
         DiagnosticLogger.recordGlobal("WATCH start id=\(id) work=\(work.rawValue)")
@@ -125,11 +140,26 @@ final class JobWatcher: NSObject, @unchecked Sendable {
 
     /// The app finished the task itself (saved, failed or cancelled).
     func stop(id: String) {
-        var entries = load()
-        guard entries.contains(where: { $0.id == id }) else { return }
-        entries.removeAll { $0.id == id }
-        save(entries)
-        cancelTasks(for: id, then: nil)
+        var removed = false
+        mutate { entries in
+            removed = entries.contains(where: { $0.id == id })
+            entries.removeAll { $0.id == id }
+        }
+        if removed { cancelTasks(for: id, then: nil) }
+    }
+
+    /// Drops every entry the app no longer recognises, with its requests and
+    /// its notification. Called whenever Basir comes to or leaves the screen,
+    /// so a finished or deleted task cannot keep announcing itself.
+    @MainActor
+    func prune() {
+        guard let isStillActive else { return }
+        let stale = load().filter { !$0.finished && !isStillActive($0) }
+        for entry in stale {
+            DiagnosticLogger.recordGlobal("WATCH prune id=\(entry.id) percent=\(entry.percent)")
+            stop(id: entry.id)
+            JobNotifier.remove(entry.id)
+        }
     }
 
     var entries: [Entry] { load() }
@@ -138,17 +168,18 @@ final class JobWatcher: NSObject, @unchecked Sendable {
     /// the person, once, what really happens next.
     @MainActor
     func appWillLeave() {
-        var entries = load()
+        prune()
         lock.lock()
         let seen = memoryPercents
         lock.unlock()
-        for index in entries.indices {
-            if let latest = seen[entries[index].id] {
-                entries[index].percent = max(entries[index].percent, latest.percent)
-                entries[index].uploading = latest.uploading
+        let entries = mutate { entries in
+            for index in entries.indices {
+                if let latest = seen[entries[index].id] {
+                    entries[index].percent = max(entries[index].percent, latest.percent)
+                    entries[index].uploading = latest.uploading
+                }
             }
         }
-        save(entries)
         for entry in entries where !entry.finished {
             JobNotifier.show(JobNotifier.working(task: entry.work, title: entry.title, percent: entry.percent,
                                                  uploading: entry.uploading, arabic: entry.arabic),
@@ -160,13 +191,12 @@ final class JobWatcher: NSObject, @unchecked Sendable {
     /// On launch and on return: re-arm anything iOS dropped, forget old tasks.
     func resume() {
         let now = Date()
-        var entries = load()
-        let expired = entries.filter { now.timeIntervalSince($0.startedAt) > Self.lifetime || $0.finished }
-        if !expired.isEmpty {
+        var expired: [Entry] = []
+        let entries = mutate { entries in
+            expired = entries.filter { now.timeIntervalSince($0.startedAt) > Self.lifetime || $0.finished }
             entries.removeAll { expired.contains($0) }
-            save(entries)
-            expired.forEach { cancelTasks(for: $0.id, then: nil) }
         }
+        expired.forEach { cancelTasks(for: $0.id, then: nil) }
         entries.forEach(arm)
     }
 
@@ -224,37 +254,43 @@ final class JobWatcher: NSObject, @unchecked Sendable {
     private func handle(id: String, mode: Mode, httpStatus: Int, data: Data?, error: Error?) {
         let cancelled = (error as? URLError)?.code == .cancelled
         let answer = data.flatMap { try? JSONDecoder().decode(Answer.self, from: $0) }
-        var entries = load()
-        let index = entries.firstIndex(where: { $0.id == id })
-        let decision = Self.decide(entry: index.map { entries[$0] }, httpStatus: httpStatus, answer: answer,
-                                   cancelled: cancelled, now: Date())
+        let decision = Self.decide(entry: load().first(where: { $0.id == id }), httpStatus: httpStatus,
+                                   answer: answer, cancelled: cancelled, now: Date())
         if decision != .ignore {
             DiagnosticLogger.recordGlobal("WATCH wake id=\(id) mode=\(mode.rawValue) http=\(httpStatus) decision=\(decision)")
+        }
+        // Every change is applied to the entry as it is *now*: if the app
+        // stopped following the task meanwhile, there is nothing to update,
+        // and the task must not come back to life.
+        func update(_ change: (inout Entry) -> Void) -> Entry? {
+            var updated: Entry?
+            mutate { entries in
+                guard let index = entries.firstIndex(where: { $0.id == id }), !entries[index].finished else { return }
+                change(&entries[index])
+                updated = entries[index]
+            }
+            return updated
         }
         switch decision {
         case .ignore:
             return
         case .forget:
             stop(id: id)
+            Task { @MainActor in JobNotifier.remove(id) }
         case .retryLater:
             // No signal or a passing server error: ask again shortly. iOS
             // starts it when the connection is back.
-            guard let index else { return }
-            schedule(entries[index], mode: mode, delay: 30)
+            guard let entry = update({ _ in }) else { return }
+            schedule(entry, mode: mode, delay: 30)
         case .askAgain(let percent):
-            guard let index else { return }
-            entries[index].percent = percent
-            save(entries)
-            if mode == .done || percent < 75 { schedule(entries[index], mode: mode) }
+            guard let entry = update({ $0.percent = percent }) else { return }
+            if mode == .done || percent < 75 { schedule(entry, mode: mode) }
         case .progressed(let percent):
-            guard let index else { return }
-            entries[index].percent = percent
-            entries[index].uploading = false
-            save(entries)
-            let entry = entries[index]
+            guard let entry = update({ $0.percent = percent; $0.uploading = false }) else { return }
             if percent < 75 { schedule(entry, mode: .step) }
             Task { @MainActor in
-                guard UIApplication.shared.applicationState != .active else { return }
+                guard UIApplication.shared.applicationState != .active,
+                      self.isStillActive?(entry) ?? true else { return }
                 JobNotifier.show(JobNotifier.progress(task: entry.work, title: entry.title, percent: percent,
                                                       at: Date(), arabic: entry.arabic),
                                  id: entry.id, openJob: entry.appJobID)
@@ -263,11 +299,7 @@ final class JobWatcher: NSObject, @unchecked Sendable {
                                                        startedAt: entry.startedAt)
             }
         case .finished(let status, let percent, let reason):
-            guard let index else { return }
-            entries[index].percent = percent
-            entries[index].finished = true
-            save(entries)
-            let entry = entries[index]
+            guard let entry = update({ $0.percent = percent; $0.finished = true }) else { return }
             cancelTasks(for: id, then: nil)
             Task { @MainActor in self.finished(entry, status: status, reason: reason) }
         }
@@ -276,6 +308,12 @@ final class JobWatcher: NSObject, @unchecked Sendable {
     @MainActor
     private func finished(_ entry: Entry, status: String, reason: String?) {
         let succeeded = status == "completed" || status == "partial"
+        if !(isStillActive?(entry) ?? true) {
+            // Already finished, cancelled or deleted in the app: nothing to say.
+            JobNotifier.remove(entry.id)
+            stop(id: entry.id)
+            return
+        }
         if status == "cancelled" {
             JobNotifier.remove(entry.id)
         } else if UIApplication.shared.applicationState != .active {
@@ -299,14 +337,25 @@ final class JobWatcher: NSObject, @unchecked Sendable {
     private func load() -> [Entry] {
         lock.lock()
         defer { lock.unlock() }
-        guard let data = UserDefaults.standard.data(forKey: Self.storeKey) else { return [] }
-        return (try? JSONDecoder().decode([Entry].self, from: data)) ?? []
+        return unlockedLoad()
     }
 
-    private func save(_ entries: [Entry]) {
+    /// Reads, changes and writes the list under one lock. A separate load
+    /// and save let a background wake-up write back an entry the app had
+    /// just removed — which is how a finished task kept announcing itself.
+    @discardableResult
+    private func mutate(_ change: (inout [Entry]) -> Void) -> [Entry] {
         lock.lock()
         defer { lock.unlock() }
+        var entries = unlockedLoad()
+        change(&entries)
         UserDefaults.standard.set(try? JSONEncoder().encode(entries), forKey: Self.storeKey)
+        return entries
+    }
+
+    private func unlockedLoad() -> [Entry] {
+        guard let data = UserDefaults.standard.data(forKey: Self.storeKey) else { return [] }
+        return (try? JSONDecoder().decode([Entry].self, from: data)) ?? []
     }
 }
 

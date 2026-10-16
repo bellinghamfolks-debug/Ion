@@ -12,6 +12,9 @@ final class NotificationTests: XCTestCase {
         // Once the file is ready, a late quarter or "still working" is wrong.
         XCTAssertFalse(JobNotifier.allows(.progress, after: .ready))
         XCTAssertFalse(JobNotifier.allows(.working, after: .ready))
+        // "Still working" is said once: leaving Basir again does not repeat it.
+        XCTAssertFalse(JobNotifier.allows(.working, after: .working))
+        XCTAssertFalse(JobNotifier.allows(.working, after: .progress))
         XCTAssertTrue(JobNotifier.allows(.finished, after: .ready))
         // The end is said once.
         XCTAssertFalse(JobNotifier.allows(.finished, after: .finished))
@@ -83,6 +86,18 @@ final class NotificationTests: XCTestCase {
         let body = Data("     {\"outcome\":\"progress\",\"status\":\"processing\",\"percent\":27,\"error\":null}".utf8)
         let decoded = try JSONDecoder().decode(JobWatcher.Answer.self, from: body)
         XCTAssertEqual(decoded.percent, 27)
+    }
+
+    /// A task the app finished or deleted is stale: it is dropped instead of
+    /// announcing "still processing" every time Basir is left.
+    func testEntriesTheAppNoLongerHasAreStale() {
+        let gone = entry()
+        var kept = entry()
+        kept.id = "B"
+        var done = entry(finished: true)
+        done.id = "C"
+        let stale = JobWatcher.stale([gone, kept, done]) { $0.id == "B" }
+        XCTAssertEqual(stale.map(\.id), ["A"])
     }
 
     func testTaskLabelsRoundTrip() {

@@ -107,6 +107,14 @@ final class AppViewModel: ObservableObject {
             guard entry.work == .conversion, status == "completed" || status == "partial" else { return }
             self?.resumeInterruptedJobsIfNeeded()
         }
+        JobWatcher.shared.isStillActive = { [weak self] entry in
+            // Summaries are followed by their own screen and end on the server.
+            guard entry.work == .conversion, let appJobID = entry.appJobID else { return true }
+            guard let self else { return true }
+            guard let job = self.jobs.first(where: { $0.id == appJobID }) else { return false }
+            return job.status == .running || JobQueuePolicy.mayStillRunOnServer.contains(job.status)
+        }
+        JobWatcher.shared.prune()
         if settings.notificationsEnabled {
             Task {
                 if await OperationFeedback.requestNotificationPermission() {
@@ -292,6 +300,9 @@ final class AppViewModel: ObservableObject {
         }
         cancellationTasks[id]?.cancel()
         cancellationTasks[id] = nil
+        // A deleted task is not followed and not announced any more.
+        JobWatcher.shared.stop(id: id.uuidString)
+        JobNotifier.remove(id.uuidString)
         Task { await jobStore.removeFiles(for: removed, keepingResult: !deleteResult) }
         if selectedJobID == id { selectedJobID = jobs.first?.id }
         persist()

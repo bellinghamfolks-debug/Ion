@@ -62,6 +62,11 @@ enum ErrorLocalizer {
         case .tooManyImages(let count, let limit):
             return l10n.t("عدد الصور \(count)، والحد الأقصى في ملف واحد \(limit) صورة. قسّمها على أكثر من ملف.",
                           "That is \(count) images; one file can hold up to \(limit). Split them across more than one file.")
+        case .insufficientPages(let needed, let remaining):
+            return l10n.t("هذه المهمة تحتاج \(needed) صفحة، والمتبقي في اشتراكك هذا الشهر \(remaining) صفحة. اختر صفحات أقل، أو رقِّ اشتراكك من «الإعدادات» ثم «اشتراكي».",
+                          "This task needs \(needed) pages and your plan has \(remaining) left this month. Choose fewer pages, or upgrade in Settings, then My plan.")
+        case .appUpdateRequired:
+            return l10n.t("حدّث بصير من App Store لتتابع.", "Update Basir from the App Store to continue.")
         case .networkUnavailable:
             return l10n.t("لا يوجد اتصال بالإنترنت. المهمة محفوظة في قائمة الانتظار.",
                           "No internet connection. Your task is saved in the queue.")

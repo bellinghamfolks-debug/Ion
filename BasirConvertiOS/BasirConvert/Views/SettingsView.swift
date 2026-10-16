@@ -9,6 +9,15 @@ struct SettingsView: View {
     @EnvironmentObject private var settings: SettingsStore
     @EnvironmentObject private var network: NetworkMonitor
     @State private var changingLock = false
+    @ObservedObject private var subscriptions = SubscriptionStore.shared
+
+    private var planDetail: String {
+        guard let status = subscriptions.status else {
+            return l10n.t("الخطط والصفحات المتبقية", "Plans and pages left")
+        }
+        return l10n.t("\(status.planID.name(l10n)): باقي \(status.pagesRemaining) من \(status.pagesPerMonth) صفحة",
+                      "\(status.planID.name(l10n)): \(status.pagesRemaining) of \(status.pagesPerMonth) pages left")
+    }
 
     var body: some View {
         NavigationStack {
@@ -26,6 +35,10 @@ struct SettingsView: View {
                         privacyCard
                         SectionHeading(title: l10n.t("المزيد", "More"))
                         VStack(spacing: 0) {
+                            settingsLink(l10n.t("اشتراكي", "My plan"),
+                                         detail: planDetail,
+                                         systemImage: "creditcard") { SubscriptionView() }
+                            Divider().padding(.leading, 44)
                             settingsLink(l10n.t("الترجمة", "Translation"),
                                          detail: settings.translation.summary(l10n),
                                          systemImage: "character.bubble") { TranslationSettingsView() }

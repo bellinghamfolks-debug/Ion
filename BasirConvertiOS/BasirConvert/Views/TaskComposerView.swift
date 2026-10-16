@@ -41,6 +41,9 @@ struct TaskComposerView: View {
     /// Pages for this task only; empty means the setting (usually all pages).
     @State private var pageSelectionOverride = ""
     @AccessibilityFocusState private var focusSelectedFiles: Bool
+    @ObservedObject private var subscriptions = SubscriptionStore.shared
+    @State private var showPlanLimit = false
+    @State private var showPlans = false
 
     private var isTranslation: Bool { operation == .translate }
     private var supportedExtensions: Set<String> {
@@ -124,6 +127,7 @@ struct TaskComposerView: View {
                             systemImage: "play.fill"
                         ) {
                             if !settings.isConfigured { showConfigurationRequired = true }
+                            else if let status = subscriptions.status, !status.fits(plannedPages) { showPlanLimit = true }
                             else { showPrivacyConfirmation = true }
                         }
                     }
@@ -139,11 +143,23 @@ struct TaskComposerView: View {
         .foregroundStyle(BasirPalette.primaryText)
         .navigationTitle(l10n.t("جديد", "New"))
         .navigationBarTitleDisplayMode(.inline)
+        .task { await subscriptions.refreshStatus() }
         .alert(l10n.t("إرسال الملفات للمعالجة؟", "Send files for processing?"), isPresented: $showPrivacyConfirmation) {
             Button(l10n.t("إلغاء", "Cancel"), role: .cancel) { }
             Button(isTranslation ? l10n.t("ابدأ الترجمة", "Start translation")
                                  : l10n.t("ابدأ التحويل", "Start conversion")) { enqueuePending() }
         } message: { Text(privacyMessage) }
+        .alert(l10n.t("الصفحات المتبقية لا تكفي", "Not enough pages left"), isPresented: $showPlanLimit) {
+            Button(l10n.t("عرض الخطط", "See plans")) { showPlans = true }
+            Button(l10n.t("إلغاء", "Cancel"), role: .cancel) { }
+        } message: {
+            Text(l10n.t("هذه المهمة تحتاج \(plannedPages) صفحة، والمتبقي في اشتراكك هذا الشهر \(subscriptions.status?.pagesRemaining ?? 0) صفحة. اختر صفحات أقل من «الصفحات المطلوبة»، أو رقِّ اشتراكك.",
+                        "This task needs \(plannedPages) pages and your plan has \(subscriptions.status?.pagesRemaining ?? 0) left this month. Choose fewer pages, or upgrade your plan."))
+        }
+        .sheet(isPresented: $showPlans) {
+            NavigationStack { SubscriptionView() }
+                .environmentObject(l10n)
+        }
         .alert(l10n.t("تعذر بدء المهمة", "Could not start the task"), isPresented: $showConfigurationRequired) {
             Button(l10n.t("حسنًا", "OK"), role: .cancel) { }
         } message: {
@@ -396,6 +412,13 @@ struct TaskComposerView: View {
                 .font(.subheadline)
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
+            if let status = subscriptions.status, status.isActive, !pendingURLs.isEmpty {
+                Text(l10n.t("ستستخدم هذه المهمة نحو \(plannedPages) صفحة من رصيدك، والمتبقي \(status.pagesRemaining).",
+                            "This task will use about \(plannedPages) of your pages; \(status.pagesRemaining) left."))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(status.fits(plannedPages) ? BasirPalette.primaryText : BasirPalette.danger)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
             Toggle(isOn: $settings.includeSummary) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(l10n.t("إضافة ملخص في بداية الملف", "Add a summary at the start of the file"))
@@ -417,6 +440,17 @@ struct TaskComposerView: View {
             .tint(BasirPalette.accent)
         }
         .glassSurface()
+    }
+
+    /// The pages this task counts, as the server will count them.
+    private var plannedPages: Int {
+        let selection = PageSelectionNormalizer.normalize(options.pageSelection)
+        let pages = pendingURLs.reduce(0) { total, url in
+            let count = max(1, metadata[url.standardizedFileURL.path]?.itemCount ?? 1)
+            guard !selection.isEmpty else { return total + count }
+            return total + ((try? PageSelectionParser.pages(from: selection, total: count).count) ?? count)
+        }
+        return BillingEstimate.pages(documentPages: pages, preferredModel: options.preferredModel)
     }
 
     private var summaryText: String {

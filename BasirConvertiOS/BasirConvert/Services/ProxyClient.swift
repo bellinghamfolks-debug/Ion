@@ -23,6 +23,9 @@ actor ProxyClient {
         let preferredModel: String
         /// Only for translations; omitted otherwise.
         let translation: TranslationPreferences.Payload?
+        /// The pages counted here, so the server can refuse a task that does
+        /// not fit in the plan before the file is uploaded.
+        let estimatedPages: Int?
 
         enum CodingKeys: String, CodingKey {
             case filename
@@ -36,6 +39,7 @@ actor ProxyClient {
             case outputName = "output_name"
             case preferredModel = "preferred_model"
             case translation
+            case estimatedPages = "estimated_pages"
         }
     }
 
@@ -278,7 +282,8 @@ actor ProxyClient {
             pageSelection: normalizedPageSelection,
             outputName: options.outputName,
             preferredModel: options.effectivePreferredModel,
-            translation: options.operation == .translate ? (options.translation ?? .standard).payload : nil
+            translation: options.operation == .translate ? (options.translation ?? .standard).payload : nil,
+            estimatedPages: expectedSourcePages > 0 ? expectedSourcePages : nil
         )
 
         var createRequest = URLRequest(url: base.appendingPathComponent("/api/jobs"))
@@ -775,6 +780,42 @@ actor ProxyClient {
         request.setValue(requestID, forHTTPHeaderField: "Idempotency-Key")
         request.setValue(Self.appVersion, forHTTPHeaderField: "X-Basir-Client-Version")
         request.setValue(configuration.clientToken, forHTTPHeaderField: "X-Basir-Client-Token")
+        // The plan this device's pages are counted on (see BillingAccount).
+        request.setValue(BillingAccount.header, forHTTPHeaderField: "X-Basir-Account")
+    }
+
+    // MARK: Plans
+
+    /// This device's plan and the pages left this month.
+    func billingStatus(language: String) async throws -> BillingStatus {
+        var components = URLComponents(url: try secureBaseURL().appendingPathComponent("/api/billing/status"),
+                                       resolvingAgainstBaseURL: false)
+        components?.queryItems = [URLQueryItem(name: "language", value: language)]
+        guard let url = components?.url else { throw BasirError.invalidServerURL }
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        applyServerHeaders(to: &request, requestID: UUID().uuidString)
+        let (data, response) = try await retryingData(request: request)
+        try Self.validateHTTP(response, data: data)
+        return try BillingStatus.decode(data)
+    }
+
+    /// Purchases as Apple signed them; the server verifies each with Apple's
+    /// own certificates before it changes the plan.
+    func submitPurchases(_ signedTransactions: [String], language: String) async throws -> BillingStatus {
+        var components = URLComponents(url: try secureBaseURL().appendingPathComponent("/api/billing/transactions"),
+                                       resolvingAgainstBaseURL: false)
+        components?.queryItems = [URLQueryItem(name: "language", value: language)]
+        guard let url = components?.url else { throw BasirError.invalidServerURL }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpBody = try JSONSerialization.data(withJSONObject: ["signed_transactions": signedTransactions])
+        applyServerHeaders(to: &request, requestID: UUID().uuidString)
+        let (data, response) = try await retryingData(request: request)
+        try Self.validateHTTP(response, data: data)
+        return try BillingStatus.decode(data)
     }
 
     private func validateDownloadedHTTP(_ response: HTTPURLResponse, temporary: URL) throws {
@@ -830,6 +871,14 @@ actor ProxyClient {
         }
         if response.statusCode == 429 {
             return BasirError.rateLimited(retryAfter(response))
+        }
+        if response.statusCode == 402 {
+            let detail = (try? JSONSerialization.jsonObject(with: data) as? [String: Any])?["detail"] as? [String: Any]
+            return BasirError.insufficientPages(needed: detail?["needed"] as? Int ?? 0,
+                                                remaining: detail?["remaining"] as? Int ?? 0)
+        }
+        if response.statusCode == 426 {
+            return BasirError.appUpdateRequired
         }
         var message = String(data: data.prefix(600), encoding: .utf8) ?? ""
         message = message.replacingOccurrences(of: #"[\r\n]+"#, with: " ", options: .regularExpression)

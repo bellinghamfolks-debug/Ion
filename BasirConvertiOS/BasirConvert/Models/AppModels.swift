@@ -651,6 +651,10 @@ enum BasirError: LocalizedError {
     case invalidPageSelection
     case conversionFailed(String)
     case tooManyImages(Int, Int)
+    /// The plan has fewer pages left this month than the task needs.
+    case insufficientPages(needed: Int, remaining: Int)
+    /// The server counts pages and this app is too old to.
+    case appUpdateRequired
 
     var errorDescription: String? {
         switch self {
@@ -693,6 +697,10 @@ enum BasirError: LocalizedError {
             return message
         case .tooManyImages(let count, let limit):
             return "Too many images: \(count). One PDF can hold up to \(limit) images."
+        case .insufficientPages(let needed, let remaining):
+            return "This task needs \(needed) pages and your plan has \(remaining) left this month."
+        case .appUpdateRequired:
+            return "Update Basir to continue."
         }
     }
 }

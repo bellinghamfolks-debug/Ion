@@ -96,11 +96,15 @@ struct BasirConvertApp: App {
                 .environmentObject(intents)
                 .environment(\.layoutDirection, l10n.layoutDirection)
                 .environment(\.locale, l10n.locale)
+                // Purchases are followed from launch, so a renewal or an
+                // approved Ask to Buy is never missed.
+                .task { SubscriptionStore.shared.start(language: l10n.isArabic ? "ar" : "en") }
                 .onChange(of: scenePhase) { phase in
                     if phase == .background {
                         BackgroundExecution.shared.schedule()
                         JobWatcher.shared.appWillLeave()
                     } else if phase == .active {
+                        Task { await SubscriptionStore.shared.refreshStatus() }
                         JobWatcher.shared.prune()
                         JobWatcher.shared.resume()
                     }

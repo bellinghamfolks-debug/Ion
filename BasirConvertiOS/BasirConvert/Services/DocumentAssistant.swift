@@ -190,6 +190,8 @@ enum DocumentAssistant {
                 return l10n.t("بلغت الحد المؤقت للطلبات. حاول مجددًا بعد بضع دقائق.", "You’ve reached the temporary request limit. Try again in a few minutes.")
             case .networkUnavailable:
                 return l10n.t("لا يوجد اتصال بالإنترنت.", "There is no internet connection.")
+            case .insufficientPages, .appUpdateRequired:
+                return ErrorLocalizer.message(for: error, l10n: l10n)
             default: break
             }
         }

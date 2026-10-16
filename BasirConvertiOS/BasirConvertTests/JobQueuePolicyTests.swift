@@ -33,6 +33,19 @@ final class JobQueuePolicyTests: XCTestCase {
         XCTAssertEqual(JobQueuePolicy.pendingCount(in: jobs), 3)
     }
 
+    /// A completed task leaves the Tasks list by itself; anything that can
+    /// still be retried stays.
+    func testCompletedTasksLeaveTheListAndEverythingElseStays() {
+        let jobs = [job(.completed), job(.running), job(.partial), job(.failed), job(.cancelled), job(.completed)]
+        XCTAssertEqual(JobQueuePolicy.listed(jobs).map(\.id), [jobs[1].id, jobs[2].id, jobs[3].id, jobs[4].id])
+    }
+
+    func testReorderingTheListKeepsHiddenTasksInPlace() {
+        let a = job(.queued), done = job(.completed), b = job(.paused), c = job(.failed)
+        let reordered = JobQueuePolicy.reordered([a, done, b, c], listedOrder: [c.id, a.id, b.id])
+        XCTAssertEqual(reordered.map(\.id), [c.id, done.id, a.id, b.id])
+    }
+
     func testLaunchSelectsUnfinishedWorkBeforeTheNewestResult() {
         let jobs = [job(.completed), job(.failed), job(.paused)]
         XCTAssertEqual(JobQueuePolicy.initialSelection(in: jobs), jobs[2].id)

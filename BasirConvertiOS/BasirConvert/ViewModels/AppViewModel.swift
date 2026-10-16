@@ -71,11 +71,18 @@ final class AppViewModel: ObservableObject {
     init() {
         Task { [weak self] in
             guard let self else { return }
-            let restored = await jobStore.load()
+            let loaded = await jobStore.load()
+            // Completed tasks from an earlier launch have nothing left to
+            // show: their Word file is in My Files. Drop the task and its
+            // copy of the source, and keep the result.
+            let completed = loaded.filter { $0.status == .completed }
+            for job in completed { await jobStore.removeFiles(for: job, keepingResult: true) }
+            let restored = loaded.filter { $0.status != .completed }
             // Before any task starts, drop transfers an earlier launch left
             // behind; nothing waits for them and they slow new transfers.
             await BackgroundTransferCoordinator.shared.cancelTransfersFromEarlierLaunch()
             jobs = restored
+            if !completed.isEmpty { persist() }
             selectedJobID = JobQueuePolicy.initialSelection(in: restored)
             syncFacade()
             if self.settings?.automaticResume == true { self.resumeInterruptedJobsIfNeeded() }
@@ -314,6 +321,14 @@ final class AppViewModel: ObservableObject {
         persist()
     }
 
+    /// Reorders the tasks the Tasks list shows (completed ones are hidden).
+    func moveListedJobs(from offsets: IndexSet, to destination: Int) {
+        var listed = JobQueuePolicy.listed(jobs)
+        listed.move(fromOffsets: offsets, toOffset: destination)
+        jobs = JobQueuePolicy.reordered(jobs, listedOrder: listed.map(\.id))
+        persist()
+    }
+
     func dismissJob() { isJobPresented = false }
 
     var activeIndex: Int? { jobs.firstIndex(where: { $0.status == .running }) }
@@ -454,7 +469,7 @@ final class AppViewModel: ObservableObject {
                 UIAccessibility.post(
                     notification: .announcement,
                     argument: outcome.failedItems.isEmpty
-                        ? l10n.t("اكتملت المهمة. ملف Word جاهز للقراءة.", "Task complete. Your Word file is ready to read.")
+                        ? l10n.t("اكتملت المهمة. ملف Word محفوظ في «ملفاتي».", "Task complete. Your Word file is in My Files.")
                         : l10n.t("اكتملت المهمة جزئيًا. عدد العناصر المكتملة: \(outcome.succeededItems). عدد العناصر التي تحتاج إلى إعادة المحاولة: \(outcome.failedItems.count).",
                                  "A partial result is ready. Completed items: \(outcome.succeededItems). Items to retry: \(outcome.failedItems.count).")
                 )

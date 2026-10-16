@@ -409,18 +409,21 @@ struct JobQueueView: View {
     @State private var pendingDeleteJobID: UUID?
     @State private var isReordering = false
 
+    /// Completed tasks leave the list by themselves; their files are in My Files.
+    private var listed: [BasirJob] { JobQueuePolicy.listed(viewModel.jobs) }
+
     var body: some View {
         ZStack {
             AuroraBackground()
-            if viewModel.jobs.isEmpty {
+            if listed.isEmpty {
                 ScrollView {
                     VStack(alignment: .leading, spacing: BasirSpacing.m) {
                         Text(l10n.t("المهام", "Tasks"))
                             .font(.system(.largeTitle, design: .rounded, weight: .bold))
                             .accessibilityAddTraits(.isHeader)
-                        InfoCard(title: l10n.t("لا توجد مهام بعد", "No tasks yet"),
-                                 text: l10n.t("أضف ملفًا من تبويب «جديد» لتحويله أو ترجمته. ستظهر مهامك هنا.",
-                                              "Start a task from the New tab."),
+                        InfoCard(title: l10n.t("لا توجد مهام جارية", "No tasks in progress"),
+                                 text: l10n.t("أضف ملفًا من تبويب «جديد» لتحويله أو ترجمته. تظهر هنا المهام الجارية، وعند اكتمال المهمة تختفي من هنا وتجد ملفها في «ملفاتي».",
+                                              "Start a task from the New tab. Tasks in progress appear here; when one is complete it leaves this list and its file is in My Files."),
                                  systemImage: "checklist")
                     }
                     .appScreenContent(bottomPadding: 28)
@@ -428,10 +431,10 @@ struct JobQueueView: View {
             } else {
                 List {
                     Section {
-                        ForEach(viewModel.jobs) { job in
+                        ForEach(listed) { job in
                             row(job)
                         }
-                        .onMove(perform: viewModel.moveJobs)
+                        .onMove(perform: viewModel.moveListedJobs)
                     } header: {
                         Text(l10n.t("المهام", "Tasks"))
                             .font(.title2.weight(.bold))
@@ -447,7 +450,7 @@ struct JobQueueView: View {
         .navigationTitle(l10n.t("المهام", "Tasks"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if viewModel.jobs.count > 1 {
+            if listed.count > 1 {
                 ToolbarItem(placement: .primaryAction) {
                     Button(isReordering ? l10n.t("تم", "Done") : l10n.t("ترتيب المهام", "Reorder tasks")) {
                         isReordering.toggle()

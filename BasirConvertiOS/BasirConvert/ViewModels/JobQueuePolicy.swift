@@ -21,6 +21,24 @@ enum JobQueuePolicy {
         return jobs.firstIndex(where: { runnable.contains($0.status) })
     }
 
+    /// What the Tasks list shows: everything that still needs the person or
+    /// the server. A completed task's file is in My Files, so the task
+    /// leaves the list by itself instead of waiting to be deleted by hand.
+    /// Partial, failed and cancelled tasks stay: they can still be retried.
+    static func listed(_ jobs: [BasirJob]) -> [BasirJob] {
+        jobs.filter { $0.status != .completed }
+    }
+
+    /// The full queue after the person reordered the listed tasks: listed
+    /// tasks take the new order in the places they held, hidden ones keep
+    /// theirs.
+    static func reordered(_ jobs: [BasirJob], listedOrder: [UUID]) -> [BasirJob] {
+        let byID = Dictionary(uniqueKeysWithValues: jobs.map { ($0.id, $0) })
+        var queue = listedOrder.compactMap { byID[$0] }.makeIterator()
+        let listedIDs = Set(listedOrder)
+        return jobs.map { job in listedIDs.contains(job.id) ? (queue.next() ?? job) : job }
+    }
+
     /// The task shown in the compact bar above the tab bar.
     static func barJob(in jobs: [BasirJob]) -> BasirJob? {
         jobs.first(where: { $0.status == .running })

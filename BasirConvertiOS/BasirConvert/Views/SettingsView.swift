@@ -490,8 +490,8 @@ struct AboutBasirView: View {
             externalLink(l10n.t("الشروط والأحكام", "Terms and Conditions"), icon: "doc.text", path: "/legal/terms")
             externalLink(l10n.t("سياسة الخصوصية", "Privacy Policy"), icon: "hand.raised", path: "/legal/privacy")
             // Required by the dataset's CC BY 4.0 licence.
-            Text(l10n.t("قارئ العملات دُرّب على «مجموعة بيانات العملة السعودية» لماروف وباصهيل وعادل (جامعة الملك عبدالعزيز)، بترخيص CC BY 4.0، مع صور مولّدة منها.",
-                        "The currency reader was trained on the Saudi Currency Dataset by Maruf, Basuhail and Adil (King Abdulaziz University), CC BY 4.0, with images generated from it."))
+            Text(l10n.t("يعتمد قارئ العملات على نموذج دُرّب باستخدام «مجموعة بيانات العملة السعودية» التي أعدّها ماروف وباصهيل وعادل من جامعة الملك عبدالعزيز، والمتاحة بترخيص CC BY 4.0، إلى جانب صور مولّدة من بيانات المجموعة.",
+                        "The currency reader uses a model trained on the Saudi Currency Dataset by Maruf, Basuhail and Adil of King Abdulaziz University, licensed under CC BY 4.0, along with images generated from the dataset."))
                 .font(.footnote)
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)

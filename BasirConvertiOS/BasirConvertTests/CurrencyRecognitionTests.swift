@@ -54,6 +54,27 @@ final class CurrencyRecognitionTests: XCTestCase {
         XCTAssertEqual(voter.add(frame(.five, 0.95, at: 1.9)), .note(.five))
     }
 
+    func testWhileAddingUpTurningANoteOverDoesNotCountItTwice() {
+        var voter = CurrencyVoter()
+        voter.reshowGap = 2
+        for time in [0.0, 0.1, 0.2] { _ = voter.add(frame(.fifty, 0.95, at: time)) }
+        // Turned over: the back is not recognised for a second and a half.
+        for time in [0.5, 1.0, 1.7] { _ = voter.add(frame(nil, 0, at: time)) }
+        _ = voter.add(frame(.fifty, 0.95, at: 1.8))
+        _ = voter.add(frame(.fifty, 0.95, at: 1.9))
+        XCTAssertNil(voter.add(frame(.fifty, 0.95, at: 2.0)))
+    }
+
+    func testTotalsAgreeWithTheirNumber() {
+        XCTAssertEqual(RiyalAmount.arabic(8), "8 ريالات")
+        XCTAssertEqual(RiyalAmount.arabic(70), "70 ريالًا")
+        XCTAssertEqual(RiyalAmount.arabic(100), "100 ريال")
+        XCTAssertEqual(RiyalAmount.arabic(105), "105 ريالات")
+        XCTAssertEqual(RiyalAmount.arabic(150), "150 ريالًا")
+        XCTAssertEqual(RiyalAmount.english(1), "1 riyal")
+        XCTAssertEqual(RiyalAmount.english(70), "70 riyals")
+    }
+
     func testPrintedValuesIgnoreSerialNumbersAndReadArabicDigitsAndWords() {
         XCTAssertEqual(PrintedValue.notes(in: ["123456789", "SAMA"]), [])
         XCTAssertEqual(PrintedValue.notes(in: ["١٠٠"]), [.hundred])

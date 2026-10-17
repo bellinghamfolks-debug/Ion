@@ -23,7 +23,7 @@ struct BasirToolsSection: View {
             SectionHeading(title: l10n.t("أدوات سريعة", "Quick tools"))
             LazyVGrid(columns: columns, spacing: BasirSpacing.m) {
                 SourceTile(title: l10n.t("قارئ العملات", "Currency reader"),
-                           detail: l10n.t("وجّه الكاميرا إلى الورقة النقدية واسمع قيمتها", "Point the camera at a banknote and hear its value"),
+                           detail: l10n.t("وجّه الكاميرا نحو الورقة النقدية لسماع قيمتها.", "Point your camera at a banknote to hear its value."),
                            systemImage: "banknote.fill") { tool = .currency }
                 SourceTile(title: l10n.t("صور إلى PDF", "Images to PDF"),
                            detail: l10n.t("رتّب الصور واحفظها في ملف PDF", "Arrange photos and save them as a PDF"),

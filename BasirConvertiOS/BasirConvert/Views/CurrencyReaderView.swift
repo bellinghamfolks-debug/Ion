@@ -34,7 +34,7 @@ struct CurrencyReaderView: View {
                         .font(.title3.weight(.semibold))
                         .multilineTextAlignment(.center)
                     if reader.summing {
-                        Text(l10n.t("المجموع: \(reader.total) ريال", "Total: \(reader.total) riyals"))
+                        Text(l10n.t("المجموع: \(RiyalAmount.arabic(reader.total))", "Total: \(RiyalAmount.english(reader.total))"))
                             .font(.title2.weight(.bold))
                     }
                 }
@@ -46,8 +46,8 @@ struct CurrencyReaderView: View {
                 .accessibilityAddTraits(.updatesFrequently)
 
                 HStack(spacing: BasirSpacing.m) {
-                    controlButton(reader.summing ? l10n.t("إيقاف الجمع", "Stop adding up")
-                                                 : l10n.t("اجمع المبلغ", "Add up notes"),
+                    controlButton(reader.summing ? l10n.t("إيقاف الجمع", "Stop counting")
+                                                 : l10n.t("بدء الجمع", "Start counting"),
                                   systemImage: reader.summing ? "sum" : "plus.forwardslash.minus") {
                         reader.toggleSumming()
                     }
@@ -56,7 +56,7 @@ struct CurrencyReaderView: View {
                             reader.resetTotal()
                         }
                     }
-                    controlButton(reader.torchOn ? l10n.t("إطفاء الإضاءة", "Light off") : l10n.t("تشغيل الإضاءة", "Light on"),
+                    controlButton(reader.torchOn ? l10n.t("إطفاء الإضاءة", "Turn off light") : l10n.t("تشغيل الإضاءة", "Turn on light"),
                                   systemImage: reader.torchOn ? "flashlight.off.fill" : "flashlight.on.fill") {
                         reader.toggleTorch()
                     }
@@ -130,8 +130,8 @@ final class CurrencyReaderController: NSObject, ObservableObject {
     func start(l10n: L10n) {
         self.l10n = l10n
         headline = l10n.t("قارئ العملات", "Currency reader")
-        guidance = l10n.t("ضع الورقة النقدية أمام الكاميرا على بعد شبر تقريبًا.",
-                          "Hold the banknote in front of the camera, about a hand’s length away.")
+        guidance = l10n.t("أمسك الورقة النقدية أمام الكاميرا، على بُعد شبر تقريبًا.",
+                          "Hold the banknote about 20 cm in front of the camera.")
         announce(guidance)
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
@@ -160,19 +160,21 @@ final class CurrencyReaderController: NSObject, ObservableObject {
     func toggleSumming() {
         summing.toggle()
         if summing { total = 0 }
-        announce(summing ? (l10n?.t("الجمع يعمل. اعرض الأوراق واحدة بعد الأخرى.",
-                                    "Adding up. Show the notes one at a time.") ?? "")
-                         : (l10n?.t("أوقف الجمع. المجموع \(total) ريال.", "Stopped adding up. Total \(total) riyals.") ?? ""))
+        voter.reshowGap = summing ? 2 : 1
+        announce(summing ? (l10n?.t("بدأ الجمع. ضع الأوراق أمام الكاميرا، واحدة تلو الأخرى.",
+                                    "Counting started. Hold the banknotes in front of the camera, one at a time.") ?? "")
+                         : (l10n?.t("توقّف الجمع. المجموع: \(RiyalAmount.arabic(total)).",
+                                    "Counting stopped. Total: \(RiyalAmount.english(total)).") ?? ""))
     }
 
     func resetTotal() {
         total = 0
-        announce(l10n?.t("صُفّر المجموع.", "Total reset.") ?? "")
+        announce(l10n?.t("المجموع الآن صفر.", "The total is now zero.") ?? "")
     }
 
     private func denied() {
-        guidance = l10n?.t("اسمح لبصير باستخدام الكاميرا من إعدادات iPhone ثم أعد المحاولة.",
-                           "Allow Basir to use the camera in iPhone Settings, then try again.") ?? ""
+        guidance = l10n?.t("للسماح لبصير باستخدام الكاميرا، افتح إعدادات iPhone وفعّل إذن الكاميرا لبصير، ثم حاول مجددًا.",
+                           "Open iPhone Settings and allow Basir to access the camera, then try again.") ?? ""
         announce(guidance)
     }
 
@@ -185,7 +187,7 @@ final class CurrencyReaderController: NSObject, ObservableObject {
                   let input = try? AVCaptureDeviceInput(device: device),
                   session.canAddInput(input) else {
                 session.commitConfiguration()
-                guidance = l10n?.t("تعذر تشغيل الكاميرا.", "The camera could not start.") ?? ""
+                guidance = l10n?.t("تعذّر تشغيل الكاميرا. حاول مجددًا.", "Couldn’t start the camera. Please try again.") ?? ""
                 announce(guidance)
                 return
             }
@@ -230,16 +232,17 @@ final class CurrencyReaderController: NSObject, ObservableObject {
             var spoken = note.spoken(l10n)
             if summing {
                 total += note.rawValue
-                spoken += l10n.t(". المجموع \(total) ريال", ". Total \(total) riyals")
+                spoken += l10n.t(". المجموع: \(RiyalAmount.arabic(total))", ". Total: \(RiyalAmount.english(total))")
             }
             headline = note.spoken(l10n)
-            guidance = l10n.t("اعرض ورقة أخرى أو اقلبها.", "Show another note or turn it over.")
+            guidance = l10n.t("ضع ورقة أخرى أمام الكاميرا، أو اقلب الورقة إلى الوجه الآخر.",
+                              "Hold another banknote in front of the camera, or turn this one over.")
             announce(spoken, interrupt: true)
             tap(note.hapticTaps)
         case .uncertain:
             guard Date().timeIntervalSince(lastGuidance) > 4, let l10n else { return }
             lastGuidance = Date()
-            guidance = l10n.t("ثبّت الورقة وقرّبها قليلًا.", "Hold the note still and a little closer.")
+            guidance = l10n.t("قرّب الورقة قليلًا وثبّتها أمام الكاميرا.", "Move the banknote a little closer and hold it still.")
             announce(guidance)
         case .nothing:
             break
@@ -253,7 +256,7 @@ final class CurrencyReaderController: NSObject, ObservableObject {
             if !torchOn, let since = darkSince, Date().timeIntervalSince(since) > 1.5 {
                 autoTorch = true
                 setTorch(true)
-                announce(l10n?.t("المكان مظلم، شغّلت الإضاءة.", "It’s dark, so the light is on.") ?? "")
+                announce(l10n?.t("شُغّلت الإضاءة تلقائيًا لأن المكان مظلم.", "The light turned on automatically because it’s dark.") ?? "")
             }
         } else {
             darkSince = nil

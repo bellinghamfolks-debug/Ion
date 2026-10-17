@@ -32,6 +32,18 @@ enum RiyalNote: Int, CaseIterable, Codable, Sendable {
     var hapticTaps: Int { (RiyalNote.allCases.firstIndex(of: self) ?? 0) + 1 }
 }
 
+/// A total as it is read aloud, with the noun agreeing with the number:
+/// "8 ريالات", "70 ريالًا", "100 ريال".
+enum RiyalAmount {
+    static func arabic(_ amount: Int) -> String {
+        let lastTwo = amount % 100
+        let noun = (3...10).contains(lastTwo) ? "ريالات" : (11...99).contains(lastTwo) ? "ريالًا" : "ريال"
+        return "\(amount) \(noun)"
+    }
+
+    static func english(_ amount: Int) -> String { amount == 1 ? "1 riyal" : "\(amount) riyals" }
+}
+
 /// The values printed on a note, found in recognised text. Serial numbers
 /// are long runs of digits, so only a short number that is exactly a
 /// denomination counts, in Western or Arabic-Indic digits, or in words.
@@ -102,6 +114,9 @@ struct CurrencyVoter {
     var minimumConfidence = 0.85
     /// The same note is not repeated while it stays in view.
     var repeatAfter: TimeInterval = 4
+    /// How long a note must be out of view before it may be named again.
+    /// Longer while adding up, so turning a note over does not count it twice.
+    var reshowGap: TimeInterval = 1
 
     private(set) var history: [CurrencyObservation] = []
     private var lastSpoken: (note: RiyalNote, time: TimeInterval)?
@@ -114,7 +129,7 @@ struct CurrencyVoter {
         let verdict = decide()
         guard case .note(let note) = verdict else {
             // A note taken away and shown again may be named again.
-            if let spoken = lastSpoken, observation.time - lastNoteSeen > 1.0, spoken.time < lastNoteSeen + 0.001 {
+            if let spoken = lastSpoken, observation.time - lastNoteSeen > reshowGap, spoken.time < lastNoteSeen + 0.001 {
                 lastSpoken = nil
             }
             return verdict == .uncertain ? .uncertain : nil

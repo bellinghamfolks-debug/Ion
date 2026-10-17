@@ -90,7 +90,7 @@ jobs:
           mkdir -p build
           # A file naming one test runs only that test (faster checks of one flow).
           ONLY=()
-          if [ -s BasirScreenshotsUITests/ONLY ]; then ONLY=(-only-testing:"BasirScreenshotsUITests/ScreenshotTour/$(head -1 BasirScreenshotsUITests/ONLY)"); fi
+          if [ -s BasirScreenshotsUITests/ONLY ]; then ONLY=(-only-testing:"BasirScreenshots/ScreenshotTour/$(head -1 BasirScreenshotsUITests/ONLY)"); fi
           xcodebuild test "${ONLY[@]}" \
             -project BasirConvert.xcodeproj \
             -scheme BasirScreenshots \

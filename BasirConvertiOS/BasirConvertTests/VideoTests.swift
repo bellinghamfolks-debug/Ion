@@ -69,23 +69,23 @@ final class VideoTests: XCTestCase {
             .body.contains("جارٍ وصف الفيديو"))
     }
 
-    func testCuesSayTheChapterTheSceneAndTheTextOnScreenAtTheSceneStart() throws {
+    func testCuesSayTheChapterWithTheSceneAndTheTextOnScreenAtItsOwnTime() throws {
         let video = try VideoDescription.decode(Data(serverJSON.utf8))
         let cues = AudioDescription.cues(video, arabic: true)
-        XCTAssertEqual(cues.map(\.time), [10, 710])
-        XCTAssertEqual(cues[0].text, "الفصل: المكونات. أرز في وعاء مكتوب على الشاشة: «كبسة لحم».")
-        XCTAssertTrue(cues[1].text.hasPrefix("الفصل: الطبخ."))
-        // Someone speaks at 0:30, within reach of the first cue: the video pauses for it.
-        XCTAssertTrue(cues[0].nearSpeech)
-        XCTAssertFalse(cues[1].nearSpeech)
+        XCTAssertEqual(cues.map(\.time), [10, 20, 710])
+        XCTAssertEqual(cues[0].text, "الفصل: المكونات. أرز في وعاء")
+        XCTAssertEqual(cues[1].text, "مكتوب على الشاشة: «كبسة لحم».")
+        XCTAssertTrue(cues[2].text.hasPrefix("الفصل: الطبخ."))
+        // Someone speaks at 0:30: the cue at 0:20 pauses the video; the others play on, lowered.
+        XCTAssertEqual(cues.map(\.nearSpeech), [false, true, false])
     }
 
     func testFindingTheNextAndCurrentCue() throws {
         let cues = AudioDescription.cues(try VideoDescription.decode(Data(serverJSON.utf8)), arabic: false)
         XCTAssertEqual(AudioDescription.nextIndex(at: 0, in: cues), 0)
-        XCTAssertEqual(AudioDescription.nextIndex(at: 100, in: cues), 1)
-        XCTAssertEqual(AudioDescription.nextIndex(at: 800, in: cues), 2)
+        XCTAssertEqual(AudioDescription.nextIndex(at: 100, in: cues), 2)
+        XCTAssertEqual(AudioDescription.nextIndex(at: 800, in: cues), 3)
         XCTAssertNil(AudioDescription.currentIndex(at: 5, in: cues))
-        XCTAssertEqual(AudioDescription.currentIndex(at: 720, in: cues), 1)
+        XCTAssertEqual(AudioDescription.currentIndex(at: 720, in: cues), 2)
     }
 }

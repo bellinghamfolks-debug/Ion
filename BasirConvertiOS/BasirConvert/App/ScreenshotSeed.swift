@@ -22,6 +22,7 @@ enum ScreenshotSeed {
     }
 
     private static func seed() throws {
+        seedVideo()
         let manager = FileManager.default
         let outputs = try FileAccess.outputDirectory()
         let jobsRoot = try FileAccess.persistentJobsDirectory()
@@ -100,6 +101,30 @@ enum ScreenshotSeed {
     }
 
     /// The sample PDF arrives as if shared from another app.
+    /// A described video (a public, embeddable YouTube film) for the video screens.
+    private static func seedVideo() {
+        VideoPending.clear()
+        VideoCenter.shared.hasUnseenResult = false
+        VideoLibrary.entries().forEach { VideoLibrary.remove($0.id) }
+        let json = """
+        {"language":"ar","source":"youtube","title":"أرنب كبير","kind":"فيلم رسوم متحركة قصير",
+         "one_line":"أرنب كبير طيب القلب يواجه ثلاثة قوارض تزعج الغابة.","summary":"يستيقظ أرنب ضخم في غابة خضراء، ويستمتع بالفراشات، ثم تبدأ ثلاثة قوارض بإزعاجه فيقرر أن يلقنها درسًا.",
+         "duration_seconds":596,"setting":"غابة خضراء مشمسة","people":["أرنب أبيض ضخم","سنجاب طائر","سنجاب أحمر","شيهم"],
+         "spoken_language":"","has_speech":false,
+         "chapters":[{"start":0,"title":"الصباح في الغابة","description":"شروق الشمس على الغابة."},{"start":120,"title":"الإزعاج","description":"القوارض تزعج الأرنب."}],
+         "scenes":[{"start":0,"end":20,"description":"شمس الصباح تشرق على غابة خضراء ونهر صغير."},
+                   {"start":25,"end":60,"description":"أرنب أبيض ضخم يخرج من جحره ويتمطى."},
+                   {"start":120,"end":160,"description":"ثلاثة قوارض تراقب الأرنب من فوق شجرة."}],
+         "on_screen_text":[{"time":5,"text":"Big Buck Bunny"}],"speech":[],
+         "segments_described":1,"segments_total":1,"notes":[]}
+        """
+        guard let video = try? VideoDescription.decode(Data(json.utf8)) else { return }
+        let entry = VideoLibrary.Entry(id: "video-screenshot", title: video.title,
+                                       youtubeURL: "https://www.youtube.com/watch?v=aqz-KE-bpKQ", serverJobID: nil,
+                                       createdAt: Date(), durationSeconds: video.durationSeconds)
+        VideoLibrary.save(video, entry: entry)
+    }
+
     private static func deliverIncomingPDF() throws {
         guard let pdf = Data(base64Encoded: samplePDF, options: .ignoreUnknownCharacters) else { return }
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent("BasirScreenshot", isDirectory: true)

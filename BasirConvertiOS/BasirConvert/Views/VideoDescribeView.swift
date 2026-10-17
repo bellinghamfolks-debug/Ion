@@ -57,9 +57,9 @@ struct VideoDescribeView: View {
             }
         }
         .escapeToDismiss { dismiss() }
-        .sheet(isPresented: $showAlbum) {
+        .fullScreenCover(isPresented: $showAlbum) {
+            // Closed through SwiftUI's dismiss (see ImportControllers.swift).
             VideoLibraryPicker { url, title in
-                showAlbum = false
                 importing = false
                 if let url { runner.start(.file(url, title: title), configuration: settings.configuration, l10n: l10n) }
             } onLoading: {
@@ -407,10 +407,11 @@ struct VideoResultView: View {
 /// The album, videos only, one at a time. The chosen video is copied into
 /// Basir (iOS deletes its own copy when the picker closes).
 struct VideoLibraryPicker: UIViewControllerRepresentable {
+    @Environment(\.dismiss) private var dismiss
     let onPick: (URL?, String) -> Void
     let onLoading: () -> Void
 
-    func makeCoordinator() -> Coordinator { Coordinator(parent: self) }
+    func makeCoordinator() -> Coordinator { Coordinator(parent: self, close: { dismiss() }) }
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
@@ -426,9 +427,14 @@ struct VideoLibraryPicker: UIViewControllerRepresentable {
 
     final class Coordinator: NSObject, PHPickerViewControllerDelegate {
         let parent: VideoLibraryPicker
-        init(parent: VideoLibraryPicker) { self.parent = parent }
+        let close: () -> Void
+        init(parent: VideoLibraryPicker, close: @escaping () -> Void) {
+            self.parent = parent
+            self.close = close
+        }
 
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            close()
             guard let provider = results.first?.itemProvider else {
                 parent.onPick(nil, "")
                 return

@@ -61,7 +61,9 @@ struct RootView: View {
             guard phase == .active else { return }
             applyTheme()
             if let link = SharedLinks.takeLatestVideo() { sharedVideoLink = SharedVideoLink(url: link) }
-            returnToVideo()
+            // Carry on quietly; the video screen, if open, shows the progress. It is opened
+            // by Basir itself only after a cold start (below), never over another screen.
+            VideoCenter.shared.runner.resumeIfNeeded(configuration: settings.configuration, l10n: l10n)
             viewModel.importSharedInbox()
             viewModel.resumeInterruptedJobsIfNeeded()
             outputLibrary.refresh()
@@ -156,7 +158,8 @@ struct RootView: View {
         }
     }
 
-    /// Back in Basir with a video under way, or described while away: show it.
+    /// Basir started again (iOS closed it) with a video under way, or described
+    /// while away: show it.
     private func returnToVideo() {
         guard !isUnitTestHost, onboardingCompleted, sharedVideoLink == nil else { return }
         VideoCenter.shared.runner.resumeIfNeeded(configuration: settings.configuration, l10n: l10n)

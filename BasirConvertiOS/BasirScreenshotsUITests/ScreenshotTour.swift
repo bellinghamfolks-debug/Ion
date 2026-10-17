@@ -55,6 +55,67 @@ final class ScreenshotTour: XCTestCase {
         }
     }
 
+    func test2b_VideoAndCurrency() {
+        launch(extra: ["-video_launch_seen_v1", "NO"])
+        pause(3)
+        shotScrolling("فيديو - شاشة الإطلاق", limit: 2)
+        tap(button: "لاحقًا")
+        pause(1.5)
+        scrollTo("وصف الفيديو")
+        guard tap(button: "وصف الفيديو") else { return }
+        pause(1.5)
+        shotScrolling("فيديو - الشاشة", limit: 3)
+        scrollToTop()
+        // The album must stay open until a video is chosen.
+        if tap(button: "اختر فيديو من الألبوم") {
+            pause(4)
+            shot("فيديو - الألبوم بعد 4 ثوانٍ")
+            let firstVideo = app.images.firstMatch
+            if firstVideo.waitForExistence(timeout: 5) {
+                firstVideo.tap()
+                pause(6)
+                shot("فيديو - بعد اختيار فيديو")
+            } else {
+                close()
+            }
+        }
+        let field = app.textFields.firstMatch
+        if field.waitForExistence(timeout: 3) {
+            field.tap()
+            field.typeText("https://example.com/not-a-video")
+            tap(button: "صِف الفيديو")
+            pause(1)
+            shot("فيديو - رابط غير صحيح")
+        }
+        // The described sample: its page, then watching with description.
+        scrollTo("أرنب كبير")
+        if tap(button: "أرنب كبير") {
+            pause(1.5)
+            shotScrolling("فيديو - الوصف", limit: 4)
+            scrollToTop()
+            if tap(button: "شاهد مع الوصف") {
+                pause(8)
+                shot("فيديو - المشاهدة مع الوصف")
+                tap(button: "تشغيل")
+                pause(10)
+                shotScrolling("فيديو - أثناء التشغيل والوصف", limit: 2)
+                close()
+            }
+            if tap(button: "اسمع الوصف كاملًا") {
+                pause(2)
+                shot("فيديو - القارئ")
+                close()
+            }
+        }
+        close()
+        scrollTo("قارئ العملات")
+        if tap(button: "قارئ العملات") {
+            pause(3)
+            shot("قارئ العملات")
+            close()
+        }
+    }
+
     func test3_IncomingFile() {
         launch(extra: ["-BasirScreenshotIncoming"])
         pause(3)
@@ -161,7 +222,8 @@ final class ScreenshotTour: XCTestCase {
             "-interface_language", "ar",
             "-AppleLanguages", "(ar)",
             "-AppleLocale", "ar_SA",
-        ] + (onboardingDone ? ["-onboarding_completed_v3_1", "YES"] : []) + (extra.contains("-interface_appearance") ? [] : ["-interface_appearance", "light"]) + extra
+        ] + (onboardingDone ? ["-onboarding_completed_v3_1", "YES"] : []) + (extra.contains("-interface_appearance") ? [] : ["-interface_appearance", "light"])
+          + (extra.contains("-video_launch_seen_v1") ? [] : ["-video_launch_seen_v1", "YES"]) + extra
         app.launch()
         pause(2)
         allowSystemAlerts()

@@ -13,6 +13,7 @@ on:
     paths:
       - "BasirConvertiOS/BasirScreenshotsUITests/**"
       - "BasirConvertiOS/BasirConvert/App/ScreenshotSeed.swift"
+      - "BasirConvertiOS/BasirConvert/Views/Video*.swift"
       - ".github/workflows/basir-ios-screenshots.yml"
   workflow_dispatch:
 
@@ -74,6 +75,14 @@ jobs:
           xcrun simctl status_bar "$UDID" override --time "9:41" --batteryState charged --batteryLevel 100 \
             --cellularMode active --cellularBars 4 --wifiBars 3 || true
           echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: Put a sample video in the simulator's photo library
+        run: |
+          set -euo pipefail
+          brew install ffmpeg >/dev/null 2>&1 || true
+          ffmpeg -loglevel error -f lavfi -i testsrc=duration=12:size=640x360:rate=30 -f lavfi -i sine=frequency=440:duration=12 \
+            -shortest -pix_fmt yuv420p -c:v libx264 -c:a aac sample.mp4
+          xcrun simctl addmedia "${{ steps.sim.outputs.udid }}" sample.mp4
 
       - name: Run the screenshot tour
         run: |

@@ -29,6 +29,8 @@ struct VideoLaunchView: View {
                                                  "A video from your album or a YouTube link, up to an hour long."))
                     feature("list.bullet.rectangle", l10n.t("فصول بأوقاتها، وما يظهر في كل مشهد، والنصوص على الشاشة، ومن يتكلم.",
                                                             "Chapters with their times, what appears in each scene, the text on screen, and who speaks."))
+                    feature("play.rectangle", l10n.t("شاهد مع الوصف: يشغّل بصير الفيديو وينطق ما يحدث على الشاشة في وقته، مثل الوصف الصوتي في الأفلام.",
+                                                     "Watch with description: Basir plays the video and says what happens on screen as it happens, like audio description in films."))
                     feature("questionmark.bubble", l10n.t("اسأل الفيديو ما تريد، مثل: ماذا كان مكتوبًا على اللوحة؟",
                                                           "Ask the video anything, like: what was written on the sign?"))
                     feature("square.and.arrow.up", l10n.t("من تطبيق YouTube مباشرة: اضغط «مشاركة» ثم اختر «بصير».",

@@ -214,6 +214,7 @@ struct VideoResultView: View {
     @State private var asking = false
     @State private var askError: String?
     @State private var reading = false
+    @State private var watching = false
 
     var body: some View {
         ScrollView {
@@ -234,6 +235,12 @@ struct VideoResultView: View {
         .navigationTitle(entry.title)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { video = VideoLibrary.description(for: entry.id) }
+        .fullScreenCover(isPresented: $watching) {
+            if let video {
+                VideoWatchView(video: video, localURL: localVideo, youtubePage: youtubePage, arabic: l10n.isArabic)
+                    .environmentObject(l10n)
+            }
+        }
         .fullScreenCover(isPresented: $reading) {
             if let video {
                 DocumentReaderView(title: entry.title, blocks: VideoReaderBlocks.blocks(video, arabic: l10n.isArabic))
@@ -242,6 +249,21 @@ struct VideoResultView: View {
             }
         }
     }
+
+    private var localVideo: URL? {
+        guard entry.hasLocalVideo == true, let url = VideoLibrary.mediaURL(for: entry.id),
+              FileManager.default.fileExists(atPath: url.path) else { return nil }
+        return url
+    }
+
+    /// YouTube's player, served from Basir's own address (YouTube asks embedding pages to identify themselves).
+    private var youtubePage: URL? {
+        guard let link = entry.youtubeURL, let id = URLComponents(string: link)?.queryItems?.first(where: { $0.name == "v" })?.value,
+              let base = settings.configuration.secureBaseURL else { return nil }
+        return base.appendingPathComponent("embed/youtube/\(id)")
+    }
+
+    private var canWatch: Bool { localVideo != nil || youtubePage != nil }
 
     private func header(_ video: VideoDescription) -> some View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
@@ -260,8 +282,12 @@ struct VideoResultView: View {
                                            "Basir couldn't describe part of the video; the rest is described below."),
                               isError: false)
             }
-            PrimaryActionButton(title: l10n.t("اسمع الوصف كاملًا", "Hear the whole description"),
-                                systemImage: "speaker.wave.2.fill") { reading = true }
+            if canWatch {
+                PrimaryActionButton(title: l10n.t("شاهد مع الوصف", "Watch with description"),
+                                    systemImage: "play.rectangle.fill") { watching = true }
+            }
+            CardActionButton(title: l10n.t("اسمع الوصف كاملًا", "Hear the whole description"),
+                             systemImage: "speaker.wave.2.fill", prominent: !canWatch) { reading = true }
         }
         .glassSurface()
     }

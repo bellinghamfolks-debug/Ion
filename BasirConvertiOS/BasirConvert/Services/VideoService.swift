@@ -91,6 +91,8 @@ enum VideoLibrary {
         var serverJobID: String?
         var createdAt: Date
         var durationSeconds: Int
+        /// The small copy of an album video, kept for "Watch with description".
+        var hasLocalVideo: Bool? = nil
     }
 
     private static let indexName = "index.json"
@@ -110,6 +112,11 @@ enum VideoLibrary {
         return ((try? decoder.decode([Entry].self, from: data)) ?? []).sorted { $0.createdAt > $1.createdAt }
     }
 
+    /// Where the small copy of an album video is kept.
+    static func mediaURL(for id: String) -> URL? {
+        directory?.appendingPathComponent("\(id).mp4")
+    }
+
     static func description(for id: String) -> VideoDescription? {
         guard let url = directory?.appendingPathComponent("\(id).json"), let data = try? Data(contentsOf: url) else { return nil }
         return try? VideoDescription.decode(data)
@@ -126,6 +133,7 @@ enum VideoLibrary {
     static func remove(_ id: String) {
         guard let folder = directory else { return }
         try? FileManager.default.removeItem(at: folder.appendingPathComponent("\(id).json"))
+        try? FileManager.default.removeItem(at: folder.appendingPathComponent("\(id).mp4"))
         write(entries().filter { $0.id != id })
     }
 
@@ -253,9 +261,17 @@ final class VideoRunner: ObservableObject {
             announce(l10n.t("وصل الفيديو. بصير يشاهده الآن. يمكنك الانتقال إلى تطبيق آخر، وسيصلك إشعار عند الانتهاء.",
                             "The video arrived. Basir is watching it now. You can switch to another app; you'll be notified when it's done."))
             let description = try await follow(jobID: jobID, requestKey: requestKey, client: client, l10n: l10n)
-            let entry = VideoLibrary.Entry(id: requestKey, title: description.title.isEmpty ? shownTitle : description.title,
+            var entry = VideoLibrary.Entry(id: requestKey, title: description.title.isEmpty ? shownTitle : description.title,
                                            youtubeURL: youtube, serverJobID: jobID, createdAt: Date(),
                                            durationSeconds: description.durationSeconds)
+            // The small copy stays on the phone, so the video can be watched with its description.
+            if youtube == nil, let made = prepared, let keep = VideoLibrary.mediaURL(for: requestKey) {
+                try? FileManager.default.removeItem(at: keep)
+                if (try? FileManager.default.moveItem(at: made, to: keep)) != nil {
+                    prepared = nil
+                    entry.hasLocalVideo = true
+                }
+            }
             VideoLibrary.save(description, entry: entry)
             active = nil
             // The description is now on the phone; the server copy goes, as the

@@ -1,0 +1,399 @@
+{
+ "mendeley_saudi_currency": {
+  "status": 200,
+  "name": "Saudi Currency Dataset",
+  "description": "Automatic detection and recognition of banknotes could be a highly important technology for people with visual impairments as well as banks, providing easy administration for dealing with diverse paper currencies. With this purpose in mind, we created the Saudi riyal banknotes dataset with annotations.  We utilized a smartphone camera to create our new dataset consist of Saudi riyals.\nAll market-acceptable currency notes are used, including 1, 5 riyal notes, 10 and 20 riyal notes, 50 riyal notes, and new 100, 200, and 500 riyal notes. We capture photos from multiple viewpoints to extract additional information from the image. For each Saudi riyal, we employ twelve distinct angles. Our dataset includes 2000 labeled photos. For annotating our photos in our dataset, we utilize Pascal Visual Object Classes. The dataset is made up of \"train\" and \"test\" photos in a 90:10 ratio.",
+  "licence": {
+   "id": "01d9c749-3c4d-4431-9df3-620b2dcfe144",
+   "description": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "url": "http://creativecommons.org/licenses/by/4.0",
+   "category": "Creative",
+   "short_name": "CC BY 4.0",
+   "full_name": "Creative Commons Attribution 4.0 International"
+  },
+  "version": 1,
+  "published": "2022-01-10T22:57:57.367Z",
+  "files_status": 200,
+  "files": [
+   {
+    "name": "Saudi Currency.zip",
+    "size": 6751178769,
+    "download": "https://data.mendeley.com/public-files/datasets/7sys44td9c/files/3981303c-074b-4d02-80d9-bee52fff9e6f/file_downloaded"
+   }
+  ]
+ },
+ "commons_errors": [
+  {
+   "category": "Category:Banknotes of Saudi Arabia 2007",
+   "status": 429,
+   "body": "You are making too many requests to the API.\nPlease follow the best practices at https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits.\nIf you are unsure how to get the access you need, contact bot-traffic@wikimedia.org.\n\nrequest-id: ed7ec72d-fb70-4ccb-95f4-f2ea63984223"
+  },
+  {
+   "category": "Category:Banknotes of Saudi Arabia 2012",
+   "status": 429,
+   "body": "You are making too many requests to the API.\nPlease follow the best practices at https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits.\nIf you are unsure how to get the access you need, contact bot-traffic@wikimedia.org.\n\nrequest-id: b1ab0829-069f-4de0-8fc0-a8e3cbcd052d"
+  },
+  {
+   "category": "Category:Fahd of Saudi Arabia on banknotes",
+   "status": 429,
+   "body": "You are making too many requests to the API.\nPlease follow the best practices at https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits.\nIf you are unsure how to get the access you need, contact bot-traffic@wikimedia.org.\n\nrequest-id: 8a56e43a-b382-4b49-9bcc-1f85a820f970"
+  },
+  {
+   "category": "Category:Faisal bin Abdulaziz al Saud on banknotes",
+   "status": 429,
+   "body": "You are making too many requests to the API.\nPlease follow the best practices at https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits.\nIf you are unsure how to get the access you need, contact bot-traffic@wikimedia.org.\n\nrequest-id: 506c24ce-f5aa-479c-8fbd-6e49bb88ab3e"
+  },
+  {
+   "category": "Category:Ibn Saud of Saudi Arabia on banknotes",
+   "status": 429,
+   "body": "You are making too many requests to the API.\nPlease follow the best practices at https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits.\nIf you are unsure how to get the access you need, contact bot-traffic@wikimedia.org.\n\nrequest-id: a35ff7d0-441e-423b-baf9-cf8643db481f"
+  }
+ ],
+ "wikimedia_commons": {
+  "categories": [
+   "Category:Abdullah of Saudi Arabia on banknotes",
+   "Category:Banknotes of Saudi Arabia",
+   "Category:Banknotes of Saudi Arabia 1953",
+   "Category:Banknotes of Saudi Arabia 1954",
+   "Category:Banknotes of Saudi Arabia 1956",
+   "Category:Banknotes of Saudi Arabia 1961",
+   "Category:Banknotes of Saudi Arabia 1966",
+   "Category:Banknotes of Saudi Arabia 1968",
+   "Category:Banknotes of Saudi Arabia 1977",
+   "Category:Banknotes of Saudi Arabia 1983",
+   "Category:Banknotes of Saudi Arabia 2007",
+   "Category:Banknotes of Saudi Arabia 2012",
+   "Category:Fahd of Saudi Arabia on banknotes",
+   "Category:Faisal bin Abdulaziz al Saud on banknotes",
+   "Category:Ibn Saud of Saudi Arabia on banknotes"
+  ],
+  "files": {
+   "File:Madinah Education Museum (2).jpg": {
+    "category": "Category:Banknotes of Saudi Arabia"
+   },
+   "File:SaudiArabiaP1-10Riyals-(1953)-donatedcz b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1953"
+   },
+   "File:SaudiArabiaP1-10Riyals-(1953)-donatedcz f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1953"
+   },
+   "File:SaudiArabiaP3-5Riyals-AH1373(1954)-donatedgs b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1954"
+   },
+   "File:SaudiArabiaP3-5Riyals-AH1373(1954)-donatedgs f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1954"
+   },
+   "File:SaudiArabiaP4-10Riyals-1954-donated b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1954"
+   },
+   "File:SaudiArabiaP4-10Riyals-1954-donated f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1954"
+   },
+   "File:عملات سعودية (وجه وظهر) 25.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1954"
+   },
+   "File:عملات سعودية (وجه وظهر) 26.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1954"
+   },
+   "File:عملات سعودية (وجه وظهر) 39.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1954"
+   },
+   "File:عملات سعودية (وجه وظهر) 40.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1954"
+   },
+   "File:SaudiArabiaP2-1Riyal-1956-donatedgs b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1956"
+   },
+   "File:SaudiArabiaP2-1Riyal-1956-donatedgs f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1956"
+   },
+   "File:عملات سعودية (وجه وظهر) 51.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1956"
+   },
+   "File:عملات سعودية (وجه وظهر) 52.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1956"
+   },
+   "File:SaudiArabiaP10a-100Riyals-LAH1379(1961)-donatedgs b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:SaudiArabiaP10a-100Riyals-LAH1379(1961)-donatedgs f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:SaudiArabiaP6-1Riyal-LAH1379(1961)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:SaudiArabiaP6-1Riyal-LAH1379(1961)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:SaudiArabiaP7b-5Riyals-1961-donated b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:SaudiArabiaP7b-5Riyals-1961-donated f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:SaudiArabiaP8b-10Riyals-AH1379(1961)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:SaudiArabiaP8b-10Riyals-AH1379(1961)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:SaudiArabiaP9a-50Riyals-LAH1379(1961)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:SaudiArabiaP9a-50Riyals-LAH1379(1961)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:عملات سعودية (وجه وظهر) 01.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:عملات سعودية (وجه وظهر) 02.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:عملات سعودية (وجه وظهر) 41.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:عملات سعودية (وجه وظهر) 42.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1961"
+   },
+   "File:SaudiArabiaP11a-1Riyal-(1966)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1966"
+   },
+   "File:SaudiArabiaP11a-1Riyal-(1966)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1966"
+   },
+   "File:SaudiArabiaP12a-5Riyals-(1966)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1966"
+   },
+   "File:SaudiArabiaP12a-5Riyals-(1966)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1966"
+   },
+   "File:SaudiArabiaP13-10Riyals-(1966)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1966"
+   },
+   "File:SaudiArabiaP13-10Riyals-(1966)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1966"
+   },
+   "File:SaudiArabiaP14a-50Riyals-(1966)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1966"
+   },
+   "File:SaudiArabiaP14a-50Riyals-(1966)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1966"
+   },
+   "File:SaudiArabiaP15a-100Riyals-(1966)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1966"
+   },
+   "File:SaudiArabiaP15a-100Riyals-(1966)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1966"
+   },
+   "File:1968 Saudi 10 Riyal.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1968"
+   },
+   "File:عملات سعودية (وجه وظهر) 05.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1968"
+   },
+   "File:عملات سعودية (وجه وظهر) 06.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1968"
+   },
+   "File:عملات سعودية (وجه وظهر) 23.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1968"
+   },
+   "File:عملات سعودية (وجه وظهر) 24.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1968"
+   },
+   "File:عملات سعودية (وجه وظهر) 37.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1968"
+   },
+   "File:عملات سعودية (وجه وظهر) 38.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1968"
+   },
+   "File:عملات سعودية (وجه وظهر) 49.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1968"
+   },
+   "File:عملات سعودية (وجه وظهر) 50.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1968"
+   },
+   "File:Banknotes saudi arabian.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:Five Riyals from the Reign of King Faisal bin Abdulaziz, Alaliyah Museum Collection, Jazan (2024).jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:SaudiArabiaP16-1Riyal-AH1379-(1977) b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:SaudiArabiaP16-1Riyal-AH1379-(1977) f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:SaudiArabiaP17a-5Riyals-(1977)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:SaudiArabiaP17a-5Riyals-(1977)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:SaudiArabiaP18-10Riyals-(1977)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:SaudiArabiaP18-10Riyals-(1977)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:SaudiArabiaP19-50Riyals-AH1379(1976) b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:SaudiArabiaP19-50Riyals-AH1379(1976) f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:SaudiArabiaP20-100Riyals-(1976)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:SaudiArabiaP20-100Riyals-(1976)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 03.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 04.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 19.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 20.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 21.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 22.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 33.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 34.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 35.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 36.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 47.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 48.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 53.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:عملات سعودية (وجه وظهر) 54.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1977"
+   },
+   "File:SaudiArabiaP21b-1Riyal-(1984)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:SaudiArabiaP21b-1Riyal-(1984)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:SaudiArabiaP22b-5Riyals-(1983)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:SaudiArabiaP22b-5Riyals-(1983)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:SaudiArabiaP23b-10Riyals-(1983)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:SaudiArabiaP23b-10Riyals-(1983)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:SaudiArabiaP24b-50Riyals-(1983)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:SaudiArabiaP24b-50Riyals-(1983)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:SaudiArabiaP25-100Riyals-(1984)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:SaudiArabiaP25-100Riyals-(1984)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:SaudiArabiaP26b-500Riyals-LAH1379(1983)-donatedth b.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:SaudiArabiaP26b-500Riyals-LAH1379(1983)-donatedth f.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:عملات سعودية (وجه وظهر) 07.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:عملات سعودية (وجه وظهر) 08.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:عملات سعودية (وجه وظهر) 17.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:عملات سعودية (وجه وظهر) 18.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:عملات سعودية (وجه وظهر) 27.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:عملات سعودية (وجه وظهر) 28.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:عملات سعودية (وجه وظهر) 43.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:عملات سعودية (وجه وظهر) 44.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:عملات سعودية (وجه وظهر) 61.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   },
+   "File:عملات سعودية (وجه وظهر) 62.jpg": {
+    "category": "Category:Banknotes of Saudi Arabia 1983"
+   }
+  }
+ },
+ "sama": {
+  "sixth": {
+   "status": 0,
+   "images": [],
+   "links": [],
+   "text": "URLError: "
+  },
+  "fifth": {
+   "status": 0,
+   "images": [],
+   "links": [],
+   "text": "URLError: "
+  },
+  "commemorative": {
+   "status": 0,
+   "images": [],
+   "links": [],
+   "text": "URLError: "
+  },
+  "currency": {
+   "status": 0,
+   "images": [],
+   "links": [],
+   "text": "URLError: "
+  }
+ },
+ "roboflow": {
+  "https://universe.roboflow.com/disha-fxfg8": {
+   "status": 403,
+   "licence": [],
+   "projects": []
+  },
+  "https://universe.roboflow.com/bin-mibxd/banknote-detection-2amdt": {
+   "status": 403,
+   "licence": [],
+   "projects": []
+  }
+ }
+}

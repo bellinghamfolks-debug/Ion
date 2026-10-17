@@ -59,25 +59,36 @@ final class ScreenshotTour: XCTestCase {
         launch(extra: ["-video_launch_seen_v1", "NO"])
         pause(3)
         shotScrolling("فيديو - شاشة الإطلاق", limit: 2)
-        tap(button: "لاحقًا")
-        pause(1.5)
-        scrollTo("وصف الفيديو")
-        guard tap(button: "وصف الفيديو") else { return }
-        pause(1.5)
+        if !tap(button: "لاحقًا") { dump("بعد لاحقًا") }
+        pause(2)
+        shot("فيديو - بعد إغلاق شاشة الإطلاق")
+        let tile = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "وصف الفيديو")).firstMatch
+        for _ in 0..<6 where !(tile.exists && tile.isHittable) { app.swipeUp() }
+        guard tile.waitForExistence(timeout: 5), tile.isHittable else {
+            dump("لم يظهر زر وصف الفيديو")
+            return
+        }
+        tile.tap()
+        pause(2)
         shotScrolling("فيديو - الشاشة", limit: 3)
         scrollToTop()
         // The album must stay open until a video is chosen.
         if tap(button: "اختر فيديو من الألبوم") {
+            pause(1)
+            shot("فيديو - الألبوم بعد ثانية")
             pause(4)
-            shot("فيديو - الألبوم بعد 4 ثوانٍ")
+            shot("فيديو - الألبوم بعد 5 ثوانٍ")
+            dump("الألبوم")
             let firstVideo = app.images.firstMatch
-            if firstVideo.waitForExistence(timeout: 5) {
+            if firstVideo.waitForExistence(timeout: 5), firstVideo.isHittable {
                 firstVideo.tap()
-                pause(6)
+                pause(8)
                 shot("فيديو - بعد اختيار فيديو")
             } else {
                 close()
             }
+        } else {
+            dump("لم يظهر زر الألبوم")
         }
         let field = app.textFields.firstMatch
         if field.waitForExistence(timeout: 3) {
@@ -88,32 +99,51 @@ final class ScreenshotTour: XCTestCase {
             shot("فيديو - رابط غير صحيح")
         }
         // The described sample: its page, then watching with description.
-        scrollTo("أرنب كبير")
-        if tap(button: "أرنب كبير") {
-            pause(1.5)
+        let sample = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "أرنب كبير")).firstMatch
+        for _ in 0..<6 where !(sample.exists && sample.isHittable) { app.swipeUp() }
+        if sample.exists && sample.isHittable {
+            sample.tap()
+            pause(2)
             shotScrolling("فيديو - الوصف", limit: 4)
             scrollToTop()
             if tap(button: "شاهد مع الوصف") {
-                pause(8)
+                pause(10)
                 shot("فيديو - المشاهدة مع الوصف")
                 tap(button: "تشغيل")
-                pause(10)
+                pause(12)
                 shotScrolling("فيديو - أثناء التشغيل والوصف", limit: 2)
                 close()
+            } else {
+                dump("لم يظهر زر المشاهدة")
             }
             if tap(button: "اسمع الوصف كاملًا") {
-                pause(2)
+                pause(3)
                 shot("فيديو - القارئ")
                 close()
             }
+            _ = back()
+        } else {
+            dump("لم يظهر الفيديو الموصوف")
         }
         close()
-        scrollTo("قارئ العملات")
-        if tap(button: "قارئ العملات") {
-            pause(3)
+        pause(1)
+        let currency = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "قارئ العملات")).firstMatch
+        for _ in 0..<6 where !(currency.exists && currency.isHittable) { app.swipeUp() }
+        if currency.exists && currency.isHittable {
+            currency.tap()
+            pause(4)
             shot("قارئ العملات")
             close()
         }
+    }
+
+    /// The screen's element tree, to see why a step could not be taken.
+    private func dump(_ name: String) {
+        let attachment = XCTAttachment(string: app.debugDescription)
+        attachment.name = "\(testPrefix)-عناصر \(name)"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+        shot("عناصر - \(name)")
     }
 
     func test3_IncomingFile() {

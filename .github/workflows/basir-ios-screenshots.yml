@@ -88,7 +88,10 @@ jobs:
         run: |
           set +e
           mkdir -p build
-          xcodebuild test \
+          # A file naming one test runs only that test (faster checks of one flow).
+          ONLY=()
+          if [ -s BasirScreenshotsUITests/ONLY ]; then ONLY=(-only-testing:"BasirScreenshotsUITests/ScreenshotTour/$(head -1 BasirScreenshotsUITests/ONLY)"); fi
+          xcodebuild test "${ONLY[@]}" \
             -project BasirConvert.xcodeproj \
             -scheme BasirScreenshots \
             -destination "id=${{ steps.sim.outputs.udid }}" \
@@ -116,6 +119,10 @@ jobs:
           for test in manifest:
               for item in test.get("attachments", []):
                   source = raw / item["exportedFileName"]
+                  if source.suffix.lower() not in (".png", ".jpg", ".jpeg", ".heic"):
+                      name = re.sub(r'[/\\:*?"<>|]', "-", Path(item.get("suggestedHumanReadableName") or source.name).stem)
+                      (shots / f"{name}.txt").write_bytes(source.read_bytes())
+                      continue
                   name = item.get("suggestedHumanReadableName") or source.stem
                   name = re.sub(r"_\d+_[0-9A-F-]{36}$", "", Path(name).stem)
                   name = re.sub(r'[/\\:*?"<>|]', "-", name).strip()

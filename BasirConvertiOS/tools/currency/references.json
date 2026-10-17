@@ -347,7 +347,7 @@
   ],
   "source": "https://en.numista.com/412890",
   "credit": "© Mazen Al Masri",
-  "use": "train"
+  "use": "excluded"
  },
  {
   "file": "050_central_bank_back.jpg",
@@ -361,7 +361,7 @@
   ],
   "source": "https://en.numista.com/412890",
   "credit": "© Mazen Al Masri",
-  "use": "train"
+  "use": "excluded"
  },
  {
   "file": "100_2007_front.jpg",
@@ -431,7 +431,7 @@
   ],
   "source": "https://en.numista.com/343234",
   "credit": "©  Bank Note Museum",
-  "use": "train"
+  "use": "excluded"
  },
  {
   "file": "100_central_bank_back.jpg",
@@ -445,7 +445,7 @@
   ],
   "source": "https://en.numista.com/343234",
   "credit": "©  Bank Note Museum",
-  "use": "train"
+  "use": "excluded"
  },
  {
   "file": "200_centennial_front.jpg",
@@ -459,7 +459,7 @@
   ],
   "source": "https://en.numista.com/216664",
   "credit": "©  CGB",
-  "use": "train"
+  "use": "excluded"
  },
  {
   "file": "200_centennial_back.jpg",
@@ -473,7 +473,7 @@
   ],
   "source": "https://en.numista.com/216664",
   "credit": "©  CGB",
-  "use": "train"
+  "use": "excluded"
  },
  {
   "file": "200_vision2030_front.jpg",
@@ -487,7 +487,7 @@
   ],
   "source": "https://en.numista.com/287724",
   "credit": "صور من أرشيف المبيعات في Numista؛ انظر صفحة المصدر. لم يُتحقق من ترخيص إعادة الاستخدام.",
-  "use": "train"
+  "use": "excluded"
  },
  {
   "file": "200_vision2030_back.jpg",
@@ -501,7 +501,7 @@
   ],
   "source": "https://en.numista.com/287724",
   "credit": "صور من أرشيف المبيعات في Numista؛ انظر صفحة المصدر. لم يُتحقق من ترخيص إعادة الاستخدام.",
-  "use": "train"
+  "use": "excluded"
  },
  {
   "file": "500_2016_front.jpg",
@@ -543,7 +543,7 @@
   ],
   "source": "https://en.numista.com/372099",
   "credit": "© KSACurrency.com",
-  "use": "train"
+  "use": "excluded"
  },
  {
   "file": "500_central_bank_back.jpg",
@@ -557,6 +557,6 @@
   ],
   "source": "https://en.numista.com/372099",
   "credit": "© KSACurrency.com",
-  "use": "train"
+  "use": "excluded"
  }
 ]

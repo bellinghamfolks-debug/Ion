@@ -40,7 +40,7 @@ let modelURL = output.appendingPathComponent("RiyalClassifier.mlmodel")
 let metadata = MLModelMetadata(
     author: "Basir",
     shortDescription: "Saudi riyal banknotes (1, 5, 10, 20, 50, 100, 200, 500) and \"none\".",
-    license: "Trained on the Saudi Currency Dataset (Maruf, Basuhail, Adil; King Abdulaziz University; CC BY 4.0) and on CC BY / CC BY-SA banknote images from Numista listed in tools/currency/references.json.",
+    license: "Trained on the Saudi Currency Dataset (Maruf, Basuhail, Adil; King Abdulaziz University; CC BY 4.0) and on banknote images from Numista credited in tools/currency/references.json.",
     version: "2")
 try classifier.write(to: modelURL, metadata: metadata)
 

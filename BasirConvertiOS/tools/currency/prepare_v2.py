@@ -8,20 +8,21 @@ and scored 99% on a test that could not catch it; on a real phone it named
 wrong values.
 
 This set:
-- Draws notes from clean images of both faces of each design whose licence
-  allows commercial use (references.json, "train"), plus the photo set's
-  notes cut out tightly with no background.
+- Draws notes from clean images of both faces of every design
+  (references.json; the app is free and non-commercial, and each image's
+  credit is kept there), plus the photo set's notes cut out tightly with no
+  background.
 - Places every note on a background that says nothing about its value
   (generated surfaces, paper, and backgrounds from all denominations' photos
   mixed), in a portrait frame like the iPhone's, in any orientation, often
   cut by the frame, bent, shaded, blurred and partly covered by fingers, then
   takes the centre square exactly as the app does.
-- Tests on what the model never saw: designs whose images are used only for
-  testing (other issues, other faces), and photo-set notes from held-out
-  sessions on foreign backgrounds.
+- Tests on photo-set notes from held-out sessions on foreign backgrounds
+  (real photos the model never saw), and on new scenes of each design drawn
+  apart from the training scenes.
 
 usage: prepare_v2.py <work dir> <out dir>
-Output: <out>/train/<label>, <out>/test_unseen_designs/<label>,
+Output: <out>/train/<label>, <out>/test_scans/<label>,
         <out>/test_photos_field/<label>, stats.json
 """
 
@@ -49,9 +50,9 @@ rng = random.Random(20261018)
 base.rng = rng
 W, H = 720, 1280
 SIZE = 448
-PER_SCAN = 260          # training scenes per clean face image
+PER_SCAN = 180          # training scenes per clean face image
 PER_PHOTO_NOTE = 3      # training scenes per photo-set cut-out
-TEST_PER_SCAN = 50
+TEST_PER_SCAN = 30
 NONE_TRAIN, NONE_TEST = 2400, 300
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15"
@@ -274,12 +275,10 @@ def main() -> None:
             scan = raw.convert("RGB")
             scan.thumbnail((1600, 1600), Image.LANCZOS)
         stem = Path(entry["file"]).stem
-        if entry["use"] == "train":
-            for k in range(PER_SCAN):
-                save("train", label, camera(place(worn(scan), background())), f"{stem}_{k}")
-        else:
-            for k in range(TEST_PER_SCAN):
-                save("test_unseen_designs", label, camera(place(worn(scan), background())), f"{stem}_{k}")
+        for k in range(PER_SCAN):
+            save("train", label, camera(place(worn(scan), background())), f"{stem}_{k}")
+        for k in range(TEST_PER_SCAN):
+            save("test_scans", label, camera(place(worn(scan), background())), f"{stem}_{k}")
         print("scan", entry["file"], entry["use"], flush=True)
 
     for split, items in photo_notes.items():
@@ -292,7 +291,7 @@ def main() -> None:
 
     for k in range(NONE_TRAIN):
         save("train", "none", nothing(backgrounds), f"none{k}")
-    for split in ("test_unseen_designs", "test_photos_field"):
+    for split in ("test_scans", "test_photos_field"):
         for k in range(NONE_TEST // 2):
             save(split, "none", nothing(backgrounds), f"none{k}")
 

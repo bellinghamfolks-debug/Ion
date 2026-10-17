@@ -4,13 +4,13 @@ import Foundation
 ///
 /// Each scene's description is said when the scene starts, with a new
 /// chapter's title before it and the text that appears on screen around
-/// then after it. A description that falls while someone is speaking pauses
-/// the video, so it never talks over the dialogue; in quiet moments the video
-/// keeps playing, a little quieter, under the description.
+/// then after it. The video keeps playing, turned down, under the
+/// description (further down while someone is speaking), or pauses for each
+/// description when the person chooses.
 struct DescriptionCue: Equatable, Sendable {
     let time: Int
     let text: String
-    /// Someone speaks within this many seconds of the cue: pause, don't duck.
+    /// Someone speaks within this many seconds of the cue: the video goes lower.
     let nearSpeech: Bool
 }
 

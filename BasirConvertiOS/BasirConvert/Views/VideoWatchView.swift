@@ -86,14 +86,19 @@ private final class WeakMessageHandler: NSObject, WKScriptMessageHandler {
     }
 }
 
-/// Says each description at its moment: pausing the video when someone is
-/// talking then, or lowering it while the description is said.
+/// Says each description at its moment, over the video turned down, or with
+/// the video paused for each one when the person chooses. Play and Pause
+/// follow the person: a description never starts the video again after
+/// they paused it.
 @MainActor
 final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthesizerDelegate {
     @Published private(set) var current: String = ""
+    /// What the person asked for: playing or paused.
     @Published private(set) var playing = false
-    @Published var describing = true
-    /// Pause for every description, not only when someone is talking.
+    @Published var describing = true {
+        didSet { if !describing { speech.stopSpeaking(at: .immediate) } }
+    }
+    /// Pause the video for every description instead of turning it down.
     @Published var alwaysPause = UserDefaults.standard.bool(forKey: "video_watch_always_pause") {
         didSet { UserDefaults.standard.set(alwaysPause, forKey: "video_watch_always_pause") }
     }
@@ -105,8 +110,8 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
     private var next = 0
     private var lastTime: Double = 0
     private var ticker: Task<Void, Never>?
-    private var pausedForCue = false
-    private var speakingCue: Int?
+    /// The video is held still until the description ends ("always pause").
+    private var holding = false
 
     init(cues: [DescriptionCue], player: DescribedPlayer, arabic: Bool) {
         self.cues = cues
@@ -131,10 +136,24 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         ticker?.cancel()
         speech.stopSpeaking(at: .immediate)
         player.pause()
+        playing = false
     }
 
     func togglePlay() {
-        if playing { player.pause(); playing = false } else { resumeVideo() }
+        if playing {
+            playing = false
+            player.pause()
+            if speech.isSpeaking { speech.pauseSpeaking(at: .word) }
+        } else {
+            playing = true
+            if speech.isPaused { speech.continueSpeaking() }
+            // During a description that holds the video, it plays when the description ends.
+            if !(holding && speech.isSpeaking) {
+                holding = false
+                player.setVolume(speech.isSpeaking ? 0.3 : 1)
+                player.play()
+            }
+        }
     }
 
     func jump(by seconds: Double) {
@@ -167,8 +186,10 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
 
     private func seek(to seconds: Double) {
         speech.stopSpeaking(at: .immediate)
+        holding = false
         player.seek(to: seconds)
         player.setVolume(1)
+        if playing { player.play() }
         lastTime = seconds
         next = AudioDescription.nextIndex(at: seconds, in: cues)
     }
@@ -178,11 +199,13 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         // A jump (the player's own controls, or ours) restarts from there.
         if abs(now - lastTime) > 3 {
             next = AudioDescription.nextIndex(at: now, in: cues)
-            if speech.isSpeaking && !pausedForCue { speech.stopSpeaking(at: .immediate) }
+            if speech.isSpeaking && !holding { speech.stopSpeaking(at: .immediate) }
         }
-        if !pausedForCue { playing = now > lastTime + 0.05 }
+        // Played from the video's own controls: follow it.
+        if !playing, !holding, now > lastTime + 0.2 { playing = true }
         lastTime = now
-        guard describing, !speech.isSpeaking, cues.indices.contains(next), Double(cues[next].time) <= now + 0.2 else { return }
+        guard describing, playing, !speech.isSpeaking, !speech.isPaused, cues.indices.contains(next),
+              Double(cues[next].time) <= now + 0.2 else { return }
         say(next)
         next += 1
     }
@@ -190,13 +213,13 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
     private func say(_ index: Int) {
         let cue = cues[index]
         current = cue.text
-        speakingCue = index
         speech.stopSpeaking(at: .immediate)
-        if alwaysPause || cue.nearSpeech {
-            pausedForCue = playing
+        if alwaysPause {
+            holding = true
             player.pause()
         } else {
-            player.setVolume(0.25)
+            // Lower still while someone is talking, so the description is heard.
+            player.setVolume(cue.nearSpeech ? 0.2 : 0.35)
         }
         let utterance = AVSpeechUtterance(string: cue.text)
         utterance.voice = AVSpeechSynthesisVoice(language: arabic ? "ar-SA" : "en-US")
@@ -205,23 +228,16 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         UIAccessibility.post(notification: .layoutChanged, argument: nil)
     }
 
-    private func resumeVideo() {
-        player.setVolume(1)
-        player.play()
-        playing = true
-    }
-
     nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         Task { @MainActor in self.finishedSpeaking() }
     }
 
     private func finishedSpeaking() {
         player.setVolume(1)
-        if pausedForCue {
-            pausedForCue = false
-            resumeVideo()
+        if holding {
+            holding = false
+            if playing { player.play() }
         }
-        speakingCue = nil
     }
 }
 
@@ -283,8 +299,8 @@ struct VideoWatchView: View {
                     CardActionButton(title: l10n.t("أعد الوصف", "Repeat the description"), systemImage: "arrow.counterclockwise") { controller.repeatDescription() }
                     Toggle(l10n.t("الوصف الصوتي", "Audio description"), isOn: $controller.describing)
                     Toggle(l10n.t("أوقف الفيديو عند كل وصف", "Pause the video for every description"), isOn: $controller.alwaysPause)
-                    Text(l10n.t("عند إيقاف هذا الخيار، يوقف بصير الفيديو فقط إذا كان أحد يتكلم، وفي اللحظات الهادئة يخفض صوت الفيديو أثناء الوصف.",
-                                "With this off, Basir pauses only when someone is talking; in quiet moments it lowers the video while describing."))
+                    Text(l10n.t("عند إيقاف هذا الخيار، يستمر الفيديو بصوت منخفض أثناء الوصف.",
+                                "With this off, the video keeps playing, turned down, while each description is said."))
                         .font(.footnote)
                         .foregroundStyle(BasirPalette.secondaryText)
                 }

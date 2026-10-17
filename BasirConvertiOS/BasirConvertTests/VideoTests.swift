@@ -76,7 +76,7 @@ final class VideoTests: XCTestCase {
         XCTAssertEqual(cues[0].text, "الفصل: المكونات. أرز في وعاء")
         XCTAssertEqual(cues[1].text, "مكتوب على الشاشة: «كبسة لحم».")
         XCTAssertTrue(cues[2].text.hasPrefix("الفصل: الطبخ."))
-        // Someone speaks at 0:30: the cue at 0:20 pauses the video; the others play on, lowered.
+        // Someone speaks at 0:30: the video goes lower under the cue at 0:20.
         XCTAssertEqual(cues.map(\.nearSpeech), [false, true, false])
     }
 

@@ -1,0 +1,771 @@
+{
+ "hugging_face": [],
+ "github": [
+  {
+   "id": "emran-alhaddad/Saudi-Riyal-Font",
+   "url": "https://github.com/emran-alhaddad/Saudi-Riyal-Font",
+   "stars": 143,
+   "size_kb": 3488,
+   "licence": "NOASSERTION",
+   "pushed": "2025-09-08T11:49:35Z",
+   "description": "The official open-source font for the Saudi Riyal currency symbol. Works on all platforms!"
+  },
+  {
+   "id": "abdulrysrr/new-saudi-riyal-symbol",
+   "url": "https://github.com/abdulrysrr/new-saudi-riyal-symbol",
+   "stars": 24,
+   "size_kb": 1166,
+   "licence": "MIT",
+   "pushed": "2025-02-28T18:53:06Z",
+   "description": "Provides the new Saudi Riyal (SAR) symbol in multiple formats (TTF, SVG, PNG, etc.), along with usage guidelines and implementation examples."
+  },
+  {
+   "id": "upsilun/SaudiRiyalFont",
+   "url": "https://github.com/upsilun/SaudiRiyalFont",
+   "stars": 9,
+   "size_kb": 985,
+   "licence": "MIT",
+   "pushed": "2025-04-11T15:13:57Z",
+   "description": "A custom font that includes the new Saudi Riyal symbol for easy use in digital and print projects. 📝"
+  },
+  {
+   "id": "Abdalsalaam/new-saudi-riyal-for-woocommerce",
+   "url": "https://github.com/Abdalsalaam/new-saudi-riyal-for-woocommerce",
+   "stars": 7,
+   "size_kb": 1338,
+   "licence": null,
+   "pushed": "2026-10-03T15:19:17Z",
+   "description": "WordPress plugin updates the currency symbol for the Saudi Riyal in WooCommerce by replacing the outdated symbol (SAR or ر.س) with the new symbol, as outlined in the recent announcement by the Saudi Central Bank (SAMA). It ensures that the new symbol appears consistently throughout your WooCommerce "
+  },
+  {
+   "id": "ahdevloper/Saudi_Riyal_project",
+   "url": "https://github.com/ahdevloper/Saudi_Riyal_project",
+   "stars": 6,
+   "size_kb": 10,
+   "licence": "MIT",
+   "pushed": "2025-02-28T02:55:41Z",
+   "description": ""
+  },
+  {
+   "id": "amElnagdy/saudi-riyal-symbol",
+   "url": "https://github.com/amElnagdy/saudi-riyal-symbol",
+   "stars": 3,
+   "size_kb": 963,
+   "licence": "GPL-3.0",
+   "pushed": "2025-02-21T19:06:27Z",
+   "description": "Updates the Saudi Riyal currency symbol in WooCommerce"
+  },
+  {
+   "id": "pooyagolchian/riyal",
+   "url": "https://github.com/pooyagolchian/riyal",
+   "stars": 3,
+   "size_kb": 470,
+   "licence": "MIT",
+   "pushed": "2026-05-08T11:02:30Z",
+   "description": "The Saudi Riyal currency symbol (U+20C1) toolkit — a web font, CSS, React components, React Native, Web Components, a Tailwind plugin, Next.js font helpers, OG image cards, and a CLI. Written in TypeScript, ships ESM + CJS + type defs."
+  },
+  {
+   "id": "ERPGulf/Font-for-Saudi-Riyal-Symbol",
+   "url": "https://github.com/ERPGulf/Font-for-Saudi-Riyal-Symbol",
+   "stars": 2,
+   "size_kb": 10,
+   "licence": null,
+   "pushed": "2025-03-10T14:18:50Z",
+   "description": "Font ( (⃀ U+20C0) for new Saudi Riyal Symbol "
+  },
+  {
+   "id": "mailmug/saudi-riyal-font",
+   "url": "https://github.com/mailmug/saudi-riyal-font",
+   "stars": 2,
+   "size_kb": 30,
+   "licence": "MIT",
+   "pushed": "2025-02-26T16:46:13Z",
+   "description": "Saudi Arabian Riyal (SAR) currency symbol.   It includes OTF and SVG formats"
+  },
+  {
+   "id": "Ohadidy/new-saudi-currency-symbol",
+   "url": "https://github.com/Ohadidy/new-saudi-currency-symbol",
+   "stars": 2,
+   "size_kb": 23,
+   "licence": "GPL-3.0",
+   "pushed": "2025-02-26T11:54:59Z",
+   "description": "Include the new Saudi Riyal symbol in the list of stores that have been approved on WooCommerce."
+  },
+  {
+   "id": "amreissa/SRiyal",
+   "url": "https://github.com/amreissa/SRiyal",
+   "stars": 1,
+   "size_kb": 414,
+   "licence": null,
+   "pushed": "2025-03-18T10:01:12Z",
+   "description": "New Saudi Riyal Symbol"
+  },
+  {
+   "id": "MohameedHameed/DebtApp",
+   "url": "https://github.com/MohameedHameed/DebtApp",
+   "stars": 1,
+   "size_kb": 275,
+   "licence": null,
+   "pushed": "2025-04-16T14:30:48Z",
+   "description": "This Program manges and records debts owed to you Yemeni rials ,Us dollars,Or Saudi riyals"
+  },
+  {
+   "id": "ikld22/exchange",
+   "url": "https://github.com/ikld22/exchange",
+   "stars": 1,
+   "size_kb": 2,
+   "licence": null,
+   "pushed": "2023-08-17T02:59:01Z",
+   "description": "I created GUI that will help you exchange Saudi riyal into four different types of  currencies-لقد قامت با إنشاء واجهة مستخدم تساعدك في تحويل الريال السعودي إلى أربع عملات وهي(الدولار الامريكى-اليورو-ين ياباني-ون كوريًا)-"
+  },
+  {
+   "id": "JANIL-ENZAPPS/enz_add_saudi_in_word",
+   "url": "https://github.com/JANIL-ENZAPPS/enz_add_saudi_in_word",
+   "stars": 0,
+   "size_kb": 1,
+   "licence": null,
+   "pushed": "2024-09-11T11:14:59Z",
+   "description": "Add Saudi Riyal"
+  },
+  {
+   "id": "Mohamed-AbdulRaouf/SaudiRiyal",
+   "url": "https://github.com/Mohamed-AbdulRaouf/SaudiRiyal",
+   "stars": 0,
+   "size_kb": 363,
+   "licence": "MIT",
+   "pushed": "2025-02-23T09:11:24Z",
+   "description": "add a new SF symbol for the Saudi Riyal"
+  },
+  {
+   "id": "almamunhossen/Saudi-Riyal-Symbol",
+   "url": "https://github.com/almamunhossen/Saudi-Riyal-Symbol",
+   "stars": 0,
+   "size_kb": 4,
+   "licence": null,
+   "pushed": "2025-03-09T12:54:53Z",
+   "description": "Saudi Riyal Symbol 2025"
+  },
+  {
+   "id": "BLAL1111/Saudi-Riyal",
+   "url": "https://github.com/BLAL1111/Saudi-Riyal",
+   "stars": 0,
+   "size_kb": 4,
+   "licence": null,
+   "pushed": "2025-02-13T05:08:55Z",
+   "description": ""
+  },
+  {
+   "id": "mczainalabdeen/saudi-riyal-symbol",
+   "url": "https://github.com/mczainalabdeen/saudi-riyal-symbol",
+   "stars": 0,
+   "size_kb": 8,
+   "licence": null,
+   "pushed": "2025-02-26T01:53:03Z",
+   "description": "This repository contains a custom icon font that provides a Saudi Riyal (SAR) symbol for use in web applications. The font is designed for seamless integration and supports multiple formats for cross-browser compatibility."
+  },
+  {
+   "id": "AribSudia/saudi-riyal",
+   "url": "https://github.com/AribSudia/saudi-riyal",
+   "stars": 0,
+   "size_kb": 54,
+   "licence": "MIT",
+   "pushed": "2026-03-10T11:46:38Z",
+   "description": ""
+  },
+  {
+   "id": "faisalffmanr/RiyalScript",
+   "url": "https://github.com/faisalffmanr/RiyalScript",
+   "stars": 0,
+   "size_kb": 588,
+   "licence": "MIT",
+   "pushed": "2025-09-13T06:03:34Z",
+   "description": "RiyalScript is a newly created programming language, named after the Saudi Arabian currency, the Riyal."
+  },
+  {
+   "id": "MohamedMossa/Saudi_Riyal_Font",
+   "url": "https://github.com/MohamedMossa/Saudi_Riyal_Font",
+   "stars": 0,
+   "size_kb": 16,
+   "licence": "MIT",
+   "pushed": "2025-12-05T15:19:48Z",
+   "description": "Saudi Riyal currency symbol font package for Next.js applications"
+  },
+  {
+   "id": "Adam-Saeed/Saudi-Riyal-font",
+   "url": "https://github.com/Adam-Saeed/Saudi-Riyal-font",
+   "stars": 0,
+   "size_kb": 34,
+   "licence": null,
+   "pushed": "2025-03-06T01:54:38Z",
+   "description": ""
+  },
+  {
+   "id": "DevAbdullah7/AccoLari",
+   "url": "https://github.com/DevAbdullah7/AccoLari",
+   "stars": 0,
+   "size_kb": 71414,
+   "licence": null,
+   "pushed": "2026-04-25T21:21:59Z",
+   "description": "Georgian currency calculator in Saudi riyals"
+  },
+  {
+   "id": "aboalrejalai/saudi-riyal-symbol",
+   "url": "https://github.com/aboalrejalai/saudi-riyal-symbol",
+   "stars": 0,
+   "size_kb": 962,
+   "licence": "GPL-3.0",
+   "pushed": "2026-06-08T01:31:09Z",
+   "description": ""
+  },
+  {
+   "id": "Hanin-Mesfer/Saudi-Riyal-Classifier",
+   "url": "https://github.com/Hanin-Mesfer/Saudi-Riyal-Classifier",
+   "stars": 0,
+   "size_kb": 1469,
+   "licence": null,
+   "pushed": "2025-07-13T01:14:54Z",
+   "description": ""
+  },
+  {
+   "id": "kabryt/Saudi-Riyal-Font",
+   "url": "https://github.com/kabryt/Saudi-Riyal-Font",
+   "stars": 0,
+   "size_kb": 30,
+   "licence": null,
+   "pushed": "2025-09-05T19:49:51Z",
+   "description": "This font allows you to use the Saudi Riyal currency symbol in websites, applications, and documents, ensuring compatibility in cases where the underlying system does not support this currency symbol.  Its use is very simple; simply use the code e900."
+  },
+  {
+   "id": "composercodes/vio_currency_sar_symbol",
+   "url": "https://github.com/composercodes/vio_currency_sar_symbol",
+   "stars": 0,
+   "size_kb": 2423,
+   "licence": null,
+   "pushed": "2025-06-16T12:19:02Z",
+   "description": "New Saudi Riyal (SAR) Currency Symbol"
+  },
+  {
+   "id": "Codi-Technology/saudi_riyal_font",
+   "url": "https://github.com/Codi-Technology/saudi_riyal_font",
+   "stars": 0,
+   "size_kb": 1,
+   "licence": null,
+   "pushed": "2025-05-26T09:26:55Z",
+   "description": ""
+  },
+  {
+   "id": "blackmoon87/saudi-riyal-symbol",
+   "url": "https://github.com/blackmoon87/saudi-riyal-symbol",
+   "stars": 0,
+   "size_kb": 7,
+   "licence": "MIT",
+   "pushed": "2026-06-09T08:59:50Z",
+   "description": "New Saudi Riyal (SAR) currency symbol font for web usage"
+  },
+  {
+   "id": "Iqlakkal/Currency-Rates",
+   "url": "https://github.com/Iqlakkal/Currency-Rates",
+   "stars": 0,
+   "size_kb": 3,
+   "licence": null,
+   "pushed": "2025-06-19T10:35:42Z",
+   "description": "Saudi Riyals to Other Currency Rates Updates"
+  },
+  {
+   "id": "hussainalsamr/Client-and-Server-Program-Convertelar-USD-To-IQD-AED-IRR-TRY-SAR-EGP-KWD-LBP-QAR",
+   "url": "https://github.com/hussainalsamr/Client-and-Server-Program-Convertelar-USD-To-IQD-AED-IRR-TRY-SAR-EGP-KWD-LBP-QAR",
+   "stars": 6,
+   "size_kb": 1,
+   "licence": null,
+   "pushed": "2018-12-25T17:20:25Z",
+   "description": "this program transforms USD to different currencies such as : Iraq(IQD)   UAE(AED)  Iran(IRR)  Saudi Arabia(SAR)  Turkey(TRY)  Egypt(EGP)  7:Lebanon(LBP)  8:Kuwait(KWD)  9:Qatar(QAR)"
+  },
+  {
+   "id": "busaeed/Tafqeet",
+   "url": "https://github.com/busaeed/Tafqeet",
+   "stars": 5,
+   "size_kb": 24,
+   "licence": "MIT",
+   "pushed": "2025-01-25T12:44:00Z",
+   "description": "A Java utility class to convert a number to its word representation in Arabic as a Saudi currency string along with the fraction part."
+  },
+  {
+   "id": "ahtshambhatti/currency-Detector",
+   "url": "https://github.com/ahtshambhatti/currency-Detector",
+   "stars": 4,
+   "size_kb": 50816,
+   "licence": null,
+   "pushed": "2021-10-19T18:04:07Z",
+   "description": "Saudi paper currency detection using opencv3 and python3"
+  },
+  {
+   "id": "Mohammad-Adel-Metwalli/saudi_currency",
+   "url": "https://github.com/Mohammad-Adel-Metwalli/saudi_currency",
+   "stars": 1,
+   "size_kb": 276,
+   "licence": "NOASSERTION",
+   "pushed": "2025-10-26T20:35:42Z",
+   "description": ""
+  },
+  {
+   "id": "itsReemJ/Saudi-Currency-Recognition",
+   "url": "https://github.com/itsReemJ/Saudi-Currency-Recognition",
+   "stars": 1,
+   "size_kb": 20,
+   "licence": null,
+   "pushed": "2025-10-25T07:40:06Z",
+   "description": "Currency recognition system with counterfeit detection, built with Python, OpenCV, and Streamlit."
+  },
+  {
+   "id": "r6rizwan/Zarf",
+   "url": "https://github.com/r6rizwan/Zarf",
+   "stars": 1,
+   "size_kb": 5604,
+   "licence": "MIT",
+   "pushed": "2026-10-09T07:14:44Z",
+   "description": "B2B expense management app for UAE/GCC SMEs — Flutter mobile, React dashboard, Node.js API with AI receipt parsing and configurable VAT (UAE 5% / Saudi 15%)"
+  },
+  {
+   "id": "ahmedhabibo/awesome-odoo-mena",
+   "url": "https://github.com/ahmedhabibo/awesome-odoo-mena",
+   "stars": 1,
+   "size_kb": 2,
+   "licence": null,
+   "pushed": "2026-07-08T06:54:56Z",
+   "description": "Curated list of Odoo ERP resources, modules, and localizations for MENA region (Egypt, Saudi Arabia, UAE, Sudan). Odoo Community Association (OCA) modules, Arabic localization, VAT compliance, and multi-currency tools."
+  },
+  {
+   "id": "lomixyz/SAR",
+   "url": "https://github.com/lomixyz/SAR",
+   "stars": 0,
+   "size_kb": 801,
+   "licence": null,
+   "pushed": "2026-10-05T11:51:30Z",
+   "description": "Saudi Arabia Currency Symbol"
+  },
+  {
+   "id": "yassinelnoshokey1/php-Saudinew-currency",
+   "url": "https://github.com/yassinelnoshokey1/php-Saudinew-currency",
+   "stars": 0,
+   "size_kb": 11,
+   "licence": null,
+   "pushed": "2025-03-05T11:08:22Z",
+   "description": "This PHP code snippet is designed to help WooCommerce store owners update their currency symbol to the new Saudi Riyal (SAR) symbol issued by the Saudi Central Bank in 2025. The update aims to align with the latest standards and enhance the e-commerce experience for customers in Saudi Arabia."
+  },
+  {
+   "id": "wteen-alghamdy/saudi-currency-app",
+   "url": "https://github.com/wteen-alghamdy/saudi-currency-app",
+   "stars": 0,
+   "size_kb": 8247,
+   "licence": null,
+   "pushed": "2026-08-06T11:56:10Z",
+   "description": ""
+  },
+  {
+   "id": "Rana-Aljarboua/Saudi-Currency-Classifier",
+   "url": "https://github.com/Rana-Aljarboua/Saudi-Currency-Classifier",
+   "stars": 0,
+   "size_kb": 81234,
+   "licence": null,
+   "pushed": "2026-09-28T19:14:51Z",
+   "description": "Saudi banknote and coin classification using deep learning and computer vision."
+  },
+  {
+   "id": "lena9903/Saudi-Currency-Gesture-Counter",
+   "url": "https://github.com/lena9903/Saudi-Currency-Gesture-Counter",
+   "stars": 0,
+   "size_kb": 23924,
+   "licence": null,
+   "pushed": "2026-09-09T17:40:55Z",
+   "description": "Real-time Saudi currency detection and counting using YOLO and hand gesture recognition."
+  },
+  {
+   "id": "UsmanSanawar/Cairo-with-Saudi-Currency",
+   "url": "https://github.com/UsmanSanawar/Cairo-with-Saudi-Currency",
+   "stars": 0,
+   "size_kb": 173,
+   "licence": null,
+   "pushed": "2025-04-13T13:07:23Z",
+   "description": ""
+  },
+  {
+   "id": "Abdulrahman078/Saudi-Riyal-Currency-Classifier",
+   "url": "https://github.com/Abdulrahman078/Saudi-Riyal-Currency-Classifier",
+   "stars": 0,
+   "size_kb": 2266,
+   "licence": null,
+   "pushed": "2024-11-06T23:31:54Z",
+   "description": "This project uses a Convolutional Neural Network (CNN) to classify Saudi Riyal currency into its various denominations, ranging from 5 SR to 500 SR. It's designed to help automate the process of currency recognition in financial systems."
+  },
+  {
+   "id": "AHMED-J-ALSAREM/saudi-riyal-filament-currency",
+   "url": "https://github.com/AHMED-J-ALSAREM/saudi-riyal-filament-currency",
+   "stars": 0,
+   "size_kb": 14499,
+   "licence": null,
+   "pushed": "2025-05-05T07:11:54Z",
+   "description": ""
+  },
+  {
+   "id": "Asayil-20/saudi-currency-classification-cnn",
+   "url": "https://github.com/Asayil-20/saudi-currency-classification-cnn",
+   "stars": 0,
+   "size_kb": 1466,
+   "licence": null,
+   "pushed": "2025-07-19T18:55:44Z",
+   "description": ""
+  },
+  {
+   "id": "Mohammedamd12/Saudi-Riyal-Currency-Classifier-CNN",
+   "url": "https://github.com/Mohammedamd12/Saudi-Riyal-Currency-Classifier-CNN",
+   "stars": 0,
+   "size_kb": 9,
+   "licence": null,
+   "pushed": "2025-01-06T10:27:24Z",
+   "description": "Created a Convolutional Neural Network (CNN) model to classify Saudi Riyal banknotes from denominations of 5 SR to 500 SR, achieving an accuracy of 78%. Technologies Used: Python, PyTorch, Torchvision, scikit-learn, NumPy, PIL, Matplotlib"
+  },
+  {
+   "id": "EngSamiyah/ReadingSaudiCurrencyForBlind",
+   "url": "https://github.com/EngSamiyah/ReadingSaudiCurrencyForBlind",
+   "stars": 0,
+   "size_kb": 18,
+   "licence": "GPL-3.0",
+   "pushed": "2023-08-14T20:59:44Z",
+   "description": "A project that uses AI to identify and read Saudi Currencies to visually impaired individuals."
+  },
+  {
+   "id": "tariqkhathami-spec/saudiriyal-store",
+   "url": "https://github.com/tariqkhathami-spec/saudiriyal-store",
+   "stars": 0,
+   "size_kb": 1934,
+   "licence": null,
+   "pushed": "2026-04-24T12:59:32Z",
+   "description": "Premium luxury gallery for rare banknotes, coins & edals - saudiriyal.store"
+  },
+  {
+   "id": "deel5/saudi-riyal-detector-ai",
+   "url": "https://github.com/deel5/saudi-riyal-detector-ai",
+   "stars": 0,
+   "size_kb": 1,
+   "licence": null,
+   "pushed": "2026-05-06T15:05:11Z",
+   "description": "Real-time AI system that detects and counts Saudi Riyal banknotes using computer vision (YOLOv8)."
+  },
+  {
+   "id": "eabsoma/Riyal-Currency-Detection-Project",
+   "url": "https://github.com/eabsoma/Riyal-Currency-Detection-Project",
+   "stars": 0,
+   "size_kb": 1519,
+   "licence": null,
+   "pushed": "2023-11-18T07:38:27Z",
+   "description": "The Riyal Currency Detection project is a computer vision application designed to identify and classify Riyal banknotes. Leveraging the power of transfer learning, the project utilizes the VGG16 neural network architecture to achieve accurate and reliable currency detection."
+  },
+  {
+   "id": "Sao1d/500-sar-cartoon",
+   "url": "https://github.com/Sao1d/500-sar-cartoon",
+   "stars": 0,
+   "size_kb": 3,
+   "licence": "MIT",
+   "pushed": "2026-08-30T16:11:31Z",
+   "description": "Cartoon-style 500 SAR banknote Blender script, README, and sample assets to generate a 10s 1080p MP4."
+  }
+ ],
+ "kaggle": {
+  "saudi riyal": {
+   "status": 200,
+   "items": [
+    {
+     "ref": "ahmedadam415/digital-currency-time-series",
+     "title": "Digital currency - Time series",
+     "size": 41254,
+     "licence": "CC0: Public Domain",
+     "downloads": 3937
+    },
+    {
+     "ref": "syedasimalishah/singapore-property-prices-from-2017-to-2021",
+     "title": "Singapore property prices from 2017 to 2021",
+     "size": 1259771,
+     "licence": "Other (specified in description)",
+     "downloads": 1545
+    },
+    {
+     "ref": "imtkaggleteam/dollar-vs-asian-currencies",
+     "title": "Dollar Vs Asian Currencies",
+     "size": 289930,
+     "licence": "World Bank Dataset Terms of Use",
+     "downloads": 1432
+    },
+    {
+     "ref": "altinsoyemrecan/daily-updated-forex-data-since-201111",
+     "title": "Forex data since 2011-1-1",
+     "size": 808635,
+     "licence": "CC0: Public Domain",
+     "downloads": 765
+    },
+    {
+     "ref": "hassanjameelahmed/thob-al-aseel-company-dataset",
+     "title": "Thob Al Aseel Company Dataset",
+     "size": 34803,
+     "licence": "CC BY-NC-SA 4.0",
+     "downloads": 183
+    },
+    {
+     "ref": "khwlaali/bookingcom-saudi-cities",
+     "title": "Booking.com in Saudi Arabia",
+     "size": 295349,
+     "licence": "Other (specified in description)",
+     "downloads": 561
+    },
+    {
+     "ref": "azharsaleem/advanced-saudi-arabian-aramco-stocks-dataset",
+     "title": "Advanced: Saudi Arabian Aramco Stocks Dataset 🐪",
+     "size": 156915,
+     "licence": "Apache 2.0",
+     "downloads": 660
+    },
+    {
+     "ref": "mohdph/saudi-arabia-real-estate-dataset",
+     "title": "Saudi Arabia Real Estate dataset",
+     "size": 368301664,
+     "licence": "CC BY-NC-SA 4.0",
+     "downloads": 2369
+    },
+    {
+     "ref": "hassanjameelahmed/al-rajhi-stock-data-analysis-20102025",
+     "title": "Al Rajhi Bank Stock Data Analysis : (2010–2025)",
+     "size": 84092,
+     "licence": "CC BY-SA 4.0",
+     "downloads": 135
+    },
+    {
+     "ref": "jishnukoliyadan/gold-price-1979-present",
+     "title": "Global Gold price - Historical Data (1979-Present)",
+     "size": 814649,
+     "licence": "CC0: Public Domain",
+     "downloads": 3104
+    },
+    {
+     "ref": "hessatmim/skin-care",
+     "title": "Skin Care Products",
+     "size": 53016,
+     "licence": "CC0: Public Domain",
+     "downloads": 237
+    },
+    {
+     "ref": "evgeniionegin/saudi-arabia-real-estate-dataset",
+     "title": "Saudi Arabia real estate dataset",
+     "size": 322293509,
+     "licence": "MIT",
+     "downloads": 424
+    },
+    {
+     "ref": "sarahalasaadi/noon-store-laptop",
+     "title": "noon_store_laptop",
+     "size": 6406,
+     "licence": "Unknown",
+     "downloads": 112
+    },
+    {
+     "ref": "techsalerator/end-of-day-pricing-data-saudi-arabia-techsalerator",
+     "title": "End-of-Day Pricing Data Saudi Arabia Techsalerator",
+     "size": 17974,
+     "licence": "Unknown",
+     "downloads": 71
+    },
+    {
+     "ref": "georgekiragu/daily-central-bank-of-kenya-forex-rates",
+     "title": "Central Bank of Kenya Forex Rates",
+     "size": 15992,
+     "licence": "Unknown",
+     "downloads": 60
+    },
+    {
+     "ref": "amirjdai/dollar-vs-asian-currencies",
+     "title": "Dollar Vs Asian Currencies",
+     "size": 289930,
+     "licence": "World Bank Dataset Terms of Use",
+     "downloads": 25
+    }
+   ]
+  },
+  "saudi currency": {
+   "status": 200,
+   "items": [
+    {
+     "ref": "ahmedadam415/digital-currency-time-series",
+     "title": "Digital currency - Time series",
+     "size": 41254,
+     "licence": "CC0: Public Domain",
+     "downloads": 3937
+    },
+    {
+     "ref": "ranjithpanicker/ikea-global-product-catalog-and-price-2026",
+     "title": "IKEA Global Product Catalog (46 Countries) - 2026",
+     "size": 20942467,
+     "licence": "Other (specified in description)",
+     "downloads": 1336
+    },
+    {
+     "ref": "edudev-commons-org/global-fuel-prices-100-years-19242024",
+     "title": "Global Fuel Prices: 100 Years (1924–2024)",
+     "size": 359654,
+     "licence": "MIT",
+     "downloads": 772
+    },
+    {
+     "ref": "imtkaggleteam/dollar-vs-asian-currencies",
+     "title": "Dollar Vs Asian Currencies",
+     "size": 289930,
+     "licence": "World Bank Dataset Terms of Use",
+     "downloads": 1432
+    },
+    {
+     "ref": "altinsoyemrecan/daily-updated-forex-data-since-201111",
+     "title": "Forex data since 2011-1-1",
+     "size": 808635,
+     "licence": "CC0: Public Domain",
+     "downloads": 765
+    },
+    {
+     "ref": "aiwithcagri/20-countries-salary-minimum-teacher-and-docter",
+     "title": "20 Countries Salary , Minimum, Teacher and Doctor",
+     "size": 31784,
+     "licence": "Apache 2.0",
+     "downloads": 19
+    },
+    {
+     "ref": "hassanjameelahmed/al-rajhi-stock-data-analysis-20102025",
+     "title": "Al Rajhi Bank Stock Data Analysis : (2010–2025)",
+     "size": 84092,
+     "licence": "CC BY-SA 4.0",
+     "downloads": 135
+    },
+    {
+     "ref": "moaz1911/global-petrodollars-and-de-dollarization-trends",
+     "title": "Global Petrodollars & De-dollarization Trends",
+     "size": 272287,
+     "licence": "CC BY-NC-SA 4.0",
+     "downloads": 444
+    },
+    {
+     "ref": "sergionefedov/global-aviation-industry-2010-2026",
+     "title": "Global Aviation Industry 2010-2026",
+     "size": 33140,
+     "licence": "CC0: Public Domain",
+     "downloads": 2788
+    },
+    {
+     "ref": "hassanjameelahmed/aramco-stock-2019-2025",
+     "title": "Aramco-Stock-2019-2025",
+     "size": 33045,
+     "licence": "CC BY-SA 4.0",
+     "downloads": 142
+    },
+    {
+     "ref": "gfbati/alfloos",
+     "title": "AlFloos",
+     "size": 889492199,
+     "licence": "GPL 3",
+     "downloads": 2874
+    },
+    {
+     "ref": "syedirtazahaider/saudi-currency-notes",
+     "title": "Saudi Currency Notes",
+     "size": 30710932,
+     "licence": "Unknown",
+     "downloads": 37
+    },
+    {
+     "ref": "mannarmohamedsayed/modified-laptops",
+     "title": " laptops_price dataset",
+     "size": 7595,
+     "licence": "Unknown",
+     "downloads": 29
+    },
+    {
+     "ref": "hma2022/amazon-global-store-us-from-saudi-souq",
+     "title": "Amazon Global Store US From Saudi Souq ",
+     "size": 3539767,
+     "licence": "Unknown",
+     "downloads": 284
+    },
+    {
+     "ref": "sergionefedov/global-climate-and-energy-transition-2000-2026",
+     "title": "Global Climate & Energy Transition 2000-2026",
+     "size": 144784,
+     "licence": "CC0: Public Domain",
+     "downloads": 1833
+    },
+    {
+     "ref": "zaincui/iran-usa-commodity-prices",
+     "title": "iran_usa_commodity_prices",
+     "size": 16638992,
+     "licence": "CC BY-SA 4.0",
+     "downloads": 39
+    },
+    {
+     "ref": "sergionefedov/macro-indicators-40-years-30-countries",
+     "title": "Macro Indicators, 40 years, 30 countries",
+     "size": 97362,
+     "licence": "MIT",
+     "downloads": 327
+    },
+    {
+     "ref": "allratestoday/central-bank-exchange-rates",
+     "title": "Central Bank Exchange Rates, 1914 to today",
+     "size": 81224315,
+     "licence": "Other (specified in description)",
+     "downloads": 1523
+    },
+    {
+     "ref": "moha684/saudi-arabia-supermarket-data-expenses",
+     "title": "Saudi Arabia Supermarket Data Expenses",
+     "size": 20102,
+     "licence": "Unknown",
+     "downloads": 596
+    },
+    {
+     "ref": "hessatmim/skin-care",
+     "title": "Skin Care Products",
+     "size": 53016,
+     "licence": "CC0: Public Domain",
+     "downloads": 237
+    }
+   ]
+  },
+  "saudi banknote": {
+   "status": 200,
+   "items": [
+    {
+     "ref": "gfbati/alfloos",
+     "title": "AlFloos",
+     "size": 889492199,
+     "licence": "GPL 3",
+     "downloads": 2874
+    }
+   ]
+  },
+  "riyal banknote": {
+   "status": 200,
+   "items": []
+  }
+ },
+ "roboflow": {
+  "saudi riyal": {
+   "status": 403,
+   "projects": []
+  },
+  "saudi currency": {
+   "status": 403,
+   "projects": []
+  },
+  "saudi banknote": {
+   "status": 403,
+   "projects": []
+  },
+  "riyal banknote": {
+   "status": 403,
+   "projects": []
+  }
+ }
+}

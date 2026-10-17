@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+import time
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -19,6 +20,8 @@ AGENT = "BasirCurrencyResearch/1.0 (accessibility app; contact via basir website
 
 
 def get(url: str, *, limit: int = 3_000_000) -> tuple[int, str]:
+    if "wikimedia.org" in url:
+        time.sleep(1.5)  # Wikimedia's API asks for unhurried clients.
     request = urllib.request.Request(url, headers={"User-Agent": AGENT, "Accept": "application/json, text/html"})
     try:
         with urllib.request.urlopen(request, timeout=40) as response:
@@ -76,7 +79,10 @@ def commons(report: dict) -> None:
         for member in members:
             title = member["title"]
             if title.startswith("Category:"):
-                queue.append(title)
+                years = [int(y) for y in re.findall(r"(19\d\d|20\d\d)", title)]
+                # Only the series that can still be in someone's wallet.
+                if not years or max(years) >= 2005:
+                    queue.append(title)
             elif title.startswith("File:"):
                 found[title] = {"category": category}
     titles = list(found)
@@ -131,7 +137,11 @@ def roboflow(report: dict) -> None:
 def main() -> None:
     out = Path(sys.argv[1] if len(sys.argv) > 1 else "currency_sources.json")
     report: dict = {}
-    for step in (mendeley, commons, sama, roboflow):
+    steps = (mendeley, commons, sama, roboflow)
+    only = set(sys.argv[2:])
+    for step in steps:
+        if only and step.__name__ not in only:
+            continue
         try:
             step(report)
         except Exception as error:  # noqa: BLE001

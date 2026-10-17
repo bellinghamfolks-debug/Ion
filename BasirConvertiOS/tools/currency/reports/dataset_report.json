@@ -1,0 +1,143 @@
+{
+ "bytes": 6751178769,
+ "entries": 4005,
+ "top_folders": [
+  [
+   "Saudi Currency/train",
+   3601
+  ],
+  [
+   "Saudi Currency/test",
+   401
+  ],
+  [
+   "Saudi Currency/",
+   1
+  ],
+  [
+   "Saudi Currency/LabeledData_Description.txt",
+   1
+  ],
+  [
+   "Saudi Currency/label_map.pbtxt",
+   1
+  ]
+ ],
+ "extensions": [
+  [
+   ".xml",
+   2000
+  ],
+  [
+   ".jpg",
+   2000
+  ],
+  [
+   "",
+   3
+  ],
+  [
+   ".txt",
+   1
+  ],
+  [
+   ".pbtxt",
+   1
+  ]
+ ],
+ "annotation_files": 2000,
+ "labels": {
+  "twenty riyal": {
+   "boxes": 250,
+   "images": 250
+  },
+  "one riyal": {
+   "boxes": 250,
+   "images": 250
+  },
+  "ten riyal": {
+   "boxes": 250,
+   "images": 250
+  },
+  "five riyal": {
+   "boxes": 250,
+   "images": 250
+  },
+  "two hundred riyal": {
+   "boxes": 250,
+   "images": 250
+  },
+  "one Hundred riyal": {
+   "boxes": 250,
+   "images": 250
+  },
+  "five hundred riyal": {
+   "boxes": 250,
+   "images": 250
+  },
+  "fifty riyal": {
+   "boxes": 250,
+   "images": 250
+  }
+ },
+ "image_sizes": [
+  [
+   "4624x2600",
+   688
+  ],
+  [
+   "4160x3120",
+   550
+  ],
+  [
+   "3120x4160",
+   450
+  ],
+  [
+   "2600x4624",
+   312
+  ]
+ ],
+ "sample_names": [
+  "Saudi Currency/train/IMG20211224194207_BURST007.jpg",
+  "Saudi Currency/train/IMG_20211123_103132.xml",
+  "Saudi Currency/train/IMG_20211123_100337.xml",
+  "Saudi Currency/train/IMG20211220071037_BURST012.jpg",
+  "Saudi Currency/train/IMG20211220071120_BURST016.xml",
+  "Saudi Currency/test/IMG_20211123_101303.jpg",
+  "Saudi Currency/train/IMG20211022090746_BURST003.jpg",
+  "Saudi Currency/train/IMG20211220070957_BURST001_COVER.jpg",
+  "Saudi Currency/train/IMG_20211123_102550.jpg",
+  "Saudi Currency/train/IMG20211224194343_BURST007.xml",
+  "Saudi Currency/train/IMG20211220071120_BURST019.xml",
+  "Saudi Currency/train/IMG20211220070924_BURST004.xml",
+  "Saudi Currency/train/IMG_20211123_103423.xml",
+  "Saudi Currency/train/IMG_20211104_234039_1.jpg",
+  "Saudi Currency/train/IMG_20211028_025628.jpg",
+  "Saudi Currency/train/IMG_20211123_100234.xml",
+  "Saudi Currency/test/IMG_20211123_102534.jpg",
+  "Saudi Currency/train/IMG20211224194509_BURST017.jpg",
+  "Saudi Currency/test/IMG_20211104_233640.xml",
+  "Saudi Currency/train/IMG_20211028_025725.jpg",
+  "Saudi Currency/train/IMG20211022091053_BURST002.xml",
+  "Saudi Currency/train/IMG20211022090735_BURST013.jpg",
+  "Saudi Currency/train/IMG20211022090855_BURST019.jpg",
+  "Saudi Currency/train/IMG_20211123_100242.xml",
+  "Saudi Currency/train/IMG20211220071221_BURST004.xml",
+  "Saudi Currency/train/IMG_20211123_100253.jpg",
+  "Saudi Currency/test/IMG20211022091253_BURST003.xml",
+  "Saudi Currency/train/IMG_20211123_102506.jpg",
+  "Saudi Currency/train/IMG20211022091312_BURST007.jpg",
+  "Saudi Currency/train/IMG20211022090746_BURST017.xml",
+  "Saudi Currency/train/IMG20211224194517_BURST012.jpg",
+  "Saudi Currency/train/IMG20211022091415_BURST000.jpg",
+  "Saudi Currency/train/IMG20211022091348_BURST005.jpg",
+  "Saudi Currency/train/IMG_20211123_101131.xml",
+  "Saudi Currency/train/IMG20211220070933_BURST012.jpg",
+  "Saudi Currency/train/IMG20211022091355_BURST006.jpg",
+  "Saudi Currency/train/IMG_20211123_103153.jpg",
+  "Saudi Currency/train/IMG_20211123_100814.xml",
+  "Saudi Currency/test/IMG20211220070957_BURST011.jpg",
+  "Saudi Currency/test/IMG20211220070957_BURST000.xml"
+ ]
+}

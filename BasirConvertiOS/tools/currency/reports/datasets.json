@@ -416,15 +416,6 @@
    "description": ""
   },
   {
-   "id": "EngSamiyah/ReadingSaudiCurrencyForBlind",
-   "url": "https://github.com/EngSamiyah/ReadingSaudiCurrencyForBlind",
-   "stars": 0,
-   "size_kb": 18,
-   "licence": "GPL-3.0",
-   "pushed": "2023-08-14T20:59:44Z",
-   "description": "A project that uses AI to identify and read Saudi Currencies to visually impaired individuals."
-  },
-  {
    "id": "Mohammedamd12/Saudi-Riyal-Currency-Classifier-CNN",
    "url": "https://github.com/Mohammedamd12/Saudi-Riyal-Currency-Classifier-CNN",
    "stars": 0,
@@ -432,6 +423,15 @@
    "licence": null,
    "pushed": "2025-01-06T10:27:24Z",
    "description": "Created a Convolutional Neural Network (CNN) model to classify Saudi Riyal banknotes from denominations of 5 SR to 500 SR, achieving an accuracy of 78%. Technologies Used: Python, PyTorch, Torchvision, scikit-learn, NumPy, PIL, Matplotlib"
+  },
+  {
+   "id": "EngSamiyah/ReadingSaudiCurrencyForBlind",
+   "url": "https://github.com/EngSamiyah/ReadingSaudiCurrencyForBlind",
+   "stars": 0,
+   "size_kb": 18,
+   "licence": "GPL-3.0",
+   "pushed": "2023-08-14T20:59:44Z",
+   "description": "A project that uses AI to identify and read Saudi Currencies to visually impaired individuals."
   },
   {
    "id": "tariqkhathami-spec/saudiriyal-store",

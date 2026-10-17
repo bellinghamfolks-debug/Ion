@@ -1,0 +1,72 @@
+# Currency reader: measure the classifier and the printed-number reader on
+# frames like the camera's (notes on other backgrounds, portrait, cut by the
+# frame, any orientation), then commit the report.
+
+name: Basir currency diagnose
+
+on:
+  push:
+    branches: ["claude/basir-currency"]
+    paths:
+      - "BasirConvertiOS/tools/currency/make_field_tests.py"
+      - "BasirConvertiOS/tools/currency/diagnose/**"
+      - "BasirConvertiOS/BasirConvert/Models/RiyalNote.swift"
+      - ".github/workflows/basir-currency-diagnose.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: basir-currency-diagnose
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free disk space for the 6.75 GB dataset
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
+      - run: pip install --quiet pillow
+      - name: Build field tests
+        run: python3 BasirConvertiOS/tools/currency/make_field_tests.py "$RUNNER_TEMP/raw" "$RUNNER_TEMP/tests"
+      - name: Pack
+        run: rm -rf "$RUNNER_TEMP/raw" && tar -C "$RUNNER_TEMP" -cf "$RUNNER_TEMP/tests.tar" tests
+      - uses: actions/upload-artifact@v4
+        with:
+          name: currency-field-tests
+          path: ${{ runner.temp }}/tests.tar
+          retention-days: 7
+
+  measure:
+    needs: prepare
+    runs-on: macos-15
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: currency-field-tests
+          path: ${{ runner.temp }}
+      - name: Unpack
+        run: tar -C "$RUNNER_TEMP" -xf "$RUNNER_TEMP/tests.tar"
+      - name: Build the measuring tool
+        run: |
+          cd BasirConvertiOS/tools/currency
+          swiftc -O diagnose/main.swift ../../BasirConvert/Models/RiyalNote.swift -o "$RUNNER_TEMP/diagnose"
+      - name: Measure
+        run: |
+          "$RUNNER_TEMP/diagnose" "$RUNNER_TEMP/tests" \
+            BasirConvertiOS/BasirConvert/Resources/Currency/RiyalClassifier.mlmodel \
+            "$RUNNER_TEMP/diagnosis.json"
+      - name: Commit the report
+        run: |
+          mkdir -p BasirConvertiOS/tools/currency/reports
+          cp "$RUNNER_TEMP/diagnosis.json" BasirConvertiOS/tools/currency/reports/diagnosis.json
+          git config user.name "basir-ci"
+          git config user.email "basir-ci@users.noreply.github.com"
+          git add BasirConvertiOS/tools/currency/reports/diagnosis.json
+          git diff --cached --quiet || git commit -m "Currency reader field diagnosis [skip ci]"
+          git pull --rebase --quiet && git push

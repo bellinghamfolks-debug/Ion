@@ -34,6 +34,7 @@ enum JobNotifier {
     enum Work: String, Codable, Sendable {
         case conversion
         case summary
+        case video
     }
 
     struct Message: Equatable, Sendable {
@@ -65,9 +66,12 @@ enum JobNotifier {
                     : "Uploading: \(percent)%. Keep Basir open until the upload finishes. Processing can then continue while you use another app.",
                 phase: .working)
         }
-        let what = task == .summary
-            ? (arabic ? "جارٍ إعداد الملخص" : "Preparing the summary")
-            : (arabic ? "جارٍ معالجة الملف" : "Processing the file")
+        let what: String
+        switch task {
+        case .summary: what = arabic ? "جارٍ إعداد الملخص" : "Preparing the summary"
+        case .video: what = arabic ? "جارٍ وصف الفيديو" : "Describing the video"
+        case .conversion: what = arabic ? "جارٍ معالجة الملف" : "Processing the file"
+        }
         let progress = percent > 0 ? (arabic ? " (\(percent)٪)" : " (\(percent)%)") : ""
         return Message(
             title: title,
@@ -79,9 +83,12 @@ enum JobNotifier {
 
     static func progress(task: Work, title: String, percent: Int, at date: Date, arabic: Bool) -> Message {
         let time = clock(date, arabic: arabic)
-        let what = task == .summary
-            ? (arabic ? "الملخص" : "Summary")
-            : (arabic ? "التحويل" : "Conversion")
+        let what: String
+        switch task {
+        case .summary: what = arabic ? "الملخص" : "Summary"
+        case .video: what = arabic ? "وصف الفيديو" : "Video description"
+        case .conversion: what = arabic ? "التحويل" : "Conversion"
+        }
         return Message(
             title: title,
             body: arabic
@@ -104,6 +111,8 @@ enum JobNotifier {
             title: title,
             body: task == .summary
                 ? (arabic ? "الملخص جاهز. افتح بصير لقراءته." : "The summary is ready. Open Basir to read it.")
+                : task == .video
+                ? (arabic ? "وصف الفيديو جاهز. افتح بصير لسماعه." : "The video description is ready. Open Basir to hear it.")
                 : (arabic ? "ملف Word جاهز. افتح بصير ليحفظه على جهازك." : "The Word file is ready. Open Basir to save it to your iPhone."),
             phase: .ready)
     }
@@ -113,6 +122,8 @@ enum JobNotifier {
         switch (task, partial) {
         case (.summary, _):
             body = arabic ? "الملخص جاهز للقراءة." : "The summary is ready to read."
+        case (.video, _):
+            body = arabic ? "وصف الفيديو جاهز للسماع." : "The video description is ready to hear."
         case (.conversion, false):
             body = arabic ? "اكتمل التحويل. ستجد ملف Word في «ملفاتي»." : "Done. The Word file is saved in My Files."
         case (.conversion, true):

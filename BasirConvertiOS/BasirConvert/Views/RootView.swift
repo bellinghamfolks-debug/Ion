@@ -17,6 +17,9 @@ struct RootView: View {
     @State private var selectedTab: AppTab = .new
     @State private var operation: OperationKind = .convert
     @AppStorage("onboarding_completed_v3_1") private var onboardingCompleted = false
+    @AppStorage("video_launch_seen_v1") private var videoLaunchSeen = false
+    @State private var sharedVideoLink: SharedVideoLink?
+    @State private var showVideoLaunch = false
 
     private var isUnitTestHost: Bool {
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
@@ -56,6 +59,7 @@ struct RootView: View {
         .onChange(of: scenePhase) { phase in
             guard phase == .active else { return }
             applyTheme()
+            if let link = SharedLinks.takeLatestVideo() { sharedVideoLink = SharedVideoLink(url: link) }
             viewModel.importSharedInbox()
             viewModel.resumeInterruptedJobsIfNeeded()
             outputLibrary.refresh()
@@ -123,6 +127,21 @@ struct RootView: View {
             OnboardingView { onboardingCompleted = true }
                 .withBasirEnvironment(l10n: l10n, settings: settings, viewModel: viewModel,
                                       library: outputLibrary, intents: intents)
+        }
+        .fullScreenCover(item: $sharedVideoLink) { shared in
+            VideoDescribeView(initialLink: shared.url, startAtOnce: true)
+                .withBasirEnvironment(l10n: l10n, settings: settings, viewModel: viewModel,
+                                      library: outputLibrary, intents: intents)
+        }
+        .fullScreenCover(isPresented: $showVideoLaunch, onDismiss: { videoLaunchSeen = true }) {
+            VideoLaunchView()
+                .withBasirEnvironment(l10n: l10n, settings: settings, viewModel: viewModel,
+                                      library: outputLibrary, intents: intents)
+        }
+        .task {
+            // Once, after the welcome screens, for people who already use Basir.
+            try? await Task.sleep(nanoseconds: 1_200_000_000)
+            if onboardingCompleted, !videoLaunchSeen, !isUnitTestHost, sharedVideoLink == nil { showVideoLaunch = true }
         }
     }
 
@@ -315,4 +334,10 @@ struct MiniJobBar: View {
         default: return "clock.fill"
         }
     }
+}
+
+/// A YouTube link shared into Basir, shown once.
+struct SharedVideoLink: Identifiable, Equatable {
+    let id = UUID()
+    let url: String
 }

@@ -2,11 +2,11 @@ import SwiftUI
 import UIKit
 import UniformTypeIdentifiers
 
-/// The tools on the New tab beside conversion: the currency reader, images
-/// to one PDF, instant offline read, asking about a picture, and comparing
-/// two versions.
+/// The tools on the New tab beside conversion: video description, the
+/// currency reader, images to one PDF, instant offline read, asking about a
+/// picture, and comparing two versions.
 enum BasirTool: String, Identifiable {
-    case currency, imagesToPDF, instantRead, imageQuestion, compare
+    case video, currency, imagesToPDF, instantRead, imageQuestion, compare
     var id: String { rawValue }
 }
 
@@ -22,6 +22,9 @@ struct BasirToolsSection: View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             SectionHeading(title: l10n.t("أدوات سريعة", "Quick tools"))
             LazyVGrid(columns: columns, spacing: BasirSpacing.m) {
+                SourceTile(title: l10n.t("وصف الفيديو · جديد", "Video description · New"),
+                           detail: l10n.t("فيديو من الألبوم أو رابط YouTube حتى ساعة، يصفه بصير مشهدًا مشهدًا", "A video from your album or a YouTube link, up to an hour, described scene by scene"),
+                           systemImage: "play.rectangle.on.rectangle.fill") { tool = .video }
                 SourceTile(title: l10n.t("قارئ العملات", "Currency reader"),
                            detail: l10n.t("وجّه الكاميرا نحو الورقة النقدية لسماع قيمتها.", "Point your camera at a banknote to hear its value."),
                            systemImage: "banknote.fill") { tool = .currency }
@@ -41,6 +44,7 @@ struct BasirToolsSection: View {
         }
         .fullScreenCover(item: $tool) { tool in
             switch tool {
+            case .video: VideoDescribeView()
             case .currency: CurrencyReaderView()
             case .imagesToPDF: ImagesToPDFView()
             case .instantRead: InstantReadView()

@@ -61,6 +61,12 @@ final class ShareViewController: UIViewController {
             finish(message: text("لم يصل أي ملف أو صورة.", "No file or image was received."), error: true)
             return
         }
+        // A YouTube video shared from the YouTube app or Safari: Basir describes it.
+        if !providers.contains(where: { preferredIdentifier(for: $0) != nil && !isLinkOnly($0) }),
+           let linkProvider = providers.first(where: isLinkOnly) {
+            receiveLink(linkProvider, root: root)
+            return
+        }
 
         let group = DispatchGroup()
         let lock = NSLock()
@@ -122,6 +128,42 @@ final class ShareViewController: UIViewController {
     }
 
     private enum CopyResult { case saved, tooLarge, failed }
+
+    /// A shared web link or text with no file in it.
+    private func isLinkOnly(_ provider: NSItemProvider) -> Bool {
+        (provider.hasItemConformingToTypeIdentifier(UTType.url.identifier) &&
+            !provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier)) ||
+            (provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier) &&
+                !provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier))
+    }
+
+    /// Keeps a YouTube link for Basir, which opens the video description with it.
+    private func receiveLink(_ provider: NSItemProvider, root: URL) {
+        let identifier = provider.hasItemConformingToTypeIdentifier(UTType.url.identifier)
+            ? UTType.url.identifier : UTType.plainText.identifier
+        provider.loadItem(forTypeIdentifier: identifier, options: nil) { [weak self] item, _ in
+            guard let self else { return }
+            let value = (item as? URL)?.absoluteString ?? (item as? String) ?? ""
+            DispatchQueue.main.async {
+                guard value.lowercased().contains("youtu") else {
+                    self.finish(message: self.text("يستقبل بصير روابط فيديوهات YouTube فقط، أو الملفات والصور.",
+                                                   "Basir accepts YouTube video links, or files and images."), error: true)
+                    return
+                }
+                let folder = root.appendingPathComponent("SharedLinks", isDirectory: true)
+                do {
+                    try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+                    try Data(value.utf8).write(to: folder.appendingPathComponent("\(UUID().uuidString).txt"),
+                                               options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+                    self.finish(message: self.text("وصل رابط الفيديو إلى بصير. افتح بصير ليبدأ وصفه.",
+                                                   "The video link reached Basir. Open Basir to start describing it."), error: false)
+                } catch {
+                    self.finish(message: self.text("تعذر حفظ الرابط. انسخه والصقه في «وصف الفيديو» داخل بصير.",
+                                                   "Could not save the link. Copy it and paste it into Video description in Basir."), error: true)
+                }
+            }
+        }
+    }
 
     private func copy(
         _ source: URL,

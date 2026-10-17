@@ -23,6 +23,8 @@ actor ProxyClient {
         let preferredModel: String
         /// Only for translations; omitted otherwise.
         let translation: TranslationPreferences.Payload?
+        /// Only for video jobs: the length the iPhone measured.
+        var mediaSeconds: Int? = nil
 
         enum CodingKeys: String, CodingKey {
             case filename
@@ -36,6 +38,7 @@ actor ProxyClient {
             case outputName = "output_name"
             case preferredModel = "preferred_model"
             case translation
+            case mediaSeconds = "media_seconds"
         }
     }
 
@@ -1025,3 +1028,94 @@ enum ServerCancellation: Equatable, Sendable {
     case neverReachedServer
 }
 
+
+extension ProxyClient {
+    /// Starts (or resumes, for the same request ID) a video description job:
+    /// `source` is the video made small on the iPhone, or the small JSON
+    /// request naming a YouTube video. Returns the server job identifier.
+    func startVideoJob(source: URL, contentType: String, seconds: Int?, requestID: String, title: String,
+                       language: String, uploadProgress: @escaping @Sendable (Double) -> Void) async throws -> String {
+        let base = try secureBaseURL()
+        let size = Int64((try FileManager.default.attributesOfItem(atPath: source.path)[.size] as? NSNumber)?.int64Value ?? 0)
+        guard size > 0 else { throw BasirError.emptyDocument }
+        let checksum = try DocumentInspector.sha256(source)
+        let name = String(title.prefix(110))
+        let creation = JobCreationRequest(
+            filename: "video." + source.pathExtension.lowercased(),
+            contentType: contentType,
+            contentLength: size,
+            sourceSHA256: checksum,
+            operation: "describe_video",
+            mode: "video",
+            targetLanguage: "",
+            interfaceLanguage: language == "en" ? "en" : "ar",
+            pageSelection: "",
+            outputName: name.isEmpty ? nil : name,
+            preferredModel: "auto",
+            translation: nil,
+            mediaSeconds: seconds
+        )
+        var create = URLRequest(url: base.appendingPathComponent("/api/jobs"))
+        create.httpMethod = "POST"
+        create.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        create.setValue("application/json", forHTTPHeaderField: "Accept")
+        create.httpBody = try JSONEncoder().encode(creation)
+        applyServerHeaders(to: &create, requestID: requestID)
+        let (creationData, creationResponse) = try await retryingData(request: create)
+        try Self.validateHTTP(creationResponse, data: creationData)
+        guard let created = try? JSONDecoder().decode(JobCreationResponse.self, from: creationData),
+              !created.jobID.isEmpty else {
+            throw BasirError.invalidResponse("The server did not return valid upload details.")
+        }
+        if created.resume { return created.jobID }
+        guard let uploadURL = created.uploadURL, uploadURL.scheme?.lowercased() == "https" else {
+            throw BasirError.invalidResponse("The server returned unsafe upload details.")
+        }
+        try await uploadInChunks(sourceURL: source, created: created, uploadURL: uploadURL, totalBytes: size) { sent in
+            uploadProgress(Double(sent) / Double(max(1, size)))
+        }
+        var commit = URLRequest(url: base.appendingPathComponent("/api/jobs/\(created.jobID)/commit"))
+        commit.httpMethod = "POST"
+        commit.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        commit.setValue("application/json", forHTTPHeaderField: "Accept")
+        commit.httpBody = try JSONEncoder().encode(CommitRequest(sourceSHA256: checksum, contentLength: size))
+        applyServerHeaders(to: &commit, requestID: requestID)
+        let (commitData, commitResponse) = try await retryingData(request: commit)
+        try Self.validateHTTP(commitResponse, data: commitData)
+        return created.jobID
+    }
+
+    struct VideoAnswer: Decodable, Sendable {
+        let answer: String
+        let times: [Int]
+        let watched: Bool
+    }
+
+    /// Asks a described video a question. The description goes with the
+    /// question, so this works after the server copy of the job is deleted.
+    func askVideo(question: String, language: String, description: VideoDescription, youtubeURL: String?,
+                  jobID: String?) async throws -> VideoAnswer {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/videos/ask"))
+        request.httpMethod = "POST"
+        // Watching part of the video again can take a minute.
+        request.timeoutInterval = 180
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        var body: [String: Any] = [
+            "question": question,
+            "language": language == "en" ? "en" : "ar",
+            "description": try JSONSerialization.jsonObject(with: description.encoded()),
+        ]
+        if let youtubeURL { body["youtube_url"] = youtubeURL }
+        if let jobID { body["job_id"] = jobID }
+        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        applyServerHeaders(to: &request, requestID: UUID().uuidString)
+        let (data, response) = try await retryingData(request: request)
+        try Self.validateHTTP(response, data: data)
+        guard let answer = try? JSONDecoder().decode(VideoAnswer.self, from: data) else {
+            throw BasirError.invalidResponse("The answer could not be read.")
+        }
+        return answer
+    }
+}

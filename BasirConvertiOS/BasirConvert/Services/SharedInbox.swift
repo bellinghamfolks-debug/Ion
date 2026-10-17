@@ -42,3 +42,24 @@ enum SharedInbox {
     }
 }
 
+
+/// YouTube links shared into Basir from another app (the share extension
+/// keeps them in the app group). The newest one opens the video description.
+enum SharedLinks {
+    static let folderName = "SharedLinks"
+
+    static func takeLatestVideo() -> String? {
+        guard let group = FileAccess.sharedContainerURL() else { return nil }
+        let folder = group.appendingPathComponent(folderName, isDirectory: true)
+        guard let files = try? FileManager.default.contentsOfDirectory(
+            at: folder, includingPropertiesForKeys: [.contentModificationDateKey], options: [.skipsHiddenFiles]) else { return nil }
+        let newest = files.max { a, b in
+            let da = (try? a.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate) ?? .distantPast
+            let db = (try? b.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate) ?? .distantPast
+            return da < db
+        }
+        let link = newest.flatMap { try? String(contentsOf: $0, encoding: .utf8) }
+        files.forEach { try? FileManager.default.removeItem(at: $0) }
+        return link.flatMap(YouTubeLink.watchURL(from:))
+    }
+}

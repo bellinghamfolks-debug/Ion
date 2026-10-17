@@ -59,8 +59,18 @@ final class ScreenshotTour: XCTestCase {
         launch(extra: ["-video_launch_seen_v1", "NO"])
         pause(3)
         shotScrolling("فيديو - شاشة الإطلاق", limit: 2)
-        if !tap(button: "لاحقًا") { dump("بعد لاحقًا") }
+        let later = app.buttons["لاحقًا"].firstMatch
+        if later.waitForExistence(timeout: 5) {
+            if !later.isHittable { app.swipeUp() }
+            later.tap()
+        }
         pause(2)
+        let closeLaunch = app.buttons["إغلاق"].firstMatch
+        if app.staticTexts["جديد في بصير: وصف الفيديو"].exists, closeLaunch.exists {
+            dump("شاشة الإطلاق ما زالت ظاهرة")
+            closeLaunch.tap()
+            pause(2)
+        }
         shot("فيديو - بعد إغلاق شاشة الإطلاق")
         let tile = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "وصف الفيديو")).firstMatch
         for _ in 0..<6 where !(tile.exists && tile.isHittable) { app.swipeUp() }

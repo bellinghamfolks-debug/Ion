@@ -146,6 +146,7 @@ def main() -> None:
             step(report)
         except Exception as error:  # noqa: BLE001
             report[f"{step.__name__}_error"] = repr(error)
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=1))
     files = report.get("wikimedia_commons", {}).get("files", {})
     print(f"mendeley={report.get('mendeley_saudi_currency', {}).get('status')} commons_files={len(files)} "

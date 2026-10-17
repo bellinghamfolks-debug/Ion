@@ -31,6 +31,7 @@ jobs:
           df -h /
       - run: pip install --quiet pillow
       - name: Wikimedia Commons, current series
+        continue-on-error: true
         run: python3 BasirConvertiOS/tools/currency/discover_sources.py BasirConvertiOS/tools/currency/reports/commons.json commons
       - name: Saudi Currency Dataset (CC BY 4.0)
         run: python3 BasirConvertiOS/tools/currency/audit_dataset.py "$RUNNER_TEMP/currency" BasirConvertiOS/tools/currency/reports

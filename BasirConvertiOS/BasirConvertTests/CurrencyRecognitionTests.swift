@@ -60,11 +60,30 @@ final class CurrencyRecognitionTests: XCTestCase {
         XCTAssertEqual(voter.add(frame(.ten, 0.99, at: 0.2)), .uncertain)
     }
 
-    func testAConfirmedButUnsureClassifierStaysSilent() {
+    func testThePrintedNumberSpeaksWhenTheClassifierClearlySupportsIt() {
+        // The classifier's best guess is 10, but it gives the printed 200 a clear share.
         var voter = CurrencyVoter()
-        _ = voter.add(frame(.twoHundred, 0.75, at: 0, printed: [.twoHundred]))
-        _ = voter.add(frame(.twoHundred, 0.78, at: 0.1))
-        XCTAssertEqual(voter.add(frame(.twoHundred, 0.8, at: 0.2)), .uncertain)
+        let scores: [RiyalNote: Double] = [.ten: 0.5, .twoHundred: 0.45]
+        _ = voter.add(CurrencyObservation(note: .ten, confidence: 0.5, scores: scores, printed: [.twoHundred], time: 0))
+        _ = voter.add(CurrencyObservation(note: .ten, confidence: 0.5, scores: scores, printed: [], time: 0.1))
+        XCTAssertEqual(voter.add(CurrencyObservation(note: .ten, confidence: 0.5, scores: scores, printed: [], time: 0.2)),
+                       .note(.twoHundred))
+    }
+
+    func testAPrintedNumberTheClassifierDoesNotSupportStaysSilent() {
+        var voter = CurrencyVoter()
+        let scores: [RiyalNote: Double] = [.ten: 0.7, .twoHundred: 0.2]
+        for time in [0.0, 0.1] {
+            _ = voter.add(CurrencyObservation(note: .ten, confidence: 0.7, scores: scores, printed: [.twoHundred], time: time))
+        }
+        XCTAssertEqual(voter.add(CurrencyObservation(note: .ten, confidence: 0.7, scores: scores, printed: [.twoHundred], time: 0.2)),
+                       .uncertain)
+    }
+
+    func testAPriceTagTheClassifierCallsNoNoteStaysSilent() {
+        var voter = CurrencyVoter()
+        for time in [0.0, 0.1] { _ = voter.add(frame(nil, 0.95, at: time, printed: [.fifty])) }
+        XCTAssertEqual(voter.add(frame(nil, 0.95, at: 0.2, printed: [.fifty])), .uncertain)
     }
 
     func testANoteTakenAwayAndShownAgainIsNamedAgain() {

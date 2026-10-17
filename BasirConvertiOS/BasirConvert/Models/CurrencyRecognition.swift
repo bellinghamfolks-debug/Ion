@@ -22,6 +22,8 @@ struct CurrencyObservation: Equatable, Sendable {
     /// The model's best class and its confidence; nil when it saw no note.
     var note: RiyalNote?
     var confidence: Double
+    /// The model's probability for each note (all classes, not only the best).
+    var scores: [RiyalNote: Double] = [:]
     /// Values read in the frame's printed text.
     var printed: Set<RiyalNote> = []
     var time: TimeInterval
@@ -30,11 +32,12 @@ struct CurrencyObservation: Equatable, Sendable {
 /// Decides when to speak, from a stream of frames.
 ///
 /// A wrong value is worse than none for someone who cannot check it, so a
-/// note is named only when two independent readers agree: the classifier,
-/// confident over several frames in a row, and the number printed on the
-/// note, read as text. Measured on camera-like frames, either alone named
-/// wrong values (the classifier on blank surfaces, the text on price tags);
-/// together they named none.
+/// note is named only when two independent readers agree: the number printed
+/// on the note, read as text and the same over the last frames, and the
+/// classifier, which must give that same note a clear share of its belief in
+/// every one of those frames. Measured on camera-like frames, either alone
+/// named wrong values (the classifier on blank surfaces, the text on price
+/// tags); together they named none.
 struct CurrencyVoter {
     enum Verdict: Equatable {
         case note(RiyalNote)
@@ -43,7 +46,10 @@ struct CurrencyVoter {
     }
 
     var requiredFrames = 3
-    var minimumConfidence = 0.85
+    /// The classifier's probability for the printed note, in every frame.
+    var minimumSupport = 0.4
+    /// The classifier sure it sees no note at all stops everything.
+    var noneVeto = 0.6
     /// The same note is not repeated while it stays in view.
     var repeatAfter: TimeInterval = 4
     /// How long a note must be out of view before it may be named again.
@@ -76,12 +82,17 @@ struct CurrencyVoter {
     func decide() -> Verdict {
         let recent = history.suffix(requiredFrames)
         guard recent.count == requiredFrames else { return .nothing }
-        let notes = Set(recent.compactMap(\.note))
-        guard notes.count == 1, let note = notes.first, recent.allSatisfy({ $0.note == note }) else {
-            return recent.contains(where: { $0.note != nil }) ? .uncertain : .nothing
-        }
         let printed = recent.reduce(into: Set<RiyalNote>()) { $0.formUnion($1.printed) }
-        let confident = recent.allSatisfy { $0.confidence >= minimumConfidence }
-        return confident && printed == [note] ? .note(note) : .uncertain
+        guard printed.count == 1, let note = printed.first else {
+            return recent.contains(where: { $0.note != nil }) || !printed.isEmpty ? .uncertain : .nothing
+        }
+        if recent.contains(where: { $0.note == nil && $0.confidence >= noneVeto }) { return .uncertain }
+        let supported = recent.allSatisfy { Self.score(of: note, in: $0) >= minimumSupport }
+        return supported ? .note(note) : .uncertain
+    }
+
+    static func score(of note: RiyalNote, in observation: CurrencyObservation) -> Double {
+        if let score = observation.scores[note] { return score }
+        return observation.note == note ? observation.confidence : 0
     }
 }

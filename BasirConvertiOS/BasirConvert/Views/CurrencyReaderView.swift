@@ -306,13 +306,18 @@ extension CurrencyReaderController: AVCaptureVideoDataOutputSampleBufferDelegate
 
         var note: RiyalNote?
         var confidence = 0.0
+        var scores: [RiyalNote: Double] = [:]
         if let model {
             let request = VNCoreMLRequest(model: model)
             request.imageCropAndScaleOption = .centerCrop
             try? VNImageRequestHandler(cvPixelBuffer: pixels, orientation: .right).perform([request])
-            if let best = (request.results as? [VNClassificationObservation])?.first {
+            let results = (request.results as? [VNClassificationObservation]) ?? []
+            if let best = results.first {
                 note = RiyalNote(label: best.identifier)
                 confidence = Double(best.confidence)
+            }
+            for result in results {
+                if let value = RiyalNote(label: result.identifier) { scores[value] = Double(result.confidence) }
             }
         }
         // The printed number, read less often (it is slower), kept for a second
@@ -338,7 +343,7 @@ extension CurrencyReaderController: AVCaptureVideoDataOutputSampleBufferDelegate
             }
         }
         let printedNow = now.timeIntervalSince(printed.time) < 1.5 ? printed.values : []
-        let observation = CurrencyObservation(note: note, confidence: confidence, printed: printedNow,
+        let observation = CurrencyObservation(note: note, confidence: confidence, scores: scores, printed: printedNow,
                                               time: now.timeIntervalSinceReferenceDate)
         Task { @MainActor in self.handle(observation, brightness: brightness) }
     }

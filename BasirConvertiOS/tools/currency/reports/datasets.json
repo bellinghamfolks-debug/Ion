@@ -603,7 +603,7 @@
      "title": "IKEA Global Product Catalog (46 Countries) - 2026",
      "size": 20942467,
      "licence": "Other (specified in description)",
-     "downloads": 1336
+     "downloads": 1338
     },
     {
      "ref": "edudev-commons-org/global-fuel-prices-100-years-19242024",
@@ -694,7 +694,7 @@
      "title": "Global Climate & Energy Transition 2000-2026",
      "size": 144784,
      "licence": "CC0: Public Domain",
-     "downloads": 1833
+     "downloads": 1834
     },
     {
      "ref": "zaincui/iran-usa-commodity-prices",
@@ -713,7 +713,7 @@
     {
      "ref": "allratestoday/central-bank-exchange-rates",
      "title": "Central Bank Exchange Rates, 1914 to today",
-     "size": 0,
+     "size": 81248658,
      "licence": "Other (specified in description)",
      "downloads": 1523
     },

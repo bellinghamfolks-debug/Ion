@@ -8,10 +8,10 @@ and scored 99% on a test that could not catch it; on a real phone it named
 wrong values.
 
 This set:
-- Draws notes from clean images of both faces of every design
-  (references.json; the app is free and non-commercial, and each image's
-  credit is kept there), plus the photo set's notes cut out tightly with no
-  background.
+- Draws notes from clean images of both faces of each design whose licence
+  is open (references/, credited in references/CREDITS.md; the reader is
+  free and non-commercial), plus the photo set's notes cut out tightly with
+  no background.
 - Places every note on a background that says nothing about its value
   (generated surfaces, paper, and backgrounds from all denominations' photos
   mixed), in a portrait frame like the iPhone's, in any orientation, often
@@ -63,7 +63,14 @@ def fetch_references(folder: Path) -> list[dict]:
     entries = json.loads((HERE / "references.json").read_text())
     ok = []
     for entry in entries:
+        if entry.get("use") != "train":
+            continue
         target = folder / entry["file"]
+        # The openly licensed images are kept in the repository (references/,
+        # with their credits); the source site refuses downloads from CI.
+        local = HERE / "references" / entry["file"]
+        if local.exists() and not target.exists():
+            target.write_bytes(local.read_bytes())
         if not target.exists():
             for attempt in range(4):
                 try:

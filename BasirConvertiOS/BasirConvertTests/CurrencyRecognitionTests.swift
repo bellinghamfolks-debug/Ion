@@ -9,14 +9,36 @@ final class CurrencyRecognitionTests: XCTestCase {
         CurrencyObservation(note: note, confidence: confidence, printed: printed, time: time)
     }
 
-    func testThreeConfidentAgreeingFramesNameTheNoteOnce() {
+    func testThreeConfidentFramesConfirmedByThePrintedNumberNameTheNoteOnce() {
         var voter = CurrencyVoter()
         XCTAssertNil(voter.add(frame(.hundred, 0.95, at: 0)))
-        XCTAssertNil(voter.add(frame(.hundred, 0.97, at: 0.1)))
+        XCTAssertNil(voter.add(frame(.hundred, 0.97, at: 0.1, printed: [.hundred])))
         XCTAssertEqual(voter.add(frame(.hundred, 0.96, at: 0.2)), .note(.hundred))
         // Still in view: not repeated.
-        XCTAssertNil(voter.add(frame(.hundred, 0.96, at: 0.3)))
-        XCTAssertNil(voter.add(frame(.hundred, 0.96, at: 1.5)))
+        XCTAssertNil(voter.add(frame(.hundred, 0.96, at: 0.3, printed: [.hundred])))
+        XCTAssertNil(voter.add(frame(.hundred, 0.96, at: 1.5, printed: [.hundred])))
+    }
+
+    func testTheClassifierAloneNeverSpeaks() {
+        var voter = CurrencyVoter()
+        for index in 0..<8 {
+            XCTAssertNotEqual(voter.add(frame(.fifty, 0.99, at: Double(index) / 10)), .note(.fifty))
+        }
+    }
+
+    func testThePrintedNumberAloneNeverSpeaks() {
+        var voter = CurrencyVoter()
+        for index in 0..<8 {
+            XCTAssertNotEqual(voter.add(frame(nil, 0, at: Double(index) / 10, printed: [.fifty])), .note(.fifty))
+        }
+    }
+
+    func testTwoPrintedValuesStaySilent() {
+        // "50" read from a "500" cut by the frame's edge.
+        var voter = CurrencyVoter()
+        _ = voter.add(frame(.fiveHundred, 0.97, at: 0, printed: [.fifty]))
+        _ = voter.add(frame(.fiveHundred, 0.97, at: 0.1, printed: [.fiveHundred]))
+        XCTAssertEqual(voter.add(frame(.fiveHundred, 0.97, at: 0.2)), .uncertain)
     }
 
     func testDisagreeingFramesStayUncertain() {
@@ -38,18 +60,18 @@ final class CurrencyRecognitionTests: XCTestCase {
         XCTAssertEqual(voter.add(frame(.ten, 0.99, at: 0.2)), .uncertain)
     }
 
-    func testThePrintedNumberConfirmsASlightlyLessConfidentModel() {
+    func testAConfirmedButUnsureClassifierStaysSilent() {
         var voter = CurrencyVoter()
         _ = voter.add(frame(.twoHundred, 0.75, at: 0, printed: [.twoHundred]))
         _ = voter.add(frame(.twoHundred, 0.78, at: 0.1))
-        XCTAssertEqual(voter.add(frame(.twoHundred, 0.8, at: 0.2)), .note(.twoHundred))
+        XCTAssertEqual(voter.add(frame(.twoHundred, 0.8, at: 0.2)), .uncertain)
     }
 
     func testANoteTakenAwayAndShownAgainIsNamedAgain() {
         var voter = CurrencyVoter()
-        for time in [0.0, 0.1, 0.2] { _ = voter.add(frame(.five, 0.95, at: time)) }
+        for time in [0.0, 0.1, 0.2] { _ = voter.add(frame(.five, 0.95, at: time, printed: [.five])) }
         for time in [0.5, 1.0, 1.6] { _ = voter.add(frame(nil, 0, at: time)) }
-        _ = voter.add(frame(.five, 0.95, at: 1.7))
+        _ = voter.add(frame(.five, 0.95, at: 1.7, printed: [.five]))
         _ = voter.add(frame(.five, 0.95, at: 1.8))
         XCTAssertEqual(voter.add(frame(.five, 0.95, at: 1.9)), .note(.five))
     }
@@ -57,10 +79,10 @@ final class CurrencyRecognitionTests: XCTestCase {
     func testWhileAddingUpTurningANoteOverDoesNotCountItTwice() {
         var voter = CurrencyVoter()
         voter.reshowGap = 2
-        for time in [0.0, 0.1, 0.2] { _ = voter.add(frame(.fifty, 0.95, at: time)) }
+        for time in [0.0, 0.1, 0.2] { _ = voter.add(frame(.fifty, 0.95, at: time, printed: [.fifty])) }
         // Turned over: the back is not recognised for a second and a half.
         for time in [0.5, 1.0, 1.7] { _ = voter.add(frame(nil, 0, at: time)) }
-        _ = voter.add(frame(.fifty, 0.95, at: 1.8))
+        _ = voter.add(frame(.fifty, 0.95, at: 1.8, printed: [.fifty]))
         _ = voter.add(frame(.fifty, 0.95, at: 1.9))
         XCTAssertNil(voter.add(frame(.fifty, 0.95, at: 2.0)))
     }

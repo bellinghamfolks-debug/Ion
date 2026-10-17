@@ -8,9 +8,9 @@ import Vision
 ///
 /// Everything runs on the iPhone: no picture leaves it and it works offline.
 /// A small model names the note several times a second, the note's printed
-/// number is read as a second opinion, and ``CurrencyVoter`` speaks only when
-/// both agree over consecutive frames — for someone who cannot check the
-/// answer, silence is better than a wrong value.
+/// number is read as text, and ``CurrencyVoter`` speaks only when both agree
+/// over consecutive frames — for someone who cannot check the answer, silence
+/// is better than a wrong value.
 struct CurrencyReaderView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var l10n: L10n
@@ -109,6 +109,7 @@ final class CurrencyReaderController: NSObject, ObservableObject {
     private nonisolated(unsafe) var lastFrame = Date.distantPast
     private nonisolated(unsafe) var lastText = Date.distantPast
     private nonisolated(unsafe) var readingText = false
+    private nonisolated(unsafe) var textPass = 0
     private nonisolated(unsafe) var printed: (values: Set<RiyalNote>, time: Date) = ([], .distantPast)
     private nonisolated(unsafe) var model: VNCoreMLModel?
     private var voter = CurrencyVoter()
@@ -119,8 +120,8 @@ final class CurrencyReaderController: NSObject, ObservableObject {
     private var lastGuidance = Date.distantPast
     private var autoTorch = false
 
-    /// The trained model, compiled into the app. Without it the reader still
-    /// works from the printed number alone.
+    /// The trained model, compiled into the app. The printed number alone
+    /// is never enough (prices and receipts carry the same numbers).
     nonisolated static func loadModel() -> VNCoreMLModel? {
         guard let url = Bundle.main.url(forResource: "RiyalClassifier", withExtension: "mlmodelc"),
               let model = try? MLModel(contentsOf: url) else { return nil }
@@ -207,7 +208,15 @@ final class CurrencyReaderController: NSObject, ObservableObject {
         let session = self.session
         queue.async { [weak self] in
             if self?.model == nil { self?.model = Self.loadModel() }
+            let loaded = self?.model != nil
             if !session.isRunning { session.startRunning() }
+            if !loaded {
+                Task { @MainActor in
+                    guard let self else { return }
+                    self.guidance = self.l10n?.t("تعذّر تشغيل الكاميرا. حاول مجددًا.", "Couldn’t start the camera. Please try again.") ?? ""
+                    self.announce(self.guidance)
+                }
+            }
         }
     }
 
@@ -306,31 +315,44 @@ extension CurrencyReaderController: AVCaptureVideoDataOutputSampleBufferDelegate
                 confidence = Double(best.confidence)
             }
         }
-        // The printed number, read less often (it is slower), kept for a second.
-        if now.timeIntervalSince(lastText) >= 0.6, !readingText {
+        // The printed number, read less often (it is slower), kept for a second
+        // and a half. Alternate passes read the frame upside down, for a note
+        // held the other way up.
+        if now.timeIntervalSince(lastText) >= 0.4, !readingText {
             lastText = now
             readingText = true
+            textPass += 1
+            let orientation: CGImagePropertyOrientation = textPass % 2 == 0 ? .left : .right
             let copy = pixels
             textQueue.async { [weak self] in
                 let request = VNRecognizeTextRequest()
                 request.recognitionLevel = .accurate
                 request.usesLanguageCorrection = false
-                request.recognitionLanguages = ["ar-SA", "en-US"]
-                try? VNImageRequestHandler(cvPixelBuffer: copy, orientation: .right).perform([request])
-                let lines = (request.results ?? []).compactMap { $0.topCandidates(1).first?.string }
+                request.recognitionLanguages = Self.textLanguages
+                try? VNImageRequestHandler(cvPixelBuffer: copy, orientation: orientation).perform([request])
+                // Text cut by the frame's edge may be part of a bigger number ("50" of "500").
+                let lines = (request.results ?? []).filter { Self.inside($0.boundingBox) }
+                    .compactMap { $0.topCandidates(1).first?.string }
                 self?.printed = (PrintedValue.notes(in: lines), Date())
                 self?.readingText = false
             }
         }
-        let printedNow = now.timeIntervalSince(printed.time) < 1.2 ? printed.values : []
-        // Without a model, a single printed value stands in for it.
-        if model == nil, printedNow.count == 1 {
-            note = printedNow.first
-            confidence = 0.9
-        }
+        let printedNow = now.timeIntervalSince(printed.time) < 1.5 ? printed.values : []
         let observation = CurrencyObservation(note: note, confidence: confidence, printed: printedNow,
                                               time: now.timeIntervalSinceReferenceDate)
         Task { @MainActor in self.handle(observation, brightness: brightness) }
+    }
+
+    /// Arabic and English where this iOS reads them; an unsupported language
+    /// would make every request fail.
+    nonisolated static let textLanguages: [String] = {
+        let supported = (try? VNRecognizeTextRequest().supportedRecognitionLanguages()) ?? []
+        let wanted = ["ar-SA", "en-US"].filter(supported.contains)
+        return wanted.isEmpty ? ["en-US"] : wanted
+    }()
+
+    nonisolated static func inside(_ box: CGRect) -> Bool {
+        box.minX > 0.015 && box.minY > 0.015 && box.maxX < 0.985 && box.maxY < 0.985
     }
 
     /// Average of the luma plane, sampled sparsely: 0 is black, 1 is white.

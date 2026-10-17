@@ -30,8 +30,11 @@ struct CurrencyObservation: Equatable, Sendable {
 /// Decides when to speak, from a stream of frames.
 ///
 /// A wrong value is worse than none for someone who cannot check it, so a
-/// note is named only when several frames in a row agree with high
-/// confidence, and never when the printed number on the note says otherwise.
+/// note is named only when two independent readers agree: the classifier,
+/// confident over several frames in a row, and the number printed on the
+/// note, read as text. Measured on camera-like frames, either alone named
+/// wrong values (the classifier on blank surfaces, the text on price tags);
+/// together they named none.
 struct CurrencyVoter {
     enum Verdict: Equatable {
         case note(RiyalNote)
@@ -78,10 +81,7 @@ struct CurrencyVoter {
             return recent.contains(where: { $0.note != nil }) ? .uncertain : .nothing
         }
         let printed = recent.reduce(into: Set<RiyalNote>()) { $0.formUnion($1.printed) }
-        if !printed.isEmpty && !printed.contains(note) { return .uncertain }
         let confident = recent.allSatisfy { $0.confidence >= minimumConfidence }
-        // The printed value confirming the model can stand in for a little confidence.
-        let confirmed = printed == [note] && recent.allSatisfy { $0.confidence >= minimumConfidence - 0.15 }
-        return confident || confirmed ? .note(note) : .uncertain
+        return confident && printed == [note] ? .note(note) : .uncertain
     }
 }

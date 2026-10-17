@@ -2,10 +2,11 @@ import SwiftUI
 import UIKit
 import UniformTypeIdentifiers
 
-/// The tools on the New tab beside conversion: images to one PDF, instant
-/// offline read, asking about a picture, and comparing two versions.
+/// The tools on the New tab beside conversion: the currency reader, images
+/// to one PDF, instant offline read, asking about a picture, and comparing
+/// two versions.
 enum BasirTool: String, Identifiable {
-    case imagesToPDF, instantRead, imageQuestion, compare
+    case currency, imagesToPDF, instantRead, imageQuestion, compare
     var id: String { rawValue }
 }
 
@@ -21,6 +22,9 @@ struct BasirToolsSection: View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             SectionHeading(title: l10n.t("أدوات سريعة", "Quick tools"))
             LazyVGrid(columns: columns, spacing: BasirSpacing.m) {
+                SourceTile(title: l10n.t("قارئ العملات", "Currency reader"),
+                           detail: l10n.t("وجّه الكاميرا إلى الورقة النقدية واسمع قيمتها", "Point the camera at a banknote and hear its value"),
+                           systemImage: "banknote.fill") { tool = .currency }
                 SourceTile(title: l10n.t("صور إلى PDF", "Images to PDF"),
                            detail: l10n.t("رتّب الصور واحفظها في ملف PDF", "Arrange photos and save them as a PDF"),
                            systemImage: "photo.stack.fill") { tool = .imagesToPDF }
@@ -37,6 +41,7 @@ struct BasirToolsSection: View {
         }
         .fullScreenCover(item: $tool) { tool in
             switch tool {
+            case .currency: CurrencyReaderView()
             case .imagesToPDF: ImagesToPDFView()
             case .instantRead: InstantReadView()
             case .imageQuestion: ImageQuestionView()

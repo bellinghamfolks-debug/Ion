@@ -97,6 +97,8 @@ enum VideoLibrary {
 
     private static let indexName = "index.json"
 
+    static var folder: URL? { directory }
+
     private static var directory: URL? {
         guard let root = try? FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask,
                                                       appropriateFor: nil, create: true) else { return nil }
@@ -145,12 +147,53 @@ enum VideoLibrary {
     }
 }
 
+/// The video being described, kept on the phone so the work survives Basir
+/// being closed or restarted by iOS: when Basir comes back it picks up where
+/// it stopped (preparing, sending, or following the server's job).
+struct VideoPending: Codable, Equatable {
+    var key: String
+    var title: String
+    var youtubeURL: String?
+    /// The chosen album video, copied into Basir, until it is made small.
+    var originalName: String?
+    var seconds: Int?
+    /// The small copy is ready at `VideoLibrary.mediaURL(for: key)`.
+    var compressed = false
+    var jobID: String?
+    var startedAt = Date()
+
+    private static let storageKey = "video_pending_v1"
+
+    static func load() -> VideoPending? {
+        guard let data = UserDefaults.standard.data(forKey: storageKey) else { return nil }
+        return try? JSONDecoder().decode(VideoPending.self, from: data)
+    }
+
+    func save() {
+        if let data = try? JSONEncoder().encode(self) { UserDefaults.standard.set(data, forKey: Self.storageKey) }
+    }
+
+    static func clear() { UserDefaults.standard.removeObject(forKey: storageKey) }
+}
+
 /// Keeps video work alive while the screen is closed: opening the tool again
 /// shows the progress, or the finished description.
 @MainActor
 final class VideoCenter {
     static let shared = VideoCenter()
     let runner = VideoRunner()
+    /// Whether the video screen is showing, so Basir does not open it twice.
+    var screenVisible = false
+    private static let unseenKey = "video_unseen_result"
+
+    /// A description finished while the person was away.
+    var hasUnseenResult: Bool {
+        get { UserDefaults.standard.bool(forKey: Self.unseenKey) }
+        set { UserDefaults.standard.set(newValue, forKey: Self.unseenKey) }
+    }
+
+    /// Whether to open the video screen when Basir comes back.
+    var shouldShowOnReturn: Bool { !screenVisible && (VideoPending.load() != nil || hasUnseenResult) }
 }
 
 /// Describes one video: prepares it on the phone, sends it, follows the
@@ -169,7 +212,10 @@ final class VideoRunner: ObservableObject {
     @Published private(set) var phase: Phase = .idle
     @Published private(set) var title = ""
     private var task: Task<Void, Never>?
-    private var active: (key: String, configuration: ServerConfiguration)?
+    private var configuration: ServerConfiguration?
+
+    /// Stopped because Basir left the foreground; resumed when it comes back.
+    private struct Interrupted: Error {}
 
     var isBusy: Bool {
         switch phase {
@@ -182,14 +228,17 @@ final class VideoRunner: ObservableObject {
         if !isBusy { phase = .idle }
     }
 
-    /// Stops the work here and on the server.
+    /// Stops the work here and on the server, and forgets it.
     func cancel() {
         task?.cancel()
         task = nil
-        if let active {
-            Task { _ = try? await ProxyClient(configuration: active.configuration).cancelServerTask(requestID: active.key) }
+        if let pending = VideoPending.load() {
+            if let configuration, pending.jobID != nil {
+                Task { _ = try? await ProxyClient(configuration: configuration).cancelServerTask(requestID: pending.key) }
+            }
+            Self.discardFiles(of: pending)
+            VideoPending.clear()
         }
-        active = nil
         phase = .idle
     }
 
@@ -199,88 +248,142 @@ final class VideoRunner: ObservableObject {
             phase = .failed(DocumentAssistant.message(for: BasirError.notConfigured, l10n: l10n))
             return
         }
-        title = input.title
-        active = nil
-        task = Task { [weak self] in await self?.work(input, configuration: configuration, l10n: l10n) }
+        do {
+            let pending: VideoPending
+            switch input {
+            case .file(let url, let name):
+                // Kept in Basir's own storage (not the temporary folder iOS may empty).
+                guard let folder = VideoLibrary.folder else { throw VideoCompressor.Failure.unreadable }
+                let original = "original-\(UUID().uuidString).\(url.pathExtension.isEmpty ? "mov" : url.pathExtension)"
+                try FileManager.default.moveItem(at: url, to: folder.appendingPathComponent(original))
+                let key = "video-" + String(try Self.fingerprint(file: folder.appendingPathComponent(original)).prefix(48))
+                pending = VideoPending(key: key, title: name, originalName: original)
+            case .youtube(let link):
+                pending = VideoPending(key: "video-" + String(Self.fingerprint(text: link).prefix(48)), title: "",
+                                       youtubeURL: link)
+            }
+            pending.save()
+            run(pending, configuration: configuration, l10n: l10n)
+        } catch {
+            phase = .failed(Self.message(for: error, l10n: l10n))
+        }
     }
 
-    private func work(_ input: VideoInput, configuration: ServerConfiguration, l10n: L10n) async {
+    /// Picks up a description that was under way when Basir stopped.
+    func resumeIfNeeded(configuration: ServerConfiguration, l10n: L10n) {
+        guard task == nil, configuration.isConfigured, let pending = VideoPending.load() else { return }
+        run(pending, configuration: configuration, l10n: l10n)
+    }
+
+    private func run(_ pending: VideoPending, configuration: ServerConfiguration, l10n: L10n) {
+        self.configuration = configuration
+        title = pending.title
+        task = Task { [weak self] in
+            await self?.work(pending, configuration: configuration, l10n: l10n)
+            self?.task = nil
+        }
+    }
+
+    private func work(_ start: VideoPending, configuration: ServerConfiguration, l10n: L10n) async {
         let background = UIApplication.shared.beginBackgroundTask(withName: "Basir video")
         defer { UIApplication.shared.endBackgroundTask(background) }
-        var prepared: URL?
-        defer { if let prepared { try? FileManager.default.removeItem(at: prepared) } }
+        var pending = start
+        var request: URL?
+        defer { if let request { try? FileManager.default.removeItem(at: request) } }
         do {
             let client = ProxyClient(configuration: configuration)
-            let source: URL, contentType: String, seconds: Int?, youtube: String?, requestKey: String
-            switch input {
-            case .file(let url, _):
+            // 1. Make the album video small, straight into Basir's storage.
+            if pending.youtubeURL == nil, !pending.compressed {
+                guard let name = pending.originalName, let folder = VideoLibrary.folder,
+                      let keep = VideoLibrary.mediaURL(for: pending.key) else { throw VideoCompressor.Failure.unreadable }
+                let original = folder.appendingPathComponent(name)
+                guard FileManager.default.fileExists(atPath: original.path) else { throw VideoCompressor.Failure.unreadable }
                 phase = .preparing(0)
                 announce(l10n.t("جارٍ تجهيز الفيديو.", "Preparing the video."))
-                let made = try await VideoCompressor.prepare(url) { value in
-                    Task { @MainActor [weak self] in
-                        if case .preparing = self?.phase { self?.phase = .preparing(value) }
+                let made: (URL, Int)
+                do {
+                    made = try await VideoCompressor.prepare(original) { value in
+                        Task { @MainActor [weak self] in
+                            if case .preparing = self?.phase { self?.phase = .preparing(value) }
+                        }
                     }
+                } catch let failure as VideoCompressor.Failure where failure == .tooLarge && !Self.isActive {
+                    // iOS stops making videos small while Basir is in the background.
+                    throw Interrupted()
                 }
-                prepared = made.0
-                source = made.0
-                contentType = "video/mp4"
-                seconds = made.1
-                youtube = nil
-                requestKey = "video-" + String(try Self.fingerprint(file: url).prefix(48))
-            case .youtube(let link):
-                let request = try JSONSerialization.data(withJSONObject: ["youtube_url": link])
-                let file = FileManager.default.temporaryDirectory.appendingPathComponent("basir-video-\(UUID().uuidString).json")
-                try request.write(to: file, options: .atomic)
-                prepared = file
-                source = file
-                contentType = "application/json"
-                seconds = nil
-                youtube = link
-                requestKey = "video-" + String(Self.fingerprint(text: link).prefix(48))
+                try? FileManager.default.removeItem(at: keep)
+                try FileManager.default.moveItem(at: made.0, to: keep)
+                try? FileManager.default.removeItem(at: original)
+                pending.compressed = true
+                pending.seconds = made.1
+                pending.originalName = nil
+                pending.save()
             }
             try Task.checkCancellation()
-            active = (requestKey, configuration)
-            phase = .uploading(0)
-            if youtube == nil { announce(l10n.t("جارٍ إرسال الفيديو.", "Sending the video.")) }
-            let shownTitle = title.isEmpty ? l10n.t("فيديو", "Video") : title
-            let jobID = try await client.startVideoJob(
-                source: source, contentType: contentType, seconds: seconds, requestID: requestKey, title: title,
-                language: l10n.isArabic ? "ar" : "en") { value in
-                Task { @MainActor [weak self] in
-                    if case .uploading = self?.phase { self?.phase = .uploading(value) }
+            // 2. Send it (the server recognises the same request and resumes its job).
+            let shownTitle = pending.title.isEmpty ? l10n.t("فيديو", "Video") : pending.title
+            if pending.jobID == nil {
+                let source: URL, contentType: String
+                if let link = pending.youtubeURL {
+                    let file = FileManager.default.temporaryDirectory.appendingPathComponent("basir-video-\(UUID().uuidString).json")
+                    try JSONSerialization.data(withJSONObject: ["youtube_url": link]).write(to: file, options: .atomic)
+                    request = file
+                    source = file
+                    contentType = "application/json"
+                } else {
+                    guard let keep = VideoLibrary.mediaURL(for: pending.key) else { throw VideoCompressor.Failure.unreadable }
+                    source = keep
+                    contentType = "video/mp4"
+                    announce(l10n.t("جارٍ إرسال الفيديو.", "Sending the video."))
                 }
+                phase = .uploading(0)
+                do {
+                    pending.jobID = try await client.startVideoJob(
+                        source: source, contentType: contentType, seconds: pending.seconds, requestID: pending.key,
+                        title: pending.title, language: l10n.isArabic ? "ar" : "en") { value in
+                        Task { @MainActor [weak self] in
+                            if case .uploading = self?.phase { self?.phase = .uploading(value) }
+                        }
+                    }
+                } catch where !(error is CancellationError) && !Self.isActive {
+                    throw Interrupted()
+                }
+                pending.save()
+                let notificationID = Self.notificationID(pending.key)
+                if let jobID = pending.jobID {
+                    JobWatcher.shared.watch(id: notificationID, serverJobID: jobID, work: .video,
+                                            title: l10n.t("وصف: \(shownTitle)", "Description: \(shownTitle)"), arabic: l10n.isArabic)
+                    if let clientJobID = UUID(uuidString: notificationID) {
+                        PushRegistrar.shared.serverJobCreated(clientJobID: clientJobID, serverJobID: jobID,
+                                                              configuration: configuration, language: l10n.isArabic ? "ar" : "en")
+                    }
+                }
+                announce(l10n.t("وصل الفيديو. بصير يشاهده الآن. يمكنك الانتقال إلى تطبيق آخر، وسيصلك إشعار عند الانتهاء.",
+                                "The video arrived. Basir is watching it now. You can switch to another app; you'll be notified when it's done."))
             }
-            let notificationID = Self.notificationID(requestKey)
-            JobWatcher.shared.watch(id: notificationID, serverJobID: jobID, work: .video,
-                                    title: l10n.t("وصف: \(shownTitle)", "Description: \(shownTitle)"), arabic: l10n.isArabic)
-            if let clientJobID = UUID(uuidString: notificationID) {
-                PushRegistrar.shared.serverJobCreated(clientJobID: clientJobID, serverJobID: jobID,
-                                                      configuration: configuration, language: l10n.isArabic ? "ar" : "en")
-            }
+            guard let jobID = pending.jobID else { throw BasirError.invalidResponse("") }
+            // 3. Follow the server's job, also after Basir was closed and opened again.
             phase = .working(detail: l10n.t("بصير يشاهد الفيديو", "Basir is watching the video"), done: 0, total: 0)
-            announce(l10n.t("وصل الفيديو. بصير يشاهده الآن. يمكنك الانتقال إلى تطبيق آخر، وسيصلك إشعار عند الانتهاء.",
-                            "The video arrived. Basir is watching it now. You can switch to another app; you'll be notified when it's done."))
-            let description = try await follow(jobID: jobID, requestKey: requestKey, client: client, l10n: l10n)
-            var entry = VideoLibrary.Entry(id: requestKey, title: description.title.isEmpty ? shownTitle : description.title,
-                                           youtubeURL: youtube, serverJobID: jobID, createdAt: Date(),
+            let description = try await follow(jobID: jobID, requestKey: pending.key, client: client, l10n: l10n)
+            var entry = VideoLibrary.Entry(id: pending.key, title: description.title.isEmpty ? shownTitle : description.title,
+                                           youtubeURL: pending.youtubeURL, serverJobID: jobID, createdAt: Date(),
                                            durationSeconds: description.durationSeconds)
             // The small copy stays on the phone, so the video can be watched with its description.
-            if youtube == nil, let made = prepared, let keep = VideoLibrary.mediaURL(for: requestKey) {
-                try? FileManager.default.removeItem(at: keep)
-                if (try? FileManager.default.moveItem(at: made, to: keep)) != nil {
-                    prepared = nil
-                    entry.hasLocalVideo = true
-                }
+            if pending.youtubeURL == nil, let keep = VideoLibrary.mediaURL(for: pending.key),
+               FileManager.default.fileExists(atPath: keep.path) {
+                entry.hasLocalVideo = true
             }
             VideoLibrary.save(description, entry: entry)
-            active = nil
+            VideoPending.clear()
             // The description is now on the phone; the server copy goes, as the
             // privacy setting asks (on by default). Questions then answer from
             // the description, and a YouTube video can still be watched again.
             let deleteCopy = UserDefaults.standard.object(forKey: "privacy_delete_server_copy") as? Bool ?? true
-            if deleteCopy { try? await client.deleteServerTask(requestID: requestKey) }
+            if deleteCopy { try? await client.deleteServerTask(requestID: pending.key) }
+            let notificationID = Self.notificationID(pending.key)
             JobWatcher.shared.stop(id: notificationID)
-            if UIApplication.shared.applicationState != .active {
+            if !Self.isActive {
+                VideoCenter.shared.hasUnseenResult = true
                 JobNotifier.show(JobNotifier.finished(task: .video, title: entry.title, partial: description.isPartial,
                                                       arabic: l10n.isArabic), id: notificationID)
             } else {
@@ -291,8 +394,15 @@ final class VideoRunner: ObservableObject {
             announce(l10n.t("وصف الفيديو جاهز.", "The video description is ready."))
         } catch is CancellationError {
             phase = .idle
+        } catch is Interrupted {
+            // Kept as it is; Basir carries on from here when it comes back.
         } catch {
-            active = nil
+            if pending.jobID != nil, Self.isNetwork(error), !Self.isActive {
+                // The job still runs on the server: keep following it when Basir comes back.
+                return
+            }
+            Self.discardFiles(of: pending)
+            VideoPending.clear()
             let message = Self.message(for: error, l10n: l10n)
             phase = .failed(message)
             announce(message)
@@ -343,6 +453,22 @@ final class VideoRunner: ObservableObject {
     }
 
     // MARK: Helpers
+
+    private static var isActive: Bool { UIApplication.shared.applicationState == .active }
+
+    private static func isNetwork(_ error: Error) -> Bool {
+        (error as? URLError) != nil || (error as NSError).domain == NSURLErrorDomain
+    }
+
+    /// The files of a description that will not finish.
+    private static func discardFiles(of pending: VideoPending) {
+        if let name = pending.originalName, let folder = VideoLibrary.folder {
+            try? FileManager.default.removeItem(at: folder.appendingPathComponent(name))
+        }
+        if VideoLibrary.description(for: pending.key) == nil, let media = VideoLibrary.mediaURL(for: pending.key) {
+            try? FileManager.default.removeItem(at: media)
+        }
+    }
 
     static func fingerprint(text: String) -> String {
         SHA256.hash(data: Data(text.utf8)).map { String(format: "%02x", $0) }.joined()

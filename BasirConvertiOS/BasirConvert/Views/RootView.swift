@@ -20,6 +20,7 @@ struct RootView: View {
     @AppStorage("video_launch_seen_v1") private var videoLaunchSeen = false
     @State private var sharedVideoLink: SharedVideoLink?
     @State private var showVideoLaunch = false
+    @State private var showVideoWork = false
 
     private var isUnitTestHost: Bool {
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
@@ -60,6 +61,7 @@ struct RootView: View {
             guard phase == .active else { return }
             applyTheme()
             if let link = SharedLinks.takeLatestVideo() { sharedVideoLink = SharedVideoLink(url: link) }
+            returnToVideo()
             viewModel.importSharedInbox()
             viewModel.resumeInterruptedJobsIfNeeded()
             outputLibrary.refresh()
@@ -133,16 +135,32 @@ struct RootView: View {
                 .withBasirEnvironment(l10n: l10n, settings: settings, viewModel: viewModel,
                                       library: outputLibrary, intents: intents)
         }
+        .fullScreenCover(isPresented: $showVideoWork) {
+            VideoDescribeView()
+                .withBasirEnvironment(l10n: l10n, settings: settings, viewModel: viewModel,
+                                      library: outputLibrary, intents: intents)
+        }
         .fullScreenCover(isPresented: $showVideoLaunch, onDismiss: { videoLaunchSeen = true }) {
             VideoLaunchView()
                 .withBasirEnvironment(l10n: l10n, settings: settings, viewModel: viewModel,
                                       library: outputLibrary, intents: intents)
         }
         .task {
+            // A video being described when Basir was closed (or restarted by iOS) carries on.
+            returnToVideo()
             // Once, after the welcome screens, for people who already use Basir.
             try? await Task.sleep(nanoseconds: 1_200_000_000)
-            if onboardingCompleted, !videoLaunchSeen, !isUnitTestHost, sharedVideoLink == nil { showVideoLaunch = true }
+            if onboardingCompleted, !videoLaunchSeen, !isUnitTestHost, sharedVideoLink == nil, !showVideoWork {
+                showVideoLaunch = true
+            }
         }
+    }
+
+    /// Back in Basir with a video under way, or described while away: show it.
+    private func returnToVideo() {
+        guard !isUnitTestHost, onboardingCompleted, sharedVideoLink == nil else { return }
+        VideoCenter.shared.runner.resumeIfNeeded(configuration: settings.configuration, l10n: l10n)
+        if VideoCenter.shared.shouldShowOnReturn { showVideoWork = true }
     }
 
     private func tab<Content: View>(@ViewBuilder _ content: () -> Content) -> some View {

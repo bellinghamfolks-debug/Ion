@@ -88,4 +88,17 @@ final class VideoTests: XCTestCase {
         XCTAssertNil(AudioDescription.currentIndex(at: 5, in: cues))
         XCTAssertEqual(AudioDescription.currentIndex(at: 720, in: cues), 2)
     }
+
+    func testAVideoUnderWayIsKeptAcrossARestart() {
+        VideoPending.clear()
+        var pending = VideoPending(key: "video-abc", title: "رحلة", originalName: "original-1.mov")
+        pending.save()
+        XCTAssertEqual(VideoPending.load(), pending)
+        pending.compressed = true
+        pending.jobID = String(repeating: "a", count: 32)
+        pending.save()
+        XCTAssertEqual(VideoPending.load()?.jobID, pending.jobID)
+        VideoPending.clear()
+        XCTAssertNil(VideoPending.load())
+    }
 }

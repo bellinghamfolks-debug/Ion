@@ -68,12 +68,16 @@ struct VideoDescribeView: View {
             .ignoresSafeArea()
         }
         .onAppear {
+            VideoCenter.shared.screenVisible = true
+            VideoCenter.shared.hasUnseenResult = false
+            runner.resumeIfNeeded(configuration: settings.configuration, l10n: l10n)
             entries = VideoLibrary.entries()
             if let initialLink, !runner.isBusy {
                 link = initialLink
                 if startAtOnce { describeLink() }
             }
         }
+        .onDisappear { VideoCenter.shared.screenVisible = false }
         .onChange(of: runner.phase) { phase in
             if case .finished(let id) = phase {
                 entries = VideoLibrary.entries()
@@ -147,6 +151,8 @@ struct VideoDescribeView: View {
                 ProgressView(value: value)
                 Text(l10n.t("يصغّر بصير الفيديو على جهازك ليُرسل أسرع: \(Int(value * 100))٪",
                             "Basir makes the video smaller on your iPhone so it sends faster: \(Int(value * 100))%"))
+                    .font(.footnote)
+                Text(l10n.t("أبقِ بصير مفتوحًا حتى ينتهي الإرسال.", "Keep Basir open until sending finishes."))
                     .font(.footnote)
             case .uploading(let value):
                 Text(l10n.t("جارٍ إرسال الفيديو", "Sending the video")).font(.headline)

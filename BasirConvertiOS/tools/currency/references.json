@@ -1,0 +1,562 @@
+[
+ {
+  "file": "001_paper_2007_front.jpg",
+  "value": 1,
+  "design": "001_paper_2007",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/663251069ed2c0.90073519-original.jpg",
+  "size": [
+   2500,
+   1180
+  ],
+  "source": "https://en.numista.com/202978",
+  "credit": "© hex7ech ( CC BY-NC )",
+  "use": "test"
+ },
+ {
+  "file": "001_paper_2007_back.jpg",
+  "value": 1,
+  "design": "001_paper_2007",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/66325106b01710.58813846-original.jpg",
+  "size": [
+   2500,
+   1180
+  ],
+  "source": "https://en.numista.com/202978",
+  "credit": "© hex7ech ( CC BY-NC )",
+  "use": "test"
+ },
+ {
+  "file": "005_paper_2007_front.jpg",
+  "value": 5,
+  "design": "005_paper_2007",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/663251075bd1f5.52169647-original.jpg",
+  "size": [
+   3419,
+   1559
+  ],
+  "source": "https://en.numista.com/205192",
+  "credit": "© gyoschak ( CC BY-NC-SA )",
+  "use": "test"
+ },
+ {
+  "file": "005_paper_2007_back.jpg",
+  "value": 5,
+  "design": "005_paper_2007",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/663251076cf3a8.09039951-original.jpg",
+  "size": [
+   3415,
+   1558
+  ],
+  "source": "https://en.numista.com/205192",
+  "credit": "© gyoschak ( CC BY-NC-SA )",
+  "use": "test"
+ },
+ {
+  "file": "005_paper_2016_front.jpg",
+  "value": 5,
+  "design": "005_paper_2016",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6910bbff8be4a2.39542191-original.jpg",
+  "size": [
+   6877,
+   3119
+  ],
+  "source": "https://en.numista.com/208466",
+  "credit": "© Hammad Numismatics ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "005_paper_2016_back.jpg",
+  "value": 5,
+  "design": "005_paper_2016",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6910bc062ed442.37134666-original.jpg",
+  "size": [
+   6879,
+   3121
+  ],
+  "source": "https://en.numista.com/208466",
+  "credit": "© Hammad Numismatics ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "005_polymer_2020_front.jpg",
+  "value": 5,
+  "design": "005_polymer_2020",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510d6c2442.35630291-original.jpg",
+  "size": [
+   2500,
+   1134
+  ],
+  "source": "https://en.numista.com/239537",
+  "credit": "© hex7ech ( CC BY-NC )",
+  "use": "test"
+ },
+ {
+  "file": "005_polymer_2020_back.jpg",
+  "value": 5,
+  "design": "005_polymer_2020",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510d772204.01821269-original.jpg",
+  "size": [
+   2500,
+   1134
+  ],
+  "source": "https://en.numista.com/239537",
+  "credit": "© hex7ech ( CC BY-NC )",
+  "use": "test"
+ },
+ {
+  "file": "005_polymer_2024_front.jpg",
+  "value": 5,
+  "design": "005_polymer_2024",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6880cafc1e5f63.23503325-original.jpg",
+  "size": [
+   1711,
+   772
+  ],
+  "source": "https://en.numista.com/412291",
+  "credit": "© masterguru ( CC BY-SA )",
+  "use": "train"
+ },
+ {
+  "file": "005_polymer_2024_back.jpg",
+  "value": 5,
+  "design": "005_polymer_2024",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6880cafca3af62.62448262-original.jpg",
+  "size": [
+   1829,
+   840
+  ],
+  "source": "https://en.numista.com/412291",
+  "credit": "© masterguru ( CC BY-SA )",
+  "use": "train"
+ },
+ {
+  "file": "010_2007_front.jpg",
+  "value": 10,
+  "design": "010_2007",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/66325106d45dd9.66799290-original.jpg",
+  "size": [
+   3556,
+   1636
+  ],
+  "source": "https://en.numista.com/202981",
+  "credit": "© sivavarma ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "010_2007_back.jpg",
+  "value": 10,
+  "design": "010_2007",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/66325106e65593.42757195-original.jpg",
+  "size": [
+   3542,
+   1619
+  ],
+  "source": "https://en.numista.com/202981",
+  "credit": "© sivavarma ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "010_2016_front.jpg",
+  "value": 10,
+  "design": "010_2016",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510687c445.74812922-original.jpg",
+  "size": [
+   2500,
+   1131
+  ],
+  "source": "https://en.numista.com/202117",
+  "credit": "© hex7ech ( CC BY-NC )",
+  "use": "test"
+ },
+ {
+  "file": "010_2016_back.jpg",
+  "value": 10,
+  "design": "010_2016",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/66325106916448.10120101-original.jpg",
+  "size": [
+   2500,
+   1131
+  ],
+  "source": "https://en.numista.com/202117",
+  "credit": "© hex7ech ( CC BY-NC )",
+  "use": "test"
+ },
+ {
+  "file": "010_central_bank_front.jpg",
+  "value": 10,
+  "design": "010_central_bank",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6aadf3be305095.10488177-original.jpg",
+  "size": [
+   3284,
+   1482
+  ],
+  "source": "https://en.numista.com/412292",
+  "credit": "© Daniel LeBowsky ( CC BY-NC-SA )",
+  "use": "test"
+ },
+ {
+  "file": "010_central_bank_back.jpg",
+  "value": 10,
+  "design": "010_central_bank",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6aadf3bfa30cd1.26196257-original.jpg",
+  "size": [
+   3301,
+   1459
+  ],
+  "source": "https://en.numista.com/412292",
+  "credit": "© Daniel LeBowsky ( CC BY-NC-SA )",
+  "use": "test"
+ },
+ {
+  "file": "020_G20_front.jpg",
+  "value": 20,
+  "design": "020_G20",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510d7e7725.56797295-original.jpg",
+  "size": [
+   2000,
+   907
+  ],
+  "source": "https://en.numista.com/242024",
+  "credit": "© hex7ech ( CC BY-NC )",
+  "use": "test"
+ },
+ {
+  "file": "020_G20_back.jpg",
+  "value": 20,
+  "design": "020_G20",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510d8e8552.01404736-original.jpg",
+  "size": [
+   2000,
+   907
+  ],
+  "source": "https://en.numista.com/242024",
+  "credit": "© hex7ech ( CC BY-NC )",
+  "use": "test"
+ },
+ {
+  "file": "020_centennial_front.jpg",
+  "value": 20,
+  "design": "020_centennial",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/66325109de2313.87891386-original.jpg",
+  "size": [
+   3600,
+   1630
+  ],
+  "source": "https://en.numista.com/211510",
+  "credit": "© Akhtaruzzaman Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "020_centennial_back.jpg",
+  "value": 20,
+  "design": "020_centennial",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/66325109e97643.09800238-original.jpg",
+  "size": [
+   3612,
+   1632
+  ],
+  "source": "https://en.numista.com/211510",
+  "credit": "© Akhtaruzzaman Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "050_2007_front.jpg",
+  "value": 50,
+  "design": "050_2007",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510a29fef4.74935917-original.jpg",
+  "size": [
+   3678,
+   1654
+  ],
+  "source": "https://en.numista.com/213518",
+  "credit": "© Akhtaruzzaman Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "050_2007_back.jpg",
+  "value": 50,
+  "design": "050_2007",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510a37a581.01076881-original.jpg",
+  "size": [
+   3675,
+   1638
+  ],
+  "source": "https://en.numista.com/213518",
+  "credit": "© Akhtaruzzaman Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "050_2016_front.jpg",
+  "value": 50,
+  "design": "050_2016",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510a0ccf99.44143858-original.jpg",
+  "size": [
+   3679,
+   1657
+  ],
+  "source": "https://en.numista.com/213516",
+  "credit": "Obverse © Prodhan ( CC BY ) – Reverse © Akhtaruzzaman Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "050_2016_back.jpg",
+  "value": 50,
+  "design": "050_2016",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510a1f46e6.53124325-original.jpg",
+  "size": [
+   3672,
+   1647
+  ],
+  "source": "https://en.numista.com/213516",
+  "credit": "Obverse © Prodhan ( CC BY ) – Reverse © Akhtaruzzaman Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "050_central_bank_front.jpg",
+  "value": 50,
+  "design": "050_central_bank",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/663627db58dfc5.81273965-original.jpg",
+  "size": [
+   3961,
+   1766
+  ],
+  "source": "https://en.numista.com/412890",
+  "credit": "© Mazen Al Masri",
+  "use": "test"
+ },
+ {
+  "file": "050_central_bank_back.jpg",
+  "value": 50,
+  "design": "050_central_bank",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/663627db6b14e4.63301047-original.jpg",
+  "size": [
+   3959,
+   1766
+  ],
+  "source": "https://en.numista.com/412890",
+  "credit": "© Mazen Al Masri",
+  "use": "test"
+ },
+ {
+  "file": "100_2007_front.jpg",
+  "value": 100,
+  "design": "100_2007",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510a5d9c22.45549196-original.jpg",
+  "size": [
+   3792,
+   1699
+  ],
+  "source": "https://en.numista.com/213519",
+  "credit": "Obverse © Akhtaruzzaman Prodhan ( CC BY ) – Reverse © Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "100_2007_back.jpg",
+  "value": 100,
+  "design": "100_2007",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510a6bd083.37601750-original.jpg",
+  "size": [
+   3813,
+   1700
+  ],
+  "source": "https://en.numista.com/213519",
+  "credit": "Obverse © Akhtaruzzaman Prodhan ( CC BY ) – Reverse © Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "100_2016_front.jpg",
+  "value": 100,
+  "design": "100_2016",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510d06ac96.32844265-original.jpg",
+  "size": [
+   3805,
+   1702
+  ],
+  "source": "https://en.numista.com/216672",
+  "credit": "Obverse © Prodhan ( CC BY ) – Reverse © Akhtaruzzaman Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "100_2016_back.jpg",
+  "value": 100,
+  "design": "100_2016",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510d12ecf7.64662191-original.jpg",
+  "size": [
+   3806,
+   1706
+  ],
+  "source": "https://en.numista.com/216672",
+  "credit": "Obverse © Prodhan ( CC BY ) – Reverse © Akhtaruzzaman Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "100_central_bank_front.jpg",
+  "value": 100,
+  "design": "100_central_bank",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510dbeb424.81979212-original.jpg",
+  "size": [
+   600,
+   266
+  ],
+  "source": "https://en.numista.com/343234",
+  "credit": "©  Bank Note Museum",
+  "use": "test"
+ },
+ {
+  "file": "100_central_bank_back.jpg",
+  "value": 100,
+  "design": "100_central_bank",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510dc87458.52315779-original.jpg",
+  "size": [
+   600,
+   267
+  ],
+  "source": "https://en.numista.com/343234",
+  "credit": "©  Bank Note Museum",
+  "use": "test"
+ },
+ {
+  "file": "200_centennial_front.jpg",
+  "value": 200,
+  "design": "200_centennial",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510cb6e386.06873404-original.jpg",
+  "size": [
+   1024,
+   457
+  ],
+  "source": "https://en.numista.com/216664",
+  "credit": "©  CGB",
+  "use": "test"
+ },
+ {
+  "file": "200_centennial_back.jpg",
+  "value": 200,
+  "design": "200_centennial",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510cc24fd6.42090730-original.jpg",
+  "size": [
+   1024,
+   455
+  ],
+  "source": "https://en.numista.com/216664",
+  "credit": "©  CGB",
+  "use": "test"
+ },
+ {
+  "file": "200_vision2030_front.jpg",
+  "value": 200,
+  "design": "200_vision2030",
+  "side": "front",
+  "url": "https://en.numista.com/sales_archive/pictures/69202d4cba5a7.jpg",
+  "size": [
+   2000,
+   887
+  ],
+  "source": "https://en.numista.com/287724",
+  "credit": "صور من أرشيف المبيعات في Numista؛ انظر صفحة المصدر. لم يُتحقق من ترخيص إعادة الاستخدام.",
+  "use": "test"
+ },
+ {
+  "file": "200_vision2030_back.jpg",
+  "value": 200,
+  "design": "200_vision2030",
+  "side": "back",
+  "url": "https://en.numista.com/sales_archive/pictures/69202d4d778f7.jpg",
+  "size": [
+   2000,
+   887
+  ],
+  "source": "https://en.numista.com/287724",
+  "credit": "صور من أرشيف المبيعات في Numista؛ انظر صفحة المصدر. لم يُتحقق من ترخيص إعادة الاستخدام.",
+  "use": "test"
+ },
+ {
+  "file": "500_2016_front.jpg",
+  "value": 500,
+  "design": "500_2016",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510d43e336.67121269-original.jpg",
+  "size": [
+   4038,
+   1851
+  ],
+  "source": "https://en.numista.com/222964",
+  "credit": "© Akhtaruzzaman Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "500_2016_back.jpg",
+  "value": 500,
+  "design": "500_2016",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510d54daf9.98443503-original.jpg",
+  "size": [
+   4044,
+   1856
+  ],
+  "source": "https://en.numista.com/222964",
+  "credit": "© Akhtaruzzaman Prodhan ( CC BY )",
+  "use": "train"
+ },
+ {
+  "file": "500_central_bank_front.jpg",
+  "value": 500,
+  "design": "500_central_bank",
+  "side": "front",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510dcd6e89.89199407-original.jpg",
+  "size": [
+   1536,
+   679
+  ],
+  "source": "https://en.numista.com/372099",
+  "credit": "© KSACurrency.com",
+  "use": "test"
+ },
+ {
+  "file": "500_central_bank_back.jpg",
+  "value": 500,
+  "design": "500_central_bank",
+  "side": "back",
+  "url": "https://en.numista.com/catalogue/photos/saudi-arabia-period/6632510ddc8255.31406585-original.jpg",
+  "size": [
+   1536,
+   675
+  ],
+  "source": "https://en.numista.com/372099",
+  "credit": "© KSACurrency.com",
+  "use": "test"
+ }
+]

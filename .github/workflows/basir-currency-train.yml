@@ -9,6 +9,8 @@ on:
     branches: ["claude/basir-currency"]
     paths:
       - "BasirConvertiOS/tools/currency/prepare_dataset.py"
+      - "BasirConvertiOS/tools/currency/prepare_v2.py"
+      - "BasirConvertiOS/tools/currency/references.json"
       - "BasirConvertiOS/tools/currency/train_classifier.swift"
       - ".github/workflows/basir-currency-train.yml"
   workflow_dispatch:
@@ -32,7 +34,7 @@ jobs:
           df -h /
       - run: pip install --quiet pillow
       - name: Build training and test images
-        run: python3 BasirConvertiOS/tools/currency/prepare_dataset.py "$RUNNER_TEMP/raw" "$RUNNER_TEMP/riyal"
+        run: python3 BasirConvertiOS/tools/currency/prepare_v2.py "$RUNNER_TEMP/raw" "$RUNNER_TEMP/riyal"
       - name: Pack
         run: |
           rm -rf "$RUNNER_TEMP/raw"

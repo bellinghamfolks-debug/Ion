@@ -1,0 +1,36 @@
+# Currency reader data: find and audit the Saudi riyal image sources.
+# Runs where the internet is reachable and commits a report of every source,
+# its contents and its licence, before anything is used for training.
+
+name: Basir currency data
+
+on:
+  push:
+    branches: ["claude/basir-currency"]
+    paths:
+      - "BasirConvertiOS/tools/currency/**"
+      - ".github/workflows/basir-currency-data.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: basir-currency-data
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Discover sources
+        run: python3 BasirConvertiOS/tools/currency/discover_sources.py BasirConvertiOS/tools/currency/sources_report.json
+      - name: Commit the report
+        run: |
+          git config user.name "basir-ci"
+          git config user.email "basir-ci@users.noreply.github.com"
+          git add BasirConvertiOS/tools/currency/sources_report.json
+          git diff --cached --quiet || git commit -m "Currency sources report [skip ci]"
+          git push

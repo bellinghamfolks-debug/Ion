@@ -232,6 +232,22 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         }
     }
 
+    /// Back to the translated line before the one just said, which is said again.
+    func previousLine() {
+        Task {
+            let now = await player.currentTime() ?? lastTime
+            let index = lines.lastIndex { $0.start < now - 2 } ?? 0
+            if lines.indices.contains(index) { seek(to: lines[index].start) }
+        }
+    }
+
+    func nextLine() {
+        Task {
+            let now = await player.currentTime() ?? lastTime
+            if let index = lines.firstIndex(where: { $0.start > now + 0.5 }) { seek(to: lines[index].start) }
+        }
+    }
+
     /// Says again the last description or translated line.
     func repeatLast() {
         guard let last = lastSaid else { return }
@@ -449,6 +465,12 @@ struct VideoWatchView: View {
                         AdaptiveStack {
                             CardActionButton(title: l10n.t("الوصف السابق", "Previous description"), systemImage: "backward.end.fill") { controller.previousDescription() }
                             CardActionButton(title: l10n.t("الوصف التالي", "Next description"), systemImage: "forward.end.fill") { controller.nextDescription() }
+                        }
+                    }
+                    if controller.hasDialogue {
+                        AdaptiveStack {
+                            CardActionButton(title: l10n.t("الجملة السابقة", "Previous line"), systemImage: "text.bubble") { controller.previousLine() }
+                            CardActionButton(title: l10n.t("الجملة التالية", "Next line"), systemImage: "text.bubble.fill") { controller.nextLine() }
                         }
                     }
                     CardActionButton(title: l10n.t("أعد آخر ما قيل", "Repeat the last line"), systemImage: "arrow.counterclockwise") { controller.repeatLast() }

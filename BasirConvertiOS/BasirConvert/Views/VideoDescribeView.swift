@@ -257,6 +257,7 @@ struct VideoResultView: View {
     @State private var askError: String?
     @State private var reading = false
     @State private var watching = false
+    @State private var readingTranslation = false
 
     var body: some View {
         ScrollView {
@@ -284,6 +285,14 @@ struct VideoResultView: View {
             if let video {
                 VideoWatchView(video: video, localURL: localVideo, youtubePage: youtubePage, arabic: l10n.isArabic)
                     .environmentObject(l10n)
+            }
+        }
+        .fullScreenCover(isPresented: $readingTranslation) {
+            if let video {
+                DocumentReaderView(title: l10n.t("الترجمة", "Translation"),
+                                   blocks: VideoReaderBlocks.translation(video, arabic: l10n.isArabic))
+                    .environmentObject(l10n)
+                    .environmentObject(settings)
             }
         }
         .fullScreenCover(isPresented: $reading) {
@@ -350,10 +359,32 @@ struct VideoResultView: View {
         }
     }
 
+    /// The translation, browsed like the description: by chapter, each line with its time.
     private func dialogue(_ video: VideoDescription) -> some View {
+        let groups = video.chapters.map { (chapter: $0, lines: video.dialogue(in: $0)) }.filter { !$0.lines.isEmpty }
+        return VStack(alignment: .leading, spacing: BasirSpacing.m) {
+            SectionHeading(title: l10n.t("الحوار مترجمًا", "Dialogue, translated"))
+            CardActionButton(title: l10n.t("اقرأ الترجمة", "Read the translation"), systemImage: "text.bubble") {
+                readingTranslation = true
+            }
+            if groups.isEmpty {
+                dialogueGroup(title: l10n.t("كل الجمل (\((video.dialogue ?? []).count))", "All lines (\((video.dialogue ?? []).count))"),
+                              spoken: nil, lines: video.dialogue ?? [])
+            } else {
+                ForEach(groups, id: \.chapter.id) { group in
+                    dialogueGroup(title: "\(VideoDescription.clock(group.chapter.start))  \(group.chapter.title) (\(group.lines.count))",
+                                  spoken: "\(group.chapter.title)، \(VideoDescription.spokenTime(group.chapter.start, arabic: l10n.isArabic))، " +
+                                      l10n.t("\(group.lines.count) جملة", "\(group.lines.count) lines"),
+                                  lines: group.lines)
+                }
+            }
+        }
+    }
+
+    private func dialogueGroup(title: String, spoken: String?, lines: [VideoDescription.DialogueLine]) -> some View {
         DisclosureGroup {
             VStack(alignment: .leading, spacing: BasirSpacing.s) {
-                ForEach(video.dialogue ?? []) { line in
+                ForEach(lines) { line in
                     let who = line.speaker.isEmpty ? "" : "\(line.speaker): "
                     Text("\(VideoDescription.clock(line.start))  \(who)\(line.translation)")
                         .fixedSize(horizontal: false, vertical: true)
@@ -363,8 +394,9 @@ struct VideoResultView: View {
             }
             .padding(.top, BasirSpacing.s)
         } label: {
-            Text(l10n.t("الحوار مترجمًا (\((video.dialogue ?? []).count) جملة)", "Dialogue, translated (\((video.dialogue ?? []).count) lines)"))
+            Text(title)
                 .font(.headline)
+                .accessibilityLabel(spoken ?? title)
         }
         .padding(BasirSpacing.m)
         .background(BasirPalette.surface, in: RoundedRectangle(cornerRadius: 14, style: .continuous))

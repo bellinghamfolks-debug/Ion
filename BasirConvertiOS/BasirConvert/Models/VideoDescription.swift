@@ -112,6 +112,11 @@ struct VideoDescription: Codable, Equatable, Sendable {
         return scenes.filter { $0.start >= chapter.start && $0.start < next }
     }
 
+    func dialogue(in chapter: Chapter) -> [DialogueLine] {
+        let next = chapters.first { $0.start > chapter.start }?.start ?? Int.max
+        return (dialogue ?? []).filter { $0.start >= chapter.start && $0.start < next }
+    }
+
     /// 3:05, or 1:02:05 past the hour.
     static func clock(_ seconds: Int) -> String {
         let total = max(0, seconds)
@@ -206,12 +211,9 @@ enum VideoReaderBlocks {
             add(.heading(2), t("النصوص على الشاشة", "Text on screen"))
             video.onScreenText.forEach { add(.paragraph, "\(VideoDescription.clock($0.time)): «\($0.text)»") }
         }
-        if let dialogue = video.dialogue, !dialogue.isEmpty {
+        if video.hasDialogue {
             add(.heading(2), t("الحوار مترجمًا", "Dialogue, translated"))
-            dialogue.forEach {
-                let who = $0.speaker.isEmpty ? "" : "\($0.speaker): "
-                add(.paragraph, "\(VideoDescription.clock($0.start)): \(who)\($0.translation)")
-            }
+            dialogueBlocks(video, chapterLevel: 3, add: add)
         }
         if !video.speech.isEmpty {
             add(.heading(2), t("الكلام", "Speech"))
@@ -221,5 +223,36 @@ enum VideoReaderBlocks {
             }
         }
         return blocks
+    }
+
+    /// The translation alone, to read through or move by chapter headings.
+    static func translation(_ video: VideoDescription, arabic: Bool) -> [ReaderBlock] {
+        var blocks: [ReaderBlock] = []
+        func add(_ kind: ReaderBlock.Kind, _ text: String) {
+            let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else { return }
+            blocks.append(ReaderBlock(id: blocks.count, kind: kind, text: trimmed))
+        }
+        let title = arabic ? "الترجمة" : "Translation"
+        add(.heading(1), video.title.isEmpty ? title : "\(title): \(video.title)")
+        dialogueBlocks(video, chapterLevel: 2, add: add)
+        return blocks
+    }
+
+    /// Each translated line with its time, under the heading of its chapter.
+    private static func dialogueBlocks(_ video: VideoDescription, chapterLevel: Int,
+                                       add: (ReaderBlock.Kind, String) -> Void) {
+        func line(_ item: VideoDescription.DialogueLine) {
+            let who = item.speaker.isEmpty ? "" : "\(item.speaker): "
+            add(.paragraph, "\(VideoDescription.clock(item.start)): \(who)\(item.translation)")
+        }
+        let chapters = video.chapters.filter { !video.dialogue(in: $0).isEmpty }
+        guard !chapters.isEmpty else { (video.dialogue ?? []).forEach(line); return }
+        // Lines before the first chapter (none, as it starts at 0) would otherwise be lost.
+        (video.dialogue ?? []).filter { $0.start < (video.chapters.first?.start ?? 0) }.forEach(line)
+        for chapter in chapters {
+            add(.heading(chapterLevel), "\(VideoDescription.clock(chapter.start)) \(chapter.title)")
+            video.dialogue(in: chapter).forEach(line)
+        }
     }
 }

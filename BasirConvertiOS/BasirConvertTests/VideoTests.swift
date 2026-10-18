@@ -119,6 +119,17 @@ final class VideoTests: XCTestCase {
         XCTAssertTrue(blocks.contains { $0.text == "0:16: الضيف: شكرًا لاستضافتي." })
     }
 
+    func testTheTranslationIsBrowsedByChapterLikeTheDescription() throws {
+        var video = try VideoDescription.decode(Data(dialogueJSON.utf8))
+        video.dialogue?.append(.init(start: 720, end: 724, speaker: "الضيف", language: "en", translation: "هذا لذيذ."))
+        XCTAssertEqual(video.dialogue(in: video.chapters[0]).count, 4)
+        XCTAssertEqual(video.dialogue(in: video.chapters[1]).map(\.translation), ["هذا لذيذ."])
+        let blocks = VideoReaderBlocks.translation(video, arabic: true)
+        XCTAssertEqual(blocks.filter(\.isHeading).map(\.text), ["الترجمة: درس الطبخ", "0:00 المكونات", "11:40 الطبخ"])
+        XCTAssertEqual(blocks.last?.text, "12:00: الضيف: هذا لذيذ.")
+        XCTAssertEqual(blocks.filter { !$0.isHeading }.count, 5, "every line, none lost")
+    }
+
     func testALineIsStillSaidJustAfterItEndsButNotLater() throws {
         let lines = AudioDescription.dialogueCues(try VideoDescription.decode(Data(dialogueJSON.utf8)))
         XCTAssertEqual(AudioDescription.nextDialogue(at: 0, in: lines), 0)

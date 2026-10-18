@@ -147,6 +147,10 @@ final class VideoTests: XCTestCase {
         pending.jobID = String(repeating: "a", count: 32)
         pending.save()
         XCTAssertEqual(VideoPending.load()?.jobID, pending.jobID)
+        XCTAssertNil(VideoPending.load()?.translate, "translation is off unless asked for")
+        pending.translate = true
+        pending.save()
+        XCTAssertEqual(VideoPending.load()?.translate, true)
         VideoPending.clear()
         XCTAssertNil(VideoPending.load())
     }

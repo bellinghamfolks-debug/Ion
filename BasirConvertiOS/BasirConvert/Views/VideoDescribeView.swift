@@ -17,6 +17,8 @@ struct VideoDescribeView: View {
     @State private var openEntry: VideoLibrary.Entry?
     @State private var entries: [VideoLibrary.Entry] = []
     @State private var linkError: String?
+    /// Its own choice, off unless the person turns it on: nothing is translated otherwise.
+    @AppStorage("video_translate_dialogue") private var translateDialogue = false
     /// A YouTube link shared into Basir from another app.
     var initialLink: String? = nil
     /// Describe `initialLink` at once: the person shared it to have it described.
@@ -61,7 +63,8 @@ struct VideoDescribeView: View {
             // Closed through SwiftUI's dismiss (see ImportControllers.swift).
             VideoLibraryPicker { url, title in
                 importing = false
-                if let url { runner.start(.file(url, title: title), configuration: settings.configuration, l10n: l10n) }
+                if let url { runner.start(.file(url, title: title), translate: translateDialogue,
+                                          configuration: settings.configuration, l10n: l10n) }
             } onLoading: {
                 importing = true
             }
@@ -93,6 +96,15 @@ struct VideoDescribeView: View {
             Text(l10n.t("اختر فيديو من ألبومك أو الصق رابط YouTube، مدته حتى ساعة. يشاهده بصير ويصفه لك: عمّ يتحدث، وفصوله بأوقاتها، وما يظهر في كل مشهد، والنصوص على الشاشة، ومن يتكلم. ثم اسأله ما تريد عن الفيديو.",
                         "Choose a video from your album or paste a YouTube link, up to an hour long. Basir watches it and describes it for you: what it's about, its chapters with their times, what appears in each scene, the text on screen, and who speaks. Then ask it anything about the video."))
                 .fixedSize(horizontal: false, vertical: true)
+            VStack(alignment: .leading, spacing: BasirSpacing.s) {
+                Toggle(l10n.t("ترجمة الحوار غير العربي", "Translate dialogue in other languages"), isOn: $translateDialogue)
+                Text(l10n.t("خيار مستقل عن الوصف: شغّله لفيلم أو مقابلة بلغة أخرى، فيُترجَم كل ما يُقال لتسمعه لحظة قوله في «المشاهدة مع الوصف». إن تركته مطفأً يُوصف الفيديو وحده دون ترجمة.",
+                            "Separate from the description: turn it on for a film or interview in another language, and everything said is translated for you to hear as it is spoken in Watch with description. Left off, the video is described alone, without translation."))
+                    .font(.footnote)
+                    .foregroundStyle(BasirPalette.secondaryText)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .glassSurface()
             PrimaryActionButton(title: l10n.t("اختر فيديو من الألبوم", "Choose a video from the album"),
                                 systemImage: "film.stack") { showAlbum = true }
             if importing {
@@ -138,7 +150,7 @@ struct VideoDescribeView: View {
             return
         }
         linkError = nil
-        runner.start(.youtube(url), configuration: settings.configuration, l10n: l10n)
+        runner.start(.youtube(url), translate: translateDialogue, configuration: settings.configuration, l10n: l10n)
     }
 
     // MARK: Progress

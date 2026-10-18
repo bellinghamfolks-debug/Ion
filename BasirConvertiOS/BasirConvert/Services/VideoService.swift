@@ -161,6 +161,9 @@ struct VideoPending: Codable, Equatable {
     var compressed = false
     var jobID: String?
     var startedAt = Date()
+    /// The person also asked for the dialogue in other languages to be
+    /// translated (optional: missing in videos started before it existed).
+    var translate: Bool? = nil
 
     private static let storageKey = "video_pending_v1"
 
@@ -242,26 +245,29 @@ final class VideoRunner: ObservableObject {
         phase = .idle
     }
 
-    func start(_ input: VideoInput, configuration: ServerConfiguration, l10n: L10n) {
+    func start(_ input: VideoInput, translate: Bool = false, configuration: ServerConfiguration, l10n: L10n) {
         cancel()
         guard configuration.isConfigured else {
             phase = .failed(DocumentAssistant.message(for: BasirError.notConfigured, l10n: l10n))
             return
         }
         do {
-            let pending: VideoPending
+            var pending: VideoPending
+            // Asked with translation, the same video is a different description.
+            let suffix = translate ? "-dialogue" : ""
             switch input {
             case .file(let url, let name):
                 // Kept in Basir's own storage (not the temporary folder iOS may empty).
                 guard let folder = VideoLibrary.folder else { throw VideoCompressor.Failure.unreadable }
                 let original = "original-\(UUID().uuidString).\(url.pathExtension.isEmpty ? "mov" : url.pathExtension)"
                 try FileManager.default.moveItem(at: url, to: folder.appendingPathComponent(original))
-                let key = "video-" + String(try Self.fingerprint(file: folder.appendingPathComponent(original)).prefix(48))
+                let key = "video-" + String(try Self.fingerprint(file: folder.appendingPathComponent(original)).prefix(48)) + suffix
                 pending = VideoPending(key: key, title: name, originalName: original)
             case .youtube(let link):
-                pending = VideoPending(key: "video-" + String(Self.fingerprint(text: link).prefix(48)), title: "",
+                pending = VideoPending(key: "video-" + String(Self.fingerprint(text: link).prefix(48)) + suffix, title: "",
                                        youtubeURL: link)
             }
+            pending.translate = translate
             pending.save()
             run(pending, configuration: configuration, l10n: l10n)
         } catch {
@@ -340,7 +346,8 @@ final class VideoRunner: ObservableObject {
                 do {
                     pending.jobID = try await client.startVideoJob(
                         source: source, contentType: contentType, seconds: pending.seconds, requestID: pending.key,
-                        title: pending.title, language: l10n.isArabic ? "ar" : "en") { value in
+                        title: pending.title, language: l10n.isArabic ? "ar" : "en",
+                        translateDialogue: pending.translate ?? false) { value in
                         Task { @MainActor [weak self] in
                             if case .uploading = self?.phase { self?.phase = .uploading(value) }
                         }

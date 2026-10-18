@@ -454,8 +454,8 @@ struct VideoWatchView: View {
                                 .font(.footnote)
                                 .foregroundStyle(BasirPalette.secondaryText)
                         } else {
-                            Text(l10n.t("لا يوجد في هذا الفيديو حوار بلغة أخرى، أو وُصف قبل إضافة الترجمة. صِفه مرة أخرى لتحصل على الترجمة.",
-                                        "This video has no dialogue in another language, or it was described before translation was added. Describe it again to get the translation."))
+                            Text(l10n.t("لم تُطلب ترجمة الحوار حين وُصف هذا الفيديو، أو ليس فيه حوار بلغة أخرى. لترجمته، صِفه مرة أخرى بعد تشغيل «ترجمة الحوار غير العربي» في شاشة وصف الفيديو.",
+                                        "Translation wasn't asked for when this video was described, or it has no dialogue in another language. To translate it, describe it again with “Translate dialogue in other languages” turned on in the video description screen."))
                                 .font(.footnote)
                                 .foregroundStyle(BasirPalette.secondaryText)
                         }

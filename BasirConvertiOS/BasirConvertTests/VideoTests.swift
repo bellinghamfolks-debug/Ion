@@ -138,6 +138,23 @@ final class VideoTests: XCTestCase {
         XCTAssertTrue(AudioDescription.fitsBefore(long, now: 10, nextLineStart: 9))
     }
 
+    func testEachChoiceAsksTheServerForOnlyThat() {
+        XCTAssertEqual(VideoScope.allCases.map(\.serverMode), ["video", "video_dialogue", "video_translate"])
+        XCTAssertEqual(Set(VideoScope.allCases.map(\.keySuffix)).count, 3, "each choice is its own job")
+        XCTAssertEqual(VideoScope.describe.keySuffix, "", "descriptions made before the choice are found again")
+        XCTAssertEqual(VideoScope.allCases.map(\.describes), [true, true, false])
+        XCTAssertEqual(VideoScope.allCases.map(\.translates), [false, true, true])
+    }
+
+    func testATranslationOnlyResultHasNothingToDescribe() throws {
+        var video = try VideoDescription.decode(Data(dialogueJSON.utf8))
+        XCTAssertTrue(video.hasDescription && video.hasDialogue)
+        video.scenes = []
+        video.onScreenText = []
+        XCTAssertFalse(video.hasDescription)
+        XCTAssertFalse(try VideoDescription.decode(Data(serverJSON.utf8)).hasDialogue)
+    }
+
     func testAVideoUnderWayIsKeptAcrossARestart() {
         VideoPending.clear()
         var pending = VideoPending(key: "video-abc", title: "رحلة", originalName: "original-1.mov")
@@ -147,10 +164,14 @@ final class VideoTests: XCTestCase {
         pending.jobID = String(repeating: "a", count: 32)
         pending.save()
         XCTAssertEqual(VideoPending.load()?.jobID, pending.jobID)
-        XCTAssertNil(VideoPending.load()?.translate, "translation is off unless asked for")
+        XCTAssertEqual(VideoPending.load()?.wanted, .describe, "translation is off unless asked for")
+        // A video started on build 36 with its translation switch on.
         pending.translate = true
         pending.save()
-        XCTAssertEqual(VideoPending.load()?.translate, true)
+        XCTAssertEqual(VideoPending.load()?.wanted, .both)
+        pending.scope = .translate
+        pending.save()
+        XCTAssertEqual(VideoPending.load()?.wanted, .translate)
         VideoPending.clear()
         XCTAssertNil(VideoPending.load())
     }

@@ -86,8 +86,8 @@ private final class WeakMessageHandler: NSObject, WKScriptMessageHandler {
     }
 }
 
-/// What the video does while a translated line is said.
-enum DialogueVideoMode: String, CaseIterable, Identifiable {
+/// What the video does while a description or a translated line is said.
+enum VideoSoundMode: String, CaseIterable, Identifiable {
     case lower, full, pause
     var id: String { rawValue }
 }
@@ -108,9 +108,9 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
     @Published var describing = true {
         didSet { if !describing, speakingKind == .description { stopSpeaking() } }
     }
-    /// Pause the video for every description instead of turning it down.
-    @Published var alwaysPause = UserDefaults.standard.bool(forKey: "video_watch_always_pause") {
-        didSet { UserDefaults.standard.set(alwaysPause, forKey: "video_watch_always_pause") }
+    /// The video during a description: turned down (the default), full, or paused.
+    @Published var descriptionMode = VideoSoundMode(rawValue: UserDefaults.standard.string(forKey: "video_watch_description_mode") ?? "") ?? .lower {
+        didSet { UserDefaults.standard.set(descriptionMode.rawValue, forKey: "video_watch_description_mode") }
     }
     @Published var translating = UserDefaults.standard.object(forKey: "video_watch_translate") as? Bool ?? true {
         didSet {
@@ -118,7 +118,7 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
             if !translating, speakingKind == .dialogue { stopSpeaking() }
         }
     }
-    @Published var dialogueMode = DialogueVideoMode(rawValue: UserDefaults.standard.string(forKey: "video_watch_dialogue_mode") ?? "") ?? .lower {
+    @Published var dialogueMode = VideoSoundMode(rawValue: UserDefaults.standard.string(forKey: "video_watch_dialogue_mode") ?? "") ?? .lower {
         didSet { UserDefaults.standard.set(dialogueMode.rawValue, forKey: "video_watch_dialogue_mode") }
     }
     /// Read by VoiceOver (its voice and speed) rather than Basir's own voices.
@@ -144,10 +144,12 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
     private var speakingKind: Kind?
     private var lastSaid: (text: String, kind: Kind)?
     private var announcementDeadline: Date?
-    private var waitingSince: Double?
     /// The utterance being said: a late "finished" from an earlier one is ignored.
     private var utteranceID: ObjectIdentifier?
+    /// When Basir last started speaking over the playing video.
+    private var spokeAt: Date?
 
+    var hasDescription: Bool { !cues.isEmpty }
     var hasDialogue: Bool { !lines.isEmpty }
 
     init(cues: [DescriptionCue], lines: [DialogueCue], player: DescribedPlayer, arabic: Bool) {
@@ -166,10 +168,14 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         speech.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(announcementFinished),
                                                name: UIAccessibility.announcementDidFinishNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(audioInterrupted),
+                                               name: AVAudioSession.interruptionNotification, object: nil)
     }
 
     func start() {
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
+        // Mixed with others: Basir's voice must never stop the video, and a
+        // YouTube video plays in another process, which a non-mixing session interrupts.
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback, options: [.mixWithOthers])
         try? AVAudioSession.sharedInstance().setActive(true)
         ticker = Task { [weak self] in
             while !Task.isCancelled {
@@ -241,7 +247,6 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         lastTime = seconds
         nextCue = AudioDescription.nextIndex(at: seconds, in: cues)
         nextLine = AudioDescription.nextDialogue(at: seconds, in: lines)
-        waitingSince = nil
     }
 
     private var isBusy: Bool {
@@ -263,6 +268,11 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         }
         // Played from the video's own controls: follow it.
         if !playing, !holding, now > lastTime + 0.2 { playing = true }
+        // Stopped just as Basir began to speak (the system took the sound away):
+        // the person did not pause it, so it plays on.
+        if playing, !holding, abs(now - lastTime) < 0.01, let spokeAt, Date().timeIntervalSince(spokeAt) < 4 {
+            player.play()
+        }
         lastTime = now
         // Lines already over are not worth saying late.
         while lines.indices.contains(nextLine), now > lines[nextLine].end + AudioDescription.dialogueGrace { nextLine += 1 }
@@ -280,14 +290,11 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         while cues.indices.contains(nextCue + 1), Double(cues[nextCue + 1].time) <= now { nextCue += 1 }
         let cue = cues[nextCue]
         let upcoming = translating && lines.indices.contains(nextLine) ? lines[nextLine].start : nil
-        // Said in the quiet between translated lines (or at once when the video pauses for it);
-        // after twenty-five seconds of waiting it is said anyway.
-        let waited = now - (waitingSince ?? now)
-        if !alwaysPause, !AudioDescription.fitsBefore(cue.text, now: now, nextLineStart: upcoming), waited < 25 {
-            if waitingSince == nil { waitingSince = now }
+        // Said only in the quiet between translated lines, never over one (or at
+        // once when the video pauses for it); a later scene replaces it meanwhile.
+        if descriptionMode != .pause, !AudioDescription.fitsBefore(cue.text, now: now, nextLineStart: upcoming) {
             return
         }
-        waitingSince = nil
         nextCue += 1
         current = cue.text
         say(cue.text, kind: .description, nearSpeech: cue.nearSpeech)
@@ -296,7 +303,7 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
     private func volumeWhileSpeaking(nearSpeech: Bool = false) -> Float {
         switch speakingKind {
         case .dialogue: return dialogueMode == .full ? 1 : 0.25
-        default: return nearSpeech ? 0.2 : 0.35
+        default: return descriptionMode == .full ? 1 : nearSpeech ? 0.2 : 0.35
         }
     }
 
@@ -304,12 +311,13 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         stopSpeaking()
         speakingKind = kind
         lastSaid = (text, kind)
-        let pause = kind == .description ? alwaysPause : dialogueMode == .pause
+        let pause = (kind == .description ? descriptionMode : dialogueMode) == .pause
         if pause {
             holding = true
             player.pause()
         } else {
             player.setVolume(volumeWhileSpeaking(nearSpeech: nearSpeech))
+            spokeAt = Date()
         }
         if useScreenReader && UIAccessibility.isVoiceOverRunning {
             // VoiceOver's own voice and speed; its finish notice ends the turn.
@@ -333,6 +341,15 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         utteranceID = nil
         announcementDeadline = nil
         speakingKind = nil
+    }
+
+    @objc private func audioInterrupted(_ note: Notification) {
+        guard let raw = note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt,
+              AVAudioSession.InterruptionType(rawValue: raw) == .ended else { return }
+        Task { @MainActor in
+            try? AVAudioSession.sharedInstance().setActive(true)
+            if self.playing && !self.holding { self.player.play() }
+        }
     }
 
     @objc private func announcementFinished(_ note: Notification) {
@@ -374,7 +391,8 @@ struct VideoWatchView: View {
     init(video: VideoDescription, localURL: URL?, youtubePage: URL?, arabic: Bool) {
         // Made once for the life of the screen (StateObject evaluates this once).
         _controller = StateObject(wrappedValue: {
-            let cues = AudioDescription.cues(video, arabic: arabic)
+            // A translation-only video has chapters but nothing to describe.
+            let cues = video.hasDescription ? AudioDescription.cues(video, arabic: arabic) : []
             let player: DescribedPlayer = localURL.map { LocalVideoPlayer(url: $0) }
                 ?? YouTubeVideoPlayer(pageURL: youtubePage ?? URL(string: "about:blank")!)
             return DescribedWatchController(cues: cues, lines: AudioDescription.dialogueCues(video), player: player,
@@ -399,14 +417,16 @@ struct VideoWatchView: View {
 
                     if let failure { InlineMessage(text: failure, isError: true) }
 
-                    VStack(alignment: .leading, spacing: BasirSpacing.s) {
-                        Text(l10n.t("الوصف الآن", "Describing now")).font(.headline).accessibilityAddTraits(.isHeader)
-                        Text(controller.current.isEmpty ? l10n.t("سيبدأ الوصف مع بداية التشغيل.", "Descriptions start when the video plays.")
-                                                        : controller.current)
-                            .fixedSize(horizontal: false, vertical: true)
+                    if controller.hasDescription && controller.describing {
+                        VStack(alignment: .leading, spacing: BasirSpacing.s) {
+                            Text(l10n.t("الوصف الآن", "Describing now")).font(.headline).accessibilityAddTraits(.isHeader)
+                            Text(controller.current.isEmpty ? l10n.t("سيبدأ الوصف مع بداية التشغيل.", "Descriptions start when the video plays.")
+                                                            : controller.current)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .glassSurface()
+                        .accessibilityElement(children: .combine)
                     }
-                    .glassSurface()
-                    .accessibilityElement(children: .combine)
 
                     if controller.hasDialogue && controller.translating {
                         VStack(alignment: .leading, spacing: BasirSpacing.s) {
@@ -425,47 +445,52 @@ struct VideoWatchView: View {
                         CardActionButton(title: l10n.t("رجوع 10 ثوانٍ", "Back 10 seconds"), systemImage: "gobackward.10") { controller.jump(by: -10) }
                         CardActionButton(title: l10n.t("تقديم 10 ثوانٍ", "Forward 10 seconds"), systemImage: "goforward.10") { controller.jump(by: 10) }
                     }
-                    AdaptiveStack {
-                        CardActionButton(title: l10n.t("الوصف السابق", "Previous description"), systemImage: "backward.end.fill") { controller.previousDescription() }
-                        CardActionButton(title: l10n.t("الوصف التالي", "Next description"), systemImage: "forward.end.fill") { controller.nextDescription() }
+                    if controller.hasDescription {
+                        AdaptiveStack {
+                            CardActionButton(title: l10n.t("الوصف السابق", "Previous description"), systemImage: "backward.end.fill") { controller.previousDescription() }
+                            CardActionButton(title: l10n.t("الوصف التالي", "Next description"), systemImage: "forward.end.fill") { controller.nextDescription() }
+                        }
                     }
                     CardActionButton(title: l10n.t("أعد آخر ما قيل", "Repeat the last line"), systemImage: "arrow.counterclockwise") { controller.repeatLast() }
-                    Toggle(l10n.t("الوصف الصوتي", "Audio description"), isOn: $controller.describing)
-                    Toggle(l10n.t("أوقف الفيديو عند كل وصف", "Pause the video for every description"), isOn: $controller.alwaysPause)
-                    Text(l10n.t("عند إيقاف هذا الخيار، يستمر الفيديو بصوت منخفض أثناء الوصف.",
-                                "With this off, the video keeps playing, turned down, while each description is said."))
-                        .font(.footnote)
-                        .foregroundStyle(BasirPalette.secondaryText)
 
-                    VStack(alignment: .leading, spacing: BasirSpacing.m) {
-                        SectionHeading(title: l10n.t("ترجمة الحوار الحية", "Live dialogue translation"))
-                        if controller.hasDialogue {
-                            Toggle(l10n.t("ترجمة الحوار", "Translate the dialogue"), isOn: $controller.translating)
-                            Picker(l10n.t("صوت الفيديو أثناء الترجمة", "Video sound during a translation"),
-                                   selection: $controller.dialogueMode) {
-                                Text(l10n.t("منخفض", "Lower")).tag(DialogueVideoMode.lower)
-                                Text(l10n.t("كامل", "Full")).tag(DialogueVideoMode.full)
-                                Text(l10n.t("إيقاف مؤقت", "Pause")).tag(DialogueVideoMode.pause)
-                            }
-                            .pickerStyle(.segmented)
-                            Toggle(l10n.t("القراءة بقارئ الشاشة", "Read with the screen reader"), isOn: $controller.useScreenReader)
-                            Text(l10n.t("تُنطق ترجمة كل جملة لحظة قولها بصوت غير صوت الوصف، أو بقارئ الشاشة بصوته وسرعته، ويُقال الوصف في الفواصل بين الجمل.",
-                                        "Each line's translation is said the moment it is spoken, in a voice other than the description's, or by the screen reader in its own voice and speed; descriptions fill the pauses between lines."))
-                                .font(.footnote)
-                                .foregroundStyle(BasirPalette.secondaryText)
-                        } else {
-                            Text(l10n.t("لم تُطلب ترجمة الحوار حين وُصف هذا الفيديو، أو ليس فيه حوار بلغة أخرى. لترجمته، صِفه مرة أخرى بعد تشغيل «ترجمة الحوار غير العربي» في شاشة وصف الفيديو.",
-                                        "Translation wasn't asked for when this video was described, or it has no dialogue in another language. To translate it, describe it again with “Translate dialogue in other languages” turned on in the video description screen."))
+                    // Each has its own controls, shown only when the video has it.
+                    if controller.hasDescription {
+                        VStack(alignment: .leading, spacing: BasirSpacing.m) {
+                            SectionHeading(title: l10n.t("الوصف الصوتي", "Audio description"))
+                            Toggle(l10n.t("الوصف", "Description"), isOn: $controller.describing)
+                            soundPicker(l10n.t("صوت الفيديو أثناء الوصف", "Video sound during a description"),
+                                        selection: $controller.descriptionMode)
+                            Text(l10n.t("«منخفض» و«كامل» يُبقيان الفيديو يعمل أثناء الوصف، و«إيقاف مؤقت» يوقفه حتى ينتهي الوصف.",
+                                        "“Lower” and “Full” keep the video playing during a description; “Pause” holds it until the description ends."))
                                 .font(.footnote)
                                 .foregroundStyle(BasirPalette.secondaryText)
                         }
+                        .glassSurface()
                     }
-                    .glassSurface()
+
+                    if controller.hasDialogue {
+                        VStack(alignment: .leading, spacing: BasirSpacing.m) {
+                            SectionHeading(title: l10n.t("ترجمة الحوار الحية", "Live dialogue translation"))
+                            Toggle(l10n.t("الترجمة", "Translation"), isOn: $controller.translating)
+                            soundPicker(l10n.t("صوت الفيديو أثناء الترجمة", "Video sound during a translation"),
+                                        selection: $controller.dialogueMode)
+                            Text(controller.hasDescription
+                                 ? l10n.t("تُقال ترجمة كل جملة لحظة قولها بصوت غير صوت الوصف، ولا يُقال الوصف إلا في الفواصل بين الجمل، فلا يتداخلان.",
+                                          "Each line's translation is said as it is spoken, in a voice other than the description's; descriptions are said only in the pauses between lines, so they never overlap.")
+                                 : l10n.t("تُقال ترجمة كل جملة لحظة قولها.", "Each line's translation is said as it is spoken."))
+                                .font(.footnote)
+                                .foregroundStyle(BasirPalette.secondaryText)
+                        }
+                        .glassSurface()
+                    }
+
+                    Toggle(l10n.t("القراءة بقارئ الشاشة", "Read with the screen reader"), isOn: $controller.useScreenReader)
+                        .glassSurface()
                 }
                 .appScreenContent()
             }
             .background(BasirPalette.background.ignoresSafeArea())
-            .navigationTitle(l10n.t("مشاهدة مع الوصف", "Watch with description"))
+            .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -485,6 +510,28 @@ struct VideoWatchView: View {
             }
         }
         .onDisappear { controller.stop() }
+    }
+}
+
+extension VideoWatchView {
+    private var title: String {
+        switch (controller.hasDescription, controller.hasDialogue) {
+        case (true, true): return l10n.t("مشاهدة مع الوصف والترجمة", "Watch with description and translation")
+        case (false, true): return l10n.t("مشاهدة مع الترجمة", "Watch with translation")
+        default: return l10n.t("مشاهدة مع الوصف", "Watch with description")
+        }
+    }
+
+    private func soundPicker(_ label: String, selection: Binding<VideoSoundMode>) -> some View {
+        VStack(alignment: .leading, spacing: BasirSpacing.s) {
+            Text(label).font(.subheadline.weight(.semibold))
+            Picker(label, selection: selection) {
+                Text(l10n.t("منخفض", "Lower")).tag(VideoSoundMode.lower)
+                Text(l10n.t("كامل", "Full")).tag(VideoSoundMode.full)
+                Text(l10n.t("إيقاف مؤقت", "Pause")).tag(VideoSoundMode.pause)
+            }
+            .pickerStyle(.segmented)
+        }
     }
 }
 

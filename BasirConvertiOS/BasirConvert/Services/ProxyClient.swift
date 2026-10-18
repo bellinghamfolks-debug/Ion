@@ -1034,7 +1034,7 @@ extension ProxyClient {
     /// `source` is the video made small on the iPhone, or the small JSON
     /// request naming a YouTube video. Returns the server job identifier.
     func startVideoJob(source: URL, contentType: String, seconds: Int?, requestID: String, title: String,
-                       language: String, translateDialogue: Bool = false,
+                       language: String, mode: String = "video",
                        uploadProgress: @escaping @Sendable (Double) -> Void) async throws -> String {
         let base = try secureBaseURL()
         let size = Int64((try FileManager.default.attributesOfItem(atPath: source.path)[.size] as? NSNumber)?.int64Value ?? 0)
@@ -1047,8 +1047,8 @@ extension ProxyClient {
             contentLength: size,
             sourceSHA256: checksum,
             operation: "describe_video",
-            // The dialogue is translated (and paid for) only when the person asked.
-            mode: translateDialogue ? "video_dialogue" : "video",
+            // Description, translation or both: the server makes (and is paid for) only what was asked.
+            mode: mode,
             targetLanguage: "",
             interfaceLanguage: language == "en" ? "en" : "ar",
             pageSelection: "",

@@ -91,9 +91,10 @@ enum AudioDescription {
         lines.firstIndex { $0.end + dialogueGrace >= time } ?? lines.count
     }
 
-    /// About how long a sentence takes to say, in seconds.
+    /// About how long a sentence takes to say, in seconds (on the long side,
+    /// so a description never runs into the next translated line).
     static func speakingTime(_ text: String) -> Double {
-        max(1.2, Double(text.count) / 14.0)
+        max(1.2, Double(text.count) / 11.0 + 0.4)
     }
 
     /// Whether a description fits before the next translated line starts,

@@ -4,6 +4,31 @@ import Foundation
 /// (GET /api/jobs/{id}/summary for a video job): what it is, its chapters
 /// with their times, the scenes as they happen, the text on screen and who
 /// says what. Times are seconds from the start of the video.
+/// What the person asks Basir for: the description, the dialogue translated,
+/// or both. The server makes only what was asked for.
+enum VideoScope: String, Codable, CaseIterable, Identifiable, Sendable {
+    case describe, both, translate
+    var id: String { rawValue }
+    /// The job's mode on the server.
+    var serverMode: String {
+        switch self {
+        case .describe: return "video"
+        case .both: return "video_dialogue"
+        case .translate: return "video_translate"
+        }
+    }
+    /// Part of the request key: the same video asked for differently is a different job.
+    var keySuffix: String {
+        switch self {
+        case .describe: return ""
+        case .both: return "-dialogue"
+        case .translate: return "-translate"
+        }
+    }
+    var describes: Bool { self != .translate }
+    var translates: Bool { self != .describe }
+}
+
 struct VideoDescription: Codable, Equatable, Sendable {
     struct Chapter: Codable, Equatable, Identifiable, Sendable {
         var start: Int
@@ -59,6 +84,9 @@ struct VideoDescription: Codable, Equatable, Sendable {
     var speech: [Speech] = []
     /// Missing in descriptions made before translation existed.
     var dialogue: [DialogueLine]? = nil
+    var hasDialogue: Bool { !(dialogue ?? []).isEmpty }
+    /// Scenes or text to describe (a translation-only result has none).
+    var hasDescription: Bool { !scenes.isEmpty || !onScreenText.isEmpty }
     var segmentsDescribed: Int = 0
     var segmentsTotal: Int = 0
     var notes: [String] = []

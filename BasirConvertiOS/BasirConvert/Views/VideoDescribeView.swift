@@ -17,8 +17,9 @@ struct VideoDescribeView: View {
     @State private var openEntry: VideoLibrary.Entry?
     @State private var entries: [VideoLibrary.Entry] = []
     @State private var linkError: String?
-    /// Its own choice, off unless the person turns it on: nothing is translated otherwise.
-    @AppStorage("video_translate_dialogue") private var translateDialogue = false
+    /// What the person wants from the video; the server makes only that.
+    @AppStorage("video_scope") private var scopeValue = VideoScope.describe.rawValue
+    private var scope: VideoScope { VideoScope(rawValue: scopeValue) ?? .describe }
     /// A YouTube link shared into Basir from another app.
     var initialLink: String? = nil
     /// Describe `initialLink` at once: the person shared it to have it described.
@@ -63,7 +64,7 @@ struct VideoDescribeView: View {
             // Closed through SwiftUI's dismiss (see ImportControllers.swift).
             VideoLibraryPicker { url, title in
                 importing = false
-                if let url { runner.start(.file(url, title: title), translate: translateDialogue,
+                if let url { runner.start(.file(url, title: title), scope: scope,
                                           configuration: settings.configuration, l10n: l10n) }
             } onLoading: {
                 importing = true
@@ -97,9 +98,16 @@ struct VideoDescribeView: View {
                         "Choose a video from your album or paste a YouTube link, up to an hour long. Basir watches it and describes it for you: what it's about, its chapters with their times, what appears in each scene, the text on screen, and who speaks. Then ask it anything about the video."))
                 .fixedSize(horizontal: false, vertical: true)
             VStack(alignment: .leading, spacing: BasirSpacing.s) {
-                Toggle(l10n.t("ترجمة الحوار غير العربي", "Translate dialogue in other languages"), isOn: $translateDialogue)
-                Text(l10n.t("خيار مستقل عن الوصف: شغّله لفيلم أو مقابلة بلغة أخرى، فيُترجَم كل ما يُقال لتسمعه لحظة قوله في «المشاهدة مع الوصف». إن تركته مطفأً يُوصف الفيديو وحده دون ترجمة.",
-                            "Separate from the description: turn it on for a film or interview in another language, and everything said is translated for you to hear as it is spoken in Watch with description. Left off, the video is described alone, without translation."))
+                Text(l10n.t("ماذا تريد من الفيديو؟", "What do you want from the video?"))
+                    .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
+                Picker(l10n.t("ماذا تريد من الفيديو؟", "What do you want from the video?"), selection: $scopeValue) {
+                    Text(l10n.t("الوصف", "Description")).tag(VideoScope.describe.rawValue)
+                    Text(l10n.t("الترجمة", "Translation")).tag(VideoScope.translate.rawValue)
+                    Text(l10n.t("الاثنان", "Both")).tag(VideoScope.both.rawValue)
+                }
+                .pickerStyle(.segmented)
+                Text(scopeNote)
                     .font(.footnote)
                     .foregroundStyle(BasirPalette.secondaryText)
                     .fixedSize(horizontal: false, vertical: true)
@@ -130,7 +138,9 @@ struct VideoDescribeView: View {
                     }
                     .labelStyle(.titleAndIcon)
                     .frame(maxWidth: .infinity, minHeight: 52)
-                    CardActionButton(title: l10n.t("صِف الفيديو", "Describe the video"), systemImage: "play.rectangle",
+                    CardActionButton(title: scope == .translate ? l10n.t("ترجم الفيديو", "Translate the video")
+                                                                : l10n.t("صِف الفيديو", "Describe the video"),
+                                     systemImage: "play.rectangle",
                                      prominent: true) { describeLink() }
                 }
                 if let linkError { InlineMessage(text: linkError, isError: true) }
@@ -142,6 +152,20 @@ struct VideoDescribeView: View {
         }
     }
 
+    private var scopeNote: String {
+        switch scope {
+        case .describe:
+            return l10n.t("يصف بصير ما يظهر في الفيديو، دون ترجمة.",
+                          "Basir describes what is seen in the video, without translation.")
+        case .translate:
+            return l10n.t("يترجم بصير كل ما يُقال بلغة غير العربية لتسمعه لحظة قوله، دون وصف المشاهد. مناسب لفيلم أو مقابلة بلغة أخرى.",
+                          "Basir translates everything said in a language other than Arabic for you to hear as it is spoken, without describing the scenes. Good for a film or interview in another language.")
+        case .both:
+            return l10n.t("الوصف والترجمة معًا: تُقال الترجمة لحظة الكلام، ويُقال الوصف في الفواصل بين الجمل.",
+                          "Description and translation together: each translation is said as the line is spoken, and descriptions in the pauses between lines.")
+        }
+    }
+
     private func describeLink() {
         guard let url = YouTubeLink.watchURL(from: link) else {
             linkError = l10n.t("هذا ليس رابط فيديو من YouTube. انسخ الرابط من زر «مشاركة» في YouTube ثم الصقه هنا.",
@@ -150,7 +174,7 @@ struct VideoDescribeView: View {
             return
         }
         linkError = nil
-        runner.start(.youtube(url), translate: translateDialogue, configuration: settings.configuration, l10n: l10n)
+        runner.start(.youtube(url), scope: scope, configuration: settings.configuration, l10n: l10n)
     }
 
     // MARK: Progress
@@ -240,7 +264,10 @@ struct VideoResultView: View {
                 if let video {
                     header(video)
                     ask(video)
-                    if !video.chapters.isEmpty { chapters(video) } else { scenes(video.scenes) }
+                    if video.hasDescription {
+                        if !video.chapters.isEmpty { chapters(video) } else { scenes(video.scenes) }
+                    }
+                    if video.hasDialogue { dialogue(video) }
                     if !video.onScreenText.isEmpty { screenText(video) }
                     if !video.speech.isEmpty { speech(video) }
                 } else {
@@ -300,14 +327,47 @@ struct VideoResultView: View {
                                            "Basir couldn't describe part of the video; the rest is described below."),
                               isError: false)
             }
-            if canWatch {
-                PrimaryActionButton(title: l10n.t("شاهد مع الوصف", "Watch with description"),
-                                    systemImage: "play.rectangle.fill") { watching = true }
+            if (entry.scope?.translates ?? false) && !video.hasDialogue {
+                InlineMessage(text: l10n.t("لم يجد بصير في هذا الفيديو كلامًا بلغة غير العربية ليترجمه.",
+                                           "Basir found no speech in a language other than Arabic to translate in this video."),
+                              isError: false)
             }
-            CardActionButton(title: l10n.t("اسمع الوصف كاملًا", "Hear the whole description"),
+            if canWatch && (video.hasDescription || video.hasDialogue) {
+                PrimaryActionButton(title: watchTitle(video), systemImage: "play.rectangle.fill") { watching = true }
+            }
+            CardActionButton(title: video.hasDescription ? l10n.t("اسمع الوصف كاملًا", "Hear the whole description")
+                                                         : l10n.t("اسمع الترجمة كاملة", "Hear the whole translation"),
                              systemImage: "speaker.wave.2.fill", prominent: !canWatch) { reading = true }
         }
         .glassSurface()
+    }
+
+    private func watchTitle(_ video: VideoDescription) -> String {
+        switch (video.hasDescription, video.hasDialogue) {
+        case (true, true): return l10n.t("شاهد مع الوصف والترجمة", "Watch with description and translation")
+        case (false, true): return l10n.t("شاهد مع الترجمة", "Watch with translation")
+        default: return l10n.t("شاهد مع الوصف", "Watch with description")
+        }
+    }
+
+    private func dialogue(_ video: VideoDescription) -> some View {
+        DisclosureGroup {
+            VStack(alignment: .leading, spacing: BasirSpacing.s) {
+                ForEach(video.dialogue ?? []) { line in
+                    let who = line.speaker.isEmpty ? "" : "\(line.speaker): "
+                    Text("\(VideoDescription.clock(line.start))  \(who)\(line.translation)")
+                        .fixedSize(horizontal: false, vertical: true)
+                        .textSelection(.enabled)
+                        .accessibilityLabel("\(VideoDescription.spokenTime(line.start, arabic: l10n.isArabic)): \(who)\(line.translation)")
+                }
+            }
+            .padding(.top, BasirSpacing.s)
+        } label: {
+            Text(l10n.t("الحوار مترجمًا (\((video.dialogue ?? []).count) جملة)", "Dialogue, translated (\((video.dialogue ?? []).count) lines)"))
+                .font(.headline)
+        }
+        .padding(BasirSpacing.m)
+        .background(BasirPalette.surface, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 
     private func ask(_ video: VideoDescription) -> some View {

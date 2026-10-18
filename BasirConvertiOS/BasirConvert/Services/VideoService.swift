@@ -93,6 +93,8 @@ enum VideoLibrary {
         var durationSeconds: Int
         /// The small copy of an album video, kept for "Watch with description".
         var hasLocalVideo: Bool? = nil
+        /// What was asked for (missing for videos described before the choice existed).
+        var scope: VideoScope? = nil
     }
 
     private static let indexName = "index.json"
@@ -161,9 +163,11 @@ struct VideoPending: Codable, Equatable {
     var compressed = false
     var jobID: String?
     var startedAt = Date()
-    /// The person also asked for the dialogue in other languages to be
-    /// translated (optional: missing in videos started before it existed).
+    /// What the person asked for (optional: missing in videos started before
+    /// the choice existed; `translate` is the earlier on/off of build 36).
+    var scope: VideoScope? = nil
     var translate: Bool? = nil
+    var wanted: VideoScope { scope ?? (translate == true ? .both : .describe) }
 
     private static let storageKey = "video_pending_v1"
 
@@ -245,7 +249,7 @@ final class VideoRunner: ObservableObject {
         phase = .idle
     }
 
-    func start(_ input: VideoInput, translate: Bool = false, configuration: ServerConfiguration, l10n: L10n) {
+    func start(_ input: VideoInput, scope: VideoScope = .describe, configuration: ServerConfiguration, l10n: L10n) {
         cancel()
         guard configuration.isConfigured else {
             phase = .failed(DocumentAssistant.message(for: BasirError.notConfigured, l10n: l10n))
@@ -253,8 +257,8 @@ final class VideoRunner: ObservableObject {
         }
         do {
             var pending: VideoPending
-            // Asked with translation, the same video is a different description.
-            let suffix = translate ? "-dialogue" : ""
+            // Asked for differently, the same video is a different job.
+            let suffix = scope.keySuffix
             switch input {
             case .file(let url, let name):
                 // Kept in Basir's own storage (not the temporary folder iOS may empty).
@@ -267,7 +271,7 @@ final class VideoRunner: ObservableObject {
                 pending = VideoPending(key: "video-" + String(Self.fingerprint(text: link).prefix(48)) + suffix, title: "",
                                        youtubeURL: link)
             }
-            pending.translate = translate
+            pending.scope = scope
             pending.save()
             run(pending, configuration: configuration, l10n: l10n)
         } catch {
@@ -347,7 +351,7 @@ final class VideoRunner: ObservableObject {
                     pending.jobID = try await client.startVideoJob(
                         source: source, contentType: contentType, seconds: pending.seconds, requestID: pending.key,
                         title: pending.title, language: l10n.isArabic ? "ar" : "en",
-                        translateDialogue: pending.translate ?? false) { value in
+                        mode: pending.wanted.serverMode) { value in
                         Task { @MainActor [weak self] in
                             if case .uploading = self?.phase { self?.phase = .uploading(value) }
                         }
@@ -374,7 +378,7 @@ final class VideoRunner: ObservableObject {
             let description = try await follow(jobID: jobID, requestKey: pending.key, client: client, l10n: l10n)
             var entry = VideoLibrary.Entry(id: pending.key, title: description.title.isEmpty ? shownTitle : description.title,
                                            youtubeURL: pending.youtubeURL, serverJobID: jobID, createdAt: Date(),
-                                           durationSeconds: description.durationSeconds)
+                                           durationSeconds: description.durationSeconds, scope: pending.wanted)
             // The small copy stays on the phone, so the video can be watched with its description.
             if pending.youtubeURL == nil, let keep = VideoLibrary.mediaURL(for: pending.key),
                FileManager.default.fileExists(atPath: keep.path) {

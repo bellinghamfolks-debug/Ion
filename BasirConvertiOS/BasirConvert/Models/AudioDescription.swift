@@ -14,6 +14,13 @@ struct DescriptionCue: Equatable, Sendable {
     let nearSpeech: Bool
 }
 
+/// A translated line of dialogue, said as it is spoken.
+struct DialogueCue: Equatable, Sendable {
+    let start: Double
+    let end: Double
+    let text: String
+}
+
 enum AudioDescription {
     /// Seconds around a cue in which speech counts as "talking now".
     static let speechWindow = 12
@@ -61,5 +68,38 @@ enum AudioDescription {
     /// The cue being described at `time`: the last one that has started.
     static func currentIndex(at time: Double, in cues: [DescriptionCue]) -> Int? {
         cues.lastIndex { Double($0.time) <= time + 0.5 }
+    }
+
+    // MARK: Live translation of the dialogue
+
+    /// Seconds after a line ends that its translation is still worth saying.
+    static let dialogueGrace = 2.5
+
+    /// The translated lines, the speaker named when it changes (as subtitles do).
+    static func dialogueCues(_ video: VideoDescription) -> [DialogueCue] {
+        var previous = ""
+        return (video.dialogue ?? []).sorted { $0.start < $1.start }.map { line in
+            let speaker = line.speaker.trimmingCharacters(in: .whitespaces)
+            let text = !speaker.isEmpty && speaker != previous ? "\(speaker): \(line.translation)" : line.translation
+            previous = speaker.isEmpty ? previous : speaker
+            return DialogueCue(start: Double(line.start), end: Double(max(line.end, line.start)), text: text)
+        }
+    }
+
+    /// The first line not yet over at `time`.
+    static func nextDialogue(at time: Double, in lines: [DialogueCue]) -> Int {
+        lines.firstIndex { $0.end + dialogueGrace >= time } ?? lines.count
+    }
+
+    /// About how long a sentence takes to say, in seconds.
+    static func speakingTime(_ text: String) -> Double {
+        max(1.2, Double(text.count) / 14.0)
+    }
+
+    /// Whether a description fits before the next translated line starts,
+    /// so descriptions are said in the quiet between lines.
+    static func fitsBefore(_ text: String, now: Double, nextLineStart: Double?) -> Bool {
+        guard let next = nextLineStart, next > now - 0.1 else { return true }
+        return next - now >= speakingTime(text)
     }
 }

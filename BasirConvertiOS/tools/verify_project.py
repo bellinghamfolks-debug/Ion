@@ -105,7 +105,7 @@ def main() -> None:
             "CODE_SIGN_ENTITLEMENTS: BasirLiveActivity/BasirLiveActivity.entitlements",
             "BasirConvert/Shared/BasirShortcutIntents.swift",
             "MARKETING_VERSION: 1.0.0",
-            "CURRENT_PROJECT_VERSION: 35",
+            "CURRENT_PROJECT_VERSION: 36",
         ):
             if token not in specification:
                 fail(f"{name} is missing {token}")

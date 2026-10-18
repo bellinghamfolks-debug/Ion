@@ -86,39 +86,86 @@ private final class WeakMessageHandler: NSObject, WKScriptMessageHandler {
     }
 }
 
-/// Says each description at its moment, over the video turned down, or with
-/// the video paused for each one when the person chooses. Play and Pause
-/// follow the person: a description never starts the video again after
-/// they paused it.
+/// What the video does while a translated line is said.
+enum DialogueVideoMode: String, CaseIterable, Identifiable {
+    case lower, full, pause
+    var id: String { rawValue }
+}
+
+/// Says each description at its moment and translates the dialogue live.
+///
+/// Translated lines are said as they are spoken, over the video turned down
+/// (or at full volume, or with the video paused, as the person chooses), in a
+/// voice of their own, or by VoiceOver. Descriptions are fitted into the quiet
+/// between lines, so the dialogue is never lost behind a description. Play and
+/// Pause follow the person: nothing restarts a video they paused.
 @MainActor
 final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthesizerDelegate {
     @Published private(set) var current: String = ""
+    @Published private(set) var subtitle: String = ""
     /// What the person asked for: playing or paused.
     @Published private(set) var playing = false
     @Published var describing = true {
-        didSet { if !describing { speech.stopSpeaking(at: .immediate) } }
+        didSet { if !describing, speakingKind == .description { stopSpeaking() } }
     }
     /// Pause the video for every description instead of turning it down.
     @Published var alwaysPause = UserDefaults.standard.bool(forKey: "video_watch_always_pause") {
         didSet { UserDefaults.standard.set(alwaysPause, forKey: "video_watch_always_pause") }
     }
+    @Published var translating = UserDefaults.standard.object(forKey: "video_watch_translate") as? Bool ?? true {
+        didSet {
+            UserDefaults.standard.set(translating, forKey: "video_watch_translate")
+            if !translating, speakingKind == .dialogue { stopSpeaking() }
+        }
+    }
+    @Published var dialogueMode = DialogueVideoMode(rawValue: UserDefaults.standard.string(forKey: "video_watch_dialogue_mode") ?? "") ?? .lower {
+        didSet { UserDefaults.standard.set(dialogueMode.rawValue, forKey: "video_watch_dialogue_mode") }
+    }
+    /// Read by VoiceOver (its voice and speed) rather than Basir's own voices.
+    @Published var useScreenReader = UserDefaults.standard.object(forKey: "video_watch_screen_reader") as? Bool
+        ?? UIAccessibility.isVoiceOverRunning {
+        didSet { UserDefaults.standard.set(useScreenReader, forKey: "video_watch_screen_reader") }
+    }
 
     let cues: [DescriptionCue]
+    let lines: [DialogueCue]
     let player: DescribedPlayer
     private let arabic: Bool
     private let speech = AVSpeechSynthesizer()
-    private var next = 0
+    private let descriptionVoice: AVSpeechSynthesisVoice?
+    private let dialogueVoice: AVSpeechSynthesisVoice?
+    private var nextCue = 0
+    private var nextLine = 0
     private var lastTime: Double = 0
     private var ticker: Task<Void, Never>?
-    /// The video is held still until the description ends ("always pause").
+    /// The video is held still until what is being said ends.
     private var holding = false
+    private enum Kind { case description, dialogue }
+    private var speakingKind: Kind?
+    private var lastSaid: (text: String, kind: Kind)?
+    private var announcementDeadline: Date?
+    private var waitingSince: Double?
+    /// The utterance being said: a late "finished" from an earlier one is ignored.
+    private var utteranceID: ObjectIdentifier?
 
-    init(cues: [DescriptionCue], player: DescribedPlayer, arabic: Bool) {
+    var hasDialogue: Bool { !lines.isEmpty }
+
+    init(cues: [DescriptionCue], lines: [DialogueCue], player: DescribedPlayer, arabic: Bool) {
         self.cues = cues
+        self.lines = lines
         self.player = player
         self.arabic = arabic
+        // Two different voices, so a translated line is never mistaken for a description.
+        let language = arabic ? "ar" : "en"
+        let voices = AVSpeechSynthesisVoice.speechVoices().filter { $0.language.hasPrefix(language) }
+            .sorted { $0.quality.rawValue > $1.quality.rawValue }
+        descriptionVoice = voices.first ?? AVSpeechSynthesisVoice(language: arabic ? "ar-SA" : "en-US")
+        dialogueVoice = voices.first { $0.identifier != voices.first?.identifier && $0.gender != voices.first?.gender }
+            ?? voices.dropFirst().first ?? descriptionVoice
         super.init()
         speech.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(announcementFinished),
+                                               name: UIAccessibility.announcementDidFinishNotification, object: nil)
     }
 
     func start() {
@@ -127,14 +174,14 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         ticker = Task { [weak self] in
             while !Task.isCancelled {
                 await self?.tick()
-                try? await Task.sleep(nanoseconds: 250_000_000)
+                try? await Task.sleep(nanoseconds: 200_000_000)
             }
         }
     }
 
     func stop() {
         ticker?.cancel()
-        speech.stopSpeaking(at: .immediate)
+        stopSpeaking()
         player.pause()
         playing = false
     }
@@ -147,10 +194,10 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         } else {
             playing = true
             if speech.isPaused { speech.continueSpeaking() }
-            // During a description that holds the video, it plays when the description ends.
-            if !(holding && speech.isSpeaking) {
+            // While something holds the video, it plays when that ends.
+            if !(holding && isBusy) {
                 holding = false
-                player.setVolume(speech.isSpeaking ? 0.3 : 1)
+                player.setVolume(isBusy ? volumeWhileSpeaking() : 1)
                 player.play()
             }
         }
@@ -179,60 +226,134 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         }
     }
 
-    func repeatDescription() {
-        guard let index = AudioDescription.currentIndex(at: lastTime, in: cues) else { return }
-        say(index)
+    /// Says again the last description or translated line.
+    func repeatLast() {
+        guard let last = lastSaid else { return }
+        say(last.text, kind: last.kind)
     }
 
     private func seek(to seconds: Double) {
-        speech.stopSpeaking(at: .immediate)
+        stopSpeaking()
         holding = false
         player.seek(to: seconds)
         player.setVolume(1)
         if playing { player.play() }
         lastTime = seconds
-        next = AudioDescription.nextIndex(at: seconds, in: cues)
+        nextCue = AudioDescription.nextIndex(at: seconds, in: cues)
+        nextLine = AudioDescription.nextDialogue(at: seconds, in: lines)
+        waitingSince = nil
+    }
+
+    private var isBusy: Bool {
+        if let deadline = announcementDeadline {
+            if Date() < deadline { return true }
+            announcementDeadline = nil
+            finishedSpeaking()
+        }
+        return speech.isSpeaking || speech.isPaused
     }
 
     private func tick() async {
         guard let now = await player.currentTime() else { return }
         // A jump (the player's own controls, or ours) restarts from there.
         if abs(now - lastTime) > 3 {
-            next = AudioDescription.nextIndex(at: now, in: cues)
-            if speech.isSpeaking && !holding { speech.stopSpeaking(at: .immediate) }
+            nextCue = AudioDescription.nextIndex(at: now, in: cues)
+            nextLine = AudioDescription.nextDialogue(at: now, in: lines)
+            if isBusy && !holding { stopSpeaking() }
         }
         // Played from the video's own controls: follow it.
         if !playing, !holding, now > lastTime + 0.2 { playing = true }
         lastTime = now
-        guard describing, playing, !speech.isSpeaking, !speech.isPaused, cues.indices.contains(next),
-              Double(cues[next].time) <= now + 0.2 else { return }
-        say(next)
-        next += 1
+        // Lines already over are not worth saying late.
+        while lines.indices.contains(nextLine), now > lines[nextLine].end + AudioDescription.dialogueGrace { nextLine += 1 }
+        guard playing, !isBusy else { return }
+
+        if translating, lines.indices.contains(nextLine), lines[nextLine].start <= now + 0.15 {
+            let line = lines[nextLine]
+            nextLine += 1
+            subtitle = line.text
+            say(line.text, kind: .dialogue)
+            return
+        }
+        guard describing, cues.indices.contains(nextCue), Double(cues[nextCue].time) <= now + 0.2 else { return }
+        // Only the latest scene is worth describing when several came due while waiting.
+        while cues.indices.contains(nextCue + 1), Double(cues[nextCue + 1].time) <= now { nextCue += 1 }
+        let cue = cues[nextCue]
+        let upcoming = translating && lines.indices.contains(nextLine) ? lines[nextLine].start : nil
+        // Said in the quiet between translated lines (or at once when the video pauses for it);
+        // after twenty-five seconds of waiting it is said anyway.
+        let waited = now - (waitingSince ?? now)
+        if !alwaysPause, !AudioDescription.fitsBefore(cue.text, now: now, nextLineStart: upcoming), waited < 25 {
+            if waitingSince == nil { waitingSince = now }
+            return
+        }
+        waitingSince = nil
+        nextCue += 1
+        current = cue.text
+        say(cue.text, kind: .description, nearSpeech: cue.nearSpeech)
     }
 
-    private func say(_ index: Int) {
-        let cue = cues[index]
-        current = cue.text
-        speech.stopSpeaking(at: .immediate)
-        if alwaysPause {
+    private func volumeWhileSpeaking(nearSpeech: Bool = false) -> Float {
+        switch speakingKind {
+        case .dialogue: return dialogueMode == .full ? 1 : 0.25
+        default: return nearSpeech ? 0.2 : 0.35
+        }
+    }
+
+    private func say(_ text: String, kind: Kind, nearSpeech: Bool = false) {
+        stopSpeaking()
+        speakingKind = kind
+        lastSaid = (text, kind)
+        let pause = kind == .description ? alwaysPause : dialogueMode == .pause
+        if pause {
             holding = true
             player.pause()
         } else {
-            // Lower still while someone is talking, so the description is heard.
-            player.setVolume(cue.nearSpeech ? 0.2 : 0.35)
+            player.setVolume(volumeWhileSpeaking(nearSpeech: nearSpeech))
         }
-        let utterance = AVSpeechUtterance(string: cue.text)
-        utterance.voice = AVSpeechSynthesisVoice(language: arabic ? "ar-SA" : "en-US")
-        utterance.rate = AVSpeechUtteranceDefaultSpeechRate * 1.05
+        if useScreenReader && UIAccessibility.isVoiceOverRunning {
+            // VoiceOver's own voice and speed; its finish notice ends the turn.
+            announcementDeadline = Date().addingTimeInterval(AudioDescription.speakingTime(text) * 2 + 2)
+            UIAccessibility.post(notification: .announcement,
+                                 argument: NSAttributedString(string: text, attributes: [.accessibilitySpeechQueueAnnouncement: false]))
+            return
+        }
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = kind == .dialogue ? dialogueVoice : descriptionVoice
+        if kind == .dialogue, dialogueVoice?.identifier == descriptionVoice?.identifier {
+            utterance.pitchMultiplier = 1.2   // one voice only: still told apart
+        }
+        utterance.rate = AVSpeechUtteranceDefaultSpeechRate * (kind == .dialogue ? 1.12 : 1.05)
+        utteranceID = ObjectIdentifier(utterance)
         speech.speak(utterance)
-        UIAccessibility.post(notification: .layoutChanged, argument: nil)
+    }
+
+    private func stopSpeaking() {
+        speech.stopSpeaking(at: .immediate)
+        utteranceID = nil
+        announcementDeadline = nil
+        speakingKind = nil
+    }
+
+    @objc private func announcementFinished(_ note: Notification) {
+        Task { @MainActor in
+            guard self.announcementDeadline != nil else { return }
+            self.announcementDeadline = nil
+            self.finishedSpeaking()
+        }
     }
 
     nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        Task { @MainActor in self.finishedSpeaking() }
+        let id = ObjectIdentifier(utterance)
+        Task { @MainActor in
+            guard self.utteranceID == id else { return }
+            self.utteranceID = nil
+            self.finishedSpeaking()
+        }
     }
 
     private func finishedSpeaking() {
+        speakingKind = nil
         player.setVolume(1)
         if holding {
             holding = false
@@ -256,7 +377,8 @@ struct VideoWatchView: View {
             let cues = AudioDescription.cues(video, arabic: arabic)
             let player: DescribedPlayer = localURL.map { LocalVideoPlayer(url: $0) }
                 ?? YouTubeVideoPlayer(pageURL: youtubePage ?? URL(string: "about:blank")!)
-            return DescribedWatchController(cues: cues, player: player, arabic: arabic)
+            return DescribedWatchController(cues: cues, lines: AudioDescription.dialogueCues(video), player: player,
+                                            arabic: arabic)
         }())
     }
 
@@ -286,6 +408,17 @@ struct VideoWatchView: View {
                     .glassSurface()
                     .accessibilityElement(children: .combine)
 
+                    if controller.hasDialogue && controller.translating {
+                        VStack(alignment: .leading, spacing: BasirSpacing.s) {
+                            Text(l10n.t("الحوار الآن", "Dialogue now")).font(.headline).accessibilityAddTraits(.isHeader)
+                            Text(controller.subtitle.isEmpty ? "…" : controller.subtitle)
+                                .font(.title3.weight(.semibold))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .glassSurface()
+                        .accessibilityElement(children: .combine)
+                    }
+
                     PrimaryActionButton(title: controller.playing ? l10n.t("إيقاف مؤقت", "Pause") : l10n.t("تشغيل", "Play"),
                                         systemImage: controller.playing ? "pause.fill" : "play.fill") { controller.togglePlay() }
                     AdaptiveStack {
@@ -296,13 +429,38 @@ struct VideoWatchView: View {
                         CardActionButton(title: l10n.t("الوصف السابق", "Previous description"), systemImage: "backward.end.fill") { controller.previousDescription() }
                         CardActionButton(title: l10n.t("الوصف التالي", "Next description"), systemImage: "forward.end.fill") { controller.nextDescription() }
                     }
-                    CardActionButton(title: l10n.t("أعد الوصف", "Repeat the description"), systemImage: "arrow.counterclockwise") { controller.repeatDescription() }
+                    CardActionButton(title: l10n.t("أعد آخر ما قيل", "Repeat the last line"), systemImage: "arrow.counterclockwise") { controller.repeatLast() }
                     Toggle(l10n.t("الوصف الصوتي", "Audio description"), isOn: $controller.describing)
                     Toggle(l10n.t("أوقف الفيديو عند كل وصف", "Pause the video for every description"), isOn: $controller.alwaysPause)
                     Text(l10n.t("عند إيقاف هذا الخيار، يستمر الفيديو بصوت منخفض أثناء الوصف.",
                                 "With this off, the video keeps playing, turned down, while each description is said."))
                         .font(.footnote)
                         .foregroundStyle(BasirPalette.secondaryText)
+
+                    VStack(alignment: .leading, spacing: BasirSpacing.m) {
+                        SectionHeading(title: l10n.t("ترجمة الحوار الحية", "Live dialogue translation"))
+                        if controller.hasDialogue {
+                            Toggle(l10n.t("ترجمة الحوار", "Translate the dialogue"), isOn: $controller.translating)
+                            Picker(l10n.t("صوت الفيديو أثناء الترجمة", "Video sound during a translation"),
+                                   selection: $controller.dialogueMode) {
+                                Text(l10n.t("منخفض", "Lower")).tag(DialogueVideoMode.lower)
+                                Text(l10n.t("كامل", "Full")).tag(DialogueVideoMode.full)
+                                Text(l10n.t("إيقاف مؤقت", "Pause")).tag(DialogueVideoMode.pause)
+                            }
+                            .pickerStyle(.segmented)
+                            Toggle(l10n.t("القراءة بقارئ الشاشة", "Read with the screen reader"), isOn: $controller.useScreenReader)
+                            Text(l10n.t("تُنطق ترجمة كل جملة لحظة قولها بصوت غير صوت الوصف، أو بقارئ الشاشة بصوته وسرعته، ويُقال الوصف في الفواصل بين الجمل.",
+                                        "Each line's translation is said the moment it is spoken, in a voice other than the description's, or by the screen reader in its own voice and speed; descriptions fill the pauses between lines."))
+                                .font(.footnote)
+                                .foregroundStyle(BasirPalette.secondaryText)
+                        } else {
+                            Text(l10n.t("لا يوجد في هذا الفيديو حوار بلغة أخرى، أو وُصف قبل إضافة الترجمة. صِفه مرة أخرى لتحصل على الترجمة.",
+                                        "This video has no dialogue in another language, or it was described before translation was added. Describe it again to get the translation."))
+                                .font(.footnote)
+                                .foregroundStyle(BasirPalette.secondaryText)
+                        }
+                    }
+                    .glassSurface()
                 }
                 .appScreenContent()
             }

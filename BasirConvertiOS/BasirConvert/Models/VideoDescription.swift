@@ -32,6 +32,16 @@ struct VideoDescription: Codable, Equatable, Sendable {
         var id: String { "\(time)|\(summary.prefix(24))" }
     }
 
+    /// A line spoken in another language, translated, timed to be said as it is spoken.
+    struct DialogueLine: Codable, Equatable, Identifiable, Sendable {
+        var start: Int
+        var end: Int
+        var speaker: String = ""
+        var language: String = ""
+        var translation: String
+        var id: String { "\(start)|\(translation.prefix(24))" }
+    }
+
     var language: String = "ar"
     var source: String = "upload"
     var title: String = ""
@@ -47,6 +57,8 @@ struct VideoDescription: Codable, Equatable, Sendable {
     var scenes: [Scene] = []
     var onScreenText: [ScreenText] = []
     var speech: [Speech] = []
+    /// Missing in descriptions made before translation existed.
+    var dialogue: [DialogueLine]? = nil
     var segmentsDescribed: Int = 0
     var segmentsTotal: Int = 0
     var notes: [String] = []
@@ -165,6 +177,13 @@ enum VideoReaderBlocks {
         if !video.onScreenText.isEmpty {
             add(.heading(2), t("النصوص على الشاشة", "Text on screen"))
             video.onScreenText.forEach { add(.paragraph, "\(VideoDescription.clock($0.time)): «\($0.text)»") }
+        }
+        if let dialogue = video.dialogue, !dialogue.isEmpty {
+            add(.heading(2), t("الحوار مترجمًا", "Dialogue, translated"))
+            dialogue.forEach {
+                let who = $0.speaker.isEmpty ? "" : "\($0.speaker): "
+                add(.paragraph, "\(VideoDescription.clock($0.start)): \(who)\($0.translation)")
+            }
         }
         if !video.speech.isEmpty {
             add(.heading(2), t("الكلام", "Speech"))

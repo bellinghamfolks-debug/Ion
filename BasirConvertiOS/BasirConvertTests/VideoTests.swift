@@ -89,6 +89,55 @@ final class VideoTests: XCTestCase {
         XCTAssertEqual(AudioDescription.currentIndex(at: 720, in: cues), 2)
     }
 
+    private var dialogueJSON: String {
+        serverJSON.replacingOccurrences(of: "\"notes\":[]}", with: """
+        "notes":[],
+         "dialogue":[{"start":12,"end":15,"speaker":"المذيعة","language":"en","translation":"مرحبًا بكم."},
+                     {"start":5,"end":8,"speaker":"المذيعة","language":"en","translation":"أهلًا."},
+                     {"start":16,"end":14,"speaker":"الضيف","language":"en","translation":"شكرًا لاستضافتي."},
+                     {"start":20,"end":23,"speaker":"","language":"fr","translation":"إلى اللقاء."}]}
+        """)
+    }
+
+    func testADescriptionMadeBeforeTranslationHasNoDialogue() throws {
+        let video = try VideoDescription.decode(Data(serverJSON.utf8))
+        XCTAssertNil(video.dialogue)
+        XCTAssertTrue(AudioDescription.dialogueCues(video).isEmpty)
+        XCTAssertFalse(VideoReaderBlocks.blocks(video, arabic: true).contains { $0.text == "الحوار مترجمًا" })
+    }
+
+    func testTranslatedLinesNameTheSpeakerOnlyWhenItChanges() throws {
+        let video = try VideoDescription.decode(Data(dialogueJSON.utf8))
+        let lines = AudioDescription.dialogueCues(video)
+        XCTAssertEqual(lines.map(\.start), [5, 12, 16, 20])
+        XCTAssertEqual(lines.map(\.text), ["المذيعة: أهلًا.", "مرحبًا بكم.", "الضيف: شكرًا لاستضافتي.", "إلى اللقاء."])
+        // A line that ends before it starts ends where it starts.
+        XCTAssertEqual(lines[2].end, 16)
+        XCTAssertEqual(try VideoDescription.decode(video.encoded()), video)
+        let blocks = VideoReaderBlocks.blocks(video, arabic: true)
+        XCTAssertTrue(blocks.contains { $0.isHeading && $0.text == "الحوار مترجمًا" })
+        XCTAssertTrue(blocks.contains { $0.text == "0:16: الضيف: شكرًا لاستضافتي." })
+    }
+
+    func testALineIsStillSaidJustAfterItEndsButNotLater() throws {
+        let lines = AudioDescription.dialogueCues(try VideoDescription.decode(Data(dialogueJSON.utf8)))
+        XCTAssertEqual(AudioDescription.nextDialogue(at: 0, in: lines), 0)
+        XCTAssertEqual(AudioDescription.nextDialogue(at: 10, in: lines), 0)   // ended at 8, within the grace
+        XCTAssertEqual(AudioDescription.nextDialogue(at: 11, in: lines), 1)
+        XCTAssertEqual(AudioDescription.nextDialogue(at: 30, in: lines), 4)
+    }
+
+    func testDescriptionsAreFittedIntoThePausesBetweenLines() {
+        let short = "باب يُفتح."
+        let long = String(repeating: "رجل يمشي في شارع مزدحم. ", count: 4)
+        XCTAssertTrue(AudioDescription.fitsBefore(short, now: 10, nextLineStart: nil))
+        XCTAssertTrue(AudioDescription.fitsBefore(short, now: 10, nextLineStart: 12))
+        XCTAssertFalse(AudioDescription.fitsBefore(long, now: 10, nextLineStart: 12))
+        XCTAssertTrue(AudioDescription.fitsBefore(long, now: 10, nextLineStart: 30))
+        // A line already under way does not hold the description back.
+        XCTAssertTrue(AudioDescription.fitsBefore(long, now: 10, nextLineStart: 9))
+    }
+
     func testAVideoUnderWayIsKeptAcrossARestart() {
         VideoPending.clear()
         var pending = VideoPending(key: "video-abc", title: "رحلة", originalName: "original-1.mov")

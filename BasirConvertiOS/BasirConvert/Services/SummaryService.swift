@@ -173,8 +173,6 @@ final class SummaryRunner: ObservableObject {
 
     private func work(_ body: SummaryRequestBody, home: SummaryHome, configuration: ServerConfiguration,
                       l10n: L10n) async {
-        let background = UIApplication.shared.beginBackgroundTask(withName: "Basir summary")
-        defer { UIApplication.shared.endBackgroundTask(background) }
         do {
             let data = try body.encoded()
             let client = ProxyClient(configuration: configuration)
@@ -182,9 +180,12 @@ final class SummaryRunner: ObservableObject {
             // A job already running for this request (Basir was closed while it
             // worked) is picked up again instead of starting over.
             let resuming = SummaryStore.pendingJob(for: Self.requestKey(data)) != nil
+                || ServerTaskCenter.shared.task(Self.requestKey(data))?.isActive == true
             if body.totalCharacters <= Self.directLimit, !resuming {
                 do {
-                    result = try DocumentSummary.decode(try await client.summarize(body: data))
+                    result = try DocumentSummary.decode(try await withBackgroundTime("Basir summary") {
+                        try await client.summarize(body: data)
+                    })
                 } catch is CancellationError {
                     throw CancellationError()
                 } catch BasirError.authenticationFailed {
@@ -200,7 +201,7 @@ final class SummaryRunner: ObservableObject {
             }
             if result == nil {
                 result = try await runJob(data: data, body: body, client: client, configuration: configuration,
-                                          l10n: l10n)
+                                          l10n: l10n, home: home)
             }
             guard let made = result, !Task.isCancelled else { return }
             Self.store(made, body: body, home: home)
@@ -208,98 +209,40 @@ final class SummaryRunner: ObservableObject {
             phase = .finished
             UINotificationFeedbackGenerator().notificationOccurred(.success)
             announce(l10n.t("الملخص جاهز.", "The summary is ready."))
-            let id = Self.notificationID(data)
-            JobWatcher.shared.stop(id: id)
-            if UIApplication.shared.applicationState != .active {
-                // Basir is in the background: say so where the person will hear it.
-                JobNotifier.show(JobNotifier.finished(task: .summary, title: Self.title(body, l10n: l10n),
-                                                      partial: false, arabic: l10n.isArabic), id: id)
-            } else {
-                JobNotifier.remove(id)
-            }
+            // A long summary's notification is the task center's; a short one has none.
         } catch is CancellationError {
             phase = .idle
         } catch {
             let message = Self.message(for: error, l10n: l10n)
             phase = .failed(message)
             announce(message)
-            if let data = try? body.encoded() {
-                let id = Self.notificationID(data)
-                JobWatcher.shared.stop(id: id)
-                if UIApplication.shared.applicationState != .active {
-                    JobNotifier.show(JobNotifier.failed(title: Self.title(body, l10n: l10n), reason: message,
-                                                        arabic: l10n.isArabic), id: id)
-                }
-            }
+            // A long summary that failed stays in Tasks, where it can be tried again.
         }
     }
 
+    /// A long summary runs as a server task kept by ServerTaskCenter: in the
+    /// Tasks tab, on disk, and followed to the end even if this screen closes
+    /// or iOS closes Basir; the summary is then saved where this screen finds it.
     private func runJob(data: Data, body: SummaryRequestBody, client: ProxyClient,
-                        configuration: ServerConfiguration, l10n: L10n) async throws -> DocumentSummary {
+                        configuration: ServerConfiguration, l10n: L10n, home: SummaryHome) async throws -> DocumentSummary {
         let requestKey = Self.requestKey(data)
-        let jobID: String
-        if let pending = SummaryStore.pendingJob(for: requestKey) {
-            jobID = pending
-        } else {
-            phase = .working(detail: l10n.t("جارٍ إرسال المستند", "Sending the document"), done: 0, total: 0)
-            jobID = try await client.startSummaryJob(body: data, requestID: requestKey, title: body.title,
-                                                     language: body.language, choice: body.choice)
-            SummaryStore.setPendingJob(jobID, for: requestKey)
+        let homeKey: String
+        switch home {
+        case .output(let url): homeKey = "output:" + url.lastPathComponent
+        case .key(let key): homeKey = "key:" + key
         }
-        // Followed while iOS suspends Basir (and by push where available), under
-        // one identifier so the two never show the same news twice.
-        let notificationID = Self.notificationID(data)
-        JobWatcher.shared.watch(id: notificationID, serverJobID: jobID, work: .summary,
-                                title: Self.title(body, l10n: l10n), arabic: l10n.isArabic)
-        if let clientJobID = UUID(uuidString: notificationID) {
-            PushRegistrar.shared.serverJobCreated(clientJobID: clientJobID, serverJobID: jobID,
-                                                  configuration: configuration,
-                                                  language: l10n.isArabic ? "ar" : "en")
+        let center = ServerTaskCenter.shared
+        if center.task(requestKey)?.isActive != true {
+            center.submit(kind: .summary, id: requestKey, notificationID: Self.notificationID(data),
+                          title: Self.title(body, l10n: l10n), body: data, language: body.language, choice: body.choice,
+                          summaryHome: homeKey, summaryVariant: body.variantKey,
+                          jobID: SummaryStore.pendingJob(for: requestKey), configuration: configuration, l10n: l10n)
         }
-        var lastAnnounced = -1
-        var misses = 0
-        while true {
-            try Task.checkCancellation()
-            let progress: SummaryJobProgress
-            do {
-                progress = try await client.summaryJobProgress(jobID: jobID, requestID: requestKey)
-                misses = 0
-            } catch is CancellationError {
-                throw CancellationError()
-            } catch {
-                // The connection drops while iOS suspends Basir; the job keeps
-                // running on the server, so keep asking.
-                misses += 1
-                if misses >= 60 { throw error }
-                try await Task.sleep(nanoseconds: 5_000_000_000)
-                continue
-            }
-            if progress.isFinished {
-                let summary = try DocumentSummary.decode(try await client.jobSummary(jobID: jobID, requestID: requestKey))
-                SummaryStore.setPendingJob(nil, for: requestKey)
-                // The summary is now on the phone; the server copy goes, as the
-                // privacy setting asks (on by default).
-                let deleteCopy = UserDefaults.standard.object(forKey: "privacy_delete_server_copy") as? Bool ?? true
-                if deleteCopy { try? await client.deleteServerTask(requestID: requestKey) }
-                return summary
-            }
-            if progress.isFailed {
-                SummaryStore.setPendingJob(nil, for: requestKey)
-                throw BasirError.conversionFailed(progress.error ?? "")
-            }
-            let reading = progress.total > 1 && progress.current < progress.total - 1
-            let detail = reading
-                ? l10n.t("جارٍ قراءة المستند، الجزء \(progress.current) من \(progress.total - 1)",
-                         "Reading the document, part \(progress.current) of \(progress.total - 1)")
-                : l10n.t("جارٍ كتابة الملخص", "Writing the summary")
-            phase = .working(detail: detail, done: progress.current, total: progress.total)
-            let percent = progress.total > 0 ? progress.current * 100 / progress.total : 0
-            if percent / 25 != lastAnnounced, progress.total > 2 {
-                lastAnnounced = percent / 25
-                announce(l10n.t("الملخص: \(percent) بالمئة", "Summary: \(percent) percent"))
-            }
-            try await Task.sleep(nanoseconds: 3_000_000_000)
+        let result = try await center.outcome(of: requestKey) { task in
+            self.phase = .working(detail: task.detail.isEmpty ? l10n.t("جارٍ إعداد الملخص", "Preparing the summary") : task.detail,
+                                  done: task.done, total: task.total)
         }
+        return try DocumentSummary.decode(result)
     }
 
     // MARK: Helpers

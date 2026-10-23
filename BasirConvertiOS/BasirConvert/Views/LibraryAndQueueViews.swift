@@ -406,8 +406,10 @@ private struct ReportActionModifier: ViewModifier {
 struct JobQueueView: View {
     @EnvironmentObject private var l10n: L10n
     @EnvironmentObject private var viewModel: AppViewModel
+    @ObservedObject private var serverTasks = ServerTaskCenter.shared
     @State private var pendingDeleteJobID: UUID?
     @State private var isReordering = false
+    @State private var openServerTask: ServerTask?
 
     /// Completed and cancelled tasks leave the list by themselves; completed
     /// files are in My Files.
@@ -416,7 +418,7 @@ struct JobQueueView: View {
     var body: some View {
         ZStack {
             AuroraBackground()
-            if listed.isEmpty {
+            if listed.isEmpty && serverTasks.visible.isEmpty {
                 ScrollView {
                     VStack(alignment: .leading, spacing: BasirSpacing.m) {
                         Text(l10n.t("المهام", "Tasks"))
@@ -431,17 +433,23 @@ struct JobQueueView: View {
                 }
             } else {
                 List {
-                    Section {
-                        ForEach(listed) { job in
-                            row(job)
+                    if !listed.isEmpty {
+                        Section {
+                            ForEach(listed) { job in
+                                row(job)
+                            }
+                            .onMove(perform: viewModel.moveListedJobs)
+                        } header: {
+                            Text(l10n.t("المهام", "Tasks"))
+                                .font(.title2.weight(.bold))
+                                .foregroundStyle(BasirPalette.primaryText)
+                                .textCase(nil)
+                                .accessibilityAddTraits(.isHeader)
                         }
-                        .onMove(perform: viewModel.moveListedJobs)
-                    } header: {
-                        Text(l10n.t("المهام", "Tasks"))
-                            .font(.title2.weight(.bold))
-                            .foregroundStyle(BasirPalette.primaryText)
-                            .textCase(nil)
-                            .accessibilityAddTraits(.isHeader)
+                    }
+                    // Long summaries and natural-style texts, kept here until they end.
+                    if !serverTasks.visible.isEmpty {
+                        ServerTasksSection(open: $openServerTask)
                     }
                 }
                 .scrollContentBackground(.hidden)
@@ -450,6 +458,7 @@ struct JobQueueView: View {
         }
         .navigationTitle(l10n.t("المهام", "Tasks"))
         .navigationBarTitleDisplayMode(.inline)
+        .fullScreenCover(item: $openServerTask) { task in ServerTaskDestination(task: task) }
         .toolbar {
             if listed.count > 1 {
                 ToolbarItem(placement: .primaryAction) {

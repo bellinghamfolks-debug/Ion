@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import CryptoKit
 import UIKit
@@ -118,8 +119,9 @@ enum RestyleStore {
     }
 }
 
-/// Runs one natural-style job for the life of the app: closing the screen
-/// never stops it, and after a restart it is picked up again on the server.
+/// The natural-style screen's view of its task. The work itself is done by
+/// ServerTaskCenter, which keeps the task on disk and in the Tasks tab and
+/// follows it to the end whatever happens to the screen or to Basir.
 @MainActor
 final class RestyleRunner: ObservableObject {
     static let shared = RestyleRunner()
@@ -132,9 +134,16 @@ final class RestyleRunner: ObservableObject {
     }
 
     @Published private(set) var phase: Phase = .idle
-    private var task: Task<Void, Never>?
+    private var currentID: String?
+    private var watching: AnyCancellable?
 
     var isBusy: Bool { if case .working = phase { return true } else { return false } }
+
+    private init() {
+        watching = ServerTaskCenter.shared.$tasks.sink { [weak self] tasks in
+            Task { @MainActor in self?.reflect(tasks) }
+        }
+    }
 
     func start(_ body: RestyleRequestBody, configuration: ServerConfiguration, l10n: L10n) {
         guard configuration.isConfigured else {
@@ -142,28 +151,32 @@ final class RestyleRunner: ObservableObject {
             return
         }
         guard let data = try? body.encoded() else { return }
-        let pending = RestyleStore.Pending(requestKey: RestyleRequestBody.requestKey(data),
-                                           notificationID: RestyleRequestBody.notificationID(data),
-                                           title: body.title, jobID: nil, body: data)
-        RestyleStore.setPending(pending)
-        run(pending, configuration: configuration, l10n: l10n)
+        let id = RestyleRequestBody.requestKey(data)
+        currentID = id
+        ServerTaskCenter.shared.submit(kind: .restyle, id: id, notificationID: RestyleRequestBody.notificationID(data),
+                                       title: Self.title(body.title, l10n: l10n), body: data,
+                                       language: l10n.isArabic ? "ar" : "en", choice: "accurate",
+                                       configuration: configuration, l10n: l10n)
+        announce(l10n.t("بدأت المهمة، وتجدها في «المهام». يقرأ بصير النص كاملًا ثم يحرره، ويمكنك الانتقال إلى تطبيق آخر أو إغلاق بصير، وسيكملها حتى النهاية.",
+                        "The task has started; you'll find it in Tasks. Basir reads the whole text, then edits it. You can switch apps or close Basir; it will be finished."))
     }
 
     func resumeIfNeeded(configuration: ServerConfiguration, l10n: L10n) {
-        guard task == nil, configuration.isConfigured, let pending = RestyleStore.pending() else { return }
-        run(pending, configuration: configuration, l10n: l10n)
+        ServerTaskCenter.shared.resumeAll(configuration: configuration, l10n: l10n)
+        if currentID == nil {
+            currentID = ServerTaskCenter.shared.tasks.last { $0.kind == .restyle && $0.isActive }?.id
+        }
+        reflect(ServerTaskCenter.shared.tasks)
+    }
+
+    /// The screen shows this task (opened from the Tasks tab).
+    func focus(_ id: String) {
+        currentID = id
+        reflect(ServerTaskCenter.shared.tasks)
     }
 
     func cancel(configuration: ServerConfiguration) {
-        task?.cancel()
-        task = nil
-        if let pending = RestyleStore.pending() {
-            if pending.jobID != nil {
-                Task { _ = try? await ProxyClient(configuration: configuration).cancelServerTask(requestID: pending.requestKey) }
-            }
-            JobWatcher.shared.stop(id: pending.notificationID)
-            RestyleStore.setPending(nil)
-        }
+        if let currentID { ServerTaskCenter.shared.cancel(currentID, configuration: configuration) }
         phase = .idle
     }
 
@@ -172,122 +185,38 @@ final class RestyleRunner: ObservableObject {
         phase = .idle
     }
 
-    private func run(_ pending: RestyleStore.Pending, configuration: ServerConfiguration, l10n: L10n) {
-        phase = .working(detail: l10n.t("جارٍ إرسال النص", "Sending the text"), done: 0, total: 0)
-        task = Task { [weak self] in
-            await self?.work(pending, configuration: configuration, l10n: l10n)
-            self?.task = nil
+    private func reflect(_ tasks: [ServerTask]) {
+        guard let currentID, let task = tasks.first(where: { $0.id == currentID }) else { return }
+        let next: Phase
+        switch task.state {
+        case .sending, .working: next = .working(detail: task.detail, done: task.done, total: task.total)
+        case .finished: next = .finished(task.id)
+        case .failed: next = .failed(task.error.map { Self.message(for: BasirError.conversionFailed($0), l10n: nil) } ?? "")
+        case .cancelled: next = .idle
         }
+        if next != phase { phase = next }
     }
 
-    private func work(_ start: RestyleStore.Pending, configuration: ServerConfiguration, l10n: L10n) async {
-        let background = UIApplication.shared.beginBackgroundTask(withName: "Basir style")
-        defer { UIApplication.shared.endBackgroundTask(background) }
-        var pending = start
-        let title = Self.title(pending.title, l10n: l10n)
-        do {
-            let client = ProxyClient(configuration: configuration)
-            if pending.jobID == nil {
-                pending.jobID = try await client.startRestyleJob(body: pending.body, requestID: pending.requestKey,
-                                                                 title: pending.title, language: l10n.isArabic ? "ar" : "en",
-                                                                 choice: "accurate")
-                RestyleStore.setPending(pending)
+    /// Saves a finished text: the Word file in My Files, the JSON for reading and comparing.
+    static func save(_ result: RestyleResult, word: Data?, id: String, title: String, l10n: L10n?) {
+        var savedName: String?
+        if let word, let folder = try? FileAccess.outputDirectory() {
+            let base = FileAccess.sanitizeFilename(result.title.isEmpty ? title : result.title)
+            let name = (base.isEmpty ? (l10n?.t("نص بصير", "Basir text") ?? "نص بصير") : base)
+                + (l10n?.t(" - بأسلوب طبيعي", " - natural style") ?? " - بأسلوب طبيعي")
+            var target = folder.appendingPathComponent(name + ".docx")
+            var counter = 2
+            while FileManager.default.fileExists(atPath: target.path) {
+                target = folder.appendingPathComponent("\(name) \(counter).docx")
+                counter += 1
             }
-            guard let jobID = pending.jobID else { throw BasirError.invalidResponse("") }
-            JobWatcher.shared.watch(id: pending.notificationID, serverJobID: jobID, work: .restyle, title: title,
-                                    arabic: l10n.isArabic)
-            if let clientJobID = UUID(uuidString: pending.notificationID) {
-                PushRegistrar.shared.serverJobCreated(clientJobID: clientJobID, serverJobID: jobID,
-                                                      configuration: configuration, language: l10n.isArabic ? "ar" : "en")
-            }
-            announce(l10n.t("وصل النص. يقرؤه بصير كاملًا ثم يحرره. يمكنك الانتقال إلى تطبيق آخر، وسيصلك إشعار عند الانتهاء.",
-                            "The text arrived. Basir reads all of it, then edits it. You can switch apps; you'll be notified when it's done."))
-            var lastAnnounced = -1
-            var misses = 0
-            while true {
-                try Task.checkCancellation()
-                let progress: SummaryJobProgress
-                do {
-                    progress = try await client.summaryJobProgress(jobID: jobID, requestID: pending.requestKey)
-                    misses = 0
-                } catch is CancellationError {
-                    throw CancellationError()
-                } catch {
-                    misses += 1
-                    if misses >= 60 { throw error }
-                    try await Task.sleep(nanoseconds: 5_000_000_000)
-                    continue
-                }
-                if progress.isFinished { break }
-                if progress.isFailed { throw BasirError.conversionFailed(progress.error ?? "") }
-                let percent = progress.total > 0 ? progress.current * 100 / progress.total : 0
-                phase = .working(detail: Self.stage(progress, percent: percent, l10n: l10n),
-                                 done: progress.current, total: progress.total)
-                if percent / 25 != lastAnnounced, progress.total > 2 {
-                    lastAnnounced = percent / 25
-                    announce(l10n.t("تحرير الأسلوب: \(percent) بالمئة", "Style editing: \(percent) percent"))
-                }
-                try await Task.sleep(nanoseconds: 4_000_000_000)
-            }
-            let result = try RestyleResult.decode(try await client.jobSummary(jobID: jobID, requestID: pending.requestKey))
-            let word = try? await client.jobResult(jobID: jobID, requestID: pending.requestKey)
-            let id = pending.requestKey
-            var savedName: String?
-            if let word, let folder = try? FileAccess.outputDirectory() {
-                let base = FileAccess.sanitizeFilename(result.title.isEmpty ? pending.title : result.title)
-                let name = (base.isEmpty ? l10n.t("نص بصير", "Basir text") : base) + l10n.t(" - بأسلوب طبيعي", " - natural style")
-                var target = folder.appendingPathComponent(name + ".docx")
-                var counter = 2
-                while FileManager.default.fileExists(atPath: target.path) {
-                    target = folder.appendingPathComponent("\(name) \(counter).docx")
-                    counter += 1
-                }
-                if (try? word.write(to: target, options: [.atomic, .completeFileProtectionUnlessOpen])) != nil {
-                    savedName = target.lastPathComponent
-                }
-            }
-            RestyleStore.save(result, entry: RestyleStore.Entry(id: id, title: result.title.isEmpty ? title : result.title,
-                                                                createdAt: Date(), words: result.report.before.words,
-                                                                wordFile: savedName))
-            RestyleStore.setPending(nil)
-            // The text is now on the phone; the server copy goes, as the privacy setting asks (on by default).
-            let deleteCopy = UserDefaults.standard.object(forKey: "privacy_delete_server_copy") as? Bool ?? true
-            if deleteCopy { try? await client.deleteServerTask(requestID: pending.requestKey) }
-            JobWatcher.shared.stop(id: pending.notificationID)
-            phase = .finished(id)
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
-            announce(l10n.t("النص بأسلوب طبيعي جاهز.", "The text in a natural voice is ready."))
-            if UIApplication.shared.applicationState != .active {
-                JobNotifier.show(JobNotifier.finished(task: .restyle, title: title, partial: result.isPartial,
-                                                      arabic: l10n.isArabic), id: pending.notificationID)
-            } else {
-                JobNotifier.remove(pending.notificationID)
-            }
-        } catch is CancellationError {
-            if case .working = phase { phase = .idle }
-        } catch {
-            let message = Self.message(for: error, l10n: l10n)
-            if case BasirError.conversionFailed = error { RestyleStore.setPending(nil) }
-            phase = .failed(message)
-            announce(message)
-            JobWatcher.shared.stop(id: pending.notificationID)
-            if UIApplication.shared.applicationState != .active {
-                JobNotifier.show(JobNotifier.failed(title: title, reason: message, arabic: l10n.isArabic),
-                                 id: pending.notificationID)
+            if (try? word.write(to: target, options: [.atomic, .completeFileProtectionUnlessOpen])) != nil {
+                savedName = target.lastPathComponent
             }
         }
-    }
-
-    /// Reading the whole text, then drafting every part, then the second editor's review.
-    static func stage(_ progress: SummaryJobProgress, percent: Int, l10n: L10n) -> String {
-        let parts = max(1, (progress.total - 1) / 2)
-        if progress.current <= 0 || progress.total <= 1 {
-            return l10n.t("يقرأ بصير النص كاملًا", "Basir is reading the whole text")
-        }
-        if progress.current <= parts {
-            return l10n.t("التحرير: \(percent)٪ (يكتب المسودة)", "Editing: \(percent)% (drafting)")
-        }
-        return l10n.t("التحرير: \(percent)٪ (يراجع المسودة على الأصل)", "Editing: \(percent)% (reviewing against the original)")
+        RestyleStore.save(result, entry: RestyleStore.Entry(id: id, title: result.title.isEmpty ? title : result.title,
+                                                            createdAt: Date(), words: result.report.before.words,
+                                                            wordFile: savedName))
     }
 
     static func title(_ name: String, l10n: L10n) -> String {
@@ -295,19 +224,30 @@ final class RestyleRunner: ObservableObject {
         return name.isEmpty ? l10n.t("أسلوب طبيعي", "Natural style") : l10n.t("أسلوب طبيعي: \(name)", "Natural style: \(name)")
     }
 
-    static func message(for error: Error, l10n: L10n) -> String {
+    static func stage(_ progress: SummaryJobProgress, percent: Int, l10n: L10n) -> String {
+        ServerTaskCenter.shared.stage(kind: .restyle, done: progress.current, total: progress.total)
+    }
+
+    static func message(for error: Error, l10n: L10n?) -> String {
+        let t = { (ar: String, en: String) in l10n?.t(ar, en) ?? ar }
         if let error = error as? BasirError, case .conversionFailed(let reason) = error, !reason.isEmpty {
             if reason.contains("busy") {
-                return l10n.t("الخدمة مشغولة الآن. حاول بعد دقائق.", "The service is busy. Try again in a few minutes.")
+                return t("الخدمة مشغولة الآن. حاول بعد دقائق.", "The service is busy. Try again in a few minutes.")
             }
             if reason.contains("no text") {
-                return l10n.t("لم يجد بصير نصًا في هذا الملف.", "Basir found no text in this file.")
+                return t("لم يجد بصير نصًا في هذا الملف.", "Basir found no text in this file.")
             }
             if reason.contains("could not be opened") {
-                return l10n.t("تعذّر فتح الملف. أرسل ملف Word أو ملفًا نصيًا.", "The file could not be opened. Send a Word or text file.")
+                return t("تعذّر فتح الملف. أرسل ملف Word أو ملفًا نصيًا.", "The file could not be opened. Send a Word or text file.")
             }
+            if reason.contains("several attempts") {
+                return t("تعذّر إكمال المهمة بعد عدة محاولات. أعد المحاولة من «المهام».",
+                         "The task could not be completed after several attempts. Try again from Tasks.")
+            }
+            return reason
         }
-        return DocumentAssistant.message(for: error, l10n: l10n)
+        if let l10n { return DocumentAssistant.message(for: error, l10n: l10n) }
+        return t("تعذّر إكمال المهمة.", "The task could not be completed.")
     }
 
     private func announce(_ text: String) {

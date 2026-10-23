@@ -117,7 +117,7 @@ enum JobNotifier {
                 : task == .video
                 ? (arabic ? "وصف الفيديو جاهز. افتح بصير لسماعه." : "The video description is ready. Open Basir to hear it.")
                 : task == .restyle
-                ? (arabic ? "النص بأسلوب طبيعي جاهز. افتح بصير لقراءته." : "The text in a natural voice is ready. Open Basir to read it.")
+                ? (arabic ? "النص بأسلوب بشري جاهز. افتح بصير لقراءته." : "The text in a human style is ready. Open Basir to read it.")
                 : (arabic ? "ملف Word جاهز. افتح بصير ليحفظه على جهازك." : "The Word file is ready. Open Basir to save it to your iPhone."),
             phase: .ready)
     }
@@ -130,7 +130,7 @@ enum JobNotifier {
         case (.video, _):
             body = arabic ? "وصف الفيديو جاهز للسماع." : "The video description is ready to hear."
         case (.restyle, false):
-            body = arabic ? "النص بأسلوب طبيعي جاهز، وملف Word في «ملفاتي»." : "The text in a natural voice is ready; the Word file is in My Files."
+            body = arabic ? "النص بأسلوب بشري جاهز، وملف Word في «ملفاتي»." : "The text in a human style is ready; the Word file is in My Files."
         case (.restyle, true):
             body = arabic ? "النص جاهز، وبقيت أجزاء منه على حالها. افتح بصير لمراجعتها." : "The text is ready; some parts were kept as they were. Open Basir to review them."
         case (.conversion, false):

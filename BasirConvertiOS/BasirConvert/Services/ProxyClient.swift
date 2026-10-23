@@ -929,6 +929,21 @@ extension ProxyClient {
                                operation: "restyle", mode: "restyle", filename: "restyle.json")
     }
 
+    /// The human-style calls answered at once (POST /api/restyle/analyze,
+    /// /sample and /document): JSON in, JSON or a Word file out.
+    func restyleCall(_ path: String, body: Data) async throws -> Data {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/restyle/\(path)"))
+        request.httpMethod = "POST"
+        request.timeoutInterval = 180
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+        applyServerHeaders(to: &request, requestID: UUID().uuidString)
+        let (data, response) = try await retryingData(request: request)
+        try Self.validateHTTP(response, data: data)
+        return data
+    }
+
     /// The Word file a finished job produced.
     func jobResult(jobID: String, requestID: String) async throws -> Data {
         let base = try secureBaseURL()

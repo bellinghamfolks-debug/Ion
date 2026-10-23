@@ -405,9 +405,9 @@ final class ServerTaskCenter: ObservableObject {
         switch kind {
         case .restyle:
             let parts = max(1, (total - 1) / 2)
-            if done <= 0 || total <= 1 { return text("يقرأ بصير النص كاملًا", "Basir is reading the whole text") }
-            if done <= parts { return text("التحرير: \(percent)٪ (يكتب المسودة)", "Editing: \(percent)% (drafting)") }
-            return text("التحرير: \(percent)٪ (يراجع المسودة على الأصل)", "Editing: \(percent)% (reviewing against the original)")
+            if done <= 0 || total <= 1 { return text("يقرأ بصير النص كاملًا ويقيسه", "Basir is reading and measuring the whole text") }
+            if done <= parts { return text("التحرير: \(percent)٪ (يكتب صياغات ويختار بينها ويتحقق من المعنى)", "Editing: \(percent)% (writing versions, choosing, checking the meaning)") }
+            return text("التحرير: \(percent)٪ (يقيس النتيجة)", "Editing: \(percent)% (measuring the result)")
         case .summary:
             if total > 1 && done < total - 1 {
                 return text("جارٍ قراءة المستند، الجزء \(done) من \(total - 1)", "Reading the document, part \(done) of \(total - 1)")

@@ -3,7 +3,7 @@ import Foundation
 import CryptoKit
 import UIKit
 
-/// What the app asks the server to bring back to a natural voice.
+/// What the app asks the server to turn into a person's prose.
 struct RestyleRequestBody: Encodable, Equatable {
     var title: String
     var language = "auto"
@@ -13,15 +13,29 @@ struct RestyleRequestBody: Encodable, Equatable {
     var documentName = ""
     /// The author's own writing, from before any machine editing.
     var styleSample = ""
+    /// "author" (pages the author wrote) or "internal" (passages of this text the author confirmed).
+    var sampleSource = "author"
+    /// The author's own draft of this text, from before the machine edited it.
+    var authorDraft = ""
+    var authorDraftBase64 = ""
+    var authorDraftName = ""
+    /// "humanize" (machine-made prose into a person's) or "restore" (the author's own text back to their voice).
+    var mode = "humanize"
+    /// The kind of text, for the human reference it is measured against.
+    var domain = "auto"
     /// "light" or "full".
     var strength = "full"
     var notes = ""
 
     enum CodingKeys: String, CodingKey {
-        case title, language, text, strength, notes
+        case title, language, text, strength, notes, mode, domain
         case documentBase64 = "document_base64"
         case documentName = "document_name"
         case styleSample = "style_sample"
+        case sampleSource = "sample_source"
+        case authorDraft = "author_draft"
+        case authorDraftBase64 = "author_draft_base64"
+        case authorDraftName = "author_draft_name"
     }
 
     func encoded() throws -> Data {
@@ -86,8 +100,36 @@ enum RestyleStore {
     }
 
     static func delete(_ entry: Entry) {
-        if let url = directory?.appendingPathComponent("\(entry.id).json") { try? FileManager.default.removeItem(at: url) }
+        for suffix in [".json", ".choices.json"] {
+            if let url = directory?.appendingPathComponent("\(entry.id)\(suffix)") { try? FileManager.default.removeItem(at: url) }
+        }
         write(entries().filter { $0.id != entry.id })
+    }
+
+    /// The author's choices on one text, kept on the phone only: the
+    /// paragraphs refused, and the blind comparison.
+    struct Choices: Codable, Equatable {
+        var refused: Set<String> = []
+        var blind: BlindTest?
+    }
+
+    static func choices(for id: String) -> Choices {
+        guard let url = directory?.appendingPathComponent("\(id).choices.json"), let data = try? Data(contentsOf: url),
+              let value = try? JSONDecoder().decode(Choices.self, from: data) else { return Choices() }
+        return value
+    }
+
+    static func setChoices(_ value: Choices, for id: String) {
+        guard let url = directory?.appendingPathComponent("\(id).choices.json"),
+              let data = try? JSONEncoder().encode(value) else { return }
+        try? data.write(to: url, options: [.atomic, .completeFileProtectionUnlessOpen])
+    }
+
+    static func setWordFile(_ name: String, for id: String) {
+        var all = entries()
+        guard let index = all.firstIndex(where: { $0.id == id }) else { return }
+        all[index].wordFile = name
+        write(all)
     }
 
     private static func write(_ entries: [Entry]) {
@@ -119,7 +161,7 @@ enum RestyleStore {
     }
 }
 
-/// The natural-style screen's view of its task. The work itself is done by
+/// The human-style screen's view of its task. The work itself is done by
 /// ServerTaskCenter, which keeps the task on disk and in the Tasks tab and
 /// follows it to the end whatever happens to the screen or to Basir.
 @MainActor
@@ -203,7 +245,7 @@ final class RestyleRunner: ObservableObject {
         if let word, let folder = try? FileAccess.outputDirectory() {
             let base = FileAccess.sanitizeFilename(result.title.isEmpty ? title : result.title)
             let name = (base.isEmpty ? (l10n?.t("نص بصير", "Basir text") ?? "نص بصير") : base)
-                + (l10n?.t(" - بأسلوب طبيعي", " - natural style") ?? " - بأسلوب طبيعي")
+                + (l10n?.t(" - بأسلوب بشري", " - human style") ?? " - بأسلوب بشري")
             var target = folder.appendingPathComponent(name + ".docx")
             var counter = 2
             while FileManager.default.fileExists(atPath: target.path) {
@@ -221,7 +263,7 @@ final class RestyleRunner: ObservableObject {
 
     static func title(_ name: String, l10n: L10n) -> String {
         let name = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        return name.isEmpty ? l10n.t("أسلوب طبيعي", "Natural style") : l10n.t("أسلوب طبيعي: \(name)", "Natural style: \(name)")
+        return name.isEmpty ? l10n.t("أسلوب بشري", "Human style") : l10n.t("أسلوب بشري: \(name)", "Human style: \(name)")
     }
 
     static func stage(_ progress: SummaryJobProgress, percent: Int, l10n: L10n) -> String {

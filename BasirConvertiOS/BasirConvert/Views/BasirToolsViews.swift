@@ -25,8 +25,8 @@ struct BasirToolsSection: View {
                 SourceTile(title: l10n.t("وصف الفيديو · جديد", "Video description · New"),
                            detail: l10n.t("فيديو من الألبوم أو رابط YouTube حتى ساعة، يصفه بصير مشهدًا مشهدًا", "A video from your album or a YouTube link, up to an hour, described scene by scene"),
                            systemImage: "play.rectangle.on.rectangle.fill") { tool = .video }
-                SourceTile(title: l10n.t("أسلوب طبيعي · جديد", "Natural style · New"),
-                           detail: l10n.t("أعد لنصك أسلوبه الإنساني بعد التدقيق الآلي، ولو كان رواية كاملة", "Bring your text back to a human voice after a machine edit, even a whole novel"),
+                SourceTile(title: l10n.t("أسلوب بشري · جديد", "Human style · New"),
+                           detail: l10n.t("حوّل نصًا كتبه الذكاء الاصطناعي أو حرّره إلى نص بأسلوب إنسان، ولو كان رواية كاملة", "Turn a text an AI wrote or edited into a person's prose, even a whole novel"),
                            systemImage: "text.word.spacing") { tool = .restyle }
                 SourceTile(title: l10n.t("قارئ العملات", "Currency reader"),
                            detail: l10n.t("وجّه الكاميرا نحو الورقة النقدية لسماع قيمتها.", "Point your camera at a banknote to hear its value."),

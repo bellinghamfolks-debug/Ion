@@ -220,12 +220,9 @@ final class RestyleRunner: ObservableObject {
                 }
                 if progress.isFinished { break }
                 if progress.isFailed { throw BasirError.conversionFailed(progress.error ?? "") }
-                let detail = progress.current <= 0 || progress.total <= 1
-                    ? l10n.t("جارٍ قراءة النص كاملًا", "Reading the whole text")
-                    : l10n.t("جارٍ التحرير، الجزء \(progress.current) من \(progress.total - 1)",
-                             "Editing, part \(progress.current) of \(progress.total - 1)")
-                phase = .working(detail: detail, done: progress.current, total: progress.total)
                 let percent = progress.total > 0 ? progress.current * 100 / progress.total : 0
+                phase = .working(detail: Self.stage(progress, percent: percent, l10n: l10n),
+                                 done: progress.current, total: progress.total)
                 if percent / 25 != lastAnnounced, progress.total > 2 {
                     lastAnnounced = percent / 25
                     announce(l10n.t("تحرير الأسلوب: \(percent) بالمئة", "Style editing: \(percent) percent"))
@@ -279,6 +276,18 @@ final class RestyleRunner: ObservableObject {
                                  id: pending.notificationID)
             }
         }
+    }
+
+    /// Reading the whole text, then drafting every part, then the second editor's review.
+    static func stage(_ progress: SummaryJobProgress, percent: Int, l10n: L10n) -> String {
+        let parts = max(1, (progress.total - 1) / 2)
+        if progress.current <= 0 || progress.total <= 1 {
+            return l10n.t("يقرأ بصير النص كاملًا", "Basir is reading the whole text")
+        }
+        if progress.current <= parts {
+            return l10n.t("التحرير: \(percent)٪ (يكتب المسودة)", "Editing: \(percent)% (drafting)")
+        }
+        return l10n.t("التحرير: \(percent)٪ (يراجع المسودة على الأصل)", "Editing: \(percent)% (reviewing against the original)")
     }
 
     static func title(_ name: String, l10n: L10n) -> String {

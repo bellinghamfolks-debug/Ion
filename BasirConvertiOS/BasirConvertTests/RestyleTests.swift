@@ -42,6 +42,17 @@ final class RestyleTests: XCTestCase {
         XCTAssertNotNil(UUID(uuidString: RestyleRequestBody.notificationID(data)))
     }
 
+    @MainActor
+    func testProgressNamesTheStage() {
+        let l10n = L10n()
+        let reading = RestyleRunner.stage(SummaryJobProgress(status: "processing", current: 0, total: 9, error: nil),
+                                          percent: 0, l10n: l10n)
+        XCTAssertTrue(reading.contains("كاملًا") || reading.contains("whole"))
+        let review = RestyleRunner.stage(SummaryJobProgress(status: "processing", current: 7, total: 9, error: nil),
+                                         percent: 77, l10n: l10n)
+        XCTAssertTrue(review.contains("77"))
+    }
+
     func testWordsAreCountedForTheScreen() {
         XCTAssertEqual(RestyleView.words(in: "وقف سالم\nعند   الباب"), 4)
     }

@@ -84,8 +84,8 @@ struct RestyleView: View {
 
     private var form: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.l) {
-            Text(l10n.t("لنص كتبه إنسان ثم صار أسلوبه آليًا بعد التدقيق بالذكاء الاصطناعي، كرواية أو مقال. يقرأ بصير النص كاملًا أولًا ليعرف شخصياته وأسماءه وصوت كاتبه، ثم يعيد صياغته جزءًا جزءًا بأسلوب إنساني طبيعي: يزيل العبارات المستهلكة والإيقاع الرتيب، ويضبط علامات الترقيم مثل الإفراط في «؛» و«—»، دون أن يغير حدثًا أو اسمًا أو رقمًا.",
-                        "For a text a person wrote that came to sound machine-made after an AI proofread, such as a novel or an article. Basir reads the whole text first to learn its characters, names and the author's voice, then rewrites it part by part in a natural human voice: it removes stock phrases and the even rhythm and fixes punctuation such as overused semicolons and long dashes, without changing any event, name or number."))
+            Text(l10n.t("لنص كتبه إنسان ثم صار أسلوبه آليًا بعد التدقيق بالذكاء الاصطناعي، كرواية أو مقال. يقرأ بصير النص كاملًا أولًا ليعرف شخصياته وأسماءه وصوت كاتبه، ثم يعيد صياغته جزءًا جزءًا بأسلوب إنساني طبيعي، ثم يراجع محرر ثانٍ كل جزء على الأصل: يزيل العبارات المستهلكة والإيقاع الرتيب، ويضبط علامات الترقيم مثل الإفراط في «؛» و«—»، دون أن يغير حدثًا أو اسمًا أو رقمًا.",
+                        "For a text a person wrote that came to sound machine-made after an AI proofread, such as a novel or an article. Basir reads the whole text first to learn its characters, names and the author's voice, then rewrites it part by part in a natural human voice, and a second editor checks every part against the original: it removes stock phrases and the even rhythm and fixes punctuation such as overused semicolons and long dashes, without changing any event, name or number."))
                 .fixedSize(horizontal: false, vertical: true)
 
             VStack(alignment: .leading, spacing: BasirSpacing.s) {

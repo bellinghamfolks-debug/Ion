@@ -179,8 +179,8 @@ struct RestyleView: View {
                 }
                 .pickerStyle(.segmented)
                 Text(strength == "deep"
-                     ? l10n.t("لكتاب أو مجموعة قطع: يقيس بصير بنية القطع كلها معًا، لأن القارئ الخبير يكتشف القالب المكرر في كل قطعة قبل أي جملة. ثم يعطي كل قطعة عمليات مختلفة، وله أن يؤلف ويضيف: مشهد بدل التأمل، أو رأي حاسم بدل التحفظات، أو نهاية جديدة، أو افتتاح من وسط الحدث، أو زاوية سرد أخرى، أو طريقة كلام خاصة بالشخصية، أو تفاصيل جديدة، أو قطعة أقصر أو أطول، ويترك بعضها كما هو. كل ذلك داخل عالم كتابك وبأسمائه وأحداثه، ثم يكمل بالتحرير الكامل. راجع ما أُضيف قبل النشر.",
-                              "For a book or a collection: Basir measures how all the pieces are built together, because an expert reader spots the template repeated in every piece before any sentence. Each piece then gets its own operations, and Basir may write and add: a scene instead of a reflection, a firm opinion instead of caveats, a new ending, an opening in the middle of things, another point of view, a character's own way of speaking, new details, a shorter or a longer piece; some are left as they are. All inside your book's world, with its names and events, then the full edit follows. Review what was added before publishing.")
+                     ? l10n.t("لكتاب أو مجموعة قطع: يقيس بصير بنية القطع كلها معًا، لأن القارئ الخبير يكتشف القالب المكرر في كل قطعة قبل أي جملة. ثم يعطي كل قطعة عمليات مختلفة: حذف التأمل العام، أو قصّ التحفظات، أو إنهاء مختلف، أو افتتاح بالحوار، أو حذف تدخل الراوي، ويترك بعضها كما هو. كل ذلك بالحذف والنقل فقط من كلامك، بلا حدث أو حوار جديد. ثم يكمل بالتحرير الكامل.",
+                              "For a book or a collection: Basir measures how all the pieces are built together, because an expert reader spots the template repeated in every piece before any sentence. Each piece then gets its own operations: its general reflection removed, its caveats trimmed, a different ending, an opening in the dialogue, the narrator's aside removed, and some are left as they are. All of it by cutting and moving your own words, no new event or line. Then the full edit follows.")
                      : strength == "full"
                      ? l10n.t("ما يُقاس آليًا يُكتب من جديد بأسلوب إنسان، والمعنى والوقائع كما هي.",
                               "What measures as machine-made is written again as a person would write it; meaning and facts stay.")
@@ -596,12 +596,6 @@ struct RestyleResultView: View {
                 Text(l10n.t("بنية الكتاب (\(book.pieces) قطعة): أُعيد تشكيل \(book.piecesReshaped)، ورُفض \(book.piecesRejected) لأنه لم يجتز الفحص.",
                             "The book's structure (\(book.pieces) pieces): \(book.piecesReshaped) reshaped, \(book.piecesRejected) refused by the checks."))
                     .font(.body.weight(.semibold))
-                if book.creative ?? false {
-                    Text(l10n.t("بإذنك، أضاف المحرر في هذه القطع محتوى جديدًا: مشاهد وحوارًا وتفاصيل ونهايات وزوايا سرد. راجعه قبل النشر.",
-                                "At your request the editor added new material to these pieces: scenes, dialogue, details, endings, points of view. Review it before publishing."))
-                        .font(.footnote)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
                 Text(l10n.t("أكثر طريقة إنهاء تكرارًا: \(share(book.endingsBefore))% \(arrow) \(share(book.endingsAfter))% من القطع · أكثر قالب تكرارًا: \(Int((book.topTemplateShareBefore * 100).rounded()))% \(arrow) \(Int((book.topTemplateShareAfter * 100).rounded()))%",
                             "Commonest ending: \(share(book.endingsBefore))% \(arrow) \(share(book.endingsAfter))% of the pieces · commonest template: \(Int((book.topTemplateShareBefore * 100).rounded()))% \(arrow) \(Int((book.topTemplateShareAfter * 100).rounded()))%"))
                 Text(l10n.t("قطع فيها تأمل عام: \(Int((book.reflectionShareBefore * 100).rounded()))% \(arrow) \(Int((book.reflectionShareAfter * 100).rounded()))% · أدوات التحفظ لكل ألف كلمة: \(Self.number(book.hedgesPer1000Before, digits: 1)) \(arrow) \(Self.number(book.hedgesPer1000After, digits: 1)) (في النثر الأدبي البشري نحو \(Self.number(book.hedgesPer1000Human, digits: 1)))",

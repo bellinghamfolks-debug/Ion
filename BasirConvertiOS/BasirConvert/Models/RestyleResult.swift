@@ -112,8 +112,6 @@ struct RestyleResult: Codable, Equatable, Sendable {
         var operations: [String: Int] = [:]
         var piecesReshaped = 0
         var piecesRejected = 0
-        /// The deep strength may invent, at the author's request.
-        var creative: Bool?
     }
 
     struct Report: Codable, Equatable, Sendable {

@@ -917,21 +917,48 @@ extension ProxyClient {
     /// the same job, so asking again after a restart picks the job back up.
     func startSummaryJob(body: Data, requestID: String, title: String, language: String,
                          choice: String) async throws -> String {
+        try await startJSONJob(body: body, requestID: requestID, title: title, language: language, choice: choice,
+                               operation: "summarize", mode: "summary", filename: "summary.json")
+    }
+
+    /// A natural-style job (the text rewritten in a natural human voice):
+    /// the request is uploaded as JSON, like a long summary.
+    func startRestyleJob(body: Data, requestID: String, title: String, language: String,
+                         choice: String) async throws -> String {
+        try await startJSONJob(body: body, requestID: requestID, title: title, language: language, choice: choice,
+                               operation: "restyle", mode: "restyle", filename: "restyle.json")
+    }
+
+    /// The Word file a finished job produced.
+    func jobResult(jobID: String, requestID: String) async throws -> Data {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/jobs/\(jobID)/result"))
+        request.httpMethod = "GET"
+        request.timeoutInterval = 120
+        applyServerHeaders(to: &request, requestID: requestID)
+        let (data, response) = try await retryingData(request: request)
+        try Self.validateHTTP(response, data: data)
+        return data
+    }
+
+    /// A job whose source is a JSON request built by the app.
+    private func startJSONJob(body: Data, requestID: String, title: String, language: String, choice: String,
+                              operation: String, mode: String, filename: String) async throws -> String {
         let base = try secureBaseURL()
         let directory = FileManager.default.temporaryDirectory
-            .appendingPathComponent("basir-summary-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("basir-\(mode)-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
-        let source = directory.appendingPathComponent("summary.json")
+        let source = directory.appendingPathComponent(filename)
         try body.write(to: source, options: .atomic)
         let checksum = try DocumentInspector.sha256(source)
         let creation = JobCreationRequest(
-            filename: "summary.json",
+            filename: filename,
             contentType: "application/json",
             contentLength: Int64(body.count),
             sourceSHA256: checksum,
-            operation: "summarize",
-            mode: "summary",
+            operation: operation,
+            mode: mode,
             targetLanguage: "",
             interfaceLanguage: language == "en" ? "en" : "ar",
             pageSelection: "",

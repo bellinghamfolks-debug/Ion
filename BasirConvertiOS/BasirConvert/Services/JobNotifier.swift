@@ -35,6 +35,7 @@ enum JobNotifier {
         case conversion
         case summary
         case video
+        case restyle
     }
 
     struct Message: Equatable, Sendable {
@@ -70,6 +71,7 @@ enum JobNotifier {
         switch task {
         case .summary: what = arabic ? "جارٍ إعداد الملخص" : "Preparing the summary"
         case .video: what = arabic ? "جارٍ وصف الفيديو" : "Describing the video"
+        case .restyle: what = arabic ? "جارٍ تحرير الأسلوب" : "Editing the style"
         case .conversion: what = arabic ? "جارٍ معالجة الملف" : "Processing the file"
         }
         let progress = percent > 0 ? (arabic ? " (\(percent)٪)" : " (\(percent)%)") : ""
@@ -87,6 +89,7 @@ enum JobNotifier {
         switch task {
         case .summary: what = arabic ? "الملخص" : "Summary"
         case .video: what = arabic ? "وصف الفيديو" : "Video description"
+        case .restyle: what = arabic ? "تحرير الأسلوب" : "Style editing"
         case .conversion: what = arabic ? "التحويل" : "Conversion"
         }
         return Message(
@@ -113,6 +116,8 @@ enum JobNotifier {
                 ? (arabic ? "الملخص جاهز. افتح بصير لقراءته." : "The summary is ready. Open Basir to read it.")
                 : task == .video
                 ? (arabic ? "وصف الفيديو جاهز. افتح بصير لسماعه." : "The video description is ready. Open Basir to hear it.")
+                : task == .restyle
+                ? (arabic ? "النص بأسلوب طبيعي جاهز. افتح بصير لقراءته." : "The text in a natural voice is ready. Open Basir to read it.")
                 : (arabic ? "ملف Word جاهز. افتح بصير ليحفظه على جهازك." : "The Word file is ready. Open Basir to save it to your iPhone."),
             phase: .ready)
     }
@@ -124,6 +129,10 @@ enum JobNotifier {
             body = arabic ? "الملخص جاهز للقراءة." : "The summary is ready to read."
         case (.video, _):
             body = arabic ? "وصف الفيديو جاهز للسماع." : "The video description is ready to hear."
+        case (.restyle, false):
+            body = arabic ? "النص بأسلوب طبيعي جاهز، وملف Word في «ملفاتي»." : "The text in a natural voice is ready; the Word file is in My Files."
+        case (.restyle, true):
+            body = arabic ? "النص جاهز، وبقيت أجزاء منه على حالها. افتح بصير لمراجعتها." : "The text is ready; some parts were kept as they were. Open Basir to review them."
         case (.conversion, false):
             body = arabic ? "اكتمل التحويل. ستجد ملف Word في «ملفاتي»." : "Done. The Word file is saved in My Files."
         case (.conversion, true):

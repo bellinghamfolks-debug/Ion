@@ -2,11 +2,11 @@ import SwiftUI
 import UIKit
 import UniformTypeIdentifiers
 
-/// The tools on the New tab beside conversion: video description, the
-/// currency reader, images to one PDF, instant offline read, asking about a
+/// The tools on the New tab beside conversion: video description, natural
+/// style, the currency reader, images to one PDF, instant offline read, asking about a
 /// picture, and comparing two versions.
 enum BasirTool: String, Identifiable {
-    case video, currency, imagesToPDF, instantRead, imageQuestion, compare
+    case video, restyle, currency, imagesToPDF, instantRead, imageQuestion, compare
     var id: String { rawValue }
 }
 
@@ -25,6 +25,9 @@ struct BasirToolsSection: View {
                 SourceTile(title: l10n.t("وصف الفيديو · جديد", "Video description · New"),
                            detail: l10n.t("فيديو من الألبوم أو رابط YouTube حتى ساعة، يصفه بصير مشهدًا مشهدًا", "A video from your album or a YouTube link, up to an hour, described scene by scene"),
                            systemImage: "play.rectangle.on.rectangle.fill") { tool = .video }
+                SourceTile(title: l10n.t("أسلوب طبيعي · جديد", "Natural style · New"),
+                           detail: l10n.t("أعد لنصك أسلوبه الإنساني بعد التدقيق الآلي، ولو كان رواية كاملة", "Bring your text back to a human voice after a machine edit, even a whole novel"),
+                           systemImage: "text.word.spacing") { tool = .restyle }
                 SourceTile(title: l10n.t("قارئ العملات", "Currency reader"),
                            detail: l10n.t("وجّه الكاميرا نحو الورقة النقدية لسماع قيمتها.", "Point your camera at a banknote to hear its value."),
                            systemImage: "banknote.fill") { tool = .currency }
@@ -45,6 +48,7 @@ struct BasirToolsSection: View {
         .fullScreenCover(item: $tool) { tool in
             switch tool {
             case .video: VideoDescribeView()
+            case .restyle: RestyleView()
             case .currency: CurrencyReaderView()
             case .imagesToPDF: ImagesToPDFView()
             case .instantRead: InstantReadView()

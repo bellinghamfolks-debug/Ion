@@ -112,4 +112,29 @@ final class RestyleTests: XCTestCase {
         XCTAssertEqual(share.value, 1)
         XCTAssertLessThan(share.low, 1, "a handful of answers is never certainty")
     }
+
+    func testTheBookStructureDecodesAndACutParagraphIsHidden() throws {
+        let json = #"""
+        {"title":"t","language":"ar","strength":"deep","profile":{"language":"ar","genre":"","narration":"","voice":"","dialogue":"","names":[],"ai_marks":[],"keep":[]},
+         "blocks":[{"id":"P1","kind":"heading","level":1,"text":"الخاطرة 1","original":""},
+                   {"id":"P2","kind":"paragraph","level":0,"text":"جلس الرجل في القاعة ينتظر دوره وفي يده ملف أزرق ثقيل، ثم عاد ينظر إلى الساعة.","original":"جلس الرجل في القاعة ينتظر دوره. وفي يده ملف أزرق ثقيل. ثم عاد ينظر إلى الساعة."},
+                   {"id":"P3","kind":"paragraph","level":0,"text":"","original":"نحسب الصمت أحيانًا عتابًا ونبني عليه حكاية كاملة قبل أن نسأل."}],
+         "report":{"paragraphs_total":2,"paragraphs_changed":2,"parts_total":1,"parts_kept_original":[],
+                   "before":{"words":40,"semicolons":0,"dashes":0,"colons":0,"exclamations":0,"stock_phrases":0,"semicolons_per_1000":0,"dashes_per_1000":0,"average_sentence_words":9,"sentence_length_spread":0.3},
+                   "after":{"words":30,"semicolons":0,"dashes":0,"colons":0,"exclamations":0,"stock_phrases":0,"semicolons_per_1000":0,"dashes_per_1000":0,"average_sentence_words":18,"sentence_length_spread":0.3},
+                   "names_checked":0,"notes":[],
+                   "structure":{"available":true,"pieces":6,"endings_before":{"object_gesture":6},"endings_after":{"object_gesture":2,"dialogue_line":2,"abrupt_cut":2},
+                                "top_template_share_before":1.0,"top_template_share_after":0.33,"reflection_share_before":1.0,"reflection_share_after":0.5,
+                                "aside_share_before":0,"aside_share_after":0,"hedges_per_1000_before":14.7,"hedges_per_1000_after":7.2,"hedges_per_1000_human":5.9,
+                                "operations":{"drop_reflection":3},"pieces_reshaped":4,"pieces_rejected":1}}}
+        """#
+        let result = try RestyleResult.decode(Data(json.utf8))
+        let book = try XCTUnwrap(result.report.structure)
+        XCTAssertEqual(book.pieces, 6)
+        XCTAssertEqual(book.endingsAfter.values.max(), 2)
+        XCTAssertEqual(book.hedgesPer1000Human, 5.9)
+        XCTAssertFalse(result.plainText.contains("نحسب الصمت"), "a cut paragraph is not in the text")
+        XCTAssertFalse(result.readerBlocks().contains { $0.text.isEmpty })
+        XCTAssertEqual(result.applying(refused: ["P3"]).blocks[2].text, "نحسب الصمت أحيانًا عتابًا ونبني عليه حكاية كاملة قبل أن نسأل.")
+    }
 }

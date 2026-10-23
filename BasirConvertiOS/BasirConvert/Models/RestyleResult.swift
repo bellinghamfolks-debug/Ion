@@ -94,6 +94,26 @@ struct RestyleResult: Codable, Equatable, Sendable {
         var deltaAuthor: Double = 0
     }
 
+    /// The book as a whole (deep strength): how alike its pieces are built, before and after.
+    struct Structure: Codable, Equatable, Sendable {
+        var available = false
+        var pieces = 0
+        var endingsBefore: [String: Int] = [:]
+        var endingsAfter: [String: Int] = [:]
+        var topTemplateShareBefore: Double = 0
+        var topTemplateShareAfter: Double = 0
+        var reflectionShareBefore: Double = 0
+        var reflectionShareAfter: Double = 0
+        var asideShareBefore: Double = 0
+        var asideShareAfter: Double = 0
+        var hedgesPer1000Before: Double = 0
+        var hedgesPer1000After: Double = 0
+        var hedgesPer1000Human: Double = 0
+        var operations: [String: Int] = [:]
+        var piecesReshaped = 0
+        var piecesRejected = 0
+    }
+
     struct Report: Codable, Equatable, Sendable {
         var paragraphsTotal = 0
         var paragraphsChanged = 0
@@ -111,6 +131,7 @@ struct RestyleResult: Codable, Equatable, Sendable {
         var editCategories: [String: Int]?
         var distance: Distance?
         var machine: Machine?
+        var structure: Structure?
         var windows: [WindowScore]?
         var paragraphsKept: Int?
         var paragraphsRewritten: Int?
@@ -138,7 +159,8 @@ struct RestyleResult: Codable, Equatable, Sendable {
 
     /// The edited text as plain paragraphs, headings included, for copying.
     var plainText: String {
-        blocks.map { $0.kind == "break" ? "" : $0.text }.joined(separator: "\n")
+        blocks.filter { !($0.kind == "paragraph" && $0.text.isEmpty) }
+            .map { $0.kind == "break" ? "" : $0.text }.joined(separator: "\n")
     }
 
     var isPartial: Bool { !report.partsKeptOriginal.isEmpty }
@@ -161,7 +183,7 @@ struct RestyleResult: Codable, Equatable, Sendable {
     func readerBlocks() -> [ReaderBlock] {
         var items: [ReaderBlock] = []
         if !title.isEmpty { items.append(ReaderBlock(id: 0, kind: .heading(1), text: title)) }
-        for block in blocks where block.kind != "break" && !block.text.isEmpty {
+        for block in blocks where block.kind != "break" && !block.text.isEmpty {   // a cut paragraph is empty
             let kind: ReaderBlock.Kind = block.kind == "heading" ? .heading(min(6, max(2, block.level + 1))) : .paragraph
             items.append(ReaderBlock(id: items.count, kind: kind, text: block.text))
         }

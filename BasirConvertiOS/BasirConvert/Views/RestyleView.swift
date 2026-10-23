@@ -167,11 +167,15 @@ struct RestyleView: View {
             VStack(alignment: .leading, spacing: BasirSpacing.s) {
                 SectionHeading(title: l10n.t("مقدار التحرير", "How much to edit"))
                 Picker(l10n.t("مقدار التحرير", "How much to edit"), selection: $strength) {
+                    Text(l10n.t("عميق", "Deep")).tag("deep")
                     Text(l10n.t("كامل", "Full")).tag("full")
                     Text(l10n.t("خفيف", "Light")).tag("light")
                 }
                 .pickerStyle(.segmented)
-                Text(strength == "full"
+                Text(strength == "deep"
+                     ? l10n.t("لكتاب أو مجموعة قطع: يقيس بصير بنية القطع كلها معًا، لأن القارئ الخبير يكتشف القالب المكرر في كل قطعة قبل أي جملة. ثم يعطي كل قطعة عمليات مختلفة: حذف التأمل العام، أو قصّ التحفظات، أو إنهاء مختلف، أو افتتاح بالحوار، أو حذف تدخل الراوي، ويترك بعضها كما هو. كل ذلك بالحذف والنقل فقط من كلامك، بلا حدث أو حوار جديد. ثم يكمل بالتحرير الكامل.",
+                              "For a book or a collection: Basir measures how all the pieces are built together, because an expert reader spots the template repeated in every piece before any sentence. Each piece then gets its own operations: its general reflection removed, its caveats trimmed, a different ending, an opening in the dialogue, the narrator's aside removed, and some are left as they are. All of it by cutting and moving your own words, no new event or line. Then the full edit follows.")
+                     : strength == "full"
                      ? l10n.t("ما يُقاس آليًا يُكتب من جديد بأسلوب إنسان، والمعنى والوقائع كما هي.",
                               "What measures as machine-made is written again as a person would write it; meaning and facts stay.")
                      : l10n.t("يغيّر فقط الكلمات والجمل التي وُجدت فيها علامة آلية، ويبقي الباقي حرفيًا.",
@@ -573,6 +577,17 @@ struct RestyleResultView: View {
                                   isError: false)
                 }
             }
+            if let book = r.structure, book.available, book.pieces > 0 {
+                let share = { (counts: [String: Int]) in Int((100 * Double(counts.values.max() ?? 0) / Double(book.pieces)).rounded()) }
+                Text(l10n.t("بنية الكتاب (\(book.pieces) قطعة): أُعيد تشكيل \(book.piecesReshaped)، ورُفض \(book.piecesRejected) لأنه لم يجتز الفحص.",
+                            "The book's structure (\(book.pieces) pieces): \(book.piecesReshaped) reshaped, \(book.piecesRejected) refused by the checks."))
+                    .font(.body.weight(.semibold))
+                Text(l10n.t("أكثر طريقة إنهاء تكرارًا: \(share(book.endingsBefore))% \(arrow) \(share(book.endingsAfter))% من القطع · أكثر قالب تكرارًا: \(Int((book.topTemplateShareBefore * 100).rounded()))% \(arrow) \(Int((book.topTemplateShareAfter * 100).rounded()))%",
+                            "Commonest ending: \(share(book.endingsBefore))% \(arrow) \(share(book.endingsAfter))% of the pieces · commonest template: \(Int((book.topTemplateShareBefore * 100).rounded()))% \(arrow) \(Int((book.topTemplateShareAfter * 100).rounded()))%"))
+                Text(l10n.t("قطع فيها تأمل عام: \(Int((book.reflectionShareBefore * 100).rounded()))% \(arrow) \(Int((book.reflectionShareAfter * 100).rounded()))% · أدوات التحفظ لكل ألف كلمة: \(Self.number(book.hedgesPer1000Before, digits: 1)) \(arrow) \(Self.number(book.hedgesPer1000After, digits: 1)) (في النثر الأدبي البشري نحو \(Self.number(book.hedgesPer1000Human, digits: 1)))",
+                            "Pieces with general reflection: \(Int((book.reflectionShareBefore * 100).rounded()))% \(arrow) \(Int((book.reflectionShareAfter * 100).rounded()))% · hedges per 1,000 words: \(Self.number(book.hedgesPer1000Before, digits: 1)) \(arrow) \(Self.number(book.hedgesPer1000After, digits: 1)) (about \(Self.number(book.hedgesPer1000Human, digits: 1)) in human literary prose)"))
+                    .fixedSize(horizontal: false, vertical: true)
+            }
             if let checked = r.meaningChecked, checked > 0 {
                 Text(l10n.t("فحص المعنى بنموذج مستقل: \(checked) فقرة، أُعيدت منها \(r.meaningFailed ?? 0) إلى نصها الأصلي لأن واقعة فيها تغيّرت.",
                             "Meaning checked by a separate model: \(checked) paragraphs; \(r.meaningFailed ?? 0) went back to their original because a fact changed."))
@@ -670,7 +685,8 @@ struct RestyleResultView: View {
                             Text(l10n.t("قبل", "Before")).font(.caption.weight(.semibold)).foregroundStyle(BasirPalette.secondaryText)
                             Text(block.original).fixedSize(horizontal: false, vertical: true).textSelection(.enabled)
                             Text(l10n.t("بعد", "After")).font(.caption.weight(.semibold)).foregroundStyle(BasirPalette.secondaryText)
-                            Text(block.text).fixedSize(horizontal: false, vertical: true).textSelection(.enabled)
+                            Text(block.text.isEmpty ? l10n.t("(حُذفت هذه الفقرة عند إعادة تشكيل القطعة)", "(This paragraph was cut when the piece was reshaped)") : block.text)
+                                .fixedSize(horizontal: false, vertical: true).textSelection(.enabled)
                             if let edits = block.edits, !edits.isEmpty {
                                 Text(l10n.t("التعديلات", "Edits")).font(.caption.weight(.semibold)).foregroundStyle(BasirPalette.secondaryText)
                                 ForEach(edits, id: \.self) { edit in
@@ -689,7 +705,8 @@ struct RestyleResultView: View {
                         }
                         .padding(.top, BasirSpacing.s)
                     } label: {
-                        Text((choices.refused.contains(block.id) ? l10n.t("مرفوض: ", "Refused: ") : "") + block.text).lineLimit(2)
+                        Text((choices.refused.contains(block.id) ? l10n.t("مرفوض: ", "Refused: ") : "")
+                             + (block.text.isEmpty ? l10n.t("فقرة محذوفة: ", "Cut: ") + block.original : block.text)).lineLimit(2)
                     }
                     .padding(BasirSpacing.m)
                     .background(BasirPalette.surface, in: RoundedRectangle(cornerRadius: 14, style: .continuous))

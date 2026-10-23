@@ -27,6 +27,9 @@ struct RestyleView: View {
     @State private var fileError: String?
     @State private var entries: [RestyleStore.Entry] = []
     @State private var open: RestyleStore.Entry?
+    // A plain flag for the pushed result screen: a binding computed from `open` was re-read whenever this screen
+    // re-rendered under a presentation, and could pop the result screen.
+    @State private var showingResult = false
     @State private var analysis: RestyleAnalysis?
     @State private var analyzing = false
     @State private var suggestions: RestyleSampleAnswer?
@@ -72,7 +75,7 @@ struct RestyleView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button(l10n.t("إغلاق", "Close")) { dismiss() } }
             }
-            .navigationDestination(isPresented: Binding(get: { open != nil }, set: { if !$0 { open = nil } })) {
+            .navigationDestination(isPresented: $showingResult) {
                 if let open { RestyleResultView(entry: open) }
             }
             .sheet(isPresented: Binding(get: { suggestions != nil }, set: { if !$0 { suggestions = nil } })) {
@@ -95,7 +98,10 @@ struct RestyleView: View {
         .onChange(of: runner.phase) { phase in
             if case .finished(let id) = phase {
                 entries = RestyleStore.entries()
-                open = entries.first { $0.id == id }
+                if !showingResult, let entry = entries.first(where: { $0.id == id }) {
+                    open = entry
+                    showingResult = true
+                }
             }
         }
     }
@@ -360,7 +366,7 @@ struct RestyleView: View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
             SectionHeading(title: l10n.t("نصوص حررها بصير", "Texts Basir edited"))
             ForEach(entries) { entry in
-                Button { open = entry } label: {
+                Button { open = entry; showingResult = true } label: {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(entry.title).font(.headline)
                         Text(entry.createdAt.formatted(date: .abbreviated, time: .shortened) + " · "
@@ -511,7 +517,14 @@ struct RestyleResultView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: BasirSpacing.l) {
-                if let result {
+                if let result, blind {
+                    // Shown in place, not as a sheet: a sheet raised from this pushed screen took the
+                    // whole screen back to the list the moment the test began.
+                    BlindTestPanel(result: result, test: Binding(get: { choices.blind }, set: { value in
+                        choices.blind = value
+                        RestyleStore.setChoices(choices, for: entry.id)
+                    })) { blind = false }
+                } else if let result {
                     report(result)
                     actions(result)
                     if let windows = result.report.windows, !windows.isEmpty { stretches(windows) }
@@ -536,15 +549,16 @@ struct RestyleResultView: View {
                     .environmentObject(settings)
             }
         }
-        .sheet(isPresented: $blind) {
-            if let result {
-                BlindTestView(result: result, test: Binding(get: { choices.blind }, set: { value in
-                    choices.blind = value
-                    RestyleStore.setChoices(choices, for: entry.id)
-                }))
-                .environmentObject(l10n)
-            }
+    }
+
+    private func startBlindTest(_ result: RestyleResult) {
+        if choices.blind == nil || choices.blind?.answered.count == choices.blind?.trials.count {
+            var generator = SystemRandomNumberGenerator()
+            choices.blind = BlindTest.make(from: result, using: &generator)
+            RestyleStore.setChoices(choices, for: entry.id)
         }
+        blind = true
+        UIAccessibility.post(notification: .screenChanged, argument: nil)
     }
 
     private func report(_ result: RestyleResult) -> some View {
@@ -640,7 +654,7 @@ struct RestyleResultView: View {
                 if let exportError { InlineMessage(text: exportError, isError: true) }
             }
             SecondaryActionButton(title: l10n.t("اختبار أعمى: أيّ النسختين أقرب إلى كتابة إنسان؟", "Blind test: which version reads more like a person?"),
-                                  systemImage: "eye.slash") { blind = true }
+                                  systemImage: "eye.slash") { startBlindTest(result) }
             if let share = choices.blind?.share, let test = choices.blind {
                 Text(l10n.t("في الاختبار الأعمى فضّلت النسخة المحررة في \(test.preferredEdited) من \(test.answered.count) (بين \(Int((share.low * 100).rounded()))% و\(Int((share.high * 100).rounded()))% بثقة 95%).",
                             "In the blind test you preferred the edited version in \(test.preferredEdited) of \(test.answered.count) (between \(Int((share.low * 100).rounded()))% and \(Int((share.high * 100).rounded()))% at 95% confidence)."))
@@ -772,46 +786,36 @@ struct RestyleResultView: View {
 
 /// The blind comparison: the original and the edited paragraph, in a random
 /// order, unlabelled; the reader picks the one that reads more like a person.
-struct BlindTestView: View {
+/// Shown in place inside the result screen; the next question is always the
+/// first unanswered one, so leaving and coming back carries on.
+struct BlindTestPanel: View {
     @EnvironmentObject private var l10n: L10n
-    @Environment(\.dismiss) private var dismiss
     let result: RestyleResult
     @Binding var test: BlindTest?
-    @State private var index = 0
+    let onClose: () -> Void
+
+    private var index: Int { test?.answered.count ?? 0 }
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: BasirSpacing.l) {
-                    if let test, index < test.trials.count {
-                        trial(test.trials[index], number: index + 1, of: test.trials.count)
-                    } else if let test, let share = test.share {
-                        Text(l10n.t("فضّلت النسخة المحررة في \(test.preferredEdited) من \(test.answered.count).",
-                                    "You preferred the edited version in \(test.preferredEdited) of \(test.answered.count)."))
-                            .font(.headline)
-                        Text(l10n.t("بثقة 95%: بين \(Int((share.low * 100).rounded()))% و\(Int((share.high * 100).rounded()))%. كلما زادت الأسئلة ضاق المدى. والأصدق أن يجيب قارئ آخر يعرف هذا النوع من الكتابة.",
-                                    "At 95% confidence: between \(Int((share.low * 100).rounded()))% and \(Int((share.high * 100).rounded()))%. More questions narrow the range; the most honest answer comes from another reader who knows this kind of writing."))
-                            .fixedSize(horizontal: false, vertical: true)
-                        PrimaryActionButton(title: l10n.t("تم", "Done"), systemImage: "checkmark") { dismiss() }
-                    } else {
-                        Text(l10n.t("لا توجد فقرات محررة كافية للاختبار.", "There are not enough edited paragraphs to test."))
-                    }
-                }
-                .appScreenContent()
+        VStack(alignment: .leading, spacing: BasirSpacing.l) {
+            HStack {
+                SectionHeading(title: l10n.t("اختبار أعمى", "Blind test"))
+                Spacer()
+                Button(l10n.t("رجوع إلى التقرير", "Back to the report")) { onClose() }
             }
-            .navigationTitle(l10n.t("اختبار أعمى", "Blind test"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button(l10n.t("إغلاق", "Close")) { dismiss() } }
-            }
-            .onAppear {
-                if test == nil || test?.answered.count == test?.trials.count {
-                    var generator = SystemRandomNumberGenerator()
-                    test = BlindTest.make(from: result, using: &generator)
-                    index = 0
-                } else {
-                    index = test?.answered.count ?? 0
-                }
+            if let test, test.trials.isEmpty {
+                Text(l10n.t("لا توجد فقرات محررة كافية للاختبار.", "There are not enough edited paragraphs to test."))
+                PrimaryActionButton(title: l10n.t("رجوع", "Back"), systemImage: "chevron.backward") { onClose() }
+            } else if let test, index < test.trials.count {
+                trial(test.trials[index], number: index + 1, of: test.trials.count)
+            } else if let test, let share = test.share {
+                Text(l10n.t("فضّلت النسخة المحررة في \(test.preferredEdited) من \(test.answered.count).",
+                            "You preferred the edited version in \(test.preferredEdited) of \(test.answered.count)."))
+                    .font(.headline)
+                Text(l10n.t("بثقة 95%: بين \(Int((share.low * 100).rounded()))% و\(Int((share.high * 100).rounded()))%. كلما زادت الأسئلة ضاق المدى. والأصدق أن يجيب قارئ آخر يعرف هذا النوع من الكتابة.",
+                            "At 95% confidence: between \(Int((share.low * 100).rounded()))% and \(Int((share.high * 100).rounded()))%. More questions narrow the range; the most honest answer comes from another reader who knows this kind of writing."))
+                    .fixedSize(horizontal: false, vertical: true)
+                PrimaryActionButton(title: l10n.t("تم", "Done"), systemImage: "checkmark") { onClose() }
             }
         }
     }
@@ -827,9 +831,11 @@ struct BlindTestView: View {
                         "Question \(number) of \(total): which reads more like a person who writes this kind of text well?"))
                 .font(.headline)
                 .fixedSize(horizontal: false, vertical: true)
+                .accessibilityAddTraits(.isHeader)
             option(l10n.t("النص الأول", "First text"), first) { answer(editedChosen: trial.editedFirst) }
             option(l10n.t("النص الثاني", "Second text"), second) { answer(editedChosen: !trial.editedFirst) }
         }
+        .id(trial.id)
     }
 
     private func option(_ label: String, _ text: String, choose: @escaping () -> Void) -> some View {
@@ -846,6 +852,6 @@ struct BlindTestView: View {
         guard var current = test, index < current.trials.count else { return }
         current.trials[index].choseEdited = editedChosen
         test = current
-        index += 1
+        UIAccessibility.post(notification: .screenChanged, argument: nil)
     }
 }

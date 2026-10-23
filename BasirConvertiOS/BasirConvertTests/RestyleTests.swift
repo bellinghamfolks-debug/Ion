@@ -76,6 +76,7 @@ final class RestyleTests: XCTestCase {
         XCTAssertNil(result.blocks[1].edits)
     }
 
+    @MainActor
     func testTheNewReportDecodesWithEveryMeasure() throws {
         let result = try RestyleResult.decode(Data(humanJSON.utf8))
         let machine = try XCTUnwrap(result.report.machine)

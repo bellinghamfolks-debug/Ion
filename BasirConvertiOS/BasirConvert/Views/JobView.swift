@@ -12,6 +12,7 @@ struct JobView: View {
     @State private var exportURL: URL?
     @State private var readerURL: URL?
     @State private var showCancelConfirmation = false
+    @State private var showReadingPreview = false
 
     var body: some View {
         NavigationStack {
@@ -52,6 +53,11 @@ struct JobView: View {
             }
         }
         .escapeToDismiss { viewModel.dismissJob() }
+        .sheet(isPresented: $showReadingPreview) {
+            if let job = viewModel.selectedJob, let remote = job.remoteJobID {
+                ProvisionalReadingView(jobID: remote, requestID: job.requestID)
+            }
+        }
         .sheet(item: bindingURL($previewURL)) { QuickLookPreview(url: $0.url).ignoresSafeArea() }
         .fullScreenCover(item: bindingURL($readerURL)) { DocumentReaderView(url: $0.url) }
         .sheet(item: bindingURL($shareURL)) { ActivityShareView(urls: [$0.url]) }
@@ -117,7 +123,16 @@ struct JobView: View {
             .accessibilityValue(JobStep.spokenStatus(for: viewModel.progress, l10n: l10n))
             .accessibilityAddTraits(.updatesFrequently)
 
+            if viewModel.selectedJob?.remoteJobID != nil {
+                CardActionButton(title: l10n.t("قراءة الصفحات المتاحة الآن", "Read available pages now"), systemImage: "doc.text.magnifyingglass") { showReadingPreview = true }
+            }
             JobStepTimeline(progress: viewModel.progress)
+            if let updated = viewModel.selectedJob?.updatedAt {
+                TimelineView(.periodic(from: .now, by: 30)) { _ in
+                    Text(l10n.t("آخر نشاط مسجّل: ", "Last recorded activity: ") + updated.formatted(date: .omitted, time: .standard))
+                        .font(.caption).foregroundStyle(BasirPalette.secondaryText)
+                }
+            }
 
             if let detail = viewModel.progress.detail, !detail.isEmpty {
                 Text(localizedDetail(detail))
@@ -223,6 +238,10 @@ struct JobView: View {
             .glassSurface(accent: partial ? BasirPalette.warning : BasirPalette.success)
 
             if let job = viewModel.selectedJob {
+                if !job.failedItems.isEmpty {
+                    Text(l10n.t("إعادة معالجة الصفحات المتعثرة تُنشئ ملفًا مستقلًا لهذه الصفحات، وتُبقي النتيجة الحالية محفوظة.", "Retrying failed pages creates a separate file for those pages and preserves the current result."))
+                        .font(.footnote).foregroundStyle(BasirPalette.secondaryText)
+                }
                 if let report = job.qualityReport {
                     QualityReportCard(report: report)
                 }

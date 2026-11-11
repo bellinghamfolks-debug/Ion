@@ -9,6 +9,7 @@ struct SettingsView: View {
     @EnvironmentObject private var settings: SettingsStore
     @EnvironmentObject private var network: NetworkMonitor
     @State private var changingLock = false
+    @AppStorage("basir_pronunciation_rules") private var pronunciationRules = ""
 
     var body: some View {
         NavigationStack {
@@ -21,11 +22,20 @@ struct SettingsView: View {
                             .accessibilityAddTraits(.isHeader)
                         languageCard
                         appearanceCard
+                        VStack(alignment: .leading, spacing: 12) {
+                            SectionHeading(title: l10n.t("قاموس النطق", "Pronunciation dictionary"))
+                            Text(l10n.t("اكتب الاسم أو الاختصار ثم = ثم طريقة نطقه، كل قاعدة في سطر. يتغير الصوت فقط، ويبقى نص المستند كما هو.", "Enter a name or abbreviation, then = and its spoken form, one rule per line. Only speech changes; document text stays intact."))
+                                .font(.subheadline)
+                            TextField(l10n.t("مثل: STC=إس تي سي", "Example: STC=ess tee see"), text: $pronunciationRules, axis: .vertical)
+                                .lineLimit(3...8).textFieldStyle(.roundedBorder)
+                        }.glassSurface()
                         feedbackCard
                         networkCard
                         privacyCard
                         SectionHeading(title: l10n.t("المزيد", "More"))
                         VStack(spacing: 0) {
+                            settingsLink(l10n.t("مساحة ملفات التصدير", "Export storage"), detail: l10n.t("مراجعة الأحجام وحذف النسخ المؤقتة باختيارك", "Review sizes and delete temporary copies selectively"), systemImage: "externaldrive") { ExportStorageView() }
+                            Divider().padding(.leading, 44)
                             settingsLink(l10n.t("الترجمة", "Translation"),
                                          detail: settings.translation.summary(l10n),
                                          systemImage: "character.bubble") { TranslationSettingsView() }

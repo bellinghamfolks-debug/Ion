@@ -28,6 +28,7 @@ final class AppViewModel: ObservableObject {
 
     // Members without `private` are shared with the AppViewModel+*.swift
     // extensions; views use only the published state and the public methods.
+    private var importReservations = Set<String>()
     private let engine = ConversionEngine()
     private let jobStore = PersistentJobStore()
     let backgroundExecution = BackgroundExecution.shared
@@ -168,6 +169,8 @@ final class AppViewModel: ObservableObject {
         Task { [weak self] in
             guard let self else { return }
             var newJobs: [BasirJob] = []
+            var reserved: [String] = []
+            defer { reserved.forEach { self.importReservations.remove($0) } }
             for pickerURL in pickerURLs {
                 do {
                     let id = UUID()
@@ -178,7 +181,17 @@ final class AppViewModel: ObservableObject {
                         let log = try FileAccess.diagnosticURL(for: source)
                         return (source, metadata, log)
                     }.value
-                    let duplicates = (jobs + newJobs).filter { JobQueuePolicy.pending.contains($0.status) && $0.options == options && $0.sourceMetadata.byteCount == prepared.1.byteCount }
+                    let checksum = try await Task.detached { try DocumentInspector.sha256(prepared.0) }.value
+                    let encoder = JSONEncoder()
+                    encoder.outputFormatting = [.sortedKeys]
+                    let reservation = checksum + ":" + (try encoder.encode(options)).base64EncodedString()
+                    guard importReservations.insert(reservation).inserted else {
+                        try? FileManager.default.removeItem(at: prepared.0.deletingLastPathComponent())
+                        externalImportError = l10n.t("يجري بالفعل تجهيز هذا الملف بالإعدادات نفسها؛ لم يُكرّر الطلب.", "This file is already being prepared with the same settings; no duplicate request was created.")
+                        continue
+                    }
+                    reserved.append(reservation)
+                    let duplicates = (jobs + newJobs).filter { JobQueuePolicy.pending.contains($0.status) && $0.options == options && $0.sourceMetadata?.byteCount == prepared.1.byteCount }
                     let duplicate = try await Task.detached {
                         guard !duplicates.isEmpty else { return false }
                         let hash = try DocumentInspector.sha256(prepared.0)
@@ -288,7 +301,18 @@ final class AppViewModel: ObservableObject {
     }
 
     func retry() { resume() }
-    func retryFailedItems() { resume() }
+    func retryFailedItems() {
+        guard let job = selectedJob, !job.failedItems.isEmpty,
+              let configuration = settings?.configuration, let l10n else { return }
+        guard job.sourceURL.pathExtension.lowercased() == "pdf", job.failedItems.contains(where: { $0 > 0 }) else { resume(); return }
+        do {
+            let data = try JSONEncoder().encode(job.options)
+            var json = try JSONSerialization.jsonObject(with: data) as? [String: Any] ?? [:]
+            json["pageSelection"] = Set(job.failedItems.filter { $0 > 0 }).sorted().map(String.init).joined(separator: ",")
+            let options = try JSONDecoder().decode(ConversionOptions.self, from: JSONSerialization.data(withJSONObject: json))
+            start(pickerURL: job.sourceURL, options: options, configuration: configuration, l10n: l10n)
+        } catch { externalImportError = Self.localized(error, l10n: l10n) }
+    }
 
     func cancel() {
         let index = activeIndex
@@ -443,6 +467,10 @@ final class AppViewModel: ObservableObject {
                     checkpointDirectory: checkpoint,
                     serverJobCreated: { [language = l10n.language.rawValue, title = snapshot.sourceName] serverJobID in
                         Task { @MainActor in
+                            if let index = self.jobs.firstIndex(where: { $0.id == jobID }) {
+                                self.jobs[index].remoteJobID = serverJobID
+                                self.persist()
+                            }
                             // Followed in the background from now on, with or without push.
                             JobWatcher.shared.watch(id: jobID.uuidString, serverJobID: serverJobID,
                                                     work: .conversion, title: title,
@@ -457,12 +485,16 @@ final class AppViewModel: ObservableObject {
                 try Task.checkCancellation()
                 logger.record("SUCCESS output=\(output.lastPathComponent)")
                 if let diagnostic = snapshot.diagnosticURL { try? logger.write(to: diagnostic) }
-                guard let finishedIndex = jobs.firstIndex(where: { $0.id == jobID }) else { return }
+                let audited = await Task.detached {
+                    DocumentConsistencyAudit.review(source: source, output: output, options: snapshot.options, report: outcome.quality)
+                }.value
+                try Task.checkCancellation()
+                guard let finishedIndex = jobs.firstIndex(where: { $0.id == jobID }), jobs[finishedIndex].status == .running else { return }
                 jobs[finishedIndex].resultPath = output.path
                 jobs[finishedIndex].failedItems = outcome.failedItems
                 jobs[finishedIndex].skippedBlankItems = outcome.skippedBlankItems
                 jobs[finishedIndex].executedModel = outcome.executedModel
-                jobs[finishedIndex].qualityReport = outcome.quality
+                jobs[finishedIndex].qualityReport = audited
                 jobs[finishedIndex].status = outcome.failedItems.isEmpty ? .completed : .partial
                 jobs[finishedIndex].completedAt = Date()
                 jobs[finishedIndex].updatedAt = Date()

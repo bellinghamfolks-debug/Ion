@@ -127,6 +127,12 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         didSet { UserDefaults.standard.set(useScreenReader, forKey: "video_watch_screen_reader") }
     }
 
+    @Published var originalVolume: Double = UserDefaults.standard.object(forKey: "video_original_volume") as? Double ?? 1 {
+        didSet { UserDefaults.standard.set(originalVolume, forKey: "video_original_volume"); player.setVolume(Float(originalVolume)) }
+    }
+    @Published var narrationVolume: Double = UserDefaults.standard.object(forKey: "video_narration_volume") as? Double ?? 1 {
+        didSet { UserDefaults.standard.set(narrationVolume, forKey: "video_narration_volume") }
+    }
     let cues: [DescriptionCue]
     let lines: [DialogueCue]
     let player: DescribedPlayer
@@ -203,7 +209,7 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
             // While something holds the video, it plays when that ends.
             if !(holding && isBusy) {
                 holding = false
-                player.setVolume(isBusy ? volumeWhileSpeaking() : 1)
+                player.setVolume(isBusy ? volumeWhileSpeaking() : Float(originalVolume))
                 player.play()
             }
         }
@@ -258,7 +264,7 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
         stopSpeaking()
         holding = false
         player.seek(to: seconds)
-        player.setVolume(1)
+        player.setVolume(Float(originalVolume))
         if playing { player.play() }
         lastTime = seconds
         nextCue = AudioDescription.nextIndex(at: seconds, in: cues)
@@ -318,8 +324,8 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
 
     private func volumeWhileSpeaking(nearSpeech: Bool = false) -> Float {
         switch speakingKind {
-        case .dialogue: return dialogueMode == .full ? 1 : 0.25
-        default: return descriptionMode == .full ? 1 : nearSpeech ? 0.2 : 0.35
+        case .dialogue: return Float(originalVolume) * (dialogueMode == .full ? 1 : 0.25)
+        default: return Float(originalVolume) * (descriptionMode == .full ? 1 : nearSpeech ? 0.2 : 0.35)
         }
     }
 
@@ -342,7 +348,8 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
                                  argument: NSAttributedString(string: text, attributes: [.accessibilitySpeechQueueAnnouncement: false]))
             return
         }
-        let utterance = AVSpeechUtterance(string: text)
+        let utterance = AVSpeechUtterance(string: SpeechPronunciation.apply(text))
+        utterance.volume = Float(narrationVolume)
         utterance.voice = kind == .dialogue ? dialogueVoice : descriptionVoice
         if kind == .dialogue, dialogueVoice?.identifier == descriptionVoice?.identifier {
             utterance.pitchMultiplier = 1.2   // one voice only: still told apart
@@ -387,7 +394,7 @@ final class DescribedWatchController: NSObject, ObservableObject, AVSpeechSynthe
 
     private func finishedSpeaking() {
         speakingKind = nil
-        player.setVolume(1)
+        player.setVolume(Float(originalVolume))
         if holding {
             holding = false
             if playing { player.play() }
@@ -503,6 +510,14 @@ struct VideoWatchView: View {
                             if let exported { ShareLink(item: exported) { Label(l10n.t("مشاركة الفيديو الموصوف", "Share narrated video"), systemImage: "square.and.arrow.up") } }
                         }.glassSurface()
                     }
+
+                    VStack(alignment: .leading, spacing: 12) {
+                        SectionHeading(title: l10n.t("مستويات الصوت", "Audio levels"))
+                        Slider(value: $controller.originalVolume, in: 0...1) { Text(l10n.t("صوت الفيديو الأصلي", "Original video audio")) }
+                        if !controller.useScreenReader {
+                            Slider(value: $controller.narrationVolume, in: 0...1) { Text(l10n.t("صوت الوصف والترجمة", "Description and translation audio")) }
+                        }
+                    }.glassSurface()
 
                     // Each has its own controls, shown only when the video has it.
                     if controller.hasDescription {

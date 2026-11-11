@@ -10,6 +10,8 @@ enum DescribedVideoExporter {
         let duration = try await asset.load(.duration)
         guard let originalVideo = try await asset.loadTracks(withMediaType: .video).first else { throw BasirError.invalidResponse("No video track") }
         let originalAudio = try await asset.loadTracks(withMediaType: .audio).first
+        let availableAudio: CMTimeRange?
+        if let originalAudio { availableAudio = try await originalAudio.load(.timeRange) } else { availableAudio = nil }
         let composition = AVMutableComposition()
         guard let video = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid),
               let audio = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid),
@@ -18,6 +20,12 @@ enum DescribedVideoExporter {
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent("Basir-narration-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: folder) }
+        func insertOriginalAudio(_ range: CMTimeRange, at time: CMTime) throws {
+            guard let originalAudio, let availableAudio else { return }
+            let clipped = CMTimeRangeGetIntersection(range, otherRange: availableAudio)
+            guard clipped.isValid, clipped.duration > .zero else { return }
+            try audio.insertTimeRange(clipped, of: originalAudio, at: CMTimeAdd(time, CMTimeSubtract(clipped.start, range.start)))
+        }
         var cursor = CMTime.zero
         var destination = CMTime.zero
         let ordered = cues.filter { !$0.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && $0.time >= 0 && Double($0.time) < duration.seconds }.sorted { $0.time < $1.time }
@@ -28,7 +36,7 @@ enum DescribedVideoExporter {
             if chunk > .zero {
                 let range = CMTimeRange(start: cursor, duration: chunk)
                 try video.insertTimeRange(range, of: originalVideo, at: destination)
-                if let originalAudio { try audio.insertTimeRange(range, of: originalAudio, at: destination) }
+                try insertOriginalAudio(range, at: destination)
                 destination = CMTimeAdd(destination, chunk)
             }
             let speechURL = folder.appendingPathComponent("cue-\(index).m4a")
@@ -51,7 +59,7 @@ enum DescribedVideoExporter {
         if remaining > .zero {
             let range = CMTimeRange(start: cursor, duration: remaining)
             try video.insertTimeRange(range, of: originalVideo, at: destination)
-            if let originalAudio { try audio.insertTimeRange(range, of: originalAudio, at: destination) }
+            try insertOriginalAudio(range, at: destination)
         }
         guard let session = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else { throw BasirError.invalidResponse("Export unavailable") }
         let output = FileManager.default.temporaryDirectory.appendingPathComponent("Basir-described-\(UUID().uuidString).mp4")

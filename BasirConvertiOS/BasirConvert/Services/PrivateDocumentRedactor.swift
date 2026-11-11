@@ -35,7 +35,11 @@ enum PrivateDocumentRedactor {
             }
         }
         guard let image = UIImage(contentsOfFile: source.path) else { throw BasirError.invalidResponse("Unreadable image") }
-        return image
+        let longest = max(image.size.width, image.size.height)
+        let ratio = min(1, 2000 / max(1, longest))
+        let size = CGSize(width: image.size.width * ratio, height: image.size.height * ratio)
+        // Normalize EXIF orientation before Vision computes redaction boxes.
+        return UIGraphicsImageRenderer(size: size).image { _ in image.draw(in: CGRect(origin: .zero, size: size)) }
     }
     static func count(_ source: URL) throws -> Int {
         if source.pathExtension.lowercased() == "pdf" {

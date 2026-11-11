@@ -863,12 +863,16 @@ private struct TableActionModifier: ViewModifier {
 
 /// A table that VoiceOver reads row by row, each cell named by its column.
 private struct ReaderTableView: View {
+    @EnvironmentObject private var l10n: L10n
+    @AppStorage("reader_table_cell_navigation") private var cellNavigation = false
     let rows: [[String]]
     let summary: String
 
     var body: some View {
         let headers = rows.first ?? []
         VStack(alignment: .leading, spacing: 0) {
+            Toggle(l10n.t("التنقل بين خلايا الجدول", "Navigate individual table cells"), isOn: $cellNavigation)
+                .font(.footnote).padding(.bottom, 8)
             Text(summary)
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(BasirPalette.secondaryText)
@@ -877,8 +881,9 @@ private struct ReaderTableView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach(Array(rows.enumerated()), id: \.offset) { index, row in
                         HStack(alignment: .top, spacing: 0) {
-                            ForEach(Array(row.enumerated()), id: \.offset) { _, cell in
+                            ForEach(Array(row.enumerated()), id: \.offset) { column, cell in
                                 Text(cell)
+                                    .accessibilityLabel(l10n.t("الصف \(index + 1)، العمود \(column + 1). ", "Row \(index + 1), column \(column + 1). ") + (index > 0 && headers.indices.contains(column) ? headers[column] + ": " : "") + cell)
                                     .font(index == 0 ? .subheadline.weight(.bold) : .subheadline)
                                     .frame(width: 140, alignment: .leading)
                                     .padding(8)
@@ -887,8 +892,8 @@ private struct ReaderTableView: View {
                         }
                         .background(index == 0 ? BasirPalette.accent.opacity(0.10)
                                                : (index.isMultiple(of: 2) ? BasirPalette.subtleFill : Color.clear))
-                        .accessibilityElement(children: .ignore)
-                        .accessibilityLabel(index == 0
+                        .accessibilityElement(children: cellNavigation ? .contain : .ignore)
+                        .accessibilityLabel(cellNavigation ? l10n.t("الصف \(index + 1)", "Row \(index + 1)") : index == 0
                             ? headers.filter { !$0.isEmpty }.joined(separator: "، ")
                             : ReaderContent.rowSentence(row, headers: headers))
                         .accessibilityAddTraits(index == 0 ? .isHeader : [])
@@ -1025,7 +1030,7 @@ final class ReaderSpeaker: NSObject, ObservableObject, AVSpeechSynthesizerDelega
     }
 
     private func speak(_ item: (id: Int, text: String)) {
-        let utterance = AVSpeechUtterance(string: item.text)
+        let utterance = AVSpeechUtterance(string: SpeechPronunciation.apply(item.text))
         utterance.voice = AVSpeechSynthesisVoice(language: ReaderContent.speechLanguage(for: item.text))
         utterance.postUtteranceDelay = 0.1
         currentUtterance = utterance

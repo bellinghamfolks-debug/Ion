@@ -540,6 +540,8 @@ struct QualityReport: Codable, Equatable, Hashable, Sendable {
     var pageAccountingVerified: Bool? = nil
     var pageNumberingVerified: Bool? = nil
     var artifactBytes: Int? = nil
+    var numbersRequiringReview: Int? = nil
+    var glossaryTermsRequiringReview: Int? = nil
 
     /// Score on a 0–100 scale whether the server reports 0–1 or 0–100.
     var percentScore: Int? {
@@ -548,7 +550,7 @@ struct QualityReport: Codable, Equatable, Hashable, Sendable {
     }
 
     var hasConcerns: Bool {
-        fallbackPages > 0 || imagesMissingDescription > 0 || !warnings.isEmpty
+        fallbackPages > 0 || imagesMissingDescription > 0 || !warnings.isEmpty || (numbersRequiringReview ?? 0) > 0 || (glossaryTermsRequiringReview ?? 0) > 0
     }
 }
 
@@ -603,6 +605,7 @@ struct BasirJob: Identifiable, Codable, Equatable, Sendable {
     var completedAt: Date?
     var automaticResumePending: Bool?
     var executedModel: String?
+    var remoteJobID: String? = nil
     var qualityReport: QualityReport?
     /// The person cancelled and the server has not confirmed it yet. Kept on
     /// disk so the request is sent again after a relaunch or reconnection.

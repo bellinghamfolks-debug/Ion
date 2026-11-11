@@ -28,7 +28,7 @@ final class AudiobookRenderer: @unchecked Sendable {
     func append(_ text: String, rate: Float = AVSpeechUtteranceDefaultSpeechRate) async {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
-        let utterance = AVSpeechUtterance(string: trimmed)
+        let utterance = AVSpeechUtterance(string: SpeechPronunciation.apply(trimmed))
         utterance.voice = AVSpeechSynthesisVoice(language: ReaderContent.speechLanguage(for: trimmed))
         utterance.rate = rate
         let progress = PassageProgress()

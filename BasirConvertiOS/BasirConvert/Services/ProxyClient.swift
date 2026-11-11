@@ -928,6 +928,16 @@ extension ProxyClient {
                                operation: "summarize", mode: "summary", filename: "summary.json")
     }
 
+    func readingPreview(jobID: String, requestID: String) async throws -> ReadingPreview {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("/api/jobs/\(jobID)/reading-preview"))
+        request.timeoutInterval = 20
+        applyServerHeaders(to: &request, requestID: requestID)
+        let (data, response) = try await retryingData(request: request)
+        try Self.validateHTTP(response, data: data)
+        return try JSONDecoder().decode(ReadingPreview.self, from: data)
+    }
+
     /// The Word file a finished job produced.
     func jobResult(jobID: String, requestID: String) async throws -> Data {
         let base = try secureBaseURL()

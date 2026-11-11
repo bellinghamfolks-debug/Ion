@@ -268,6 +268,12 @@ struct QualityReportCard: View {
                                text: l10n.t("اجتاز ملف Word فحص السلامة على جهازك قبل حفظه.",
                                             "The Word file passed an integrity check on your device before it was saved.")))
         }
+        if let count = report.numbersRequiringReview {
+            result.append(Line(icon: "number", text: l10n.t("مقارنة الأرقام بالنص القابل للاستخراج: \(count) قيمة لم تُطابق حرفيًا. قد يفسّر التنسيق أو طريقة كتابة الأرقام بعض الاختلافات؛ راجع المصدر قبل اعتماد المبالغ والتواريخ.", "Numeric comparison against extractable source text: \(count) values did not match literally. Formatting may explain differences; verify amounts and dates against the source."), isConcern: count > 0))
+        }
+        if let count = report.glossaryTermsRequiringReview {
+            result.append(Line(icon: "character.book.closed", text: l10n.t("مصطلحات القاموس التي تحتاج مراجعة: \(count). يُقارن اللفظ المعتمد حرفيًا، ولا يُحكم على صحة الأسماء من التخمين.", "Glossary terms requiring review: \(count). Checks use approved literal terms and do not infer names."), isConcern: count > 0))
+        }
         for warning in report.warnings {
             result.append(Line(icon: "exclamationmark.triangle", text: Self.describe(warning, l10n: l10n), isConcern: true))
         }

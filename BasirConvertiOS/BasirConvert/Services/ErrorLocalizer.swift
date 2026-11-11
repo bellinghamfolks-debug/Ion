@@ -31,13 +31,13 @@ enum ErrorLocalizer {
                 return l10n.t("تعذر الاتصال بالخدمة بأمان. تحقق من اتصالك وإعدادات التاريخ والوقت.",
                               "Could not connect securely. Check your connection and your device’s date and time settings.")
             default:
-                return l10n.t("تعذر الاتصال بالشبكة: \(urlError.localizedDescription)",
-                              "Network error: \(urlError.localizedDescription)")
+                return l10n.t("تعذر الاتصال بالشبكة. تحقق من الاتصال وأعد المحاولة.",
+                              "Could not connect. Check your connection and try again.")
             }
         }
         guard let basir = error as? BasirError else {
-            return l10n.t("تعذر إكمال المهمة: \(error.localizedDescription)",
-                          "Could not complete the task: \(error.localizedDescription)")
+            return l10n.t("تعذر إكمال الإجراء. راجع حالة المهمة قبل إعادة المحاولة؛ يمكنك مشاركة تقرير التشخيص مع فريق بصير.",
+                          "The action could not be completed. Check the task status before retrying; you can share diagnostics with the Basir team.")
         }
         switch basir {
         case .notConfigured:

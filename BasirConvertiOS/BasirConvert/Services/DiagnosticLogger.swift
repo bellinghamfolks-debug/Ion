@@ -146,7 +146,7 @@ final class DiagnosticLogger: @unchecked Sendable {
         let home = NSHomeDirectory()
         if !home.isEmpty { output = output.replacingOccurrences(of: home, with: "[APP_HOME]") }
         output = output.replacingOccurrences(
-            of: #"(?i)(x-basir-client-token|authorization|client[_-]?token)\s*[:=]\s*[^\s,;]+"#,
+            of: #"(?i)(x-basir-client-token|authorization|client[_-]?token)\s*[:=]\s*(?:Bearer\s+)?[^\s,;]+"#,
             with: "$1=[REDACTED]",
             options: .regularExpression
         )

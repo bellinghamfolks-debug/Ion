@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Long summaries and natural-style texts in the Tasks tab: every unfinished
+/// Long summaries in the Tasks tab: every unfinished
 /// one, with its progress, and the ones finished in the last week, which open
 /// their result. They stay here until they end, whatever happens to Basir.
 struct ServerTasksSection: View {
@@ -15,7 +15,7 @@ struct ServerTasksSection: View {
                 row(task)
             }
         } header: {
-            Text(l10n.t("التلخيص وتحرير الأسلوب", "Summaries and style editing"))
+            Text(l10n.t("التلخيص", "Summaries"))
                 .font(.title3.weight(.bold))
                 .foregroundStyle(BasirPalette.primaryText)
                 .textCase(nil)
@@ -82,7 +82,7 @@ struct ServerTasksSection: View {
         case .finished:
             return l10n.t("مكتملة · اضغط لفتحها", "Done · tap to open")
         case .failed:
-            return RestyleRunner.message(for: BasirError.conversionFailed(task.error ?? ""), l10n: l10n)
+            return SummaryRunner.message(for: BasirError.conversionFailed(task.error ?? ""), l10n: l10n)
                 + l10n.t(" · اسحب لإعادة المحاولة", " · swipe to try again")
         case .cancelled:
             return l10n.t("ملغاة", "Cancelled")
@@ -94,7 +94,7 @@ struct ServerTasksSection: View {
         case .finished: return "checkmark.circle.fill"
         case .failed: return "xmark.octagon.fill"
         case .cancelled: return "stop.circle.fill"
-        default: return task.kind == .restyle ? "text.word.spacing" : "text.quote"
+        default: return "text.quote"
         }
     }
 
@@ -140,19 +140,6 @@ struct ServerTaskDestination: View {
 
     var body: some View {
         switch task.kind {
-        case .restyle:
-            if task.state == .finished, let entry = RestyleStore.entries().first(where: { $0.id == task.id }) {
-                NavigationStack {
-                    RestyleResultView(entry: entry)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) { Button(l10n.t("إغلاق", "Close")) { dismiss() } }
-                        }
-                }
-                .escapeToDismiss { dismiss() }
-            } else {
-                RestyleView()
-                    .onAppear { RestyleRunner.shared.focus(task.id) }
-            }
         case .summary:
             if let source = Self.summarySource(task) {
                 SummaryView(source: source)

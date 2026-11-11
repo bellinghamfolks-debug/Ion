@@ -64,7 +64,7 @@ struct RootView: View {
             // Carry on quietly; the video screen, if open, shows the progress. It is opened
             // by Basir itself only after a cold start (below), never over another screen.
             VideoCenter.shared.runner.resumeIfNeeded(configuration: settings.configuration, l10n: l10n)
-            // Long summaries and natural-style texts carry on to the end (ServerTasks.swift).
+            // Long summaries carry on to the end (ServerTasks.swift).
             if !isUnitTestHost { ServerTaskCenter.shared.resumeAll(configuration: settings.configuration, l10n: l10n) }
             viewModel.importSharedInbox()
             viewModel.resumeInterruptedJobsIfNeeded()
@@ -151,7 +151,7 @@ struct RootView: View {
         }
         .task {
             // A video being described when Basir was closed (or restarted by iOS) carries on,
-            // and so do long summaries and natural-style texts.
+            // and so do long summaries.
             returnToVideo()
             if !isUnitTestHost { ServerTaskCenter.shared.resumeAll(configuration: settings.configuration, l10n: l10n) }
             // Once, after the welcome screens, for people who already use Basir.

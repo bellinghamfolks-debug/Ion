@@ -447,7 +447,7 @@ struct JobQueueView: View {
                                 .accessibilityAddTraits(.isHeader)
                         }
                     }
-                    // Long summaries and natural-style texts, kept here until they end.
+                    // Long summaries, kept here until they end.
                     if !serverTasks.visible.isEmpty {
                         ServerTasksSection(open: $openServerTask)
                     }

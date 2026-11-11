@@ -921,29 +921,6 @@ extension ProxyClient {
                                operation: "summarize", mode: "summary", filename: "summary.json")
     }
 
-    /// A natural-style job (the text rewritten in a natural human voice):
-    /// the request is uploaded as JSON, like a long summary.
-    func startRestyleJob(body: Data, requestID: String, title: String, language: String,
-                         choice: String) async throws -> String {
-        try await startJSONJob(body: body, requestID: requestID, title: title, language: language, choice: choice,
-                               operation: "restyle", mode: "restyle", filename: "restyle.json")
-    }
-
-    /// The human-style calls answered at once (POST /api/restyle/analyze,
-    /// /sample and /document): JSON in, JSON or a Word file out.
-    func restyleCall(_ path: String, body: Data) async throws -> Data {
-        let base = try secureBaseURL()
-        var request = URLRequest(url: base.appendingPathComponent("/api/restyle/\(path)"))
-        request.httpMethod = "POST"
-        request.timeoutInterval = 180
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = body
-        applyServerHeaders(to: &request, requestID: UUID().uuidString)
-        let (data, response) = try await retryingData(request: request)
-        try Self.validateHTTP(response, data: data)
-        return data
-    }
-
     /// The Word file a finished job produced.
     func jobResult(jobID: String, requestID: String) async throws -> Data {
         let base = try secureBaseURL()

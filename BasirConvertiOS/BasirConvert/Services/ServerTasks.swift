@@ -1,12 +1,11 @@
 import Foundation
 import UIKit
 
-/// A long task that runs on Basir's server (a long summary, a text brought
-/// back to a natural voice), kept on the phone from the moment it is asked
+/// A long summary that runs on Basir's server, kept on the phone from the moment it is asked
 /// for until its result is saved: in the Tasks tab, in a file on disk (not
 /// in memory), so neither leaving Basir nor iOS closing it loses it.
 struct ServerTask: Codable, Equatable, Identifiable, Sendable {
-    enum Kind: String, Codable, Sendable { case summary, restyle }
+    enum Kind: String, Codable, Sendable { case summary }
     enum State: String, Codable, Sendable { case sending, working, finished, failed, cancelled }
 
     /// The request key: the same request always maps to the same server job.
@@ -50,7 +49,19 @@ enum ServerTaskStore {
         guard let url = ledgerURL, let data = try? Data(contentsOf: url) else { return [] }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        return (try? decoder.decode([ServerTask].self, from: data)) ?? []
+        return decodeLedger(data, decoder: decoder)
+    }
+
+    /// Decode records independently: retired or unknown task types must not
+    /// prevent active summaries from being resumed after an app update.
+    static func decodeLedger(_ data: Data, decoder: JSONDecoder = JSONDecoder()) -> [ServerTask] {
+        decoder.dateDecodingStrategy = .iso8601
+        guard let rows = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] else { return [] }
+        return rows.compactMap { row in
+            guard row["kind"] as? String == ServerTask.Kind.summary.rawValue,
+                  let record = try? JSONSerialization.data(withJSONObject: row) else { return nil }
+            return try? decoder.decode(ServerTask.self, from: record)
+        }
     }
 
     static func save(_ tasks: [ServerTask]) {
@@ -140,7 +151,6 @@ final class ServerTaskCenter: ObservableObject {
     func resumeAll(configuration: ServerConfiguration, l10n: L10n) {
         self.configuration = configuration
         self.l10n = l10n
-        adoptEarlierRestyle()
         guard configuration.isConfigured else { return }
         for task in tasks where task.isActive { follow(task.id) }
         prune()
@@ -225,9 +235,6 @@ final class ServerTaskCenter: ObservableObject {
                     update(id) { $0.detail = self.text("جارٍ الإرسال", "Sending") }
                     let jobID = try await withBackgroundTime("Basir send") {
                         switch task.kind {
-                        case .restyle:
-                            return try await client.startRestyleJob(body: body, requestID: id, title: task.title,
-                                                                    language: task.language, choice: task.choice)
                         case .summary:
                             return try await client.startSummaryJob(body: body, requestID: id, title: task.title,
                                                                     language: task.language, choice: task.choice)
@@ -302,10 +309,6 @@ final class ServerTaskCenter: ObservableObject {
             try await client.jobSummary(jobID: jobID, requestID: id)
         }
         switch task.kind {
-        case .restyle:
-            let result = try RestyleResult.decode(data)
-            let word = try? await withBackgroundTime("Basir result file") { try await client.jobResult(jobID: jobID, requestID: id) }
-            RestyleRunner.save(result, word: word, id: id, title: task.title, l10n: l10n)
         case .summary:
             let summary = try DocumentSummary.decode(data)
             if let home = task.summaryHome, let variant = task.summaryVariant {
@@ -324,15 +327,13 @@ final class ServerTaskCenter: ObservableObject {
             $0.done = max($0.done, $0.total)
             $0.detail = ""
         }
-        if task.kind == .restyle { ServerTaskStore.removeBody(for: id) }
         // The result is on the phone; the server copy goes, as the privacy setting asks (on by default).
         let deleteCopy = UserDefaults.standard.object(forKey: "privacy_delete_server_copy") as? Bool ?? true
         if deleteCopy { try? await client.deleteServerTask(requestID: id) }
         JobWatcher.shared.stop(id: task.notificationID)
-        let work: JobNotifier.Work = task.kind == .restyle ? .restyle : .summary
+        let work: JobNotifier.Work = .summary
         if UIApplication.shared.applicationState != .active {
-            let partial = task.kind == .restyle && (try? RestyleResult.decode(data))?.isPartial == true
-            JobNotifier.show(JobNotifier.finished(task: work, title: task.title, partial: partial,
+            JobNotifier.show(JobNotifier.finished(task: work, title: task.title, partial: false,
                                                   arabic: task.language != "en"), id: task.notificationID)
         } else {
             JobNotifier.remove(task.notificationID)
@@ -355,7 +356,7 @@ final class ServerTaskCenter: ObservableObject {
     private func watch(_ task: ServerTask, jobID: String, configuration: ServerConfiguration) {
         // Followed while iOS suspends Basir (and by push where available), under one identifier.
         JobWatcher.shared.watch(id: task.notificationID, serverJobID: jobID,
-                                work: task.kind == .restyle ? .restyle : .summary, title: task.title,
+                                work: .summary, title: task.title,
                                 arabic: task.language != "en")
         if let clientJobID = UUID(uuidString: task.notificationID) {
             PushRegistrar.shared.serverJobCreated(clientJobID: clientJobID, serverJobID: jobID,
@@ -386,28 +387,12 @@ final class ServerTaskCenter: ObservableObject {
         ServerTaskStore.save(tasks)
     }
 
-    /// A natural-style text started by build 38 is taken over.
-    private func adoptEarlierRestyle() {
-        guard let pending = RestyleStore.pending(), task(pending.requestKey) == nil else { return }
-        ServerTaskStore.saveBody(pending.body, for: pending.requestKey)
-        put(ServerTask(id: pending.requestKey, kind: .restyle, title: pending.title,
-                       notificationID: pending.notificationID, jobID: pending.jobID,
-                       state: pending.jobID == nil ? .sending : .working, choice: "accurate"))
-        RestyleStore.setPending(nil)
-    }
-
     private func text(_ arabic: String, _ english: String) -> String {
         l10n?.t(arabic, english) ?? arabic
     }
 
     func stage(kind: ServerTask.Kind, done: Int, total: Int) -> String {
-        let percent = total > 0 ? min(100, done * 100 / total) : 0
         switch kind {
-        case .restyle:
-            let parts = max(1, (total - 1) / 2)
-            if done <= 0 || total <= 1 { return text("يقرأ بصير النص كاملًا ويقيسه", "Basir is reading and measuring the whole text") }
-            if done <= parts { return text("التحرير: \(percent)٪ (يكتب صياغات ويختار بينها ويتحقق من المعنى)", "Editing: \(percent)% (writing versions, choosing, checking the meaning)") }
-            return text("التحرير: \(percent)٪ (يقيس النتيجة)", "Editing: \(percent)% (measuring the result)")
         case .summary:
             if total > 1 && done < total - 1 {
                 return text("جارٍ قراءة المستند، الجزء \(done) من \(total - 1)", "Reading the document, part \(done) of \(total - 1)")

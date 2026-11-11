@@ -1,0 +1,29 @@
+name: Basir source validation
+on:
+  push:
+    branches: ["claude/basir-*"]
+    paths:
+      - "BasirConvertiOS/**"
+      - ".github/workflows/basir-source.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: basir-source-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source and resources
+        run: python3 BasirConvertiOS/tools/verify_project.py BasirConvertiOS --source-only
+      - name: Parse Swift syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v swiftc
+          while IFS= read -r -d '' source; do
+            swiftc -frontend -parse "$source"
+          done < <(find BasirConvertiOS -name '*.swift' -print0)

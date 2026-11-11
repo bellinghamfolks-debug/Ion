@@ -533,10 +533,18 @@ struct QualityReport: Codable, Equatable, Hashable, Sendable {
     var hybridTextPages: Int? = nil
     var hybridStatus: String? = nil
 
+    var retainedPageNumbers: [Int]? = nil
+    var skippedPageNumbers: [Int]? = nil
+    var fallbackPageNumbers: [Int]? = nil
+    var simplifiedPageNumbers: [Int]? = nil
+    var pageAccountingVerified: Bool? = nil
+    var pageNumberingVerified: Bool? = nil
+    var artifactBytes: Int? = nil
+
     /// Score on a 0–100 scale whether the server reports 0–1 or 0–100.
     var percentScore: Int? {
-        guard let score, score >= 0 else { return nil }
-        return Int((score <= 1 ? score * 100 : score).rounded())
+        guard let score, score.isFinite, score >= 0 else { return nil }
+        return Int(min(100, (score <= 1 ? score * 100 : score)).rounded())
     }
 
     var hasConcerns: Bool {

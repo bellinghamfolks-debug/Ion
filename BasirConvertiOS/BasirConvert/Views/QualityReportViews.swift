@@ -106,6 +106,16 @@ struct QualityReportCard: View {
                 .font(.body.weight(.semibold))
                 .foregroundStyle(report.hasConcerns ? BasirPalette.warning : BasirPalette.success)
                 .fixedSize(horizontal: false, vertical: true)
+            Text(l10n.t("يعرض هذا التقرير نتائج الفحص المتاحة، ولا تمثّل الدرجة ضمانًا لدقة كل كلمة أو ترجمة.", "This report presents available checks. A score does not guarantee every word or translation is accurate."))
+                .font(.footnote).foregroundStyle(BasirPalette.secondaryText)
+            AdaptiveStack {
+                metric(l10n.t("الصفحات المحفوظة", "Included pages"), report.retainedPages)
+                metric(l10n.t("تحتاج مراجعة", "Need review"), report.fallbackPages)
+                metric(l10n.t("أوصاف صور مفقودة", "Missing descriptions"), report.imagesMissingDescription)
+            }
+            ShareLink(item: exportedReport) {
+                Label(l10n.t("مشاركة تقرير الجودة", "Share quality report"), systemImage: "square.and.arrow.up")
+            }
             ForEach(lines, id: \.self) { line in
                 HStack(alignment: .top, spacing: BasirSpacing.s) {
                     Image(systemName: line.icon)
@@ -119,8 +129,53 @@ struct QualityReportCard: View {
                 }
                 .accessibilityElement(children: .combine)
             }
+            Divider()
+            Text(l10n.t("تفاصيل الصفحات والتحقق", "Page details and verification"))
+                .font(.headline).accessibilityAddTraits(.isHeader)
+            ForEach(pageDetails, id: \.self) { detail in
+                Text(detail).font(.subheadline).fixedSize(horizontal: false, vertical: true)
+                    .textSelection(.enabled)
+            }
         }
         .glassSurface(accent: report.hasConcerns ? BasirPalette.warning : BasirPalette.success)
+    }
+
+    private func metric(_ title: String, _ count: Int) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(count.formatted()).font(.title2.bold().monospacedDigit())
+            Text(title).font(.caption).fixedSize(horizontal: false, vertical: true)
+        }.frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12).background(BasirPalette.subtleFill, in: RoundedRectangle(cornerRadius: 12))
+            .accessibilityElement(children: .combine)
+    }
+
+    private func pages(_ numbers: [Int]?) -> String {
+        guard let numbers, !numbers.isEmpty else { return l10n.t("غير متاحة", "Not available") }
+        return Set(numbers).sorted().map { String($0) }.joined(separator: l10n.t("، ", ", "))
+    }
+
+    private var pageDetails: [String] {
+        var rows = [
+            l10n.t("أرقام الصفحات المحفوظة: ", "Included page numbers: ") + pages(report.retainedPageNumbers),
+            l10n.t("الصفحات المحفوظة كصور لتعذر قراءة نصها: ", "Pages preserved as images because text extraction failed: ") + pages(report.fallbackPageNumbers),
+            l10n.t("الصفحات الفارغة المتجاوزة: ", "Skipped blank pages: ") + pages(report.skippedPageNumbers),
+            l10n.t("الصفحات ذات التخطيط المبسّط: ", "Pages with simplified layout: ") + pages(report.simplifiedPageNumbers)
+        ]
+        for (label, value) in [(l10n.t("مطابقة عدد الصفحات", "Page accounting"), report.pageAccountingVerified),
+                               (l10n.t("مطابقة ترقيم الصفحات", "Page numbering"), report.pageNumberingVerified)] {
+            rows.append(label + ": " + (value.map { $0 ? l10n.t("تم التحقق", "Verified") : l10n.t("تحتاج مراجعة", "Needs review") } ?? l10n.t("لم يقدّم الخادم نتيجة", "Not reported by the server")))
+        }
+        rows.append(l10n.t("سلامة ملف Word على الجهاز: ", "On-device Word integrity: ") + (report.wordPackageVerified ? l10n.t("اجتاز الفحص", "Passed") : l10n.t("لم يُسجّل تحقق محلي", "No local verification recorded")))
+        rows.append(l10n.t("الأحرف المستخرجة: ", "Extracted characters: ") + report.textCharacters.formatted())
+        if let bytes = report.artifactBytes { rows.append(l10n.t("حجم النتيجة: ", "Result size: ") + ByteCountFormatter.string(fromByteCount: Int64(bytes), countStyle: .file)) }
+        if report.fallbackPages > 0 { rows.append(l10n.t("الإجراء المقترح: راجع الصفحات المحددة في المصدر، ثم أعد معالجة هذه الصفحات وحدها من خيارات نطاق الصفحات.", "Suggested action: inspect the listed source pages, then process only those page numbers using the page-range setting.")) }
+        if report.imagesMissingDescription > 0 { rows.append(l10n.t("الإجراء المقترح: اطلب وصف الصور الناقصة قبل الاعتماد على المعلومات المرئية.", "Suggested action: request descriptions for missing images before relying on visual information.")) }
+        if report.retainedPageNumbers == nil { rows.append(l10n.t("هذا سجل سابق لا يتضمن تفاصيل الصفحات؛ لا يمكن استنتاجها من الدرجة الإجمالية.", "This older record has no page-level evidence; it cannot be inferred from the overall score.")) }
+        return rows
+    }
+
+    private var exportedReport: String {
+        ([l10n.t("بصير — تقرير جودة المستند", "Basir — Document quality report"), headline] + lines.map(\.text) + pageDetails).joined(separator: "\n\n")
     }
 
     private var headline: String {
@@ -213,7 +268,7 @@ struct QualityReportCard: View {
                                text: l10n.t("اجتاز ملف Word فحص السلامة على جهازك قبل حفظه.",
                                             "The Word file passed an integrity check on your device before it was saved.")))
         }
-        for warning in report.warnings.prefix(5) {
+        for warning in report.warnings {
             result.append(Line(icon: "exclamationmark.triangle", text: Self.describe(warning, l10n: l10n), isConcern: true))
         }
         return result

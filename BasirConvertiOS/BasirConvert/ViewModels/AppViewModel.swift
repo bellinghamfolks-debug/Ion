@@ -5,6 +5,9 @@ import SwiftUI
 
 @MainActor
 final class AppViewModel: ObservableObject {
+    @Published var queuePaused = UserDefaults.standard.bool(forKey: "basir_queue_paused") {
+        didSet { UserDefaults.standard.set(queuePaused, forKey: "basir_queue_paused") }
+    }
     @Published var jobs: [BasirJob] = []
     @Published var selectedJobID: UUID?
     @Published private(set) var status: JobStatus = .idle
@@ -175,6 +178,17 @@ final class AppViewModel: ObservableObject {
                         let log = try FileAccess.diagnosticURL(for: source)
                         return (source, metadata, log)
                     }.value
+                    let duplicates = (jobs + newJobs).filter { JobQueuePolicy.pending.contains($0.status) && $0.options == options && $0.sourceMetadata.byteCount == prepared.1.byteCount }
+                    let duplicate = try await Task.detached {
+                        guard !duplicates.isEmpty else { return false }
+                        let hash = try DocumentInspector.sha256(prepared.0)
+                        return duplicates.contains { (try? DocumentInspector.sha256($0.sourceURL)) == hash }
+                    }.value
+                    if duplicate {
+                        try? FileManager.default.removeItem(at: prepared.0.deletingLastPathComponent())
+                        externalImportError = l10n.t("الملف نفسه بالإعدادات نفسها موجود في قائمة المهام. لم يُرسل طلب إضافي.", "This file with the same settings is already queued. No extra request was sent.")
+                        continue
+                    }
                     let now = Date()
                     newJobs.append(BasirJob(
                         id: id,
@@ -212,6 +226,19 @@ final class AppViewModel: ObservableObject {
             syncFacade()
             processNextIfPossible()
         }
+    }
+
+    func toggleQueue() {
+        queuePaused.toggle()
+        if !queuePaused { processNextIfPossible() }
+    }
+
+    func prioritize(_ id: UUID) {
+        guard let index = jobs.firstIndex(where: { $0.id == id }), jobs[index].status != .running else { return }
+        let job = jobs.remove(at: index)
+        jobs.insert(job, at: 0)
+        persist()
+        if !queuePaused { processNextIfPossible() }
     }
 
     func selectJob(_ id: UUID) {
@@ -335,7 +362,7 @@ final class AppViewModel: ObservableObject {
     var activeIndex: Int? { jobs.firstIndex(where: { $0.status == .running }) }
 
     func processNextIfPossible(preferredJobID: UUID? = nil) {
-        guard jobTask == nil,
+        guard jobTask == nil, !queuePaused,
               let settings,
               let l10n else { return }
         guard let index = JobQueuePolicy.nextIndex(in: jobs, preferred: preferredJobID) else { return }

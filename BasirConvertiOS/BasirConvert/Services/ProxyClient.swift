@@ -458,7 +458,14 @@ actor ProxyClient {
                     escalatedPages: qualityMetrics.autoEscalatedPages,
                     summaryIncluded: qualityMetrics.summaryIncluded,
                     hybridTextPages: qualityMetrics.hybridTextPages,
-                    hybridStatus: qualityMetrics.hybridStatus
+                    hybridStatus: qualityMetrics.hybridStatus,
+                    retainedPageNumbers: retainedNumbers,
+                    skippedPageNumbers: skippedNumbers,
+                    fallbackPageNumbers: fallbackNumbers,
+                    simplifiedPageNumbers: relaxedNumbers,
+                    pageAccountingVerified: accountingExact,
+                    pageNumberingVerified: numberingExact,
+                    artifactBytes: qualityMetrics.artifactBytes
                 )
                 outcome = ConversionOutcome(
                     succeededItems: succeeded,

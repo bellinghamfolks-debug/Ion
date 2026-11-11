@@ -460,6 +460,10 @@ struct JobQueueView: View {
         .navigationBarTitleDisplayMode(.inline)
         .fullScreenCover(item: $openServerTask) { task in ServerTaskDestination(task: task) }
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(viewModel.queuePaused ? l10n.t("تشغيل القائمة", "Resume queue") : l10n.t("تعليق القائمة", "Hold queue")) { viewModel.toggleQueue() }
+                    .accessibilityHint(l10n.t("يتحكم في بدء المهام التالية؛ تستمر المهمة الجارية.", "Controls subsequent tasks; the current task continues."))
+            }
             if listed.count > 1 {
                 ToolbarItem(placement: .primaryAction) {
                     Button(isReordering ? l10n.t("تم", "Done") : l10n.t("ترتيب المهام", "Reorder tasks")) {
@@ -509,6 +513,12 @@ struct JobQueueView: View {
         .accessibilityElement(children: .combine)
         .accessibilityLabel(job.sourceName)
         .accessibilityValue(statusText(job))
+        .contextMenu {
+            if job.status != .running {
+                Button(l10n.t("تنفيذ بأولوية", "Prioritize task"), systemImage: "arrow.up.to.line") { viewModel.prioritize(job.id) }
+            }
+        }
+        .accessibilityAction(named: l10n.t("تنفيذ بأولوية", "Prioritize task")) { viewModel.prioritize(job.id) }
         .accessibilityAction(named: l10n.t("فتح المهمة", "Open task")) { viewModel.selectJob(job.id) }
         .accessibilityAction(named: job.status == .running ? l10n.t("إيقاف مؤقت", "Pause")
                                                            : l10n.t("استئناف أو إعادة المحاولة", "Resume or retry")) {

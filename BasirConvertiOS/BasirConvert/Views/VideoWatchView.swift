@@ -401,10 +401,16 @@ struct VideoWatchView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var controller: DescribedWatchController
     @State private var failure: String?
+    @State private var exporting = false
+    @State private var exported: URL?
+    @State private var exportProgress = ""
+    private let exportSource: URL?
+
     private var local: LocalVideoPlayer? { controller.player as? LocalVideoPlayer }
     private var youtube: YouTubeVideoPlayer? { controller.player as? YouTubeVideoPlayer }
 
     init(video: VideoDescription, localURL: URL?, youtubePage: URL?, arabic: Bool) {
+        exportSource = localURL
         // Made once for the life of the screen (StateObject evaluates this once).
         _controller = StateObject(wrappedValue: {
             // A translation-only video has chapters but nothing to describe.
@@ -474,6 +480,29 @@ struct VideoWatchView: View {
                         }
                     }
                     CardActionButton(title: l10n.t("أعد آخر ما قيل", "Repeat the last line"), systemImage: "arrow.counterclockwise") { controller.repeatLast() }
+
+                    if let source = exportSource, controller.hasDescription {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text(l10n.t("تصدير الفيديو بوصف صوتي", "Export narrated video")).font(.headline).accessibilityAddTraits(.isHeader)
+                            Text(l10n.t("تُثبّت الصورة أثناء كل وصف لحفظ الحوار الأصلي والوصف كاملين. يزداد طول النسخة الناتجة، وتبقى النسخة الأصلية محفوظة.", "The image pauses for each description to preserve both original dialogue and narration. The exported video is longer; the source is preserved."))
+                                .font(.subheadline)
+                            Button(l10n.t("إنشاء فيديو موصوف", "Create narrated video")) {
+                                guard !exporting else { return }
+                                if controller.playing { controller.togglePlay() }
+                                exporting = true; failure = nil
+                                Task {
+                                    defer { exporting = false }
+                                    do {
+                                        exported = try await DescribedVideoExporter.export(source: source, cues: controller.cues) { done, total in
+                                            exportProgress = l10n.t("إعداد الوصف \(done) من \(total)", "Rendering description \(done) of \(total)")
+                                        }
+                                    } catch { failure = l10n.t("تعذر تصدير الفيديو بوصفه الصوتي. بقي الفيديو الأصلي محفوظًا.", "Narrated video export failed. The source video is preserved.") }
+                                }
+                            }.disabled(exporting)
+                            if exporting { ProgressView(exportProgress) }
+                            if let exported { ShareLink(item: exported) { Label(l10n.t("مشاركة الفيديو الموصوف", "Share narrated video"), systemImage: "square.and.arrow.up") } }
+                        }.glassSurface()
+                    }
 
                     // Each has its own controls, shown only when the video has it.
                     if controller.hasDescription {

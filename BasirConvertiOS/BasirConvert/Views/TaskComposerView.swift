@@ -822,7 +822,7 @@ struct SourceTile: View {
         Button(action: action) {
             VStack(alignment: .leading, spacing: BasirSpacing.s) {
                 Image(systemName: systemImage)
-                    .font(.system(size: 26, weight: .semibold))
+                    .font(.system(size: 24, weight: .semibold))
                     .foregroundStyle(BasirPalette.accent)
                     .accessibilityHidden(true)
                 Text(title)
@@ -834,14 +834,14 @@ struct SourceTile: View {
                     .foregroundStyle(BasirPalette.secondaryText)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            .frame(maxWidth: .infinity, minHeight: 96, alignment: .topLeading)
+            .frame(maxWidth: .infinity, minHeight: 116, alignment: .topLeading)
             .padding(BasirSpacing.l)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .background(BasirPalette.surface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .background(BasirPalette.surface, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay {
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .stroke(BasirPalette.stroke, lineWidth: 1)
         }
         .accessibilityLabel(title)

@@ -61,7 +61,7 @@ enum BasirSpacing {
     static let m: CGFloat = 12
     static let l: CGFloat = 16
     static let xl: CGFloat = 24
-    static let cardRadius: CGFloat = 22
+    static let cardRadius: CGFloat = 16
 }
 
 enum AppAppearance: String, CaseIterable, Identifiable, Codable, Sendable {
@@ -123,18 +123,7 @@ struct AuroraBackground: View {
         GeometryReader { geometry in
             ZStack {
                 BasirPalette.background
-                if !reduceTransparency && contrast != .increased {
-                    Circle()
-                        .fill(BasirPalette.cyan.opacity(colorScheme == .dark ? 0.10 : 0.08))
-                        .frame(width: geometry.size.width * 0.80)
-                        .blur(radius: 80)
-                        .offset(x: -geometry.size.width * 0.38, y: -geometry.size.height * 0.30)
-                    Circle()
-                        .fill(BasirPalette.violet.opacity(colorScheme == .dark ? 0.08 : 0.05))
-                        .frame(width: geometry.size.width * 0.90)
-                        .blur(radius: 96)
-                        .offset(x: geometry.size.width * 0.46, y: geometry.size.height * 0.18)
-                }
+
             }
             .ignoresSafeArea()
         }

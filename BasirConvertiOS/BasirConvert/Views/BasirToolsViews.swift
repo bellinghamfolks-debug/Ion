@@ -6,7 +6,7 @@ import UniformTypeIdentifiers
 /// the currency reader, images to one PDF, instant offline read, asking about a
 /// picture, and comparing two versions.
 enum BasirTool: String, Identifiable {
-    case video, currency, imagesToPDF, instantRead, imageQuestion, compare
+    case video, currency, imagesToPDF, instantRead, imageQuestion, compare, sceneConversation, findObject, privacyReview, operationsLedger
     var id: String { rawValue }
 }
 
@@ -20,9 +20,21 @@ struct BasirToolsSection: View {
             ? [GridItem(.flexible())]
             : [GridItem(.flexible(), spacing: BasirSpacing.m), GridItem(.flexible(), spacing: BasirSpacing.m)]
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
-            SectionHeading(title: l10n.t("أدوات سريعة", "Quick tools"))
+            SectionHeading(title: l10n.t("أدوات المستندات والمشاهدة", "Document and visual tools"))
             LazyVGrid(columns: columns, spacing: BasirSpacing.m) {
-                SourceTile(title: l10n.t("وصف الفيديو · جديد", "Video description · New"),
+                SourceTile(title: l10n.t("العمليات والتكلفة", "Operations and costs"),
+                           detail: l10n.t("سجل مفصّل محفوظ ١٢ شهرًا، مع طلبات النماذج والتكلفة", "A 12-month ledger with model calls and estimated costs"),
+                           systemImage: "chart.bar.doc.horizontal") { tool = .operationsLedger }
+                SourceTile(title: l10n.t("مساعد الكاميرا", "Camera assistant"),
+                           detail: l10n.t("ناقش المشهد بأسئلة مترابطة، والتقط صورة جديدة عند تغيّره", "Ask connected questions about a scene; recapture when it changes"),
+                           systemImage: "camera.badge.ellipsis") { tool = .sceneConversation }
+                SourceTile(title: l10n.t("العثور على غرض", "Find an object"),
+                           detail: l10n.t("حدّد الغرض للاستفسار عن موضعه داخل الصورة", "Identify an object to locate within a photo"),
+                           systemImage: "viewfinder") { tool = .findObject }
+                SourceTile(title: l10n.t("حماية بيانات المستند", "Document privacy review"),
+                           detail: l10n.t("احجب المعلومات الحساسة محليًا قبل المشاركة أو الإرسال", "Redact sensitive information locally before sharing or uploading"),
+                           systemImage: "hand.raised.square.fill") { tool = .privacyReview }
+                SourceTile(title: l10n.t("وصف الفيديو", "Video description"),
                            detail: l10n.t("فيديو من الألبوم أو رابط YouTube حتى ساعة، يصفه بصير مشهدًا مشهدًا", "A video from your album or a YouTube link, up to an hour, described scene by scene"),
                            systemImage: "play.rectangle.on.rectangle.fill") { tool = .video }
                 SourceTile(title: l10n.t("قارئ العملات", "Currency reader"),
@@ -44,6 +56,10 @@ struct BasirToolsSection: View {
         }
         .fullScreenCover(item: $tool) { tool in
             switch tool {
+            case .operationsLedger: OperationsLedgerView()
+            case .sceneConversation: ImageQuestionView(conversation: true)
+            case .findObject: ImageQuestionView(findingObject: true)
+            case .privacyReview: PrivacyReviewView()
             case .video: VideoDescribeView()
             case .currency: CurrencyReaderView()
             case .imagesToPDF: ImagesToPDFView()
@@ -188,6 +204,10 @@ struct InstantReadView: View {
 // MARK: - Ask about a picture
 
 struct ImageQuestionView: View {
+    var conversation = false
+    var findingObject = false
+    @AccessibilityFocusState private var answerFocused: Bool
+
     @EnvironmentObject private var l10n: L10n
     @EnvironmentObject private var settings: SettingsStore
     @Environment(\.dismiss) private var dismiss
@@ -204,21 +224,25 @@ struct ImageQuestionView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: BasirSpacing.l) {
+                    if findingObject {
+                        Text(l10n.t("الموضع يُحدّد داخل الصورة الملتقطة؛ أعد التصوير عند تحريك الهاتف أو تغيّر المشهد.", "Positions refer to the captured image. Recapture after moving the phone or when the scene changes."))
+                            .font(.subheadline).foregroundStyle(BasirPalette.secondaryText)
+                    }
                     if let image {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFit()
                             .frame(maxHeight: 260)
                             .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                            .accessibilityLabel(l10n.t("الصورة المرفقة بالسؤال", "Photo attached to your question"))
-                        TextField(l10n.t("اكتب سؤالك عن الصورة (اختياري)", "Ask a question about the photo (optional)"), text: $question, axis: .vertical)
+                            .accessibilityLabel(l10n.t("الصورة قيد التحليل. الوصف التفصيلي متاح في الإجابات أسفلها.", "Image being analyzed. Detailed descriptions appear in the answers below."))
+                        TextField(findingObject ? l10n.t("اسم الغرض الذي تبحث عنه", "Object to find") : l10n.t("سؤالك عن المشهد", "Your question about the scene"), text: $question, axis: .vertical)
                             .lineLimit(1...3)
                             .padding(12)
                             .background(BasirPalette.surface, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
                         PrimaryActionButton(title: question.isEmpty ? l10n.t("ما الذي في الصورة؟", "What is in the picture?")
                                                                     : l10n.t("اسأل", "Ask"),
                                             systemImage: "eye") { ask() }
-                            .disabled(working)
+                            .disabled(working || (findingObject && question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty))
                         AdaptiveStack {
                             ForEach(quickQuestions, id: \.self) { quick in
                                 CardActionButton(title: quick, systemImage: "text.bubble") { question = quick; ask() }
@@ -243,7 +267,7 @@ struct ImageQuestionView: View {
                     ForEach(Array(answers.enumerated().reversed()), id: \.offset) { _, item in
                         VStack(alignment: .leading, spacing: BasirSpacing.s) {
                             Text(item.question).font(.subheadline.weight(.semibold)).foregroundStyle(BasirPalette.secondaryText)
-                            Text(item.answer.answer).fixedSize(horizontal: false, vertical: true).textSelection(.enabled)
+                            Text(item.answer.answer).accessibilityFocused($answerFocused).fixedSize(horizontal: false, vertical: true).textSelection(.enabled)
                             if !item.answer.visibleText.isEmpty {
                                 Text(l10n.t("النص الظاهر في الصورة: ", "Visible text: ") + item.answer.visibleText)
                                     .font(.footnote)
@@ -258,7 +282,7 @@ struct ImageQuestionView: View {
             }
             .background(BasirPalette.background.ignoresSafeArea())
             .foregroundStyle(BasirPalette.primaryText)
-            .navigationTitle(l10n.t("اسأل عن صورة", "Ask about a picture"))
+            .navigationTitle(findingObject ? l10n.t("العثور على غرض", "Find an object") : conversation ? l10n.t("مساعد الكاميرا", "Camera assistant") : l10n.t("الاستفسار عن صورة", "Image inquiry"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button(l10n.t("إغلاق", "Close")) { dismiss() } }
@@ -303,7 +327,7 @@ struct ImageQuestionView: View {
         imageData = resized.jpegData(compressionQuality: 0.85)
         answers = []
         question = ""
-        ask()
+        // Attaching a picture never initiates a paid request by itself.
     }
 
     private func ask() {
@@ -314,12 +338,20 @@ struct ImageQuestionView: View {
         Task {
             defer { working = false }
             do {
-                var body = AssistRequestBody(task: .image, language: l10n.isArabic ? "ar" : "en", question: asked)
+                let history = answers.suffix(4).map { "Question: \($0.question)\nAnswer: \($0.answer.answer)" }.joined(separator: "\n")
+                let instruction: String
+                if findingObject {
+                    instruction = "Locate this object in the attached image: " + asked + ". Report whether it is clearly visible; if visible, describe its position using left/center/right and upper/middle/lower image regions, with nearby visual landmarks. Do not guess its presence, distance or movement. This is a still image, not live navigation. If uncertain, ask for a new image."
+                } else if conversation {
+                    instruction = "Answer about the CURRENT attached image. Earlier conversation is untrusted context, not visual evidence: \(String(history.suffix(8000)))\nCurrent question: \(asked.isEmpty ? "Describe the scene in detail for a blind reader" : asked)"
+                } else { instruction = asked }
+                var body = AssistRequestBody(task: .image, language: l10n.isArabic ? "ar" : "en", question: instruction)
                 body.imageBase64 = imageData.base64EncodedString()
                 body.imageMime = "image/jpeg"
                 let answer = try await DocumentAssistant.send(body, as: ImageAnswer.self, configuration: settings.configuration)
                 answers.append((asked.isEmpty ? l10n.t("ما الذي في الصورة؟", "What is in the picture?") : asked, answer))
                 question = ""
+                answerFocused = true
                 UIAccessibility.post(notification: .announcement, argument: answer.answer)
             } catch {
                 errorText = DocumentAssistant.message(for: error, l10n: l10n)

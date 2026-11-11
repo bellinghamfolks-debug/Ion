@@ -9,7 +9,10 @@ import Vision
 enum InstantReader {
     static let maximumPages = 30
     /// Pages recognised at the same time.
-    static let parallelPages = 3
+    static var parallelPages: Int {
+        let thermal = ProcessInfo.processInfo.thermalState
+        return thermal == .serious || thermal == .critical || ProcessInfo.processInfo.isLowPowerModeEnabled ? 1 : 3
+    }
 
     /// On-device recognition supports Arabic only on some iOS versions.
     static var supportsArabic: Bool {

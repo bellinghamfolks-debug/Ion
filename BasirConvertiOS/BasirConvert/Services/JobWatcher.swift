@@ -355,7 +355,17 @@ final class JobWatcher: NSObject, @unchecked Sendable {
 
     private func unlockedLoad() -> [Entry] {
         guard let data = UserDefaults.standard.data(forKey: Self.storeKey) else { return [] }
-        return (try? JSONDecoder().decode([Entry].self, from: data)) ?? []
+        return Self.decodeEntries(data)
+    }
+
+    /// One retired task must not discard background monitoring for every
+    /// conversion, video and summary already in progress.
+    static func decodeEntries(_ data: Data) -> [Entry] {
+        guard let rows = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] else { return [] }
+        return rows.compactMap { row in
+            guard let record = try? JSONSerialization.data(withJSONObject: row) else { return nil }
+            return try? JSONDecoder().decode(Entry.self, from: record)
+        }
     }
 }
 

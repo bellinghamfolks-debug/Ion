@@ -75,6 +75,22 @@ final class ServerTasksTests: XCTestCase {
         XCTAssertEqual(ServerTaskStore.decodeLedger(Data("invalid".utf8)), [])
     }
 
+    func testRetiredWatchDoesNotDiscardOtherBackgroundTasks() throws {
+        let entry = JobWatcher.Entry(id: "conversion", serverJobID: "job", work: .conversion,
+                                     title: "file", arabic: true, percent: 25, uploading: false,
+                                     startedAt: Date(), finished: false)
+        let encoded = try JSONEncoder().encode(entry)
+        let row = try XCTUnwrap(JSONSerialization.jsonObject(with: encoded) as? [String: Any])
+        var retired = row
+        retired["work"] = "restyle"
+        retired["id"] = "retired"
+        let data = try JSONSerialization.data(withJSONObject: [retired, row])
+        let kept = JobWatcher.decodeEntries(data)
+        XCTAssertEqual(kept.map(\.id), ["conversion"])
+        XCTAssertEqual(kept.first?.percent, 25)
+        XCTAssertEqual(kept.first?.work, .conversion)
+    }
+
     @MainActor
     func testProgressIsDescribedByStage() {
         let center = ServerTaskCenter.shared

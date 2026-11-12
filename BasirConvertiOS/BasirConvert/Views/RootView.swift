@@ -57,7 +57,16 @@ struct RootView: View {
         .onChange(of: intents.pendingJobID) { _ in handleIntents() }
         .onChange(of: settings.appearance) { _ in applyTheme() }
         .onChange(of: settings.highContrast) { _ in applyTheme() }
+        .onAppear { AppActivity.record(screen: "application", action: "launch") }
+        .task {
+            guard !isUnitTestHost else { return }
+            while !Task.isCancelled {
+                if scenePhase == .active { await AppActivity.flush(configuration: settings.configuration) }
+                do { try await Task.sleep(nanoseconds: 30_000_000_000) } catch { break }
+            }
+        }
         .onChange(of: scenePhase) { phase in
+            AppActivity.record(screen: "application", action: phase == .active ? "foreground" : "background")
             guard phase == .active else { return }
             applyTheme()
             if let link = SharedLinks.takeLatestVideo() { sharedVideoLink = SharedVideoLink(url: link) }

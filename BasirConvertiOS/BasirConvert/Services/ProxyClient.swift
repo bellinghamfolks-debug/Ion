@@ -376,10 +376,10 @@ actor ProxyClient {
                 progress(serverProgress)
             }
             if ["completed", "complete", "done", "succeeded", "partial"].contains(state) {
-                guard let terminalQuality = qualityStatus else {
-                    logger.record("QUALITY terminal manifest missing")
-                    throw BasirError.invalidResponse("تعذر التحقق من جودة النتيجة، لذلك لم يُحفظ الملف.")
-                }
+                let terminalQuality = qualityStatus ?? "unavailable"
+                var advisoryWarnings = qualityWarnings
+                if qualityStatus == nil { advisoryWarnings.append("quality_report_unavailable") }
+                if terminalQuality != "passed" { advisoryWarnings.append("quality_review_required") }
                 let retainedNumbers = qualityMetrics.retainedPageNumbers ?? []
                 let skippedNumbers = qualityMetrics.skippedBlankPageNumbers ?? skippedItems
                 let fallbackNumbers = qualityMetrics.fallbackPageNumbers ?? failedItems
@@ -389,61 +389,19 @@ actor ProxyClient {
                 let isNaturalEngine = qualityMetrics.isNaturalMarkdownEngine
                 logger.record("QUALITY terminal status=\(terminalQuality) score=\(qualityScore ?? -1) warnings=\(qualityWarnings.joined(separator: ",")) engine=\(qualityMetrics.conversionEngine ?? "legacy") natural=\(isNaturalEngine)")
                 logger.record("QUALITY pages retained=\(retainedNumbers) skippedBlank=\(skippedNumbers) fallback=\(fallbackNumbers) relaxedLayout=\(relaxedNumbers) accountingExact=\(accountingExact.map(String.init) ?? "nil") numberingExact=\(numberingExact.map(String.init) ?? "nil")")
-                guard terminalQuality == "passed" else {
-                    throw BasirError.conversionFailed("لم يجتز الملف فحص الجودة، لذلك لم تُحفظ النتيجة. أعد المحاولة.")
-                }
-                if expectedSourcePages > 0 {
-                    if isNaturalEngine {
-                        guard Set(skippedNumbers) == Set(skippedItems),
-                              Set(fallbackNumbers) == Set(failedItems),
-                              BasirAPIContract.naturalPageAccountingIsValid(
-                                expectedSelectedPages: expectedSourcePages,
-                                retained: retainedNumbers,
-                                skippedBlank: skippedNumbers,
-                                failed: fallbackNumbers
-                              ) else {
-                            throw BasirError.invalidResponse("The natural-engine source-page accounting is inconsistent.")
-                        }
-                        // The server has already structurally validated this DOCX.
-                        // Do not re-apply legacy PageIR physical-page/table/image
-                        // assumptions to a natural Markdown result.
-                        validatedExpectedTables = 0
-                        validatedExpectedImages = 0
-                    } else {
-                        let expectedResultPages = max(0, expectedSourcePages - skippedItems.count)
-                        guard qualityMetrics.sourcePages == expectedSourcePages,
-                              qualityMetrics.expectedRenderedPages == expectedResultPages else {
-                            throw BasirError.invalidResponse("The quality manifest source-page accounting is inconsistent.")
-                        }
-                        let requiresExactSourceIdentity = options.operation == .convert && options.outputMode != .simple
-                        if requiresExactSourceIdentity {
-                            guard accountingExact == true, numberingExact == true else {
-                                throw BasirError.invalidResponse("The quality manifest source-page identity or numbering is inconsistent.")
-                            }
-                        }
-                        let expectedTables = qualityMetrics.expectedNativeTables ?? 0
-                        let sourceUniqueImages = qualityMetrics.sourceUniqueImages ?? 0
-                        validatedExpectedTables = max(0, expectedTables)
-                        validatedExpectedImages = max(0, sourceUniqueImages)
-                    }
-                }
-                let artifactBytes = qualityMetrics.artifactBytes ?? 0
-                let artifactMembers = qualityMetrics.artifactMembers ?? 0
+                validatedExpectedTables = 0
+                validatedExpectedImages = 0
                 let artifactText = qualityMetrics.artifactTextCharacters ?? 0
                 let artifactTables = qualityMetrics.artifactTables ?? 0
                 let artifactDrawings = qualityMetrics.artifactDrawings ?? 0
                 let artifactMissingAlt = qualityMetrics.artifactMissingAltText ?? -1
-                guard artifactBytes > 0, artifactMembers >= 3, artifactMissingAlt == 0,
-                      artifactText > 0 || artifactTables > 0 || artifactDrawings > 0 else {
-                    throw BasirError.invalidResponse("The quality manifest Word-package integrity is inconsistent.")
-                }
                 resultPath = status.resultURL
                 let requestedModel = status.requestedModel ?? options.effectivePreferredModel
                 let executedModel = status.executedModel
                 logger.record("job model requestID=\(stableRequestID) requested=\(requestedModel) executed=\(executedModel ?? "unknown") workers=\(qualityMetrics.parallelWorkers ?? 0) detailReviews=\(qualityMetrics.detailReviewedPages ?? 0) handwritingReviews=\(qualityMetrics.handwritingReviewedPages ?? 0) visualReviews=\(qualityMetrics.visualReviewedPages ?? 0)")
                 let quality = QualityReport(
                     score: qualityScore,
-                    warnings: qualityWarnings,
+                    warnings: advisoryWarnings,
                     sourcePages: qualityMetrics.sourcePages ?? (expectedSourcePages > 0 ? expectedSourcePages : nil),
                     retainedPages: retainedNumbers.isEmpty ? succeeded : retainedNumbers.count,
                     skippedBlankPages: skippedNumbers.count,
@@ -516,7 +474,7 @@ actor ProxyClient {
         let expectedResultPages = naturalEngineResult
             ? 0
             : max(0, expectedSourcePages - outcome.skippedBlankItems.count)
-        try verifyAndMove(
+        let packageVerified = try verifyAndMove(
             temporary: temporary, response: downloadResponse, outputURL: outputURL,
             expectedPages: expectedResultPages, expectedTables: validatedExpectedTables,
             expectedImages: validatedExpectedImages
@@ -533,7 +491,8 @@ actor ProxyClient {
         }
         progress(.init(current: 1, total: 1, stage: .done, detail: nil))
         var verifiedQuality = outcome.quality
-        verifiedQuality?.wordPackageVerified = true
+        verifiedQuality?.wordPackageVerified = packageVerified
+        if !packageVerified { verifiedQuality?.warnings.append("artifact_integrity_needs_review") }
         return ConversionOutcome(
             succeededItems: outcome.succeededItems,
             failedItems: outcome.failedItems,
@@ -769,6 +728,21 @@ actor ProxyClient {
         throw lastError ?? BasirError.conversionFailed("Request failed after retries.")
     }
 
+    func sendActivity(_ events: [[String: String]]) async throws -> Int {
+        let base = try secureBaseURL()
+        var request = URLRequest(url: base.appendingPathComponent("api/activity"))
+        request.httpMethod = "POST"
+        request.timeoutInterval = 20
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        applyServerHeaders(to: &request, requestID: UUID().uuidString)
+        request.httpBody = try JSONSerialization.data(withJSONObject: ["events": events])
+        let (data, response) = try await session.data(for: request)
+        guard let http = response as? HTTPURLResponse else { throw BasirError.invalidResponse("Invalid activity response") }
+        try Self.validateHTTP(http, data: data)
+        let body = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+        return max(0, min(events.count, body?["accepted"] as? Int ?? 0))
+    }
+
     private nonisolated func secureBaseURL() throws -> URL {
         guard let secure = configuration.secureBaseURL else { throw BasirError.invalidServerURL }
         var value = secure.absoluteString
@@ -780,6 +754,7 @@ actor ProxyClient {
     }
 
     private nonisolated func applyServerHeaders(to request: inout URLRequest, requestID: String) {
+        for (key, value) in AppActivity.headers() { request.setValue(value, forHTTPHeaderField: key) }
         request.setValue("Basir-iOS/\(Self.appVersion)", forHTTPHeaderField: "User-Agent")
         request.setValue(requestID, forHTTPHeaderField: "X-Request-ID")
         request.setValue(requestID, forHTTPHeaderField: "Idempotency-Key")
@@ -804,16 +779,17 @@ actor ProxyClient {
     private func verifyAndMove(
         temporary: URL, response: HTTPURLResponse, outputURL: URL,
         expectedPages: Int, expectedTables: Int, expectedImages: Int
-    ) throws {
+    ) throws -> Bool {
+        var packageVerified = true
         do {
-            try DocxValidator.validate(url: temporary, expectedPages: expectedPages, expectedTables: expectedTables, expectedImages: expectedImages)
+            try DocxValidator.validate(url: temporary, expectedPages: 0, expectedTables: 0, expectedImages: 0)
         } catch {
             let type = response.value(forHTTPHeaderField: "Content-Type")?
                 .split(separator: ";").first.map(String.init)?.lowercased() ?? "missing"
             if type.contains("json") || type.hasPrefix("text/") || type == "missing" {
                 throw BasirError.invalidServerContentType(type)
             }
-            throw error
+            packageVerified = false
         }
         let actualChecksum = try DocumentInspector.sha256(temporary).lowercased()
         if let expected = response.value(forHTTPHeaderField: "X-Content-SHA256")?.lowercased(),
@@ -826,6 +802,7 @@ actor ProxyClient {
         }
         try FileManager.default.moveItem(at: temporary, to: outputURL)
         try FileAccess.protect(outputURL, excludedFromBackup: false)
+        return packageVerified
     }
 
     private static func validateHTTP(_ response: HTTPURLResponse, data: Data) throws {

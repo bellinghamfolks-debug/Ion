@@ -62,6 +62,12 @@ final class SettingsStore: ObservableObject {
         didSet { defaults.set(deleteServerCopy, forKey: Key.deleteServerCopy) }
     }
 
+    @Published var collectionEnabled: Bool {
+        didSet { defaults.set(collectionEnabled, forKey: AppActivity.enabledKey); if !collectionEnabled { AppActivity.discardPending() } }
+    }
+    @Published var collectionMetadataOnly: Bool {
+        didSet { defaults.set(collectionMetadataOnly, forKey: AppActivity.metadataKey) }
+    }
     @Published var outputMode: OutputMode
     @Published var embedVisuals: Bool
     @Published var includeMath: Bool
@@ -95,6 +101,8 @@ final class SettingsStore: ObservableObject {
     ) {
         bundledConfiguration = configuration
         self.defaults = defaults
+        collectionEnabled = defaults.object(forKey: AppActivity.enabledKey) as? Bool ?? true
+        collectionMetadataOnly = defaults.object(forKey: AppActivity.metadataKey) as? Bool ?? false
         appearance = AppAppearance(rawValue: defaults.string(forKey: Key.appearance) ?? "system") ?? .system
         highContrast = defaults.bool(forKey: Key.highContrast)
         appLock = defaults.bool(forKey: Key.appLock)

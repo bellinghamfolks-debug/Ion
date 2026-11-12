@@ -64,7 +64,7 @@ struct BasirToolsSection: View {
         case .sceneConversation: return (l10n.t("مساعد الكاميرا", "Camera assistant"), l10n.t("أسئلة مترابطة حول المشهد الملتقط", "Connected questions about a captured scene"), "camera.badge.ellipsis")
         case .findObject: return (l10n.t("العثور على غرض", "Find an object"), l10n.t("موضع الغرض داخل الصورة مع إشارات اهتزازية", "Locate an object in a photo with haptic feedback"), "viewfinder")
         case .privacyReview: return (l10n.t("حماية بيانات المستند", "Document privacy"), l10n.t("حجب المعلومات الحساسة محليًا قبل المشاركة", "Redact sensitive information locally before sharing"), "hand.raised.square.fill")
-        case .operationsLedger: return (l10n.t("العمليات والتكلفة", "Operations and costs"), l10n.t("سجل المالك التفصيلي محفوظ ١٢ شهرًا", "Owner ledger retained for 12 months"), "chart.bar.doc.horizontal")
+        case .operationsLedger: return (l10n.t("العمليات والتكلفة", "Operations and costs"), l10n.t("سجل تفصيلي وفق إعدادات الاحتفاظ", "Detailed ledger under your retention settings"), "chart.bar.doc.horizontal")
         case .video: return (l10n.t("وصف الفيديو وترجمة الحوار", "Video description and translation"), l10n.t("تحليل المشاهد والنصوص والحوار", "Analyze scenes, visible text and dialogue"), "play.rectangle.on.rectangle.fill")
         case .currency: return (l10n.t("التعرّف على العملات", "Currency recognition"), l10n.t("قراءة قيمة الورقة النقدية بالكاميرا", "Read banknote denominations using the camera"), "banknote.fill")
         case .imagesToPDF: return (l10n.t("إنشاء PDF من الصور", "Create PDF from images"), l10n.t("ترتيب الصور وتجميعها في مستند واحد", "Arrange and combine images in one document"), "photo.stack.fill")

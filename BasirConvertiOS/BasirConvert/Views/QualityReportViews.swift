@@ -284,6 +284,10 @@ struct QualityReportCard: View {
     @MainActor
     static func describe(_ code: String, l10n: L10n) -> String {
         let known: [String: (String, String)] = [
+            "quality_report_unavailable": ("تقرير الجودة غير متاح؛ حُفظ الملف المتاح للمراجعة.", "Quality report unavailable; the available file was saved for review."),
+            "quality_review_required": ("تحتاج النتيجة إلى مراجعة؛ يمكنك تنزيلها والاطلاع على الملاحظات.", "This result needs review; you can download it and inspect the findings."),
+            "artifact_integrity_needs_review": ("تعذر تأكيد سلامة بنية الملف؛ احتُفظ بالنسخة المتاحة.", "The file structure could not be verified; the available copy was retained."),
+            "processing_incomplete_result_preserved": ("توقفت المعالجة قبل اكتمالها؛ حُفظت النتيجة المتاحة.", "Processing stopped early; the available result was preserved."),
             "low_confidence_pages": ("قد تحتوي بعض الصفحات على أخطاء في قراءة النص. يُنصح بمراجعتها.", "Text recognition may be less accurate on some pages. Please review them."),
             "handwriting_detected": ("يحتوي المستند على نص بخط اليد. راجع هذا النص للتأكد من صحة قراءته.", "The document contains handwriting; review those parts."),
             "fallback_pages": ("تعذرت قراءة نص بعض الصفحات، فحُفظت صورها في أماكنها مع تنبيه.", "Some pages could not be read and were kept in place as pictures with a notice."),

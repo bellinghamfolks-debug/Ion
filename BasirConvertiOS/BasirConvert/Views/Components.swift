@@ -247,6 +247,7 @@ struct BasirHeroCard: View {
 
 private struct AppScreenContent: ViewModifier {
     let bottomPadding: CGFloat
+    let screen: String
 
     func body(content: Content) -> some View {
         content
@@ -254,6 +255,7 @@ private struct AppScreenContent: ViewModifier {
             .padding(.horizontal, BasirSpacing.l)
             .padding(.top, BasirSpacing.xs)
             .padding(.bottom, bottomPadding)
+            .onAppear { AppActivity.record(screen: screen, action: "view") }
     }
 }
 
@@ -266,8 +268,8 @@ extension View {
         modifier(GlassSurface(cornerRadius: cornerRadius, padding: padding, accent: accent))
     }
 
-    func appScreenContent(bottomPadding: CGFloat = BasirSpacing.xl) -> some View {
-        modifier(AppScreenContent(bottomPadding: bottomPadding))
+    func appScreenContent(bottomPadding: CGFloat = BasirSpacing.xl, file: String = #fileID) -> some View {
+        modifier(AppScreenContent(bottomPadding: bottomPadding, screen: URL(fileURLWithPath: file).deletingPathExtension().lastPathComponent))
     }
 
     /// Lets VoiceOver users dismiss a sheet with the two-finger Z (escape) gesture.
@@ -358,7 +360,7 @@ struct PrimaryActionButton: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button { AppActivity.record(screen: "control", action: "activate"); action() } label: {
             Label(title, systemImage: systemImage)
                 .font(.headline)
                 .foregroundStyle(BasirPalette.onAccent)
@@ -384,7 +386,7 @@ struct SecondaryActionButton: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button { AppActivity.record(screen: "control", action: "activate"); action() } label: {
             Label(title, systemImage: systemImage)
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(BasirPalette.primaryText)
@@ -411,7 +413,7 @@ struct CardActionButton: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button { AppActivity.record(screen: "control", action: "activate"); action() } label: {
             Label(title, systemImage: systemImage)
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(prominent ? BasirPalette.onAccent : BasirPalette.accent)
@@ -498,7 +500,7 @@ struct AccessibleSelectionRow: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button { AppActivity.record(screen: "control", action: "activate"); action() } label: {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: selected ? "checkmark.circle.fill" : "circle")
                     .font(.title3)

@@ -1,7 +1,7 @@
 name: Basir source validation
 on:
   push:
-    branches: ["claude/basir-*"]
+    branches: ["claude/basir-*", "basir-ios-v2.3.0-codemagic"]
     paths:
       - "BasirConvertiOS/**"
       - ".github/workflows/basir-source.yml"

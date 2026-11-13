@@ -72,7 +72,8 @@ final class AppViewModel: ObservableObject {
         return rateEstimator.remaining(jobID: job.id, current: progress.current, total: progress.total)
     }
 
-    init() {
+    init(restoringSavedJobs: Bool = true) {
+        guard restoringSavedJobs else { return }
         Task { [weak self] in
             guard let self else { return }
             let loaded = await jobStore.load()
@@ -87,7 +88,14 @@ final class AppViewModel: ObservableObject {
             // behind; nothing waits for them and they slow new transfers.
             await BackgroundTransferCoordinator.shared.cancelTransfersFromEarlierLaunch()
             jobs = restored
-            if !completed.isEmpty { persist() }
+            // Older clients paused only the phone. Reconcile manual pauses
+            // even when attach ran before the task store finished loading.
+            for index in jobs.indices where jobs[index].status == .paused
+                && jobs[index].automaticResumePending != true && jobs[index].serverCancelPending == nil {
+                jobs[index].serverCancelPending = true
+            }
+            persist()
+            resendPendingCancellations()
             selectedJobID = JobQueuePolicy.initialSelection(in: restored)
             syncFacade()
             if self.settings?.automaticResume == true { self.resumeInterruptedJobsIfNeeded() }
@@ -263,15 +271,28 @@ final class AppViewModel: ObservableObject {
 
     func pause() {
         guard let index = activeIndex else { return }
+        let jobID = jobs[index].id
         activeLogger?.record("USER pause requested")
         pauseRequested = true
+        networkPauseRequested = false
         jobs[index].status = .paused
         jobs[index].automaticResumePending = false
+        // Stop paid server work through its durable cancellation barrier.
+        // Keep the request ID and checkpoints for an explicit resume.
+        jobs[index].serverCancelPending = true
+        jobs[index].errorMessage = l10n?.t(
+            "جارٍ طلب الإيقاف على الخادم. قد تُحتسب الطلبات التي بدأت بالفعل؛ لم يُؤكَّد التوقف بعد.",
+            "Requesting a server stop. Requests already in progress may be charged; stopping is not confirmed yet."
+        )
         jobs[index].progress = progressReplacingStage(jobs[index].progress, .paused)
         jobs[index].updatedAt = Date()
         persist()
         syncFacade()
         jobTask?.cancel()
+        JobWatcher.shared.stop(id: jobID.uuidString)
+        JobNotifier.remove(jobID.uuidString)
+        PushRegistrar.shared.jobFinished(jobID)
+        sendServerCancellation(jobID: jobID)
         OperationFeedback.play(.paused, theme: settings?.soundTheme ?? .gentle)
     }
 
@@ -284,12 +305,13 @@ final class AppViewModel: ObservableObject {
         if jobs[index].serverCancelPending == true {
             if let l10n {
                 UIAccessibility.post(notification: .announcement, argument: l10n.t(
-                    "جارٍ تأكيد إلغاء المهمة. انتظر قليلًا ثم أعد المحاولة.",
-                    "Cancellation is being confirmed. Please wait a moment, then try again."))
+                    "جارٍ تأكيد توقف المعالجة على الخادم. انتظر قليلًا ثم أعد المحاولة.",
+                    "The server stop is being confirmed. Please wait a moment, then try again."))
             }
             sendServerCancellation(jobID: id)
             return
         }
+        guard jobTask == nil else { return }
         jobs[index].status = .queued
         jobs[index].automaticResumePending = false
         jobs[index].errorMessage = nil
@@ -470,6 +492,12 @@ final class AppViewModel: ObservableObject {
                             if let index = self.jobs.firstIndex(where: { $0.id == jobID }) {
                                 self.jobs[index].remoteJobID = serverJobID
                                 self.persist()
+                                guard self.jobs[index].status == .running else {
+                                    if self.jobs[index].serverCancelPending == true {
+                                        self.sendServerCancellation(jobID: jobID)
+                                    }
+                                    return
+                                }
                             }
                             // Followed in the background from now on, with or without push.
                             JobWatcher.shared.watch(id: jobID.uuidString, serverJobID: serverJobID,
@@ -604,6 +632,13 @@ final class AppViewModel: ObservableObject {
     }
 
     private func finish(jobID: UUID, error: Error, logger: DiagnosticLogger?, output: URL?) {
+        if let job = jobs.first(where: { $0.id == jobID }),
+           (job.status == .paused && job.automaticResumePending != true) || job.status == .cancelled {
+            // A late HTTP/storage error from the cancelled local producer
+            // must not overwrite the person's pause or its pending stop.
+            completeCurrentTaskAndContinue(allowNext: false)
+            return
+        }
         if let urlError = error as? URLError, urlError.code == .cancelled, let logger {
             handleTransportCancellation(jobID: jobID, logger: logger)
             return

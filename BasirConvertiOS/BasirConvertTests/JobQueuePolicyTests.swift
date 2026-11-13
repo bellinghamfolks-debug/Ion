@@ -15,6 +15,68 @@ final class JobQueuePolicyTests: XCTestCase {
         )
     }
 
+    @MainActor
+    func testManualPauseRequestsADurableServerStopAndBlocksResume() throws {
+        let model = AppViewModel(restoringSavedJobs: false)
+        var running = job(.running)
+        running.progress = ConversionProgress(current: 85, total: 219, stage: .processing, detail: nil)
+        running.automaticResumePending = true
+        model.jobs = [running]
+        model.selectedJobID = running.id
+
+        model.pause()
+        XCTAssertEqual(model.jobs[0].status, .paused)
+        XCTAssertEqual(model.jobs[0].serverCancelPending, true)
+        XCTAssertEqual(model.jobs[0].automaticResumePending, false)
+        XCTAssertEqual(model.jobs[0].progress.current, 85)
+        XCTAssertEqual(model.jobs[0].requestID, running.requestID)
+        model.resume()
+        XCTAssertEqual(model.jobs[0].status, .paused)
+        XCTAssertNil(JobQueuePolicy.nextIndex(in: model.jobs))
+
+        // The unconfirmed stop survives serialization and cannot silently
+        // turn into an automatic background resume after an app relaunch.
+        let restored = try JSONDecoder().decode(BasirJob.self, from: JSONEncoder().encode(model.jobs[0]))
+        XCTAssertEqual(restored.serverCancelPending, true)
+        XCTAssertEqual(restored.automaticResumePending, false)
+        for task in model.cancellationTasks.values { task.cancel() }
+    }
+
+    @MainActor
+    func testServerAcknowledgementKeepsPauseAndReusesTheSameRequestOnResume() {
+        let outcomes: [ServerCancellation] = [.cancelled, .neverReachedServer, .alreadyFinished]
+        for outcome in outcomes {
+            let model = AppViewModel(restoringSavedJobs: false)
+            var paused = job(.paused)
+            paused.serverCancelPending = true
+            paused.automaticResumePending = false
+            model.jobs = [paused]
+            model.selectedJobID = paused.id
+            model.serverCancellationConfirmed(jobID: paused.id, outcome: outcome)
+            XCTAssertEqual(model.jobs[0].status, .paused)
+            XCTAssertEqual(model.jobs[0].serverCancelPending, false)
+            XCTAssertEqual(model.jobs[0].automaticResumePending, false)
+            model.resume()
+            XCTAssertEqual(model.jobs[0].status, .queued)
+            XCTAssertEqual(model.jobs[0].requestID, paused.requestID)
+        }
+    }
+
+    @MainActor
+    func testAStopConnectionFailureStaysPendingAndDoesNotResumeTheTask() {
+        let model = AppViewModel(restoringSavedJobs: false)
+        var paused = job(.paused)
+        paused.serverCancelPending = true
+        paused.automaticResumePending = false
+        model.jobs = [paused]
+        model.selectedJobID = paused.id
+        model.serverCancellationWaiting(jobID: paused.id)
+        XCTAssertEqual(model.jobs[0].status, .paused)
+        XCTAssertEqual(model.jobs[0].serverCancelPending, true)
+        model.resumeInterruptedJobsIfNeeded()
+        XCTAssertEqual(model.jobs[0].status, .paused)
+    }
+
     func testNextTaskFollowsTheQueueOrderUnlessAPreferredOneCanRun() {
         let preferred = UUID()
         let jobs = [job(.completed), job(.waitingForNetwork), job(.queued, id: preferred), job(.paused)]

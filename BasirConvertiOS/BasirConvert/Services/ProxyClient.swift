@@ -292,6 +292,7 @@ actor ProxyClient {
         applyServerHeaders(to: &createRequest, requestID: stableRequestID)
         progress(.init(current: 0, total: 0, stage: .preparing, detail: sourceURL.lastPathComponent))
 
+        try Task.checkCancellation()
         let (creationData, creationResponse) = try await retryingData(request: createRequest)
         try Self.validateHTTP(creationResponse, data: creationData)
         let created: JobCreationResponse
@@ -304,6 +305,7 @@ actor ProxyClient {
             throw BasirError.invalidResponse("The server returned an invalid task identifier.")
         }
         serverJobCreated?(created.jobID)
+        try Task.checkCancellation()
         if !created.resume {
             guard let uploadURL = created.uploadURL, uploadURL.scheme?.lowercased() == "https" else {
                 throw BasirError.invalidResponse("The server returned unsafe upload details.")
@@ -321,6 +323,7 @@ actor ProxyClient {
                                transferredBytes: sent, totalBytes: sourceSize))
             }
 
+            try Task.checkCancellation()
             var commit = URLRequest(url: base.appendingPathComponent("/api/jobs/\(created.jobID)/commit"))
             commit.httpMethod = "POST"
             commit.setValue("application/json", forHTTPHeaderField: "Content-Type")

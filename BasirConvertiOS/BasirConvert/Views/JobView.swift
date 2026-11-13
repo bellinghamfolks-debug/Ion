@@ -185,13 +185,15 @@ struct JobView: View {
     private var pausedContent: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.m) {
             JobStepTimeline(progress: viewModel.progress)
-            Text(l10n.t("تقدمك محفوظ. استأنف المهمة لمتابعة العمل دون إعادة معالجة الصفحات المكتملة.",
-                        "Your progress is saved. Basir will reuse completed pages when you resume."))
+            Text(viewModel.errorMessage ?? l10n.t(
+                "تقدمك محفوظ. عند الاستئناف يُعاد استخدام النتائج المحفوظة المتوافقة.",
+                "Your progress is saved. Compatible saved results will be reused on resume."))
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
             PrimaryActionButton(title: l10n.t("استئناف المهمة", "Resume task"), systemImage: "play.fill") {
                 viewModel.resume()
             }
+            .disabled(viewModel.selectedJob?.serverCancelPending == true)
             SecondaryActionButton(title: l10n.t("إلغاء المهمة", "Cancel task"), systemImage: "stop.circle") {
                 showCancelConfirmation = true
             }
@@ -295,7 +297,10 @@ struct JobView: View {
         case .queued: return l10n.t("بانتظار البدء", "Queued")
         case .waitingForNetwork: return l10n.t("بانتظار الاتصال", "Waiting for connection")
         case .running: return l10n.t("جارٍ تنفيذ المهمة", "Task in progress")
-        case .paused: return l10n.t("متوقفة مؤقتًا", "Paused")
+        case .paused:
+            return viewModel.selectedJob?.serverCancelPending == true
+                ? l10n.t("جارٍ تأكيد التوقف", "Confirming server stop")
+                : l10n.t("متوقفة مؤقتًا", "Paused")
         case .partial: return l10n.t("اكتمل جزئيًا", "Partially complete")
         case .completed: return l10n.t("ملف Word جاهز", "Word file ready")
         case .failed: return l10n.t("لم تكتمل المهمة", "Task did not complete")

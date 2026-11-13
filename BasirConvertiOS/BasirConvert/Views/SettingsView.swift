@@ -301,8 +301,23 @@ struct AdvancedSettingsView: View {
                 .font(.footnote)
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
+            Divider()
+            Picker(l10n.t("توازي صفحات PDF", "PDF page concurrency"), selection: $settings.concurrentPages) {
+                Text(l10n.t("محدود", "Limited")).tag(1)
+                Text(l10n.t("متوسط", "Moderate")).tag(2)
+                Text(l10n.t("السعة الكاملة", "Full capacity")).tag(3)
+            }
+            .pickerStyle(.segmented)
+            Text(l10n.t("السعة الكاملة تتيح معالجة مزيد من الصفحات بالتوازي، مع إبقاء محتوى الملف وإعدادات الجودة كما اخترتها. تتأثر السرعة بتعقيد الصفحات وسعة الخدمة المتاحة. يسري التغيير على المهام الجديدة.", "Full capacity allows more pages to run in parallel while preserving your selected content and quality settings. Speed depends on page complexity and available service capacity. Changes apply to new tasks."))
+                .font(.footnote)
+                .foregroundStyle(BasirPalette.secondaryText)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .glassSurface()
+        .onChange(of: settings.concurrentPages) { _ in
+            settings.save()
+            OperationFeedback.selectionChanged()
+        }
         .onChange(of: settings.preferredModel) { _ in
             settings.save()
             OperationFeedback.selectionChanged()

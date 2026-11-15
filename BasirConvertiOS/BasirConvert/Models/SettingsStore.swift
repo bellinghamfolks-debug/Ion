@@ -19,6 +19,7 @@ final class SettingsStore: ObservableObject {
         static let preserveSymbols = "convert_preserve_symbols"
         static let targetLanguage = "translate_target_language"
         static let pdfQuality = "pdf_quality"
+        static let optimizePDF = "pdf_optimize_lossless"
         static let pageSelection = "pdf_page_selection"
         static let includeSpeakerNotes = "include_speaker_notes"
         static let includeHiddenSlides = "include_hidden_slides"
@@ -73,6 +74,7 @@ final class SettingsStore: ObservableObject {
     @Published var includeMath: Bool
     @Published var preserveSymbols: Bool
     @Published var targetLanguageCode: String
+    @Published var optimizePDF: Bool
     @Published var pdfQuality: PDFQuality
     @Published var pageSelection: String
     @Published var includeSpeakerNotes: Bool
@@ -115,6 +117,7 @@ final class SettingsStore: ObservableObject {
         preserveSymbols = defaults.object(forKey: Key.preserveSymbols) == nil
             ? true : defaults.bool(forKey: Key.preserveSymbols)
         targetLanguageCode = defaults.string(forKey: Key.targetLanguage) ?? "en"
+        optimizePDF = defaults.bool(forKey: Key.optimizePDF)
         pdfQuality = PDFQuality(rawValue: defaults.string(forKey: Key.pdfQuality) ?? "balanced") ?? .balanced
         pageSelection = defaults.string(forKey: Key.pageSelection) ?? ""
         includeSpeakerNotes = defaults.object(forKey: Key.includeSpeakerNotes) == nil
@@ -165,6 +168,7 @@ final class SettingsStore: ObservableObject {
         defaults.set(preserveSymbols, forKey: Key.preserveSymbols)
         defaults.set(targetLanguageCode, forKey: Key.targetLanguage)
         defaults.set(pdfQuality.rawValue, forKey: Key.pdfQuality)
+        defaults.set(optimizePDF, forKey: Key.optimizePDF)
         defaults.set(pageSelection.trimmingCharacters(in: .whitespacesAndNewlines), forKey: Key.pageSelection)
         defaults.set(includeSpeakerNotes, forKey: Key.includeSpeakerNotes)
         defaults.set(includeHiddenSlides, forKey: Key.includeHiddenSlides)

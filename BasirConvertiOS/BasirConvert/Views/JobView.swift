@@ -190,7 +190,9 @@ struct JobView: View {
                 "Your progress is saved. Compatible saved results will be reused on resume."))
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
-            PrimaryActionButton(title: l10n.t("استئناف المهمة", "Resume task"), systemImage: "play.fill") {
+            PrimaryActionButton(title: viewModel.selectedJob?.isReadyOnServer == true
+                ? l10n.t("إعادة تنزيل النتيجة", "Download result again")
+                : l10n.t("استئناف المهمة", "Resume task"), systemImage: "play.fill") {
                 viewModel.resume()
             }
             .disabled(viewModel.selectedJob?.serverCancelPending == true)
@@ -401,6 +403,13 @@ struct JobView: View {
     }
 
     private func localizedDetail(_ detail: String) -> String {
+        if detail.hasPrefix("download_retry:") {
+            let attempt = detail.dropFirst("download_retry:".count)
+            return l10n.t("إعادة تنزيل النتيجة، المحاولة \(attempt)", "Downloading result again, attempt \(attempt)")
+        }
+        if detail == "Preparing PDF without reducing image quality" {
+            return l10n.t("تصغير PDF دون تقليل جودة الصور وفحص الصفحات", "Reducing PDF size without lowering image quality and checking pages")
+        }
         if detail.hasPrefix("page "), let number = detail.split(separator: " ").last {
             return l10n.t("الصفحة \(number)", "Page \(number)")
         }

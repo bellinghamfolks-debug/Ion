@@ -12,6 +12,7 @@ actor ConversionEngine {
         progress: @escaping ProgressHandler,
         logger: DiagnosticLogger,
         checkpointDirectory: URL? = nil,
+        readyJobID: String? = nil,
         serverJobCreated: (@Sendable (String) -> Void)? = nil
     ) async throws -> ConversionOutcome {
         guard configuration.isConfigured else { throw BasirError.notConfigured }
@@ -25,8 +26,8 @@ actor ConversionEngine {
             requestID: requestID,
             progress: progress,
             logger: logger,
-            serverJobCreated: serverJobCreated
+            serverJobCreated: serverJobCreated,
+            readyJobID: readyJobID
         )
     }
 }
-

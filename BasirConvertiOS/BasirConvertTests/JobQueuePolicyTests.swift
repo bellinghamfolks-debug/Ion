@@ -16,6 +16,24 @@ final class JobQueuePolicyTests: XCTestCase {
     }
 
     @MainActor
+    func testReadyDeliverySurvivesSavingAndResumeKeepsTheExistingIdentity() throws {
+        var pending = job(.paused)
+        pending.remoteJobID = String(repeating: "a", count: 32)
+        pending.resultDownloadPending = true
+        let saved = try JSONDecoder().decode(BasirJob.self, from: JSONEncoder().encode(pending))
+        XCTAssertTrue(saved.isReadyOnServer)
+        let model = AppViewModel(restoringSavedJobs: false)
+        model.jobs = [saved]
+        model.selectedJobID = saved.id
+        model.resume()
+        XCTAssertEqual(model.jobs[0].status, .queued)
+        XCTAssertEqual(model.jobs[0].requestID, pending.requestID)
+        XCTAssertEqual(model.jobs[0].remoteJobID, pending.remoteJobID)
+        XCTAssertEqual(model.jobs[0].resultDownloadPending, true)
+        XCTAssertNil(model.jobs[0].serverCancelPending)
+    }
+
+    @MainActor
     func testManualPauseRequestsADurableServerStopAndBlocksResume() throws {
         let model = AppViewModel(restoringSavedJobs: false)
         var running = job(.running)

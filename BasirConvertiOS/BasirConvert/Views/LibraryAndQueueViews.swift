@@ -521,7 +521,8 @@ struct JobQueueView: View {
         .accessibilityAction(named: l10n.t("تنفيذ بأولوية", "Prioritize task")) { viewModel.prioritize(job.id) }
         .accessibilityAction(named: l10n.t("فتح المهمة", "Open task")) { viewModel.selectJob(job.id) }
         .accessibilityAction(named: job.status == .running ? l10n.t("إيقاف مؤقت", "Pause")
-                                                           : l10n.t("استئناف أو إعادة المحاولة", "Resume or retry")) {
+                                                           : (job.isReadyOnServer ? l10n.t("إعادة تنزيل النتيجة", "Download result again")
+                                                               : l10n.t("استئناف أو إعادة المحاولة", "Resume or retry"))) {
             if job.status == .running { viewModel.pause() } else { viewModel.resume(jobID: job.id) }
         }
         .accessibilityAction(named: l10n.t("حذف المهمة", "Delete task")) {
@@ -533,7 +534,7 @@ struct JobQueueView: View {
                 Button { viewModel.pause() } label: { Label(l10n.t("إيقاف مؤقت", "Pause"), systemImage: "pause") }
                     .tint(.orange)
             } else if [.paused, .failed, .cancelled, .waitingForNetwork, .partial].contains(job.status) {
-                Button { viewModel.resume(jobID: job.id) } label: { Label(l10n.t("استئناف", "Resume"), systemImage: "play") }
+                Button { viewModel.resume(jobID: job.id) } label: { Label(job.isReadyOnServer ? l10n.t("إعادة تنزيل النتيجة", "Download result again") : l10n.t("استئناف", "Resume"), systemImage: "play") }
                     .tint(.green)
             }
             if job.status != .running {
@@ -545,6 +546,7 @@ struct JobQueueView: View {
     }
 
     private func statusText(_ job: BasirJob) -> String {
+        if job.isReadyOnServer { return l10n.t("النتيجة جاهزة على الخادم؛ أعد تنزيلها دون إعادة التحويل.", "The result is ready on the server; download it again without converting again.") }
         if job.isContinuingOnServer { return job.serverContinuationText(l10n) }
         switch job.status {
         case .idle: return l10n.t("جديدة", "New")

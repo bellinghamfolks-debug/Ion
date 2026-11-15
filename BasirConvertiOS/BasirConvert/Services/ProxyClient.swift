@@ -57,6 +57,11 @@ actor ProxyClient {
             case resume
         }
 
+        init(readyJobID: String) {
+            jobID = readyJobID
+            uploadURL = nil; uploadMethod = nil; uploadHeaders = nil; resume = true
+        }
+
         init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
             jobID = try values.decode(String.self, forKey: .jobID)
@@ -239,7 +244,8 @@ actor ProxyClient {
         requestID: String,
         progress: @escaping @Sendable (ConversionProgress) -> Void,
         logger: DiagnosticLogger,
-        serverJobCreated: (@Sendable (String) -> Void)? = nil
+        serverJobCreated: (@Sendable (String) -> Void)? = nil,
+        readyJobID: String? = nil
     ) async throws -> ConversionOutcome {
         let serverStatus = try await testConnection()
         guard BasirAPIContract.accepts(
@@ -254,6 +260,16 @@ actor ProxyClient {
         guard stableRequestID.count >= 8 else {
             throw BasirError.invalidResponse("The local task identifier is invalid.")
         }
+        let created: JobCreationResponse
+        var expectedSourcePages = 0
+        if let readyJobID {
+            guard readyJobID.range(of: "^[a-f0-9]{32}$", options: .regularExpression) != nil else {
+                throw BasirError.invalidResponse("Invalid ready result identifier.")
+            }
+            // Read-only recovery: never create, upload or commit another task.
+            created = JobCreationResponse(readyJobID: readyJobID)
+            serverJobCreated?(readyJobID)
+        } else {
         let checksum = try DocumentInspector.sha256(sourceURL)
         let sourceSize = Int64((try? sourceURL.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0)
         let sourceDocumentPages: Int = {
@@ -263,7 +279,7 @@ actor ProxyClient {
             return total
         }()
         let normalizedPageSelection = PageSelectionNormalizer.normalize(options.pageSelection)
-        let expectedSourcePages: Int = {
+        expectedSourcePages = {
             guard sourceDocumentPages > 0 else { return 0 }
             return (try? PageSelectionParser.pages(from: normalizedPageSelection, total: sourceDocumentPages).count)
                 ?? sourceDocumentPages
@@ -295,7 +311,6 @@ actor ProxyClient {
         try Task.checkCancellation()
         let (creationData, creationResponse) = try await retryingData(request: createRequest)
         try Self.validateHTTP(creationResponse, data: creationData)
-        let created: JobCreationResponse
         do {
             created = try JSONDecoder().decode(JobCreationResponse.self, from: creationData)
         } catch {
@@ -337,6 +352,8 @@ actor ProxyClient {
         } else {
             logger.record("job ready requestID=\(stableRequestID) apiJob=\(created.jobID) resumed=true requestedModel=\(options.effectivePreferredModel)")
             progress(.init(current: 0, total: 0, stage: .processing, detail: "Resuming server task"))
+        }
+
         }
 
         var resultPath: String?
@@ -465,23 +482,19 @@ actor ProxyClient {
             applyServerHeaders(to: &download, requestID: stableRequestID)
         }
         progress(.init(current: 0, total: 0, stage: .downloading, detail: nil))
-        let (temporary, downloadResponse) = try await BackgroundTransferCoordinator.shared.download(
-            request: download
-        ) { received, total in
-            progress(.init(current: 0, total: 0, stage: .downloading, detail: nil,
-                           transferredBytes: received, totalBytes: total))
-        }
-        defer { try? FileManager.default.removeItem(at: temporary) }
-        try validateDownloadedHTTP(downloadResponse, temporary: temporary)
-        try validateResultResponse(downloadResponse)
         let expectedResultPages = naturalEngineResult
-            ? 0
-            : max(0, expectedSourcePages - outcome.skippedBlankItems.count)
-        let packageVerified = try verifyAndMove(
-            temporary: temporary, response: downloadResponse, outputURL: outputURL,
-            expectedPages: expectedResultPages, expectedTables: validatedExpectedTables,
-            expectedImages: validatedExpectedImages
-        )
+            ? 0 : max(0, expectedSourcePages - outcome.skippedBlankItems.count)
+        let packageVerified: Bool
+        do {
+            packageVerified = try await downloadReadyResult(
+                request: download, jobID: created.jobID, outputURL: outputURL,
+                expectedPages: expectedResultPages, expectedTables: validatedExpectedTables,
+                expectedImages: validatedExpectedImages, progress: progress, logger: logger)
+        } catch is CancellationError { throw CancellationError() }
+        catch {
+            if let url = error as? URLError, url.code == .cancelled { throw CancellationError() }
+            throw ReadyResultDownloadError(jobID: created.jobID, cause: error)
+        }
         logger.record("job completed requestID=\(stableRequestID) naturalEngine=\(naturalEngineResult)")
         if options.wantsSummary {
             // Best effort: the Word file already opens with the summary; the
@@ -765,6 +778,46 @@ actor ProxyClient {
         request.setValue(configuration.clientToken, forHTTPHeaderField: "X-Basir-Client-Token")
     }
 
+    private func downloadReadyResult(
+        request: URLRequest, jobID: String, outputURL: URL,
+        expectedPages: Int, expectedTables: Int, expectedImages: Int,
+        progress: @escaping @Sendable (ConversionProgress) -> Void, logger: DiagnosticLogger
+    ) async throws -> Bool {
+        for attempt in 0..<4 {
+            try Task.checkCancellation()
+            var response: HTTPURLResponse?
+            do {
+                let (temporary, received) = try await BackgroundTransferCoordinator.shared.download(request: request) { bytes, total in
+                    progress(.init(current: 0, total: 0, stage: .downloading, detail: nil,
+                                   transferredBytes: bytes, totalBytes: total))
+                }
+                defer { try? FileManager.default.removeItem(at: temporary) }
+                response = received
+                try Task.checkCancellation()
+                try validateDownloadedHTTP(received, temporary: temporary)
+                try validateResultResponse(received)
+                let size = try temporary.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
+                guard size > 0 else { throw BasirError.checksumMismatch }
+                if let raw = received.value(forHTTPHeaderField: "Content-Length"),
+                   let expected = Int64(raw), expected != Int64(size) {
+                    throw BasirError.checksumMismatch
+                }
+                return try verifyAndMove(temporary: temporary, response: received, outputURL: outputURL,
+                                         expectedPages: expectedPages, expectedTables: expectedTables,
+                                         expectedImages: expectedImages)
+            } catch {
+                try Task.checkCancellation()
+                guard attempt < 3, ReadyResultRetry.shouldRetry(error, status: response?.statusCode) else { throw error }
+                let delay = ReadyResultRetry.delay(attempt: attempt, retryAfter: response.flatMap(Self.retryAfter))
+                logger.record("RESULT_DOWNLOAD_RETRY apiJob=\(jobID) attempt=\(attempt + 2) delay=\(delay)")
+                progress(.init(current: 0, total: 0, stage: .downloading,
+                    detail: "download_retry:\(attempt + 2)"))
+                try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+            }
+        }
+        throw BasirError.checksumMismatch
+    }
+
     private func validateDownloadedHTTP(_ response: HTTPURLResponse, temporary: URL) throws {
         guard (200..<300).contains(response.statusCode) else {
             let data = (try? Data(contentsOf: temporary, options: [.mappedIfSafe])) ?? Data()
@@ -800,11 +853,12 @@ actor ProxyClient {
            actualChecksum != expected {
             throw BasirError.checksumMismatch
         }
+        try FileAccess.protect(temporary, excludedFromBackup: false)
         if FileManager.default.fileExists(atPath: outputURL.path) {
-            try FileManager.default.removeItem(at: outputURL)
+            _ = try FileManager.default.replaceItemAt(outputURL, withItemAt: temporary)
+        } else {
+            try FileManager.default.moveItem(at: temporary, to: outputURL)
         }
-        try FileManager.default.moveItem(at: temporary, to: outputURL)
-        try FileAccess.protect(outputURL, excludedFromBackup: false)
         return packageVerified
     }
 

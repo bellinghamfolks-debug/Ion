@@ -75,6 +75,7 @@ struct TaskComposerView: View {
             preferredModel: settings.preferredModel.rawValue,
             includeSummary: settings.includeSummary,
             hybridPDF: settings.pdfReading == .hybrid,
+            optimizePDF: settings.optimizePDF,
             translation: isTranslation ? settings.translation : nil
         )
     }
@@ -409,6 +410,19 @@ struct TaskComposerView: View {
             }
             .tint(BasirPalette.accent)
             .onChange(of: settings.includeSummary) { _ in settings.save() }
+            DisclosureGroup(l10n.t("خيارات متقدمة", "Advanced options")) {
+                Toggle(isOn: $settings.optimizePDF) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(l10n.t("تصغير PDF قبل التحويل", "Reduce PDF size before conversion"))
+                        Text(l10n.t("اختياري، دون تقليل جودة الصور. تُفحص جميع الصفحات ويُستخدم الأصل إذا لم يقل الحجم أو لم ينجح الفحص. يتم بعد الرفع وقبل التحويل.",
+                                    "Optional, without lowering image quality. Every page is checked; Basir uses the original if size does not decrease or verification fails. Runs after upload, before conversion."))
+                            .font(.footnote)
+                            .foregroundStyle(BasirPalette.secondaryText)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+                .onChange(of: settings.optimizePDF) { _ in settings.save() }
+            }
             Button { viewModel.isSettingsPresented = true } label: {
                 Label(l10n.t("تعديل الخيارات", "Edit options"), systemImage: "gearshape")
                     .font(.subheadline.weight(.semibold))

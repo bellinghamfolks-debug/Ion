@@ -18,6 +18,11 @@ enum ErrorLocalizer {
 
     /// The message a person reads or hears for an error.
     static func message(for error: Error, l10n: L10n) -> String {
+        if let ready = error as? ReadyResultDownloadError {
+            let reason = message(for: ready.cause, l10n: l10n)
+            return l10n.t("النتيجة جاهزة على الخادم، وتعذّر تنزيلها أو حفظها على جهازك. اختر «إعادة تنزيل النتيجة»؛ لن يُعاد التحويل. \(reason)",
+                          "Your result is ready on the server, but could not be downloaded or saved. Choose Download result again; conversion will not run again. \(reason)")
+        }
         if let urlError = error as? URLError {
             switch urlError.code {
             case .notConnectedToInternet, .networkConnectionLost:

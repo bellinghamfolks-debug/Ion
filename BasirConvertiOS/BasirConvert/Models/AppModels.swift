@@ -277,6 +277,8 @@ struct ConversionOptions: Codable, Equatable, Sendable {
     let includeSummary: Bool?
     /// Hybrid PDF reading, chosen explicitly in Settings. Optional for older tasks.
     let hybridPDF: Bool?
+    /// Optional for tasks saved before lossless preparation was introduced.
+    let optimizePDF: Bool?
     /// The translation preferences in force when the task was created.
     let translation: TranslationPreferences?
 
@@ -301,6 +303,7 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         preferredModel: String? = nil,
         includeSummary: Bool = false,
         hybridPDF: Bool = false,
+        optimizePDF: Bool = false,
         translation: TranslationPreferences? = nil
     ) {
         self.operation = operation
@@ -323,6 +326,7 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         self.preferredModel = AIModelChoice(rawValue: preferredModel ?? "auto")?.rawValue ?? "auto"
         self.includeSummary = includeSummary
         self.hybridPDF = hybridPDF
+        self.optimizePDF = optimizePDF
         self.translation = translation
     }
 
@@ -360,6 +364,7 @@ struct ConversionOptions: Codable, Equatable, Sendable {
         if rotationCorrection != 0 { value += "|rotate:\(rotationCorrection)" }
         if wantsSummary { value += "|summary" }
         if hybridPDF == true { value += "|hybrid" }
+        if optimizePDF == true { value += "|pdf_optimize" }
         return value
     }
 }
@@ -610,6 +615,8 @@ struct BasirJob: Identifiable, Codable, Equatable, Sendable {
     /// The person cancelled and the server has not confirmed it yet. Kept on
     /// disk so the request is sent again after a relaunch or reconnection.
     var serverCancelPending: Bool?
+    /// A ready artifact needs delivery only; never launch conversion on recovery.
+    var resultDownloadPending: Bool?
 
     var sourceURL: URL { URL(fileURLWithPath: sourcePath) }
     var resultURL: URL? { resultPath.map(URL.init(fileURLWithPath:)) }
@@ -628,7 +635,8 @@ extension BasirJob {
 
     /// The server has finished; only saving the file to the iPhone remains.
     var isReadyOnServer: Bool {
-        isContinuingOnServer && progress.pausedFrom == .downloading
+        (status == .paused && resultDownloadPending == true)
+            || (isContinuingOnServer && progress.pausedFrom == .downloading)
     }
 
     @MainActor

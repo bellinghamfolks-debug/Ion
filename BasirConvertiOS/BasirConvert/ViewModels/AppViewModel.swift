@@ -91,7 +91,8 @@ final class AppViewModel: ObservableObject {
             // Older clients paused only the phone. Reconcile manual pauses
             // even when attach ran before the task store finished loading.
             for index in jobs.indices where jobs[index].status == .paused
-                && jobs[index].automaticResumePending != true && jobs[index].serverCancelPending == nil {
+                && jobs[index].automaticResumePending != true && jobs[index].serverCancelPending == nil
+                && jobs[index].resultDownloadPending != true {
                 jobs[index].serverCancelPending = true
             }
             persist()
@@ -487,6 +488,7 @@ final class AppViewModel: ObservableObject {
                     },
                     logger: logger,
                     checkpointDirectory: checkpoint,
+                    readyJobID: snapshot.resultDownloadPending == true ? snapshot.remoteJobID : nil,
                     serverJobCreated: { [language = l10n.language.rawValue, title = snapshot.sourceName] serverJobID in
                         Task { @MainActor in
                             if let index = self.jobs.firstIndex(where: { $0.id == jobID }) {
@@ -519,6 +521,7 @@ final class AppViewModel: ObservableObject {
                 try Task.checkCancellation()
                 guard let finishedIndex = jobs.firstIndex(where: { $0.id == jobID }), jobs[finishedIndex].status == .running else { return }
                 jobs[finishedIndex].resultPath = output.path
+                jobs[finishedIndex].resultDownloadPending = false
                 jobs[finishedIndex].failedItems = outcome.failedItems
                 jobs[finishedIndex].skippedBlankItems = outcome.skippedBlankItems
                 jobs[finishedIndex].executedModel = outcome.executedModel
@@ -575,6 +578,7 @@ final class AppViewModel: ObservableObject {
 
     private func apply(_ update: ConversionProgress, to jobID: UUID) {
         guard let index = jobs.firstIndex(where: { $0.id == jobID }), jobs[index].status == .running else { return }
+        if update.stage == .downloading { jobs[index].resultDownloadPending = true }
         jobs[index].progress = JobQueuePolicy.merged(previous: jobs[index].progress, update: update)
         activeLogger?.recordProgress(update)
         let now = Date()
@@ -641,6 +645,24 @@ final class AppViewModel: ObservableObject {
         }
         if let urlError = error as? URLError, urlError.code == .cancelled, let logger {
             handleTransportCancellation(jobID: jobID, logger: logger)
+            return
+        }
+        if let ready = error as? ReadyResultDownloadError,
+           let index = jobs.firstIndex(where: { $0.id == jobID }) {
+            jobs[index].remoteJobID = ready.jobID
+            jobs[index].resultDownloadPending = true
+            jobs[index].automaticResumePending = false
+            jobs[index].status = .paused
+            jobs[index].progress = progressReplacingStage(jobs[index].progress, .paused)
+            jobs[index].errorMessage = l10n.map { Self.localized(error, l10n: $0) } ?? error.localizedDescription
+            jobs[index].updatedAt = Date()
+            logger?.recordError(ready.cause, context: "ready-result-download")
+            if let diagnostic = jobs[index].diagnosticURL { try? logger?.write(to: diagnostic) }
+            persist()
+            syncFacade()
+            JobWatcher.shared.stop(id: jobID.uuidString)
+            PushRegistrar.shared.jobFinished(jobID)
+            completeCurrentTaskAndContinue()
             return
         }
         logger?.recordError(error, context: "job-finish")

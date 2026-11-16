@@ -4,6 +4,24 @@ import UIKit
 /// What happens when the connection drops or iOS limits background time:
 /// reconnecting, waiting for the network, and resuming the queue.
 extension AppViewModel {
+    func backgroundResultArrived(_ key: String) {
+        guard let base = serverConfiguration?.secureBaseURL,
+              let index = jobs.firstIndex(where: { job in
+                  guard let remote = job.remoteJobID else { return false }
+                  return base.appendingPathComponent("/api/jobs/\(remote)/result").absoluteString == key
+              }), jobs[index].status != .cancelled,
+              jobs[index].serverCancelPending != true else { return }
+        let canResume = jobs[index].status == .paused && jobs[index].automaticResumePending == true
+        guard canResume || jobs[index].status == .waitingForNetwork else { return }
+        jobs[index].resultDownloadPending = true
+        persist()
+        guard settings?.automaticResume == true else { return }
+        jobs[index].status = .queued
+        jobs[index].automaticResumePending = false
+        jobs[index].updatedAt = Date()
+        persist(); syncFacade()
+        processNextIfPossible(preferredJobID: jobs[index].id)
+    }
     func networkDidChange(_ snapshot: NetworkSnapshot) {
         DiagnosticLogger.recordGlobal("NETWORK connected=\(snapshot.isConnected) wifi=\(snapshot.usesWiFi) expensive=\(snapshot.isExpensive) constrained=\(snapshot.isConstrained)")
         activeLogger?.recordNetwork(snapshot, reason: "path-change")
@@ -70,6 +88,13 @@ extension AppViewModel {
         guard let index = jobs.firstIndex(where: { $0.id == jobID }), jobs[index].status == .running else { return }
         // Read where the task really is before marking it paused.
         let workingStage = jobs[index].progress.stage
+        if workingStage == .downloading {
+            // The system owns the result transfer. Cancelling the Swift
+            // producer here used to discard its successful background result.
+            persist()
+            backgroundExecution.end()
+            return
+        }
         let percent = JobStep.overallPercent(for: jobs[index].progress)
         let phase = BackgroundPausePhase(stage: workingStage)
         pauseRequested = true

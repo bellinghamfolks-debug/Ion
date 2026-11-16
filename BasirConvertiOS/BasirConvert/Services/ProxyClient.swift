@@ -356,6 +356,14 @@ actor ProxyClient {
 
         }
 
+        // Pre-arm while the app is active, after upload/commit. iOS receives
+        // the actual result on this one request even when Basir is suspended.
+        try Task.checkCancellation()
+        var readyTransfer = URLRequest(url: base.appendingPathComponent("/api/jobs/\(created.jobID)/result"))
+        applyServerHeaders(to: &readyTransfer, requestID: stableRequestID)
+        readyTransfer.allowsCellularAccess = !UserDefaults.standard.bool(forKey: "network_wifi_only")
+        readyTransfer.allowsConstrainedNetworkAccess = UserDefaults.standard.bool(forKey: "network_allow_low_data")
+        BackgroundResultInbox.shared.arm(readyTransfer)
         var resultPath: String?
         var outcome = ConversionOutcome.complete
         var completed = false
@@ -787,11 +795,16 @@ actor ProxyClient {
             try Task.checkCancellation()
             var response: HTTPURLResponse?
             do {
-                let (temporary, received) = try await BackgroundTransferCoordinator.shared.download(request: request) { bytes, total in
+                let reportBytes: @Sendable (Int64, Int64) -> Void = { bytes, total in
                     progress(.init(current: 0, total: 0, stage: .downloading, detail: nil,
                                    transferredBytes: bytes, totalBytes: total))
                 }
-                defer { try? FileManager.default.removeItem(at: temporary) }
+                let cached = await BackgroundResultInbox.shared.take(for: request, progress: reportBytes)
+                try Task.checkCancellation()
+                let (temporary, received): (URL, HTTPURLResponse)
+                if let cached { (temporary, received) = cached }
+                else { (temporary, received) = try await BackgroundTransferCoordinator.shared.download(request: request, progress: reportBytes) }
+                defer { if !Task.isCancelled { try? FileManager.default.removeItem(at: temporary) } }
                 response = received
                 try Task.checkCancellation()
                 try validateDownloadedHTTP(received, temporary: temporary)
@@ -802,11 +815,14 @@ actor ProxyClient {
                    let expected = Int64(raw), expected != Int64(size) {
                     throw BasirError.checksumMismatch
                 }
-                return try verifyAndMove(temporary: temporary, response: received, outputURL: outputURL,
+                let verified = try verifyAndMove(temporary: temporary, response: received, outputURL: outputURL,
                                          expectedPages: expectedPages, expectedTables: expectedTables,
                                          expectedImages: expectedImages)
+                if let url = request.url { BackgroundResultInbox.shared.cancel(resultURL: url) }
+                return verified
             } catch {
                 try Task.checkCancellation()
+                if let url = request.url { BackgroundResultInbox.shared.cancel(resultURL: url) }
                 guard attempt < 3, ReadyResultRetry.shouldRetry(error, status: response?.statusCode) else { throw error }
                 let delay = ReadyResultRetry.delay(attempt: attempt, retryAfter: response.flatMap(Self.retryAfter))
                 logger.record("RESULT_DOWNLOAD_RETRY apiJob=\(jobID) attempt=\(attempt + 2) delay=\(delay)")

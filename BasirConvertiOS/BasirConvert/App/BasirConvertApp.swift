@@ -11,6 +11,7 @@ final class BasirAppDelegate: NSObject, UIApplicationDelegate, UNUserNotificatio
         // Reconnects the background requests that follow server tasks, so
         // their answers reach Basir even after it was closed.
         JobWatcher.shared.resume()
+        BackgroundResultInbox.shared.reconnect()
         return true
     }
 
@@ -55,6 +56,10 @@ final class BasirAppDelegate: NSObject, UIApplicationDelegate, UNUserNotificatio
         handleEventsForBackgroundURLSession identifier: String,
         completionHandler: @escaping () -> Void
     ) {
+        if identifier == BackgroundResultInbox.sessionIdentifier {
+            BackgroundResultInbox.shared.reconnect(completionHandler: completionHandler)
+            return
+        }
         if identifier == JobWatcher.sessionIdentifier {
             JobWatcher.shared.reconnect(identifier: identifier, completionHandler: completionHandler)
             return

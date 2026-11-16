@@ -7,6 +7,10 @@ extension AppViewModel {
     /// growing pauses between attempts. Survives relaunches through
     /// `serverCancelPending`, which `attach` and reconnection pick up again.
     func sendServerCancellation(jobID: UUID) {
+        if let remote = jobs.first(where: { $0.id == jobID })?.remoteJobID,
+           let base = serverConfiguration?.secureBaseURL {
+            BackgroundResultInbox.shared.cancel(resultURL: base.appendingPathComponent("/api/jobs/\(remote)/result"))
+        }
         guard cancellationTasks[jobID] == nil else { return }
         cancellationTasks[jobID] = Task { [weak self] in
             var attempt = 0

@@ -128,6 +128,9 @@ final class AppViewModel: ObservableObject {
             guard entry.work == .conversion, status == "completed" || status == "partial" else { return }
             self?.resumeInterruptedJobsIfNeeded()
         }
+        BackgroundResultInbox.shared.onReady = { [weak self] key in
+            self?.backgroundResultArrived(key)
+        }
         JobWatcher.shared.isStillActive = { [weak self] entry in
             // Summaries are followed by their own screen and end on the server.
             guard entry.work == .conversion, let appJobID = entry.appJobID else { return true }
@@ -368,6 +371,9 @@ final class AppViewModel: ObservableObject {
     func removeJob(_ id: UUID, deleteResult: Bool = false) {
         guard let index = jobs.firstIndex(where: { $0.id == id }), jobs[index].status != .running else { return }
         let removed = jobs.remove(at: index)
+        if let remote = removed.remoteJobID, let base = serverConfiguration?.secureBaseURL {
+            BackgroundResultInbox.shared.cancel(resultURL: base.appendingPathComponent("/api/jobs/\(remote)/result"))
+        }
         // Removing a task that may still be converting on the server (paused,
         // queued, waiting, or with an unconfirmed cancellation) stops it there.
         if JobQueuePolicy.mayStillRunOnServer.contains(removed.status) || removed.serverCancelPending == true,

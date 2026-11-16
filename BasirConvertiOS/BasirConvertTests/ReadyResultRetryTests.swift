@@ -2,6 +2,23 @@ import XCTest
 @testable import BasirConvert
 
 final class ReadyResultRetryTests: XCTestCase {
+    func testBackgroundResultIdentityIgnoresWaitButPreservesServerAndJob() throws {
+        let first = try XCTUnwrap(URL(string: "https://server.test/api/jobs/abc/result?wait=3300"))
+        let direct = try XCTUnwrap(URL(string: "https://server.test/api/jobs/abc/result"))
+        let other = try XCTUnwrap(URL(string: "https://other.test/api/jobs/abc/result"))
+        XCTAssertEqual(BackgroundResultInbox.transferKey(first), BackgroundResultInbox.transferKey(direct))
+        XCTAssertNotEqual(BackgroundResultInbox.transferKey(first), BackgroundResultInbox.transferKey(other))
+    }
+
+    func testPersistedBackgroundReceiptNeedsNoClientToken() throws {
+        let entry = BackgroundResultInbox.Entry(url: "https://server.test/api/jobs/abc/result", createdAt: Date(), generation: "test-generation",
+                                               file: "saved.docx", headers: ["X-Content-SHA256": "abc"])
+        let data = try JSONEncoder().encode(entry)
+        let restored = try JSONDecoder().decode(BackgroundResultInbox.Entry.self, from: data)
+        XCTAssertEqual(restored.file, "saved.docx")
+        XCTAssertEqual(restored.headers?["X-Content-SHA256"], "abc")
+        XCTAssertFalse(String(decoding: data, as: UTF8.self).contains("Token"))
+    }
     func testTransientDeliveryErrorsRetryAndAuthenticationCancellationDoNot() {
         XCTAssertTrue(ReadyResultRetry.shouldRetry(URLError(.networkConnectionLost), status: nil))
         XCTAssertTrue(ReadyResultRetry.shouldRetry(BasirError.checksumMismatch, status: 200))

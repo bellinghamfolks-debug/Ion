@@ -41,15 +41,21 @@ final class BackgroundTransferCoordinator: NSObject, @unchecked Sendable {
     /// this recovery never re-runs the conversion job.
     private lazy var foregroundSession: URLSession = {
         let configuration = URLSessionConfiguration.ephemeral
-        configuration.waitsForConnectivity = true
+        configuration.waitsForConnectivity = false
         configuration.timeoutIntervalForRequest = 90
-        configuration.timeoutIntervalForResource = 24 * 60 * 60
+        configuration.timeoutIntervalForResource = 15 * 60
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         configuration.urlCache = nil
         configuration.httpCookieStorage = nil
         configuration.httpShouldSetCookies = false
         return URLSession(configuration: configuration)
     }()
+
+    static func expectedResultBytes(response: HTTPURLResponse?, fallback: Int64) -> Int64 {
+        if let raw = response?.value(forHTTPHeaderField: "X-Basir-Result-Bytes"),
+           let size = Int64(raw), size > 0 { return size }
+        return max(0, fallback)
+    }
 
     static func isLocalFileFailure(_ error: URLError) -> Bool {
         switch error.code {
@@ -92,7 +98,9 @@ final class BackgroundTransferCoordinator: NSObject, @unchecked Sendable {
             } catch is CancellationError {
                 throw CancellationError()
             } catch {
-                // Fall through: the background session survives suspension.
+                let stillActive = await MainActor.run { UIApplication.shared.applicationState == .active }
+                if stillActive { throw error }
+                // When suspended, hand recovery to the background session.
             }
         }
         do {
@@ -130,7 +138,7 @@ final class BackgroundTransferCoordinator: NSObject, @unchecked Sendable {
             try? handle.close()
             if !completed { try? FileManager.default.removeItem(at: partial) }
         }
-        let expected = max(0, http.expectedContentLength)
+        let expected = Self.expectedResultBytes(response: http, fallback: http.expectedContentLength)
         var received: Int64 = 0
         var buffer = Data()
         buffer.reserveCapacity(256 * 1024)
@@ -145,7 +153,7 @@ final class BackgroundTransferCoordinator: NSObject, @unchecked Sendable {
                     lastReport = Date()
                     // Never report more than the expected size: a compressed
                     // transfer can decode to more bytes than its header said.
-                    progress(received, max(expected, received))
+                    progress(received, expected)
                 }
             }
         }
@@ -330,7 +338,7 @@ extension BackgroundTransferCoordinator: URLSessionDataDelegate, URLSessionDownl
         lock.lock()
         let callback = states[downloadTask.taskIdentifier]?.progress
         lock.unlock()
-        callback?(totalBytesWritten, totalBytesExpectedToWrite)
+        callback?(totalBytesWritten, Self.expectedResultBytes(response: downloadTask.response as? HTTPURLResponse, fallback: totalBytesExpectedToWrite))
     }
 
     func urlSession(

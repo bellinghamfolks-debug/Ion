@@ -35,7 +35,6 @@ struct ResultLibraryView: View {
     @State private var chosenForSummary: Set<String> = []
     @State private var newName = ""
     @State private var query = ""
-    @State private var readableOnly = false
     @AppStorage("library_sort") private var sortRaw = LibrarySort.newest.rawValue
 
     private var sort: LibrarySort { LibrarySort(rawValue: sortRaw) ?? .newest }
@@ -48,12 +47,11 @@ struct ResultLibraryView: View {
                 // A file is also found by what its summary says (ت15).
                 || (SummaryStore.latest(forOutput: $0.url)?.searchableText.localizedCaseInsensitiveContains(needle) ?? false)
         }
-        let visible = readableOnly ? matches.filter { $0.isReadable } : matches
         switch sort {
-        case .newest: return visible.sorted { $0.createdAt > $1.createdAt }
-        case .oldest: return visible.sorted { $0.createdAt < $1.createdAt }
-        case .name: return visible.sorted { $0.displayName.localizedStandardCompare($1.displayName) == .orderedAscending }
-        case .size: return visible.sorted { $0.byteCount > $1.byteCount }
+        case .newest: return matches.sorted { $0.createdAt > $1.createdAt }
+        case .oldest: return matches.sorted { $0.createdAt < $1.createdAt }
+        case .name: return matches.sorted { $0.displayName.localizedStandardCompare($1.displayName) == .orderedAscending }
+        case .size: return matches.sorted { $0.byteCount > $1.byteCount }
         }
     }
 
@@ -92,15 +90,11 @@ struct ResultLibraryView: View {
                     if library.items.isEmpty {
                         InfoCard(
                             title: l10n.t("لا توجد ملفات محفوظة", "No saved files"),
-                            text: l10n.t("ابدأ بتحويل ملف أو ترجمته من الرئيسية. ستجد النتيجة هنا بعد اكتمالها.",
-                                         "Convert or translate a file from Home. Your result will appear here when it’s ready."),
+                            text: l10n.t("ابدأ بتحويل ملف أو ترجمته من تبويب «جديد». ستجد النتيجة هنا بعد اكتمالها.",
+                                         "Convert or translate a file from the New tab. Your result will appear here when it’s ready."),
                             systemImage: "tray"
                         )
                     } else {
-                        NavigationLink { JobQueueView() } label: {
-                            Label(l10n.t("المهام والنتائج المنتظرة", "Tasks and pending results"), systemImage: "arrow.down.circle")
-                        }
-                        Toggle(l10n.t("المستندات القابلة للقراءة فقط", "Readable documents only"), isOn: $readableOnly)
                         sortMenu
                         if library.items.count > 1 {
                             CardActionButton(title: l10n.t("تلخيص عدة ملفات", "Summarize several files"),
@@ -213,8 +207,10 @@ struct ResultLibraryView: View {
                 .font(.footnote)
                 .foregroundStyle(BasirPalette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
-            Text(l10n.t("محفوظ على الجهاز", "Saved on this device"))
-                .font(.caption.weight(.semibold)).foregroundStyle(BasirPalette.success)
+            if let quality = item.quality {
+                Button { reportItem = item } label: { QualityBadge(report: quality) }
+                    .buttonStyle(.plain)
+            }
             AdaptiveStack {
                 if item.isReadable {
                     CardActionButton(title: l10n.t("قراءة في بصير", "Read in Basir"), systemImage: "text.book.closed.fill",
@@ -226,19 +222,18 @@ struct ResultLibraryView: View {
                     previewItem = item
                 }
             }
+            if item.isReadable {
+                CardActionButton(title: SummaryStore.hasSummary(forOutput: item.url)
+                                    ? l10n.t("الملخص", "Summary") : l10n.t("لخّص", "Summarize"),
+                                 systemImage: "text.badge.star") {
+                    summaryItems = SummaryTargets(urls: [item.url])
+                }
+            }
             AdaptiveStack {
                 CardActionButton(title: l10n.t("مشاركة", "Share"), systemImage: "square.and.arrow.up") {
                     shareItem = item
                 }
                 Menu {
-                    if item.isReadable {
-                        Button { summaryItems = SummaryTargets(urls: [item.url]) } label: {
-                            Label(l10n.t("الملخص", "Summary"), systemImage: "text.badge.star")
-                        }
-                    }
-                    if item.quality != nil {
-                        Button { reportItem = item } label: { Label(l10n.t("تقرير الجودة", "Quality report"), systemImage: "checkmark.shield") }
-                    }
                     Button { exportItem = item } label: {
                         Label(l10n.t("حفظ في الملفات", "Save to Files"), systemImage: "folder.badge.plus")
                     }
@@ -430,8 +425,8 @@ struct JobQueueView: View {
                             .font(.system(.largeTitle, design: .rounded, weight: .bold))
                             .accessibilityAddTraits(.isHeader)
                         InfoCard(title: l10n.t("لا توجد مهام جارية", "No tasks in progress"),
-                                 text: l10n.t("أضف ملفًا من الرئيسية لتحويله أو ترجمته. تظهر هنا المهام الجارية. المهمة المكتملة أو الملغاة تختفي من هنا تلقائيًا، وتجد ملف المكتملة في «ملفاتي».",
-                                              "Start a task from Home. Tasks in progress appear here. Completed and cancelled tasks leave this list by themselves; completed files are in My Files."),
+                                 text: l10n.t("أضف ملفًا من تبويب «جديد» لتحويله أو ترجمته. تظهر هنا المهام الجارية. المهمة المكتملة أو الملغاة تختفي من هنا تلقائيًا، وتجد ملف المكتملة في «ملفاتي».",
+                                              "Start a task from the New tab. Tasks in progress appear here. Completed and cancelled tasks leave this list by themselves; completed files are in My Files."),
                                  systemImage: "checklist")
                     }
                     .appScreenContent(bottomPadding: 28)

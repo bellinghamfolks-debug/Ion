@@ -91,6 +91,15 @@ final class BackgroundResultInbox: NSObject, @unchecked Sendable {
         session.getAllTasks { $0.filter { $0.taskDescription == entry?.generation }.forEach { $0.cancel() } }
     }
 
+    /// Consume only a completed receipt. A ready result must not wait for an
+    /// OS-scheduled long-poll request before it can use the direct downloader.
+    func readyResult(for request: URLRequest) -> (URL, HTTPURLResponse)? {
+        guard let url = request.url else { return nil }
+        lock.lock(); defer { lock.unlock() }
+        guard let entry = entries[Self.transferKey(url)] else { return nil }
+        return receipt(entry)
+    }
+
     /// A foreground consumer joins the EXISTING background transfer, rather
     /// than fetching the same large result again. Receipts survive relaunch.
     func take(for request: URLRequest, progress callback: @escaping @Sendable (Int64, Int64) -> Void) async -> (URL, HTTPURLResponse)? {
@@ -135,10 +144,9 @@ final class BackgroundResultInbox: NSObject, @unchecked Sendable {
 extension BackgroundResultInbox: URLSessionDownloadDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64,
                     totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        let header = (downloadTask.response as? HTTPURLResponse)?.value(forHTTPHeaderField: "X-Basir-Result-Bytes")
         lock.lock(); let key = entries.first(where: { $0.value.generation == downloadTask.taskDescription })?.key
         let callback = key.flatMap { progress[$0] }; lock.unlock()
-        callback?(totalBytesWritten, max(Int64(header ?? "") ?? totalBytesExpectedToWrite, totalBytesWritten))
+        callback?(totalBytesWritten, BackgroundTransferCoordinator.expectedResultBytes(response: downloadTask.response as? HTTPURLResponse, fallback: totalBytesExpectedToWrite))
     }
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         guard let token = downloadTask.taskDescription, let response = downloadTask.response as? HTTPURLResponse,

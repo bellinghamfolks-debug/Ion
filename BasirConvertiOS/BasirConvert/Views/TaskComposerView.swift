@@ -397,10 +397,14 @@ struct TaskComposerView: View {
     private var taskSummaryCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
             GlassSectionTitle(title: l10n.t("خيارات المهمة", "Task options"), systemImage: "slider.horizontal.3")
-            Text(summaryText)
-                .font(.subheadline)
-                .foregroundStyle(BasirPalette.secondaryText)
-                .fixedSize(horizontal: false, vertical: true)
+            Picker(l10n.t("شكل النتيجة", "Result content"), selection: $settings.outputMode) {
+                ForEach(OutputMode.allCases) { mode in Text(mode.title(l10n)).tag(mode) }
+            }.pickerStyle(.menu)
+            Picker(l10n.t("طريقة المعالجة", "Processing"), selection: $settings.preferredModel) {
+                ForEach(AIModelChoice.allCases) { model in Text(model.title(l10n)).tag(model) }
+            }.pickerStyle(.menu)
+            Text(l10n.t("تُستخدم هذه الخيارات للمهام الجديدة وتُحفظ للمرة القادمة.", "These choices apply to new tasks and are remembered next time."))
+                .font(.footnote).foregroundStyle(BasirPalette.secondaryText)
             Toggle(isOn: $settings.includeSummary) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(l10n.t("إضافة ملخص في بداية الملف", "Add a summary at the start of the file"))

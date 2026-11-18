@@ -113,7 +113,7 @@ struct JobView: View {
                         .font(.headline)
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: 0)
-                    Text("\(percent)%").font(.headline.monospacedDigit())
+                    BasirProgressRing(percent: percent)
                 }
                 ProgressView(value: Double(percent), total: 100)
                     .tint(BasirPalette.accent)

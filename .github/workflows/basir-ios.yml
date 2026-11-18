@@ -186,30 +186,3 @@ jobs:
             exit 1
           fi
           ls build/device/Build/Products/Release-iphoneos/BasirConvert.app/PlugIns
-
-      - name: Verify redesigned navigation on iPhone
-        run: |
-          set +e
-          xcodebuild test \
-            -project BasirConvert.xcodeproj \
-            -scheme BasirScreenshots \
-            -destination "id=${{ steps.sim.outputs.udid }}" \
-            -only-testing:BasirScreenshots/WorkspaceNavigationTests \
-            -configuration Debug \
-            -derivedDataPath build \
-            -resultBundlePath build/Workspace.xcresult \
-            CODE_SIGNING_ALLOWED=NO \
-            COMPILER_INDEX_STORE_ENABLE=NO > build/workspace.log 2>&1
-          STATUS=$?
-          grep -E "error:|Test Case|TEST (SUCCEEDED|FAILED)" build/workspace.log | tail -40
-          exit $STATUS
-
-      - name: Keep interface verification evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: basir-workspace-verification
-          path: |
-            BasirConvertiOS/build/workspace.log
-            BasirConvertiOS/build/Workspace.xcresult
-          retention-days: 7

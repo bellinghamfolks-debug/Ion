@@ -507,10 +507,12 @@ actor ProxyClient {
         if options.wantsSummary {
             // Best effort: the Word file already opens with the summary; the
             // structured copy is what the summary screen opens instantly (ت15).
-            if let data = try? await jobSummary(jobID: created.jobID, requestID: stableRequestID),
-               let summary = try? DocumentSummary.decode(data) {
-                SummaryStore.save(summary, variant: SummaryStore.conversionVariant(language: summary.language),
-                                  forOutput: outputURL)
+            Task {
+                if let data = try? await jobSummary(jobID: created.jobID, requestID: stableRequestID),
+                   let summary = try? DocumentSummary.decode(data) {
+                    SummaryStore.save(summary, variant: SummaryStore.conversionVariant(language: summary.language),
+                                      forOutput: outputURL)
+                }
             }
         }
         progress(.init(current: 1, total: 1, stage: .done, detail: nil))
@@ -799,7 +801,7 @@ actor ProxyClient {
                     progress(.init(current: 0, total: 0, stage: .downloading, detail: nil,
                                    transferredBytes: bytes, totalBytes: total))
                 }
-                let cached = await BackgroundResultInbox.shared.take(for: request, progress: reportBytes)
+                let cached = BackgroundResultInbox.shared.readyResult(for: request)
                 try Task.checkCancellation()
                 let (temporary, received): (URL, HTTPURLResponse)
                 if let cached { (temporary, received) = cached }
@@ -815,6 +817,7 @@ actor ProxyClient {
                    let expected = Int64(raw), expected != Int64(size) {
                     throw BasirError.checksumMismatch
                 }
+                progress(.init(current: 0, total: 0, stage: .downloading, detail: "result_verifying"))
                 let verified = try verifyAndMove(temporary: temporary, response: received, outputURL: outputURL,
                                          expectedPages: expectedPages, expectedTables: expectedTables,
                                          expectedImages: expectedImages)

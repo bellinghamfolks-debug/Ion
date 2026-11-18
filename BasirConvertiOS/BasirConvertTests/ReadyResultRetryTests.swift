@@ -2,6 +2,24 @@ import XCTest
 @testable import BasirConvert
 
 final class ReadyResultRetryTests: XCTestCase {
+    func testChunkedResultUsesArtifactSizeInsteadOfPretendingEachChunkIsComplete() throws {
+        let response = try XCTUnwrap(HTTPURLResponse(url: URL(string: "https://server.test/result")!, statusCode: 200,
+            httpVersion: nil, headerFields: ["X-Basir-Result-Bytes": "1000000"]))
+        XCTAssertEqual(BackgroundTransferCoordinator.expectedResultBytes(response: response, fallback: -1), 1000000)
+        let progress = ConversionProgress(current: 0, total: 0, stage: .downloading, detail: nil,
+            transferredBytes: 262144, totalBytes: BackgroundTransferCoordinator.expectedResultBytes(response: response, fallback: -1))
+        XCTAssertLessThan(JobStep.overallPercent(for: progress), 99)
+        XCTAssertEqual(BackgroundTransferCoordinator.expectedResultBytes(response: nil, fallback: -1), 0)
+        XCTAssertNil(JobStep.stepFraction(for: .init(current: 0, total: 0, stage: .downloading, detail: nil,
+            transferredBytes: 262144, totalBytes: 0)))
+    }
+
+    func testReadyReceiptLookupDoesNotWaitOrStartNetworkForAnUnarmedResult() {
+        var request = URLRequest(url: URL(string: "https://unarmed.test/api/jobs/\(UUID())/result")!)
+        request.httpMethod = "GET"
+        XCTAssertNil(BackgroundResultInbox.shared.readyResult(for: request))
+    }
+
     func testBackgroundResultIdentityIgnoresWaitButPreservesServerAndJob() throws {
         let first = try XCTUnwrap(URL(string: "https://server.test/api/jobs/abc/result?wait=3300"))
         let direct = try XCTUnwrap(URL(string: "https://server.test/api/jobs/abc/result"))

@@ -103,6 +103,9 @@ enum JobStep: Int, CaseIterable, Identifiable, Codable, Hashable, Sendable {
         guard let step = current(for: progress) else {
             return l10n.t("اكتملت المهمة", "Task complete")
         }
+        if step == .download, progress.detail == "result_verifying" {
+            return l10n.t("اكتمل التنزيل، جارٍ فحص الملف وحفظه", "Download complete; checking and saving the file")
+        }
         var parts = [step.activeTitle(l10n)]
         if step == .read, progress.total > 0 {
             parts.append(l10n.t("الصفحة \(progress.current) من \(progress.total)",

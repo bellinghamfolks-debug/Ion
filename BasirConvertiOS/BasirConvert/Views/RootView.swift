@@ -4,7 +4,7 @@ import UIKit
 private enum AppTab: Hashable {
     case new
     case files
-    case tasks
+    case settings
 }
 
 struct RootView: View {
@@ -15,6 +15,7 @@ struct RootView: View {
     @EnvironmentObject private var outputLibrary: OutputLibraryStore
     @EnvironmentObject private var intents: IntentRouter
     @State private var selectedTab: AppTab = .new
+    @State private var showComposer = false
     @State private var operation: OperationKind = .convert
     @AppStorage("onboarding_completed_v3_1") private var onboardingCompleted = false
     @AppStorage("video_launch_seen_v1") private var videoLaunchSeen = false
@@ -28,18 +29,18 @@ struct RootView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            tab { TaskComposerView(operation: $operation) }
-                .tabItem { Label(l10n.t("جديد", "New"), systemImage: "plus.circle.fill") }
+            tab { BasirHomeView(showComposer: $showComposer)
+                .navigationDestination(isPresented: $showComposer) { TaskComposerView(operation: $operation) } }
+                .tabItem { Label(l10n.t("الرئيسية", "Home"), systemImage: "house.fill") }
                 .tag(AppTab.new)
 
             tab { ResultLibraryView() }
                 .tabItem { Label(l10n.t("ملفاتي", "My files"), systemImage: "folder.fill") }
                 .tag(AppTab.files)
 
-            tab { JobQueueView() }
-                .tabItem { Label(l10n.t("المهام", "Tasks"), systemImage: "list.bullet.rectangle") }
-                .badge(viewModel.pendingJobCount)
-                .tag(AppTab.tasks)
+            tab { SettingsView(embedded: true) }
+                .tabItem { Label(l10n.t("الإعدادات", "Settings"), systemImage: "gearshape.fill") }
+                .tag(AppTab.settings)
         }
         .tint(BasirPalette.accent)
         .accessibilityAction(.magicTap) { toggleCurrentJob() }
@@ -99,12 +100,14 @@ struct RootView: View {
             if operations.contains(.convert) {
                 Button(l10n.t("تحويل إلى Word", "Convert to Word")) {
                     selectedTab = .new
+                    showComposer = true
                     viewModel.routeExternalImport(to: .convert, l10n: l10n)
                 }
             }
             if operations.contains(.translate) {
                 Button(l10n.t("ترجمة المستندات", "Translate documents")) {
                     selectedTab = .new
+                    showComposer = true
                     viewModel.routeExternalImport(to: .translate, l10n: l10n)
                 }
             }
@@ -193,11 +196,12 @@ struct RootView: View {
     private func selectTabForRoutedDocument() {
         if viewModel.routedExternalBatch != nil || viewModel.routedExternalDocument != nil {
             selectedTab = .new
+            showComposer = true
         }
     }
 
     private func handleIntents() {
-        if intents.pendingAction != nil { selectedTab = .new }
+        if intents.pendingAction != nil { selectedTab = .new; showComposer = true }
         if let jobID = intents.pendingJobID {
             intents.pendingJobID = nil
             viewModel.selectJob(jobID)
@@ -229,15 +233,7 @@ struct RootView: View {
     @ToolbarContentBuilder
     private var commonToolbar: some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) { NetworkStatusPill() }
-        ToolbarItem(placement: .navigationBarTrailing) {
-            Button { viewModel.isSettingsPresented = true } label: {
-                Image(systemName: "gearshape.fill")
-                    .font(.body.weight(.semibold))
-                    .foregroundStyle(BasirPalette.accent)
-                    .frame(minWidth: 44, minHeight: 44)
-            }
-            .accessibilityLabel(l10n.t("الإعدادات", "Settings"))
-        }
+
     }
 }
 
@@ -374,4 +370,68 @@ struct MiniJobBar: View {
 struct SharedVideoLink: Identifiable, Equatable {
     let id = UUID()
     let url: String
+}
+
+
+/// Home is an overview; composition, queue and tools keep their own screens.
+struct BasirHomeView: View {
+    @Binding var showComposer: Bool
+    @EnvironmentObject private var l10n: L10n
+    @EnvironmentObject private var viewModel: AppViewModel
+    @EnvironmentObject private var library: OutputLibraryStore
+    @State private var latestPreview: URL?
+    @State private var latestShare: URL?
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: BasirSpacing.xl) {
+                VStack(alignment: .leading, spacing: 16) {
+                    Image(systemName: "doc.richtext.fill")
+                        .font(.system(size: 36)).foregroundStyle(BasirPalette.accent)
+                        .padding(18).background(BasirPalette.accent.opacity(0.10), in: RoundedRectangle(cornerRadius: 22))
+                        .accessibilityHidden(true)
+                    Text(l10n.t("ملفاتك، أسهل للقراءة", "Your files, easier to read"))
+                        .font(.largeTitle.bold()).accessibilityAddTraits(.isHeader)
+                    Text(l10n.t("حوّل مستندًا أو ترجمه، وتابع النتيجة من مكان واحد.", "Convert or translate a document, then follow its result here."))
+                        .foregroundStyle(BasirPalette.secondaryText)
+                    PrimaryActionButton(title: l10n.t("تحويل جديد", "New conversion"), systemImage: "plus") { showComposer = true }
+                }.glassSurface()
+                NavigationLink { JobQueueView() } label: {
+                    Label(l10n.t("متابعة المهام: \(viewModel.pendingJobCount)", "Track tasks: \(viewModel.pendingJobCount)"), systemImage: "list.bullet.rectangle")
+                        .font(.headline).frame(maxWidth: .infinity, minHeight: 52, alignment: .leading)
+                }.glassSurface()
+                if let job = viewModel.barJob {
+                    Button { viewModel.selectJob(job.id) } label: {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(l10n.t("المهمة الحالية", "Current task")).font(.headline)
+                            Text(job.sourceName).lineLimit(2)
+                            Text(JobStep.spokenStatus(for: job.progress, l10n: l10n)).font(.subheadline)
+                                .foregroundStyle(BasirPalette.secondaryText)
+                        }
+                    }.buttonStyle(.plain).glassSurface()
+                }
+                if let item = library.items.first {
+                    VStack(alignment: .leading, spacing: 12) {
+                        SectionHeading(title: l10n.t("آخر نتيجة محفوظة", "Latest saved result"))
+                        Text(item.displayName).font(.headline)
+                        AdaptiveStack {
+                            CardActionButton(title: l10n.t("فتح", "Open"), systemImage: "doc.text") { latestPreview = item.url }
+                            CardActionButton(title: l10n.t("مشاركة", "Share"), systemImage: "square.and.arrow.up") { latestShare = item.url }
+                        }
+                    }.glassSurface(accent: BasirPalette.success)
+                }
+                DisclosureGroup(l10n.t("أدوات إضافية", "More tools")) { BasirToolsSection() }
+                    .glassSurface()
+            }.appScreenContent(bottomPadding: 28)
+        }
+        .background { AuroraBackground() }
+        .navigationTitle(l10n.t("الرئيسية", "Home"))
+        .onAppear { library.refresh() }
+        .sheet(isPresented: Binding(get: { latestPreview != nil }, set: { if !$0 { latestPreview = nil } })) {
+            if let url = latestPreview { QuickLookPreview(url: url) }
+        }
+        .sheet(isPresented: Binding(get: { latestShare != nil }, set: { if !$0 { latestShare = nil } })) {
+            if let url = latestShare { ActivityShareView(urls: [url]) }
+        }
+    }
 }

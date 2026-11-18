@@ -106,8 +106,6 @@ struct QualityReportCard: View {
                 .font(.body.weight(.semibold))
                 .foregroundStyle(report.hasConcerns ? BasirPalette.warning : BasirPalette.success)
                 .fixedSize(horizontal: false, vertical: true)
-            Text(l10n.t("يعرض هذا التقرير نتائج الفحص المتاحة، ولا تمثّل الدرجة ضمانًا لدقة كل كلمة أو ترجمة.", "This report presents available checks. A score does not guarantee every word or translation is accurate."))
-                .font(.footnote).foregroundStyle(BasirPalette.secondaryText)
             AdaptiveStack {
                 metric(l10n.t("الصفحات المحفوظة", "Included pages"), report.retainedPages)
                 metric(l10n.t("تحتاج مراجعة", "Need review"), report.fallbackPages)
@@ -116,26 +114,22 @@ struct QualityReportCard: View {
             ShareLink(item: exportedReport) {
                 Label(l10n.t("مشاركة تقرير الجودة", "Share quality report"), systemImage: "square.and.arrow.up")
             }
-            ForEach(lines, id: \.self) { line in
-                HStack(alignment: .top, spacing: BasirSpacing.s) {
-                    Image(systemName: line.icon)
-                        .foregroundStyle(line.isConcern ? BasirPalette.warning : BasirPalette.accent)
-                        .frame(width: 22)
-                        .accessibilityHidden(true)
-                    Text(line.text)
-                        .font(.subheadline)
-                        .foregroundStyle(BasirPalette.primaryText)
-                        .fixedSize(horizontal: false, vertical: true)
+            ForEach(Array(lines.filter { $0.isConcern }.prefix(3)), id: \.self) { line in
+                Label(line.text, systemImage: line.icon).font(.subheadline)
+            }
+            DisclosureGroup(l10n.t("التقرير الكامل", "Full report")) {
+                LazyVStack(alignment: .leading, spacing: 12) {
+                    Text(l10n.t("نتائج الفحص تساعد على المراجعة ولا تضمن دقة كل كلمة.", "Checks support review; they do not guarantee every word."))
+                        .font(.footnote).foregroundStyle(BasirPalette.secondaryText)
+                    ForEach(lines, id: \.self) { line in
+                        Label(line.text, systemImage: line.icon).font(.subheadline)
+                    }
+                    ForEach(Array(pageDetails.enumerated()), id: \.offset) { _, detail in
+                        Text(detail).font(.subheadline).textSelection(.enabled)
+                    }
                 }
-                .accessibilityElement(children: .combine)
             }
-            Divider()
-            Text(l10n.t("تفاصيل الصفحات والتحقق", "Page details and verification"))
-                .font(.headline).accessibilityAddTraits(.isHeader)
-            ForEach(pageDetails, id: \.self) { detail in
-                Text(detail).font(.subheadline).fixedSize(horizontal: false, vertical: true)
-                    .textSelection(.enabled)
-            }
+
         }
         .glassSurface(accent: report.hasConcerns ? BasirPalette.warning : BasirPalette.success)
     }

@@ -504,17 +504,6 @@ actor ProxyClient {
             throw ReadyResultDownloadError(jobID: created.jobID, cause: error)
         }
         logger.record("job completed requestID=\(stableRequestID) naturalEngine=\(naturalEngineResult)")
-        if options.wantsSummary {
-            // Best effort: the Word file already opens with the summary; the
-            // structured copy is what the summary screen opens instantly (ت15).
-            Task {
-                if let data = try? await jobSummary(jobID: created.jobID, requestID: stableRequestID),
-                   let summary = try? DocumentSummary.decode(data) {
-                    SummaryStore.save(summary, variant: SummaryStore.conversionVariant(language: summary.language),
-                                      forOutput: outputURL)
-                }
-            }
-        }
         progress(.init(current: 1, total: 1, stage: .done, detail: nil))
         var verifiedQuality = outcome.quality
         verifiedQuality?.wordPackageVerified = packageVerified

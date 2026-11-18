@@ -547,10 +547,24 @@ final class AppViewModel: ObservableObject {
                 outputLibrary?.writeMetadata(for: output, job: jobs[finishedIndex])
                 persist()
                 syncFacade()
-                if settings.deleteServerCopy, outcome.failedItems.isEmpty {
-                    // A partial result keeps its server copy so failed pages can be retried.
+                // Optional summary and server cleanup must not gate the saved file.
+                // Fetch the summary before cleanup so deletion cannot race its request.
+                let shouldDeleteServerCopy = settings.deleteServerCopy && outcome.failedItems.isEmpty
+                let wantsSummary = snapshot.options.wantsSummary
+                let serverJobID = jobs[finishedIndex].remoteJobID
+                if wantsSummary || shouldDeleteServerCopy {
                     let requestID = snapshot.requestID
-                    Task.detached { try? await ProxyClient(configuration: configuration).deleteServerTask(requestID: requestID) }
+                    Task.detached {
+                        let proxy = ProxyClient(configuration: configuration)
+                        if wantsSummary, let serverJobID,
+                           let data = try? await proxy.jobSummary(jobID: serverJobID, requestID: requestID),
+                           let summary = try? DocumentSummary.decode(data),
+                           FileManager.default.fileExists(atPath: output.path) {
+                            SummaryStore.save(summary, variant: SummaryStore.conversionVariant(language: summary.language),
+                                              forOutput: output)
+                        }
+                        if shouldDeleteServerCopy { try? await proxy.deleteServerTask(requestID: requestID) }
+                    }
                 }
                 OperationFeedback.play(.completed, theme: settings.soundTheme)
                 JobWatcher.shared.stop(id: jobID.uuidString)

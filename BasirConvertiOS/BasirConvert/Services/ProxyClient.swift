@@ -817,7 +817,8 @@ actor ProxyClient {
                    let expected = Int64(raw), expected != Int64(size) {
                     throw BasirError.checksumMismatch
                 }
-                progress(.init(current: 0, total: 0, stage: .downloading, detail: "result_verifying"))
+                progress(.init(current: 0, total: 0, stage: .downloading, detail: "result_verifying",
+                               transferredBytes: Int64(size), totalBytes: Int64(size)))
                 let verified = try verifyAndMove(temporary: temporary, response: received, outputURL: outputURL,
                                          expectedPages: expectedPages, expectedTables: expectedTables,
                                          expectedImages: expectedImages)

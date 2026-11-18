@@ -20,7 +20,8 @@ final class JobPresentationTests: XCTestCase {
             .init(current: 9, total: 10, stage: .processing, detail: nil),
             .init(current: 10, total: 10, stage: .processing, detail: nil),
             .init(current: 0, total: 0, stage: .downloading, detail: nil, transferredBytes: 10, totalBytes: 100),
-            .init(current: 0, total: 0, stage: .downloading, detail: nil, transferredBytes: 100, totalBytes: 100)
+            .init(current: 0, total: 0, stage: .downloading, detail: nil, transferredBytes: 100, totalBytes: 100),
+            .init(current: 0, total: 0, stage: .downloading, detail: "result_verifying", transferredBytes: 100, totalBytes: 100)
         ]
         var previous = -1
         for progress in sequence {

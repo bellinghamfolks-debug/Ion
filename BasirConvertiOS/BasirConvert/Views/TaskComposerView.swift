@@ -16,6 +16,8 @@ struct TaskComposerView: View {
     @EnvironmentObject private var library: OutputLibraryStore
     @EnvironmentObject private var intents: IntentRouter
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @State private var wizardStep = 1
+    @AccessibilityFocusState private var focusStep: Bool
     @State private var pendingURLs: [URL] = []
     @State private var metadata: [String: DocumentMetadata] = [:]
     @State private var showFiles = false
@@ -85,60 +87,47 @@ struct TaskComposerView: View {
             AuroraBackground()
             ScrollView {
                 VStack(alignment: .leading, spacing: BasirSpacing.l) {
-                    Text(l10n.t("مهمة جديدة", "New task"))
-                        .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                        .foregroundStyle(BasirPalette.primaryText)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .accessibilityAddTraits(.isHeader)
-
-                    operationPicker
-
-                    if pendingURLs.isEmpty {
-                        SectionHeading(title: l10n.t("أضف ملفًا", "Add a file"))
+                    Text(l10n.t("الخطوة \(wizardStep) من 3", "Step \(wizardStep) of 3"))
+                        .font(.subheadline.weight(.semibold)).foregroundStyle(BasirPalette.accent)
+                    ProgressView(value: Double(wizardStep), total: 3).accessibilityHidden(true)
+                    Text(stepTitle).font(.largeTitle.bold()).accessibilityAddTraits(.isHeader)
+                        .accessibilityFocused($focusStep)
+                    if wizardStep == 1 {
+                        operationPicker
                         sourceGrid
-                        if !isTranslation {
-                            Text(l10n.t(
-                                "حوّل ملفات PDF والعروض التقديمية والصور والتسجيلات الصوتية إلى Word.",
-                                "Convert PDFs, presentations, images, and audio recordings to Word."
-                            ))
-                            .font(.footnote)
-                            .foregroundStyle(BasirPalette.secondaryText)
-                            .fixedSize(horizontal: false, vertical: true)
-                        }
-                        BasirToolsSection()
-                    } else {
-                        selectedFilesSection
-                        if estimates.values.contains(where: \.suggestsPageSelection) || !pageSelectionOverride.isEmpty {
-                            pageSelectionCard
-                        }
+                        if !pendingURLs.isEmpty { selectedFilesSection }
+                    } else if wizardStep == 2 {
                         if isTranslation { languageCard }
                         taskSummaryCard
-                        resultNameCard
+                        DisclosureGroup(l10n.t("خيارات الملف والصفحات", "File and page options")) {
+                            pageSelectionCard
+                            resultNameCard
+                        }.glassSurface()
+                    } else {
+                        selectedFilesSection
+                        InfoCard(title: l10n.t("راجع ثم ابدأ", "Review and start"),
+                                 text: summaryText, systemImage: "checkmark.circle")
+                        Text(privacyMessage).font(.footnote).foregroundStyle(BasirPalette.secondaryText)
                     }
-
                     if let pickerError { InlineMessage(text: pickerError, isError: true) }
-
-                    if !pendingURLs.isEmpty {
-                        PrimaryActionButton(
-                            title: isTranslation ? l10n.t("ابدأ الترجمة", "Start translation")
-                                                 : l10n.t("ابدأ التحويل", "Start conversion"),
-                            systemImage: "play.fill"
-                        ) {
-                            if !settings.isConfigured { showConfigurationRequired = true }
-                            else { showPrivacyConfirmation = true }
+                    AdaptiveStack {
+                        if wizardStep > 1 {
+                            CardActionButton(title: l10n.t("السابق", "Back"), systemImage: "chevron.backward") { changeStep(wizardStep - 1) }
                         }
+                        PrimaryActionButton(title: wizardStep == 3
+                            ? l10n.t("ابدأ المعالجة", "Start processing") : l10n.t("التالي", "Next"), systemImage: wizardStep == 3 ? "play.fill" : "chevron.forward") {
+                            if wizardStep < 3 { changeStep(wizardStep + 1) }
+                            else if !settings.isConfigured { showConfigurationRequired = true }
+                            else { enqueuePending() }
+                        }.disabled(pendingURLs.isEmpty)
                     }
 
-                    if pendingURLs.isEmpty, let last = library.items.first {
-                        SectionHeading(title: l10n.t("آخر نتيجة", "Latest result"))
-                        lastResultCard(last)
-                    }
                 }
                 .appScreenContent(bottomPadding: 28)
             }
         }
         .foregroundStyle(BasirPalette.primaryText)
-        .navigationTitle(l10n.t("جديد", "New"))
+        .navigationTitle(l10n.t("تحويل جديد", "New conversion"))
         .navigationBarTitleDisplayMode(.inline)
         .alert(l10n.t("إرسال الملفات للمعالجة؟", "Send files for processing?"), isPresented: $showPrivacyConfirmation) {
             Button(l10n.t("إلغاء", "Cancel"), role: .cancel) { }
@@ -231,6 +220,21 @@ struct TaskComposerView: View {
         .onChange(of: viewModel.routedExternalDocument?.id) { _ in receiveExternalIfNeeded() }
         .onChange(of: intents.pendingAction) { _ in handleIntentIfNeeded() }
         .onChange(of: operation) { _ in dropFilesUnsupportedByOperation() }
+    }
+
+    private var stepTitle: String {
+        switch wizardStep {
+        case 1: return l10n.t("اختر الملفات", "Choose files")
+        case 2: return l10n.t("خيارات التحويل", "Conversion options")
+        default: return l10n.t("جاهز للبدء", "Ready to start")
+        }
+    }
+
+    private func changeStep(_ value: Int) {
+        guard value == 1 || !pendingURLs.isEmpty else { return }
+        settings.save()
+        wizardStep = value
+        focusStep = true
     }
 
     // MARK: - Operation
@@ -393,10 +397,14 @@ struct TaskComposerView: View {
     private var taskSummaryCard: some View {
         VStack(alignment: .leading, spacing: BasirSpacing.s) {
             GlassSectionTitle(title: l10n.t("خيارات المهمة", "Task options"), systemImage: "slider.horizontal.3")
-            Text(summaryText)
-                .font(.subheadline)
-                .foregroundStyle(BasirPalette.secondaryText)
-                .fixedSize(horizontal: false, vertical: true)
+            Picker(l10n.t("شكل النتيجة", "Result content"), selection: $settings.outputMode) {
+                ForEach(OutputMode.allCases) { mode in Text(mode.title(l10n)).tag(mode) }
+            }.pickerStyle(.menu)
+            Picker(l10n.t("طريقة المعالجة", "Processing"), selection: $settings.preferredModel) {
+                ForEach(AIModelChoice.allCases) { model in Text(model.title(l10n)).tag(model) }
+            }.pickerStyle(.menu)
+            Text(l10n.t("تُستخدم هذه الخيارات للمهام الجديدة وتُحفظ للمرة القادمة.", "These choices apply to new tasks and are remembered next time."))
+                .font(.footnote).foregroundStyle(BasirPalette.secondaryText)
             Toggle(isOn: $settings.includeSummary) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(l10n.t("إضافة ملخص في بداية الملف", "Add a summary at the start of the file"))
@@ -682,7 +690,8 @@ struct TaskComposerView: View {
                 UIAccessibility.post(notification: .announcement,
                                      argument: l10n.t("الملفات المضافة: \(normalized.count). راجع الخيارات ثم ابدأ المهمة.",
                                                       "Files added: \(normalized.count). Review your options, then start the task."))
-                focusSelectedFiles = true
+                if wizardStep == 1 { changeStep(2) }
+                else { focusSelectedFiles = true }
             } catch { pickerError = error.localizedDescription }
         }
     }
@@ -790,6 +799,8 @@ struct TaskComposerView: View {
 
     private func enqueuePending() {
         let selected = pendingURLs
+        let chosenOptions = options
+        wizardStep = 1
         pendingURLs = []
         metadata = [:]
         estimates = [:]
@@ -797,7 +808,6 @@ struct TaskComposerView: View {
         checkingScan = []
         customOutputName = ""
         settings.save()
-        let chosenOptions = options
         pageSelectionOverride = ""
         viewModel.start(pickerURLs: selected, options: chosenOptions,
                         configuration: settings.configuration, l10n: l10n)

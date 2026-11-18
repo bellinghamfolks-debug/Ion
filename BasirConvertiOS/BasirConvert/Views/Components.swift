@@ -123,7 +123,9 @@ struct AuroraBackground: View {
         GeometryReader { geometry in
             ZStack {
                 BasirPalette.background
-
+                if !reduceTransparency && contrast != .increased {
+                    LinearGradient(colors: [BasirPalette.accent.opacity(0.08), .clear, BasirPalette.indigo.opacity(0.04)], startPoint: .topLeading, endPoint: .bottomTrailing)
+                }
             }
             .ignoresSafeArea()
         }
@@ -354,6 +356,17 @@ struct GlassToggleCard: View {
     }
 }
 
+private struct BasirPressStyle: ButtonStyle {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.isEnabled) private var enabled
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .opacity(enabled ? (configuration.isPressed ? 0.78 : 1) : 0.45)
+            .scaleEffect(configuration.isPressed && !reduceMotion ? 0.98 : 1)
+            .animation(reduceMotion ? nil : .easeOut(duration: 0.16), value: configuration.isPressed)
+    }
+}
+
 struct PrimaryActionButton: View {
     let title: String
     let systemImage: String
@@ -370,7 +383,7 @@ struct PrimaryActionButton: View {
                 .padding(.vertical, 4)
                 .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(BasirPressStyle())
         .background(BasirPalette.accent, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         .overlay {
             RoundedRectangle(cornerRadius: 18, style: .continuous)
@@ -569,5 +582,27 @@ struct SectionHeading: View {
             .fixedSize(horizontal: false, vertical: true)
             .padding(.top, BasirSpacing.s)
             .accessibilityAddTraits(.isHeader)
+    }
+}
+
+
+/// Decorative progress ring; its parent supplies one concise spoken status.
+struct BasirProgressRing: View {
+    let percent: Int
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    private var value: Double { Double(min(100, max(0, percent))) / 100 }
+    var body: some View {
+        ZStack {
+            Circle().stroke(BasirPalette.subtleFill, lineWidth: 7)
+            Circle().trim(from: 0, to: value)
+                .stroke(BasirPalette.accent, style: StrokeStyle(lineWidth: 7, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+            Text("\(min(100, max(0, percent)))%")
+                .font(.caption.bold().monospacedDigit())
+        }
+        .frame(width: 68, height: 68)
+        .padding(4)
+        .animation(reduceMotion ? nil : .easeOut(duration: 0.3), value: percent)
+        .accessibilityHidden(true)
     }
 }

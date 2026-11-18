@@ -4,6 +4,7 @@ import Foundation
 /// Settings: everyday options here, document and model options
 /// under "Advanced", and policies and help under "About Basir".
 struct SettingsView: View {
+    var embedded = false
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var l10n: L10n
     @EnvironmentObject private var settings: SettingsStore
@@ -12,7 +13,14 @@ struct SettingsView: View {
     @AppStorage("basir_pronunciation_rules") private var pronunciationRules = ""
 
     var body: some View {
-        NavigationStack {
+        Group {
+            if embedded { settingsContent }
+            else { NavigationStack { settingsContent } }
+        }
+    }
+
+    private var settingsContent: some View {
+        Group {
             ZStack {
                 AuroraBackground()
                 ScrollView {
@@ -20,18 +28,26 @@ struct SettingsView: View {
                         Text(l10n.t("الإعدادات", "Settings"))
                             .font(.system(.largeTitle, design: .rounded, weight: .bold))
                             .accessibilityAddTraits(.isHeader)
-                        languageCard
-                        appearanceCard
-                        VStack(alignment: .leading, spacing: 12) {
-                            SectionHeading(title: l10n.t("قاموس النطق", "Pronunciation dictionary"))
-                            Text(l10n.t("اكتب الاسم أو الاختصار ثم = ثم طريقة نطقه، كل قاعدة في سطر. يتغير الصوت فقط، ويبقى نص المستند كما هو.", "Enter a name or abbreviation, then = and its spoken form, one rule per line. Only speech changes; document text stays intact."))
-                                .font(.subheadline)
-                            TextField(l10n.t("مثل: STC=إس تي سي", "Example: STC=ess tee see"), text: $pronunciationRules, axis: .vertical)
-                                .lineLimit(3...8).textFieldStyle(.roundedBorder)
-                        }.glassSurface()
-                        feedbackCard
-                        networkCard
-                        privacyCard
+                        settingsLink(l10n.t("المظهر واللغة", "Appearance and language"), detail: l10n.t("اللغة والتباين وحجم النص", "Language, contrast and text size"), systemImage: "textformat.size") {
+                            settingsPage(l10n.t("المظهر واللغة", "Appearance and language")) {
+                                languageCard
+                                appearanceCard
+                                Text(l10n.t("يتبع حجم النص إعدادات iPhone. يمكنك تكبيره من إعدادات تسهيلات الاستخدام.", "Text follows iPhone text-size settings. Adjust it in Accessibility settings."))
+                            }
+                        }
+                        settingsLink(l10n.t("الصوت والتنبيهات", "Sound and notifications"), detail: l10n.t("تنبيهات الاكتمال وقاموس النطق", "Completion alerts and pronunciation"), systemImage: "bell") {
+                            settingsPage(l10n.t("الصوت والتنبيهات", "Sound and notifications")) {
+                                feedbackCard
+                                TextField(l10n.t("قاموس النطق: STC=إس تي سي", "Pronunciation: STC=ess tee see"), text: $pronunciationRules, axis: .vertical)
+                                    .textFieldStyle(.roundedBorder)
+                            }
+                        }
+                        settingsLink(l10n.t("الاتصال والاستئناف", "Connection and resumption"), detail: l10n.t("Wi-Fi واستئناف المهام تلقائيًا", "Wi-Fi and automatic resumption"), systemImage: "wifi") {
+                            settingsPage(l10n.t("الاتصال والاستئناف", "Connection and resumption")) { networkCard }
+                        }
+                        settingsLink(l10n.t("الخصوصية والحماية", "Privacy and security"), detail: l10n.t("قفل التطبيق والاحتفاظ بالبيانات", "App lock and data retention"), systemImage: "lock.shield") {
+                            settingsPage(l10n.t("الخصوصية والحماية", "Privacy and security")) { privacyCard }
+                        }
                         SectionHeading(title: l10n.t("المزيد", "More"))
                         VStack(spacing: 0) {
                             settingsLink(l10n.t("مساحة ملفات التصدير", "Export storage"), detail: l10n.t("مراجعة الأحجام وحذف النسخ المؤقتة باختيارك", "Review sizes and delete temporary copies selectively"), systemImage: "externaldrive") { ExportStorageView() }
@@ -64,12 +80,12 @@ struct SettingsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(l10n.t("تم", "Done")) {
+                    if !embedded { Button(l10n.t("تم", "Done")) {
                         settings.save()
                         dismiss()
                     }
                     .fontWeight(.semibold)
-                    .foregroundStyle(BasirPalette.accent)
+                    .foregroundStyle(BasirPalette.accent) }
                 }
             }
             .onDisappear { settings.save() }
@@ -78,6 +94,17 @@ struct SettingsView: View {
             settings.save()
             dismiss()
         }
+    }
+
+    private func settingsPage<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: BasirSpacing.l) { content() }
+                .appScreenContent(bottomPadding: 24)
+        }
+        .background { AuroraBackground() }
+        .navigationTitle(title)
+        .navigationBarTitleDisplayMode(.inline)
+        .onDisappear { settings.save() }
     }
 
     private func settingsLink<Destination: View>(
@@ -275,9 +302,9 @@ struct AdvancedSettingsView: View {
                     Text(l10n.t("خيارات متقدمة", "Advanced options"))
                         .font(.title.weight(.bold))
                         .accessibilityAddTraits(.isHeader)
-                    modelCard
-                    outputCard
-                    documentCard
+                    DisclosureGroup(l10n.t("طريقة المعالجة والسرعة", "Processing and speed")) { modelCard }.glassSurface()
+                    DisclosureGroup(l10n.t("محتوى النتيجة", "Result content")) { outputCard }.glassSurface()
+                    DisclosureGroup(l10n.t("PDF والعروض التقديمية", "PDF and presentations")) { documentCard }.glassSurface()
                 }
                 .appScreenContent(bottomPadding: 24)
             }
@@ -295,7 +322,7 @@ struct AdvancedSettingsView: View {
                     Text(model.title(l10n)).tag(model)
                 }
             }
-            .pickerStyle(.segmented)
+            .pickerStyle(.menu)
             .tint(BasirPalette.accent)
             Text(settings.preferredModel.detail(l10n))
                 .font(.footnote)
@@ -307,7 +334,7 @@ struct AdvancedSettingsView: View {
                 Text(l10n.t("متوسط", "Moderate")).tag(2)
                 Text(l10n.t("السعة الكاملة", "Full capacity")).tag(3)
             }
-            .pickerStyle(.segmented)
+            .pickerStyle(.menu)
             Text(l10n.t("السعة الكاملة تتيح معالجة مزيد من الصفحات بالتوازي، مع إبقاء محتوى الملف وإعدادات الجودة كما اخترتها. تتأثر السرعة بتعقيد الصفحات وسعة الخدمة المتاحة. يسري التغيير على المهام الجديدة.", "Full capacity allows more pages to run in parallel while preserving your selected content and quality settings. Speed depends on page complexity and available service capacity. Changes apply to new tasks."))
                 .font(.footnote)
                 .foregroundStyle(BasirPalette.secondaryText)

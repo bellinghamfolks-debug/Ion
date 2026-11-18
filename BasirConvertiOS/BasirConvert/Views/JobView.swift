@@ -113,7 +113,7 @@ struct JobView: View {
                         .font(.headline)
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: 0)
-                    Text("\(percent)%").font(.headline.monospacedDigit())
+                    BasirProgressRing(percent: percent)
                 }
                 ProgressView(value: Double(percent), total: 100)
                     .tint(BasirPalette.accent)
@@ -126,6 +126,7 @@ struct JobView: View {
             if viewModel.selectedJob?.remoteJobID != nil {
                 CardActionButton(title: l10n.t("قراءة الصفحات المتاحة الآن", "Read available pages now"), systemImage: "doc.text.magnifyingglass") { showReadingPreview = true }
             }
+            DisclosureGroup(l10n.t("تفاصيل التقدم", "Progress details")) {
             JobStepTimeline(progress: viewModel.progress)
             if let updated = viewModel.selectedJob?.updatedAt {
                 TimelineView(.periodic(from: .now, by: 30)) { _ in
@@ -151,6 +152,7 @@ struct JobView: View {
                     }
                 }
                 .accessibilityElement(children: .combine)
+            }
             }
             AdaptiveStack {
                 CardActionButton(title: l10n.t("إيقاف مؤقت", "Pause"), systemImage: "pause.fill", prominent: true) {
@@ -249,10 +251,10 @@ struct JobView: View {
                 if let report = job.qualityReport {
                     QualityReportCard(report: report)
                 }
-                completionAccounting(job)
-                Text(modelSummary(job))
-                    .font(.caption)
-                    .foregroundStyle(BasirPalette.tertiaryText)
+                DisclosureGroup(l10n.t("تفاصيل العملية", "Task details")) {
+                    completionAccounting(job)
+                    Text(modelSummary(job)).font(.caption).foregroundStyle(BasirPalette.tertiaryText)
+                }
             }
             helpLink
         }
@@ -298,7 +300,10 @@ struct JobView: View {
         case .idle: return l10n.t("المهمة", "Task")
         case .queued: return l10n.t("بانتظار البدء", "Queued")
         case .waitingForNetwork: return l10n.t("بانتظار الاتصال", "Waiting for connection")
-        case .running: return l10n.t("جارٍ تنفيذ المهمة", "Task in progress")
+        case .running:
+            return JobStep.current(for: viewModel.progress) == .download
+                ? l10n.t("جارٍ تنزيل النتيجة", "Downloading result")
+                : l10n.t("جارٍ تنفيذ المهمة", "Task in progress")
         case .paused:
             return viewModel.selectedJob?.serverCancelPending == true
                 ? l10n.t("جارٍ تأكيد التوقف", "Confirming server stop")

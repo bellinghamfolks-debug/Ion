@@ -46,6 +46,21 @@ do {
     let linked = try AdvisorNetwork.cloudReply(fixture,web:true)
     check(linked.sources.count == 1 && linked.citations.count == 1, "Clickable cloud sources")
     check((try? AdvisorNetwork.cloudReply(["output":[["type":"message","content":[["text":"جواب"]]]]],web:true)) == nil, "Web answer requires evidence")
+    let gemini = try AdvisorNetwork.geminiRequest(question:"ما الفائدة؟", previous:[("أهلًا","مرحبًا")],summary:nil,web:true,key:"test-key")
+    check(gemini.url?.host == "generativelanguage.googleapis.com" && gemini.url?.query == nil && gemini.value(forHTTPHeaderField:"x-goog-api-key") == "test-key", "Gemini credential is scoped to Google header")
+    let payload = try JSONSerialization.jsonObject(with:gemini.httpBody!) as! [String:Any]
+    check((payload["contents"] as! [[String:Any]]).compactMap { $0["role"] as? String } == ["user","model","user"], "Gemini conversation roles")
+    check(payload["tools"] != nil, "Google search enabled")
+    let noWeb = try AdvisorNetwork.geminiRequest(question:"سؤال", previous:[],summary:nil,web:false,key:"test-key")
+    let plain = try JSONSerialization.jsonObject(with:noWeb.httpBody!) as! [String:Any]
+    check(plain["tools"] == nil, "Gemini chat without search")
+    let geminiFixture: [String:Any] = ["candidates":[["content":["parts":[["thought":true,"text":"internal"],["text":"إجابة"]]],"groundingMetadata":["groundingChunks":[["web":["uri":"https://example.org","title":"المصدر"]]],"searchEntryPoint":["renderedContent":"<div>Google</div>"]]]]]
+    let geminiAnswer = try AdvisorNetwork.geminiReply(geminiFixture,web:true)
+    check(geminiAnswer.text == "إجابة" && geminiAnswer.sources.count == 1 && geminiAnswer.searchSuggestionsHTML != nil, "Grounded Arabic Gemini answer")
+    let unsourced: [String:Any] = ["candidates":[["content":["parts":[["text":"رد"]]]]]]
+    check((try? AdvisorNetwork.geminiReply(unsourced,web:false))?.text == "رد", "Plain Gemini answer")
+    check((try? AdvisorNetwork.geminiReply(unsourced,web:true)) == nil, "Unsourced response rejected in research mode")
+    check(CloudProvider.openAI.account == "openai-personal" && CloudProvider.gemini.account != CloudProvider.openAI.account, "Existing and separate Keychain accounts")
     b.entries[1].amount = 1
     check((try? b.validate()) == nil, "Inconsistent backup rejected")
 } catch { fatalError(error.localizedDescription) }

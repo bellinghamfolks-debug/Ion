@@ -1,5 +1,14 @@
 import Foundation
 
+enum CloudProvider: String, CaseIterable {
+    case gemini = "Gemini"
+    case openAI = "OpenAI"
+    var account: String { self == .gemini ? "gemini-personal" : "openai-personal" }
+    var keysURL: URL {
+        URL(string: self == .gemini ? "https://aistudio.google.com/apikey" : "https://platform.openai.com/api-keys")!
+    }
+}
+
 struct AdvisorSource: Identifiable, Equatable {
     let title: String
     let url: URL
@@ -10,6 +19,7 @@ struct AdvisorReply {
     let origin: String
     var sources: [AdvisorSource] = []
     var citations: [Citation] = []
+    var searchSuggestionsHTML: String? = nil
     struct Citation {
         let start: Int
         let end: Int
@@ -21,7 +31,7 @@ enum AdvisorError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .empty: return "لم تصل إجابة قابلة للعرض. جرّب صياغة أخرى."
-        case .unauthorized: return "تعذّر استخدام مفتاح OpenAI. راجع المفتاح وصلاحيات النموذج."
+        case .unauthorized: return "تعذّر استخدام مفتاح المزوّد المحدد. راجع المفتاح وصلاحيات النموذج."
         case .limited: return "بلغت حد الاستخدام أو الرصيد لدى مزوّد النموذج. يمكنك استخدام دفتر أمين أو المصادر العامة."
         case .service: return "تعذّر الوصول إلى المصدر الآن. تحقق من الاتصال وأعد المحاولة."
         case .noSources: return "لم يصل جواب بمصادر قابلة للتحقق. جرّب بحثًا أدق."
@@ -42,13 +52,24 @@ struct AdvisorNetwork {
         guard let http = response as? HTTPURLResponse else { throw AdvisorError.service }
         switch http.statusCode {
         case 200..<300: break
+        case 400:
+            if let body = try? JSONSerialization.jsonObject(with: data) as? [String:Any],
+               let error = body["error"] as? [String:Any],
+               (error["details"] as? [[String:Any]] ?? []).contains(where: { ($0["reason"] as? String)?.hasPrefix("API_KEY") == true }) {
+                throw AdvisorError.unauthorized
+            }
+            throw AdvisorError.service
         case 401, 403: throw AdvisorError.unauthorized
         case 429: throw AdvisorError.limited
         default: throw AdvisorError.service
         }
         return try JSONSerialization.jsonObject(with: data)
     }
-    func cloud(question: String, previous: [(String, String)], summary: String?, web: Bool, key: String) async throws -> AdvisorReply {
+    func cloud(question: String, previous: [(String, String)], summary: String?, web: Bool, key: String, provider: CloudProvider = .openAI) async throws -> AdvisorReply {
+        if provider == .gemini {
+            let request = try Self.geminiRequest(question: question, previous: previous, summary: summary, web: web, key: key)
+            return try Self.geminiReply(await json(request), web: web)
+        }
         var turns = previous.suffix(3).flatMap { pair in [["role":"user", "content": String(pair.0.prefix(2000))], ["role":"assistant","content":String(pair.1.prefix(3500))]] }
         let context = summary.map { "\nملخص حسابي مسجل للاسترشاد فقط:\n" + $0 } ?? ""
         turns.append(["role":"user","content": question + context])
@@ -121,5 +142,44 @@ struct AdvisorNetwork {
         }
         guard !sources.isEmpty else { throw AdvisorError.noSources }
         return AdvisorReply(text:bodies.joined(separator:"\n\n"),origin:"مقتطفات من ويكيبيديا العربية",sources:sources)
+    }
+}
+
+extension AdvisorNetwork {
+    static func geminiRequest(question: String, previous: [(String,String)], summary: String?, web: Bool, key: String) throws -> URLRequest {
+        func turn(_ role: String, _ text: String) -> [String:Any] {
+            ["role": role, "parts": [["text": text]]]
+        }
+        var contents = previous.suffix(3).flatMap { [turn("user", String($0.0.prefix(2000))), turn("model", String($0.1.prefix(3500)))] }
+        let context = summary.map { "\nإجماليات الدفتر التي اختار المستخدم إرفاقها:\n" + $0 } ?? ""
+        contents.append(turn("user", question + context))
+        var instruction = "أنت مستشار أمين. أجب بالعربية. ميز بين الحسابات والتقديرات. لا تخترع معاملات أو مصادر، ولا تضع الأسماء أو الأرصدة في عبارات البحث."
+        if web { instruction += " استخدم بحث Google للإجابة وأرفق المصادر." }
+        var payload: [String:Any] = ["contents": contents, "systemInstruction": ["parts": [["text":instruction]]]]
+        if web { payload["tools"] = [["google_search": [String:String]()]] }
+        var request = URLRequest(url: URL(string:"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent")!)
+        request.httpMethod = "POST"
+        request.setValue(key, forHTTPHeaderField:"x-goog-api-key")
+        request.setValue("application/json", forHTTPHeaderField:"Content-Type")
+        request.setValue("com.ameenledger.ios", forHTTPHeaderField:"X-Ios-Bundle-Identifier")
+        request.httpBody = try JSONSerialization.data(withJSONObject:payload)
+        return request
+    }
+
+    static func geminiReply(_ data: Any, web: Bool) throws -> AdvisorReply {
+        guard let root = data as? [String:Any], let candidate = (root["candidates"] as? [[String:Any]])?.first,
+              let content = candidate["content"] as? [String:Any], let parts = content["parts"] as? [[String:Any]] else { throw AdvisorError.empty }
+        let text = parts.filter { $0["thought"] as? Bool != true }.compactMap { $0["text"] as? String }.joined(separator:"\n").trimmingCharacters(in:.whitespacesAndNewlines)
+        guard !text.isEmpty else { throw AdvisorError.empty }
+        let grounding = candidate["groundingMetadata"] as? [String:Any] ?? [:]
+        var sources: [AdvisorSource] = []
+        for chunk in grounding["groundingChunks"] as? [[String:Any]] ?? [] {
+            guard let page = chunk["web"] as? [String:Any], let raw = page["uri"] as? String,
+                  let url = URL(string:raw), url.scheme == "https", let host = url.host, !sources.contains(where: { $0.url == url }) else { continue }
+            sources.append(.init(title:page["title"] as? String ?? host,url:url))
+        }
+        guard !web || !sources.isEmpty else { throw AdvisorError.noSources }
+        return AdvisorReply(text:text, origin:sources.isEmpty ? "Gemini 3.8 Flash" : "Gemini وبحث Google", sources:sources,
+                            searchSuggestionsHTML:(grounding["searchEntryPoint"] as? [String:Any])?["renderedContent"] as? String)
     }
 }

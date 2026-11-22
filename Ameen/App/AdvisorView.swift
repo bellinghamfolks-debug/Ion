@@ -1,4 +1,5 @@
 import SwiftUI
+import WebKit
 
 private enum AdvisorMode: String, CaseIterable {
     case ledger = "دفتري", research = "مصادر عامة", model = "نموذج سحابي"
@@ -8,6 +9,7 @@ private struct Exchange: Identifiable {
     let question: String
     let reply: AdvisorReply
     let mode: AdvisorMode
+    let provider: CloudProvider
     let shared: Bool
 }
 struct AdvisorView: View {
@@ -15,7 +17,8 @@ struct AdvisorView: View {
     @State private var mode: AdvisorMode = .ledger
     @State private var question = ""
     @State private var turns: [Exchange] = []
-    @State private var web = true
+    @AppStorage("advisorCloudProvider") private var provider: CloudProvider = .gemini
+    @State private var web = false
     @State private var share = false
     @State private var settings = false
     @State private var installment = ""
@@ -38,11 +41,12 @@ struct AdvisorView: View {
             Section {
                 Picker("مصدر الاستشارة", selection:$mode) { ForEach(AdvisorMode.allCases, id:\.self) { Text($0.rawValue).tag($0) } }
                 if mode == .model {
+                    Picker("المزوّد", selection: $provider) { ForEach(CloudProvider.allCases, id: \.self) { Text($0.rawValue).tag($0) } }
                     Toggle("البحث في الويب وإرفاق المراجع", isOn:$web)
                     Toggle("إرفاق إجماليات دفتري", isOn:$share)
                     if share { DisclosureGroup("معاينة الإجماليات المرسلة") { Text(LedgerReport(store.book).summary) } }
-                    Button("إعداد مفتاح OpenAI") { settings = true }
-                    Text("يرسل السؤال وسياق المحادثة السحابية إلى OpenAI. تُحسب تكلفة النموذج والبحث على حساب API الخاص بك.").font(.footnote)
+                    Button("إعداد مفتاح \(provider.rawValue)") { settings = true }
+                    Text("يرسل السؤال وسياق المحادثة السحابية إلى \(provider.rawValue). تُحسب تكلفة النموذج والبحث على حساب API الخاص بك.").font(.footnote)
                 } else if mode == .research {
                     Text("تُرسَل عبارة البحث إلى المصدر العام. اختر مؤشرًا سعوديًا للبنك الدولي أو موضوعًا للبحث في ويكيبيديا العربية.").font(.footnote)
                 }
@@ -53,9 +57,9 @@ struct AdvisorView: View {
                 else { Button { ask() } label: { Label("إرسال السؤال",systemImage:"paperplane.fill") }.disabled(question.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty) }
                 if let error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
             }
-            if let latest = turns.last(where: { $0.mode == mode }) {
+            if let latest = turns.last(where: { $0.mode == mode && (mode != .model || $0.provider == provider) }) {
                 Section("آخر إجابة") { transcript(latest).accessibilityFocused($focusedAnswer) }
-                let older = turns.filter { $0.mode == mode && $0.id != latest.id }
+                let older = turns.filter { $0.mode == mode && (mode != .model || $0.provider == provider) && $0.id != latest.id }
                 if !older.isEmpty { DisclosureGroup("الأسئلة السابقة") { ForEach(older.reversed()) { transcript($0) } } }
             }
             Section("أسئلة مقترحة") { ForEach(prompts,id:\.self) { q in Button(q) { question=q; error=nil }.disabled(busy) } }
@@ -71,14 +75,16 @@ struct AdvisorView: View {
             }
         }.navigationTitle("مستشار أمين")
         .onChange(of: mode) { _, _ in cancel(); error=nil; question="" }
+        .onChange(of: provider) { _, _ in cancel(); error=nil; share=false }
         .onDisappear { cancel() }
-        .sheet(isPresented:$settings) { NavigationStack { ModelSettings() } }
+        .sheet(isPresented:$settings) { NavigationStack { ModelSettings(provider:provider) } }
     }
     private func transcript(_ turn: Exchange) -> some View {
         VStack(alignment:.leading,spacing:10) {
             Text(turn.question).font(.headline)
             Text(turn.reply.origin).font(.caption.bold()).foregroundStyle(Theme.teal)
             Text(linkedText(turn.reply)).textSelection(.enabled)
+            if let html = turn.reply.searchSuggestionsHTML { GoogleSuggestions(html:html).frame(height:100) }
             ForEach(turn.reply.sources) { source in Link(source.title, destination:source.url).accessibilityLabel("المصدر: " + source.title) }
         }.padding(.vertical,4)
     }
@@ -98,8 +104,8 @@ struct AdvisorView: View {
         guard !busy, !q.isEmpty else { return }
         guard q.count <= 2000 else { error="اختصر السؤال إلى ٢٠٠٠ حرف."; return }
         if (mode == .ledger || (mode == .model && share)), let failure = store.loadError { error=failure; return }
-        let report=LedgerReport(store.book), selected=mode, include=share, search=web
-        let previous = turns.filter { $0.mode == selected && (selected != .model || $0.shared == include) }.suffix(3)
+        let report=LedgerReport(store.book), selected=mode, include=share, search=web, selectedProvider=provider
+        let previous = turns.filter { $0.mode == selected && (selected != .model || ($0.shared == include && $0.provider == selectedProvider)) }.suffix(3)
         let id=UUID(); requestID=id; busy=true; error=nil; keyboard=false
         request = Task { @MainActor in
             defer { if requestID == id { busy=false; request=nil; requestID=nil } }
@@ -123,12 +129,12 @@ struct AdvisorView: View {
                     }
                 case .research: reply = try await AdvisorNetwork.live.research(q)
                 case .model:
-                    guard let key=AdvisorKey.read(), !key.isEmpty else { error="أضف مفتاحك من «إعداد مفتاح OpenAI» ثم أعد الإرسال."; return }
-                    reply = try await AdvisorNetwork.live.cloud(question:q,previous:previous.map { ($0.question,$0.reply.text) },summary:include ? report.summary : nil,web:search,key:key)
+                    guard let key=AdvisorKey.read(selectedProvider), !key.isEmpty else { error="أضف مفتاحك من «إعداد مفتاح \(selectedProvider.rawValue)» ثم أعد الإرسال."; return }
+                    reply = try await AdvisorNetwork.live.cloud(question:q,previous:previous.map { ($0.question,$0.reply.text) },summary:include ? report.summary : nil,web:search,key:key,provider:selectedProvider)
                 }
                 try Task.checkCancellation()
                 guard requestID == id else { return }
-                turns.append(Exchange(question:q,reply:reply,mode:selected,shared:include))
+                turns.append(Exchange(question:q,reply:reply,mode:selected,provider:selectedProvider,shared:include))
                 if turns.count > 30 { turns.removeFirst() }
                 question=""; focusedAnswer=true
                 UIAccessibility.post(notification:.announcement,argument:"وصلت إجابة أمين. " + reply.origin)
@@ -141,6 +147,7 @@ struct AdvisorView: View {
     }
 }
 struct ModelSettings: View {
+    let provider: CloudProvider
     @Environment(\.dismiss) private var dismiss
     @State private var key=""
     @State private var exists=false
@@ -148,18 +155,45 @@ struct ModelSettings: View {
     var body: some View {
         Form {
             Section {
-                Text(exists ? "يوجد مفتاح محفوظ على هذا الآيفون." : "أضف مفتاح API من حساب OpenAI لتفعيل الاستشارات السحابية.")
+                Text(exists ? "يوجد مفتاح محفوظ على هذا الآيفون." : "أضف مفتاح API من حساب \(provider.rawValue) لتفعيل الاستشارات السحابية.")
                 SecureField("مفتاح API الشخصي",text:$key).textInputAutocapitalization(.never).autocorrectionDisabled()
                 Button("حفظ المفتاح") {
                     let clean=key.trimmingCharacters(in:.whitespacesAndNewlines)
                     guard !clean.isEmpty else { return }
-                    if AdvisorKey.save(clean) { key=""; exists=true; status="تم الحفظ." } else { status="تعذّر حفظ المفتاح." }
+                    if AdvisorKey.save(clean, for:provider) { key=""; exists=true; status="تم الحفظ." } else { status="تعذّر حفظ المفتاح." }
                 }.disabled(key.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty)
-                if exists { Button("إزالة المفتاح من هذا الجهاز",role:.destructive) { if AdvisorKey.save("") { exists=false; key=""; status="تمت الإزالة." } else { status="تعذّرت الإزالة." } } }
-                Link("إدارة مفاتيحي في OpenAI",destination:URL(string:"https://platform.openai.com/api-keys")!)
-            } footer: { Text("يُحفظ المفتاح في سلسلة مفاتيح iOS ويُستخدم للاتصال المباشر بـ OpenAI. يُستبعد من نسخ الدفتر المصدّرة.") }
+                if exists { Button("إزالة المفتاح من هذا الجهاز",role:.destructive) { if AdvisorKey.save("", for:provider) { exists=false; key=""; status="تمت الإزالة." } else { status="تعذّرت الإزالة." } } }
+                Link("إدارة مفاتيحي في \(provider.rawValue)",destination:provider.keysURL)
+            } footer: { Text("يُحفظ المفتاح في سلسلة مفاتيح iOS ويُستخدم للاتصال المباشر بـ \(provider.rawValue). يُستبعد من نسخ الدفتر المصدّرة.") }
             if !status.isEmpty { Text(status) }
-        }.navigationTitle("النموذج السحابي").onAppear { exists=AdvisorKey.read() != nil }
+        }.navigationTitle("النموذج السحابي").onAppear { exists=AdvisorKey.read(provider) != nil }
         .toolbar { ToolbarItem(placement:.confirmationAction) { Button("تم") { dismiss() } } }
+    }
+}
+
+private struct GoogleSuggestions: UIViewRepresentable {
+    let html: String
+    final class Coordinator: NSObject, WKNavigationDelegate {
+        var rendered: String?
+        func webView(_ webView: WKWebView, decidePolicyFor action: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+            if action.navigationType == .linkActivated, let url = action.request.url, url.scheme == "https" {
+                UIApplication.shared.open(url)
+            }
+            decisionHandler(action.navigationType == .other && action.request.url?.absoluteString == "about:blank" ? .allow : .cancel)
+        }
+    }
+    func makeCoordinator() -> Coordinator { Coordinator() }
+    func makeUIView(context: Context) -> WKWebView {
+        let config = WKWebViewConfiguration()
+        config.websiteDataStore = .nonPersistent()
+        config.defaultWebpagePreferences.allowsContentJavaScript = false
+        let view = WKWebView(frame:.zero, configuration:config)
+        view.navigationDelegate = context.coordinator
+        return view
+    }
+    func updateUIView(_ view: WKWebView, context: Context) {
+        guard context.coordinator.rendered != html else { return }
+        context.coordinator.rendered = html
+        view.loadHTMLString("<meta name='viewport' content='width=device-width, initial-scale=1'><meta http-equiv='Content-Security-Policy' content=\"default-src 'none'; style-src 'unsafe-inline'; img-src data: https:\">" + html,baseURL:nil)
     }
 }

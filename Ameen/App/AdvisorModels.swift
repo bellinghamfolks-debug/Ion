@@ -27,20 +27,21 @@ enum DeviceAdvisor {
 }
 
 enum AdvisorKey {
-    private static let item: [String:Any] = [
+    private static func item(_ provider: CloudProvider) -> [String:Any] { [
         kSecClass as String:kSecClassGenericPassword,
         kSecAttrService as String:"com.ameenledger.ios.advisor",
-        kSecAttrAccount as String:"openai-personal"
-    ]
-    static func read() -> String? {
-        var query = item
+        kSecAttrAccount as String:provider.account
+    ] }
+    static func read(_ provider: CloudProvider) -> String? {
+        var query = item(provider)
         query[kSecReturnData as String] = true
         var result: CFTypeRef?
         guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess,
               let data = result as? Data else { return nil }
         return String(data:data,encoding:.utf8)
     }
-    static func save(_ key: String) -> Bool {
+    static func save(_ key: String, for provider: CloudProvider) -> Bool {
+        let item = item(provider)
         if key.isEmpty {
             let status = SecItemDelete(item as CFDictionary)
             return status == errSecSuccess || status == errSecItemNotFound

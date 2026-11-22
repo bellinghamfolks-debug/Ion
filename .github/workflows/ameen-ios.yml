@@ -1,0 +1,30 @@
+name: Ameen iOS
+on:
+  workflow_dispatch:
+  push:
+    branches: ['feature/ameen-ios']
+    paths: ['Ameen/**', '.github/workflows/ameen-ios.yml']
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify ledger and Arabic assistant
+        run: |
+          swiftc Ameen/App/Ledger.swift Ameen/App/Assistant.swift Ameen/Tests/main.swift -o "$RUNNER_TEMP/ledger-tests"
+          "$RUNNER_TEMP/ledger-tests"
+      - name: Build iPhone application
+        run: |
+          xcodebuild -project Ameen/Ameen.xcodeproj -scheme Ameen -configuration Release -destination 'generic/platform=iOS' -derivedDataPath "$RUNNER_TEMP/ameen-build" CODE_SIGNING_ALLOWED=NO build
+          mkdir -p "$RUNNER_TEMP/package/Payload"
+          cp -R "$RUNNER_TEMP/ameen-build/Build/Products/Release-iphoneos/Ameen.app" "$RUNNER_TEMP/package/Payload/"
+          cd "$RUNNER_TEMP/package"
+          /usr/bin/zip -qry "$GITHUB_WORKSPACE/Ameen-unsigned.ipa" Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Ameen-iPhone-unsigned
+          path: Ameen-unsigned.ipa
+          if-no-files-found: error

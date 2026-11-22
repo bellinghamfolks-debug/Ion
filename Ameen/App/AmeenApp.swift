@@ -23,6 +23,7 @@ struct RootView: View {
             NavigationStack { Dashboard(settings: $settings) }.tabItem { Label("الرئيسية", systemImage: "square.grid.2x2") }
             NavigationStack { RegisterView(debts: false) }.tabItem { Label("الحركات", systemImage: "list.bullet.rectangle") }
             NavigationStack { RegisterView(debts: true) }.tabItem { Label("الديون", systemImage: "person.2") }
+            NavigationStack { AdvisorView() }.tabItem { Label("المستشار", systemImage: "sparkles") }
         }.tint(Theme.teal)
         .safeAreaInset(edge: .top, spacing: 0) {
             if let error = store.loadError {

@@ -12,9 +12,14 @@ jobs:
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
+      - name: Use an iOS 26 SDK to compile the on-device model integration
+        run: |
+          developer=$(ls -d /Applications/Xcode_26*.app/Contents/Developer | sort -V | tail -1)
+          test -d "$developer"
+          echo "DEVELOPER_DIR=$developer" >> "$GITHUB_ENV"
       - name: Verify ledger and Arabic assistant
         run: |
-          swiftc Ameen/App/Ledger.swift Ameen/App/Assistant.swift Ameen/Tests/main.swift -o "$RUNNER_TEMP/ledger-tests"
+          swiftc Ameen/App/Ledger.swift Ameen/App/Assistant.swift Ameen/App/AdvisorLedger.swift Ameen/App/AdvisorNetwork.swift Ameen/Tests/main.swift -o "$RUNNER_TEMP/ledger-tests"
           "$RUNNER_TEMP/ledger-tests"
       - name: Build iPhone application
         run: |
@@ -39,3 +44,7 @@ jobs:
           xcrun simctl launch "$device" com.ameenledger.ios -AppleLanguages '(ar)' -AppleLocale ar_SA
           sleep 3
           xcrun simctl spawn "$device" launchctl list | grep 'com.ameenledger.ios' | awk '$1 ~ /^[0-9]+$/ { found=1 } END { exit !found }'
+      - name: Check live public sources with generic queries
+        run: |
+          swiftc Ameen/App/Ledger.swift Ameen/App/Assistant.swift Ameen/App/AdvisorNetwork.swift Ameen/Tests/Research/ResearchCheck.swift -o "$RUNNER_TEMP/research-check"
+          "$RUNNER_TEMP/research-check"

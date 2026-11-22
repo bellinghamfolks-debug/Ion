@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21762" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aMN-rT-Q01">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies><deployment identifier="iOS"/><plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21754"/><capability name="Safe area layout guides" minToolsVersion="9.0"/><capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/></dependencies>
+    <scenes><scene sceneID="aMN-sC-101"><objects>
+        <viewController id="aMN-rT-Q01" sceneMemberID="viewController"><view key="view" contentMode="scaleToFill" id="aMN-rV-201">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/><autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews><imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="BrandMark" translatesAutoresizingMaskIntoConstraints="NO" id="aMN-iM-301">
+                <rect key="frame" x="108.5" y="338" width="176" height="176"/>
+                <constraints><constraint firstAttribute="width" constant="176" id="aMN-wd-401"/><constraint firstAttribute="height" constant="176" id="aMN-ht-402"/></constraints>
+            </imageView></subviews>
+            <viewLayoutGuide key="safeArea" id="aMN-sa-601"/><color key="backgroundColor" red="0.00392" green="0.18039" blue="0.20784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints><constraint firstItem="aMN-iM-301" firstAttribute="centerX" secondItem="aMN-rV-201" secondAttribute="centerX" id="aMN-cx-501"/><constraint firstItem="aMN-iM-301" firstAttribute="centerY" secondItem="aMN-rV-201" secondAttribute="centerY" id="aMN-cy-502"/></constraints>
+        </view></viewController><placeholder placeholderIdentifier="IBFirstResponder" id="aMN-fr-701" sceneMemberID="firstResponder"/>
+    </objects></scene></scenes><resources><image name="BrandMark" width="320" height="320"/></resources>
+</document>

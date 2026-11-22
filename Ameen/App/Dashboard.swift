@@ -17,6 +17,19 @@ struct Dashboard: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
+                NavigationLink { AdvisorView() } label: {
+                    HStack(spacing: 14) {
+                        Image("BrandMark").resizable().aspectRatio(contentMode: .fit).frame(width: 62, height: 62)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text("مستشار أمين").font(.title3.bold())
+                            Text("اسأل عن مصروفاتك وديونك").font(.subheadline)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.forward").accessibilityHidden(true)
+                    }.panel()
+                }.accessibilityLabel("فتح مستشار أمين").accessibilityHint("شعار أمين دفتر مفتوح، ترتفع منه ثلاثة أعمدة بلون النعناع نحو نجمة ذهبية على خلفية بترولية. يفتح تحليل الدفتر والبحث في المصادر.")
                 monthControl
                 VStack(alignment: .leading, spacing: 12) {
                     Label("صافي الدخل بعد المصروفات", systemImage: "wallet.bifold").font(.subheadline.bold())

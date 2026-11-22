@@ -31,6 +31,21 @@ do {
     try b.validate()
     let backup = try JSONDecoder().decode(Book.self, from: JSONEncoder().encode(b))
     check(backup == b, "Backup round trip")
+    var cal = Calendar(identifier: .gregorian)
+    cal.timeZone = TimeZone(secondsFromGMT: 0)!
+    let outstanding = Entry(kind: .owed, title: "خالد", amount: 9000, date: fixed, due: fixed, payments: [Payment(date: fixed, amount: 1000)])
+    let report = LedgerReport(Book(entries:[learned,loan,outstanding],budget:10000),now:fixed,calendar:cal)
+    check(report.answer("كم بقي لي عند خالد؟")!.contains(Money.spoken(8000)), "Counterparty balance after payment")
+    check(report.answer("كم لي عند علي؟")!.contains("لم أجد"), "No invented debt")
+    check(report.answer("كم صرفت أمس؟")!.contains(Money.spoken(0)), "Yesterday versus today")
+    check(report.dueDebts.contains("خالد"), "Dated outstanding debt")
+    check(report.budgetPlan.contains(Money.spoken(9000)), "Budget remainder")
+    check(report.payoff(monthly: 17000)!.contains(Money.spoken(16000)), "Last installment")
+    let annotation: [String:Any] = ["type":"url_citation","title":"مصدر","url":"https://example.org","start_index":0,"end_index":3]
+    let fixture: [String:Any] = ["output":[["type":"message","content":[["text":"خبر تجريبي","annotations":[annotation]]]]]]
+    let linked = try AdvisorNetwork.cloudReply(fixture,web:true)
+    check(linked.sources.count == 1 && linked.citations.count == 1, "Clickable cloud sources")
+    check((try? AdvisorNetwork.cloudReply(["output":[["type":"message","content":[["text":"جواب"]]]]],web:true)) == nil, "Web answer requires evidence")
     b.entries[1].amount = 1
     check((try? b.validate()) == nil, "Inconsistent backup rejected")
 } catch { fatalError(error.localizedDescription) }

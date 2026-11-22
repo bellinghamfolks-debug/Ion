@@ -14,6 +14,7 @@ do {
     let owed = try Assistant.draft("أقرضت سارة ٢٠٠ ريال", history: [])
     let owing = try Assistant.draft("استلفت من خالد ٥٠٠ ريال", history: [])
     check(owed.kind == .owed && owing.kind == .owing, "Debt direction")
+    check(owed.title == "سارة" && owing.title == "خالد", "Counterparty extraction")
     check((try? Assistant.draft("١٠ ثم ٢٠", history: [])) == nil, "Ambiguous amounts")
     let learned = Entry(kind: .expense, title: "متجر سحابة", amount: 1000, date: fixed, category: "تسوق")
     check(Assistant.category(for: "دفعت ٧٠ ريال متجر سحابة", history: [learned]) == "تسوق", "On-device learning")

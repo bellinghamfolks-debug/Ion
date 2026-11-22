@@ -28,3 +28,14 @@ jobs:
           name: Ameen-iPhone-unsigned
           path: Ameen-unsigned.ipa
           if-no-files-found: error
+      - name: Launch Ameen on an iPhone simulator
+        run: |
+          set -euo pipefail
+          device=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; print(next(d["udid"] for key,ds in json.load(sys.stdin)["devices"].items() if ".iOS-" in key for d in ds if d["name"].startswith("iPhone")))')
+          xcrun simctl boot "$device" || xcrun simctl bootstatus "$device" -b
+          xcodebuild -project Ameen/Ameen.xcodeproj -scheme Ameen -configuration Debug -destination "id=$device" -derivedDataPath "$RUNNER_TEMP/ameen-sim" CODE_SIGNING_ALLOWED=NO build
+          xcrun simctl bootstatus "$device" -b
+          xcrun simctl install "$device" "$RUNNER_TEMP/ameen-sim/Build/Products/Debug-iphonesimulator/Ameen.app"
+          xcrun simctl launch "$device" com.ameenledger.ios -AppleLanguages '(ar)' -AppleLocale ar_SA
+          sleep 3
+          xcrun simctl spawn "$device" launchctl list | grep 'com.ameenledger.ios' | awk '$1 ~ /^[0-9]+$/ { found=1 } END { exit !found }'

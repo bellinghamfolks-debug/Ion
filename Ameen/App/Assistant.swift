@@ -53,7 +53,16 @@ enum Assistant {
         else if ["راتب", "استلمت", "دخل", "مكافاه", "ايراد"].contains(where: s.contains) { kind = .income }
         else { kind = .expense }
         let date = s.contains("امس") ? Calendar.current.date(byAdding: .day, value: -1, to: now) ?? now : now
-        return Draft(kind: kind, title: text.trimmingCharacters(in: .whitespacesAndNewlines), amount: Money.input(cents), category: category(for: text, history: history), date: date)
+        var title = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if kind.isDebt {
+            let prefix = #"^(?:استلفت\s+من|اقترضت\s+من|أقرضت|اقرضت|سلفت|لي\s+عند|علي[ّ]?\s+ل)\s*"#
+            let withoutPrefix = title.replacingOccurrences(of: prefix, with: "", options: .regularExpression)
+            if withoutPrefix != title {
+                let person = String(withoutPrefix.prefix { !$0.isNumber }).trimmingCharacters(in: .whitespacesAndNewlines)
+                if !person.isEmpty { title = person }
+            }
+        }
+        return Draft(kind: kind, title: title, amount: Money.input(cents), category: category(for: text, history: history), date: date)
     }
     enum ParseError: LocalizedError {
         case amount
